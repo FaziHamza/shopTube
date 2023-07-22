@@ -10,7 +10,6 @@ import { BuilderLayoutComponent } from '../_layout/builder-layout/builder-layout
 import { CreateDatabaseComponent } from '../admin/create-database/create-database.component';
 import { BuilderDesignComponent } from "./builder-design.component";
 import { BuilderDesignLayoutComponent } from "./builder-design-layout/builder-design-layout.component";
-import { RoleManagementComponent } from "../admin/role-management/role-management.component";
 
 const routes: Routes = [
   {

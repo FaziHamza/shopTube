@@ -11,15 +11,16 @@ import { organizationBuilderComponent } from '../Builder-module/organization/org
 import { BuilderLayoutComponent } from '../_layout/builder-layout/builder-layout.component';
 import { CreateDatabaseComponent } from '../admin/create-database/create-database.component';
 import { RoleManagementComponent } from '../admin/role-management/role-management.component';
+import { MenuRolePermissionComponent } from '../admin/menu-role-permission/menu-role-permission.component';
 
 const routes: Routes = [
   {
     path: "",
     component: BuilderLayoutComponent,
-    children:[
+    children: [
       {
         path: "",
-        component:BuilderComponent
+        component: BuilderComponent
       },
       {
         path: 'menu-builder',
@@ -52,6 +53,10 @@ const routes: Routes = [
       {
         path: 'role',
         component: RoleManagementComponent
+      },
+      {
+        path: 'permission',
+        component: MenuRolePermissionComponent
       },
     ]
   },

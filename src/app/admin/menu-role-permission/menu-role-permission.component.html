@@ -20,26 +20,26 @@
                 </div>
             </div>
         </form>
-        <nz-table #roleTable [nzData]="roleList">
+        <nz-table #rolePermissionTable [nzData]="menuRolePermissionList">
             <thead>
                 <tr>
                     <th>#</th>
-                    <th>ID</th>
+                    <th>Menus</th>
                     <th>Name</th>
                     <th>Action</th>
                 </tr>
             </thead>
             <tbody>
-                <tr *ngFor="let role of roleTable.data;let index=index">
+                <tr *ngFor="let rolePermission of rolePermissionTable.data;let index=index">
                     <td>{{ index+1 }}</td>
-                    <td>{{ role._id }}</td>
-                    <td>{{ role.name }}</td>
+                    <td>{{ rolePermission._id }}</td>
+                    <td>{{ rolePermission.menuId }}</td>
                     <td>
                         <span class="table-operation">
-                            <a class="operation" (click)="editRole(role)">Edit</a>
+                            <a class="operation" (click)="editRole(rolePermission)">Edit</a>
                             <nz-divider nzType="vertical"></nz-divider>
                             <a class="operation" nz-popconfirm nzPopconfirmTitle="Sure to delete?"
-                                (nzOnConfirm)="deleteRole(role)">
+                                (nzOnConfirm)="deleteRole(rolePermission)">
                                 <span class="text-red-500" nz-icon nzType="delete" nzTheme="outline"></span>
                             </a>
                         </span>

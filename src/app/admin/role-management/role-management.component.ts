@@ -4,11 +4,7 @@ import { FormlyFormOptions } from '@ngx-formly/core';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { Subscription } from 'rxjs';
 import { ApplicationService } from 'src/app/services/application.service';
-interface Role {
-  _id: string;
-  Name: string;
-}
-
+import { Role } from '../modals/role-modal';
 
 @Component({
   selector: 'st-role-management',
@@ -36,7 +32,7 @@ export class RoleManagementComponent implements OnInit {
           props: {
             label: 'ID',
             placeholder: '',
-            disabled: true
+            readonly: true
           }
         },
       ],
@@ -44,7 +40,7 @@ export class RoleManagementComponent implements OnInit {
     {
       fieldGroup: [
         {
-          key: 'Name',
+          key: 'name',
           type: 'input',
           wrappers: ["formly-vertical-theme-wrapper"],
           defaultValue: '',
@@ -61,7 +57,7 @@ export class RoleManagementComponent implements OnInit {
     this.getRoles();
   }
   editRole(role: any) {
-    this.model = role;
+    this.model = JSON.parse(JSON.stringify(role));
   }
   clearForm() {
     this.model = {};
@@ -69,6 +65,7 @@ export class RoleManagementComponent implements OnInit {
   getRoles() {
     this.requestSubscription = this.applicationService.getNestCommonAPI('role').subscribe({
       next: (getRes: any) => {
+        debugger
         if (getRes.isSuccess) {
           if (getRes.data.length > 0) {
             this.roleList = getRes.data
@@ -83,10 +80,12 @@ export class RoleManagementComponent implements OnInit {
   }
 
   submitRole() {
+    debugger
     if (this.myForm.valid) {
       this.requestSubscription = this.applicationService.addNestCommonAPI('role', this.myForm.value).subscribe({
         next: (res: any) => {
           if (res.isSuccess) {
+            this.clearForm();
             this.toastr.success(`Role: ${res.message}`, { nzDuration: 3000 });
             this.getRoles();
           }
@@ -100,7 +99,7 @@ export class RoleManagementComponent implements OnInit {
   }
 
   deleteRole(role: any) {
-    this.requestSubscription = this.applicationService.deleteNestCommonAPI('role', role.id).subscribe({
+    this.requestSubscription = this.applicationService.deleteNestCommonAPI('role', role._id).subscribe({
       next: (res: any) => {
         if (res.isSuccess) {
           this.toastr.success(`Role: ${res.message}`, { nzDuration: 3000 });
