@@ -196,6 +196,7 @@ export class SectionsComponent implements OnInit {
           }
         });
     } else {
+      debugger
       // const dynamicPropertyName = Object.keys(this.dataModel)[0]; // Assuming the dynamic property name is the first property in this.dataModel
       if (this.dataModel) {
         // this.form.get(dynamicPropertyName);
@@ -262,7 +263,7 @@ export class SectionsComponent implements OnInit {
             tableData.tableData = [];
             saveForm.id = tableData.tableData.length + 1
             res.forEach((element: any) => {
-              element.id = (element.id).toString();
+              element.id = (element?.id)?.toString();
               tableData.tableData?.push(element);
             });
             if (JSON.stringify(tableData['tableKey']) != JSON.stringify(obj)) {
