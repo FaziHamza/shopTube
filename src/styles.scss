@@ -3468,6 +3468,185 @@ object {
     flex-direction: row-reverse !important;
   }
 
+  .drawer-coll-body {
+    margin-bottom: 12px;
+
+    .color-pickers {
+      display: flex;
+      justify-content: space-evenly;
+      flex-wrap: wrap;
+
+      .collm {
+        height: 40px;
+        width: 25%;
+        padding: 5px 10px;
+        border: 0.5px solid #DBDBDB;
+      }
+
+      .lable {
+        background: #F5F5F5;
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+        color: #0F172A;
+        text-align: right;
+
+        font-size: 14px;
+        font-style: normal;
+        margin-bottom: 0px;
+        font-weight: 500;
+        line-height: 125%;
+        letter-spacing: -0.346px;
+      }
+
+      .option {
+        display: flex;
+        align-items: center;
+
+        .box {
+          border-radius: 4px;
+          display: flex;
+          align-items: center;
+          width: 100%;
+
+          span {
+            color: #73757A;
+            text-align: center;
+
+            font-size: 13px;
+            padding-left: 10px;
+            font-style: normal;
+            font-weight: 400;
+            line-height: normal;
+          }
+
+          .input-text {
+            width: 100%;
+            outline: 2px solid transparent !important;
+            box-shadow: none !important;
+            padding: 0px 5px;
+          }
+
+          .ant-select-selector {
+            outline: 2px solid transparent !important;
+            box-shadow: none !important;
+            border: none;
+          }
+
+          .input-color {
+            height: 26px;
+            width: 25px;
+            border: none !important;
+            border-radius: 4px;
+          }
+        }
+      }
+    }
+
+
+    .options-list2 {
+      display: flex;
+      flex-direction: row;
+      flex-wrap: wrap;
+      margin: 10px 10px !important;
+      justify-content: space-between;
+
+      .option2 {
+        border-radius: 4px;
+        background: #FFF;
+        box-shadow: 0px 0px 25px 0px rgba(0, 0, 0, 0.07);
+        width: 24%;
+        padding: 5px 5px 10px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+
+        span {
+          color: #0F172A;
+
+          font-size: 15px;
+          font-style: normal;
+          font-weight: 500;
+          line-height: 125%;
+          /* 18.75px */
+          letter-spacing: -0.346px;
+        }
+
+        .banner {
+          margin-bottom: 6px;
+          width: 100%;
+          height: 160px;
+          border-radius: 4px;
+          overflow: hidden;
+
+          img {
+            object-fit: cover;
+            height: 100%;
+            width: 100%;
+
+          }
+        }
+      }
+    }
+
+    .ant-collapse {
+      border-radius: 4px !important;
+      overflow: hidden;
+    }
+
+    .ant-collapse-content>.ant-collapse-content-box {
+      padding: 0px;
+    }
+
+    .coll-header {
+      display: flex;
+      justify-content: space-between;
+      width: 100%;
+
+      h6 {
+        color: #0F172A;
+        font-size: 14px;
+        font-style: normal;
+        font-weight: 500;
+      }
+
+      .nav-link {
+        padding: 5px 10px;
+        color: $main;
+        font-weight: 500;
+        font-size: 12px;
+      }
+    }
+
+    .coll-bottom {
+      height: 42px;
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      padding: 5px 20px;
+
+      .ant-btn {
+        height: 26px;
+        font-weight: 500;
+        margin-left: 10px;
+        font-size: 12px;
+      }
+
+      .ant-btn-primary {
+        background: $main;
+        border-radius: 4px;
+      }
+
+      .btn-secondary {
+        border-radius: 4px;
+        border: 1px solid #DBDBDB;
+        background: #DBDBDB;
+      }
+    }
+  }
+
   .ant-drawer-body {
     padding: 10px 0px;
     background: #F8FAFC;
@@ -3499,7 +3678,7 @@ object {
       padding: 13px 20px;
       background: white;
       color: #0F172A;
-      font-family: Inter;
+
       font-size: 15px;
       font-style: normal;
       font-weight: 500;
@@ -3513,7 +3692,7 @@ object {
 
       h3 {
         color: #0F172A;
-        font-family: Inter;
+
         font-size: 15px;
         font-style: normal;
         font-weight: 500;
@@ -3524,7 +3703,7 @@ object {
 
       h6 {
         color: #73757A;
-        font-family: Inter;
+
         font-size: 12px;
         font-style: normal;
         font-weight: 400;
@@ -3543,7 +3722,7 @@ object {
 
           p {
             color: #0F172A;
-            font-family: Inter;
+
             font-size: 12px;
             font-style: normal;
             font-weight: 400;
@@ -3566,7 +3745,7 @@ object {
             span {
               color: #73757A;
               text-align: center;
-              font-family: Inter;
+
               font-size: 13px;
               padding-left: 10px;
               font-style: normal;
@@ -3613,7 +3792,7 @@ object {
 
           span {
             color: #0F172A;
-            font-family: Inter;
+
             font-size: 15px;
             font-style: normal;
             font-weight: 500;
@@ -3707,5 +3886,259 @@ object {
 
   .ant-layout-content {
     width: 100% !important;
+  }
+}
+
+.login-body {
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  justify-content: space-evenly;
+
+  .coll-6 {
+    width: 50%;
+    height: 100vh;
+  }
+
+  .banner-area {
+    padding: 40px;
+    background: #2563EB;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    .banner-card {
+      width: 520px;
+      min-height: 300px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+
+      img {
+        width: 100%;
+      }
+    }
+
+    h5 {
+      color: var(--additional-white, #FFF);
+      text-align: center;
+
+      /* Heading/H3 */
+
+      font-size: 24px;
+      font-style: normal;
+      font-weight: 600;
+      line-height: 125%;
+      /* 30px */
+      letter-spacing: 0.2px;
+      margin-bottom: 15px;
+    }
+
+    p {
+      color: var(--greyscale-50, #F8FAFC);
+      text-align: center;
+      margin-bottom: 0px;
+      /* body/medium/regular */
+
+      font-size: 14px;
+      font-style: normal;
+      font-weight: 400;
+      line-height: 160%;
+      /* 22.4px */
+    }
+  }
+
+  .form-area {
+    padding: 40px;
+    background: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    .form-card {
+      width: 400px;
+      min-height: 400px;
+
+      h3 {
+        color: var(--greyscale-900, #0F172A);
+
+        /* Heading/H3 */
+
+        font-size: 24px;
+        font-style: normal;
+        font-weight: 700;
+        line-height: 125%;
+        /* 30px */
+        margin-bottom: 20px;
+        letter-spacing: 0.2px;
+      }
+
+      .ant-checkbox {
+        span {
+          color: var(--greyscale-500, #64748B);
+
+          /* body/small/regular */
+
+          font-size: 12px;
+          font-style: normal;
+          font-weight: 400;
+          line-height: 160%;
+
+          /* 19.2px */
+          b {
+            color: black;
+          }
+        }
+      }
+
+      .or-section {
+        display: flex;
+        align-items: center;
+        justify-content: baseline;
+        flex-direction: column;
+        width: 100%;
+        margin: 30px 0px;
+
+        .line {
+          width: 100%;
+          height: 1px;
+          background: #E2E8F0;
+        }
+
+        span {
+          margin-top: -12px;
+          background: white;
+          padding: 0px 10px;
+          color: var(--greyscale-500, #64748B);
+          text-align: center;
+
+          /* body/small/regular */
+
+          font-size: 12px;
+          font-style: normal;
+          font-weight: 400;
+          line-height: 160%;
+          /* 19.2px */
+        }
+      }
+
+      .login-options {
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        .btn {
+          width: 190px !important;
+          display: flex;
+          height: 56px;
+          justify-content: center;
+          align-items: center;
+          gap: 12px;
+          border-radius: 12px;
+          border: 1px solid var(--greyscale-200, #E2E8F0);
+          background: var(--additional-white, #FFF);
+          color: var(--greyscale-900, #0F172A);
+
+          img {
+            height: 20px;
+            width: 20px;
+          }
+
+
+
+          /* body/large/semibold */
+
+          font-size: 16px;
+          font-style: normal;
+          font-weight: 600;
+          line-height: 150%;
+          /* 24px */
+          letter-spacing: 0.2px;
+        }
+      }
+
+      .already-acc {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        padding: 30px 0px 0px;
+
+        h5 {
+          color: var(--greyscale-900, #0F172A);
+          text-align: center;
+
+          /* body/medium/regular */
+
+          font-size: 14px;
+          font-style: normal;
+          font-weight: 400;
+          line-height: 160%;
+
+          /* 22.4px */
+          a {
+            color: var(--primary-600-base, #2563EB);
+
+            /* body/medium/bold */
+
+            font-size: 14px;
+            font-style: normal;
+            font-weight: 700;
+            line-height: 160%;
+          }
+        }
+      }
+
+      .login-btn {
+        display: flex;
+        width: 404px;
+        height: 56px;
+        padding: 8px;
+        justify-content: center;
+        align-items: center;
+        gap: 10px;
+        flex-shrink: 0;
+        border-radius: 12px;
+        background: var(--primary-600-base, #2563EB);
+        color: var(--additional-white, #FFF);
+
+        /* Heading/H6 */
+
+        font-size: 16px;
+        font-style: normal;
+        font-weight: 700;
+        line-height: 140%;
+        /* 22.4px */
+        letter-spacing: 0.2px;
+        margin-top: 20px;
+      }
+
+      h6 {
+        color: var(--greyscale-500, #64748B);
+
+        margin-bottom: 10px;
+        /* body/small/regular */
+
+        font-size: 12px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: 160%;
+        /* 19.2px */
+      }
+
+      .ant-input-affix-wrapper {
+        display: flex;
+        height: 56px;
+        padding: 8px 16px 8px 5px;
+        align-items: center;
+        gap: 12px;
+        margin: 12px 0px;
+        align-self: stretch;
+        border-radius: 12px;
+        border: 1px solid var(--greyscale-200, #E2E8F0);
+      }
+    }
   }
 }
