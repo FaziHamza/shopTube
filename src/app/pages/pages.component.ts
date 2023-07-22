@@ -268,7 +268,7 @@ export class PagesComponent implements OnInit {
             tableData.tableData = [];
             saveForm.id = tableData.tableData.length + 1
             res.forEach((element: any) => {
-              element.id = (element.id).toString();
+              element.id = (element?.id)?.toString();
               tableData.tableData?.push(element);
             });
             if (JSON.stringify(tableData['tableKey']) != JSON.stringify(obj)) {
