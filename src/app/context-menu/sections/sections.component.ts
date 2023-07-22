@@ -133,10 +133,6 @@ export class SectionsComponent implements OnInit {
     return inputElements;
   }
   saveData(data: any) {
-    debugger
-
-    this.temporyGrid();
-    return;
     if (data.isSubmit) {
       this.joiValidation();
       if (this.joiValidationData.length > 0) {
@@ -330,7 +326,7 @@ export class SectionsComponent implements OnInit {
               let query: any = '';
               objRuleData[index].ifRuleMain.forEach((element: any, ruleIndex: number) => {
                 if (objRuleData[index].ifRuleMain.length > 1) {
-                  if (element.oprator == 'NotNull'){
+                  if (element.oprator == 'NotNull') {
                     query = "( 1==1"
                   }
                   else {
@@ -349,7 +345,7 @@ export class SectionsComponent implements OnInit {
                     if (k + 1 == element.conditional.length)
                       query += " ) " + element.condType
                   }
-                } 
+                }
                 else {
                   if (element.oprator == 'NotNull')
                     query = "1==1"
