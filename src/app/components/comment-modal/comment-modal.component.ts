@@ -18,6 +18,7 @@ export class CommentModalComponent implements OnInit {
   @Input() screenName: any;
   form: FormGroup;
   requestSubscription: Subscription;
+  currentUser: any;
   constructor(
     private formBuilder: FormBuilder,
     public builderService: BuilderService,
@@ -28,6 +29,7 @@ export class CommentModalComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.currentUser = JSON.parse(localStorage.getItem('user')!);
     this.create();
   }
   // create form
@@ -76,7 +78,7 @@ export class CommentModalComponent implements OnInit {
           if (res.isSuccess) {
             this.toastr.success(`UserComment : ${res.message}`, { nzDuration: 3000 });
             this.getCommentsData();
-          
+
 
             // error
           } else this.toastr.error(`UserComment : ${res.message}`, { nzDuration: 3000 });
@@ -89,6 +91,21 @@ export class CommentModalComponent implements OnInit {
       });
     }
   }
+  comentSubmit() {
+    this.requestSubscription = this.applicationService.addNestCommonAPI(`applications/${this.currentUser.applicationId}/clone`, this.form.value).subscribe({
+      next: (res: any) => {
+        if (res.isSuccess) {
+          this.toastr.success(`Git : ${res.message}`, { nzDuration: 3000 });
+          this.onSubmit();
+        } else this.toastr.error(`Git : ${res.message}`, { nzDuration: 3000 });
+      },
+      error: (err) => {
+        this.toastr.error("Git : An error occurred", { nzDuration: 3000 });
+        this.#modal.destroy();
+      }
+    });
+  }
+
   padZero(value: number): string {
     return value < 10 ? `0${value}` : `${value}`;
   }
@@ -107,7 +124,7 @@ export class CommentModalComponent implements OnInit {
         } else {
           this.toastr.error(`UserComment : ${res.message}`, { nzDuration: 3000 });
           this.#modal.destroy();
-        }  
+        }
 
       },
       error: (err) => {

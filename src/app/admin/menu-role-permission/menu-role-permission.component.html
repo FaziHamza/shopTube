@@ -1,49 +1,42 @@
 <div class="flex flex-wrap">
     <div class="w-full pl-2">
-        <form [formGroup]="myForm">
-            <div class="flex flex-wrap">
-                <div class="w-1/2 theme-body" *ngFor="let item of fields">
-                    <formly-form [model]="model" [fields]="item.fieldGroup" [options]="options"
-                        [form]="myForm"></formly-form>
-                </div>
-            </div>
-            <div class="flex flex-wrap">
-                <div class="w-3/6">
-                    <h3 [ngStyle]="{ margin: '16px 0' }"><b>Table Fields</b></h3>
-                </div>
-                <div class="w-3/6 text-right">
-                    <button nz-button nzType="primary" class="my-2 " title="Save" ngbTooltip="Save Table"
-                        (click)="submitRole()">Save </button>
-                    <button nz-button nzType="primary" class="my-2 mx-2" title="Clear" ngbTooltip="Clear"
-                        (click)="clearForm()">Clear
-                    </button>
-                </div>
-            </div>
-        </form>
-        <nz-table #rolePermissionTable [nzData]="menuRolePermissionList">
+        <button nz-button nzType="primary" (click)="bulkUpdate()">Save</button>
+        <br />
+        <br />
+        <nz-table *ngIf="roleList.length>0" #rolePermissionTable [nzData]="menuList">
             <thead>
                 <tr>
-                    <th>#</th>
-                    <th>Menus</th>
-                    <th>Name</th>
-                    <th>Action</th>
+                    <th nzWidth="3%">#</th>
+                    <th nzWidth="20%">Menus</th>
+                    <th nzWidth="10%" *ngFor="let role of roleList">{{role.name}}<br>R<nz-divider nzType="vertical"></nz-divider>W<nz-divider nzType="vertical"></nz-divider>U<nz-divider nzType="vertical"></nz-divider>D</th>
+                    <th nzWidth="10%">Action</th>
+                    <th></th>
                 </tr>
             </thead>
             <tbody>
-                <tr *ngFor="let rolePermission of rolePermissionTable.data;let index=index">
+                <tr *ngFor="let menu of rolePermissionTable.data;let index=index">
                     <td>{{ index+1 }}</td>
-                    <td>{{ rolePermission._id }}</td>
-                    <td>{{ rolePermission.menuId }}</td>
+                    <td>
+                        {{menu.name}}
+                    </td>
+                    <td *ngFor="let role of roleList">
+                        <div nz-row>
+                            <div class="ml-1"><label nz-checkbox [(ngModel)]="menu.permissions[role.name+'_R']"
+                                    nzValue="R"></label></div>
+                            <div class="ml-1"><label nz-checkbox [(ngModel)]="menu.permissions[role.name+'_W']"
+                                    nzValue="W"></label></div>
+                            <div class="ml-1"><label nz-checkbox [(ngModel)]="menu.permissions[role.name+'_U']"
+                                    nzValue="U"></label></div>
+                            <div class="ml-1"><label nz-checkbox [(ngModel)]="menu.permissions[role.name+'_D']"
+                                    nzValue="D"></label></div>
+                        </div>
+                    </td>
                     <td>
                         <span class="table-operation">
-                            <a class="operation" (click)="editRole(rolePermission)">Edit</a>
-                            <nz-divider nzType="vertical"></nz-divider>
-                            <a class="operation" nz-popconfirm nzPopconfirmTitle="Sure to delete?"
-                                (nzOnConfirm)="deleteRole(rolePermission)">
-                                <span class="text-red-500" nz-icon nzType="delete" nzTheme="outline"></span>
-                            </a>
+                            <a class="operation" (click)="submitRole(menu)">Save</a>
                         </span>
                     </td>
+                    <td></td>
                 </tr>
             </tbody>
         </nz-table>
