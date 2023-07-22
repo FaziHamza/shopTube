@@ -44,10 +44,10 @@
                 </div>
             </div>
         </nz-header>
-        <nz-layout class="main-layout">
+        <nz-layout class="main-layout b-horizontal-menu">
             <nz-sider class="menu-sidebar" nzTheme="light" nzCollapsible nzWidth="240px" nzBreakpoint="md"
                 [(nzCollapsed)]="isCollapsed" [nzTrigger]="null">
-                <ul nz-menu nzMode="inline" [nzInlineCollapsed]="isCollapsed">
+                <ul nz-menu nzMode="inline" [nzInlineCollapsed]="isCollapsed" nzMode="horizontal">
                     <li nz-menu-item>
                         <i class="fa-light fa-table-columns"></i>
                         <span>Dashboard</span>

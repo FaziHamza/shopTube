@@ -1,0 +1,51 @@
+<div class="flex flex-wrap">
+    <div class="w-full pl-2">
+        <form [formGroup]="myForm">
+            <div class="flex flex-wrap">
+                <div class="w-1/2 theme-body" *ngFor="let item of fields">
+                    <formly-form [model]="model" [fields]="item.fieldGroup" [options]="options"
+                        [form]="myForm"></formly-form>
+                </div>
+            </div>
+            <div class="flex flex-wrap">
+                <div class="w-3/6">
+                    <h3 [ngStyle]="{ margin: '16px 0' }"><b>Table Fields</b></h3>
+                </div>
+                <div class="w-3/6 text-right">
+                    <button nz-button nzType="primary" class="my-2 " title="Save" ngbTooltip="Save Table"
+                        (click)="submitRole()">Save </button>
+                    <button nz-button nzType="primary" class="my-2 mx-2" title="Clear" ngbTooltip="Clear"
+                        (click)="clearForm()">Clear
+                    </button>
+                </div>
+            </div>
+        </form>
+        <nz-table #roleTable [nzData]="roleList">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let role of roleTable.data;let index=index">
+                    <td>{{ index+1 }}</td>
+                    <td>{{ role._id }}</td>
+                    <td>{{ role.name }}</td>
+                    <td>
+                        <span class="table-operation">
+                            <a class="operation" (click)="editRole(role)">Edit</a>
+                            <nz-divider nzType="vertical"></nz-divider>
+                            <a class="operation" nz-popconfirm nzPopconfirmTitle="Sure to delete?"
+                                (nzOnConfirm)="deleteRole(role)">
+                                <span class="text-red-500" nz-icon nzType="delete" nzTheme="outline"></span>
+                            </a>
+                        </span>
+                    </td>
+                </tr>
+            </tbody>
+        </nz-table>
+    </div>
+</div>

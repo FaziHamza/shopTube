@@ -172,6 +172,7 @@ export class PagesComponent implements OnInit {
     this.dataModel = this.formlyModel;
   }
   saveData1(data: any) {
+    debugger
 
     this.dataModel = this.formlyModel;
     let oneModelData = this.convertModel(this.dataModel);
@@ -211,7 +212,6 @@ export class PagesComponent implements OnInit {
         id = key;
       }
     }
-
     if (id == undefined) {
       let relationIds: any = remainingTables.map(table => `${Arraytables[0]}_id`);
       relationIds = relationIds.toString();
@@ -268,7 +268,7 @@ export class PagesComponent implements OnInit {
             tableData.tableData = [];
             saveForm.id = tableData.tableData.length + 1
             res.forEach((element: any) => {
-              element.id = (element.id).toString();
+              element.id = (element?.id)?.toString();
               tableData.tableData?.push(element);
             });
             if (JSON.stringify(tableData['tableKey']) != JSON.stringify(obj)) {

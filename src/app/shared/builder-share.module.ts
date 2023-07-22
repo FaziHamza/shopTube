@@ -18,9 +18,11 @@ import { formlyCustomeConfig } from "../formlyConfig";
 import { CommonModule } from "@angular/common";
 import { GoogleChartsModule } from "angular-google-charts";
 import { ContextMenuModule } from "@perfectmemory/ngx-contextmenu";
-import {  MonacoEditorModule } from "ngx-monaco-editor";
+import { MonacoEditorModule } from "ngx-monaco-editor";
 import { RouterModule } from '@angular/router';
 import { ShareModule } from './share.module';
+import { RoleManagementComponent } from '../admin/role-management/role-management.component';
+import { MenuRolePermissionComponent } from '../admin/menu-role-permission/menu-role-permission.component';
 
 @NgModule({
   imports:
@@ -47,6 +49,8 @@ import { ShareModule } from './share.module';
     LanguageComponent,
     BulkUpdateComponent,
     CreateDatabaseComponent,
+    RoleManagementComponent,
+    MenuRolePermissionComponent,
   ],
   exports: [
     MenuBuilderComponent,
@@ -55,6 +59,8 @@ import { ShareModule } from './share.module';
     LanguageComponent,
     BulkUpdateComponent,
     CreateDatabaseComponent,
+    RoleManagementComponent,
+    MenuRolePermissionComponent,
   ],
   providers: [
 
