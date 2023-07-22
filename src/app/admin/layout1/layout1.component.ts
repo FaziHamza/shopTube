@@ -11,9 +11,11 @@ import { DataSharedService } from 'src/app/services/data-shared.service';
 })
 export class Layout1Component implements OnInit {
   @Input() layout: any;
+  @Input() currentHeader: any;
+  @Input() currentFooter: any;
   currentMenu: any;
-  currentHeader: any;
-  currentFooter: any;
+  // currentHeader: any;
+  // currentFooter: any;
   defaultPage: any;
   requestSubscription: Subscription;
   // currentApplicationList:any;
@@ -21,7 +23,6 @@ export class Layout1Component implements OnInit {
     private router:Router) { }
 
   ngOnDestroy(){
-    this.requestSubscription.unsubscribe();
   }
   ngOnInit(): void {
 
@@ -36,26 +37,26 @@ export class Layout1Component implements OnInit {
         this.toastr.error("An error occurred", { nzDuration: 3000 });
       }
     })
-    this.requestSubscription = this._dataShared.currentHeader.subscribe({
-      next: (res) => {
+    // this.requestSubscription = this._dataShared.currentHeader.subscribe({
+    //   next: (res) => {
+    //     debugger
+    //     this.currentHeader = res;
+    //   },
+    //   error: (err) => {
+    //     console.error(err);
+    //     this.toastr.error("An error occurred", { nzDuration: 3000 });
+    //   }
+    // })
+    // this.requestSubscription = this._dataShared.currentFooter.subscribe({
+    //   next: (res) => {
 
-        this.currentHeader = res;
-      },
-      error: (err) => {
-        console.error(err);
-        this.toastr.error("An error occurred", { nzDuration: 3000 });
-      }
-    })
-    this.requestSubscription = this._dataShared.currentFooter.subscribe({
-      next: (res) => {
-
-        this.currentFooter = res;
-      },
-      error: (err) => {
-        console.error(err);
-        this.toastr.error("An error occurred", { nzDuration: 3000 });
-      }
-    })
+    //     this.currentFooter = res;
+    //   },
+    //   error: (err) => {
+    //     console.error(err);
+    //     this.toastr.error("An error occurred", { nzDuration: 3000 });
+    //   }
+    // })
     // this.requestSubscription = this._dataShared.defaultPage.subscribe({
     //   next: (res) => {
 

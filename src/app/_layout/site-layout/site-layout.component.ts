@@ -184,16 +184,13 @@ export class SiteLayoutComponent implements OnInit {
     this.selectedTheme.showMenu = !this.selectedTheme.showMenu;
   }
   getMenuByDomainName() {
-    debugger
     let getURL = window.location.href;
     let check = this.currentUrl.includes(':');
     if (check)
       this.currentUrl = this.currentUrl.split(':')[0];
     this.requestSubscription = this.builderService.getApplicationByDomainName(this.currentUrl).subscribe({
       next: (res) => {
-        debugger
         if (res.isSuccess) {
-          debugger
           if (res.data.appication) {
             this.currentWebsiteLayout = res.data.appication.application_Type ? res.data.appication.application_Type : 'backend_application';
           }
