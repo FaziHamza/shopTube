@@ -16,169 +16,28 @@ export class MenuRolePermissionComponent implements OnInit {
   requestSubscription: Subscription;
   myForm: any = new FormGroup({});
   options: FormlyFormOptions = {};
-  menuRolePermissionList: MenuRolePermission[] = [];
+  menuRolePermissionList: any[] = [];
   model: any = {};
   screenBuilderList: [] = [];
-  menuList: [] = [];
-  roleList: [] = [];
+  menuList: any[] = [];
+  roleList: any[] = [];
   userList: [] = [];
 
   constructor(private applicationService: ApplicationService, private toastr: NzMessageService) { }
 
-  fields = [
-    {
-      fieldGroup: [
-        {
-          key: '_id',
-          type: 'input',
-          wrappers: ["formly-vertical-theme-wrapper"],
-          defaultValue: '',
-          props: {
-            label: 'ID',
-            placeholder: '',
-            readonly: true
-          }
-        },
-      ],
-    },
-    {
-      fieldGroup: [
-        {
-          key: 'menuId',
-          type: 'input',
-          wrappers: ["formly-vertical-theme-wrapper"],
-          defaultValue: '',
-          props: {
-            label: 'Menu ID',
-            placeholder: 'Enter Menu Id',
-            required: true,
-          }
-        }
-      ]
-    },
-    {
-      fieldGroup: [
-        {
-          key: 'menuItem',
-          type: 'input',
-          wrappers: ["formly-vertical-theme-wrapper"],
-          defaultValue: '',
-          props: {
-            label: 'menuItem',
-            placeholder: 'Enter Menu Item',
-            required: true,
-          }
-        }
-      ]
-    },
-    {
-      fieldGroup: [
-        {
-          key: 'screenId',
-          type: 'input',
-          wrappers: ["formly-vertical-theme-wrapper"],
-          defaultValue: '',
-          props: {
-            label: 'Screen Id',
-            placeholder: 'Enter Screen Id',
-            required: true,
-          }
-        }
-      ]
-    },
-    {
-      fieldGroup: [
-        {
-          key: 'admin',
-          type: 'input',
-          wrappers: ["formly-vertical-theme-wrapper"],
-          defaultValue: '',
-          props: {
-            label: 'Admin',
-            placeholder: 'Enter Admin',
-            required: true,
-          }
-        }
-      ]
-    },
-    {
-      fieldGroup: [
-        {
-          key: 'employee',
-          type: 'input',
-          wrappers: ["formly-vertical-theme-wrapper"],
-          defaultValue: '',
-          props: {
-            label: 'Employee',
-            placeholder: 'Enter Employee',
-            required: true,
-          }
-        }
-      ]
-    },
-    {
-      fieldGroup: [
-        {
-          key: 'developer',
-          type: 'input',
-          wrappers: ["formly-vertical-theme-wrapper"],
-          defaultValue: '',
-          props: {
-            label: 'Developer',
-            placeholder: 'Enter Developer',
-            required: true,
-          }
-        }
-      ]
-    },
-    {
-      fieldGroup: [
-        {
-          key: 'designer',
-          type: 'input',
-          wrappers: ["formly-vertical-theme-wrapper"],
-          defaultValue: '',
-          props: {
-            label: 'Designer',
-            placeholder: 'Enter Designer',
-            required: true,
-          }
-        }
-      ]
-    },
-    {
-      fieldGroup: [
-        {
-          key: 'createdOn',
-          type: 'input',
-          wrappers: ["formly-vertical-theme-wrapper"],
-          defaultValue: '',
-          props: {
-            label: 'Created On',
-            placeholder: 'Enter Created On',
-            required: true,
-          }
-        }
-      ]
-    }
-  ];
   ngOnInit(): void {
+    this.getApiData();
+  }
+  getApiData() {
     this.getMenuRolepermission();
     this.getRoles();
     this.getMenus();
     this.getScreenBuilder();
     this.getUsers();
   }
-  editRole(rolePermission: any) {
-    this.model = JSON.parse(JSON.stringify(rolePermission));
-  }
-  clearForm() {
-    this.model = {};
-  }
   getMenuRolepermission() {
     this.requestSubscription = this.applicationService.getNestCommonAPI('MenuRolepermission').subscribe({
       next: (getRes: any) => {
-        debugger
         if (getRes.isSuccess) {
           if (getRes.data.length > 0) {
             this.menuRolePermissionList = getRes.data
@@ -194,7 +53,6 @@ export class MenuRolePermissionComponent implements OnInit {
   getRoles() {
     this.requestSubscription = this.applicationService.getNestCommonAPI('role').subscribe({
       next: (getRes: any) => {
-        debugger
         if (getRes.isSuccess) {
           if (getRes.data.length > 0) {
             this.roleList = getRes.data
@@ -210,10 +68,14 @@ export class MenuRolePermissionComponent implements OnInit {
   getMenus() {
     this.requestSubscription = this.applicationService.getNestCommonAPI('cp/Menu').subscribe({
       next: (getRes: any) => {
-        debugger
         if (getRes.isSuccess) {
           if (getRes.data.length > 0) {
-            this.menuList = getRes.data
+            this.menuList = getRes.data.map((menu: any) => {
+              return {
+                ...menu,
+                permissions: {} // Initialize the 'permissions' property as an empty object
+              };
+            });
           }
         }
       },
@@ -226,7 +88,6 @@ export class MenuRolePermissionComponent implements OnInit {
   getScreenBuilder() {
     this.requestSubscription = this.applicationService.getNestCommonAPI('cp/ScreenBuilder').subscribe({
       next: (getRes: any) => {
-        debugger
         if (getRes.isSuccess) {
           if (getRes.data.length > 0) {
             this.screenBuilderList = getRes.data
@@ -242,7 +103,6 @@ export class MenuRolePermissionComponent implements OnInit {
   getUsers() {
     this.requestSubscription = this.applicationService.getNestCommonAPI('auth/user').subscribe({
       next: (getRes: any) => {
-        debugger
         if (getRes.isSuccess) {
           if (getRes.data.length > 0) {
             this.userList = getRes.data
@@ -256,30 +116,20 @@ export class MenuRolePermissionComponent implements OnInit {
     });
   }
 
-  submitRole() {
-    if (this.myForm.valid) {
-      this.requestSubscription = this.applicationService.addNestCommonAPI('MenuRolepermission', this.myForm.value).subscribe({
-        next: (res: any) => {
-          if (res.isSuccess) {
-            this.clearForm();
-            this.toastr.success(`Role: ${res.message}`, { nzDuration: 3000 });
-            this.getRoles();
-          }
-        },
-        error: (error: any) => {
-          console.error(error);
-          this.toastr.error("An error occurred", { nzDuration: 3000 });
-        }
-      });
+  submitRole(menu: any) {
+    const separatedPermissions = this.separatePermissions(menu.permissions);
+    const objData = {
+      menuId: menu._id,
+      menuItem: menu.menuData,
+      screenId: "64a2652f757c8f4b56440a54",
+      ...separatedPermissions,
+      createdOn: this.formatDateTime()
     }
-  }
-
-  deleteRole(rolePermission: any) {
-    this.requestSubscription = this.applicationService.deleteNestCommonAPI('MenuRolepermission', rolePermission._id).subscribe({
+    this.requestSubscription = this.applicationService.addNestCommonAPI('MenuRolepermission', objData).subscribe({
       next: (res: any) => {
         if (res.isSuccess) {
-          this.toastr.success(`Role: ${res.message}`, { nzDuration: 3000 });
-          this.getRoles();
+          this.toastr.success(`Menu Role Permission: ${res.message}`, { nzDuration: 3000 });
+          this.getApiData();
         }
       },
       error: (error: any) => {
@@ -288,5 +138,61 @@ export class MenuRolePermissionComponent implements OnInit {
       }
     });
   }
+  bulkUpdate() {
+    debugger
+  }
 
+  separatePermissions(permissions: any): any {
+    const result: any = {};
+    Object.entries(permissions).forEach(([permissionKey, permissionValue]) => {
+      const [roleName, permissionType] = permissionKey.split('_');
+
+      if (permissionValue) {
+        if (!result[roleName]) {
+          result[roleName] = [permissionType];
+        } else {
+          result[roleName].push(permissionType);
+        }
+      }
+    });
+
+    return result;
+  }
+  formatDateTime() {
+    let date = new Date();
+    const day = date.getDate();
+    const month = date.getMonth() + 1;
+    const year = date.getFullYear();
+    const hour = date.getHours();
+    const minute = date.getMinutes();
+    const second = date.getSeconds();
+    const ampm = hour >= 12 ? 'PM' : 'AM';
+
+    // Convert to 12-hour format
+    const formattedHour = hour % 12 || 12;
+
+    // Add leading zeros to day, month, hour, minute, and second if necessary
+    const formattedDay = day < 10 ? '0' + day : day;
+    const formattedMonth = month < 10 ? '0' + month : month;
+    const formattedHourStr = formattedHour < 10 ? '0' + formattedHour : formattedHour;
+    const formattedMinute = minute < 10 ? '0' + minute : minute;
+    const formattedSecond = second < 10 ? '0' + second : second;
+
+    // Combine the formatted components into the desired format
+    return `${formattedMonth}/${formattedDay}/${year}, ${formattedHourStr}:${formattedMinute}:${formattedSecond} ${ampm}`;
+  }
+  // deleteRole(rolePermission: any) {
+  //   this.requestSubscription = this.applicationService.deleteNestCommonAPI('MenuRolepermission', rolePermission._id).subscribe({
+  //     next: (res: any) => {
+  //       if (res.isSuccess) {
+  //         this.toastr.success(`Role: ${res.message}`, { nzDuration: 3000 });
+  //         this.getApiData();
+  //       }
+  //     },
+  //     error: (error: any) => {
+  //       console.error(error);
+  //       this.toastr.error("An error occurred", { nzDuration: 3000 });
+  //     }
+  //   });
+  // }
 }
