@@ -1,24 +1,59 @@
 
-  <button
-    *ngIf="buttonData.type != 'linkbutton' && buttonData.type != 'dropdownButton'"
-    nz-button
-    [disabled]="buttonData.disabled" [nzBlock]="buttonData.nzBlock"
-    [nzDanger]="buttonData.nzDanger"
-    [nzGhost]="buttonData.nzGhost" [nzLoading]="buttonData.nzLoading"
-    [nzShape]="buttonData.nzShape"
-    [class]="buttonData.buttonClass"
-    [nzSize]="buttonData.nzSize" [nzType]="buttonData.nztype"
-    [type]="buttonData.isSubmit ? 'submit' : 'button'"
-    [style.border-radius.px]="buttonData.nzShape == 'default' ? buttonData.radius : ''"
-    [style.opacity]="hoverOpacity ? hoverOpacity :  buttonData.btnopacity ? buttonData.btnopacity : '1'"
-    [ngStyle]="{
+<button
+  *ngIf="buttonData.type != 'linkbutton' && buttonData.type != 'dropdownButton'"
+  nz-button
+  [disabled]="buttonData.disabled" [nzBlock]="buttonData.nzBlock"
+  [nzDanger]="buttonData.nzDanger"
+  [nzGhost]="buttonData.nzGhost" [nzLoading]="buttonData.nzLoading"
+  [nzShape]="buttonData.nzShape"
+  [class]="buttonData.buttonClass"
+  [nzSize]="buttonData.nzSize" [nzType]="buttonData.nztype"
+  [type]="buttonData.isSubmit ? 'submit' : 'button'"
+  [style.border-radius.px]="buttonData.nzShape == 'default' ? buttonData.radius : ''"
+  [style.opacity]="hoverOpacity ? hoverOpacity :  buttonData.btnopacity ? buttonData.btnopacity : '1'"
+  [ngStyle]="{
     'background-color': bgColor || buttonData.color,
     'border-color': borderColor || buttonData.borderColor,
     'color': hoverTextColor || buttonData.textColor
   }" (click)="handleButtonClick(buttonData)"
+  (mouseover)="handleButtonMouseOver(buttonData)"
+  (mouseout)="handleButtonMouseOut(buttonData)">
+  <span>
+    <st-icon
+      *ngIf="buttonData.iconPlacement == 'left' || buttonData.iconPlacement == undefined"
+      [icon]="buttonData.btnIcon" [color]="buttonData.iconColor"
+      [hoverIconColor]="buttonData?.hoverIconColor || ''"
+      [size]="buttonData.iconSize" [type]="buttonData.iconType"></st-icon>
+    <span [class]="buttonData.btnLabelPaddingClass" *ngIf="buttonData.title">
+      {{ buttonData.title | translate}}
+    </span>
+    <st-icon *ngIf="buttonData.iconPlacement == 'right'"
+      [icon]="buttonData.btnIcon" [color]="buttonData.iconColor"
+      [size]="buttonData.iconSize"
+      [hoverIconColor]="buttonData?.hoverIconColor || ''"
+      [type]="buttonData.iconType"></st-icon>
+  </span>
+</button>
+
+<!-- link  -->
+<div *ngIf="buttonData.type == 'linkbutton'" class="pt-2">
+  <a nz-button nzType="link" [nzGhost]="buttonData.nzGhost"
+    [disabled]="buttonData.disabled"
+    [nzDanger]="buttonData.nzDanger" [nzSize]="buttonData.nzSize"
+    [nzBlock]="buttonData.nzBlock"
+    [nzLoading]="buttonData.nzLoading"
+    [style.border-radius.px]="buttonData.radius || 0" [ngStyle]="{
+      'background-color': bgColor || buttonData.color,
+      'border-color': borderColor || buttonData.borderColor,
+      'color': hoverTextColor || buttonData.textColor
+    }"
+    [class]="[buttonData.color, buttonData.hoverColor , buttonData.buttonClass]"
+    (mouseover)="bgColor = buttonData?.hoverColor"
+    (mouseout)="bgColor = buttonData?.color" (click)="pagesRoute(buttonData)"
     (mouseover)="handleButtonMouseOver(buttonData)"
     (mouseout)="handleButtonMouseOut(buttonData)">
-    <span>
+    <span
+      [style]="borderColor || buttonData.borderColor ? 'padding-left: 10px; padding-right: 10px;' : ''">
       <st-icon
         *ngIf="buttonData.iconPlacement == 'left' || buttonData.iconPlacement == undefined"
         [icon]="buttonData.btnIcon" [color]="buttonData.iconColor"
@@ -33,101 +68,73 @@
         [hoverIconColor]="buttonData?.hoverIconColor || ''"
         [type]="buttonData.iconType"></st-icon>
     </span>
-  </button>
+  </a>
+</div>
 
-  <!-- link  -->
-  <div *ngIf="buttonData.type == 'linkbutton'" class="pt-2">
-    <a nz-button nzType="link" [nzGhost]="buttonData.nzGhost"
-      [disabled]="buttonData.disabled"
-      [nzDanger]="buttonData.nzDanger" [nzSize]="buttonData.nzSize"
-      [nzBlock]="buttonData.nzBlock"
-      [nzLoading]="buttonData.nzLoading"
-      [style.border-radius.px]="buttonData.radius || 0" [ngStyle]="{
-      'background-color': bgColor || buttonData.color,
-      'border-color': borderColor || buttonData.borderColor,
-      'color': hoverTextColor || buttonData.textColor
-    }" [class]="[buttonData.color, buttonData.hoverColor , buttonData.buttonClass]"
-      (mouseover)="bgColor = buttonData?.hoverColor"
-      (mouseout)="bgColor = buttonData?.color" (click)="pagesRoute(buttonData)"
-      (mouseover)="handleButtonMouseOver(buttonData)"
-      (mouseout)="handleButtonMouseOut(buttonData)">
-      <span
-        [style]="borderColor || buttonData.borderColor ? 'padding-left: 10px; padding-right: 10px;' : ''">
-        <st-icon
-          *ngIf="buttonData.iconPlacement == 'left' || buttonData.iconPlacement == undefined"
-          [icon]="buttonData.btnIcon" [color]="buttonData.iconColor"
-          [hoverIconColor]="buttonData?.hoverIconColor || ''"
-          [size]="buttonData.iconSize" [type]="buttonData.iconType"></st-icon>
-        <span [class]="buttonData.btnLabelPaddingClass" *ngIf="buttonData.title">
-          {{ buttonData.title | translate}}
-        </span>
-        <st-icon *ngIf="buttonData.iconPlacement == 'right'"
-          [icon]="buttonData.btnIcon" [color]="buttonData.iconColor"
-          [size]="buttonData.iconSize"
-          [hoverIconColor]="buttonData?.hoverIconColor || ''"
-          [type]="buttonData.iconType"></st-icon>
-      </span>
-    </a>
-  </div>
-
-  <!-- dropdown  -->
-    <button *ngIf="buttonData.type == 'dropdownButton'" nz-button nz-dropdown [nzDropdownMenu]="menu"
-      [nzType]="buttonData.nztype" [nzGhost]="buttonData.nzGhost"
-      [nzSize]="buttonData.nzSize" [disabled]="buttonData.disabled"
-      [nzLoading]="buttonData.nzLoading"
-      [class]="buttonData.buttonClass"
-      [nzBlock]="buttonData.nzBlock" [nzTrigger]="buttonData.trigger"
-      [nzPlacement]="buttonData.placement"
-      [nzClickHide]="buttonData.clickHide" [nzVisible]="buttonData.visible"
-      [nzDanger]="buttonData.nzDanger"
-      [nzShape]="buttonData.nzShape"
-      [style.border-radius.px]="buttonData.radius || 0" [ngStyle]="{
+<!-- dropdown  -->
+<button *ngIf="buttonData.type == 'dropdownButton'" nz-button nz-dropdown
+  [nzDropdownMenu]="menu"
+  [nzType]="buttonData.nztype" [nzGhost]="buttonData.nzGhost"
+  [nzSize]="buttonData.nzSize" [disabled]="buttonData.disabled"
+  [nzLoading]="buttonData.nzLoading"
+  [class]="buttonData.buttonClass"
+  [nzBlock]="buttonData.nzBlock" [nzTrigger]="buttonData.trigger"
+  [nzPlacement]="buttonData.placement"
+  [nzClickHide]="buttonData.clickHide" [nzVisible]="buttonData.visible"
+  [nzDanger]="buttonData.nzDanger"
+  [nzShape]="buttonData.nzShape"
+  [style.border-radius.px]="buttonData.radius || 0" [ngStyle]="{
             'background-color': bgColor || buttonData.color,
             'color': hoverTextColor || buttonData.textColor,
             'border-color': borderColor || buttonData.borderColor
           }" (mouseover)="handleButtonMouseOver(buttonData)"
-      (mouseout)="handleButtonMouseOut(buttonData)">
-      <span>
-        <st-icon
-          *ngIf="buttonData.iconPlacement == 'left' || buttonData.iconPlacement == undefined"
-          [icon]="buttonData.btnIcon" [color]="buttonData.iconColor"
-          [size]="buttonData.iconSize"
-          [hoverIconColor]="buttonData?.hoverIconColor || ''"
-          [type]="buttonData.iconType"></st-icon>
-        <span [class]="buttonData.btnLabelPaddingClass" *ngIf="buttonData.title">
-          {{ buttonData.title | translate}}
-        </span>
-        <st-icon *ngIf="buttonData.iconPlacement == 'right'"
-          [icon]="buttonData.btnIcon" [color]="buttonData.iconColor"
-          [size]="buttonData.iconSize"
-          [hoverIconColor]="buttonData?.hoverIconColor || ''"
-          [type]="buttonData.iconType"></st-icon>
-      </span>
-    </button>
-    <nz-dropdown-menu #menu="nzDropdownMenu">
-      <ul nz-menu
-        [style.width.px]="buttonData.optionWidth ? buttonData.optionWidth : ''">
-        <li
-          [class]="buttonData['optionsPlacement'] + ' ' + (buttonData.optionBorder ? 'bottom-border' : '')"
-          [ngStyle]="{'background-color': option?.hover ? buttonData.hoverBgColor : 'transparent'}"
-          nz-menu-item *ngFor="let option of buttonData.dropdownOptions"
-          (mouseover)="hoverStyle(option , true)"
-          (mouseout)="hoverStyle(option , false)">
-          <a *ngIf="option.link" [href]="option.link"
-            [ngStyle]="{'color': option?.hover ? buttonData['hoverTextColor'] : ''}">{{
-            option.label
-            }}</a>
-          <a *ngIf="!option.link"
-            [ngStyle]="{'color': option?.hover ? buttonData['hoverTextColor'] : ''}">{{
-            option.label }}</a>
-        </li>
-      </ul>
-    </nz-dropdown-menu>
-    
+  (mouseout)="handleButtonMouseOut(buttonData)">
+  <span>
+    <st-icon
+      *ngIf="buttonData.iconPlacement == 'left' || buttonData.iconPlacement == undefined"
+      [icon]="buttonData.btnIcon" [color]="buttonData.iconColor"
+      [size]="buttonData.iconSize"
+      [hoverIconColor]="buttonData?.hoverIconColor || ''"
+      [type]="buttonData.iconType"></st-icon>
+    <span [class]="buttonData.btnLabelPaddingClass" *ngIf="buttonData.title">
+      {{ buttonData.title | translate}}
+    </span>
+    <st-icon *ngIf="buttonData.iconPlacement == 'right'"
+      [icon]="buttonData.btnIcon" [color]="buttonData.iconColor"
+      [size]="buttonData.iconSize"
+      [hoverIconColor]="buttonData?.hoverIconColor || ''"
+      [type]="buttonData.iconType"></st-icon>
+  </span>
+</button>
+<nz-dropdown-menu #menu="nzDropdownMenu">
+  <ul nz-menu
+    [style.width.px]="buttonData.optionWidth ? buttonData.optionWidth : ''">
+    <li
+      [class]="buttonData['optionsPlacement'] + ' ' + (buttonData.optionBorder ? 'bottom-border' : '')"
+      [ngStyle]="{'background-color': option?.hover ? buttonData.hoverBgColor : 'transparent'}"
+      nz-menu-item *ngFor="let option of buttonData.dropdownOptions"
+      (mouseover)="hoverStyle(option , true)"
+      (mouseout)="hoverStyle(option , false)">
+      <a *ngIf="option.link" [href]="option.link"
+        [ngStyle]="{'color': option?.hover ? buttonData['hoverTextColor'] : ''}">{{
+        option.label
+        }}</a>
+      <a *ngIf="!option.link"
+        [ngStyle]="{'color': option?.hover ? buttonData['hoverTextColor'] : ''}">{{
+        option.label }}</a>
+    </li>
+  </ul>
+</nz-dropdown-menu>
+
 <!-- Modal -->
-<nz-modal nzWidth="1000px" [(nzVisible)]="isVisible"
-  (nzOnCancel)="handleCancel()" (nzOnOk)="handleOk()">
-  <ng-container *nzModalContent>
-    <st-pages [resData]="nodes" *ngIf="nodes.length"></st-pages>
-  </ng-container>
-</nz-modal>
+<div
+  *ngIf="buttonData.btnType == 'modal' || buttonData.btnType == '1200px' || buttonData.btnType == '800px' || buttonData.btnType == '600px'">
+  <nz-modal
+    [nzWidth]="buttonData.btnType == 'modal'? '1000px' : buttonData.btnType"
+    [(nzVisible)]="isVisible"
+    (nzOnCancel)="handleCancel()" (nzOnOk)="handleOk()">
+    <ng-container *nzModalContent>
+      <st-pages [resData]="nodes" *ngIf="nodes.length"></st-pages>
+    </ng-container>
+  </nz-modal>
+</div>

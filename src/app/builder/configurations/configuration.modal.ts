@@ -1767,8 +1767,20 @@ export class formFeildData {
                 value: ''
               },
               {
-                label: 'Modal',
+                label: 'Extra Large Modal',
+                value: '1200px'
+              },
+              {
+                label: 'Large Modal',
                 value: 'modal'
+              },
+              {
+                label: 'Medium Modal',
+                value: '800px'
+              },
+              {
+                label: 'Small Modal',
+                value: '600px'
               },
             ],
             additionalProperties: {

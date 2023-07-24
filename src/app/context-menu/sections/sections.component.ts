@@ -327,7 +327,11 @@ export class SectionsComponent implements OnInit {
               objRuleData[index].ifRuleMain.forEach((element: any, ruleIndex: number) => {
                 if (objRuleData[index].ifRuleMain.length > 1) {
                   if (element.oprator == 'NotNull') {
-                    query = "( 1==1"
+                    if(!query){
+                      query = " ( 1==1"
+                    }else {
+                      query += " ( 1==1"
+                    }
                   }
                   else {
                     let firstValue = data.tableData[j][element.ifCondition] ? data.tableData[j][element.ifCondition] : "0";

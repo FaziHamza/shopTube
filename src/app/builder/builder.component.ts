@@ -431,7 +431,7 @@ export class BuilderComponent implements OnInit {
                   if (res.data.length > 0) {
                     this.dataSharedService.menus = JSON.parse(res.data[0].selectedTheme);
                     this.dataSharedService.menus.allMenuItems = JSON.parse(res.data[0].menuData);
-                  }else{
+                  } else {
                     this.applicationService.getNestCommonAPIById('cp/Menu', application._id).subscribe(((res: any) => {
                       if (res.isSuccess) {
                         if (res.data.length > 0) {
@@ -5014,6 +5014,7 @@ export class BuilderComponent implements OnInit {
     this.showModal = false;
   }
   isTableSave: boolean = false;
+  saveCommit: boolean = false;
   newCases: string[] = [];
   deleteCases: any[] = [];
   deleteDBFields() {
@@ -5203,9 +5204,24 @@ export class BuilderComponent implements OnInit {
       },
     });
   }
+  comentSubmit() {
+    this.requestSubscription = this.applicationService.addNestCommonAPI(`applications/${this.currentUser.applicationId}/clone`, "").subscribe({
+      next: (res: any) => {
+        if (res.isSuccess) {
+          this.toastr.success(`Git : ${res.message}`, { nzDuration: 3000 });
+        } else this.toastr.error(`Git : ${res.message}`, { nzDuration: 3000 });
+      },
+      error: (err) => {
+        this.toastr.error("Git : An error occurred", { nzDuration: 3000 });
+      }
+    });
+  }
   handleOk(): void {
     if (this.isTableSave)
       this.saveInDB();
+    if (this.saveCommit)
+      this.comentSubmit();
+
     if (this.modalType === 'webCode') {
       this.dashonicTemplates(this.htmlBlockimagePreview.parameter);
     } else if (this.modalType === 'saveAsTemplate') {
@@ -5736,18 +5752,18 @@ export class BuilderComponent implements OnInit {
             let saveForm = JSON.parse(JSON.stringify(res[0]));
             const firstObjectKeys = Object.keys(saveForm);
             let tableKey = firstObjectKeys.map(key => ({ name: key }));
-            let obj = firstObjectKeys.map(key => ({ name: key,key: key}));
+            let obj = firstObjectKeys.map(key => ({ name: key, key: key }));
             tableData.tableData = [];
             saveForm.id = tableData.tableData.length + 1;
             res.forEach((element: any) => {
               element.id = (element.id).toString();
               tableData.tableData?.push(element);
             });
-            if(tableData.tableHeaders.length == 0){
+            if (tableData.tableHeaders.length == 0) {
               tableData.tableHeaders = obj;
               tableData['tableKey'] = tableKey
             }
-            else{
+            else {
               if (JSON.stringify(tableData['tableKey']) != JSON.stringify(tableKey)) {
                 const updatedData = tableData.tableHeaders.filter((updatedItem: any) => {
                   const name = updatedItem.name;
@@ -5764,7 +5780,7 @@ export class BuilderComponent implements OnInit {
                 }
               }
             }
-            
+
           }
         }
       });
