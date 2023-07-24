@@ -1367,7 +1367,7 @@ export class AddControlService {
       modalTitle: "The is modal title",
       cancalButtontext: 'Cancel',
       centered: false,
-      isNextChild: false,
+      isNextChild: true,
       okBtnLoading: false,
       cancelBtnLoading: false,
       okBtnDisabled: false,
@@ -1377,7 +1377,6 @@ export class AddControlService {
       closeIcon: 'close',
       width: 250,
       hoverIconColor: '',
-
       showCloseIcon: true,
       zIndex: 1000,
       iconType: 'outline',

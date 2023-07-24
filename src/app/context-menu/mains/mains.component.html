@@ -387,7 +387,7 @@
         <st-rate [rateData]="item" *ngIf="item.type == 'rate' ; else fiftySeven"></st-rate>
     </ng-template>
     <ng-template #fiftySeven>
-        <st-modal [modalData]="item"
+        <st-modal [modalData]="item" [formlyModel]="formlyModel"
             *ngIf="item.type == 'modal' ; else fiftyEight"></st-modal>
     </ng-template>
     <ng-template #fiftyEight>
