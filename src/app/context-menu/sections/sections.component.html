@@ -9,7 +9,7 @@
       [style]="{'border-color': sections.borderColor + '!important'}">
       <nz-page-header
         [style]="{'background-color': sections.children[0].backGroundColor}"
-        class="pl-6 pt-1 pb-1 font-semibold {{sections.children[0].highLight ? 'highLight' : ''}}"
+        class="py-1 font-semibold {{sections.children[0].highLight ? 'highLight' : ''}}"
         [nzGhost]="false">
         <nz-page-header-title
           [style]="{'color': sections.children[0].textColor}"
@@ -39,7 +39,7 @@
     <div
       class="{{sections.children[1].className}} {{sections.children[1].highLight ? 'highLight' : ''}} "
       [style]="{'background-color': sections.children[1].backGroundColor,'color': sections.children[1].textColor}">
-      <st-main 
+      <st-main
         [mainData]="sections.children[1]" [formlyModel]="formlyModel"
         [screenId]="screenId"
         [screenName]="screenName"></st-main>
@@ -62,7 +62,7 @@
     </div>
   </div>
   <!-- COLLAPSABLE CASE -->
-  <div *ngIf="sections.children[0]?.headerCollapse" class="collaspe-panel">
+  <div *ngIf="sections.children[0]?.headerCollapse" class="b-card form-card-body">
     <nz-collapse *ngIf="sections.children[0].header"
       [nzBordered]="sections.isBordered"
       [nzExpandIconPosition]="sections.children[0].expandedIconPosition || 'left'">
@@ -75,7 +75,7 @@
           class="p-2 font-normal text-base {{sections.children[1].highLight ? 'highLight' : ''}} {{sections.children[1].className}}"
           *ngIf="resData.length > 0"
           [style]="{'background-color': sections.children[1].backGroundColor,'color': sections.children[1].textColor}">
-          <st-main 
+          <st-main
             [mainData]="sections.children[1]" [formlyModel]="formlyModel"
             [screenName]="screenName"
             [screenId]="screenId"></st-main>
