@@ -6,6 +6,8 @@ import { NzModalService } from 'ng-zorro-antd/modal';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { Router } from '@angular/router';
 import { DataSharedService } from 'src/app/services/data-shared.service';
+import { ApplicationService } from 'src/app/services/application.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'st-buttons',
@@ -22,11 +24,12 @@ export class ButtonsComponent implements OnInit {
   color: "hover:bg-[#000000]";
   borderColor: any;
   isVisible = false;
-  saveHoverIconColor : any;
+  saveHoverIconColor: any;
   hoverOpacity = '';
   nodes: TreeNode[];
+  requestSubscription: Subscription;
   constructor(private modalService: NzModalService, public employeeService: EmployeeService, private toastr: NzMessageService, private router: Router,
-    public dataSharedService: DataSharedService) { }
+    public dataSharedService: DataSharedService, private applicationService: ApplicationService) { }
 
   ngOnInit(): void {
 
@@ -38,7 +41,6 @@ export class ButtonsComponent implements OnInit {
   }
 
   pagesRoute(data: any): void {
-
     if (data.isSubmit) {
       return;
     }
@@ -50,9 +52,30 @@ export class ButtonsComponent implements OnInit {
 
     switch (data.btnType) {
       case 'modal':
+      case '1200px':
+      case '800px':
+      case '600px':
+        this.requestSubscription = this.applicationService.getNestCommonAPIById('cp/Builder', data.href).subscribe({
+          next: (res: any) => {
+            if (res.isSuccess) {
+              if (res.data.length > 0) {
+                const data = JSON.parse(res.data[0].screenData);
+                this.nodes = this.jsonParseWithObject(this.jsonStringifyWithObject(data));
+                this.isVisible = true;
+              }
+            } else
+              this.toastr.error(res.message, { nzDuration: 3000 });
+          },
+          error: (err) => {
+            console.error(err); // Log the error to the console
+          }
+        });
+
+
         this.employeeService.jsonBuilderSetting(data.href).subscribe((res: any) => {
           if (res.length > 0) {
-            this.nodes = res[0].menuData;
+            const data = JSON.parse(res.data[0].screenData);
+            this.nodes = this.jsonParseWithObject(this.jsonStringifyWithObject(data));
             this.isVisible = true;
           }
         });
@@ -84,19 +107,19 @@ export class ButtonsComponent implements OnInit {
     console.log('Button cancel clicked!');
     this.isVisible = false;
   }
-  handleButtonClick(buttonData : any): void {
+  handleButtonClick(buttonData: any): void {
 
     this.getButtonType(buttonData.type);
     this.pagesRoute(buttonData);
     // this.notify.emit(buttonData);
-    if((!buttonData.captureData || buttonData.captureData == 'sectionLevel') && buttonData.isSubmit){
+    if ((!buttonData.captureData || buttonData.captureData == 'sectionLevel') && buttonData.isSubmit) {
       this.dataSharedService.sectionSubmit.next(buttonData);
-    }else if(buttonData.captureData == 'pageLevel' && buttonData.isSubmit){
+    } else if (buttonData.captureData == 'pageLevel' && buttonData.isSubmit) {
       this.dataSharedService.pageSubmit.next(buttonData);
     }
   }
 
-  handleButtonMouseOver(buttonData : any): void {
+  handleButtonMouseOver(buttonData: any): void {
     this.hoverOpacity = '1';
     this.bgColor = buttonData.hoverColor || '';
     this.hoverTextColor = buttonData.hoverTextColor || '';
@@ -105,7 +128,7 @@ export class ButtonsComponent implements OnInit {
     buttonData['iconColor'] = buttonData['hoverIconColor'];
   }
 
-  handleButtonMouseOut(buttonData : any): void {
+  handleButtonMouseOut(buttonData: any): void {
     this.hoverOpacity = '';
     buttonData['iconColor'] = this.saveHoverIconColor;
     this.bgColor = buttonData.color || '';
@@ -113,11 +136,29 @@ export class ButtonsComponent implements OnInit {
     this.borderColor = buttonData.borderColor || '';
   }
 
-  hoverStyle(data : any , mouseOver : any) : void {
-    if(mouseOver){
-    this.buttonData.dropdownOptions.forEach((option : any) => option.label == data.label ? option['hover'] = true : option['hover'] = false);
-    }else{
-      this.buttonData.dropdownOptions.forEach((option : any) => option['hover'] = false);
+  hoverStyle(data: any, mouseOver: any): void {
+    if (mouseOver) {
+      this.buttonData.dropdownOptions.forEach((option: any) => option.label == data.label ? option['hover'] = true : option['hover'] = false);
+    } else {
+      this.buttonData.dropdownOptions.forEach((option: any) => option['hover'] = false);
     }
+  }
+  jsonStringifyWithObject(data: any) {
+    return JSON.stringify(data, function (key, value) {
+      if (typeof value == 'function') {
+        return value.toString();
+      } else {
+        return value;
+      }
+    }) || '{}'
+  }
+  jsonParseWithObject(data: any) {
+    return JSON.parse(
+      data, (key, value) => {
+        if (typeof value === 'string' && value.startsWith('(')) {
+          return eval(`(${value})`);
+        }
+        return value;
+      });
   }
 }
