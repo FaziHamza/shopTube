@@ -214,7 +214,7 @@ export class BuilderLayoutComponent implements OnInit {
       }
     });
   }
-  
+
   collapsed() {
     this.selectedTheme.isCollapsed = !this.selectedTheme?.isCollapsed
     if (this.selectedTheme.isCollapsed) {
