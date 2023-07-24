@@ -91,20 +91,6 @@ export class CommentModalComponent implements OnInit {
       });
     }
   }
-  comentSubmit() {
-    this.requestSubscription = this.applicationService.addNestCommonAPI(`applications/${this.currentUser.applicationId}/clone`, this.form.value).subscribe({
-      next: (res: any) => {
-        if (res.isSuccess) {
-          this.toastr.success(`Git : ${res.message}`, { nzDuration: 3000 });
-          this.onSubmit();
-        } else this.toastr.error(`Git : ${res.message}`, { nzDuration: 3000 });
-      },
-      error: (err) => {
-        this.toastr.error("Git : An error occurred", { nzDuration: 3000 });
-        this.#modal.destroy();
-      }
-    });
-  }
 
   padZero(value: number): string {
     return value < 10 ? `0${value}` : `${value}`;
