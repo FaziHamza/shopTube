@@ -469,7 +469,8 @@ export class BuilderComponent implements OnInit {
             // this.moduleId = res[0].moduleId;
             this.formlyModel = [];
             this.nodes = this.jsonParseWithObject(this.jsonStringifyWithObject(objScreenData));
-            this.addOrRemoveisLeaf(this.nodes[0]);
+            if(!this.nodes[0].isLeaf)
+               this.addOrRemoveisLeaf(this.nodes[0]);
             this.updateNodes();
             this.applyDefaultValue();
             this.getJoiValidation(this._id);
@@ -3726,7 +3727,7 @@ export class BuilderComponent implements OnInit {
             //     this.selectedNode['className'] = classArray;
             //     props['className'] = classArray;
             //   }
-            // } 
+            // }
             // else {
             //   props['className'] = event.form.className;
             //   this.selectedNode['className'] = event.form.className;
@@ -4660,7 +4661,7 @@ export class BuilderComponent implements OnInit {
       //     this.selectedNode.className = classArray;
       //     this.selectedNode = { ...this.selectedNode, ...event.form };
       //   }
-      // } 
+      // }
       // else {
       //   this.selectedNode.className = event.form.className;
       // }

@@ -136,23 +136,21 @@
           <div class="custom-node flex card-lable-row"
             (mouseover)="hoverIn(node)" (mouseleave)="hoverOut(node)"
             [ngClass]="isActiveShow === node.origin.id ? 'isActive' : ''">
-            <span 
+            <span
               (click)="[openField(node),highlightSelect(node.origin.id,true)]">
-              <i
-                [class]="node.isExpanded ? (node.origin.treeExpandIcon ? node.origin.treeExpandIcon : 'fa-regular fa-square-dashed') : (node.origin.treeInExpandIcon ? node.origin.treeInExpandIcon : 'fa-regular fa-square-dashed')"></i>
-              <!-- <span nz-icon
-                [nzType]="node.isExpanded ? (node.origin.treeExpandIcon ? node.origin.treeExpandIcon : 'folder-open') : (node.origin.treeInExpandIcon ? node.origin.treeInExpandIcon : 'folder-open')"></span> -->
+              <i [class]="node.isExpanded ? (node.origin.treeExpandIcon ? node.origin.treeExpandIcon : 'fa-regular fa-square-dashed') : (node.origin.treeInExpandIcon ? node.origin.treeInExpandIcon : 'fa-regular fa-square-dashed')"></i>
               <span class="folder-name">{{ node.origin.title ? node.title :
                 node.origin.id }}</span>
             </span>
-            <!-- <span *ngIf="node.isLeaf"
-              (click)="[openField(node),highlightSelect(node.origin.id,true)]">
-              <span nz-icon nzType="file"></span>
-              <span class="file-name">{{ node.origin.title ? node.title :
-                node.origin.id }}</span>
-            </span> -->
             <span *ngIf="screenPage" class="row-icon">
-              <span class=" mx-1" *ngIf="isVisible === node.origin.id"
+              <label class="mx-1" *ngIf="isVisible === node.origin.id && node.origin.type != 'page' && node.origion.type !='sections'" (click)="[openField(node),highlightSelect(node.origin.id,true)]">
+              <span class="fa hover:shadow-lg text-gray-500" nz-icon
+                nzType="plus-circle" nzTooltipTitle="Add"
+                nzTheme="outline" nz-tooltip></span>
+            </label>
+              <span class=" mx-1" *ngIf="isVisible === node.origin.id
+              && node.origin.type != 'pageHeader' && node.origin.type != 'pageBody'  && node.origin.type != 'page' && node.origin.type != 'header'
+              && node.origin.type != 'body' && node.origin.type != 'footer'"
                 (click)="insertAt(node)">
                 <span class="fa hover:shadow-lg text-blue-500" nz-icon
                   nzType="copy" nzTooltipTitle="Duplicate"
@@ -164,7 +162,9 @@
                   nzType="setting" nzTooltipTitle="Configuration"
                   nzTheme="outline" nz-tooltip></span>
               </label>
-              <label class="mx-1" *ngIf="isVisible === node.origin.id"
+
+              <label class="mx-1" *ngIf="isVisible === node.origin.id   && node.origin.type != 'pageHeader' && node.origin.type != 'pageBody'  && node.origin.type != 'page' && node.origin.type != 'header'
+              && node.origin.type != 'body' && node.origin.type != 'footer'"
                 (click)="remove(node, node)">
                 <span class="fa hover:shadow-lg text-red-500" nz-icon
                   nzType="delete" nzTooltipTitle="Delete"
