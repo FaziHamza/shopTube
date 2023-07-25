@@ -469,7 +469,7 @@ export class BuilderComponent implements OnInit {
             // this.moduleId = res[0].moduleId;
             this.formlyModel = [];
             this.nodes = this.jsonParseWithObject(this.jsonStringifyWithObject(objScreenData));
-            // this.addOrRemoveisLeaf(this.nodes[0]);
+            this.addOrRemoveisLeaf(this.nodes[0]);
             this.updateNodes();
             this.applyDefaultValue();
             this.getJoiValidation(this._id);
@@ -3252,10 +3252,13 @@ export class BuilderComponent implements OnInit {
       console.log(parent, node);
       const idx = parent.children.indexOf(node);
       parent.children.splice(idx as number, 1);
-      if (parent.children.length == 0) {
-        if (node['isLeaf']) {
-          delete node.isLeaf
+      if (parent.children.length > 0) {
+        if (parent.isLeaf) {
+          delete parent.isLeaf;
         }
+      }
+      else {
+        parent['isLeaf'] = true;
       }
     }
     else {
@@ -5869,11 +5872,13 @@ export class BuilderComponent implements OnInit {
   addOrRemoveisLeaf(node: any) {
     if (node) {
       if (node.children.length > 0) {
-        node['isLeaf'] = false;
+        if (node.isLeaf) {
+          delete node.isLeaf;
+        }
         node.children.forEach((child: any) => {
           this.addOrRemoveisLeaf(child);
         });
-      } 
+      }
       else {
         node['isLeaf'] = true;
       }
