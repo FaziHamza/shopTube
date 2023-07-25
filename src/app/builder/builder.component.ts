@@ -96,6 +96,7 @@ export class BuilderComponent implements OnInit {
   dbHtmlCodeBlockArray: any = [];
   formlyTypes: any = [];
   currentUser: any;
+  layerIconActive: string = '';
   constructor(
     public builderService: BuilderService,
     private viewContainerRef: ViewContainerRef,
@@ -235,6 +236,7 @@ export class BuilderComponent implements OnInit {
   }
 
   LayerShow() {
+    this.layerIconActive = 'layer';
     if (this.IslayerVisible) this.IslayerVisible = false;
     else this.IslayerVisible = true;
     this.IsjsonEditorVisible = false;
@@ -5882,6 +5884,21 @@ export class BuilderComponent implements OnInit {
       }
       else {
         node['isLeaf'] = true;
+      }
+    }
+  }
+  addTreeNodeIcon(node: any) {
+    if (node) {
+      if (node.children.length > 0) {
+        node['treeInExpandIcon'] = 'fa-regular fa-file-text';
+        node['treeExpandIcon'] = 'fa-regular fa-file-text';
+        node.children.forEach((child: any) => {
+          this.addOrRemoveisLeaf(child);
+        });
+      }
+      else {
+        node['treeInExpandIcon'] = 'fa-regular fa-file-text';
+        node['treeExpandIcon'] = 'fa-regular fa-file-text';
       }
     }
   }

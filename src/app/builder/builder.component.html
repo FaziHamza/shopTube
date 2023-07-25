@@ -15,7 +15,7 @@
     </div>
     <div class="action-bar">
       <div class="component-actions">
-        <button nz-button nzType="link" (click)="LayerShow()"
+        <button nz-button nzType="link" (click)="LayerShow()"   [ngClass]="layerIconActive == 'layer' ? 'active' : ''"
           [nzTooltipTitle]="IslayerVisible ? 'Layer hide' : 'Layer show'"
           nz-tooltip>
           <i
@@ -143,14 +143,14 @@
                 node.origin.id }}</span>
             </span>
             <span *ngIf="screenPage" class="row-icon">
-              <label class="mx-1" *ngIf="isVisible === node.origin.id && node.origin.type != 'page' && node.origion.type !='sections'" (click)="[openField(node),highlightSelect(node.origin.id,true)]">
+              <label class="mx-1" *ngIf="isVisible === node.origin.id && node?.origin?.type != 'page' && node?.origin?.type !='sections'" (click)="[openField(node),highlightSelect(node.origin.id,true)]">
               <span class="fa hover:shadow-lg text-gray-500" nz-icon
                 nzType="plus-circle" nzTooltipTitle="Add"
                 nzTheme="outline" nz-tooltip></span>
             </label>
               <span class=" mx-1" *ngIf="isVisible === node.origin.id
-              && node.origin.type != 'pageHeader' && node.origin.type != 'pageBody'  && node.origin.type != 'page' && node.origin.type != 'header'
-              && node.origin.type != 'body' && node.origin.type != 'footer'"
+              && node?.origin?.type != 'pageHeader' && node?.origin?.type != 'pageBody'  && node?.origin?.type != 'page' && node?.origin?.type != 'header'
+              && node?.origin?.type != 'body' && node?.origin?.type != 'footer'"
                 (click)="insertAt(node)">
                 <span class="fa hover:shadow-lg text-blue-500" nz-icon
                   nzType="copy" nzTooltipTitle="Duplicate"
