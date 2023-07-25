@@ -2222,7 +2222,8 @@ export class BuilderComponent implements OnInit {
           element.key != 'icon' &&
           element.key != 'badgeType' &&
           element.key != 'badgeCount' &&
-          element.key != 'dot_ribbon_color'
+          element.key != 'dot_ribbon_color'&&
+          element.key != 'iconClass'
         ) {
           fieldGroup.push(element);
         }
@@ -4950,7 +4951,8 @@ export class BuilderComponent implements OnInit {
         if (
           element.key != 'badgeType' &&
           element.key != 'badgeCount' &&
-          element.key != 'dot_ribbon_color'
+          element.key != 'dot_ribbon_color' &&
+          element.key != 'iconClass'
         ) {
           if (element.key != 'icon' || allowIcon) {
             configurationFields[0].fieldGroup.unshift(element);

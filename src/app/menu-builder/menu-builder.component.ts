@@ -1535,7 +1535,7 @@ export class MenuBuilderComponent implements OnInit {
     const commonIconFields: any = formFieldData.commonIconFields[0].fieldGroup;
     if (commonIconFields.length > 0) {
       commonIconFields.forEach((element: any) => {
-        const excludedKeys = ['badgeType', 'badgeCount', 'dot_ribbon_color', 'iconSize', 'iconColor', 'hoverIconColor'];
+        const excludedKeys = ['badgeType', 'badgeCount', 'dot_ribbon_color', 'iconSize', 'iconColor', 'hoverIconColor', 'iconClass'];
         if (element.key !== 'icon' || allowIcon) {
           if (!excludedKeys.includes(element.key)) {
             configurationFields[0].fieldGroup.unshift(element);
