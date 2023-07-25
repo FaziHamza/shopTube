@@ -3,9 +3,10 @@
     <nz-header>
       <div class="app-header">
         <div class="b-brand">
-          <img src="assets/images/logo.png" alt="">
+          <img src="assets/images/logo.png" alt>
           <div (click)="selectedTheme.isCollapsed = !selectedTheme.isCollapsed">
-            <i [class]="selectedTheme.isCollapsed ? 'fa-regular fa-arrow-right-long' : 'fa-regular fa-bars'"></i>
+            <i
+              [class]="selectedTheme.isCollapsed ? 'fa-regular fa-arrow-right-long' : 'fa-regular fa-bars'"></i>
           </div>
         </div>
         <div class="header-action-btns">
@@ -27,7 +28,7 @@
           <div class="nav-item">
             <a nz-dropdown [nzDropdownMenu]="menu">
               <div class="user-profile-header">
-                <img src="assets/images/user.png" alt="">
+                <img src="assets/images/user.png" alt>
               </div>
             </a>
             <nz-dropdown-menu #menu="nzDropdownMenu">
@@ -43,14 +44,17 @@
       </div>
     </nz-header>
     <nz-layout class="main-layout">
-      <nz-sider class="menu-sidebar" nzTheme="light" nzCollapsible nzWidth="240px" nzBreakpoint="md"
+      <nz-sider class="menu-sidebar" nzTheme="light" nzCollapsible
+        nzWidth="240px" nzBreakpoint="md"
         [(nzCollapsed)]="selectedTheme.isCollapsed" [nzTrigger]="null">
-        <ul nz-menu nzMode="inline" [nzInlineCollapsed]="selectedTheme.isCollapsed" nzMode="inline">
-          <li nz-menu-item>
-            <i class="fa-light fa-table-columns"></i>
-            <span>Dashboard</span>
+        <ul nz-menu nzMode="inline"
+          [nzInlineCollapsed]="selectedTheme.isCollapsed" nzMode="inline">
+          <li nz-menu-item *ngFor="let menu of menus" [routerLink]="menu.link"
+            routerLinkActive="active">
+            <i [class]="menu.icon"></i>
+            <span>{{menu.title}}</span>
           </li>
-          <li nz-menu-item>
+          <!-- <li nz-menu-item>
             <i class="fa-light fa-square-list"></i>
             <span>Forms</span>
           </li>
@@ -94,7 +98,7 @@
                 <a>Workplace</a>
               </li>
             </ul>
-          </li>
+          </li> -->
         </ul>
       </nz-sider>
       <nz-content>

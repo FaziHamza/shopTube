@@ -3310,6 +3310,10 @@ object {
       height: 100%;
       width: calc(100% - 250px);
     }
+    .b-content-body-full {
+      height: calc(100vh - 164px);
+      width: 100%;
+    }
   }
 
   .input-group-icon {
