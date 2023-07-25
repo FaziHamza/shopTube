@@ -15,31 +15,44 @@ export const htmlTabsData = [
                 parameter: "buttonGroup",
                 icon: "uil uil-bitcoin-sign",
                 label: "Actions Group",
+                // treeExpandIcon: 'caret-right',
+                // treeInExpandIcon: 'caret-down',
               },
               {
                 parameter: "insertButton",
                 icon: "uil uil-bitcoin-sign",
-                label: "Insert Button"
+                label: "Insert Button",
+                isLeaf: true
+                // treeExpandIcon: 'caret-right',
+                // treeInExpandIcon: 'caret-down',
               },
               {
                 parameter: "updateButton",
                 icon: "uil uil-bitcoin-sign",
-                label: "Update Button"
+                label: "Update Button",
+                isLeaf: true
+                // treeExpandIcon: 'caret-right',
+                // treeInExpandIcon: 'caret-down',
               },
               {
                 parameter: "deleteButton",
                 icon: "uil uil-bitcoin-sign",
-                label: "Delete Button"
+                label: "Delete Button",
+                isLeaf: true
+                // treeExpandIcon: 'caret-right',
+                // treeInExpandIcon: 'caret-down',
               },
               {
                 parameter: "dropdownButton",
                 icon: "uil uil-bitcoin-sign",
-                label: "Dropdown Menu"
+                label: "Dropdown Menu",
+                isLeaf: true
               },
               {
                 parameter: "linkbutton",
                 icon: "uil uil-bitcoin-sign",
-                label: "Link Button"
+                label: "Link Button",
+                isLeaf: true
               },
             ]
           },
@@ -51,12 +64,14 @@ export const htmlTabsData = [
               {
                 parameter: "heading",
                 icon: "uil uil-text",
-                label: "Heading"
+                label: "Heading",
+                isLeaf: true
               },
               {
                 parameter: "paragraph",
                 icon: "uil uil-paragraph",
-                label: "Paragraph"
+                label: "Paragraph",
+                isLeaf: true
               },
             ]
           },
@@ -68,7 +83,8 @@ export const htmlTabsData = [
               {
                 parameter: "icon",
                 icon: "uil uil-text",
-                label: "Icon"
+                label: "Icon",
+                isLeaf: true
               },
             ]
           },
@@ -91,17 +107,20 @@ export const htmlTabsData = [
               {
                 parameter: "gridList",
                 icon: "uil uil-file-alt",
-                label: "List/Data Grid"
+                label: "List/Data Grid",
+                isLeaf: true
               },
               {
                 parameter: "invoiceGrid",
                 icon: "uil uil-file-alt",
-                label: "Invoice Grid"
+                label: "Invoice Grid",
+                isLeaf: true
               },
               {
                 parameter: "divider",
                 icon: "uil uil-file-alt",
-                label: "Divider"
+                label: "Divider",
+                isLeaf: true
               },
               // {
               //   parameter: "gridListEditDelete",
@@ -134,7 +153,8 @@ export const htmlTabsData = [
               {
                 parameter: "affix",
                 icon: "uil uil-file-alt",
-                label: "Affix"
+                label: "Affix",
+                isLeaf: true
               },
               // {
               //   parameter: "dropdownButton",
@@ -163,7 +183,8 @@ export const htmlTabsData = [
               {
                 parameter: "cascader",
                 icon: "uil-arrow-break",
-                label: "Cascader"
+                label: "Cascader",
+                isLeaf: true
               },
               {
                 parameter: "input",
@@ -221,6 +242,8 @@ export const htmlTabsData = [
                 label: "Input",
                 type: 'input',
                 configType: 'input', fieldType: 'input',
+                treeExpandIcon: 'fa-regular fa-t',
+                treeInExpandIcon: 'fa-regular fa-t',
                 // maskString: "",
                 // maskLabel: ""
               },
@@ -315,6 +338,8 @@ export const htmlTabsData = [
                 configType: 'repeatSection', fieldType: 'Select',
                 // maskString: "",
                 // maskLabel: "",
+                treeExpandIcon: 'fa-regular fa-d',
+                treeInExpandIcon: 'fa-regular fa-d',
                 options: true,
               },
 
@@ -618,13 +643,15 @@ export const htmlTabsData = [
               {
                 parameter: "avatar",
                 icon: "uil uil-file-alt",
-                label: "Avatar"
+                label: "Avatar",
+                isLeaf: true
               },
 
               {
                 parameter: "badge",
                 icon: "uil-arrow-break",
-                label: "Badge"
+                label: "Badge",
+                isLeaf: true
               },
               // {
               //   parameter: "treeView",
@@ -634,79 +661,94 @@ export const htmlTabsData = [
               {
                 parameter: "calender",
                 icon: "uil uil-file-alt",
-                label: "Calendar"
+                label: "Calendar",
+                isLeaf: true
               },
               {
                 parameter: "carouselCrossfade",
                 icon: "uil-sliders-v-alt",
-                label: "Slider"
+                label: "Slider",
+                isLeaf: true
               },
 
               {
                 parameter: "comment",
                 icon: "uil-arrow-break",
-                label: "Comment"
+                label: "Comment",
+                isLeaf: true
               },
               {
                 parameter: "description",
                 icon: "uil uil-file-alt",
-                label: "Description"
+                label: "Description",
+                isLeaf: true
               },
 
               {
                 parameter: "descriptionChild",
                 icon: "uil uil-file-alt",
-                label: "Description Child"
+                label: "Description Child",
+                isLeaf: true
               },
               {
                 parameter: "statistic",
                 icon: "uil-sliders-v-alt",
-                label: "Statistic"
+                label: "Statistic",
+                isLeaf: true
               },
               {
                 parameter: "empty",
                 icon: "uil-arrow-break",
-                label: "Empty Box"
+                label: "Empty Box",
+                isLeaf: true
               },
               {
                 parameter: "list",
                 icon: "uil uil-file-alt",
-                label: "New List"
+                label: "New List",
+                isLeaf: true
               },
               {
                 parameter: "tag",
                 icon: "uil-file-copy-alt",
-                label: "Tag"
+                label: "Tag",
+                isLeaf: true
               },
               {
                 parameter: "popConfirm",
                 icon: "uil-sliders-v-alt",
-                label: "PopConfirm"
+                label: "PopConfirm",
+                isLeaf: true
               },
               {
                 parameter: "timeline",
                 icon: "uil-sliders-v-alt",
-                label: "Timeline"
+                label: "Timeline",
+                isLeaf: true
               },
               {
                 parameter: "popOver",
                 icon: "uil-sliders-v-alt",
-                label: "Pop Over"
+                label: "Pop Over",
+                isLeaf: true
               },
               {
                 parameter: "imageUpload",
                 icon: "uil uil-file-alt",
-                label: "Image"
+                label: "Image",
+                isLeaf: true
               },
               {
                 parameter: "invoice",
                 icon: "uil uil-file-alt",
-                label: "Invoice"
+                label: "Invoice",
+                isLeaf: true
               },
               {
                 parameter: "segmented",
                 icon: "uil-toggle-off",
-                label: "Segmented"
+                label: "Segmented",
+                isLeaf: true
               },
 
             ]
@@ -719,17 +761,19 @@ export const htmlTabsData = [
               {
                 parameter: "simplecard",
                 icon: "uil uil-file-alt",
-                label: "Card"
+                label: "Card",
+                isLeaf: true
               },
               {
                 parameter: "cardWithComponents",
                 icon: "uil uil-file-alt",
-                label: "Card Components"
+                label: "Card Components",
               },
               {
                 parameter: "simpleCardWithHeaderBodyFooter",
                 icon: "uil uil-file-alt",
-                label: "Section Card"
+                label: "Section Card",
+                isLeaf: true
               },
               {
                 parameter: "sharedMessagesChart",
@@ -752,77 +796,88 @@ export const htmlTabsData = [
               {
                 parameter: "htmlBlock",
                 icon: "uil uil-paragraph",
-                label: "Add new"
+                label: "Add new",
+                isLeaf: true
               },
               {
                 parameter: "cvtemplate",
                 icon: "uil uil-file-edit-alt",
                 content: "assets/images/small/CV.jpg",
                 name: "cvtemplate",
-                label: "CV Template"
+                label: "CV Template",
+                isLeaf: true
               },
               {
                 parameter: "dashnoicPricingTemplate",
                 icon: "uil uil-money-withdrawal",
                 content: "assets/images/small/dashonic-pricing-template.jpg",
                 name: "dashnoicPricingTemplate",
-                label: "Pricing"
+                label: "Pricing",
+                isLeaf: true
               },
               {
                 parameter: "login",
                 icon: "uil-key-skeleton-alt",
                 content: "assets/images/small/login-Template.jpg",
                 name: "login",
-                label: "Login"
+                label: "Login",
+                isLeaf: true
               },
               {
                 parameter: "loremIpsum",
                 icon: "uil uil-text",
                 content: "assets/images/small/lorem-ipsum.jpg",
                 name: "loremIpsum",
-                label: "Lorem Ipsum"
+                label: "Lorem Ipsum",
+                isLeaf: true
               },
               {
                 parameter: "dashnoicPricingTabletemplate",
                 icon: "uil uil-money-withdrawal",
                 content: "assets/images/small/dashonic-Pricing-Table.PNG",
                 name: "dashnoicPricingTabletemplate",
-                label: "Pricing Table"
+                label: "Pricing Table",
+                isLeaf: true
               },
               {
                 parameter: "pricingtemplate",
                 icon: "uil uil-money-withdrawal",
                 content: "assets/images/small/price-Template.jpg",
                 name: "pricingtemplate",
-                label: "Pricing"
+                label: "Pricing",
+                isLeaf: true
               },
               {
                 parameter: "registerTemplate",
                 icon: "uil-document-layout-left",
                 content: "assets/images/small/register-Template.jpg",
                 name: "registerTemplate",
-                label: "Register"
+                label: "Register",
+                isLeaf: true
               },
               {
                 parameter: "signUpTemplate",
                 icon: "uil-sign-in-alt",
                 content: "assets/images/small/sign-Up.jpg",
                 name: "signUpTemplate",
-                label: "SignUp"
+                label: "SignUp",
+                isLeaf: true
               },
               {
                 parameter: "profiletemplate",
                 icon: "uil uil-user",
                 content: "assets/images/small/dashoni-user-setting-template.jpg",
                 name: "profiletemplate",
-                label: "User Profile"
+                label: "User Profile",
+                isLeaf: true
               },
               {
                 parameter: "invoiceTemplate",
                 icon: "uil uil-file-edit-alt",
                 content: "assets/images/small/invoiceTemplate.png",
                 name: "invoiceTemplate",
-                label: "Invoice Detail"
+                label: "Invoice Detail",
+                isLeaf: true
               },
               // {
               //   parameter: "dashonicTemplate",
@@ -1012,92 +1067,110 @@ export const htmlTabsData = [
               {
                 parameter: "barChart",
                 icon: "uil uil-file-alt",
-                label: "Bar Chart"
+                label: "Bar Chart",
+                isLeaf: true
               },
               {
                 parameter: "pieChart",
                 icon: "uil uil-file-alt",
-                label: "Pie Chart"
+                label: "Pie Chart",
+                isLeaf: true
               },
               {
                 parameter: "bubbleChart",
                 icon: "uil uil-file-alt",
-                label: "Bubble Chart"
+                label: "Bubble Chart",
+                isLeaf: true
               },
               {
                 parameter: "candlestickChart",
                 icon: "uil uil-file-alt",
-                label: "Candlestick Chart"
+                label: "Candlestick Chart",
+                isLeaf: true
               },
               {
                 parameter: "columnChart",
                 icon: "uil uil-file-alt",
-                label: "Column Chart"
+                label: "Column Chart",
+                isLeaf: true
               },
               {
                 parameter: "orgChart",
                 icon: "uil uil-file-alt",
-                label: "Org Chart"
+                label: "Org Chart",
+                isLeaf: true
               },
               {
                 parameter: "tableChart",
                 icon: "uil uil-file-alt",
-                label: "Table Chart"
+                label: "Table Chart",
+                isLeaf: true
               },
               {
                 parameter: "treeMapChart",
                 icon: "uil uil-file-alt",
-                label: "Tree Map Chart"
+                label: "Tree Map Chart",
+                isLeaf: true
               },
               {
                 parameter: "ganttChart",
                 icon: "uil uil-file-alt",
-                label: "Gantt Chart"
+                label: "Gantt Chart",
+                isLeaf: true
               },
               {
                 parameter: "geoChart",
                 icon: "uil uil-file-alt",
-                label: "Geo Chart"
+                label: "Geo Chart",
+                isLeaf: true
               },
               {
                 parameter: "histogramChart",
                 icon: "uil uil-file-alt",
-                label: "Histogram Chart"
+                label: "Histogram Chart",
+                isLeaf: true
               },
               {
                 parameter: "lineChart",
                 icon: "uil uil-file-alt",
-                label: "Line Chart"
+                label: "Line Chart",
+                isLeaf: true
               },
               {
                 parameter: "sankeyChart",
                 icon: "uil uil-file-alt",
-                label: "Sankey Chart"
+                label: "Sankey Chart",
+                isLeaf: true
               },
               {
                 parameter: "scatterChart",
                 icon: "uil uil-file-alt",
-                label: "Scatter Chart"
+                label: "Scatter Chart",
+                isLeaf: true
               },
               {
                 parameter: "areaChart",
                 icon: "uil uil-file-alt",
-                label: "Area Chart"
+                label: "Area Chart",
+                isLeaf: true
               },
               {
                 parameter: "comboChart",
                 icon: "uil uil-file-alt",
-                label: "Combo Chart"
+                label: "Combo Chart",
+                isLeaf: true
               },
               {
                 parameter: "steppedAreaChart",
                 icon: "uil uil-file-alt",
-                label: "Stepped Area Chart"
+                label: "Stepped Area Chart",
+                isLeaf: true
               },
               {
                 parameter: "timelineChart",
                 icon: "uil uil-file-alt",
-                label: "Timeline Chart"
+                label: "Timeline Chart",
+                isLeaf: true
               },
               // {
               //   parameter: "browserChart",
@@ -1155,17 +1228,20 @@ export const htmlTabsData = [
               {
                 parameter: "alert",
                 icon: "uil-cloud-exclamation",
-                label: "Alert"
+                label: "Alert",
+                isLeaf: true
               },
               {
                 parameter: "drawer",
                 icon: "uil uil-file-alt",
-                label: "Drawer"
+                label: "Drawer",
+                isLeaf: true
               },
               {
                 parameter: "message",
                 icon: "uil-file-copy-alt",
-                label: "Message"
+                label: "Message",
+                isLeaf: true
               },
               {
                 parameter: "modal",
@@ -1175,29 +1251,34 @@ export const htmlTabsData = [
               {
                 parameter: "notification",
                 icon: "uil-file-copy-alt",
-                label: "Notification"
+                label: "Notification",
+                isLeaf: true
               },
 
               {
                 parameter: "progressBar",
                 icon: "uil-sliders-v-alt",
-                label: "Progress Bar"
+                label: "Progress Bar",
+                isLeaf: true
               },
               {
                 parameter: "result",
                 icon: "uil-sliders-v-alt",
-                label: "Result"
+                label: "Result",
+                isLeaf: true
               },
 
               {
                 parameter: "skeleton",
                 icon: "uil-sliders-v-alt",
-                label: "Skeleton"
+                label: "Skeleton",
+                isLeaf: true
               },
               {
                 parameter: "spin",
                 icon: "uil-toggle-off",
-                label: "Spin"
+                label: "Spin",
+                isLeaf: true
               },
             ]
           },
@@ -1222,14 +1303,16 @@ export const htmlTabsData = [
               {
                 parameter: "audio",
                 icon: "uil uil-file-alt",
-                label: "Play Audio"
+                label: "Play Audio",
+                isLeaf: true
               },
 
 
               {
                 parameter: "breakTag",
                 icon: "uil-arrow-break",
-                label: "Break Tag"
+                label: "Break Tag",
+                isLeaf: true
               },
 
               // {
@@ -1240,7 +1323,8 @@ export const htmlTabsData = [
               {
                 parameter: "rangeSlider",
                 icon: "uil-sliders-v-alt",
-                label: "Range Slider"
+                label: "Range Slider",
+                isLeaf: true
               },
 
 
@@ -1266,32 +1350,37 @@ export const htmlTabsData = [
               {
                 parameter: "multiFileUpload",
                 icon: "uil-file-copy-alt",
-                label: "Multi-file Uploader"
+                label: "Multi-file Uploader",
+                isLeaf: true
               },
 
 
               {
                 parameter: "rate",
                 icon: "uil-sliders-v-alt",
-                label: "Rating"
+                label: "Rating",
+                isLeaf: true
               },
 
 
               {
                 parameter: "textEditor",
                 icon: "uil uil-file-alt",
-                label: "Editor"
+                label: "Editor",
+                isLeaf: true
               },
 
               {
                 parameter: "toastr",
                 icon: "uil-sliders-v-alt",
-                label: "Toastr"
+                label: "Toastr",
+                isLeaf: true
               },
               {
                 parameter: "video",
                 icon: "uil uil-file-alt",
-                label: "Play Video"
+                label: "Play Video",
+                isLeaf: true
               },
             ]
           },
@@ -1351,12 +1440,14 @@ export const htmlTabsData = [
               {
                 parameter: "fixedDiv",
                 icon: "uil-square-full",
-                label: "Fixed Div"
+                label: "Fixed Div",
+                isLeaf: true
               },
               {
                 parameter: "div",
                 icon: "uil-square-full",
-                label: "Div"
+                label: "Div",
+                isLeaf: true
               },
               {
                 parameter: "mainDiv",
@@ -1393,27 +1484,32 @@ export const htmlTabsData = [
               {
                 parameter: "backTop",
                 icon: "uil uil-file-alt",
-                label: "Back Top"
+                label: "Back Top",
+                isLeaf: true
               },
               {
                 parameter: "anchor",
                 icon: "uil uil-file-alt",
-                label: "Anchor"
+                label: "Anchor",
+                isLeaf: true
               },
               {
                 parameter: "listWithComponents",
                 icon: "uil uil-file-alt",
-                label: "list With Components"
+                label: "list With Components",
+                isLeaf: true
               },
               {
                 parameter: "menu",
                 icon: "uil uil-file-alt",
-                label: "Menu"
+                label: "Menu",
+                isLeaf: true
               },
               {
                 parameter: "map",
                 icon: "uil uil-file-alt",
-                label: "map"
+                label: "map",
+                isLeaf: true
               },
             ]
           },

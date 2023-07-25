@@ -33,6 +33,7 @@ import { ApplicationService } from '../services/application.service';
 import { BulkUpdateComponent } from './bulk-update/bulk-update.component';
 import { NzDrawerService } from 'ng-zorro-antd/drawer';
 import { NzCascaderOption } from 'ng-zorro-antd/cascader';
+import { E } from '@formulajs/formulajs';
 @Component({
   selector: 'st-builder',
   templateUrl: './builder.component.html',
@@ -468,6 +469,7 @@ export class BuilderComponent implements OnInit {
             // this.moduleId = res[0].moduleId;
             this.formlyModel = [];
             this.nodes = this.jsonParseWithObject(this.jsonStringifyWithObject(objScreenData));
+            this.addOrRemoveisLeaf(this.nodes[0]);
             this.updateNodes();
             this.applyDefaultValue();
             this.getJoiValidation(this._id);
@@ -528,6 +530,8 @@ export class BuilderComponent implements OnInit {
         {
           id: this.screenName + '_' + 'page_' + Guid.newGuid(),
           key: 'page_' + Guid.newGuid(),
+          treeExpandIcon: 'fa-regular fa-file-text',
+          treeInExpandIcon: 'fa-regular fa-file-text',
           title: 'page',
           type: 'page',
           footer: false,
@@ -573,6 +577,9 @@ export class BuilderComponent implements OnInit {
     type: 'input',
     fieldType: 'input',
     configType: 'input',
+    treeExpandIcon: 'fa-regular fa-t',
+    treeInExpandIcon: 'fa-regular fa-t',
+    isLeaf: true
   };
   downloadJson() {
     var currentData = this.jsonParse(this.jsonStringifyWithObject(this.nodes));
@@ -1311,6 +1318,9 @@ export class BuilderComponent implements OnInit {
         hideExpression: false,
         highLight: false,
         copyJsonIcon: false,
+        treeExpandIcon: data?.treeExpandIcon,
+        treeInExpandIcon: data?.treeInExpandIcon,
+        isLeaf: true
       };
     } else {
       newNode = {
@@ -1326,6 +1336,9 @@ export class BuilderComponent implements OnInit {
         hideExpression: false,
         highLight: false,
         copyJsonIcon: false,
+        treeExpandIcon: data?.treeExpandIcon,
+        treeInExpandIcon: data?.treeInExpandIcon,
+        isLeaf: data?.isLeaf,
       };
     }
     if (
@@ -1976,6 +1989,11 @@ export class BuilderComponent implements OnInit {
   addNode(node: TreeNode, newNode: TreeNode) {
     if (node.children) {
       node.children.push(newNode);
+      if (node.children.length == 0) {
+        node['isLeaf'] = false;
+      } else {
+        node['isLeaf'] = true;
+      }
       if (this.showNotification) {
         this.toastr.success('Control Added', { nzDuration: 3000 });
       }
@@ -3236,7 +3254,13 @@ export class BuilderComponent implements OnInit {
       console.log(parent, node);
       const idx = parent.children.indexOf(node);
       parent.children.splice(idx as number, 1);
-    } else {
+      if (parent.children.length == 0) {
+        node['isLeaf'] = false;
+      } else {
+        node['isLeaf'] = true;
+      }
+    }
+    else {
       console.log(parent, node);
       const idx = this.nodes.indexOf(node);
       this.nodes.splice(idx as number, 1);
@@ -5736,7 +5760,6 @@ export class BuilderComponent implements OnInit {
     })
   }
   checkPage() {
-    debugger
     if (!this.screenPage) {
       alert("Please Select Screen")
     } else {
@@ -5834,5 +5857,28 @@ export class BuilderComponent implements OnInit {
       }
       return result;
     }, []);
+  }
+
+  pageConfig() {
+    if (this.nodes.length > 0) {
+      this.openConfig(this.nodes[0], this.nodes[0]);
+    } else {
+      this.toastr.warning('Page is not available', {
+        nzDuration: 3000,
+      });
+    }
+  }
+  addOrRemoveisLeaf(node: any) {
+    if (node) {
+      if (node.children.length > 0) {
+        node['isLeaf'] = false;
+        node.children.forEach((child: any) => {
+          this.addOrRemoveisLeaf(child);
+        });
+      }
+      else {
+        node['isLeaf'] = true;
+      }
+    }
   }
 }
