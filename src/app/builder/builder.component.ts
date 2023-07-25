@@ -469,7 +469,7 @@ export class BuilderComponent implements OnInit {
             // this.moduleId = res[0].moduleId;
             this.formlyModel = [];
             this.nodes = this.jsonParseWithObject(this.jsonStringifyWithObject(objScreenData));
-            this.addOrRemoveisLeaf(this.nodes[0]);
+            // this.addOrRemoveisLeaf(this.nodes[0]);
             this.updateNodes();
             this.applyDefaultValue();
             this.getJoiValidation(this._id);
@@ -1989,10 +1989,8 @@ export class BuilderComponent implements OnInit {
   addNode(node: TreeNode, newNode: TreeNode) {
     if (node.children) {
       node.children.push(newNode);
-      if (node.children.length == 0) {
-        node['isLeaf'] = false;
-      } else {
-        node['isLeaf'] = true;
+      if (node.children.length > 0) {
+        delete node.isLeaf
       }
       if (this.showNotification) {
         this.toastr.success('Control Added', { nzDuration: 3000 });
@@ -2240,8 +2238,7 @@ export class BuilderComponent implements OnInit {
           element.key != 'icon' &&
           element.key != 'badgeType' &&
           element.key != 'badgeCount' &&
-          element.key != 'dot_ribbon_color'&&
-          element.key != 'iconClass'
+          element.key != 'dot_ribbon_color'
         ) {
           fieldGroup.push(element);
         }
@@ -3256,9 +3253,9 @@ export class BuilderComponent implements OnInit {
       const idx = parent.children.indexOf(node);
       parent.children.splice(idx as number, 1);
       if (parent.children.length == 0) {
-        node['isLeaf'] = false;
-      } else {
-        node['isLeaf'] = true;
+        if (node['isLeaf']) {
+          delete node.isLeaf
+        }
       }
     }
     else {
@@ -4975,8 +4972,7 @@ export class BuilderComponent implements OnInit {
         if (
           element.key != 'badgeType' &&
           element.key != 'badgeCount' &&
-          element.key != 'dot_ribbon_color' &&
-          element.key != 'iconClass'
+          element.key != 'dot_ribbon_color'
         ) {
           if (element.key != 'icon' || allowIcon) {
             configurationFields[0].fieldGroup.unshift(element);
@@ -5877,7 +5873,7 @@ export class BuilderComponent implements OnInit {
         node.children.forEach((child: any) => {
           this.addOrRemoveisLeaf(child);
         });
-      }
+      } 
       else {
         node['isLeaf'] = true;
       }
