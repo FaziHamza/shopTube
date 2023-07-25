@@ -1,5 +1,5 @@
 <!-- <span class="icon" (mouseover)="applyColor(true)" (mouseout)="applyColor(false)"> -->
-<div [class]="'icon'">
+<span [class]="'icon'">
   <span [class]="iconClass" [style.font-size.px]="size || 15"
     [style.color]="color ?  color + ' !important' : ''"
     nz-icon
@@ -13,4 +13,4 @@
     *ngIf="type == 'material' && !icon.includes('fa-')">
     <i class="material-icons">{{icon}}</i>
   </span>
-</div>
+</span>
