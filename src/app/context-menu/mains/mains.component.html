@@ -564,7 +564,7 @@
             [charts]="item"></st-table-chart>
     </ng-template>
     <ng-template #nintyOne>
-        <st-list-with-components
+        <st-list-with-components class="overflow-x-auto"
             *ngIf="item.type == 'listWithComponents' ; else nintyTwo"
             [listData]="item" [formlyModel]="formlyModel"></st-list-with-components>
     </ng-template>
