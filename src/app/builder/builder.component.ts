@@ -478,8 +478,9 @@ export class BuilderComponent implements OnInit {
             // this.moduleId = res[0].moduleId;
             this.formlyModel = [];
             this.nodes = this.jsonParseWithObject(this.jsonStringifyWithObject(objScreenData));
-            if (!this.nodes[0].isLeaf)
+            if (!this.nodes[0].isLeaf) {
               this.addOrRemoveisLeaf(this.nodes[0]);
+            }
             this.updateNodes();
             this.applyDefaultValue();
             this.getJoiValidation(this._id);
@@ -500,8 +501,26 @@ export class BuilderComponent implements OnInit {
           }
           else {
             // this.navigation = 0;
-            this.clearChildNode();
-            this.saveLoader = false;
+            // this.clearChildNode();
+            this.requestSubscription = this.applicationService.getNestCommonAPI('/applications/' + '64b0068914768000bfc4b46f').subscribe({
+              next: (res: any) => {
+                if (res.isSuccess) {
+                  this.builderScreenData = res.data;
+                  if (res.data.length > 0) {
+                  }
+
+                }
+                else {
+                  this.toastr.error(res.message, { nzDuration: 3000 }); // Show an error message to the user
+                  this.saveLoader = false;
+                }
+              },
+              error: (err) => {
+                console.error(err); // Log the error to the console
+                this.toastr.error("An error occurred", { nzDuration: 3000 }); // Show an error message to the user
+                this.saveLoader = false;
+              }
+            });
           }
           this.isSavedDb = true;
           this.formModalData = {};
@@ -3622,6 +3641,7 @@ export class BuilderComponent implements OnInit {
         this.selectedNode['backGroundColor'] = event.form?.backGroundColor;
         this.selectedNode['textColor'] = event.form?.textColor;
         this.selectedNode['header'] = event.form?.header;
+        this.selectedNode['title'] = event.form?.title;
         break;
       case 'accordionButton':
         this.selectedNode.nzExpandedIcon = event.form?.icon;
@@ -5884,9 +5904,6 @@ export class BuilderComponent implements OnInit {
   addOrRemoveisLeaf(node: any) {
     if (node) {
       if (node.children.length > 0) {
-        if (node.isLeaf) {
-          delete node.isLeaf;
-        }
         node.children.forEach((child: any) => {
           this.addOrRemoveisLeaf(child);
         });
@@ -5896,27 +5913,29 @@ export class BuilderComponent implements OnInit {
       }
     }
   }
-  onTreeMouseEnter(): void {
+  onTreeMouseLeave(): void {
     this.addOrRemoveisLeaf(this.nodes[0]);
     this.nodes = [...this.nodes];
   }
 
-  onTreeMouseLeave(): void {
+  onTreeMouseEnter(): void {
     this.removeLeafIcon(this.nodes[0]);
     this.nodes = [...this.nodes];
   }
-  
+
 
   removeLeafIcon(node: any) {
     if (node) {
-        delete node.isLeaf;
+      delete node.isLeaf;
+      if (node.children.length > 0) {
         node.children.forEach((child: any) => {
-          this.addOrRemoveisLeaf(child);
+          this.removeLeafIcon(child);
         });
+      }
     }
   }
 
-  typeFirstAlphabetAsIcon(node : any) {
+  typeFirstAlphabetAsIcon(node: any) {
     const firstAlphabet = node.origin.type.charAt(0).toUpperCase();
     return firstAlphabet;
   }
