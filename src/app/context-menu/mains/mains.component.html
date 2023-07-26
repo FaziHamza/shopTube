@@ -92,21 +92,23 @@
             <nz-badge nzDot *ngIf="item?.badgeType == 'dot'">
                 <st-icon [type]="item.iconType" [icon]="item.icon"
                     [size]="item.iconSize" [color]="item.iconColor"
-                    [hoverIconColor]="item.hoverIconColor"></st-icon>
+                    [hoverIconColor]="item.hoverIconColor" [iconClass]="item.iconClass"></st-icon>
             </nz-badge>
             <nz-badge [nzCount]="item?.badgeCount"
                 *ngIf="item?.badgeType == 'count'">
                 <st-icon [type]="item.iconType" [icon]="item.icon"
                     [size]="item.iconSize"
                     [hoverIconColor]="item.hoverIconColor"
-                    [color]="item.iconColor"></st-icon>
+                    [color]="item.iconColor"
+                    [iconClass]="item.iconClass"></st-icon>
             </nz-badge>
             <st-icon
                 *ngIf="item?.badgeType == undefined || item?.badgeType == 'none'"
                 [type]="
               item.iconType" [icon]="item.icon" [size]="item.iconSize"
                 [color]="item.iconColor"
-                [hoverIconColor]="item.hoverIconColor"></st-icon>
+                [hoverIconColor]="item.hoverIconColor"
+                [iconClass]="item.iconClass"></st-icon>
         </div>
     </ng-template>
     <ng-template #fifteen>
@@ -387,7 +389,7 @@
         <st-rate [rateData]="item" *ngIf="item.type == 'rate' ; else fiftySeven"></st-rate>
     </ng-template>
     <ng-template #fiftySeven>
-        <st-modal [modalData]="item"
+        <st-modal [modalData]="item" [formlyModel]="formlyModel"
             *ngIf="item.type == 'modal' ; else fiftyEight"></st-modal>
     </ng-template>
     <ng-template #fiftyEight>
