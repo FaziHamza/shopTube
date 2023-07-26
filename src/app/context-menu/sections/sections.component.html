@@ -92,7 +92,7 @@
     </nz-collapse>
     <ng-template #collapseTitle>
       <div class="coll-header">
-        <div>
+        <div [ngStyle]="{ 'padding-top': sections.children[0].children.length > 0 ? '5px' : '0px' }">
           <p [style.color]="sections.children[0].textColor + ' !important'"
             [class]="sections.children[0].headingSize ? sections.children[0].headingSize + '' + sections.children[0].className : 'collapse-title ' + sections.children[0].className">
             {{sections.children[0].title}}</p>

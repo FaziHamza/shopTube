@@ -478,9 +478,9 @@ export class BuilderComponent implements OnInit {
             // this.moduleId = res[0].moduleId;
             this.formlyModel = [];
             this.nodes = this.jsonParseWithObject(this.jsonStringifyWithObject(objScreenData));
-            if (!this.nodes[0].isLeaf) {
-              this.addOrRemoveisLeaf(this.nodes[0]);
-            }
+            // if (!this.nodes[0].isLeaf) {
+            //   this.addOrRemoveisLeaf(this.nodes[0]);
+            // }
             this.updateNodes();
             this.applyDefaultValue();
             this.getJoiValidation(this._id);
@@ -502,11 +502,20 @@ export class BuilderComponent implements OnInit {
           else {
             // this.navigation = 0;
             // this.clearChildNode();
-            this.requestSubscription = this.applicationService.getNestCommonAPI('/applications/' + '64b0068914768000bfc4b46f').subscribe({
+            this.requestSubscription = this.applicationService.getNestCommonAPI('applications/default').subscribe({
               next: (res: any) => {
                 if (res.isSuccess) {
-                  this.builderScreenData = res.data;
                   if (res.data.length > 0) {
+                    this.builderScreenData = res.data;
+                    const objScreenData = JSON.parse(res.data[0].screenData);
+                    this.isSavedDb = true;
+                    // this.moduleId = res[0].moduleId;
+                    this.formlyModel = [];
+                    this.nodes = this.jsonParseWithObject(this.jsonStringifyWithObject(objScreenData));
+                    // if (!this.nodes[0].isLeaf) {
+                    //   this.addOrRemoveisLeaf(this.nodes[0]);
+                    // }
+                    this.saveLoader = false;
                   }
 
                 }
@@ -3632,6 +3641,7 @@ export class BuilderComponent implements OnInit {
         //   this.selectedNode['buttonClass'] = event.form.buttonClass;
         // }
         this.selectedNode.btnIcon = event.form?.icon;
+        this.selectedNode['buttonClass'] = event.form?.buttonClass;
         // this.selectedNode['captureData'] = event.form?.captureData;
 
         break;
@@ -3643,6 +3653,9 @@ export class BuilderComponent implements OnInit {
         this.selectedNode['textColor'] = event.form?.textColor;
         this.selectedNode['header'] = event.form?.header;
         this.selectedNode['title'] = event.form?.title;
+        this.selectedNode['className'] = event.form?.className;
+        // this.selectedNode['key'] = event.form?.key;
+        // this.selectedNode['id'] = event.form?.id;
         break;
       case 'accordionButton':
         this.selectedNode.nzExpandedIcon = event.form?.icon;
@@ -5902,39 +5915,39 @@ export class BuilderComponent implements OnInit {
       });
     }
   }
-  addOrRemoveisLeaf(node: any) {
-    if (node) {
-      if (node.children.length > 0) {
-        node.children.forEach((child: any) => {
-          this.addOrRemoveisLeaf(child);
-        });
-      }
-      else {
-        node['isLeaf'] = true;
-      }
-    }
-  }
-  onTreeMouseLeave(): void {
-    this.addOrRemoveisLeaf(this.nodes[0]);
-    this.nodes = [...this.nodes];
-  }
+  // addOrRemoveisLeaf(node: any) {
+  //   if (node) {
+  //     if (node.children.length > 0) {
+  //       node.children.forEach((child: any) => {
+  //         this.addOrRemoveisLeaf(child);
+  //       });
+  //     }
+  //     else {
+  //       node['isLeaf'] = true;
+  //     }
+  //   }
+  // }
+  // onTreeMouseLeave(): void {
+  //   this.addOrRemoveisLeaf(this.nodes[0]);
+  //   this.nodes = [...this.nodes];
+  // }
 
-  onTreeMouseEnter(): void {
-    this.removeLeafIcon(this.nodes[0]);
-    this.nodes = [...this.nodes];
-  }
+  // onTreeMouseEnter(): void {
+  //   this.removeLeafIcon(this.nodes[0]);
+  //   this.nodes = [...this.nodes];
+  // }
 
 
-  removeLeafIcon(node: any) {
-    if (node) {
-      delete node.isLeaf;
-      if (node.children.length > 0) {
-        node.children.forEach((child: any) => {
-          this.removeLeafIcon(child);
-        });
-      }
-    }
-  }
+  // removeLeafIcon(node: any) {
+  //   if (node) {
+  //     delete node.isLeaf;
+  //     if (node.children.length > 0) {
+  //       node.children.forEach((child: any) => {
+  //         this.removeLeafIcon(child);
+  //       });
+  //     }
+  //   }
+  // }
 
   typeFirstAlphabetAsIcon(node: any) {
     const firstAlphabet = node.origin.type.charAt(0).toUpperCase();
