@@ -1286,6 +1286,7 @@ export class BuilderComponent implements OnInit {
       return 'w-full';
     else if (value == 'body') return 'px-6 pt-6 pb-10';
     else if (value == 'header') return '';
+    else if (value == 'footer') return '';
     else if (value == 'buttonGroup') return 'w-11/12';
     else return 'sm:w-1/2 md:w-1/2 lg:w-1/2 xl:w-1/2';
   }

@@ -35,18 +35,15 @@
         [screenName]="screenName"></st-main>
     </div>
     <div
-      class="py-3 px-10 ng-subheading {{sections.isBordered?'border-t': ''}} {{sections.children[2].highLight ? 'highLight' : ''}}  text-black font-semibold text-lg flex flex-wrap"
+      class="py-3 px-10 ng-subheading {{sections.isBordered?'border-t': ''}} {{sections.children[2].highLight ? 'highLight' : ''}}  text-black font-semibold text-lg {{sections.children[2].className}}"
       *ngIf="sections.children[2].footer"
       [style]="{'background-color': sections.children[2].backGroundColor,'color': sections.children[2].textColor, 'border-color': sections.borderColor + '!important'}">
-      <div>{{sections.children[2].title}}</div>
+      <div>
+        {{sections.children[2].title}}
+      </div>
       <ng-container *ngFor="let item of sections.children[2].children">
-        <div
-          *ngIf="!item.hideExpression && (item.type == 'button' || item.type == 'buttonGroup' || item.type == 'linkbutton')"
-          [class]="item.className">
-          <div>
-            <st-block-buttons-card [softIconList]="item"></st-block-buttons-card>
-          </div>
-        </div>
+        <st-block-buttons-card *ngIf="item.type == 'button' || item.type == 'buttonGroup' || item.type == 'linkbutton'"
+          [softIconList]="item"></st-block-buttons-card>
       </ng-container>
     </div>
   </div>
@@ -65,17 +62,16 @@
             [screenId]="screenId"></st-main>
         </div>
         <div
-          class="py-3 px-10 ng-subheading {{sections.isBordered?'border-t': ''}} {{sections.children[2].highLight ? 'highLight' : ''}}  text-black font-semibold text-lg flex flex-wrap"
+          class="py-3 px-10 ng-subheading {{sections.isBordered?'border-t': ''}} {{sections.children[2].highLight ? 'highLight' : ''}}  text-black font-semibold text-lg {{sections.children[2].className}}"
           *ngIf="sections.children[2].footer"
           [style]="{'background-color': sections.children[2].backGroundColor,'color': sections.children[2].textColor, 'border-color': sections.borderColor + '!important'}">
           <div>
             {{sections.children[2].title}}
           </div>
           <ng-container *ngFor="let item of sections.children[2].children">
-            <div [class]="item.className">
-              <st-block-buttons-card *ngIf="item.type == 'button' || item.type == 'buttonGroup'"
-                [softIconList]="item"></st-block-buttons-card>
-            </div>
+            <st-block-buttons-card
+              *ngIf="item.type == 'button' || item.type == 'buttonGroup' || item.type == 'linkbutton'"
+              [softIconList]="item"></st-block-buttons-card>
           </ng-container>
         </div>
       </nz-collapse-panel>
