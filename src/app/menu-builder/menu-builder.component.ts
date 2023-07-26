@@ -235,50 +235,55 @@ export class MenuBuilderComponent implements OnInit {
           this.makeMenuData();
         }
         else {
-          this.applicationService.getNestCommonAPIById('cp/Menu', id).subscribe(((res: any) => {
-            if (res.isSuccess) {
-              this.dataSharedService.goToMenu = id;
-              if (res.data.length > 0) {
-                let getApplication = this.applications.find((a: any) => a._id == id);
-                if (res.isSuccess) {
-                  const observables = [
-                    this.applicationService.getNestBuilderAPIByScreen('cp/screen/Builder', getApplication.name + "_header"),
-                    this.applicationService.getNestBuilderAPIByScreen('cp/screen/Builder', getApplication.name + "_footer"),
-                  ];
-                  forkJoin(observables).subscribe({
-                    next: (results) => {
-                      this.dataSharedService.currentHeader.next(results[0].isSuccess ? results[0].data.length > 0 ? JSON.parse(results[0].data[0].screenData) : '' : '');
-                      this.dataSharedService.currentFooter.next(results[1].isSuccess ? results[1].data.length > 0 ? JSON.parse(results[1].data[0].screenData) : '' : '');
-                    },
-                    error: (err) => {
-                      console.error(err);
-                      this.toastr.error("An error occurred", { nzDuration: 3000 });
-                    }
-                  });
-                }
-                this.selectApplicationType = getApplication['application_Type'] ? getApplication['application_Type'] : '';
-                this.applicationId = res.data[0]._id
-                this.nodes = JSON.parse(res.data[0].menuData);
-                if (res.data[0].selectedTheme) {
-                  this.selectedTheme = JSON.parse(res.data[0].selectedTheme);
-                  this.selectedTheme.allMenuItems = this.nodes;
-                }
-                else {
-                  this.selectedTheme.allMenuItems = this.nodes;
-                }
-                this.controlUndefinedValues();
-                this.makeMenuData();
+          this.getlocalMenu(id);
+        }
+        // this.prepareDragDrop(this.nodes);
+      } else {
+        this.toastr.error(res.message, { nzDuration: 3000 });
+        this.getlocalMenu(id);
+      }
+    }));
+  }
+  getlocalMenu(id: any) {
+    this.applicationService.getNestCommonAPIById('cp/Menu', id).subscribe(((res: any) => {
+      if (res.isSuccess) {
+        this.dataSharedService.goToMenu = id;
+        if (res.data.length > 0) {
+          let getApplication = this.applications.find((a: any) => a._id == id);
+          if (res.isSuccess) {
+            const observables = [
+              this.applicationService.getNestBuilderAPIByScreen('cp/screen/Builder', getApplication.name + "_header"),
+              this.applicationService.getNestBuilderAPIByScreen('cp/screen/Builder', getApplication.name + "_footer"),
+            ];
+            forkJoin(observables).subscribe({
+              next: (results) => {
+                this.dataSharedService.currentHeader.next(results[0].isSuccess ? results[0].data.length > 0 ? JSON.parse(results[0].data[0].screenData) : '' : '');
+                this.dataSharedService.currentFooter.next(results[1].isSuccess ? results[1].data.length > 0 ? JSON.parse(results[1].data[0].screenData) : '' : '');
+              },
+              error: (err) => {
+                console.error(err);
+                this.toastr.error("An error occurred", { nzDuration: 3000 });
               }
-              else {
-                this.selectedTheme['font'] = 'font-roboto'
-                this.clearChildNode();
-                this.applicationId = '';
-                this.clickBack();
-              }
-              // this.prepareDragDrop(this.nodes);
-            } else
-              this.toastr.error(res.message, { nzDuration: 3000 });
-          }));
+            });
+          }
+          this.selectApplicationType = getApplication['application_Type'] ? getApplication['application_Type'] : '';
+          this.applicationId = res.data[0]._id
+          this.nodes = JSON.parse(res.data[0].menuData);
+          if (res.data[0].selectedTheme) {
+            this.selectedTheme = JSON.parse(res.data[0].selectedTheme);
+            this.selectedTheme.allMenuItems = this.nodes;
+          }
+          else {
+            this.selectedTheme.allMenuItems = this.nodes;
+          }
+          this.controlUndefinedValues();
+          this.makeMenuData();
+        }
+        else {
+          this.selectedTheme['font'] = 'font-roboto'
+          this.clearChildNode();
+          this.applicationId = '';
+          this.clickBack();
         }
         // this.prepareDragDrop(this.nodes);
       } else
