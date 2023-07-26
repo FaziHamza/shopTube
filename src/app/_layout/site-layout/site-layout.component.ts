@@ -36,7 +36,7 @@ export class SiteLayoutComponent implements OnInit {
     menuMode: 'inline',
     menuColumn: 'w-2/12',
     rowClass: 'w-10/12',
-    horizontalRow: 'flex flex-wrap',
+    horizontalRow: 'flex',
     layout: 'vertical',
     colorScheme: 'light',
     layoutWidth: 'fluid',
