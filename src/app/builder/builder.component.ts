@@ -96,7 +96,7 @@ export class BuilderComponent implements OnInit {
   dbHtmlCodeBlockArray: any = [];
   formlyTypes: any = [];
   currentUser: any;
-  layerIconActive: string = '';
+  iconActive: string = '';
   constructor(
     public builderService: BuilderService,
     private viewContainerRef: ViewContainerRef,
@@ -236,7 +236,7 @@ export class BuilderComponent implements OnInit {
   }
 
   LayerShow() {
-    this.layerIconActive = 'layer';
+    this.iconActive = 'layer';
     if (this.IslayerVisible) this.IslayerVisible = false;
     else this.IslayerVisible = true;
     this.IsjsonEditorVisible = false;
@@ -261,7 +261,13 @@ export class BuilderComponent implements OnInit {
     // let data = this.jsonParse(this.jsonStringifyWithObject(data));
   }
   async applyOfflineDb(content: 'previous' | 'next' | 'delete') {
+    if (content == 'previous') {
+      this.iconActive = 'undo';
+    } if (content == 'next') {
+      this.iconActive = 'redo';
+    }
     if (content === 'delete') {
+      this.iconActive = 'delete';
       const nodes = await this.dataService.deleteDb(this.screenName);
       alert('this Screen Delete db successfully!');
       return;
@@ -301,6 +307,7 @@ export class BuilderComponent implements OnInit {
     let data = this.dataService.deleteDb(this.screenName);
   }
   JsonEditorShow() {
+    this.iconActive = 'jsonEdit';
     this.IslayerVisible = false;
     this.IsjsonEditorVisible = true;
     this.IsShowConfig = false;
@@ -471,8 +478,8 @@ export class BuilderComponent implements OnInit {
             // this.moduleId = res[0].moduleId;
             this.formlyModel = [];
             this.nodes = this.jsonParseWithObject(this.jsonStringifyWithObject(objScreenData));
-            if(!this.nodes[0].isLeaf)
-               this.addOrRemoveisLeaf(this.nodes[0]);
+            if (!this.nodes[0].isLeaf)
+              this.addOrRemoveisLeaf(this.nodes[0]);
             this.updateNodes();
             this.applyDefaultValue();
             this.getJoiValidation(this._id);
@@ -524,6 +531,7 @@ export class BuilderComponent implements OnInit {
     });
   }
   clearChildNode() {
+    this.iconActive = 'clearChildNode';
     this.addControl = true;
     this.isSavedDb = false;
     this.showNotification = false;
@@ -5613,6 +5621,7 @@ export class BuilderComponent implements OnInit {
   }
 
   openModal(type?: any, data?: any): void {
+    this.iconActive = 'save';
     if (type == 'webCode') {
       this.modalType = 'webCode';
       this.htmlBlockimagePreview = data;
@@ -5887,19 +5896,29 @@ export class BuilderComponent implements OnInit {
       }
     }
   }
-  addTreeNodeIcon(node: any) {
+  onTreeMouseEnter(): void {
+    this.addOrRemoveisLeaf(this.nodes[0]);
+    this.nodes = [...this.nodes];
+  }
+
+  onTreeMouseLeave(): void {
+    this.removeLeafIcon(this.nodes[0]);
+    this.nodes = [...this.nodes];
+  }
+  
+
+  removeLeafIcon(node: any) {
     if (node) {
-      if (node.children.length > 0) {
-        node['treeInExpandIcon'] = 'fa-regular fa-file-text';
-        node['treeExpandIcon'] = 'fa-regular fa-file-text';
+        delete node.isLeaf;
         node.children.forEach((child: any) => {
           this.addOrRemoveisLeaf(child);
         });
-      }
-      else {
-        node['treeInExpandIcon'] = 'fa-regular fa-file-text';
-        node['treeExpandIcon'] = 'fa-regular fa-file-text';
-      }
     }
   }
+
+  typeFirstAlphabetAsIcon(node : any) {
+    const firstAlphabet = node.origin.type.charAt(0).toUpperCase();
+    return firstAlphabet;
+  }
+
 }

@@ -12,6 +12,8 @@ import { BuilderLayoutComponent } from '../_layout/builder-layout/builder-layout
 import { CreateDatabaseComponent } from '../admin/create-database/create-database.component';
 import { RoleManagementComponent } from '../admin/role-management/role-management.component';
 import { MenuRolePermissionComponent } from '../admin/menu-role-permission/menu-role-permission.component';
+import { TaskManagementComponent } from '../admin/task-management/task-management.component';
+import { ReleaseManagementComponent } from '../admin/release-management/release-management.component';
 
 const routes: Routes = [
   {
@@ -57,6 +59,14 @@ const routes: Routes = [
       {
         path: 'permission',
         component: MenuRolePermissionComponent
+      },
+      {
+        path: 'task',
+        component: TaskManagementComponent
+      },
+      {
+        path: 'release',
+        component: ReleaseManagementComponent
       },
     ]
   },
