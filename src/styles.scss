@@ -1915,6 +1915,8 @@ object {
 // }
 
 .vertical-sidebar {
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 10px 15px -3px, rgba(0, 0, 0, 0.05) 0px 4px 6px -2px;
+
   .ant-menu-inline-collapsed {
     li {
       justify-content: center !important;
@@ -2737,6 +2739,22 @@ object {
 //   //   height: calc(100vh - 64px) !important;
 //   // }
 // }
+.side-menu {
+  .ant-menu.ant-menu-root {
+    padding-left: 5px;
+
+  }
+}
+
+.side-menu-rtl {
+  .ant-menu.ant-menu-root {
+    padding-right: 5px;
+
+    .nav-item {
+      border-radius: 4px;
+    }
+  }
+}
 
 .side-menu,
 .side-menu-rtl {
@@ -2750,7 +2768,7 @@ object {
 
   .ant-menu.ant-menu-root {
     width: 100% !important;
-    height: calc(100vh - 64px);
+    height: calc(100vh - 50px);
     overflow-y: scroll;
     overflow-x: hidden;
   }
@@ -2820,7 +2838,8 @@ object {
   height: 100%;
 
   ul {
-    background-color: #ffffffe0 !important;
+    // background-color: #ffffffe0 !important;
+    background: transparent !important;
 
     ul {
       background: transparent !important;
@@ -3365,7 +3384,7 @@ object {
 
   }
 
-  .main-layout {
+  .main-layout2 {
     padding: 10px;
 
     .menu-sidebar {
@@ -3533,12 +3552,16 @@ object {
     .builder-tree {
       width: 235px;
       margin-right: 12px;
-      height: calc(100vh - 164px);
+      height: calc(100vh - 132px);
     }
 
     .b-content-body {
       height: 100%;
       width: calc(100% - 250px);
+    .b-card {
+      border-radius: 8px;
+      overflow: hidden;
+    }
     }
 
     .b-content-body-full {
@@ -3571,6 +3594,8 @@ object {
   }
 
   .b-tree {
+    overflow-y: scroll;
+    height: calc(100vh - 170px);
     padding: 12px;
 
     nz-tree {
@@ -4113,11 +4138,11 @@ object {
   overflow-x: scroll;
 }
 
-.main-layout {
-  // height: calc(100vh - 65px);
-  // overflow-y: scroll;
-  padding-bottom: 20px;
-}
+// .main-layout {
+//   // height: calc(100vh - 65px);
+//   // overflow-y: scroll;
+//   // padding-bottom: 20px;
+// }
 
 .b-horizontal-menu {
   display: flex !important;
@@ -4428,9 +4453,18 @@ object {
     font-size: 14px;
     letter-spacing: 0.2px;
   }
-  
+
   .ant-dropdown-menu-item:hover {
     background: #ECF6FF;
+
+  }
+}
+
+.layout-topbar-menu {
+  height: 64px !important;
+
+  .bg-transparent {
+    height: 64px !important;
 
   }
 }

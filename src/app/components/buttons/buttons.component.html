@@ -36,7 +36,7 @@
 </button>
 
 <!-- link  -->
-<div *ngIf="buttonData.type == 'linkbutton'" class="P-0">
+<div *ngIf="buttonData.type == 'linkbutton'" >
   <a nz-button nzType="link" [nzGhost]="buttonData.nzGhost"
     [disabled]="buttonData.disabled"
     [nzDanger]="buttonData.nzDanger" [nzSize]="buttonData.nzSize"
@@ -47,7 +47,7 @@
       'border-color': borderColor || buttonData.borderColor,
       'color': hoverTextColor || buttonData.textColor
     }"
-    [class]="[buttonData.color, buttonData.hoverColor , buttonData.buttonClass]"
+    [class]="[buttonData.buttonClass]"
     (mouseover)="bgColor = buttonData?.hoverColor"
     (mouseout)="bgColor = buttonData?.color" (click)="pagesRoute(buttonData)"
     (mouseover)="handleButtonMouseOver(buttonData)"
@@ -55,14 +55,14 @@
     <span
       [style]="borderColor || buttonData.borderColor ? 'padding-left: 10px; padding-right: 10px;' : ''">
       <st-icon
-        *ngIf="buttonData.iconPlacement == 'left' || buttonData.iconPlacement == undefined"
+        *ngIf="(buttonData.iconPlacement == 'left' || buttonData.iconPlacement == undefined) && (buttonData.btnIcon)"
         [icon]="buttonData.btnIcon" [color]="buttonData.iconColor"
         [hoverIconColor]="buttonData?.hoverIconColor || ''"
         [size]="buttonData.iconSize" [type]="buttonData.iconType"></st-icon>
       <span [class]="buttonData.btnLabelPaddingClass" *ngIf="buttonData.title">
         {{ buttonData.title | translate}}
       </span>
-      <st-icon *ngIf="buttonData.iconPlacement == 'right'"
+      <st-icon *ngIf="buttonData.iconPlacement == 'right' && buttonData.btnIcon"
         [icon]="buttonData.btnIcon" [color]="buttonData.iconColor"
         [size]="buttonData.iconSize"
         [hoverIconColor]="buttonData?.hoverIconColor || ''"

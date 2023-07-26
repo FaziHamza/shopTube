@@ -1688,6 +1688,7 @@ export class formFeildData {
           wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             type: "CSS ClassName",
+            label: 'Button Class'
           }
         },
         {

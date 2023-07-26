@@ -474,8 +474,9 @@ export class BuilderComponent implements OnInit {
             // this.moduleId = res[0].moduleId;
             this.formlyModel = [];
             this.nodes = this.jsonParseWithObject(this.jsonStringifyWithObject(objScreenData));
-            if (!this.nodes[0].isLeaf)
-              this.addOrRemoveisLeaf(this.nodes[0]);
+            // if (!this.nodes[0].isLeaf) {
+            //   this.addOrRemoveisLeaf(this.nodes[0]);
+            // }
             this.updateNodes();
             this.applyDefaultValue();
             this.getJoiValidation(this._id);
@@ -496,8 +497,35 @@ export class BuilderComponent implements OnInit {
           }
           else {
             // this.navigation = 0;
-            this.clearChildNode();
-            this.saveLoader = false;
+            // this.clearChildNode();
+            this.requestSubscription = this.applicationService.getNestCommonAPI('applications/default').subscribe({
+              next: (res: any) => {
+                if (res.isSuccess) {
+                  if (res.data.length > 0) {
+                    this.builderScreenData = res.data;
+                    const objScreenData = JSON.parse(res.data[0].screenData);
+                    this.isSavedDb = true;
+                    // this.moduleId = res[0].moduleId;
+                    this.formlyModel = [];
+                    this.nodes = this.jsonParseWithObject(this.jsonStringifyWithObject(objScreenData));
+                    // if (!this.nodes[0].isLeaf) {
+                    //   this.addOrRemoveisLeaf(this.nodes[0]);
+                    // }
+                    this.saveLoader = false;
+                  }
+
+                }
+                else {
+                  this.toastr.error(res.message, { nzDuration: 3000 }); // Show an error message to the user
+                  this.saveLoader = false;
+                }
+              },
+              error: (err) => {
+                console.error(err); // Log the error to the console
+                this.toastr.error("An error occurred", { nzDuration: 3000 }); // Show an error message to the user
+                this.saveLoader = false;
+              }
+            });
           }
           this.isSavedDb = true;
           this.formModalData = {};
@@ -1263,6 +1291,7 @@ export class BuilderComponent implements OnInit {
       return 'w-full';
     else if (value == 'body') return 'px-6 pt-6 pb-10';
     else if (value == 'header') return '';
+    else if (value == 'footer') return '';
     else if (value == 'buttonGroup') return 'w-11/12';
     else return 'sm:w-1/2 md:w-1/2 lg:w-1/2 xl:w-1/2';
   }
@@ -3612,6 +3641,7 @@ export class BuilderComponent implements OnInit {
         //   this.selectedNode['buttonClass'] = event.form.buttonClass;
         // }
         this.selectedNode.btnIcon = event.form?.icon;
+        this.selectedNode['buttonClass'] = event.form?.buttonClass;
         // this.selectedNode['captureData'] = event.form?.captureData;
 
         break;
@@ -3622,6 +3652,10 @@ export class BuilderComponent implements OnInit {
         this.selectedNode['backGroundColor'] = event.form?.backGroundColor;
         this.selectedNode['textColor'] = event.form?.textColor;
         this.selectedNode['header'] = event.form?.header;
+        this.selectedNode['title'] = event.form?.title;
+        this.selectedNode['className'] = event.form?.className;
+        // this.selectedNode['key'] = event.form?.key;
+        // this.selectedNode['id'] = event.form?.id;
         break;
       case 'accordionButton':
         this.selectedNode.nzExpandedIcon = event.form?.icon;
@@ -5819,7 +5853,7 @@ export class BuilderComponent implements OnInit {
             tableData.tableData = [];
             saveForm.id = tableData.tableData.length + 1;
             res.forEach((element: any) => {
-              element.id = (element.id).toString();
+              element.id = (element?.id)?.toString();
               tableData.tableData?.push(element);
             });
             if (tableData.tableHeaders.length == 0) {
@@ -5908,42 +5942,41 @@ export class BuilderComponent implements OnInit {
       });
     }
   }
-  addOrRemoveisLeaf(node: any) {
-    if (node) {
-      if (node.children.length > 0) {
-        if (node.isLeaf) {
-          delete node.isLeaf;
-        }
-        node.children.forEach((child: any) => {
-          this.addOrRemoveisLeaf(child);
-        });
-      }
-      else {
-        node['isLeaf'] = true;
-      }
-    }
-  }
-  onTreeMouseEnter(): void {
-    this.addOrRemoveisLeaf(this.nodes[0]);
-    this.nodes = [...this.nodes];
-  }
+  // addOrRemoveisLeaf(node: any) {
+  //   if (node) {
+  //     if (node.children.length > 0) {
+  //       node.children.forEach((child: any) => {
+  //         this.addOrRemoveisLeaf(child);
+  //       });
+  //     }
+  //     else {
+  //       node['isLeaf'] = true;
+  //     }
+  //   }
+  // }
+  // onTreeMouseLeave(): void {
+  //   this.addOrRemoveisLeaf(this.nodes[0]);
+  //   this.nodes = [...this.nodes];
+  // }
 
-  onTreeMouseLeave(): void {
-    this.removeLeafIcon(this.nodes[0]);
-    this.nodes = [...this.nodes];
-  }
+  // onTreeMouseEnter(): void {
+  //   this.removeLeafIcon(this.nodes[0]);
+  //   this.nodes = [...this.nodes];
+  // }
 
 
-  removeLeafIcon(node: any) {
-    if (node) {
-        delete node.isLeaf;
-        node.children.forEach((child: any) => {
-          this.addOrRemoveisLeaf(child);
-        });
-    }
-  }
+  // removeLeafIcon(node: any) {
+  //   if (node) {
+  //     delete node.isLeaf;
+  //     if (node.children.length > 0) {
+  //       node.children.forEach((child: any) => {
+  //         this.removeLeafIcon(child);
+  //       });
+  //     }
+  //   }
+  // }
 
-  typeFirstAlphabetAsIcon(node : any) {
+  typeFirstAlphabetAsIcon(node: any) {
     const firstAlphabet = node.origin.type.charAt(0).toUpperCase();
     return firstAlphabet;
   }

@@ -354,8 +354,7 @@
       [style.background-image]="'url(' + selectedTheme.siderBarImages + ')'"
       style="background-size: cover; background-repeat: no-repeat; height: 100%; "
       [nzMode]='selectedTheme.menuMode'
-      [nzTheme]="selectedTheme.theme ? 'dark' : 'light'"
-      [style.background-image]="'url(' + selectedTheme.siderBarImages + ')'">
+      [nzTheme]="selectedTheme.theme ? 'dark' : 'light'">
       <ng-container *ngFor="let item of menuChildArrayTwoColumn">
         <li
           *ngIf="item.children.length > 0  && (item.children[0].type != 'mainTab' || item.children.length > 1);else menu"
