@@ -402,7 +402,8 @@ export class BuilderClickButtonService {
       headingSize: node.headingSize,
       backGroundColor: node.backGroundColor,
       textColor: node.textColor,
-      header: node.header
+      header: node.header,
+      title:node.title,
     }
   }
 }
