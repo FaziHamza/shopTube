@@ -138,7 +138,7 @@
         </div>
       </ul>
       <div class="b-tree">
-        <nz-tree nzBlockNode [nzSearchValue]="searchValue" [nzData]="nodes" [nzTreeTemplate]="nzTreeTemplate"
+        <nz-tree nzDraggable nzBlockNode [nzSearchValue]="searchValue" [nzData]="nodes" [nzTreeTemplate]="nzTreeTemplate"
         (nzExpandChange)="nzEvent($event)" (nzSearchValueChange)="nzEvent($event)"   (mouseenter)="onTreeMouseEnter()"
         (mouseleave)="onTreeMouseLeave()"></nz-tree>
         <ng-template #nzTreeTemplate let-node let-origin="origin">

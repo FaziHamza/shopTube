@@ -278,7 +278,7 @@ export class SectionsComponent implements OnInit {
                 tableData.tableData = tableData.tableData.map((item: any) => {
                   const newItem = { ...item };
                   for (let i = 0; i < updatedData.length; i++) {
-                    newItem[updatedData[i].key] = "";
+                    newItem[updatedData[i].key] = "0";
                   }
                   return newItem;
                 });
