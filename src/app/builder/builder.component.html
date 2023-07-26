@@ -120,9 +120,9 @@
         </div>
       </ul>
       <div class="b-tree">
-        <nz-tree nzBlockNode [nzSearchValue]="searchValue" [nzData]="nodes" [nzTreeTemplate]="nzTreeTemplate"
-          (nzExpandChange)="nzEvent($event)" (nzSearchValueChange)="nzEvent($event)" (mouseenter)="onTreeMouseEnter()"
-          (mouseleave)="onTreeMouseLeave()"></nz-tree>
+        <nz-tree nzDraggable nzBlockNode [nzSearchValue]="searchValue" [nzData]="nodes" [nzTreeTemplate]="nzTreeTemplate"
+        (nzExpandChange)="nzEvent($event)" (nzSearchValueChange)="nzEvent($event)"   (mouseenter)="onTreeMouseEnter()"
+        (mouseleave)="onTreeMouseLeave()"></nz-tree>
         <ng-template #nzTreeTemplate let-node let-origin="origin">
           <div class="custom-node flex card-lable-row" (mouseover)="hoverIn(node)" (mouseleave)="hoverOut(node)"
             [ngClass]="isActiveShow === node.origin.id ? 'isActive' : ''">
