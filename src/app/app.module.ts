@@ -95,11 +95,11 @@ const icons: IconDefinition[] = Object.keys(antDesignIcons).map(key => antDesign
     AuthGuard,
     {
       provide: HTTP_INTERCEPTORS,
-      useFactory: function (router: Router, env:EnvService) {
+      useFactory: function (router: Router, env: EnvService) {
         return new AuthInterceptor(router, env);
       },
       multi: true,
-      deps: [Router,EnvService],
+      deps: [Router, EnvService],
     },
 
   ],
