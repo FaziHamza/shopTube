@@ -12,6 +12,7 @@ export class BuilderClickButtonService {
   getGridConfig(node: any) {
     return {
       rowClickApi: node.rowClickApi,
+      doubleClick: node.doubleClick,
       sortDirections: node.sortDirections ? JSON.stringify(node.sortDirections) : node.sortDirections,
       options: node?.tableHeaders.map((obj: any) => {
         return {
@@ -66,6 +67,7 @@ export class BuilderClickButtonService {
   getFormlyConfig(node: any) {
 
     return {
+      apiUrl:node.apiUrl,
       key: node.formly[0].fieldGroup[0].key,
       placeholder: node.formly[0].fieldGroup[0].props?.placeholder,
       maxLength: node.formly[0].fieldGroup[0].props?.maxLength,

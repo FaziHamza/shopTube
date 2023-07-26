@@ -63,10 +63,6 @@ export class SectionsComponent implements OnInit {
           }
           // this.submit();
           if (Object.keys(makeModel).length > 0) {
-            let obj = {
-              "employeeeuser": this.dataModel
-            };
-            // this.dataModel = obj;
             this.saveData(res)
 
           }

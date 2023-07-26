@@ -215,7 +215,7 @@
 </nz-table>
 
 <div *ngIf="data?.isAddRow == undefined ? true: data?.isAddRow">
-  <button nz-button (click)="save()" nzType="primary">Save options</button>
+  <button nz-button (click)="save()" nzType="primary">Save Change</button>
 </div>
 <nz-modal [nzWidth]="1400" [(nzVisible)]="isHeaderVisible" nzTitle="Grid Rule"
   (nzOnCancel)="handleCancel()"

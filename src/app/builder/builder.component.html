@@ -151,7 +151,7 @@
                 *ngIf="node.origin.type == 'page' || node.origin.type == 'pageHeader' || node.origin.type == 'pageBody' || node.origin.type == 'pageFooter' || node.origin.type == 'sections' || node.origin.type == 'header' || node.origin.type == 'body' || node.origin.type == 'footer' ; else labelWithType"
                 [class]="node.isExpanded ? (node.origin.treeExpandIcon ? node.origin.treeExpandIcon : 'fa-regular fa-square-dashed') : (node.origin.treeInExpandIcon ? node.origin.treeInExpandIcon : 'fa-regular fa-square-dashed')"></i>
               <ng-template #labelWithType>
-                <span>{{ typeFirstAlphabetAsIcon(node) }}</span>
+                <span class="jameel-font">{{ typeFirstAlphabetAsIcon(node) }}</span>
                 <!-- <i
                   [class]="typeFirstAlphabetAsIcon()"></i> -->
               </ng-template>
@@ -171,7 +171,7 @@
               && node?.origin?.type != 'body' && node?.origin?.type != 'footer'"
                 (click)="insertAt(node)">
                 <!-- <span class="fa " nz-icon
-                  nzType="copy" 
+                  nzType="copy"
                   nzTheme="outline" ></span> -->
 
                 <i class="fa-regular fa-file-plus hover:shadow-lg text-blue-500"
@@ -180,7 +180,7 @@
               </span>
               <label class="mx-1" *ngIf="isVisible === node.origin.id"
                 (click)="openConfig(node,node)">
-                <!-- <span class="fa " nz-icon nzType="setting" 
+                <!-- <span class="fa " nz-icon nzType="setting"
                   nzTheme="outline" ></span>
                    -->
                 <i class="fa-regular fa-gear hover:shadow-lg text-gray-500"
@@ -195,7 +195,7 @@
                 (click)="remove(node, node)">
 
                 <!-- <span class="fa " nz-icon
-                  nzType="delete" 
+                  nzType="delete"
                   nzTheme="outline" ></span> -->
 
                 <i class="fa-regular fa-trash  hover:shadow-lg text-red-500"

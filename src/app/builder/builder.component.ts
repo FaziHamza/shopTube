@@ -163,7 +163,6 @@ export class BuilderComponent implements OnInit {
 
   // onDepartmentChange
   onDepartmentChange(departmentId: any) {
-    debugger
     if (departmentId.length === 3) {
       this.getScreenData(departmentId[2])
     }
@@ -187,7 +186,6 @@ export class BuilderComponent implements OnInit {
     }
   }
   async loadData(node: NzCascaderOption, index: number): Promise<void> {
-    debugger
     this.selectDepartmentName;
     if (index == 1) {
       // Root node - Load application data
@@ -419,12 +417,10 @@ export class BuilderComponent implements OnInit {
   previousScreenId: string = '';
   builderScreenData: any;
   getScreenData(data: any) {
-    debugger
     this.modalService.confirm({
       nzTitle: 'Are you sure you want to switch your screen?',
       nzOnOk: () => {
         new Promise((resolve, reject) => {
-          debugger
           setTimeout(Math.random() > 0.5 ? resolve : reject, 100);
           const objScreen = this.screens.find((x: any) => x._id == data);
           this.navigation = objScreen.navigation;
@@ -1317,9 +1313,10 @@ export class BuilderComponent implements OnInit {
     }
     let node = this.selectedNode;
     let newNode: any = {};
+    let formlyId = this.navigation + '_' + value.toLowerCase() + '_' + Guid.newGuid();
     if (data?.parameter == 'input') {
       newNode = {
-        id: this.navigation + '_' + value.toLowerCase() + '_' + Guid.newGuid(),
+        id: formlyId,
         className: this.columnApply(value),
         expanded: true,
         type: value,
@@ -1331,7 +1328,8 @@ export class BuilderComponent implements OnInit {
         copyJsonIcon: false,
         treeExpandIcon: data?.treeExpandIcon,
         treeInExpandIcon: data?.treeInExpandIcon,
-        isLeaf: true
+        isLeaf: true,
+        apiUrl:'',
       };
     } else {
       newNode = {
@@ -1885,6 +1883,7 @@ export class BuilderComponent implements OnInit {
                     type: data?.type,
                     defaultValue: '',
                     focus: false,
+                    id:formlyId.toLowerCase(),
                     wrappers: this.getLastNodeWrapper('wrappers'),
                     props: {
                       multiple: true,
@@ -1935,6 +1934,7 @@ export class BuilderComponent implements OnInit {
                         tooltipPosition: 'right',
                         toolTipClass: '',
                         formlyTypes: '',
+                        apiUrl: '',
                       },
                       rows: 1,
                       maxLength: 10000000,
@@ -3663,6 +3663,7 @@ export class BuilderComponent implements OnInit {
           needToUpdate = false;
 
           this.selectedNode.title = event.form.title;
+          this.selectedNode.apiUrl = event.form.apiUrl;
           this.selectedNode['key'] = event.form?.key;
           this.selectedNode['id'] = event.form?.id;
           this.selectedNode['copyJsonIcon'] = event.form.copyJsonIcon;
@@ -3756,6 +3757,7 @@ export class BuilderComponent implements OnInit {
               props['options'] = event.tableDta;
             }
             props['required'] = event.form.required;
+            props['apiUrl'] = event.form.apiUrl;
             props['maxLength'] = event.form.maxLength;
             props['minLength'] = event.form.minLength;
             props['disabled'] = event.form.disabled;
@@ -3828,12 +3830,36 @@ export class BuilderComponent implements OnInit {
             //   props['defaultValue'] = arr;
             // } else {
             // }
-            if (event.form.api) {
-              this.requestSubscription = this.builderService
-                .jsonTagsDataGet(event.form.api)
+            if (event.form.api || event.form?.apiUrl) {
+              this.requestSubscription = this.applicationService
+                .getNestCommonAPI(event.form.apiUrl)
                 .subscribe({
                   next: (res) => {
-                    props.options = res;
+                    debugger
+                    if(res?.data?.length  > 0){
+                      let propertyNames = Object.keys(res.data[0]);
+                      let result = res.data.map((item: any) => {
+                        let newObj: any = {};
+                        let propertiesToGet: string[];
+                        if ('id' in item && 'name' in item) {
+                          propertiesToGet = ['id', 'name'];
+                        } else {
+                          propertiesToGet = Object.keys(item).slice(0, 2);
+                        }
+                        propertiesToGet.forEach((prop) => {
+                          newObj[prop] = item[prop];
+                        });
+                        return newObj;
+                      });
+
+                      let finalObj = result.map((item:any) => {
+                        return {
+                          label:  item.name || item[propertyNames[1]],
+                          value:  item.id  || item[propertyNames[0]],
+                        };
+                      });
+                      props.options = finalObj;
+                    }
                   },
                   error: (err) => {
                     console.error(err); // Log the error to the console
@@ -3932,6 +3958,7 @@ export class BuilderComponent implements OnInit {
             ? JSON.parse(event.form.sortDirections)
             : event.form?.sortDirections;
           this.selectedNode.className = event.form?.className;
+          this.selectedNode.doubleClick = event.form?.doubleClick;
           this.selectedNode.filterMultiple = event.form?.filterMultiple;
           this.selectedNode.rowClickApi = event.form?.rowClickApi;
           this.selectedNode['key'] = event.form?.key;
@@ -5905,7 +5932,7 @@ export class BuilderComponent implements OnInit {
     this.removeLeafIcon(this.nodes[0]);
     this.nodes = [...this.nodes];
   }
-  
+
 
   removeLeafIcon(node: any) {
     if (node) {

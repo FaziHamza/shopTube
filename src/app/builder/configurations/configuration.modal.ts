@@ -11185,6 +11185,16 @@ export class formFeildData {
           defaultValue: false
         },
         {
+          key: 'doubleClick',
+          type: 'checkbox',
+          wrappers: ["formly-vertical-theme-wrapper"],
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          props: {
+            label: 'Allow Edit',
+          },
+          defaultValue: false
+        },
+        {
           key: 'nzBordered',
           type: 'checkbox',
           wrappers: ["formly-vertical-theme-wrapper"],
@@ -11976,6 +11986,15 @@ export class formFeildData {
         //     label: 'ToolTip Class',
         //   },
         // },
+        {
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          key: 'apiUrl',
+          type: 'input',
+          wrappers: ["formly-vertical-theme-wrapper"],
+          props: {
+            label: 'Api Url',
+          },
+        },
         {
           className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
           key: 'tooltipPosition',

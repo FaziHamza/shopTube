@@ -27,13 +27,19 @@ export class PagesComponent implements OnInit {
     private toastr: NzMessageService,
     public dataSharedService: DataSharedService, private router: Router) {
     this.dataSharedService.change.subscribe(({ event, field }) => {
-      
+      if (field && event)
+        this.getEnumList(field, event);
       if (event && field && this.router.url.includes('/pages')) {
+
         if (this.formlyModel) {
           this.formlyModel[field.key] = event
           this.checkConditionUIRule(field, event);
         }
       }
+    });
+    this.dataSharedService.gridData.subscribe(res => {
+      if(res)
+        this.saveDataGrid(res);
     });
   }
   @Input() resData: any = [];
@@ -832,7 +838,7 @@ export class PagesComponent implements OnInit {
     }
   }
   applyRules(data: any, rules: any) {
-    
+
     rules = this.transformRules(rules);
 
     function evaluateCondition(condition: any) {
@@ -877,7 +883,7 @@ export class PagesComponent implements OnInit {
           let [key, value] = action.split('=').map((s: any) => s.trim());
           data[key] = value.replace(/'/g, '');
         }
-      } 
+      }
       else {
         let thenActions = rule.then;
         for (let action of thenActions) {
@@ -1568,5 +1574,147 @@ export class PagesComponent implements OnInit {
       }
     }
     return false;
+  }
+  getEnumList(data: any, targetId: any) {
+    if (data?.props?.apiUrl) {
+      let tableData = this.findObjectByTypeBase(this.resData[0], "gridList");
+      if(typeof targetId == "string"){
+      let obj = [{name: 'id',}, { name: 'name',}]
+      tableData['tableKey'] = obj;
+      let headerData = [{
+            "id": 1,
+            "key": "id",
+            "name": "id",
+            "headerButton": "",
+            "footerButton": ""
+        },
+        {
+            "id": 2,
+            "key": "name",
+            "name": "name",
+            "headerButton": "",
+            "footerButton": ""
+        }
+      ];
+      tableData.tableHeaders = headerData;
+      tableData.tableData = [];
+    }
+    else
+      {
+        let findObj = this.findObjectById(this.resData[0], data?.id.toLowerCase());
+        if (findObj && tableData) {
+          this.requestSubscription = this.applicationService.getNestCommonAPIById(data.props.apiUrl, targetId).subscribe(response => {
+            if (tableData && response?.data.length > 0) {
+              let saveForm = JSON.parse(JSON.stringify(response.data[0]));
+              const firstObjectKeys = Object.keys(saveForm);
+              let obj = firstObjectKeys.map(key => ({ name: key }));
+              tableData.tableData = [];
+              saveForm.id = tableData.tableData.length + 1
+              response.data.forEach((element: any) => {
+                element.id = (element?.id)?.toString();
+                tableData.tableData?.push(element);
+              });
+              if (JSON.stringify(tableData['tableKey']) != JSON.stringify(obj)) {
+                const updatedData = tableData.tableHeaders.filter((updatedItem: any) => {
+                  const name = updatedItem.name;
+                  return !obj.some((headerItem: any) => headerItem.name === name);
+                });
+                if (updatedData.length > 0) {
+                  tableData.tableData = tableData.tableData.map((item: any) => {
+                    const newItem = { ...item };
+                    for (let i = 0; i < updatedData.length; i++) {
+                      newItem[updatedData[i].key] = "";
+                    }
+                    return newItem;
+                  });
+                }
+              }
+              this.getEnumApi(data, targetId, findObj);
+            }
+            else if (tableData && response?.data.length == 0) {
+              let obj = [{name: 'id',}, { name: 'name',}]
+              tableData['tableKey'] = obj;
+              let headerData = [   {
+                "id": 1,
+                "key": "id",
+                "name": "id",
+                "headerButton": "",
+                "footerButton": ""
+            },
+            {
+                "id": 2,
+                "key": "name",
+                "name": "name",
+                "headerButton": "",
+                "footerButton": ""
+            }];
+              tableData.tableHeaders = headerData;
+              tableData.tableData = [];
+            }
+          })
+        }
+      }
+    }
+  }
+  getEnumApi(data: any, targetId: any, findObj: any) {
+    if (!targetId)
+      this.requestSubscription = this.applicationService.getNestCommonAPI(data.props.apiUrl).subscribe({
+        next: (res) => {
+          debugger
+          if (res?.data?.length > 0) {
+            let propertyNames = Object.keys(res.data[0]);
+            let result = res.data.map((item: any) => {
+              let newObj: any = {};
+              let propertiesToGet: string[];
+              if ('id' in item && 'name' in item) {
+                propertiesToGet = ['id', 'name'];
+              } else {
+                propertiesToGet = Object.keys(item).slice(0, 2);
+              }
+              propertiesToGet.forEach((prop) => {
+                newObj[prop] = item[prop];
+              });
+              return newObj;
+            });
+
+            let finalObj = result.map((item: any) => {
+              return {
+                label: item.name || item[propertyNames[1]],
+                value: item.id || item[propertyNames[0]],
+              };
+            });
+            findObj.formly.fieldGroup[0].props.options = finalObj;
+          }
+        },
+        error: (err) => {
+        },
+      });
+
+  }
+  saveDataGrid(res:any){
+    debugger
+    let model = Object.keys(this.formlyModel);
+    let findElement :any = {};
+    const filteredNodes = this.filterInputElements(this.resData[0].children[1].children[0].children[1].children);
+    if(filteredNodes.length > 0) {
+      for (let index = 0; index < filteredNodes.length; index++) {
+        const element = filteredNodes[index];
+        if(element.formly[0].fieldGroup[0].key == model[0]){
+          findElement = element;
+          break;
+        }
+      }
+    }
+    if(findElement){
+      let obj = {
+        "EnumList": {
+            "enumName": this.formlyModel[model[0]],
+            "gridData": res
+        }
+      }
+      this.applicationService.addNestCommonAPI('cp', obj).subscribe(res=>{
+          this.getEnumList(findElement,this.formlyModel[model[0]]);
+      })
+    }
   }
 }

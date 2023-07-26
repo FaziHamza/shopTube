@@ -64,7 +64,8 @@ export class DynamicTableComponent implements OnInit {
     };
   }
   updateModel(data: any) {
-    this.notifyDbClick.emit(data);
+    if(this.data.doubleClick != false)
+        this.notifyDbClick.emit(data);
   }
   onClickRow(api: string, item: any) {
     if (api) {
@@ -391,9 +392,18 @@ export class DynamicTableComponent implements OnInit {
 
   addRow(): void {
     const id = this.tableData.length - 1;
-    const newRow = JSON.parse(JSON.stringify(this.tableData[0]));
-    newRow["id"] = this.tableData[id].id + 1;
-    this.tableData = [...this.tableData, newRow];
+    if(id == -1){
+      let row = {
+        id:1,name:'',
+      }
+      this.tableData = [...this.tableData, row];
+    }
+    else
+    {
+      const newRow = JSON.parse(JSON.stringify(this.tableData[0]));
+      newRow["id"] = this.tableData[id].id + 1;
+      this.tableData = [...this.tableData, newRow];
+    }
   };
   deleteRow(data: any): void {
     const model = {
@@ -531,6 +541,8 @@ export class DynamicTableComponent implements OnInit {
   }
   save() {
     this._dataSharedService.setData(this.tableData);
+    if(this.data.doubleClick == false)
+      this._dataSharedService.saveGridData(this.tableData);
     alert("Data save");
   }
 

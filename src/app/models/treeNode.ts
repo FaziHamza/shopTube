@@ -270,6 +270,8 @@ export interface TreeNode {
   duration?: any,
   messageType?: any,
   title?: any,
+  apiUrl?: any,
+  doubleClick?: any,
   copyJsonIcon?: any,
   requiredMessage?: any,
   subtitle?: any,
