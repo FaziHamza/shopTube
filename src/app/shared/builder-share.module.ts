@@ -23,6 +23,8 @@ import { RouterModule } from '@angular/router';
 import { ShareModule } from './share.module';
 import { RoleManagementComponent } from '../admin/role-management/role-management.component';
 import { MenuRolePermissionComponent } from '../admin/menu-role-permission/menu-role-permission.component';
+import { TaskManagementComponent } from '../admin/task-management/task-management.component';
+import { ReleaseManagementComponent } from '../admin/release-management/release-management.component';
 
 @NgModule({
   imports:
@@ -51,6 +53,8 @@ import { MenuRolePermissionComponent } from '../admin/menu-role-permission/menu-
     CreateDatabaseComponent,
     RoleManagementComponent,
     MenuRolePermissionComponent,
+    TaskManagementComponent,
+    ReleaseManagementComponent,
   ],
   exports: [
     MenuBuilderComponent,
@@ -61,6 +65,8 @@ import { MenuRolePermissionComponent } from '../admin/menu-role-permission/menu-
     CreateDatabaseComponent,
     RoleManagementComponent,
     MenuRolePermissionComponent,
+    TaskManagementComponent,
+    ReleaseManagementComponent,
   ],
   providers: [
 
