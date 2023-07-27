@@ -10,7 +10,6 @@ import { NzMessageService } from 'ng-zorro-antd/message';
 export class LayoutDrawerComponent implements OnInit {
   @Input() selectedTheme: any;
   @Input() applicationType: any;
-  size: NzButtonSize = 'large';
   @Output() notify: EventEmitter<any> = new EventEmitter();
   listOfOption: any = [];
   visible = false;
@@ -76,8 +75,19 @@ export class LayoutDrawerComponent implements OnInit {
     ];
 
   }
+  size: 'large' | 'default' = 'default';
+
+  showDefault(): void {
+    this.size = 'default';
+    this.open();
+  }
+
+  showLarge(): void {
+    this.size = 'large';
+    this.open();
+  }
+
   open(): void {
-    debugger
     this.visible = true;
   }
 

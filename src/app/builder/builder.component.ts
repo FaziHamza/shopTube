@@ -501,19 +501,16 @@ export class BuilderComponent implements OnInit {
             this.requestSubscription = this.applicationService.getNestCommonAPI('applications/default').subscribe({
               next: (res: any) => {
                 if (res.isSuccess) {
+                  // this.builderScreenData = res.data;
                   if (res.data.length > 0) {
-                    this.builderScreenData = res.data;
                     const objScreenData = JSON.parse(res.data[0].screenData);
                     this.isSavedDb = true;
-                    // this.moduleId = res[0].moduleId;
                     this.formlyModel = [];
                     this.nodes = this.jsonParseWithObject(this.jsonStringifyWithObject(objScreenData));
-                    // if (!this.nodes[0].isLeaf) {
-                    //   this.addOrRemoveisLeaf(this.nodes[0]);
-                    // }
+                    this.updateNodes();
+                    this.applyDefaultValue();
                     this.saveLoader = false;
                   }
-
                 }
                 else {
                   this.toastr.error(res.message, { nzDuration: 3000 }); // Show an error message to the user
@@ -1358,7 +1355,7 @@ export class BuilderComponent implements OnInit {
         treeExpandIcon: data?.treeExpandIcon,
         treeInExpandIcon: data?.treeInExpandIcon,
         isLeaf: true,
-        apiUrl:'',
+        apiUrl: '',
       };
     } else {
       newNode = {
@@ -1912,7 +1909,7 @@ export class BuilderComponent implements OnInit {
                     type: data?.type,
                     defaultValue: '',
                     focus: false,
-                    id:formlyId.toLowerCase(),
+                    id: formlyId.toLowerCase(),
                     wrappers: this.getLastNodeWrapper('wrappers'),
                     props: {
                       multiple: true,
@@ -3870,7 +3867,7 @@ export class BuilderComponent implements OnInit {
                 .subscribe({
                   next: (res) => {
                     debugger
-                    if(res?.data?.length  > 0){
+                    if (res?.data?.length > 0) {
                       let propertyNames = Object.keys(res.data[0]);
                       let result = res.data.map((item: any) => {
                         let newObj: any = {};
@@ -3886,10 +3883,10 @@ export class BuilderComponent implements OnInit {
                         return newObj;
                       });
 
-                      let finalObj = result.map((item:any) => {
+                      let finalObj = result.map((item: any) => {
                         return {
-                          label:  item.name || item[propertyNames[1]],
-                          value:  item.id  || item[propertyNames[0]],
+                          label: item.name || item[propertyNames[1]],
+                          value: item.id || item[propertyNames[0]],
                         };
                       });
                       props.options = finalObj;
