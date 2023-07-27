@@ -2,6 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { NzDrawerRef } from 'ng-zorro-antd/drawer';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { ApplicationService } from 'src/app/services/application.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'st-market-place',
@@ -9,6 +10,7 @@ import { ApplicationService } from 'src/app/services/application.service';
   styleUrls: ['./market-place.component.scss']
 })
 export class MarketPlaceComponent implements OnInit {
+  enviorment = environment.nestImageUrl;
   @Input() nodes: any[] = [];
   groupedData: any[];
   data: any[] = []

@@ -8,6 +8,7 @@ export const environment = {
   serverApiUrl:"http://localhost:3000/",
   serverBaseUrl:"http://3.111.85.6:3000/",
   nestBaseUrl:"http://localhost:4500/",
+  nestImageUrl:"http://localhost:4500",
   firebaseConfig: {
     apiKey: '',
     authDomain: '',
