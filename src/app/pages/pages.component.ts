@@ -698,7 +698,7 @@ export class PagesComponent implements OnInit {
   jsonParseWithObject(data: any) {
     return JSON.parse(
       data, (key, value) => {
-        if (typeof value === 'string' && value.startsWith('(')) {
+        if (typeof value === 'string' && value.startsWith('(') && value.includes('(model)')) {
           return eval(`(${value})`);
         }
         return value;

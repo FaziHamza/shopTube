@@ -16,7 +16,7 @@ import { Subscription } from 'rxjs';
       <span class="mr-1 mb-1">
         <st-icon *ngIf="to['additionalProperties']?.titleIcon" [type]="to['additionalProperties']?.iconType || 'outline'" [icon]="to['additionalProperties']?.titleIcon" [size]="to['additionalProperties']?.iconSize" [hoverIconColor]="to['additionalProperties']?.hoverIconColor || ''" [color]="to['additionalProperties']?.iconColor"></st-icon>
       </span>
-      {{to.label | translate}}
+      <span [class]="to['additionalProperties']?.labelClassName">{{to.label | translate}}</span>
       <span *ngIf="to.required" class="text-red-600">*</span>
       <span *ngIf="to['additionalProperties']?.tooltip && (to['additionalProperties']['tooltipPosition'] == 'right' || to['additionalProperties']?.tooltipPosition == undefined) && !to['additionalProperties']?.tooltipWithoutIcon || false" nz-tooltip [nzTooltipTitle]="to['additionalProperties']?.tooltip">
         <span nz-icon [nzType]="to['additionalProperties']['tooltipIcon'] ?  to['additionalProperties']['tooltipIcon'] : 'question-circle'" [class]="to['additionalProperties']['toolTipClass']" nzTheme="outline"></span>

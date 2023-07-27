@@ -481,7 +481,7 @@
                         nzPopconfirmTitle="Are you sure to reset In page menu design" (nzOnConfirm)="reset('inPageMenu')">Reset</button>
                 </div>
             </nz-tab>
-            <!-- <nz-tab nzTitle="Collapse button">
+            <nz-tab nzTitle="Collapse button">
                 <div class="color-picker-section">
                     <h3>FONT DESIGN</h3>
                     <h6>Choose Font Design</h6>
@@ -545,35 +545,35 @@
                                     (input)="changeInPageLayout(selectedTheme['buttonIconSize']+'_'+'buttonIconSize')">
                             </div>
                         </div>
-                        <div class="option">
-                            <div class="box">
-                                <label nz-checkbox [(ngModel)]="selectedTheme['showButton']"
-                                    (ngModelChange)="changeLayout(selectedTheme['showButton']+'_'+'showButton')">Show
-                                    button</label>
-                            </div>
+                    </div>
+                    <div class="flex flex-wrap">
+                        <div class="w-1/5 p-1 pt-9">
+                            <label nz-checkbox
+                                [(ngModel)]="selectedTheme['showButton']"
+                                (ngModelChange)="changeLayout(selectedTheme['showButton']+'_'+'showButton')">Show
+                                button</label>
                         </div>
-                        <div class="option">
-                            <div class="box">
-                                <label nz-checkbox [(ngModel)]="selectedTheme['showLogo']"
-                                    (ngModelChange)="changeLayout(selectedTheme['showLogo']+'_'+'showLogo')">show
-                                    Logo</label>
-                            </div>
+                        <div class="w-1/5 p-1 pt-9">
+                            <label nz-checkbox
+                                [(ngModel)]="selectedTheme['showLogo']"
+                                (ngModelChange)="changeLayout(selectedTheme['showLogo']+'_'+'showLogo')">show
+                                Logo</label>
                         </div>
-                        <div class="option">
-                            <p>Button Class</p>
-                            <div class="box">
-                                <nz-select nzMode="tags" nzPlaceHolder="Button Class"
-                                    [(ngModel)]="selectedTheme['buttonClassArray']"
-                                    (ngModelChange)="changeLayout(selectedTheme['buttonClassArray']+'_'+'buttonClass')">
-                                    <nz-option *ngFor="let option of listOfOption" [nzLabel]="option.label"
-                                        [nzValue]="option.value"></nz-option>
-                                </nz-select>
-                            </div>
+                        <div class="w-full">
+                            <label>Button Class</label>
+                            <nz-select nzMode="tags" nzPlaceHolder="Button Class"
+                                [(ngModel)]="selectedTheme['buttonClassArray']"
+                                (ngModelChange)="changeLayout(selectedTheme['buttonClassArray']+'_'+'buttonClass')">
+                                <nz-option *ngFor="let option of listOfOption"
+                                    [nzLabel]="option.label"
+                                    [nzValue]="option.value"></nz-option>
+                            </nz-select>
                         </div>
+    
                     </div>
                 </div>
-            </nz-tab> -->
-            <nz-tab nzTitle="Collapse button">
+            </nz-tab>
+            <!-- <nz-tab nzTitle="Collapse button">
                 <h6 class="mb-0 font-bold uppercase">Button Design</h6>
                 <p class="text-gray-500 text-xs">Choose Button Design
                 </p>
@@ -652,7 +652,7 @@
                     </div>
 
                 </div>
-            </nz-tab>
+            </nz-tab> -->
         </nz-tabset>
     </ng-container>
 </nz-drawer>

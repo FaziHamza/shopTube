@@ -1459,7 +1459,7 @@ export const htmlTabsData = [
                 icon: "uil uil-images",
                 label: "File Uploader",
                 type: 'image-upload',
-                configType: 'image', fieldType: 'file',
+                configType: 'image', fieldType: 'image-upload',
                 // maskString: "",
                 // maskLabel: ""
               },
