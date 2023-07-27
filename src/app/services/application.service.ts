@@ -39,8 +39,8 @@ export class ApplicationService {
     //         this.nestUrl + api + customQuery
     //     );
     // }
-    addNestCommonAPI(api: string, modal: any): Observable<any[]> {
-        return this.http.post<any[]>(
+    addNestCommonAPI(api: string, modal: any): Observable<any> {
+        return this.http.post<any>(
             this.nestUrl + api, modal
         );
     }

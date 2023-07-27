@@ -19,11 +19,15 @@ import { HttpClient } from "@angular/common/http";
 import { TranslateHttpLoader } from "@ngx-translate/http-loader";
 import { BuilderLayoutComponent } from "../_layout/builder-layout/builder-layout.component";
 import { BuilderShareModule } from "../shared/builder-share.module";
+import { TemplatePopupComponent } from './template-popup/template-popup.component';
+import { MarketPlaceComponent } from './market-place/market-place.component';
 
 @NgModule({
   declarations: [
     BuilderComponent,
     BuilderLayoutComponent,
+    TemplatePopupComponent,
+    MarketPlaceComponent,
   ],
   imports: [
     CommonModule,

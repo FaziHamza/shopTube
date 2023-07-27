@@ -2,12 +2,12 @@
   <nz-layout class="app-layout">
     <nz-header>
       <div class="app-header">
-        <div class="b-brand">
+        <div class="b-brand" (click)="selectedTheme.isCollapsed = !selectedTheme.isCollapsed">
           <img src="assets/images/logo.png" alt>
-          <div (click)="selectedTheme.isCollapsed = !selectedTheme.isCollapsed">
+          <!-- <div (click)="selectedTheme.isCollapsed = !selectedTheme.isCollapsed">
             <i
               [class]="selectedTheme.isCollapsed ? 'fa-regular fa-arrow-right-long' : 'fa-regular fa-bars'"></i>
-          </div>
+          </div> -->
         </div>
         <div class="header-action-btns">
           <div class="nav-item">

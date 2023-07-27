@@ -1,0 +1,14 @@
+<div class="basic-button-save text-end">
+  <button nz-button nzType="primary" class="save-btn" (click)="close()">Save</button>
+  <button nz-button (click)="cancel()" class="cancel-btn">Cancel</button>
+</div>
+<nz-tabset>
+  <nz-tab *ngFor="let group of groupedData" [nzTitle]="group.category">
+    <div class="flex flex-wrap">
+    <div *ngFor="let item of group.items" class="w-1/6 px-2 " (click)="addNodes(item,group)">
+      <img [src]="item?.thumbnailImage ? item?.thumbnailImage :  'assets/images/banner.png'" alt="" class="cursor-pointer">
+      <h6>{{ item.name }}</h6>
+    </div>
+  </div>
+  </nz-tab>
+</nz-tabset>

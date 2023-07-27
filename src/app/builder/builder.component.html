@@ -38,8 +38,12 @@
           <i class="fa-regular fa-trash"></i>
         </button>
         <button [ngClass]="iconActive == 'clearChildNode' ? 'active' : ''" [nzTooltipTitle]="'
-          Add New Page'" nz-tooltip nz-button nzType="link" (click)="clearChildNode()">
+          Add New Page'" nz-tooltip nz-button nzType="link" (click)="openMarketPlace()">
           <i class="fa-regular fa-circle-plus"></i>
+        </button>
+        <button [ngClass]="iconActive == 'clearChildNode' ? 'active' : ''" [nzTooltipTitle]="'
+          Add Template'" nz-tooltip nz-button nzType="link" (click)="addWebsiteTemplate()">
+          <i class="fa-regular fa-file-circle-plus"></i>
         </button>
       </div>
 

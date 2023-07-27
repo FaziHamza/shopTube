@@ -25,7 +25,7 @@ import { INITIAL_EVENTS } from '../shared/event-utils/event-utils';
 import { ColorPickerService } from '../services/colorpicker.service';
 import { DataService } from '../services/offlineDb.service';
 import { EncryptionService } from '../services/encryption.service';
-import { NzModalService } from 'ng-zorro-antd/modal';
+import { NzModalRef, NzModalService } from 'ng-zorro-antd/modal';
 import { AddControlService } from './service/addControl.service';
 import { Router } from '@angular/router';
 import { AddControlCommonPropertiesComponent } from './add-control-common-properties/add-control-common-properties.component';
@@ -34,6 +34,8 @@ import { BulkUpdateComponent } from './bulk-update/bulk-update.component';
 import { NzDrawerService } from 'ng-zorro-antd/drawer';
 import { NzCascaderOption } from 'ng-zorro-antd/cascader';
 import { E } from '@formulajs/formulajs';
+import { TemplatePopupComponent } from './template-popup/template-popup.component';
+import { MarketPlaceComponent } from './market-place/market-place.component';
 @Component({
   selector: 'st-builder',
   templateUrl: './builder.component.html',
@@ -5977,8 +5979,66 @@ export class BuilderComponent implements OnInit {
   // }
 
   typeFirstAlphabetAsIcon(node: any) {
-    const firstAlphabet = node.origin.type.charAt(0).toUpperCase();
+    const firstAlphabet = node?.origin?.type?.charAt(0)?.toUpperCase();
     return firstAlphabet;
   }
+  addWebsiteTemplate(){
+    const modalRef: NzModalRef = this.modalService.create({
+      nzTitle: 'Template Save',
+      nzContent: TemplatePopupComponent,
+      nzFooter: null,
+      nzClosable: false,
+    });
+    modalRef.afterClose.subscribe((formData) => {
+      if (formData) {
+        if(formData.category == "Block"){
+          formData['data'] = JSON.stringify(this.nodes[0].children[1].children)
+        }
+        else
+        formData['data'] = JSON.stringify(this.nodes)
+        let obj = {
+          "MarketPlaceList":formData
+        }
+        this.applicationService.addNestCommonAPI('cp',obj).subscribe(res=>{
+          if (res.isSuccess) {
+            this.toastr.success("Saved Successfully!", { nzDuration: 3000 });
+          }
+          else
+            this.toastr.error("Found error!", { nzDuration: 3000 });
+        })
 
+      } else {
+        console.log('Modal closed without saving data.');
+      }
+    });
+  }
+  openMarketPlace() {
+    if (this.nodes.length > 0) {
+      const drawerRef = this.drawerService.create<
+        MarketPlaceComponent,
+        { value: string },
+        string
+      >({
+        nzTitle: 'Market Place',
+        nzWidth: '80%',
+        nzMaskClosable:false,
+        nzContent: MarketPlaceComponent,
+        nzContentParams: {
+          nodes: this.nodes,
+        },
+      });
+      drawerRef.afterOpen.subscribe(() => {
+        console.log('Drawer(Component) open');
+      });
+      drawerRef.afterClose.subscribe((data: any) => {
+        if (data) {
+          if (data) this.nodes = data;
+          this.updateNodes();
+          this.cdr.detectChanges();
+        }
+      });
+    } else {
+      this.toastr.error('Please select Screen first', { nzDuration: 3000 });
+    }
+  }
 }
