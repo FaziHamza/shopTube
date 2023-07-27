@@ -2844,11 +2844,10 @@ object {
   height: 100%;
 
   ul {
-    // background-color: #ffffffe0 !important;
-    background: transparent !important;
+    background-color: #ffffffe0 !important;
 
     ul {
-      background: transparent !important;
+      background-color: #ffffffe0 !important;
     }
   }
 }
@@ -4478,6 +4477,12 @@ object {
     height: 64px !important;
 
   }
+}
+.boxed-menu{
+  margin-left: 16px;
+  margin-right: 16px;
+  border-color: rgb(229 231 235 / var(--tw-border-opacity));
+  border-left-width: 1px;
 }
 .basic-button-save {
   display: flex;

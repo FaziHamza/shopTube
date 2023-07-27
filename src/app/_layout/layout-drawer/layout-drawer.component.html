@@ -1,356 +1,296 @@
-<button nz-button nzType="primary" [nzSize]="size" nzShape="circle"
-    (click)="open()" class="fixed bottom-4 right-4"
+<button nz-button nzType="primary" [nzSize]="'large'" nzShape="circle" (click)="open()" class="fixed bottom-4 right-4"
     style="display: flex; justify-content: center; align-items: center">
     <span nz-icon nzType="setting" nzSpin style="margin-right: 0; "></span>
 </button>
-<nz-drawer [nzClosable]="false" [nzVisible]="visible" nzPlacement="right"
-    nzTitle="Menu Design" (nzOnClose)="close()"
-    [nzWidth]="'50%'" [nzExtra]="extra">
+<nz-drawer nzWrapClassName="drawer-body" [nzWidth]="'50%'" [nzVisible]="visible" nzPlacement="right" [nzTitle]="drawer"
+    (nzOnClose)="close()">
+    <ng-template #drawer>
+        <span>Menu Design</span>
+    </ng-template>
     <ng-container *nzDrawerContent>
         <nz-tabset>
-            <nz-tab nzTitle="Main menu">
-                <div style="display: flex; justify-content: flex-end;">
-                    <button nzDanger class="mr-2" nz-popconfirm
-                        nzPopconfirmTitle="Are you sure to reset menu design"
-                        nz-button nzType="primary"
-                        (nzOnConfirm)="reset('mainMenu')">Reset Main Theme</button>
+            <nz-tab nzTitle="Application Menu">
+                <div class="card-header">
+                    Application Menu Configuration
                 </div>
-                <h6 class="mb-0 font-bold uppercase">Font Design</h6>
-                <p class="text-gray-500 text-xs">Choose Font Design
-                </p>
-                <div class="flex flex-wrap">
-                    <div class="w-1/5 p-1">
-                        <label>Font Family</label>
-                        <nz-select style="width:100%" nzShowSearch nzAllowClear
-                            nzPlaceHolder="Select Font"
-                            [(ngModel)]="selectedTheme['font']"
-                            (ngModelChange)="changeLayout(selectedTheme['font']+'_'+'font')">
-                            <nz-option nzLabel="italic" nzValue="italic"></nz-option>
-                            <nz-option nzLabel="underline" nzValue="underline"></nz-option>
-                            <nz-option nzLabel="uppercase" nzValue="uppercase"></nz-option>
-                            <nz-option nzLabel="lowercase" nzValue="lowercase"></nz-option>
-                            <nz-option nzLabel="capitalize" nzValue="capitalize"></nz-option>
-                            <nz-option nzLabel="font-sans" nzValue="font-sans"></nz-option>
-                            <nz-option nzLabel="font-serif" nzValue="font-serif"></nz-option>
-                            <nz-option nzLabel="font-mono" nzValue="font-mono"></nz-option>
-                            <nz-option nzLabel="font-roboto"
-                                nzValue="font-roboto"></nz-option>
-                            <!-- <nz-option nzLabel="line-through"
-                                nzValue="line-through"></nz-option> -->
-                            <nz-option nzLabel="font-thin"
-                                nzValue="font-thin"></nz-option>
-                            <nz-option nzLabel="font-extralight"
-                                nzValue="font-extralight"></nz-option>
-                            <!-- <nz-option nzLabel="font-light"
-                                nzValue="font-light"></nz-option> -->
-                            <nz-option nzLabel="font-normal"
-                                nzValue="font-normal"></nz-option>
-                            <!-- <nz-option nzLabel="font-medium"
-                                nzValue="font-medium"></nz-option> -->
-                            <!-- <nz-option nzLabel="font-semibold"
-                                nzValue="font-semibold"></nz-option> -->
-                            <nz-option nzLabel="font-bold"
-                                nzValue="font-bold"></nz-option>
-                            <nz-option nzLabel="font-extrabold"
-                                nzValue="font-extrabold"></nz-option>
-                            <nz-option nzLabel="font-black"
-                                nzValue="font-black"></nz-option>
-                        </nz-select>
-                    </div>
-                    <div class="w-1/5 p-1">
-                        <label>BackGround color</label>
-                        <input nz-input type="color"
-                            [(ngModel)]="selectedTheme['backGroundColor']"
-                            (input)="changeLayout(selectedTheme['backGroundColor']+'_'+'backGroundColor')" />
-                    </div>
-                    <div class="w-1/5 p-1">
-                        <label>Text color</label>
-                        <input nz-input type="color"
-                            [(ngModel)]="selectedTheme['textColor']"
-                            (input)="changeLayout(selectedTheme['textColor']+'_'+'textColor')" />
-                    </div>
-                    <div class="w-1/5 p-1">
-                        <label>Active BG color</label>
-                        <input nz-input type="color"
-                            [(ngModel)]="selectedTheme['activeBackgroundColor']"
-                            (input)="changeLayout(selectedTheme['activeBackgroundColor']+'_'+'activeBackgroundColor')" />
-                    </div>
-                    <div class="w-1/5 p-1">
-                        <label>Active Text color</label>
-                        <input nz-input type="color"
-                            [(ngModel)]="selectedTheme['activeTextColor']"
-                            (input)="changeLayout(selectedTheme['activeTextColor']+'_'+'activeTextColor')" />
-                    </div>
-                    <div class="w-1/5 p-1">
-                        <label>Hover Text color</label>
-                        <input nz-input type="color"
-                            [(ngModel)]="selectedTheme['hoverTextColor']"
-                            (input)="changeLayout(selectedTheme['hoverTextColor']+'_'+'hoverTextColor')" />
-                    </div>
-                    <div class="w-1/5 p-1">
-                        <label>Text Size</label>
-                        <input nz-input type="number"
-                            [(ngModel)]="selectedTheme['titleSize']"
-                            (input)="changeLayout(selectedTheme['titleSize']+'_'+'titleSize')" />
-                    </div>
-                </div>
-                <h6 class="mb-0 font-bold uppercase pt-2">Icon Design</h6>
-                <p class="text-gray-500 text-xs">Choose icon Design
-                </p>
-                <div class="flex flex-wrap">
-                    <div class="w-1/5 p-1">
-                        <label>Icon color</label>
-                        <input nz-input type="color"
-                            [(ngModel)]="selectedTheme['iconColor']"
-                            (input)="changeLayout(selectedTheme['iconColor']+'_'+'iconColor')" />
-                    </div>
-                    <div class="w-1/5 p-1">
-                        <label>Hover Icon color</label>
-                        <input nz-input type="color"
-                            [(ngModel)]="selectedTheme['hoverIconColor']"
-                            (input)="changeLayout(selectedTheme['hoverIconColor']+'_'+'hoverIconColor')" />
-                    </div>
-                    <div class="w-1/5 p-1">
-                        <label>Active Icon color</label>
-                        <input nz-input type="color"
-                            [(ngModel)]="selectedTheme['activeIconColor']"
-                            (input)="changeLayout(selectedTheme['activeIconColor']+'_'+'activeIconColor')" />
-                    </div>
-                    <div class="w-1/5 p-1">
-                        <label>Icon Size</label>
-                        <input nz-input type="number"
-                            [(ngModel)]="selectedTheme['iconSize']"
-                            (input)="changeLayout(selectedTheme['iconSize']+'_'+'iconSize')" />
-                    </div>
-                    <div class="w-1/5 p-1">
-                        <label>Icon Type</label>
-                        <nz-select nzShowSearch nzAllowClear
-                            [(ngModel)]="selectedTheme['iconType']"
-                            (ngModelChange)="changeLayout(selectedTheme['iconType']+'_'+'iconType')"
-                            nzPlaceHolder="Icon Type">
-                            <nz-option nzLabel="ng-zorro outlined"
-                                nzValue="outline"></nz-option>
-                            <nz-option nzLabel="ng-zorro filled" nzValue="fill"></nz-option>
-                            <nz-option nzLabel="ng-zorro twotone"
-                                nzValue="twotone"></nz-option>
-                            <nz-option nzLabel="Font Awsome"
-                                nzValue="font_awsome"></nz-option>
-                            <nz-option nzLabel="Material" nzValue="material"></nz-option>
-                        </nz-select>
-                    </div>
-                </div>
-                <div
-                    *ngIf="applicationType == 'backend_application' || !applicationType">
-                    <h6 class="mb-0 font-bold uppercase">Layout Design</h6>
-                    <p class="text-gray-500 text-xs">Choose Layout Design</p>
-                    <div class="flex flex-wrap pt-2">
-                        <div class="w-1/4 px-2">
-                            <div
-                                [ngClass]="selectedTheme.layout == 'vertical' ? 'selected' : 'unselected'">
-                                <img src="assets/images/layout/vertical.png"
-                                    (click)="changeLayout('vertical')">
+                <div class="color-picker-section">
+                    <h3>FONT DESIGN</h3>
+                    <h6>Choose Font Design</h6>
+                    <div class="options-list">
+                        <div class="option">
+                            <p>Font Family</p>
+                            <div class="box">
+                                <nz-select style="width:100%" nzShowSearch nzAllowClear nzPlaceHolder="Select Font"
+                                    [(ngModel)]="selectedTheme['font']"
+                                    (ngModelChange)="changeLayout(selectedTheme['font']+'_'+'font')">
+                                    <nz-option nzLabel="italic" nzValue="italic"></nz-option>
+                                    <nz-option nzLabel="underline" nzValue="underline"></nz-option>
+                                    <nz-option nzLabel="uppercase" nzValue="uppercase"></nz-option>
+                                    <nz-option nzLabel="lowercase" nzValue="lowercase"></nz-option>
+                                    <nz-option nzLabel="capitalize" nzValue="capitalize"></nz-option>
+                                    <nz-option nzLabel="font-sans" nzValue="font-sans"></nz-option>
+                                    <nz-option nzLabel="font-serif" nzValue="font-serif"></nz-option>
+                                    <nz-option nzLabel="font-mono" nzValue="font-mono"></nz-option>
+                                    <nz-option nzLabel="font-roboto" nzValue="font-roboto"></nz-option>
+                                    <nz-option nzLabel="font-thin" nzValue="font-thin"></nz-option>
+                                    <nz-option nzLabel="font-extralight" nzValue="font-extralight"></nz-option>
+                                    <nz-option nzLabel="font-normal" nzValue="font-normal"></nz-option>
+                                    <nz-option nzLabel="font-bold" nzValue="font-bold"></nz-option>
+                                    <nz-option nzLabel="font-extrabold" nzValue="font-extrabold"></nz-option>
+                                    <nz-option nzLabel="font-black" nzValue="font-black"></nz-option>
+                                </nz-select>
                             </div>
-                            <p class="mt-2 font-bold">Vertical</p>
                         </div>
-                        <div class="w-1/4 px-2">
-                            <div
-                                [ngClass]="selectedTheme.layout == 'horizental' ? 'selected' : 'unselected'">
-                                <img src="assets/images/layout/horizental.png"
-                                    (click)="changeLayout('horizental')">
-                            </div>
-                            <p class="mt-2 font-bold">Horizental</p>
-                        </div>
-                        <div class="w-1/4 px-2">
-                            <div
-                                [ngClass]="selectedTheme.layout == 'twoColumn' ? 'selected' : 'unselected'">
-                                <img src="assets/images/layout/horizental.png"
-                                    (click)="changeLayout('twoColumn')">
-                            </div>
-                            <p class="mt-2 font-bold">Two Column</p>
-                        </div>
-                        <div class="w-1/4 px-2">
-                            <div
-                                [ngClass]="selectedTheme.layout == 'rtl' ? 'selected' : 'unselected'">
-                                <img src="assets/images/layout/horizental.png"
-                                    (click)="changeLayout('rtl')">
-                            </div>
-                            <p class="mt-2 font-bold">RTL</p>
-                        </div>
-                    </div>
-                    <h6 class="mb-0 font-bold uppercase pt-2"
-                        *ngIf="selectedTheme.layout != 'twoColumn'">LAYOUT WIDTH
-                    </h6>
-                    <p class="text-gray-500 text-xs"
-                        *ngIf="selectedTheme.layout != 'twoColumn'">Choose Fluid
-                        or
-                        Boxed layout.
-                    </p>
-                    <div class="flex flex-wrap pt-2"
-                        *ngIf="selectedTheme.layout != 'twoColumn'">
-                        <div class="w-1/4 px-2">
-                            <div
-                                [ngClass]="selectedTheme.layoutWidth == 'fluid' ? 'selected' : 'unselected'">
-                                <img src="assets/images/layout/horizental.png"
-                                    (click)="changeLayout('fluid')">
-                            </div>
-                            <p class="mt-2 font-bold">Fluid</p>
-                        </div>
-                        <div class="w-1/4 px-2">
-                            <div
-                                [ngClass]="selectedTheme.layoutWidth == 'boxed' ? 'selected' : 'unselected'">
-                                <img src="assets/images/layout/horizental.png"
-                                    (click)="changeLayout('boxed')">
-                            </div>
-                            <p class="mt-2 font-bold">Boxed</p>
-                        </div>
-                    </div>
+                        <div class="option">
+                            <p>Background Color</p>
+                            <div class="box">
+                                <input type="color" class="input-color" [(ngModel)]="selectedTheme['backGroundColor']"
+                                    (input)="changeLayout(selectedTheme['backGroundColor']+'_'+'backGroundColor')">
 
-                    <!-- <h6 class="mb-0 font-bold uppercase pt-2">SIDEBAR COLOR</h6>
-            <p class="text-gray-500 text-xs">Choose Light or Dark Topbar Color.</p>
-            <div class="flex flex-wrap pt-2">
-                <div class="w-1/4 px-2">
-                    <img
-                        [ngClass]="selectedTheme.sieBarColor == 'light' ? 'selected' : 'unselected'"
-                        src="assets/images/layout/horizental.png"
-                        (click)="changeLayout('light')">
-                    <p class="mt-2 font-bold">Light</p>
-                </div>
-                <div class="w-1/4 px-2">
-                    <img
-                        [ngClass]="selectedTheme.sieBarColor == 'dark' ? 'selected' : 'unselected'"
-                        src="assets/images/layout/horizental.png"
-                        (click)="changeLayout('dark')">
-                    <p class="mt-2 font-bold">Dark</p>
-                </div>
-            </div> -->
-                    <h6
-                        *ngIf="selectedTheme.layout != 'horizental' && selectedTheme.layout != 'twoColumn'"
-                        class="mb-0 font-bold uppercase pt-2">Side Bar Style</h6>
-                    <p
-                        *ngIf="selectedTheme.layout != 'horizental' && selectedTheme.layout != 'twoColumn'"
-                        class="text-gray-500 text-xs">Choose Side Bar Style</p>
-                    <div
-                        *ngIf="selectedTheme.layout != 'horizental' && selectedTheme.layout != 'twoColumn'"
-                        class="flex flex-wrap pt-2">
-
-                        <div class="w-1/4 px-2">
-                            <div
-                                [ngClass]="selectedTheme.sideBarSize == 'default' ? 'selected' : 'unselected'">
-                                <img src="assets/images/layout/horizental.png"
-                                    (click)="changeLayout('default')">
+                                <span>{{selectedTheme['backGroundColor'] || '#000000'}} </span>
                             </div>
-                            <p class="mt-2 font-bold">Default</p>
                         </div>
-                        <div class="w-1/4 px-2">
-                            <div
-                                [ngClass]="selectedTheme.sideBarSize == 'compact' ? 'selected' : 'unselected'">
-                                <img src="assets/images/layout/horizental.png"
-                                    (click)="changeLayout('compact')">
+                        <div class="option">
+                            <p>Text Color</p>
+                            <div class="box">
+                                <input [(ngModel)]="selectedTheme['textColor']"
+                                    (input)="changeLayout(selectedTheme['textColor']+'_'+'textColor')" type="color"
+                                    class="input-color">
+                                <span>{{selectedTheme['textColor'] || '#000000'}} </span>
                             </div>
-                            <p class="mt-2 font-bold">Compact</p>
                         </div>
-                        <div class="w-1/4 px-2">
-                            <div
-                                [ngClass]="selectedTheme.sideBarSize == 'compact_right' ? 'selected' : 'unselected'">
-                                <img src="assets/images/layout/horizental.png"
-                                    (click)="changeLayout('compact_right')">
+                        <div class="option">
+                            <p>Active Color</p>
+                            <div class="box">
+                                <input [(ngModel)]="selectedTheme['activeBackgroundColor']"
+                                    (input)="changeLayout(selectedTheme['activeBackgroundColor']+'_'+'activeBackgroundColor')"
+                                    type="color" class="input-color">
+                                <span>{{selectedTheme['activeBackgroundColor'] || '#000000'}} </span>
                             </div>
-                            <p class="mt-2 font-bold"
-                                *ngIf="selectedTheme.layout != 'rtl'">Compact
-                                Right</p>
-                            <p class="mt-2 font-bold"
-                                *ngIf="selectedTheme.layout == 'rtl'">Compact
-                                Left</p>
                         </div>
-                        <div class="w-1/4 px-2">
-                            <div
-                                [ngClass]="selectedTheme.sideBarSize == 'compact_left' ? 'selected' : 'unselected'">
-                                <img src="assets/images/layout/horizental.png"
-                                    (click)="changeLayout('compact_left')">
+                        <div class="option">
+                            <p>Active Text Color</p>
+                            <div class="box">
+                                <input type="color" class="input-color" [(ngModel)]="selectedTheme['activeTextColor']"
+                                    (input)="changeLayout(selectedTheme['activeTextColor']+'_'+'activeTextColor')">
+                                <span>{{selectedTheme['activeTextColor'] || '#000000'}} </span>
                             </div>
-                            <p class="mt-2 font-bold"
-                                *ngIf="selectedTheme.layout != 'rtl'">Compact
-                                Left</p>
-                            <p class="mt-2 font-bold"
-                                *ngIf="selectedTheme.layout == 'rtl'">Compact
-                                Right</p>
                         </div>
-                        <div class="w-1/4 px-2">
-                            <div
-                                [ngClass]="selectedTheme.sideBarSize == 'smallIconView' ? 'selected' : 'unselected'">
-                                <img src="assets/images/layout/horizental.png"
-                                    (click)="changeLayout('smallIconView')">
+                        <div class="option">
+                            <p>Hover Text Color</p>
+                            <div class="box">
+                                <input type="color" class="input-color" [(ngModel)]="selectedTheme['hoverTextColor']"
+                                    (input)="changeLayout(selectedTheme['hoverTextColor']+'_'+'hoverTextColor')">
+                                <span>{{selectedTheme['hoverTextColor'] || '#000000'}} </span>
                             </div>
-                            <p class="mt-2 font-bold">Small (Icon View)</p>
                         </div>
-                        <div class="w-1/4 px-2">
-                            <div
-                                [ngClass]="selectedTheme.sideBarSize == 'smallHoverView' ? 'selected' : 'unselected'">
-                                <img src="assets/images/layout/horizental.png"
-                                    (click)="changeLayout('smallHoverView')">
+                        <div class="option">
+                            <p>Text Size</p>
+                            <div class="box">
+                                <input type="number" class="input-text" name="" id=""
+                                    [(ngModel)]="selectedTheme['titleSize']"
+                                    (input)="changeLayout(selectedTheme['titleSize']+'_'+'titleSize')">
                             </div>
-                            <p class="mt-2 font-bold">Small Hover View</p>
                         </div>
                     </div>
-                    <!-- <h6 class="mb-0 font-bold uppercase pt-2">LAYOUT POSITION</h6>
-            <p class="text-gray-500 text-xs">Choose Fixed or Scrollable Layout
-                Position.</p>
-            <div class="flex flex-wrap pt-2">
-                <nz-button-group [nzSize]="size">
-                    <button nz-button
-                        [ngClass]="{'shadow bg-blue-500 text-white rounded-md': selectedTheme.layoutPosition == 'fixed'}"
-                        (click)="changeLayout('fixed')">
-                        Fixed
-                    </button>
-                    <button
-                        [ngClass]="{'shadow bg-blue-500 text-white rounded-md': selectedTheme.layoutPosition == 'scrollable'}"
-                        nz-button
-                        nzType="default" (click)="changeLayout('scrollable')">
-                        Scrollable
-                    </button>
-                </nz-button-group>
-            </div> -->
-                    <div *ngIf="selectedTheme.layout != 'horizental'">
-                        <h6 class="mb-0 font-bold uppercase pt-2">SIDEBAR IMAGES</h6>
-                        <p class="text-gray-500 text-xs">Choose a image of
-                            Sidebar</p>
-                        <div class="flex flex-wrap pt-2">
-                            <div class="w-1/5 px-2">
-                                <div
-                                    [ngClass]="selectedTheme.siderBarImages == '' ? 'selected resert-bg-img' : 'unselected resert-bg-img'"
-                                    (click)="changeLayout('')">
+                </div>
+                <div class="color-picker-section">
+                    <h3>ICON DESIGN</h3>
+                    <h6>Choose icon Design</h6>
+                    <div class="options-list">
+                        <div class="option">
+                            <p>Icon Color</p>
+                            <div class="box">
+                                <input type="color" class="input-color" [(ngModel)]="selectedTheme['iconColor']"
+                                    (input)="changeLayout(selectedTheme['iconColor']+'_'+'iconColor')">
+                                <span>{{selectedTheme['iconColor'] || '#000000'}} </span>
+                            </div>
+                        </div>
+                        <div class="option">
+                            <p>Hover Icon Color</p>
+                            <div class="box">
+                                <input type="color" class="input-color" [(ngModel)]="selectedTheme['hoverIconColor']"
+                                    (input)="changeLayout(selectedTheme['hoverIconColor']+'_'+'hoverIconColor')">
+                                <span>{{selectedTheme['hoverIconColor'] || '#000000'}} </span>
+                            </div>
+                        </div>
+                        <div class="option">
+                            <p>Active Icon Color</p>
+                            <div class="box">
+                                <input type="color" class="input-color" [(ngModel)]="selectedTheme['activeIconColor']"
+                                    (input)="changeLayout(selectedTheme['activeIconColor']+'_'+'activeIconColor')">
+                                <span>{{selectedTheme['activeIconColor'] || '#000000'}} </span>
+                            </div>
+                        </div>
+                        <div class="option">
+                            <p>Icon Size</p>
+                            <div class="box">
+                                <input type="number" class="input-text" name="" id=""
+                                    [(ngModel)]="selectedTheme['iconSize']"
+                                    (input)="changeLayout(selectedTheme['iconSize']+'_'+'iconSize')">
+                            </div>
+                        </div>
+                        <div class="option">
+                            <p>Icon Type</p>
+                            <div class="box">
+                                <nz-select nzShowSearch nzAllowClear [(ngModel)]="selectedTheme['iconType']"
+                                    (ngModelChange)="changeLayout(selectedTheme['iconType']+'_'+'iconType')"
+                                    nzPlaceHolder="Icon Type">
+                                    <nz-option nzLabel="ng-zorro outlined" nzValue="outline"></nz-option>
+                                    <nz-option nzLabel="ng-zorro filled" nzValue="fill"></nz-option>
+                                    <nz-option nzLabel="ng-zorro twotone" nzValue="twotone"></nz-option>
+                                    <nz-option nzLabel="Font Awsome" nzValue="font_awsome"></nz-option>
+                                    <nz-option nzLabel="Material" nzValue="material"></nz-option>
+                                </nz-select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div *ngIf="applicationType == 'backend_application' || !applicationType">
+                    <div class="color-picker-section">
+                        <h3>LAYOUT DESIGN</h3>
+                        <h6>Choose Layout Design</h6>
+                        <div class="options-list2">
+                            <div class="option2">
+                                <div class="banner"
+                                    [ngClass]="selectedTheme.layout == 'vertical' ? 'selected' : 'unselected'">
+                                    <img src="assets/images/banner.png" alt="" (click)="changeLayout('vertical')">
+                                </div>
+                                <span>Vertical</span>
+                            </div>
+                            <div class="option2">
+                                <div class="banner"
+                                    [ngClass]="selectedTheme.layout == 'horizental' ? 'selected' : 'unselected'">
+                                    <img src="assets/images/banner.png" alt="" (click)="changeLayout('horizental')">
+                                </div>
+                                <span>Horizental</span>
+                            </div>
+                            <div class="option2">
+                                <div class="banner"
+                                    [ngClass]="selectedTheme.layout == 'twoColumn' ? 'selected' : 'unselected'">
+                                    <img src="assets/images/banner.png" alt="" (click)="changeLayout('twoColumn')">
+                                </div>
+                                <span>Two Column</span>
+                            </div>
+                            <div class="option2">
+                                <div class="banner"
+                                    [ngClass]="selectedTheme.layout == 'rtl' ? 'selected' : 'unselected'">
+                                    <img src="assets/images/banner.png" alt="" (click)="changeLayout('rtl')">
+                                </div>
+                                <span>RTL</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="color-picker-section" *ngIf="selectedTheme.layout != 'twoColumn'">
+                        <h3>LAYOUT WIDTH</h3>
+                        <h6>Choose LAYOUT WIDTH</h6>
+                        <div class="options-list2">
+                            <div class="option2">
+                                <div class="banner"
+                                    [ngClass]="selectedTheme.layoutWidth == 'fluid' ? 'selected' : 'unselected'">
+                                    <img src="assets/images/banner.png" alt="" (click)="changeLayout('fluid')">
+                                </div>
+                                <span>Fluid</span>
+                            </div>
+                            <div class="option2">
+                                <div class="banner"
+                                    [ngClass]="selectedTheme.layoutWidth == 'boxed' ? 'selected' : 'unselected'">
+                                    <img src="assets/images/banner.png" alt="" (click)="changeLayout('boxed')">
+                                </div>
+                                <span>Boxed</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="color-picker-section"
+                        *ngIf="selectedTheme.layout != 'horizental' && selectedTheme.layout != 'twoColumn'">
+                        <h3>SIDE BAR STYLE</h3>
+                        <h6>Choose Side Bar Style</h6>
+                        <div class="options-list2">
+                            <div class="option2">
+                                <div class="banner"
+                                    [ngClass]="selectedTheme.sideBarSize == 'default' ? 'selected' : 'unselected'">
+                                    <img src="assets/images/banner.png" alt="" (click)="changeLayout('default')">
+                                </div>
+                                <span>Default</span>
+                            </div>
+                            <div class="option2">
+                                <div class="banner"
+                                    [ngClass]="selectedTheme.sideBarSize == 'compact' ? 'selected' : 'unselected'">
+                                    <img src="assets/images/banner.png" alt="" (click)="changeLayout('compact')">
+                                </div>
+                                <span>Compact</span>
+                            </div>
+                            <div class="option2">
+                                <div class="banner"
+                                    [ngClass]="selectedTheme.sideBarSize == 'compact_right' ? 'selected' : 'unselected'">
+                                    <img src="assets/images/banner.png" alt="" (click)="changeLayout('compact_right')">
+                                </div>
+                                <span *ngIf="selectedTheme.layout != 'rtl'">Compact
+                                    Right</span>
+                                <span *ngIf="selectedTheme.layout == 'rtl'">Compact
+                                    Left</span>
+                            </div>
+                            <div class="option2">
+                                <div class="banner"
+                                    [ngClass]="selectedTheme.sideBarSize == 'compact_left' ? 'selected' : 'unselected'">
+                                    <img src="assets/images/banner.png" alt="" (click)="changeLayout('compact_left')">
+                                </div>
+                                <span *ngIf="selectedTheme.layout != 'rtl'">Compact
+                                    Left</span>
+                                <span *ngIf="selectedTheme.layout == 'rtl'">Compact
+                                    Right</span>
+                            </div>
+                            <div class="option2">
+                                <div class="banner"
+                                    [ngClass]="selectedTheme.sideBarSize == 'smallIconView' ? 'selected' : 'unselected'">
+                                    <img src="assets/images/banner.png" alt="" (click)="changeLayout('smallIconView')">
+                                </div>
+                                <span>Small (Icon View)</span>
+                            </div>
+                            <div class="option2">
+                                <div class="banner"
+                                    [ngClass]="selectedTheme.sideBarSize == 'smallHoverView' ? 'selected' : 'unselected'">
+                                    <img src="assets/images/banner.png" alt="" (click)="changeLayout('smallHoverView')">
+                                </div>
+                                <span>Small Hover View</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="color-picker-section" *ngIf="selectedTheme.layout != 'horizental'">
+                        <h3>SIDEBAR IMAGES</h3>
+                        <h6>Choose a image of
+                            Sidebar</h6>
+                        <div class="options-list2">
+                            <div class="option2">
+                                <div class="banner"
+                                    [ngClass]="selectedTheme.siderBarImages == '' ? 'selected resert-bg-img' : 'unselected'">
                                     <i class="fa-solid fa-xmark"></i>
                                 </div>
-                                <!-- <div>
-                                <img
-                                    [ngClass]="selectedTheme.siderBarImages == '' ? 'selected' : 'unselected'"
-                                    src
-                                    (click)="changeLayout('')">
-                            </div> -->
                             </div>
-                            <div class="w-1/5 px-2">
-                                <div
+                            <div class="option2">
+                                <div class="banner"
                                     [ngClass]="selectedTheme.siderBarImages == 'assets/images/menu/image-1.avif' ? 'selected' : 'unselected'">
-                                    <img src="assets/images/menu/image-1.avif"
+                                    <img src="assets/images/menu/image-1.avif" alt=""
                                         (click)="changeLayout('assets/images/menu/image-1.avif')">
                                 </div>
                             </div>
-                            <div class="w-1/5 px-2">
-                                <div
+                            <div class="option2">
+                                <div class="banner"
                                     [ngClass]="selectedTheme.siderBarImages == 'assets/images/menu/image_2.avif' ? 'selected' : 'unselected'">
-                                    <img src="assets/images/menu/image_2.avif"
+                                    <img src="assets/images/menu/image_2.avif" alt=""
                                         (click)="changeLayout('assets/images/menu/image_2.avif')">
                                 </div>
+
                             </div>
-                            <div class="w-1/5 px-2">
-                                <div
+                            <div class="option2">
+                                <div class="banner"
                                     [ngClass]="selectedTheme.siderBarImages == 'assets/images/menu/image_3.avif' ? 'selected' : 'unselected'">
-                                    <img src="assets/images/menu/image_3.avif"
+                                    <img src="assets/images/menu/image_3.avif" alt=""
                                         (click)="changeLayout('assets/images/menu/image_3.avif')">
                                 </div>
                             </div>
-                            <div class="w-1/5 px-2">
-                                <div
+                            <div class="option2">
+                                <div class="banner"
                                     [ngClass]="selectedTheme.siderBarImages == 'assets/images/menu/image-4.avif' ? 'selected' : 'unselected'">
                                     <img src="assets/images/menu/image-4.avif"
                                         (click)="changeLayout('assets/images/menu/image-4.avif')">
@@ -358,200 +298,281 @@
                             </div>
                         </div>
                     </div>
+                </div>
+                <div *ngIf="applicationType == 'website'" class="color-picker-section">
+                    <h3>ICON DESIGN</h3>
+                    <h6>Choose icon Design</h6>
+                    <div class="options-list2">
+                        <div class="option2">
+                            <div class="banner">
+                                <img src="assets/images/banner.png" alt="">
+                            </div>
+                            <span>Design 01</span>
+                        </div>
+                        <div class="option2">
+                            <div class="banner">
+                                <img src="assets/images/banner.png" alt="">
+                            </div>
+                            <span>Design 02</span>
+                        </div>
+                        <div class="option2">
+                            <div class="banner">
+                                <img src="assets/images/banner.png" alt="">
+                            </div>
+                            <span>Design 03</span>
+                        </div>
+                        <div class="option2">
+                            <div class="banner">
+                                <img src="assets/images/banner.png" alt="">
+                            </div>
+                            <span>Design 04</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="drawer-bottom">
+                    <button nz-button nzType="primary">Save</button>
+                    <button nz-button nzType="default" class="btn-secondary" nz-popconfirm
+                        nzPopconfirmTitle="Are you sure to reset menu design" (nzOnConfirm)="reset('mainMenu')">Reset</button>
+                </div>
+            </nz-tab>
+            <nz-tab nzTitle="In Page Menu">
+                <div class="color-picker-section">
+                    <h3>FONT DESIGN</h3>
+                    <h6>Choose Font Design</h6>
+                    <div class="options-list">
+                        <div class="option">
+                            <p>Font Family</p>
+                            <div class="box">
+                                <nz-select style="width:100%" nzShowSearch nzAllowClear nzPlaceHolder="Select Font"
+                                    [(ngModel)]="selectedTheme['inPageMenu']['font']"
+                                    (ngModelChange)="changeInPageLayout(selectedTheme['inPageMenu']['font']+'_'+'font')">
+                                    <nz-option nzLabel="italic" nzValue="italic"></nz-option>
+                                    <nz-option nzLabel="uppercase" nzValue="uppercase"></nz-option>
+                                    <nz-option nzLabel="lowercase" nzValue="lowercase"></nz-option>
+                                    <nz-option nzLabel="capitalize" nzValue="capitalize"></nz-option>
+                                    <nz-option nzLabel="font-sans" nzValue="font-sans"></nz-option>
+                                    <nz-option nzLabel="font-serif" nzValue="font-serif"></nz-option>
+                                    <nz-option nzLabel="font-mono" nzValue="font-mono"></nz-option>
+                                    <nz-option nzLabel="font-roboto" nzValue="font-roboto"></nz-option>
+                                    <nz-option nzLabel="font-thin" nzValue="font-thin"></nz-option>
+                                    <nz-option nzLabel="font-extralight" nzValue="font-extralight"></nz-option>
+                                    <nz-option nzLabel="font-normal" nzValue="font-normal"></nz-option>
+                                    <nz-option nzLabel="font-bold" nzValue="font-bold"></nz-option>
+                                    <nz-option nzLabel="font-extrabold" nzValue="font-extrabold"></nz-option>
+                                    <nz-option nzLabel="font-black" nzValue="font-black"></nz-option>
+                                </nz-select>
+                            </div>
+                        </div>
+                        <div class="option">
+                            <p>Background Color</p>
+                            <div class="box">
+                                <input type="color" class="input-color"
+                                    [(ngModel)]="selectedTheme['inPageMenu']['backGroundColor']"
+                                    (input)="changeInPageLayout(selectedTheme['inPageMenu']['backGroundColor']+'_'+'backGroundColor')">
 
-                    <!-- <h6 class="mb-0 font-bold uppercase pt-2">SIDEBAR VIEW</h6>
-            <p class="text-gray-500 text-xs">Choose Default or Detached Sidebar
-                view.</p>
-            <div class="flex flex-wrap pt-2">
-                <div class="w-1/4 px-2">
-                    <img
-                        [ngClass]="selectedTheme.siderBarView == 'sidebarViewDefault' ? 'selected' : 'unselected'"
-                        src="assets/images/layout/horizental.png"
-                        (click)="changeLayout('sidebarViewDefault')">
-                    <p class="mt-2 font-bold">Default</p>
-                </div>
-                <div class="w-1/4 px-2">
-                    <img
-                        [ngClass]="selectedTheme.siderBarView == 'detatatched' ? 'selected' : 'unselected'"
-                        src="assets/images/layout/horizental.png"
-                        (click)="changeLayout('detatatched')">
-                    <p class="mt-2 font-bold">Compact</p>
-                </div>
-            </div> -->
-                </div>
-                <div *ngIf="applicationType == 'website'">
-                    <h6 class="mb-0 font-bold uppercase">Layout</h6>
-                    <p class="text-gray-500 text-xs">Choose your layout</p>
-                    <div class="flex flex-wrap pt-2">
-                        <div class="w-1/4 px-2">
-                            <div
-                                [ngClass]="selectedTheme['design'] == 'design1' ? 'selected' : 'unselected'">
-                                <img src="assets/images/layout/vertical.png"
-                                    (click)="changeLayout('design1')">
+                                <span>{{selectedTheme['inPageMenu']['backGroundColor'] || '#000000'}} </span>
                             </div>
-                            <p class="mt-2 font-bold">Design 1</p>
                         </div>
-                        <div class="w-1/4 px-2">
-                            <div
-                                [ngClass]="selectedTheme['design'] == 'design2' ? 'selected' : 'unselected'">
-                                <img src="assets/images/layout/horizental.png"
-                                    (click)="changeLayout('design2')">
+                        <div class="option">
+                            <p>Text Color</p>
+                            <div class="box">
+                                <input [(ngModel)]="selectedTheme['inPageMenu']['textColor']"
+                                    (input)="changeInPageLayout(selectedTheme['inPageMenu']['textColor']+'_'+'textColor')"
+                                    type="color" class="input-color">
+                                <span>{{selectedTheme['inPageMenu']['textColor']}} </span>
                             </div>
-                            <p class="mt-2 font-bold">Design 2</p>
                         </div>
-                        <div class="w-1/4 px-2">
-                            <div
-                                [ngClass]="selectedTheme['design'] == 'design3' ? 'selected' : 'unselected'">
-                                <img src="assets/images/layout/horizental.png"
-                                    (click)="changeLayout('design3')">
+                        <div class="option">
+                            <p>Active Color</p>
+                            <div class="box">
+                                <input [(ngModel)]="selectedTheme['inPageMenu']['activeBackgroundColor']"
+                                    (input)="changeInPageLayout(selectedTheme['inPageMenu']['activeBackgroundColor']+'_'+'activeBackgroundColor')"
+                                    type="color" class="input-color">
+                                <span>{{selectedTheme['inPageMenu']['activeBackgroundColor']}} </span>
                             </div>
-                            <p class="mt-2 font-bold">Design 3</p>
                         </div>
-                        <div class="w-1/4 px-2">
-                            <div
-                                [ngClass]="selectedTheme['design'] == 'design4' ? 'selected' : 'unselected'">
-                                <img src="assets/images/layout/horizental.png"
-                                    (click)="changeLayout('design4')">
+                        <div class="option">
+                            <p>Active Text Color</p>
+                            <div class="box">
+                                <input type="color" class="input-color"
+                                    [(ngModel)]="selectedTheme['inPageMenu']['activeTextColor']"
+                                    (input)="changeInPageLayout(selectedTheme['inPageMenu']['activeTextColor']+'_'+'activeTextColor')">
+                                <span>{{selectedTheme['inPageMenu']['activeTextColor']}} </span>
                             </div>
-                            <p class="mt-2 font-bold">Design 4</p>
+                        </div>
+                        <div class="option">
+                            <p>Hover Text Color</p>
+                            <div class="box">
+                                <input type="color" class="input-color"
+                                    [(ngModel)]="selectedTheme['inPageMenu']['hoverTextColor']"
+                                    (input)="changeInPageLayout(selectedTheme['inPageMenu']['hoverTextColor']+'_'+'hoverTextColor')">
+                                <span>{{selectedTheme['inPageMenu']['hoverTextColor'] || '#000000'}} </span>
+                            </div>
+                        </div>
+                        <div class="option">
+                            <p>Text Size</p>
+                            <div class="box">
+                                <input type="number" class="input-text" name="" id=""
+                                    [(ngModel)]="selectedTheme['inPageMenu']['titleSize']"
+                                    (input)="changeInPageLayout(selectedTheme['inPageMenu']['titleSize']+'_'+'titleSize')">
+                            </div>
                         </div>
                     </div>
+                </div>
+                <div class="color-picker-section">
+                    <h3>ICON DESIGN</h3>
+                    <h6>Choose icon Design</h6>
+                    <div class="options-list">
+                        <div class="option">
+                            <p>Icon Color</p>
+                            <div class="box">
+                                <input type="color" class="input-color"
+                                    [(ngModel)]="selectedTheme['inPageMenu']['iconColor']"
+                                    (input)="changeInPageLayout(selectedTheme['inPageMenu']['iconColor']+'_'+'iconColor')">
+                                <span>{{selectedTheme['inPageMenu']['iconColor'] || '#000000'}} </span>
+                            </div>
+                        </div>
+                        <div class="option">
+                            <p>Hover Icon Color</p>
+                            <div class="box">
+                                <input type="color" class="input-color"
+                                    [(ngModel)]="selectedTheme['inPageMenu']['hoverIconColor']"
+                                    (input)="changeInPageLayout(selectedTheme['inPageMenu']['hoverIconColor']+'_'+'hoverIconColor')">
+                                <span>{{selectedTheme['inPageMenu']['hoverIconColor'] || '#000000'}} </span>
+                            </div>
+                        </div>
+                        <div class="option">
+                            <p>Active Icon Color</p>
+                            <div class="box">
+                                <input type="color" class="input-color"
+                                    [(ngModel)]="selectedTheme['inPageMenu']['activeIconColor']"
+                                    (input)="changeInPageLayout(selectedTheme['inPageMenu']['activeIconColor']+'_'+'activeIconColor')">
+                                <span>{{selectedTheme['inPageMenu']['activeIconColor'] || '#000000'}} </span>
+                            </div>
+                        </div>
+                        <div class="option">
+                            <p>Icon Size</p>
+                            <div class="box">
+                                <input type="number" class="input-text" name="" id=""
+                                    [(ngModel)]="selectedTheme['inPageMenu']['iconSize']"
+                                    (input)="changeInPageLayout(selectedTheme['inPageMenu']['iconSize']+'_'+'iconSize')">
+                            </div>
+                        </div>
+                        <div class="option">
+                            <p>Icon Type</p>
+                            <div class="box">
+                                <nz-select nzShowSearch nzAllowClear
+                                    [(ngModel)]="selectedTheme['inPageMenu']['iconType']"
+                                    (ngModelChange)="changeInPageLayout(selectedTheme['inPageMenu']['iconType']+'_'+'iconType')"
+                                    nzPlaceHolder="Icon Type">
+                                    <nz-option nzLabel="ng-zorro outlined" nzValue="outline"></nz-option>
+                                    <nz-option nzLabel="ng-zorro filled" nzValue="fill"></nz-option>
+                                    <nz-option nzLabel="ng-zorro twotone" nzValue="twotone"></nz-option>
+                                    <nz-option nzLabel="Font Awsome" nzValue="font_awsome"></nz-option>
+                                    <nz-option nzLabel="Material" nzValue="material"></nz-option>
+                                </nz-select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="drawer-bottom">
+                    <button nz-button nzType="primary">Save</button>
+                    <button nz-button nzType="default" class="btn-secondary" nz-popconfirm
+                        nzPopconfirmTitle="Are you sure to reset In page menu design" (nzOnConfirm)="reset('inPageMenu')">Reset</button>
                 </div>
             </nz-tab>
-            <nz-tab nzTitle="In page Menu">
-                <div style="display: flex; justify-content: flex-end;">
-                    <button nzDanger class="mr-2" nz-popconfirm
-                        nzPopconfirmTitle="Are you sure to reset menu design"
-                        nz-button
-                        nzType="primary" (nzOnConfirm)="reset('inPageMenu')">Reset
-                        In Page
-                        Menu Theme</button>
-                </div>
-                <h6 class="mb-0 font-bold uppercase">Font Design</h6>
-                <p class="text-gray-500 text-xs">Choose Font Design
-                </p>
-                <div class="flex flex-wrap">
-                    <div class="w-1/5 p-1">
-                        <label>Font Family</label>
-                        <nz-select style="width:100%" nzShowSearch nzAllowClear
-                            nzPlaceHolder="Select Font"
-                            [(ngModel)]="selectedTheme['inPageMenu']['font']"
-                            (ngModelChange)="changeInPageLayout(selectedTheme['inPageMenu']['font']+'_'+'font')">
-                            <nz-option nzLabel="italic" nzValue="italic"></nz-option>
-                            <!-- <nz-option nzLabel="underline" nzValue="underline"></nz-option> -->
-                            <nz-option nzLabel="uppercase" nzValue="uppercase"></nz-option>
-                            <nz-option nzLabel="lowercase" nzValue="lowercase"></nz-option>
-                            <nz-option nzLabel="capitalize" nzValue="capitalize"></nz-option>
-                            <nz-option nzLabel="font-sans" nzValue="font-sans"></nz-option>
-                            <nz-option nzLabel="font-serif" nzValue="font-serif"></nz-option>
-                            <nz-option nzLabel="font-mono" nzValue="font-mono"></nz-option>
-                            <nz-option nzLabel="font-roboto"
-                                nzValue="font-roboto"></nz-option>
-                            <!-- <nz-option nzLabel="line-through"
-                                nzValue="line-through"></nz-option> -->
-                            <nz-option nzLabel="font-thin"
-                                nzValue="font-thin"></nz-option>
-                            <nz-option nzLabel="font-extralight"
-                                nzValue="font-extralight"></nz-option>
-                            <!-- <nz-option nzLabel="font-light"
-                                nzValue="font-light"></nz-option> -->
-                            <nz-option nzLabel="font-normal"
-                                nzValue="font-normal"></nz-option>
-                            <!-- <nz-option nzLabel="font-medium"
-                                nzValue="font-medium"></nz-option> -->
-                            <!-- <nz-option nzLabel="font-semibold"
-                                nzValue="font-semibold"></nz-option> -->
-                            <nz-option nzLabel="font-bold"
-                                nzValue="font-bold"></nz-option>
-                            <nz-option nzLabel="font-extrabold"
-                                nzValue="font-extrabold"></nz-option>
-                            <nz-option nzLabel="font-black"
-                                nzValue="font-black"></nz-option>
-                        </nz-select>
-                    </div>
-                    <div class="w-1/5 p-1">
-                        <label>BackGround color</label>
-                        <input nz-input type="color"
-                            [(ngModel)]="selectedTheme['inPageMenu']['backGroundColor']"
-                            (input)="changeInPageLayout(selectedTheme['inPageMenu']['backGroundColor']+'_'+'backGroundColor')" />
-                    </div>
-                    <div class="w-1/5 p-1">
-                        <label>Text color</label>
-                        <input nz-input type="color"
-                            [(ngModel)]="selectedTheme['inPageMenu']['textColor']"
-                            (input)="changeInPageLayout(selectedTheme['inPageMenu']['textColor']+'_'+'textColor')" />
-                    </div>
-                    <div class="w-1/5 p-1">
-                        <label>Active BG color</label>
-                        <input nz-input type="color"
-                            [(ngModel)]="selectedTheme['inPageMenu']['activeBackgroundColor']"
-                            (input)="changeInPageLayout(selectedTheme['inPageMenu']['activeBackgroundColor']+'_'+'activeBackgroundColor')" />
-                    </div>
-                    <div class="w-1/5 p-1">
-                        <label>Active Text color</label>
-                        <input nz-input type="color"
-                            [(ngModel)]="selectedTheme['inPageMenu']['activeTextColor']"
-                            (input)="changeInPageLayout(selectedTheme['inPageMenu']['activeTextColor']+'_'+'activeTextColor')" />
-                    </div>
-                    <div class="w-1/5 p-1">
-                        <label>Hover Text color</label>
-                        <input nz-input type="color"
-                            [(ngModel)]="selectedTheme['inPageMenu']['hoverTextColor']"
-                            (input)="changeInPageLayout(selectedTheme['inPageMenu']['hoverTextColor']+'_'+'hoverTextColor')" />
-                    </div>
-                    <div class="w-1/5 p-1">
-                        <label>Text Size</label>
-                        <input nz-input type="number"
-                            [(ngModel)]="selectedTheme['inPageMenu']['titleSize']"
-                            (input)="changeInPageLayout(selectedTheme['inPageMenu']['titleSize']+'_'+'titleSize')" />
-                    </div>
-                </div>
-                <h6 class="mb-0 font-bold uppercase pt-2">Icon Design</h6>
-                <p class="text-gray-500 text-xs">Choose icon Design
-                </p>
-                <div class="flex flex-wrap">
-                    <div class="w-1/5 p-1">
-                        <label>Icon color</label>
-                        <input nz-input type="color"
-                            [(ngModel)]="selectedTheme['inPageMenu']['iconColor']"
-                            (input)="changeInPageLayout(selectedTheme['inPageMenu']['iconColor']+'_'+'iconColor')" />
-                    </div>
-                    <div class="w-1/5 p-1">
-                        <label>Hover Icon color</label>
-                        <input nz-input type="color"
-                            [(ngModel)]="selectedTheme['inPageMenu']['hoverIconColor']"
-                            (input)="changeInPageLayout(selectedTheme['inPageMenu']['hoverIconColor']+'_'+'hoverIconColor')" />
-                    </div>
-                    <div class="w-1/5 p-1">
-                        <label>Active Icon color</label>
-                        <input nz-input type="color"
-                            [(ngModel)]="selectedTheme['inPageMenu']['activeIconColor']"
-                            (input)="changeInPageLayout(selectedTheme['inPageMenu']['activeIconColor']+'_'+'activeIconColor')" />
-                    </div>
-                    <div class="w-1/5 p-1">
-                        <label>Icon Size</label>
-                        <input nz-input type="number"
-                            [(ngModel)]="selectedTheme['inPageMenu']['iconSize']"
-                            (input)="changeInPageLayout(selectedTheme['inPageMenu']['iconSize']+'_'+'iconSize')" />
-                    </div>
-                    <div class="w-1/5 p-1">
-                        <label>Icon Type</label>
-                        <nz-select nzShowSearch nzAllowClear
-                            [(ngModel)]="selectedTheme['inPageMenu']['iconType']"
-                            (ngModelChange)="changeInPageLayout(selectedTheme['inPageMenu']['iconType']+'_'+'iconType')"
-                            nzPlaceHolder="Icon Type">
-                            <nz-option nzLabel="ng-zorro outlined"
-                                nzValue="outline"></nz-option>
-                            <nz-option nzLabel="ng-zorro filled" nzValue="fill"></nz-option>
-                            <nz-option nzLabel="ng-zorro twotone"
-                                nzValue="twotone"></nz-option>
-                            <nz-option nzLabel="Font Awsome"
-                                nzValue="font_awsome"></nz-option>
-                            <nz-option nzLabel="Material" nzValue="material"></nz-option>
-                        </nz-select>
+            <!-- <nz-tab nzTitle="Collapse button">
+                <div class="color-picker-section">
+                    <h3>FONT DESIGN</h3>
+                    <h6>Choose Font Design</h6>
+                    <div class="options-list">
+                        <div class="option">
+                            <p>Button Position</p>
+                            <div class="box">
+                                <nz-select style="width:100%" nzShowSearch nzAllowClear nzPlaceHolder="Button Position"
+                                    [(ngModel)]="selectedTheme['buttonPosition']"
+                                    (ngModelChange)="changeInPageLayout(selectedTheme['buttonPosition']+'_'+'buttonPosition')">
+                                    <nz-option nzLabel="right" nzValue="right"></nz-option>
+                                    <nz-option nzLabel="left" nzValue="left"></nz-option>
+                                </nz-select>
+                            </div>
+                        </div>
+                        <div class="option">
+                            <p>Button Color</p>
+                            <div class="box">
+                                <input type="color" class="input-color" [(ngModel)]="selectedTheme['buttonColor']"
+                                    (input)="changeInPageLayout(selectedTheme['buttonColor']+'_'+'buttonColor')">
+
+                                <span>{{selectedTheme['buttonColor'] || '#000000'}} </span>
+                            </div>
+                        </div>
+                        <div class="option">
+                            <p>Icon Color</p>
+                            <div class="box">
+                                <input type="color" class="input-color" [(ngModel)]="selectedTheme['buttonIconColor']"
+                                    (input)="changeInPageLayout(selectedTheme['buttonIconColor']+'_'+'buttonIconColor')">
+
+                                <span>{{selectedTheme['buttonIconColor'] || '#000000'}} </span>
+                            </div>
+                        </div>
+                        <div class="option">
+                            <p>Icon Type</p>
+                            <div class="box">
+                                <nz-select nzShowSearch nzAllowClear [(ngModel)]="selectedTheme['buttonIconType']"
+                                    (ngModelChange)="changeLayout(selectedTheme['buttonIconType']+'_'+'buttonIconType')"
+                                    nzPlaceHolder="Icon Type">
+                                    <nz-option nzLabel="ng-zorro outlined" nzValue="outline"></nz-option>
+                                    <nz-option nzLabel="ng-zorro filled" nzValue="fill"></nz-option>
+                                    <nz-option nzLabel="ng-zorro twotone" nzValue="twotone"></nz-option>
+                                    <nz-option nzLabel="Font Awsome" nzValue="font_awsome"></nz-option>
+                                    <nz-option nzLabel="Material" nzValue="material"></nz-option>
+                                </nz-select>
+                            </div>
+                        </div>
+                        <div class="option">
+                            <p>Icon</p>
+                            <div class="box">
+                                <input type="text" class="input-text" name="" id=""
+                                    [(ngModel)]="selectedTheme['buttonIcon']"
+                                    (input)="changeInPageLayout(selectedTheme['buttonIcon']+'_'+'buttonIcon')">
+                            </div>
+                        </div>
+                        <div class="option">
+                            <p>Icon Size</p>
+                            <div class="box">
+                                <input type="number" class="input-text" name="" id=""
+                                    [(ngModel)]="selectedTheme['buttonIconSize']"
+                                    (input)="changeInPageLayout(selectedTheme['buttonIconSize']+'_'+'buttonIconSize')">
+                            </div>
+                        </div>
+                        <div class="option">
+                            <div class="box">
+                                <label nz-checkbox [(ngModel)]="selectedTheme['showButton']"
+                                    (ngModelChange)="changeLayout(selectedTheme['showButton']+'_'+'showButton')">Show
+                                    button</label>
+                            </div>
+                        </div>
+                        <div class="option">
+                            <div class="box">
+                                <label nz-checkbox [(ngModel)]="selectedTheme['showLogo']"
+                                    (ngModelChange)="changeLayout(selectedTheme['showLogo']+'_'+'showLogo')">show
+                                    Logo</label>
+                            </div>
+                        </div>
+                        <div class="option">
+                            <p>Button Class</p>
+                            <div class="box">
+                                <nz-select nzMode="tags" nzPlaceHolder="Button Class"
+                                    [(ngModel)]="selectedTheme['buttonClassArray']"
+                                    (ngModelChange)="changeLayout(selectedTheme['buttonClassArray']+'_'+'buttonClass')">
+                                    <nz-option *ngFor="let option of listOfOption" [nzLabel]="option.label"
+                                        [nzValue]="option.value"></nz-option>
+                                </nz-select>
+                            </div>
+                        </div>
                     </div>
                 </div>
-            </nz-tab>
+            </nz-tab> -->
             <nz-tab nzTitle="Collapse button">
                 <h6 class="mb-0 font-bold uppercase">Button Design</h6>
                 <p class="text-gray-500 text-xs">Choose Button Design
@@ -634,8 +655,4 @@
             </nz-tab>
         </nz-tabset>
     </ng-container>
-    <ng-template #extra>
-        <span nz-icon nzType="close" nzTheme="outline" (click)="close()"
-            class="text-gray-500 hover:text-red-500 cursor-pointer"></span>
-    </ng-template>
 </nz-drawer>
