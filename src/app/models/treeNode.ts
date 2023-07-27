@@ -538,4 +538,6 @@ export interface TreeNode {
   tooltipPosition?: any,
   borderLessInputs?: any,
   isLeaf?: any,
+  labelClassName?: any,
+  inputLabelClassName?: any,
 }

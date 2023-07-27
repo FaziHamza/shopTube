@@ -90,7 +90,16 @@ export class formFeildData {
               props: {
                 label: 'Label'
               }
-            }
+            },
+            {
+              key: 'width',
+              type: 'input',
+              className: "ml-2",
+              wrappers: ["formly-vertical-theme-wrapper"],
+              props: {
+                label: 'width'
+              }
+            },
           ]
         }
       },
@@ -5859,6 +5868,15 @@ export class formFeildData {
           wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             label: 'Input ClassName',
+          }
+        },
+        {
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          key: 'inputLabelClassName',
+          type: 'input',
+          wrappers: ["formly-vertical-theme-wrapper"],
+          props: {
+            label: 'Label ClassName',
           }
         },
         {
@@ -11839,6 +11857,7 @@ export class formFeildData {
             label: 'CSS ClassName',
           }
         },
+        
         {
           className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
           key: 'titleIcon',

@@ -23,7 +23,8 @@ import { DataSharedService } from '../services/data-shared.service';
           <span class="mr-1 mb-1">
             <st-icon *ngIf="to['additionalProperties']?.titleIcon" [type]="to['additionalProperties']?.iconType || 'outline'" [icon]="to['additionalProperties']?.titleIcon" [hoverIconColor]="to['additionalProperties']?.hoverIconColor || ''" [size]="to['additionalProperties']?.iconSize" [color]="to['additionalProperties']?.iconColor"></st-icon>
           </span>
-          <span *ngIf="to.required">*</span>{{to.label | translate}}
+          <span *ngIf="to.required">*</span>
+          <span [class]="to['additionalProperties']?.labelClassName">{{to.label | translate}}</span>
         </span>
         <span *ngIf="to['additionalProperties']?.tooltipPosition == 'right' || to['additionalProperties']?.tooltipPosition == undefined">
         <span *ngIf="to['additionalProperties']?.tooltip && !to['additionalProperties']?.tooltipWithoutIcon || false" nz-tooltip [nzTooltipTitle]="to['additionalProperties']?.tooltip">

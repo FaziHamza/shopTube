@@ -2004,6 +2004,7 @@ export class BuilderComponent implements OnInit {
           {
             label: 'option1',
             value: '1',
+            width: '0'
           },
         ];
       } else {
@@ -3410,6 +3411,7 @@ export class BuilderComponent implements OnInit {
             this.selectedNode['tooltipIcon'] = event.form.tooltipIcon;
             this.selectedNode['rowClass'] = event.form.rowClass;
             this.selectedNode['borderLessInputs'] = event.form.borderLessInputs;
+            this.selectedNode['inputLabelClassName'] = event.form.inputLabelClassName;
             if (this.selectedNode.children) {
               this.selectedNode.children[1]['rowClass'] = event.form.rowClass;
             }
@@ -3696,6 +3698,7 @@ export class BuilderComponent implements OnInit {
           needToUpdate = false;
 
           this.selectedNode.title = event.form.title;
+
           this.selectedNode.apiUrl = event.form.apiUrl;
           this.selectedNode['key'] = event.form?.key;
           this.selectedNode['id'] = event.form?.id;
@@ -4915,6 +4918,8 @@ export class BuilderComponent implements OnInit {
           formValues.tooltipIcon;
         fieldGroup[0].props['additionalProperties']['border'] =
           formValues.borderLessInputs;
+        fieldGroup[0].props['additionalProperties']['labelClassName'] =
+          formValues.inputLabelClassName;
       }
     }
     return fieldGroup;
@@ -4955,7 +4960,7 @@ export class BuilderComponent implements OnInit {
   }
   jsonParseWithObject(data: any) {
     return JSON.parse(data, (key, value) => {
-      if (typeof value === 'string' && value.startsWith('(')) {
+      if (typeof value === 'string' && value.startsWith('(') && value.includes('(model)')) {
         return eval(`(${value})`);
       }
       return value;

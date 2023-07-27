@@ -8,14 +8,16 @@ import { DataSharedService } from 'src/app/services/data-shared.service';
  <div [ngClass]="to['additionalProperties']?.wrapper && to['additionalProperties']?.wrapper == 'floating_filled' || to['additionalProperties']?.wrapper == 'floating_outlined' || to['additionalProperties']?.wrapper == 'floating_standard' ? 'relative z-0' : 'checkBox'">
 
 
-<nz-checkbox-wrapper [ngClass]="to['additionalProperties']?.wrapper && to['additionalProperties']?.wrapper == 'floating_filled' || to['additionalProperties']?.wrapper == 'floating_outlined' || to['additionalProperties']?.wrapper == 'floating_standard' ? to['additionalProperties']?.floatFieldClass : ''"  *ngIf="list.length" style="width: 100%;" (nzOnChange)="log($event , field)">
+<nz-checkbox-wrapper [ngClass]="to['additionalProperties']?.wrapper && to['additionalProperties']?.wrapper == 'floating_filled' || to['additionalProperties']?.wrapper == 'floating_outlined' || to['additionalProperties']?.wrapper == 'floating_standard' ? to['additionalProperties']?.floatFieldClass : ''"  *ngIf="list.length" (nzOnChange)="log($event , field)">
 
 <div nz-row>
-    <div nz-col ><label nz-checkbox [nzDisabled]='to.disabled'  [nzValue]="item.value" *ngFor="let item of list">{{item.label}}</label></div>
+    <div nz-col ><label nz-checkbox [ngClass]="{'checkBox-padding': i == 0}" [nzDisabled]='to.disabled'  [nzValue]="item.value" *ngFor="let item of list; let i=index"
+    style="width: {{ item.width }}% !important;"
+    >{{item.label}} {{item.width}}</label></div>
   </div>
 
 </nz-checkbox-wrapper>
-<label [ngClass]="to['additionalProperties']?.floatLabelClass" *ngIf='list.length == 0' [formControl]="formControl" [nzDisabled]='to.disabled'  nz-checkbox style="width: 100%;" ></label>
+<label [ngClass]="to['additionalProperties']?.floatLabelClass" *ngIf='list.length == 0' [formControl]="formControl" [nzDisabled]='to.disabled'  nz-checkbox  ></label>
 <label *ngIf="to['additionalProperties']?.wrapper == 'floating_outlined' || to['additionalProperties']?.wrapper == 'floating_standard' || to['additionalProperties']?.wrapper == 'floating_filled'"
 [ngClass]=" to['additionalProperties']?.floatLabelClass">
 {{to.label}}
