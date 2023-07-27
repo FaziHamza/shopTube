@@ -1576,8 +1576,8 @@ export class PagesComponent implements OnInit {
     return false;
   }
   getEnumList(data: any, targetId: any) {
-    if (data?.props?.apiUrl) {
-      let tableData = this.findObjectByTypeBase(this.resData[0], "gridList");
+    let tableData = this.findObjectByTypeBase(this.resData[0], "gridList");
+    if (data?.props?.apiUrl && tableData) {
       if(typeof targetId == "string"){
       let obj = [{name: 'id',}, { name: 'name',}]
       tableData['tableKey'] = obj;

@@ -1,38 +1,45 @@
 <div class="form-container">
   <form [formGroup]="form" (ngSubmit)="onSubmit()">
-    <nz-form-item>
+    <div class="-mt-6">
       <nz-form-label>Title</nz-form-label>
-      <nz-form-control>
-        <input nz-input formControlName="name" placeholder="Enter Title">
-      </nz-form-control>
-    </nz-form-item>
+      <nz-form-item>
+        <nz-form-control>
+          <input nz-input formControlName="name" placeholder="Enter Title">
+        </nz-form-control>
+      </nz-form-item>
+    </div>
 
-    <nz-form-item>
-      <nz-form-label>Select Category</nz-form-label>
-      <nz-form-control>
-        <nz-select formControlName="category" nzAllowClear>
-          <nz-option nzValue="Page" nzLabel="Page"></nz-option>
-          <nz-option nzValue="Block" nzLabel="Block"></nz-option>
-          <nz-option nzValue="Website Blocks" nzLabel="Website Blocks"></nz-option>
-        </nz-select>
-      </nz-form-control>
-    </nz-form-item>
-    <nz-form-item>
+<div class="-mt-4">
+  <nz-form-label >Select Category</nz-form-label>
+  <nz-form-item>
+    <nz-form-control>
+      <nz-select formControlName="category" nzAllowClear>
+        <nz-option nzValue="Page" nzLabel="Page"></nz-option>
+        <nz-option nzValue="Block" nzLabel="Block"></nz-option>
+        <nz-option nzValue="Website Blocks" nzLabel="Website Blocks"></nz-option>
+      </nz-select>
+    </nz-form-control>
+  </nz-form-item>
+</div>
+    <div class="-mt-4">
       <nz-form-label>Select Thumbnail Image</nz-form-label>
-      <nz-form-control>
-        <nz-upload
-          nzAction="your-upload-api-url"
-          nzListType="picture-card"
-          nzShowUploadList="false"
-          [nzAccept]="'.jpg,.jpeg,.png,.gif'"
-          [nzBeforeUpload]="beforeUpload">
-          <i nz-icon nzType="plus"></i>
-        </nz-upload>
-        <ng-container *ngIf="imageUrl">
-          <div alt="Preview" style="max-width: 100%; max-height: 200px;">{{ imageUrl }}</div>
-        </ng-container>
-      </nz-form-control>
-    </nz-form-item>
+      <nz-form-item>
+        <nz-form-control>
+          <nz-upload
+            nzAction="your-upload-api-url"
+            nzListType="picture-card"
+            nzShowUploadList="false"
+            [nzAccept]="'.jpg,.jpeg,.png,.gif'"
+            [nzBeforeUpload]="beforeUpload">
+            <i nz-icon nzType="plus"></i>
+          </nz-upload>
+          <ng-container *ngIf="imageUrl">
+            <div alt="Preview" style="max-width: 100%; max-height: 200px;">{{ imageUrl }}</div>
+          </ng-container>
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+
 
     <div class="basic-button-save">
       <button nz-button nzType="primary" class="save-btn" type="submit">Save</button>

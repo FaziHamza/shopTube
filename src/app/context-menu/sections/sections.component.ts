@@ -39,7 +39,8 @@ export class SectionsComponent implements OnInit {
     this.getFromQuery();
     this.requestSubscription = this.dataSharedService.sectionSubmit.subscribe({
       next: (res) => {
-        const checkButtonExist = this.isButtonIdExist(this.sections.children[1].children, res.id);
+        const checkButtonExist = this.findObjectById(this.sections, res.id);
+        // const checkButtonExist = this.isButtonIdExist(this.sections.children[1].children, res.id);
         if (checkButtonExist) {
           let makeModel: any = {};
           const filteredNodes = this.filterInputElements(this.sections.children[1].children);
@@ -63,8 +64,7 @@ export class SectionsComponent implements OnInit {
           }
           // this.submit();
           if (Object.keys(makeModel).length > 0) {
-            this.saveData(res)
-
+            this.saveData(res,checkButtonExist.dataTable)
           }
         }
       },
@@ -128,17 +128,53 @@ export class SectionsComponent implements OnInit {
     traverse(data);
     return inputElements;
   }
-  saveData(data: any) {
+  saveData(data: any,btnApi:string) {
     if (data.isSubmit) {
       this.joiValidation();
       if (this.joiValidationData.length > 0) {
         if (this.validationCheckStatus.length == 0) {
-          this.saveData1(data);
+          if(!btnApi)
+            this.saveData1(data);
+          else
+          this.saveButtonApi(btnApi);
         }
       } else {
-        this.saveData1(data);
+        if(!btnApi)
+          this.saveData1(data);
+        else
+          this.saveButtonApi(btnApi);
       }
     }
+  }
+  saveButtonApi(api:string){
+    let oneModelData = this.convertModel(this.dataModel);
+    const removePrefix = (data: Record<string, any>): Record<string, any> => {
+      const newData: Record<string, any> = {};
+      for (const key in data) {
+        const lastDotIndex = key.lastIndexOf('.');
+        const newKey = lastDotIndex !== -1 ? key.substring(lastDotIndex + 1) : key;
+        newData[newKey] = data[key];
+      }
+      return newData;
+    };
+
+    const result = removePrefix(oneModelData);
+    this.applicationServices.addNestCommonAPI(api, result).subscribe({
+      next: (res) => {
+        if (res[0]?.error)
+          this.toastr.error(res[0]?.error, { nzDuration: 3000 });
+        else {
+          this.toastr.success("Save Successfully", { nzDuration: 3000 });
+          // this.setInternalValuesEmpty(this.dataModel)
+          // this.employeeService.getSQLDatabaseTable(`knex-query?tables=${tables}&relationIds=id,${relationIds.toString()}`).subscribe({
+          this.getFromQuery();
+        }
+      },
+      error: (err) => {
+        console.error(err);
+        this.toastr.error("An error occurred", { nzDuration: 3000 });
+      }
+    });
   }
   saveData1(data: any) {
     // this.submit();
@@ -967,6 +1003,24 @@ export class SectionsComponent implements OnInit {
       this.applicationServices.getNestCommonAPIById('cp/ValidationRule', this.screenId).subscribe((getRes => {
         this.joiValidationData = getRes.data;
       }))
+  }
+  findObjectById(data: any, key: any) {
+    if (data) {
+      if (data.id && key) {
+        if (data.id === key) {
+          return data;
+        }
+        if (data.children.length > 0) {
+          for (let child of data.children) {
+            let result: any = this.findObjectById(child, key);
+            if (result !== null) {
+              return result;
+            }
+          }
+        }
+        return null;
+      }
+    }
   }
   // ngOnDestroy() {
   //   this.requestSubscription.unsubscribe();
