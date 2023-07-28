@@ -109,7 +109,7 @@ export class ButtonsComponent implements OnInit {
   }
   handleButtonClick(buttonData: any): void {
 
-    this.getButtonType(buttonData.type);
+    // this.getButtonType(buttonData.type);
     this.pagesRoute(buttonData);
     // this.notify.emit(buttonData);
     if ((!buttonData.captureData || buttonData.captureData == 'sectionLevel') && buttonData.isSubmit) {

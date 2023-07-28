@@ -1,15 +1,11 @@
 import { BuilderService } from './../../../services/builder.service';
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
-import { E } from '@formulajs/formulajs';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { Subscription, catchError, forkJoin, of } from 'rxjs';
 import { DataSharedService } from 'src/app/services/data-shared.service';
-import {
-
-} from 'ngx-monaco-editor';
+import {} from 'ngx-monaco-editor';
 import { EmployeeService } from 'src/app/services/employee.service';
-import { FormlyFormOptions } from '@ngx-formly/core';
 import { ApplicationService } from 'src/app/services/application.service';
 
 
@@ -60,19 +56,10 @@ export class ActionRuleComponent implements OnInit {
     this.getActionData();
     this.extractNodes(this.nodes, this.nodeList);
   }
-  // getNodeList() {
-  //
-  //   for (let j = 0; j < this.nodes[0].children[1].children[0].children[1].children.length; j++) {
-  //     if (this.nodes[0].children[1].children[0].children[1].children[j].formlyType != undefined) {
-  //       this.nodeList.push(this.nodes[0].children[1].children[0].children[1].children[j].formly[0].fieldGroup[0]);
-  //     }
-  //   }
-  // }
   extractNodes(nodes: any, nodeList: { title: string, key: string }[]) {
     for (const node of nodes) {
       const { title, key, children } = node;
       nodeList.push({ title, key });
-
       if (children && children.length > 0) {
         this.extractNodes(children, nodeList);
       }
@@ -114,7 +101,7 @@ export class ActionRuleComponent implements OnInit {
   }
 
   addActionFormGroup() {
-
+    debugger
     let mainArray: any[] = [];
     for (let i = 0; i < Object.keys(this.formlyModel).length; i++) {
       const element = Object.keys(this.formlyModel)[i];

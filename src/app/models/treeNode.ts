@@ -375,6 +375,7 @@ export interface TreeNode {
   link?: string,
   forCommomComponentCondition?: string,
   pagination?: any,
+  eventActionConfig?:any,
   delete?: boolean,
   update?: boolean,
   create?: boolean,

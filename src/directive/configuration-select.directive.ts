@@ -41,7 +41,9 @@ export class ConfigurableSelectDirective implements OnInit, OnDestroy {
         this.renderer.listen(this.viewContainer.element.nativeElement, config.event, () => {
           alert(`${config.event.charAt(0).toUpperCase() + config.event.slice(1)} event triggered!`);
           config.actions.forEach(action => {
-            this.executeAction(action);
+            this.loadAction = action;
+            this.loadOptions();
+            // this.executeAction(action);
           });
         });
       }
@@ -59,9 +61,9 @@ export class ConfigurableSelectDirective implements OnInit, OnDestroy {
           if (this.processData) {
             this.data = this.processData(this.data);
           }
-          this.viewContainer.clear();
+          // this.viewContainer.clear();
 
-          this.viewContainer.createEmbeddedView(this.templateRef, { $implicit: this.data });
+          // this.viewContainer.createEmbeddedView(this.templateRef, { $implicit: this.data });
         });
     }
   }

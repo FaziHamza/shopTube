@@ -9,15 +9,14 @@
         { actionType: 'API', url: '/api/fetch-click-data', method: 'GET' }
       ]
     },
-    
     {
-      event: 'mouseover',
+      event: 'click',
       actions: [
-        { actionType: 'API', url: '/api/fetch-change-data', method: 'GET' }
+        { actionType: 'API', url: 'cp/EnumList/21', method: 'GET' }
       ]
     }
   ]"
-  [loadAction]="{ actionType: 'API', url: 'cp/EnumList/17', method: 'GET' }"
+  [loadAction]="to['eventActionconfig']"
   [processData]="processData"
   [style.border-radius]="to['additionalProperties']?.borderRadius" (ngModelChange)="onModelChange($event, field)" [ngClass]="showError && !to['additionalProperties']?.suffixicon && !to['additionalProperties']?.prefixicon && !to['additionalProperties']?.addonLeft && !to['additionalProperties']?.addonRight ? 'input-border' : ''" [formControl]="formControl" [nzStatus]="to['additionalProperties']?.status"
       [ngClass]="to['additionalProperties']?.wrapper && to['additionalProperties']?.wrapper == 'floating_filled' || to['additionalProperties']?.wrapper == 'floating_outlined' ? to['additionalProperties']?.floatFieldClass : ''"

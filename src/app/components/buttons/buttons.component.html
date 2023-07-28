@@ -2,6 +2,20 @@
 <button
   *ngIf="buttonData.type != 'linkbutton' && buttonData.type != 'dropdownButton'"
   nz-button
+  [appConfigurableSelect]="[
+  {
+    event: 'dblclick',
+    actions: [
+      { actionType: 'API', url: '/api/fetch-click-data', method: 'GET' }
+    ]
+  },
+  {
+    event: 'click',
+    actions: [
+      { actionType: 'API', url: 'cp/EnumList/21', method: 'GET' }
+    ]
+  }
+]"
   [disabled]="buttonData.disabled" [nzBlock]="buttonData.nzBlock"
   [nzDanger]="buttonData.nzDanger"
   [nzGhost]="buttonData.nzGhost" [nzLoading]="buttonData.nzLoading"

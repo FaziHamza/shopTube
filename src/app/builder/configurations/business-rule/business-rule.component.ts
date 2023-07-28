@@ -82,7 +82,7 @@ export class BusinessRuleComponent implements OnInit {
                       description: [getBusinessRuleRes.description],
                       type: [getBusinessRuleRes.type],
                       ifRuleMain: this.formBuilder.array(
-                        getBusinessRuleRes.ifRuleMain.map((ifRuleMain: any) =>
+                        getBusinessRuleRes?.ifRuleMain?.map((ifRuleMain: any) =>
                           this.formBuilder.group({
                             ifCondition: [ifRuleMain.ifCondition],
                             oprator: [ifRuleMain.oprator],

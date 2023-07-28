@@ -429,7 +429,8 @@ export class BuilderComponent implements OnInit {
           this._id = objScreen._id;
           this.screenName = objScreen.name;
           this.isSavedDb = false;
-          this.getBuilderScreen();
+          this.getActions();
+          // this.getBuilderScreen();
           this.screenPage = true;
           if (objScreen.name.includes('_header') && this.selectApplicationName) {
             let application = this.applicationData.find((item: any) => item._id == this.selectApplicationName);
@@ -464,8 +465,23 @@ export class BuilderComponent implements OnInit {
       }
     });
   }
-  getBuilderScreen() {
+  actionListData : any[] = [];
+  getActions() {
     this.saveLoader = true;
+    this.requestSubscription = this.applicationService.getNestCommonAPIById("cp/actionbyscreenname", this.navigation ).subscribe({
+      next: (res:any) => {
+        this.actionListData = res?.data;
+        this.getBuilderScreen();
+      },
+      error: (err) => {
+        this.getBuilderScreen();
+        console.error(err);
+        // this.toastr.error("An error occurred", { nzDuration: 3000 });
+      }
+    })
+
+  }
+  getBuilderScreen(){
     this.requestSubscription = this.applicationService.getNestCommonAPIById('cp/Builder', this._id).subscribe({
       next: (res: any) => {
         if (res.isSuccess) {
@@ -475,7 +491,39 @@ export class BuilderComponent implements OnInit {
             this.isSavedDb = true;
             // this.moduleId = res[0].moduleId;
             this.formlyModel = [];
-            this.nodes = this.jsonParseWithObject(this.jsonStringifyWithObject(objScreenData));
+            let nodesData =  this.jsonParseWithObject(this.jsonStringifyWithObject(objScreenData));
+            if(this.actionListData.length > 0){
+              let getInputs = this.filterInputElements(nodesData);
+              if(getInputs && getInputs.length > 0){
+                getInputs.forEach((node) => {
+                  const formlyConfig = node.formly?.[0]?.fieldGroup?.[0]?.key;
+                  for (let index = 0; index < this.actionListData.length; index++) {
+                    const element = this.actionListData[index];
+                    if (formlyConfig == element.elementName){
+                      const eventActionConfig = node?.formly?.[0]?.fieldGroup?.[0]?.props;
+                      if (eventActionConfig) {
+                        eventActionConfig['eventActionconfig'] = {};
+                        let obj = { actionType: element.actionType, url: element.httpAddress, method: element.actionLink }
+                        eventActionConfig['eventActionconfig'] = obj;
+                      }
+                    }
+                  }
+                });
+              }
+
+              for (let index = 0; index < this.actionListData.length; index++) {
+                const element = this.actionListData[index];
+                let findObj = this.findObjectByKey(nodesData[0],element.elementName);
+                if(findObj){
+                  let obj = { actionType: element.actionType, url: element.httpAddress, method: element.actionLink }
+                  findObj.eventActionconfig = obj;
+                }
+              }
+              this.nodes = nodesData;
+            }else
+              this.nodes  = nodesData;
+
+
             // if (!this.nodes[0].isLeaf) {
             //   this.addOrRemoveisLeaf(this.nodes[0]);
             // }
@@ -3866,45 +3914,45 @@ export class BuilderComponent implements OnInit {
             //   props['defaultValue'] = arr;
             // } else {
             // }
-            if (event.form.api || event.form?.apiUrl) {
-              this.requestSubscription = this.applicationService
-                .getNestCommonAPI(event.form.apiUrl)
-                .subscribe({
-                  next: (res) => {
-                    debugger
-                    if (res?.data?.length > 0) {
-                      let propertyNames = Object.keys(res.data[0]);
-                      let result = res.data.map((item: any) => {
-                        let newObj: any = {};
-                        let propertiesToGet: string[];
-                        if ('id' in item && 'name' in item) {
-                          propertiesToGet = ['id', 'name'];
-                        } else {
-                          propertiesToGet = Object.keys(item).slice(0, 2);
-                        }
-                        propertiesToGet.forEach((prop) => {
-                          newObj[prop] = item[prop];
-                        });
-                        return newObj;
-                      });
+              // if (event.form.api || event.form?.apiUrl) {
+              //   this.requestSubscription = this.applicationService
+              //     .getNestCommonAPI(event.form.apiUrl)
+              //     .subscribe({
+              //       next: (res) => {
+              //         debugger
+              //         if (res?.data?.length > 0) {
+              //           let propertyNames = Object.keys(res.data[0]);
+              //           let result = res.data.map((item: any) => {
+              //             let newObj: any = {};
+              //             let propertiesToGet: string[];
+              //             if ('id' in item && 'name' in item) {
+              //               propertiesToGet = ['id', 'name'];
+              //             } else {
+              //               propertiesToGet = Object.keys(item).slice(0, 2);
+              //             }
+              //             propertiesToGet.forEach((prop) => {
+              //               newObj[prop] = item[prop];
+              //             });
+              //             return newObj;
+              //           });
 
-                      let finalObj = result.map((item: any) => {
-                        return {
-                          label: item.name || item[propertyNames[1]],
-                          value: item.id || item[propertyNames[0]],
-                        };
-                      });
-                      props.options = finalObj;
-                    }
-                  },
-                  error: (err) => {
-                    console.error(err); // Log the error to the console
-                    this.toastr.error('An error occurred', {
-                      nzDuration: 3000,
-                    }); // Show an error message to the user
-                  },
-                });
-            }
+              //           let finalObj = result.map((item: any) => {
+              //             return {
+              //               label: item.name || item[propertyNames[1]],
+              //               value: item.id || item[propertyNames[0]],
+              //             };
+              //           });
+              //           props.options = finalObj;
+              //         }
+              //       },
+              //       error: (err) => {
+              //         console.error(err); // Log the error to the console
+              //         this.toastr.error('An error occurred', {
+              //           nzDuration: 3000,
+              //         }); // Show an error message to the user
+              //       },
+              //     });
+              // }
           });
           this.updateNodes();
         }

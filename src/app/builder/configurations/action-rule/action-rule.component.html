@@ -4,9 +4,14 @@
     <div class="grid lg:grid-cols-5 sm:grid-cols-2 gap-2">
       <div>
         <nz-select class="form-select" formControlName="submissionType" aria-label="Default Select Example">
-          <nz-option nzValue="-1" nzLabel="Select" selected></nz-option>
-          <nz-option nzValue="onLoad" nzLabel="On Load" selected></nz-option>
-          <nz-option nzValue="onClick" nzLabel="On Click" selected></nz-option>
+          <nz-option nzValue="select" nzLabel="Select" selected></nz-option>
+          <nz-option nzValue="load" nzLabel="On Load" ></nz-option>
+          <nz-option nzValue="click" nzLabel="On Click" ></nz-option>
+          <nz-option nzValue="change" nzLabel="Change" ></nz-option>
+          <nz-option nzValue="dblclick" nzLabel="Double Click" ></nz-option>
+          <nz-option nzValue="mouseover" nzLabel="Mouse Over" ></nz-option>
+          <nz-option nzValue="mouseleave" nzLabel="Mouse Leave" ></nz-option>
+          <nz-option nzValue="mouseenter" nzLabel="Mouse Enter" ></nz-option>
         </nz-select>
       </div>
       <div>
@@ -25,7 +30,7 @@
       </div>
       <div>
         <nz-select class="form-select" formControlName="actionType" aria-label="Default Select Example">
-          <nz-option nzValue="-1" nzLabel="Select" selected></nz-option>
+          <nz-option nzValue="select" nzLabel="Select" selected></nz-option>
           <nz-option nzValue="email" nzLabel="Email"></nz-option>
           <nz-option nzValue="query" nzLabel="Query"></nz-option>
           <nz-option nzValue="api" nzLabel="Http"></nz-option>
