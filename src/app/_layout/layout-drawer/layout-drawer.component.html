@@ -1,7 +1,12 @@
-<button nz-button nzType="primary" [nzSize]="'large'" nzShape="circle" (click)="open()" class="fixed bottom-4 right-4"
+<nz-space>
+    <button *nzSpaceItem nz-button (click)="open()" nzType="primary" class="upload-btn">
+        <i class="fa-light fa-gear"></i>
+    </button>
+</nz-space>
+<!-- <button nz-button nzType="primary" [nzSize]="'large'" nzShape="circle" (click)="open()" class="fixed bottom-4 right-4"
     style="display: flex; justify-content: center; align-items: center">
     <span nz-icon nzType="setting" nzSpin style="margin-right: 0; "></span>
-</button>
+</button> -->
 <nz-drawer nzWrapClassName="drawer-body" [nzWidth]="'50%'" [nzVisible]="visible" nzPlacement="right" [nzTitle]="drawer"
     (nzOnClose)="close()">
     <ng-template #drawer>
@@ -332,7 +337,8 @@
                 <div class="drawer-bottom">
                     <button nz-button nzType="primary">Save</button>
                     <button nz-button nzType="default" class="btn-secondary" nz-popconfirm
-                        nzPopconfirmTitle="Are you sure to reset menu design" (nzOnConfirm)="reset('mainMenu')">Reset</button>
+                        nzPopconfirmTitle="Are you sure to reset menu design"
+                        (nzOnConfirm)="reset('mainMenu')">Reset</button>
                 </div>
             </nz-tab>
             <nz-tab nzTitle="In Page Menu">
@@ -478,7 +484,8 @@
                 <div class="drawer-bottom">
                     <button nz-button nzType="primary">Save</button>
                     <button nz-button nzType="default" class="btn-secondary" nz-popconfirm
-                        nzPopconfirmTitle="Are you sure to reset In page menu design" (nzOnConfirm)="reset('inPageMenu')">Reset</button>
+                        nzPopconfirmTitle="Are you sure to reset In page menu design"
+                        (nzOnConfirm)="reset('inPageMenu')">Reset</button>
                 </div>
             </nz-tab>
             <nz-tab nzTitle="Collapse button">
@@ -548,14 +555,12 @@
                     </div>
                     <div class="flex flex-wrap">
                         <div class="w-1/5 p-1 pt-9">
-                            <label nz-checkbox
-                                [(ngModel)]="selectedTheme['showButton']"
+                            <label nz-checkbox [(ngModel)]="selectedTheme['showButton']"
                                 (ngModelChange)="changeLayout(selectedTheme['showButton']+'_'+'showButton')">Show
                                 button</label>
                         </div>
                         <div class="w-1/5 p-1 pt-9">
-                            <label nz-checkbox
-                                [(ngModel)]="selectedTheme['showLogo']"
+                            <label nz-checkbox [(ngModel)]="selectedTheme['showLogo']"
                                 (ngModelChange)="changeLayout(selectedTheme['showLogo']+'_'+'showLogo')">show
                                 Logo</label>
                         </div>
@@ -564,12 +569,11 @@
                             <nz-select nzMode="tags" nzPlaceHolder="Button Class"
                                 [(ngModel)]="selectedTheme['buttonClassArray']"
                                 (ngModelChange)="changeLayout(selectedTheme['buttonClassArray']+'_'+'buttonClass')">
-                                <nz-option *ngFor="let option of listOfOption"
-                                    [nzLabel]="option.label"
+                                <nz-option *ngFor="let option of listOfOption" [nzLabel]="option.label"
                                     [nzValue]="option.value"></nz-option>
                             </nz-select>
                         </div>
-    
+
                     </div>
                 </div>
             </nz-tab>

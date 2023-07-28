@@ -15,6 +15,7 @@ import { NzDrawerService } from 'ng-zorro-antd/drawer';
 import { MenuBulkUpdateComponent } from './menu-bulk-update/menu-bulk-update.component';
 import { Router } from '@angular/router';
 import { DataSharedService } from '../services/data-shared.service';
+import { NzCascaderOption } from 'ng-zorro-antd/cascader';
 
 @Component({
   selector: 'st-menu-builder',
@@ -59,7 +60,9 @@ export class MenuBuilderComponent implements OnInit {
   selectApplicationType: any = '';
   requestSubscription: Subscription;
   currentUser: any;
-
+  iconActive: string = '';
+  selectDepartmentName: any = [];
+  departmentData: any = [];
   public editorOptions: JsonEditorOptions;
   // actionType: any;
   constructor(private clickButtonService: BuilderClickButtonService,
@@ -130,6 +133,7 @@ export class MenuBuilderComponent implements OnInit {
     ]
   }
   clearChildNode() {
+    this.iconActive = 'clearChildNode';
     this.arrayEmpty();
     const newNode = [{
       id: 'Menu_' + Guid.newGuid(),
@@ -184,6 +188,7 @@ export class MenuBuilderComponent implements OnInit {
 
   }
   LayerShow() {
+    this.iconActive = 'layer';
     if (this.IslayerVisible)
       this.IslayerVisible = false;
     else
@@ -192,6 +197,7 @@ export class MenuBuilderComponent implements OnInit {
     this.applySize();
   }
   JsonEditorShow() {
+    this.iconActive = 'jsonEdit';
     this.IslayerVisible = false;
     this.controlListvisible = false;
     this.IsjsonEditorVisible = true;
@@ -237,7 +243,6 @@ export class MenuBuilderComponent implements OnInit {
         else {
           this.getlocalMenu(id);
         }
-        // this.prepareDragDrop(this.nodes);
       } else {
         this.toastr.error(res.message, { nzDuration: 3000 });
         this.getlocalMenu(id);
@@ -250,22 +255,6 @@ export class MenuBuilderComponent implements OnInit {
         this.dataSharedService.goToMenu = id;
         if (res.data.length > 0) {
           let getApplication = this.applications.find((a: any) => a._id == id);
-          if (res.isSuccess) {
-            const observables = [
-              this.applicationService.getNestBuilderAPIByScreen('cp/screen/Builder', getApplication.name + "_header"),
-              this.applicationService.getNestBuilderAPIByScreen('cp/screen/Builder', getApplication.name + "_footer"),
-            ];
-            forkJoin(observables).subscribe({
-              next: (results) => {
-                this.dataSharedService.currentHeader.next(results[0].isSuccess ? results[0].data.length > 0 ? JSON.parse(results[0].data[0].screenData) : '' : '');
-                this.dataSharedService.currentFooter.next(results[1].isSuccess ? results[1].data.length > 0 ? JSON.parse(results[1].data[0].screenData) : '' : '');
-              },
-              error: (err) => {
-                console.error(err);
-                this.toastr.error("An error occurred", { nzDuration: 3000 });
-              }
-            });
-          }
           this.selectApplicationType = getApplication['application_Type'] ? getApplication['application_Type'] : '';
           this.applicationId = res.data[0]._id
           this.nodes = JSON.parse(res.data[0].menuData);
@@ -285,7 +274,6 @@ export class MenuBuilderComponent implements OnInit {
           this.applicationId = '';
           this.clickBack();
         }
-        // this.prepareDragDrop(this.nodes);
       } else
         this.toastr.error(res.message, { nzDuration: 3000 });
     }));
@@ -363,7 +351,6 @@ export class MenuBuilderComponent implements OnInit {
     // console.log(event);
   }
   hoverIn(data: any) {
-
     this.isVisible = data.origin.id;
   }
   hoverOut(data: any) {
@@ -728,6 +715,7 @@ export class MenuBuilderComponent implements OnInit {
   saveLoader: any = false;
 
   saveJsonMenu() {
+    this.iconActive = 'save';
     this.saveLoader = true;
     var currentData = JSON.parse(JSON.stringify(this.nodes) || '{}');
     // const mainApplicationId = this.applications.filter((a: any) => a.name == this.applicationName);
@@ -1550,35 +1538,23 @@ export class MenuBuilderComponent implements OnInit {
     }
   }
 
-
-  getApplication(id: any) {
-    if (id) {
-      this.iconType = '';
-      // let getApplication = this.departments.find(a => a.name == id);
-      // if (getApplication) {
-      // this.selectApplicationType = getApplication['application_Type'] ? getApplication['application_Type'] : '';
-      this.requestSubscription = this.applicationService.getNestCommonAPIById('cp/Application', id).subscribe({
-        next: (res: any) => {
-          if (res.isSuccess) {
-            this.applications = res.data;
-            this.clickBack();
-          } else
-            this.toastr.error(res.message, { nzDuration: 3000 });
-        },
-        error: (err) => {
-          console.error(err); // Log the error to the console
-          this.toastr.error("An error occurred", { nzDuration: 3000 }); // Show an error message to the user
-        }
-      });
-    }
-    // }
-  }
-
   getDepartments() {
     this.requestSubscription = this.applicationService.getNestCommonAPI('cp/Department').subscribe({
       next: (res: any) => {
-        if (res.isSuccess)
-          this.departments = res.data;
+        if (res.isSuccess) {
+          if (res.data.length > 0) {
+            this.departments = res.data;
+            this.departmentData = res.data?.map((data: any) => {
+              return {
+                label: data.name,
+                value: data._id
+              };
+            });
+          } else {
+            this.departments = [];
+            this.departmentData = [];
+          }
+        }
         else
           this.toastr.error(res.message, { nzDuration: 3000 }); // Show an error message to the user
       },
@@ -1754,6 +1730,39 @@ export class MenuBuilderComponent implements OnInit {
     }
     if (!this.selectedTheme['inPageMenu']['font']) {
       this.selectedTheme['inPageMenu']['font'] = 'font-roboto'
+    }
+  }
+  typeFirstAlphabetAsIcon(node: any) {
+    const firstAlphabet = node?.origin?.type?.charAt(0)?.toUpperCase();
+    return firstAlphabet;
+  }
+  async loadData(node: NzCascaderOption, index: number): Promise<void> {
+    if (index === 0) {
+      try {
+        const res = await this.applicationService.getNestCommonAPIById('cp/Application', node.value).toPromise();
+        if (res.isSuccess) {
+          this.applications = res.data;
+          const applications = res.data.map((appData: any) => {
+            return {
+              label: appData.name,
+              value: appData._id,
+              isLeaf: true
+            };
+          });
+          node.children = applications;
+        } else {
+          this.toastr.error(res.message, { nzDuration: 3000 });
+        }
+      } catch (err) {
+        console.error('Error loading screen data:', err);
+        this.toastr.error('An error occurred while loading screen data', { nzDuration: 3000 });
+      }
+    }
+  }
+  onDepartmentChange(departmentId: any) {
+    debugger
+    if (departmentId.length === 2) {
+      this.getMenus(departmentId[1])
     }
   }
 }

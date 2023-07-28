@@ -27,6 +27,12 @@ export class AppSideMenuComponent implements OnInit {
   hoverActiveShow: any;
   currentUrl = "";
   currentUser: any;
+  openMap: { [name: string]: boolean } = {
+    sub1: true,
+    sub2: false,
+    sub3: false
+  };
+
   constructor(private employeeService: EmployeeService, private toastr: NzMessageService, private router: Router,
     public builderService: BuilderService, public dataSharedService: DataSharedService, private renderer: Renderer2,
     private applicationService: ApplicationService) { }
@@ -203,6 +209,13 @@ export class AppSideMenuComponent implements OnInit {
       this.selectedTheme.allMenuItems = arrayList.filter((item) => !item.isTitle).slice(0, 7);
     } else if (this.selectedTheme.layout === 'horizental' && this.menuItems.length > 0) {
       this.selectedTheme.allMenuItems = this.menuItems;
+    }
+  }
+  openHandler(value: string): void {
+    for (const key in this.openMap) {
+      if (key !== value) {
+        this.openMap[key] = false;
+      }
     }
   }
 

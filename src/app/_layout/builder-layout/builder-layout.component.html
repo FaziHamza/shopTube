@@ -48,11 +48,11 @@
         nzWidth="240px" nzBreakpoint="md"
         [(nzCollapsed)]="selectedTheme.isCollapsed" [nzTrigger]="null">
         <ul nz-menu nzMode="inline"
-          [nzInlineCollapsed]="selectedTheme.isCollapsed" nzMode="inline">
+          [nzInlineCollapsed]="selectedTheme.isCollapsed">
           <li nz-menu-item *ngFor="let menu of menus" [routerLink]="menu.link"
             routerLinkActive="active">
             <i [class]="menu.icon"></i>
-            <span>{{menu.title}}</span>
+            <span class="colapsed-menu-title">{{menu.title}}</span>
           </li>
           <!-- <li nz-menu-item>
             <i class="fa-light fa-square-list"></i>

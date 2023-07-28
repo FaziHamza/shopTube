@@ -14,6 +14,7 @@ import { EmployeeService } from 'src/app/services/employee.service';
   styleUrls: ['./site-layout.component.scss']
 })
 export class SiteLayoutComponent implements OnInit {
+  isCollapsed : boolean = false;
   @Input() menuItems: any = [];
   @Input() selectedTheme: any;
   isVisible: boolean = false;
@@ -55,6 +56,7 @@ export class SiteLayoutComponent implements OnInit {
     allMenuItems: [],
     showMenu: true,
   }
+
   constructor(private applicationService: ApplicationService, public dataSharedService: DataSharedService, public builderService: BuilderService,
     private toastr: NzMessageService, private router: Router, private activatedRoute: ActivatedRoute) { }
 
