@@ -247,8 +247,9 @@ object {
 
   .ant-select-selector {
     height: 51px !important;
-   
+
   }
+
   .ant-select-single .ant-select-selector .ant-select-selection-placeholder {
     padding-top: 10px !important;
   }
@@ -2651,10 +2652,23 @@ object {
     width: 200px !important;
     z-index: 999 !important;
     left: 0px !important;
-    top: 62px !important;
+    top: 0px !important;
   }
 
-  .main-layout .side-menu.side-menu-rtl {
+  .main-layout {
+    .backdrop {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: black;
+      opacity: .3;
+      z-index: 99;
+    }
+  }
+
+  .main-layout .side-menu-rtl {
     position: absolute !important;
     width: 200px !important;
     z-index: 999 !important;
@@ -2662,7 +2676,7 @@ object {
     left: auto !important;
     border-left: 1px solid #e5e7eb !important;
     border-right: none !important;
-    top: 62px !important;
+    top: 0px !important;
   }
 
   .header-inner {
@@ -2912,7 +2926,11 @@ object {
     width: 100% !important;
   }
 
-  .side-menu .ant-menu-horizontal,
+  .side-menu {
+    left: 50px !important;
+    border: 1px solid #e0e0e0;
+  }
+
   .ant-layout-header {
     padding: 0px 50px;
   }
@@ -3296,7 +3314,7 @@ object {
         font-size: 14px;
       }
 
-      span {
+      .colapsed-menu-title {
         margin-left: 10px;
         font-size: 13px;
       }
@@ -3322,7 +3340,7 @@ object {
         display: flex;
         margin: 10px 0px !important;
 
-        span {
+        .colapsed-menu-title {
           display: none;
         }
 
@@ -4556,3 +4574,6 @@ object {
 
 
 // }
+.main-layout {
+  position: relative;
+}

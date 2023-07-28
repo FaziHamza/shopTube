@@ -87,6 +87,7 @@
     </nz-header>
     <div [ngClass]='selectedTheme.horizontalRow' class="main-layout"
       [dir]="this.selectedTheme.layout">
+      <div *ngIf="selectedTheme.showMenu" class="backdrop"></div>
       <div [ngClass]="{'side-menu': selectedTheme.layout != 'rtl',
         'side-menu-rtl': selectedTheme.layout == 'rtl'}"
         [class]="selectedTheme.menuColumn + ' desktop-toggle'">
