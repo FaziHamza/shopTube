@@ -17,6 +17,8 @@ export class SelectComponent extends FieldType<FieldTypeConfig> implements OnCha
   constructor(private sharedService: DataSharedService , private cdr: ChangeDetectorRef
     ,private applicationService: ApplicationService) {
     super();
+    this.processData = this.processData.bind(this);
+
   }
   getIcon(value: any) {
     return (this.to.options as any)
@@ -30,41 +32,7 @@ export class SelectComponent extends FieldType<FieldTypeConfig> implements OnCha
     this.to
     document.documentElement.style.setProperty('--radius', this.to['additionalProperties']?.borderRadius);
     this.cdr.detectChanges();
-    if(this.field.props['apiUrl']){
-      this.requestSubscription =  this.applicationService
-      .getNestCommonAPI(this.field.props['apiUrl'])
-      .subscribe({
-        next: (res) => {
-          debugger
-          if(res?.data?.length  > 0){
-            let propertyNames = Object.keys(res.data[0]);
-            let result = res.data.map((item: any) => {
-              let newObj: any = {};
-              let propertiesToGet: string[];
-              if ('id' in item && 'name' in item) {
-                propertiesToGet = ['id', 'name'];
-              } else {
-                propertiesToGet = Object.keys(item).slice(0, 2);
-              }
-              propertiesToGet.forEach((prop) => {
-                newObj[prop] = item[prop];
-              });
-              return newObj;
-            });
-
-            let finalObj = result.map((item:any) => {
-              return {
-                label: item.name ||  item[propertyNames[1]],
-                value: item.id  ||  item[propertyNames[0]],
-              };
-            });
-            this.field.props.options = finalObj;
-          }
-        },
-        error: (err) => {
-        },
-      });
-    }
+ 
   }
   ngOnChanges(changes: any) {
     document.documentElement.style.setProperty('--radius', this.to['additionalProperties']?.borderRadius);
@@ -80,8 +48,33 @@ export class SelectComponent extends FieldType<FieldTypeConfig> implements OnCha
     if(this.requestSubscription)
       this.requestSubscription.unsubscribe();
   }
-  processData(data: any[]): any[] {
+  processData(data: any[]) {
     debugger
+    if(data?.length  > 0){
+      let propertyNames = Object.keys(data[0]);
+      let result = data.map((item: any) => {
+        let newObj: any = {};
+        let propertiesToGet: string[];
+        if ('id' in item && 'name' in item) {
+          propertiesToGet = ['id', 'name'];
+        } else {
+          propertiesToGet = Object.keys(item).slice(0, 2);
+        }
+        propertiesToGet.forEach((prop) => {
+          newObj[prop] = item[prop];
+        });
+        return newObj;
+      });
+
+      let finalObj = result.map((item:any) => {
+        return {
+          label: item.name ||  item[propertyNames[1]],
+          value: item.id  ||  item[propertyNames[0]],
+        };
+      });
+      debugger
+      this.field.props.options = finalObj;
+    }
     // Your processing logic here
     return data;
   }
