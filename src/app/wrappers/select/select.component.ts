@@ -80,4 +80,9 @@ export class SelectComponent extends FieldType<FieldTypeConfig> implements OnCha
     if(this.requestSubscription)
       this.requestSubscription.unsubscribe();
   }
+  processData(data: any[]): any[] {
+    debugger
+    // Your processing logic here
+    return data;
+  }
 }

@@ -11,10 +11,10 @@ export class ConfigurableSelectDirective implements OnInit, OnDestroy {
   @Input('appConfigurableSelect') configs: Array<{ event: string, actions: Array<Action> }>;
   @Input() loadAction: LoadAction;
   @Input() templateRef: TemplateRef<any>;
+  @Input() processData: (data: any[]) => any[];
 
   // Store the results from API
-  data: [] = [];
-
+  data: any[] = [];
   private unsubscribe$ = new Subject<void>();
 
   constructor(
@@ -50,6 +50,10 @@ export class ConfigurableSelectDirective implements OnInit, OnDestroy {
         .subscribe(response => {
           debugger
           this.data = response.data;
+              // Process this.data
+        if (this.processData) {
+          this.data = this.processData(this.data);
+        }
           this.viewContainer.clear();
        
           this.viewContainer.createEmbeddedView(this.templateRef, { $implicit: this.data });
