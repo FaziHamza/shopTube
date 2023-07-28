@@ -1,7 +1,7 @@
-import { Directive, Input, ElementRef, Renderer2, OnInit, OnDestroy, ViewContainerRef } from '@angular/core';
-import { NzSelectComponent } from 'ng-zorro-antd/select';
-import { Observable, Subject, takeUntil } from 'rxjs';
+import { Directive, Input, TemplateRef, ViewContainerRef, OnInit, OnDestroy } from '@angular/core';
 import { ApplicationService } from 'src/app/services/application.service';
+import { Observable, Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 @Directive({
   selector: '[appConfigurableSelect]'
@@ -10,12 +10,17 @@ export class ConfigurableSelectDirective implements OnInit, OnDestroy {
 
   @Input('appConfigurableSelect') configs: Array<{ event: string, actions: Array<Action> }>;
   @Input() loadAction: LoadAction;
+  @Input() templateRef: TemplateRef<any>;
+
+  // Store the results from API
+  data: [] = [];
 
   private unsubscribe$ = new Subject<void>();
 
-  constructor(private renderer: Renderer2, private el: ElementRef,
-    private nzSelect: NzSelectComponent,
-    private applicationService: ApplicationService) { }
+  constructor(
+    private applicationService: ApplicationService,
+    private viewContainer: ViewContainerRef
+  ) { }
 
   ngOnInit() {
     this.bindEvents();
@@ -30,7 +35,7 @@ export class ConfigurableSelectDirective implements OnInit, OnDestroy {
   private bindEvents(): void {
     this.configs?.forEach(config => {
       if (config?.event && config?.actions) {
-        this.renderer.listen(this.el.nativeElement, config.event, () => {
+        this.viewContainer.element.nativeElement.addEventListener(config.event, () => {
           config.actions.forEach(action => {
             this.executeAction(action);
           });
@@ -40,13 +45,14 @@ export class ConfigurableSelectDirective implements OnInit, OnDestroy {
   }
 
   private loadOptions(): void {
-    debugger
-
     if (this.loadAction) {
       this.executeAction(this.loadAction)
         .subscribe(response => {
           debugger
-          this.populateOptions(response.data);
+          this.data = response.data;
+          this.viewContainer.clear();
+       
+          this.viewContainer.createEmbeddedView(this.templateRef, { $implicit: this.data });
         });
     }
   }
@@ -56,31 +62,9 @@ export class ConfigurableSelectDirective implements OnInit, OnDestroy {
     return this.applicationService.callApi(url, method, data, headers)
       .pipe(takeUntil(this.unsubscribe$));
   }
-
-  private populateOptions(data: any): void {
-    if (!data || !Array.isArray(data)) {
-      return;
-    }
-
-    // Clear current options
-    this.nzSelect.clearInput();
-
-    // Add new options using ng-zorro-antd's NzOptionComponent
-    data.forEach(item => {
-      const option = this.renderer.createElement('nz-option');
-      this.renderer.setProperty(option, 'nzLabel', item.text);
-      this.renderer.setProperty(option, 'nzValue', item.value);
-      this.renderer.appendChild(this.el.nativeElement, option);
-    });
-  }
 }
-type LoadAction = {
-  actionType: string;
-  url: string;
-  method: string;
-  data?: any;
-  headers?: any;
-};
+
+type LoadAction = Action;
 
 type Action = {
   actionType: string;
