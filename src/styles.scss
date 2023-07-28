@@ -86,6 +86,12 @@ nz-time-picker {
   margin-top: -0.1px;
   padding-top: 0.1px;
   background: white !important;
+
+  .ant-menu-submenu {
+    .ant-menu-sub {
+      padding-left: 10px;
+    }
+  }
 }
 
 body {
@@ -3341,7 +3347,7 @@ object {
         margin: 10px 0px !important;
 
         .colapsed-menu-title {
-          display: none;
+          display: none !important;
         }
 
         i {
@@ -4576,4 +4582,11 @@ object {
 // }
 .main-layout {
   position: relative;
+}
+.user-builder-layout {
+  .ant-layout-sider-collapsed {
+    .colapsed-menu-title {
+      display: none;
+    }
+  }
 }
