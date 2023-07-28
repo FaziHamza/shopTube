@@ -1,4 +1,8 @@
-<div class="user-builder-layout">
+<div class="user-builder-layout" [ngClass]="{
+  'boxed-menu': selectedTheme.layoutWidth == 'boxed' &&  selectedTheme.layout != 'horizental',
+  'horizental-boxed': selectedTheme.layoutWidth == 'boxed' &&  selectedTheme.layout == 'horizental',
+  'horizental-fluid': selectedTheme.layoutWidth == 'fluid' &&  selectedTheme.layout == 'horizental'
+}">
   <nz-layout class="app-layout">
     <nz-header>
       <div class="app-header">
@@ -39,7 +43,8 @@
         </div>
       </div>
     </nz-header>
-    <nz-layout class="main-layout2">
+    <nz-layout [dir]="this.selectedTheme.layout"
+      [class]="'main-layout2' + (selectedTheme.layout === 'horizental' ? ' b-horizontal-menu' : '')">
       <nz-sider class="menu-sidebar" nzTheme="light" nzCollapsible nzWidth="240px" nzBreakpoint="md"
         [(nzCollapsed)]="selectedTheme.isCollapsed" [nzTrigger]="null">
         <st-app-side-menu [selectedTheme]="selectedTheme" [menuItems]="menuItems"
