@@ -268,8 +268,8 @@
                         <div class="options-list2">
                             <div class="option2">
                                 <div class="banner"
-                                    [ngClass]="selectedTheme.siderBarImages == '' ? 'selected resert-bg-img' : 'unselected'">
-                                    <i class="fa-solid fa-xmark"></i>
+                                (click)="changeLayout('')" [ngClass]="selectedTheme.siderBarImages == '' ? 'selected resert-bg-img' : 'unselected resert-bg-img'">
+                                    <i class="fa-solid fa-xmark" ></i>
                                 </div>
                             </div>
                             <div class="option2">

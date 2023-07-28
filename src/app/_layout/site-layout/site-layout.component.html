@@ -1,13 +1,13 @@
-<div class="user-builder-layout" [ngClass]="{
-  'boxed-menu': selectedTheme.layoutWidth == 'boxed' &&  selectedTheme.layout != 'horizental',
-  'horizental-boxed': selectedTheme.layoutWidth == 'boxed' &&  selectedTheme.layout == 'horizental',
-  'horizental-fluid': selectedTheme.layoutWidth == 'fluid' &&  selectedTheme.layout == 'horizental'
+<div class="user-builder-layout" *ngIf="selectedTheme" [ngClass]="{
+  'boxed-menu': selectedTheme?.layoutWidth == 'boxed' &&  selectedTheme?.layout != 'horizental',
+  'horizental-boxed': selectedTheme?.layoutWidth == 'boxed' &&  selectedTheme?.layout == 'horizental',
+  'horizental-fluid': selectedTheme?.layoutWidth == 'fluid' &&  selectedTheme?.layout == 'horizental'
 }">
   <nz-layout class="app-layout">
     <nz-header>
-      <div class="app-header">
-        <div class="b-brand" (click)="selectedTheme.isCollapsed = !selectedTheme.isCollapsed">
-          <img src="assets/images/logo.png" alt>
+      <div class="app-header" *ngIf="!currentHeader">
+        <div class="b-brand" (click)="menuCollapsed()">
+          <img [src]="logo ? logo : 'assets/images/logo.png'" alt>
         </div>
         <div class="header-action-btns">
           <div class="nav-item">
@@ -42,14 +42,49 @@
           </div>
         </div>
       </div>
+      <div class="app-header-dynamic" *ngIf="currentHeader">
+        <div class="b-brand" (click)="menuCollapsed()">
+          <img [src]="logo ? logo : 'assets/images/logo.png'" alt>
+        </div>
+        <div class="dynamic-header">
+          <st-pages [resData]="currentHeader"></st-pages>
+        </div>
+      </div>
     </nz-header>
-    <nz-layout [dir]="this.selectedTheme.layout"
-      [class]="'main-layout2' + (selectedTheme.layout === 'horizental' ? ' b-horizontal-menu' : '')">
+    <nz-layout [dir]="this.selectedTheme?.layout"
+      [class]="'main-layout2' + (selectedTheme?.layout === 'horizental' ? ' b-horizontal-menu' : '')">
       <nz-sider class="menu-sidebar" nzTheme="light" nzCollapsible nzWidth="240px" nzBreakpoint="md"
         [(nzCollapsed)]="selectedTheme.isCollapsed" [nzTrigger]="null">
         <st-app-side-menu [selectedTheme]="selectedTheme" [menuItems]="menuItems"
           (notify)="loadTabsAndButtons($event)"></st-app-side-menu>
       </nz-sider>
+      <nz-content dir="ltr">
+        <ng-container *ngIf="tabs.length">
+          <ng-container *ngFor="let item of tabs">
+            <st-layout-tabs-dropdown *ngIf="item.type == 'mainTab'" [layoutTabsDropdownData]="item"
+              [theme]="selectedTheme['inPageMenu']"></st-layout-tabs-dropdown>
+          </ng-container>
+        </ng-container>
+        <router-outlet></router-outlet>
+        <div [ngClass]="{'dynamic-footer':!dataSharedService.checkContentForFixFooter}" *ngIf="currentFooter">
+          <st-pages [resData]="currentFooter"></st-pages>
+        </div>
+      </nz-content>
     </nz-layout>
   </nz-layout>
+</div>
+
+<!-- Comment -->
+<button *ngIf="!fullCurrentUrl.includes('/menu-builder')" nz-button nzType="primary" nzShape="circle"
+  (click)="openComment()" class="fixed bottom-4 right-4"
+  style="display: flex; justify-content: center; align-items: center">
+  <span nz-icon nzType="setting" nzSpin style="margin-right: 0; "></span>
+</button>
+<div class="comment-drawer">
+  <nz-drawer nzWidth="500px" [nzClosable]="true" [nzVisible]="isVisible" nzPlacement="right" [nzTitle]="'Comments'"
+    (nzOnClose)="handleCancel()">
+    <ng-container *nzDrawerContent>
+      <st-comment-list></st-comment-list>
+    </ng-container>
+  </nz-drawer>
 </div>
