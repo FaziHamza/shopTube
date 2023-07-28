@@ -54,4 +54,15 @@ export class ApplicationService {
             this.nestUrl + api + `/${id}`
         );
     }
+    callApi(url: string, method: string, data?: any, headers?: any): Observable<any> {
+      switch(method) {
+        case 'POST':
+          return this.http.post(this.nestUrl + url, data, { headers });
+        case 'PUT':
+          return this.http.put(this.nestUrl + url, data, { headers });
+        // add other methods as required
+        default:
+          return this.http.get( this.nestUrl + url, { headers });
+      }
+    }
 }

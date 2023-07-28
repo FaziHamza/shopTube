@@ -1,7 +1,18 @@
 <ng-container *ngIf="to['additionalProperties']?.wrapper != 'floating_standard'">
   <nz-input-group [style.border-radius]="to['additionalProperties']?.borderRadius" [ngClass]="showError ? 'input-border' : ''" *ngIf="!to['additionalProperties']?.suffixicon && !to['additionalProperties']?.prefixicon" [nzSuffix]="to['additionalProperties']?.addonRight"
     [nzPrefix]="to['additionalProperties']?.addonLeft" [nzSize]="to['additionalProperties']?.size" [nzStatus]="to['additionalProperties']?.status">
-    <nz-select  [style.border-radius]="to['additionalProperties']?.borderRadius" (ngModelChange)="onModelChange($event, field)" [ngClass]="showError && !to['additionalProperties']?.suffixicon && !to['additionalProperties']?.prefixicon && !to['additionalProperties']?.addonLeft && !to['additionalProperties']?.addonRight ? 'input-border' : ''" [formControl]="formControl" [nzStatus]="to['additionalProperties']?.status"
+    <nz-select
+    [appConfigurableSelect]="[
+    {
+      event: 'change',
+      actions: [
+        { actionType: 'API', url: '/api/fetch-table-data', method: 'GET' }
+      ]
+    }
+  ]"
+  [loadAction]="{ actionType: 'API', url: 'cp/EnumList/17', method: 'GET' }"
+  [processData]="processData"
+  [style.border-radius]="to['additionalProperties']?.borderRadius" (ngModelChange)="onModelChange($event, field)" [ngClass]="showError && !to['additionalProperties']?.suffixicon && !to['additionalProperties']?.prefixicon && !to['additionalProperties']?.addonLeft && !to['additionalProperties']?.addonRight ? 'input-border' : ''" [formControl]="formControl" [nzStatus]="to['additionalProperties']?.status"
       [ngClass]="to['additionalProperties']?.wrapper && to['additionalProperties']?.wrapper == 'floating_filled' || to['additionalProperties']?.wrapper == 'floating_outlined' ? to['additionalProperties']?.floatFieldClass : ''"
       [nzSize]="to['additionalProperties']?.size" [nzCustomTemplate]="valueTemplate" [formlyAttributes]="field"
       [nzAllowClear]="to['additionalProperties']?.allowClear || false" [nzBorderless]="(to['additionalProperties']?.addonRight || to['additionalProperties']?.addonLeft) ? true : to['additionalProperties']?.border"
