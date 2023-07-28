@@ -1,4 +1,4 @@
-<div [ngClass]="{
+<div (mouseenter)="setHovered(false,$event)" (mouseleave)="setHovered(true,$event)" [ngClass]="{
   'tow-colmn-sidebar': selectedTheme.layout == 'twoColumn',
   'flex':selectedTheme.layout == 'twoColumn' && !selectedTheme.isCollapsed,
   'rtlMenu': selectedTheme.layout == 'rtl' ,
@@ -6,9 +6,11 @@
   'compact-sidebar-right': selectedTheme.sideBarSize == 'compact_right' && (selectedTheme.layout == 'vertical' || selectedTheme.layout == 'rtl'),
   'compact-sidebar-left': selectedTheme.sideBarSize == 'compact_left' && (selectedTheme.layout == 'vertical' || selectedTheme.layout == 'rtl')
 }">
-  <ul nz-menu [nzMode]="selectedTheme.layout === 'horizental' ? 'horizontal' : 'inline'">
+  <ul nz-menu [nzMode]="selectedTheme.layout === 'horizental' ? 'horizontal' : 'inline'"
+    [nzInlineCollapsed]="selectedTheme.layout != 'twoColumn' ? selectedTheme.isCollapsed : true">
     <ng-container *ngFor="let item of selectedTheme.allMenuItems">
-      <li nz-menu-item *ngIf="item.children.length === 0; else menuChild">
+      <li nz-menu-item (click)="loadTabsAndButtons($event,item,true)"
+        *ngIf="item.children.length === 0; else menuChild">
         <st-icon *ngIf="item.icon" [type]="item.iconType || 'outline'" [icon]="item.icon"
           [size]="selectedTheme['iconSize'] || 15" [color]="(hoverActiveShow === item.id) ? selectedTheme['hoverIconColor'] :
               ((isActiveShow === item.id) ? selectedTheme['activeIconColor'] : selectedTheme['iconColor'])">
@@ -16,7 +18,7 @@
         <span class="colapsed-menu-title">{{item.title}}</span>
       </li>
       <ng-template #menuChild>
-        <li nz-submenu [nzTitle]="title">
+        <li nz-submenu [nzTitle]="title" (click)="loadTabsAndButtons($event,item,true)">
           <ng-template #title>
             <st-icon *ngIf="item.icon" [type]="item.iconType || 'outline'" [icon]="item.icon"
               [size]="selectedTheme['iconSize'] || 15" [color]="(hoverActiveShow === item.id) ? selectedTheme['hoverIconColor'] :
@@ -24,9 +26,9 @@
             </st-icon>
             <span class="colapsed-menu-title">{{item.title}}</span>
           </ng-template>
-          <ul>
+          <ul *ngIf="selectedTheme.layout != 'twoColumn'">
             <ng-container *ngFor="let itemChild of item.children">
-              <li (click)="loadTabsAndButtons($event,item,true)" nz-menu-item
+              <li (click)="loadTabsAndButtons($event,itemChild,true)" nz-menu-item
                 *ngIf="itemChild.children.length == 0 ; else menuGrandchild">
                 <st-icon *ngIf="itemChild.icon" [type]="itemChild.iconType || 'outline'" [icon]="itemChild.icon"
                   [size]="selectedTheme['iconSize'] || 15" [color]="(hoverActiveShow === itemChild.id) ? selectedTheme['hoverIconColor'] :
