@@ -2879,7 +2879,7 @@ object {
     background-color: #ffffffe0 !important;
 
     ul {
-      background-color: #ffffffe0 !important;
+      background: transparent !important;
     }
   }
 }
@@ -3263,7 +3263,7 @@ object {
   p,
   body,
   a {
-    font-family: 'Inter', sans-serif !important;
+    font-family: 'Inter', sans-serif ;
   }
 
   .jameel-font {
@@ -3435,6 +3435,45 @@ object {
     }
 
   }
+  .app-header-dynamic {
+    align-items: center;
+    padding-left: 20px;
+    display: flex;
+    height: 46px;
+  
+    .dynamic-header {
+      flex: 1; /* Take up the remaining available space */
+      display: block;
+      align-items: center;
+  
+      .nav-item {
+        padding-left: 20px;
+  
+        i {
+          font-size: 16px;
+        }
+      }
+    }
+  
+    .b-brand {
+      height: 64px;
+      width: 150px; /* Fixed width of 230px */
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+  
+      i {
+        font-size: 18px;
+        margin-top: 30px;
+        cursor: pointer;
+      }
+  
+      img {
+        height: 32px !important;
+      }
+    }
+  }
+  
 
   .main-layout2 {
     padding: 10px;
@@ -3681,7 +3720,7 @@ object {
   .two-column-second-column {
     width: 100% !important;
     height: calc(100vh - 64px);
-    overflow-y: scroll;
+    // overflow-y: scroll;
     overflow-x: hidden;
   }
 
