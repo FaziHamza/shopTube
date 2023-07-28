@@ -48,6 +48,8 @@ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { GoogleMapsModule } from '@angular/google-maps';
 import { ErrorComponent } from 'src/common/error/error.component';
 import { CommonService } from '../../common/common-services/common.service';
+import { ConfigurableDirective } from 'src/directive/configuration.directive';
+import { ConfigurableSelectDirective } from 'src/directive/configuration-select.directive';
 // import { CommonService } from './common.service';
 // import { WebsiteModules } from '../Website/website.module';
 
@@ -111,7 +113,8 @@ import { CommonService } from '../../common/common-services/common.service';
     WebMenuComponent,WebisteHeaderComponent,WebsitePricingComponent,
     MenuControllComponent,
     PrintInvoiceComponent,FileManagerComponent,googleMapComponent,
-
+    ConfigurableDirective,
+    ConfigurableSelectDirective,
     //
     // ErrorComponent
   ],
@@ -166,6 +169,8 @@ import { CommonService } from '../../common/common-services/common.service';
     WebMenuComponent,WebisteHeaderComponent,WebsitePricingComponent,
     MenuControllComponent,
     PrintInvoiceComponent,FileManagerComponent,googleMapComponent,
+    ConfigurableDirective,
+    ConfigurableSelectDirective,
     //
     // ErrorComponent
   ],
