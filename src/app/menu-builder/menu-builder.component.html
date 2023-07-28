@@ -1,292 +1,190 @@
 <nz-spin [nzSpinning]="saveLoader" [nzSize]="'large'">
-  <div class="flex pt-1 ">
-    <div class="w-1/12 mt-1">
-      <label class="pl-2">Department</label>
+  <div class="b-card top-action-bar p-3">
+    <div class="page-selector">
+      <nz-form-control nzErrorTip="Please Select Page">
+        <nz-cascader nzChangeOnSelect [nzAllowClear]="true" style="padding-left: 4px; width: 100%"
+          [(ngModel)]="selectDepartmentName" [nzLoadData]="loadData.bind(this)" [nzOptions]="departmentData"
+          placeholder="Select Application" (ngModelChange)="onDepartmentChange($event)">
+        </nz-cascader>
+      </nz-form-control>
     </div>
-    <div class="ml-2 w-1/5">
-      <nz-select style="padding-left: 4px;" nzShowSearch nzAllowClear
-        [(ngModel)]="selectDepartment"
-        (ngModelChange)="getApplication($event)">
-        <nz-option [nzValue]="item._id" placeholder="Select Department"
-          [nzLabel]="item.name"
-          *ngFor="let item of departments"></nz-option>
-      </nz-select>
-    </div>
-    <div class="w-2/3">
-      <div style="display: flex; justify-content: flex-end;">
-        <button class="ml-2"
-          nz-button nzType="primary" (click)="checkPage()">
-          Go To Menu
-          <span nz-icon nzType="file-done"></span>
+    <div class="action-bar">
+      <div class="component-actions">
+        <button nz-button nzType="link" (click)="LayerShow()" [ngClass]="iconActive == 'layer' ? 'active' : ''"
+          [nzTooltipTitle]="IslayerVisible ? 'Layer hide' : 'Layer show'" nz-tooltip>
+          <i [class]="IslayerVisible ? 'fa-regular fa-eye' : 'fa-light fa-eye-slash'"></i>
+        </button>
+        <button [nzTooltipTitle]="'Save'" [ngClass]="iconActive == 'save' ? 'active' : ''" nz-button nzType="link"
+          (click)="saveJsonMenu()" nzTooltipTitle="Save screen" nz-tooltip>
+          <i class="fa-regular fa-floppy-disk"></i>
+        </button>
+        <button nz-button nzType="link" [ngClass]="iconActive == 'jsonEdit' ? 'active' : ''" (click)="JsonEditorShow()"
+          nzTooltipTitle="Edit json" nz-tooltip>
+          <i class="fa-regular fa-brackets-curly"></i>
+        </button>
+        <button [ngClass]="iconActive == 'clearChildNode' ? 'active' : ''" [nzTooltipTitle]="'
+          Add New Page'" nz-tooltip nz-button nzType="link" (click)="clearChildNode()">
+          <i class="fa-regular fa-circle-plus"></i>
+        </button>
+      </div>
+      <div class="action-drop-down">
+        <button nz-button nzType="primary" class="actions-btn" nz-dropdown [nzDropdownMenu]="menu4">
+          Actions
+          <span nz-icon nzType="down"></span>
+        </button>
+        <nz-dropdown-menu #menu4="nzDropdownMenu">
+          <ul nz-menu>
+            <li nz-menu-item>
+              <a (click)="downloadAllJson()">Download Json</a>
+            </li>
+            <li nz-menu-item>
+              <a onclick="document.getElementById('fileInput').click()">
+                Json Upload</a>
+            </li>
+            <li nz-menu-item>
+              <a (click)="downloadJson()">Selected Json Download</a>
+            </li>
+            <li nz-menu-item>
+              <a (click)="bulkUpdate()">Bulk Update</a>
+            </li>
+            <li nz-menu-item>
+              <a>Bulk Import</a>
+            </li>
+          </ul>
+        </nz-dropdown-menu>
+        <input type="file" class="form-control" id="fileInput" style="display:none" (change)="jsonUpload($event)">
+        <nz-space>
+          <st-layout-drawer [selectedTheme]="selectedTheme" [applicationType]="selectApplicationType"
+            (notify)="changeLayout($event)"></st-layout-drawer>
+        </nz-space>
+        <button nz-button nzType="primary" class="upload-btn" (click)="checkPage()">
+          <i class="fa-regular fa-arrow-up-from-bracket"></i>
         </button>
       </div>
     </div>
   </div>
-  <nz-card class="card menu-builder-card m-2">
-    <div class>
-      <div class="flex header-tab">
-        <div class=" jsonEdiotTab">
-          <button nz-button nzType="primary" class="ml-2 " (click)="LayerShow()"
-            nzTooltipTitle="Show/hide menu layer"
-            nz-tooltip>
-            <span nz-icon nzType="group" nzTheme="outline"></span>
-          </button>
-          <button nz-button nzType="primary" class="ml-2 " title="Json Edit"
-            (click)="JsonEditorShow()"
-            nzTooltipTitle="Edit json" nz-tooltip> <span nz-icon
-              nzType="edit" nzTheme="outline"></span> </button>
-          <button nz-button nzType="primary" class="ml-2 "
-            [nzLoading]="saveLoader" title="Json Menu"
-            (click)="saveJsonMenu()" nzTooltipTitle="Save screen"
-            nz-tooltip><span nz-icon
-              nzType="save" nzTheme="outline"></span>
-          </button>
-          <button nz-button nzType="primary" class="ml-2"
-            (click)="clearChildNode()"
-            nzTooltipTitle="Clear node"
-            nz-tooltip>
-            <span nz-icon nzType="plus-circle" nzTheme="outline"></span></button>
+  <div class="builder-main-body ">
+    <div class="builder-tree b-card" *ngIf="IslayerVisible">
+      <nz-input-group class="input-group-icon">
+        <input type="text" nz-input id="mySearch" placeholder="Search..">
+        <i class="fa-regular fa-magnifying-glass"></i>
+      </nz-input-group>
+      <ul id="search-menu" *ngIf="filterMenuData.length > 0  ">
+        <div *ngFor="let item of filterMenuData">
+          <li class="menu-labels d-flex justify-content-between">{{item.title
+            | uppercase}}
+            <label (click)="openConfig(item,item)">
+              <span nz-icon nzType="sliders" nzTheme="outline"></span>
+            </label>
+          </li>
         </div>
-        <div class=" ml-2 jsonsearchTab">
-          <nz-select nzShowSearch nzAllowClear [(ngModel)]="applicationName"
-            nzPlaceHolder="Select Application..."
-            (ngModelChange)="getMenus($event)">
-            <nz-option [nzValue]="item._id" [nzLabel]="item.name"
-              *ngFor="let item of applications"></nz-option>
-          </nz-select>
-        </div>
-        <div class=" jsonbuttonTab ml-1">
-          <button nz-button nz-dropdown [nzDropdownMenu]="menu" nzType="primary">
-            Json Actions
-            <span nz-icon class="ml-1" nzType="down"></span>
-          </button>
-          <nz-dropdown-menu #menu="nzDropdownMenu">
-            <ul nz-menu>
-              <li nz-menu-item>
-                <a (click)="downloadAllJson()">Download Json</a>
-              </li>
-              <li nz-menu-item>
-                <a (click)="downloadJson()">Download Selected Json</a>
-              </li>
-              <li nz-menu-item>
-                <a onclick="document.getElementById('fileInput').click()">Json
-                  Upload</a>
-              </li>
-            </ul>
-          </nz-dropdown-menu>
-          <input type="file" class="ml-2" id="fileInput" style="display:none"
-            (change)="jsonUpload($event)">
-
-        </div>
-        <div class="w-1/6 jsonEdiotTab ml-1">
-          <button nz-button nz-dropdown nzBlock [nzDropdownMenu]="bulkmenu"
-            nzType="primary">
-            Bulk
-            <span nz-icon style="padding-left: 10px;
-            padding-top: 5px;" nzType="down"></span>
-          </button>
-          <nz-dropdown-menu #bulkmenu="nzDropdownMenu">
-            <ul nz-menu>
-              <li nz-menu-item>
-                <a (click)="bulkUpdate()">Bulk Update</a>
-              </li>
-              <li nz-menu-item>
-                <a>Bulk Import</a>
-              </li>
-            </ul>
-          </nz-dropdown-menu>
-        </div>
-      </div>
-      <div class="flex body-tab border ml-2 mt-1">
-        <as-split class="builder-body-layout" [gutterSize]="3">
-          <div class="side-btn" (click)="LayerShow()">
-            <span nz-icon nzType="right" nzTheme="outline"></span>
+      </ul>
+      <div class="b-tree">
+        <nz-tree [nzData]="nodes" [nzExpandedKeys]="expandedKeys" nzDraggable nzBlockNode
+          (nzOnDrop)="nzEvent($event)" [nzTreeTemplate]="nzTreeTemplate"></nz-tree>
+        <ng-template #nzTreeTemplate let-node let-origin="origin">
+          <div class="custom-node flex card-lable-row" (mouseover)="hoverIn(node)" (mouseleave)="hoverOut(node)"
+            [ngClass]="isActiveShow === node.origin.id ? 'isActive' : ''">
+            <span (click)="openField(node)">
+              <span class="jameel-font">{{ typeFirstAlphabetAsIcon(node) }}</span>
+              <span class="folder-name">{{ node.origin.title ? node.title :
+                node.origin.id }}</span>
+            </span>
+            <span class="row-icon" *ngIf="isVisible === node.origin.id">
+              <label class="mx-1"  (click)="openConfig(node,node)">
+                <i class="fa-regular fa-gear hover:shadow-lg text-gray-500" nzTooltipTitle="Configuration"
+                  nz-tooltip></i>
+              </label>
+              <label class="mx-1" (click)="remove(node)">
+                <i class="fa-regular fa-trash  hover:shadow-lg text-red-500" nzTooltipTitle="Delete" nz-tooltip></i>
+              </label>
+              <label class="mx-1" >
+                <i nzTooltipTitle="Preview Json " nz-tooltip
+                  class="fa-regular fa-brackets-curly hover:shadow-lg text-green-500"></i>
+              </label>
+            </span>
           </div>
-          <as-split-area [size]="sizes[0]">
-            <div class="carwd" *ngIf="IslayerVisible">
-              <div class="card-header bg-blue-400">
-                <p class="font-semibold text-white p-2"> Menus</p>
-              </div>
-              <div class="card-bwody">
-                <nz-input-group nzSearch nz-col nzSpan="24"
-                  [nzAddOnAfter]="suffixIconButton">
-                  <input type="text" nz-input id="mySearch"
-                    (keyup)="menuSearch()" placeholder="Search..">
-                </nz-input-group>
-                <ng-template #suffixIconButton>
-                  <button nz-button nzType="primary" nzSearch><span nz-icon
-                      nzType="search"></span></button>
-                </ng-template>
-                <ul id="search-menu" *ngIf="filterMenuData.length">
-                  <nz-tree [nzData]="filterMenuData"
-                    [nzExpandedKeys]="expandedKeys" nzDraggable nzBlockNode
-                    (nzOnDrop)="nzEvent($event)">
-                    <ng-template #nzTreeTemplate let-node>
-                      <div class="flex card-lable-row"
-                        [ngClass]="isActiveShow === node.origin.id ? 'isActive' : ''"
-                        (mouseover)="hoverIn(node)"
-                        (mouseleave)="hoverOut(node)">
-                        <div (click)="openField(node)">
-                          {{node.title}}
-                        </div>
-                        <span class=" mx-1" *ngIf="isVisible === node.origin.id"
-                          (click)="insertAt(node)">
-                          <span class="fa hover:shadow-lg text-blue-500" nz-icon
-                            nzType="copy"
-                            nzTooltipTitle="Duplicate" nzTheme="outline"
-                            nz-tooltip></span>
-                        </span>
-                        <label class="mx-1" *ngIf="isVisible === node.origin.id"
-                          (click)="openConfig(node,node)">
-                          <span class="fa hover:shadow-lg text-gray-500" nz-icon
-                            nzType="setting"
-                            nzTooltipTitle="Configuration" nzTheme="outline"
-                            nz-tooltip></span>
-                        </label>
-                        <label class="mx-1" *ngIf="isVisible === node.origin.id"
-                          (click)="remove(node)">
-                          <span class="fa hover:shadow-lg text-red-500" nz-icon
-                            nzType="delete" nzTooltipTitle="Delete"
-                            nzTheme="outline" nz-tooltip></span>
-                        </label>
-                      </div>
-                    </ng-template>
-                  </nz-tree>
-                </ul>
-                <nz-tree [nzData]="nodes" [nzExpandedKeys]="expandedKeys"
-                  nzDraggable nzBlockNode
-                  (nzOnDrop)="nzEvent($event)">
-                  <ng-template #nzTreeTemplate let-node>
-                    <div class="flex card-lable-row"
-                      [ngClass]="isActiveShow === node.origin.id ? 'isActive' : ''">
-                      <div (mouseover)="hoverIn(node)"
-                        (mouseleave)="hoverOut(node)" (click)="openField(node)">
-                        {{node.title}}
-                      </div>
-                      <span class=" mx-1" *ngIf="isVisible === node.origin.id"
-                        (click)="insertAt(node)">
-                        <span class="fa hover:shadow-lg text-blue-500" nz-icon
-                          nzType="copy"
-                          nzTooltipTitle="Duplicate" nzTheme="outline"
-                          nz-tooltip></span>
-                      </span>
-                      <label class="mx-1" *ngIf="isVisible === node.origin.id"
-                        (click)="openConfig(node,node)">
-                        <span class="fa hover:shadow-lg text-gray-500" nz-icon
-                          nzType="setting"
-                          nzTooltipTitle="Configuration" nzTheme="outline"
-                          nz-tooltip></span>
-                      </label>
-                      <label class="mx-1" *ngIf="isVisible === node.origin.id"
-                        (click)="remove(node)">
-                        <span class="fa hover:shadow-lg text-red-500" nz-icon
-                          nzType="delete" nzTooltipTitle="Delete"
-                          nzTheme="outline" nz-tooltip></span>
-                      </label>
-                    </div>
-                  </ng-template>
-                </nz-tree>
-              </div>
-            </div>
-            <json-editor *ngIf="IsjsonEditorVisible" [(ngModel)]="nodes"
-              [options]="editorOptions" [data]="nodes">
-            </json-editor>
-          </as-split-area>
-          <as-split-area [size]="sizes[1] ">
-            <st-site-layout [selectedTheme]="selectedTheme"
-              *ngIf="nodes.length > 0"></st-site-layout>
-            <!-- <st-website-menu *ngIf="nodes.length > 0 && selectApplicationType == 'website'"
-              [menuData]="nodes"></st-website-menu> -->
-            <div class="col-border col-body-conter" style="position: relative ;">
-              <nz-drawer [nzSize]="'large'" [nzWidth]="'80%'"
-                *ngIf="IsShowConfig" [nzVisible]="IsShowConfig"
-                nzPlacement="right" [nzTitle]="'Control List'"
-                [nzExtra]="config"
-                (nzOnClose)="closeConfigurationList()">
-                <ng-container *nzDrawerContent>
-                  <div class="right-side-nav">
-                    <div id="mySidenav-right" class="sidenav-right">
-                      <div class="mySidenav-right">
-                        <div class="side-nav-header">
-                          <h6>
-                            Control List
-                          </h6>
-                          <a href="javascript:void(0)" class="closebtn"
-                            onclick="closeNav2()">
-                            <i class="uil uil-times-square"></i>
-                          </a>
-                        </div>
-                        <div class=" side-nav-body m-10">
-                          <div style="position:relative ;">
-                            <st-generic-field [modal]="formModalData"
-                              (notify)="notifyEmit($event)"
-                              [type]="fieldData.type" [itemData]="fieldData"
-                              *ngIf="fieldData">
-                            </st-generic-field>
-
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </ng-container>
-              </nz-drawer>
-              <ng-template #config>
-                <button nz-button nzType="default"
-                  (click)="closeConfigurationList()">Cancel</button>
-                &nbsp;
-                <button nz-button nzType="primary"
-                  (click)="closeConfigurationList()">OK</button>
-              </ng-template>
-              <nz-drawer [nzSize]="'large'" [nzWidth]="'80%'"
-                *ngIf="controlListvisible"
-                [nzVisible]="controlListvisible" nzPlacement="right"
-                [nzTitle]="'Control List'" [nzExtra]="extra"
-                (nzOnClose)="controlListClose()">
-                <ng-container *nzDrawerContent>
-                  <nz-tabset *ngFor="let item of htmlTabsData">
-                    <nz-tab [nzTitle]="item1.title"
-                      *ngFor="let item1 of item.children let i= index">
-                      <nz-collapse>
-                        <nz-collapse-panel [nzActive]="true"
-                          *ngFor="let item2 of item1.children let i = index"
-                          [nzHeader]="item2.title">
-                          <div class="flex flex-wrap">
-                            <ng-container *ngFor="let item3 of item2.children">
-                              <div class="p-1 w-1/6" *ngIf="item3.show">
-                                <button nz-button nzType="default" nzBlock
-                                  class="rounded"
-                                  *ngIf="item3.parameter != 'Tabs' && item3.parameter != 'In Page Dropdown'"
-                                  (click)="addControlToJson(item3.parameter,item3?.paramater2)"><i
-                                    class={{item3.icon}}></i>{{item3.title}}
-                                </button>
-                                <button nz-button nzType="default" nzBlock
-                                  class="rounded"
-                                  *ngIf="item3.parameter == 'Tabs' || item3.parameter == 'In Page Dropdown'"
-                                  (click)="addFunctionsInHtml(item3.parameter)">
-                                  <i class={{item3.icon}}></i>
-                                  {{item3.title}}
-                                </button>
-                              </div>
-                            </ng-container>
-                          </div>
-                        </nz-collapse-panel>
-                      </nz-collapse>
-                    </nz-tab>
-                  </nz-tabset>
-                </ng-container>
-              </nz-drawer>
-              <ng-template #extra>
-                <button nz-button nzType="default" (click)="controlListClose()">Cancel</button>
-                &nbsp;
-                <button nz-button nzType="primary" (click)="controlListClose()">OK</button>
-              </ng-template>
-            </div>
-          </as-split-area>
-        </as-split>
+        </ng-template>
       </div>
     </div>
-  </nz-card>
-  <st-layout-drawer [selectedTheme]="selectedTheme"
-    [applicationType]="selectApplicationType" (notify)="changeLayout($event)"></st-layout-drawer>
+    <div class="builder-tree b-card" *ngIf="IsjsonEditorVisible">
+      <json-editor [(ngModel)]="nodes" [options]="editorOptions" [data]="nodes">
+      </json-editor>
+    </div>
+    <div [class]="IslayerVisible ? 'b-content-body' : 'b-content-body-full'">
+      <div class="b-card form-card-body">
+        <st-site-layout [selectedTheme]="selectedTheme" *ngIf="nodes.length > 0"></st-site-layout>
+      </div>
+    </div>
+  </div>
 </nz-spin>
+<div class="col-border col-body-conter" style="position: relative ;">
+  <nz-drawer [nzSize]="'large'" [nzWidth]="'80%'" *ngIf="IsShowConfig" [nzVisible]="IsShowConfig" nzPlacement="right"
+    [nzTitle]="'Control List'" [nzExtra]="config" (nzOnClose)="closeConfigurationList()">
+    <ng-container *nzDrawerContent>
+      <div class="right-side-nav">
+        <div id="mySidenav-right" class="sidenav-right">
+          <div class="mySidenav-right">
+            <div class="side-nav-header">
+              <h6>
+                Control List
+              </h6>
+              <a href="javascript:void(0)" class="closebtn" onclick="closeNav2()">
+                <i class="uil uil-times-square"></i>
+              </a>
+            </div>
+            <div class=" side-nav-body m-10">
+              <div style="position:relative ;">
+                <st-generic-field [modal]="formModalData" (notify)="notifyEmit($event)" [type]="fieldData.type"
+                  [itemData]="fieldData" *ngIf="fieldData">
+                </st-generic-field>
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </ng-container>
+  </nz-drawer>
+  <ng-template #config>
+    <button nz-button nzType="default" (click)="closeConfigurationList()">Cancel</button>
+    &nbsp;
+    <button nz-button nzType="primary" (click)="closeConfigurationList()">OK</button>
+  </ng-template>
+  <nz-drawer [nzSize]="'large'" [nzWidth]="'80%'" *ngIf="controlListvisible" [nzVisible]="controlListvisible"
+    nzPlacement="right" [nzTitle]="'Control List'" [nzExtra]="extra" (nzOnClose)="controlListClose()">
+    <ng-container *nzDrawerContent>
+      <nz-tabset *ngFor="let item of htmlTabsData">
+        <nz-tab [nzTitle]="item1.title" *ngFor="let item1 of item.children let i= index">
+          <nz-collapse>
+            <nz-collapse-panel [nzActive]="true" *ngFor="let item2 of item1.children let i = index"
+              [nzHeader]="item2.title">
+              <div class="flex flex-wrap">
+                <ng-container *ngFor="let item3 of item2.children">
+                  <div class="p-1 w-1/6" *ngIf="item3.show">
+                    <button nz-button nzType="default" nzBlock class="rounded"
+                      *ngIf="item3.parameter != 'Tabs' && item3.parameter != 'In Page Dropdown'"
+                      (click)="addControlToJson(item3.parameter,item3?.paramater2)"><i
+                        class={{item3.icon}}></i>{{item3.title}}
+                    </button>
+                    <button nz-button nzType="default" nzBlock class="rounded"
+                      *ngIf="item3.parameter == 'Tabs' || item3.parameter == 'In Page Dropdown'"
+                      (click)="addFunctionsInHtml(item3.parameter)">
+                      <i class={{item3.icon}}></i>
+                      {{item3.title}}
+                    </button>
+                  </div>
+                </ng-container>
+              </div>
+            </nz-collapse-panel>
+          </nz-collapse>
+        </nz-tab>
+      </nz-tabset>
+    </ng-container>
+  </nz-drawer>
+  <ng-template #extra>
+    <button nz-button nzType="default" (click)="controlListClose()">Cancel</button>
+    &nbsp;
+    <button nz-button nzType="primary" (click)="controlListClose()">OK</button>
+  </ng-template>
+</div>
