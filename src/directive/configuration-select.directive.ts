@@ -1,4 +1,4 @@
-import { Directive, Input, TemplateRef, ViewContainerRef, OnInit, OnDestroy } from '@angular/core';
+import { Directive, Input, TemplateRef, ViewContainerRef, OnInit, OnDestroy, Renderer2, ElementRef } from '@angular/core';
 import { ApplicationService } from 'src/app/services/application.service';
 import { Observable, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
@@ -18,11 +18,14 @@ export class ConfigurableSelectDirective implements OnInit, OnDestroy {
   private unsubscribe$ = new Subject<void>();
 
   constructor(
+    private viewContainer: ViewContainerRef,
+    private renderer: Renderer2,
+    private el: ElementRef,
     private applicationService: ApplicationService,
-    private viewContainer: ViewContainerRef
   ) { }
 
   ngOnInit() {
+    debugger
     this.bindEvents();
     this.loadOptions();
   }
@@ -35,7 +38,8 @@ export class ConfigurableSelectDirective implements OnInit, OnDestroy {
   private bindEvents(): void {
     this.configs?.forEach(config => {
       if (config?.event && config?.actions) {
-        this.viewContainer.element.nativeElement.addEventListener(config.event, () => {
+        this.renderer.listen(this.viewContainer.element.nativeElement, config.event, () => {
+          alert(`${config.event.charAt(0).toUpperCase() + config.event.slice(1)} event triggered!`);
           config.actions.forEach(action => {
             this.executeAction(action);
           });
@@ -44,18 +48,19 @@ export class ConfigurableSelectDirective implements OnInit, OnDestroy {
     });
   }
 
+
   private loadOptions(): void {
     if (this.loadAction) {
       this.executeAction(this.loadAction)
         .subscribe(response => {
           debugger
           this.data = response.data;
-              // Process this.data
-        if (this.processData) {
-          this.data = this.processData(this.data);
-        }
+          // Process this.data
+          if (this.processData) {
+            this.data = this.processData(this.data);
+          }
           this.viewContainer.clear();
-       
+
           this.viewContainer.createEmbeddedView(this.templateRef, { $implicit: this.data });
         });
     }
