@@ -2501,10 +2501,10 @@ object {
 
   background: white;
 
-  .ant-menu-submenu-arrow,
-  .ant-menu-submenu-expand-icon {
-    right: 0px !important;
-  }
+  // .ant-menu-submenu-arrow,
+  // .ant-menu-submenu-expand-icon {
+  //   right: 0px !important;
+  // }
 
   // .ant-menu.ant-menu-inline-collapsed {
   //   overflow-y: scroll;
@@ -2516,7 +2516,7 @@ object {
 
   .ant-menu-item,
   .ant-menu-submenu {
-    padding: 0px 16px !important;
+    // padding: 0px 16px !important;
 
     .ant-menu-submenu-title {
       padding: 0px !important;
@@ -2928,6 +2928,9 @@ object {
 }
 
 .horizental-boxed {
+  .ant-layout-sider {
+    padding: 0px 40px;
+  }
   .content-body.w-full {
     width: 100% !important;
   }
@@ -3321,10 +3324,11 @@ object {
       }
 
       .colapsed-menu-title {
-        margin-left: 10px;
+        margin: 0px 10px;
         font-size: 13px;
       }
     }
+
 
     .ant-menu-item:hover,
     .ant-menu-submenu-title:hover {
@@ -4521,8 +4525,8 @@ object {
 .boxed-menu {
   margin-left: 16px;
   margin-right: 16px;
-  border-color: rgb(229 231 235 / var(--tw-border-opacity));
-  border-left-width: 1px;
+  // border-color: rgb(229 231 235 / var(--tw-border-opacity));
+  // border-left-width: 1px;
 }
 
 .basic-button-save {

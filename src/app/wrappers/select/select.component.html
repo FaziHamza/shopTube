@@ -4,9 +4,16 @@
     <nz-select
     [appConfigurableSelect]="[
     {
-      event: 'change',
+      event: 'dblclick',
       actions: [
-        { actionType: 'API', url: '/api/fetch-table-data', method: 'GET' }
+        { actionType: 'API', url: '/api/fetch-click-data', method: 'GET' }
+      ]
+    },
+    
+    {
+      event: 'mouseover',
+      actions: [
+        { actionType: 'API', url: '/api/fetch-change-data', method: 'GET' }
       ]
     }
   ]"
