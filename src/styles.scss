@@ -415,9 +415,11 @@ object {
   }
 
   .small-hover-menu-check {
-    position: absolute;
-    left: 6px;
-    top: -3px !important;
+    // position: absolute;
+    display: flex;
+    justify-content: flex-end;
+    padding: 5px 15px;
+
 
     .ant-checkbox-inner {
       border-radius: 100px;
@@ -2649,7 +2651,7 @@ object {
   .ant-menu-item,
   .ant-menu-submenu {
     span {
-      font-size: 14px ;
+      font-size: 14px;
       // color: #7c7f90;
       // font-weight: 500 !important;
     }
@@ -2859,9 +2861,9 @@ object {
   position: relative;
 
   .small-hover-menu-check {
-    position: absolute;
-    right: 6px;
-    top: 5px;
+    display: flex;
+    justify-content: flex-end;
+    padding: 5px 15px;
 
     .ant-checkbox-inner {
       border-radius: 100px;
@@ -3190,9 +3192,9 @@ object {
 
 .dynamic-footer {
   position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
 }
 
 .content-body {
@@ -3485,6 +3487,7 @@ object {
 
   .main-layout2 {
     padding: 10px;
+    height: calc(100vh - 65px);
 
     .menu-sidebar {
       border-radius: 8px !important;
@@ -3492,13 +3495,14 @@ object {
       overflow: hidden;
       box-shadow: 7px 0px 15px -5px rgba(0, 0, 0, 0.05) !important;
     }
+
     .ant-menu.ant-menu-root {
       width: 100% !important;
       height: calc(100vh - 50px);
       overflow-y: scroll;
       overflow-x: hidden;
     }
-  
+
     .ant-menu.ant-menu-horizontal {
       width: 100% !important;
       height: auto !important;
@@ -3508,7 +3512,12 @@ object {
   }
 
   .ant-layout-sider-collapsed {
-    width: 74px !important;
+    width: 60px !important;
+    max-width: 60px !important;
+    min-width: 60px !important;
+    .ant-menu {
+      padding: 0px 4px 0px 10px ;
+    } 
   }
 
   .top-action-bar {
@@ -3664,12 +3673,14 @@ object {
     .builder-tree {
       width: 235px;
       margin-right: 12px;
-      height: calc(100vh - 132px);
+      height: calc(100vh - 165px);
     }
 
     .b-content-body {
       height: 100%;
+      overflow-y: scroll !important;
       width: calc(100% - 250px);
+      height: calc(100vh - 165px);
 
       .b-card {
         border-radius: 8px;
@@ -3708,7 +3719,7 @@ object {
 
   .b-tree {
     overflow-y: scroll;
-    height: calc(100vh - 170px);
+    height: calc(100vh - 205px);
     padding: 12px;
 
     nz-tree {
@@ -4656,6 +4667,14 @@ object {
   .ant-layout-sider-collapsed {
     .colapsed-menu-title {
       display: none;
+    }
+  }
+}
+
+.horizental-boxed {
+  .b-horizontal-menu {
+    .ant-menu-submenu {
+      padding: 0px !important;
     }
   }
 }
