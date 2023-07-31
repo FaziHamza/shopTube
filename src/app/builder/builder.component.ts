@@ -507,21 +507,62 @@ export class BuilderComponent implements OnInit {
                     if (formlyConfig == element.elementName) {
                       const eventActionConfig = node?.formly?.[0]?.fieldGroup?.[0]?.props;
                       if (eventActionConfig) {
-                        eventActionConfig['eventActionconfig'] = {};
-                        let obj = { actionType: element.actionType, url: element.httpAddress, method: element.actionLink }
-                        eventActionConfig['eventActionconfig'] = obj;
+                        if (element.btnActionType == 'load') {
+                          eventActionConfig['eventActionconfig'] = {};
+                          let obj = { actionType: element.actionType, url: element.httpAddress, method: element.actionLink }
+                          eventActionConfig['eventActionconfig'] = obj;
+                        } else {
+                          if (eventActionConfig['appConfigurableEvent']) {
+                            let obj = {
+                              event: element.actionLink,
+                              actions: [
+                                { actionType: element.actionType, url: element.httpAddress, method: element.actionLink }
+                              ]
+                            };
+                            eventActionConfig['appConfigurableEvent'].push(obj);
+                          } else {
+                            eventActionConfig['appConfigurableEvent'] = [];
+                            let obj = {
+                              event: element.actionLink,
+                              actions: [
+                                { actionType: element.actionType, url: element.httpAddress, method: element.actionLink }
+                              ]
+                            };
+                            eventActionConfig['appConfigurableEvent'].push(obj);
+                          }
+                        }
                       }
                     }
                   }
                 });
               }
-
               for (let index = 0; index < this.actionListData.length; index++) {
                 const element = this.actionListData[index];
                 let findObj = this.findObjectByKey(nodesData[0], element.elementName);
                 if (findObj) {
-                  let obj = { actionType: element.actionType, url: element.httpAddress, method: element.actionLink }
-                  findObj.eventActionconfig = obj;
+                  if (element.btnActionType == 'load') {
+                    let obj = { actionType: element.actionType, url: element.httpAddress, method: element.actionLink }
+                    findObj.eventActionconfig = obj;
+                  }else{
+                    if (findObj['appConfigurableEvent']) {
+                      let obj = {
+                        event: element.actionLink,
+                        actions: [
+                          { actionType: element.actionType, url: element.httpAddress, method: element.actionLink }
+                        ]
+                      };
+                      findObj['appConfigurableEvent'].push(obj);
+                    } else {
+                      findObj['appConfigurableEvent'] = [];
+                      let obj = {
+                        event: element.actionLink,
+                        actions: [
+                          { actionType: element.actionType, url: element.httpAddress, method: element.actionLink }
+                        ]
+                      };
+                      findObj['appConfigurableEvent'].push(obj);
+                    }
+                  }
                 }
               }
               this.nodes = nodesData;

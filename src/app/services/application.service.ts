@@ -44,6 +44,11 @@ export class ApplicationService {
             this.nestUrl + api, modal
         );
     }
+    addBackendCommonApi(api: string, modal: any): Observable<any> {
+        return this.http.post<any>(
+          api.includes('http') ? api : this.nestUrl + api , modal
+        );
+    }
     updateNestCommonAPI(api: string, id: any, modal: any): Observable<any[]> {
         return this.http.put<any[]>(
             this.nestUrl + api + `/${id}`, modal
@@ -57,12 +62,12 @@ export class ApplicationService {
     callApi(url: string, method: string, data?: any, headers?: any): Observable<any> {
       switch(method) {
         case 'POST':
-          return this.http.post(this.nestUrl + url, data, { headers });
+          return this.http.post( url.includes('http') ? url : this.nestUrl + url, data, { headers });
         case 'PUT':
-          return this.http.put(this.nestUrl + url, data, { headers });
+          return this.http.put( url.includes('http') ? url : this.nestUrl + url, data, { headers });
         // add other methods as required
         default:
-          return this.http.get( this.nestUrl + url, { headers });
+          return this.http.get(  url.includes('http') ? url : this.nestUrl + url, { headers });
       }
     }
 }

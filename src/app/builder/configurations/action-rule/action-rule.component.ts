@@ -7,6 +7,7 @@ import { DataSharedService } from 'src/app/services/data-shared.service';
 import {} from 'ngx-monaco-editor';
 import { EmployeeService } from 'src/app/services/employee.service';
 import { ApplicationService } from 'src/app/services/application.service';
+import { environment } from 'src/environments/environment';
 
 
 @Component({
@@ -15,6 +16,7 @@ import { ApplicationService } from 'src/app/services/application.service';
   styleUrls: ['./action-rule.component.scss']
 })
 export class ActionRuleComponent implements OnInit {
+  backendApi  = environment.nestBaseUrl;
   userTheme: string = "vs-dark";
   userLanguage: string = "javascript";
   editorOptions: any = {
@@ -190,7 +192,16 @@ export class ActionRuleComponent implements OnInit {
         dataForQuery += deleteQuery;
       }
     }
-
+    let apiUrl = '';
+    if (this.actionForm.value.actionType === 'api') {
+      if (this.actionForm.value.elementName.includes('button')) {
+        if (this.actionForm.value.actionLink === 'get') {
+          apiUrl = this.backendApi + 'knex-query/' + this.screenName;
+        } else {
+          apiUrl = this.backendApi + 'knex-query';
+        }
+      }
+    }
     this.ActionsForms.push(
       this.formBuilder.group({
         id: 0,
@@ -204,7 +215,7 @@ export class ActionRuleComponent implements OnInit {
         email: [this.actionForm.value.actionType === "email" ? dataForQuery : ""],
         confirmEmail: [this.actionForm.value.actionType === "confirmEmail " ? dataForQuery : ""],
         referenceId: [''],
-        httpAddress: [''],
+        httpAddress: [apiUrl],
         contentType: [''],
         query: [this.actionForm.value.actionType === "query" ? this.reorderQueries(dataForQuery) : ""]
       })

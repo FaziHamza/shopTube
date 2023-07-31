@@ -28,8 +28,7 @@ export class SelectComponent extends FieldType<FieldTypeConfig> implements OnCha
     return this.to.options;
   }
   ngOnInit(): void {
-    debugger
-    // console.log(this.to)
+    console.log(this.to)
     this.to
     document.documentElement.style.setProperty('--radius', this.to['additionalProperties']?.borderRadius);
     this.cdr.detectChanges();
@@ -50,7 +49,6 @@ export class SelectComponent extends FieldType<FieldTypeConfig> implements OnCha
       this.requestSubscription.unsubscribe();
   }
   processData(data: any[]) {
-    debugger
     if(data?.length  > 0){
       let propertyNames = Object.keys(data[0]);
       let result = data.map((item: any) => {
@@ -73,7 +71,6 @@ export class SelectComponent extends FieldType<FieldTypeConfig> implements OnCha
           value: item.id  ||  item[propertyNames[0]],
         };
       });
-      debugger
       this.field.props.options = finalObj;
     }
     // Your processing logic here
