@@ -186,9 +186,9 @@ export class AppSideMenuComponent implements OnInit {
           this.menuChildArrayTwoColumn.push(i);
         });
       }
-      else {
-        this.toastr.error('No screen , tabs and dropdown against this menu', { nzDuration: 3000 });
-      }
+      // else {
+      //   this.toastr.error('No screen , tabs and dropdown against this menu', { nzDuration: 3000 });
+      // }
     }
   }
   changeHtlmenuAtMblView() {

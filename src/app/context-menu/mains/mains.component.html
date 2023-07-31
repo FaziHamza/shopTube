@@ -14,9 +14,10 @@
             *ngIf="item.type == 'chart';else second "></st-sales-card>
     </ng-template>
     <ng-template #second>
-        <div *ngIf="item.type == 'sectionCard';else third">
-            <!-- <st-growth-percentage-card [widgetSecondCard]="item">
-          </st-growth-percentage-card> -->
+        <div *ngIf="item.type == 'headerLogo';else third">
+            <div class="b-brand" (click)="menuCollapsed()">
+                <img [src]="dataSharedService.headerLogo ? dataSharedService.headerLogo : 'assets/images/logo.png'" alt>
+            </div>
         </div>
     </ng-template>
     <ng-template #third>
@@ -255,16 +256,16 @@
     <ng-template #thirtySix>
         <div *ngIf="item.formlyType == 'input'; else thirtySeven">
             <div
-                [ngClass]="item.formly[0].fieldGroup[0].wrappers == 'formly-vertical-theme-wrapper' ? 'theme-body' : (item.dataOnly == 'data-only' ? 'data-only' : item.formly[0].fieldGroup[0].wrappers)">
+                [ngClass]="item.formly[0].fieldGroup[0].wrappers[0] == 'formly-vertical-theme-wrapper' ? 'theme-body' : ''">
                 <formly-form [fields]="item.formly" [model]="formlyModel"
                     [form]="form">
                 </formly-form>
             </div>
-            <!-- <button *ngIf="isLast" type="submit" class="bg-blue-500 mt-2">Submit</button> -->
+            <!-- <button *ngIf="isLast" type="submit" class="bg-blue-500 mt-2">Submit</button>
             <div *ngIf="isLast">
-                <!-- <button nz-button nzType="primary" (click)="submit()"><span nz-icon nzType="database"
-                      nzTheme="outline"></span>Submit</button> -->
-            </div>
+                <button nz-button nzType="primary" (click)="submit()"><span nz-icon nzType="database"
+                      nzTheme="outline"></span>Submit</button>
+            </div> -->
         </div>
     </ng-template>
     <ng-template #thirtySeven>

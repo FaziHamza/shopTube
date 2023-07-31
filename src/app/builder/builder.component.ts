@@ -434,18 +434,23 @@ export class BuilderComponent implements OnInit {
           this.screenPage = true;
           if (objScreen.name.includes('_header') && this.selectApplicationName) {
             let application = this.applicationData.find((item: any) => item._id == this.selectApplicationName);
+            this.dataSharedService.headerLogo = application['image'];
             if (application.application_Type == "website") {
               this.applicationService.getNestCommonAPIById('cp/CacheMenu', this.currentUser.userId).subscribe(((res: any) => {
                 if (res.isSuccess) {
                   if (res.data.length > 0) {
-                    this.dataSharedService.menus = JSON.parse(res.data[0].selectedTheme);
+                    let getApplication: any = JSON.parse(res.data[0].selectedTheme)
+                    this.dataSharedService.menus = getApplication;
                     this.dataSharedService.menus.allMenuItems = JSON.parse(res.data[0].menuData);
-                  } else {
+                  }
+                  else {
                     this.applicationService.getNestCommonAPIById('cp/Menu', application._id).subscribe(((res: any) => {
                       if (res.isSuccess) {
                         if (res.data.length > 0) {
-                          this.dataSharedService.menus = JSON.parse(res.data[0].selectedTheme);
+                          let getApplication: any = JSON.parse(res.data[0].selectedTheme)
+                          this.dataSharedService.menus = getApplication;
                           this.dataSharedService.menus.allMenuItems = JSON.parse(res.data[0].menuData);
+                          this.dataSharedService.headerLogo = getApplication['image'];
                         }
                       } else
                         this.toastr.error(res.message, { nzDuration: 3000 });
@@ -465,6 +470,7 @@ export class BuilderComponent implements OnInit {
       }
     });
   }
+  actionListData: any[] = [];
   actionListData: any[] = [];
   getActions() {
     this.saveLoader = true;
@@ -1483,6 +1489,9 @@ export class BuilderComponent implements OnInit {
       case 'page':
         newNode = { ...newNode, ...this.addControlService.getPageControl() };
         break;
+      case 'headerLogo':
+        newNode = { ...newNode, ...this.addControlService.headerLogoControl() };
+        break;
       case 'pageHeader':
         newNode = {
           ...newNode,
@@ -2086,35 +2095,25 @@ export class BuilderComponent implements OnInit {
     this.updateNodes();
   }
   makeFormlyOptions(option: any, type: any) {
-    if (option) {
-      let data = [];
-      if (type == 'checkbox') {
-        data = [
-          {
-            label: 'option1',
-            value: '1',
-            width: '0'
-          },
-        ];
-      } else {
-        data = [
-          {
-            label: 'option1',
-            value: '1',
-          },
-          {
-            label: 'option2',
-            value: '2',
-          },
-          {
-            label: 'option3',
-            value: '3',
-          },
-        ];
-      }
-      return data;
-    } else return [];
+    if (!option) {
+      return [];
+    }
+
+    const baseData = [
+      { label: 'option1', value: '1' },
+      { label: 'option2', value: '2' },
+      { label: 'option3', value: '3' },
+    ];
+
+    if (type === 'checkbox') {
+      return [{ ...baseData[0], width: 'w-1/2' }];
+    } else if (type === 'radio') {
+      return baseData.map(item => ({ ...item, width: 'w-1/2' }));
+    }
+
+    return baseData;
   }
+
   addNode(node: TreeNode, newNode: TreeNode) {
     if (node.children) {
       node.children.push(newNode);
@@ -3468,7 +3467,7 @@ export class BuilderComponent implements OnInit {
               if (event.form.sectionClassName) {
                 node.className = event.form.sectionClassName;
               }
-              node.formly[0].fieldGroup = this.diasabledAndlabelPosition(
+              node.formly[0].fieldGroup = this.sectionFormlyConfigApply(
                 event.form,
                 node.formly[0].fieldGroup
               );
@@ -3501,11 +3500,11 @@ export class BuilderComponent implements OnInit {
             this.selectedNode['rowClass'] = event.form.rowClass;
             this.selectedNode['borderLessInputs'] = event.form.borderLessInputs;
             this.selectedNode['inputLabelClassName'] = event.form.inputLabelClassName;
+            this.selectedNode.wrappers = event.form.wrappers;
             if (this.selectedNode.children) {
               this.selectedNode.children[1]['rowClass'] = event.form.rowClass;
             }
-            if (this.selectedNode.wrappers != event.form.wrappers) {
-              this.selectedNode.wrappers = event.form.wrappers;
+            if (this.selectedNode.wrappers[0] != event.form.wrappers) {
               this.clickBack();
             }
           }
@@ -4948,7 +4947,7 @@ export class BuilderComponent implements OnInit {
     }
   }
 
-  diasabledAndlabelPosition(formValues: any, fieldGroup: any) {
+  sectionFormlyConfigApply(formValues: any, fieldGroup: any) {
     if (fieldGroup) {
       if (fieldGroup[0].props) {
         if (formValues.disabled == 'editable') {
@@ -4967,7 +4966,7 @@ export class BuilderComponent implements OnInit {
           fieldGroup[0].className = formValues.sectionClassName;
         }
         if (formValues.wrappers) {
-          fieldGroup[0].wrappers[0] = [formValues.wrappers][0];
+          fieldGroup[0].wrappers = [formValues.wrappers];
           fieldGroup[0].props['additionalProperties']['wrapper'] = [
             formValues.wrappers,
           ][0];

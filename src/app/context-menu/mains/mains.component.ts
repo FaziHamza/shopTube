@@ -16,6 +16,7 @@ export class MainsComponent implements OnInit {
   @Input() screenId: any;
   @Output() notify: EventEmitter<any> = new EventEmitter();
   @Output() notifyDbClick: EventEmitter<any> = new EventEmitter();
+  menu: boolean = false;
   constructor(private nzImageService: NzImageService, public dataSharedService: DataSharedService) { }
 
   ngOnInit(): void {
@@ -42,7 +43,7 @@ export class MainsComponent implements OnInit {
     this.notify.emit(data);
   }
   updateModel(data: any) {
-   
+
     this.notifyDbClick.emit(data);
   }
   handleIndexChange(e: number): void {
@@ -50,5 +51,10 @@ export class MainsComponent implements OnInit {
   }
   onClose(data: any, index: any): void {
     data.options = data.options.filter((_: any, i: any) => i != index);
+  }
+
+  menuCollapsed() {
+    debugger
+    this.dataSharedService.collapseMenu.next(true)
   }
 }
