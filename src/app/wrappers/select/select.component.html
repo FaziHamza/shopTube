@@ -2,8 +2,7 @@
   <nz-input-group [style.border-radius]="to['additionalProperties']?.borderRadius" [ngClass]="showError ? 'input-border' : ''" *ngIf="!to['additionalProperties']?.suffixicon && !to['additionalProperties']?.prefixicon" [nzSuffix]="to['additionalProperties']?.addonRight"
     [nzPrefix]="to['additionalProperties']?.addonLeft" [nzSize]="to['additionalProperties']?.size" [nzStatus]="to['additionalProperties']?.status">
     <nz-select
-    [appConfigurableSelect]="[
-  ]"
+    [appConfigurableSelect]="to['appConfigurableEvent']"
   [loadAction]="to['eventActionconfig']"
   [processData]="processData"
   [style.border-radius]="to['additionalProperties']?.borderRadius" (ngModelChange)="onModelChange($event, field)" [ngClass]="showError && !to['additionalProperties']?.suffixicon && !to['additionalProperties']?.prefixicon && !to['additionalProperties']?.addonLeft && !to['additionalProperties']?.addonRight ? 'input-border' : ''" [formControl]="formControl" [nzStatus]="to['additionalProperties']?.status"
@@ -26,7 +25,9 @@
   </nz-input-group>
   <nz-input-group [style.border-radius]="to['additionalProperties']?.borderRadius" [ngClass]="showError ? 'input-border' : ''" *ngIf="to['additionalProperties']?.suffixicon || to['additionalProperties']?.prefixicon" [nzSuffix]="suffixTemplateInfo"
     [nzPrefix]="prefixTemplateUser" [nzSize]="to['additionalProperties']?.size" [nzStatus]="to['additionalProperties']?.status">
-    <nz-select  [style.border-radius]="to['additionalProperties']?.borderRadius" (ngModelChange)="onModelChange($event, field)" [ngClass]="showError && !to['additionalProperties']?.suffixicon && !to['additionalProperties']?.prefixicon && !to['additionalProperties']?.addonLeft && !to['additionalProperties']?.addonRight ? 'input-border' : ''" [formControl]="formControl" [nzStatus]="to['additionalProperties']?.status" [nzSize]="to['additionalProperties']?.size" [nzCustomTemplate]="valueTemplate"
+    <nz-select  [appConfigurableSelect]="to['appConfigurableEvent']"
+    [loadAction]="to['eventActionconfig']"
+    [processData]="processData" [style.border-radius]="to['additionalProperties']?.borderRadius" (ngModelChange)="onModelChange($event, field)" [ngClass]="showError && !to['additionalProperties']?.suffixicon && !to['additionalProperties']?.prefixicon && !to['additionalProperties']?.addonLeft && !to['additionalProperties']?.addonRight ? 'input-border' : ''" [formControl]="formControl" [nzStatus]="to['additionalProperties']?.status" [nzSize]="to['additionalProperties']?.size" [nzCustomTemplate]="valueTemplate"
       [formlyAttributes]="field" [nzAllowClear]="to['additionalProperties']?.allowClear || false" [nzBorderless]="(to['additionalProperties']?.suffixicon || to['additionalProperties']?.prefixicon) ? true : to['additionalProperties']?.border"
     [style.border-radius]="to['additionalProperties']?.borderRadius"  [nzDropdownMatchSelectWidth]="true" [nzServerSearch]="to['additionalProperties']?.serveSearch || false"
       [nzPlaceHolder]="to.placeholder || ''" [nzShowArrow]="to['additionalProperties']?.showArrow || false"
@@ -65,7 +66,9 @@
 
 </ng-container>
 <div class="relative z-0" *ngIf="to['additionalProperties']?.wrapper == 'floating_standard'">
-  <nz-select  [style.border-radius]="to['additionalProperties']?.borderRadius" (ngModelChange)="onModelChange($event, field)" [formControl]="formControl" [nzStatus]="to['additionalProperties']?.status"
+  <nz-select  [appConfigurableSelect]="to['appConfigurableEvent']"
+  [loadAction]="to['eventActionconfig']"
+  [processData]="processData" [style.border-radius]="to['additionalProperties']?.borderRadius" (ngModelChange)="onModelChange($event, field)" [formControl]="formControl" [nzStatus]="to['additionalProperties']?.status"
   class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
     [nzSize]="to['additionalProperties']?.size" [nzCustomTemplate]="valueTemplate" [formlyAttributes]="field"
     [nzAllowClear]="to['additionalProperties']?.allowClear || false" [nzBorderless]="to['additionalProperties']?.border"

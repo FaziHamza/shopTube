@@ -471,7 +471,6 @@ export class BuilderComponent implements OnInit {
     });
   }
   actionListData: any[] = [];
-  actionListData: any[] = [];
   getActions() {
     this.saveLoader = true;
     this.requestSubscription = this.applicationService.getNestCommonAPIById("cp/actionbyscreenname", this.navigation).subscribe({
