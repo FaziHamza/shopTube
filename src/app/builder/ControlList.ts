@@ -1511,6 +1511,12 @@ export const htmlTabsData = [
                 label: "map",
                 isLeaf: true
               },
+              {
+                parameter: "headerLogo",
+                icon: "uil uil-file-alt",
+                label: "Header Logo",
+                isLeaf: true
+              },
             ]
           },
         ]

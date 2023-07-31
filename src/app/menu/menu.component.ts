@@ -74,16 +74,16 @@ export class MenuComponent implements OnInit {
       currentLanguage = JSON.parse(currentLanguageString);
       this.selectedLanguageObj = this.languages.find(language => language.id == currentLanguage);
     }
-    this.requestSubscription = this.dataSharedService.collapseMenu.subscribe({
-      next: (res) => {
-        if (res)
-          this.isCollapsed = res;
-      },
-      error: (err) => {
-        console.error(err);
-        // this.toastr.error("An error occurred", { nzDuration: 3000 });
-      }
-    })
+    // this.requestSubscription = this.dataSharedService.collapseMenu.subscribe({
+    //   next: (res) => {
+    //     if (res)
+    //       this.isCollapsed = res;
+    //   },
+    //   error: (err) => {
+    //     console.error(err);
+    //     // this.toastr.error("An error occurred", { nzDuration: 3000 });
+    //   }
+    // })
   }
   getApllicationAndModule() {
     this.applicationService.getNestCommonAPI('cp/Department').subscribe(((res: any) => {
@@ -167,5 +167,10 @@ export class MenuComponent implements OnInit {
   }
   ngOnDestroy() {
     this.requestSubscription.unsubscribe();
+  }
+  menuCollapsed() {
+    if (this.selectedTheme.layout != 'horizental') {
+      this.selectedTheme.isCollapsed = !this.selectedTheme.isCollapsed;
+    }
   }
 }

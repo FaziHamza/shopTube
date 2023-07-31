@@ -66,47 +66,29 @@ export class SiteLayoutComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    // this.selectedTheme['isCollapsed'] = true;
     this.currentUser = JSON.parse(localStorage.getItem('user')!);
-    this.requestSubscription = this.dataSharedService.currentHeader.subscribe({
+    this.requestSubscription = this.dataSharedService.collapseMenu.subscribe({
       next: (res) => {
-        this.currentHeader = res;
+        if (res) {
+          if (this.selectedTheme.layout != 'horizental') {
+            this.selectedTheme.isCollapsed = !this.selectedTheme.isCollapsed;
+          }
+        }
       },
       error: (err) => {
         console.error(err);
-        this.toastr.error("An error occurred", { nzDuration: 3000 });
       }
     })
-    this.requestSubscription = this.dataSharedService.currentFooter.subscribe({
-      next: (res) => {
-        this.currentFooter = res;
-      },
-      error: (err) => {
-        console.error(err);
-        this.toastr.error("An error occurred", { nzDuration: 3000 });
-      }
-    })
-    // this.requestSubscription = this.dataSharedService.defaultPage.subscribe({
+    // this.requestSubscription = this.dataSharedService.currentDepartment.subscribe({
     //   next: (res) => {
-
-    //     this.defaultPage = res;
+    //     if (res)
+    //       this.currentWebsiteLayout = res;
     //   },
     //   error: (err) => {
     //     console.error(err);
     //     this.toastr.error("An error occurred", { nzDuration: 3000 });
     //   }
     // })
-
-    this.requestSubscription = this.dataSharedService.currentDepartment.subscribe({
-      next: (res) => {
-        if (res)
-          this.currentWebsiteLayout = res;
-      },
-      error: (err) => {
-        console.error(err);
-        this.toastr.error("An error occurred", { nzDuration: 3000 });
-      }
-    })
     this.currentUrl = window.location.host;
     if (this.currentUrl.includes('localhost')) {
       this.currentWebsiteLayout = "backend_application";
@@ -120,7 +102,8 @@ export class SiteLayoutComponent implements OnInit {
         this.selectedTheme = this.selectedTheme ? this.selectedTheme : this.newSelectedTheme;
         this.getApplications();
         this.getAllMenu();
-      } else {
+      }
+      else {
         this.requestSubscription = this.applicationService.getNestCommonAPIById('menu/application', this.dataSharedService.goToMenu).subscribe({
           next: (res) => {
             if (res.length > 0) {
@@ -164,33 +147,32 @@ export class SiteLayoutComponent implements OnInit {
   }
 
 
-  notifyEmit(data: any) {
-    this.selectedTheme = data.selectedTheme ? data.selectedTheme : this.newSelectedTheme
-    this.selectedTheme.allMenuItems = data.menuData;
-    this.menuItems = data.menuData;
-    this.makeMenuData();
-  }
-  collapsed() {
-    this.selectedTheme.isCollapsed = !this.selectedTheme?.isCollapsed
-    if (this.selectedTheme.isCollapsed) {
-      this.selectedTheme.topHeaderMenu = 'w-1/12';
-      this.selectedTheme.topHeader = 'w-full';
-      this.selectedTheme.menuColumn = '';
-      this.selectedTheme.rowClass = 'w-full';
-    }
-    else {
-      this.selectedTheme.menuColumn = 'w-1/6';
-      this.selectedTheme.rowClass = 'w-10/12';
-      this.selectedTheme.topHeaderMenu = 'w-1/6';
-      this.selectedTheme.topHeader = 'w-10/12';
-    }
-  }
-  mobileViewCollapseInHostCom() {
-    this.selectedTheme.showMenu = !this.selectedTheme.showMenu;
-  }
+  // notifyEmit(data: any) {
+  //   this.selectedTheme = data.selectedTheme ? data.selectedTheme : this.newSelectedTheme
+  //   this.selectedTheme.allMenuItems = data.menuData;
+  //   this.menuItems = data.menuData;
+  //   this.makeMenuData();
+  // }
+  // collapsed() {
+  //   this.selectedTheme.isCollapsed = !this.selectedTheme?.isCollapsed
+  //   if (this.selectedTheme.isCollapsed) {
+  //     this.selectedTheme.topHeaderMenu = 'w-1/12';
+  //     this.selectedTheme.topHeader = 'w-full';
+  //     this.selectedTheme.menuColumn = '';
+  //     this.selectedTheme.rowClass = 'w-full';
+  //   }
+  //   else {
+  //     this.selectedTheme.menuColumn = 'w-1/6';
+  //     this.selectedTheme.rowClass = 'w-10/12';
+  //     this.selectedTheme.topHeaderMenu = 'w-1/6';
+  //     this.selectedTheme.topHeader = 'w-10/12';
+  //   }
+  // }
+  // mobileViewCollapseInHostCom() {
+  //   this.selectedTheme.showMenu = !this.selectedTheme.showMenu;
+  // }
   getMenuByDomainName() {
     try {
-      let getURL = window.location.href;
       let check = this.currentUrl.includes(':');
       if (check)
         this.currentUrl = this.currentUrl.split(':')[0];
@@ -203,11 +185,12 @@ export class SiteLayoutComponent implements OnInit {
               this.currentWebsiteLayout = res.data.appication.application_Type ? res.data.appication.application_Type : 'backend_application';
             }
             this.logo = res.data.appication['image'];
+            this.dataSharedService.headerLogo = res.data.appication['image'];
             localStorage.setItem('applicationId', JSON.stringify(res.data?.appication?._id));
             localStorage.setItem('organizationId', JSON.stringify(res.data?.department?.organizationId));
             this.currentWebsiteLayout = res.data.appication['application_Type'] ? res.data.appication['application_Type'] : 'backend_application';
-            this.dataSharedService.currentHeader.next(res.data['header'] ? this.jsonParseWithObject(res.data['header']['screenData']) : '');
-            this.dataSharedService.currentFooter.next(res.data['footer'] ? this.jsonParseWithObject(res.data['footer']['screenData']) : '');
+            this.currentHeader = res.data['header'] ? this.jsonParseWithObject(res.data['header']['screenData']) : '';
+            this.currentFooter = res.data['footer'] ? this.jsonParseWithObject(res.data['footer']['screenData']) : '';
             if (!window.location.href.includes('/menu-builder')) {
               let getMenu = res.data['menu'] ? this.jsonParseWithObject(res.data['menu']['menuData']) : '';
               let selectedTheme = res.data['menu'] ? this.jsonParseWithObject(res.data['menu'].selectedTheme) : {};
@@ -231,7 +214,7 @@ export class SiteLayoutComponent implements OnInit {
           this.loader = false; // Set loader to false in case of an error to avoid infinite loading
         }
       });
-    } 
+    }
     catch (error) {
       console.error(error);
       this.toastr.error("An error occurred", { nzDuration: 3000 });
@@ -263,7 +246,7 @@ export class SiteLayoutComponent implements OnInit {
   }
   loadTabsAndButtons(data: any) {
     this.tabs = [];
-    this.dropdown = [];
+    // this.dropdown = [];
     this.modules = [];
     this.selectedTheme.menuChildArrayTwoColumn = [];
     if (Array.isArray(data)) {
@@ -280,9 +263,9 @@ export class SiteLayoutComponent implements OnInit {
         if (i.type == 'mainTab') {
           this.tabs.push(i);
         }
-        else if (i.type == 'dropdown') {
-          this.dropdown.push(i);
-        }
+        // else if (i.type == 'dropdown') {
+        //   this.dropdown.push(i);
+        // }
       });
     }
   }
@@ -415,10 +398,6 @@ export class SiteLayoutComponent implements OnInit {
   handleCancel(): void {
     this.isVisible = false;
   }
-  menuCollapsed() {
-    if (this.selectedTheme.layout != 'horizental') {
-      this.selectedTheme.isCollapsed = !this.selectedTheme.isCollapsed;
-    }
-  }
+
 }
 

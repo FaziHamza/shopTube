@@ -3,18 +3,6 @@
     [nzPrefix]="to['additionalProperties']?.addonLeft" [nzSize]="to['additionalProperties']?.size" [nzStatus]="to['additionalProperties']?.status">
     <nz-select
     [appConfigurableSelect]="[
-    {
-      event: 'dblclick',
-      actions: [
-        { actionType: 'API', url: '/api/fetch-click-data', method: 'GET' }
-      ]
-    },
-    {
-      event: 'click',
-      actions: [
-        { actionType: 'API', url: 'cp/EnumList/21', method: 'GET' }
-      ]
-    }
   ]"
   [loadAction]="to['eventActionconfig']"
   [processData]="processData"

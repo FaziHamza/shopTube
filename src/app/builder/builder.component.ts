@@ -434,18 +434,23 @@ export class BuilderComponent implements OnInit {
           this.screenPage = true;
           if (objScreen.name.includes('_header') && this.selectApplicationName) {
             let application = this.applicationData.find((item: any) => item._id == this.selectApplicationName);
+            this.dataSharedService.headerLogo = application['image'];
             if (application.application_Type == "website") {
               this.applicationService.getNestCommonAPIById('cp/CacheMenu', this.currentUser.userId).subscribe(((res: any) => {
                 if (res.isSuccess) {
                   if (res.data.length > 0) {
-                    this.dataSharedService.menus = JSON.parse(res.data[0].selectedTheme);
+                    let getApplication: any = JSON.parse(res.data[0].selectedTheme)
+                    this.dataSharedService.menus = getApplication;
                     this.dataSharedService.menus.allMenuItems = JSON.parse(res.data[0].menuData);
-                  } else {
+                  }
+                  else {
                     this.applicationService.getNestCommonAPIById('cp/Menu', application._id).subscribe(((res: any) => {
                       if (res.isSuccess) {
                         if (res.data.length > 0) {
-                          this.dataSharedService.menus = JSON.parse(res.data[0].selectedTheme);
+                          let getApplication: any = JSON.parse(res.data[0].selectedTheme)
+                          this.dataSharedService.menus = getApplication;
                           this.dataSharedService.menus.allMenuItems = JSON.parse(res.data[0].menuData);
+                          this.dataSharedService.headerLogo = getApplication['image'];
                         }
                       } else
                         this.toastr.error(res.message, { nzDuration: 3000 });
@@ -465,11 +470,11 @@ export class BuilderComponent implements OnInit {
       }
     });
   }
-  actionListData : any[] = [];
+  actionListData: any[] = [];
   getActions() {
     this.saveLoader = true;
-    this.requestSubscription = this.applicationService.getNestCommonAPIById("cp/actionbyscreenname", this.navigation ).subscribe({
-      next: (res:any) => {
+    this.requestSubscription = this.applicationService.getNestCommonAPIById("cp/actionbyscreenname", this.navigation).subscribe({
+      next: (res: any) => {
         this.actionListData = res?.data;
         this.getBuilderScreen();
       },
@@ -481,7 +486,7 @@ export class BuilderComponent implements OnInit {
     })
 
   }
-  getBuilderScreen(){
+  getBuilderScreen() {
     this.requestSubscription = this.applicationService.getNestCommonAPIById('cp/Builder', this._id).subscribe({
       next: (res: any) => {
         if (res.isSuccess) {
@@ -491,15 +496,15 @@ export class BuilderComponent implements OnInit {
             this.isSavedDb = true;
             // this.moduleId = res[0].moduleId;
             this.formlyModel = [];
-            let nodesData =  this.jsonParseWithObject(this.jsonStringifyWithObject(objScreenData));
-            if(this.actionListData.length > 0){
+            let nodesData = this.jsonParseWithObject(this.jsonStringifyWithObject(objScreenData));
+            if (this.actionListData.length > 0) {
               let getInputs = this.filterInputElements(nodesData);
-              if(getInputs && getInputs.length > 0){
+              if (getInputs && getInputs.length > 0) {
                 getInputs.forEach((node) => {
                   const formlyConfig = node.formly?.[0]?.fieldGroup?.[0]?.key;
                   for (let index = 0; index < this.actionListData.length; index++) {
                     const element = this.actionListData[index];
-                    if (formlyConfig == element.elementName){
+                    if (formlyConfig == element.elementName) {
                       const eventActionConfig = node?.formly?.[0]?.fieldGroup?.[0]?.props;
                       if (eventActionConfig) {
                         eventActionConfig['eventActionconfig'] = {};
@@ -513,15 +518,15 @@ export class BuilderComponent implements OnInit {
 
               for (let index = 0; index < this.actionListData.length; index++) {
                 const element = this.actionListData[index];
-                let findObj = this.findObjectByKey(nodesData[0],element.elementName);
-                if(findObj){
+                let findObj = this.findObjectByKey(nodesData[0], element.elementName);
+                if (findObj) {
                   let obj = { actionType: element.actionType, url: element.httpAddress, method: element.actionLink }
                   findObj.eventActionconfig = obj;
                 }
               }
               this.nodes = nodesData;
-            }else
-              this.nodes  = nodesData;
+            } else
+              this.nodes = nodesData;
 
 
             // if (!this.nodes[0].isLeaf) {
@@ -1442,6 +1447,9 @@ export class BuilderComponent implements OnInit {
       case 'page':
         newNode = { ...newNode, ...this.addControlService.getPageControl() };
         break;
+      case 'headerLogo':
+        newNode = { ...newNode, ...this.addControlService.headerLogoControl() };
+        break;
       case 'pageHeader':
         newNode = {
           ...newNode,
@@ -2045,35 +2053,25 @@ export class BuilderComponent implements OnInit {
     this.updateNodes();
   }
   makeFormlyOptions(option: any, type: any) {
-    if (option) {
-      let data = [];
-      if (type == 'checkbox') {
-        data = [
-          {
-            label: 'option1',
-            value: '1',
-            width: '0'
-          },
-        ];
-      } else {
-        data = [
-          {
-            label: 'option1',
-            value: '1',
-          },
-          {
-            label: 'option2',
-            value: '2',
-          },
-          {
-            label: 'option3',
-            value: '3',
-          },
-        ];
-      }
-      return data;
-    } else return [];
+    if (!option) {
+      return [];
+    }
+
+    const baseData = [
+      { label: 'option1', value: '1' },
+      { label: 'option2', value: '2' },
+      { label: 'option3', value: '3' },
+    ];
+
+    if (type === 'checkbox') {
+      return [{ ...baseData[0], width: 'w-1/2' }];
+    } else if (type === 'radio') {
+      return baseData.map(item => ({ ...item, width: 'w-1/2' }));
+    }
+
+    return baseData;
   }
+
   addNode(node: TreeNode, newNode: TreeNode) {
     if (node.children) {
       node.children.push(newNode);
@@ -3427,7 +3425,7 @@ export class BuilderComponent implements OnInit {
               if (event.form.sectionClassName) {
                 node.className = event.form.sectionClassName;
               }
-              node.formly[0].fieldGroup = this.diasabledAndlabelPosition(
+              node.formly[0].fieldGroup = this.sectionFormlyConfigApply(
                 event.form,
                 node.formly[0].fieldGroup
               );
@@ -3460,11 +3458,11 @@ export class BuilderComponent implements OnInit {
             this.selectedNode['rowClass'] = event.form.rowClass;
             this.selectedNode['borderLessInputs'] = event.form.borderLessInputs;
             this.selectedNode['inputLabelClassName'] = event.form.inputLabelClassName;
+            this.selectedNode.wrappers = event.form.wrappers;
             if (this.selectedNode.children) {
               this.selectedNode.children[1]['rowClass'] = event.form.rowClass;
             }
-            if (this.selectedNode.wrappers != event.form.wrappers) {
-              this.selectedNode.wrappers = event.form.wrappers;
+            if (this.selectedNode.wrappers[0] != event.form.wrappers) {
               this.clickBack();
             }
           }
@@ -3914,45 +3912,45 @@ export class BuilderComponent implements OnInit {
             //   props['defaultValue'] = arr;
             // } else {
             // }
-              // if (event.form.api || event.form?.apiUrl) {
-              //   this.requestSubscription = this.applicationService
-              //     .getNestCommonAPI(event.form.apiUrl)
-              //     .subscribe({
-              //       next: (res) => {
-              //         debugger
-              //         if (res?.data?.length > 0) {
-              //           let propertyNames = Object.keys(res.data[0]);
-              //           let result = res.data.map((item: any) => {
-              //             let newObj: any = {};
-              //             let propertiesToGet: string[];
-              //             if ('id' in item && 'name' in item) {
-              //               propertiesToGet = ['id', 'name'];
-              //             } else {
-              //               propertiesToGet = Object.keys(item).slice(0, 2);
-              //             }
-              //             propertiesToGet.forEach((prop) => {
-              //               newObj[prop] = item[prop];
-              //             });
-              //             return newObj;
-              //           });
+            // if (event.form.api || event.form?.apiUrl) {
+            //   this.requestSubscription = this.applicationService
+            //     .getNestCommonAPI(event.form.apiUrl)
+            //     .subscribe({
+            //       next: (res) => {
+            //         debugger
+            //         if (res?.data?.length > 0) {
+            //           let propertyNames = Object.keys(res.data[0]);
+            //           let result = res.data.map((item: any) => {
+            //             let newObj: any = {};
+            //             let propertiesToGet: string[];
+            //             if ('id' in item && 'name' in item) {
+            //               propertiesToGet = ['id', 'name'];
+            //             } else {
+            //               propertiesToGet = Object.keys(item).slice(0, 2);
+            //             }
+            //             propertiesToGet.forEach((prop) => {
+            //               newObj[prop] = item[prop];
+            //             });
+            //             return newObj;
+            //           });
 
-              //           let finalObj = result.map((item: any) => {
-              //             return {
-              //               label: item.name || item[propertyNames[1]],
-              //               value: item.id || item[propertyNames[0]],
-              //             };
-              //           });
-              //           props.options = finalObj;
-              //         }
-              //       },
-              //       error: (err) => {
-              //         console.error(err); // Log the error to the console
-              //         this.toastr.error('An error occurred', {
-              //           nzDuration: 3000,
-              //         }); // Show an error message to the user
-              //       },
-              //     });
-              // }
+            //           let finalObj = result.map((item: any) => {
+            //             return {
+            //               label: item.name || item[propertyNames[1]],
+            //               value: item.id || item[propertyNames[0]],
+            //             };
+            //           });
+            //           props.options = finalObj;
+            //         }
+            //       },
+            //       error: (err) => {
+            //         console.error(err); // Log the error to the console
+            //         this.toastr.error('An error occurred', {
+            //           nzDuration: 3000,
+            //         }); // Show an error message to the user
+            //       },
+            //     });
+            // }
           });
           this.updateNodes();
         }
@@ -4907,7 +4905,7 @@ export class BuilderComponent implements OnInit {
     }
   }
 
-  diasabledAndlabelPosition(formValues: any, fieldGroup: any) {
+  sectionFormlyConfigApply(formValues: any, fieldGroup: any) {
     if (fieldGroup) {
       if (fieldGroup[0].props) {
         if (formValues.disabled == 'editable') {
@@ -4926,7 +4924,7 @@ export class BuilderComponent implements OnInit {
           fieldGroup[0].className = formValues.sectionClassName;
         }
         if (formValues.wrappers) {
-          fieldGroup[0].wrappers[0] = [formValues.wrappers][0];
+          fieldGroup[0].wrappers = [formValues.wrappers];
           fieldGroup[0].props['additionalProperties']['wrapper'] = [
             formValues.wrappers,
           ][0];
@@ -6032,7 +6030,7 @@ export class BuilderComponent implements OnInit {
     const firstAlphabet = node?.origin?.type?.charAt(0)?.toUpperCase();
     return firstAlphabet;
   }
-  addWebsiteTemplate(){
+  addWebsiteTemplate() {
     const modalRef: NzModalRef = this.modalService.create({
       nzTitle: 'Template Save',
       nzContent: TemplatePopupComponent,
@@ -6041,15 +6039,15 @@ export class BuilderComponent implements OnInit {
     });
     modalRef.afterClose.subscribe((formData) => {
       if (formData) {
-        if(formData.category == "Block"){
+        if (formData.category == "Block") {
           formData['data'] = JSON.stringify(this.nodes[0].children[1].children)
         }
         else
-        formData['data'] = JSON.stringify(this.nodes)
+          formData['data'] = JSON.stringify(this.nodes)
         let obj = {
-          "MarketPlaceList":formData
+          "MarketPlaceList": formData
         }
-        this.applicationService.addNestCommonAPI('cp',obj).subscribe(res=>{
+        this.applicationService.addNestCommonAPI('cp', obj).subscribe(res => {
           if (res.isSuccess) {
             this.toastr.success("Saved Successfully!", { nzDuration: 3000 });
           }
@@ -6071,7 +6069,7 @@ export class BuilderComponent implements OnInit {
       >({
         nzTitle: 'Market Place',
         nzWidth: '80%',
-        nzMaskClosable:false,
+        nzMaskClosable: false,
         nzContent: MarketPlaceComponent,
         nzContentParams: {
           nodes: this.nodes,

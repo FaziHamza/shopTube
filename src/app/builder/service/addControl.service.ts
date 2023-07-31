@@ -8,7 +8,7 @@ export class AddControlService {
 
   getPageControl() {
     return {
-      tooltipIcon:'question-circle',
+      tooltipIcon: 'question-circle',
       footer: false, header: false,
       options: [
         {
@@ -16,6 +16,12 @@ export class AddControlService {
         }
       ],
       isNextChild: true,
+    }
+  }
+  headerLogoControl() {
+    return {
+      tooltipIcon: 'question-circle',
+      isNextChild: false,
     }
   }
   getPageHeaderControl() {
@@ -61,7 +67,7 @@ export class AddControlService {
       formatAlignment: '',
       borderRadius: '0px 0px 0px 0px',
       mapApi: '',
-      tooltipIcon:'question-circle',
+      tooltipIcon: 'question-circle',
       tableHeader: [
         { name: 'fileHeader', },
         { name: 'SelectQBOField' },
@@ -71,7 +77,7 @@ export class AddControlService {
       checkData: '',
       dbData: '',
       tableData: [],
-      rowClass:'flex flex-wrap'
+      rowClass: 'flex flex-wrap'
     }
   }
   getHeaderControl() {
@@ -84,7 +90,7 @@ export class AddControlService {
       isNextChild: true,
       backGroundColor: "#FFFFFF",
       textColor: "#000000",
-      expandedIconPosition:'left'
+      expandedIconPosition: 'left'
     }
   }
   getBodyControl() {
@@ -244,7 +250,7 @@ export class AddControlService {
       borderColor: '',
       iconPlacement: 'left',
       hoverIconColor: '',
-      captureData:'sectionLevel',
+      captureData: 'sectionLevel',
     }
   }
   getDropdownButtonControl() {
@@ -330,7 +336,7 @@ export class AddControlService {
       badgeRibbonText: '',
       badgeCount: '',
       dot_ribbon_color: '#E93F3F',
-      rowClass:'flex flex-wrap'
+      rowClass: 'flex flex-wrap'
     }
   }
   getSwitchControl() {
@@ -575,7 +581,7 @@ export class AddControlService {
       size: 'default',
       status: 'none',
       hoverIconColor: '',
-      styleType : 'steper 1',
+      styleType: 'steper 1',
       disabled: false,
       border: true,
       nodes: "3",
@@ -615,7 +621,7 @@ export class AddControlService {
       checkData: '',
       dbData: '',
       tableData: [],
-      rowClass:'flex flex-wrap'
+      rowClass: 'flex flex-wrap'
     }
   }
   getStepControl() {
@@ -707,7 +713,7 @@ export class AddControlService {
       imageSrc: '',
       height: 0,
       width: 0,
-      rowClass:'flex flex-wrap'
+      rowClass: 'flex flex-wrap'
     }
   }
   mainDivControl() {
@@ -792,8 +798,8 @@ export class AddControlService {
       isNextChild: false,
       uploadLimit: 10,
       size: 30,
-      selectType:'multiple',
-      multiFileUploadTypes:'dragNDrop'
+      selectType: 'multiple',
+      multiFileUploadTypes: 'dragNDrop'
     }
   }
   gridListControl() {

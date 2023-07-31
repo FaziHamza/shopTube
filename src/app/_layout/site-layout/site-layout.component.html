@@ -5,47 +5,10 @@
 }">
   <nz-layout class="app-layout">
     <nz-header>
-      <div class="app-header" *ngIf="!currentHeader">
-        <div class="b-brand" (click)="menuCollapsed()">
-          <img [src]="logo ? logo : 'assets/images/logo.png'" alt>
-        </div>
-        <div class="header-action-btns">
-          <div class="nav-item">
-            <i class="fa-light fa-magnifying-glass"></i>
-          </div>
-          <div class="nav-item">
-            <i class="fa-light fa-grid-2"></i>
-          </div>
-          <div class="nav-item">
-            <i class="fa-light fa-bell"></i>
-          </div>
-          <div class="nav-item">
-            <i class="fa-light fa-earth-asia"></i>
-          </div>
-          <div class="nav-item">
-            <i class="fa-light fa-gear"></i>
-          </div>
-          <div class="nav-item">
-            <a nz-dropdown [nzDropdownMenu]="menu">
-              <div class="user-profile-header">
-                <img src="assets/images/user.png" alt>
-              </div>
-            </a>
-            <nz-dropdown-menu #menu="nzDropdownMenu">
-              <ul nz-menu nzSelectable>
-                <li nz-menu-item>1st menu item</li>
-                <li nz-menu-item>2nd menu item</li>
-                <li nz-menu-item>3rd menu item</li>
-                <li nz-menu-item nzDanger>4th danger item</li>
-              </ul>
-            </nz-dropdown-menu>
-          </div>
-        </div>
+      <div *ngIf="!currentHeader">
+        <st-menu [selectedTheme]="selectedTheme"></st-menu>
       </div>
-      <div class="app-header-dynamic" *ngIf="currentHeader">
-        <div class="b-brand" (click)="menuCollapsed()">
-          <img [src]="logo ? logo : 'assets/images/logo.png'" alt>
-        </div>
+      <div *ngIf="currentHeader">
         <div class="dynamic-header">
           <st-pages [resData]="currentHeader"></st-pages>
         </div>
