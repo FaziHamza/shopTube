@@ -504,14 +504,15 @@ export class BuilderComponent implements OnInit {
                   const formlyConfig = node.formly?.[0]?.fieldGroup?.[0]?.key;
                   for (let index = 0; index < this.actionListData.length; index++) {
                     const element = this.actionListData[index];
-                    if (formlyConfig == element.elementName) {
+                    if (formlyConfig == element.elementName  && element.actionType  == 'api') {
                       const eventActionConfig = node?.formly?.[0]?.fieldGroup?.[0]?.props;
                       if (eventActionConfig) {
                         if (element.btnActionType == 'load') {
                           eventActionConfig['eventActionconfig'] = {};
                           let obj = { actionType: element.actionType, url: element.httpAddress, method: element.actionLink }
                           eventActionConfig['eventActionconfig'] = obj;
-                        } else {
+                        }
+                         else {
                           if (eventActionConfig['appConfigurableEvent']) {
                             let obj = {
                               event: element.actionLink,
@@ -532,6 +533,12 @@ export class BuilderComponent implements OnInit {
                           }
                         }
                       }
+                    }else{
+                      const eventActionConfig = node?.formly?.[0]?.fieldGroup?.[0]?.props;
+                      if (eventActionConfig) {
+                        eventActionConfig['appConfigurableEvent'] = [];
+                        eventActionConfig['eventActionconfig'] = {};
+                      }
                     }
                   }
                 });
@@ -540,28 +547,33 @@ export class BuilderComponent implements OnInit {
                 const element = this.actionListData[index];
                 let findObj = this.findObjectByKey(nodesData[0], element.elementName);
                 if (findObj) {
-                  if (element.btnActionType == 'load') {
-                    let obj = { actionType: element.actionType, url: element.httpAddress, method: element.actionLink }
-                    findObj.eventActionconfig = obj;
-                  }else{
-                    if (findObj['appConfigurableEvent']) {
-                      let obj = {
-                        event: element.actionLink,
-                        actions: [
-                          { actionType: element.actionType, url: element.httpAddress, method: element.actionLink }
-                        ]
-                      };
-                      findObj['appConfigurableEvent'].push(obj);
-                    } else {
-                      findObj['appConfigurableEvent'] = [];
-                      let obj = {
-                        event: element.actionLink,
-                        actions: [
-                          { actionType: element.actionType, url: element.httpAddress, method: element.actionLink }
-                        ]
-                      };
-                      findObj['appConfigurableEvent'].push(obj);
+                  if(findObj?.key == element.elementName && element.actionType  == 'api'){
+                    if (element.btnActionType == 'load') {
+                      let obj = { actionType: element.actionType, url: element.httpAddress, method: element.actionLink }
+                      findObj.eventActionconfig = obj;
+                    }else{
+                      if (findObj['appConfigurableEvent']) {
+                        let obj = {
+                          event: element.actionLink,
+                          actions: [
+                            { actionType: element.actionType, url: element.httpAddress, method: element.actionLink }
+                          ]
+                        };
+                        findObj['appConfigurableEvent'].push(obj);
+                      } else {
+                        findObj['appConfigurableEvent'] = [];
+                        let obj = {
+                          event: element.actionLink,
+                          actions: [
+                            { actionType: element.actionType, url: element.httpAddress, method: element.actionLink }
+                          ]
+                        };
+                        findObj['appConfigurableEvent'].push(obj);
+                      }
                     }
+                  }else{
+                    findObj['appConfigurableEvent'] = [];
+                    findObj['eventActionconfig'] = {};
                   }
                 }
               }
@@ -5569,14 +5581,13 @@ export class BuilderComponent implements OnInit {
     }
     return data;
   }
-
   findObjectByKey(data: any, key: any) {
     if (data) {
       if (data.key && key) {
         if (data.key === key) {
           return data;
         }
-        if (data.children.length > 0) {
+        if (data.children && data.children.length > 0) {
           for (let child of data.children) {
             let result: any = this.findObjectByKey(child, key);
             if (result !== null) {
@@ -5584,9 +5595,9 @@ export class BuilderComponent implements OnInit {
             }
           }
         }
-        return null;
       }
     }
+    return null;
   }
 
   dataReplace(node: any, replaceData: any, value: any): any {

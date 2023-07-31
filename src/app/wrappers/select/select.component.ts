@@ -14,8 +14,7 @@ export class SelectComponent extends FieldType<FieldTypeConfig> implements OnCha
   @Output() change = new EventEmitter<any>();
   selectedValue: any | null = null;
   requestSubscription: Subscription;
-  constructor(private sharedService: DataSharedService , private cdr: ChangeDetectorRef
-    ,private applicationService: ApplicationService) {
+  constructor(private sharedService: DataSharedService , private cdr: ChangeDetectorRef) {
     super();
     this.processData = this.processData.bind(this);
 
