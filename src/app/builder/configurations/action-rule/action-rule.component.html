@@ -24,7 +24,12 @@
         </nz-select>
       </div>
       <div>
-        <nz-select class="form-select" formControlName="elementName" aria-label="Default Select Example">
+        <nz-select class="form-select" nzShowSearch nzAllowClear formControlName="elementName" aria-label="Default Select Example">
+          <nz-option [nzLabel]="item.title" [nzValue]="item.key" *ngFor="let item of nodeList"></nz-option>
+        </nz-select>
+      </div>
+      <div>
+        <nz-select class="form-select" nzShowSearch nzAllowClear formControlName="elementNameTo" aria-label="Default Select Example">
           <nz-option [nzLabel]="item.title" [nzValue]="item.key" *ngFor="let item of nodeList"></nz-option>
         </nz-select>
       </div>
@@ -90,11 +95,23 @@
                       </div>
                     </div>
                   </div>
+                  <div class="w-1/2 theme-body">
+                    <div class=" flex flex-wrap">
+                      <label class="w-1/3 py-2 col-form-label column-form-label">
+                        Type From
+                      </label>
+                      <div class="w-2/3 column-form-input form-control-style v-body-border" style="padding: 0px">
+                        <nz-select nzShowSearch nzAllowClear formControlName="elementNameTo" nzDisabled>
+                          <nz-option [nzLabel]="item.title" [nzValue]="item.key" *ngFor="let item of nodeList"></nz-option>
+                        </nz-select>
+                      </div>
+                    </div>
+                  </div>
 
                   <div class="w-1/2 theme-body">
                     <div class=" flex flex-wrap">
                       <label class="w-1/3 py-2 col-form-label column-form-label">
-                        Type
+                        Action Type
                       </label>
                       <div class="w-2/3 column-form-input form-control-style v-body-border" style="padding: 0px">
                         <nz-select class="form-select" formControlName="submissionType" nzDisabled>

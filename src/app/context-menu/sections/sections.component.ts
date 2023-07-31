@@ -286,9 +286,9 @@ export class SectionsComponent implements OnInit {
     this.assignGridRules(tableData);
   }
   getFromQuery(data:any) {
+    let findClickApi = data?.appConfigurableEvent?.filter((item:any) => item.actions.some((action:any) => action.method === 'get' && action.actionType == 'api'));
     let tableData = this.findObjectByTypeBase(this.sections, "gridList");
     if (tableData) {
-      let findClickApi = data?.appConfigurableEvent?.filter((item:any) => item.actions.some((action:any) => action.method === 'get' && action.actionType == 'api'));
       this.employeeService.getSQLDatabaseTable( findClickApi?.length > 0 ?  findClickApi?.[0].actions?.[0]?.url : `knex-query/${this.screenName}`).subscribe({
         next: (res) => {
           if (tableData && res) {

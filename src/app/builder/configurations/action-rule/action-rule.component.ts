@@ -73,6 +73,7 @@ export class ActionRuleComponent implements OnInit {
       actionType: [''],
       actionLink: [''],
       elementName: [''],
+      elementNameTo: [''],
       submissionType: [''],
       Actions: this.formBuilder.array([]),
     })
@@ -87,6 +88,7 @@ export class ActionRuleComponent implements OnInit {
         email: [check[0].email],
         sqlType: [check[0].sqlType],
         elementName: [check[0].elementName],
+        elementNameTo: [check[0].elementNameTo],
         actionLink: [check[0].actionLink],
         actionType: [check[0].actionType],
         submissionType: [check[0].submissionType],
@@ -210,6 +212,7 @@ export class ActionRuleComponent implements OnInit {
         sqlType: ["sql"],
         actionLink: [this.actionForm.value.actionLink],
         elementName: [this.actionForm.value.elementName],
+        elementNameTo: [this.actionForm.value.elementNameTo],
         actionType: [this.actionForm.value.actionType],
         submissionType: [this.actionForm.value.submissionType],
         email: [this.actionForm.value.actionType === "email" ? dataForQuery : ""],
@@ -330,6 +333,7 @@ SaveAction() {
           "moduleId": mainModuleId.length > 0 ? mainModuleId[0].navigation : "",
           "btnActionType": element.submissionType ? element.submissionType : "",
           "elementName": element.elementName,
+          "elementNameTo": element.elementNameTo,
           "actionType": element.actionType,
           "actionLink": element.actionLink,
           "quryType": element.referenceId,
@@ -397,6 +401,7 @@ SaveAction() {
               this.screenActions = getRes;
               this.actionForm = this.formBuilder.group({
                 elementName: [getRes[0].elementName],
+                elementNameTo: [getRes[0]?.elementNameTo],
                 actionType: [getRes[0].actionType],
                 actionLink: [getRes[0].actionLink],
                 submissionType: [getRes[0].btnActionType],
@@ -408,6 +413,7 @@ SaveAction() {
                     sqlType: [getQueryActionRes.sqlType],
                     actionType: [getQueryActionRes.actionType],
                     elementName: [getQueryActionRes.elementName],
+                    elementNameTo: [getQueryActionRes?.elementNameTo],
                     actionLink: [getQueryActionRes.actionLink],
                     submissionType: [getQueryActionRes.btnActionType],
                     email: [getQueryActionRes.email],

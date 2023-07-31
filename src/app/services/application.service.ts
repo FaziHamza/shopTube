@@ -70,4 +70,17 @@ export class ApplicationService {
           return this.http.get(  url.includes('http') ? url : this.nestUrl + url, { headers });
       }
     }
+    commonCallApi(url: string, method: string, data?: any, headers?: any): Observable<any> {
+      switch(method) {
+        case 'post':
+          return this.http.post( url.includes('http') ? url : this.nestUrl + url, data, { headers });
+        case 'put':
+          return this.http.put( url.includes('http') ? url : this.nestUrl + url, data, { headers });
+        case 'delete':
+          return this.http.delete( url.includes('http') ? url : this.nestUrl + url, data);
+        // add other methods as required
+        default:
+          return this.http.get(  url.includes('http') ? url : this.nestUrl + url, { headers });
+      }
+    }
 }
