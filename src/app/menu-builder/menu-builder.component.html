@@ -86,7 +86,7 @@
           <div class="custom-node flex card-lable-row" (mouseover)="hoverIn(node)" (mouseleave)="hoverOut(node)"
             [ngClass]="isActiveShow === node.origin.id ? 'isActive' : ''">
             <span (click)="openField(node)">
-              <span class="jameel-font">{{ typeFirstAlphabetAsIcon(node) }}</span>
+              <span class="jameel-font">{{ node.origin.type === 'input' ? (node?.parentNode?.origin ? 'S' : 'M') : 'I' }}</span>
               <span class="folder-name">{{ node.origin.title ? node.title :
                 node.origin.id }}</span>
             </span>

@@ -481,6 +481,9 @@ export class MenuBuilderComponent implements OnInit {
         expanded: true,
         type: "input",
         isTitle: true,
+        iconType: "outline",
+        iconSize: "15",
+        iconColor: "",
         children: [
         ],
       } as any;
@@ -1732,10 +1735,18 @@ export class MenuBuilderComponent implements OnInit {
       this.selectedTheme['inPageMenu']['font'] = 'font-roboto'
     }
   }
-  typeFirstAlphabetAsIcon(node: any) {
-    const firstAlphabet = node?.origin?.type?.charAt(0)?.toUpperCase();
-    return firstAlphabet;
-  }
+  // typeFirstAlphabetAsIcon(node: any) {
+  //   if (node.origin.type === 'input') {
+  //     if (node?.parentNode?.origin) {
+  //       return 'S';
+  //     } else {
+  //       return 'M';
+  //     }
+  //   } else {
+  //     return 'I';
+  //   }
+  // }
+
   async loadData(node: NzCascaderOption, index: number): Promise<void> {
     if (index === 0) {
       try {

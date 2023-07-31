@@ -2649,7 +2649,7 @@ object {
   .ant-menu-item,
   .ant-menu-submenu {
     span {
-      font-size: 14px !important;
+      font-size: 14px ;
       // color: #7c7f90;
       // font-weight: 500 !important;
     }
@@ -3189,10 +3189,10 @@ object {
 }
 
 .dynamic-footer {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
+  position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
 }
 
 .content-body {
@@ -3491,6 +3491,19 @@ object {
       background: #FFF;
       overflow: hidden;
       box-shadow: 7px 0px 15px -5px rgba(0, 0, 0, 0.05) !important;
+    }
+    .ant-menu.ant-menu-root {
+      width: 100% !important;
+      height: calc(100vh - 50px);
+      overflow-y: scroll;
+      overflow-x: hidden;
+    }
+  
+    .ant-menu.ant-menu-horizontal {
+      width: 100% !important;
+      height: auto !important;
+      overflow-y: scroll;
+      overflow-x: hidden;
     }
   }
 
@@ -3967,6 +3980,10 @@ object {
 
           }
         }
+      }
+
+      .blank-option {
+        width: 24%;
       }
     }
 

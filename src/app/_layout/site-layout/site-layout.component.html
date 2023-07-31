@@ -29,7 +29,8 @@
           </ng-container>
         </ng-container>
         <router-outlet></router-outlet>
-        <div [ngClass]="{'dynamic-footer':!dataSharedService.checkContentForFixFooter}" *ngIf="currentFooter">
+        <div [ngClass]="{'dynamic-footer':!dataSharedService.checkContentForFixFooter}"
+          *ngIf="currentFooter && !fullCurrentUrl.includes('/menu-builder')">
           <st-pages [resData]="currentFooter"></st-pages>
         </div>
       </nz-content>
