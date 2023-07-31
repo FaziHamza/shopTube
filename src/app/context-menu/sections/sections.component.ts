@@ -43,7 +43,7 @@ export class SectionsComponent implements OnInit {
       next: (res) => {
         const checkButtonExist = this.findObjectById(this.sections, res.id);
         // const checkButtonExist = this.isButtonIdExist(this.sections.children[1].children, res.id);
-        if (checkButtonExist?.eventActionConfig) {
+        if (checkButtonExist?.appConfigurableEvent) {
           let makeModel: any = {};
           const filteredNodes = this.filterInputElements(this.sections.children[1].children);
           for (let item in this.formlyModel) {
@@ -158,7 +158,7 @@ export class SectionsComponent implements OnInit {
     // Note we need to save JSON of Button for api in JSON.stringify
     let apiJSON = JSON.parse(api);
     let findClickApi = apiJSON.filter((item:any) => item.actions.some((action:any) => action.method === 'POST' && action.actionType == 'API'));
-    this.applicationServices.addNestCommonAPI(findClickApi.length > 0 ?  findClickApi?.[0].actions.url : 'knex-query', result).subscribe({
+    this.applicationServices.addNestCommonAPI(findClickApi.length > 0 ?  findClickApi?.[0].actions?.[0]?.url : 'knex-query', result).subscribe({
       next: (res) => {
         if (res[0]?.error)
           this.toastr.error(res[0]?.error, { nzDuration: 3000 });
@@ -203,13 +203,13 @@ export class SectionsComponent implements OnInit {
       }
     }
     if (id == undefined) {
-      let findClickApi = data.eventActionConfig.filter((item:any) => item.actions.some((action:any) => action.method === 'POST' && action.actionType == 'API'));
+      let findClickApi = data.appConfigurableEvent.filter((item:any) => item.actions.some((action:any) => action.method === 'post' && action.actionType == 'api'));
       let relationIds: any = remainingTables.map(table => `${Arraytables[0]}_id`);
       relationIds = relationIds.toString();
       const tables = (Array.from(tableNames)).toString();
       console.log(tables);
       if (Object.keys(empData.modalData).length > 0)
-      this.applicationServices.addNestCommonAPI(findClickApi.length > 0 ?  findClickApi?.[0].actions.url : 'knex-query', empData).subscribe({
+      this.applicationServices.addBackendCommonApi(findClickApi.length > 0 ?  findClickApi?.[0].actions?.[0]?.url : 'knex-query', empData).subscribe({
           next: (res) => {
             if (res[0]?.error)
               this.toastr.error(res[0]?.error, { nzDuration: 3000 });
@@ -227,7 +227,7 @@ export class SectionsComponent implements OnInit {
         });
     } else {
       debugger
-      let findClickApi = data.eventActionConfig.filter((item:any) => item.actions.some((action:any) => action.method === 'PUT' && action.actionType == 'API'));
+      let findClickApi = data.appConfigurableEvent.filter((item:any) => item.actions.some((action:any) => action.method === 'put' && action.actionType == 'api'));
       if (this.dataModel) {
         // this.form.get(dynamicPropertyName);
         const model = {
@@ -250,7 +250,7 @@ export class SectionsComponent implements OnInit {
           modalData: removePrefix(model.modalData)
         };
         if (Object.keys(empData.modalData).length > 0)
-         this.applicationServices.addNestCommonAPI(findClickApi.length > 0 ?  findClickApi?.[0].actions.url : 'knex-query/executeQuery', result).subscribe({
+         this.applicationServices.addNestCommonAPI(findClickApi.length > 0 ?  findClickApi?.[0].actions?.[0]?.url : 'knex-query/executeQuery', result).subscribe({
             next: (res) => {
               this.toastr.success("Update Successfully", { nzDuration: 3000 });
               this.getFromQuery(data);
@@ -288,8 +288,8 @@ export class SectionsComponent implements OnInit {
   getFromQuery(data:any) {
     let tableData = this.findObjectByTypeBase(this.sections, "gridList");
     if (tableData) {
-      let findClickApi = data.eventActionConfig.filter((item:any) => item.actions.some((action:any) => action.method === 'GET' && action.actionType == 'API'));
-      this.employeeService.getSQLDatabaseTable( findClickApi.length > 0 ?  findClickApi?.[0].actions.url : `knex-query/${this.screenName}`).subscribe({
+      let findClickApi = data.appConfigurableEvent.filter((item:any) => item.actions.some((action:any) => action.method === 'get' && action.actionType == 'api'));
+      this.employeeService.getSQLDatabaseTable( findClickApi.length > 0 ?  findClickApi?.[0].actions?.[0]?.url : `knex-query/${this.screenName}`).subscribe({
         next: (res) => {
           if (tableData && res) {
             let saveForm = JSON.parse(JSON.stringify(res[0]));

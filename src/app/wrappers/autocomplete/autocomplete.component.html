@@ -3,6 +3,8 @@
         [nzPrefix]="to['additionalProperties']?.addonRight" [nzSize]="to['additionalProperties']?.size" [nzStatus]="to['additionalProperties']?.status">
         <div>
             <input  [(ngModel)]="inputValue"
+            [appConfigurableSelect]="to['appConfigurableEvent']"
+            [loadAction]="to['eventActionconfig']"  [processData]="processData"
             (ngModelChange)="onModelChange($event, field)" [ngClass]="showError && !to['additionalProperties']?.suffixicon && !to['additionalProperties']?.prefixicon && !to['additionalProperties']?.addonLeft && !to['additionalProperties']?.addonRight ? 'input-border' : ''"
                  [style.border-radius]="to['additionalProperties']?.borderRadius"[ngClass]="to['additionalProperties']?.wrapper && to['additionalProperties']?.wrapper == 'floating_filled' || to['additionalProperties']?.wrapper == 'floating_outlined' || to['additionalProperties']?.wrapper == 'floating_standard' ? to['additionalProperties']?.floatFieldClass : ''"
                 [placeholder]="to.placeholder" [formControl]="formControl" nz-input [nzAutocomplete]="auto"
@@ -16,7 +18,8 @@
 
     <nz-input-group [ngClass]="showError ? 'input-border' : ''" *ngIf="to['additionalProperties']?.suffixicon || to['additionalProperties']?.prefixicon" [nzSuffix]="suffixTemplateInfo"
         [nzPrefix]="prefixTemplateUser" [nzSize]="to['additionalProperties']?.size" [nzStatus]="to['additionalProperties']?.status">
-        <input  [(ngModel)]="inputValue" [style.border-radius]="to['additionalProperties']?.borderRadius"
+        <input  [appConfigurableSelect]="to['appConfigurableEvent']"
+        [loadAction]="to['eventActionconfig']"  [processData]="processData" [(ngModel)]="inputValue" [style.border-radius]="to['additionalProperties']?.borderRadius"
         (ngModelChange)="onModelChange($event, field)" [ngClass]="showError && !to['additionalProperties']?.suffixicon && !to['additionalProperties']?.prefixicon && !to['additionalProperties']?.addonLeft && !to['additionalProperties']?.addonRight ? 'input-border' : ''" [placeholder]="to.placeholder" [formControl]="formControl" nz-input [nzAutocomplete]="auto"
             [nzBorderless]="to['additionalProperties']?.border" [nzSize]="to['additionalProperties']?.size" [nzStatus]="to['additionalProperties']?.status" />
         <nz-autocomplete [nzWidth]="to['additionalProperties']?.optionWidth" [nzDataSource]="list" [nzDefaultActiveFirstOption]="true"
@@ -38,8 +41,8 @@
     </ng-template>
 </ng-container>
 <div class="relative z-0" *ngIf="to['additionalProperties']?.wrapper == 'floating_standard'">
-    <input
-    [(ngModel)]="inputValue"
+    <input  [appConfigurableSelect]="to['appConfigurableEvent']"
+    [loadAction]="to['eventActionconfig']"  [processData]="processData" [(ngModel)]="inputValue"
     (ngModelChange)="onModelChange($event, field)" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
         [style.border-radius]="to['additionalProperties']?.borderRadius" [placeholder]="to.placeholder" [formControl]="formControl" nz-input [nzAutocomplete]="auto"
         [nzBorderless]="to['additionalProperties']?.border" [nzSize]="to['additionalProperties']?.size" [nzStatus]="to['additionalProperties']?.status" />

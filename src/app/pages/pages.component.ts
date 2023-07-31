@@ -53,6 +53,7 @@ export class PagesComponent implements OnInit {
   requestSubscription: Subscription;
   isPageContextShow = false;
   form: any = new FormGroup({});
+  actionListData: any[] = [];
   ngOnInit(): void {
 
     this.requestSubscription = this.dataSharedService.pageSubmit.subscribe({
@@ -129,44 +130,129 @@ export class PagesComponent implements OnInit {
             this.dataSharedService.screenCommentList = commentList;
           }
         })
-
-        this.requestSubscription = this.applicationService.getNestCommonAPIById('cp/Builder', params["schema"]).subscribe({
+        this.requestSubscription = this.applicationService.getNestCommonAPIById("cp/actionbyscreenname", params["schema"]).subscribe({
           next: (res: any) => {
-            if (res.isSuccess) {
-              if (res.data.length > 0) {
-                this.screenId = res.data[0].screenBuilderId;
-                this.getBusinessRule(res.data[0].screenBuilderId);
-                this.getUIRuleData(res.data[0].screenBuilderId);
-                const data = JSON.parse(res.data[0].screenData);
-                this.resData = this.jsonParseWithObject(this.jsonStringifyWithObject(data));
-                this.dataSharedService.checkContentForFixFooter = this.jsonParseWithObject(this.jsonStringifyWithObject(data));
-                this.checkDynamicSection();
-                this.uiRuleGetData({ key: 'text_f53ed35b', id: 'formly_86_input_text_f53ed35b_0' });
-                // this.getFromQuery();
-                if (params["commentId"] != "all") {
-                  this.builderService.getCommentById(params["commentId"]).subscribe(res => {
-                    if (res.length > 0) {
-                      let findObj = this.findObjectById(this.resData[0], res[0].commentId);
-                      findObj.highLight = true;
-                    }
-                  })
-                } else {
-                  this.dataSharedService.screenCommentList.forEach(element => {
-                    let findObj = this.findObjectById(this.resData[0], element.commentId);
-                    findObj.highLight = true;
-                  });
-                }
-              }
-            } else
-              this.toastr.error(res.message, { nzDuration: 3000 });
+            this.actionListData = res?.data;
+            this.getBuilderScreen(params);
           },
           error: (err) => {
-            console.error(err); // Log the error to the console
+            this.getBuilderScreen(params);
+            console.error(err);
+            // this.toastr.error("An error occurred", { nzDuration: 3000 });
           }
-        });
+        })
+
 
       }
 
+    });
+  }
+  getBuilderScreen(params:any){
+    this.requestSubscription = this.applicationService.getNestCommonAPIById('cp/Builder',  params["schema"]).subscribe({
+      next: (res: any) => {
+        if (res.isSuccess) {
+          if (res.data.length > 0) {
+            this.screenId = res.data[0].screenBuilderId;
+            this.getBusinessRule(res.data[0].screenBuilderId);
+            this.getUIRuleData(res.data[0].screenBuilderId);
+            const data = JSON.parse(res.data[0].screenData);
+            let nodesData = this.jsonParseWithObject(this.jsonStringifyWithObject(data));
+            // this.resData = this.jsonParseWithObject(this.jsonStringifyWithObject(data));
+            this.dataSharedService.checkContentForFixFooter = this.jsonParseWithObject(this.jsonStringifyWithObject(data));
+            if (this.actionListData.length > 0) {
+              let getInputs = this.filterInputElements(nodesData);
+              if (getInputs && getInputs.length > 0) {
+                getInputs.forEach((node) => {
+                  const formlyConfig = node.formly?.[0]?.fieldGroup?.[0]?.key;
+                  for (let index = 0; index < this.actionListData.length; index++) {
+                    const element = this.actionListData[index];
+                    if (formlyConfig == element.elementName) {
+                      const eventActionConfig = node?.formly?.[0]?.fieldGroup?.[0]?.props;
+                      if (eventActionConfig) {
+                        if (element.btnActionType == 'load') {
+                          eventActionConfig['eventActionconfig'] = {};
+                          let obj = { actionType: element.actionType, url: element.httpAddress, method: element.actionLink }
+                          eventActionConfig['eventActionconfig'] = obj;
+                        } else {
+                          if (eventActionConfig['appConfigurableEvent']) {
+                            let obj = {
+                              event: element.actionLink,
+                              actions: [
+                                { actionType: element.actionType, url: element.httpAddress, method: element.actionLink }
+                              ]
+                            };
+                            eventActionConfig['appConfigurableEvent'].push(obj);
+                          } else {
+                            eventActionConfig['appConfigurableEvent'] = [];
+                            let obj = {
+                              event: element.actionLink,
+                              actions: [
+                                { actionType: element.actionType, url: element.httpAddress, method: element.actionLink }
+                              ]
+                            };
+                            eventActionConfig['appConfigurableEvent'].push(obj);
+                          }
+                        }
+                      }
+                    }
+                  }
+                });
+              }
+              for (let index = 0; index < this.actionListData.length; index++) {
+                const element = this.actionListData[index];
+                let findObj = this.findObjectByKey(nodesData[0], element.elementName);
+                if (findObj) {
+                  if (element.btnActionType == 'load') {
+                    let obj = { actionType: element.actionType, url: element.httpAddress, method: element.actionLink }
+                    findObj.eventActionconfig = obj;
+                  }else{
+                    if (findObj['appConfigurableEvent']) {
+                      let obj = {
+                        event: element.actionLink,
+                        actions: [
+                          { actionType: element.actionType, url: element.httpAddress, method: element.actionLink }
+                        ]
+                      };
+                      findObj['appConfigurableEvent'].push(obj);
+                    } else {
+                      findObj['appConfigurableEvent'] = [];
+                      let obj = {
+                        event: element.actionLink,
+                        actions: [
+                          { actionType: element.actionType, url: element.httpAddress, method: element.actionLink }
+                        ]
+                      };
+                      findObj['appConfigurableEvent'].push(obj);
+                    }
+                  }
+                }
+              }
+              this.resData = nodesData;
+            } else
+              this.resData = nodesData;
+            this.checkDynamicSection();
+            this.uiRuleGetData({ key: 'text_f53ed35b', id: 'formly_86_input_text_f53ed35b_0' });
+            // this.getFromQuery();
+            if (params["commentId"] != "all") {
+              this.builderService.getCommentById(params["commentId"]).subscribe(res => {
+                if (res.length > 0) {
+                  let findObj = this.findObjectById(this.resData[0], res[0].commentId);
+                  findObj.highLight = true;
+                }
+              })
+            } else {
+              this.dataSharedService.screenCommentList.forEach(element => {
+                let findObj = this.findObjectById(this.resData[0], element.commentId);
+                findObj.highLight = true;
+              });
+            }
+          }
+        } else
+          this.toastr.error(res.message, { nzDuration: 3000 });
+      },
+      error: (err) => {
+        console.error(err); // Log the error to the console
+      }
     });
   }
   saveData(data: any) {

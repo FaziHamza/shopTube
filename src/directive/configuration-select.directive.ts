@@ -25,7 +25,6 @@ export class ConfigurableSelectDirective implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit() {
-    debugger
     this.bindEvents();
     this.loadOptions();
   }
@@ -39,7 +38,7 @@ export class ConfigurableSelectDirective implements OnInit, OnDestroy {
     this.configs?.forEach(config => {
       if (config?.event && config?.actions) {
         this.renderer.listen(this.viewContainer.element.nativeElement, config.event, () => {
-          alert(`${config.event.charAt(0).toUpperCase() + config.event.slice(1)} event triggered!`);
+          // alert(`${config.event.charAt(0).toUpperCase() + config.event.slice(1)} event triggered!`);
           config.actions.forEach(action => {
             this.loadAction = action;
             this.loadOptions();
@@ -55,7 +54,6 @@ export class ConfigurableSelectDirective implements OnInit, OnDestroy {
     if (this.loadAction) {
       this.executeAction(this.loadAction)
         .subscribe(response => {
-          debugger
           this.data = response.data;
           // Process this.data
           if (this.processData) {

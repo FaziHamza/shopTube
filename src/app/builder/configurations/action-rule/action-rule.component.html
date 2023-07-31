@@ -81,6 +81,38 @@
                   <div class="w-1/2 theme-body">
                     <div class=" flex flex-wrap">
                       <label class="w-1/3 py-2 col-form-label column-form-label">
+                        Type
+                      </label>
+                      <div class="w-2/3 column-form-input form-control-style v-body-border" style="padding: 0px">
+                        <nz-select nzShowSearch nzAllowClear formControlName="elementName" nzDisabled>
+                          <nz-option [nzLabel]="item.title" [nzValue]="item.key" *ngFor="let item of nodeList"></nz-option>
+                        </nz-select>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="w-1/2 theme-body">
+                    <div class=" flex flex-wrap">
+                      <label class="w-1/3 py-2 col-form-label column-form-label">
+                        Type
+                      </label>
+                      <div class="w-2/3 column-form-input form-control-style v-body-border" style="padding: 0px">
+                        <nz-select class="form-select" formControlName="submissionType" nzDisabled>
+                          <nz-option nzValue="select" nzLabel="Select" selected></nz-option>
+                          <nz-option nzValue="load" nzLabel="On Load" ></nz-option>
+                          <nz-option nzValue="click" nzLabel="On Click" ></nz-option>
+                          <nz-option nzValue="change" nzLabel="Change" ></nz-option>
+                          <nz-option nzValue="dblclick" nzLabel="Double Click" ></nz-option>
+                          <nz-option nzValue="mouseover" nzLabel="Mouse Over" ></nz-option>
+                          <nz-option nzValue="mouseleave" nzLabel="Mouse Leave" ></nz-option>
+                          <nz-option nzValue="mouseenter" nzLabel="Mouse Enter" ></nz-option>
+                        </nz-select>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="w-1/2 theme-body">
+                    <div class=" flex flex-wrap">
+                      <label class="w-1/3 py-2 col-form-label column-form-label">
                         Http Address
                       </label>
                       <div class="w-2/3 column-form-input form-control-style v-body-border" style="padding: 0px">
