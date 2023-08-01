@@ -169,11 +169,16 @@ export class PagesComponent implements OnInit {
                     if (formlyConfig == element.elementName  && element.actionType  == 'api') {
                       const eventActionConfig = node?.formly?.[0]?.fieldGroup?.[0]?.props;
                       if (eventActionConfig) {
+                        if(index == 0){
+                          eventActionConfig['appConfigurableEvent'] = [];
+                          eventActionConfig['eventActionconfig'] = {};
+                        }
                         if (element.btnActionType == 'load') {
                           eventActionConfig['eventActionconfig'] = {};
                           let obj = { actionType: element.actionType, url: element.httpAddress, method: element.actionLink }
                           eventActionConfig['eventActionconfig'] = obj;
-                        } else {
+                        }
+                         else {
                           if (eventActionConfig['appConfigurableEvent']) {
                             let obj = {
                               event: element.actionLink,
@@ -198,11 +203,17 @@ export class PagesComponent implements OnInit {
                   }
                 });
               }
+              let checkFirst :any = {};
               for (let index = 0; index < this.actionListData.length; index++) {
                 const element = this.actionListData[index];
                 let findObj = this.findObjectByKey(nodesData[0], element.elementName);
                 if (findObj) {
                   if(findObj?.key == element.elementName && element.actionType  == 'api'){
+                    if(!checkFirst[findObj?.key]){
+                      findObj['appConfigurableEvent'] = [];
+                      findObj['eventActionconfig'] = {};
+                      checkFirst[findObj?.key] = "done";
+                    }
                     if (element.btnActionType == 'load') {
                       let obj = { actionType: element.actionType, url: element.httpAddress, method: element.actionLink }
                       findObj.eventActionconfig = obj;

@@ -60,8 +60,12 @@ export class ActionRuleComponent implements OnInit {
   }
   extractNodes(nodes: any, nodeList: { title: string, key: string }[]) {
     for (const node of nodes) {
-      const { title, key, children } = node;
-      nodeList.push({ title, key });
+      const { title, key, children, id } = node;
+      if (title === '') {
+        nodeList.push({ title: key, key });
+      } else {
+        nodeList.push({ title, key });
+      }
       if (children && children.length > 0) {
         this.extractNodes(children, nodeList);
       }

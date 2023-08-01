@@ -1,8 +1,8 @@
 <div class="layout-tabs-drop-down">
-    <ul [class]="theme?.font" [style.background]="theme['backGroundColor']" nz-menu nzMode="horizontal">
+    <ul [class]="theme?.font" [style.background]="theme['backGroundColor']" nz-menu nzMode="horizontal" class="layout-tabs-drop-down-ul">
         <ng-container *ngFor="let child of layoutTabsDropdownData.children">
             <ng-container *ngIf="child.children.length === 0; else subMenu">
-                <li [ngStyle]="{ 'border-bottom': isActiveShow == child.id ? '2px solid ' + (theme['activeBackgroundColor'] ? theme['activeBackgroundColor'] : '') : '' }"
+                <li  [ngStyle]="{ 'border-bottom': isActiveShow == child.id ? '2px solid ' + (theme['activeBackgroundColor'] ? theme['activeBackgroundColor'] : '') : '' }"
                     (mouseenter)="hoverActiveShow = child.id" (mouseleave)="hoverActiveShow = null" nz-menu-item
                     (click)="screenLoad(child,true)">
                     <span class="menu-item-icon">

@@ -507,9 +507,13 @@ export class BuilderComponent implements OnInit {
                     if (formlyConfig == element.elementName  && element.actionType  == 'api') {
                       const eventActionConfig = node?.formly?.[0]?.fieldGroup?.[0]?.props;
                       if (eventActionConfig) {
+                        if(index == 0){
+                          eventActionConfig['appConfigurableEvent'] = [];
+                          eventActionConfig['eventActionconfig'] = {};
+                        }
                         if (element.btnActionType == 'load') {
                           eventActionConfig['eventActionconfig'] = {};
-                          let obj = { actionType: element.actionType, url: element.httpAddress, method: element.actionLink }
+                          let obj = { actionType: element.actionType, url: element.httpAddress, method: element.actionLink,elementName : element.elementNameTo }
                           eventActionConfig['eventActionconfig'] = obj;
                         }
                          else {
@@ -517,7 +521,7 @@ export class BuilderComponent implements OnInit {
                             let obj = {
                               event: element.actionLink,
                               actions: [
-                                { actionType: element.actionType, url: element.httpAddress, method: element.actionLink }
+                                { actionType: element.actionType, url: element.httpAddress, method: element.actionLink,elementName : element.elementNameTo }
                               ]
                             };
                             eventActionConfig['appConfigurableEvent'].push(obj);
@@ -526,7 +530,7 @@ export class BuilderComponent implements OnInit {
                             let obj = {
                               event: element.actionLink,
                               actions: [
-                                { actionType: element.actionType, url: element.httpAddress, method: element.actionLink }
+                                { actionType: element.actionType, url: element.httpAddress, method: element.actionLink,elementName : element.elementNameTo }
                               ]
                             };
                             eventActionConfig['appConfigurableEvent'].push(obj);
@@ -543,20 +547,26 @@ export class BuilderComponent implements OnInit {
                   }
                 });
               }
+              let checkFirst :any = {};
               for (let index = 0; index < this.actionListData.length; index++) {
                 const element = this.actionListData[index];
                 let findObj = this.findObjectByKey(nodesData[0], element.elementName);
                 if (findObj) {
                   if(findObj?.key == element.elementName && element.actionType  == 'api'){
+                    if(!checkFirst[findObj?.key]){
+                      findObj['appConfigurableEvent'] = [];
+                      findObj['eventActionconfig'] = {};
+                      checkFirst[findObj?.key] = "done";
+                    }
                     if (element.btnActionType == 'load') {
-                      let obj = { actionType: element.actionType, url: element.httpAddress, method: element.actionLink }
+                      let obj = { actionType: element.actionType, url: element.httpAddress, method: element.actionLink,elementName : element.elementNameTo }
                       findObj.eventActionconfig = obj;
                     }else{
                       if (findObj['appConfigurableEvent']) {
                         let obj = {
                           event: element.actionLink,
                           actions: [
-                            { actionType: element.actionType, url: element.httpAddress, method: element.actionLink }
+                            { actionType: element.actionType, url: element.httpAddress, method: element.actionLink,elementName : element.elementNameTo }
                           ]
                         };
                         findObj['appConfigurableEvent'].push(obj);
