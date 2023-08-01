@@ -610,47 +610,45 @@ export class MenuBuilderComponent implements OnInit {
     this.clickBack();
   }
   insertAt(node: any) {
-
-    let parent = node?.parentNode?.origin;
+    const parent = node?.parentNode?.origin;
     node = node.origin;
+    const newNode = this.deepCloneWithGuid(node);
+
     if (parent != undefined) {
-      const newNode = JSON.parse(JSON.stringify(node));
-      newNode.id = newNode.id + Guid.newGuid();
       const idx = parent.children.indexOf(node as TreeNode);
-      parent.children.splice(idx as number + 1, 0, newNode);
-    }
-    else {
-      const newNode = JSON.parse(JSON.stringify(node));
-      newNode.id = newNode.id + Guid.newGuid();
+      parent.children.splice(idx + 1, 0, newNode);
+    } else {
       const idx = this.nodes.indexOf(node as any);
-      node.children.forEach((a: any) => {
-        a.id = a.id + Guid.newGuid();
-        a.children.forEach((j: any) => {
-          j.id = j.id + Guid.newGuid();
-          j.children.forEach((k: any) => {
-            k.id = k.id + Guid.newGuid();
-            k.children.forEach((l: any) => {
-              l.id = l.id + Guid.newGuid();
-              l.children.forEach((m: any) => {
-                m.id = m.id + Guid.newGuid();
-                m.children.forEach((n: any) => {
-                  n.id = n.id + Guid.newGuid();
-                });
-              });
-            });
-          });
-        });
-      });
+      this.deepCloneNodesWithGuid(node.children);
       this.nodes.splice(idx + 1, 0, newNode);
     }
-    if (parent) {
-      if (parent.type == 'mainTab' || parent.type == 'dropdown') {
-        parent.nodes = parent.children.length;
-      }
+
+    if (parent && (parent.type === 'mainTab' || parent.type === 'dropdown')) {
+      parent.nodes = parent.children.length;
     }
+
     this.clickBack();
     this.makeMenuData();
   }
+
+  deepCloneWithGuid(node: any): any {
+    const newNode = JSON.parse(JSON.stringify(node));
+    newNode.id = node.id.split('_')[0] + '_' +Guid.newGuid();
+    newNode.key = node.key.split('_')[0] + '_' +Guid.newGuid();
+    this.deepCloneNodesWithGuid(newNode.children);
+    return newNode;
+  }
+
+  deepCloneNodesWithGuid(nodes: any[]): void {
+    nodes.forEach((node) => {
+      node.id = node.id.split('_')[0] + '_' +Guid.newGuid();
+      node.key = node.key.split('_')[0] + '_' +Guid.newGuid();
+      if (node.children.length > 0) {
+        this.deepCloneNodesWithGuid(node.children);
+      }
+    });
+  }
+
   remove(node: any, parentNode?: any) {
     let parent;
     if (parentNode) {

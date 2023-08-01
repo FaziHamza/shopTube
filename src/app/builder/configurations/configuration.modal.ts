@@ -262,7 +262,7 @@ export class formFeildData {
                 value: 'text-right'
               },
               {
-                label: 'Text Center',
+                label: 'Center',
                 value: 'text-center'
               },
               {

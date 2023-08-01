@@ -3005,6 +3005,7 @@ object {
 
 .layout-tabs-drop-down-submenu {
 
+
   .ant-menu-item,
   .ant-menu-submenu {
     padding: 0px 16px !important;
@@ -3015,7 +3016,29 @@ object {
   .ant-menu-submenu-title {
     padding: 0px !important;
   }
+
+  .ant-menu-horizontal {
+
+    line-height: 46px;
+    border: 0;
+    border-bottom: 1px solid #f0f0f0;
+    box-shadow: none;
+  }
 }
+
+.layout-tabs-drop-down {
+  .ant-menu {
+    margin-bottom: 0px !important;
+    // height: 69px !important;
+    box-sizing: border-box !important;
+    border-radius: 0px 0px 4px 4px !important;
+    // padding: 21px 23px !important;
+    padding-top: 10px !important;
+    padding-bottom: 10px !important;
+  }
+
+}
+
 
 .ant-checkbox-wrapper:hover .ant-checkbox::after,
 .ant-checkbox:hover::after {
@@ -3494,7 +3517,7 @@ object {
       background: #FFF;
       overflow: hidden;
       box-shadow: 7px 0px 15px -5px rgba(0, 0, 0, 0.05) !important;
-      
+
     }
 
     .ant-menu.ant-menu-root {
@@ -3516,9 +3539,10 @@ object {
     width: 60px !important;
     max-width: 60px !important;
     min-width: 60px !important;
+
     .ant-menu {
-      padding: 0px 4px 0px 10px ;
-    } 
+      padding: 0px 4px 0px 10px;
+    }
   }
 
   .top-action-bar {
@@ -4679,6 +4703,7 @@ object {
     }
   }
 }
+
 .dynamic-brand-logo {
   height: 64px;
   width: 230px;
@@ -4695,4 +4720,50 @@ object {
   img {
     height: 32px !important;
   }
+}
+
+.ant-tabs-nav {
+  .ant-tabs-nav-wrap {
+    height: 69px !important;
+    border-radius: 0px 0px 4px 4px !important;
+    padding: 21px 23px !important;
+
+    .ant-tabs-nav-list {
+      div.ant-tabs-tab:nth-child(1) {
+        margin-left: 0px !important;
+      }
+
+      .ant-tabs-tab {
+        color: #73757A;
+        min-width: 85px !important;
+        width: fit-content !important;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 16px;
+        font-style: normal;
+        line-height: normal;
+        font-weight: 500;
+        width: fit-content;
+        margin-left: 40px !important;
+      }
+
+      .ant-tabs-tab-active {
+        color: #2563EB;
+        text-align: center;
+        font-size: 16px;
+        font-style: normal;
+        line-height: normal;
+        font-weight: 600;
+      }
+    }
+  }
+}
+
+.ant-tabs-content-holder {
+  padding: 21px 23px !important;
+}
+
+.ant-tabs-nav {
+  margin-bottom: 0px !important;
 }
