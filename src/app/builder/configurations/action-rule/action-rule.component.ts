@@ -200,13 +200,13 @@ export class ActionRuleComponent implements OnInit {
     }
     let apiUrl = '';
     if (this.actionForm.value.actionType === 'api') {
-      if (this.actionForm.value.elementName.includes('button')) {
+      // if (this.actionForm.value.elementName.includes('button')) {
         if (this.actionForm.value.actionLink === 'get') {
           apiUrl = this.backendApi + 'knex-query/' + this.screenName;
         } else {
           apiUrl = this.backendApi + 'knex-query';
         }
-      }
+      // }
     }
     this.ActionsForms.push(
       this.formBuilder.group({

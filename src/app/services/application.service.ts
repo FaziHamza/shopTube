@@ -67,7 +67,7 @@ export class ApplicationService {
           return this.http.put( url.includes('http') ? url : this.nestUrl + url, data, { headers });
         // add other methods as required
         default:
-          return this.http.get(  url.includes('http') ? url : this.nestUrl + url, { headers });
+          return this.http.get(  url?.includes('http') ? url : this.nestUrl + url, { headers });
       }
     }
     commonCallApi(url: string, method: string, data?: any, headers?: any): Observable<any> {
