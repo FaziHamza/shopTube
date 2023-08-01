@@ -272,55 +272,66 @@ export class SectionsComponent implements OnInit {
         const newKey = parentKey ? `${parentKey}.${key}` : key;
 
         if (typeof value === 'object' && value !== null) {
-          Object.assign(convertedModel, this.convertModel(value, newKey.toLocaleLowerCase()));
+          Object.assign(convertedModel, this.convertModel(value, newKey));
         } else {
-          convertedModel[newKey.toLocaleLowerCase()] = value;
+          convertedModel[newKey] = value;
         }
       }
     }
 
     return convertedModel;
   }
+
   temporyGrid() {
     let tableData = this.findObjectByTypeBase(this.sections, "gridList");
     this.assignGridRules(tableData);
   }
   getFromQuery(data:any) {
     let findClickApi = data?.appConfigurableEvent?.filter((item:any) => item.actions.some((action:any) => action.method === 'get' && action.actionType == 'api'));
-    let tableData = this.findObjectByTypeBase(this.sections, "gridList");
-    if (tableData) {
-      this.employeeService.getSQLDatabaseTable( findClickApi?.length > 0 ?  findClickApi?.[0].actions?.[0]?.url : `knex-query/${this.screenName}`).subscribe({
-        next: (res) => {
-          if (tableData && res) {
-            let saveForm = JSON.parse(JSON.stringify(res[0]));
-            const firstObjectKeys = Object.keys(saveForm);
-            let obj = firstObjectKeys.map(key => ({ name: key }));
-            tableData.tableData = [];
-            saveForm.id = tableData.tableData.length + 1
-            res.forEach((element: any) => {
-              element.id = (element?.id)?.toString();
-              tableData.tableData?.push(element);
-            });
-            if (JSON.stringify(tableData['tableKey']) != JSON.stringify(obj)) {
-              const updatedData = tableData.tableHeaders.filter((updatedItem: any) => {
-                const name = updatedItem.name;
-                return !obj.some((headerItem: any) => headerItem.name === name);
+    if(findClickApi){
+      let tableData = this.findObjectByKey(this.sections, findClickApi?.[0].actions?.[0]?.elementName);
+      if (tableData) {
+        this.employeeService.getSQLDatabaseTable( `knex-query/${this.screenName}`).subscribe({
+          next: (res) => {
+            if (tableData && res) {
+              let saveForm = JSON.parse(JSON.stringify(res[0]));
+              const firstObjectKeys = Object.keys(saveForm);
+              let tableKey = firstObjectKeys.map(key => ({ name: key }));
+              let obj = firstObjectKeys.map(key => ({ name: key, key: key }));
+              tableData.tableData = [];
+              saveForm.id = tableData.tableData.length + 1;
+              res.forEach((element: any) => {
+                element.id = (element?.id)?.toString();
+                tableData.tableData?.push(element);
               });
-              if (updatedData.length > 0) {
-                tableData.tableData = tableData.tableData.map((item: any) => {
-                  const newItem = { ...item };
-                  for (let i = 0; i < updatedData.length; i++) {
-                    newItem[updatedData[i].key] = "0";
-                  }
-                  return newItem;
-                });
+              if (tableData.tableHeaders.length == 0) {
+                tableData.tableHeaders = obj;
+                tableData['tableKey'] = tableKey
               }
+              else {
+                if (JSON.stringify(tableData['tableKey']) != JSON.stringify(tableKey)) {
+                  const updatedData = tableData.tableHeaders.filter((updatedItem: any) => {
+                    const name = updatedItem.name;
+                    return !tableKey.some((headerItem: any) => headerItem.name === name);
+                  });
+                  if (updatedData.length > 0) {
+                    tableData.tableHeaders.map((item: any) => {
+                      const newItem = { ...item };
+                      for (let i = 0; i < updatedData.length; i++) {
+                        newItem[updatedData[i].key] = "";
+                      }
+                      return newItem;
+                    });
+                  }
+                }
+              }
+              this.assignGridRules(tableData);
             }
-            this.assignGridRules(tableData);
           }
-        }
-      });
+        });
+      }
     }
+
   }
   gridRulesData: any;
   assignGridRules(data: any) {
@@ -1021,6 +1032,24 @@ export class SectionsComponent implements OnInit {
         return null;
       }
     }
+  }
+  findObjectByKey(data: any, key: any) {
+    if (data) {
+      if (data.key && key) {
+        if (data.key === key) {
+          return data;
+        }
+        if (data.children && data.children.length > 0) {
+          for (let child of data.children) {
+            let result: any = this.findObjectByKey(child, key);
+            if (result !== null) {
+              return result;
+            }
+          }
+        }
+      }
+    }
+    return null;
   }
   // ngOnDestroy() {
   //   this.requestSubscription.unsubscribe();
