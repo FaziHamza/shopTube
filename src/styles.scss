@@ -3225,12 +3225,12 @@ object {
   position: relative;
 }
 
-.dynamic-footer {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
-}
+// .dynamic-footer {
+//   position: fixed;
+//   bottom: 0;
+//   left: 0;
+//   right: 0;
+// }
 
 .content-body {
   .dynamic-body {
@@ -4333,6 +4333,18 @@ object {
     width: 100% !important;
   }
 }
+.user-builder-layout {
+  .ant-layout-content {
+    position: relative;
+    overflow-y: scroll;
+    .dynamic-footer {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+    }
+  }
+}
 
 .login-body {
   width: 100%;
@@ -4745,4 +4757,11 @@ object {
   height: 69px !important;
   overflow-y: hidden;
   overflow-x: hidden;
+}
+.b-content-body {
+.floating_filled {
+  .ant-radio-group {
+    display: flex;
+  }
+}
 }
