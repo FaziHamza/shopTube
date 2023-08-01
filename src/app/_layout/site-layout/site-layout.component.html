@@ -11,7 +11,7 @@
     </nz-header>
     <st-pages *ngIf="currentHeader" [resData]="currentHeader"></st-pages>
     <nz-layout [dir]="this.selectedTheme?.layout"
-      [class]="'main-layout2' + (selectedTheme?.layout === 'horizental' ? ' b-horizontal-menu' : '')">
+      [class]="'main-layout2 ' + (selectedTheme?.layout === 'horizental' ? ' b-horizontal-menu' : '')">
       <nz-sider class="menu-sidebar" nzTheme="light" nzCollapsible nzWidth="240px" nzBreakpoint="md"
         [(nzCollapsed)]="selectedTheme.isCollapsed" [nzTrigger]="null">
         <st-app-side-menu [selectedTheme]="selectedTheme" [menuItems]="menuItems"

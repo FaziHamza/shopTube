@@ -87,6 +87,10 @@ nz-time-picker {
   padding-top: 0.1px;
   background: white !important;
 
+  .ant-menu {
+    padding: 6px;
+  }
+
   .ant-menu-submenu {
     .ant-menu-sub {
       padding-left: 10px;
@@ -418,7 +422,7 @@ object {
     // position: absolute;
     display: flex;
     justify-content: flex-end;
-    padding: 5px 15px;
+    padding: 10px;
 
 
     .ant-checkbox-inner {
@@ -1806,6 +1810,10 @@ a.fc-event:hover {
   .sidenav-title {
     display: none !important;
   }
+
+  .small-hover-menu-check {
+    display: none !important;
+  }
 }
 
 .sidenav-title {
@@ -2863,7 +2871,7 @@ object {
   .small-hover-menu-check {
     display: flex;
     justify-content: flex-end;
-    padding: 5px 15px;
+    padding: 10px;
 
     .ant-checkbox-inner {
       border-radius: 100px;
@@ -4333,10 +4341,12 @@ object {
     width: 100% !important;
   }
 }
+
 .user-builder-layout {
   .ant-layout-content {
     position: relative;
     overflow-y: scroll;
+
     .dynamic-footer {
       position: absolute;
       bottom: 0;
@@ -4758,10 +4768,49 @@ object {
   overflow-y: hidden;
   overflow-x: hidden;
 }
+
 .b-content-body {
-.floating_filled {
-  .ant-radio-group {
-    display: flex;
+  .floating_filled {
+    .ant-radio-group {
+      display: flex;
+    }
   }
 }
+
+@media only screen and (max-width: 768px) {
+  .user-builder-layout .main-layout2 {
+    position: relative;
+    padding-left: 70px;
+    padding-right: 0px;
+
+    .ant-layout-content {
+      margin: 0px !important;
+    }
+
+    .menu-sidebar {
+      position: absolute;
+      left: 0;
+      top: 0;
+      z-index: 999;
+      border-radius: 0px !important;
+    }
+  }
+
+  .user-builder-layout .rtl-layout2 {
+    position: relative;
+    padding-right: 70px;
+    padding-left: 0px;
+
+    .ant-layout-content {
+      margin: 0px !important;
+    }
+
+    .menu-sidebar {
+      position: absolute;
+      right: 0 !important;
+      top: 0;
+      z-index: 999;
+      border-radius: 0px !important;
+    }
+  }
 }
