@@ -46,9 +46,13 @@ export class DatePickerComponent extends FieldType<FieldTypeConfig> {
   // handleEndOpenChange(open: boolean): void {
   //   console.log('handleEndOpenChange', open);
   // }
-  
+
   onModelChange(event: any, model: any) {
-    this.sharedService.onChange(event, this.field);
+    if(typeof event !== 'string'){
+      const formattedDate = event.toLocaleDateString();
+      this.formControl.patchValue(formattedDate);
+      this.sharedService.onChange(formattedDate, this.field);
+    }
   }
 
 }

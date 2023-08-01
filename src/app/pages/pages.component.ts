@@ -178,7 +178,7 @@ export class PagesComponent implements OnInit {
                             let obj = {
                               event: element.actionLink,
                               actions: [
-                                { actionType: element.actionType, url: element.httpAddress, method: element.actionLink }
+                                { actionType: element.actionType, url: element.httpAddress, method: element.actionLink,elementName : element.elementNameTo }
                               ]
                             };
                             eventActionConfig['appConfigurableEvent'].push(obj);
@@ -187,7 +187,7 @@ export class PagesComponent implements OnInit {
                             let obj = {
                               event: element.actionLink,
                               actions: [
-                                { actionType: element.actionType, url: element.httpAddress, method: element.actionLink }
+                                { actionType: element.actionType, url: element.httpAddress, method: element.actionLink, elementName : element.elementNameTo }
                               ]
                             };
                             eventActionConfig['appConfigurableEvent'].push(obj);
@@ -211,7 +211,7 @@ export class PagesComponent implements OnInit {
                         let obj = {
                           event: element.actionLink,
                           actions: [
-                            { actionType: element.actionType, url: element.httpAddress, method: element.actionLink }
+                            { actionType: element.actionType, url: element.httpAddress, method: element.actionLink, elementName : element.elementNameTo }
                           ]
                         };
                         findObj['appConfigurableEvent'].push(obj);
@@ -220,7 +220,7 @@ export class PagesComponent implements OnInit {
                         let obj = {
                           event: element.actionLink,
                           actions: [
-                            { actionType: element.actionType, url: element.httpAddress, method: element.actionLink }
+                            { actionType: element.actionType, url: element.httpAddress, method: element.actionLink, elementName : element.elementNameTo }
                           ]
                         };
                         findObj['appConfigurableEvent'].push(obj);
