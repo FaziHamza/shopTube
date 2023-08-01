@@ -40,19 +40,19 @@
 
 .sidenav-title {
     font-size: 16px !important;
-    font-weight: 500 !important;
+    font-weight: 500 ;
     line-height: normal;
     font-style: normal;
-    color: #73757A !important;
+    color: #73757A ;
     margin-left: 5px;
 }
 
 .ant-menu-item-selected .sidenav-title {
     font-size: 16px !important;
-    font-weight: 600 !important;
+    font-weight: 600 ;
     line-height: normal;
     font-style: normal;
-    color: #2563EB ;
+    // color: #2563EB ;
 }
 
 .layout-tabs-drop-down-ul > li:nth-child(1) {
@@ -60,7 +60,7 @@
     }
 
 .ant-menu-item-selected .menu-item-icon {
-    color: #2563EB ;
+    // color: #2563EB ;
 }
 
 .layout-tabs-drop-down-ul .ant-menu-item {
