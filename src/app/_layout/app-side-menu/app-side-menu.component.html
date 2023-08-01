@@ -14,10 +14,10 @@
       <ul [class]="selectedTheme?.font" [style.background]="selectedTheme.backGroundColor" nz-menu
         [ngClass]="{'rtlMenu': selectedTheme.layout == 'rtl'}" [nzMode]='selectedTheme.menuMode'
         [nzInlineCollapsed]="selectedTheme.layout != 'twoColumn' ? selectedTheme.isCollapsed : true">
-        <div class="small-hover-menu-check">
-          <label
-            *ngIf="(selectedTheme.layout == 'vertical' || selectedTheme.layout == 'rtl') && selectedTheme.sideBarSize == 'smallHoverView'"
-            nz-checkbox [(ngModel)]="selectedTheme.checked"></label>
+        <div
+          *ngIf="(selectedTheme.layout == 'vertical' || selectedTheme.layout == 'rtl') && selectedTheme.sideBarSize == 'smallHoverView'"
+          class="small-hover-menu-check">
+          <label nz-checkbox [(ngModel)]="selectedTheme.checked"></label>
         </div>
         <ng-container *ngFor="let item of selectedTheme.allMenuItems">
           <li nz-tooltip nzTooltipPlacement="right" [nzTooltipTitle]="selectedTheme.isCollapsed ? item.title : ''"

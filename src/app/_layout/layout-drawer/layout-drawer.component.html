@@ -35,9 +35,8 @@
                                     </div>
                                     <div class="collm option">
                                         <div class="box">
-                                            <input [(ngModel)]="selectedTheme['backGroundColor']"
-                                                (input)="changeLayout(selectedTheme['backGroundColor']+'_'+'backGroundColor')"
-                                                type="color" class="input-color">
+                                            <input [(ngModel)]="selectedTheme['backGroundColor']" type="color"
+                                                class="input-color">
                                             <span>{{selectedTheme['backGroundColor'] || '#000000'}} </span>
                                         </div>
                                     </div>
@@ -47,8 +46,7 @@
                                     <div class="collm option">
                                         <div class="box">
                                             <input type="color" class="input-color"
-                                                [(ngModel)]="selectedTheme['activeTextColor']"
-                                                (input)="changeLayout(selectedTheme['activeTextColor']+'_'+'activeTextColor')">
+                                                [(ngModel)]="selectedTheme['activeTextColor']">
                                             <span>{{selectedTheme['activeTextColor'] || '#000000'}} </span>
                                         </div>
                                     </div>
@@ -57,9 +55,8 @@
                                     </div>
                                     <div class="collm option">
                                         <div class="box">
-                                            <input [(ngModel)]="selectedTheme['textColor']"
-                                                (input)="changeLayout(selectedTheme['textColor']+'_'+'textColor')"
-                                                type="color" class="input-color">
+                                            <input [(ngModel)]="selectedTheme['textColor']" type="color"
+                                                class="input-color">
                                             <span>{{selectedTheme['textColor'] || '#000000'}} </span>
                                         </div>
                                     </div>
@@ -68,9 +65,8 @@
                                     </div>
                                     <div class="collm option">
                                         <div class="box">
-                                            <input [(ngModel)]="selectedTheme['activeBackgroundColor']"
-                                                (input)="changeLayout(selectedTheme['activeBackgroundColor']+'_'+'activeBackgroundColor')"
-                                                type="color" class="input-color">
+                                            <input [(ngModel)]="selectedTheme['activeBackgroundColor']" type="color"
+                                                class="input-color">
                                             <span>{{selectedTheme['activeBackgroundColor'] || '#000000'}} </span>
                                         </div>
                                     </div>
@@ -80,8 +76,7 @@
                                     <div class="collm option">
                                         <div class="box">
                                             <input type="color" class="input-color"
-                                                [(ngModel)]="selectedTheme['hoverTextColor']"
-                                                (input)="changeLayout(selectedTheme['hoverTextColor']+'_'+'hoverTextColor')">
+                                                [(ngModel)]="selectedTheme['hoverTextColor']">
                                             <span>{{selectedTheme['hoverTextColor'] || '#000000'}} </span>
                                         </div>
                                     </div>
@@ -91,8 +86,7 @@
                                     <div class="collm option">
                                         <div class="box">
                                             <input type="number" class="input-text" name="" id=""
-                                                [(ngModel)]="selectedTheme['titleSize']"
-                                                (input)="changeLayout(selectedTheme['titleSize']+'_'+'titleSize')">
+                                                [(ngModel)]="selectedTheme['titleSize']">
                                         </div>
                                     </div>
                                     <div class="collm lable">
@@ -101,8 +95,7 @@
                                     <div class="collm option">
                                         <div class="box">
                                             <nz-select style="width:100%" nzShowSearch nzAllowClear
-                                                nzPlaceHolder="Select Font" [(ngModel)]="selectedTheme['font']"
-                                                (ngModelChange)="changeLayout(selectedTheme['font']+'_'+'font')">
+                                                nzPlaceHolder="Select Font" [(ngModel)]="selectedTheme['font']">
                                                 <nz-option nzLabel="italic" nzValue="italic"></nz-option>
                                                 <nz-option nzLabel="underline" nzValue="underline"></nz-option>
                                                 <nz-option nzLabel="uppercase" nzValue="uppercase"></nz-option>
@@ -148,8 +141,7 @@
                                     <div class="collm option">
                                         <div class="box">
                                             <input type="color" class="input-color"
-                                                [(ngModel)]="selectedTheme['iconColor']"
-                                                (input)="changeLayout(selectedTheme['iconColor']+'_'+'iconColor')">
+                                                [(ngModel)]="selectedTheme['iconColor']">
                                             <span>{{selectedTheme['iconColor'] || '#000000'}} </span>
                                         </div>
                                     </div>
@@ -159,8 +151,7 @@
                                     <div class="collm option">
                                         <div class="box">
                                             <input type="color" class="input-color"
-                                                [(ngModel)]="selectedTheme['hoverIconColor']"
-                                                (input)="changeLayout(selectedTheme['hoverIconColor']+'_'+'hoverIconColor')">
+                                                [(ngModel)]="selectedTheme['hoverIconColor']">
                                             <span>{{selectedTheme['hoverIconColor'] || '#000000'}} </span>
                                         </div>
                                     </div>
@@ -170,8 +161,7 @@
                                     <div class="collm option">
                                         <div class="box">
                                             <input type="color" class="input-color"
-                                                [(ngModel)]="selectedTheme['activeIconColor']"
-                                                (input)="changeLayout(selectedTheme['activeIconColor']+'_'+'activeIconColor')">
+                                                [(ngModel)]="selectedTheme['activeIconColor']">
                                             <span>{{selectedTheme['activeIconColor'] || '#000000'}} </span>
                                         </div>
                                     </div>
@@ -181,8 +171,7 @@
                                     <div class="collm option">
                                         <div class="box">
                                             <input type="number" class="input-text" name="" id=""
-                                                [(ngModel)]="selectedTheme['iconSize']"
-                                                (input)="changeLayout(selectedTheme['iconSize']+'_'+'iconSize')">
+                                                [(ngModel)]="selectedTheme['iconSize']">
                                         </div>
                                     </div>
                                     <div class="collm lable">
@@ -489,8 +478,7 @@
                                         <div class="box">
                                             <nz-select style="width:100%" nzShowSearch nzAllowClear
                                                 nzPlaceHolder="Select Font"
-                                                [(ngModel)]="selectedTheme['inPageMenu']['font']"
-                                                (ngModelChange)="changeInPageLayout(selectedTheme['inPageMenu']['font']+'_'+'font')">
+                                                [(ngModel)]="selectedTheme['inPageMenu']['font']">
                                                 <nz-option nzLabel="italic" nzValue="italic"></nz-option>
                                                 <nz-option nzLabel="uppercase" nzValue="uppercase"></nz-option>
                                                 <nz-option nzLabel="lowercase" nzValue="lowercase"></nz-option>
@@ -516,9 +504,7 @@
                                     <div class="collm option">
                                         <div class="box">
                                             <input type="color" class="input-color"
-                                                [(ngModel)]="selectedTheme['inPageMenu']['backGroundColor']"
-                                                (input)="changeInPageLayout(selectedTheme['inPageMenu']['backGroundColor']+'_'+'backGroundColor')">
-
+                                                [(ngModel)]="selectedTheme['inPageMenu']['backGroundColor']">
                                             <span>{{selectedTheme['inPageMenu']['backGroundColor'] || '#000000'}}
                                             </span>
                                         </div>
@@ -528,9 +514,8 @@
                                     </div>
                                     <div class="collm option">
                                         <div class="box">
-                                            <input [(ngModel)]="selectedTheme['inPageMenu']['textColor']"
-                                                (input)="changeInPageLayout(selectedTheme['inPageMenu']['textColor']+'_'+'textColor')"
-                                                type="color" class="input-color">
+                                            <input [(ngModel)]="selectedTheme['inPageMenu']['textColor']" type="color"
+                                                class="input-color">
                                             <span>{{selectedTheme['inPageMenu']['textColor']}} </span>
                                         </div>
                                     </div>
@@ -540,7 +525,6 @@
                                     <div class="collm option">
                                         <div class="box">
                                             <input [(ngModel)]="selectedTheme['inPageMenu']['activeBackgroundColor']"
-                                                (input)="changeInPageLayout(selectedTheme['inPageMenu']['activeBackgroundColor']+'_'+'activeBackgroundColor')"
                                                 type="color" class="input-color">
                                             <span>{{selectedTheme['inPageMenu']['activeBackgroundColor']}} </span>
                                         </div>
@@ -551,8 +535,7 @@
                                     <div class="collm option">
                                         <div class="box">
                                             <input type="color" class="input-color"
-                                                [(ngModel)]="selectedTheme['inPageMenu']['activeTextColor']"
-                                                (input)="changeInPageLayout(selectedTheme['inPageMenu']['activeTextColor']+'_'+'activeTextColor')">
+                                                [(ngModel)]="selectedTheme['inPageMenu']['activeTextColor']">
                                             <span>{{selectedTheme['inPageMenu']['activeTextColor']}} </span>
                                         </div>
                                     </div>
@@ -562,8 +545,7 @@
                                     <div class="collm option">
                                         <div class="box">
                                             <input type="color" class="input-color"
-                                                [(ngModel)]="selectedTheme['inPageMenu']['hoverTextColor']"
-                                                (input)="changeInPageLayout(selectedTheme['inPageMenu']['hoverTextColor']+'_'+'hoverTextColor')">
+                                                [(ngModel)]="selectedTheme['inPageMenu']['hoverTextColor']">
                                             <span>{{selectedTheme['inPageMenu']['hoverTextColor'] || '#000000'}} </span>
                                         </div>
                                     </div>
@@ -573,8 +555,7 @@
                                     <div class="collm option">
                                         <div class="box">
                                             <input type="number" class="input-text" name="" id=""
-                                                [(ngModel)]="selectedTheme['inPageMenu']['titleSize']"
-                                                (input)="changeInPageLayout(selectedTheme['inPageMenu']['titleSize']+'_'+'titleSize')">
+                                                [(ngModel)]="selectedTheme['inPageMenu']['titleSize']">
                                         </div>
                                     </div>
                                     <div class="collm lable">
@@ -602,8 +583,7 @@
                                     <div class="collm option">
                                         <div class="box">
                                             <input type="color" class="input-color"
-                                                [(ngModel)]="selectedTheme['inPageMenu']['iconColor']"
-                                                (input)="changeInPageLayout(selectedTheme['inPageMenu']['iconColor']+'_'+'iconColor')">
+                                                [(ngModel)]="selectedTheme['inPageMenu']['iconColor']">
                                             <span>{{selectedTheme['inPageMenu']['iconColor'] || '#000000'}} </span>
                                         </div>
                                     </div>
@@ -613,8 +593,7 @@
                                     <div class="collm option">
                                         <div class="box">
                                             <input type="color" class="input-color"
-                                                [(ngModel)]="selectedTheme['inPageMenu']['hoverIconColor']"
-                                                (input)="changeInPageLayout(selectedTheme['inPageMenu']['hoverIconColor']+'_'+'hoverIconColor')">
+                                                [(ngModel)]="selectedTheme['inPageMenu']['hoverIconColor']">
                                             <span>{{selectedTheme['inPageMenu']['hoverIconColor'] || '#000000'}} </span>
                                         </div>
                                     </div>
@@ -624,9 +603,9 @@
                                     <div class="collm option">
                                         <div class="box">
                                             <input type="color" class="input-color"
-                                                [(ngModel)]="selectedTheme['inPageMenu']['activeIconColor']"
-                                                (input)="changeInPageLayout(selectedTheme['inPageMenu']['activeIconColor']+'_'+'activeIconColor')">
-                                            <span>{{selectedTheme['inPageMenu']['activeIconColor'] || '#000000'}} </span>
+                                                [(ngModel)]="selectedTheme['inPageMenu']['activeIconColor']">
+                                            <span>{{selectedTheme['inPageMenu']['activeIconColor'] || '#000000'}}
+                                            </span>
                                         </div>
                                     </div>
                                     <div class="collm lable">
@@ -635,8 +614,7 @@
                                     <div class="collm option">
                                         <div class="box">
                                             <input type="number" class="input-text" name="" id=""
-                                                [(ngModel)]="selectedTheme['inPageMenu']['iconSize']"
-                                                (input)="changeInPageLayout(selectedTheme['inPageMenu']['iconSize']+'_'+'iconSize')">
+                                                [(ngModel)]="selectedTheme['inPageMenu']['iconSize']">
                                         </div>
                                     </div>
                                     <div class="collm lable">

@@ -13,20 +13,22 @@
     <ng-container *ngFor="let row of data">
       <tr>
         <td [(nzExpand)]="row.expand"></td>
-        <td><input nz-input type="text" class="form-control"
-            [(ngModel)]="row.id" [disabled]="true"></td>
-        <td><input nz-input type="text" class="form-control"
-            [(ngModel)]="row.icon"></td>
-        <td><input nz-input type="text" class="form-control"
-            [(ngModel)]="row.title"></td>
-        <td><input nz-input type="text" class="form-control"
-            [(ngModel)]="row.link"></td>
-        <td><input nz-input type="checkbox" class="form-control"
-            [(ngModel)]="row.isTitle"></td>
+        <td><input nz-input type="text" class="form-control" [(ngModel)]="row.id" [disabled]="true"></td>
+        <td><input nz-input type="text" class="form-control" [(ngModel)]="row.icon"></td>
+        <td><nz-select nzShowSearch nzAllowClear [(ngModel)]="row.iconType"
+            nzPlaceHolder="Icon Type">
+            <nz-option nzLabel="ng-zorro outlined" nzValue="outline"></nz-option>
+            <nz-option nzLabel="ng-zorro filled" nzValue="fill"></nz-option>
+            <nz-option nzLabel="ng-zorro twotone" nzValue="twotone"></nz-option>
+            <nz-option nzLabel="Font Awsome" nzValue="font_awsome"></nz-option>
+            <nz-option nzLabel="Material" nzValue="material"></nz-option>
+          </nz-select></td>
+        <td><input nz-input type="text" class="form-control" [(ngModel)]="row.title"></td>
+        <td><input nz-input type="text" class="form-control" [(ngModel)]="row.link"></td>
+        <td><input nz-input type="checkbox" class="form-control" [(ngModel)]="row.isTitle"></td>
       </tr>
       <tr [nzExpand]="row.expand">
-        <ng-container
-          *ngTemplateOutlet="recursiveTemplate; context: { $implicit: row.children }"></ng-container>
+        <ng-container *ngTemplateOutlet="recursiveTemplate; context: { $implicit: row.children }"></ng-container>
       </tr>
     </ng-container>
   </tbody>

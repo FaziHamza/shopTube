@@ -1,14 +1,16 @@
 <div class="flex">
   <div class="text-right">
-    <button nz-button nzType="primary" (click)="save()">
-      <span nz-icon nzType="save"></span>
-      Save
-    </button>
-    <button class="ml-2" nz-button nzType="primary" (click)="addMenu()">
+    <button class="ml-2" nz-button nzType="default" (click)="addMenu()">
       <span nz-icon nzType="plus"></span>
       Add Menu
     </button>
   </div>
 </div>
-<br/>
+<br />
 <st-table-row class="mt-2" [data]="tabelNodes"></st-table-row>
+<div class="flex justify-end">
+  <button class="upload-btn" nz-button nzType="primary" (click)="save()">
+    <span nz-icon nzType="save"></span>
+    Save
+  </button>
+</div>

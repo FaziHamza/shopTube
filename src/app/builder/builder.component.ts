@@ -3540,11 +3540,12 @@ export class BuilderComponent implements OnInit {
             this.selectedNode['rowClass'] = event.form.rowClass;
             this.selectedNode['borderLessInputs'] = event.form.borderLessInputs;
             this.selectedNode['inputLabelClassName'] = event.form.inputLabelClassName;
-            this.selectedNode.wrappers = event.form.wrappers;
             if (this.selectedNode.children) {
               this.selectedNode.children[1]['rowClass'] = event.form.rowClass;
             }
-            if (this.selectedNode.wrappers[0] != event.form.wrappers) {
+            debugger
+            if (this.selectedNode.wrappers != event.form.wrappers) {
+              this.selectedNode.wrappers = event.form.wrappers;
               this.clickBack();
             }
           }
