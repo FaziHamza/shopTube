@@ -37,7 +37,7 @@ export class SectionsComponent implements OnInit {
   ngOnInit(): void {
     this.getJoiValidation();
     let btnData = this.findObjectByTypeBase(this.sections, "button");
-    if(btnData)
+    if (btnData)
       this.getFromQuery(btnData);
     this.requestSubscription = this.dataSharedService.sectionSubmit.subscribe({
       next: (res) => {
@@ -131,18 +131,19 @@ export class SectionsComponent implements OnInit {
     return inputElements;
   }
   saveData(data: any) {
+    debugger
     if (data.isSubmit) {
       this.joiValidation();
       if (this.joiValidationData.length > 0) {
         if (this.validationCheckStatus.length == 0) {
-            this.saveData1(data);
+          this.saveData1(data);
         }
       } else {
         this.saveData1(data);
       }
     }
   }
-  saveButtonApi(api:string){
+  saveButtonApi(api: string) {
     let oneModelData = this.convertModel(this.dataModel);
     const removePrefix = (data: Record<string, any>): Record<string, any> => {
       const newData: Record<string, any> = {};
@@ -157,8 +158,8 @@ export class SectionsComponent implements OnInit {
     const result = removePrefix(oneModelData);
     // Note we need to save JSON of Button for api in JSON.stringify
     let apiJSON = JSON.parse(api);
-    let findClickApi = apiJSON.filter((item:any) => item.actions.some((action:any) => action.method === 'POST' && action.actionType == 'API'));
-    this.applicationServices.addNestCommonAPI(findClickApi.length > 0 ?  findClickApi?.[0].actions?.[0]?.url : 'knex-query', result).subscribe({
+    let findClickApi = apiJSON.filter((item: any) => item.actions.some((action: any) => action.method === 'POST' && action.actionType == 'API'));
+    this.applicationServices.addNestCommonAPI(findClickApi.length > 0 ? findClickApi?.[0].actions?.[0]?.url : 'knex-query', result).subscribe({
       next: (res) => {
         if (res[0]?.error)
           this.toastr.error(res[0]?.error, { nzDuration: 3000 });
@@ -203,13 +204,13 @@ export class SectionsComponent implements OnInit {
       }
     }
     if (id == undefined) {
-      let findClickApi = data.appConfigurableEvent.filter((item:any) => item.actions.some((action:any) => action.method === 'post' && action.actionType == 'api'));
+      let findClickApi = data.appConfigurableEvent.filter((item: any) => item.actions.some((action: any) => action.method === 'post' && action.actionType == 'api'));
       let relationIds: any = remainingTables.map(table => `${Arraytables[0]}_id`);
       relationIds = relationIds.toString();
       const tables = (Array.from(tableNames)).toString();
       console.log(tables);
       if (Object.keys(empData.modalData).length > 0)
-      this.applicationServices.addBackendCommonApi(findClickApi.length > 0 ?  findClickApi?.[0].actions?.[0]?.url : 'knex-query', empData).subscribe({
+        this.applicationServices.addBackendCommonApi(findClickApi.length > 0 ? findClickApi?.[0].actions?.[0]?.url : 'knex-query', empData).subscribe({
           next: (res) => {
             if (res[0]?.error)
               this.toastr.error(res[0]?.error, { nzDuration: 3000 });
@@ -227,7 +228,7 @@ export class SectionsComponent implements OnInit {
         });
     } else {
       debugger
-      let findClickApi = data.appConfigurableEvent.filter((item:any) => item.actions.some((action:any) => action.method === 'put' && action.actionType == 'api'));
+      let findClickApi = data.appConfigurableEvent.filter((item: any) => item.actions.some((action: any) => action.method === 'put' && action.actionType == 'api'));
       if (this.dataModel) {
         // this.form.get(dynamicPropertyName);
         const model = {
@@ -250,7 +251,7 @@ export class SectionsComponent implements OnInit {
           modalData: removePrefix(model.modalData)
         };
         if (Object.keys(empData.modalData).length > 0)
-         this.applicationServices.addNestCommonAPI(findClickApi.length > 0 ?  findClickApi?.[0].actions?.[0]?.url : 'knex-query/executeQuery', result).subscribe({
+          this.applicationServices.addNestCommonAPI(findClickApi.length > 0 ? findClickApi?.[0].actions?.[0]?.url : 'knex-query/executeQuery', result).subscribe({
             next: (res) => {
               this.toastr.success("Update Successfully", { nzDuration: 3000 });
               this.getFromQuery(data);
@@ -286,51 +287,54 @@ export class SectionsComponent implements OnInit {
     let tableData = this.findObjectByTypeBase(this.sections, "gridList");
     this.assignGridRules(tableData);
   }
-  getFromQuery(data:any) {
-    let findClickApi = data?.appConfigurableEvent?.filter((item:any) => item.actions.some((action:any) => action.method === 'get' && action.actionType == 'api'));
-    if(findClickApi){
-      let tableData = this.findObjectByKey(this.sections, findClickApi?.[0].actions?.[0]?.elementName);
-      if (tableData) {
-        this.employeeService.getSQLDatabaseTable( `knex-query/${this.screenName}`).subscribe({
-          next: (res) => {
-            if (tableData && res) {
-              let saveForm = JSON.parse(JSON.stringify(res[0]));
-              const firstObjectKeys = Object.keys(saveForm);
-              let tableKey = firstObjectKeys.map(key => ({ name: key }));
-              let obj = firstObjectKeys.map(key => ({ name: key, key: key }));
-              tableData.tableData = [];
-              saveForm.id = tableData.tableData.length + 1;
-              res.forEach((element: any) => {
-                element.id = (element?.id)?.toString();
-                tableData.tableData?.push(element);
-              });
-              if (tableData.tableHeaders.length == 0) {
-                tableData.tableHeaders = obj;
-                tableData['tableKey'] = tableKey
-              }
-              else {
-                if (JSON.stringify(tableData['tableKey']) != JSON.stringify(tableKey)) {
-                  const updatedData = tableData.tableHeaders.filter((updatedItem: any) => {
-                    const name = updatedItem.name;
-                    return !tableKey.some((headerItem: any) => headerItem.name === name);
-                  });
-                  if (updatedData.length > 0) {
-                    tableData.tableHeaders.map((item: any) => {
-                      const newItem = { ...item };
-                      for (let i = 0; i < updatedData.length; i++) {
-                        newItem[updatedData[i].key] = "";
-                      }
-                      return newItem;
+  getFromQuery(data: any) {
+    let findClickApi = data?.appConfigurableEvent?.filter((item: any) => item.actions.some((action: any) => action.method === 'get' && action.actionType == 'api'));
+    if (findClickApi) {
+      if (findClickApi.length > 0) {
+        let tableData = this.findObjectByKey(this.sections, findClickApi?.[0].actions?.[0]?.elementName);
+        if (tableData) {
+          this.employeeService.getSQLDatabaseTable(`knex-query/${this.screenName}`).subscribe({
+            next: (res) => {
+              if (tableData && res) {
+                let saveForm = JSON.parse(JSON.stringify(res[0]));
+                const firstObjectKeys = Object.keys(saveForm);
+                let tableKey = firstObjectKeys.map(key => ({ name: key }));
+                let obj = firstObjectKeys.map(key => ({ name: key, key: key }));
+                tableData.tableData = [];
+                saveForm.id = tableData.tableData.length + 1;
+                res.forEach((element: any) => {
+                  element.id = (element?.id)?.toString();
+                  tableData.tableData?.push(element);
+                });
+                if (tableData.tableHeaders.length == 0) {
+                  tableData.tableHeaders = obj;
+                  tableData['tableKey'] = tableKey
+                }
+                else {
+                  if (JSON.stringify(tableData['tableKey']) != JSON.stringify(tableKey)) {
+                    const updatedData = tableData.tableHeaders.filter((updatedItem: any) => {
+                      const name = updatedItem.name;
+                      return !tableKey.some((headerItem: any) => headerItem.name === name);
                     });
+                    if (updatedData.length > 0) {
+                      tableData.tableHeaders.map((item: any) => {
+                        const newItem = { ...item };
+                        for (let i = 0; i < updatedData.length; i++) {
+                          newItem[updatedData[i].key] = "";
+                        }
+                        return newItem;
+                      });
+                    }
                   }
                 }
+                this.assignGridRules(tableData);
               }
-              this.assignGridRules(tableData);
             }
-          }
-        });
+          });
+        }
       }
     }
+
 
   }
   gridRulesData: any;
@@ -370,9 +374,9 @@ export class SectionsComponent implements OnInit {
               objRuleData[index].ifRuleMain.forEach((element: any, ruleIndex: number) => {
                 if (objRuleData[index].ifRuleMain.length > 1) {
                   if (element.oprator == 'NotNull') {
-                    if(!query){
+                    if (!query) {
                       query = " ( 1==1"
-                    }else {
+                    } else {
                       query += " ( 1==1"
                     }
                   }
@@ -890,7 +894,7 @@ export class SectionsComponent implements OnInit {
     if (this.joiValidationData.length > 0) {
       for (let j = 0; j < filteredInputNodes.length; j++) {
         if (filteredInputNodes[j].formlyType != undefined) {
-          let jsonScreenRes = this.joiValidationData.filter(a => a.key == filteredInputNodes[j].formly[0].fieldGroup[0].key);
+          let jsonScreenRes: any = this.joiValidationData.filter(a => a.key == filteredInputNodes[j].formly[0].fieldGroup[0].key);
           if (jsonScreenRes.length > 0) {
             if (jsonScreenRes[0].type === "text") {
               const { minlength, maxlength } = jsonScreenRes[0];
@@ -938,6 +942,7 @@ export class SectionsComponent implements OnInit {
             }
             else if (jsonScreenRes[0].type == "reference") {
               modelObj[jsonScreenRes[0].key] = this.formlyModel[jsonScreenRes[0].key];
+              modelObj[jsonScreenRes[0].reference] = this.formlyModel[jsonScreenRes[0].reference];
               this.ruleObj = {
                 [jsonScreenRes[0].key]: Joi.ref(typeof jsonScreenRes[0].reference !== 'undefined' ? jsonScreenRes[0].reference : ''),
               }
