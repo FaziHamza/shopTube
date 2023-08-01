@@ -96,12 +96,8 @@ export class LayoutDrawerComponent implements OnInit {
   }
   changeLayout(layoutType: any) {
     debugger
-    if (layoutType == 'null_titleSize' || layoutType == 'null_iconSize' || layoutType == 'null_buttonIconSize') {
-      layoutType = layoutType.replace('null', '');
-    }
     let obj = {
       layoutType: layoutType,
-      reset: false,
       inPageMenu: false,
     }
     this.notify.emit(obj);
@@ -110,77 +106,43 @@ export class LayoutDrawerComponent implements OnInit {
     debugger
     let obj = {
       layoutType: data,
-      reset: false,
       inPageMenu: true,
     }
     this.notify.emit(obj);
   }
   reset(type: any) {
-    let obj = {
-      font: 'font-roboto',
-      backGroundColor: '',
-      textColor: '',
-      activeBackgroundColor: '',
-      activeTextColor: '',
-      hoverTextColor: '',
-      titleSize: '',
-      iconColor: '',
-      hoverIconColor: '',
-      activeIconColor: '',
-      iconSize: '',
-      iconType: '',
-      topHeaderMenu: 'w-1/6',
-      topHeader: 'w-10/12',
-      menuMode: 'inline',
-      menuColumn: 'w-2/12',
-      rowClass: 'w-10/12',
-      horizontalRow: 'flex flex-wrap',
-      layout: 'vertical',
-      colorScheme: 'light',
-      layoutWidth: 'fluid',
-      layoutPosition: 'fixed',
-      topBarColor: 'light',
-      sideBarSize: 'default',
-      siderBarView: 'sidebarViewDefault',
-      sieBarColor: 'light',
-      siderBarImages: '',
-      buttonPosition: 'right',
-      buttonColor: '',
-      buttonIconColor: '',
-      buttonIconType: 'font_awsome',
-      buttonIcon: 'fa-regular fa-bars',
-      buttonIconSize: '',
-      showButton: true,
-      checked: false,
-      theme: false,
-      isCollapsed: false,
-      newMenuArray: [],
-      menuChildArrayTwoColumn: [],
-      isTwoColumnCollapsed: false,
-      allMenuItems: [],
-      showMenu: true,
+    if (type == 'mainMenu') {
+      this.selectedTheme.font = 'font-roboto';
+      this.selectedTheme.backGroundColor = '';
+      this.selectedTheme.textColor = '';
+      this.selectedTheme.activeBackgroundColor = '';
+      this.selectedTheme.activeTextColor = '';
+      this.selectedTheme.hoverTextColor = '';
+      this.selectedTheme.titleSize = '';
+      this.selectedTheme.iconColor = '';
+      this.selectedTheme.hoverIconColor = '';
+      this.selectedTheme.activeIconColor = '';
+      this.selectedTheme.iconSize = '';
+      // this.selectedTheme.iconType = '';
+      this.selectedTheme.layout = 'vertical';
+      this.selectedTheme.layoutWidth = 'fluid';
+      this.selectedTheme.sideBarSize = 'default';
+      this.selectedTheme.siderBarView = 'sidebarViewDefault';
+      this.selectedTheme.isCollapsed = false;
+    } 
+    else {
+      this.selectedTheme['inPageMenu'].font = 'font-roboto';
+      this.selectedTheme['inPageMenu'].backGroundColor = '';
+      this.selectedTheme['inPageMenu'].textColor = '';
+      this.selectedTheme['inPageMenu'].activeBackgroundColor = '';
+      this.selectedTheme['inPageMenu'].activeTextColor = '';
+      this.selectedTheme['inPageMenu'].hoverTextColor = '';
+      this.selectedTheme['inPageMenu'].titleSize = '';
+      this.selectedTheme['inPageMenu'].iconColor = '';
+      this.selectedTheme['inPageMenu'].hoverIconColor = '';
+      this.selectedTheme['inPageMenu'].activeIconColor = '';
+      this.selectedTheme['inPageMenu'].iconSize = '';
     }
-    let inPageObj = {
-      font: 'font-roboto',
-      backGroundColor: '',
-      textColor: '',
-      activeBackgroundColor: '',
-      activeTextColor: '',
-      hoverTextColor: '',
-      titleSize: '',
-      iconColor: '',
-      hoverIconColor: '',
-      activeIconColor: '',
-      iconSize: '',
-      iconType: '',
-    }
-    let resetObj = {
-      resetTheme: type == 'mainMenu' ? obj : inPageObj,
-      reset: true,
-      inPageMenu: type == 'mainMenu' ? false : true,
-    }
-    this.notify.emit(resetObj);
-    this.toastr.success('Reset Successfully!', { nzDuration: 3000 });
   }
 
 

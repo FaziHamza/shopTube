@@ -80,25 +80,30 @@
         </div>
       </ul>
       <div class="b-tree">
-        <nz-tree [nzData]="nodes" [nzExpandedKeys]="expandedKeys" nzDraggable nzBlockNode
-          (nzOnDrop)="nzEvent($event)" [nzTreeTemplate]="nzTreeTemplate"></nz-tree>
+        <nz-tree [nzData]="nodes" [nzExpandedKeys]="expandedKeys" nzDraggable nzBlockNode (nzOnDrop)="nzEvent($event)"
+          [nzTreeTemplate]="nzTreeTemplate"></nz-tree>
         <ng-template #nzTreeTemplate let-node let-origin="origin">
           <div class="custom-node flex card-lable-row" (mouseover)="hoverIn(node)" (mouseleave)="hoverOut(node)"
             [ngClass]="isActiveShow === node.origin.id ? 'isActive' : ''">
             <span (click)="openField(node)">
-              <span class="jameel-font">{{ node.origin.type === 'input' ? (node?.parentNode?.origin ? 'S' : 'M') : 'I' }}</span>
+              <span class="jameel-font">{{ node.origin.type === 'input' ? (node?.parentNode?.origin ? 'S' : 'M') : 'I'
+                }}</span>
               <span class="folder-name">{{ node.origin.title ? node.title :
                 node.origin.id }}</span>
             </span>
             <span class="row-icon" *ngIf="isVisible === node.origin.id">
-              <label class="mx-1"  (click)="openConfig(node,node)">
+              <label class="mx-1" (click)="openConfig(node,node)">
                 <i class="fa-regular fa-gear hover:shadow-lg text-gray-500" nzTooltipTitle="Configuration"
                   nz-tooltip></i>
               </label>
               <label class="mx-1" (click)="remove(node)">
                 <i class="fa-regular fa-trash  hover:shadow-lg text-red-500" nzTooltipTitle="Delete" nz-tooltip></i>
               </label>
-              <label class="mx-1" >
+              <label class="mx-1" (click)="insertAt(node)">
+                <i class="fa-regular fa-file-plus hover:shadow-lg text-blue-500" nzTooltipTitle="Duplicate"
+                  nz-tooltip></i>
+              </label>
+              <label class="mx-1">
                 <i nzTooltipTitle="Preview Json " nz-tooltip
                   class="fa-regular fa-brackets-curly hover:shadow-lg text-green-500"></i>
               </label>
@@ -125,15 +130,15 @@
       <div class="right-side-nav">
         <div id="mySidenav-right" class="sidenav-right">
           <div class="mySidenav-right">
-            <div class="side-nav-header">
+            <!-- <div class="side-nav-header">
               <h6>
                 Control List
               </h6>
               <a href="javascript:void(0)" class="closebtn" onclick="closeNav2()">
                 <i class="uil uil-times-square"></i>
               </a>
-            </div>
-            <div class=" side-nav-body m-10">
+            </div> -->
+            <div class=" side-nav-body">
               <div style="position:relative ;">
                 <st-generic-field [modal]="formModalData" (notify)="notifyEmit($event)" [type]="fieldData.type"
                   [itemData]="fieldData" *ngIf="fieldData">
