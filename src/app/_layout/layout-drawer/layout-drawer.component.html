@@ -37,7 +37,7 @@
                                         <div class="box">
                                             <input [(ngModel)]="selectedTheme['backGroundColor']" type="color"
                                                 class="input-color">
-                                            <span>{{selectedTheme['backGroundColor'] || '#000000'}} </span>
+                                            <span>{{selectedTheme['backGroundColor']}} </span>
                                         </div>
                                     </div>
                                     <div class="collm lable">
@@ -47,7 +47,7 @@
                                         <div class="box">
                                             <input type="color" class="input-color"
                                                 [(ngModel)]="selectedTheme['activeTextColor']">
-                                            <span>{{selectedTheme['activeTextColor'] || '#000000'}} </span>
+                                            <span>{{selectedTheme['activeTextColor'] || '#7c7f90'}} </span>
                                         </div>
                                     </div>
                                     <div class="collm lable">
@@ -57,7 +57,7 @@
                                         <div class="box">
                                             <input [(ngModel)]="selectedTheme['textColor']" type="color"
                                                 class="input-color">
-                                            <span>{{selectedTheme['textColor'] || '#000000'}} </span>
+                                            <span>{{selectedTheme['textColor'] || '#7c7f90'}} </span>
                                         </div>
                                     </div>
                                     <div class="collm lable">
@@ -67,7 +67,7 @@
                                         <div class="box">
                                             <input [(ngModel)]="selectedTheme['activeBackgroundColor']" type="color"
                                                 class="input-color">
-                                            <span>{{selectedTheme['activeBackgroundColor'] || '#000000'}} </span>
+                                            <span>{{selectedTheme['activeBackgroundColor'] || '#e6f7ff'}} </span>
                                         </div>
                                     </div>
                                     <div class="collm lable">
@@ -77,7 +77,7 @@
                                         <div class="box">
                                             <input type="color" class="input-color"
                                                 [(ngModel)]="selectedTheme['hoverTextColor']">
-                                            <span>{{selectedTheme['hoverTextColor'] || '#000000'}} </span>
+                                            <span>{{selectedTheme['hoverTextColor'] || '#fff'}} </span>
                                         </div>
                                     </div>
                                     <div class="collm lable">
@@ -126,8 +126,8 @@
                     </div>
                     <div class="b-card drawer-coll-body">
                         <nz-collapse [nzExpandIconPosition]="'right'">
-                            <nz-collapse-panel [nzHeader]="formhead" [nzActive]="true">
-                                <ng-template #formhead>
+                            <nz-collapse-panel [nzHeader]="Iconformhead" [nzActive]="true">
+                                <ng-template #Iconformhead>
                                     <div class="coll-header">
                                         <div>
                                             <h6>Icon Design</h6>
@@ -142,7 +142,7 @@
                                         <div class="box">
                                             <input type="color" class="input-color"
                                                 [(ngModel)]="selectedTheme['iconColor']">
-                                            <span>{{selectedTheme['iconColor'] || '#000000'}} </span>
+                                            <span>{{selectedTheme['iconColor'] || '#7c7f90'}} </span>
                                         </div>
                                     </div>
                                     <div class="collm lable">
@@ -152,7 +152,7 @@
                                         <div class="box">
                                             <input type="color" class="input-color"
                                                 [(ngModel)]="selectedTheme['hoverIconColor']">
-                                            <span>{{selectedTheme['hoverIconColor'] || '#000000'}} </span>
+                                            <span>{{selectedTheme['hoverIconColor'] || '#fff'}} </span>
                                         </div>
                                     </div>
                                     <div class="collm lable">
@@ -162,7 +162,7 @@
                                         <div class="box">
                                             <input type="color" class="input-color"
                                                 [(ngModel)]="selectedTheme['activeIconColor']">
-                                            <span>{{selectedTheme['activeIconColor'] || '#000000'}} </span>
+                                            <span>{{selectedTheme['activeIconColor'] || '#7c7f90'}} </span>
                                         </div>
                                     </div>
                                     <div class="collm lable">
@@ -180,7 +180,7 @@
                                     <div class="collm option">
                                         <div class="box">
                                             <nz-select nzShowSearch nzAllowClear [(ngModel)]="selectedTheme['iconType']"
-                                                (ngModelChange)="changeLayout(selectedTheme['iconType']+'_'+'iconType')"
+                                                (ngModelChange)="changeLayout(selectedTheme['iconType']+'_'+'iconType',false)"
                                                 nzPlaceHolder="Icon Type">
                                                 <nz-option nzLabel="ng-zorro outlined" nzValue="outline"></nz-option>
                                                 <nz-option nzLabel="ng-zorro filled" nzValue="fill"></nz-option>
@@ -214,7 +214,7 @@
                                             <div class="banner"
                                                 [ngClass]="selectedTheme.layout == 'vertical' ? 'selected' : 'unselected'">
                                                 <img src="assets/images/banner.png" alt=""
-                                                    (click)="changeLayout('vertical')">
+                                                    (click)="changeLayout('vertical',false)">
                                             </div>
                                             <span>Vertical</span>
                                         </div>
@@ -222,7 +222,7 @@
                                             <div class="banner"
                                                 [ngClass]="selectedTheme.layout == 'horizental' ? 'selected' : 'unselected'">
                                                 <img src="assets/images/banner.png" alt=""
-                                                    (click)="changeLayout('horizental')">
+                                                    (click)="changeLayout('horizental',false)">
                                             </div>
                                             <span>Horizental</span>
                                         </div>
@@ -230,7 +230,7 @@
                                             <div class="banner"
                                                 [ngClass]="selectedTheme.layout == 'twoColumn' ? 'selected' : 'unselected'">
                                                 <img src="assets/images/banner.png" alt=""
-                                                    (click)="changeLayout('twoColumn')">
+                                                    (click)="changeLayout('twoColumn',false)">
                                             </div>
                                             <span>Two Column</span>
                                         </div>
@@ -238,7 +238,7 @@
                                             <div class="banner"
                                                 [ngClass]="selectedTheme.layout == 'rtl' ? 'selected' : 'unselected'">
                                                 <img src="assets/images/banner.png" alt=""
-                                                    (click)="changeLayout('rtl')">
+                                                    (click)="changeLayout('rtl',false)">
                                             </div>
                                             <span>RTL</span>
                                         </div>
@@ -261,7 +261,7 @@
                                             <div class="banner"
                                                 [ngClass]="selectedTheme.layoutWidth == 'fluid' ? 'selected' : 'unselected'">
                                                 <img src="assets/images/banner.png" alt=""
-                                                    (click)="changeLayout('fluid')">
+                                                    (click)="changeLayout('fluid',false)">
                                             </div>
                                             <span>Fluid</span>
                                         </div>
@@ -269,7 +269,7 @@
                                             <div class="banner"
                                                 [ngClass]="selectedTheme.layoutWidth == 'boxed' ? 'selected' : 'unselected'">
                                                 <img src="assets/images/banner.png" alt=""
-                                                    (click)="changeLayout('boxed')">
+                                                    (click)="changeLayout('boxed',false)">
                                             </div>
                                             <span>Boxed</span>
                                         </div>
@@ -297,7 +297,7 @@
                                             <div class="banner"
                                                 [ngClass]="selectedTheme.sideBarSize == 'default' ? 'selected' : 'unselected'">
                                                 <img src="assets/images/banner.png" alt=""
-                                                    (click)="changeLayout('default')">
+                                                    (click)="changeLayout('default',false)">
                                             </div>
                                             <span>Default</span>
                                         </div>
@@ -305,7 +305,7 @@
                                             <div class="banner"
                                                 [ngClass]="selectedTheme.sideBarSize == 'compact' ? 'selected' : 'unselected'">
                                                 <img src="assets/images/banner.png" alt=""
-                                                    (click)="changeLayout('compact')">
+                                                    (click)="changeLayout('compact',false)">
                                             </div>
                                             <span>Compact</span>
                                         </div>
@@ -313,7 +313,7 @@
                                             <div class="banner"
                                                 [ngClass]="selectedTheme.sideBarSize == 'compact_right' ? 'selected' : 'unselected'">
                                                 <img src="assets/images/banner.png" alt=""
-                                                    (click)="changeLayout('compact_right')">
+                                                    (click)="changeLayout('compact_right',false)">
                                             </div>
                                             <span *ngIf="selectedTheme.layout != 'rtl'">Compact
                                                 Right</span>
@@ -324,7 +324,7 @@
                                             <div class="banner"
                                                 [ngClass]="selectedTheme.sideBarSize == 'compact_left' ? 'selected' : 'unselected'">
                                                 <img src="assets/images/banner.png" alt=""
-                                                    (click)="changeLayout('compact_left')">
+                                                    (click)="changeLayout('compact_left',false)">
                                             </div>
                                             <span *ngIf="selectedTheme.layout != 'rtl'">Compact
                                                 Left</span>
@@ -335,7 +335,7 @@
                                             <div class="banner"
                                                 [ngClass]="selectedTheme.sideBarSize == 'smallIconView' ? 'selected' : 'unselected'">
                                                 <img src="assets/images/banner.png" alt=""
-                                                    (click)="changeLayout('smallIconView')">
+                                                    (click)="changeLayout('smallIconView',false)">
                                             </div>
                                             <span>Small (Icon View)</span>
                                         </div>
@@ -343,7 +343,7 @@
                                             <div class="banner"
                                                 [ngClass]="selectedTheme.sideBarSize == 'smallHoverView' ? 'selected' : 'unselected'">
                                                 <img src="assets/images/banner.png" alt=""
-                                                    (click)="changeLayout('smallHoverView')">
+                                                    (click)="changeLayout('smallHoverView',false)">
                                             </div>
                                             <span>Small Hover View</span>
                                         </div>
@@ -367,7 +367,7 @@
                                     </ng-template>
                                     <div class="options-list2">
                                         <div class="option2">
-                                            <div class="banner" (click)="changeLayout('')"
+                                            <div class="banner" (click)="changeLayout('',false)"
                                                 [ngClass]="selectedTheme.siderBarImages == '' ? 'selected resert-bg-img' : 'unselected resert-bg-img'">
                                                 <i class="fa-solid fa-xmark"></i>
                                             </div>
@@ -376,14 +376,14 @@
                                             <div class="banner"
                                                 [ngClass]="selectedTheme.siderBarImages == 'assets/images/menu/image-1.avif' ? 'selected' : 'unselected'">
                                                 <img src="assets/images/menu/image-1.avif" alt=""
-                                                    (click)="changeLayout('assets/images/menu/image-1.avif')">
+                                                    (click)="changeLayout('assets/images/menu/image-1.avif',false)">
                                             </div>
                                         </div>
                                         <div class="option2">
                                             <div class="banner"
                                                 [ngClass]="selectedTheme.siderBarImages == 'assets/images/menu/image_2.avif' ? 'selected' : 'unselected'">
                                                 <img src="assets/images/menu/image_2.avif" alt=""
-                                                    (click)="changeLayout('assets/images/menu/image_2.avif')">
+                                                    (click)="changeLayout('assets/images/menu/image_2.avif',false)">
                                             </div>
 
                                         </div>
@@ -391,14 +391,14 @@
                                             <div class="banner"
                                                 [ngClass]="selectedTheme.siderBarImages == 'assets/images/menu/image_3.avif' ? 'selected' : 'unselected'">
                                                 <img src="assets/images/menu/image_3.avif" alt=""
-                                                    (click)="changeLayout('assets/images/menu/image_3.avif')">
+                                                    (click)="changeLayout('assets/images/menu/image_3.avif',false)">
                                             </div>
                                         </div>
                                         <div class="option2">
                                             <div class="banner"
                                                 [ngClass]="selectedTheme.siderBarImages == 'assets/images/menu/image-4.avif' ? 'selected' : 'unselected'">
                                                 <img src="assets/images/menu/image-4.avif"
-                                                    (click)="changeLayout('assets/images/menu/image-4.avif')">
+                                                    (click)="changeLayout('assets/images/menu/image-4.avif',false)">
                                             </div>
                                         </div>
                                     </div>
@@ -568,8 +568,8 @@
                     </div>
                     <div class="b-card drawer-coll-body">
                         <nz-collapse [nzExpandIconPosition]="'right'">
-                            <nz-collapse-panel [nzHeader]="formhead" [nzActive]="true">
-                                <ng-template #formhead>
+                            <nz-collapse-panel [nzHeader]="Iconformhead1" [nzActive]="true">
+                                <ng-template #Iconformhead1>
                                     <div class="coll-header">
                                         <div>
                                             <h6>ICON DESIGN</h6>
@@ -624,7 +624,7 @@
                                         <div class="box">
                                             <nz-select nzShowSearch nzAllowClear
                                                 [(ngModel)]="selectedTheme['inPageMenu']['iconType']"
-                                                (ngModelChange)="changeInPageLayout(selectedTheme['inPageMenu']['iconType']+'_'+'iconType')"
+                                                (ngModelChange)="changeLayout(selectedTheme['inPageMenu']['iconType']+'_'+'iconType',true)"
                                                 nzPlaceHolder="Icon Type">
                                                 <nz-option nzLabel="ng-zorro outlined" nzValue="outline"></nz-option>
                                                 <nz-option nzLabel="ng-zorro filled" nzValue="fill"></nz-option>
