@@ -88,25 +88,28 @@ export class LayoutDrawerComponent implements OnInit {
   }
 
   open(): void {
+    debugger
     this.visible = true;
+    if (!this.selectedTheme['backGroundColor']) {
+      this.selectedTheme['backGroundColor'] = '#ffffff';
+    } else if (!this.selectedTheme['activeTextColor']) {
+      this.selectedTheme['activeTextColor'] = '#6f777d';
+    }
+    else if (!this.selectedTheme['textColor']) {
+      this.selectedTheme['textColor'] = '#6f777d';
+    }
+    else if (!this.selectedTheme['activeBackgroundColor']) {
+      this.selectedTheme['activeBackgroundColor'] = '#e6f7ff';
+    }
   }
 
   close(): void {
     this.visible = false;
   }
-  changeLayout(layoutType: any) {
-    debugger
+  changeLayout(layoutType: any, inPageMenu: any) {
     let obj = {
       layoutType: layoutType,
-      inPageMenu: false,
-    }
-    this.notify.emit(obj);
-  }
-  changeInPageLayout(data: any) {
-    debugger
-    let obj = {
-      layoutType: data,
-      inPageMenu: true,
+      inPageMenu: inPageMenu,
     }
     this.notify.emit(obj);
   }
@@ -123,13 +126,18 @@ export class LayoutDrawerComponent implements OnInit {
       this.selectedTheme.hoverIconColor = '';
       this.selectedTheme.activeIconColor = '';
       this.selectedTheme.iconSize = '';
+      this.selectedTheme.siderBarImages = '';
       // this.selectedTheme.iconType = '';
       this.selectedTheme.layout = 'vertical';
       this.selectedTheme.layoutWidth = 'fluid';
       this.selectedTheme.sideBarSize = 'default';
       this.selectedTheme.siderBarView = 'sidebarViewDefault';
+      this.selectedTheme.newMenuArray = [];
+      this.selectedTheme.menuChildArrayTwoColumn = [];
+      this.selectedTheme.allMenuItems = [];
       this.selectedTheme.isCollapsed = false;
-    } 
+      this.changeLayout('vertical', false)
+    }
     else {
       this.selectedTheme['inPageMenu'].font = 'font-roboto';
       this.selectedTheme['inPageMenu'].backGroundColor = '';
@@ -144,6 +152,5 @@ export class LayoutDrawerComponent implements OnInit {
       this.selectedTheme['inPageMenu'].iconSize = '';
     }
   }
-
 
 }

@@ -177,13 +177,15 @@ export class AppSideMenuComponent implements OnInit {
       }
       else if (data.children.length > 0 && this.selectedTheme.layout == 'twoColumn' && pushInTwoColumn) {
         this.selectedTheme['isCollapsed'] = false;
-        this.dataSharedService.collapseMenu.next(false)
-        this.selectedTheme.menuColumn = 'w-1/6';
-        this.selectedTheme.rowClass = 'w-10/12';
-        this.selectedTheme.topHeaderMenu = 'w-1/6';
-        this.selectedTheme.topHeader = 'w-10/12';
+        // this.dataSharedService.collapseMenu.next(false)
+        // this.selectedTheme.menuColumn = 'w-1/6';
+        // this.selectedTheme.rowClass = 'w-10/12';
+        // this.selectedTheme.topHeaderMenu = 'w-1/6';
+        // this.selectedTheme.topHeader = 'w-10/12';
         data.children.forEach((i: any) => {
-          this.menuChildArrayTwoColumn.push(i);
+          if(i.type != 'mainTab'){
+            this.menuChildArrayTwoColumn.push(i);
+          }
         });
       }
       // else {
