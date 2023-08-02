@@ -38,7 +38,7 @@ export class PagesComponent implements OnInit {
       }
     });
     this.dataSharedService.gridData.subscribe(res => {
-      if(res)
+      if (res)
         this.saveDataGrid(res);
     });
   }
@@ -73,6 +73,52 @@ export class PagesComponent implements OnInit {
         // this.submit();
         if (Object.keys(makeModel).length > 0)
           this.saveData(res)
+      },
+      error: (err) => {
+        console.error(err);
+      }
+    })
+    this.requestSubscription = this.dataSharedService.eventChange.subscribe({
+      next: (res) => {
+        if (res) {
+          debugger
+          for (let index = 0; index < res.length; index++) {
+            const element = res[index].actions?.[0]?.elementName;
+            let findObj = this.findObjectByKey(this.resData[0], element);
+            if (findObj) {
+              if (findObj?.formlyType === 'input') {
+                this.applicationService.getBackendCommonAPI(res[index].actions?.[0]?.url).subscribe(res => {
+                  if (res) {
+                    let data  = res.data;
+                    let propertyNames = Object.keys(data[0]);
+                    let result = data.map((item: any) => {
+                      let newObj: any = {};
+                      let propertiesToGet: string[];
+                      if ('id' in item && 'name' in item) {
+                        propertiesToGet = ['id', 'name'];
+                      } else {
+                        propertiesToGet = Object.keys(item).slice(0, 2);
+                      }
+                      propertiesToGet.forEach((prop) => {
+                        newObj[prop] = item[prop];
+                      });
+                      return newObj;
+                    });
+
+                    let finalObj = result.map((item: any) => {
+                      return {
+                        label: item.name || item[propertyNames[1]],
+                        value: item.id || item[propertyNames[0]],
+                      };
+                    });
+                    findObj.formly[0].fieldGroup[0].props.options = finalObj;
+                    this.updateNodes();
+                  }
+                })
+              }
+            }
+          }
+        }
       },
       error: (err) => {
         console.error(err);
@@ -147,8 +193,8 @@ export class PagesComponent implements OnInit {
 
     });
   }
-  getBuilderScreen(params:any){
-    this.requestSubscription = this.applicationService.getNestCommonAPIById('cp/Builder',  params["schema"]).subscribe({
+  getBuilderScreen(params: any) {
+    this.requestSubscription = this.applicationService.getNestCommonAPIById('cp/Builder', params["schema"]).subscribe({
       next: (res: any) => {
         if (res.isSuccess) {
           if (res.data.length > 0) {
@@ -166,10 +212,10 @@ export class PagesComponent implements OnInit {
                   const formlyConfig = node.formly?.[0]?.fieldGroup?.[0]?.key;
                   for (let index = 0; index < this.actionListData.length; index++) {
                     const element = this.actionListData[index];
-                    if (formlyConfig == element.elementName  && element.actionType  == 'api') {
+                    if (formlyConfig == element.elementName && element.actionType == 'api') {
                       const eventActionConfig = node?.formly?.[0]?.fieldGroup?.[0]?.props;
                       if (eventActionConfig) {
-                        if(index == 0){
+                        if (index == 0) {
                           eventActionConfig['appConfigurableEvent'] = [];
                           eventActionConfig['eventActionconfig'] = {};
                         }
@@ -178,12 +224,12 @@ export class PagesComponent implements OnInit {
                           let obj = { actionType: element.actionType, url: element.httpAddress, method: element.actionLink }
                           eventActionConfig['eventActionconfig'] = obj;
                         }
-                         else {
+                        else {
                           if (eventActionConfig['appConfigurableEvent']) {
                             let obj = {
                               event: element.actionLink,
                               actions: [
-                                { actionType: element.actionType, url: element.httpAddress, method: element.actionLink,elementName : element.elementNameTo }
+                                { actionType: element.actionType, url: element.httpAddress, method: element.actionLink, elementName: element.elementNameTo }
                               ]
                             };
                             eventActionConfig['appConfigurableEvent'].push(obj);
@@ -192,7 +238,7 @@ export class PagesComponent implements OnInit {
                             let obj = {
                               event: element.actionLink,
                               actions: [
-                                { actionType: element.actionType, url: element.httpAddress, method: element.actionLink, elementName : element.elementNameTo }
+                                { actionType: element.actionType, url: element.httpAddress, method: element.actionLink, elementName: element.elementNameTo }
                               ]
                             };
                             eventActionConfig['appConfigurableEvent'].push(obj);
@@ -203,13 +249,13 @@ export class PagesComponent implements OnInit {
                   }
                 });
               }
-              let checkFirst :any = {};
+              let checkFirst: any = {};
               for (let index = 0; index < this.actionListData.length; index++) {
                 const element = this.actionListData[index];
                 let findObj = this.findObjectByKey(nodesData[0], element.elementName);
                 if (findObj) {
-                  if(findObj?.key == element.elementName && element.actionType  == 'api'){
-                    if(!checkFirst[findObj?.key]){
+                  if (findObj?.key == element.elementName && element.actionType == 'api') {
+                    if (!checkFirst[findObj?.key]) {
                       findObj['appConfigurableEvent'] = [];
                       findObj['eventActionconfig'] = {};
                       checkFirst[findObj?.key] = "done";
@@ -217,12 +263,12 @@ export class PagesComponent implements OnInit {
                     if (element.btnActionType == 'load') {
                       let obj = { actionType: element.actionType, url: element.httpAddress, method: element.actionLink }
                       findObj.eventActionconfig = obj;
-                    }else{
+                    } else {
                       if (findObj['appConfigurableEvent']) {
                         let obj = {
                           event: element.actionLink,
                           actions: [
-                            { actionType: element.actionType, url: element.httpAddress, method: element.actionLink, elementName : element.elementNameTo }
+                            { actionType: element.actionType, url: element.httpAddress, method: element.actionLink, elementName: element.elementNameTo }
                           ]
                         };
                         findObj['appConfigurableEvent'].push(obj);
@@ -231,13 +277,13 @@ export class PagesComponent implements OnInit {
                         let obj = {
                           event: element.actionLink,
                           actions: [
-                            { actionType: element.actionType, url: element.httpAddress, method: element.actionLink, elementName : element.elementNameTo }
+                            { actionType: element.actionType, url: element.httpAddress, method: element.actionLink, elementName: element.elementNameTo }
                           ]
                         };
                         findObj['appConfigurableEvent'].push(obj);
                       }
                     }
-                  }else{
+                  } else {
                     findObj['appConfigurableEvent'] = [];
                     findObj['eventActionconfig'] = {};
                   }
@@ -1680,29 +1726,28 @@ export class PagesComponent implements OnInit {
   getEnumList(data: any, targetId: any) {
     let tableData = this.findObjectByTypeBase(this.resData[0], "gridList");
     if (data?.props?.apiUrl && tableData) {
-      if(typeof targetId == "string"){
-      let obj = [{name: 'id',}, { name: 'name',}]
-      tableData['tableKey'] = obj;
-      let headerData = [{
-            "id": 1,
-            "key": "id",
-            "name": "id",
-            "headerButton": "",
-            "footerButton": ""
+      if (typeof targetId == "string") {
+        let obj = [{ name: 'id', }, { name: 'name', }]
+        tableData['tableKey'] = obj;
+        let headerData = [{
+          "id": 1,
+          "key": "id",
+          "name": "id",
+          "headerButton": "",
+          "footerButton": ""
         },
         {
-            "id": 2,
-            "key": "name",
-            "name": "name",
-            "headerButton": "",
-            "footerButton": ""
+          "id": 2,
+          "key": "name",
+          "name": "name",
+          "headerButton": "",
+          "footerButton": ""
         }
-      ];
-      tableData.tableHeaders = headerData;
-      tableData.tableData = [];
-    }
-    else
-      {
+        ];
+        tableData.tableHeaders = headerData;
+        tableData.tableData = [];
+      }
+      else {
         let findObj = this.findObjectById(this.resData[0], data?.id.toLowerCase());
         if (findObj && tableData) {
           this.requestSubscription = this.applicationService.getNestCommonAPIById(data.props.apiUrl, targetId).subscribe(response => {
@@ -1734,22 +1779,22 @@ export class PagesComponent implements OnInit {
               this.getEnumApi(data, targetId, findObj);
             }
             else if (tableData && response?.data.length == 0) {
-              let obj = [{name: 'id',}, { name: 'name',}]
+              let obj = [{ name: 'id', }, { name: 'name', }]
               tableData['tableKey'] = obj;
-              let headerData = [   {
+              let headerData = [{
                 "id": 1,
                 "key": "id",
                 "name": "id",
                 "headerButton": "",
                 "footerButton": ""
-            },
-            {
+              },
+              {
                 "id": 2,
                 "key": "name",
                 "name": "name",
                 "headerButton": "",
                 "footerButton": ""
-            }];
+              }];
               tableData.tableHeaders = headerData;
               tableData.tableData = [];
             }
@@ -1793,29 +1838,29 @@ export class PagesComponent implements OnInit {
       });
 
   }
-  saveDataGrid(res:any){
+  saveDataGrid(res: any) {
     debugger
     let model = Object.keys(this.formlyModel);
-    let findElement :any = {};
+    let findElement: any = {};
     const filteredNodes = this.filterInputElements(this.resData[0].children[1].children[0].children[1].children);
-    if(filteredNodes.length > 0) {
+    if (filteredNodes.length > 0) {
       for (let index = 0; index < filteredNodes.length; index++) {
         const element = filteredNodes[index];
-        if(element.formly[0].fieldGroup[0].key == model[0]){
+        if (element.formly[0].fieldGroup[0].key == model[0]) {
           findElement = element;
           break;
         }
       }
     }
-    if(findElement){
+    if (findElement) {
       let obj = {
         "EnumList": {
-            "enumName": this.formlyModel[model[0]],
-            "gridData": res
+          "enumName": this.formlyModel[model[0]],
+          "gridData": res
         }
       }
-      this.applicationService.addNestCommonAPI('cp', obj).subscribe(res=>{
-          this.getEnumList(findElement,this.formlyModel[model[0]]);
+      this.applicationService.addNestCommonAPI('cp', obj).subscribe(res => {
+        this.getEnumList(findElement, this.formlyModel[model[0]]);
       })
     }
   }

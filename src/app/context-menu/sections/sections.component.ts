@@ -59,7 +59,7 @@ export class SectionsComponent implements OnInit {
               if (this.dataModel.hasOwnProperty(key)) {
                 const value = this.getValueFromNestedObject(key, this.formlyModel);
                 if (value !== undefined) {
-                  this.dataModel[key] = value;
+                  this.dataModel[key] =  this.dataModel[key] ? this.dataModel[key] : value;
                 }
               }
             }
@@ -293,7 +293,7 @@ export class SectionsComponent implements OnInit {
       if (findClickApi.length > 0) {
         let tableData = this.findObjectByKey(this.sections, findClickApi?.[0].actions?.[0]?.elementName);
         if (tableData) {
-          this.employeeService.getSQLDatabaseTable(`knex-query/${this.screenName}`).subscribe({
+          this.employeeService.getSQLDatabaseTable(findClickApi.length > 0 ? findClickApi?.[0].actions?.[0]?.url : `knex-query/${this.screenName}`).subscribe({
             next: (res) => {
               if (tableData && res) {
                 let saveForm = JSON.parse(JSON.stringify(res[0]));
