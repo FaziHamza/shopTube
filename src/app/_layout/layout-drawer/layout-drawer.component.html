@@ -67,7 +67,7 @@
                                         <div class="box">
                                             <input [(ngModel)]="selectedTheme['activeBackgroundColor']" type="color"
                                                 class="input-color">
-                                            <span>{{selectedTheme['activeBackgroundColor'] || '#e6f7ff'}} </span>
+                                            <span>{{selectedTheme['activeBackgroundColor']}} </span>
                                         </div>
                                     </div>
                                     <div class="collm lable">
@@ -77,7 +77,7 @@
                                         <div class="box">
                                             <input type="color" class="input-color"
                                                 [(ngModel)]="selectedTheme['hoverTextColor']">
-                                            <span>{{selectedTheme['hoverTextColor'] || '#fff'}} </span>
+                                            <span>{{selectedTheme['hoverTextColor']}} </span>
                                         </div>
                                     </div>
                                     <div class="collm lable">
@@ -117,8 +117,14 @@
                                         </div>
                                     </div>
                                     <div class="collm lable">
+                                        Hover Bg Color
                                     </div>
                                     <div class="collm option">
+                                        <div class="box">
+                                            <input type="color" class="input-color"
+                                                [(ngModel)]="selectedTheme['hoverBgColor']">
+                                            <span>{{selectedTheme['hoverBgColor']}} </span>
+                                        </div>
                                     </div>
                                 </div>
                             </nz-collapse-panel>

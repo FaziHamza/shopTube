@@ -633,16 +633,16 @@ export class MenuBuilderComponent implements OnInit {
 
   deepCloneWithGuid(node: any): any {
     const newNode = JSON.parse(JSON.stringify(node));
-    newNode.id = node.id.split('_')[0] + '_' +Guid.newGuid();
-    newNode.key = node.key.split('_')[0] + '_' +Guid.newGuid();
+    newNode.id = node.id.split('_')[0] + '_' + Guid.newGuid();
+    newNode.key = node.key.split('_')[0] + '_' + Guid.newGuid();
     this.deepCloneNodesWithGuid(newNode.children);
     return newNode;
   }
 
   deepCloneNodesWithGuid(nodes: any[]): void {
     nodes.forEach((node) => {
-      node.id = node.id.split('_')[0] + '_' +Guid.newGuid();
-      node.key = node.key.split('_')[0] + '_' +Guid.newGuid();
+      node.id = node.id.split('_')[0] + '_' + Guid.newGuid();
+      node.key = node.key.split('_')[0] + '_' + Guid.newGuid();
       if (node.children.length > 0) {
         this.deepCloneNodesWithGuid(node.children);
       }
@@ -1661,18 +1661,6 @@ export class MenuBuilderComponent implements OnInit {
   }
 
   controlUndefinedValues() {
-    if (!this.selectedTheme['font']) {
-      this.selectedTheme['font'] = 'font-roboto'
-    }
-    if (!this.selectedTheme['buttonIcon']) {
-      this.selectedTheme['buttonIcon'] = 'fa-regular fa-bars'
-    }
-    if (!this.selectedTheme['buttonIconType']) {
-      this.selectedTheme['buttonIconType'] = 'font_awsome'
-    }
-    if (!this.selectedTheme['buttonPosition']) {
-      this.selectedTheme['buttonPosition'] = 'right'
-    }
     if (!this.selectedTheme['buttonClassArray']) {
       this.selectedTheme['buttonClassArray'] = []
     }
@@ -1685,8 +1673,48 @@ export class MenuBuilderComponent implements OnInit {
     if (!this.selectedTheme['inPageMenu']) {
       this.selectedTheme['inPageMenu'] = {};
     }
-    if (!this.selectedTheme['inPageMenu']['font']) {
-      this.selectedTheme['inPageMenu']['font'] = 'font-roboto'
+
+    const defaultProperties = [
+      { property: 'backGroundColor', defaultValue: '#ffffff' },
+      { property: 'hoverBgColor', defaultValue: '#3b82f6' },
+      { property: 'activeTextColor', defaultValue: '#6f777d' },
+      { property: 'textColor', defaultValue: '#6f777d' },
+      { property: 'activeBackgroundColor', defaultValue: '#e6f7ff' },
+      { property: 'hoverTextColor', defaultValue: '#ffffff' },
+      { property: 'iconColor', defaultValue: '#6f777d' },
+      { property: 'hoverIconColor', defaultValue: '#ffffff' },
+      { property: 'activeIconColor', defaultValue: '#6f777d' },
+      { property: 'titleSize', defaultValue: 15 },
+      { property: 'iconSize', defaultValue: 15 },
+      { property: 'font', defaultValue: 'font-roboto' },
+      { property: 'buttonIcon', defaultValue: 'fa-regular fa-bars' },
+      { property: 'buttonIconType', defaultValue: 'font_awsome' },
+      { property: 'buttonIconType', defaultValue: 'right' },
+    ];
+    const defaultPropertiesInPageMenu = [
+      { property: 'backGroundColor', defaultValue: '#ffffff' },
+      { property: 'activeTextColor', defaultValue: '#2563eb' },
+      { property: 'textColor', defaultValue: '#73757A' },
+      { property: 'activeBackgroundColor', defaultValue: '#2563eb' },
+      { property: 'hoverTextColor', defaultValue: '#73757A' },
+      { property: 'iconColor', defaultValue: '#73757A' },
+      { property: 'hoverIconColor', defaultValue: '#73757A' },
+      { property: 'activeIconColor', defaultValue: '#2563eb' },
+      { property: 'titleSize', defaultValue: 15 },
+      { property: 'iconSize', defaultValue: 15 },
+      { property: 'font', defaultValue: 'font-roboto' },
+    ];
+
+    for (const prop of defaultProperties) {
+      if (!this.selectedTheme[prop.property]) {
+        this.selectedTheme[prop.property] = prop.defaultValue;
+      }
+
+    }
+    for (const prop of defaultPropertiesInPageMenu) {
+      if (!this.selectedTheme['inPageMenu'][prop.property]) {
+        this.selectedTheme['inPageMenu'][prop.property] = prop.defaultValue;
+      }
     }
   }
   // typeFirstAlphabetAsIcon(node: any) {

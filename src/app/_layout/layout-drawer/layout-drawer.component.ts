@@ -88,20 +88,12 @@ export class LayoutDrawerComponent implements OnInit {
   }
 
   open(): void {
-    debugger
+    debugger;
     this.visible = true;
-    if (!this.selectedTheme['backGroundColor']) {
-      this.selectedTheme['backGroundColor'] = '#ffffff';
-    } else if (!this.selectedTheme['activeTextColor']) {
-      this.selectedTheme['activeTextColor'] = '#6f777d';
-    }
-    else if (!this.selectedTheme['textColor']) {
-      this.selectedTheme['textColor'] = '#6f777d';
-    }
-    else if (!this.selectedTheme['activeBackgroundColor']) {
-      this.selectedTheme['activeBackgroundColor'] = '#e6f7ff';
-    }
+
+    
   }
+
 
   close(): void {
     this.visible = false;
@@ -116,16 +108,16 @@ export class LayoutDrawerComponent implements OnInit {
   reset(type: any) {
     if (type == 'mainMenu') {
       this.selectedTheme.font = 'font-roboto';
-      this.selectedTheme.backGroundColor = '';
-      this.selectedTheme.textColor = '';
-      this.selectedTheme.activeBackgroundColor = '';
-      this.selectedTheme.activeTextColor = '';
-      this.selectedTheme.hoverTextColor = '';
-      this.selectedTheme.titleSize = '';
-      this.selectedTheme.iconColor = '';
-      this.selectedTheme.hoverIconColor = '';
-      this.selectedTheme.activeIconColor = '';
-      this.selectedTheme.iconSize = '';
+      this.selectedTheme.backGroundColor = '#ffffff';
+      this.selectedTheme.textColor = '#6f777d';
+      this.selectedTheme.activeBackgroundColor = '#e6f7ff';
+      this.selectedTheme.activeTextColor = '#6f777d';
+      this.selectedTheme.hoverTextColor = '#ffffff';
+      this.selectedTheme.titleSize = '15';
+      this.selectedTheme.iconColor = '#6f777d';
+      this.selectedTheme.hoverIconColor = '#ffffff';
+      this.selectedTheme.activeIconColor = '#6f777d';
+      this.selectedTheme.iconSize = '15';
       this.selectedTheme.siderBarImages = '';
       // this.selectedTheme.iconType = '';
       this.selectedTheme.layout = 'vertical';
@@ -140,16 +132,16 @@ export class LayoutDrawerComponent implements OnInit {
     }
     else {
       this.selectedTheme['inPageMenu'].font = 'font-roboto';
-      this.selectedTheme['inPageMenu'].backGroundColor = '';
-      this.selectedTheme['inPageMenu'].textColor = '';
-      this.selectedTheme['inPageMenu'].activeBackgroundColor = '';
-      this.selectedTheme['inPageMenu'].activeTextColor = '';
-      this.selectedTheme['inPageMenu'].hoverTextColor = '';
-      this.selectedTheme['inPageMenu'].titleSize = '';
-      this.selectedTheme['inPageMenu'].iconColor = '';
-      this.selectedTheme['inPageMenu'].hoverIconColor = '';
-      this.selectedTheme['inPageMenu'].activeIconColor = '';
-      this.selectedTheme['inPageMenu'].iconSize = '';
+      this.selectedTheme['inPageMenu'].backGroundColor = '#ffffff';
+      this.selectedTheme['inPageMenu'].textColor = '#73757A';
+      this.selectedTheme['inPageMenu'].activeBackgroundColor = '#2563eb';
+      this.selectedTheme['inPageMenu'].activeTextColor = '#2563eb';
+      this.selectedTheme['inPageMenu'].hoverTextColor = '#73757A';
+      this.selectedTheme['inPageMenu'].titleSize = '15';
+      this.selectedTheme['inPageMenu'].iconColor = '#73757A';
+      this.selectedTheme['inPageMenu'].hoverIconColor = '#73757A';
+      this.selectedTheme['inPageMenu'].activeIconColor = '#2563eb';
+      this.selectedTheme['inPageMenu'].iconSize = '15';
     }
   }
 

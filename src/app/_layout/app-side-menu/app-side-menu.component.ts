@@ -67,7 +67,11 @@ export class AppSideMenuComponent implements OnInit {
   // }
 
   setHovered(value: any, event: any) {
+    debugger
     event.stopPropagation();
+    if(!value){
+      document.documentElement.style.setProperty('--my-color1', this.selectedTheme['hoverBgColor']);
+    }
     if (this.selectedTheme.sideBarSize == 'smallHoverView' && (this.selectedTheme.layout == 'vertical' || this.selectedTheme.layout == 'rtl')) {
       if (!this.selectedTheme.checked) {
         this.selectedTheme.isCollapsed = value;

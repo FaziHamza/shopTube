@@ -28,9 +28,7 @@ export class LayoutTabsDropdownComponent implements OnInit {
     }
   }
   screenLoad(data: any , allow : boolean) {
-    if(allow){
-      this.isActiveShow = data.id;
-    }
+    this.isActiveShow = data.id;
     if (data.link) {
       if (data.link.includes('/pages/')) {
         this.router.navigate([data.link]);

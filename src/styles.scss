@@ -2675,7 +2675,7 @@ object {
     top: 0px !important;
   }
 
-  .main-layout {
+  .main-layout2 {
     .backdrop {
       position: absolute;
       top: 0;
@@ -3034,31 +3034,7 @@ object {
   }
 }
 
-.layout-tabs-drop-down {
-  .ant-menu {
-    margin-bottom: 0px !important;
-    // height: 69px !important;
-    box-sizing: border-box !important;
-    border-radius: 0px 0px 4px 4px !important;
-    padding: 21px 23px !important;
-    // padding-top: 10px !important;
-    // padding-bottom: 10px !important;
 
-  }
-
-}
-
-.layout-tabs-drop-down .ant-menu-item {
-  height: 32px !important;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.layout-tabs-drop-down .layout-tabs-drop-down-ul {
-  display: flex;
-  align-items: center;
-}
 
 .ant-checkbox-wrapper:hover .ant-checkbox::after,
 .ant-checkbox:hover::after {
@@ -3379,17 +3355,29 @@ object {
       }
     }
 
+    .dynamic-menu {
+      .ant-menu-item:hover,
+      .ant-menu-submenu-title:hover {
+        background: var(--my-color1) !important;
 
-    .ant-menu-item:hover,
-    .ant-menu-submenu-title:hover {
-      background: $main;
-
-      a,
-      i,
-      span {
-        color: white;
+        a,
+        i,
+        span {
+          color: white;
+        }
       }
     }
+    .ant-menu-item:hover,
+      .ant-menu-submenu-title:hover {
+        background: $main !important;
+
+        a,
+        i,
+        span {
+          color: white;
+        }
+      }
+
 
     .ant-menu-vertical {
 
@@ -4764,7 +4752,7 @@ object {
 
 .user-builder-layout .main-layout2 .ant-menu.ant-menu-horizontal {
   width: 100% !important;
-  height: 69px !important;
+  // height: 69px !important;
   overflow-y: hidden;
   overflow-x: hidden;
 }
@@ -4812,8 +4800,84 @@ object {
       z-index: 999;
       border-radius: 0px !important;
     }
+
+    .ant-menu {
+      padding: 0px 4px 0px 4px;
+    }
   }
 }
-.custom-floating-checkbox{
+
+.custom-floating-checkbox {
   padding-top: 1.1rem !important;
 }
+
+.layout-tabs-drop-down {
+  .ant-menu-submenu-title {
+    padding: 0px !important;
+  }
+
+  .ant-menu-horizontal:not(.ant-menu-dark)>.ant-menu-submenu {
+    padding: 0px 0px;
+  }
+
+  .ant-menu-submenu {
+    width: fit-content;
+    margin: 0 20px;
+    border-bottom: 2px solid transparent;
+  }
+
+  .ant-menu {
+    margin-bottom: 0;
+    box-sizing: border-box;
+    border-radius: 0 0 4px 4px;
+    padding: 21px 23px;
+  }
+
+  .active-submenu {
+    font-size: 16px !important;
+    font-weight: 600 !important;
+    line-height: normal;
+    font-style: normal;
+    color: #64eb25 !important;
+  }
+
+  .ant-menu-submenu,
+  .ant-menu-item {
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .layout-tabs-drop-down-ul {
+    display: flex;
+    align-items: center;
+  }
+}
+
+.floating_outlined {
+  .ant-input-number {
+    padding-top: 0.3rem;
+  }
+
+  nz-radio-group {
+    border-radius: 0px;
+    border: 1px solid #d9d9d9;
+    padding-top: 0.9rem;
+  }
+
+  nz-checkbox-wrapper {
+    border-radius: 0px;
+    border: 1px solid #d9d9d9;
+    padding-top: 0.9rem;
+  }
+}
+
+nz-content {
+  margin: 0 16px 0 7px;
+}
+
+// .ant-menu-item:hover,
+// .ant-menu-submenu-title:hover {
+//   background: var(--my-color1) !important;
+// }

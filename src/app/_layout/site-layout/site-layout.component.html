@@ -10,10 +10,13 @@
     <st-pages *ngIf="currentHeader" [resData]="currentHeader"></st-pages>
     <nz-layout
       [class]="'main-layout2' + (selectedTheme?.layout === 'horizental' ? ' b-horizontal-menu' : '') + (selectedTheme.layout == 'rtl' ? ' rtl-layout2' : '')">
+      <div *ngIf="!selectedTheme.isCollapsed" class="backdrop"></div>
       <nz-sider class="menu-sidebar" nzTheme="light" nzCollapsible nzWidth="240px" nzBreakpoint="md"
         [(nzCollapsed)]="selectedTheme.isCollapsed" [nzTrigger]="null">
-        <st-app-side-menu [selectedTheme]="selectedTheme" [menuItems]="menuItems"
-          (notify)="loadTabsAndButtons($event)"></st-app-side-menu>
+        <div class="dynamic-menu">
+          <st-app-side-menu [selectedTheme]="selectedTheme" [menuItems]="menuItems"
+            (notify)="loadTabsAndButtons($event)"></st-app-side-menu>
+        </div>
       </nz-sider>
       <nz-content dir="ltr">
         <ng-container *ngIf="tabs.length">
@@ -30,8 +33,6 @@
       </nz-content>
     </nz-layout>
   </nz-layout>
-
-  <!-- <nz-footer>Ant Design ©2020 Implement By Angular</nz-footer> -->
 </div>
 
 

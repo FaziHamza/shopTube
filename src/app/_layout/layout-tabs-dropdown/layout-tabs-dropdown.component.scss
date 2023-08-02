@@ -1,66 +1,31 @@
-// .active {
-//   border-bottom: none !important;
-//   color: #6691e7
-// }
-
-// .ant-menu-horizontal:not(.ant-menu-dark)>.ant-menu-item-active::after,
-// .ant-menu-horizontal:not(.ant-menu-dark)>.ant-menu-item-open::after,
-// .ant-menu-horizontal:not(.ant-menu-dark)>.ant-menu-item-selected::after,
-// .ant-menu-horizontal:not(.ant-menu-dark)>.ant-menu-item:hover::after,
-// .ant-menu-horizontal:not(.ant-menu-dark)>.ant-menu-submenu-active::after,
-// .ant-menu-horizontal:not(.ant-menu-dark)>.ant-menu-submenu-open::after,
-// .ant-menu-horizontal:not(.ant-menu-dark)>.ant-menu-submenu-selected::after,
-// .ant-menu-horizontal:not(.ant-menu-dark)>.ant-menu-submenu:hover::after {
-//   border-bottom: none !important;
-//   color: #6691e7;
-// }
-
-// .ant-menu-item,
-// .ant-menu-submenu-title {
-//     & .ant-menu-item-icon+span,
-//     & .anticon+span {
-//         margin-left: 10px;
-//         margin-right: 10px !important;
-//         opacity: 1;
-//         transition: opacity .3s cubic-bezier(.645, .045, .355, 1), margin .3s, color .3s;
-//     }
-// }
-// .ng-star-inserted {
-
-//   font-size: 0.925rem;
-//   color: #7c7f90;
-//   font-weight: 400;
-//   font-family: Rubik, sans-serif;
-
-// }
-
-// .menu{
-//   border: none !important;
-// }
-
 .sidenav-title {
     font-size: 16px !important;
-    font-weight: 500 ;
+    font-weight: 500;
     line-height: normal;
     font-style: normal;
-    color: #73757A ;
+    color: #73757A;
     margin-left: 5px;
 }
 
 .ant-menu-item-selected .sidenav-title {
     font-size: 16px !important;
-    font-weight: 600 ;
+    font-weight: 600;
     line-height: normal;
     font-style: normal;
-    // color: #2563EB ;
+    color: #2563EB;
 }
 
-.layout-tabs-drop-down-ul > li:nth-child(1) {
+
+.layout-tabs-drop-down-ul>li:nth-child(1) {
     margin-left: 0px;
-    }
+}
 
 // .ant-menu-item-selected .menu-item-icon {
-//     // color: #2563EB ;
+//     color: #2563EB;
+// }
+
+// .ant-menu-submenu-selected .menu-item-icon {
+//     color: #2563EB;
 // }
 
 .layout-tabs-drop-down-ul .ant-menu-item {
@@ -69,5 +34,5 @@
     padding-right: 0px;
     margin-left: 20px;
     margin-right: 20px;
-    border-bottom: 2px solid transparent ;
+    border-bottom: 2px solid transparent;
 }
