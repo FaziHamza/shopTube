@@ -67,7 +67,6 @@ export class AppSideMenuComponent implements OnInit {
   // }
 
   setHovered(value: any, event: any) {
-    debugger
     event.stopPropagation();
     if(!value){
       document.documentElement.style.setProperty('--my-color1', this.selectedTheme['hoverBgColor']);
