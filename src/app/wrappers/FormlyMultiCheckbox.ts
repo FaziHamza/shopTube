@@ -6,8 +6,8 @@ import { DataSharedService } from 'src/app/services/data-shared.service';
   selector: 'st-formly-field-ng-search',
   template: `
   <div [ngClass]="to['additionalProperties']?.wrapper && to['additionalProperties']?.wrapper == 'floating_filled' || to['additionalProperties']?.wrapper == 'floating_outlined' || to['additionalProperties']?.wrapper == 'floating_standard' ? 'relative z-0' : 'checkBox'">
-  <nz-checkbox-wrapper class='flex flex-wrap' [ngClass]="to['additionalProperties']?.wrapper && to['additionalProperties']?.wrapper == 'floating_filled' || to['additionalProperties']?.wrapper == 'floating_outlined' || to['additionalProperties']?.wrapper == 'floating_standard' ? to['additionalProperties']?.floatFieldClass : ''"  *ngIf="list.length" (nzOnChange)="log($event , field)">
-  <label *ngFor="let item of list; let i=index" [class]="item?.width" nz-checkbox   [nzDisabled]='to.disabled'  [nzValue]="item.value" 
+  <nz-checkbox-wrapper class='flex flex-wrap' [ngClass]="to['additionalProperties']?.wrapper && to['additionalProperties']?.wrapper == 'floating_filled' || to['additionalProperties']?.wrapper == 'floating_outlined' || to['additionalProperties']?.wrapper == 'floating_standard' ? to['additionalProperties']?.floatFieldClass + ' custom-floating-checkbox' : ''"  *ngIf="list.length" (nzOnChange)="log($event , field)">
+  <label *ngFor="let item of list; let i=index" [class]="item?.width" nz-checkbox   [nzDisabled]='to.disabled'  [nzValue]="item.value"
         >{{item.label}}</label>
   </nz-checkbox-wrapper>
   <label [ngClass]="to['additionalProperties']?.floatLabelClass" *ngIf='list.length == 0' [formControl]="formControl" [nzDisabled]='to.disabled'  nz-checkbox  ></label>
