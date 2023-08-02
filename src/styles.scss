@@ -87,7 +87,7 @@ nz-time-picker {
   padding-top: 0.1px;
   background: white !important;
 
-  .ant-menu {
+  .ant-menu:first-child {
     padding: 6px;
   }
 
@@ -2056,7 +2056,7 @@ object {
 
 // .ant-select-selector {
 //   height: 31px;
-//   overflow-y: scroll;
+//   overflow-y: auto;
 // }
 .isActive {
   background-color: #bae7ff;
@@ -2074,7 +2074,7 @@ object {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    min-height: 60px !important;
+    min-height: 64px !important;
     align-items: center;
 
 
@@ -2115,7 +2115,7 @@ object {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    min-height: 60px !important;
+    min-height: 64px !important;
     align-items: flex-start !important;
 
     .menu-item-icon,
@@ -2150,7 +2150,15 @@ object {
   }
 }
 
+.rtlMenu.compact-sidebar-right .ant-menu-submenu .ant-menu.ant-menu-sub {
+  padding-right: 0px !important;
+  padding-left: 15px !important;
+}
+
 .compact-sidebar-right {
+  .colapsed-menu-title {
+    margin: 0px !important;
+  }
 
   .menu-title {
     .menu-item-icon {
@@ -2177,7 +2185,7 @@ object {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    min-height: 60px !important;
+    min-height: 64px !important;
     align-items: flex-end !important;
 
     .menu-item-icon,
@@ -2250,7 +2258,7 @@ object {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    min-height: 60px !important;
+    min-height: 64px !important;
     align-items: flex-end !important;
 
     .menu-item-icon,
@@ -2323,12 +2331,12 @@ object {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    min-height: 60px !important;
+    min-height: 64px !important;
     align-items: flex-end !important;
 
     .menu-item-icon,
     .sidenav-title {
-      height: 25px !important;
+      height: 30px !important;
       line-height: 25px !important;
       margin-left: 0px !important;
     }
@@ -2397,7 +2405,7 @@ object {
       display: flex;
       flex-direction: column;
       justify-content: center;
-      min-height: 60px !important;
+      min-height: 64px !important;
       align-items: flex-end !important;
 
       .menu-item-icon,
@@ -2521,7 +2529,7 @@ object {
   // }
 
   // .ant-menu.ant-menu-inline-collapsed {
-  //   overflow-y: scroll;
+  //   overflow-y: auto;
   // }
 
   .menu-title {
@@ -2813,7 +2821,7 @@ object {
   width: 64px;
   // .vertical-sidebar {
   //   height: calc(100vh - 64px);
-  //   overflow-y: scroll;
+  //   overflow-y: auto;
   //   overflow-x: hidden;
 
   // }
@@ -2821,14 +2829,14 @@ object {
   .ant-menu.ant-menu-root {
     width: 100% !important;
     height: calc(100vh - 50px);
-    overflow-y: scroll;
+    overflow-y: auto;
     overflow-x: hidden;
   }
 
   .ant-menu.ant-menu-horizontal {
     width: 100% !important;
     height: auto !important;
-    overflow-y: scroll;
+    overflow-y: auto;
     overflow-x: hidden;
   }
 }
@@ -3016,9 +3024,12 @@ object {
 
   .ant-menu-item,
   .ant-menu-submenu {
-    padding: 0px 16px !important;
+    // padding: 0px 16px !important;
     width: 100%;
-    padding-left: 16px !important;
+
+    .ant-menu-submenu-title {
+      padding-left: 16px !important;
+    }
   }
 
   .ant-menu-submenu-title {
@@ -3356,6 +3367,7 @@ object {
     }
 
     .dynamic-menu {
+
       .ant-menu-item:hover,
       .ant-menu-submenu-title:hover {
         background: var(--my-color1) !important;
@@ -3367,16 +3379,17 @@ object {
         }
       }
     }
-    .ant-menu-item:hover,
-      .ant-menu-submenu-title:hover {
-        background: $main !important;
 
-        a,
-        i,
-        span {
-          color: white;
-        }
+    .ant-menu-item:hover,
+    .ant-menu-submenu-title:hover {
+      background: $main !important;
+
+      a,
+      i,
+      span {
+        color: white;
       }
+    }
 
 
     .ant-menu-vertical {
@@ -3386,13 +3399,17 @@ object {
         justify-content: center;
         align-items: center;
         display: flex;
-        margin: 10px 0px !important;
+        margin: 5px 0px !important;
 
         .colapsed-menu-title {
           display: none !important;
         }
 
         i {
+          font-size: 20px !important;
+        }
+
+        .anticon {
           font-size: 20px !important;
         }
       }
@@ -3531,14 +3548,14 @@ object {
     .ant-menu.ant-menu-root {
       width: 100% !important;
       height: calc(100vh - 50px);
-      overflow-y: scroll;
+      overflow-y: auto;
       overflow-x: hidden;
     }
 
     .ant-menu.ant-menu-horizontal {
       width: 100% !important;
       height: auto !important;
-      overflow-y: scroll;
+      overflow-y: auto;
       overflow-x: hidden;
     }
   }
@@ -3548,9 +3565,9 @@ object {
     max-width: 60px !important;
     min-width: 60px !important;
 
-    .ant-menu {
-      padding: 0px 4px 0px 10px;
-    }
+    // .ant-menu {
+    //   padding: 0px 4px 0px 10px;
+    // }
   }
 
   .top-action-bar {
@@ -3711,7 +3728,7 @@ object {
 
     .b-content-body {
       height: 100%;
-      overflow-y: scroll !important;
+      overflow-y: auto !important;
       width: calc(100% - 250px);
       height: calc(100vh - 165px);
 
@@ -3751,7 +3768,7 @@ object {
   }
 
   .b-tree {
-    overflow-y: scroll;
+    overflow-y: auto;
     height: calc(100vh - 205px);
     padding: 12px;
 
@@ -3785,7 +3802,7 @@ object {
   .two-column-second-column {
     width: 100% !important;
     height: calc(100vh - 64px);
-    // overflow-y: scroll;
+    // overflow-y: auto;
     overflow-x: hidden;
   }
 
@@ -4301,7 +4318,7 @@ object {
 
 // .main-layout {
 //   // height: calc(100vh - 65px);
-//   // overflow-y: scroll;
+//   // overflow-y: auto;
 //   // padding-bottom: 20px;
 // }
 
@@ -4326,6 +4343,7 @@ object {
   }
 
   .ant-layout-content {
+    margin: 0px !important;
     width: 100% !important;
   }
 }
@@ -4333,7 +4351,7 @@ object {
 .user-builder-layout {
   .ant-layout-content {
     position: relative;
-    overflow-y: scroll;
+    overflow-y: auto;
 
     .dynamic-footer {
       position: absolute;
@@ -4881,3 +4899,53 @@ nz-content {
 // .ant-menu-submenu-title:hover {
 //   background: var(--my-color1) !important;
 // }
+
+.rtlMenu.compact-sidebar-right .ant-menu:first-child {
+  padding: 6px 6px 0px 0px !important;
+}
+
+.ant-layout-sider-collapsed .compact-sidebar-right ul li {
+  height: 50px !important;
+  min-height: 50px !important;
+}
+
+.ant-layout-sider-collapsed .compact-sidebar-right .ant-menu-submenu-title {
+  height: 50px !important;
+  min-height: 50px !important;
+}
+
+// .ant-menu-submenu {
+//   .ant-menu-submenu-title {
+//     background-color: red;
+//   }
+// }
+
+.main-layout2 {
+  .ant-layout-content {
+    margin-right: 0px !important;
+  }
+}
+
+.rtl-layout2 {
+  .ant-layout-content {
+    margin-left: 0px !important;
+  }
+}
+
+.ant-menu-vertical {
+
+  .ant-menu-item:hover,
+  .ant-menu-submenu-title:hover {
+    background: $main !important;
+    border-radius: 5px !important;
+
+    i {
+      color: white !important;
+    }
+  }
+}
+
+.ant-menu-horizontal:not(.ant-menu-dark)>.ant-menu-submenu {
+  padding: 0px;
+
+}
