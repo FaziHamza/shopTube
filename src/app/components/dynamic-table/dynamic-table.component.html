@@ -50,7 +50,7 @@
           <ng-container
             *ngFor="let header of data['tableKey']; let index = index">
             <td [nzEllipsis]="true" class="5"
-              *ngIf="header.name != 'description' && header.name != 'headerButton' && header.name != 'footerButton' && header.name != 'expandable' && header.name != 'checked'
+              *ngIf="header.name != 'headerButton' && header.name != 'footerButton' && header.name != 'expandable' && header.name != 'checked'
             && header.name != 'expand' && header.name !='children' && header.name != 'defaultValue' && header.name != 'children'">
               <div class="1"
                 *ngIf="tableHeaders[index]?.dataType !='select' && tableHeaders[index]?.dataType !='image' && !isMyDataArray(item[header.name])">

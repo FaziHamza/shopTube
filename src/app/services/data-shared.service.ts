@@ -8,6 +8,7 @@ export class DataSharedService {
   // activeTabIndex = 0;
   private languageChange: BehaviorSubject<string> = new BehaviorSubject<string>('');
   public change: Subject<{ event: any; field: any}> = new Subject();
+  public eventChange: Subject<any> = new Subject();
   public gridData: Subject<{ event: any; field: any}> = new Subject();
   public urlModule: Subject<{ aplication?: any ; module? : any}> = new Subject();
   public currentDepartment: Subject<any> = new Subject();
@@ -55,6 +56,10 @@ export class DataSharedService {
   onChange(event: any, field: any) {
     this.change.next({ event, field });
   }
+  onEventChange(event: any) {
+    this.eventChange.next(event);
+  }
+
   saveGridData(data: any) {
     this.gridData.next(data );
   }

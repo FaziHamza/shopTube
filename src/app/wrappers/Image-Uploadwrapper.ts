@@ -1,5 +1,6 @@
 import { Component, ViewChild, ElementRef } from '@angular/core';
 import { FieldTypeConfig, FieldWrapper } from '@ngx-formly/core';
+import { DataSharedService } from '../services/data-shared.service';
 
 @Component({
   selector: 'formly-field-image-upload',
@@ -65,7 +66,9 @@ import { FieldTypeConfig, FieldWrapper } from '@ngx-formly/core';
 export class FormlyFieldImageUploadComponent extends FieldWrapper<FieldTypeConfig> {
   @ViewChild('fileInput') fileInput!: ElementRef<HTMLInputElement>;
   imageUrl: any;
-
+  constructor(private sharedService: DataSharedService) {
+    super();
+  }
   onFileSelected(event: any) {
     const file: File = event.target.files[0];
     this.uploadFile(file);
@@ -87,7 +90,9 @@ export class FormlyFieldImageUploadComponent extends FieldWrapper<FieldTypeConfi
               }
             }) || '{}'
           );
-          this.formControl.setValue(JSON.stringify(currentData));
+          // this.formControl.setValue(JSON.stringify(currentData));
+          this.sharedService.onChange(JSON.stringify(currentData), this.field);
+
         };
 
         reader.readAsText(file); // Read the JSON file as text
@@ -96,7 +101,8 @@ export class FormlyFieldImageUploadComponent extends FieldWrapper<FieldTypeConfi
         reader.readAsDataURL(file); // Read other types of files as data URL (base64)
         reader.onload = () => {
           const base64Data = reader.result as string;
-          this.formControl.setValue(base64Data);
+          // this.formControl.setValue(base64Data);
+          this.sharedService.onChange(base64Data, this.field);
         };
       }
 

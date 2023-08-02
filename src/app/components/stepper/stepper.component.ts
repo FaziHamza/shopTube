@@ -7,10 +7,11 @@ import { Component, OnInit, Input } from '@angular/core';
 })
 export class StepperComponent implements OnInit {
   @Input() step: any;
-  
+  @Input() formlyModel: any;
+  @Input() form: any;
   current = 0;
   ngOnInt(){
-    
+
     this.step;
   }
 

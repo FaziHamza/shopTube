@@ -49,6 +49,11 @@ export class ApplicationService {
           api.includes('http') ? api : this.nestUrl + api , modal
         );
     }
+    getBackendCommonAPI(api: string): Observable<any> {
+      return this.http.get<any>(
+        api.includes('http') ? api : this.nestUrl + api
+      );
+  }
     updateNestCommonAPI(api: string, id: any, modal: any): Observable<any[]> {
         return this.http.put<any[]>(
             this.nestUrl + api + `/${id}`, modal

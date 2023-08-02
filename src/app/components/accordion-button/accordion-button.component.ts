@@ -8,13 +8,13 @@ import { FormGroup } from '@angular/forms';
 })
 export class AccordionButtonComponent implements OnInit {
   @Input() accordionData: any;
-  @Input() formlyModel : any;
+  @Input() formlyModel: any;
+  @Input() form: any;
   expandIconPosition: any = "left";
   expand: any = false;
   constructor(private cd: ChangeDetectorRef) { }
   ngOnInit(): void {
   }
-  form = new FormGroup({});
   submit() {
     // this.commonChartService.submit();
     this.cd.detectChanges();

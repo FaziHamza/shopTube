@@ -7,7 +7,8 @@ import { Component, Input, OnInit } from '@angular/core';
 })
 export class ModalComponent implements OnInit {
   @Input() modalData: any;
-  @Input() formlyModel : any;
+  @Input() formlyModel: any;
+  @Input() form: any;
   isVisible = false;
   constructor() { }
 

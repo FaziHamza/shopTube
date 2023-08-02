@@ -1,3 +1,4 @@
+
 <div
     [class]="'card-content ' + (mainData['rowClass'] ? mainData['rowClass'] : 'flex flex-wrap')">
     <div class="{{!item.hideExpression   ? item.className : ''}}"
@@ -13,7 +14,6 @@
                         [visible]="isShowContextMenu">Comment</ng-template>
                 </context-menu>
                 <st-mains [item]="item" [formlyModel]="formlyModel"
-                    (notifyDbClick)="updateModel($event)"
                     [screenName]="screenName" [screenId]="screenId"
                     [isLast]='isLast' [form]="form"
                     *ngIf="item"></st-mains>
@@ -21,7 +21,7 @@
             <span class="tooltip-icon"
                 *ngIf="item?.tooltipPosition ==  undefined || item?.tooltipPosition == 'top'">
                 <span *ngIf="item.type != 'progressBar' && item.type != 'alert'
-                    && item.type != 'switch' && item.type != 'rangeSlider' && item.type != 'editor_js' && item?.formlyType != 'input' && item.tooltip 
+                    && item.type != 'switch' && item.type != 'rangeSlider' && item.type != 'editor_js' && item?.formlyType != 'input' && item.tooltip
                     && !item?.tooltipWithoutIcon || false" nz-tooltip
                     [nzTooltipTitle]="item.tooltip">
                     <span nz-icon
@@ -31,9 +31,7 @@
                 </span>
             </span>
             <div>
-
                 <st-mains [item]="item" [isLast]="isLast" [form]="form"
-                    (notifyDbClick)="updateModel($event)"
                     [screenName]="screenName" [screenId]="screenId"
                     *ngIf="item && !isShowContextMenu"></st-mains>
 

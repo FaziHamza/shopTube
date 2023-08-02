@@ -19,7 +19,7 @@ export class SectionsComponent implements OnInit {
   @Input() screenId: any;
   @Input() resData: any;
   @Input() formlyModel: any;
-  form: any = new FormGroup({});
+  @Input() form: any;
   @Output() traverseChangeEmit: EventEmitter<any> = new EventEmitter();
   @Output() sectionRepeatEmit: EventEmitter<any> = new EventEmitter();
   @Output() notify: EventEmitter<any> = new EventEmitter();
@@ -59,7 +59,7 @@ export class SectionsComponent implements OnInit {
               if (this.dataModel.hasOwnProperty(key)) {
                 const value = this.getValueFromNestedObject(key, this.formlyModel);
                 if (value !== undefined) {
-                  this.dataModel[key] = value;
+                  this.dataModel[key] =  this.dataModel[key] ? this.dataModel[key] : value;
                 }
               }
             }
@@ -179,90 +179,116 @@ export class SectionsComponent implements OnInit {
   saveData1(data: any) {
     // this.submit();
     let oneModelData = this.convertModel(this.dataModel);
-
-    const empData = {
-      screenId: this.screenName,
-      modalData: oneModelData
-    };
-
-    console.log(empData);
-    const tableNames = new Set();
-
-    for (const key in empData.modalData) {
-      const tableName = key.split('.')[0];
-      tableNames.add(tableName);
-    }
-
-    const Arraytables = Array.from(tableNames)
-    const remainingTables = Arraytables.slice(1);
-    let id;
-    for (const key in empData.modalData) {
-      if (empData.modalData.hasOwnProperty(key) &&
-        key.endsWith('.id') &&
-        empData.modalData[key] !== "") {
-        id = key;
-      }
-    }
-    if (id == undefined) {
+    if (Object.keys(oneModelData).length > 0){
       let findClickApi = data.appConfigurableEvent.filter((item: any) => item.actions.some((action: any) => action.method === 'post' && action.actionType == 'api'));
-      let relationIds: any = remainingTables.map(table => `${Arraytables[0]}_id`);
-      relationIds = relationIds.toString();
-      const tables = (Array.from(tableNames)).toString();
-      console.log(tables);
-      if (Object.keys(empData.modalData).length > 0)
-        this.applicationServices.addBackendCommonApi(findClickApi.length > 0 ? findClickApi?.[0].actions?.[0]?.url : 'knex-query', empData).subscribe({
-          next: (res) => {
-            if (res[0]?.error)
-              this.toastr.error(res[0]?.error, { nzDuration: 3000 });
-            else {
-              this.toastr.success("Save Successfully", { nzDuration: 3000 });
-              // this.setInternalValuesEmpty(this.dataModel)
-              // this.employeeService.getSQLDatabaseTable(`knex-query?tables=${tables}&relationIds=id,${relationIds.toString()}`).subscribe({
-              this.getFromQuery(data);
-            }
-          },
-          error: (err) => {
-            console.error(err);
-            this.toastr.error("An error occurred", { nzDuration: 3000 });
-          }
-        });
-    } else {
-      debugger
-      let findClickApi = data.appConfigurableEvent.filter((item: any) => item.actions.some((action: any) => action.method === 'put' && action.actionType == 'api'));
-      if (this.dataModel) {
-        // this.form.get(dynamicPropertyName);
-        const model = {
-          screenId: this.screenName,
-          postType: 'put',
-          modalData: empData.modalData
-        };
+
+      let  empData : any = {} ;
+      if(findClickApi?.[0].actions?.[0]?.url?.includes('/cp') || findClickApi?.[0].actions?.[0]?.url?.includes('/market-place')){
+        let mainTableName = "";
         const removePrefix = (data: Record<string, any>): Record<string, any> => {
           const newData: Record<string, any> = {};
           for (const key in data) {
             const lastDotIndex = key.lastIndexOf('.');
             const newKey = lastDotIndex !== -1 ? key.substring(lastDotIndex + 1) : key;
             newData[newKey] = data[key];
+
+            if (lastDotIndex !== -1 && mainTableName === "") {
+              mainTableName = key.substring(0, lastDotIndex);
+            }
           }
           return newData;
         };
 
-        const result = {
-          ...model,
-          modalData: removePrefix(model.modalData)
+        let result = removePrefix(oneModelData);
+        result['id']='';
+        if(findClickApi?.[0].actions?.[0]?.url?.includes('/market-place')){
+          empData = result;
+        }else{
+          empData[mainTableName] = result;
+        }
+      }else{
+        empData = {
+          screenId: this.screenName,
+          modalData: oneModelData
         };
-        if (Object.keys(empData.modalData).length > 0)
-          this.applicationServices.addNestCommonAPI(findClickApi.length > 0 ? findClickApi?.[0].actions?.[0]?.url : 'knex-query/executeQuery', result).subscribe({
+      }
+
+
+      console.log(empData);
+      const tableNames = new Set();
+
+      for (const key in empData.modalData) {
+        const tableName = key.split('.')[0];
+        tableNames.add(tableName);
+      }
+
+      const Arraytables = Array.from(tableNames)
+      const remainingTables = Arraytables.slice(1);
+      let id;
+      for (const key in empData?.modalData) {
+        if (empData.modalData.hasOwnProperty(key) &&
+          key.endsWith('.id') &&
+          empData.modalData[key] !== "") {
+          id = key;
+        }
+      }
+      if (id == undefined) {
+        let relationIds: any = remainingTables.map(table => `${Arraytables[0]}_id`);
+        relationIds = relationIds.toString();
+        // if (Object.keys(empData.modalData).length > 0)
+          this.applicationServices.addBackendCommonApi(findClickApi.length > 0 ? findClickApi?.[0].actions?.[0]?.url : 'knex-query', empData).subscribe({
             next: (res) => {
-              this.toastr.success("Update Successfully", { nzDuration: 3000 });
-              this.getFromQuery(data);
+              if (res[0]?.error)
+                this.toastr.error(res[0]?.error, { nzDuration: 3000 });
+              else {
+                this.toastr.success("Save Successfully", { nzDuration: 3000 });
+                // this.setInternalValuesEmpty(this.dataModel)
+                // this.employeeService.getSQLDatabaseTable(`knex-query?tables=${tables}&relationIds=id,${relationIds.toString()}`).subscribe({
+                this.getFromQuery(data);
+              }
             },
             error: (err) => {
               console.error(err);
               this.toastr.error("An error occurred", { nzDuration: 3000 });
             }
           });
+      } else {
+        let findClickApi = data.appConfigurableEvent.filter((item: any) => item.actions.some((action: any) => action.method === 'put' && action.actionType == 'api'));
+        if (this.dataModel) {
+          // this.form.get(dynamicPropertyName);
+          const model = {
+            screenId: this.screenName,
+            postType: 'put',
+            modalData: empData.modalData
+          };
+          const removePrefix = (data: Record<string, any>): Record<string, any> => {
+            const newData: Record<string, any> = {};
+            for (const key in data) {
+              const lastDotIndex = key.lastIndexOf('.');
+              const newKey = lastDotIndex !== -1 ? key.substring(lastDotIndex + 1) : key;
+              newData[newKey] = data[key];
+            }
+            return newData;
+          };
+
+          const result = {
+            ...model,
+            modalData: removePrefix(model.modalData)
+          };
+            this.applicationServices.addNestCommonAPI(findClickApi.length > 0 ? findClickApi?.[0].actions?.[0]?.url : 'knex-query/executeQuery', result).subscribe({
+              next: (res) => {
+                this.toastr.success("Update Successfully", { nzDuration: 3000 });
+                this.getFromQuery(data);
+              },
+              error: (err) => {
+                console.error(err);
+                this.toastr.error("An error occurred", { nzDuration: 3000 });
+              }
+            });
+        }
       }
     }
+
   }
   convertModel(model: any, parentKey = "") {
     const convertedModel: any = {};
@@ -271,8 +297,10 @@ export class SectionsComponent implements OnInit {
       if (model.hasOwnProperty(key)) {
         const value = model[key];
         const newKey = parentKey ? `${parentKey}.${key}` : key;
-
-        if (typeof value === 'object' && value !== null) {
+        if (Array.isArray(value)) {
+          convertedModel[newKey] = value.join(',');
+        }
+        else if (typeof value === 'object' && value !== null) {
           Object.assign(convertedModel, this.convertModel(value, newKey));
         } else {
           convertedModel[newKey] = value;
@@ -293,37 +321,39 @@ export class SectionsComponent implements OnInit {
       if (findClickApi.length > 0) {
         let tableData = this.findObjectByKey(this.sections, findClickApi?.[0].actions?.[0]?.elementName);
         if (tableData) {
-          this.employeeService.getSQLDatabaseTable(`knex-query/${this.screenName}`).subscribe({
+          this.employeeService.getSQLDatabaseTable(findClickApi.length > 0 ? findClickApi?.[0].actions?.[0]?.url : `knex-query/${this.screenName}`).subscribe({
             next: (res) => {
               if (tableData && res) {
-                let saveForm = JSON.parse(JSON.stringify(res[0]));
-                const firstObjectKeys = Object.keys(saveForm);
-                let tableKey = firstObjectKeys.map(key => ({ name: key }));
-                let obj = firstObjectKeys.map(key => ({ name: key, key: key }));
-                tableData.tableData = [];
-                saveForm.id = tableData.tableData.length + 1;
-                res.forEach((element: any) => {
-                  element.id = (element?.id)?.toString();
-                  tableData.tableData?.push(element);
-                });
-                if (tableData.tableHeaders.length == 0) {
-                  tableData.tableHeaders = obj;
-                  tableData['tableKey'] = tableKey
-                }
-                else {
-                  if (JSON.stringify(tableData['tableKey']) != JSON.stringify(tableKey)) {
-                    const updatedData = tableData.tableHeaders.filter((updatedItem: any) => {
-                      const name = updatedItem.name;
-                      return !tableKey.some((headerItem: any) => headerItem.name === name);
-                    });
-                    if (updatedData.length > 0) {
-                      tableData.tableHeaders.map((item: any) => {
-                        const newItem = { ...item };
-                        for (let i = 0; i < updatedData.length; i++) {
-                          newItem[updatedData[i].key] = "";
-                        }
-                        return newItem;
+                if(res.length > 0){
+                  let saveForm = JSON.parse(JSON.stringify(res[0]));
+                  const firstObjectKeys = Object.keys(saveForm);
+                  let tableKey = firstObjectKeys.map(key => ({ name: key }));
+                  let obj = firstObjectKeys.map(key => ({ name: key, key: key }));
+                  tableData.tableData = [];
+                  saveForm.id = tableData.tableData.length + 1;
+                  res.forEach((element: any) => {
+                    element.id = (element?.id)?.toString();
+                    tableData.tableData?.push(element);
+                  });
+                  if (tableData.tableHeaders.length == 0) {
+                    tableData.tableHeaders = obj;
+                    tableData['tableKey'] = tableKey
+                  }
+                  else {
+                    if (JSON.stringify(tableData['tableKey']) != JSON.stringify(tableKey)) {
+                      const updatedData = tableData.tableHeaders.filter((updatedItem: any) => {
+                        const name = updatedItem.name;
+                        return !tableKey.some((headerItem: any) => headerItem.name === name);
                       });
+                      if (updatedData.length > 0) {
+                        tableData.tableHeaders.map((item: any) => {
+                          const newItem = { ...item };
+                          for (let i = 0; i < updatedData.length; i++) {
+                            newItem[updatedData[i].key] = "";
+                          }
+                          return newItem;
+                        });
+                      }
                     }
                   }
                 }

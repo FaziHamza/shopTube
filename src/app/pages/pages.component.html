@@ -9,9 +9,9 @@
           [visible]="true">Copy
           Page</ng-template>
       </context-menu>
-      <st-page [resData]="resData"></st-page>
+      <st-page [resData]="resData" [form]="form"></st-page>
     </span>
-    <st-page [resData]="resData" *ngIf="!isPageContextShow"></st-page>
+    <st-page [resData]="resData" *ngIf="!isPageContextShow" [form]="form"></st-page>
 
     <!-- SECTION -->
     <div class="flex flex-wrap"
@@ -31,13 +31,13 @@
                 [visible]="true">Copy
                 Section</ng-template>
             </context-menu>
-            <st-sections [resData]="resData" [sections]="sections"
+            <st-sections [resData]="resData" [sections]="sections" [form]="form"
               [screenName]="screenName" [screenId]="screenId"
               [formlyModel]="formlyModel"
               (traverseChangeEmit)="traverseAndChange($event)"
               (sectionRepeatEmit)="sectionRepeat($event)"></st-sections>
           </span>
-          <st-sections [resData]="resData" [screenName]="screenName"
+          <st-sections [resData]="resData" [screenName]="screenName" [form]="form"
             [sections]="sections" [screenId]="screenId"
             [formlyModel]="formlyModel" *ngIf="!isPageContextShow"
             (traverseChangeEmit)="traverseAndChange($event)"
