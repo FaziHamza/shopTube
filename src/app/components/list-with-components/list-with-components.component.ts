@@ -12,11 +12,12 @@ import { catchError, takeUntil } from 'rxjs/operators';
 })
 export class ListWithComponentsComponent implements OnInit {
   @Input() listData : any;
-  @Input() formlyModel : any;
+  @Input() formlyModel: any;
+  @Input() form: any;
   constructor() { }
 
   ngOnInit(): void {
-    
+
   }
 
 }

@@ -26,7 +26,8 @@ import { ApplicationService } from '../services/application.service';
 export class MainComponent implements OnInit {
   @Input() mainData: any = [];
   @Input() formlyModel: any;
-  form: any = new FormGroup({});
+  @Input()  form: any;
+  // form: any = new FormGroup({});
   model: any = {};
   options: FormlyFormOptions = {};
   selectedTags: any[] = [];
@@ -243,13 +244,6 @@ export class MainComponent implements OnInit {
       }
     }
   }
-  updateModel(data: any) {
-    const dynamicPropertyName = Object.keys(this.form.value)[0]; // Assuming the dynamic property name is the first property in this.form.value
-    if (this.form.get(dynamicPropertyName)) {
-      this.form.get(dynamicPropertyName)?.patchValue(data);
-    }
-  }
-
   saveData(data: any) {
     if (data.isSubmit) {
       let oneModelData = this.convertModel(this.form.value);

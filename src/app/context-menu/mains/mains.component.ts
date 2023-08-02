@@ -15,7 +15,6 @@ export class MainsComponent implements OnInit {
   @Input() screenName: any;
   @Input() screenId: any;
   @Output() notify: EventEmitter<any> = new EventEmitter();
-  @Output() notifyDbClick: EventEmitter<any> = new EventEmitter();
   menu: boolean = false;
   constructor(private nzImageService: NzImageService, public dataSharedService: DataSharedService) { }
 
@@ -42,10 +41,7 @@ export class MainsComponent implements OnInit {
   saveData(data: any) {
     this.notify.emit(data);
   }
-  updateModel(data: any) {
 
-    this.notifyDbClick.emit(data);
-  }
   handleIndexChange(e: number): void {
     console.log(e);
   }

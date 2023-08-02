@@ -15,13 +15,13 @@ import { EmployeeService } from 'src/app/services/employee.service';
 export class DynamicTableComponent implements OnInit {
   @Input() itemData: any;
   @Input() tableId: any;
+  @Input() form: any;
   @Input() checkType: boolean;
-  @Input() tableData: any[]= [];
-  @Input() tableHeaders: any[]= [];
+  @Input() tableData: any[] = [];
+  @Input() tableHeaders: any[] = [];
   @Input() data: any;
   editId: string | null = null;
   @Input() screenName: any;
-  @Output() notifyDbClick: EventEmitter<any> = new EventEmitter();
   GridType: string = '';
   // key: any;
   screenNameaa: any;
@@ -64,8 +64,13 @@ export class DynamicTableComponent implements OnInit {
     };
   }
   updateModel(data: any) {
-    if(this.data.doubleClick != false)
-        this.notifyDbClick.emit(data);
+    if (this.data.doubleClick != false) {
+      const dynamicPropertyName = Object.keys(this.form.value)[0]; // Assuming the dynamic property name is the first property in this.form.value
+      if (this.form.get(dynamicPropertyName)) {
+        this.form.get(dynamicPropertyName)?.patchValue(data);
+      }
+      // this._dataSharedService.onupdateModel(data);
+    }
   }
   onClickRow(api: string, item: any) {
     if (api) {
@@ -392,14 +397,13 @@ export class DynamicTableComponent implements OnInit {
 
   addRow(): void {
     const id = this.tableData.length - 1;
-    if(id == -1){
+    if (id == -1) {
       let row = {
-        id:1,name:'',
+        id: 1, name: '',
       }
       this.tableData = [...this.tableData, row];
     }
-    else
-    {
+    else {
       const newRow = JSON.parse(JSON.stringify(this.tableData[0]));
       newRow["id"] = this.tableData[id].id + 1;
       this.tableData = [...this.tableData, newRow];
@@ -541,7 +545,7 @@ export class DynamicTableComponent implements OnInit {
   }
   save() {
     this._dataSharedService.setData(this.tableData);
-    if(this.data.doubleClick == false)
+    if (this.data.doubleClick == false)
       this._dataSharedService.saveGridData(this.tableData);
     alert("Data save");
   }

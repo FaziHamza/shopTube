@@ -35,7 +35,7 @@
     </ng-container>
 </nz-steps> -->
 <div class="pt-2">
-    <st-main [mainData]="step.children[current].children"></st-main>
+    <st-main [mainData]="step.children[current].children"  [formlyModel]="formlyModel" [form]="form"></st-main>
 </div>
 <div class="steps-action">
     <button nz-button nzType="default" (click)="pre()" *ngIf="current > 0">

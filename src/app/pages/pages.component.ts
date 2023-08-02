@@ -32,7 +32,8 @@ export class PagesComponent implements OnInit {
       if (event && field && this.router.url.includes('/pages')) {
 
         if (this.formlyModel) {
-          this.formlyModel[field.key] = event
+          this.formlyModel[field.key] = event;
+          console.log("key value : " + event);
           this.checkConditionUIRule(field, event);
         }
       }
@@ -1864,4 +1865,5 @@ export class PagesComponent implements OnInit {
       })
     }
   }
+
 }

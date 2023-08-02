@@ -19,7 +19,7 @@ export class SectionsComponent implements OnInit {
   @Input() screenId: any;
   @Input() resData: any;
   @Input() formlyModel: any;
-  form: any = new FormGroup({});
+  @Input() form: any;
   @Output() traverseChangeEmit: EventEmitter<any> = new EventEmitter();
   @Output() sectionRepeatEmit: EventEmitter<any> = new EventEmitter();
   @Output() notify: EventEmitter<any> = new EventEmitter();
@@ -297,8 +297,10 @@ export class SectionsComponent implements OnInit {
       if (model.hasOwnProperty(key)) {
         const value = model[key];
         const newKey = parentKey ? `${parentKey}.${key}` : key;
-
-        if (typeof value === 'object' && value !== null) {
+        if (Array.isArray(value)) {
+          convertedModel[newKey] = value.join(',');
+        }
+        else if (typeof value === 'object' && value !== null) {
           Object.assign(convertedModel, this.convertModel(value, newKey));
         } else {
           convertedModel[newKey] = value;
@@ -322,34 +324,36 @@ export class SectionsComponent implements OnInit {
           this.employeeService.getSQLDatabaseTable(findClickApi.length > 0 ? findClickApi?.[0].actions?.[0]?.url : `knex-query/${this.screenName}`).subscribe({
             next: (res) => {
               if (tableData && res) {
-                let saveForm = JSON.parse(JSON.stringify(res[0]));
-                const firstObjectKeys = Object.keys(saveForm);
-                let tableKey = firstObjectKeys.map(key => ({ name: key }));
-                let obj = firstObjectKeys.map(key => ({ name: key, key: key }));
-                tableData.tableData = [];
-                saveForm.id = tableData.tableData.length + 1;
-                res.forEach((element: any) => {
-                  element.id = (element?.id)?.toString();
-                  tableData.tableData?.push(element);
-                });
-                if (tableData.tableHeaders.length == 0) {
-                  tableData.tableHeaders = obj;
-                  tableData['tableKey'] = tableKey
-                }
-                else {
-                  if (JSON.stringify(tableData['tableKey']) != JSON.stringify(tableKey)) {
-                    const updatedData = tableData.tableHeaders.filter((updatedItem: any) => {
-                      const name = updatedItem.name;
-                      return !tableKey.some((headerItem: any) => headerItem.name === name);
-                    });
-                    if (updatedData.length > 0) {
-                      tableData.tableHeaders.map((item: any) => {
-                        const newItem = { ...item };
-                        for (let i = 0; i < updatedData.length; i++) {
-                          newItem[updatedData[i].key] = "";
-                        }
-                        return newItem;
+                if(res.length > 0){
+                  let saveForm = JSON.parse(JSON.stringify(res[0]));
+                  const firstObjectKeys = Object.keys(saveForm);
+                  let tableKey = firstObjectKeys.map(key => ({ name: key }));
+                  let obj = firstObjectKeys.map(key => ({ name: key, key: key }));
+                  tableData.tableData = [];
+                  saveForm.id = tableData.tableData.length + 1;
+                  res.forEach((element: any) => {
+                    element.id = (element?.id)?.toString();
+                    tableData.tableData?.push(element);
+                  });
+                  if (tableData.tableHeaders.length == 0) {
+                    tableData.tableHeaders = obj;
+                    tableData['tableKey'] = tableKey
+                  }
+                  else {
+                    if (JSON.stringify(tableData['tableKey']) != JSON.stringify(tableKey)) {
+                      const updatedData = tableData.tableHeaders.filter((updatedItem: any) => {
+                        const name = updatedItem.name;
+                        return !tableKey.some((headerItem: any) => headerItem.name === name);
                       });
+                      if (updatedData.length > 0) {
+                        tableData.tableHeaders.map((item: any) => {
+                          const newItem = { ...item };
+                          for (let i = 0; i < updatedData.length; i++) {
+                            newItem[updatedData[i].key] = "";
+                          }
+                          return newItem;
+                        });
+                      }
                     }
                   }
                 }

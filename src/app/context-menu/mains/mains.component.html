@@ -100,7 +100,7 @@
         <div *ngIf="item.type =='cardWithComponents'; else sixteen">
             <nz-ribbon *ngIf="item?.badgeType == 'ribbon'" [nzColor]="item.dot_ribbon_color"
                 [nzText]="item?.badgeRibbonText">
-                <st-card-with-components [item]="item" [formlyModel]="formlyModel"></st-card-with-components>
+                <st-card-with-components [item]="item" [form]="form"  [formlyModel]="formlyModel"></st-card-with-components>
             </nz-ribbon>
             <!-- <nz-badge *ngIf="item?.badgeType == 'count'" [nzCount]="item?.badgeCount">
               <st-card-with-components [item]="item"></st-card-with-components>
@@ -114,8 +114,8 @@
     </ng-template>
     <ng-template #sixteen>
         <dynamic-table [tableId]='item.tableId' *ngIf="item.type =='gridList';else seventeen" [checkType]="false"
-            [tableData]='item.tableData' [tableHeaders]='item.tableHeaders' [formlyModel]="formlyModel"
-            [screenId]="screenId" [data]="item" (notifyDbClick)="updateModel($event)"
+            [tableData]='item.tableData' [tableHeaders]='item.tableHeaders' [formlyModel]="formlyModel" [form]="form"
+            [screenId]="screenId" [data]="item"
             [screenName]="screenName"></dynamic-table>
     </ng-template>
     <ng-template #seventeen>
@@ -168,7 +168,7 @@
         </div>
     </ng-template>
     <ng-template #twentyseven>
-        <st-tabs [tabs]="item" *ngIf="item.type == 'mainTab' else twentyeight"></st-tabs>
+        <st-tabs [tabs]="item" [form]="form" [formlyModel]="formlyModel" *ngIf="item.type == 'mainTab' else twentyeight"></st-tabs>
     </ng-template>
     <ng-template #twentyeight>
         <st-timeline-builder [timelineData]="item"
@@ -194,11 +194,11 @@
 
     </ng-template>
     <ng-template #thirtyOne>
-        <st-stepper [step]="item" *ngIf="item.type == 'mainStep'; else thirtyTwo">
+        <st-stepper [step]="item" [form]="form" [formlyModel]="formlyModel" *ngIf="item.type == 'mainStep'; else thirtyTwo">
         </st-stepper>
     </ng-template>
     <ng-template #thirtyTwo>
-        <st-accordion-button [accordionData]="item" [formlyModel]="formlyModel"
+        <st-accordion-button [accordionData]="item"  [form]="form" [formlyModel]="formlyModel"
             *ngIf="item.type == 'accordionButton'; else thirtyThree"></st-accordion-button>
     </ng-template>
     <ng-template #thirtyThree>
@@ -328,7 +328,7 @@
         <st-rate [rateData]="item" *ngIf="item.type == 'rate' ; else fiftySeven"></st-rate>
     </ng-template>
     <ng-template #fiftySeven>
-        <st-modal [modalData]="item" [formlyModel]="formlyModel"
+        <st-modal [modalData]="item" [formlyModel]="formlyModel" [form]="form"
             *ngIf="item.type == 'modal' ; else fiftyEight"></st-modal>
     </ng-template>
     <ng-template #fiftyEight>
@@ -441,7 +441,7 @@
             'background-repeat': 'no-repeat',
             'background-size': '100% 100%',
             'overflow-y': (item.height && item.height !== 0) ? 'auto' : 'hidden'}">
-            <st-main [mainData]="item" [formlyModel]="formlyModel"></st-main>
+            <st-main [mainData]="item" [formlyModel]="formlyModel" [form]="form"></st-main>
         </div>
     </ng-template>
     <ng-template #eightySix>
@@ -472,7 +472,7 @@
     </ng-template>
     <ng-template #nintyOne>
         <st-list-with-components class="overflow-x-auto" *ngIf="item.type == 'listWithComponents' ; else nintyTwo"
-            [listData]="item" [formlyModel]="formlyModel"></st-list-with-components>
+            [listData]="item" [formlyModel]="formlyModel" [form]="form" ></st-list-with-components>
     </ng-template>
     <ng-template #nintyTwo>
         <st-tree-map *ngIf="item.type == 'treeMapChart' ; else nintyThree"

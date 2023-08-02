@@ -59,6 +59,7 @@ export class DataSharedService {
   onEventChange(event: any) {
     this.eventChange.next(event);
   }
+
   saveGridData(data: any) {
     this.gridData.next(data );
   }
