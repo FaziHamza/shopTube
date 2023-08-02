@@ -2613,6 +2613,9 @@ export class BuilderComponent implements OnInit {
       case 'treeSelect':
         this.fieldData.formData = _formFieldData.treeSelectFields;
         break;
+      case 'headerLogo':
+        this.fieldData.formData = _formFieldData.headerLogoFields;
+        break;
       case 'treeView':
         this.fieldData.formData = _formFieldData.treeviewFields;
         break;

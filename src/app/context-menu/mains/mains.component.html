@@ -14,7 +14,10 @@
     </ng-template>
     <ng-template #second>
         <div *ngIf="item.type == 'headerLogo';else third">
-            <img class="desktop-toggle" (click)="menuCollapsed()"
+            <img class="desktop-toggle"
+                [style.height]="item.height !== undefined && item.height !== null && item.height !== 0 && item.height !== '' ? item.height + 'px' : 'auto'"
+                [style.width]="item.width !== undefined && item.width !== null && item.width !== 0 && item.width !== '' ? item.width + 'px' : 'auto'"
+                (click)="menuCollapsed()"
                 [src]="dataSharedService.headerLogo ? dataSharedService.headerLogo : 'assets/images/logo.png'" alt>
             <button (click)="menuCollapsed()" nz-button nzType="default" class="mobile-toggle"><i
                     class="fa-light fa-bars"></i></button>
@@ -100,7 +103,8 @@
         <div *ngIf="item.type =='cardWithComponents'; else sixteen">
             <nz-ribbon *ngIf="item?.badgeType == 'ribbon'" [nzColor]="item.dot_ribbon_color"
                 [nzText]="item?.badgeRibbonText">
-                <st-card-with-components [item]="item" [form]="form"  [formlyModel]="formlyModel"></st-card-with-components>
+                <st-card-with-components [item]="item" [form]="form"
+                    [formlyModel]="formlyModel"></st-card-with-components>
             </nz-ribbon>
             <!-- <nz-badge *ngIf="item?.badgeType == 'count'" [nzCount]="item?.badgeCount">
               <st-card-with-components [item]="item"></st-card-with-components>
@@ -115,8 +119,7 @@
     <ng-template #sixteen>
         <dynamic-table [tableId]='item.tableId' *ngIf="item.type =='gridList';else seventeen" [checkType]="false"
             [tableData]='item.tableData' [tableHeaders]='item.tableHeaders' [formlyModel]="formlyModel" [form]="form"
-            [screenId]="screenId" [data]="item"
-            [screenName]="screenName"></dynamic-table>
+            [screenId]="screenId" [data]="item" [screenName]="screenName"></dynamic-table>
     </ng-template>
     <ng-template #seventeen>
         <st-table *ngIf="item.forCommomComponentCondition =='simpleGridList';else eighteen"></st-table>
@@ -168,7 +171,8 @@
         </div>
     </ng-template>
     <ng-template #twentyseven>
-        <st-tabs [tabs]="item" [form]="form" [formlyModel]="formlyModel" *ngIf="item.type == 'mainTab' else twentyeight"></st-tabs>
+        <st-tabs [tabs]="item" [form]="form" [formlyModel]="formlyModel"
+            *ngIf="item.type == 'mainTab' else twentyeight"></st-tabs>
     </ng-template>
     <ng-template #twentyeight>
         <st-timeline-builder [timelineData]="item"
@@ -194,11 +198,12 @@
 
     </ng-template>
     <ng-template #thirtyOne>
-        <st-stepper [step]="item" [form]="form" [formlyModel]="formlyModel" *ngIf="item.type == 'mainStep'; else thirtyTwo">
+        <st-stepper [step]="item" [form]="form" [formlyModel]="formlyModel"
+            *ngIf="item.type == 'mainStep'; else thirtyTwo">
         </st-stepper>
     </ng-template>
     <ng-template #thirtyTwo>
-        <st-accordion-button [accordionData]="item"  [form]="form" [formlyModel]="formlyModel"
+        <st-accordion-button [accordionData]="item" [form]="form" [formlyModel]="formlyModel"
             *ngIf="item.type == 'accordionButton'; else thirtyThree"></st-accordion-button>
     </ng-template>
     <ng-template #thirtyThree>
@@ -472,7 +477,7 @@
     </ng-template>
     <ng-template #nintyOne>
         <st-list-with-components class="overflow-x-auto" *ngIf="item.type == 'listWithComponents' ; else nintyTwo"
-            [listData]="item" [formlyModel]="formlyModel" [form]="form" ></st-list-with-components>
+            [listData]="item" [formlyModel]="formlyModel" [form]="form"></st-list-with-components>
     </ng-template>
     <ng-template #nintyTwo>
         <st-tree-map *ngIf="item.type == 'treeMapChart' ; else nintyThree"

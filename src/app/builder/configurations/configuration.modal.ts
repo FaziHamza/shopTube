@@ -11643,7 +11643,7 @@ export class formFeildData {
           wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             label: 'id',
-            readonly:true,
+            readonly: true,
           }
         },
         {
@@ -11710,7 +11710,7 @@ export class formFeildData {
               serveSearch: true,
               showArrow: true,
               showSearch: true,
-              selectType:'tags'
+              selectType: 'tags'
             },
           },
           expressionProperties: {
@@ -11875,7 +11875,7 @@ export class formFeildData {
             label: 'CSS ClassName',
           }
         },
-        
+
         {
           className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
           key: 'titleIcon',
@@ -16574,6 +16574,33 @@ export class formFeildData {
             ]
           }
         }
+      ]
+    },
+  ];
+  headerLogoFields: FormlyFieldConfig[] = [
+    {
+      fieldGroupClassName: "flex flex-wrap",
+      fieldGroup: [
+        {
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          key: 'height',
+          type: 'input',
+          wrappers: ["formly-vertical-theme-wrapper"],
+          props: {
+            type: 'number',
+            label: 'Height',
+          }
+        },
+        {
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          key: 'width',
+          type: 'input',
+          wrappers: ["formly-vertical-theme-wrapper"],
+          props: {
+            type: 'number',
+            label: 'Width',
+          }
+        },
       ]
     },
   ];
