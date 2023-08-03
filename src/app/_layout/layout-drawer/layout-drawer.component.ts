@@ -88,10 +88,7 @@ export class LayoutDrawerComponent implements OnInit {
   }
 
   open(): void {
-    debugger;
     this.visible = true;
-
-    
   }
 
 
@@ -137,11 +134,23 @@ export class LayoutDrawerComponent implements OnInit {
       this.selectedTheme['inPageMenu'].activeBackgroundColor = '#2563eb';
       this.selectedTheme['inPageMenu'].activeTextColor = '#2563eb';
       this.selectedTheme['inPageMenu'].hoverTextColor = '#73757A';
-      this.selectedTheme['inPageMenu'].titleSize = '15';
+      this.selectedTheme['inPageMenu'].titleSize = 16;
       this.selectedTheme['inPageMenu'].iconColor = '#73757A';
       this.selectedTheme['inPageMenu'].hoverIconColor = '#73757A';
       this.selectedTheme['inPageMenu'].activeIconColor = '#2563eb';
-      this.selectedTheme['inPageMenu'].iconSize = '15';
+      this.selectedTheme['inPageMenu'].iconSize = 15;
+      this.selectedTheme['inPageMenu']['child'].font = 'font-roboto';
+      this.selectedTheme['inPageMenu']['child'].backGroundColor = '#ffffff';
+      this.selectedTheme['inPageMenu']['child'].textColor = '#73757A';
+      this.selectedTheme['inPageMenu']['child'].activeBackgroundColor = '#2563eb';
+      this.selectedTheme['inPageMenu']['child'].activeTextColor = '#ffffff';
+      this.selectedTheme['inPageMenu']['child'].hoverTextColor = '#ffffff';
+      this.selectedTheme['inPageMenu']['child'].titleSize = 16;
+      this.selectedTheme['inPageMenu']['child'].iconColor = '#73757A';
+      this.selectedTheme['inPageMenu']['child'].hoverIconColor = '#ffffff';
+      this.selectedTheme['inPageMenu']['child'].activeIconColor = '#ffffff';
+      this.selectedTheme['inPageMenu']['child'].hoverBgColor = '#3b82f6';
+      this.selectedTheme['inPageMenu']['child'].iconSize = 15;
     }
   }
 

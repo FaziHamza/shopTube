@@ -68,7 +68,7 @@ export class AppSideMenuComponent implements OnInit {
 
   setHovered(value: any, event: any) {
     event.stopPropagation();
-    if(!value){
+    if (!value) {
       document.documentElement.style.setProperty('--my-color1', this.selectedTheme['hoverBgColor']);
     }
     if (this.selectedTheme.sideBarSize == 'smallHoverView' && (this.selectedTheme.layout == 'vertical' || this.selectedTheme.layout == 'rtl')) {
@@ -175,21 +175,17 @@ export class AppSideMenuComponent implements OnInit {
         this.menuChildArrayTwoColumn = [];
       }
       if (data.link && !checkTabsAndDropdown) {
-        let routerLink = data.link;
-        this.router.navigate([routerLink]);
+        this.router.navigate([data.link]);
       }
-      else if (data.children.length > 0 && this.selectedTheme.layout == 'twoColumn' && pushInTwoColumn) {
-        this.selectedTheme['isCollapsed'] = false;
-        // this.dataSharedService.collapseMenu.next(false)
-        // this.selectedTheme.menuColumn = 'w-1/6';
-        // this.selectedTheme.rowClass = 'w-10/12';
-        // this.selectedTheme.topHeaderMenu = 'w-1/6';
-        // this.selectedTheme.topHeader = 'w-10/12';
-        data.children.forEach((i: any) => {
-          if(i.type != 'mainTab'){
-            this.menuChildArrayTwoColumn.push(i);
-          }
-        });
+      else if (this.selectedTheme.layout == 'twoColumn') {
+        if (data.children.length > 0 && pushInTwoColumn) {
+          this.selectedTheme['isCollapsed'] = false;
+          const filteredChildren = data.children.filter((i: any) => i.type !== 'mainTab');
+          this.menuChildArrayTwoColumn.push(...filteredChildren);
+        }else{
+          this.selectedTheme['isCollapsed'] = true;
+        }
+
       }
       // else {
       //   this.toastr.error('No screen , tabs and dropdown against this menu', { nzDuration: 3000 });

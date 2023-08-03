@@ -504,24 +504,24 @@ export class BuilderComponent implements OnInit {
                   const formlyConfig = node.formly?.[0]?.fieldGroup?.[0]?.key;
                   for (let index = 0; index < this.actionListData.length; index++) {
                     const element = this.actionListData[index];
-                    if (formlyConfig == element.elementName  && element.actionType  == 'api') {
+                    if (formlyConfig == element.elementName && element.actionType == 'api') {
                       const eventActionConfig = node?.formly?.[0]?.fieldGroup?.[0]?.props;
                       if (eventActionConfig) {
-                        if(index == 0){
+                        if (index == 0) {
                           eventActionConfig['appConfigurableEvent'] = [];
                           eventActionConfig['eventActionconfig'] = {};
                         }
                         if (element.btnActionType == 'load') {
                           eventActionConfig['eventActionconfig'] = {};
-                          let obj = { actionType: element.actionType, url: element.httpAddress, method: element.actionLink,elementName : element.elementNameTo }
+                          let obj = { actionType: element.actionType, url: element.httpAddress, method: element.actionLink, elementName: element.elementNameTo }
                           eventActionConfig['eventActionconfig'] = obj;
                         }
-                         else {
+                        else {
                           if (eventActionConfig['appConfigurableEvent']) {
                             let obj = {
                               event: element.actionLink,
                               actions: [
-                                { actionType: element.actionType, url: element.httpAddress, method: element.actionLink,elementName : element.elementNameTo }
+                                { actionType: element.actionType, url: element.httpAddress, method: element.actionLink, elementName: element.elementNameTo }
                               ]
                             };
                             eventActionConfig['appConfigurableEvent'].push(obj);
@@ -530,14 +530,14 @@ export class BuilderComponent implements OnInit {
                             let obj = {
                               event: element.actionLink,
                               actions: [
-                                { actionType: element.actionType, url: element.httpAddress, method: element.actionLink,elementName : element.elementNameTo }
+                                { actionType: element.actionType, url: element.httpAddress, method: element.actionLink, elementName: element.elementNameTo }
                               ]
                             };
                             eventActionConfig['appConfigurableEvent'].push(obj);
                           }
                         }
                       }
-                    }else{
+                    } else {
                       const eventActionConfig = node?.formly?.[0]?.fieldGroup?.[0]?.props;
                       if (eventActionConfig) {
                         eventActionConfig['appConfigurableEvent'] = [];
@@ -547,26 +547,26 @@ export class BuilderComponent implements OnInit {
                   }
                 });
               }
-              let checkFirst :any = {};
+              let checkFirst: any = {};
               for (let index = 0; index < this.actionListData.length; index++) {
                 const element = this.actionListData[index];
                 let findObj = this.findObjectByKey(nodesData[0], element.elementName);
                 if (findObj) {
-                  if(findObj?.key == element.elementName && element.actionType  == 'api'){
-                    if(!checkFirst[findObj?.key]){
+                  if (findObj?.key == element.elementName && element.actionType == 'api') {
+                    if (!checkFirst[findObj?.key]) {
                       findObj['appConfigurableEvent'] = [];
                       findObj['eventActionconfig'] = {};
                       checkFirst[findObj?.key] = "done";
                     }
                     if (element.btnActionType == 'load') {
-                      let obj = { actionType: element.actionType, url: element.httpAddress, method: element.actionLink,elementName : element.elementNameTo }
+                      let obj = { actionType: element.actionType, url: element.httpAddress, method: element.actionLink, elementName: element.elementNameTo }
                       findObj.eventActionconfig = obj;
-                    }else{
+                    } else {
                       if (findObj['appConfigurableEvent']) {
                         let obj = {
                           event: element.actionLink,
                           actions: [
-                            { actionType: element.actionType, url: element.httpAddress, method: element.actionLink,elementName : element.elementNameTo }
+                            { actionType: element.actionType, url: element.httpAddress, method: element.actionLink, elementName: element.elementNameTo }
                           ]
                         };
                         findObj['appConfigurableEvent'].push(obj);
@@ -581,7 +581,7 @@ export class BuilderComponent implements OnInit {
                         findObj['appConfigurableEvent'].push(obj);
                       }
                     }
-                  }else{
+                  } else {
                     findObj['appConfigurableEvent'] = [];
                     findObj['eventActionconfig'] = {};
                   }
@@ -1752,12 +1752,12 @@ export class BuilderComponent implements OnInit {
         newNode = { ...newNode, ...this.addControlService.breakTagControl() };
         break;
 
-      case 'multiFileUpload':
-        newNode = {
-          ...newNode,
-          ...this.addControlService.multiFileUploadControl(),
-        };
-        break;
+      // case 'multiFileUpload':
+      //   newNode = {
+      //     ...newNode,
+      //     ...this.addControlService.multiFileUploadControl(),
+      //   };
+      //   break;
 
       case 'gridList':
         newNode = { ...newNode, ...this.addControlService.gridListControl() };
@@ -2081,6 +2081,17 @@ export class BuilderComponent implements OnInit {
                         tooltipPosition: 'right',
                         toolTipClass: '',
                         formlyTypes: '',
+                        uploadBtnLabel: "Click here to upload",
+                        multiple: false,
+                        disabled: false,
+                        showDialogueBox: true,
+                        showUploadlist: true,
+                        onlyDirectoriesAllow: false,
+                        isNextChild: false,
+                        uploadLimit: 10,
+                        fileUploadSize: 30,
+                        selectType: 'multiple',
+                        multiFileUploadTypes: 'dragNDrop'
                       },
                       apiUrl: '',
                       rows: 1,
@@ -2752,9 +2763,9 @@ export class BuilderComponent implements OnInit {
       case 'calender':
         this.fieldData.formData = _formFieldData.tuiCalendarFeilds;
         break;
-      case 'multiFileUpload':
-        this.fieldData.formData = _formFieldData.multiFileUploadFeilds;
-        break;
+      // case 'multiFileUpload':
+      //   this.fieldData.formData = _formFieldData.multiFileUploadFeilds;
+      //   break;
       case 'switch':
         this.fieldData.formData = _formFieldData.switchFeilds;
         break;
@@ -2883,6 +2894,9 @@ export class BuilderComponent implements OnInit {
             break;
           case 'customMasking':
             this.fieldData.formData = _formFieldData.customMaskingFields;
+            break;
+          case 'multiFileUpload':
+            this.fieldData.formData = _formFieldData.multiFileUploadFeilds;
             break;
         }
         break;
@@ -5979,10 +5993,14 @@ export class BuilderComponent implements OnInit {
     })
   }
   checkPage() {
+    debugger
     if (!this.screenPage) {
       alert("Please Select Screen")
     } else {
-      window.open('/pages/' + this.navigation);
+      let application = this.applicationData.find((app: any) => app._id == this.selectApplicationName)
+      const url = `http://${application.domain}:5600/pages/${this.navigation}`;
+      window.open(url);
+
     }
   }
   getFromQuery(name: string) {
@@ -5991,7 +6009,7 @@ export class BuilderComponent implements OnInit {
       this.builderService.getSQLDatabaseTable(`knex-query/${name}`).subscribe({
         next: (res) => {
           if (tableData && res) {
-            if(res.length > 0){
+            if (res.length > 0) {
               let saveForm = JSON.parse(JSON.stringify(res[0]));
               const firstObjectKeys = Object.keys(saveForm);
               let tableKey = firstObjectKeys.map(key => ({ name: key }));

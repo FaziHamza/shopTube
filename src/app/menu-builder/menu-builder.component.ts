@@ -157,35 +157,7 @@ export class MenuBuilderComponent implements OnInit {
   ngOnInit(): void {
     this.currentUser = JSON.parse(localStorage.getItem('user')!);
     this.dataSharedService.goToMenu = '';
-    this.selectedTheme = {
-      topHeaderMenu: 'w-1/6',
-      topHeader: 'w-10/12',
-      menuMode: 'inline',
-      menuColumn: 'w-2/12',
-      rowClass: 'w-10/12',
-      horizontalRow: 'flex flex-wrap',
-      layout: 'vertical',
-      colorScheme: 'light',
-      layoutWidth: 'fluid',
-      layoutPosition: 'fixed',
-      topBarColor: 'light',
-      sideBarSize: 'default',
-      siderBarView: 'sidebarViewDefault',
-      sieBarColor: 'light',
-      siderBarImages: '',
-      checked: false,
-      theme: false,
-      isCollapsed: false,
-      newMenuArray: [],
-      menuChildArrayTwoColumn: [],
-      isTwoColumnCollapsed: false,
-      allMenuItems: [],
-      showMenu: true,
-      inPageMenu: {},
-    }
-    // this.jsonModuleSetting();
     this.getDepartments();
-
   }
   LayerShow() {
     this.iconActive = 'layer';
@@ -230,14 +202,9 @@ export class MenuBuilderComponent implements OnInit {
           this.selectApplicationType = getApplication['application_Type'] ? getApplication['application_Type'] : '';
           this.applicationId = res.data[0]._id
           this.nodes = JSON.parse(res.data[0].menuData);
-          if (res.data[0].selectedTheme) {
-            this.selectedTheme = JSON.parse(res.data[0].selectedTheme);
-            this.selectedTheme.allMenuItems = this.nodes;
-          }
-          else {
-            this.selectedTheme.allMenuItems = this.nodes;
-          }
-          this.controlUndefinedValues();
+          let theme = JSON.parse(res.data[0].selectedTheme);
+          this.selectedTheme = this.controlUndefinedValues(theme);
+          this.selectedTheme.allMenuItems = this.nodes;
           this.makeMenuData();
         }
         else {
@@ -258,14 +225,8 @@ export class MenuBuilderComponent implements OnInit {
           this.selectApplicationType = getApplication['application_Type'] ? getApplication['application_Type'] : '';
           this.applicationId = res.data[0]._id
           this.nodes = JSON.parse(res.data[0].menuData);
-          if (res.data[0].selectedTheme) {
-            this.selectedTheme = JSON.parse(res.data[0].selectedTheme);
-            this.selectedTheme.allMenuItems = this.nodes;
-          }
-          else {
-            this.selectedTheme.allMenuItems = this.nodes;
-          }
-          this.controlUndefinedValues();
+          let theme = JSON.parse(res.data[0].selectedTheme);
+          this.selectedTheme = this.controlUndefinedValues(theme);
           this.makeMenuData();
         }
         else {
@@ -299,12 +260,12 @@ export class MenuBuilderComponent implements OnInit {
     this.showNotification = false;
     this.addControlToJson('mainTab');
     this.selectedNode = this.tabsAdd;
-    this.addControlToJson('tabs');
+    this.addControlToJson('tabs', true, 'home');
     this.selectedNode = this.tabsAdd;
-    this.addControlToJson('tabs');
+    this.addControlToJson('tabs', true, 'user');
     this.selectedNode = this.tabsAdd;
     this.showNotification = true;
-    this.addControlToJson('tabs');
+    this.addControlToJson('tabs', true, 'code-sandbox');
     this.selectedNode = this.selectForDropdown;
     this.clickBack();
   }
@@ -373,7 +334,8 @@ export class MenuBuilderComponent implements OnInit {
         }
       } else if (event.origin.type == 'tabs') {
         this.controlListvisible = true;
-      } else if (tab.length > 0) {
+      }
+      else if (tab.length > 0) {
         const keyIndex = parents.findIndex((item: any) => item.key === tab[0].key);
         if (keyIndex !== -1) {
           const dataAfterKey = parents.slice(keyIndex + 1);
@@ -438,7 +400,7 @@ export class MenuBuilderComponent implements OnInit {
 
     this.formModalData = configObj;
   }
-  addControlToJson(value: string, nodeType?: boolean) {
+  addControlToJson(value: string, nodeType?: boolean, tabIcon?: any) {
     if (this.selectedNode.isTitle && !nodeType) {
       return
     }
@@ -521,7 +483,11 @@ export class MenuBuilderComponent implements OnInit {
         ],
       } as TreeNode;
       this.tabsAdd = newNode
-      this.addNode(node, newNode);
+      if (node.type != 'tabs') {
+        this.addNode(node, newNode);
+      } else {
+        this.toastr.warning('Cannot add Main tab in tab', { nzDuration: 3000 });
+      }
     }
     else if (value == 'tabs') {
       const newNode = {
@@ -535,7 +501,7 @@ export class MenuBuilderComponent implements OnInit {
         highLight: false,
         hideExpression: false,
         tooltip: '',
-        icon: 'star',
+        icon: tabIcon ? tabIcon : 'home',
         children: [
         ],
       } as TreeNode;
@@ -928,84 +894,84 @@ export class MenuBuilderComponent implements OnInit {
     //   }))
     // });
   }
-  callApiData(element?: any, arr?: any) {
-    if (element.type != "buttons" && element.type != "dashonicTabs") {
-      if (element.link) {
-        if (element.link.includes("pages") && element.link != "/pages/tabsanddropdown") {
-          let screenId = element.link.replace("/pages/", "");
-          this.screenIdList.push(screenId)
+  // callApiData(element?: any, arr?: any) {
+  //   if (element.type != "buttons" && element.type != "dashonicTabs") {
+  //     if (element.link) {
+  //       if (element.link.includes("pages") && element.link != "/pages/tabsanddropdown") {
+  //         let screenId = element.link.replace("/pages/", "");
+  //         this.screenIdList.push(screenId)
 
-        }
-      }
-    }
-    else if (element.type == "buttons" || element.type == "dashonicTabs") {
-      var newLink;
-      if (element.type == "buttons") {
-        if (element.buttonsConfig[0].link) {
-          newLink = element.buttonsConfig[0].link;
-          this.screenIdList.push(newLink)
-        }
-      } else if (element.type == "dashonicTabs") {
-        if (element.dashonicTabsConfig[0].link) {
-          newLink = element.dashonicTabsConfig[0].link;
-          this.screenIdList.push(newLink)
-        }
-      }
-    }
+  //       }
+  //     }
+  //   }
+  //   else if (element.type == "buttons" || element.type == "dashonicTabs") {
+  //     var newLink;
+  //     if (element.type == "buttons") {
+  //       if (element.buttonsConfig[0].link) {
+  //         newLink = element.buttonsConfig[0].link;
+  //         this.screenIdList.push(newLink)
+  //       }
+  //     } else if (element.type == "dashonicTabs") {
+  //       if (element.dashonicTabsConfig[0].link) {
+  //         newLink = element.dashonicTabsConfig[0].link;
+  //         this.screenIdList.push(newLink)
+  //       }
+  //     }
+  //   }
 
-  }
-  getButtonLink(data: any) {
-    data[0].children.forEach((element: any) => {
-      if (element.type == "pageHeader" || element.type == "pageFooter") {
-        if (element.children.length > 0) {
-          element.children.forEach((element1: any) => {
-            if (element1.type == "linkButton") {
-              this.buttonLinkArray.push(element1.buttonGroup[0].btnConfig[0].href)
-            }
-            else if (element1.type == "buttonGroup") {
-              if (element1.children.length > 0) {
-                element1.children.forEach((element2: any) => {
-                  if (element2.type == "linkButton") {
-                    if (element2.buttonGroup[0].btnConfig[0].href) {
-                      this.buttonLinkArray.push(element2.buttonGroup[0].btnConfig[0].href)
-                    }
-                  }
-                });
-              }
-            }
-          });
-        }
-      }
-      else if (element.type == "pageBody") {
-        if (element.children.length > 0) {
-          element.children.forEach((element2: any) => {
-            if (element2.children.length > 0) {
-              element2.children.forEach((element3: any) => {
-                if (element3.children.length > 0) {
-                  element3.children.forEach((element4: any) => {
-                    if (element4.type == "linkButton") {
-                      this.buttonLinkArray.push(element4.buttonGroup[0].btnConfig[0].href)
-                    }
-                    else if (element4.type == "buttonGroup") {
-                      if (element4.children.length > 0) {
-                        element4.children.forEach((element2: any) => {
-                          if (element2.type == "linkButton") {
-                            if (element2.buttonGroup[0].btnConfig[0].href) {
-                              this.buttonLinkArray.push(element2.buttonGroup[0].btnConfig[0].href)
-                            }
-                          }
-                        });
-                      }
-                    }
-                  });
-                }
-              })
-            }
-          })
-        }
-      }
-    });
-  };
+  // }
+  // getButtonLink(data: any) {
+  //   data[0].children.forEach((element: any) => {
+  //     if (element.type == "pageHeader" || element.type == "pageFooter") {
+  //       if (element.children.length > 0) {
+  //         element.children.forEach((element1: any) => {
+  //           if (element1.type == "linkButton") {
+  //             this.buttonLinkArray.push(element1.buttonGroup[0].btnConfig[0].href)
+  //           }
+  //           else if (element1.type == "buttonGroup") {
+  //             if (element1.children.length > 0) {
+  //               element1.children.forEach((element2: any) => {
+  //                 if (element2.type == "linkButton") {
+  //                   if (element2.buttonGroup[0].btnConfig[0].href) {
+  //                     this.buttonLinkArray.push(element2.buttonGroup[0].btnConfig[0].href)
+  //                   }
+  //                 }
+  //               });
+  //             }
+  //           }
+  //         });
+  //       }
+  //     }
+  //     else if (element.type == "pageBody") {
+  //       if (element.children.length > 0) {
+  //         element.children.forEach((element2: any) => {
+  //           if (element2.children.length > 0) {
+  //             element2.children.forEach((element3: any) => {
+  //               if (element3.children.length > 0) {
+  //                 element3.children.forEach((element4: any) => {
+  //                   if (element4.type == "linkButton") {
+  //                     this.buttonLinkArray.push(element4.buttonGroup[0].btnConfig[0].href)
+  //                   }
+  //                   else if (element4.type == "buttonGroup") {
+  //                     if (element4.children.length > 0) {
+  //                       element4.children.forEach((element2: any) => {
+  //                         if (element2.type == "linkButton") {
+  //                           if (element2.buttonGroup[0].btnConfig[0].href) {
+  //                             this.buttonLinkArray.push(element2.buttonGroup[0].btnConfig[0].href)
+  //                           }
+  //                         }
+  //                       });
+  //                     }
+  //                   }
+  //                 });
+  //               }
+  //             })
+  //           }
+  //         })
+  //       }
+  //     }
+  //   });
+  // };
   jsonUpload(event: Event) {
     debugger
     // && event.target.files.length > 0
@@ -1013,17 +979,10 @@ export class MenuBuilderComponent implements OnInit {
       const reader = new FileReader();
       reader.onloadend = () => {
         let contents = reader.result as string;
-        var makeData = JSON.parse(contents);
-        if (makeData.selectedTheme) {
-          this.selectedTheme = makeData.selectedTheme;
-          this.nodes = JSON.parse(makeData.menuData);
-
-        }
-        else {
-          this.selectedTheme = makeData;
-          this.nodes = makeData.allMenuItems;
-        }
-        this.controlUndefinedValues();
+        let theme = JSON.parse(contents);
+        this.selectedTheme = this.controlUndefinedValues(theme);
+        this.nodes = JSON.parse(this.selectedTheme);
+        // this.controlUndefinedValues();
         this.makeMenuData();
         // let selectDepartment = this.menuModule.find((a: any) => a.name == data);
         // this.selectApplicationType = selectDepartment['application_Type'] ? selectDepartment['application_Type'] : '';
@@ -1344,7 +1303,7 @@ export class MenuBuilderComponent implements OnInit {
             this.selectedTheme.layout = layoutType;
         }
         if (layoutType == 'twoColumn') {
-          this.selectedTheme.isCollapsed = false;
+          this.selectedTheme.isCollapsed = true;
           this.selectedTheme.layoutPosition = '';
           this.selectedTheme.layout = layoutType;
           this.selectedTheme.horizontalRow = 'flex flex-wrap'
@@ -1447,13 +1406,12 @@ export class MenuBuilderComponent implements OnInit {
 
     }
     else if (data.inPageMenu) {
-      let layoutType = data.layoutType;
       if (
-        layoutType.includes('iconType')) {
-        this.selectedTheme['inPageMenu'][layoutType.split('_')[1]] = layoutType.split('_')[0];
-        if (layoutType.includes('iconType')) {
-          this.changeTabIconType(this.selectedTheme['inPageMenu']['iconType'], this.nodes);
-        }
+        data.layoutType.includes('childiconType')) {
+        this.changeTabChildIconType(this.selectedTheme['inPageMenu']['child']['iconType'], this.nodes);
+      }
+      else if (data.layoutType.includes('iconType')) {
+        this.changeTabIconType(this.selectedTheme['inPageMenu']['iconType'], this.nodes);
       }
     }
   }
@@ -1558,45 +1516,50 @@ export class MenuBuilderComponent implements OnInit {
     }
 
   }
-  changeIconType(data: any, nodeData: any) {
-    if (nodeData.length > 0) {
-      nodeData.forEach((node: any) => {
-        if (data != 'null') {
-          if (node.type != 'tabs') {
-            node['iconType'] = data;
-          }
+  changeIconType(data: string, nodes: Node[]) {
+    nodes.forEach((node: any) => {
+      if (node.type !== 'tabs') {
+        node.iconType = data;
+      }
+      if (node.children.length > 0) {
+        if (node.type !== 'tabs') {
+          this.changeIconType(data, node.children);
+        } else {
+          // Do not apply icon type change to children of 'tabs'
         }
-        // if (node['icon'] && data != 'null') {
-        //   if (node['icon'].includes('fa-') && data == 'font_awsome') {
-        //     node['iconType'] = data;
-        //   }
-        //   else if (!node['icon'].includes('fa-') && data != 'font_awsome') {
-        //     node['iconType'] = data;
-        //   }
-        // }
-        // else if (!node['icon'] && data != 'null') {
-        //   node['iconType'] = data
-        // }
-        // else if(data != 'null') {
-        //   node['iconType'] = data;
-        // }
+      }
+    });
+  }
+
+  changeTabIconType(data: any, nodeData: any) {
+    if (nodeData.length > 0 && data) {
+      nodeData.forEach((node: any) => {
+        if (node.type === 'tabs') {
+          node.iconType = data;
+        }
         if (node.children.length > 0) {
-          this.changeIconType(data, node.children)
+          this.changeTabIconType(data, node.children);
         }
       });
     }
   }
-  changeTabIconType(data: any, nodeData: any) {
-    if (nodeData.length > 0) {
+  changeTabChildIconType(data: any, nodeData: any) {
+    if (nodeData.length > 0 && data) {
       nodeData.forEach((node: any) => {
         if (node.type === 'tabs') {
-          if (data !== 'null') {
-            node.iconType = data;
+          if (node.children.length > 0) {
+            node.children.forEach((tabChild: any) => {
+              tabChild.iconType = data;
+              if (tabChild.children.length > 0) {
+                tabChild.children.forEach((tabSubChild: any) => {
+                  tabSubChild.iconType = data;
+                });
+              }
+            });
           }
         }
-
         if (node.children.length > 0) {
-          this.changeTabIconType(data, node.children);
+          this.changeTabChildIconType(data, node.children);
         }
       });
     }
@@ -1660,18 +1623,22 @@ export class MenuBuilderComponent implements OnInit {
     }
   }
 
-  controlUndefinedValues() {
-    if (!this.selectedTheme['buttonClassArray']) {
-      this.selectedTheme['buttonClassArray'] = []
+  controlUndefinedValues(theme?: any) {
+    debugger
+    if (!theme['buttonClassArray']) {
+      theme['buttonClassArray'] = []
     }
-    if (this.selectedTheme['showButton'] == undefined || this.selectedTheme['showButton'] == '' || this.selectedTheme['showButton'] == null) {
-      this.selectedTheme['showButton'] = true
+    if (theme['showButton'] == undefined || theme['showButton'] == '' || theme['showButton'] == null) {
+      theme['showButton'] = true
     }
-    if (this.selectedTheme['showLogo'] == undefined || this.selectedTheme['showLogo'] == '' || this.selectedTheme['showLogo'] == null) {
-      this.selectedTheme['showLogo'] = true
+    if (theme['showLogo'] == undefined || theme['showLogo'] == '' || theme['showLogo'] == null) {
+      theme['showLogo'] = true
     }
-    if (!this.selectedTheme['inPageMenu']) {
-      this.selectedTheme['inPageMenu'] = {};
+    if (!theme['inPageMenu']) {
+      theme['inPageMenu'] = {};
+    }
+    if (!theme['inPageMenu']['child']) {
+      theme['inPageMenu']['child'] = {};
     }
 
     const defaultProperties = [
@@ -1700,22 +1667,37 @@ export class MenuBuilderComponent implements OnInit {
       { property: 'iconColor', defaultValue: '#73757A' },
       { property: 'hoverIconColor', defaultValue: '#73757A' },
       { property: 'activeIconColor', defaultValue: '#2563eb' },
-      { property: 'titleSize', defaultValue: 15 },
+      { property: 'titleSize', defaultValue: 16 },
       { property: 'iconSize', defaultValue: 15 },
       { property: 'font', defaultValue: 'font-roboto' },
     ];
+    const defaultPropertiesInPageMenuChild = [
+      { property: 'backGroundColor', defaultValue: '#ffffff' },
+      { property: 'activeTextColor', defaultValue: '#ffffff' },
+      { property: 'textColor', defaultValue: '#73757A' },
+      { property: 'activeBackgroundColor', defaultValue: '#ffffff' },
+      { property: 'hoverTextColor', defaultValue: '#ffffff' },
+      { property: 'iconColor', defaultValue: '#73757A' },
+      { property: 'hoverIconColor', defaultValue: '#73757A' },
+      { property: 'activeIconColor', defaultValue: '#ffffff' },
+      { property: 'titleSize', defaultValue: 16 },
+      { property: 'iconSize', defaultValue: 15 },
+      { property: 'font', defaultValue: 'font-roboto' },
+      { property: 'hoverBgColor', defaultValue: '#3b82f6' },
+
+    ];
 
     for (const prop of defaultProperties) {
-      if (!this.selectedTheme[prop.property]) {
-        this.selectedTheme[prop.property] = prop.defaultValue;
-      }
-
-    }
-    for (const prop of defaultPropertiesInPageMenu) {
-      if (!this.selectedTheme['inPageMenu'][prop.property]) {
-        this.selectedTheme['inPageMenu'][prop.property] = prop.defaultValue;
+      if (!theme[prop.property]) {
+        theme[prop.property] = prop.defaultValue;
       }
     }
+    for (const prop of defaultPropertiesInPageMenuChild) {
+      if (!theme['inPageMenu']['child'][prop.property]) {
+        theme['inPageMenu']['child'][prop.property] = prop.defaultValue;
+      }
+    }
+    return theme
   }
   // typeFirstAlphabetAsIcon(node: any) {
   //   if (node.origin.type === 'input') {
@@ -1757,6 +1739,9 @@ export class MenuBuilderComponent implements OnInit {
     if (departmentId.length === 2) {
       this.getMenus(departmentId[1])
     }
+  }
+  undefinedSelectedTheme() {
+    this.toastr.warning('Please Select Application!', { nzDuration: 3000 });
   }
 }
 

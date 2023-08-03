@@ -1347,12 +1347,12 @@ export const htmlTabsData = [
               // },
 
 
-              {
-                parameter: "multiFileUpload",
-                icon: "uil-file-copy-alt",
-                label: "Multi-file Uploader",
-                isLeaf: true
-              },
+              // {
+              //   parameter: "multiFileUpload",
+              //   icon: "uil-file-copy-alt",
+              //   label: "Multi-file Uploader",
+              //   isLeaf: true
+              // },
 
 
               {
@@ -1462,6 +1462,13 @@ export const htmlTabsData = [
                 configType: 'image', fieldType: 'image-upload',
                 // maskString: "",
                 // maskLabel: ""
+              },
+              {
+                parameter: "input",
+                icon: "uil uil-images",
+                label: "Multi-file Uploader",
+                type: 'multiFileUploader',
+                configType: 'multiFileUploader', fieldType: 'multiFileUploader',
               },
               {
                 parameter: "input",

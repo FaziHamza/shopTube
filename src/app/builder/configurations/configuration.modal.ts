@@ -8239,7 +8239,7 @@ export class formFeildData {
           },
         },
         {
-          key: 'size',
+          key: 'fileUploadSize',
           type: 'input',
           wrappers: ["formly-vertical-theme-wrapper"],
           className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
@@ -8319,7 +8319,7 @@ export class formFeildData {
         },
         {
           className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
-          key: 'disabled',
+          key: 'uploadDisabled',
           type: 'checkbox',
           wrappers: ["formly-vertical-theme-wrapper"],
           props: {

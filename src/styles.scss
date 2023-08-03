@@ -3308,6 +3308,7 @@ object {
     /* Use the custom font with a fallback font */
     font-size: 17px !important;
     font-weight: 400;
+    color: #CACACA;
   }
 
   .trigger {
@@ -4786,8 +4787,9 @@ object {
 @media only screen and (max-width: 768px) {
   .user-builder-layout .main-layout2 {
     position: relative;
-    padding-left: 70px;
+    // padding-left: 70px;
     padding-right: 0px;
+    padding-left: 0px;
 
     .ant-layout-content {
       margin: 0px !important;
@@ -4804,7 +4806,7 @@ object {
 
   .user-builder-layout .rtl-layout2 {
     position: relative;
-    padding-right: 70px;
+    // padding-right: 70px;
     padding-left: 0px;
 
     .ant-layout-content {
@@ -4842,6 +4844,10 @@ object {
     width: fit-content;
     margin: 0 20px;
     border-bottom: 2px solid transparent;
+
+    .sidenav-title {
+      margin-left: 0px;
+    }
   }
 
   .ant-menu {
@@ -4871,6 +4877,7 @@ object {
     display: flex;
     align-items: center;
   }
+
 }
 
 .floating_outlined {
@@ -4929,6 +4936,7 @@ nz-content {
 .rtl-layout2 {
   .ant-layout-content {
     margin-left: 0px !important;
+    margin-right: 12px !important;
   }
 }
 
@@ -4936,11 +4944,67 @@ nz-content {
 
   .ant-menu-item:hover,
   .ant-menu-submenu-title:hover {
-    background: $main !important;
-    border-radius: 5px !important;
+    background: $main ;
+    border-radius: 5px;
 
     i {
-      color: white !important;
+      color: white;
+    }
+  }
+
+}
+
+
+.ant-menu-vertical {
+  .dynamic-sub-menu {
+
+    .ant-menu-item:hover,
+    .ant-menu-submenu-title:hover {
+      background: var(--my-color1) !important;
+      border-radius: 5px;
+
+      i {
+        color: white;
+      }
+    }
+  }
+
+  .dynamic-subChild-menu {
+
+    .ant-menu-item:hover,
+    .ant-menu-submenu-title:hover {
+      background: var(--my-color1) !important;
+      border-radius: 5px;
+
+      i {
+        color: white;
+      }
+    }
+  }
+
+  .layout-tabs-drop-down-submenu {
+
+    .ant-menu-item:hover,
+    .ant-menu-submenu-title:hover {
+      background: var(--inPageHoverColor) !important;
+      border-radius: 5px;
+
+      i {
+        color: white;
+      }
+    }
+  }
+
+  .layout-tabs-drop-down-sub-submenu {
+
+    .ant-menu-item:hover,
+    .ant-menu-submenu-title:hover {
+      background: var(--inPageHoverColor) !important;
+      border-radius: 5px;
+
+      i {
+        color: white;
+      }
     }
   }
 }
@@ -4948,4 +5012,26 @@ nz-content {
 .ant-menu-horizontal:not(.ant-menu-dark)>.ant-menu-submenu {
   padding: 0px;
 
+}
+
+.tree-layer-icon {
+  font-size: 17px !important;
+  font-weight: 400;
+  color: #CACACA;
+}
+
+.form-card-body {
+  .user-builder-layout .main-layout2 {
+    padding-left: 0px;
+  }
+}
+
+.header-logo {
+  .b-brand {
+    i {
+      font-size: 18px;
+      margin-top: 30px;
+      cursor: pointer;
+    }
+  }
 }

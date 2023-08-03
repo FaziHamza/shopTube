@@ -38,6 +38,7 @@ import { AuthModule } from './auth/auth.module';
 import { TableRowComponent } from './menu-builder/table-row/table-row.component';
 import { AuthGuard } from './auth/auth.Guard';
 import { CommonService } from '../common/common-services/common.service';
+// import { MultiFileUploadWrapperComponent } from './wrappers/multi-file-upload-wrapper/multi-file-upload-wrapper.component';
 const antDesignIcons = AllIcons as {
   [key: string]: IconDefinition;
 };
@@ -54,6 +55,7 @@ const icons: IconDefinition[] = Object.keys(antDesignIcons).map(key => antDesign
     MenuBulkUpdateComponent,
     Screenv1Component,
     TableRowComponent,
+    // MultiFileUploadWrapperComponent,
   ],
   imports: [
     FormsModule,

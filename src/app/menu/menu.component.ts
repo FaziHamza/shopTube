@@ -166,7 +166,9 @@ export class MenuComponent implements OnInit {
     this.translate.use(lang);
   }
   ngOnDestroy() {
-    this.requestSubscription.unsubscribe();
+    if (this.requestSubscription) {
+      this.requestSubscription.unsubscribe();
+    }
   }
   menuCollapsed() {
     if (this.selectedTheme.layout != 'horizental') {

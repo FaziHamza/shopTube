@@ -133,13 +133,11 @@
         <ng-template #nzTreeTemplate let-node let-origin="origin">
           <div class="custom-node flex card-lable-row" (mouseover)="hoverIn(node)" (mouseleave)="hoverOut(node)"
             [ngClass]="isActiveShow === node.origin.id ? 'isActive' : ''">
-            <span (click)="[openField(node),highlightSelect(node.origin.id,true)]">
-              <i *ngIf="node.origin.type == 'page' || node.origin.type == 'pageHeader' || node.origin.type == 'pageBody' || node.origin.type == 'pageFooter' || node.origin.type == 'sections' || node.origin.type == 'header' || node.origin.type == 'body' || node.origin.type == 'footer' ; else labelWithType"
-                [class]="node.isExpanded ? (node.origin.treeExpandIcon ? node.origin.treeExpandIcon : 'fa-regular fa-square-dashed') : (node.origin.treeInExpandIcon ? node.origin.treeInExpandIcon : 'fa-regular fa-square-dashed')"></i>
+            <span  (click)="[openField(node),highlightSelect(node.origin.id,true)]">
+              <i class="tree-layer-icon" *ngIf="node.origin.type == 'page' || node.origin.type == 'pageHeader' || node.origin.type == 'pageBody' || node.origin.type == 'pageFooter' || node.origin.type == 'sections' || node.origin.type == 'header' || node.origin.type == 'body' || node.origin.type == 'footer' ; else labelWithType"
+                [class]="node.isExpanded ? (node.origin.treeExpandIcon ? node.origin.treeExpandIcon : 'fa-regular fa-square-dashed ') : (node.origin.treeInExpandIcon ? node.origin.treeInExpandIcon : 'fa-regular fa-square-dashed')"></i>
               <ng-template #labelWithType>
                 <span class="jameel-font">{{ typeFirstAlphabetAsIcon(node) }}</span>
-                <!-- <i
-                  [class]="typeFirstAlphabetAsIcon()"></i> -->
               </ng-template>
               <span class="folder-name">{{ node.origin.title ? node.title :
                 node.origin.id }}</span>

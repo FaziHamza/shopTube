@@ -13,11 +13,12 @@ export class LayoutTabsDropdownComponent implements OnInit {
   tempData: any;
   moreMenu: any = [];
   isActiveShow: any;
+  isActiveShowChild: any;
   hoverActiveShow: any;
   constructor(private router: Router, private toastr: NzMessageService) { }
 
   ngOnInit(): void {
-    
+
     this.tempData = JSON.parse(JSON.stringify(this.layoutTabsDropdownData));
     // window.onresize = () => {
     //   this.controlMenu();
@@ -27,16 +28,19 @@ export class LayoutTabsDropdownComponent implements OnInit {
       this.layoutTabsDropdownData.children = this.layoutTabsDropdownData.children.slice(0, 6);
     }
   }
-  screenLoad(data: any , allow : boolean) {
-    this.isActiveShow = data.id;
-    if (data.link) {
-      if (data.link.includes('/pages/')) {
-        this.router.navigate([data.link]);
-      } else {
-        let routerLink = '/pages/' + data.link;
-        this.router.navigate([routerLink]);
-      }
+  screenLoad(data: any, allow: boolean) {
+    const idToUpdate = allow ? 'isActiveShow' : 'isActiveShowChild';
+    this[idToUpdate] = data.id;
 
+    if (data.link) {
+      const routerLink = data.link.includes('/pages/') ? data.link : '/pages/' + data.link;
+      this.router.navigate([routerLink]);
+    }
+  }
+  setHovered(value: any, event: any) {
+    event.stopPropagation();
+    if (!value) {
+      document.documentElement.style.setProperty('--inPageHoverColor', this.theme['child']['hoverBgColor']);
     }
   }
   // controlMenu() {

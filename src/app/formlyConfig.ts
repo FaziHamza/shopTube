@@ -27,6 +27,7 @@ import { SelectComponent } from "./wrappers/select/select.component";
 import { TimePickerComponent } from "./wrappers/time-picker/time-picker.component";
 import { MultiSelectComponent } from "./wrappers/multi-select/multi-select.component";
 import { RepeatInputComponent } from "./wrappers/repeat-input/repeat-input.component";
+import { MultiFileUploadWrapperComponent } from "./wrappers/multi-file-upload-wrapper/multi-file-upload-wrapper.component";
 // import { FormlyHorizontalWrapper } from "./wrappers/FormlyHorizontalWrapper";
 
 export const fieldComponents = [
@@ -42,6 +43,7 @@ export const fieldComponents = [
   FormlyFieldRepeatSectionComponent,
   formlyRepeatSectionComponent,
   InputWrapperComponent,
+  MultiFileUploadWrapperComponent,
   // DatepickerComponent,
   // SwitchComponent,
   // ColorPickerComponent,
@@ -88,13 +90,15 @@ export const formlyCustomeConfig: ConfigOption = {
     // { name: 'image-upload', component: FormlyFieldImageUploadComponent },
     // { name: 'gridrepeatsection', component: gridrepeatsection },
     { name: 'image-upload', component: FormlyFieldImageUploadComponent },
+    // { name: 'multiFileUpload', component: FormlyFieldImageUploadComponent },
     { name: 'zorro-timePicker', component: TimePickerComponent },
     { name: 'zorro-datePicker', component: DatePickerComponent },
     { name: 'rangePicker', component: RangeComponent },
     { name: 'checkbox', component: FormlyFieldMultiCheckbox },
     { name: 'multiselect', component: MultiSelectComponent },
     { name: 'tag', component: MultiSelectComponent },
-    { name: 'repeat', component: RepeatInputComponent }
+    { name: 'repeat', component: RepeatInputComponent },
+    { name: 'multiFileUploader', component: MultiFileUploadWrapperComponent },
 
     //   {
     //     name: 'select', component: FormlyFieldSelect,
