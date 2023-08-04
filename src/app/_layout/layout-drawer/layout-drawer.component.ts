@@ -16,7 +16,6 @@ export class LayoutDrawerComponent implements OnInit {
   constructor(public dataSharedService: DataSharedService, private toastr: NzMessageService,) { }
 
   ngOnInit(): void {
-    debugger
     this.listOfOption = [
       { label: "px-1", value: "px-1" },
       { label: "py-1", value: "py-1" },

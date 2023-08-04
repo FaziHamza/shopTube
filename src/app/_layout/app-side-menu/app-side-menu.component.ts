@@ -15,6 +15,7 @@ import { EmployeeService } from 'src/app/services/employee.service';
 })
 export class AppSideMenuComponent implements OnInit {
   @Input() selectedTheme: any;
+  @Input() mobileView: any;
   @Input() menuItems: any = [];
   @Output() notify: EventEmitter<any> = new EventEmitter();
   newMenuArray: any = false;
@@ -153,8 +154,11 @@ export class AppSideMenuComponent implements OnInit {
       this.selectedTheme.allMenuItems = arrayList;
     }
   }
-  loadTabsAndButtons(event: MouseEvent, data: any, pushInTwoColumn?: any) {
+  loadTabsAndButtons(event: MouseEvent, data: any, pushInTwoColumn?: any, allowHideInMblView?: any) {
     this.isActiveShow = data.id;
+    if (this.mobileView && allowHideInMblView) {
+      this.selectedTheme.isCollapsed = true;
+    }
     event.stopPropagation();
     if (data.application) {
       this.dataSharedService.selectApplication = data.id;
@@ -182,7 +186,7 @@ export class AppSideMenuComponent implements OnInit {
           this.selectedTheme['isCollapsed'] = false;
           const filteredChildren = data.children.filter((i: any) => i.type !== 'mainTab');
           this.menuChildArrayTwoColumn.push(...filteredChildren);
-        }else{
+        } else {
           this.selectedTheme['isCollapsed'] = true;
         }
 

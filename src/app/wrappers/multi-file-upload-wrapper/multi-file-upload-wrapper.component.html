@@ -1,8 +1,11 @@
-<nz-upload *ngIf="to['additionalProperties']?.multiFileUploadTypes == 'dragNDrop' || !to['additionalProperties']?.multiFileUploadTypes"
-    nzType="drag" [nzMultiple]="to['additionalProperties']?.multiple" [nzDisabled]="to['additionalProperties']?.disabled"
+<nz-upload
+    *ngIf="to['additionalProperties']?.multiFileUploadTypes == 'dragNDrop' || !to['additionalProperties']?.multiFileUploadTypes"
+    nzType="drag" [nzMultiple]="to['additionalProperties']?.multiple"
+    [nzDisabled]="to['additionalProperties']?.disabled"
     [nzOpenFileDialogOnClick]="to['additionalProperties']?.showDialogueBox"
-    [nzShowUploadList]="to['additionalProperties']?.showUploadlist" [nzDirectory]="to['additionalProperties']?.onlyDirectoriesAllow"
-    [nzLimit]="to['additionalProperties']?.uploadLimit" [nzSize]="to['additionalProperties']?.fileUploadSize">
+    [nzShowUploadList]="to['additionalProperties']?.showUploadlist"
+    [nzDirectory]="to['additionalProperties']?.onlyDirectoriesAllow" [nzLimit]="to['additionalProperties']?.uploadLimit"
+    [nzSize]="to['additionalProperties']?.fileUploadSize" (nzChange)="handleChange($event)">
     <p class="ant-upload-drag-icon">
         <span nz-icon nzType="inbox"></span>
     </p>
@@ -11,9 +14,11 @@
 
 <nz-upload *ngIf="to['additionalProperties']?.multiFileUploadTypes == 'button'"
     [nzHeaders]="{ authorization: 'authorization-text' }" [nzMultiple]="to['additionalProperties']?.multiple"
-    [nzDisabled]="to['additionalProperties']?.disabled" [nzOpenFileDialogOnClick]="to['additionalProperties']?.showDialogueBox"
-    [nzShowUploadList]="to['additionalProperties']?.showUploadlist" [nzDirectory]="to['additionalProperties']?.onlyDirectoriesAllow"
-    [nzLimit]="to['additionalProperties']?.uploadLimit" [nzSize]="to['additionalProperties']?.fileUploadSize">
+    [nzDisabled]="to['additionalProperties']?.disabled"
+    [nzOpenFileDialogOnClick]="to['additionalProperties']?.showDialogueBox"
+    [nzShowUploadList]="to['additionalProperties']?.showUploadlist"
+    [nzDirectory]="to['additionalProperties']?.onlyDirectoriesAllow" [nzLimit]="to['additionalProperties']?.uploadLimit"
+    [nzSize]="to['additionalProperties']?.fileUploadSize" (nzChange)="handleChange($event)">
     <button nz-button>
         <span nz-icon nzType="upload"></span>
         {{to['additionalProperties']?.uploadBtnLabel}}
@@ -22,9 +27,11 @@
 
 <nz-upload *ngIf="to['additionalProperties']?.multiFileUploadTypes == 'jpg'" class="avatar-uploader" nzName="avatar"
     nzListType="picture-card" [nzMultiple]="to['additionalProperties']?.multiple" [nzBeforeUpload]="beforeUpload"
-    [nzDisabled]="to['additionalProperties']?.disabled" [nzOpenFileDialogOnClick]="to['additionalProperties']?.showDialogueBox"
-    [nzShowUploadList]="to['additionalProperties']?.showUploadlist" [nzDirectory]="to['additionalProperties']?.onlyDirectoriesAllow"
-    [nzLimit]="to['additionalProperties']?.uploadLimit" [nzSize]="to['additionalProperties']?.fileUploadSize">
+    [nzDisabled]="to['additionalProperties']?.disabled"
+    [nzOpenFileDialogOnClick]="to['additionalProperties']?.showDialogueBox"
+    [nzShowUploadList]="to['additionalProperties']?.showUploadlist"
+    [nzDirectory]="to['additionalProperties']?.onlyDirectoriesAllow" [nzLimit]="to['additionalProperties']?.uploadLimit"
+    [nzSize]="to['additionalProperties']?.fileUploadSize" (nzChange)="handleChange($event)">
     <ng-container *ngIf="!avatarUrl">
         <div class="ant-upload-text"><span class="upload-icon mr-1" nz-icon
                 [nzType]="loading ? 'loading' : 'plus'"></span>{{to['additionalProperties']?.uploadBtnLabel}}</div>
@@ -34,9 +41,12 @@
 
 <div class="clearfix" *ngIf="to['additionalProperties']?.multiFileUploadTypes == 'png'">
     <nz-upload nzListType="picture" [nzMultiple]="to['additionalProperties']?.multiple" [(nzFileList)]="fileList1"
-        [nzDisabled]="to['additionalProperties']?.disabled" [nzOpenFileDialogOnClick]="to['additionalProperties']?.showDialogueBox"
-        [nzShowUploadList]="to['additionalProperties']?.showUploadlist" [nzDirectory]="to['additionalProperties']?.onlyDirectoriesAllow"
-        [nzLimit]="to['additionalProperties']?.uploadLimit" [nzSize]="to['additionalProperties']?.fileUploadSize">
+        [nzDisabled]="to['additionalProperties']?.disabled"
+        [nzOpenFileDialogOnClick]="to['additionalProperties']?.showDialogueBox"
+        [nzShowUploadList]="to['additionalProperties']?.showUploadlist"
+        [nzDirectory]="to['additionalProperties']?.onlyDirectoriesAllow"
+        [nzLimit]="to['additionalProperties']?.uploadLimit" [nzSize]="to['additionalProperties']?.fileUploadSize"
+        (nzChange)="handleChange($event)">
         <button nz-button>
             <span nz-icon nzType="upload"></span>
             {{to['additionalProperties']?.uploadBtnLabel}}

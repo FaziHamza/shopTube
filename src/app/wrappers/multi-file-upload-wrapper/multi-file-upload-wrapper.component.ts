@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FieldType, FieldTypeConfig } from '@ngx-formly/core';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { NzUploadChangeParam, NzUploadFile } from 'ng-zorro-antd/upload';
 import { Observable, Observer } from 'rxjs';
+import { DataSharedService } from 'src/app/services/data-shared.service';
 
 @Component({
   selector: 'st-multi-file-upload-wrapper',
@@ -10,26 +11,19 @@ import { Observable, Observer } from 'rxjs';
   styleUrls: ['./multi-file-upload-wrapper.component.scss']
 })
 export class MultiFileUploadWrapperComponent extends FieldType<FieldTypeConfig> {
+  @ViewChild('fileInput') fileInput!: ElementRef<HTMLInputElement>;
+  imageUrl: any;
   loading = false;
   avatarUrl?: string;
-  constructor(private msg: NzMessageService) {
+  constructor(private msg: NzMessageService, private sharedService: DataSharedService) {
     super();
   }
 
   ngOnInit(): void {
   }
   handleChange({ file, fileList }: NzUploadChangeParam): void {
-
-    const status = file.status;
-    console.log(fileList)
-    // if (status !== 'uploading') {
-    //   console.log(file, fileList);
-    // }
-    // if (status === 'done') {
-    //   this.msg.success(`${file.name} file uploaded successfully.`);
-    // } else if (status === 'error') {
-    //   this.msg.error(`${file.name} file upload failed.`);
-    // }
+    debugger
+    this.uploadFile(fileList);
   }
 
   beforeUpload = (file: NzUploadFile, _fileList: NzUploadFile[]): Observable<boolean> =>
@@ -72,4 +66,47 @@ export class MultiFileUploadWrapperComponent extends FieldType<FieldTypeConfig> 
 
   fileList1 = [...this.defaultFileList];
   fileList2 = [...this.defaultFileList];
+
+  uploadFile(file: any) {
+    const reader = new FileReader();
+    if (file) {
+      if (file.type === 'application/json') {
+        reader.onload = () => {
+          const base64Data = reader.result as string;
+          const makeData = JSON.parse(base64Data);
+          const currentData = JSON.parse(
+            JSON.stringify(makeData.screenData, function (key, value) {
+              if (typeof value === 'function') {
+                return value.toString();
+              } else {
+                return value;
+              }
+            }) || '{}'
+          );
+          // this.formControl.setValue(JSON.stringify(currentData));
+          this.sharedService.onChange(JSON.stringify(currentData), this.field);
+        };
+        reader.readAsText(file); // Read the JSON file as text
+      }
+      else {
+        reader.readAsDataURL(file); // Read other types of files as data URL (base64)
+        reader.onload = () => {
+          const base64Data = reader.result as string;
+          // this.formControl.setValue(base64Data);
+          this.sharedService.onChange(base64Data, this.field);
+        };
+      }
+
+      reader.onerror = (error) => {
+        console.error('Error converting file to base64:', error);
+      };
+    }
+
+  }
+  // Function to clear the selected file and reset the form control value
+  clearFile() {
+    this.imageUrl = null;
+    this.fileInput.nativeElement.value = '';
+    this.formControl.setValue(null);
+  }
 }

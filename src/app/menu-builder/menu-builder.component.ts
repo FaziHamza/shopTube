@@ -183,22 +183,6 @@ export class MenuBuilderComponent implements OnInit {
         this.dataSharedService.goToMenu = id;
         if (res.data.length > 0) {
           let getApplication = this.applications.find((a: any) => a._id == id);
-          // if (res.isSuccess) {
-          //   const observables = [
-          //     this.applicationService.getNestBuilderAPIByScreen('cp/screen/Builder', getApplication.name + "_header"),
-          //     this.applicationService.getNestBuilderAPIByScreen('cp/screen/Builder', getApplication.name + "_footer"),
-          //   ];
-          //   forkJoin(observables).subscribe({
-          //     next: (results) => {
-          //       this.dataSharedService.currentHeader.next(results[0].isSuccess ? results[0].data.length > 0 ? JSON.parse(results[0].data[0].screenData) : '' : '');
-          //       this.dataSharedService.currentFooter.next(results[1].isSuccess ? results[1].data.length > 0 ? JSON.parse(results[1].data[0].screenData) : '' : '');
-          //     },
-          //     error: (err) => {
-          //       console.error(err);
-          //       this.toastr.error("An error occurred", { nzDuration: 3000 });
-          //     }
-          //   });
-          // }
           this.selectApplicationType = getApplication['application_Type'] ? getApplication['application_Type'] : '';
           this.applicationId = res.data[0]._id
           this.nodes = JSON.parse(res.data[0].menuData);
@@ -221,13 +205,19 @@ export class MenuBuilderComponent implements OnInit {
       if (res.isSuccess) {
         this.dataSharedService.goToMenu = id;
         if (res.data.length > 0) {
-          let getApplication = this.applications.find((a: any) => a._id == id);
-          this.selectApplicationType = getApplication['application_Type'] ? getApplication['application_Type'] : '';
           this.applicationId = res.data[0]._id
           this.nodes = JSON.parse(res.data[0].menuData);
           let theme = JSON.parse(res.data[0].selectedTheme);
           this.selectedTheme = this.controlUndefinedValues(theme);
           this.makeMenuData();
+          let getApplication = this.applications.find((a: any) => a._id == id);
+          if (getApplication) {
+            let domain = getApplication.domain ? getApplication.domain : '';
+            if (domain) {
+              this.dataSharedService.localhostHeaderFooter.next(domain);
+            }
+            this.selectApplicationType = getApplication['application_Type'] ? getApplication['application_Type'] : '';
+          }
         }
         else {
           this.selectedTheme['font'] = 'font-roboto'
@@ -980,8 +970,8 @@ export class MenuBuilderComponent implements OnInit {
       reader.onloadend = () => {
         let contents = reader.result as string;
         let theme = JSON.parse(contents);
-        this.selectedTheme = this.controlUndefinedValues(theme);
-        this.nodes = JSON.parse(this.selectedTheme);
+        this.selectedTheme = this.controlUndefinedValues(theme.selectedTheme);
+        this.nodes = JSON.parse(theme.menuData);
         // this.controlUndefinedValues();
         this.makeMenuData();
         // let selectDepartment = this.menuModule.find((a: any) => a.name == data);
@@ -1624,7 +1614,6 @@ export class MenuBuilderComponent implements OnInit {
   }
 
   controlUndefinedValues(theme?: any) {
-    debugger
     if (!theme['buttonClassArray']) {
       theme['buttonClassArray'] = []
     }
@@ -1735,7 +1724,6 @@ export class MenuBuilderComponent implements OnInit {
     }
   }
   onDepartmentChange(departmentId: any) {
-    debugger
     if (departmentId.length === 2) {
       this.getMenus(departmentId[1])
     }

@@ -12,8 +12,8 @@ export class DataSharedService {
   public gridData: Subject<{ event: any; field: any}> = new Subject();
   public urlModule: Subject<{ aplication?: any ; module? : any}> = new Subject();
   public currentDepartment: Subject<any> = new Subject();
-  // public currentHeader: Subject<any> = new Subject();
-  // public currentFooter: Subject<any> = new Subject();
+  public currentHeader: Subject<any> = new Subject();
+  public currentFooter: Subject<any> = new Subject();
   public currentMenu: Subject<any> = new Subject();
   public screenId: Subject<any> = new Subject();
   public invoiceSum: Subject<any> = new Subject();
@@ -23,6 +23,7 @@ export class DataSharedService {
   public pageSubmit: Subject<any> = new Subject();
   public formlyShowError = new BehaviorSubject<boolean>(false);
   public collapseMenu = new BehaviorSubject<boolean>(false);
+  public localhostHeaderFooter: Subject<any> = new Subject();
   // public menus: Subject<any> = new Subject();
   // public currentApplication: Subject<any> = new Subject();
   // public defaultPage: Subject<any> = new Subject();
@@ -43,6 +44,7 @@ export class DataSharedService {
   copyJson : any = {};
   selectApplication : any = '';
   headerLogo : any = '';
+  applicationDefaultScreen : any = '';
   constructor() { }
 
   setData(data: any) {

@@ -2852,6 +2852,7 @@ export class BuilderComponent implements OnInit {
       case 'number':
       case 'url':
       case 'customMasking':
+      case 'multiFileUploader':
         configObj = {
           ...configObj,
           ...this.clickButtonService.getFormlyConfig(selectedNode),
@@ -2895,7 +2896,7 @@ export class BuilderComponent implements OnInit {
           case 'customMasking':
             this.fieldData.formData = _formFieldData.customMaskingFields;
             break;
-          case 'multiFileUpload':
+          case 'multiFileUploader':
             this.fieldData.formData = _formFieldData.multiFileUploadFeilds;
             break;
         }
@@ -3850,6 +3851,7 @@ export class BuilderComponent implements OnInit {
       case 'number':
       case 'customMasking':
       case 'url':
+        case 'multiFileUploader':
         if (this.selectedNode) {
           needToUpdate = false;
 
@@ -4013,6 +4015,16 @@ export class BuilderComponent implements OnInit {
             props['additionalProperties']['selectType'] =
               event.form?.selectType;
             props['additionalProperties']['formlyTypes'] = event.form?.formlyTypes;
+            props['additionalProperties']['uploadBtnLabel'] = event.form?.uploadBtnLabel;
+            props['additionalProperties']['multiple'] = event.form?.multiple;
+            props['additionalProperties']['disabled'] = event.form?.disabled;
+            props['additionalProperties']['showDialogueBox'] = event.form?.showDialogueBox;
+            props['additionalProperties']['showUploadlist'] = event.form?.showUploadlist;
+            props['additionalProperties']['onlyDirectoriesAllow'] = event.form?.onlyDirectoriesAllow;
+            props['additionalProperties']['uploadLimit'] = event.form?.uploadLimit;
+            props['additionalProperties']['uploadSelectType'] = event.form?.uploadSelectType;
+            props['additionalProperties']['fileUploadSize'] = event.form?.fileUploadSize;
+            props['additionalProperties']['multiFileUploadTypes'] = event.form?.multiFileUploadTypes;
             props['readonly'] = event.form.readonly;
             if (event.tableDta) {
               props['options'] = event.tableDta;

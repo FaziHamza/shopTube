@@ -29,7 +29,7 @@ export class SiteLayoutComponent implements OnInit {
   requestSubscription: Subscription;
   loader: boolean = false;
   currentWebsiteLayout = "";
-  currentUrl = "";
+  currentUrl: any = "";
   fullCurrentUrl = "";
   currentUser: any;
   newSelectedTheme = {
@@ -59,7 +59,19 @@ export class SiteLayoutComponent implements OnInit {
   }
 
   constructor(private applicationService: ApplicationService, public dataSharedService: DataSharedService, public builderService: BuilderService,
-    private toastr: NzMessageService, private router: Router, private activatedRoute: ActivatedRoute) { }
+    private toastr: NzMessageService, private router: Router, private activatedRoute: ActivatedRoute) {
+    this.requestSubscription = this.dataSharedService.localhostHeaderFooter.subscribe({
+      next: (res) => {
+        debugger
+        if (res) {
+          this.getMenuByDomainName(res, false);
+        }
+      },
+      error: (err) => {
+        console.error(err);
+      }
+    })
+  }
 
   ngOnDestroy() {
     this.requestSubscription.unsubscribe();
@@ -70,15 +82,34 @@ export class SiteLayoutComponent implements OnInit {
     this.requestSubscription = this.dataSharedService.collapseMenu.subscribe({
       next: (res) => {
         if (res) {
-          if (this.selectedTheme.layout != 'horizental') {
-            this.selectedTheme.isCollapsed = !this.selectedTheme.isCollapsed;
-          }
+          this.selectedTheme.isCollapsed = !this.selectedTheme.isCollapsed;
         }
       },
       error: (err) => {
         console.error(err);
       }
     })
+
+    // this.requestSubscription = this.dataSharedService.currentHeader.subscribe({
+    //   next: (res) => {
+    //     if (res) {
+    //       this.currentHeader = res;
+    //     }
+    //   },
+    //   error: (err) => {
+    //     console.error(err);
+    //   }
+    // })
+    // this.requestSubscription = this.dataSharedService.currentFooter.subscribe({
+    //   next: (res) => {
+    //     if (res) {
+    //       this.currentFooter = res;
+    //     }
+    //   },
+    //   error: (err) => {
+    //     console.error(err);
+    //   }
+    // })
     // this.requestSubscription = this.dataSharedService.currentDepartment.subscribe({
     //   next: (res) => {
     //     if (res)
@@ -95,7 +126,11 @@ export class SiteLayoutComponent implements OnInit {
     }
     this.fullCurrentUrl = window.location.href;
     if (!this.currentUrl.includes('localhost')) {
-      this.getMenuByDomainName();
+      let check = this.currentUrl.includes(':');
+      if (check) {
+        this.currentUrl = this.currentUrl.split(':')[0];
+        this.getMenuByDomainName(this.currentUrl, true);
+      }
     }
     else if (!window.location.href.includes('/menu-builder')) {
       if (!this.dataSharedService.goToMenu) {
@@ -171,23 +206,23 @@ export class SiteLayoutComponent implements OnInit {
   // mobileViewCollapseInHostCom() {
   //   this.selectedTheme.showMenu = !this.selectedTheme.showMenu;
   // }
-  getMenuByDomainName() {
+  getMenuByDomainName(domainName: any, allowStoreId: boolean) {
     try {
-      let check = this.currentUrl.includes(':');
-      if (check)
-        this.currentUrl = this.currentUrl.split(':')[0];
       this.loader = true;
-      this.requestSubscription = this.builderService.getApplicationByDomainName(this.currentUrl).subscribe({
+      this.requestSubscription = this.builderService.getApplicationByDomainName(domainName).subscribe({
         next: (res) => {
           if (res.isSuccess) {
             debugger
             if (res.data.appication) {
               this.currentWebsiteLayout = res.data.appication.application_Type ? res.data.appication.application_Type : 'backend_application';
             }
+            this.dataSharedService.applicationDefaultScreen = res.data['default'] ? res.data['default'].navigation : '';
             this.logo = res.data.appication['image'];
             this.dataSharedService.headerLogo = res.data.appication['image'];
-            localStorage.setItem('applicationId', JSON.stringify(res.data?.appication?._id));
-            localStorage.setItem('organizationId', JSON.stringify(res.data?.department?.organizationId));
+            if (allowStoreId) {
+              localStorage.setItem('applicationId', JSON.stringify(res.data?.appication?._id));
+              localStorage.setItem('organizationId', JSON.stringify(res.data?.department?.organizationId));
+            }
             this.currentWebsiteLayout = res.data.appication['application_Type'] ? res.data.appication['application_Type'] : 'backend_application';
             this.currentHeader = res.data['header'] ? this.jsonParseWithObject(res.data['header']['screenData']) : '';
             this.currentFooter = res.data['footer'] ? this.jsonParseWithObject(res.data['footer']['screenData']) : '';
