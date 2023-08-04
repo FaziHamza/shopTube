@@ -43,6 +43,11 @@ export class AuthInterceptor implements HttpInterceptor {
     //     })
     // }
     let token = JSON.parse(localStorage.getItem('authToken')!);
+    if (!token) {
+      // Redirect to login if authToken is missing
+      this.router.navigate(['/login']);
+      return throwError('Authentication token is missing');
+    }
     let applicationId = JSON.parse(localStorage.getItem('applicationId')!);
     let organizationId = JSON.parse(localStorage.getItem('organizationId')!);
     this.authReq = req.clone({
