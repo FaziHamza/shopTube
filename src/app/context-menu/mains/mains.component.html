@@ -1,4 +1,3 @@
-<!-- {{item.className | json}} -->
 <div nz-tooltip [nzTooltipTitle]="item?.tooltipWithoutIcon ? item.tooltip : ''">
     <!-- <span class="tooltip-icon" *ngIf="item?.tooltipPosition == 'left'">
         <span *ngIf="item.type != 'progressBar' && item.type != 'alert'
@@ -7,23 +6,20 @@
             <span nz-icon nzType="question-circle" [style.color]="item['toolTipColor']" nzTheme="outline"></span>
         </span>
     </span> -->
-    <div *ngIf="item.type == 'multiFileUpload';else one"></div>
-    <!-- <st-multi-file-upload [multiFileUploadData]="item"
-        *ngIf="item.type == 'multiFileUpload';else one"></st-multi-file-upload> -->
-    <ng-template #one>
-        <st-sales-card [salesdata]="item" *ngIf="item.type == 'chart';else second "></st-sales-card>
-    </ng-template>
+    <st-sales-card [salesdata]="item" *ngIf="item.type == 'chart';else second "></st-sales-card>
     <ng-template #second>
         <div class="header-logo" *ngIf="item.type == 'headerLogo';else third">
             <img class="desktop-toggle"
                 [style.height]="item.height !== undefined && item.height !== null && item.height !== 0 && item.height !== '' ? item.height + 'px' : 'auto'"
                 [style.width]="item.width !== undefined && item.width !== null && item.width !== 0 && item.width !== '' ? item.width + 'px' : 'auto'"
-                (click)="menuCollapsed()"
+                (click)="defaultPageRoute()"
                 [src]="dataSharedService.headerLogo ? dataSharedService.headerLogo : 'assets/images/logo.png'" alt>
-            <div class="mobile-toggle" >
+            <div class="mobile-toggle flex">
                 <button nz-button (click)="menuCollapsed()">
                     <i class="fa fa-bars"></i>
-                  </button>
+                </button>
+                <img  class="mobile-logo" (click)="defaultPageRoute()"
+                    [src]="dataSharedService.headerLogo ? dataSharedService.headerLogo : 'assets/images/logo.png'" alt>
             </div>
         </div>
     </ng-template>

@@ -20,7 +20,7 @@ export class MenuComponent implements OnInit {
   departments: any;
   applications: any;
   selectedApp: string = '';
-  isCollapsed: boolean = true;
+
   isVisible: boolean = false;
   showCollapseButton: boolean = true;
   requestSubscription: Subscription;

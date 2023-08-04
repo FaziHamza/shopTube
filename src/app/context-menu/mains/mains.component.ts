@@ -1,4 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Router } from '@angular/router';
 import { NzImageService } from 'ng-zorro-antd/image';
 import { DataSharedService } from 'src/app/services/data-shared.service';
 
@@ -16,7 +17,7 @@ export class MainsComponent implements OnInit {
   @Input() screenId: any;
   @Output() notify: EventEmitter<any> = new EventEmitter();
   menu: boolean = false;
-  constructor(private nzImageService: NzImageService, public dataSharedService: DataSharedService) { }
+  constructor(private nzImageService: NzImageService, public dataSharedService: DataSharedService, private router: Router) { }
 
   ngOnInit(): void {
 
@@ -50,7 +51,9 @@ export class MainsComponent implements OnInit {
   }
 
   menuCollapsed() {
-    debugger
     this.dataSharedService.collapseMenu.next(true)
+  }
+  defaultPageRoute() {
+    this.router.navigate(['/pages/' + this.dataSharedService.applicationDefaultScreen]);
   }
 }

@@ -16,7 +16,6 @@ export class LayoutDrawerComponent implements OnInit {
   constructor(public dataSharedService: DataSharedService, private toastr: NzMessageService,) { }
 
   ngOnInit(): void {
-    debugger
     this.listOfOption = [
       { label: "px-1", value: "px-1" },
       { label: "py-1", value: "py-1" },
@@ -121,6 +120,7 @@ export class LayoutDrawerComponent implements OnInit {
       this.selectedTheme.layoutWidth = 'fluid';
       this.selectedTheme.sideBarSize = 'default';
       this.selectedTheme.siderBarView = 'sidebarViewDefault';
+      this.selectedTheme.hoverBgColor = '#3b82f6';
       this.selectedTheme.newMenuArray = [];
       this.selectedTheme.menuChildArrayTwoColumn = [];
       this.selectedTheme.allMenuItems = [];

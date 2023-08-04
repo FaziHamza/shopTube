@@ -119,7 +119,7 @@ export class BuilderClickButtonService {
       selectType: node.formly[0].fieldGroup[0].props['additionalProperties']['selectType'],
       formlyTypes: node.formly[0].fieldGroup[0].props['additionalProperties']['formlyTypes'],
       multiple: node.formly[0].fieldGroup[0].props['additionalProperties']['multiple'],
-      uploadDisabled: node.formly[0].fieldGroup[0].props['additionalProperties']['uploadDisabled'],
+      uploadBtnLabel: node.formly[0].fieldGroup[0].props['additionalProperties']['uploadBtnLabel'],
       showDialogueBox: node.formly[0].fieldGroup[0].props['additionalProperties']['showDialogueBox'],
       showUploadlist: node.formly[0].fieldGroup[0].props['additionalProperties']['showUploadlist'],
       onlyDirectoriesAllow: node.formly[0].fieldGroup[0].props['additionalProperties']['onlyDirectoriesAllow'],
