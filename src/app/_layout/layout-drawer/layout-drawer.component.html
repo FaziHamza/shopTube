@@ -81,6 +81,16 @@
                                         </div>
                                     </div>
                                     <div class="collm lable">
+                                        Hover Bg Color
+                                    </div>
+                                    <div class="collm option">
+                                        <div class="box">
+                                            <input type="color" class="input-color"
+                                                [(ngModel)]="selectedTheme['hoverBgColor']">
+                                            <span>{{selectedTheme['hoverBgColor']}} </span>
+                                        </div>
+                                    </div>
+                                    <div class="collm lable">
                                         Text Size
                                     </div>
                                     <div class="collm option">
@@ -114,16 +124,6 @@
                                                     nzValue="font-extrabold"></nz-option>
                                                 <nz-option nzLabel="font-black" nzValue="font-black"></nz-option>
                                             </nz-select>
-                                        </div>
-                                    </div>
-                                    <div class="collm lable">
-                                        Hover Bg Color
-                                    </div>
-                                    <div class="collm option">
-                                        <div class="box">
-                                            <input type="color" class="input-color"
-                                                [(ngModel)]="selectedTheme['hoverBgColor']">
-                                            <span>{{selectedTheme['hoverBgColor']}} </span>
                                         </div>
                                     </div>
                                 </div>
@@ -742,15 +742,6 @@
                                         </div>
                                     </div>
                                     <div class="collm lable">
-                                        Text Size
-                                    </div>
-                                    <div class="collm option">
-                                        <div class="box">
-                                            <input type="number" class="input-text" name="" id=""
-                                                [(ngModel)]="selectedTheme['inPageMenu']['child']['titleSize']">
-                                        </div>
-                                    </div>
-                                    <div class="collm lable">
                                         Hover Bg Color
                                     </div>
                                     <div class="collm option">
@@ -758,6 +749,15 @@
                                             <input type="color" class="input-color"
                                                 [(ngModel)]="selectedTheme['inPageMenu']['child']['hoverBgColor']">
                                             <span>{{selectedTheme['inPageMenu']['child']['hoverBgColor']}} </span>
+                                        </div>
+                                    </div>
+                                    <div class="collm lable">
+                                        Text Size
+                                    </div>
+                                    <div class="collm option">
+                                        <div class="box">
+                                            <input type="number" class="input-text" name="" id=""
+                                                [(ngModel)]="selectedTheme['inPageMenu']['child']['titleSize']">
                                         </div>
                                     </div>
                                 </div>

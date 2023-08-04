@@ -14,10 +14,12 @@
                 [style.width]="item.width !== undefined && item.width !== null && item.width !== 0 && item.width !== '' ? item.width + 'px' : 'auto'"
                 (click)="defaultPageRoute()"
                 [src]="dataSharedService.headerLogo ? dataSharedService.headerLogo : 'assets/images/logo.png'" alt>
-            <div class="mobile-toggle" >
+            <div class="mobile-toggle flex">
                 <button nz-button (click)="menuCollapsed()">
                     <i class="fa fa-bars"></i>
-                  </button>
+                </button>
+                <img  class="mobile-logo" (click)="defaultPageRoute()"
+                    [src]="dataSharedService.headerLogo ? dataSharedService.headerLogo : 'assets/images/logo.png'" alt>
             </div>
         </div>
     </ng-template>

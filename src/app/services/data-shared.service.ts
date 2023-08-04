@@ -16,6 +16,7 @@ export class DataSharedService {
   public currentFooter: Subject<any> = new Subject();
   public currentMenu: Subject<any> = new Subject();
   public screenId: Subject<any> = new Subject();
+  public localhostHeaderFooter: Subject<any> = new Subject();
   public invoiceSum: Subject<any> = new Subject();
   public menuSelectedThemeLayout: Subject<any> = new Subject();
   // public goToMenu: Subject<any> = new Subject();
@@ -23,7 +24,6 @@ export class DataSharedService {
   public pageSubmit: Subject<any> = new Subject();
   public formlyShowError = new BehaviorSubject<boolean>(false);
   public collapseMenu = new BehaviorSubject<boolean>(false);
-  public localhostHeaderFooter: Subject<any> = new Subject();
   // public menus: Subject<any> = new Subject();
   // public currentApplication: Subject<any> = new Subject();
   // public defaultPage: Subject<any> = new Subject();

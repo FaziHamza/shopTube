@@ -7,10 +7,11 @@
     'compact-sidebar-left': selectedTheme.sideBarSize == 'compact_left' && (selectedTheme.layout == 'vertical' || selectedTheme.layout == 'rtl')
   }">
   <div [ngClass]="{
-    'menu-bg-image':selectedTheme.siderBarImages
+    'menu-bg-image':selectedTheme.siderBarImages && selectedTheme.layout != 'twoColumn'
 }" [style.background-image]="selectedTheme.layout != 'twoColumn' ? 'url(' + selectedTheme.siderBarImages + ')' : ''">
     <ul [class]="selectedTheme?.font" [style.background]="selectedTheme.backGroundColor" nz-menu
-      [ngClass]="{'rtlMenu': selectedTheme.layout == 'rtl'}" [nzMode]='selectedTheme.menuMode'
+      [ngClass]="{'rtlMenu': selectedTheme.layout == 'rtl'}"
+      [nzMode]="selectedTheme?.layout == 'horizental' && mobileView ? 'inline' : selectedTheme.menuMode"
       [nzInlineCollapsed]="selectedTheme.layout != 'twoColumn' ? selectedTheme.isCollapsed : true">
       <div
         *ngIf="(selectedTheme.layout == 'vertical' || selectedTheme.layout == 'rtl') && selectedTheme.sideBarSize == 'smallHoverView'"
@@ -272,7 +273,7 @@
         <li
           *ngIf="item.children.length > 0  && (item.children[0].type != 'mainTab' || item.children.length > 1);else menu"
           [ngStyle]="{ 'background': isActiveShow == item.id ? (selectedTheme['activeBackgroundColor'] ? selectedTheme['activeBackgroundColor'] : '' ) : '' }"
-          [nzTitle]="itemTemplate" nz-submenu (click)="loadTabsAndButtons($event,item,false,false)"
+          [nzTitle]="itemTemplate" nz-submenu (click)="loadTabsAndButtons($event,item,false,false,true)"
           (mouseenter)="hoverActiveShow = item.id" (mouseleave)="hoverActiveShow = null" nz-tooltip
           nzTooltipPlacement="right" [nzTooltipTitle]="selectedTheme.isCollapsed ? item.title : ''">
           <ng-template #itemTemplate>
@@ -287,7 +288,7 @@
             <ng-container *ngFor="let sub of item.children">
               <li *ngIf="sub.type != 'mainTab'"
                 [ngStyle]="{ 'background': isActiveShow == sub.id ? (selectedTheme['activeBackgroundColor'] ? selectedTheme['activeBackgroundColor'] : '' ) : '' }"
-                nz-menu-item (click)="loadTabsAndButtons($event, sub,false,true)"
+                nz-menu-item (click)="loadTabsAndButtons($event, sub,false,true,true)"
                 (mouseenter)="hoverActiveShow = sub.id" (mouseleave)="hoverActiveShow = null" nz-tooltip
                 nzTooltipPlacement="right" [nzTooltipTitle]="selectedTheme.isCollapsed ? sub.title : ''">
                 <!-- <span class="menu-item-icon">
@@ -309,7 +310,7 @@
         'background': isActiveShow === item.id ? (selectedTheme['activeBackgroundColor'] || '') : ''
       }" (mouseenter)="hoverActiveShow = item.id" (mouseleave)="hoverActiveShow = null" nz-menu-item nz-tooltip
             nzTooltipPlacement="right" [nzTooltipTitle]="selectedTheme.isCollapsed ? item.title : ''"
-            *ngIf="item.type != 'mainTab'" (click)="loadTabsAndButtons($event,item,false,true)">
+            *ngIf="item.type != 'mainTab'" (click)="loadTabsAndButtons($event,item,false,true,true)">
             <!-- <span style="font-size: 5px;"
             [style.color]="(hoverActiveShow === item.id) ? selectedTheme['hoverTextColor'] :
             ((isActiveShow === item.id) ? (selectedTheme['activeTextColor'] || item['iconColor']) : item['iconColor'])"

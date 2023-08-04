@@ -189,7 +189,7 @@ export class MenuBuilderComponent implements OnInit {
           let theme = JSON.parse(res.data[0].selectedTheme);
           this.selectedTheme = this.controlUndefinedValues(theme);
           this.selectedTheme.allMenuItems = this.nodes;
-          this.makeMenuData();
+          // this.makeMenuData();
         }
         else {
           this.getlocalMenu(id);
@@ -210,20 +210,21 @@ export class MenuBuilderComponent implements OnInit {
           let theme = JSON.parse(res.data[0].selectedTheme);
           this.selectedTheme = this.controlUndefinedValues(theme);
           this.makeMenuData();
-          let getApplication = this.applications.find((a: any) => a._id == id);
-          if (getApplication) {
-            let domain = getApplication.domain ? getApplication.domain : '';
-            if (domain) {
-              this.dataSharedService.localhostHeaderFooter.next(domain);
-            }
-            this.selectApplicationType = getApplication['application_Type'] ? getApplication['application_Type'] : '';
-          }
+          this.clickBack();
         }
         else {
-          this.selectedTheme['font'] = 'font-roboto'
+          this.selectedTheme = this.controlUndefinedValues(this.selectedTheme);
           this.clearChildNode();
           this.applicationId = '';
           this.clickBack();
+        }
+        let getApplication = this.applications.find((a: any) => a._id == id);
+        if (getApplication) {
+          let domain = getApplication.domain ? getApplication.domain : '';
+          if (domain && window.location.href.includes('localhost')) {
+            this.dataSharedService.localhostHeaderFooter.next(domain);
+          }
+          this.selectApplicationType = getApplication['application_Type'] ? getApplication['application_Type'] : '';
         }
       } else
         this.toastr.error(res.message, { nzDuration: 3000 });
@@ -270,11 +271,14 @@ export class MenuBuilderComponent implements OnInit {
     this.clickBack();
   }
   addFunctionsInHtml(type: any) {
-    debugger
     if (type == "Tabs" && this.selectedNode.children) {
       const maintabCount = this.selectedNode.children.filter((child: any) => child.type === 'mainTab').length;
       if (maintabCount === 0) {
-        this.dashonictabsAddNew();
+        if(this.selectedNode.type != 'tabs'){
+          this.dashonictabsAddNew();
+        }else{
+          this.toastr.warning('Cannot add Main tab in tab', { nzDuration: 3000 });
+        }
       }
       else {
         this.toastr.warning("Only one MainTab is allowed in parent-child")
@@ -473,11 +477,7 @@ export class MenuBuilderComponent implements OnInit {
         ],
       } as TreeNode;
       this.tabsAdd = newNode
-      if (node.type != 'tabs') {
-        this.addNode(node, newNode);
-      } else {
-        this.toastr.warning('Cannot add Main tab in tab', { nzDuration: 3000 });
-      }
+      this.addNode(node, newNode);
     }
     else if (value == 'tabs') {
       const newNode = {
@@ -963,7 +963,6 @@ export class MenuBuilderComponent implements OnInit {
   //   });
   // };
   jsonUpload(event: Event) {
-    debugger
     // && event.target.files.length > 0
     if (event.target instanceof HTMLInputElement) {
       const reader = new FileReader();
@@ -1254,7 +1253,6 @@ export class MenuBuilderComponent implements OnInit {
   }
 
   changeLayout(data: any) {
-    debugger
     if (!data.inPageMenu) {
       let layoutType = data.layoutType;
       if (
@@ -1275,6 +1273,7 @@ export class MenuBuilderComponent implements OnInit {
           this.selectedTheme[layoutType.split('_')[1]] = layoutType.split('_')[0].replace(',', ' ');
         }
       }
+      
       else if (layoutType == 'design1' || layoutType == 'design2' || layoutType == 'design3' || layoutType == 'design4') {
         this.selectedTheme['design'] = layoutType;
       }
@@ -1679,6 +1678,11 @@ export class MenuBuilderComponent implements OnInit {
     for (const prop of defaultProperties) {
       if (!theme[prop.property]) {
         theme[prop.property] = prop.defaultValue;
+      }
+    }
+    for (const prop of defaultPropertiesInPageMenu) {
+      if (!theme['inPageMenu'][prop.property]) {
+        theme['inPageMenu'][prop.property] = prop.defaultValue;
       }
     }
     for (const prop of defaultPropertiesInPageMenuChild) {

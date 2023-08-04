@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
 import { ActivatedRoute, NavigationEnd, Params, Router } from '@angular/router';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { Subscription, filter, forkJoin } from 'rxjs';
@@ -14,13 +14,12 @@ import { EmployeeService } from 'src/app/services/employee.service';
   styleUrls: ['./site-layout.component.scss']
 })
 export class SiteLayoutComponent implements OnInit {
-  isCollapsed: boolean = false;
   @Input() menuItems: any = [];
   @Input() selectedTheme: any;
   isVisible: boolean = false;
-  currentHeader: any;
+  currentHeader: any= undefined;
   logo: any;
-  currentFooter: any;
+  currentFooter: any= undefined;
   defaultPage: any;
   tabs: any = [];
   dropdown: any = [];
@@ -32,34 +31,34 @@ export class SiteLayoutComponent implements OnInit {
   currentUrl: any = "";
   fullCurrentUrl = "";
   currentUser: any;
-  newSelectedTheme = {
-    topHeaderMenu: 'w-1/6',
-    topHeader: 'w-10/12',
-    menuMode: 'inline',
-    menuColumn: 'w-2/12',
-    rowClass: 'w-10/12',
-    horizontalRow: 'flex',
-    layout: 'vertical',
-    colorScheme: 'light',
-    layoutWidth: 'fluid',
-    layoutPosition: 'fixed',
-    topBarColor: 'light',
-    sideBarSize: 'default',
-    siderBarView: 'sidebarViewDefault',
-    sieBarColor: 'light',
-    siderBarImages: '',
-    checked: false,
-    theme: false,
-    isCollapsed: false,
-    newMenuArray: [],
-    menuChildArrayTwoColumn: [],
-    isTwoColumnCollapsed: false,
-    allMenuItems: [],
-    showMenu: true,
-  }
+  // newSelectedTheme = {
+  //   topHeaderMenu: 'w-1/6',
+  //   topHeader: 'w-10/12',
+  //   menuMode: 'inline',
+  //   menuColumn: 'w-2/12',
+  //   rowClass: 'w-10/12',
+  //   horizontalRow: 'flex',
+  //   layout: 'vertical',
+  //   colorScheme: 'light',
+  //   layoutWidth: 'fluid',
+  //   layoutPosition: 'fixed',
+  //   topBarColor: 'light',
+  //   sideBarSize: 'default',
+  //   siderBarView: 'sidebarViewDefault',
+  //   sieBarColor: 'light',
+  //   siderBarImages: '',
+  //   checked: false,
+  //   theme: false,
+  //   isCollapsed: false,
+  //   newMenuArray: [],
+  //   menuChildArrayTwoColumn: [],
+  //   isTwoColumnCollapsed: false,
+  //   allMenuItems: [],
+  //   showMenu: true,
+  // }
 
   constructor(private applicationService: ApplicationService, public dataSharedService: DataSharedService, public builderService: BuilderService,
-    private toastr: NzMessageService, private router: Router, private activatedRoute: ActivatedRoute) {
+    private toastr: NzMessageService, private router: Router, private activatedRoute: ActivatedRoute,private cd: ChangeDetectorRef) {
     this.requestSubscription = this.dataSharedService.localhostHeaderFooter.subscribe({
       next: (res) => {
         debugger
@@ -78,17 +77,22 @@ export class SiteLayoutComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    if(this.selectedTheme.sideBarSize == 'smallIconView'){
+      let check : any = false;
+      this.selectedTheme.isCollapsed = JSON.stringify(JSON.parse(check));
+      this.cd.detectChanges(); // Mark component for change detection
+    }
     this.currentUser = JSON.parse(localStorage.getItem('user')!);
-    this.requestSubscription = this.dataSharedService.collapseMenu.subscribe({
-      next: (res) => {
-        if (res) {
-          this.selectedTheme.isCollapsed = !this.selectedTheme.isCollapsed;
-        }
-      },
-      error: (err) => {
-        console.error(err);
-      }
-    })
+    // this.requestSubscription = this.dataSharedService.collapseMenu.subscribe({
+    //   next: (res) => {
+    //     if (res) {
+    //       this.selectedTheme.isCollapsed = !this.selectedTheme.isCollapsed;
+    //     }
+    //   },
+    //   error: (err) => {
+    //     console.error(err);
+    //   }
+    // })
 
     // this.requestSubscription = this.dataSharedService.currentHeader.subscribe({
     //   next: (res) => {
@@ -134,7 +138,7 @@ export class SiteLayoutComponent implements OnInit {
     }
     else if (!window.location.href.includes('/menu-builder')) {
       if (!this.dataSharedService.goToMenu) {
-        this.selectedTheme = this.selectedTheme ? this.selectedTheme : this.newSelectedTheme;
+        this.selectedTheme = this.selectedTheme;
         this.getApplications();
         this.getAllMenu();
       }
@@ -163,7 +167,7 @@ export class SiteLayoutComponent implements OnInit {
         setTimeout(() => {
           const filteredMenu = this.menuList.filter((item: any) => item.applicationId == module);
           if (filteredMenu.length > 0) {
-            this.selectedTheme = filteredMenu[0].selectedTheme || this.newSelectedTheme;
+            this.selectedTheme = filteredMenu[0].selectedTheme;
             this.selectedTheme.allMenuItems = filteredMenu[0].menuData;
             if (!filteredMenu[0].selectedTheme?.showMenu) {
               this.selectedTheme.showMenu = true;
@@ -183,7 +187,7 @@ export class SiteLayoutComponent implements OnInit {
 
 
   // notifyEmit(data: any) {
-  //   this.selectedTheme = data.selectedTheme ? data.selectedTheme : this.newSelectedTheme
+  //   this.selectedTheme = data.selectedTheme
   //   this.selectedTheme.allMenuItems = data.menuData;
   //   this.menuItems = data.menuData;
   //   this.makeMenuData();
@@ -288,20 +292,21 @@ export class SiteLayoutComponent implements OnInit {
       this.modules = JSON.parse(JSON.stringify(data));
     }
     else if (data.children.length > 0) {
-      data.isOpen = !data.isOpen;
-      data.children.forEach((i: any) => {
-        if (this.selectedTheme.layout == 'twoColumn') {
-          this.selectedTheme.rowClass = 'w-10/12';
-          this.selectedTheme.menuColumn = 'w-2/12';
-          this.selectedTheme.menuChildArrayTwoColumn.push(i);
-        }
-        if (i.type == 'mainTab') {
-          this.tabs.push(i);
-        }
-        // else if (i.type == 'dropdown') {
-        //   this.dropdown.push(i);
-        // }
-      });
+      this.tabs = data.children.filter((child : any) => child)
+      // data.isOpen = !data.isOpen;
+      // data.children.forEach((i: any) => {
+      //   if (this.selectedTheme.layout == 'twoColumn') {
+      //     this.selectedTheme.rowClass = 'w-10/12';
+      //     this.selectedTheme.menuColumn = 'w-2/12';
+      //     this.selectedTheme.menuChildArrayTwoColumn.push(i);
+      //   }
+      //   if (i.type == 'mainTab') {
+      //     this.tabs.push(i);
+      //   }
+      //   // else if (i.type == 'dropdown') {
+      //   //   this.dropdown.push(i);
+      //   // }
+      // });
     }
   }
   makeMenuData() {

@@ -120,6 +120,7 @@ export class LayoutDrawerComponent implements OnInit {
       this.selectedTheme.layoutWidth = 'fluid';
       this.selectedTheme.sideBarSize = 'default';
       this.selectedTheme.siderBarView = 'sidebarViewDefault';
+      this.selectedTheme.hoverBgColor = '#3b82f6';
       this.selectedTheme.newMenuArray = [];
       this.selectedTheme.menuChildArrayTwoColumn = [];
       this.selectedTheme.allMenuItems = [];
