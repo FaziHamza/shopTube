@@ -165,20 +165,28 @@ export class BuilderComponent implements OnInit {
 
   // onDepartmentChange
   onDepartmentChange(departmentId: any) {
-    if (departmentId.length === 3) {
-      this.getScreenData(departmentId[2])
+    if (departmentId.length === 3 ) {
+      if(departmentId[2] != 'selectScreen'){
+        this.getScreenData(departmentId[2])
+      }
     }
   }
   async loadDepartmentData(): Promise<void> {
     try {
       const res = await this.applicationService.getNestCommonAPI('cp/Department').toPromise();
       if (res?.isSuccess) {
+        debugger
         this.departmentData = res.data?.map((data: any) => {
           return {
             label: data.name,
             value: data._id
           };
         });
+        let header = {
+          label: 'Select Department',
+          value: 'selectDepartment'
+        }
+        this.departmentData.unshift(header)
       } else {
         this.toastr.error(`Department:`, { nzDuration: 3000 });
       }
@@ -188,8 +196,9 @@ export class BuilderComponent implements OnInit {
     }
   }
   async loadData(node: NzCascaderOption, index: number): Promise<void> {
-    this.selectDepartmentName;
-    if (index == 1) {
+    debugger
+    // this.selectDepartmentName;
+    if (index == 1 && node.value != 'selectApplication') {
       // Root node - Load application data
       try {
         this.selectApplicationName = node.value;
@@ -202,8 +211,14 @@ export class BuilderComponent implements OnInit {
               value: screenData._id,
               isLeaf: true
             };
+
           });
           node.children = screens;
+          let header = {
+            label: 'Select Screen',
+            value: 'selectScreen'
+          }
+          screens.unshift(header)
         } else {
           this.toastr.error(res.message, { nzDuration: 3000 });
         }
@@ -211,7 +226,7 @@ export class BuilderComponent implements OnInit {
         this.toastr.error('An error occurred while loading application data', { nzDuration: 3000 });
       }
     }
-    else if (index === 0) {
+    else if (index === 0 && node.value != 'selectDepartment') {
       try {
         const res = await this.applicationService.getNestCommonAPIById('cp/Application', node.value).toPromise();
         if (res.isSuccess) {
@@ -225,6 +240,11 @@ export class BuilderComponent implements OnInit {
             };
           });
           node.children = applications;
+          let header = {
+            label: 'Select Application',
+            value: 'selectApplication'
+          }
+          applications.unshift(header)
         } else {
           this.toastr.error(res.message, { nzDuration: 3000 });
         }
