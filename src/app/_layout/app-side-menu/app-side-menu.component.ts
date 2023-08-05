@@ -28,11 +28,11 @@ export class AppSideMenuComponent implements OnInit {
   hoverActiveShow: any;
   currentUrl = "";
   currentUser: any;
-  // openMap: { [name: string]: boolean } = {
-  //   sub1: true,
-  //   sub2: false,
-  //   sub3: false
-  // };
+  openMap: { [name: string]: boolean } = {
+    sub1: true,
+    sub2: false,
+    sub3: false
+  };
 
   constructor(private employeeService: EmployeeService, private toastr: NzMessageService, private router: Router,
     public builderService: BuilderService, public dataSharedService: DataSharedService, private renderer: Renderer2,
@@ -40,9 +40,9 @@ export class AppSideMenuComponent implements OnInit {
   ngOnInit(): void {
     this.currentUser = JSON.parse(localStorage.getItem('user')!);
     this.loadModules();
-    // window.onresize = () => {
-    //   this.changeHtlmenuAtMblView();
-    // };
+    window.onresize = () => {
+      this.changeHtlmenuAtMblView();
+    };
     // this.makeMenuData();
   }
   loadModules(): void {
@@ -76,62 +76,62 @@ export class AppSideMenuComponent implements OnInit {
       if (!this.selectedTheme.checked) {
         this.selectedTheme.isCollapsed = value;
       }
-      // if (this.selectedTheme.isCollapsed) {
-      //   this.selectedTheme.topHeaderMenu = 'w-1/12';
-      //   this.selectedTheme.topHeader = 'w-full';
-      //   this.selectedTheme.menuColumn = '';
-      //   this.selectedTheme.rowClass = 'w-full';
-      // }
-      // else {
-      //   this.selectedTheme.menuColumn = 'w-1/6';
-      //   this.selectedTheme.rowClass = 'w-10/12';
-      //   this.selectedTheme.topHeaderMenu = 'w-1/6';
-      //   this.selectedTheme.topHeader = 'w-10/12';
-      // }
+      if (this.selectedTheme.isCollapsed) {
+        this.selectedTheme.topHeaderMenu = 'w-1/12';
+        this.selectedTheme.topHeader = 'w-full';
+        this.selectedTheme.menuColumn = '';
+        this.selectedTheme.rowClass = 'w-full';
+      }
+      else {
+        this.selectedTheme.menuColumn = 'w-1/6';
+        this.selectedTheme.rowClass = 'w-10/12';
+        this.selectedTheme.topHeaderMenu = 'w-1/6';
+        this.selectedTheme.topHeader = 'w-10/12';
+      }
     }
   }
-  // getMenu() {
-  //   this.requestSubscription = this.applicationService.getNestCommonAPIById('cp/CacheMenu', this.currentUser.userId).subscribe({
-  //     next: (res: any) => {
-  //       if (res.isSuccess)
-  //         if (res.data.length > 0) {
-  //           this.selectedTheme.allMenuItems = JSON.parse(res.data[0].menuData);
-  //           this.makeMenuData();
-  //           this.selectedTheme.allMenuItems.forEach((e: any) => {
-  //             e["menuIcon"] = "up"
-  //           });
-  //         }
-  //         else {
-  //           this.requestSubscription = this.applicationService.getNestCommonAPIById('cp/Menu', "649053c6ad28a951f554e688").subscribe({
-  //             next: (res: any) => {
-  //               if (res.isSuccess)
-  //                 if (res.data.length > 0) {
-  //                   this.selectedTheme.allMenuItems = JSON.parse(res.data[0].menuData);
-  //                   this.makeMenuData();
-  //                   this.selectedTheme.allMenuItems.forEach((e: any) => {
-  //                     e["menuIcon"] = "up"
-  //                   });
-  //                 }
-  //                 else
-  //                   this.menuItems = [];
-  //               else
-  //                 this.toastr.error(res.message, { nzDuration: 3000 });
-  //             },
-  //             error: (err) => {
-  //               console.error(err);
-  //               this.toastr.error("An error occurred", { nzDuration: 3000 });
-  //             }
-  //           });
-  //         }
-  //       else
-  //         this.toastr.error(res.message, { nzDuration: 3000 });
-  //     },
-  //     error: (err) => {
-  //       console.error(err);
-  //       this.toastr.error("An error occurred", { nzDuration: 3000 });
-  //     }
-  //   });
-  // }
+  getMenu() {
+    this.requestSubscription = this.applicationService.getNestCommonAPIById('cp/CacheMenu', this.currentUser.userId).subscribe({
+      next: (res: any) => {
+        if (res.isSuccess)
+          if (res.data.length > 0) {
+            this.selectedTheme.allMenuItems = JSON.parse(res.data[0].menuData);
+            this.makeMenuData();
+            this.selectedTheme.allMenuItems.forEach((e: any) => {
+              e["menuIcon"] = "up"
+            });
+          }
+          else {
+            this.requestSubscription = this.applicationService.getNestCommonAPIById('cp/Menu', "649053c6ad28a951f554e688").subscribe({
+              next: (res: any) => {
+                if (res.isSuccess)
+                  if (res.data.length > 0) {
+                    this.selectedTheme.allMenuItems = JSON.parse(res.data[0].menuData);
+                    this.makeMenuData();
+                    this.selectedTheme.allMenuItems.forEach((e: any) => {
+                      e["menuIcon"] = "up"
+                    });
+                  }
+                  else
+                    this.menuItems = [];
+                else
+                  this.toastr.error(res.message, { nzDuration: 3000 });
+              },
+              error: (err) => {
+                console.error(err);
+                this.toastr.error("An error occurred", { nzDuration: 3000 });
+              }
+            });
+          }
+        else
+          this.toastr.error(res.message, { nzDuration: 3000 });
+      },
+      error: (err) => {
+        console.error(err);
+        this.toastr.error("An error occurred", { nzDuration: 3000 });
+      }
+    });
+  }
   makeMenuData() {
     let arrayList = [];
     this.menuItems = this.selectedTheme.allMenuItems;
@@ -194,6 +194,7 @@ export class AppSideMenuComponent implements OnInit {
   changeHtlmenuAtMblView() {
     const screenWidth = window.innerWidth;
     let arrayList = [...this.menuItems];
+    // this.selectedTheme.allMenuItems = [];
     this.selectedTheme.newMenuArray = [];
     if (this.menuItems.length > 7 && this.selectedTheme.layout === 'horizental' && screenWidth > 768) {
       this.selectedTheme.newMenuArray = [{
@@ -206,18 +207,18 @@ export class AppSideMenuComponent implements OnInit {
       const withoutTitle = this.menuItems.filter((item: any) => !item.isTitle);
       this.selectedTheme.newMenuArray[0].children = withoutTitle.slice(7);
       this.selectedTheme.allMenuItems = arrayList.filter((item) => !item.isTitle).slice(0, 7);
-    }
+    } 
     else if (this.selectedTheme.layout === 'horizental' && this.menuItems.length > 0) {
       this.selectedTheme.allMenuItems = this.menuItems;
     }
   }
-  // openHandler(value: string): void {
-  //   for (const key in this.openMap) {
-  //     if (key !== value) {
-  //       this.openMap[key] = false;
-  //     }
-  //   }
-  // }
+  openHandler(value: string): void {
+    for (const key in this.openMap) {
+      if (key !== value) {
+        this.openMap[key] = false;
+      }
+    }
+  }
 
 }
 

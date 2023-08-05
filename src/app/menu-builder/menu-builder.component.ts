@@ -1616,6 +1616,9 @@ export class MenuBuilderComponent implements OnInit {
     if (!theme['buttonClassArray']) {
       theme['buttonClassArray'] = []
     }
+    if (!theme['menuChildArrayTwoColumn']) {
+      theme['menuChildArrayTwoColumn'] = []
+    }
     if (theme['showButton'] == undefined || theme['showButton'] == '' || theme['showButton'] == null) {
       theme['showButton'] = true
     }
