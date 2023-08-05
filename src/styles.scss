@@ -3343,7 +3343,7 @@ object {
   }
 
   nz-content {
-    margin: 0 15px;
+    margin: 0 10px;
   }
 
   nz-breadcrumb {
@@ -3588,7 +3588,7 @@ object {
   .top-action-bar {
     display: flex;
     align-items: center;
-    margin-bottom: 12px;
+    margin-bottom: 10px;
 
     .page-selector {
       width: 235px;
@@ -3737,7 +3737,7 @@ object {
 
     .builder-tree {
       width: 235px;
-      margin-right: 12px;
+      margin-right: 10px;
       height: calc(100vh - 165px);
     }
 
@@ -5261,4 +5261,13 @@ nz-content {
     margin-bottom: 3px !important;
   }
 
+}
+
+th,
+td, td .editable-cell {
+  white-space: nowrap;
+  white-space: nowrap;
+  width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
