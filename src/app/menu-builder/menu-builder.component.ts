@@ -1465,6 +1465,11 @@ export class MenuBuilderComponent implements OnInit {
                 value: data._id
               };
             });
+            let header = {
+              label: 'Select Department',
+              value: 'selectDepartment'
+            }
+            this.departmentData.unshift(header)
           } else {
             this.departments = [];
             this.departmentData = [];
@@ -1708,7 +1713,7 @@ export class MenuBuilderComponent implements OnInit {
 
   async loadData(node: NzCascaderOption, index: number): Promise<void> {
     debugger
-    if (index === 0) {
+    if (index === 0 && node.value != 'selectDepartment') {
       try {
         const res = await this.applicationService.getNestCommonAPIById('cp/Application', node.value).toPromise();
         if (res.isSuccess) {
@@ -1720,6 +1725,11 @@ export class MenuBuilderComponent implements OnInit {
               isLeaf: true
             };
           });
+          let header = {
+            label: 'Select Application',
+            value: 'selectApplication'
+          }
+          applications.unshift(header)
           node.children = applications;
         } else {
           this.toastr.error(res.message, { nzDuration: 3000 });
@@ -1732,7 +1742,9 @@ export class MenuBuilderComponent implements OnInit {
   }
   onDepartmentChange(departmentId: any) {
     if (departmentId.length === 2) {
-      this.getMenus(departmentId[1])
+      if(departmentId[2] != 'selectScreen'){
+        this.getMenus(departmentId[1])
+      }
     }
     else if (departmentId.length === 1) {
       const selectedNode = this.departmentData.find((a: any) => a.value == departmentId[0]);
