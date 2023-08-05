@@ -4813,20 +4813,7 @@ object {
       border-radius: 0px !important;
     }
 
-    .small-icon-view-menu {
-      display: flex;
-      flex: 0 0 60px !important;
-      width: 60px !important;
-      max-width: 60px !important;
-      min-width: 60px !important;
-      // .ant-menu-item , .ant-menu-submenu{
-
-      //   .colapsed-menu-title , .ant-menu-submenu-arrow {
-      //     display: none !important;
-      //   }
-
-      // }
-    }
+    
 
 
   }
@@ -5190,4 +5177,11 @@ nz-content {
     margin-bottom: 0;
     width: 17.5px !important;
   }
+}
+.small-icon-view-menu {
+  display: flex;
+  flex: 0 0 60px !important;
+  width: 60px !important;
+  max-width: 60px !important;
+  min-width: 60px !important;
 }
