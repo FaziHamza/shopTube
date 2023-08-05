@@ -1,6 +1,6 @@
 <form [formGroup]="form" (ngSubmit)="submit()">
   <div
-    class="bg-white shadow-md  {{resData[0].highLight ? 'highLight' : ''}} {{resData?.[0]?.className}}"
+    class="bg-white shadow-md boxed-layout  {{resData[0].highLight ? 'highLight' : ''}} {{resData?.[0]?.className}}"
     *ngIf="resData.length">
     <!-- PAGE HEADER -->
     <span [contextMenu]="oneContextMenuPage" *ngIf="isPageContextShow">
