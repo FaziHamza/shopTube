@@ -364,6 +364,11 @@ export class BuilderService {
       this.nestUrl + "cp/domain/Application/"+domain
     );
   }
+  getApplicationByHeaderName(domain: any): Observable<any> {
+    return this.http.get<any>(
+      this.nestUrl + "cp/header/Application/"+domain
+    );
+  }
   deletejsonModule(id: number): Observable<any[]> {
 
     return this.http.delete<any[]>(

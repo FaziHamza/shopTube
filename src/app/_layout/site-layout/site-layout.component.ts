@@ -63,7 +63,8 @@ export class SiteLayoutComponent implements OnInit {
       next: (res) => {
         debugger
         if (res) {
-          this.getMenuByDomainName(res, false);
+          
+          this.getMenuBHeaderName(res, false);
         }
       },
       error: (err) => {
@@ -249,6 +250,31 @@ export class SiteLayoutComponent implements OnInit {
                 this.selectedTheme = undefined;
               }
             }
+            this.loader = false;
+          }
+        },
+        error: (err) => {
+          console.error(err);
+          this.toastr.error("An error occurred", { nzDuration: 3000 });
+          this.loader = false; // Set loader to false in case of an error to avoid infinite loading
+        }
+      });
+    }
+    catch (error) {
+      console.error(error);
+      this.toastr.error("An error occurred", { nzDuration: 3000 });
+      this.loader = false; // Set loader to false in case of an error to avoid infinite loading
+    }
+  }
+
+  getMenuBHeaderName(domainName: any, allowStoreId: boolean) {
+    debugger
+    try {
+      this.loader = true;
+      this.requestSubscription = this.builderService.getApplicationByHeaderName(domainName).subscribe({
+        next: (res) => {
+          if (res.isSuccess) {
+            this.currentHeader = res.data['header'] ? this.jsonParseWithObject(res.data['header']['screenData']) : '';
             this.loader = false;
           }
         },
