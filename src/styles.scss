@@ -4329,6 +4329,7 @@ object {
   li {
     margin-right: 5px;
   }
+
   display: flex !important;
   width: 100%;
   flex-direction: column !important;
@@ -5075,5 +5076,26 @@ nz-content {
 
 .layout-tabs-drop-down {
   box-shadow: 0px 0px 15px 0px rgba(0, 0, 0, 0.15);
+}
 
+.mobile-logo {
+  height: 30px;
+}
+
+.rtl-layout2 {
+  .layout-tabs-drop-down {
+
+    .ant-menu-submenu-title,
+    .ant-menu-item {
+      .sidenav-title {
+        margin-right: 5px;
+        margin-left: 0px;
+      }
+    }
+  }
+}
+
+.layout-tabs-drop-down-submenu .ant-menu-item-selected,
+.layout-tabs-drop-down-sub-submenu .ant-menu-item-selected {
+  border-radius: 6px !important;
 }

@@ -8,10 +8,6 @@
       <st-menu [selectedTheme]="selectedTheme"></st-menu>
     </nz-header>
     <st-pages *ngIf="currentHeader" [resData]="currentHeader"></st-pages>
-    <nz-header *ngIf="!currentHeader">
-      <st-menu [selectedTheme]="selectedTheme"></st-menu>
-    </nz-header>
-    <st-pages *ngIf="currentHeader" [resData]="currentHeader"></st-pages>
     <nz-layout
       [class]="'main-layout2' + (selectedTheme?.layout === 'horizental' ? ' b-horizontal-menu' : '') + (selectedTheme.layout == 'rtl' ? ' rtl-layout2' : '')">
       <div *ngIf="!selectedTheme.isCollapsed" class="backdrop"></div>
