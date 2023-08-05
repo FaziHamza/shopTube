@@ -221,7 +221,7 @@ export class MenuBuilderComponent implements OnInit {
         let getApplication = this.applications.find((a: any) => a._id == id);
         if (getApplication) {
           let domain = getApplication.domain ? getApplication.domain : '';
-          if (domain && window.location.href.includes('localhost')) {
+          if (domain) {
             this.dataSharedService.localhostHeaderFooter.next(domain);
           }
           this.selectApplicationType = getApplication['application_Type'] ? getApplication['application_Type'] : '';

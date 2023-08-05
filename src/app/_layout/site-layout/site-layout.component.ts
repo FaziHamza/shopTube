@@ -17,9 +17,9 @@ export class SiteLayoutComponent implements OnInit {
   @Input() menuItems: any = [];
   @Input() selectedTheme: any;
   isVisible: boolean = false;
-  currentHeader: any= undefined;
+  currentHeader: any = undefined;
   logo: any;
-  currentFooter: any= undefined;
+  currentFooter: any = undefined;
   defaultPage: any;
   tabs: any = [];
   dropdown: any = [];
@@ -58,7 +58,7 @@ export class SiteLayoutComponent implements OnInit {
   // }
 
   constructor(private applicationService: ApplicationService, public dataSharedService: DataSharedService, public builderService: BuilderService,
-    private toastr: NzMessageService, private router: Router, private activatedRoute: ActivatedRoute,private cd: ChangeDetectorRef) {
+    private toastr: NzMessageService, private router: Router, private activatedRoute: ActivatedRoute, private cd: ChangeDetectorRef) {
     this.requestSubscription = this.dataSharedService.localhostHeaderFooter.subscribe({
       next: (res) => {
         debugger
@@ -77,11 +77,6 @@ export class SiteLayoutComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    if(this.selectedTheme.sideBarSize == 'smallIconView'){
-      let check : any = false;
-      this.selectedTheme.isCollapsed = JSON.stringify(JSON.parse(check));
-      this.cd.detectChanges(); // Mark component for change detection
-    }
     this.currentUser = JSON.parse(localStorage.getItem('user')!);
     // this.requestSubscription = this.dataSharedService.collapseMenu.subscribe({
     //   next: (res) => {
@@ -211,6 +206,7 @@ export class SiteLayoutComponent implements OnInit {
   //   this.selectedTheme.showMenu = !this.selectedTheme.showMenu;
   // }
   getMenuByDomainName(domainName: any, allowStoreId: boolean) {
+    debugger
     try {
       this.loader = true;
       this.requestSubscription = this.builderService.getApplicationByDomainName(domainName).subscribe({
@@ -230,6 +226,11 @@ export class SiteLayoutComponent implements OnInit {
             this.currentWebsiteLayout = res.data.appication['application_Type'] ? res.data.appication['application_Type'] : 'backend_application';
             this.currentHeader = res.data['header'] ? this.jsonParseWithObject(res.data['header']['screenData']) : '';
             this.currentFooter = res.data['footer'] ? this.jsonParseWithObject(res.data['footer']['screenData']) : '';
+            if (this.selectedTheme) {
+              if (this.selectedTheme.sideBarSize == 'smallIconView' || this.selectedTheme.sideBarSize == 'smallHoverView') {
+                this.selectedTheme['isCollapsed'] = false;
+              }
+            }
             if (!window.location.href.includes('/menu-builder')) {
               let getMenu = res.data['menu'] ? this.jsonParseWithObject(res.data['menu']['menuData']) : '';
               let selectedTheme = res.data['menu'] ? this.jsonParseWithObject(res.data['menu'].selectedTheme) : {};
@@ -237,6 +238,9 @@ export class SiteLayoutComponent implements OnInit {
                 this.selectedTheme = selectedTheme;
                 this.selectedTheme.allMenuItems = getMenu;
                 this.menuItems = getMenu;
+                if (this.selectedTheme.sideBarSize == 'smallIconView' || selectedTheme.sideBarSize == 'smallHoverView') {
+                  this.selectedTheme['isCollapsed'] = false;
+                }
                 this.makeMenuData();
               } else {
                 this.dataSharedService.menus = getMenu;
@@ -292,7 +296,7 @@ export class SiteLayoutComponent implements OnInit {
       this.modules = JSON.parse(JSON.stringify(data));
     }
     else if (data.children.length > 0) {
-      this.tabs = data.children.filter((child : any) => child)
+      this.tabs = data.children.filter((child: any) => child)
       // data.isOpen = !data.isOpen;
       // data.children.forEach((i: any) => {
       //   if (this.selectedTheme.layout == 'twoColumn') {

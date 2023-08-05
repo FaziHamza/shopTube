@@ -172,12 +172,14 @@ export class AppSideMenuComponent implements OnInit {
         this.router.navigate([data.link]);
       }
       else if (this.selectedTheme.layout == 'twoColumn') {
-        let menus = data.children.filter((child : any) => child.type == 'input')
+        let menus = data.children.filter((child: any) => child.type == 'input')
         if (menus.length > 0 && pushInTwoColumn) {
           this.menuChildArrayTwoColumn = [];
+          this.selectedTheme['menuChildArrayTwoColumn'] = [];
           this.selectedTheme['isCollapsed'] = false;
           const filteredChildren = data.children.filter((i: any) => i.type !== 'mainTab');
           this.menuChildArrayTwoColumn.push(...filteredChildren);
+          this.selectedTheme['menuChildArrayTwoColumn'].push(...filteredChildren);
         }
         else if (!twoColumnSecondColumn) {
           this.selectedTheme['isCollapsed'] = true;
@@ -204,7 +206,7 @@ export class AppSideMenuComponent implements OnInit {
       const withoutTitle = this.menuItems.filter((item: any) => !item.isTitle);
       this.selectedTheme.newMenuArray[0].children = withoutTitle.slice(7);
       this.selectedTheme.allMenuItems = arrayList.filter((item) => !item.isTitle).slice(0, 7);
-    } 
+    }
     else if (this.selectedTheme.layout === 'horizental' && this.menuItems.length > 0) {
       this.selectedTheme.allMenuItems = this.menuItems;
     }
