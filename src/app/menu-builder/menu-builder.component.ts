@@ -186,10 +186,10 @@ export class MenuBuilderComponent implements OnInit {
           this.selectApplicationType = getApplication['application_Type'] ? getApplication['application_Type'] : '';
           this.applicationId = res.data[0]._id
           this.nodes = JSON.parse(res.data[0].menuData);
-          let theme = JSON.parse(res.data[0].selectedTheme);
-          this.selectedTheme = this.controlUndefinedValues(theme);
+          this.selectedTheme = JSON.parse(res.data[0].selectedTheme);
+          this.controlUndefinedValues();
           this.selectedTheme.allMenuItems = this.nodes;
-          // this.makeMenuData();
+          this.makeMenuData();
         }
         else {
           this.getlocalMenu(id);
@@ -208,12 +208,14 @@ export class MenuBuilderComponent implements OnInit {
           this.applicationId = res.data[0]._id
           this.nodes = JSON.parse(res.data[0].menuData);
           let theme = JSON.parse(res.data[0].selectedTheme);
-          this.selectedTheme = this.controlUndefinedValues(theme);
+          this.selectedTheme = JSON.parse(res.data[0].selectedTheme);
+          this.controlUndefinedValues();
           this.makeMenuData();
           this.clickBack();
         }
         else {
-          this.selectedTheme = this.controlUndefinedValues(this.selectedTheme);
+          this.selectedTheme = JSON.parse(res.data[0].selectedTheme);
+          this.controlUndefinedValues();
           this.clearChildNode();
           this.applicationId = '';
           this.clickBack();
@@ -221,9 +223,7 @@ export class MenuBuilderComponent implements OnInit {
         let getApplication = this.applications.find((a: any) => a._id == id);
         if (getApplication) {
           let domain = getApplication.domain ? getApplication.domain : '';
-          if (domain) {
-            this.dataSharedService.localhostHeaderFooter.next(domain);
-          }
+          this.dataSharedService.localhostHeaderFooter.next(domain);
           this.selectApplicationType = getApplication['application_Type'] ? getApplication['application_Type'] : '';
         }
       } else
@@ -274,9 +274,9 @@ export class MenuBuilderComponent implements OnInit {
     if (type == "Tabs" && this.selectedNode.children) {
       const maintabCount = this.selectedNode.children.filter((child: any) => child.type === 'mainTab').length;
       if (maintabCount === 0) {
-        if(this.selectedNode.type != 'tabs'){
+        if (this.selectedNode.type != 'tabs') {
           this.dashonictabsAddNew();
-        }else{
+        } else {
           this.toastr.warning('Cannot add Main tab in tab', { nzDuration: 3000 });
         }
       }
@@ -969,9 +969,9 @@ export class MenuBuilderComponent implements OnInit {
       reader.onloadend = () => {
         let contents = reader.result as string;
         let theme = JSON.parse(contents);
-        this.selectedTheme = this.controlUndefinedValues(theme.selectedTheme);
+        this.selectedTheme = theme.selectedTheme
+        this.controlUndefinedValues();
         this.nodes = JSON.parse(theme.menuData);
-        // this.controlUndefinedValues();
         this.makeMenuData();
         // let selectDepartment = this.menuModule.find((a: any) => a.name == data);
         // this.selectApplicationType = selectDepartment['application_Type'] ? selectDepartment['application_Type'] : '';
@@ -1273,7 +1273,7 @@ export class MenuBuilderComponent implements OnInit {
           this.selectedTheme[layoutType.split('_')[1]] = layoutType.split('_')[0].replace(',', ' ');
         }
       }
-      
+
       else if (layoutType == 'design1' || layoutType == 'design2' || layoutType == 'design3' || layoutType == 'design4') {
         this.selectedTheme['design'] = layoutType;
       }
@@ -1612,24 +1612,24 @@ export class MenuBuilderComponent implements OnInit {
     }
   }
 
-  controlUndefinedValues(theme?: any) {
-    if (!theme['buttonClassArray']) {
-      theme['buttonClassArray'] = []
+  controlUndefinedValues() {
+    if (!this.selectedTheme['buttonClassArray']) {
+      this.selectedTheme['buttonClassArray'] = []
     }
-    if (!theme['menuChildArrayTwoColumn']) {
-      theme['menuChildArrayTwoColumn'] = []
+    if (!this.selectedTheme['menuChildArrayTwoColumn']) {
+      this.selectedTheme['menuChildArrayTwoColumn'] = []
     }
-    if (theme['showButton'] == undefined || theme['showButton'] == '' || theme['showButton'] == null) {
-      theme['showButton'] = true
+    if (this.selectedTheme['showButton'] == undefined || this.selectedTheme['showButton'] == '' || this.selectedTheme['showButton'] == null) {
+      this.selectedTheme['showButton'] = true
     }
-    if (theme['showLogo'] == undefined || theme['showLogo'] == '' || theme['showLogo'] == null) {
-      theme['showLogo'] = true
+    if (this.selectedTheme['showLogo'] == undefined || this.selectedTheme['showLogo'] == '' || this.selectedTheme['showLogo'] == null) {
+      this.selectedTheme['showLogo'] = true
     }
-    if (!theme['inPageMenu']) {
-      theme['inPageMenu'] = {};
+    if (!this.selectedTheme['inPageMenu']) {
+      this.selectedTheme['inPageMenu'] = {};
     }
-    if (!theme['inPageMenu']['child']) {
-      theme['inPageMenu']['child'] = {};
+    if (!this.selectedTheme['inPageMenu']['child']) {
+      this.selectedTheme['inPageMenu']['child'] = {};
     }
 
     const defaultProperties = [
@@ -1679,21 +1679,20 @@ export class MenuBuilderComponent implements OnInit {
     ];
 
     for (const prop of defaultProperties) {
-      if (!theme[prop.property]) {
-        theme[prop.property] = prop.defaultValue;
+      if (!this.selectedTheme[prop.property]) {
+        this.selectedTheme[prop.property] = prop.defaultValue;
       }
     }
     for (const prop of defaultPropertiesInPageMenu) {
-      if (!theme['inPageMenu'][prop.property]) {
-        theme['inPageMenu'][prop.property] = prop.defaultValue;
+      if (!this.selectedTheme['inPageMenu'][prop.property]) {
+        this.selectedTheme['inPageMenu'][prop.property] = prop.defaultValue;
       }
     }
     for (const prop of defaultPropertiesInPageMenuChild) {
-      if (!theme['inPageMenu']['child'][prop.property]) {
-        theme['inPageMenu']['child'][prop.property] = prop.defaultValue;
+      if (!this.selectedTheme['inPageMenu']['child'][prop.property]) {
+        this.selectedTheme['inPageMenu']['child'][prop.property] = prop.defaultValue;
       }
     }
-    return theme
   }
   // typeFirstAlphabetAsIcon(node: any) {
   //   if (node.origin.type === 'input') {
@@ -1708,6 +1707,7 @@ export class MenuBuilderComponent implements OnInit {
   // }
 
   async loadData(node: NzCascaderOption, index: number): Promise<void> {
+    debugger
     if (index === 0) {
       try {
         const res = await this.applicationService.getNestCommonAPIById('cp/Application', node.value).toPromise();
@@ -1733,6 +1733,13 @@ export class MenuBuilderComponent implements OnInit {
   onDepartmentChange(departmentId: any) {
     if (departmentId.length === 2) {
       this.getMenus(departmentId[1])
+    }
+    else if (departmentId.length === 1) {
+      const selectedNode = this.departmentData.find((a: any) => a.value == departmentId[0]);
+      if (selectedNode.children && selectedNode?.children?.length > 0) {
+        selectedNode.children = [];
+        this.loadData(selectedNode, 0);
+      }
     }
   }
   undefinedSelectedTheme() {

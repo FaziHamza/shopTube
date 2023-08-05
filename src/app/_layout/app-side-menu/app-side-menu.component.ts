@@ -38,12 +38,18 @@ export class AppSideMenuComponent implements OnInit {
     public builderService: BuilderService, public dataSharedService: DataSharedService, private renderer: Renderer2,
     private applicationService: ApplicationService) { }
   ngOnInit(): void {
+    debugger
+    if (this.selectedTheme  && window.innerWidth > 768) {
+      if (this.selectedTheme.sideBarSize == 'smallIconView' || this.selectedTheme.sideBarSize == 'smallHoverView') {
+        this.selectedTheme['isCollapsed'] = true;
+      }
+    }
     this.currentUser = JSON.parse(localStorage.getItem('user')!);
     this.loadModules();
     window.onresize = () => {
       this.changeHtlmenuAtMblView();
     };
-    // this.makeMenuData();
+    this.makeMenuData();
   }
   loadModules(): void {
     this.currentUrl = window.location.host;
@@ -76,18 +82,18 @@ export class AppSideMenuComponent implements OnInit {
       if (!this.selectedTheme.checked) {
         this.selectedTheme.isCollapsed = value;
       }
-      if (this.selectedTheme.isCollapsed) {
-        this.selectedTheme.topHeaderMenu = 'w-1/12';
-        this.selectedTheme.topHeader = 'w-full';
-        this.selectedTheme.menuColumn = '';
-        this.selectedTheme.rowClass = 'w-full';
-      }
-      else {
-        this.selectedTheme.menuColumn = 'w-1/6';
-        this.selectedTheme.rowClass = 'w-10/12';
-        this.selectedTheme.topHeaderMenu = 'w-1/6';
-        this.selectedTheme.topHeader = 'w-10/12';
-      }
+      // if (this.selectedTheme.isCollapsed) {
+      //   this.selectedTheme.topHeaderMenu = 'w-1/12';
+      //   this.selectedTheme.topHeader = 'w-full';
+      //   this.selectedTheme.menuColumn = '';
+      //   this.selectedTheme.rowClass = 'w-full';
+      // }
+      // else {
+      //   this.selectedTheme.menuColumn = 'w-1/6';
+      //   this.selectedTheme.rowClass = 'w-10/12';
+      //   this.selectedTheme.topHeaderMenu = 'w-1/6';
+      //   this.selectedTheme.topHeader = 'w-10/12';
+      // }
     }
   }
   getMenu() {
@@ -207,7 +213,7 @@ export class AppSideMenuComponent implements OnInit {
       const withoutTitle = this.menuItems.filter((item: any) => !item.isTitle);
       this.selectedTheme.newMenuArray[0].children = withoutTitle.slice(7);
       this.selectedTheme.allMenuItems = arrayList.filter((item) => !item.isTitle).slice(0, 7);
-    } 
+    }
     else if (this.selectedTheme.layout === 'horizental' && this.menuItems.length > 0) {
       this.selectedTheme.allMenuItems = this.menuItems;
     }

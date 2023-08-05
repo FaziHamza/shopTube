@@ -9,7 +9,7 @@
   <button nz-button (click)="addRow()" *ngIf="!checkType" nzType="primary">Add</button>
   <button nz-button (click)="addColumn()" *ngIf="checkType" nzType="primary">Add</button>
 </div>
-<nz-table #editRowTable [nzPageSize]="10" [nzBordered]='data.nzBordered'
+<nz-table #editRowTable [nzPageSize]="data?.pagination ? data?.pagination : 10" [nzBordered]='data.nzBordered'
   [nzData]="tableData" *ngIf="data"
   [nzScroll]="{ x: tableData.length > 0 ?  '100vw' : '10vw', y: null }" [nzLoading]="data?.nzLoading"
   [nzPaginationPosition]='data?.nzPaginationPosition'

@@ -11,6 +11,7 @@ export class NumberInputComponent extends FieldType<FieldTypeConfig> {
   constructor(private sharedService: DataSharedService) {
     super();
   }
+  demoValue = 3;
   precision = 1;
   // get max() {
   //   return this.to?.max ?? Infinity;
@@ -43,7 +44,8 @@ export class NumberInputComponent extends FieldType<FieldTypeConfig> {
   //   return this.max == null || value <= this.max;
   // }
   onModelChange(event: any, model: any) {
-    this.sharedService.onChange(event, this.field,);
+    this.sharedService.onChange(event, this.field);
+    this.formControl.setValue(event);
     // console.log(event, model, 'radio');
   }
 }

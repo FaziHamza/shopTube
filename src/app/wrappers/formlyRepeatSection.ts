@@ -28,7 +28,7 @@ export class formlyRepeatSectionComponent extends FieldArrayType {
   tableHeader: any = [];
   data : any = {};
   ngOnInit(): void {
-    
+    debugger
 
     this.tableId = this.field.key + Guid.newGuid();
     const key = Array.isArray(this.field.key) ? this.field.key[0] : this.field.key;

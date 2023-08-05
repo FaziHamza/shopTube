@@ -1,45 +1,49 @@
-<div class="user-builder-layout" [dir]="this.selectedTheme?.layout" *ngIf="selectedTheme" [ngClass]="{
-  'boxed-menu': selectedTheme?.layoutWidth == 'boxed' &&  selectedTheme?.layout != 'horizental',
-  'horizental-boxed': selectedTheme?.layoutWidth == 'boxed' &&  selectedTheme?.layout == 'horizental',
-  'horizental-fluid': selectedTheme?.layoutWidth == 'fluid' &&  selectedTheme?.layout == 'horizental'
-}">
-  <nz-layout class="app-layout">
-    <nz-header *ngIf="!currentHeader">
-      <st-menu [selectedTheme]="selectedTheme"></st-menu>
-    </nz-header>
-    <st-pages *ngIf="currentHeader" [resData]="currentHeader"></st-pages>
-    <nz-layout
-      [class]="'main-layout2' + (selectedTheme?.layout === 'horizental' ? ' b-horizontal-menu' : '') + (selectedTheme.layout == 'rtl' ? ' rtl-layout2' : '')">
-      <div *ngIf="!selectedTheme.isCollapsed" class="backdrop"></div>
-      <nz-sider
-        [class]="'menu-sidebar' + (selectedTheme.layout === 'twoColumn' && this.selectedTheme['menuChildArrayTwoColumn'].length == 0 ? ' two-column-sider' : '')"
-        nzTheme="light" nzCollapsible nzWidth="240px" nzBreakpoint="md" [(nzCollapsed)]="selectedTheme.isCollapsed"
-        [nzTrigger]="null">
-        <div class="dynamic-menu desktop-toggle">
-          <st-app-side-menu [selectedTheme]="selectedTheme" [menuItems]="menuItems" [mobileView]="false"
-            (notify)="loadTabsAndButtons($event)"></st-app-side-menu>
-        </div>
-        <div *ngIf="!selectedTheme.isCollapsed" class="dynamic-menu mobile-toggle">
-          <st-app-side-menu [selectedTheme]="selectedTheme" [menuItems]="menuItems" [mobileView]="true"
-            (notify)="loadTabsAndButtons($event)"></st-app-side-menu>
-        </div>
-      </nz-sider>
-      <nz-content>
-        <ng-container *ngIf="tabs.length">
-          <ng-container *ngFor="let item of tabs">
-            <st-layout-tabs-dropdown *ngIf="item.type == 'mainTab'" [layoutTabsDropdownData]="item"
-              [theme]="selectedTheme['inPageMenu']"></st-layout-tabs-dropdown>
+<nz-spin [nzSpinning]="loader" [nzSize]="'large'">
+  <div *ngIf="loader" style="height: 100vh;"></div>
+  <div class="user-builder-layout" [dir]="this.selectedTheme?.layout" *ngIf="selectedTheme && !loader" [ngClass]="{
+    'boxed-menu': selectedTheme?.layoutWidth == 'boxed' &&  selectedTheme?.layout != 'horizental',
+    'horizental-boxed': selectedTheme?.layoutWidth == 'boxed' &&  selectedTheme?.layout == 'horizental',
+    'horizental-fluid': selectedTheme?.layoutWidth == 'fluid' &&  selectedTheme?.layout == 'horizental'
+  }">
+    <nz-layout class="app-layout">
+      <nz-header *ngIf="!currentHeader">
+        <st-menu [selectedTheme]="selectedTheme"></st-menu>
+      </nz-header>
+      <st-pages *ngIf="currentHeader" [resData]="currentHeader"></st-pages>
+      <nz-layout
+        [class]="'main-layout2' + (selectedTheme?.layout === 'horizental' ? ' b-horizontal-menu' : '') + (selectedTheme.layout == 'rtl' ? ' rtl-layout2' : '')">
+        <div *ngIf="!selectedTheme.isCollapsed" class="backdrop"></div>
+        <nz-sider
+          [class]="'menu-sidebar' + (selectedTheme.layout === 'twoColumn' && selectedTheme['menuChildArrayTwoColumn'].length == 0 ? ' two-column-sider' : '')"
+          nzTheme="light" nzCollapsible nzWidth="240px" nzBreakpoint="md" [(nzCollapsed)]="selectedTheme.isCollapsed"
+          [nzTrigger]="null">
+          <div class="dynamic-menu desktop-toggle">
+            <st-app-side-menu [selectedTheme]="selectedTheme" [menuItems]="menuItems" [mobileView]="false"
+              (notify)="loadTabsAndButtons($event)"></st-app-side-menu>
+          </div>
+          <div *ngIf="!selectedTheme.isCollapsed" class="dynamic-menu mobile-toggle">
+            <st-app-side-menu [selectedTheme]="selectedTheme" [menuItems]="menuItems" [mobileView]="true"
+              (notify)="loadTabsAndButtons($event)"></st-app-side-menu>
+          </div>
+        </nz-sider>
+        <nz-content>
+          <ng-container *ngIf="tabs.length">
+            <ng-container *ngFor="let item of tabs">
+              <st-layout-tabs-dropdown *ngIf="item.type == 'mainTab'" [layoutTabsDropdownData]="item"
+                [theme]="selectedTheme['inPageMenu']"></st-layout-tabs-dropdown>
+            </ng-container>
           </ng-container>
-        </ng-container>
-        <router-outlet></router-outlet>
-        <div [ngClass]="{'dynamic-footer':!dataSharedService.checkContentForFixFooter}"
-          *ngIf="currentFooter && !fullCurrentUrl.includes('/menu-builder')">
-          <st-pages [resData]="currentFooter"></st-pages>
-        </div>
-      </nz-content>
+          <router-outlet></router-outlet>
+          <div [ngClass]="{'dynamic-footer':!dataSharedService.checkContentForFixFooter}"
+            *ngIf="currentFooter && !fullCurrentUrl.includes('/menu-builder')">
+            <st-pages [resData]="currentFooter"></st-pages>
+          </div>
+        </nz-content>
+      </nz-layout>
     </nz-layout>
-  </nz-layout>
-</div>
+  </div>
+
+</nz-spin>
 
 
 <!-- Comment -->

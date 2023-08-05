@@ -2080,7 +2080,7 @@ export class BuilderComponent implements OnInit {
                         requiredMessage: '',
                         tooltipPosition: 'right',
                         toolTipClass: '',
-                        formlyTypes: '',
+                        formlyTypes: data?.parameter,
                         uploadBtnLabel: "Click here to upload",
                         multiple: false,
                         disabled: false,
@@ -3567,14 +3567,17 @@ export class BuilderComponent implements OnInit {
             this.selectedNode['tooltipIcon'] = event.form.tooltipIcon;
             this.selectedNode['rowClass'] = event.form.rowClass;
             this.selectedNode['borderLessInputs'] = event.form.borderLessInputs;
-            this.selectedNode['inputLabelClassName'] = event.form.inputLabelClassName;
             if (this.selectedNode.children) {
               this.selectedNode.children[1]['rowClass'] = event.form.rowClass;
             }
-            debugger
             if (this.selectedNode.wrappers != event.form.wrappers) {
               this.selectedNode.wrappers = event.form.wrappers;
               this.clickBack();
+            }
+            if (event.form.inputLabelClassName) {
+              if (this.selectedNode['inputLabelClassName'] != event.form.inputLabelClassName) {
+                this.clickBack();
+              }
             }
           }
           this.selectedNode['checkData'] =
@@ -3851,7 +3854,7 @@ export class BuilderComponent implements OnInit {
       case 'number':
       case 'customMasking':
       case 'url':
-        case 'multiFileUploader':
+      case 'multiFileUploader':
         if (this.selectedNode) {
           needToUpdate = false;
 

@@ -78,16 +78,22 @@ export class SiteLayoutComponent implements OnInit {
 
   ngOnInit(): void {
     this.currentUser = JSON.parse(localStorage.getItem('user')!);
-    // this.requestSubscription = this.dataSharedService.collapseMenu.subscribe({
-    //   next: (res) => {
-    //     if (res) {
-    //       this.selectedTheme.isCollapsed = !this.selectedTheme.isCollapsed;
-    //     }
-    //   },
-    //   error: (err) => {
-    //     console.error(err);
-    //   }
-    // })
+    this.requestSubscription = this.dataSharedService.collapseMenu.subscribe({
+      next: (res) => {
+        if (res) {
+          this.selectedTheme.isCollapsed = !this.selectedTheme.isCollapsed;
+          if (!this.selectedTheme.isCollapsed && this.selectedTheme.layout === 'twoColumn') {
+            this.selectedTheme['menuChildArrayTwoColumn'] = []
+          }
+        }else{
+          this.currentHeader = undefined;
+          this.currentFooter = undefined;
+        }
+      },
+      error: (err) => {
+        console.error(err);
+      }
+    })
 
     // this.requestSubscription = this.dataSharedService.currentHeader.subscribe({
     //   next: (res) => {
@@ -226,10 +232,9 @@ export class SiteLayoutComponent implements OnInit {
             this.currentWebsiteLayout = res.data.appication['application_Type'] ? res.data.appication['application_Type'] : 'backend_application';
             this.currentHeader = res.data['header'] ? this.jsonParseWithObject(res.data['header']['screenData']) : '';
             this.currentFooter = res.data['footer'] ? this.jsonParseWithObject(res.data['footer']['screenData']) : '';
-            if (this.selectedTheme) {
-              if (this.selectedTheme.sideBarSize == 'smallIconView' || this.selectedTheme.sideBarSize == 'smallHoverView') {
-                this.selectedTheme['isCollapsed'] = false;
-              }
+            if (this.selectedTheme && res.data['menu'].selectedTheme) {
+              const theme = JSON.parse(res.data['menu'].selectedTheme);
+              this.selectedTheme['isCollapsed'] = theme['isCollapsed'];
             }
             if (!window.location.href.includes('/menu-builder')) {
               let getMenu = res.data['menu'] ? this.jsonParseWithObject(res.data['menu']['menuData']) : '';
@@ -238,9 +243,6 @@ export class SiteLayoutComponent implements OnInit {
                 this.selectedTheme = selectedTheme;
                 this.selectedTheme.allMenuItems = getMenu;
                 this.menuItems = getMenu;
-                if (this.selectedTheme.sideBarSize == 'smallIconView' || selectedTheme.sideBarSize == 'smallHoverView') {
-                  this.selectedTheme['isCollapsed'] = false;
-                }
                 this.makeMenuData();
               } else {
                 this.dataSharedService.menus = getMenu;
