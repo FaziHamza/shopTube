@@ -441,37 +441,6 @@ export class DynamicTableComponent implements OnInit {
   }
 
   loadTableData() {
-    debugger
-    if (!this.data.nzFooter) {
-      const newNode = {
-        nzFooter: "",
-        nzTitle: "",
-        nzPaginationPosition: "bottom",
-        nzPaginationType: "default",
-        nzLoading: false,
-        nzFrontPagination: true,
-        nzShowPagination: true,
-        nzBordered: true,
-        showColumnHeader: true,
-        noResult: false,
-        nzSimple: false,
-        nzSize: 'default',
-        isNextChild: false,
-        nzShowSizeChanger: false,
-        api: "",
-        showCheckbox: false,
-        expandable: true,
-        fixHeader: false,
-        tableScroll: false,
-        fixedColumn: false,
-        sort: true,
-        filter: true,
-        isAddRow: false,
-        rowClickApi: "",
-        pagination:5,
-      }
-      this.data = newNode;
-    }
     if (this.tableData.length > 0) {
       const firstObjectKeys = Object.keys(this.tableData[0]);
       this.data['tableKey'] = firstObjectKeys.map(key => ({ name: key }));
@@ -493,6 +462,32 @@ export class DynamicTableComponent implements OnInit {
           j['id'] = newId;
         });
       }
+    }
+    if (!this.data) {
+      const newNode = {
+        nzFooter: "",
+        nzTitle: "",
+        nzPaginationPosition: "bottom",
+        nzPaginationType: "default",
+        nzLoading: false,
+        nzFrontPagination: true,
+        nzShowPagination: true,
+        nzBordered: true,
+        showColumnHeader: true,
+        noResult: false,
+        nzSimple: false,
+        nzSize: 'default',
+        nzShowSizeChanger: false,
+        showCheckbox: false,
+        expandable: false,
+        fixHeader: false,
+        rowClickApi: true,
+        tableScroll: false,
+        fixedColumn: false,
+        sort: true,
+        filter: true,
+      }
+      this.data = newNode;
     }
   }
   handleCancel(): void {
