@@ -3755,7 +3755,7 @@ object {
       height: 38px;
       font-size: 13px;
       flex-shrink: 0;
-      border-radius: 8px !important;
+      border-radius: 4px !important;
       border: 0.5px solid #DBDBDB;
       background: #FFF;
     }
@@ -5098,4 +5098,91 @@ nz-content {
 .layout-tabs-drop-down-submenu .ant-menu-item-selected,
 .layout-tabs-drop-down-sub-submenu .ant-menu-item-selected {
   border-radius: 6px !important;
+}
+
+
+  .ant-layout-sider-children{
+
+    .ant-menu-item-selected{
+      background-color: #ECF6FF !important;
+      i{
+        color: #2563EB !important;
+      }
+      &:hover i{
+        color: #fff !important;
+      }
+
+    }
+  }
+
+
+  .ant-dropdown-menu{
+    .ant-dropdown-menu-item a:hover , a:active , a:focus{
+      color: black !important;
+    }
+  }
+
+.ant-spin-dot-item {
+background-color: $main;
+}
+
+.dynamic-menu {
+
+.ant-menu-submenu-arrow::after,
+.ant-menu-submenu-arrow::before {
+  position: absolute;
+  width: 8px;
+  height: 1.5px;
+  background-color: currentcolor;
+  border-radius: 2px;
+  transition: background .3s cubic-bezier(.645,.045,.355,1),transform .3s cubic-bezier(.645,.045,.355,1),top .3s cubic-bezier(.645,.045,.355,1),color .3s cubic-bezier(.645,.045,.355,1);
+  content: '';
+}
+
+
+.ant-menu-submenu-arrow::before {
+  right: 5px; /* Add some value to adjust the gap */
+}
+
+.ant-menu-submenu-arrow::after {
+  left: 5px; /* Add some value to adjust the gap */
+}
+
+// /* Upward arrows */
+// .ant-menu-submenu-open.ant-menu-submenu-inline > .ant-menu-submenu-title > .ant-menu-submenu-arrow::after {
+//   transform: rotate(45deg) translateY(-2.5px) !important;
+//   top: 50% !important;
+//   position: absolute;
+// }
+
+// .ant-menu-submenu-open.ant-menu-submenu-inline > .ant-menu-submenu-title > .ant-menu-submenu-arrow::before {
+//   transform: rotate(-45deg) translateY(-2.5px);
+// }
+
+// /* Right arrows (when collapsed) */
+// .ant-menu-inline-collapsed .ant-menu-submenu-arrow::before,
+// .ant-menu-submenu-inline .ant-menu-submenu-arrow::before {
+//   transform: rotate(0) translateY(-2.5px);
+// }
+
+// .ant-menu-inline-collapsed .ant-menu-submenu-arrow::after,
+// .ant-menu-submenu-inline .ant-menu-submenu-arrow::after {
+//   transform: rotate(0) translateY(-2.5px);
+// }
+
+
+
+}
+
+.signal_icon {
+    width: 11.5px !important;
+    margin-top: 3px !important;
+}
+.ant-menu-inline-collapsed{
+
+  .signal_icon{
+    margin-right: 8px;  
+    margin-bottom: 0;
+    width:17.5px !important;
+  } 
 }
