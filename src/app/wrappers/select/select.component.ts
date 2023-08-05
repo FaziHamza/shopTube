@@ -14,7 +14,7 @@ export class SelectComponent extends FieldType<FieldTypeConfig> implements OnCha
   @Output() change = new EventEmitter<any>();
   selectedValue: any | null = null;
   requestSubscription: Subscription;
-  constructor(private sharedService: DataSharedService , private cdr: ChangeDetectorRef) {
+  constructor(private sharedService: DataSharedService, private cdr: ChangeDetectorRef) {
     super();
     this.processData = this.processData.bind(this);
 
@@ -27,14 +27,17 @@ export class SelectComponent extends FieldType<FieldTypeConfig> implements OnCha
     return this.to.options;
   }
   ngOnInit(): void {
-    console.log(this.to)
-    this.to
-    document.documentElement.style.setProperty('--radius', this.to['additionalProperties']?.borderRadius);
-    this.cdr.detectChanges();
-
+    debugger
+    if (this.to['additionalProperties']?.borderRadius !== undefined) {
+      document.documentElement.style.setProperty('--radius', this.to['additionalProperties']?.borderRadius);
+      this.cdr.detectChanges();
+    }
   }
   ngOnChanges(changes: any) {
-    document.documentElement.style.setProperty('--radius', this.to['additionalProperties']?.borderRadius);
+    if (this.to['additionalProperties']?.borderRadius) {
+      document.documentElement.style.setProperty('--radius', this.to['additionalProperties']?.borderRadius);
+      this.cdr.detectChanges();
+    }
   }
   log(value: any): void {
     this.formControl.patchValue(value);
@@ -44,11 +47,11 @@ export class SelectComponent extends FieldType<FieldTypeConfig> implements OnCha
     // console.log(event, model, 'radio');
   }
   ngOnDestroy(): void {
-    if(this.requestSubscription)
+    if (this.requestSubscription)
       this.requestSubscription.unsubscribe();
   }
   processData(data: any[]) {
-    if(data?.length  > 0){
+    if (data?.length > 0) {
       let propertyNames = Object.keys(data[0]);
       let result = data.map((item: any) => {
         let newObj: any = {};
@@ -64,10 +67,10 @@ export class SelectComponent extends FieldType<FieldTypeConfig> implements OnCha
         return newObj;
       });
 
-      let finalObj = result.map((item:any) => {
+      let finalObj = result.map((item: any) => {
         return {
-          label: item.name ||  item[propertyNames[1]],
-          value: item.id  ||  item[propertyNames[0]],
+          label: item.name || item[propertyNames[1]],
+          value: item.id || item[propertyNames[0]],
         };
       });
       this.field.props.options = finalObj;

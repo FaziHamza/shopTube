@@ -26,7 +26,7 @@ import { ApplicationService } from '../services/application.service';
 export class MainComponent implements OnInit {
   @Input() mainData: any = [];
   @Input() formlyModel: any;
-  @Input()  form: any;
+  @Input() form: any;
   // form: any = new FormGroup({});
   model: any = {};
   options: FormlyFormOptions = {};

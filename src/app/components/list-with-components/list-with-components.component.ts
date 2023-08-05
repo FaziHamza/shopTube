@@ -14,6 +14,7 @@ export class ListWithComponentsComponent implements OnInit {
   @Input() listData : any;
   @Input() formlyModel: any;
   @Input() form: any;
+  @Input() screenName: any;
   constructor() { }
 
   ngOnInit(): void {

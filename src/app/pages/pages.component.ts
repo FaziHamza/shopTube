@@ -164,6 +164,7 @@ export class PagesComponent implements OnInit {
       // ------------------
       //  Working on Load
       // ------------------
+      debugger
       if (params["schema"]) {
         this.dataSharedService.defaultPageNodes = '';
         this.isPageContextShow = true;

@@ -161,9 +161,11 @@ export class AppSideMenuComponent implements OnInit {
     }
   }
   loadTabsAndButtons(event: MouseEvent, data: any, pushInTwoColumn?: any, allowHideInMblView?: any, twoColumnSecondColumn?: any) {
-    this.isActiveShow = data.id;
     if (this.mobileView && allowHideInMblView) {
       this.selectedTheme.isCollapsed = true;
+    }
+    if(allowHideInMblView){
+      this.isActiveShow = data.id;
     }
     event.stopPropagation();
     if (data.application) {

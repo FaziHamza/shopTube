@@ -4,7 +4,7 @@
     <nz-collapse-panel [nzDisabled]='accordionData.nzDisabled'
         [nzHeader]="titleTemp" [nzActive]='false'
         [nzExtra]="tooltip" [nzShowArrow]='false' [nzExtra]="extraTpl">
-        <st-main [mainData]="accordionData" [formlyModel]="formlyModel" [form]="form"></st-main>
+        <st-main [mainData]="accordionData" [formlyModel]="formlyModel" [form]="form" [screenName]="screenName"></st-main>
     </nz-collapse-panel>
 </nz-collapse>
 <ng-template #extraTpl>

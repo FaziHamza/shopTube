@@ -11,6 +11,7 @@ export class TabsComponent implements OnInit {
   selectedIndex = 0;
   @Input() formlyModel: any;
   @Input() form: any;
+  @Input() screenName: any;
   constructor() { }
 
   ngOnInit(): void {

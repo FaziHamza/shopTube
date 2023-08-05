@@ -122,7 +122,9 @@ export class CommentModalComponent implements OnInit {
   }
 
   ngOnDestroy(): void {
-    this.requestSubscription.unsubscribe();
+    if (this.requestSubscription) {
+      this.requestSubscription.unsubscribe();
+    }
   }
 
 }

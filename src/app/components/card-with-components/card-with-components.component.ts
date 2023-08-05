@@ -9,6 +9,7 @@ export class CardWithComponentsComponent implements OnInit {
   @Input() item : any;
   @Input() formlyModel: any;
   @Input() form: any;
+  @Input() screenName: any;
   constructor() { }
 
   ngOnInit(): void {

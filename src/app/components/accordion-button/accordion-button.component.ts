@@ -10,6 +10,7 @@ export class AccordionButtonComponent implements OnInit {
   @Input() accordionData: any;
   @Input() formlyModel: any;
   @Input() form: any;
+  @Input() screenName: any;
   expandIconPosition: any = "left";
   expand: any = false;
   constructor(private cd: ChangeDetectorRef) { }

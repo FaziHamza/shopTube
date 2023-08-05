@@ -9,6 +9,7 @@ export class ModalComponent implements OnInit {
   @Input() modalData: any;
   @Input() formlyModel: any;
   @Input() form: any;
+  @Input() screenName: any;
   isVisible = false;
   constructor() { }
 

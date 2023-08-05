@@ -218,7 +218,6 @@ export class SiteLayoutComponent implements OnInit {
       this.requestSubscription = this.builderService.getApplicationByDomainName(domainName).subscribe({
         next: (res) => {
           if (res.isSuccess) {
-            debugger
             if (res.data.appication) {
               this.currentWebsiteLayout = res.data.appication.application_Type ? res.data.appication.application_Type : 'backend_application';
             }

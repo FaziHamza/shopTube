@@ -12,7 +12,7 @@
             <span nz-tooltip *ngIf='items.tooltip' [nzTooltipTitle]='items.tooltip'><span nz-icon
                     nzType="question-circle" nzTheme="twotone"></span></span>
         </ng-template>
-        <st-main [mainData]="items.children"  [formlyModel]="formlyModel" [form]="form"></st-main>
+        <st-main [screenName]="screenName" [mainData]="items.children"  [formlyModel]="formlyModel" [form]="form"></st-main>
         <nz-divider *ngIf="tabs?.border"></nz-divider>
     </nz-tab>
 </nz-tabset>

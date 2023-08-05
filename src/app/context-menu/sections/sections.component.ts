@@ -35,6 +35,8 @@ export class SectionsComponent implements OnInit {
     , private applicationServices: ApplicationService, private cd: ChangeDetectorRef) { }
 
   ngOnInit(): void {
+    debugger
+    this.screenName;
     this.getJoiValidation();
     let btnData = this.findObjectByTypeBase(this.sections, "button");
     if (btnData)

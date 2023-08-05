@@ -12,7 +12,7 @@
     <ul [class]="selectedTheme?.font" [style.background]="selectedTheme.backGroundColor" nz-menu
       [ngClass]="{'rtlMenu': selectedTheme.layout == 'rtl'}"
       [nzMode]="selectedTheme?.layout == 'horizental' && mobileView ? 'inline' : selectedTheme.menuMode"
-      [nzInlineCollapsed]="selectedTheme.layout != 'twoColumn' ? selectedTheme.isCollapsed : true">
+      [nzInlineCollapsed]="(selectedTheme.layout != 'twoColumn' || selectedTheme.sideBarSize != 'smallIconView')? selectedTheme.isCollapsed : true">
       <div
         *ngIf="(selectedTheme.layout == 'vertical' || selectedTheme.layout == 'rtl') && selectedTheme.sideBarSize == 'smallHoverView'"
         class="small-hover-menu-check">
