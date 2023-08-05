@@ -5215,32 +5215,32 @@ nz-content {
   margin: 0px !important;
 }
 
-li.ant-cascader-menu-item:nth-child(1),
-li.ant-cascader-menu-item:nth-child(1):hover {
-  color: #fff;
-  background: #2563EB;
-  height: 50px;
-  padding: 0 25px;
-  border-radius: 4px 0 0 0;
-  font-size: 12px;
-  font-weight: 700;
-  font-style: normal;
-  letter-spacing: 0.2px;
-  line-height: 16.8px;
-  text-align: center;
-}
+// li.ant-cascader-menu-item:nth-child(1),
+// li.ant-cascader-menu-item:nth-child(1):hover {
+//   color: #fff;
+//   background: #2563EB;
+//   height: 50px;
+//   padding: 0 25px;
+//   border-radius: 4px 0 0 0;
+//   font-size: 12px;
+//   font-weight: 700;
+//   font-style: normal;
+//   letter-spacing: 0.2px;
+//   line-height: 16.8px;
+//   text-align: center;
+// }
 
 
 
-.ant-cascader-menu-item-active>div:nth-child(2) {
-  display: none;
-}
+// .ant-cascader-menu-item-active>div:nth-child(2) {
+//   display: none;
+// }
 
 
 
-ul.ant-cascader-menu:nth-child(2)>li:nth-child(1)>div:nth-child(2)>i:nth-child(1)>svg:nth-child(1) {
-  display: none !important;
-}
+// ul.ant-cascader-menu:nth-child(2)>li:nth-child(1)>div:nth-child(2)>i:nth-child(1)>svg:nth-child(1) {
+//   display: none !important;
+// }
 
 .ant-menu-vertical .dynamic-sub-menu {
   .ant-menu-item-selected {
