@@ -8,7 +8,7 @@
     </span> -->
     <st-sales-card [salesdata]="item" *ngIf="item.type == 'chart';else second "></st-sales-card>
     <ng-template #second>
-        <div class="header-logo" *ngIf="item.type == 'headerLogo';else third">
+        <div  *ngIf="item.type == 'headerLogo';else third">
             <img class="desktop-toggle"
                 [style.height]="item.height !== undefined && item.height !== null && item.height !== 0 && item.height !== '' ? item.height + 'px' : 'auto'"
                 [style.width]="item.width !== undefined && item.width !== null && item.width !== 0 && item.width !== '' ? item.width + 'px' : 'auto'"

@@ -64,6 +64,7 @@ export class MenuBuilderComponent implements OnInit {
   selectDepartmentName: any = [];
   departmentData: any = [];
   public editorOptions: JsonEditorOptions;
+  domainName : any = undefined;
   // actionType: any;
   constructor(private clickButtonService: BuilderClickButtonService,
     private applicationService: ApplicationService,
@@ -156,7 +157,6 @@ export class MenuBuilderComponent implements OnInit {
   }
   ngOnInit(): void {
     this.currentUser = JSON.parse(localStorage.getItem('user')!);
-    this.dataSharedService.goToMenu = '';
     this.getDepartments();
   }
   LayerShow() {
@@ -180,10 +180,12 @@ export class MenuBuilderComponent implements OnInit {
   getMenus(id: string) {
     this.applicationService.getNestCommonAPIById('cp/CacheMenu', this.currentUser.userId).subscribe(((res: any) => {
       if (res.isSuccess) {
-        this.dataSharedService.goToMenu = id;
         if (res.data.length > 0) {
           let getApplication = this.applications.find((a: any) => a._id == id);
-          this.selectApplicationType = getApplication['application_Type'] ? getApplication['application_Type'] : '';
+          if (getApplication) {
+            this.domainName = getApplication.domain ? getApplication.domain : undefined;
+            this.selectApplicationType = getApplication['application_Type'] ? getApplication['application_Type'] : '';
+          }
           this.applicationId = res.data[0]._id
           this.nodes = JSON.parse(res.data[0].menuData);
           this.selectedTheme = JSON.parse(res.data[0].selectedTheme);
@@ -203,7 +205,6 @@ export class MenuBuilderComponent implements OnInit {
   getlocalMenu(id: any) {
     this.applicationService.getNestCommonAPIById('cp/Menu', id).subscribe(((res: any) => {
       if (res.isSuccess) {
-        this.dataSharedService.goToMenu = id;
         if (res.data.length > 0) {
           this.applicationId = res.data[0]._id
           this.nodes = JSON.parse(res.data[0].menuData);
@@ -222,6 +223,7 @@ export class MenuBuilderComponent implements OnInit {
         }
         let getApplication = this.applications.find((a: any) => a._id == id);
         if (getApplication) {
+          this.domainName = getApplication.domain ? getApplication.domain : undefined;
           let domain = getApplication.domain ? getApplication.domain : '';
           this.dataSharedService.localhostHeaderFooter.next(domain);
           this.selectApplicationType = getApplication['application_Type'] ? getApplication['application_Type'] : '';
@@ -1610,9 +1612,11 @@ export class MenuBuilderComponent implements OnInit {
   // }
 
   checkPage() {
-    if (this.dataSharedService.goToMenu) {
-      this.router.navigate(['/']);
-    } else {
+    if (this.domainName) {
+      const url = `http://${this.domainName}:5600`;
+      window.open(url);
+    }
+    else {
       this.toastr.warning('Please select Application', { nzDuration: 3000 });
     }
   }
@@ -1742,7 +1746,7 @@ export class MenuBuilderComponent implements OnInit {
   }
   onDepartmentChange(departmentId: any) {
     if (departmentId.length === 2) {
-      if(departmentId[2] != 'selectScreen'){
+      if (departmentId[2] != 'selectScreen') {
         this.getMenus(departmentId[1])
       }
     }

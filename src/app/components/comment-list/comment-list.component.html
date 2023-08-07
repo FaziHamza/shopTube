@@ -53,7 +53,7 @@
 
 
 <ol>
-    <li class="relative flex py-7" *ngFor="let item of dataSharedService.screenCommentList">
+    <li (click)="gotoPages(item)" class="relative flex py-7" *ngFor="let item of dataSharedService.screenCommentList">
         <div class="relative flex flex-auto">
             <!-- <div class="absolute top-7 left-5 w-0.5 h-full -ml-px bg-gray-300  "></div> -->
             <div class="flex shrink-0 items-center justify-center w-10 h-10 mr-4 rounded-full bg-gray-400">

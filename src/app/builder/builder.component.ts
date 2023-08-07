@@ -452,6 +452,7 @@ export class BuilderComponent implements OnInit {
           this.getActions();
           // this.getBuilderScreen();
           this.screenPage = true;
+          debugger
           if (objScreen.name.includes('_header') && this.selectApplicationName) {
             let application = this.applicationData.find((item: any) => item._id == this.selectApplicationName);
             this.dataSharedService.headerLogo = application['image'];
@@ -470,7 +471,7 @@ export class BuilderComponent implements OnInit {
                           let getApplication: any = JSON.parse(res.data[0].selectedTheme)
                           this.dataSharedService.menus = getApplication;
                           this.dataSharedService.menus.allMenuItems = JSON.parse(res.data[0].menuData);
-                          this.dataSharedService.headerLogo = getApplication['image'];
+                          // this.dataSharedService.headerLogo = getApplication['image'];
                         }
                       } else
                         this.toastr.error(res.message, { nzDuration: 3000 });
