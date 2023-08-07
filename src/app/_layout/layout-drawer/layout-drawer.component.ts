@@ -125,6 +125,7 @@ export class LayoutDrawerComponent implements OnInit {
       this.selectedTheme.menuChildArrayTwoColumn = [];
       this.selectedTheme.allMenuItems = [];
       this.selectedTheme.isCollapsed = false;
+      this.selectedTheme.hoverBgColor = '#3b82f6'
       this.changeLayout('vertical', false)
     }
     else {
