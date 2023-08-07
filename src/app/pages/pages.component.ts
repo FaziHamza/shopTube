@@ -311,6 +311,9 @@ export class PagesComponent implements OnInit {
                 findObj.highLight = true;
               });
             }
+            // let commentsData = this.transformComments(this.dataSharedService.screenCommentList);
+            // console.log(commentsData);
+            debugger
             this.dataSharedService.screenCommentList.forEach(element => {
               this.assignComment(this.resData[0], element);
             });
@@ -1873,30 +1876,21 @@ export class PagesComponent implements OnInit {
 
   assignComment(node: any, comment: any) {
     if (comment['ObjectID']) {
-      if (node.id === comment['ObjectID']) {
-        let userFound = false;
-
-        for (const userComment of node['comment'] || []) {
-          if (userComment.whoCreated === comment['whoCreated']) {
-            userFound = true;
-            userComment.comments.push({
-              dateTime: comment['dateTime'],
-              message: comment['message'],
-            });
-            break;
-          }
+      if (node.id == comment['ObjectID']) {
+        if (!node['comment']) {
+          node['comment'] = [];
         }
 
-        if (!userFound) {
-          const newUserComment = {
-            whoCreated: comment['whoCreated'],
-            comments: [{
-              dateTime: comment['dateTime'],
-              message: comment['message'],
-            }],
-          };
-          node['comment'] = node['comment'] || [];
-          node['comment'].push(newUserComment);
+        node['comment'].push(comment);
+
+        if (!node['commentUser']) {
+          node['commentUser'] = [comment['whoCreated']];
+        } 
+        else {
+          if (!node['commentUser'].includes(comment['whoCreated'])) {
+            // Check if the user is not already in the array, then add them
+            node['commentUser'].push(comment.whoCreated);
+          }
         }
       }
 
@@ -1907,5 +1901,45 @@ export class PagesComponent implements OnInit {
       }
     }
   }
+
+
+
+  transformComments(originalArray: any) {
+    const componentMap: any = {};
+
+    for (const commentItem of originalArray) {
+      if (commentItem.ObjectID) {
+        const componentId = commentItem.ObjectID;
+
+        if (!componentMap[componentId]) {
+          componentMap[componentId] = {
+            component: componentId,
+            compChild: [],
+          };
+        }
+
+        const whoCreated = commentItem.whoCreated;
+        let userFound = false;
+
+        for (const compChild of componentMap[componentId].compChild) {
+          if (compChild.username === whoCreated) {
+            userFound = true;
+            compChild.children.push(commentItem);
+            break;
+          }
+        }
+
+        if (!userFound) {
+          componentMap[componentId].compChild.push({
+            username: whoCreated,
+            children: [commentItem],
+          });
+        }
+      }
+    }
+
+    return Object.values(componentMap);
+  }
+
 
 }

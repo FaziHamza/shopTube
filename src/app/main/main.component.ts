@@ -460,6 +460,7 @@ export class MainComponent implements OnInit {
     });
     modal.afterClose.subscribe((res: any) => {
       if (res) {
+        this.clearComments(this.mainData);
         this.dataSharedService.screenCommentList.forEach(element => {
           this.assignComment(this.mainData, element);
         });
@@ -469,23 +470,37 @@ export class MainComponent implements OnInit {
   assignComment(node: any, comment: any) {
     if (comment['ObjectID']) {
       if (node.id == comment['ObjectID']) {
-        let obj = {
-          whoCreated: comment['whoCreated'],
-          dateTime: comment['dateTime'],
-          message: comment['message'],
-        }
         if (!node['comment']) {
           node['comment'] = [];
-          node['comment'].push(obj)
-        } else {
-          node['comment'].push(obj)
+        }
+
+        node['comment'].push(comment);
+
+        if (!node['commentUser']) {
+          node['commentUser'] = [comment['whoCreated']];
+        }
+        else {
+          if (!node['commentUser'].includes(comment['whoCreated'])) {
+            // Check if the user is not already in the array, then add them
+            node['commentUser'].push(comment.whoCreated);
+          }
         }
       }
+
       if (node.children.length > 0) {
         node.children.forEach((child: any) => {
-          this.assignComment(child, comment)
+          this.assignComment(child, comment);
         });
       }
+    }
+  }
+  clearComments(node: any) {
+    node['comment'] = [];
+    node['commentUser'] = [];
+    if (node.children.length > 0) {
+      node.children.forEach((child: any) => {
+        this.clearComments(child);
+      });
     }
   }
 }

@@ -1,25 +1,32 @@
 <div [class]="'card-content ' + (mainData['rowClass'] ? mainData['rowClass'] : 'flex flex-wrap')">
     <div class="{{!item.hideExpression   ? item.className : ''}}"
         *ngFor="let item of mainData.children ; index as i; last as isLast">
-        <!-- {{item.className | json}} -->
         <div [ngClass]="{'highLight': item.highLight == true}" *ngIf="!item.hideExpression">
             <span *ngIf="item['comment']">
                 <span *ngIf="item['comment'].length > 0">
                     <div class="nav-item">
                         <a nz-dropdown [nzDropdownMenu]="menu">
+                            <ng-container *ngIf="item['commentUser'].length > 1 ; else avatar">
+                                <nz-avatar-group *ngFor="let user of item['commentUser']">
+                                    <nz-avatar nzIcon="user" nzSrc="assets/images/user.png"></nz-avatar>
+                                </nz-avatar-group>
+                            </ng-container>
+                            <ng-template #avatar>
+                                <nz-avatar nzIcon="user" nzSrc="assets/images/user.png"></nz-avatar>
+                            </ng-template>
                             <div class="user-profile-header">
-                                <img src="assets/images/user.png" alt>
+                                <img src="assets/images/user.png" alt *ngFor="let user of item['commentUser']">
                             </div>
                         </a>
                         <nz-dropdown-menu #menu="nzDropdownMenu">
                             <ul nz-menu nzSelectable>
-                                <li *ngFor="let userComment of item['comment']" nz-menu-item>
+                                <li *ngFor="let comment of item['comment']" nz-menu-item>
                                     <div class="flex flex-wrap">
                                         <span class="mr-2"><nz-avatar nzIcon="user"></nz-avatar></span>
-                                        <span class="mr-2">{{userComment.whoCreated}}</span>
+                                        <span class="mr-2">zubair@gmail.com</span>
                                     </div>
                                     <div class="user-comments">
-                                        <div *ngFor="let comment of userComment.comments" class="flex flex-wrap">
+                                        <div class="flex flex-wrap">
                                             <span>{{comment.dateTime}}</span>
                                             <span>{{comment.message}}</span>
                                         </div>

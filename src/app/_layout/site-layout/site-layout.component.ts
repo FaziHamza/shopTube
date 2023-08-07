@@ -80,7 +80,6 @@ export class SiteLayoutComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    debugger
     this.currentUser = JSON.parse(localStorage.getItem('user')!);
     this.requestSubscription = this.dataSharedService.collapseMenu.subscribe({
       next: (res) => {
