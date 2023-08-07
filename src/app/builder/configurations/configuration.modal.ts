@@ -4266,6 +4266,35 @@ export class formFeildData {
           },
         },
         {
+          key: 'textAlign',
+          type: 'select',
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          wrappers: ["formly-vertical-theme-wrapper"],
+          props: {
+            label: 'Text align',
+            options: [
+              {
+                label: 'Left',
+                value: 'text-left'
+              },
+              {
+                label: 'right',
+                value: 'text-right'
+              },
+              {
+                label: 'center',
+                value: 'text-center'
+              },
+            ],
+            additionalProperties: {
+              allowClear: true,
+              serveSearch: false,
+              showArrow: true,
+              showSearch: true,
+            },
+          },
+        },
+        {
           key: 'fontweight',
           type: 'select',
           className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
