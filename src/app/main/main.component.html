@@ -15,7 +15,8 @@
                                         nzText="+{{ item['commentUser'].length - 2 }}"></nz-avatar>
                                 </nz-avatar-group>
                             </ng-container>
-                            <nz-avatar *ngIf="item['commentUser'] && item['commentUser'].length == 1" nzSrc="assets/images/user.png"></nz-avatar>
+                            <nz-avatar *ngIf="item['commentUser'] && item['commentUser'].length == 1"
+                                nzSrc="assets/images/user.png"></nz-avatar>
                         </a>
                         <nz-dropdown-menu #menu="nzDropdownMenu">
                             <ul nz-menu nzSelectable>
@@ -27,10 +28,19 @@
                                     <div class="user-comments">
                                         <div class="flex flex-wrap">
                                             <span>{{comment.dateTime}}</span>
-                                            <span>{{comment.message}}</span>
+                                            <span>{{comment.comment}}</span>
                                         </div>
                                     </div>
                                 </li>
+                                <div>
+                                    <span class="mr-2"><nz-avatar nzIcon="user"></nz-avatar></span>
+                                    <nz-input-group [nzSuffix]="suffixTemplateUser">
+                                        <input type="text" nz-input [(ngModel)]="newcomment" />
+                                    </nz-input-group>
+                                </div>
+                                <ng-template #suffixTemplateUser>
+                                    <span (click)="save(item)" nz-icon nzType="caret-right" nzTheme="outline"></span>
+                                </ng-template>
                             </ul>
                         </nz-dropdown-menu>
                     </div>
