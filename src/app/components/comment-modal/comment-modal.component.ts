@@ -17,6 +17,7 @@ export class CommentModalComponent implements OnInit {
   @Input() data: any = {};
   @Input() screenName: any;
   form: FormGroup;
+  newComment : any = '';
   requestSubscription: Subscription;
   currentUser: any;
   constructor(
@@ -38,10 +39,10 @@ export class CommentModalComponent implements OnInit {
   create() {
     this.form = this.formBuilder.group({
       comment: ['', Validators.required],
-      refLink: ['',],
-      messageHeader: ['',],
-      message: ['',],
-      messageDetail: ['',],
+      // refLink: ['',],
+      // messageHeader: ['',],
+      // message: ['',],
+      // messageDetail: ['',],
     });
   }
   // submit form
@@ -66,13 +67,12 @@ export class CommentModalComponent implements OnInit {
         // type: this.data.type,
         comment: this.form.value.comment,
         dateTime: new Date(),
-        refLink: this.form.value.refLink,
-        messageHeader: this.form.value.messageHeader,
-        message: this.form.value.message,
-        messageDetail: this.form.value.messageDetail,
+        // refLink: this.form.value.refLink,
+        // messageHeader: this.form.value.messageHeader,
+        // message: this.form.value.message,
+        // messageDetail: this.form.value.messageDetail,
         avatar: 'avatar.png'
       }
-
       const userCommentModel = {
         "UserComment": commentObj
       }
@@ -80,6 +80,8 @@ export class CommentModalComponent implements OnInit {
       this.requestSubscription = this.applicationService.addNestCommonAPI('cp', userCommentModel).subscribe({
         next: (res: any) => {
           if (res.isSuccess) {
+            debugger
+            this.newComment = res.data
             this.toastr.success(`UserComment : ${res.message}`, { nzDuration: 3000 });
             this.getCommentsData();
 
@@ -105,7 +107,7 @@ export class CommentModalComponent implements OnInit {
         if (res.isSuccess) {
           this.toastr.success(`User Comment : ${res.message}`, { nzDuration: 3000 });
           this.dataSharedService.screenCommentList = res.data;
-          this.#modal.destroy(res.data);
+          this.#modal.destroy(this.newComment);
           // error
         } else {
           this.toastr.error(`UserComment : ${res.message}`, { nzDuration: 3000 });

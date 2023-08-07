@@ -14,6 +14,7 @@ import { RoleManagementComponent } from '../admin/role-management/role-managemen
 import { MenuRolePermissionComponent } from '../admin/menu-role-permission/menu-role-permission.component';
 import { TaskManagementComponent } from '../admin/task-management/task-management.component';
 import { ReleaseManagementComponent } from '../admin/release-management/release-management.component';
+import { ExecuteActionRuleComponent } from './execute-action-rule/execute-action-rule.component';
 
 const routes: Routes = [
   {
@@ -67,6 +68,10 @@ const routes: Routes = [
       {
         path: 'release',
         component: ReleaseManagementComponent
+      },
+      {
+        path: 'actions',
+        component: ExecuteActionRuleComponent
       },
     ]
   },

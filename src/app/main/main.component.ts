@@ -42,10 +42,14 @@ export class MainComponent implements OnInit {
   requestSubscription: Subscription;
   isShowContextMenu = false;
   schemaValidation: any;
+  newcomment: any = '';
+  newCommentRes: any = '';
+  showAllComments = false;
   constructor(private cd: ChangeDetectorRef, private nzImageService: NzImageService, private employeeService: EmployeeService,
     private builderService: BuilderService, private applicationServices: ApplicationService,
     private toastr: NzMessageService, private router: Router, public dataSharedService: DataSharedService,
-    private clipboard: Clipboard, private modalService: NzModalService, private viewContainerRef: ViewContainerRef) { }
+    private clipboard: Clipboard, private modalService: NzModalService, private viewContainerRef: ViewContainerRef,
+    private applicationService: ApplicationService) { }
 
   ngOnInit(): void {
     if (this.router.url.includes('/pages'))
@@ -442,10 +446,9 @@ export class MainComponent implements OnInit {
     return null;
   }
   copyJson(json: any) {
-
     let data = JSON.stringify(json);
     this.clipboard.copy(data);
-    // alert('Copied to clipboard');
+    this.toastr.success('Copied to clipboard', { nzDuration: 3000 });
   }
   comment(json: any) {
     const modal = this.modalService.create<CommentModalComponent>({
@@ -460,32 +463,112 @@ export class MainComponent implements OnInit {
     });
     modal.afterClose.subscribe((res: any) => {
       if (res) {
-        this.dataSharedService.screenCommentList.forEach(element => {
-          this.assignComment(this.mainData, element);
-        });
+        this.assignComment(this.mainData, res);
       }
     });
   }
   assignComment(node: any, comment: any) {
     if (comment['ObjectID']) {
       if (node.id == comment['ObjectID']) {
-        let obj = {
-          whoCreated: comment['whoCreated'],
-          dateTime: comment['dateTime'],
-          message: comment['message'],
-        }
         if (!node['comment']) {
           node['comment'] = [];
-          node['comment'].push(obj)
-        } else {
-          node['comment'].push(obj)
+        }
+
+        node['comment'].push(comment);
+
+        if (!node['commentUser']) {
+          node['commentUser'] = [comment['whoCreated']];
+        }
+        else {
+          if (!node['commentUser'].includes(comment['whoCreated'])) {
+            // Check if the user is not already in the array, then add them
+            node['commentUser'].push(comment.whoCreated);
+          }
         }
       }
+
       if (node.children.length > 0) {
         node.children.forEach((child: any) => {
-          this.assignComment(child, comment)
+          this.assignComment(child, comment);
         });
       }
+    }
+  }
+  save(data: any) {
+    const userData = JSON.parse(localStorage.getItem('user')!);
+    let commentObj = {
+      organizationId: JSON.parse(localStorage.getItem('organizationId')!),
+      applicationId: JSON.parse(localStorage.getItem('applicationId')!),
+      screenId: this.screenName,
+      ObjectID: data.id,
+      whoCreated: userData.username,
+      // type: this.data.type,
+      comment: this.newcomment,
+      dateTime: new Date(),
+      // refLink: this.form.value.refLink,
+      // messageHeader: this.form.value.messageHeader,
+      // message: this.form.value.message,
+      // messageDetail: this.form.value.messageDetail,
+      avatar: 'avatar.png'
+    }
+    const userCommentModel = {
+      "UserComment": commentObj
+    }
+    this.requestSubscription = this.applicationService.addNestCommonAPI('cp', userCommentModel).subscribe({
+      next: (res: any) => {
+        if (res.isSuccess) {
+          this.newcomment = '';
+          this.newCommentRes = res.data
+          this.toastr.success(`UserComment : ${res.message}`, { nzDuration: 3000 });
+          this.getCommentsData();
+
+          // error
+        } else this.toastr.error(`UserComment : ${res.message}`, { nzDuration: 3000 });
+      },
+      error: (err) => {
+        // console.error(err); // Log the error to the console
+        this.toastr.error("UserComment : An error occurred", { nzDuration: 3000 });
+      }
+    });
+  }
+
+  getCommentsData(): void {
+    this.requestSubscription = this.applicationService.getNestCommonAPI('cp/UserComment').subscribe({
+      next: (res: any) => {
+        if (res.isSuccess) {
+          this.toastr.success(`User Comment : ${res.message}`, { nzDuration: 3000 });
+          this.dataSharedService.screenCommentList = res.data;
+          this.assignComment(this.mainData, this.newCommentRes);
+        } else {
+          this.toastr.error(`UserComment : ${res.message}`, { nzDuration: 3000 });
+        }
+
+      },
+      error: (err) => {
+        console.error(err); // Log the error to the console
+        this.toastr.error(`UserComment : An error occurred`, { nzDuration: 3000 });
+      }
+    });
+  }
+  toggleCommentDisplay() {
+    this.showAllComments = !this.showAllComments;
+  }
+  handleCancel() {
+    this.showAllComments = false;
+  }
+  read(node: any, read: boolean) {
+    if (read || read == undefined) {
+      node['commentBackgroundColor'] = '#3b82f6';
+      this.cd.detectChanges;
+    } else {
+      node['commentBackgroundColor'] = '';
+    }
+
+  }
+  typeFirstAlphabetAsIcon(user: any) {
+    if (user) {
+      let firstAlphabet = user?.charAt(0)?.toUpperCase();
+      return firstAlphabet;
     }
   }
 }
