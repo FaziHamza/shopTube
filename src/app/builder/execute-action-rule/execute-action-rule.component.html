@@ -1,0 +1,17 @@
+<div class="flex flex-wrap">
+    <div class="w-1/3">
+        <textarea [(ngModel)]="actionRule" nz-input placeholder="Action Rule"
+            [nzAutosize]="{ minRows: 28, maxRows: 28}"></textarea>
+    </div>
+    <div class="w-1/3">
+        <textarea [(ngModel)]="actionModel" nz-input placeholder="Form Model"
+            [nzAutosize]="{ minRows: 12, maxRows: 12 }"></textarea>
+        <textarea [(ngModel)]="actionList" nz-input placeholder="User Type"
+            [nzAutosize]="{ minRows: 12, maxRows: 12 }"></textarea>
+        <button nz-button nzType="primary" (click)="processActionRules(actionRule,actionModel)">Execute Action</button>
+    </div>
+    <div class="w-1/3">
+        <textarea nz-input [(ngModel)]="actionResult" placeholder="Result"
+            [nzAutosize]="{ minRows: 28, maxRows: 28}"></textarea>
+    </div>
+</div>
