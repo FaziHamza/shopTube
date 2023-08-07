@@ -6,34 +6,60 @@
                 <span *ngIf="item['comment'].length > 0">
                     <div class="nav-item">
                         <a nz-dropdown [nzDropdownMenu]="menu">
-                            <ng-container *ngIf="item['commentUser'].length > 1 ; else avatar">
-                                <nz-avatar-group *ngFor="let user of item['commentUser']">
-                                    <nz-avatar nzIcon="user" nzSrc="assets/images/user.png"></nz-avatar>
+                            <ng-container *ngIf="item['commentUser'] && item['commentUser'].length > 1">
+                                <nz-avatar-group>
+                                    <ng-container *ngFor="let user of item['commentUser']; let i = index">
+                                        <nz-avatar *ngIf="i < 2" nzSrc="assets/images/user.png">{{ user }}</nz-avatar>
+                                    </ng-container>
+                                    <nz-avatar *ngIf="item['commentUser'].length > 2" style="background-color: #3b82f6"
+                                        nzText="+{{ item['commentUser'].length - 2 }}"></nz-avatar>
                                 </nz-avatar-group>
                             </ng-container>
-                            <ng-template #avatar>
-                                <nz-avatar nzIcon="user" nzSrc="assets/images/user.png"></nz-avatar>
-                            </ng-template>
-                            <div class="user-profile-header">
-                                <img src="assets/images/user.png" alt *ngFor="let user of item['commentUser']">
-                            </div>
+                            <nz-avatar *ngIf="item['commentUser'] && item['commentUser'].length == 1"
+                                nzSrc="assets/images/user.png"></nz-avatar>
                         </a>
                         <nz-dropdown-menu #menu="nzDropdownMenu">
                             <ul nz-menu nzSelectable>
-                                <li *ngFor="let comment of item['comment']" nz-menu-item>
+                                <li *ngIf="!showAllComments" nz-menu-item>
                                     <div class="flex flex-wrap">
                                         <span class="mr-2"><nz-avatar nzIcon="user"></nz-avatar></span>
                                         <span class="mr-2">zubair@gmail.com</span>
                                     </div>
                                     <div class="user-comments">
                                         <div class="flex flex-wrap">
-                                            <span>{{comment.dateTime}}</span>
-                                            <span>{{comment.message}}</span>
+                                            <span>{{item['comment'][0].dateTime}}</span>
+                                            <span>{{item['comment'][0].comment}}</span>
                                         </div>
                                     </div>
+                                    <p (click)="toggleCommentDisplay()">Replies</p>
                                 </li>
                             </ul>
                         </nz-dropdown-menu>
+                        <nz-modal [(nzVisible)]="showAllComments" nzTitle="Comments"
+                            (nzOnCancel)="handleCancel()">
+                            <ng-container *nzModalContent>
+                                <div *ngFor="let comment of item['comment']">
+                                    <span class="mr-2"><nz-avatar nzIcon="user"></nz-avatar></span>
+                                    <span class="mr-2">zubair@gmail.com</span>
+                                    <div class="user-comments">
+                                        <div class="flex flex-wrap">
+                                            <span>{{comment.dateTime}}</span>
+                                            <span>{{comment.comment}}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div>
+                                    <span class="mr-2"><nz-avatar nzIcon="user"></nz-avatar></span>
+                                    <nz-input-group [nzSuffix]="suffixTemplateUser">
+                                        <input type="text" nz-input [(ngModel)]="newcomment" />
+                                    </nz-input-group>
+                                    <ng-template #suffixTemplateUser>
+                                        <span (click)="save(item)" nz-icon nzType="caret-right"
+                                            nzTheme="outline"></span>
+                                    </ng-template>
+                                </div>
+                            </ng-container>
+                        </nz-modal>
                     </div>
                 </span>
             </span>
