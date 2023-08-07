@@ -1,6 +1,7 @@
 <form [formGroup]="form" (ngSubmit)="onSubmit()">
     <label for="comment">Comment</label>
-    <input formControlName="comment" placeholder="Comment title" nz-input>
+    <textarea rows="2" formControlName="comment" placeholder="Write a message here..." nz-input></textarea>
+    <!-- <input formControlName="comment" placeholder="Comment title" nz-input>
     <label for="comment">Title</label>
     <input formControlName="messageHeader" placeholder="your message title" nz-input>
     <label for="message">Message</label>
@@ -8,6 +9,6 @@
     <label for="comment">Detail</label>
     <input formControlName="messageDetail" placeholder="Any furrther detail" nz-input>
     <label for="comment">Reference Link</label>
-    <input formControlName="refLink" placeholder="Enter reference link" nz-input>
+    <input formControlName="refLink" placeholder="Enter reference link" nz-input> -->
     <button class="mt-2" nz-button nzType="primary">Save</button>
 </form>

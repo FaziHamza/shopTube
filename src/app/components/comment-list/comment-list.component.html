@@ -52,10 +52,9 @@
 
 
 
-<ol>
+<!-- <ol>
     <li (click)="gotoPages(item)" class="relative flex py-7" *ngFor="let item of dataSharedService.screenCommentList">
         <div class="relative flex flex-auto">
-            <!-- <div class="absolute top-7 left-5 w-0.5 h-full -ml-px bg-gray-300  "></div> -->
             <div class="flex shrink-0 items-center justify-center w-10 h-10 mr-4 rounded-full bg-gray-400">
                 <i class="fa-solid fa-star text-white"></i>
             </div>
@@ -82,4 +81,15 @@
             </div>
         </div>
     </li>
-</ol>
+</ol> -->
+<div *ngFor="let item of dataSharedService.screenCommentList; let last = last">
+    <div class="flex space-x-4 items-center">
+        <nz-avatar nzSrc="assets/images/user.png"></nz-avatar>
+        <div>
+            <p class="font-semibold">{{item['whoCreated']}}</p>
+            <p class="text-gray-500">{{item['dateTime']}}</p>
+        </div>
+    </div>
+    <p>{{ item.comment }}</p>
+    <nz-divider *ngIf="!last"></nz-divider>
+</div>

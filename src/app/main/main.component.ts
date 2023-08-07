@@ -460,10 +460,7 @@ export class MainComponent implements OnInit {
     });
     modal.afterClose.subscribe((res: any) => {
       if (res) {
-        this.clearComments(this.mainData);
-        this.dataSharedService.screenCommentList.forEach(element => {
-          this.assignComment(this.mainData, element);
-        });
+        this.assignComment(this.mainData, res);
       }
     });
   }
