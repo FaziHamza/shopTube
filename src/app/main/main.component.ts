@@ -44,6 +44,7 @@ export class MainComponent implements OnInit {
   schemaValidation: any;
   newcomment: any = '';
   newCommentRes: any = '';
+  showAllComments = false;
   constructor(private cd: ChangeDetectorRef, private nzImageService: NzImageService, private employeeService: EmployeeService,
     private builderService: BuilderService, private applicationServices: ApplicationService,
     private toastr: NzMessageService, private router: Router, public dataSharedService: DataSharedService,
@@ -551,5 +552,11 @@ export class MainComponent implements OnInit {
         this.toastr.error(`UserComment : An error occurred`, { nzDuration: 3000 });
       }
     });
+  }
+  toggleCommentDisplay() {
+    this.showAllComments = !this.showAllComments;
+  }
+  handleCancel(){
+    this.showAllComments = false;
   }
 }
