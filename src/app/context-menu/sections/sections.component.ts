@@ -35,7 +35,7 @@ export class SectionsComponent implements OnInit {
     , private applicationServices: ApplicationService, private cd: ChangeDetectorRef) { }
 
   ngOnInit(): void {
-    debugger
+    
     this.screenName;
     this.getJoiValidation();
     let btnData = this.findObjectByTypeBase(this.sections, "button");
@@ -133,7 +133,7 @@ export class SectionsComponent implements OnInit {
     return inputElements;
   }
   saveData(data: any) {
-    debugger
+    
     if (data.isSubmit) {
       this.joiValidation();
       if (this.joiValidationData.length > 0) {
@@ -387,7 +387,7 @@ export class SectionsComponent implements OnInit {
     }
   }
   gridRules(getRes: any, data: any) {
-    debugger
+    
     let gridFilter = getRes.data.filter((a: any) => a.gridType == 'Body');
     for (let m = 0; m < gridFilter.length; m++) {
       if (gridFilter[m].gridKey == data.key && data.tableData) {

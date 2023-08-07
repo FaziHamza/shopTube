@@ -25,13 +25,15 @@ export class CommentModalComponent implements OnInit {
     private toastr: NzMessageService,
     private route: ActivatedRoute,
     public dataSharedService: DataSharedService,
-    private applicationService: ApplicationService) {
+    private applicationService: ApplicationService,
+  ) {
   }
 
   ngOnInit(): void {
     this.currentUser = JSON.parse(localStorage.getItem('user')!);
     this.create();
   }
+  readonly #modal = inject(NzModalRef);
   // create form
   create() {
     this.form = this.formBuilder.group({
@@ -53,13 +55,15 @@ export class CommentModalComponent implements OnInit {
 
     if (this.form.valid) {
       const currentDate = new Date();
+      const userData = JSON.parse(localStorage.getItem('user')!);
       const commentTime = currentDate.toLocaleTimeString([], { hour12: true, hour: 'numeric', minute: '2-digit' });
-      let applicationId = JSON.parse(localStorage.getItem('applicationId')!);
-      let organizationId = JSON.parse(localStorage.getItem('organizationId')!);
       let commentObj = {
-        // commentId: this.data.id,
-        type: this.data.type,
+        organizationId: JSON.parse(localStorage.getItem('organizationId')!),
+        applicationId: JSON.parse(localStorage.getItem('applicationId')!),
         screenId: this.screenName,
+        ObjectID: this.data.id,
+        whoCreated: userData.username,
+        // type: this.data.type,
         comment: this.form.value.comment,
         dateTime: new Date(),
         refLink: this.form.value.refLink,
@@ -79,14 +83,12 @@ export class CommentModalComponent implements OnInit {
             this.toastr.success(`UserComment : ${res.message}`, { nzDuration: 3000 });
             this.getCommentsData();
 
-
             // error
           } else this.toastr.error(`UserComment : ${res.message}`, { nzDuration: 3000 });
         },
         error: (err) => {
           // console.error(err); // Log the error to the console
           this.toastr.error("UserComment : An error occurred", { nzDuration: 3000 });
-          this.#modal.destroy();
         }
       });
     }
@@ -96,8 +98,6 @@ export class CommentModalComponent implements OnInit {
     return value < 10 ? `0${value}` : `${value}`;
   }
 
-  readonly #modal = inject(NzModalRef);
-
   // Get Comments Data
   getCommentsData(): void {
     this.requestSubscription = this.applicationService.getNestCommonAPI('cp/UserComment').subscribe({
@@ -105,7 +105,7 @@ export class CommentModalComponent implements OnInit {
         if (res.isSuccess) {
           this.toastr.success(`User Comment : ${res.message}`, { nzDuration: 3000 });
           this.dataSharedService.screenCommentList = res.data;
-          this.#modal.destroy();
+          this.#modal.destroy(res.data);
           // error
         } else {
           this.toastr.error(`UserComment : ${res.message}`, { nzDuration: 3000 });

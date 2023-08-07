@@ -448,7 +448,6 @@ export class MainComponent implements OnInit {
     // alert('Copied to clipboard');
   }
   comment(json: any) {
-    debugger
     const modal = this.modalService.create<CommentModalComponent>({
       nzTitle: 'Comment',
       nzContent: CommentModalComponent,
@@ -457,12 +456,36 @@ export class MainComponent implements OnInit {
         data: json,
         screenName: this.screenName,
       },
-      // nzOnOk: () => new Promise(resolve => setTimeout(resolve, 1000)),
       nzFooter: []
     });
-    modal.afterClose.subscribe(res => {
+    modal.afterClose.subscribe((res: any) => {
       if (res) {
+        this.dataSharedService.screenCommentList.forEach(element => {
+          this.assignComment(this.mainData, element);
+        });
       }
     });
+  }
+  assignComment(node: any, comment: any) {
+    if (comment['ObjectID']) {
+      if (node.id == comment['ObjectID']) {
+        let obj = {
+          whoCreated: comment['whoCreated'],
+          dateTime: comment['dateTime'],
+          message: comment['message'],
+        }
+        if (!node['comment']) {
+          node['comment'] = [];
+          node['comment'].push(obj)
+        } else {
+          node['comment'].push(obj)
+        }
+      }
+      if (node.children.length > 0) {
+        node.children.forEach((child: any) => {
+          this.assignComment(child, comment)
+        });
+      }
+    }
   }
 }

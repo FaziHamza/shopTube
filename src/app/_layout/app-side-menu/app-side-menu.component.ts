@@ -38,12 +38,12 @@ export class AppSideMenuComponent implements OnInit {
     public builderService: BuilderService, public dataSharedService: DataSharedService, private renderer: Renderer2,
     private applicationService: ApplicationService) { }
   ngOnInit(): void {
-    debugger
-    if (this.selectedTheme  && window.innerWidth > 768) {
-      if (this.selectedTheme.sideBarSize == 'smallIconView' || this.selectedTheme.sideBarSize == 'smallHoverView') {
-        this.selectedTheme['isCollapsed'] = true;
-      }
-    }
+    
+    // if (this.selectedTheme  && window.innerWidth > 768) {
+    //   if (this.selectedTheme.sideBarSize == 'smallIconView' || this.selectedTheme.sideBarSize == 'smallHoverView') {
+    //     this.selectedTheme['isCollapsed'] = true;
+    //   }
+    // }
     this.currentUser = JSON.parse(localStorage.getItem('user')!);
     this.loadModules();
     window.onresize = () => {
@@ -69,9 +69,11 @@ export class AppSideMenuComponent implements OnInit {
   }
 
 
-  // ngOnDestroy() {
-  //   this.requestSubscription.unsubscribe();
-  // }
+  ngOnDestroy() {
+    if(this.requestSubscription){
+      this.requestSubscription.unsubscribe();
+    }
+  }
 
   setHovered(value: any, event: any) {
     event.stopPropagation();

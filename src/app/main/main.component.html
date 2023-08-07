@@ -1,11 +1,35 @@
-
-<div
-    [class]="'card-content ' + (mainData['rowClass'] ? mainData['rowClass'] : 'flex flex-wrap')">
+<div [class]="'card-content ' + (mainData['rowClass'] ? mainData['rowClass'] : 'flex flex-wrap')">
     <div class="{{!item.hideExpression   ? item.className : ''}}"
         *ngFor="let item of mainData.children ; index as i; last as isLast">
         <!-- {{item.className | json}} -->
-        <div [ngClass]="{'highLight': item.highLight == true}"
-            *ngIf="!item.hideExpression">
+        <div [ngClass]="{'highLight': item.highLight == true}" *ngIf="!item.hideExpression">
+            <span *ngIf="item['comment']">
+                <span *ngIf="item['comment'].length > 0">
+                    <div class="nav-item">
+                        <a nz-dropdown [nzDropdownMenu]="menu">
+                            <div class="user-profile-header">
+                                <img src="assets/images/user.png" alt>
+                            </div>
+                        </a>
+                        <nz-dropdown-menu #menu="nzDropdownMenu">
+                            <ul nz-menu nzSelectable>
+                                <li *ngFor="let userComment of item['comment']" nz-menu-item>
+                                    <div class="flex flex-wrap">
+                                        <span class="mr-2"><nz-avatar nzIcon="user"></nz-avatar></span>
+                                        <span class="mr-2">{{userComment.whoCreated}}</span>
+                                    </div>
+                                    <div class="user-comments">
+                                        <div *ngFor="let comment of userComment.comments" class="flex flex-wrap">
+                                            <span>{{comment.dateTime}}</span>
+                                            <span>{{comment.message}}</span>
+                                        </div>
+                                    </div>
+                                </li>
+                            </ul>
+                        </nz-dropdown-menu>
+                    </div>
+                </span>
+            </span>
             <span [contextMenu]="oneContextMenu" *ngIf="isShowContextMenu">
                 <context-menu #oneContextMenu>
                     <ng-template contextMenuItem (execute)="copyJson(item)"
@@ -13,26 +37,19 @@
                     <ng-template contextMenuItem (execute)="comment(item)"
                         [visible]="isShowContextMenu">Comment</ng-template>
                 </context-menu>
-                <st-mains [item]="item" [formlyModel]="formlyModel"
-                    [screenName]="screenName" [screenId]="screenId"
-                    [isLast]='isLast' [form]="form"
-                    *ngIf="item"></st-mains>
+                <st-mains [item]="item" [formlyModel]="formlyModel" [screenName]="screenName" [screenId]="screenId"
+                    [isLast]='isLast' [form]="form" *ngIf="item"></st-mains>
             </span>
-            <span class="tooltip-icon"
-                *ngIf="item?.tooltipPosition ==  undefined || item?.tooltipPosition == 'top'">
+            <span class="tooltip-icon" *ngIf="item?.tooltipPosition ==  undefined || item?.tooltipPosition == 'top'">
                 <span *ngIf="item.type != 'progressBar' && item.type != 'alert'
                     && item.type != 'switch' && item.type != 'rangeSlider' && item.type != 'editor_js' && item?.formlyType != 'input' && item.tooltip
-                    && !item?.tooltipWithoutIcon || false" nz-tooltip
-                    [nzTooltipTitle]="item.tooltip">
-                    <span nz-icon
-                        [nzType]="item.tooltipIcon ?  item.tooltipIcon : 'question-circle'"
-                        [style.color]="item['toolTipColor']"
-                        nzTheme="outline"></span>
+                    && !item?.tooltipWithoutIcon || false" nz-tooltip [nzTooltipTitle]="item.tooltip">
+                    <span nz-icon [nzType]="item.tooltipIcon ?  item.tooltipIcon : 'question-circle'"
+                        [style.color]="item['toolTipColor']" nzTheme="outline"></span>
                 </span>
             </span>
             <div>
-                <st-mains [item]="item" [isLast]="isLast" [form]="form"
-                    [screenName]="screenName" [screenId]="screenId"
+                <st-mains [item]="item" [isLast]="isLast" [form]="form" [screenName]="screenName" [screenId]="screenId"
                     *ngIf="item && !isShowContextMenu"></st-mains>
 
             </div>

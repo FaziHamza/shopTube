@@ -82,7 +82,7 @@ export class PagesComponent implements OnInit {
     this.requestSubscription = this.dataSharedService.eventChange.subscribe({
       next: (res) => {
         if (res) {
-          debugger
+
           for (let index = 0; index < res.length; index++) {
             const element = res[index].actions?.[0]?.elementName;
             let findObj = this.findObjectByKey(this.resData[0], element);
@@ -90,7 +90,7 @@ export class PagesComponent implements OnInit {
               if (findObj?.formlyType === 'input') {
                 this.applicationService.getBackendCommonAPI(res[index].actions?.[0]?.url).subscribe(res => {
                   if (res) {
-                    let data  = res.data;
+                    let data = res.data;
                     let propertyNames = Object.keys(data[0]);
                     let result = data.map((item: any) => {
                       let newObj: any = {};
@@ -164,7 +164,7 @@ export class PagesComponent implements OnInit {
       // ------------------
       //  Working on Load
       // ------------------
-      debugger
+
       if (params["schema"]) {
         this.dataSharedService.defaultPageNodes = '';
         this.isPageContextShow = true;
@@ -176,6 +176,7 @@ export class PagesComponent implements OnInit {
             // let commentList = res.data.filter((item: any) => item.screenId == this.screenName)
             let commentList = res.data
             this.dataSharedService.screenCommentList = commentList;
+
           }
         })
         this.requestSubscription = this.applicationService.getNestCommonAPIById("cp/actionbyscreenname", params["schema"]).subscribe({
@@ -310,6 +311,9 @@ export class PagesComponent implements OnInit {
                 findObj.highLight = true;
               });
             }
+            this.dataSharedService.screenCommentList.forEach(element => {
+              this.assignComment(this.resData[0], element);
+            });
           }
         } else
           this.toastr.error(res.message, { nzDuration: 3000 });
@@ -1809,7 +1813,7 @@ export class PagesComponent implements OnInit {
     if (!targetId)
       this.requestSubscription = this.applicationService.getNestCommonAPI(data.props.apiUrl).subscribe({
         next: (res) => {
-          debugger
+
           if (res?.data?.length > 0) {
             let propertyNames = Object.keys(res.data[0]);
             let result = res.data.map((item: any) => {
@@ -1841,7 +1845,7 @@ export class PagesComponent implements OnInit {
 
   }
   saveDataGrid(res: any) {
-    debugger
+
     let model = Object.keys(this.formlyModel);
     let findElement: any = {};
     const filteredNodes = this.filterInputElements(this.resData[0].children[1].children[0].children[1].children);
@@ -1864,6 +1868,43 @@ export class PagesComponent implements OnInit {
       this.applicationService.addNestCommonAPI('cp', obj).subscribe(res => {
         this.getEnumList(findElement, this.formlyModel[model[0]]);
       })
+    }
+  }
+
+  assignComment(node: any, comment: any) {
+    if (comment['ObjectID']) {
+      if (node.id === comment['ObjectID']) {
+        let userFound = false;
+
+        for (const userComment of node['comment'] || []) {
+          if (userComment.whoCreated === comment['whoCreated']) {
+            userFound = true;
+            userComment.comments.push({
+              dateTime: comment['dateTime'],
+              message: comment['message'],
+            });
+            break;
+          }
+        }
+
+        if (!userFound) {
+          const newUserComment = {
+            whoCreated: comment['whoCreated'],
+            comments: [{
+              dateTime: comment['dateTime'],
+              message: comment['message'],
+            }],
+          };
+          node['comment'] = node['comment'] || [];
+          node['comment'].push(newUserComment);
+        }
+      }
+
+      if (node.children.length > 0) {
+        node.children.forEach((child: any) => {
+          this.assignComment(child, comment);
+        });
+      }
     }
   }
 

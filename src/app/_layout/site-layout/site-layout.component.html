@@ -1,6 +1,7 @@
 <nz-spin [nzSpinning]="loader" [nzSize]="'large'">
   <div *ngIf="loader" style="height: 100vh;"></div>
-  <div class="user-builder-layout" [dir]="this.selectedTheme?.layout" *ngIf="selectedTheme && !loader" [ngClass]="{
+  <div *ngIf="currentWebsiteLayout == 'backend_application' && selectedTheme && !loader" class="user-builder-layout"
+    [dir]="this.selectedTheme?.layout" [ngClass]="{
     'boxed-menu': selectedTheme?.layoutWidth == 'boxed' &&  selectedTheme?.layout != 'horizental',
     'horizental-boxed': selectedTheme?.layoutWidth == 'boxed' &&  selectedTheme?.layout == 'horizental',
     'horizental-fluid': selectedTheme?.layoutWidth == 'fluid' &&  selectedTheme?.layout == 'horizental'
@@ -14,7 +15,7 @@
         [class]="'main-layout2' + (selectedTheme?.layout === 'horizental' ? ' b-horizontal-menu' : '') + (selectedTheme.layout == 'rtl' ? ' rtl-layout2' : '')">
         <div *ngIf="!selectedTheme.isCollapsed" class="backdrop"></div>
         <nz-sider
-        [class]="'menu-sidebar' + (selectedTheme.layout === 'twoColumn' && selectedTheme['menuChildArrayTwoColumn'].length == 0 ? ' two-column-sider' : '')+ 
+          [class]="'menu-sidebar' + (selectedTheme.layout === 'twoColumn' && selectedTheme['menuChildArrayTwoColumn'].length == 0 ? ' two-column-sider' : '')+ 
         (selectedTheme.sideBarSize == 'smallIconView' && (selectedTheme.layout == 'vertical' || selectedTheme.layout == 'rtl') ? ' small-icon-view-menu' : '')"
           nzTheme="light" nzCollapsible nzWidth="240px" nzBreakpoint="md" [(nzCollapsed)]="selectedTheme.isCollapsed"
           [nzTrigger]="null">
@@ -43,7 +44,8 @@
       </nz-layout>
     </nz-layout>
   </div>
-
+  <st-layout1 *ngIf="currentWebsiteLayout != 'backend_application'  && !loader" [layout]="currentWebsiteLayout"
+    [currentHeader]="currentHeader" [currentFooter]="currentFooter"></st-layout1>
 </nz-spin>
 
 
