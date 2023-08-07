@@ -21,6 +21,7 @@ import { BuilderLayoutComponent } from "../_layout/builder-layout/builder-layout
 import { BuilderShareModule } from "../shared/builder-share.module";
 import { TemplatePopupComponent } from './template-popup/template-popup.component';
 import { MarketPlaceComponent } from './market-place/market-place.component';
+import { ExecuteActionRuleComponent } from './execute-action-rule/execute-action-rule.component';
 
 @NgModule({
   declarations: [
@@ -28,6 +29,7 @@ import { MarketPlaceComponent } from './market-place/market-place.component';
     BuilderLayoutComponent,
     TemplatePopupComponent,
     MarketPlaceComponent,
+    ExecuteActionRuleComponent,
   ],
   imports: [
     CommonModule,
