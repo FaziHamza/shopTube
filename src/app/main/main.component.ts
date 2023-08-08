@@ -556,7 +556,19 @@ export class MainComponent implements OnInit {
   handleCancel() {
     this.showAllComments = false;
   }
-  read(node: any) {
-    node['commentBackgroundColor'] = '#3b82f6'
+  read(node: any, read: boolean) {
+    if (read || read == undefined) {
+      node['commentBackgroundColor'] = '#3b82f6';
+      this.cd.detectChanges;
+    } else {
+      node['commentBackgroundColor'] = '';
+    }
+
+  }
+  typeFirstAlphabetAsIcon(user: any) {
+    if (user) {
+      let firstAlphabet = user?.charAt(0)?.toUpperCase();
+      return firstAlphabet;
+    }
   }
 }
