@@ -32,7 +32,7 @@
                                 [(nzVisible)]="item['showAllComments']" nzPlacement="right" nzTitle="Task Manager"
                                 (nzOnClose)="handleCancel(item)">
                                 <ng-container *nzDrawerContent>
-                                    <div class="comments-chat">
+                                    <!-- <div class="comments-chat">
                                         <div class="c-body">
                                             <div class="comment-box" *ngFor="let comment of item['comment']">
                                                 <div class="profile">
@@ -43,14 +43,14 @@
                                                         {{comment['whoCreated']}} <span>{{comment.dateTime | date :
                                                             "dd/MMM/yyyy hh:mm"}}</span>
                                                     </h6>
-                                                </div>
-                                                <div>
                                                     <nz-tag *ngIf="comment['status']"
                                                         [nzColor]="comment['status'] == 'resolved' ? 'blue' : (comment['status'] == 'inProgress' ? 'green' : 'red')">{{comment['status']}}</nz-tag>
-                                                    <span nz-icon nzType="edit" nzTheme="outline"
-                                                        (click)="edit(comment)"></span>
+                                                    <div class="edit-comment">
+                                                        <p>{{comment.comment}}</p>
+                                                        <span nz-icon nzType="edit" nzTheme="outline"
+                                                            (click)="edit(comment)"></span>
+                                                    </div>
                                                 </div>
-                                                <p>{{comment.comment}}</p>
                                             </div>
                                         </div>
                                         <div class="c-footer">
@@ -74,14 +74,139 @@
                                             <button (click)="saveComment(item)" *ngIf="commentEdit" class="mt-2"
                                                 nz-button nzType="primary">Update</button>
                                         </div>
+                                    </div> -->
+                                    <div class="comments-chat">
+                                        <div class="c-header">
+                                            <div class="arrows">
+                                                <a href="">
+                                                    <i class="fa-regular fa-angle-left"></i>
+                                                </a>
+                                                <a href="">
+                                                    <i class="fa-regular fa-angle-right"></i>
+                                                </a>
+                                            </div>
+                                            <div class="actions">
+                                                <a href="">
+                                                    <i class="fa-solid fa-ellipsis"></i>
+                                                </a>
+                                                <a href="">
+                                                    <i class="fa-regular fa-circle-check"></i>
+                                                </a>
+                                                <a href="">
+                                                    <i class="fa-regular fa-arrow-up-right-from-square"></i>
+                                                </a>
+                                                <a href="">
+                                                    <i class="fa-regular fa-xmark"></i>
+                                                </a>
+                                            </div>
+                                        </div>
+                                        <div class="c-body">
+                                            <div class="comment-box">
+                                                <div class="profile">
+                                                    <nz-avatar nzIcon="user" class="mr-2"></nz-avatar>
+                                                </div>
+                                                <div class="comment">
+                                                    <div class="text-edit">
+                                                        <h6>
+                                                            Haider Adrees <span>2 mo.ago</span>
+                                                            <div class="dot">
+                                                            </div>
+                                                        </h6>
+                                                        <span>
+                                                            <i class="fa-regular fa-pen-to-square"></i>
+                                                        </span>
+                                                    </div>
+                                                    <p>Lorem ipsum dolor, sit amet cons ecte tur adipisi cing elit.
+                                                    </p>
+                                                </div>
+                                            </div>
+
+                                            <div class="comment-box">
+                                                <div class="profile">
+                                                    <nz-avatar nzIcon="user" class="mr-2"></nz-avatar>
+                                                </div>
+                                                <div class="comment">
+                                                    <div class="text-edit">
+                                                        <h6>
+                                                            Haider Adrees <span>2 mo.ago</span>
+                                                            <div class="dot">
+                                                            </div>
+                                                        </h6>
+                                                        <span>
+                                                            <i class="fa-regular fa-pen-to-square"></i>
+                                                        </span>
+                                                    </div>
+                                                    <p>Lorem ipsum dolor, sit amet cons ecte tur adipisi cing elit.
+                                                    </p>
+                                                </div>
+                                            </div>
+                                            <div class="comment-box">
+                                                <div class="profile">
+                                                    <nz-avatar nzIcon="user" class="mr-2"></nz-avatar>
+                                                </div>
+                                                <div class="comment">
+                                                    <div class="text-edit">
+                                                        <h6>
+                                                            Haider Adrees <span>2 mo.ago</span>
+                                                            <div class="dot">
+                                                            </div>
+                                                        </h6>
+                                                        <span>
+                                                            <i class="fa-regular fa-pen-to-square"></i>
+                                                        </span>
+                                                    </div>
+                                                    <p>Lorem ipsum dolor, sit amet cons ecte tur adipisi cing elit.
+                                                    </p>
+                                                </div>
+                                            </div>
+                                            <div class="comment-box">
+                                                <div class="profile">
+                                                    <nz-avatar nzIcon="user" class="mr-2"></nz-avatar>
+                                                </div>
+                                                <div class="comment">
+                                                    <div class="text-edit">
+                                                        <h6>
+                                                            Haider Adrees <span>2 mo.ago</span>
+                                                            <div class="dot">
+                                                            </div>
+                                                        </h6>
+                                                        <span>
+                                                            <i class="fa-regular fa-pen-to-square"></i>
+                                                        </span>
+                                                    </div>
+                                                    <p>Lorem ipsum dolor, sit amet cons ecte tur adipisi cing elit.
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="c-footer">
+                                            <div class="profile">
+                                                <nz-avatar nzIcon="user" class="mr-2"></nz-avatar>
+                                            </div>
+                                            <div class="comment">
+                                                <div class="input-group2">
+                                                    <input type="text" class="form-control" placeholder="Reply">
+                                                    <div class="send">
+                                                        <i class="fa-regular fa-arrow-up"></i>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="status">
+                                                <select name="" id="">
+                                                    <option value="">Proceed</option>
+                                                    <option value="">Open</option>
+                                                    <option value="">Resolved</option>
+                                                </select>
+                                            </div>
+                                        </div>
                                     </div>
                                 </ng-container>
-                                <div *nzModalFooter>
+                                <!-- <div *nzModalFooter>
                                     <button (click)="saveComment(item)" *ngIf="!commentEdit" class="mt-2" nz-button
                                         nzType="primary">Save</button>
                                     <button (click)="saveComment(item)" *ngIf="commentEdit" class="mt-2" nz-button
                                         nzType="primary">Update</button>
-                                </div>
+                                </div> -->
                             </nz-drawer>
                         </div>
                     </div>
