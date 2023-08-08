@@ -1,11 +1,15 @@
 import { Component, OnInit } from '@angular/core';
+import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'st-execute-action-rule',
   templateUrl: './execute-action-rule.component.html',
   styleUrls: ['./execute-action-rule.component.scss']
 })
-export class ExecuteActionRuleComponent  {
+export class ExecuteActionRuleComponent implements OnInit {
+
+  constructor(private fb: FormBuilder) { }
+
   actionList: any = JSON.stringify([
     {
       "name": "checkUserType",
@@ -14,7 +18,6 @@ export class ExecuteActionRuleComponent  {
     {
       "name": "checkUserStatus",
       "query": "select status from Users where status = {status}"
-      // "query": "select status from Users where userId = {userId}"
     },
     {
       "name": "applyUserTypeDiscount",
@@ -27,7 +30,6 @@ export class ExecuteActionRuleComponent  {
     {
       "name": "checkMinimumValue",
       "query": "select price from Products where price = {price}"
-      // "query": "select price from Products where productId = {productId}"
     },
     {
       "name": "applySpecialOfferForNormalUser",
@@ -132,9 +134,9 @@ export class ExecuteActionRuleComponent  {
     },
   };
 
-  executeAction  = async (actionName: string, parameters: any) => {
+  executeAction = async (actionName: string, parameters: any) => {
     const parsedRules = JSON.parse(this.actionList);
-    const action = parsedRules.find((a:any) => a.name === actionName);
+    const action = parsedRules.find((a: any) => a.name === actionName);
     if (!action) {
       throw new Error(`Action ${actionName} not found`);
     }
@@ -294,7 +296,7 @@ export class ExecuteActionRuleComponent  {
       case '>=':
         return (left, right) => {
           let columnValue = left.split(/([\s><=]+)/);
-          return parseFloat(columnValue[columnValue.length -1]) >= parseFloat(right);
+          return parseFloat(columnValue[columnValue.length - 1]) >= parseFloat(right);
         };
       case '<=':
         return (left, right) => {
@@ -311,7 +313,132 @@ export class ExecuteActionRuleComponent  {
     }
   }
 
+  // Rules Form
 
+  ruleForm: FormGroup;
+  ngOnInit() {
+    this.ruleForm = this.fb.group({
+      actionRules: this.fb.array([])
+    });
+    this.addRule(); // Add first rule
+  }
+  actionRulesControl(): FormArray {
+    return this.ruleForm.get('actionRules') as FormArray;
+  }
 
+  get actionRules() {
+    return this.ruleForm.get('actionRules') as FormArray;
+  }
 
+  addIfThenActions(ifIndex: number): FormArray {
+    return this.actionRulesControl()
+      .at(ifIndex)
+      .get('then') as FormArray;
+  }
+  createRuleGroup(rule?: any): FormGroup {
+    return this.fb.group({
+      if: this.fb.group({
+        actionRule: ['', Validators.required],
+        key: ['', Validators.required],
+        compare: ['', Validators.required],
+        value: ['', Validators.required]
+      }),
+      then: this.fb.array([]),
+      OR: this.fb.array([]),
+      AND: this.fb.array([])
+    });
+  }
+  createThenAction(): FormGroup {
+    return this.fb.group({
+      actionRule: ['', Validators.required],
+      key: ['', Validators.required],
+      // Add other form controls for your "then" action properties here
+    });
+  }
+  addRule() {
+    this.actionRules.push(this.createRuleGroup());
+  }
+
+  removeRule(index: number) {
+    this.actionRules.removeAt(index);
+  }
+
+  addIfThenAction(index: number) {
+    this.addIfThenActions(index).push(this.createThenAction());
+  }
+
+  removeIfThenAction(index: number) {
+    this.addIfThenActions(index).removeAt(index);
+  }
+  removeIfThen(index: number) {
+    this.actionRulesControl().removeAt(index);
+  }
+  removeThenAction(parentIndex: number, index: number) {
+    this.addIfThenActions(parentIndex).removeAt(index);
+  }
+
+  addORCondition(ruleGroup: FormGroup) {
+    const orConditions = ruleGroup.get('OR') as FormArray;
+    orConditions.push(this.createRuleGroup());
+  }
+
+  removeORCondition(ruleGroup: FormGroup, index: number) {
+    const orConditions = ruleGroup.get('OR') as FormArray;
+    orConditions.removeAt(index);
+  }
+
+  addANDCondition(ruleGroup: FormGroup) {
+    const andConditions = ruleGroup.get('AND') as FormArray;
+    andConditions.push(this.createRuleGroup());
+  }
+
+  // AND condition
+  createAndCondition(): FormGroup {
+    return this.fb.group({
+      if: this.fb.group({
+        actionRule: ['', Validators.required],
+        key: ['', Validators.required],
+        compare: ['', Validators.required],
+        value: ['', Validators.required]
+      }),
+      then: this.fb.array([]),
+      OR: this.fb.array([]),
+      AND: this.fb.array([])
+    });
+  }
+
+  addIfAndAction(ruleIndex: number) {
+    this.addIfAndActions(ruleIndex).push(this.createAndCondition());
+  }
+
+  addIfAndActions(ifIndex: number): FormArray {
+    return this.actionRulesControl()
+      .at(ifIndex)
+      .get('AND') as FormArray;
+  }
+
+  removeIfAndAction(parentIndex: number, index: number) {
+    this.addIfAndActions(parentIndex).removeAt(index);
+  }
+
+  addThenActions(ruleIndex: number, andIndex: number): FormArray {
+    const andConditions = this.addIfAndActions(ruleIndex);
+    const andCondition = andConditions.at(andIndex) as FormGroup;
+    return andCondition.get('then') as FormArray;
+  }
+
+  removeANDCondition(ruleIndex: number, andIndex: number): void {
+    const andConditions = this.addIfAndActions(ruleIndex);
+    andConditions.removeAt(andIndex);
+  }
+
+  addThenAction(ruleIndex: number, andIndex: number): void {
+    const thenActions = this.addThenActions(ruleIndex, andIndex);
+    thenActions.push(this.createThenAction());
+  }
+
+  removeAndThenAction(ruleIndex: number, andIndex: number, thenIndex: number): void {
+    const thenActions = this.addThenActions(ruleIndex, andIndex);
+    thenActions.removeAt(thenIndex);
+  }
 }
