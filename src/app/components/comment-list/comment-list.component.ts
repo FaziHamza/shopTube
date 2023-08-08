@@ -111,4 +111,12 @@ export class CommentListComponent implements OnInit {
       status: ['', Validators.required],
     });
   }
+  typeFirstAlphabetAsIcon(user: any) {
+    if (user) {
+      let firstAlphabet = user?.charAt(0)?.toUpperCase();
+      return firstAlphabet;
+    }else{
+      return 'U'
+    }
+  }
 }

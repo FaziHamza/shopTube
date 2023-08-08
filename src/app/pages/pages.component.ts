@@ -1905,12 +1905,19 @@ export class PagesComponent implements OnInit {
   }
   handleCancel(): void {
     this.isVisible = false;
-    // this.dataSharedService.screenCommentList.forEach(element => {
-    //   this.assignComment(this.resData[0], element);
-    // });
-    // const data = JSON.parse(this.resData[0]);
-    // this.resData[0] = this.jsonParseWithObject(this.resData[0]);
-    // this.cdr.detectChanges;
+    this.removeComment(this.resData[0])
+    this.dataSharedService.screenCommentList.forEach(element => {
+      this.assignComment(this.resData[0], element);
+    });
+  }
+  removeComment(node: any) {
+    node['comment'] = [];
+    node['commentUser'] = [];
+    if (node.children.length > 0) {
+      node.children.forEach((child: any) => {
+        this.removeComment(child);
+      });
+    }
   }
 
 }

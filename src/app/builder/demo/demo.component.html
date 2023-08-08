@@ -1,190 +1,75 @@
-<form [formGroup]="nestedForm" nz-form>
-  <button nz-button nzType="dashed" (click)="addRule()">
-    <i nz-icon nzType="plus"></i> Add Rule
-  </button>
 
-  <div formArrayName="businessRule">
-    <div *ngFor="let rule of businessRule.controls; let ruleIndex = index" [formGroupName]="ruleIndex">
-      <div class="grid grid-cols-3 gap-4 pb-2">
-        <nz-form-item>
-          <nz-form-label [nzSpan]="6" nzRequired>Name:</nz-form-label>
-          <nz-form-control [nzSpan]="16" nzErrorTip="This field is required">
-            <input nz-input formControlName="name" />
-          </nz-form-control>
-        </nz-form-item>
-
-        <nz-form-item>
-          <nz-form-label [nzSpan]="6">Description:</nz-form-label>
-          <nz-form-control [nzSpan]="16">
-            <input nz-input formControlName="description" />
-          </nz-form-control>
-        </nz-form-item>
-
-        <nz-form-item>
-          <nz-form-label [nzSpan]="6">Type:</nz-form-label>
-          <nz-form-control [nzSpan]="16">
-            <input nz-input formControlName="type" />
-          </nz-form-control>
-        </nz-form-item>
+<div class="comments-chat">
+  <div class="c-header">
+      <div class="arrows">
+          <a href="">
+              <i class="fa-regular fa-angle-left"></i>
+          </a>
+          <a href="">
+              <i class="fa-regular fa-angle-right"></i>
+          </a>
       </div>
-
-      <!-- Add Condition and Add Then Buttons for Business Rule -->
-      <button nz-button nzType="dashed" (click)="addCondition(rule)">
-        <i nz-icon nzType="plus"></i> Add Condition
-      </button>
-      <button nz-button nzType="dashed" (click)="addThen(rule)">
-        <i nz-icon nzType="plus"></i> Add Then
-      </button>
-
-      <div formArrayName="condition">
-        <div *ngFor="let condition of getConditionControls(rule).controls; let conditionIndex = index"
-          [formGroupName]="conditionIndex">
-          <h4>Condition {{ conditionIndex + 1 }}</h4>
-          <nz-form-item>
-            <nz-form-label [nzSpan]="6">A1:</nz-form-label>
-            <nz-form-control [nzSpan]="16">
-              <input nz-input formControlName="A1" />
-            </nz-form-control>
-          </nz-form-item>
-
-          <nz-form-item>
-            <nz-form-label [nzSpan]="6">B1:</nz-form-label>
-            <nz-form-control [nzSpan]="16">
-              <input nz-input formControlName="B1" />
-            </nz-form-control>
-          </nz-form-item>
-
-          <nz-form-item>
-            <nz-form-label [nzSpan]="6">C1:</nz-form-label>
-            <nz-form-control [nzSpan]="16">
-              <input nz-input formControlName="C1" />
-            </nz-form-control>
-          </nz-form-item>
-        </div>
+      <div class="actions">
+          <a href="">
+              <i class="fa-solid fa-ellipsis"></i>
+          </a>
+          <a href="">
+              <i class="fa-regular fa-circle-check"></i>
+          </a>
+          <a href="">
+              <i class="fa-regular fa-arrow-up-right-from-square"></i>
+          </a>
+          <a href="">
+              <i class="fa-regular fa-xmark"></i>
+          </a>
       </div>
-
-      <div formArrayName="then">
-        <div *ngFor="let thenField of getThenControls(rule).controls; let thenIndex = index" [formGroupName]="thenIndex">
-          <h4>Then {{ thenIndex + 1 }}</h4>
-          <nz-form-item>
-            <nz-form-label [nzSpan]="6">D1:</nz-form-label>
-            <nz-form-control [nzSpan]="16">
-              <input nz-input formControlName="D1" />
-            </nz-form-control>
-          </nz-form-item>
-
-          <nz-form-item>
-            <nz-form-label [nzSpan]="6">E1:</nz-form-label>
-            <nz-form-control [nzSpan]="16">
-              <input nz-input formControlName="E1" />
-            </nz-form-control>
-          </nz-form-item>
-
-          <nz-form-item>
-            <nz-form-label [nzSpan]="6">F1:</nz-form-label>
-            <nz-form-control [nzSpan]="16">
-              <input nz-input formControlName="F1" />
-            </nz-form-control>
-          </nz-form-item>
-        </div>
-      </div>
-      <button nz-button nzType="dashed" (click)="addNewChild(ruleIndex)">
-        <i nz-icon nzType="plus"></i> Add Child
-      </button>
-      <div formArrayName="children">
-        <div *ngFor="let child of getChildrenControls(rule).controls; let i = index" [formGroupName]="i">
-          <hr />
-          <h3>Child {{ i + 1 }}</h3>
-          <nz-form-item>
-            <nz-form-label [nzSpan]="6" nzRequired>Name:</nz-form-label>
-            <nz-form-control [nzSpan]="16" nzErrorTip="This field is required">
-              <input nz-input formControlName="name" />
-            </nz-form-control>
-          </nz-form-item>
-
-          <nz-form-item>
-            <nz-form-label [nzSpan]="6">Description:</nz-form-label>
-            <nz-form-control [nzSpan]="16">
-              <input nz-input formControlName="description" />
-            </nz-form-control>
-          </nz-form-item>
-
-          <nz-form-item>
-            <nz-form-label [nzSpan]="6">Type:</nz-form-label>
-            <nz-form-control [nzSpan]="16">
-              <input nz-input formControlName="type" />
-            </nz-form-control>
-          </nz-form-item>
-
-          <!-- Add Condition and Add Then Buttons for Child Rule -->
-          <button nz-button nzType="dashed" (click)="addChildCondition(child)">
-            <i nz-icon nzType="plus"></i> Add Condition
-          </button>
-          <button nz-button nzType="dashed" (click)="addChildThen(child)">
-            <i nz-icon nzType="plus"></i> Add Then
-          </button>
-
-          <div formArrayName="condition" *ngIf="child.get('condition')">
-            <div *ngFor="let condition of getConditionControls(child).controls; let conditionIndex = index"
-              [formGroupName]="conditionIndex">
-              <h4>Condition {{ conditionIndex + 1 }}</h4>
-              <nz-form-item>
-                <nz-form-label [nzSpan]="6">A:</nz-form-label>
-                <nz-form-control [nzSpan]="16">
-                  <input nz-input formControlName="A" />
-                </nz-form-control>
-              </nz-form-item>
-
-              <nz-form-item>
-                <nz-form-label [nzSpan]="6">B:</nz-form-label>
-                <nz-form-control [nzSpan]="16">
-                  <input nz-input formControlName="B" />
-                </nz-form-control>
-              </nz-form-item>
-
-              <nz-form-item>
-                <nz-form-label [nzSpan]="6">C:</nz-form-label>
-                <nz-form-control [nzSpan]="16">
-                  <input nz-input formControlName="C" />
-                </nz-form-control>
-              </nz-form-item>
-            </div>
-          </div>
-
-          <div formArrayName="then" *ngIf="child.get('then')">
-            <div *ngFor="let thenField of getThenControls(child).controls; let thenIndex = index"
-              [formGroupName]="thenIndex">
-              <h4>Then {{ thenIndex + 1 }}</h4>
-              <nz-form-item>
-                <nz-form-label [nzSpan]="6">D:</nz-form-label>
-                <nz-form-control [nzSpan]="16">
-                  <input nz-input formControlName="D" />
-                </nz-form-control>
-              </nz-form-item>
-
-              <nz-form-item>
-                <nz-form-label [nzSpan]="6">E:</nz-form-label>
-                <nz-form-control [nzSpan]="16">
-                  <input nz-input formControlName="E" />
-                </nz-form-control>
-              </nz-form-item>
-
-              <nz-form-item>
-                <nz-form-label [nzSpan]="6">F:</nz-form-label>
-                <nz-form-control [nzSpan]="16">
-                  <input nz-input formControlName="F" />
-                </nz-form-control>
-              </nz-form-item>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
   </div>
+  <div class="c-body">
+      <div class="comment-box">
+          <div class="profile">
+              <img src="assets/images/user.jfif" alt="">
+          </div>
+          <div class="comment">
+              <h6>
+                  Haider Adrees <span>2 mo.ago</span>
+              </h6>
+              <p>Lorem ipsum dolor, sit amet cons ecte tur adipisi cing elit.</p>
+          </div>
+      </div>
+      <div class="comment-box">
+          <div class="profile">
+              <img src="assets/images/user.jfif" alt="">
+          </div>
+          <div class="comment">
+              <h6>
+                  Haider Adrees <span>2 mo.ago</span>
+              </h6>
+              <p>Lorem ipsum dolor, sit amet cons ecte tur adipisi cing elit.</p>
+          </div>
+      </div>
 
-  <nz-form-item>
-    <nz-form-control [nzSpan]="16" [nzOffset]="6">
-      <button nz-button nzType="primary" (click)="saveForm()">Save</button>
-    </nz-form-control>
-  </nz-form-item>
-</form>
+      <div class="comment-box">
+          <div class="profile">
+              <img src="assets/images/user.jfif" alt="">
+          </div>
+          <div class="comment">
+              <h6>
+                  Haider Adrees <span>2 mo.ago</span>
+              </h6>
+              <p>Lorem ipsum dolor, sit amet cons ecte tur adipisi cing elit.</p>
+          </div>
+      </div>
+
+  </div>
+  <div class="c-footer">
+      <div class="profile">
+          <img src="assets/images/user.jfif" alt="">
+      </div>
+      <div class="comment">
+          <input type="text" class="form-control" placeholder="Reply">
+          <div class="send">
+              <i class="fa-regular fa-arrow-up"></i>
+          </div>
+      </div>
+  </div>
+</div>

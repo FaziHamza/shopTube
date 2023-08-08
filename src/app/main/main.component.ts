@@ -573,12 +573,11 @@ export class MainComponent implements OnInit {
 
 
 
-  toggleCommentDisplay() {
-    debugger
-    this.showAllComments = true;
+  toggleCommentDisplay(data : any) {
+    data['showAllComments'] = true;
   }
-  handleCancel() {
-    this.showAllComments = false;
+  handleCancel(data : any) {
+    data['showAllComments'] = false;
   }
   read(node: any, read: boolean) {
     if (read || read == undefined) {

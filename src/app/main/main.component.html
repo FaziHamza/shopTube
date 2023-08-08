@@ -4,7 +4,7 @@
         <div [ngClass]="{'highLight': item.highLight == true}" *ngIf="!item.hideExpression">
             <span *ngIf="item['comment']">
                 <span *ngIf="item['comment'].length > 0">
-                    <div [ngStyle]="{'background' : item['commentBackgroundColor'] ? '#3b82f6' : ''}"  class="b-comment absolute top-2 left-2 z-[1000]">
+                    <div [ngStyle]="{'background' : item['commentBackgroundColor'] ? '#3b82f6' : ''}" class="b-comment">
                         <div>
                             <ng-container *ngIf="item['commentUser'] && item['commentUser'].length > 1">
                                 <nz-avatar-group>
@@ -19,7 +19,7 @@
                             <nz-avatar *ngIf="item['commentUser'] && item['commentUser'].length == 1"
                                 [nzText]="typeFirstAlphabetAsIcon(item['commentUser'][0])"></nz-avatar>
                         </div>
-                        <div (click)="toggleCommentDisplay()" class="user-detail">
+                        <div (click)="toggleCommentDisplay(item)" class="user-detail">
                             <h6>{{item['comment'][0].whoCreated}}</h6>
                             <p><span>{{item['comment'][0].dateTime | date : "dd/MMM/yyyy hh:mm"}}</span></p>
                             <p>
@@ -28,51 +28,53 @@
                             <small>{{item['comment'].length-1}} Replies</small>
                         </div>
                         <div class="comment-modal">
-                            <nz-modal [(nzVisible)]="showAllComments" nzTitle="Comments" (nzOnCancel)="handleCancel()">
-                                <ng-container *nzModalContent>
-                                    <button class="mb-2" nz-button nz-dropdown [nzDropdownMenu]="menu11">
-                                        ...
-                                        <span nz-icon nzType="down"></span>
-                                    </button>
-                                    <nz-dropdown-menu #menu11="nzDropdownMenu">
-                                        <ul nz-menu>
-                                            <li nz-menu-item *ngIf="item['commentBackgroundColor']">
-                                                <a (click)="read(item,false)">Mark as unread</a>
-                                            </li>
-                                            <li nz-menu-item *ngIf="!item['commentBackgroundColor']">
-                                                <a (click)="read(item,true)">Mark as Read</a>
-                                            </li>
-                                            <li nz-menu-item>
-                                                <a (click)="copyJson(item.id)">Copy</a>
-                                            </li>
-                                        </ul>
-                                    </nz-dropdown-menu>
-                                    <div *ngFor="let comment of item['comment']">
-                                        <div>
-                                            <nz-avatar nzIcon="user" class="mr-2"></nz-avatar>
-                                            <span class="mr-2">{{comment['whoCreated']}}</span>
-                                            <nz-tag *ngIf="comment['status']"
-                                                [nzColor]="comment['status'] == 'resolved' ? 'blue' : (comment['status'] == 'inProgress' ? 'green' : 'red')">{{comment['status']}}</nz-tag>
-                                            <span>{{comment.dateTime | date : "dd/MMM/yyyy hh:mm"}}</span>
-                                            <span nz-icon nzType="edit" nzTheme="outline"
-                                                (click)="edit(comment)"></span>
+                            <nz-drawer [nzWrapClassName]="'comment-drawer'" nzWidth="500px" [nzClosable]="false"
+                                [(nzVisible)]="item['showAllComments']" nzPlacement="right" nzTitle="Task Manager"
+                                (nzOnClose)="handleCancel(item)">
+                                <ng-container *nzDrawerContent>
+                                    <div class="comments-chat">
+                                        <div class="c-body">
+                                            <div class="comment-box" *ngFor="let comment of item['comment']">
+                                                <div class="profile">
+                                                    <nz-avatar nzIcon="user" class="mr-2"></nz-avatar>
+                                                </div>
+                                                <div class="comment">
+                                                    <h6>
+                                                        {{comment['whoCreated']}} <span>{{comment.dateTime | date :
+                                                            "dd/MMM/yyyy hh:mm"}}</span>
+                                                    </h6>
+                                                </div>
+                                                <div>
+                                                    <nz-tag *ngIf="comment['status']"
+                                                        [nzColor]="comment['status'] == 'resolved' ? 'blue' : (comment['status'] == 'inProgress' ? 'green' : 'red')">{{comment['status']}}</nz-tag>
+                                                    <span nz-icon nzType="edit" nzTheme="outline"
+                                                        (click)="edit(comment)"></span>
+                                                </div>
+                                                <p>{{comment.comment}}</p>
+                                            </div>
                                         </div>
-                                        <div class="user-comments">
-                                            {{comment.comment}}
+                                        <div class="c-footer">
+                                            <form [formGroup]="commentForm">
+                                                <div class="comment-form">
+                                                    <label for="status">Status</label>
+                                                    <nz-select nzShowSearch nzAllowClear nzPlaceHolder="Select Status"
+                                                        formControlName="status">
+                                                        <nz-option nzLabel="Open" nzValue="open"></nz-option>
+                                                        <nz-option nzLabel="In Progress"
+                                                            nzValue="inProgress"></nz-option>
+                                                        <nz-option nzLabel="resolved" nzValue="resolved"></nz-option>
+                                                    </nz-select>
+                                                    <label for="comment">Comment</label>
+                                                    <textarea rows="2" formControlName="comment"
+                                                        placeholder="Write a message here..." nz-input></textarea>
+                                                </div>
+                                            </form>
+                                            <button (click)="saveComment(item)" *ngIf="!commentEdit" class="mt-2"
+                                                nz-button nzType="primary">Save</button>
+                                            <button (click)="saveComment(item)" *ngIf="commentEdit" class="mt-2"
+                                                nz-button nzType="primary">Update</button>
                                         </div>
                                     </div>
-                                    <form class="mt-3" [formGroup]="commentForm">
-                                        <label for="status">Status</label>
-                                        <nz-select nzShowSearch nzAllowClear nzPlaceHolder="Select Status"
-                                            formControlName="status">
-                                            <nz-option nzLabel="Open" nzValue="open"></nz-option>
-                                            <nz-option nzLabel="In Progress" nzValue="inProgress"></nz-option>
-                                            <nz-option nzLabel="resolved" nzValue="resolved"></nz-option>
-                                        </nz-select>
-                                        <label for="comment">Comment</label>
-                                        <textarea rows="2" formControlName="comment"
-                                            placeholder="Write a message here..." nz-input></textarea>
-                                    </form>
                                 </ng-container>
                                 <div *nzModalFooter>
                                     <button (click)="saveComment(item)" *ngIf="!commentEdit" class="mt-2" nz-button
@@ -80,10 +82,7 @@
                                     <button (click)="saveComment(item)" *ngIf="commentEdit" class="mt-2" nz-button
                                         nzType="primary">Update</button>
                                 </div>
-                            </nz-modal>
-
-
-
+                            </nz-drawer>
                         </div>
                     </div>
                 </span>
