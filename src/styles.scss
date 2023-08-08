@@ -1816,9 +1816,9 @@ a.fc-event:hover {
   }
 }
 
-.sidenav-title {
-  margin-left: 8px;
-}
+// .sidenav-title {
+//   margin-left: 8px;
+// }
 
 .ant-menu-horizontal:not(.ant-menu-dark)>.ant-menu-item-active::after,
 .ant-menu-horizontal:not(.ant-menu-dark)>.ant-menu-item-open::after,
@@ -2074,7 +2074,7 @@ object {
     display: flex;
     flex-direction: column;
     justify-content: space-evenly;
-    min-height: 64px !important;
+    min-height: 55px !important;
     align-items: center;
 
 
@@ -2117,7 +2117,7 @@ object {
     display: flex;
     flex-direction: column;
     justify-content: space-evenly;
-    min-height: 64px !important;
+    min-height: 55px !important;
     align-items: flex-start !important;
 
     .menu-item-icon,
@@ -2187,7 +2187,7 @@ object {
     display: flex;
     flex-direction: column;
     justify-content: space-evenly;
-    min-height: 64px !important;
+    min-height: 55px !important;
     align-items: flex-end !important;
 
     .menu-item-icon,
@@ -2260,7 +2260,7 @@ object {
     display: flex;
     flex-direction: column;
     justify-content: space-evenly;
-    min-height: 64px !important;
+    min-height: 55px !important;
     align-items: flex-end !important;
 
     .menu-item-icon,
@@ -2333,7 +2333,7 @@ object {
     display: flex;
     flex-direction: column;
     justify-content: space-evenly;
-    min-height: 64px !important;
+    min-height: 55px !important;
     align-items: flex-end !important;
 
     .menu-item-icon,
@@ -2407,7 +2407,7 @@ object {
       display: flex;
       flex-direction: column;
       justify-content: space-evenly;
-      min-height: 64px !important;
+      min-height: 55px !important;
       align-items: flex-end !important;
 
       .menu-item-icon,
@@ -2698,7 +2698,7 @@ object {
     }
   }
 
-  .main-layout .side-menu-rtl {
+  .mobile-side-menu-rtl {
     position: absolute !important;
     width: 200px !important;
     z-index: 999 !important;
@@ -3373,10 +3373,10 @@ object {
 
       .colapsed-menu-title {
         margin: 0px 10px;
-        white-space: nowrap;
-        width: 90%;
-        overflow: hidden;
-        text-overflow: ellipsis;
+        // white-space: nowrap;
+        // width: 90%;
+        // overflow: hidden;
+        // text-overflow: ellipsis;
         font-size: 13px;
       }
     }
