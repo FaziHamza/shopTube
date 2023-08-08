@@ -16,7 +16,7 @@ import { EmployeeService } from 'src/app/services/employee.service';
 export class SiteLayoutComponent implements OnInit {
   @Input() menuItems: any = [];
   @Input() selectedTheme: any;
-  isVisible: boolean = false;
+
   currentHeader: any = undefined;
   logo: any;
   currentFooter: any = undefined;
@@ -59,16 +59,14 @@ export class SiteLayoutComponent implements OnInit {
     hoverIconColor: '#ffffff',
     activeIconColor: '#6f777d',
     iconSize: '15',
-    hoverBgColor:'#3b82f6'
+    hoverBgColor: '#3b82f6'
   }
 
   constructor(private applicationService: ApplicationService, public dataSharedService: DataSharedService, public builderService: BuilderService,
     private toastr: NzMessageService, private router: Router, private activatedRoute: ActivatedRoute, private cd: ChangeDetectorRef) {
     this.requestSubscription = this.dataSharedService.localhostHeaderFooter.subscribe({
       next: (res) => {
-        
         if (res) {
-
           this.getMenuBHeaderName(res, false);
         }
       },
@@ -85,6 +83,7 @@ export class SiteLayoutComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    debugger
     this.currentUser = JSON.parse(localStorage.getItem('user')!);
     this.requestSubscription = this.dataSharedService.collapseMenu.subscribe({
       next: (res) => {
@@ -143,7 +142,7 @@ export class SiteLayoutComponent implements OnInit {
     });
   }
   getMenuByDomainName(domainName: any, allowStoreId: boolean) {
-    
+
     try {
       this.loader = true;
       this.requestSubscription = this.builderService.getApplicationByDomainName(domainName).subscribe({
@@ -169,15 +168,14 @@ export class SiteLayoutComponent implements OnInit {
             if (!window.location.href.includes('/menu-builder')) {
               let getMenu = res.data['menu'] ? this.jsonParseWithObject(res.data['menu']['menuData']) : '';
               let selectedTheme = res.data['menu'] ? this.jsonParseWithObject(res.data['menu'].selectedTheme) : {};
-              if (this.currentWebsiteLayout == 'backend_application' && getMenu) {
+              if (getMenu) {
                 this.selectedTheme = selectedTheme;
                 this.selectedTheme.allMenuItems = getMenu;
                 this.menuItems = getMenu;
                 this.makeMenuData();
-              } else {
-                this.dataSharedService.menus = getMenu;
+              } if(this.currentWebsiteLayout == 'website') {
+                this.dataSharedService.menus = this.selectedTheme;
                 this.dataSharedService.menus.allMenuItems = getMenu;
-                this.selectedTheme = undefined;
               }
             }
             this.loader = false;
@@ -198,7 +196,7 @@ export class SiteLayoutComponent implements OnInit {
   }
 
   getMenuBHeaderName(domainName: any, allowStoreId: boolean) {
-    
+
     try {
       this.loader = true;
       this.requestSubscription = this.builderService.getApplicationByHeaderName(domainName).subscribe({
@@ -385,18 +383,7 @@ export class SiteLayoutComponent implements OnInit {
     this.router.navigate(['/pages', this.dataSharedService.selectApplication, moduleRouting]);
   }
 
-  openComment() {
-    this.isVisible = true;
-    this.requestSubscription = this.applicationService.getNestCommonAPI("cp/UserComment").subscribe((res: any) => {
-      if (res.isSuccess) {
-        let commentList = res.data
-        this.dataSharedService.screenCommentList = commentList;
-      }
-    })
-  }
-  handleCancel(): void {
-    this.isVisible = false;
-  }
+  
 
 }
 

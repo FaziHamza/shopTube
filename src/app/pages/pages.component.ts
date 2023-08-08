@@ -55,6 +55,7 @@ export class PagesComponent implements OnInit {
   isPageContextShow = false;
   form: any = new FormGroup({});
   actionListData: any[] = [];
+  isVisible: boolean = false;
   ngOnInit(): void {
 
     this.requestSubscription = this.dataSharedService.pageSubmit.subscribe({
@@ -313,7 +314,6 @@ export class PagesComponent implements OnInit {
             }
             // let commentsData = this.transformComments(this.dataSharedService.screenCommentList);
             // console.log(commentsData);
-            debugger
             this.dataSharedService.screenCommentList.forEach(element => {
               this.assignComment(this.resData[0], element);
             });
@@ -1885,7 +1885,7 @@ export class PagesComponent implements OnInit {
 
         if (!node['commentUser']) {
           node['commentUser'] = [comment['whoCreated']];
-        } 
+        }
         else {
           if (!node['commentUser'].includes(comment['whoCreated'])) {
             // Check if the user is not already in the array, then add them
@@ -1902,44 +1902,17 @@ export class PagesComponent implements OnInit {
     }
   }
 
-
-
-  transformComments(originalArray: any) {
-    const componentMap: any = {};
-
-    for (const commentItem of originalArray) {
-      if (commentItem.ObjectID) {
-        const componentId = commentItem.ObjectID;
-
-        if (!componentMap[componentId]) {
-          componentMap[componentId] = {
-            component: componentId,
-            compChild: [],
-          };
-        }
-
-        const whoCreated = commentItem.whoCreated;
-        let userFound = false;
-
-        for (const compChild of componentMap[componentId].compChild) {
-          if (compChild.username === whoCreated) {
-            userFound = true;
-            compChild.children.push(commentItem);
-            break;
-          }
-        }
-
-        if (!userFound) {
-          componentMap[componentId].compChild.push({
-            username: whoCreated,
-            children: [commentItem],
-          });
-        }
-      }
-    }
-
-    return Object.values(componentMap);
+  openComment() {
+    this.isVisible = true;
   }
-
+  handleCancel(): void {
+    this.isVisible = false;
+    this.dataSharedService.screenCommentList.forEach(element => {
+      this.assignComment(this.resData[0], element);
+    });
+    const data = JSON.parse(this.resData[0]);
+    this.resData[0] = this.jsonParseWithObject(this.resData[0]);
+    this.cdr.detectChanges;
+  }
 
 }

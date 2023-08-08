@@ -1,4 +1,10 @@
 <form [formGroup]="form" (ngSubmit)="onSubmit()">
+    <label for="status">Status</label>
+    <nz-select nzShowSearch nzAllowClear nzPlaceHolder="Select a person" formControlName="status">
+        <nz-option nzLabel="Open" nzValue="open"></nz-option>
+        <nz-option nzLabel="In Progress" nzValue="inProgress"></nz-option>
+        <nz-option nzLabel="resolved" nzValue="resolved"></nz-option>
+    </nz-select>
     <label for="comment">Comment</label>
     <textarea rows="2" formControlName="comment" placeholder="Write a message here..." nz-input></textarea>
     <!-- <input formControlName="comment" placeholder="Comment title" nz-input>
@@ -10,5 +16,6 @@
     <input formControlName="messageDetail" placeholder="Any furrther detail" nz-input>
     <label for="comment">Reference Link</label>
     <input formControlName="refLink" placeholder="Enter reference link" nz-input> -->
-    <button class="mt-2" nz-button nzType="primary">Save</button>
+    <button class="mt-2" *ngIf="!update" nz-button nzType="primary">Save</button>
+    <button class="mt-2" *ngIf="update" nz-button nzType="primary">Update</button>
 </form>

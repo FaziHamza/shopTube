@@ -1,13 +1,13 @@
 import { JoiService } from './../services/joi.service';
 import { ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output, Type, ViewContainerRef } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { FormlyFormOptions } from '@ngx-formly/core';
 import * as Joi from 'joi';
 import { NzImageService } from 'ng-zorro-antd/image';
 import { BuilderService } from '../services/builder.service';
 import { TreeNode } from '../models/treeNode';
 import { ElementData } from '../models/element';
-import { Subscription, catchError, throwError } from 'rxjs';
+import { Observable, Subscription, catchError, throwError } from 'rxjs';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { Router } from '@angular/router';
 import { DataSharedService } from '../services/data-shared.service';
@@ -45,13 +45,20 @@ export class MainComponent implements OnInit {
   newcomment: any = '';
   newCommentRes: any = '';
   showAllComments = false;
+  commentEdit = false;
+  commentEditObj: any = {};
+  commentForm: FormGroup;
   constructor(private cd: ChangeDetectorRef, private nzImageService: NzImageService, private employeeService: EmployeeService,
     private builderService: BuilderService, private applicationServices: ApplicationService,
     private toastr: NzMessageService, private router: Router, public dataSharedService: DataSharedService,
     private clipboard: Clipboard, private modalService: NzModalService, private viewContainerRef: ViewContainerRef,
-    private applicationService: ApplicationService) { }
+    private applicationService: ApplicationService, private formBuilder: FormBuilder) { }
 
   ngOnInit(): void {
+    this.commentForm = this.formBuilder.group({
+      comment: ['', Validators.required],
+      status: ['', Validators.required],
+    });
     if (this.router.url.includes('/pages'))
       this.isShowContextMenu = true;
   }
@@ -458,6 +465,7 @@ export class MainComponent implements OnInit {
       nzComponentParams: {
         data: json,
         screenName: this.screenName,
+        update: null,
       },
       nzFooter: []
     });
@@ -494,64 +502,80 @@ export class MainComponent implements OnInit {
       }
     }
   }
-  save(data: any) {
+  saveComment(data: any) {
+    if (!this.commentForm.valid) {
+      this.toastr.warning('Please fill this', { nzDuration: 3000 });
+      return;
+    }
+
     const userData = JSON.parse(localStorage.getItem('user')!);
-    let commentObj = {
-      organizationId: JSON.parse(localStorage.getItem('organizationId')!),
-      applicationId: JSON.parse(localStorage.getItem('applicationId')!),
+    const organizationId = JSON.parse(localStorage.getItem('organizationId')!);
+    const applicationId = JSON.parse(localStorage.getItem('applicationId')!);
+
+    const commentObj = {
+      organizationId,
+      applicationId,
       screenId: this.screenName,
       ObjectID: data.id,
       whoCreated: userData.username,
-      // type: this.data.type,
-      comment: this.newcomment,
+      comment: this.commentForm.value.comment,
+      status: this.commentForm.value.status,
       dateTime: new Date(),
-      // refLink: this.form.value.refLink,
-      // messageHeader: this.form.value.messageHeader,
-      // message: this.form.value.message,
-      // messageDetail: this.form.value.messageDetail,
       avatar: 'avatar.png'
-    }
+    };
+
     const userCommentModel = {
-      "UserComment": commentObj
+      UserComment: commentObj
+    };
+
+    let requestObservable: Observable<any>;
+
+    if (!this.commentEdit) {
+      requestObservable = this.applicationService.addNestCommonAPI('cp', userCommentModel);
+    } else {
+      userCommentModel.UserComment.ObjectID = this.commentEditObj.ObjectID;
+      requestObservable = this.applicationService.updateNestCommonAPI(
+        'cp/UserComment',
+        this.commentEditObj._id,
+        userCommentModel
+      );
     }
-    this.requestSubscription = this.applicationService.addNestCommonAPI('cp', userCommentModel).subscribe({
+
+    this.requestSubscription = requestObservable.subscribe({
       next: (res: any) => {
         if (res.isSuccess) {
-          this.newcomment = '';
-          this.newCommentRes = res.data
-          this.toastr.success(`UserComment : ${res.message}`, { nzDuration: 3000 });
-          this.getCommentsData();
-
-          // error
-        } else this.toastr.error(`UserComment : ${res.message}`, { nzDuration: 3000 });
-      },
-      error: (err) => {
-        // console.error(err); // Log the error to the console
-        this.toastr.error("UserComment : An error occurred", { nzDuration: 3000 });
-      }
-    });
-  }
-
-  getCommentsData(): void {
-    this.requestSubscription = this.applicationService.getNestCommonAPI('cp/UserComment').subscribe({
-      next: (res: any) => {
-        if (res.isSuccess) {
-          this.toastr.success(`User Comment : ${res.message}`, { nzDuration: 3000 });
-          this.dataSharedService.screenCommentList = res.data;
-          this.assignComment(this.mainData, this.newCommentRes);
+          this.commentForm.patchValue({
+            comment: '',
+            status: ''
+          });
+          this.toastr.success(`UserComment: ${res.message}`, { nzDuration: 3000 });
+          
+          if (this.commentEdit) {
+            data.comment = data.comment.map((comm: any) => {
+              if (comm._id === res.data._id) {
+                return { ...comm, comment: res.data.comment };
+              }
+              return comm;
+            });
+          } else {
+            this.assignComment(this.mainData, res.data);
+          }
+          this.commentEdit = false;
         } else {
-          this.toastr.error(`UserComment : ${res.message}`, { nzDuration: 3000 });
+          this.toastr.error(`UserComment: ${res.message}`, { nzDuration: 3000 });
         }
-
       },
-      error: (err) => {
-        console.error(err); // Log the error to the console
-        this.toastr.error(`UserComment : An error occurred`, { nzDuration: 3000 });
+      error: () => {
+        this.toastr.error('UserComment: An error occurred', { nzDuration: 3000 });
       }
     });
   }
+
+
+
   toggleCommentDisplay() {
-    this.showAllComments = !this.showAllComments;
+    debugger
+    this.showAllComments = true;
   }
   handleCancel() {
     this.showAllComments = false;
@@ -563,12 +587,19 @@ export class MainComponent implements OnInit {
     } else {
       node['commentBackgroundColor'] = '';
     }
-
   }
   typeFirstAlphabetAsIcon(user: any) {
     if (user) {
       let firstAlphabet = user?.charAt(0)?.toUpperCase();
       return firstAlphabet;
     }
+  }
+  edit(data: any) {
+    this.commentEdit = true;
+    this.commentEditObj = data;
+    this.commentForm.patchValue({
+      comment: data.comment,
+      status: data.status
+    });
   }
 }
