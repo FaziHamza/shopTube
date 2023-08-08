@@ -446,10 +446,9 @@ export class MainComponent implements OnInit {
     return null;
   }
   copyJson(json: any) {
-
     let data = JSON.stringify(json);
     this.clipboard.copy(data);
-    // alert('Copied to clipboard');
+    this.toastr.success('Copied to clipboard', { nzDuration: 3000 });
   }
   comment(json: any) {
     const modal = this.modalService.create<CommentModalComponent>({
@@ -496,7 +495,6 @@ export class MainComponent implements OnInit {
     }
   }
   save(data: any) {
-    debugger
     const userData = JSON.parse(localStorage.getItem('user')!);
     let commentObj = {
       organizationId: JSON.parse(localStorage.getItem('organizationId')!),
@@ -519,7 +517,6 @@ export class MainComponent implements OnInit {
     this.requestSubscription = this.applicationService.addNestCommonAPI('cp', userCommentModel).subscribe({
       next: (res: any) => {
         if (res.isSuccess) {
-          debugger
           this.newcomment = '';
           this.newCommentRes = res.data
           this.toastr.success(`UserComment : ${res.message}`, { nzDuration: 3000 });
@@ -556,7 +553,22 @@ export class MainComponent implements OnInit {
   toggleCommentDisplay() {
     this.showAllComments = !this.showAllComments;
   }
-  handleCancel(){
+  handleCancel() {
     this.showAllComments = false;
+  }
+  read(node: any, read: boolean) {
+    if (read || read == undefined) {
+      node['commentBackgroundColor'] = '#3b82f6';
+      this.cd.detectChanges;
+    } else {
+      node['commentBackgroundColor'] = '';
+    }
+
+  }
+  typeFirstAlphabetAsIcon(user: any) {
+    if (user) {
+      let firstAlphabet = user?.charAt(0)?.toUpperCase();
+      return firstAlphabet;
+    }
   }
 }

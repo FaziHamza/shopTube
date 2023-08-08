@@ -1420,8 +1420,7 @@ export class MenuBuilderComponent implements OnInit {
         key: 'menu_0f7d1e4e',
         children: []
       }]
-      const withOutTitle = this.nodes.filter((a: any) => a.isTitle != true);
-      this.selectedTheme.newMenuArray[0].children = withOutTitle.slice(7);
+      this.selectedTheme.newMenuArray[0].children = this.nodes.slice(7);
       this.selectedTheme.allMenuItems = arrayList.filter((a: any) => a.isTitle != true).slice(0, 7);
     }
     else {

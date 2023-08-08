@@ -31,31 +31,36 @@ export class SiteLayoutComponent implements OnInit {
   currentUrl: any = "";
   fullCurrentUrl = "";
   currentUser: any;
-  // newSelectedTheme = {
-  //   topHeaderMenu: 'w-1/6',
-  //   topHeader: 'w-10/12',
-  //   menuMode: 'inline',
-  //   menuColumn: 'w-2/12',
-  //   rowClass: 'w-10/12',
-  //   horizontalRow: 'flex',
-  //   layout: 'vertical',
-  //   colorScheme: 'light',
-  //   layoutWidth: 'fluid',
-  //   layoutPosition: 'fixed',
-  //   topBarColor: 'light',
-  //   sideBarSize: 'default',
-  //   siderBarView: 'sidebarViewDefault',
-  //   sieBarColor: 'light',
-  //   siderBarImages: '',
-  //   checked: false,
-  //   theme: false,
-  //   isCollapsed: false,
-  //   newMenuArray: [],
-  //   menuChildArrayTwoColumn: [],
-  //   isTwoColumnCollapsed: false,
-  //   allMenuItems: [],
-  //   showMenu: true,
-  // }
+  newSelectedTheme = {
+    menuMode: 'inline',
+    layout: 'vertical',
+    colorScheme: 'light',
+    layoutWidth: 'fluid',
+    sideBarSize: 'default',
+    siderBarView: 'sidebarViewDefault',
+    sieBarColor: 'light',
+    siderBarImages: '',
+    checked: false,
+    theme: false,
+    isCollapsed: false,
+    newMenuArray: [],
+    menuChildArrayTwoColumn: [],
+    isTwoColumnCollapsed: false,
+    allMenuItems: [],
+    showMenu: true,
+    font: 'font-roboto',
+    backGroundColor: '#ffffff',
+    textColor: '#6f777d',
+    activeBackgroundColor: '#e6f7ff',
+    activeTextColor: '#6f777d',
+    hoverTextColor: '#ffffff',
+    titleSize: '15',
+    iconColor: '#6f777d',
+    hoverIconColor: '#ffffff',
+    activeIconColor: '#6f777d',
+    iconSize: '15',
+    hoverBgColor:'#3b82f6'
+  }
 
   constructor(private applicationService: ApplicationService, public dataSharedService: DataSharedService, public builderService: BuilderService,
     private toastr: NzMessageService, private router: Router, private activatedRoute: ActivatedRoute, private cd: ChangeDetectorRef) {
@@ -311,10 +316,8 @@ export class SiteLayoutComponent implements OnInit {
               }
               menus.push(newNode);
             });
-            this.selectedTheme.allMenuItems = menus;
-            if (!res[0]?.selectedTheme?.showMenu) {
-              this.selectedTheme['showMenu'] = true;
-            }
+            this.selectedTheme = this.newSelectedTheme;
+            this.selectedTheme['allMenuItems'] = menus;
           }
         } else
           this.toastr.error(res.message, { nzDuration: 3000 });

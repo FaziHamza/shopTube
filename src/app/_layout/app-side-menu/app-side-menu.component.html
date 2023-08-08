@@ -22,7 +22,7 @@
         <li nz-tooltip nzTooltipPlacement="right" [nzTooltipTitle]="selectedTheme.isCollapsed ? item.title : ''"
           [style.background]="selectedTheme.backGroundColor"
           [ngStyle]="{'background': isActiveShow == item.id ? (selectedTheme['activeBackgroundColor'] ? selectedTheme['activeBackgroundColor'] : '' ) : '' }"
-          class="menu-title" *ngIf="item.isTitle  && item.type != 'mainTab';">
+          class="menu-title" *ngIf="item.isTitle  && item.type != 'mainTab' && selectedTheme?.layout != 'horizental'">
           <span class="sidenav-title" [class]="selectedTheme?.font"
             [style.font-size.px]="selectedTheme['titleSize'] || 10"
             [style.color]="(hoverActiveShow === item.id) ? selectedTheme['hoverTextColor'] : ((isActiveShow === item.id) ? (selectedTheme['activeTextColor'] || selectedTheme['textColor']) : selectedTheme['textColor'])">
