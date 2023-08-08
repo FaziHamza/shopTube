@@ -1707,17 +1707,17 @@ a.fc-event:hover {
   }
 }
 
-.comment-drawer .ant-drawer-header {
-  background: #4582f1 !important;
-}
+// .comment-drawer .ant-drawer-header {
+//   background: #4582f1 !important;
+// }
 
-.comment-drawer .ant-drawer-title {
-  color: white !important;
-}
+// .comment-drawer .ant-drawer-title {
+//   color: white !important;
+// }
 
-.comment-drawer .ant-drawer-close {
-  color: white !important;
-}
+// .comment-drawer .ant-drawer-close {
+//   color: white !important;
+// }
 
 
 
@@ -1793,11 +1793,11 @@ a.fc-event:hover {
   border-left: 1px solid #f5f5f5;
 }
 
-.comment-drawer {
-  .ng-star-inserted {
-    color: red;
-  }
-}
+// .comment-drawer {
+//   .ng-star-inserted {
+//     color: red;
+//   }
+// }
 
 .table-controls {
   display: flex;
@@ -1816,9 +1816,9 @@ a.fc-event:hover {
   }
 }
 
-.sidenav-title {
-  margin-left: 8px;
-}
+// .sidenav-title {
+//   margin-left: 8px;
+// }
 
 .ant-menu-horizontal:not(.ant-menu-dark)>.ant-menu-item-active::after,
 .ant-menu-horizontal:not(.ant-menu-dark)>.ant-menu-item-open::after,
@@ -2074,7 +2074,7 @@ object {
     display: flex;
     flex-direction: column;
     justify-content: space-evenly;
-    min-height: 64px !important;
+    min-height: 55px !important;
     align-items: center;
 
 
@@ -2117,7 +2117,7 @@ object {
     display: flex;
     flex-direction: column;
     justify-content: space-evenly;
-    min-height: 64px !important;
+    min-height: 55px !important;
     align-items: flex-start !important;
 
     .menu-item-icon,
@@ -2187,7 +2187,7 @@ object {
     display: flex;
     flex-direction: column;
     justify-content: space-evenly;
-    min-height: 64px !important;
+    min-height: 55px !important;
     align-items: flex-end !important;
 
     .menu-item-icon,
@@ -2260,7 +2260,7 @@ object {
     display: flex;
     flex-direction: column;
     justify-content: space-evenly;
-    min-height: 64px !important;
+    min-height: 55px !important;
     align-items: flex-end !important;
 
     .menu-item-icon,
@@ -2333,7 +2333,7 @@ object {
     display: flex;
     flex-direction: column;
     justify-content: space-evenly;
-    min-height: 64px !important;
+    min-height: 55px !important;
     align-items: flex-end !important;
 
     .menu-item-icon,
@@ -2407,7 +2407,7 @@ object {
       display: flex;
       flex-direction: column;
       justify-content: space-evenly;
-      min-height: 64px !important;
+      min-height: 55px !important;
       align-items: flex-end !important;
 
       .menu-item-icon,
@@ -2698,7 +2698,7 @@ object {
     }
   }
 
-  .main-layout .side-menu-rtl {
+  .mobile-side-menu-rtl {
     position: absolute !important;
     width: 200px !important;
     z-index: 999 !important;
@@ -3373,10 +3373,10 @@ object {
 
       .colapsed-menu-title {
         margin: 0px 10px;
-        white-space: nowrap;
-        width: 90%;
-        overflow: hidden;
-        text-overflow: ellipsis;
+        // white-space: nowrap;
+        // width: 90%;
+        // overflow: hidden;
+        // text-overflow: ellipsis;
         font-size: 13px;
       }
     }
@@ -5395,3 +5395,188 @@ td .editable-cell {
   }
 }
 
+
+.ant-drawer-body {
+  padding-left: 0px;
+  padding-right: 0px;
+}
+
+// .comment-list .fa-ellipsis{
+//   display: none !important;
+// }
+// div.comment-list:hover i.fa-ellipsis {
+//   display: inline-block !important;
+// }
+
+
+
+// st-comment-list.ng-star-inserted > div:nth-child(1) > div:nth-child(1) > div:nth-child(2) {
+//   margin-left: 0px;
+// }
+
+.activelist {
+  background-color: rgb(96, 165, 226);
+}
+
+.comments-chat {
+  width: 100%;
+  height: 100%;
+  background: #2C2C2C;
+  padding: 10px 15px;
+  color: white;
+
+  .c-header {
+    height: 35px;
+    padding-bottom: 5px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #cccccc77;
+
+    .arrows {
+      a {
+        text-decoration: none;
+        color: #ccc;
+        margin-right: 15px;
+
+        i {
+          color: #ccc;
+        }
+      }
+    }
+
+    .actions {
+      a {
+        text-decoration: none;
+        color: #ccc;
+        margin-left: 15px;
+
+        i {
+          color: #ccc;
+        }
+      }
+    }
+
+  }
+
+  .c-body::-webkit-scrollbar {
+    width: 5px;
+  }
+
+  .c-body::-webkit-scrollbar-track {
+    border-radius: 0px;
+  }
+
+  .c-body::-webkit-scrollbar-thumb {
+    border-radius: 100px;
+    background: #ccc;
+  }
+
+  .c-body {
+    width: 100%;
+    overflow-y: auto;
+    height: calc(100% - 80px);
+
+
+    .comment-box {
+      width: 100%;
+      display: flex;
+      padding: 10px 0px;
+
+      .profile {
+        height: 30px;
+        width: 30px;
+        border-radius: 100px;
+
+        img {
+          height: 100%;
+          width: 100%;
+          border-radius: 100px;
+        }
+      }
+
+      .comment {
+        padding-left: 15px;
+        width: calc(100% - 30px);
+
+        h6 {
+          font-size: 14px;
+          font-weight: 600;
+          color: white;
+          margin-bottom: 5px;
+
+          span {
+            font-size: 12px;
+            color: #ccc;
+            margin-left: 5px;
+          }
+        }
+
+        p {
+          font-size: 14px;
+          color: white;
+          margin-bottom: 5px;
+        }
+      }
+    }
+  }
+
+  .c-footer {
+    width: 100%;
+    height: 45px;
+    display: flex;
+    align-items: center;
+
+    .profile {
+      height: 30px;
+      width: 30px;
+      border-radius: 100px;
+
+      img {
+        height: 100%;
+        width: 100%;
+        border-radius: 100px;
+      }
+    }
+
+    .comment {
+      padding-left: 15px;
+      width: calc(100% - 30px);
+      position: relative;
+
+      .form-control {
+        border: none;
+        outline: 2px solid transparent !important;
+        box-shadow: none !important;
+        color: white;
+        height: 40px;
+        border-radius: 5px;
+        background-color: #cccccc2a;
+      }
+
+      .send {
+        height: 25px;
+        width: 25px;
+        border-radius: 100px;
+        background: #cccccc69;
+        position: absolute;
+        top: 7px;
+        right: 7px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        i {
+          color: black;
+          font-size: 12px;
+        }
+      }
+
+    }
+  }
+}
+.comment-drawe{
+  .ant-drawer-body{
+    padding: 0px;
+  }
+}

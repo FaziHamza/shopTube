@@ -382,7 +382,7 @@ export class SiteLayoutComponent implements OnInit {
     let moduleRouting = api.moduleId ? api.moduleId : api.name.replace(/\s+/g, '-');
     this.router.navigate(['/pages', this.dataSharedService.selectApplication, moduleRouting]);
   }
-
+  
   
 
 }
