@@ -175,7 +175,19 @@ export class ExecuteActionRuleComponent  {
 
               thenConditionSatisfied = orConditionSatisfied;
             }
+            if (rule.AND) {
+              let andConditionSatisfied = true;
 
+              const { actionRule: andActionRule, key: andKey, compare: andCompare, value: andValue } = rule.AND.if;
+              const andActionQuery = await this.executeAction(andActionRule, parsedContext);
+              const andComparisonFunction = this.getComparisonFunction(andCompare);
+
+              if (!andComparisonFunction(andActionQuery, andValue)) {
+                andConditionSatisfied = false;
+              }
+
+              thenConditionSatisfied = thenConditionSatisfied && andConditionSatisfied;
+            }
             if (thenConditionSatisfied) {
               if (rule.then) {
                 const thenActions = rule.then;
@@ -210,20 +222,33 @@ export class ExecuteActionRuleComponent  {
       case '==':
         return (left, right) => left.includes(`= ${right}`);
       case '>':
-        return (left, right) => left.includes(`> ${right}`)
+        return (left, right) => {
+          const columnValue = left.split(/([\s><=]+)/);
+          return parseFloat(columnValue) > parseFloat(right);
+        };
       case '!=':
         return (left, right) => left.includes(`!= ${right}`);
       case '>=':
-        return (left, right) => left.includes(`>= ${right}`);
+        return (left, right) => {
+          let columnValue = left.split(/([\s><=]+)/);
+          return parseFloat(columnValue[columnValue.length -1]) >= parseFloat(right);
+        };
       case '<=':
-        return (left, right) => left.includes(`<= ${right}`);
-      case '=':
-        return (left, right) => left.includes(`= ${right}`);
+        return (left, right) => {
+          const [, , columnValue] = left.split(/([\s><=]+)/);
+          return parseFloat(columnValue) <= parseFloat(right);
+        };
       case '<':
-        return (left, right) => left.includes(`< ${right}`);
+        return (left, right) => {
+          const [, , columnValue] = left.split(/([\s><=]+)/);
+          return parseFloat(columnValue) < parseFloat(right);
+        };
       default:
         throw new Error(`Unknown comparison operator: ${operator}`);
     }
   }
+
+
+
 
 }
