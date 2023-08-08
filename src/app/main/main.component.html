@@ -4,7 +4,7 @@
         <div [ngClass]="{'highLight': item.highLight == true}" *ngIf="!item.hideExpression">
             <span *ngIf="item['comment']">
                 <span *ngIf="item['comment'].length > 0">
-                    <div [ngStyle]="{'background' : item['commentBackgroundColor'] ? '#3b82f6' : ''}" class="b-comment">
+                    <div [ngStyle]="{'background' : item['commentBackgroundColor'] ? '#3b82f6' : ''}"  class="b-comment absolute top-2 left-2 z-[1000]">
                         <div>
                             <ng-container *ngIf="item['commentUser'] && item['commentUser'].length > 1">
                                 <nz-avatar-group>
@@ -19,13 +19,13 @@
                             <nz-avatar *ngIf="item['commentUser'] && item['commentUser'].length == 1"
                                 [nzText]="typeFirstAlphabetAsIcon(item['commentUser'][0])"></nz-avatar>
                         </div>
-                        <div class="user-detail">
+                        <div (click)="toggleCommentDisplay()" class="user-detail">
                             <h6>{{item['comment'][0].whoCreated}}</h6>
                             <p><span>{{item['comment'][0].dateTime | date : "dd/MMM/yyyy hh:mm"}}</span></p>
                             <p>
                                 {{item['comment'][0].comment}}
                             </p>
-                            <small (click)="toggleCommentDisplay()">{{item['comment'].length-1}} Replies</small>
+                            <small>{{item['comment'].length-1}} Replies</small>
                         </div>
                         <div class="comment-modal">
                             <nz-modal [(nzVisible)]="showAllComments" nzTitle="Comments" (nzOnCancel)="handleCancel()">
@@ -63,7 +63,7 @@
                                     </div>
                                     <form class="mt-3" [formGroup]="commentForm">
                                         <label for="status">Status</label>
-                                        <nz-select nzShowSearch nzAllowClear nzPlaceHolder="Select a person"
+                                        <nz-select nzShowSearch nzAllowClear nzPlaceHolder="Select Status"
                                             formControlName="status">
                                             <nz-option nzLabel="Open" nzValue="open"></nz-option>
                                             <nz-option nzLabel="In Progress" nzValue="inProgress"></nz-option>

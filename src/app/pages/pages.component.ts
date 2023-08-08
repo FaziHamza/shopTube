@@ -191,8 +191,6 @@ export class PagesComponent implements OnInit {
             // this.toastr.error("An error occurred", { nzDuration: 3000 });
           }
         })
-
-
       }
 
     });
@@ -1907,12 +1905,12 @@ export class PagesComponent implements OnInit {
   }
   handleCancel(): void {
     this.isVisible = false;
-    this.dataSharedService.screenCommentList.forEach(element => {
-      this.assignComment(this.resData[0], element);
-    });
-    const data = JSON.parse(this.resData[0]);
-    this.resData[0] = this.jsonParseWithObject(this.resData[0]);
-    this.cdr.detectChanges;
+    // this.dataSharedService.screenCommentList.forEach(element => {
+    //   this.assignComment(this.resData[0], element);
+    // });
+    // const data = JSON.parse(this.resData[0]);
+    // this.resData[0] = this.jsonParseWithObject(this.resData[0]);
+    // this.cdr.detectChanges;
   }
 
 }
