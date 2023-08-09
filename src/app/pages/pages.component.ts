@@ -27,6 +27,7 @@ export class PagesComponent implements OnInit {
     private toastr: NzMessageService,
     public dataSharedService: DataSharedService, private router: Router) {
     this.dataSharedService.change.subscribe(({ event, field }) => {
+      debugger
       if (field && event)
         this.getEnumList(field, event);
       if (event && field && this.router.url.includes('/pages')) {
@@ -1036,7 +1037,14 @@ export class PagesComponent implements OnInit {
         for (let action of thenActions) {
           action = action.trim().replace("'then' :", ''); // remove quotes
           let [key, value] = action.split('=').map((s: any) => s.trim());
-          data[key] = value.replace(/'/g, '');
+          if (action.includes('.')) {
+            let actionKey = action.split('.');
+            let modelKey = key.split('.')[1];
+            data[actionKey[0]][modelKey] = value.replace(/'/g, '');
+          }
+          else{
+            data[key] = value.replace(/'/g, '');
+          }
         }
       }
       else {
@@ -1044,7 +1052,13 @@ export class PagesComponent implements OnInit {
         for (let action of thenActions) {
           action = action.trim().replace("'then' :", ''); // remove quotes
           let [key, value] = action.split('=').map((s: any) => s.trim());
-          data[key] = '';
+          if (action.includes('.')) {
+            let actionKey = action.split('.');
+            let modelKey = key.split('.')[1];
+            data[actionKey[0]][modelKey] = '';
+          }else{
+            data[key] = '';
+          }
         }
       }
     }

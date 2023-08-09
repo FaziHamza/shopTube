@@ -549,15 +549,18 @@ export class MainComponent implements OnInit {
             status: ''
           });
           this.toastr.success(`UserComment: ${res.message}`, { nzDuration: 3000 });
-          
+
           if (this.commentEdit) {
-            data.comment = data.comment.map((comm: any) => {
+
+            let Newdata: any = data.comment.map((comm: any) => {
               if (comm._id === res.data._id) {
-                return { ...comm, comment: res.data.comment };
+                return res.data;
               }
               return comm;
             });
-          } else {
+            data.comment = (JSON.parse(JSON.stringify(Newdata)))
+          }
+          else {
             this.assignComment(this.mainData, res.data);
           }
           this.commentEdit = false;
@@ -573,10 +576,10 @@ export class MainComponent implements OnInit {
 
 
 
-  toggleCommentDisplay(data : any) {
+  toggleCommentDisplay(data: any) {
     data['showAllComments'] = true;
   }
-  handleCancel(data : any) {
+  handleCancel(data: any) {
     data['showAllComments'] = false;
   }
   read(node: any, read: boolean) {
