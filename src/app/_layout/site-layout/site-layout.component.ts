@@ -142,7 +142,6 @@ export class SiteLayoutComponent implements OnInit {
     });
   }
   getMenuByDomainName(domainName: any, allowStoreId: boolean) {
-
     try {
       this.loader = true;
       this.requestSubscription = this.builderService.getApplicationByDomainName(domainName).subscribe({
@@ -172,8 +171,10 @@ export class SiteLayoutComponent implements OnInit {
                 this.selectedTheme = selectedTheme;
                 this.selectedTheme.allMenuItems = getMenu;
                 this.menuItems = getMenu;
-                this.makeMenuData();
-              } if(this.currentWebsiteLayout == 'website') {
+                if(selectedTheme?.layout == 'horizental'){
+                  this.makeMenuData();
+                }
+              } if (this.currentWebsiteLayout == 'website') {
                 this.dataSharedService.menus = this.selectedTheme;
                 this.dataSharedService.menus.allMenuItems = getMenu;
               }
@@ -269,24 +270,22 @@ export class SiteLayoutComponent implements OnInit {
     }
   }
   makeMenuData() {
-    let arrayList = [];
-    arrayList = this.selectedTheme.allMenuItems;
-    // this.selectedTheme.allMenuItems = [];
+    let arrayList = [...this.menuItems];
     this.selectedTheme.newMenuArray = [];
-    if (this.selectedTheme.allMenuItems.length > 7 && this.selectedTheme.layout == 'horizental') {
+    if (this.menuItems.length > 7 && this.selectedTheme.layout === 'horizental') {
       this.selectedTheme.newMenuArray = [{
         label: "More",
         icon: "down",
         id: 'menu_428605c1',
         key: 'menu_0f7d1e4e',
         children: []
-      }]
-      const withOutTitle = this.selectedTheme.allMenuItems.filter((a: any) => a.isTitle != true);
-      this.selectedTheme.newMenuArray[0].children = withOutTitle.slice(7);
-      this.selectedTheme.allMenuItems = arrayList.filter((a: any) => a.isTitle != true).slice(0, 7);
+      }];
+      const withoutTitle = this.menuItems.filter((item: any) => !item.isTitle);
+      this.selectedTheme.newMenuArray[0].children = withoutTitle.slice(7);
+      this.selectedTheme.allMenuItems = arrayList.filter((item) => !item.isTitle).slice(0, 7);
     }
-    else {
-      this.selectedTheme.allMenuItems = arrayList;
+    else if (this.selectedTheme.layout === 'horizental' && this.menuItems.length > 0) {
+      this.selectedTheme.allMenuItems = this.menuItems;
     }
   }
   getApplications() {
@@ -382,8 +381,8 @@ export class SiteLayoutComponent implements OnInit {
     let moduleRouting = api.moduleId ? api.moduleId : api.name.replace(/\s+/g, '-');
     this.router.navigate(['/pages', this.dataSharedService.selectApplication, moduleRouting]);
   }
-  
-  
+
+
 
 }
 

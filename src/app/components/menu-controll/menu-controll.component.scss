@@ -53,3 +53,6 @@
     height: 0.625rem;
     margin-left: 0.5rem;
 }
+.ant-menu-horizontal:not(.ant-menu-dark)>.ant-menu-item, .ant-menu-horizontal:not(.ant-menu-dark)>.ant-menu-submenu {
+    border-radius: 6px;
+}

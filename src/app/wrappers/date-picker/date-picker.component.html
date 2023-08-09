@@ -1,51 +1,39 @@
-<ng-container *ngIf="to['additionalProperties']?.wrapper != 'floating_standard'">
-  <nz-input-group *ngIf="!to['additionalProperties']?.suffixicon && !to['additionalProperties']?.prefixicon "
-    [nzSuffix]="to['additionalProperties']?.addonLeft" [nzPrefix]="to['additionalProperties']?.addonRight"
+<div [class]="to['additionalProperties']?.wrapper=='floating_standard' ? 'relative z-0' : ''">
+  <nz-input-group
+    [nzSuffix]="(to['additionalProperties']?.addonRight   || to['additionalProperties']?.suffixicon) ? suffixTemplateInfo : undefined"
+    [nzPrefix]="(to['additionalProperties']?.addonLeft || to['additionalProperties']?.prefixicon) ? prefixTemplateUser : undefined"
     [nzStatus]="to['additionalProperties']?.status">
-    <nz-date-picker style="width:100%" (ngModelChange)="onModelChange($event, field)"
-      [ngClass]="to['additionalProperties']?.wrapper && to['additionalProperties']?.wrapper == 'floating_filled' || to['additionalProperties']?.wrapper == 'floating_outlined' || to['additionalProperties']?.wrapper == 'floating_standard' ? to['additionalProperties']?.floatFieldClass : ''"
+    <nz-date-picker style="width:100%" (ngModelChange)="onModelChange($event, field)" [ngClass]="to['additionalProperties']?.wrapper=='floating_filled' || to['additionalProperties']?.wrapper=='floating_standard'
+    || to['additionalProperties']?.wrapper=='floating_outlined' ? to['additionalProperties']?.floatFieldClass : ''"
       [style.border-radius]="to['additionalProperties']?.borderRadius" [nzFormat]="to['additionalProperties']?.format"
       [nzSize]="to['additionalProperties']?.size" [formControl]="formControl"
       [nzBorderless]="to['additionalProperties']?.border" [nzStatus]="to['additionalProperties']?.status"
       [nzPlaceHolder]="to.placeholder || ''" [nzMode]="to.type"></nz-date-picker>
-    <label
-      *ngIf="to['additionalProperties']?.wrapper == 'floating_filled' || to['additionalProperties']?.wrapper == 'floating_outlined'"
-      [ngClass]="to['additionalProperties']?.floatLabelClass">{{ to.label ?? '' | translate }}</label>
-
+    <label *ngIf="to['additionalProperties']?.wrapper == 'floating_filled' ||to['additionalProperties']?.wrapper=='floating_standard'
+      ||to['additionalProperties']?.wrapper == 'floating_outlined'"
+      [ngClass]="to['additionalProperties']?.floatLabelClass">{{ to.label ?? '' | translate }}
+    </label>
   </nz-input-group>
-  <nz-input-group *ngIf="to['additionalProperties']?.suffixicon || to['additionalProperties']?.prefixicon"
-    [nzSuffix]="suffixTemplateInfo" [nzPrefix]="prefixTemplateUser" [nzStatus]="to['additionalProperties']?.status">
-    <nz-date-picker [nzMode]="to.type" style="width:100%" [nzFormat]="to['additionalProperties']?.format"
-      [nzSize]="to['additionalProperties']?.size" (ngModelChange)="onModelChange($event, field)"
-      [formControl]="formControl" [nzBorderless]="to['additionalProperties']?.border"
-      [nzStatus]="to['additionalProperties']?.status" [style.border-radius]="to['additionalProperties']?.borderRadius"
-      [nzPlaceHolder]="to.placeholder || ''"></nz-date-picker>
-  </nz-input-group>
-  <ng-template #prefixTemplateUser>
-    <span>
-      <st-icon *ngIf="to['additionalProperties']?.suffixicon" [type]="to['additionalProperties']?.iconType || 'outline'"
-        [icon]="to['additionalProperties']?.suffixicon"
-        [hoverIconColor]="to['additionalProperties']?.hoverIconColor || ''"
-        [size]="to['additionalProperties']?.iconSize" [color]="to['additionalProperties']?.iconColor"></st-icon>
-    </span>
-  </ng-template>
   <ng-template #suffixTemplateInfo>
-    <span>
-      <st-icon *ngIf="to['additionalProperties']?.prefixicon" [type]="to['additionalProperties']?.iconType || 'outline'"
-        [icon]="to['additionalProperties']?.prefixicon"
+    <ng-container *ngIf="to['additionalProperties']?.suffixicon ; else addonLeftText">
+      <st-icon [type]="to['additionalProperties']?.iconType || 'outline'"
+        [icon]="to['additionalProperties']?.suffixicon" [size]="to['additionalProperties']?.iconSize"
         [hoverIconColor]="to['additionalProperties']?.hoverIconColor || ''"
-        [size]="to['additionalProperties']?.iconSize" [color]="to['additionalProperties']?.iconColor"></st-icon>
-    </span>
+        [color]="to['additionalProperties']?.iconColor"></st-icon>
+    </ng-container>
+    <ng-template #addonLeftText>
+      {{to['additionalProperties']?.addonLeft}}
+    </ng-template>
   </ng-template>
-</ng-container>
-<div class="relative z-0" *ngIf="to['additionalProperties']?.wrapper == 'floating_standard'">
-  <nz-date-picker [nzMode]="to.type" style="width:100%"
-    class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-    [style.border-radius]="to['additionalProperties']?.borderRadius" (ngModelChange)="onModelChange($event, field)"
-    [nzFormat]="to['additionalProperties']?.format" [nzSize]="to['additionalProperties']?.size"
-    [formControl]="formControl" [nzBorderless]="to['additionalProperties']?.border"
-    [nzStatus]="to['additionalProperties']?.status" [nzPlaceHolder]="to.placeholder || ''"></nz-date-picker>
-  <label for="floating_standard"
-    class="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">{{
-    to.label ?? '' | translate }}</label>
+  <ng-template #prefixTemplateUser>
+    <ng-container *ngIf="to['additionalProperties']?.prefixicon ; else addonRightText">
+      <st-icon [type]="to['additionalProperties']?.iconType || 'outline'"
+        [icon]="to['additionalProperties']?.prefixicon" [size]="to['additionalProperties']?.iconSize"
+        [hoverIconColor]="to['additionalProperties']?.hoverIconColor || ''"
+        [color]="to['additionalProperties']?.iconColor"></st-icon>
+    </ng-container>
+    <ng-template #addonRightText>
+      {{to['additionalProperties']?.addonRight}}
+    </ng-template>
+  </ng-template>
 </div>
