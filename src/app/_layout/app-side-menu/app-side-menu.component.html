@@ -56,7 +56,7 @@
                 <li [nzTitle]="subTemplate"
                   *ngIf="sub.children.length > 0 && (sub.children[0].type != 'mainTab' || sub.children.length > 1) ; else subMenu"
                   [ngStyle]="{ 'background': isActiveShow == sub.id ? (selectedTheme['activeBackgroundColor'] ? selectedTheme['activeBackgroundColor'] : '' ) : '' }"
-                  nz-submenu (click)="loadTabsAndButtons($event, sub,true,false)"
+                  nz-submenu (click)="loadTabsAndButtons($event, sub,false,false)"
                   (mouseenter)="hoverActiveShow = sub.id" (mouseleave)="hoverActiveShow = null">
                   <ng-template #subTemplate>
                     <span class="menu-item-icon">

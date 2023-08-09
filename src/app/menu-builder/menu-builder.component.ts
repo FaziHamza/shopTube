@@ -1715,7 +1715,6 @@ export class MenuBuilderComponent implements OnInit {
   // }
 
   async loadData(node: NzCascaderOption, index: number): Promise<void> {
-    debugger
     if (index === 0 && node.value != 'selectDepartment') {
       try {
         const res = await this.applicationService.getNestCommonAPIById('cp/Application', node.value).toPromise();
@@ -1745,7 +1744,7 @@ export class MenuBuilderComponent implements OnInit {
   }
   onDepartmentChange(departmentId: any) {
     if (departmentId.length === 2) {
-      if (departmentId[2] != 'selectScreen') {
+      if (departmentId[1] != 'selectApplication') {
         this.getMenus(departmentId[1])
       }
     }
