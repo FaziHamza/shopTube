@@ -35,12 +35,17 @@ export class CommentModalComponent implements OnInit {
     debugger
     this.currentUser = JSON.parse(localStorage.getItem('user')!);
     this.update;
-    this.create();
     if (this.update) {
+      this.form = this.formBuilder.group({
+        comment: ['', Validators.required],
+        status: ['', Validators.required],
+      });
       this.form.patchValue({
         comment: this.update.comment,
         status: this.update.status
       });
+    } else {
+      this.create();
     }
   }
   readonly #modal = inject(NzModalRef);
@@ -48,7 +53,7 @@ export class CommentModalComponent implements OnInit {
   create() {
     this.form = this.formBuilder.group({
       comment: ['', Validators.required],
-      status: ['', Validators.required],
+      // status: ['', Validators.required],
       // refLink: ['',],
       // messageHeader: ['',],
       // message: ['',],
@@ -75,7 +80,7 @@ export class CommentModalComponent implements OnInit {
         ObjectID: this.data.id,
         whoCreated: userData.username,
         // type: this.data.type,
-        comment: this.form.value.comment,
+        comment: this.update ? this.form.value.comment : 'open',
         dateTime: new Date(),
         status: this.form.value.status,
         // refLink: this.form.value.refLink,
@@ -103,7 +108,7 @@ export class CommentModalComponent implements OnInit {
             this.toastr.error("UserComment : An error occurred", { nzDuration: 3000 });
           }
         });
-      } 
+      }
       else {
         userCommentModel.UserComment['ObjectID'] = this.update.ObjectID;
         this.requestSubscription = this.applicationService.updateNestCommonAPI('cp/UserComment', this.update._id, userCommentModel).subscribe({
