@@ -38,18 +38,13 @@ export class AppSideMenuComponent implements OnInit {
     public builderService: BuilderService, public dataSharedService: DataSharedService, private renderer: Renderer2,
     private applicationService: ApplicationService) { }
   ngOnInit(): void {
-    
-    // if (this.selectedTheme  && window.innerWidth > 768) {
-    //   if (this.selectedTheme.sideBarSize == 'smallIconView' || this.selectedTheme.sideBarSize == 'smallHoverView') {
-    //     this.selectedTheme['isCollapsed'] = true;
-    //   }
-    // }
     this.currentUser = JSON.parse(localStorage.getItem('user')!);
     this.loadModules();
-    window.onresize = () => {
-      this.changeHtlmenuAtMblView();
-    };
-    this.makeMenuData();
+    if (!window.location.href.includes('/menu-builder')) {
+      window.onresize = () => {
+        this.changeHtlmenuAtMblView();
+      };
+    }
   }
   loadModules(): void {
     this.currentUrl = window.location.host;
@@ -70,7 +65,7 @@ export class AppSideMenuComponent implements OnInit {
 
 
   ngOnDestroy() {
-    if(this.requestSubscription){
+    if (this.requestSubscription) {
       this.requestSubscription.unsubscribe();
     }
   }
@@ -166,7 +161,7 @@ export class AppSideMenuComponent implements OnInit {
     if (this.mobileView && allowHideInMblView) {
       this.selectedTheme.isCollapsed = true;
     }
-    if(allowHideInMblView){
+    if (allowHideInMblView) {
       this.isActiveShow = data.id;
     }
     event.stopPropagation();

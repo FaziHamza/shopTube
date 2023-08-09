@@ -968,7 +968,7 @@ a.fc-event:hover {
       .ant-select-show-search.ant-select:not(.ant-select-customize-input) .ant-select-selector {
         background: #f9fafb;
         border: none;
-        padding-top: 19px;
+        padding-top: 18px;
       }
     }
 
@@ -5676,3 +5676,60 @@ li.ant-cascader-menu-item:nth-child(1):hover {
   margin-left: 8px;
 }
 
+.floating_outlined {
+  .masking {
+    .ant-input-group .ant-input {
+      height: 51px !important;
+      border-radius: 0px;
+    }
+  }
+}
+
+.floating_standard {
+  nz-checkbox-wrapper {
+    height: 42px;
+  }
+
+  nz-input-number {
+    height: 2.6rem;
+  }
+
+  nz-radio-group {
+    height: 2.6rem;
+  }
+
+  .masking {
+    .ant-input-group .ant-input {
+      height: 5.7vh;
+    }
+  }
+  formly-field-image-upload{
+    .ant-input-group .ant-input {
+      height: 5.7vh;
+    }
+  }
+}
+.floating_filled{
+  nz-checkbox-wrapper {
+    height: 52px;
+  }
+
+  nz-input-number {
+    height: 3.2rem
+  }
+
+  nz-radio-group {
+    height: 3.2rem;
+  }
+
+  .masking {
+    .ant-input-group .ant-input {
+      padding-top: 22px;
+    }
+  }
+  formly-field-image-upload{
+    .ant-input-group .ant-input {
+      padding-bottom: 6px;
+    }
+  }
+}

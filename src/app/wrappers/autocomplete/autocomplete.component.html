@@ -1,53 +1,47 @@
-<ng-container *ngIf="to['additionalProperties']?.wrapper != 'floating_standard'">
-    <nz-input-group [ngClass]="showError ? 'input-border' : ''" *ngIf="!to['additionalProperties']?.suffixicon && !to['additionalProperties']?.prefixicon" [nzSuffix]="to['additionalProperties']?.addonLeft"
-        [nzPrefix]="to['additionalProperties']?.addonRight" [nzSize]="to['additionalProperties']?.size" [nzStatus]="to['additionalProperties']?.status">
+<div [class]="to['additionalProperties']?.wrapper=='floating_standard' ? 'relative z-0' : ''">
+    <nz-input-group [ngClass]="showError ? 'input-border' : ''"
+        [nzSuffix]="(to['additionalProperties']?.addonRight   || to['additionalProperties']?.suffixicon) ? suffixTemplateInfo : undefined"
+        [nzPrefix]="(to['additionalProperties']?.addonLeft || to['additionalProperties']?.prefixicon) ? prefixTemplateUser : undefined"
+        [nzSize]="to['additionalProperties']?.size" [nzStatus]="to['additionalProperties']?.status">
         <div>
-            <input  [(ngModel)]="inputValue"
-            [appConfigurableSelect]="to['appConfigurableEvent']"
-            [loadAction]="to['eventActionconfig']"  [processData]="processData"
-            (ngModelChange)="onModelChange($event, field)" [ngClass]="showError && !to['additionalProperties']?.suffixicon && !to['additionalProperties']?.prefixicon && !to['additionalProperties']?.addonLeft && !to['additionalProperties']?.addonRight ? 'input-border' : ''"
-                 [style.border-radius]="to['additionalProperties']?.borderRadius"[ngClass]="to['additionalProperties']?.wrapper && to['additionalProperties']?.wrapper == 'floating_filled' || to['additionalProperties']?.wrapper == 'floating_outlined' || to['additionalProperties']?.wrapper == 'floating_standard' ? to['additionalProperties']?.floatFieldClass : ''"
+            <input [(ngModel)]="inputValue" [appConfigurableSelect]="to['appConfigurableEvent']"
+                [loadAction]="to['eventActionconfig']" [processData]="processData"
+                (ngModelChange)="onModelChange($event, field)"
+                [ngClass]="showError && !to['additionalProperties']?.suffixicon && !to['additionalProperties']?.prefixicon && !to['additionalProperties']?.addonLeft && !to['additionalProperties']?.addonRight ? 'input-border' : ''"
+                [style.border-radius]="to['additionalProperties']?.borderRadius" [ngClass]="to['additionalProperties']?.wrapper=='floating_filled' || to['additionalProperties']?.wrapper=='floating_standard'
+    || to['additionalProperties']?.wrapper=='floating_outlined' ? to['additionalProperties']?.floatFieldClass : ''"
                 [placeholder]="to.placeholder" [formControl]="formControl" nz-input [nzAutocomplete]="auto"
-                [nzBorderless]="to['additionalProperties']?.border" [nzSize]="to['additionalProperties']?.size" [nzStatus]="to['additionalProperties']?.status" />
+                [nzBorderless]="to['additionalProperties']?.border" [nzSize]="to['additionalProperties']?.size"
+                [nzStatus]="to['additionalProperties']?.status" />
             <nz-autocomplete [nzWidth]="to['additionalProperties']?.optionWidth" [nzDataSource]="list"
                 [nzDefaultActiveFirstOption]="true" [nzBackfill]="false" #auto></nz-autocomplete>
-            <label *ngIf="to['additionalProperties']?.wrapper == 'floating_filled' || to['additionalProperties']?.wrapper == 'floating_outlined'"
-                [ngClass]="to['additionalProperties']?.floatLabelClass">{{ to.label ?? '' | translate }}</label>
+                <label
+                *ngIf="to['additionalProperties']?.wrapper == 'floating_filled' ||to['additionalProperties']?.wrapper=='floating_standard'
+                ||to['additionalProperties']?.wrapper == 'floating_outlined'"
+                [ngClass]="to['additionalProperties']?.floatLabelClass">{{ to.label ?? '' | translate }}
+              </label>
         </div>
     </nz-input-group>
-
-    <nz-input-group [ngClass]="showError ? 'input-border' : ''" *ngIf="to['additionalProperties']?.suffixicon || to['additionalProperties']?.prefixicon" [nzSuffix]="suffixTemplateInfo"
-        [nzPrefix]="prefixTemplateUser" [nzSize]="to['additionalProperties']?.size" [nzStatus]="to['additionalProperties']?.status">
-        <input  [appConfigurableSelect]="to['appConfigurableEvent']"
-        [loadAction]="to['eventActionconfig']"  [processData]="processData" [(ngModel)]="inputValue" [style.border-radius]="to['additionalProperties']?.borderRadius"
-        (ngModelChange)="onModelChange($event, field)" [ngClass]="showError && !to['additionalProperties']?.suffixicon && !to['additionalProperties']?.prefixicon && !to['additionalProperties']?.addonLeft && !to['additionalProperties']?.addonRight ? 'input-border' : ''" [placeholder]="to.placeholder" [formControl]="formControl" nz-input [nzAutocomplete]="auto"
-            [nzBorderless]="to['additionalProperties']?.border" [nzSize]="to['additionalProperties']?.size" [nzStatus]="to['additionalProperties']?.status" />
-        <nz-autocomplete [nzWidth]="to['additionalProperties']?.optionWidth" [nzDataSource]="list" [nzDefaultActiveFirstOption]="true"
-            [nzBackfill]="false" #auto></nz-autocomplete>
-    </nz-input-group>
-
-    <ng-template #prefixTemplateUser>
-        <span>
-            <st-icon *ngIf="to['additionalProperties']?.suffixicon" [type]="to['additionalProperties']?.iconType || 'outline'"
-               [hoverIconColor]="to['additionalProperties']?.hoverIconColor || ''" [icon]="to['additionalProperties']?.suffixicon" [size]="to['additionalProperties']?.iconSize" [color]="to['additionalProperties']?.iconColor"></st-icon>
-        </span>
-    </ng-template>
     <ng-template #suffixTemplateInfo>
-        <span>
-            <st-icon *ngIf="to['additionalProperties']?.prefixicon" [type]="to['additionalProperties']?.iconType || 'outline'"
-               [hoverIconColor]="to['additionalProperties']?.hoverIconColor || ''" [icon]="to['additionalProperties']?.prefixicon" [size]="to['additionalProperties']?.iconSize" [color]="to['additionalProperties']?.iconColor"
-            ></st-icon>
-        </span>
+        <ng-container *ngIf="to['additionalProperties']?.suffixicon ; else addonLeftText">
+            <st-icon [type]="to['additionalProperties']?.iconType || 'outline'"
+                [icon]="to['additionalProperties']?.suffixicon" [size]="to['additionalProperties']?.iconSize"
+                [hoverIconColor]="to['additionalProperties']?.hoverIconColor || ''"
+                [color]="to['additionalProperties']?.iconColor"></st-icon>
+        </ng-container>
+        <ng-template #addonLeftText>
+            {{to['additionalProperties']?.addonLeft}}
+        </ng-template>
     </ng-template>
-</ng-container>
-<div class="relative z-0" *ngIf="to['additionalProperties']?.wrapper == 'floating_standard'">
-    <input  [appConfigurableSelect]="to['appConfigurableEvent']"
-    [loadAction]="to['eventActionconfig']"  [processData]="processData" [(ngModel)]="inputValue"
-    (ngModelChange)="onModelChange($event, field)" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-        [style.border-radius]="to['additionalProperties']?.borderRadius" [placeholder]="to.placeholder" [formControl]="formControl" nz-input [nzAutocomplete]="auto"
-        [nzBorderless]="to['additionalProperties']?.border" [nzSize]="to['additionalProperties']?.size" [nzStatus]="to['additionalProperties']?.status" />
-    <nz-autocomplete [nzWidth]="to['additionalProperties']?.optionWidth" [nzDataSource]="list" [nzDefaultActiveFirstOption]="true"
-        [nzBackfill]="false"  #auto></nz-autocomplete>
-    <label for="floating_standard"
-        class="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">{{ to.label ?? '' | translate }}</label>
+    <ng-template #prefixTemplateUser>
+        <ng-container *ngIf="to['additionalProperties']?.prefixicon ; else addonRightText">
+            <st-icon [type]="to['additionalProperties']?.iconType || 'outline'"
+                [icon]="to['additionalProperties']?.prefixicon" [size]="to['additionalProperties']?.iconSize"
+                [hoverIconColor]="to['additionalProperties']?.hoverIconColor || ''"
+                [color]="to['additionalProperties']?.iconColor"></st-icon>
+        </ng-container>
+        <ng-template #addonRightText>
+            {{to['additionalProperties']?.addonRight}}
+        </ng-template>
+    </ng-template>
 </div>
