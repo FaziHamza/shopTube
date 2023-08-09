@@ -459,7 +459,7 @@ export class MainComponent implements OnInit {
   }
   comment(json: any) {
     const modal = this.modalService.create<CommentModalComponent>({
-      nzTitle: 'Comment',
+      nzTitle: 'Issue Report',
       nzContent: CommentModalComponent,
       nzViewContainerRef: this.viewContainerRef,
       nzComponentParams: {
