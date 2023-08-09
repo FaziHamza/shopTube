@@ -5379,7 +5379,7 @@ td .editable-cell {
 }
 
 .b-comment:hover {
-  width: 250px;
+  // width: 250px;
   padding: 10px;
 
   .user-detail {
@@ -5671,8 +5671,29 @@ li.ant-cascader-menu-item:nth-child(1):hover {
     }
   }
 }
+// .dynamic-menu {
+//   .ant-menu-inline-collapsed {
+
+    
+//     .nav-item {      
+//       .menu-item-icon {
+//         padding-top: 20% !important;
+        
+//       }
+//     }
+//   }
+// }
+
+
 
 .sidenav-title {
   margin-left: 8px;
 }
 
+.ant-menu-vertical {
+  .layout-tabs-drop-down-submenu{
+    .ant-menu-submenu-vertical:hover i{
+      color: #fff !important;
+    }
+  }
+}
