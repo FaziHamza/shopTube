@@ -5407,9 +5407,10 @@ td .editable-cell {
 .comments-chat {
   width: 100%;
   height: 100%;
-  background: #2C2C2C;
+  max-width: 700px;
+  background: #f5f5f5;
   padding: 10px 15px;
-  color: white;
+  color: #000;
 
   .c-header {
     height: 35px;
@@ -5419,26 +5420,38 @@ td .editable-cell {
     align-items: center;
     border-bottom: 1px solid #cccccc77;
 
-    .arrows {
-      a {
-        text-decoration: none;
-        color: #ccc;
-        margin-right: 15px;
+    .status-options {
+      display: flex;
+      align-items: center;
 
-        i {
-          color: #ccc;
+      .assign {
+        display: flex;
+        margin-right: 20px;
+        align-items: center;
+
+        label {
+          margin-right: 5px;
+        }
+
+        input,
+        select {
+          padding: 0px 5px;
+          background: transparent;
+          border: none;
+          outline: none;
         }
       }
     }
 
+
     .actions {
       a {
         text-decoration: none;
-        color: #ccc;
+        color: #000;
         margin-left: 15px;
 
         i {
-          color: #ccc;
+          color: #000;
         }
       }
     }
@@ -5455,7 +5468,7 @@ td .editable-cell {
 
   .c-body::-webkit-scrollbar-thumb {
     border-radius: 100px;
-    background: #ccc;
+    background: #000;
   }
 
   .c-body {
@@ -5496,7 +5509,7 @@ td .editable-cell {
           justify-content: space-between;
 
           i {
-            color: #ccc;
+            color: #000;
             font-size: 14px;
             opacity: 0;
           }
@@ -5514,21 +5527,21 @@ td .editable-cell {
         h6 {
           font-size: 14px;
           font-weight: 600;
-          color: white;
+          color: black;
           margin-bottom: 5px;
           display: flex;
           align-items: center;
 
           span {
             font-size: 12px;
-            color: #ccc;
+            color: #000;
             margin-left: 5px;
           }
         }
 
         p {
           font-size: 14px;
-          color: white;
+          color: black;
           margin-bottom: 5px;
         }
       }
@@ -5568,17 +5581,17 @@ td .editable-cell {
           border: none;
           outline: 2px solid transparent !important;
           box-shadow: none !important;
-          color: white;
+          color: black;
           height: 40px;
           border-radius: 5px;
-          background-color: #cccccc2a;
+          background-color: #e0e0e0;
         }
 
         .send {
           height: 25px;
           width: 25px;
           border-radius: 100px;
-          background: #cccccc69;
+          background: rgb(223, 221, 221);
           position: absolute;
           top: 7px;
           right: 7px;
@@ -5603,10 +5616,10 @@ td .editable-cell {
         border: none;
         outline: 2px solid transparent !important;
         box-shadow: none !important;
-        color: white;
+        color: black;
         height: 40px;
         border-radius: 5px;
-        background-color: #cccccc2a;
+        background-color: #e0e0e0;
         padding: 0px 5px;
 
         option {
