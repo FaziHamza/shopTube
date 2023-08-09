@@ -1,105 +1,126 @@
 import { Component, OnInit } from '@angular/core';
+import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'st-execute-action-rule',
   templateUrl: './execute-action-rule.component.html',
   styleUrls: ['./execute-action-rule.component.scss']
 })
-export class ExecuteActionRuleComponent  {
+export class ExecuteActionRuleComponent implements OnInit {
+
+  constructor(private fb: FormBuilder) { }
+
   actionList: any = JSON.stringify([
     {
       "name": "checkUserType",
-      "query": "select status from userType where userType = {userTypeId}"
-    },
-    {
-      "name": "applyUserTypeDiscount",
-      "query": "select discount from tblDiscount"
+      "query": "select userTypeId from Users where userTypeId = {userTypeId}"
     },
     {
       "name": "checkUserStatus",
-      "query": "select status from userStatus where status = {status}"
+      "query": "select status from Users where status = {status}"
+    },
+    {
+      "name": "applyUserTypeDiscount",
+      "query": "update Discounts set discountPercentage = 10 where userType = {userTypeId}"
     },
     {
       "name": "applyPremiumDiscount",
-      "query": "select premiumDiscount from tblPremiumDiscount"
+      "query": "update Discounts set discountPercentage = 20 where userType = 'premium'"
     },
     {
       "name": "checkMinimumValue",
-      "query": "select price from product where price >= {price}"
+      "query": "select price from Products where price = {price}"
     },
     {
       "name": "applySpecialOfferForNormalUser",
-      "query": "select specialOffer from tblSpecialOffer where userTypeId = 2"
+      "query": "update Discounts set discountPercentage = 15 where userType = 'normal'"
     },
     {
       "name": "notifyAdmin",
-      "query": "insert into adminNotifications (message) values ('Price exceeded minimum value')"
-    }
-  ]);
-  actionRule: any = JSON.stringify([
-    {
-      "if": {
-        "actionRule": "checkUserType",
-        "key": "userTypeId",
-        "compare": "==",
-        "value": "1"
-      },
-      "then": {
-        "applyDiscount": {
-          "actionRule": "applyUserTypeDiscount",
-          "key": "userTypeId"
-        }
-      },
-      "OR": {
-        "if": {
-          "actionRule": "checkUserStatus",
-          "key": "status",
-          "compare": "==",
-          "value": "premium"
-        },
-        "then": {
-          "applyPremiumDiscount": {
-            "actionRule": "applyPremiumDiscount",
-            "key": "status"
-          }
-        }
-      }
+      "query": "insert into Notifications (message) values ('Special offer applied for product with price >= {price}')"
     },
     {
-      "if": {
-        "actionRule": "checkMinimumValue",
-        "key": "price",
-        "compare": ">=",
-        "value": "200"
-      },
-      "AND": {
+      "name": "sendNotification",
+      "query": "insert into Notifications (message) values ('Discount applied for user with id = {userId}')"
+    }
+  ]
+  );
+  actionRule: any = JSON.stringify(
+    [
+      {
         "if": {
           "actionRule": "checkUserType",
           "key": "userTypeId",
           "compare": "==",
-          "value": "2"
+          "value": "1"
         },
         "then": {
-          "applySpecialOfferForNormalUser": {
-            "actionRule": "applySpecialOfferForNormalUser",
+          "applyDiscount": {
+            "actionRule": "applyUserTypeDiscount",
+            "key": "userTypeId"
+          },
+          "notifyUser": {
+            "actionRule": "sendNotification",
+            "key": "userTypeId"
+          }
+        },
+        "OR": [{
+          "if": {
+            "actionRule": "checkUserStatus",
+            "key": "status",
+            "compare": "==",
+            "value": "premium"
+          },
+          "then": {
+            "applyPremiumDiscount": {
+              "actionRule": "applyPremiumDiscount",
+              "key": "status"
+            }
+          }
+        }]
+      },
+      {
+        "if": {
+          "actionRule": "checkMinimumValue",
+          "key": "price",
+          "compare": ">=",
+          "value": "200"
+        },
+        "AND": [{
+          "if": {
+            "actionRule": "checkUserType",
+            "key": "userTypeId",
+            "compare": "==",
+            "value": "2"
+          },
+          "then": {
+            "applySpecialOfferForNormalUser": {
+              "actionRule": "applySpecialOfferForNormalUser",
+              "key": "price"
+            },
+            "notifyUser": {
+              "actionRule": "sendNotification",
+              "key": "price"
+            }
+          }
+        }],
+        "then": {
+          "notifyAdmin": {
+            "actionRule": "notifyAdmin",
             "key": "price"
           }
         }
-      },
-      "then": {
-        "notifyAdmin": {
-          "actionRule": "notifyAdmin",
-          "key": "price"
-        }
       }
-    }
-  ]
+    ]
   );
   actionModel: any = JSON.stringify({
-    "userTypeId": 1,
+    "userId": 123,
+    "userTypeId": 2,
     "status": "premium",
+    "productId": 456,
     "price": 250
-  })
+  }
+  )
   actionResult: any;
   db = {
     execute: async (query: string) => {
@@ -113,9 +134,9 @@ export class ExecuteActionRuleComponent  {
     },
   };
 
-  executeAction  = async (actionName: string, parameters: any) => {
+  executeAction = async (actionName: string, parameters: any) => {
     const parsedRules = JSON.parse(this.actionList);
-    const action = parsedRules.find((a:any) => a.name === actionName);
+    const action = parsedRules.find((a: any) => a.name === actionName);
     if (!action) {
       throw new Error(`Action ${actionName} not found`);
     }
@@ -165,48 +186,91 @@ export class ExecuteActionRuleComponent  {
             if (rule.OR) {
               let orConditionSatisfied = false;
 
-              const { actionRule: orActionRule, key: orKey, compare: orCompare, value: orValue } = rule.OR.if;
-              const orActionQuery = await this.executeAction(orActionRule, parsedContext);
-              const orComparisonFunction = this.getComparisonFunction(orCompare);
+              for (const orRule of rule.OR) {
+                const { actionRule: orActionRule, key: orKey, compare: orCompare, value: orValue } = orRule.if;
+                const orActionQuery = await this.executeAction(orActionRule, parsedContext);
+                const orComparisonFunction = this.getComparisonFunction(orCompare);
 
-              if (orComparisonFunction(orActionQuery, orValue)) {
-                orConditionSatisfied = true;
+                if (orComparisonFunction(orActionQuery, orValue)) {
+                  orConditionSatisfied = true;
+                }
+                thenConditionSatisfied = orConditionSatisfied;
+                if (thenConditionSatisfied) {
+                  if (orRule.then) {
+                    const thenActions = orRule.then;
+                    for (const actionKey in thenActions) {
+                      if (thenActions.hasOwnProperty(actionKey)) {
+                        const thenAction = thenActions[actionKey];
+                        if (thenAction.actionRule) {
+                          const thenActionResult = await this.executeAction(
+                            thenAction.actionRule,
+                            context
+                          );
+                          results[actionRule] = thenActionResult;
+                          actionModel[actionKey] = thenActionResult;
+                        }
+                      }
+                    }
+                  }
+                }
               }
 
-              thenConditionSatisfied = orConditionSatisfied;
             }
+
+            // Check if there is an AND condition
             if (rule.AND) {
               let andConditionSatisfied = true;
 
-              const { actionRule: andActionRule, key: andKey, compare: andCompare, value: andValue } = rule.AND.if;
-              const andActionQuery = await this.executeAction(andActionRule, parsedContext);
-              const andComparisonFunction = this.getComparisonFunction(andCompare);
+              for (const andRule of rule.AND) {
+                const { actionRule: andActionRule, key: andKey, compare: andCompare, value: andValue } = andRule.if;
+                const andActionQuery = await this.executeAction(andActionRule, parsedContext);
+                const andComparisonFunction = this.getComparisonFunction(andCompare);
 
-              if (!andComparisonFunction(andActionQuery, andValue)) {
-                andConditionSatisfied = false;
+                if (!andComparisonFunction(andActionQuery, andValue)) {
+                  andConditionSatisfied = false;
+                }
+                thenConditionSatisfied = thenConditionSatisfied && andConditionSatisfied;
+                if (thenConditionSatisfied) {
+                  if (andRule.then) {
+                    const thenActions = andRule.then;
+                    for (const actionKey in thenActions) {
+                      if (thenActions.hasOwnProperty(actionKey)) {
+                        const thenAction = thenActions[actionKey];
+                        if (thenAction.actionRule) {
+                          const thenActionResult = await this.executeAction(
+                            thenAction.actionRule,
+                            context
+                          );
+                          results[actionRule] = thenActionResult;
+                          actionModel[actionKey] = thenActionResult;
+                        }
+                      }
+                    }
+                  }
+                }
               }
 
-              thenConditionSatisfied = thenConditionSatisfied && andConditionSatisfied;
             }
-            if (thenConditionSatisfied) {
-              if (rule.then) {
-                const thenActions = rule.then;
-                for (const actionKey in thenActions) {
-                  if (thenActions.hasOwnProperty(actionKey)) {
-                    const thenAction = thenActions[actionKey];
-                    if (thenAction.actionRule) {
-                      const thenActionResult = await this.executeAction(
-                        thenAction.actionRule,
-                        context
-                      );
-                      results[actionRule] = thenActionResult;
-                      actionModel[actionKey] = thenActionResult;
-                    }
+
+            if (rule.then) {
+              const thenActions = rule.then;
+              for (const actionKey in thenActions) {
+                if (thenActions.hasOwnProperty(actionKey)) {
+                  const thenAction = thenActions[actionKey];
+                  if (thenAction.actionRule) {
+                    const thenActionResult = await this.executeAction(
+                      thenAction.actionRule,
+                      context
+                    );
+                    results[actionRule] = thenActionResult;
+                    actionModel[actionKey] = thenActionResult;
                   }
                 }
               }
             }
           }
+          // Always apply the 'then' actions of the main condition
+
         } catch (error) {
           console.error(`Error while processing action rule: ${JSON.stringify(rule)}`, error);
         }
@@ -215,6 +279,7 @@ export class ExecuteActionRuleComponent  {
     this.actionModel = JSON.stringify(actionModel);
     return results;
   }
+
 
 
   getComparisonFunction(operator: string): (left: any, right: any) => boolean {
@@ -231,7 +296,7 @@ export class ExecuteActionRuleComponent  {
       case '>=':
         return (left, right) => {
           let columnValue = left.split(/([\s><=]+)/);
-          return parseFloat(columnValue[columnValue.length -1]) >= parseFloat(right);
+          return parseFloat(columnValue[columnValue.length - 1]) >= parseFloat(right);
         };
       case '<=':
         return (left, right) => {
@@ -248,7 +313,132 @@ export class ExecuteActionRuleComponent  {
     }
   }
 
+  // Rules Form
 
+  ruleForm: FormGroup;
+  ngOnInit() {
+    this.ruleForm = this.fb.group({
+      actionRules: this.fb.array([])
+    });
+    this.addRule(); // Add first rule
+  }
+  actionRulesControl(): FormArray {
+    return this.ruleForm.get('actionRules') as FormArray;
+  }
 
+  get actionRules() {
+    return this.ruleForm.get('actionRules') as FormArray;
+  }
 
+  addIfThenActions(ifIndex: number): FormArray {
+    return this.actionRulesControl()
+      .at(ifIndex)
+      .get('then') as FormArray;
+  }
+  createRuleGroup(rule?: any): FormGroup {
+    return this.fb.group({
+      if: this.fb.group({
+        actionRule: ['', Validators.required],
+        key: ['', Validators.required],
+        compare: ['', Validators.required],
+        value: ['', Validators.required]
+      }),
+      then: this.fb.array([]),
+      OR: this.fb.array([]),
+      AND: this.fb.array([])
+    });
+  }
+  createThenAction(): FormGroup {
+    return this.fb.group({
+      actionRule: ['', Validators.required],
+      key: ['', Validators.required],
+      // Add other form controls for your "then" action properties here
+    });
+  }
+  addRule() {
+    this.actionRules.push(this.createRuleGroup());
+  }
+
+  removeRule(index: number) {
+    this.actionRules.removeAt(index);
+  }
+
+  addIfThenAction(index: number) {
+    this.addIfThenActions(index).push(this.createThenAction());
+  }
+
+  removeIfThenAction(index: number) {
+    this.addIfThenActions(index).removeAt(index);
+  }
+  removeIfThen(index: number) {
+    this.actionRulesControl().removeAt(index);
+  }
+  removeThenAction(parentIndex: number, index: number) {
+    this.addIfThenActions(parentIndex).removeAt(index);
+  }
+
+  addORCondition(ruleGroup: FormGroup) {
+    const orConditions = ruleGroup.get('OR') as FormArray;
+    orConditions.push(this.createRuleGroup());
+  }
+
+  removeORCondition(ruleGroup: FormGroup, index: number) {
+    const orConditions = ruleGroup.get('OR') as FormArray;
+    orConditions.removeAt(index);
+  }
+
+  addANDCondition(ruleGroup: FormGroup) {
+    const andConditions = ruleGroup.get('AND') as FormArray;
+    andConditions.push(this.createRuleGroup());
+  }
+
+  // AND condition
+  createAndCondition(): FormGroup {
+    return this.fb.group({
+      if: this.fb.group({
+        actionRule: ['', Validators.required],
+        key: ['', Validators.required],
+        compare: ['', Validators.required],
+        value: ['', Validators.required]
+      }),
+      then: this.fb.array([]),
+      OR: this.fb.array([]),
+      AND: this.fb.array([])
+    });
+  }
+
+  addIfAndAction(ruleIndex: number) {
+    this.addIfAndActions(ruleIndex).push(this.createAndCondition());
+  }
+
+  addIfAndActions(ifIndex: number): FormArray {
+    return this.actionRulesControl()
+      .at(ifIndex)
+      .get('AND') as FormArray;
+  }
+
+  removeIfAndAction(parentIndex: number, index: number) {
+    this.addIfAndActions(parentIndex).removeAt(index);
+  }
+
+  addThenActions(ruleIndex: number, andIndex: number): FormArray {
+    const andConditions = this.addIfAndActions(ruleIndex);
+    const andCondition = andConditions.at(andIndex) as FormGroup;
+    return andCondition.get('then') as FormArray;
+  }
+
+  removeANDCondition(ruleIndex: number, andIndex: number): void {
+    const andConditions = this.addIfAndActions(ruleIndex);
+    andConditions.removeAt(andIndex);
+  }
+
+  addThenAction(ruleIndex: number, andIndex: number): void {
+    const thenActions = this.addThenActions(ruleIndex, andIndex);
+    thenActions.push(this.createThenAction());
+  }
+
+  removeAndThenAction(ruleIndex: number, andIndex: number, thenIndex: number): void {
+    const thenActions = this.addThenActions(ruleIndex, andIndex);
+    thenActions.removeAt(thenIndex);
+  }
 }

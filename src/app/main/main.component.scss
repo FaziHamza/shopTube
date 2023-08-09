@@ -58,3 +58,6 @@ nz-badge {
 //         width: 100%;
 //     }
 // }
+:host ::ng-deep .ant-modal-footer {
+    display: none !important;
+}

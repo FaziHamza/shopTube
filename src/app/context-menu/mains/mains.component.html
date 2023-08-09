@@ -523,7 +523,7 @@
         </div>
     </ng-template>
     <ng-template #hThree>
-        <st-menu-controll *ngIf="item.type == 'menu' ; else hFour"></st-menu-controll>
+        <st-menu-controll class="desktop-toggle" *ngIf="item.type == 'menu' ; else hFour"></st-menu-controll>
     </ng-template>
     <ng-template #hFour>
         <st-google-map *ngIf="item.type == 'map'"></st-google-map>

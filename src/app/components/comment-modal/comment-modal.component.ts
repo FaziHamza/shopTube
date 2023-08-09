@@ -16,8 +16,9 @@ import { ApplicationService } from 'src/app/services/application.service';
 export class CommentModalComponent implements OnInit {
   @Input() data: any = {};
   @Input() screenName: any;
+  @Input() update: any;
   form: FormGroup;
-  newComment : any = '';
+  newComment: any = '';
   requestSubscription: Subscription;
   currentUser: any;
   constructor(
@@ -31,14 +32,23 @@ export class CommentModalComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    debugger
     this.currentUser = JSON.parse(localStorage.getItem('user')!);
+    this.update;
     this.create();
+    if (this.update) {
+      this.form.patchValue({
+        comment: this.update.comment,
+        status: this.update.status
+      });
+    }
   }
   readonly #modal = inject(NzModalRef);
   // create form
   create() {
     this.form = this.formBuilder.group({
       comment: ['', Validators.required],
+      status: ['', Validators.required],
       // refLink: ['',],
       // messageHeader: ['',],
       // message: ['',],
@@ -67,6 +77,7 @@ export class CommentModalComponent implements OnInit {
         // type: this.data.type,
         comment: this.form.value.comment,
         dateTime: new Date(),
+        status: this.form.value.status,
         // refLink: this.form.value.refLink,
         // messageHeader: this.form.value.messageHeader,
         // message: this.form.value.message,
@@ -76,23 +87,40 @@ export class CommentModalComponent implements OnInit {
       const userCommentModel = {
         "UserComment": commentObj
       }
-      // Saving UserComment
-      this.requestSubscription = this.applicationService.addNestCommonAPI('cp', userCommentModel).subscribe({
-        next: (res: any) => {
-          if (res.isSuccess) {
-            debugger
-            this.newComment = res.data
-            this.toastr.success(`UserComment : ${res.message}`, { nzDuration: 3000 });
-            this.getCommentsData();
+      if (!this.update) {
+        // Saving UserComment
+        this.requestSubscription = this.applicationService.addNestCommonAPI('cp', userCommentModel).subscribe({
+          next: (res: any) => {
+            if (res.isSuccess) {
+              debugger
+              this.newComment = res.data
+              this.toastr.success(`UserComment : ${res.message}`, { nzDuration: 3000 });
+              this.getCommentsData();
+            } else this.toastr.error(`UserComment : ${res.message}`, { nzDuration: 3000 });
+          },
+          error: (err) => {
+            // console.error(err); // Log the error to the console
+            this.toastr.error("UserComment : An error occurred", { nzDuration: 3000 });
+          }
+        });
+      } 
+      else {
+        userCommentModel.UserComment['ObjectID'] = this.update.ObjectID;
+        this.requestSubscription = this.applicationService.updateNestCommonAPI('cp/UserComment', this.update._id, userCommentModel).subscribe({
+          next: (res: any) => {
+            if (res.isSuccess) {
+              debugger
+              this.toastr.success(`UserComment : ${res.message}`, { nzDuration: 3000 });
+              this.getCommentsData();
+            } else this.toastr.error(`UserComment : ${res.message}`, { nzDuration: 3000 });
+          },
+          error: (err) => {
+            // console.error(err); // Log the error to the console
+            this.toastr.error("UserComment : An error occurred", { nzDuration: 3000 });
+          }
+        });
+      }
 
-            // error
-          } else this.toastr.error(`UserComment : ${res.message}`, { nzDuration: 3000 });
-        },
-        error: (err) => {
-          // console.error(err); // Log the error to the console
-          this.toastr.error("UserComment : An error occurred", { nzDuration: 3000 });
-        }
-      });
     }
   }
 
