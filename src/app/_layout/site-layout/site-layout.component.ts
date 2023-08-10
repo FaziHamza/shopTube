@@ -171,7 +171,7 @@ export class SiteLayoutComponent implements OnInit {
                 this.selectedTheme = selectedTheme;
                 this.selectedTheme.allMenuItems = getMenu;
                 this.menuItems = getMenu;
-                if(selectedTheme?.layout == 'horizental'){
+                if (selectedTheme?.layout == 'horizental') {
                   this.makeMenuData();
                 }
               } if (this.currentWebsiteLayout == 'website') {
@@ -376,13 +376,18 @@ export class SiteLayoutComponent implements OnInit {
       }
     });
   }
+  getUsers() {
+    this.requestSubscription = this.applicationService.getNestCommonAPI('cp/Users').subscribe({
+      next: (res: any) => {
+        if (res.data.length > 0) {
 
-  callMenus(api?: any) {
-    let moduleRouting = api.moduleId ? api.moduleId : api.name.replace(/\s+/g, '-');
-    this.router.navigate(['/pages', this.dataSharedService.selectApplication, moduleRouting]);
+        }
+      },
+      error: (err) => {
+        console.error(err); // Log the error to the console
+        this.toastr.error(`UserComment : An error occurred`, { nzDuration: 3000 });
+      }
+    });
   }
-
-
-
 }
 

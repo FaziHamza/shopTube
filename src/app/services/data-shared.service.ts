@@ -43,6 +43,8 @@ export class DataSharedService {
   selectApplication : any = '';
   headerLogo : any = '';
   applicationDefaultScreen : any = '';
+  usersData:any = [];
+
   constructor() { }
 
   setData(data: any) {
