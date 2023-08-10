@@ -968,7 +968,7 @@ a.fc-event:hover {
       .ant-select-show-search.ant-select:not(.ant-select-customize-input) .ant-select-selector {
         background: #f9fafb;
         border: none;
-        padding-top: 19px;
+        padding-top: 18px;
       }
     }
 
@@ -2939,9 +2939,9 @@ object {
     padding-left: 40px;
     padding-right: 40px;
 
-    .ant-menu-item {
-      margin-left: 20px !important;
-    }
+    // .ant-menu-item {
+    //   margin-left: 20px !important;
+    // }
   }
 
   .content-body.w-full {
@@ -3916,65 +3916,299 @@ object {
 
 }
 
-.comment-drawer {
-  .ant-drawer-body {
-    padding: 0px;
+
+
+
+.drawer-body {
+  .ant-drawer-header-title {
+    flex-direction: row-reverse !important;
   }
 
-  .ant-drawer-header {
-    display: none;
-  }
-
-  .drawer-body {
-    .ant-drawer-header-title {
-      flex-direction: row-reverse !important;
+  .drawer-coll-body {
+    .ant-collapse-header {
+      background: #fff !important;
+      border-radius: 4px 4px 0 0 !important;
     }
 
-    .drawer-coll-body {
-      .ant-collapse-header {
-        background: #fff !important;
-        border-radius: 4px 4px 0 0 !important;
+    margin-bottom: 12px;
+
+    .color-pickers {
+      display: flex;
+      justify-content: space-evenly;
+      flex-wrap: wrap;
+
+      .collm {
+        height: 40px;
+        width: 25%;
+        padding: 5px 10px;
+        border: 0.5px solid #DBDBDB;
       }
 
-      margin-bottom: 12px;
-
-      .color-pickers {
+      .lable {
+        background: #F5F5F5;
         display: flex;
-        justify-content: space-evenly;
-        flex-wrap: wrap;
+        justify-content: flex-end;
+        align-items: center;
+        color: #0F172A;
+        text-align: right;
 
-        .collm {
-          height: 40px;
-          width: 25%;
-          padding: 5px 10px;
-          border: 0.5px solid #DBDBDB;
-        }
+        font-size: 14px;
+        font-style: normal;
+        margin-bottom: 0px;
+        font-weight: 500;
+        line-height: 125%;
+        letter-spacing: -0.346px;
+      }
 
-        .lable {
-          background: #F5F5F5;
+      .option {
+        display: flex;
+        align-items: center;
+
+        .box {
+          border-radius: 4px;
           display: flex;
-          justify-content: flex-end;
           align-items: center;
-          color: #0F172A;
-          text-align: right;
+          width: 100%;
 
-          font-size: 14px;
+          span {
+            color: #73757A;
+            text-align: center;
+
+            font-size: 13px;
+            padding-left: 10px;
+            font-style: normal;
+            font-weight: 400;
+            line-height: normal;
+          }
+
+          .input-text {
+            width: 100%;
+            outline: 2px solid transparent !important;
+            box-shadow: none !important;
+            padding: 0px 5px;
+          }
+
+          .ant-select-selector {
+            outline: 2px solid transparent !important;
+            box-shadow: none !important;
+            border: none;
+          }
+
+          .input-color {
+            height: 26px;
+            width: 25px;
+            border: none !important;
+            border-radius: 4px;
+          }
+        }
+      }
+    }
+
+
+    .options-list2 {
+      display: flex;
+      flex-direction: row;
+      flex-wrap: wrap;
+      margin: 10px 10px !important;
+      justify-content: space-between;
+
+      .option2 {
+        border-radius: 4px;
+        background: #FFF;
+        box-shadow: 0px 0px 25px 0px rgba(0, 0, 0, 0.07);
+        width: 24%;
+        padding: 5px 5px 10px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+
+        span {
+          color: #0F172A;
+
+          font-size: 15px;
           font-style: normal;
-          margin-bottom: 0px;
           font-weight: 500;
           line-height: 125%;
+          /* 18.75px */
           letter-spacing: -0.346px;
         }
 
+        .banner {
+          margin-bottom: 6px;
+          width: 100%;
+          height: 160px;
+          border-radius: 4px;
+          overflow: hidden;
+
+          img {
+            object-fit: cover;
+            height: 100%;
+            width: 100%;
+
+          }
+        }
+      }
+
+      .blank-option {
+        width: 24%;
+      }
+    }
+
+    .ant-collapse {
+      border-radius: 4px !important;
+      overflow: hidden;
+    }
+
+    .ant-collapse-content>.ant-collapse-content-box {
+      padding: 0px;
+    }
+
+    .coll-header {
+      display: flex;
+      justify-content: space-between;
+      width: 100%;
+
+      h6 {
+        color: #0F172A;
+        font-size: 14px;
+        font-style: normal;
+        font-weight: 500;
+      }
+
+      .nav-link {
+        padding: 5px 10px;
+        color: $main;
+        font-weight: 500;
+        font-size: 12px;
+      }
+    }
+
+    .coll-bottom {
+      height: 42px;
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      padding: 5px 20px;
+
+      .ant-btn {
+        height: 26px;
+        font-weight: 500;
+        margin-left: 10px;
+        font-size: 12px;
+      }
+
+      .ant-btn-primary {
+        background: $main;
+        border-radius: 4px;
+      }
+
+      .btn-secondary {
+        border-radius: 4px;
+        border: 1px solid #DBDBDB;
+        background: #DBDBDB;
+      }
+    }
+  }
+
+
+  .ant-drawer-body {
+    padding-left: 0px;
+    padding-right: 0px;
+    padding: 10px 0px;
+    background: #F8FAFC;
+
+    .ant-tabs-nav {
+      background: white;
+      padding: 0px 20px;
+      margin-bottom: 2px !important;
+
+      .ant-tabs-tab-btn {
+        color: #73757A;
+        text-align: center;
+        font-size: 14px;
+        font-family: 'Inter', sans-serif !important;
+        font-style: normal;
+        font-weight: 500;
+      }
+
+      .ant-tabs-tab-active {
+        .ant-tabs-tab-btn {
+          color: $main;
+        }
+      }
+
+    }
+
+    .card-header {
+      height: 50px;
+      padding: 13px 20px;
+      background: white;
+      color: #0F172A;
+      font-size: 15px;
+      font-style: normal;
+      font-weight: 500;
+      line-height: 125%;
+      letter-spacing: -0.346px;
+      margin-bottom: 12px !important;
+      border-radius: 0 0 8px 8px;
+    }
+
+    .color-picker-section {
+      padding: 15px 20px 0px;
+
+      h3 {
+        color: #0F172A;
+
+        font-size: 15px;
+        font-style: normal;
+        font-weight: 500;
+        line-height: 125%;
+        /* 18.75px */
+        letter-spacing: -0.346px;
+      }
+
+      h6 {
+        color: #73757A;
+
+        font-size: 12px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: normal;
+      }
+
+      .options-list {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        margin: 10px -5px 0px -5px !important;
+
         .option {
-          display: flex;
-          align-items: center;
+          width: 20%;
+          padding: 0px 5px;
+
+          p {
+            color: #0F172A;
+
+            font-size: 12px;
+            font-style: normal;
+            font-weight: 400;
+            margin-bottom: 4px;
+            line-height: normal;
+          }
 
           .box {
+            width: 100%;
+            height: 35px;
+            flex-shrink: 0;
+            padding: 3px;
             border-radius: 4px;
+            background: #FFF;
+            box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.05);
             display: flex;
             align-items: center;
-            width: 100%;
+            margin-bottom: 15px;
 
             span {
               color: #73757A;
@@ -4010,20 +4244,15 @@ object {
         }
       }
 
-
       .options-list2 {
         display: flex;
         flex-direction: row;
         flex-wrap: wrap;
-        margin: 10px 10px !important;
-        justify-content: space-between;
+        margin: 10px -10px 0px -10px !important;
 
         .option2 {
-          border-radius: 4px;
-          background: #FFF;
-          box-shadow: 0px 0px 25px 0px rgba(0, 0, 0, 0.07);
-          width: 24%;
-          padding: 5px 5px 10px;
+          width: 25%;
+          padding: 0px 10px;
           display: flex;
           flex-direction: column;
           justify-content: center;
@@ -4055,279 +4284,44 @@ object {
             }
           }
         }
-
-        .blank-option {
-          width: 24%;
-        }
       }
 
-      .ant-collapse {
-        border-radius: 4px !important;
-        overflow: hidden;
-      }
 
-      .ant-collapse-content>.ant-collapse-content-box {
-        padding: 0px;
-      }
-
-      .coll-header {
-        display: flex;
-        justify-content: space-between;
-        width: 100%;
-
-        h6 {
-          color: #0F172A;
-          font-size: 14px;
-          font-style: normal;
-          font-weight: 500;
-        }
-
-        .nav-link {
-          padding: 5px 10px;
-          color: $main;
-          font-weight: 500;
-          font-size: 12px;
-        }
-      }
-
-      .coll-bottom {
-        height: 42px;
-        width: 100%;
-        display: flex;
-        align-items: center;
-        justify-content: flex-end;
-        padding: 5px 20px;
-
-        .ant-btn {
-          height: 26px;
-          font-weight: 500;
-          margin-left: 10px;
-          font-size: 12px;
-        }
-
-        .ant-btn-primary {
-          background: $main;
-          border-radius: 4px;
-        }
-
-        .btn-secondary {
-          border-radius: 4px;
-          border: 1px solid #DBDBDB;
-          background: #DBDBDB;
-        }
-      }
     }
 
+    .drawer-bottom {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      padding: 20px;
 
-    .ant-drawer-body {
-      padding-left: 0px;
-      padding-right: 0px;
-      padding: 10px 0px;
-      background: #F8FAFC;
-
-      .ant-tabs-nav {
-        background: white;
-        padding: 0px 20px;
-        margin-bottom: 2px !important;
-
-        .ant-tabs-tab-btn {
-          color: #73757A;
-          text-align: center;
-          font-size: 14px;
-          font-family: 'Inter', sans-serif !important;
-          font-style: normal;
-          font-weight: 500;
-        }
-
-        .ant-tabs-tab-active {
-          .ant-tabs-tab-btn {
-            color: $main;
-          }
-        }
-
-      }
-
-      .card-header {
-        height: 50px;
-        padding: 13px 20px;
-        background: white;
-        color: #0F172A;
-        font-size: 15px;
-        font-style: normal;
+      .ant-btn {
+        height: 26px;
         font-weight: 500;
-        line-height: 125%;
-        letter-spacing: -0.346px;
-        margin-bottom: 12px !important;
-        border-radius: 0 0 8px 8px;
+        margin-left: 10px;
+        font-size: 12px;
       }
 
-      .color-picker-section {
-        padding: 15px 20px 0px;
-
-        h3 {
-          color: #0F172A;
-
-          font-size: 15px;
-          font-style: normal;
-          font-weight: 500;
-          line-height: 125%;
-          /* 18.75px */
-          letter-spacing: -0.346px;
-        }
-
-        h6 {
-          color: #73757A;
-
-          font-size: 12px;
-          font-style: normal;
-          font-weight: 400;
-          line-height: normal;
-        }
-
-        .options-list {
-          display: flex;
-          flex-direction: row;
-          flex-wrap: wrap;
-          margin: 10px -5px 0px -5px !important;
-
-          .option {
-            width: 20%;
-            padding: 0px 5px;
-
-            p {
-              color: #0F172A;
-
-              font-size: 12px;
-              font-style: normal;
-              font-weight: 400;
-              margin-bottom: 4px;
-              line-height: normal;
-            }
-
-            .box {
-              width: 100%;
-              height: 35px;
-              flex-shrink: 0;
-              padding: 3px;
-              border-radius: 4px;
-              background: #FFF;
-              box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.05);
-              display: flex;
-              align-items: center;
-              margin-bottom: 15px;
-
-              span {
-                color: #73757A;
-                text-align: center;
-
-                font-size: 13px;
-                padding-left: 10px;
-                font-style: normal;
-                font-weight: 400;
-                line-height: normal;
-              }
-
-              .input-text {
-                width: 100%;
-                outline: 2px solid transparent !important;
-                box-shadow: none !important;
-                padding: 0px 5px;
-              }
-
-              .ant-select-selector {
-                outline: 2px solid transparent !important;
-                box-shadow: none !important;
-                border: none;
-              }
-
-              .input-color {
-                height: 26px;
-                width: 25px;
-                border: none !important;
-                border-radius: 4px;
-              }
-            }
-          }
-        }
-
-        .options-list2 {
-          display: flex;
-          flex-direction: row;
-          flex-wrap: wrap;
-          margin: 10px -10px 0px -10px !important;
-
-          .option2 {
-            width: 25%;
-            padding: 0px 10px;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-
-            span {
-              color: #0F172A;
-
-              font-size: 15px;
-              font-style: normal;
-              font-weight: 500;
-              line-height: 125%;
-              /* 18.75px */
-              letter-spacing: -0.346px;
-            }
-
-            .banner {
-              margin-bottom: 6px;
-              width: 100%;
-              height: 160px;
-              border-radius: 4px;
-              overflow: hidden;
-
-              img {
-                object-fit: cover;
-                height: 100%;
-                width: 100%;
-
-              }
-            }
-          }
-        }
-
-
+      .ant-btn-primary {
+        background: $main;
+        border-radius: 4px;
       }
 
-      .drawer-bottom {
-        width: 100%;
-        display: flex;
-        align-items: center;
-        padding: 20px;
-
-        .ant-btn {
-          height: 26px;
-          font-weight: 500;
-          margin-left: 10px;
-          font-size: 12px;
-        }
-
-        .ant-btn-primary {
-          background: $main;
-          border-radius: 4px;
-        }
-
-        .btn-secondary {
-          border-radius: 4px;
-          border: 1px solid #DBDBDB;
-          background: #DBDBDB;
-        }
-      }
-
-      .ant-tabs-nav::before {
-        border-bottom: none !important;
+      .btn-secondary {
+        border-radius: 4px;
+        border: 1px solid #DBDBDB;
+        background: #DBDBDB;
       }
     }
 
-
+    .ant-tabs-nav::before {
+      border-bottom: none !important;
+    }
   }
+
+
 }
+
 
 
 .ant-table-content {
@@ -5297,12 +5291,12 @@ td .editable-cell {
   }
 }
 
-.sidenav-title {
-  white-space: nowrap;
-  width: 80%;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
+// .sidenav-title {
+//   white-space: nowrap;
+//   width: 80%;
+//   overflow: hidden;
+//   text-overflow: ellipsis;
+// }
 
 .layout {
   padding: 300px;
@@ -5385,7 +5379,7 @@ td .editable-cell {
 }
 
 .b-comment:hover {
-  width: 250px;
+  // width: 250px;
   padding: 10px;
 
   .user-detail {
@@ -5413,9 +5407,10 @@ td .editable-cell {
 .comments-chat {
   width: 100%;
   height: 100%;
-  background: #2C2C2C;
+  max-width: 700px;
+  background: #f5f5f5;
   padding: 10px 15px;
-  color: white;
+  color: #000;
 
   .c-header {
     height: 35px;
@@ -5425,26 +5420,38 @@ td .editable-cell {
     align-items: center;
     border-bottom: 1px solid #cccccc77;
 
-    .arrows {
-      a {
-        text-decoration: none;
-        color: #ccc;
-        margin-right: 15px;
+    .status-options {
+      display: flex;
+      align-items: center;
 
-        i {
-          color: #ccc;
+      .assign {
+        display: flex;
+        margin-right: 20px;
+        align-items: center;
+
+        label {
+          margin-right: 5px;
+        }
+
+        input,
+        select {
+          padding: 0px 5px;
+          background: transparent;
+          border: none;
+          outline: none;
         }
       }
     }
 
+
     .actions {
       a {
         text-decoration: none;
-        color: #ccc;
+        color: #000;
         margin-left: 15px;
 
         i {
-          color: #ccc;
+          color: #000;
         }
       }
     }
@@ -5461,7 +5468,7 @@ td .editable-cell {
 
   .c-body::-webkit-scrollbar-thumb {
     border-radius: 100px;
-    background: #ccc;
+    background: #000;
   }
 
   .c-body {
@@ -5502,7 +5509,7 @@ td .editable-cell {
           justify-content: space-between;
 
           i {
-            color: #ccc;
+            color: #000;
             font-size: 14px;
             opacity: 0;
           }
@@ -5520,21 +5527,21 @@ td .editable-cell {
         h6 {
           font-size: 14px;
           font-weight: 600;
-          color: white;
+          color: black;
           margin-bottom: 5px;
           display: flex;
           align-items: center;
 
           span {
             font-size: 12px;
-            color: #ccc;
+            color: #000;
             margin-left: 5px;
           }
         }
 
         p {
           font-size: 14px;
-          color: white;
+          color: black;
           margin-bottom: 5px;
         }
       }
@@ -5574,17 +5581,17 @@ td .editable-cell {
           border: none;
           outline: 2px solid transparent !important;
           box-shadow: none !important;
-          color: white;
+          color: black;
           height: 40px;
           border-radius: 5px;
-          background-color: #cccccc2a;
+          background-color: #e0e0e0;
         }
 
         .send {
           height: 25px;
           width: 25px;
           border-radius: 100px;
-          background: #cccccc69;
+          background: rgb(223, 221, 221);
           position: absolute;
           top: 7px;
           right: 7px;
@@ -5609,10 +5616,10 @@ td .editable-cell {
         border: none;
         outline: 2px solid transparent !important;
         box-shadow: none !important;
-        color: white;
+        color: black;
         height: 40px;
         border-radius: 5px;
-        background-color: #cccccc2a;
+        background-color: #e0e0e0;
         padding: 0px 5px;
 
         option {
@@ -5650,4 +5657,113 @@ li.ant-cascader-menu-item:nth-child(1):hover {
 
 .ant-menu-submenu:hover>.ant-menu-submenu-title>.ant-menu-submenu-arrow {
   color: rgba(0, 0, 0, .85) !important;
+}
+
+.comment-drawer {
+  .ant-drawer-body {
+    padding: 0px;
+  }
+
+  .ant-drawer-header {
+    display: none;
+  }
+}
+
+.dynamic-menu {
+  .ant-menu-inline-collapsed {
+    .menu-title {
+      display: none !important;
+    }
+  }
+
+  .tow-colmn-sidebar {
+    .ant-menu-inline-collapsed {
+      .menu-item-icon {
+        padding-top: 20%;
+      }
+    }
+  }
+}
+// .dynamic-menu {
+//   .ant-menu-inline-collapsed {
+
+    
+//     .nav-item {      
+//       .menu-item-icon {
+//         padding-top: 20% !important;
+        
+//       }
+//     }
+//   }
+// }
+
+
+
+.sidenav-title {
+  margin-left: 8px;
+}
+
+.floating_outlined {
+  .masking {
+    .ant-input-group .ant-input {
+      height: 51px !important;
+      border-radius: 0px;
+    }
+  }
+}
+
+.floating_standard {
+  nz-checkbox-wrapper {
+    height: 42px;
+  }
+
+  nz-input-number {
+    height: 2.6rem;
+  }
+
+  nz-radio-group {
+    height: 2.6rem;
+  }
+
+  .masking {
+    .ant-input-group .ant-input {
+      height: 5.7vh;
+    }
+  }
+  formly-field-image-upload{
+    .ant-input-group .ant-input {
+      height: 5.7vh;
+    }
+  }
+}
+.floating_filled{
+  nz-checkbox-wrapper {
+    height: 52px;
+  }
+
+  nz-input-number {
+    height: 3.2rem
+  }
+
+  nz-radio-group {
+    height: 3.2rem;
+  }
+
+  .masking {
+    .ant-input-group .ant-input {
+      padding-top: 22px;
+    }
+  }
+  formly-field-image-upload{
+    .ant-input-group .ant-input {
+      padding-bottom: 6px;
+    }
+  }
+}
+.ant-menu-vertical {
+  .layout-tabs-drop-down-submenu{
+    .ant-menu-submenu-vertical:hover i{
+      color: #fff !important;
+    }
+  }
 }

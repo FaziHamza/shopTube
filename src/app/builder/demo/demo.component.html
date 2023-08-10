@@ -1,75 +1,106 @@
-
 <div class="comments-chat">
-  <div class="c-header">
-      <div class="arrows">
-          <a href="">
-              <i class="fa-regular fa-angle-left"></i>
-          </a>
-          <a href="">
-              <i class="fa-regular fa-angle-right"></i>
-          </a>
-      </div>
-      <div class="actions">
-          <a href="">
-              <i class="fa-solid fa-ellipsis"></i>
-          </a>
-          <a href="">
-              <i class="fa-regular fa-circle-check"></i>
-          </a>
-          <a href="">
-              <i class="fa-regular fa-arrow-up-right-from-square"></i>
-          </a>
-          <a href="">
-              <i class="fa-regular fa-xmark"></i>
-          </a>
-      </div>
-  </div>
-  <div class="c-body">
-      <div class="comment-box">
-          <div class="profile">
-              <img src="assets/images/user.jfif" alt="">
-          </div>
-          <div class="comment">
-              <h6>
-                  Haider Adrees <span>2 mo.ago</span>
-              </h6>
-              <p>Lorem ipsum dolor, sit amet cons ecte tur adipisi cing elit.</p>
-          </div>
-      </div>
-      <div class="comment-box">
-          <div class="profile">
-              <img src="assets/images/user.jfif" alt="">
-          </div>
-          <div class="comment">
-              <h6>
-                  Haider Adrees <span>2 mo.ago</span>
-              </h6>
-              <p>Lorem ipsum dolor, sit amet cons ecte tur adipisi cing elit.</p>
-          </div>
-      </div>
+    <div class="c-header">
+        <div class="status-options">
+            <div class="assign">
+                <label for="countries" class="block  text-sm font-medium text-gray-900">
+                    Assignee
+                </label>
+                <select id="countries" class=" focus:ring-blue-500 focus:border-blue-500 block ">
+                    <option selected>No Assignee</option>
+                    <option>Name</option>
+                    <option>Name</option>
+                    <option>Name</option>
+                    <option>Name</option>
+                </select>
+            </div>
+            <div class="assign">
+                <label for="countries" class="block  text-sm font-medium text-gray-900">
+                    Due Date
+                </label>
+                <input type="date">
+            </div>
+            <div class="assign">
+                <label for="countries" class="block  text-sm font-medium text-gray-900">
+                    Wave
+                </label>
+                <select id="countries" class=" focus:ring-blue-500 focus:border-blue-500 block ">
+                    <option selected>Bug/Issues</option>
+                    <option>Name</option>
+                    <option>Name</option>
+                    <option>Name</option>
+                    <option>Name</option>
+                </select>
+            </div>
+        </div>
+        <div class="actions">
+            <a href="">
+                <i class="fa-solid fa-ellipsis"></i>
+            </a>
+            <a href="">
+                <i class="fa-regular fa-xmark"></i>
+            </a>
+        </div>
+    </div>
+    <div class="c-body">
+        <div class="timelines-chat">
 
-      <div class="comment-box">
-          <div class="profile">
-              <img src="assets/images/user.jfif" alt="">
-          </div>
-          <div class="comment">
-              <h6>
-                  Haider Adrees <span>2 mo.ago</span>
-              </h6>
-              <p>Lorem ipsum dolor, sit amet cons ecte tur adipisi cing elit.</p>
-          </div>
-      </div>
+            <ol class="relative border-l border-gray-200 dark:border-gray-700">
+                <li class="mb-10 ml-4">
+                    <div
+                        class="absolute w-3 h-3 bg-gray-200 rounded-full mt-0 -left-1.5 border border-white dark:border-gray-900 dark:bg-gray-700">
+                    </div>
+                    <time class="mb-1 text-sm font-normal leading-none text-gray-400 dark:text-gray-500">March
+                        2022</time>
+                    <h3 class="text-lg font-semibold text-gray-900 dark:text-dark">Shakeel</h3>
+                    <p class="text-base font-normal text-gray-500 dark:text-gray-400">All of the pages and components
+                        are first designed in Figma and we keep a parity between the two versions even as we update the
+                        project.</p>
+                </li>
+                <li class="mb-10 ml-4">
+                    <div
+                        class="absolute w-3 h-3 bg-gray-200 rounded-full mt-0 -left-1.5 border border-white dark:border-gray-900 dark:bg-gray-700">
+                    </div>
+                    <time class="mb-1 text-sm font-normal leading-none text-gray-400 dark:text-gray-500">March
+                        2022</time>
+                    <h3 class="text-lg font-semibold text-gray-900 dark:text-dark">Faizan</h3>
+                    <p class="text-base font-normal text-gray-500 dark:text-gray-400">All of the pages and components
+                        are first designed in Figma and we keep a parity between the two versions even as we update the
+                        project.</p>
+                </li>
+                <li class="mb-10 ml-4">
+                    <div
+                        class="absolute w-3 h-3 bg-gray-200 rounded-full mt-0 -left-1.5 border border-white dark:border-gray-900 dark:bg-gray-700">
+                    </div>
+                    <time class="mb-1 text-sm font-normal leading-none text-gray-400 dark:text-gray-500">March
+                        2022</time>
+                    <h3 class="text-lg font-semibold text-gray-900 dark:text-dark">Haider</h3>
+                    <p class="text-base font-normal text-gray-500 dark:text-gray-400">All of the pages and components
+                        are first designed in Figma and we keep a parity between the two versions even as we update the
+                        project.</p>
+                </li>
 
-  </div>
-  <div class="c-footer">
-      <div class="profile">
-          <img src="assets/images/user.jfif" alt="">
-      </div>
-      <div class="comment">
-          <input type="text" class="form-control" placeholder="Reply">
-          <div class="send">
-              <i class="fa-regular fa-arrow-up"></i>
-          </div>
-      </div>
-  </div>
+            </ol>
+
+        </div>
+    </div>
+    <div class="c-footer">
+        <div class="profile">
+            <nz-avatar nzIcon="user" class="mr-2"></nz-avatar>
+        </div>
+        <div class="comment">
+            <div class="input-group2">
+                <input type="text" class="form-control" placeholder="Reply">
+                <div class="send">
+                    <i class="fa-regular fa-arrow-up"></i>
+                </div>
+            </div>
+        </div>
+        <div class="status">
+            <select name="" id="">
+                <option value="">Proceed</option>
+                <option value="">Open</option>
+                <option value="">Resolved</option>
+            </select>
+        </div>
+    </div>
 </div>

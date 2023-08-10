@@ -6,7 +6,7 @@
                 <span *ngIf="item['comment'].length > 0">
                     <div [ngStyle]="{'background' : item['commentBackgroundColor'] ? '#3b82f6' : ''}" class="b-comment">
                         <div (click)="toggleCommentDisplay(item)">
-                            <ng-container *ngIf="item['commentUser'] && item['commentUser'].length > 1">
+                            <!-- <ng-container *ngIf="item['commentUser'] && item['commentUser'].length > 1">
                                 <nz-avatar-group>
                                     <ng-container *ngFor="let user of item['commentUser']; let i = index">
                                         <nz-avatar style="background: #3b82f6;" *ngIf="i < 2"
@@ -15,9 +15,11 @@
                                     <nz-avatar *ngIf="item['commentUser'].length > 2" style="background-color: #3b82f6"
                                         nzText="+{{ item['commentUser'].length - 2 }}"></nz-avatar>
                                 </nz-avatar-group>
-                            </ng-container>
-                            <nz-avatar *ngIf="item['commentUser'] && item['commentUser'].length == 1"
-                                [nzText]="typeFirstAlphabetAsIcon(item['commentUser'][0])"></nz-avatar>
+                            </ng-container> -->
+                            <!-- <nz-avatar [nzText]="typeFirstAlphabetAsIcon(item['commentUser'][0])"></nz-avatar> -->
+                            <div
+                                class="w-4 h-4 rounded-full {{ item['comment'][0]['status'] === 'open' ? 'bg-red-500' : (item['comment'][0]['status'] === 'inprogress' ? 'bg-orange-500' : (item['comment'][0]['status'] === 'completed' ? 'bg-green-500' : 'bg-red-500')) }}">
+                            </div>
                         </div>
                         <!-- <div (click)="toggleCommentDisplay(item)" class="user-detail">
                             <h6>{{item['comment'][0].whoCreated}}</h6>
@@ -100,6 +102,7 @@
                                                 </a>
                                             </div>
                                         </div>
+
                                         <div class="c-body">
                                             <div class="comment-box" *ngFor="let comment of item['comment']">
                                                 <div class="profile">
