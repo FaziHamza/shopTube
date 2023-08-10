@@ -457,7 +457,7 @@ export class MainComponent implements OnInit {
     this.clipboard.copy(data);
     this.toastr.success('Copied to clipboard', { nzDuration: 3000 });
   }
-  issueReport(json: any) {
+  issueReportFun(json: any) {
     const modal = this.modalService.create<CommentModalComponent>({
       nzTitle: 'Issue Report',
       nzContent: CommentModalComponent,
@@ -471,7 +471,15 @@ export class MainComponent implements OnInit {
     });
     modal.afterClose.subscribe((res: any) => {
       if (res) {
-        this.assignComment(this.mainData, res);
+        if (json['issueReport']) {
+          json['issueReport'].push(res);
+
+        } else {
+          json['issueReport'] = [];
+          json['issueReport'].push(res);
+
+        }
+        // this.assignComment(this.mainData, res);
       }
     });
   }
@@ -501,7 +509,7 @@ export class MainComponent implements OnInit {
       }
     }
   }
-  saveComment(data: any, issue: any) {
+  saveComment(data: any, issue: any, issueIndex: any) {
     debugger
     if (!this.commentForm.valid) {
       this.toastr.warning('Please fill this', { nzDuration: 3000 });
@@ -550,7 +558,6 @@ export class MainComponent implements OnInit {
           this.toastr.success(`UserComment: ${res.message}`, { nzDuration: 3000 });
 
           if (this.commentEdit) {
-
             let Newdata: any = data.comment.map((comm: any) => {
               if (comm._id === res.data._id) {
                 return res.data;
@@ -560,14 +567,16 @@ export class MainComponent implements OnInit {
             data.comment = (JSON.parse(JSON.stringify(Newdata)))
           }
           else {
-            const matchedIssueIndex = data['issueReport'].findIndex((a : any) => a.id === issue.id);
-
-            if (matchedIssueIndex !== -1) {
-              res.data['id'] = res.data. _id; 
-              data.issueReport[matchedIssueIndex].children.push(res.data);
+            if (data['issueReport'][issueIndex]['children']) {
+              res.data['id'] = res.data._id;
+              data.issueReport[issueIndex].children.push(res.data);
             } else {
-              console.log("Issue not found in the issueReport array");
+              data['issueReport'][issueIndex]['children'] = [];
+              res.data['id'] = res.data._id;
+              data['issueReport'][issueIndex]['children'].push(res.data);
             }
+
+
           }
           this.commentEdit = false;
         } else {
