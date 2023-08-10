@@ -560,7 +560,14 @@ export class MainComponent implements OnInit {
             data.comment = (JSON.parse(JSON.stringify(Newdata)))
           }
           else {
-            // this.assignComment(this.mainData, res.data);
+            const matchedIssueIndex = data['issueReport'].findIndex((a : any) => a.id === issue.id);
+
+            if (matchedIssueIndex !== -1) {
+              res.data['id'] = res.data. _id; 
+              data.issueReport[matchedIssueIndex].children.push(res.data);
+            } else {
+              console.log("Issue not found in the issueReport array");
+            }
           }
           this.commentEdit = false;
         } else {
