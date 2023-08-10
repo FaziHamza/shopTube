@@ -5308,7 +5308,7 @@ td .editable-cell {
   left: 100px;
   z-index: 99;
   width: fit-content;
-  background: black;
+  // background: black;
   padding: 5px;
   color: white;
   transition: all 0.3s ease-in-out !important;
@@ -5380,7 +5380,7 @@ td .editable-cell {
 
 .b-comment:hover {
   // width: 250px;
-  padding: 10px;
+  // padding: 10px;
 
   .user-detail {
     display: revert;
