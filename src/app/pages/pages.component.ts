@@ -54,11 +54,10 @@ export class PagesComponent implements OnInit {
   @Input() screenId: any;
   requestSubscription: Subscription;
   isPageContextShow = false;
-  form: any = new FormGroup({});
+  @Input() form: any = new FormGroup({});
   actionListData: any[] = [];
   isVisible: boolean = false;
   ngOnInit(): void {
-
     this.requestSubscription = this.dataSharedService.pageSubmit.subscribe({
       next: (res) => {
 

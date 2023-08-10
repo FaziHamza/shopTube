@@ -13,8 +13,8 @@
       <nz-layout
         [class]="'main-layout2' + (selectedTheme?.layout === 'horizental' ? ' b-horizontal-menu' : '') + (selectedTheme.layout == 'rtl' ? ' rtl-layout2' : '')">
         <div *ngIf="!selectedTheme.isCollapsed" class="backdrop"></div>
-        <nz-sider *ngIf="currentWebsiteLayout != 'website' || fullCurrentUrl.includes('/menu-builder')" [class]="'menu-sidebar' + (selectedTheme.layout === 'twoColumn' && selectedTheme['menuChildArrayTwoColumn'].length == 0 ? ' two-column-sider' : '')+ 
-          (selectedTheme.sideBarSize == 'smallIconView' && (selectedTheme.layout == 'vertical' || selectedTheme.layout == 'rtl') ? ' small-icon-view-menu' : '') + (selectedTheme.layout == 'rtl' ? ' mobile-side-menu-rtl' : '') 
+        <nz-sider *ngIf="currentWebsiteLayout != 'website' || fullCurrentUrl.includes('/menu-builder')" [class]="'menu-sidebar' + (selectedTheme.layout === 'twoColumn' && selectedTheme['menuChildArrayTwoColumn'].length == 0 ? ' two-column-sider' : '')+
+          (selectedTheme.sideBarSize == 'smallIconView' && (selectedTheme.layout == 'vertical' || selectedTheme.layout == 'rtl') ? ' small-icon-view-menu' : '') + (selectedTheme.layout == 'rtl' ? ' mobile-side-menu-rtl' : '')
           " nzTheme="light" nzCollapsible nzWidth="240px" nzBreakpoint="md" [(nzCollapsed)]="selectedTheme.isCollapsed"
           [nzTrigger]="null">
           <div class="dynamic-menu desktop-toggle">
@@ -26,8 +26,8 @@
               (notify)="loadTabsAndButtons($event)"></st-app-side-menu>
           </div>
         </nz-sider>
-        <nz-sider *ngIf="currentWebsiteLayout == 'website' && !fullCurrentUrl.includes('/menu-builder')" [class]="'menu-sidebar mobile-toggle' + (selectedTheme.layout === 'twoColumn' && selectedTheme['menuChildArrayTwoColumn'].length == 0 ? ' two-column-sider' : '')+ 
-          (selectedTheme.sideBarSize == 'smallIconView' && (selectedTheme.layout == 'vertical' || selectedTheme.layout == 'rtl') ? ' small-icon-view-menu' : '') + (selectedTheme.layout == 'rtl' ? ' mobile-side-menu-rtl' : '') 
+        <nz-sider *ngIf="currentWebsiteLayout == 'website' && !fullCurrentUrl.includes('/menu-builder')" [class]="'menu-sidebar mobile-toggle' + (selectedTheme.layout === 'twoColumn' && selectedTheme['menuChildArrayTwoColumn'].length == 0 ? ' two-column-sider' : '')+
+          (selectedTheme.sideBarSize == 'smallIconView' && (selectedTheme.layout == 'vertical' || selectedTheme.layout == 'rtl') ? ' small-icon-view-menu' : '') + (selectedTheme.layout == 'rtl' ? ' mobile-side-menu-rtl' : '')
           " nzTheme="light" nzCollapsible nzWidth="240px" nzBreakpoint="md" [(nzCollapsed)]="selectedTheme.isCollapsed"
           [nzTrigger]="null">
           <div *ngIf="!selectedTheme.isCollapsed" class="dynamic-menu mobile-toggle">
@@ -51,6 +51,3 @@
       </nz-layout>
     </nz-layout>
   </div>
-  <!-- <st-layout1 *ngIf="currentWebsiteLayout != 'backend_application'  && !loader" [layout]="currentWebsiteLayout"
-    [currentHeader]="currentHeader" [currentFooter]="currentFooter"></st-layout1>
-</nz-spin> -->

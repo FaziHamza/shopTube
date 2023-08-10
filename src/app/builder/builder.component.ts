@@ -36,6 +36,7 @@ import { NzCascaderOption } from 'ng-zorro-antd/cascader';
 import { E } from '@formulajs/formulajs';
 import { TemplatePopupComponent } from './template-popup/template-popup.component';
 import { MarketPlaceComponent } from './market-place/market-place.component';
+import { FormGroup } from '@angular/forms';
 @Component({
   selector: 'st-builder',
   templateUrl: './builder.component.html',
@@ -99,6 +100,7 @@ export class BuilderComponent implements OnInit {
   formlyTypes: any = [];
   currentUser: any;
   iconActive: string = '';
+  form: any = new FormGroup({});
   constructor(
     public builderService: BuilderService,
     private viewContainerRef: ViewContainerRef,
@@ -142,18 +144,6 @@ export class BuilderComponent implements OnInit {
     document
       .getElementsByTagName('body')[0]
       .setAttribute('data-sidebar-size', 'sm');
-    // if (this.dataSharedService.screenName) {
-    //   // this.dataSharedService.screenName['value'] = this.dataSharedService.screenName.departmentId
-    //   // this.loadData(this.dataSharedService.screenName,0);
-    //   // this.dataSharedService.screenName['value'] = this.dataSharedService.screenName.applicationId
-    //   // this.loadData(this.dataSharedService.screenName,1);
-    //   this.selectDepartmentName = [
-    //     this.dataSharedService.screenName.departmentId,
-    //     this.dataSharedService.screenName.applicationId,
-    //     this.dataSharedService.screenName._id
-    //   ];
-    //   this.getScreenData(this.dataSharedService.screenName._id);
-    // }
     this.htmlTabsData = htmlTabsData;
     this.makeDatainTemplateTab();
     let filterdButtons = this.htmlTabsData[0].children.filter(
@@ -196,8 +186,6 @@ export class BuilderComponent implements OnInit {
     }
   }
   async loadData(node: NzCascaderOption, index: number): Promise<void> {
-    debugger
-    // this.selectDepartmentName;
     if (index == 1 && node.value != 'selectApplication') {
       // Root node - Load application data
       try {
@@ -452,7 +440,6 @@ export class BuilderComponent implements OnInit {
           this.getActions();
           // this.getBuilderScreen();
           this.screenPage = true;
-          debugger
           if (objScreen.name.includes('_header') && this.selectApplicationName) {
             let application = this.applicationData.find((item: any) => item._id == this.selectApplicationName);
             this.dataSharedService.headerLogo = application['image'];
@@ -512,6 +499,7 @@ export class BuilderComponent implements OnInit {
       next: (res: any) => {
         if (res.isSuccess) {
           this.builderScreenData = res.data;
+          this.form = new FormGroup({});
           if (res.data.length > 0) {
             const objScreenData = JSON.parse(res.data[0].screenData);
             this.isSavedDb = true;
@@ -6081,21 +6069,6 @@ export class BuilderComponent implements OnInit {
           }
         }
       });
-    }
-  }
-
-  updateSelectDepartmentName(selectedIndex: number) {
-    if (this.dataSharedService.screenName) {
-      if (selectedIndex === 0) {
-        this.selectDepartmentName = [
-          this.dataSharedService.screenName.departmentId,
-          this.dataSharedService.screenName.applicationId,
-          this.dataSharedService.screenName._id
-        ];
-      } else if (selectedIndex === 1) {
-        // Perform a different operation for index 1, if needed
-      }
-      this.getScreenData(this.dataSharedService.screenName._id);
     }
   }
 
