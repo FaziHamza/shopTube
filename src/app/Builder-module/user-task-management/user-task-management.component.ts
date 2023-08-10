@@ -17,7 +17,15 @@ export class UserTaskManagementComponent implements OnInit {
   applicationData: any = [];
   requestSubscription: Subscription;
   _id: any = "";
-  constructor(private toastr: NzMessageService, private applicationService: ApplicationService) { }
+  constructor(private toastr: NzMessageService, private applicationService: ApplicationService) {
+    this.data.forEach(item => {
+      this.editCache[item.id] = {
+        edit: false,
+        data: { ...item }
+      };
+    });
+  }
+  editCache: { [key: string]: { edit: boolean; data: any } } = {};
 
   ngOnInit(): void {
     this.loadDepartmentData();
@@ -128,59 +136,30 @@ export class UserTaskManagementComponent implements OnInit {
     //   }
     // });
   }
-  listOfColumns: any[] = [
-    {
-      name: 'Id',
-      sortOrder: null,
-      // sortFn: (a: DataItem, b: DataItem) => a.age - b.age,
-      listOfFilter: [],
-      filterFn: null
-    },
-    {
-      name: 'Report Issue',
-      width: "40px",
-      sortOrder: null,
-      // sortFn: (a: DataItem, b: DataItem) => a.message - b.message,
-      listOfFilter: [],
-      filterFn: null
-    },
-
-    {
-      name: '',
-      width: "40px",
-      sortOrder: null,
-      // sortFn: (a: DataItem, b: DataItem) => a.age - b.age,
-      listOfFilter: [],
-      filterFn: null
-    },
-
-
+  data: any[] = [
+    { id: 1, issue: 'Issue 1', status: 'open' },
+    { id: 2, issue: 'Issue 2', status: 'progress' },
+    { id: 3, issue: 'Issue 3', status: 'complete' },
+    { id: 4, issue: 'Issue 4', status: 'inprogress' },
+    { id: 5, issue: 'Issue 5', status: 'close' },
   ];
-  trackByName(_: number, item: any): string {
-    return item.name;
+  startEdit(id: number): void {
+    this.editCache[id].edit = true;
   }
-  listOfData: any[] = [
-    {
-      id: 1,
-      issue: 'John Brown',
-      status: 'New York No. 1 Lake Park'
-    },
-    {
-      name: 'Jim Green',
-      id: 2,
-      status: 'London No. 1 Lake Park'
-    },
-    {
-      issue: 'Joe Black',
-      id: 3,
-      status: 'Sidney No. 1 Lake Park'
-    },
-    {
-      issue: 'Jim Red',
-      id: 4,
-      status: 'London No. 2 Lake Park'
-    }
-  ];
+
+  cancelEdit(id: number): void {
+    const index = this.data.findIndex(item => item.id === id);
+    this.editCache[id] = {
+      data: { ...this.data[index] },
+      edit: false
+    };
+  }
+
+  saveEdit(id: number): void {
+    const index = this.data.findIndex(item => item.id === id);
+    Object.assign(this.data[index], this.editCache[id].data);
+    this.editCache[id].edit = false;
+  }
   ngOnDestroy(): void {
     this.requestSubscription.unsubscribe();
   }
