@@ -190,7 +190,7 @@
                                                                         nz-input placeholder="Write your thoughs" />
                                                                 </nz-input-group>
                                                                 <ng-template #suffixIconSearch>
-                                                                    <i (click)="saveComment(item,issue)"
+                                                                    <i (click)="saveComment(item,issue , i)"
                                                                         class="fa-regular fa-paper-plane text-lg hover:text-blue-600 cursor-pointer hover:text-xl"></i>
                                                                 </ng-template>
                                                             </div>
@@ -210,7 +210,7 @@
                 <context-menu #oneContextMenu>
                     <ng-template contextMenuItem (execute)="copyJson(item)"
                         [visible]="isShowContextMenu">Copy</ng-template>
-                    <ng-template contextMenuItem (execute)="issueReport(item)" [visible]="isShowContextMenu">Issue
+                    <ng-template contextMenuItem (execute)="issueReportFun(item)" [visible]="isShowContextMenu">Issue
                         Report</ng-template>
                 </context-menu>
                 <st-mains [item]="item" [formlyModel]="formlyModel" [screenName]="screenName" [screenId]="screenId"
