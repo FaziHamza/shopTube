@@ -11,7 +11,7 @@
                             </div>
                         </div>
                         <div class="comment-modal">
-                            <nz-drawer [nzWrapClassName]="'comment-drawer'" nzWidth="1000px" [nzClosable]="false"
+                            <nz-drawer [nzWrapClassName]="'comment-drawer'" nzWidth="750px" [nzClosable]="false"
                                 [(nzVisible)]="item['showAllComments']" nzPlacement="right" nzTitle="Task Manager"
                                 (nzOnClose)="handleCancel(item)">
                                 <ng-container *nzDrawerContent>
@@ -90,13 +90,16 @@
                                                                 </svg>
                                                             </div>
                                                             <!-- Date -->
-                                                            <time class=" text-sm md:w-28">{{issue['dateTime']
+                                                            <time
+                                                                class=" text-slate-500 text-sm md:w-28">{{issue['dateTime']
                                                                 | date :
                                                                 "dd/MMM/yyyy"}}</time>
                                                         </div>
                                                         <!-- Title -->
                                                         <div class="text-slate-500 ml-14"><span
-                                                                class="text-slate-900 font-bold">{{issue['createdBy']}}</span>
+                                                                class="text-slate-900 font-bold">{{issue['createdBy']}}</span><span>
+                                                                <i (click)="reply(issue)"
+                                                                    class="fa-regular fa-reply cursor-pointer text-lg ml-1 reply"></i></span>
                                                         </div>
                                                     </div>
                                                     <!-- Card -->
@@ -104,8 +107,7 @@
                                                         <p>
                                                             {{issue['message']}}
                                                         </p>
-                                                        <i (click)="reply(issue)"
-                                                            class="fa-regular fa-reply cursor-pointer text-lg ml-1 reply"></i>
+
                                                         <div class="space-y-8 relative mt-5 before:absolute before:inset-0 before:ml-5 before:-translate-x-px md:before:ml-[8.75rem] md:before:translate-x-0 before:h-full before:w-0.5 before:bg-gradient-to-b before:from-transparent before:via-slate-300 before:to-transparent"
                                                             *ngIf="issue['children'].length > 0">
                                                             <div *ngFor="let IssueReportChild of issue['children']">
@@ -126,42 +128,25 @@
                                                                             </div>
                                                                             <!-- Date -->
                                                                             <time
-                                                                                class=" md:w-28">{{IssueReportChild['dateTime']
+                                                                                class=" md:w-28 text-slate-500">{{IssueReportChild['dateTime']
                                                                                 | date :
                                                                                 "dd/MMM/yyyy"}}</time>
                                                                         </div>
                                                                         <!-- Title -->
                                                                         <div class="text-slate-500 ml-14"><span
                                                                                 class="text-slate-900 font-bold">{{IssueReportChild['createdBy']}}</span>
+                                                                            <p class="text-slate-500">
+                                                                                {{IssueReportChild['message']}}
+                                                                            </p>
                                                                         </div>
                                                                     </div>
-                                                                    <!-- Card -->
-                                                                    <p class="text-slate-500">
-                                                                        {{IssueReportChild['message']}}
-                                                                    </p>
-
                                                                 </div>
                                                             </div>
-                                                            <form [formGroup]="commentForm">
-                                                                <div *ngIf="showRply == issue.id"
-                                                                    class="w-full h-12 ml-14 md:ml-44">
-                                                                    <nz-input-group [nzSuffix]="suffixIconSearch"
-                                                                        class="w-full h-full">
-                                                                        <input formControlName="message" type="text"
-                                                                            nz-input placeholder="Write your thoughs" />
-                                                                    </nz-input-group>
-                                                                    <ng-template #suffixIconSearch>
-                                                                        <i (click)="saveComment(item,issue)"
-                                                                            class="fa-regular fa-paper-plane text-lg hover:text-blue-600 cursor-pointer hover:text-xl"></i>
-                                                                    </ng-template>
-                                                                </div>
-                                                            </form>
                                                         </div>
                                                         <form [formGroup]="commentForm">
-                                                            <div *ngIf="showRply == issue.id && issue['children'].length == 0"
-                                                                class="w-full h-12 ml-14 md:ml-44">
+                                                            <div *ngIf="showRply == issue.id" class="h-12 mr-4">
                                                                 <nz-input-group [nzSuffix]="suffixIconSearch"
-                                                                    class="w-full h-full">
+                                                                    class="h-full">
                                                                     <input formControlName="message" type="text"
                                                                         nz-input placeholder="Write your thoughs" />
                                                                 </nz-input-group>
