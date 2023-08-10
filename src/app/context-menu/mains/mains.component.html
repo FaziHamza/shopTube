@@ -479,35 +479,8 @@
             [listData]="item" [formlyModel]="formlyModel" [screenName]="screenName" [form]="form"></st-list-with-components>
     </ng-template>
     <ng-template #nintyTwo>
-        <st-tree-map *ngIf="item.type == 'treeMapChart' ; else nintyThree"
+        <st-tree-map *ngIf="item.type == 'treeMapChart' ; else hTwo"
             [chartData]="item.chartData ? item.chartData : item.tableData" [charts]="item"></st-tree-map>
-    </ng-template>
-    <ng-template #nintyThree>
-        <st-webiste-header *ngIf="item.type == 'header_1' ; else nintyFour" [data]="item.children"></st-webiste-header>
-    </ng-template>
-    <ng-template #nintyFour>
-        <st-webiste-header *ngIf="item.type == 'header_2' ; else nintyFive" [data]="item.children"></st-webiste-header>
-    </ng-template>
-    <ng-template #nintyFive>
-        <st-webiste-header *ngIf="item.type == 'header_1' ; else nintySix" [data]="item.children"></st-webiste-header>
-    </ng-template>
-    <ng-template #nintySix>
-        <st-webiste-header *ngIf="item.type == 'header_3' ; else nintySeven" [data]="item.children"></st-webiste-header>
-    </ng-template>
-    <ng-template #nintySeven>
-        <st-webiste-header *ngIf="item.type == 'header_4' ; else nintyEight" [data]="item.children"></st-webiste-header>
-    </ng-template>
-    <ng-template #nintyEight>
-        <st-webiste-header *ngIf="item.type == 'header_5' ; else nintyNine" [data]="item.children"></st-webiste-header>
-    </ng-template>
-    <ng-template #nintyNine>
-        <st-webiste-header *ngIf="item.type == 'header_6' ; else hunered" [data]="item.children"></st-webiste-header>
-    </ng-template>
-    <ng-template #hunered>
-        <st-webiste-header *ngIf="item.type == 'header_7' ; else hOne" [data]="item.children"></st-webiste-header>
-    </ng-template>
-    <ng-template #hOne>
-        <st-website-pricing *ngIf="item.type == 'pricing' ; else hTwo" [data]="item.children"></st-website-pricing>
     </ng-template>
     <ng-template #hTwo>
         <div *ngIf="item.type == 'mainDiv'; else hThree" class="flex flex-wrap">

@@ -36,12 +36,8 @@ import { GoogleChartsModule } from 'angular-google-charts';
 import { MenuComponent } from '../menu/menu.component';
 import { SiteLayoutComponent,  LayoutTabsComponent,
   AppSideMenuComponent,LayoutDrawerComponent,LayoutTabsDropdownComponent,
-  LayoutButtonComponent, WebsiteMenuComponent} from '../_layout';
+  LayoutButtonComponent} from '../_layout';
 import {MainsComponent,PageComponent,SectionsComponent} from '../context-menu/index'
-import { WebMenuComponent } from '../Website/web-menu/web-menu.component';
-import { WebisteHeaderComponent } from '../Website/webiste-header/webiste-header.component';
-import { WebsitePricingComponent } from '../Website/website-pricing/website-pricing.component';
-import { Layout1Component } from '../admin/layout1/layout1.component';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { HttpClient } from '@angular/common/http';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
@@ -83,7 +79,6 @@ import { ConfigurableSelectDirective } from 'src/directive/configuration-select.
     ],
   declarations: [
     GenericFieldComponent,
-    Layout1Component,
     PagesComponent,
     MainComponent,
     BusinessRuleGridComponent,
@@ -109,8 +104,7 @@ import { ConfigurableSelectDirective } from 'src/directive/configuration-select.
     AppSideMenuComponent,LayoutTabsDropdownComponent,SiteLayoutComponent,LayoutTabsComponent,LayoutDrawerComponent,LayoutButtonComponent,
     MenuComponent,
     MainsComponent,PageComponent,SectionsComponent,
-    CommentModalComponent,CommentListComponent,WebsiteMenuComponent,
-    WebMenuComponent,WebisteHeaderComponent,WebsitePricingComponent,
+    CommentModalComponent,CommentListComponent,
     MenuControllComponent,
     PrintInvoiceComponent,FileManagerComponent,googleMapComponent,
     ConfigurableDirective,
@@ -122,7 +116,6 @@ import { ConfigurableSelectDirective } from 'src/directive/configuration-select.
     FormsModule,
     GenericFieldComponent,
     PagesComponent,
-    Layout1Component,
     MainComponent,
     BusinessRuleGridComponent,
     AccordionButtonComponent, AffixComponent, AnchorComponent, AudioComponent, AvatarComponent, BackTopComponent, BadgeComponent,
@@ -165,8 +158,7 @@ import { ConfigurableSelectDirective } from 'src/directive/configuration-select.
     AppSideMenuComponent,LayoutTabsDropdownComponent,SiteLayoutComponent,LayoutTabsComponent,LayoutDrawerComponent,LayoutButtonComponent,
     MenuComponent,
     MainsComponent,PageComponent,SectionsComponent,
-    CommentModalComponent,CommentListComponent,WebsiteMenuComponent,
-    WebMenuComponent,WebisteHeaderComponent,WebsitePricingComponent,
+    CommentModalComponent,CommentListComponent,
     MenuControllComponent,
     PrintInvoiceComponent,FileManagerComponent,googleMapComponent,
     ConfigurableDirective,

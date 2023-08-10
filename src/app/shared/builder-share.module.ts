@@ -3,7 +3,7 @@ import { MenuBuilderComponent } from '../menu-builder/menu-builder.component';
 import { ActionRuleComponent, BusinessRuleComponent, UIRuleComponent, ValidationRuleComponent } from '../builder/configurations';
 import { DemoComponent } from '../builder/demo/demo.component';
 import { NestedTableComponent } from '../builder/nested-table/nested-table.component';
-import { ApplicationBuilderComponent, LanguageComponent, ModuleListComponent, ScreenBuilderComponent, organizationBuilderComponent } from '../Builder-module';
+import { ApplicationBuilderComponent, LanguageComponent, ModuleListComponent, ScreenBuilderComponent, UserTaskManagementComponent, organizationBuilderComponent } from '../Builder-module';
 import { BulkUpdateComponent } from '../builder/bulk-update/bulk-update.component';
 import { AddControlCommonPropertiesComponent } from '../builder/add-control-common-properties/add-control-common-properties.component';
 import { CreateDatabaseComponent } from '../admin/create-database/create-database.component';
@@ -55,6 +55,7 @@ import { ReleaseManagementComponent } from '../admin/release-management/release-
     MenuRolePermissionComponent,
     TaskManagementComponent,
     ReleaseManagementComponent,
+    UserTaskManagementComponent,
   ],
   exports: [
     MenuBuilderComponent,
@@ -67,6 +68,8 @@ import { ReleaseManagementComponent } from '../admin/release-management/release-
     MenuRolePermissionComponent,
     TaskManagementComponent,
     ReleaseManagementComponent,
+    TaskManagementComponent,
+    UserTaskManagementComponent,
   ],
   providers: [
 
