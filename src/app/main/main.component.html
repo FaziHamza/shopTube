@@ -133,7 +133,8 @@
                                                         <div *ngIf="issue['children']">
                                                             <div class="space-y-4 relative mt-5 before:absolute before:inset-0 before:ml-[13px] before:-translate-x-px  md:before:translate-x-0 before:h-full before:w-0.5 before:bg-gradient-to-b before:from-transparent before:via-slate-300 before:to-transparent"
                                                                 *ngIf="issue['children'].length > 0">
-                                                                <div *ngFor="let IssueReportChild of issue['children'] let last = last">
+                                                                <div
+                                                                    *ngFor="let IssueReportChild of issue['children'] let last = last">
                                                                     <!-- Item #1 -->
                                                                     <div class="relative">
                                                                         <div class="md:flex items-center md:space-x-4 ">
@@ -155,32 +156,40 @@
                                                                             <div class="text-slate-500 ml-14 w-full">
                                                                                 <div
                                                                                     class="flex items-center justify-between h-fit w-full">
-                                                                                    <span
-                                                                                        class="text-slate-800 font-semibold opacity-70">{{IssueReportChild['createdBy']}}
-                                                                                        <span >
-                                                                                            <button
+                                                                                    <div class="flex items-center">
+                                                                                        <!-- Use flex container to keep both elements in the same line -->
+                                                                                        <span
+                                                                                            class="text-slate-800 font-semibold opacity-70">
+                                                                                            {{
+                                                                                            IssueReportChild['createdBy']
+                                                                                            }}
+                                                                                        </span>
+                                                                                        <button
                                                                                             *ngIf="issue['children'].length > 0 && last"
-                                                                                                type="button"
-                                                                                                class=" text-sm ml-1 reply text-white hover:bg-white border-2 border-[#2563EB] active:outline-2 active:outline-transparent focus:outline-2 focus:outline-transparent flex items-center  hover:text-[#2563EB] bg-[#2563EB] rounded-xl px-2"
-                                                                                                (click)="reply(issue)">
-                                                                                                Reply
-                                                                                            </button></span>
-                                                                                            </span>
-                                                                                        <!-- Date -->
-                                                                                        <time
-                                                                                            class=" w-fit text-xs text-slate-500 opacity-75">{{IssueReportChild['dateTime']
-                                                                                            | date :
-                                                                                            "dd/MMM/yyyy"}}</time>
+                                                                                            type="button"
+                                                                                            class="text-sm ml-1 reply text-white hover:bg-white border-2 border-[#2563EB] active:outline-2 active:outline-transparent focus:outline-2 focus:outline-transparent flex items-center hover:text-[#2563EB] bg-[#2563EB] rounded-xl px-2"
+                                                                                            (click)="reply(issue)">
+                                                                                            Reply
+                                                                                        </button>
+                                                                                    </div>
+
+                                                                                    <!-- Date -->
+                                                                                    <time
+                                                                                        class="w-fit text-xs text-slate-500 opacity-75">{{
+                                                                                        IssueReportChild['dateTime'] |
+                                                                                        date : "dd/MMM/yyyy" }}</time>
                                                                                 </div>
                                                                                 <p class="text-slate-500">
-                                                                                    {{IssueReportChild['message']}}
+                                                                                    {{ IssueReportChild['message'] }}
                                                                                 </p>
                                                                             </div>
+
                                                                         </div>
                                                                     </div>
                                                                 </div>
                                                             </div>
                                                         </div>
+
 
                                                         <form [formGroup]="commentForm">
                                                             <div *ngIf="showRply == issue.id" class="h-12 mr-4 mt-4">
