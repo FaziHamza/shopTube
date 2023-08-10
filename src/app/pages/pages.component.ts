@@ -172,10 +172,9 @@ export class PagesComponent implements OnInit {
         this.isPageContextShow = true;
         // this.dataSharedService.urlModule.next({ aplication: '', module: '' });
         this.screenName = params["schema"];
-        this.requestSubscription = this.applicationService.getNestCommonAPI("cp/UserComment").subscribe((res: any) => {
+        debugger
+        this.requestSubscription = this.applicationService.getNestCommonAPIById("cp/UserComment" , params["schema"]).subscribe((res: any) => {
           if (res.isSuccess) {
-
-            // let commentList = res.data.filter((item: any) => item.screenId == this.screenName)
             let commentList = res.data
             this.dataSharedService.screenCommentList = commentList;
 
@@ -298,23 +297,24 @@ export class PagesComponent implements OnInit {
             this.checkDynamicSection();
             this.uiRuleGetData({ key: 'text_f53ed35b', id: 'formly_86_input_text_f53ed35b_0' });
             // this.getFromQuery();
-            if (params["commentId"] != "all") {
-              this.builderService.getCommentById(params["commentId"]).subscribe(res => {
-                if (res.length > 0) {
-                  let findObj = this.findObjectById(this.resData[0], res[0].commentId);
-                  findObj.highLight = true;
-                }
-              })
-            } else {
-              this.dataSharedService.screenCommentList.forEach(element => {
-                let findObj = this.findObjectById(this.resData[0], element.commentId);
-                findObj.highLight = true;
-              });
-            }
+            // if (params["commentId"] != "all") {
+            //   this.builderService.getCommentById(params["commentId"]).subscribe(res => {
+            //     if (res.length > 0) {
+            //       let findObj = this.findObjectById(this.resData[0], res[0].commentId);
+            //       findObj.highLight = true;
+            //     }
+            //   })
+            // } 
+            // else {
+            //   this.dataSharedService.screenCommentList.forEach(element => {
+            //     let findObj = this.findObjectById(this.resData[0], element.commentId);
+            //     findObj.highLight = true;
+            //   });
+            // }
             // let commentsData = this.transformComments(this.dataSharedService.screenCommentList);
             // console.log(commentsData);
             this.dataSharedService.screenCommentList.forEach(element => {
-              this.assignComment(this.resData[0], element);
+              this.assignIssue(this.resData[0], element);
             });
           }
         } else
@@ -1886,29 +1886,29 @@ export class PagesComponent implements OnInit {
     }
   }
 
-  assignComment(node: any, comment: any) {
-    if (comment['ObjectID']) {
-      if (node.id == comment['ObjectID']) {
-        if (!node['comment']) {
-          node['comment'] = [];
+  assignIssue(node: any, issue: any) {
+    if (issue['componentId']) {
+      if (node.id == issue['componentId']) {
+        if (!node['issueReport']) {
+          node['issueReport'] = [];
         }
 
-        node['comment'].push(comment);
+        node['issueReport'].push(issue);
 
-        if (!node['commentUser']) {
-          node['commentUser'] = [comment['whoCreated']];
+        if (!node['issueUser']) {
+          node['issueUser'] = [issue['createdBy']];
         }
         else {
-          if (!node['commentUser'].includes(comment['whoCreated'])) {
+          if (!node['issueUser'].includes(issue['createdBy'])) {
             // Check if the user is not already in the array, then add them
-            node['commentUser'].push(comment.whoCreated);
+            node['issueUser'].push(issue.createdBy);
           }
         }
       }
 
       if (node.children.length > 0) {
         node.children.forEach((child: any) => {
-          this.assignComment(child, comment);
+          this.assignIssue(child, issue);
         });
       }
     }
@@ -1921,7 +1921,7 @@ export class PagesComponent implements OnInit {
     this.isVisible = false;
     this.removeComment(this.resData[0])
     this.dataSharedService.screenCommentList.forEach(element => {
-      this.assignComment(this.resData[0], element);
+      this.assignIssue(this.resData[0], element);
     });
   }
   removeComment(node: any) {

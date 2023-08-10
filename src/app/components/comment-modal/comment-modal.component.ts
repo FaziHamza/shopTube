@@ -60,8 +60,8 @@ export class CommentModalComponent implements OnInit {
       organizationId: JSON.parse(localStorage.getItem('organizationId')!),
       applicationId: JSON.parse(localStorage.getItem('applicationId')!),
       componentId: this.data.id,
-      whoCreated: userData.username,
-      parentId:'',
+      createdBy: userData.username,
+      parentId:"",
     }
     const userCommentModel = {
       "UserComment": commentObj

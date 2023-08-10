@@ -46,6 +46,7 @@ export class MainComponent implements OnInit {
   newCommentRes: any = '';
   showAllComments = false;
   commentEdit = false;
+  showRply = '';
   commentEditObj: any = {};
   commentForm: FormGroup;
   constructor(private cd: ChangeDetectorRef, private nzImageService: NzImageService, private employeeService: EmployeeService,
@@ -56,8 +57,7 @@ export class MainComponent implements OnInit {
 
   ngOnInit(): void {
     this.commentForm = this.formBuilder.group({
-      comment: ['', Validators.required],
-      // status: ['', Validators.required],
+      message: ['', Validators.required],
     });
     if (this.router.url.includes('/pages'))
       this.isShowContextMenu = true;
@@ -457,7 +457,7 @@ export class MainComponent implements OnInit {
     this.clipboard.copy(data);
     this.toastr.success('Copied to clipboard', { nzDuration: 3000 });
   }
-  issue(json: any) {
+  issueReport(json: any) {
     const modal = this.modalService.create<CommentModalComponent>({
       nzTitle: 'Issue Report',
       nzContent: CommentModalComponent,
@@ -476,21 +476,20 @@ export class MainComponent implements OnInit {
     });
   }
   assignComment(node: any, comment: any) {
-    if (comment['ObjectID']) {
-      if (node.id == comment['ObjectID']) {
-        if (!node['comment']) {
-          node['comment'] = [];
+    if (comment['componentId']) {
+      if (node.id == comment['componentId']) {
+        if (!node['issueReport']) {
+          node['issueReport'] = [];
         }
 
-        node['comment'].push(comment);
+        node['issueReport'].push(comment);
 
-        if (!node['commentUser']) {
-          node['commentUser'] = [comment['whoCreated']];
+        if (!node['issueUser']) {
+          node['issueUser'] = [comment['createdBy']];
         }
         else {
-          if (!node['commentUser'].includes(comment['whoCreated'])) {
-            // Check if the user is not already in the array, then add them
-            node['commentUser'].push(comment.whoCreated);
+          if (!node['issueUser'].includes(comment['createdBy'])) {
+            node['issueUser'].push(comment.createdBy);
           }
         }
       }
@@ -502,7 +501,7 @@ export class MainComponent implements OnInit {
       }
     }
   }
-  saveComment(data: any) {
+  saveComment(data: any, issue: any) {
     debugger
     if (!this.commentForm.valid) {
       this.toastr.warning('Please fill this', { nzDuration: 3000 });
@@ -514,15 +513,15 @@ export class MainComponent implements OnInit {
     const applicationId = JSON.parse(localStorage.getItem('applicationId')!);
 
     const commentObj = {
-      organizationId,
-      applicationId,
       screenId: this.screenName,
-      ObjectID: data.id,
-      whoCreated: userData.username,
-      comment: this.commentForm.value.comment,
-      // status: this.commentForm.value.status,
       dateTime: new Date(),
-      avatar: 'avatar.png'
+      message: this.commentForm.value.message,
+      status: '',
+      organizationId: JSON.parse(localStorage.getItem('organizationId')!),
+      applicationId: JSON.parse(localStorage.getItem('applicationId')!),
+      componentId: data.id,
+      createdBy: userData.username,
+      parentId: issue.id,
     };
 
     const userCommentModel = {
@@ -534,7 +533,7 @@ export class MainComponent implements OnInit {
     if (!this.commentEdit) {
       requestObservable = this.applicationService.addNestCommonAPI('cp', userCommentModel);
     } else {
-      userCommentModel.UserComment.ObjectID = this.commentEditObj.ObjectID;
+      userCommentModel.UserComment.componentId = this.commentEditObj.componentId;
       requestObservable = this.applicationService.updateNestCommonAPI(
         'cp/UserComment',
         this.commentEditObj._id,
@@ -546,8 +545,7 @@ export class MainComponent implements OnInit {
       next: (res: any) => {
         if (res.isSuccess) {
           this.commentForm.patchValue({
-            comment: '',
-            // status: ''
+            message: '',
           });
           this.toastr.success(`UserComment: ${res.message}`, { nzDuration: 3000 });
 
@@ -562,7 +560,7 @@ export class MainComponent implements OnInit {
             data.comment = (JSON.parse(JSON.stringify(Newdata)))
           }
           else {
-            this.assignComment(this.mainData, res.data);
+            // this.assignComment(this.mainData, res.data);
           }
           this.commentEdit = false;
         } else {
@@ -601,17 +599,19 @@ export class MainComponent implements OnInit {
     this.commentEdit = true;
     this.commentEditObj = data;
     this.commentForm.patchValue({
-      comment: data.comment,
-      // status: data.status
+      message: data.message,
     });
   }
   statusChange(status: any, data: any) {
-    if (data['comment'].length > 0 && status) {
-      data['comment'] = data['comment'].map((comm: any) => {
+    if (data['issueReport'].length > 0 && status) {
+      data['issueReport'] = data['issueReport'].map((comm: any) => {
         comm['status'] = status;
         return comm;
       });
     }
+  }
+  reply(issue: any) {
+    this.showRply = issue.id;
   }
 
 }

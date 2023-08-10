@@ -2,16 +2,16 @@
     <div class="{{!item.hideExpression   ? item.className : ''}}"
         *ngFor="let item of mainData.children ; index as i; last as isLast">
         <div [ngClass]="{'highLight': item.highLight == true}" *ngIf="!item.hideExpression">
-            <span *ngIf="item['comment']">
-                <span *ngIf="item['comment'].length > 0">
-                    <div [ngStyle]="{'background' : item['commentBackgroundColor'] ? '#3b82f6' : ''}" class="b-comment">
+            <span *ngIf="item['issueReport']">
+                <span *ngIf="item['issueReport'].length > 0">
+                    <div class="b-comment">
                         <div (click)="toggleCommentDisplay(item)">
                             <div
-                                class="w-4 h-4 rounded-full hover:cursor-pointer {{ item['comment'][0]['status'] === 'open' ? 'bg-red-500' : (item['comment'][0]['status'] === 'inProgress' ? 'bg-orange-500' : (item['comment'][0]['status'] === 'completed' ? 'bg-green-500' : 'bg-red-500')) }}">
+                                class="w-4 h-4 rounded-full hover:cursor-pointer {{ item['issueReport'][0]['status'] === 'open' ? 'bg-red-500' : (item['issueReport'][0]['status'] === 'inProgress' ? 'bg-orange-500' : (item['issueReport'][0]['status'] === 'completed' ? 'bg-green-500' : 'bg-red-500')) }}">
                             </div>
                         </div>
                         <div class="comment-modal">
-                            <nz-drawer [nzWrapClassName]="'comment-drawer'" nzWidth="700px" [nzClosable]="false"
+                            <nz-drawer [nzWrapClassName]="'comment-drawer'" nzWidth="1000px" [nzClosable]="false"
                                 [(nzVisible)]="item['showAllComments']" nzPlacement="right" nzTitle="Task Manager"
                                 (nzOnClose)="handleCancel(item)">
                                 <ng-container *nzDrawerContent>
@@ -44,8 +44,9 @@
                                                         class="block  text-sm font-medium text-gray-900">
                                                         Wave
                                                     </label>
-                                                    <select id="countries" [(ngModel)]="item['comment'][0]['status']"
-                                                        (ngModelChange)="statusChange(item['comment'][0]['status'], item)"
+                                                    <select id="countries"
+                                                        [(ngModel)]="item['issueReport'][0]['status']"
+                                                        (ngModelChange)="statusChange(item['issueReport'][0]['status'], item)"
                                                         class="focus:ring-blue-500 focus:border-blue-500 block">
                                                         <option value="open">open</option>
                                                         <option value="inProgress">inProgress</option>
@@ -67,14 +68,14 @@
                                             <div
                                                 class="space-y-8 relative before:absolute before:inset-0 before:ml-5 before:-translate-x-px md:before:ml-[8.75rem] md:before:translate-x-0 before:h-full before:w-0.5 before:bg-gradient-to-b before:from-transparent before:via-slate-300 before:to-transparent">
                                                 <!-- Item -->
-                                                <div *ngFor="let comment of item['comment']" class="relative">
+                                                <div *ngFor="let issue of item['issueReport']" class="relative">
                                                     <div class="md:flex items-center md:space-x-4 ">
                                                         <div
                                                             class="flex items-center space-x-4 md:space-x-2 md:space-x-reverse">
                                                             <!-- Icon -->
                                                             <div
                                                                 class="flex items-center justify-center w-10 h-10 rounded-full bg-white shadow md:order-1">
-                                                                <svg class="{{ comment['status'] == 'open' ? 'fill-red-500' : (comment['status'] == 'inProgress' ? 'fill-orange-500' : (comment['status'] == 'completed' ? 'fill-green-500' : 'fill-gray-200')) }}"
+                                                                <svg class="{{ issue['status'] == 'open' ? 'fill-red-500' : (issue['status'] == 'inProgress' ? 'fill-orange-500' : (issue['status'] == 'completed' ? 'fill-green-500' : 'fill-gray-200')) }}"
                                                                     xmlns="http://www.w3.org/2000/svg" width="16"
                                                                     height="16">
                                                                     <path
@@ -82,164 +83,93 @@
                                                                 </svg>
                                                             </div>
                                                             <!-- Date -->
-                                                            <time class=" text-sm md:w-28">{{comment.dateTime
+                                                            <time class=" text-sm md:w-28">{{issue['dateTime']
                                                                 | date :
                                                                 "dd/MMM/yyyy"}}</time>
                                                         </div>
                                                         <!-- Title -->
                                                         <div class="text-slate-500 ml-14"><span
-                                                                class="text-slate-900 font-bold">{{comment['whoCreated']}}</span>
+                                                                class="text-slate-900 font-bold">{{issue['createdBy']}}</span>
                                                         </div>
                                                     </div>
                                                     <!-- Card -->
                                                     <div class=" text-slate-500 ml-14 md:ml-44">
-                                                        {{comment.comment}}
-                                                        <div
-                                                            class="space-y-8 relative mt-5 before:absolute before:inset-0 before:ml-5 before:-translate-x-px md:before:ml-[8.75rem] md:before:translate-x-0 before:h-full before:w-0.5 before:bg-gradient-to-b before:from-transparent before:via-slate-300 before:to-transparent">
-                                                            <!-- Item #1 -->
-                                                            <div class="relative">
-                                                                <div class="md:flex items-center md:space-x-4 ">
-                                                                    <div
-                                                                        class="flex items-center space-x-4 md:space-x-2 md:space-x-reverse">
-                                                                        <!-- Icon -->
-                                                                        <div
-                                                                            class="flex items-center justify-center w-10 h-10 rounded-full bg-white shadow md:order-1">
-                                                                            <svg class="fill-indigo-500"
-                                                                                xmlns="http://www.w3.org/2000/svg"
-                                                                                width="16" height="16">
-                                                                                <path
-                                                                                    d="M8 0a8 8 0 1 0 8 8 8.009 8.009 0 0 0-8-8Zm0 12a4 4 0 1 1 0-8 4 4 0 0 1 0 8Z" />
-                                                                            </svg>
+                                                        <p>
+                                                            {{issue['message']}}
+                                                        </p>
+                                                        <i (click)="reply(issue)"
+                                                            class="fa-regular fa-reply cursor-pointer text-lg ml-1 reply"></i>
+                                                        <div *ngIf="issue['children']">
+                                                            <div *ngIf="issue['children'].length > 0">
+                                                                <div *ngFor="let IssueReportChild of issue['children']"
+                                                                    class="space-y-8 relative mt-5 before:absolute before:inset-0 before:ml-5 before:-translate-x-px md:before:ml-[8.75rem] md:before:translate-x-0 before:h-full before:w-0.5 before:bg-gradient-to-b before:from-transparent before:via-slate-300 before:to-transparent">
+                                                                    <!-- Item #1 -->
+                                                                    <div class="relative">
+                                                                        <div class="md:flex items-center md:space-x-4 ">
+                                                                            <div
+                                                                                class="flex items-center space-x-4 md:space-x-2 md:space-x-reverse">
+                                                                                <!-- Icon -->
+                                                                                <div
+                                                                                    class="flex items-center justify-center w-10 h-10 rounded-full bg-white shadow md:order-1">
+                                                                                    <svg class="fill-indigo-500"
+                                                                                        xmlns="http://www.w3.org/2000/svg"
+                                                                                        width="16" height="16">
+                                                                                        <path
+                                                                                            d="M8 0a8 8 0 1 0 8 8 8.009 8.009 0 0 0-8-8Zm0 12a4 4 0 1 1 0-8 4 4 0 0 1 0 8Z" />
+                                                                                    </svg>
+                                                                                </div>
+                                                                                <!-- Date -->
+                                                                                <time class=" md:w-28">{{IssueReportChild['dateTime']
+                                                                                    | date :
+                                                                                    "dd/MMM/yyyy"}}</time>
+                                                                            </div>
+                                                                            <!-- Title -->
+                                                                            <div class="text-slate-500 ml-14"><span
+                                                                                    class="text-slate-900 font-bold">{{IssueReportChild['createdBy']}}</span>
+                                                                            </div>
                                                                         </div>
-                                                                        <!-- Date -->
-                                                                        <time
-                                                                            class=" md:w-28">Apr
-                                                                            7, 2024</time>
-                                                                    </div>
-                                                                    <!-- Title -->
-                                                                    <div class="text-slate-500 ml-14"><span
-                                                                            class="text-slate-900 font-bold">User11</span>
+                                                                        <!-- Card -->
+                                                                        <p class="text-slate-500">
+                                                                            {{IssueReportChild['message']}}
+                                                                        </p>
+
                                                                     </div>
                                                                 </div>
-                                                                <!-- Card -->
-                                                                <div class=" text-slate-500 ml-14 md:ml-44">Various
-                                                                    versions have evolved over the years, sometimes by
-                                                                    accident,
-                                                                    sometimes on purpose injected humour and the like.
-                                                                </div>
-                                                            </div>
-                                                            <div class="relative">
-                                                                <div class="md:flex items-center md:space-x-4 ">
-                                                                    <div
-                                                                        class="flex items-center space-x-4 md:space-x-2 md:space-x-reverse">
-                                                                        <!-- Icon -->
-                                                                        <div
-                                                                            class="flex items-center justify-center w-10 h-10 rounded-full bg-white shadow md:order-1">
-                                                                            <svg class="fill-indigo-500"
-                                                                                xmlns="http://www.w3.org/2000/svg"
-                                                                                width="16" height="16">
-                                                                                <path
-                                                                                    d="M8 0a8 8 0 1 0 8 8 8.009 8.009 0 0 0-8-8Zm0 12a4 4 0 1 1 0-8 4 4 0 0 1 0 8Z" />
-                                                                            </svg>
-                                                                        </div>
-                                                                        <!-- Date -->
-                                                                        <time
-                                                                            class=" md:w-28">Apr
-                                                                            7, 2024</time>
+                                                                <form [formGroup]="commentForm">
+                                                                    <div *ngIf="showRply == issue.id"
+                                                                        class="w-full h-12 ml-14 md:ml-44">
+                                                                        <nz-input-group [nzSuffix]="suffixIconSearch"
+                                                                            class="w-full h-full">
+                                                                            <input formControlName="message" type="text"
+                                                                                nz-input
+                                                                                placeholder="Write your thoughs" />
+                                                                        </nz-input-group>
+                                                                        <ng-template #suffixIconSearch>
+                                                                            <i (click)="saveComment(item,issue)"
+                                                                                class="fa-regular fa-paper-plane text-lg hover:text-blue-600 cursor-pointer hover:text-xl"></i>
+                                                                        </ng-template>
                                                                     </div>
-                                                                    <!-- Title -->
-                                                                    <div class="text-slate-500 ml-14"><span
-                                                                            class="text-slate-900 font-bold">User</span>
-                                                                    </div>
-                                                                </div>
-                                                                <!-- Card -->
-                                                                <div class=" text-slate-500 ml-14 md:ml-44">Various
-                                                                    versions have evolved over the years, sometimes by
-                                                                    accident,
-                                                                    sometimes on purpose injected humour and the like.
-                                                                </div>
-                                                            </div>
-                                                            <div class="relative">
-                                                                <div class="md:flex items-center md:space-x-4 ">
-                                                                    <div
-                                                                        class="flex items-center space-x-4 md:space-x-2 md:space-x-reverse">
-                                                                        <!-- Icon -->
-                                                                        <div
-                                                                            class="flex items-center justify-center w-10 h-10 rounded-full bg-white shadow md:order-1">
-                                                                            <svg class="fill-indigo-500"
-                                                                                xmlns="http://www.w3.org/2000/svg"
-                                                                                width="16" height="16">
-                                                                                <path
-                                                                                    d="M8 0a8 8 0 1 0 8 8 8.009 8.009 0 0 0-8-8Zm0 12a4 4 0 1 1 0-8 4 4 0 0 1 0 8Z" />
-                                                                            </svg>
-                                                                        </div>
-                                                                        <!-- Date -->
-                                                                        <time
-                                                                            class=" md:w-28">Apr
-                                                                            7, 2024</time>
-                                                                    </div>
-                                                                    <!-- Title -->
-                                                                    <div class="text-slate-500 ml-14"><span
-                                                                            class="text-slate-900 font-bold">User</span>
-                                                                    </div>
-                                                                </div>
-                                                                <!-- Card -->
-                                                                <div class=" text-slate-500 ml-14 md:ml-44">Various
-                                                                    versions have evolved over the years, sometimes by
-                                                                    accident,
-                                                                    sometimes on purpose injected humour and the like.
-                                                                </div>
-                                                            </div>
-                                                            <div class="relative">
-                                                                <div class="md:flex items-center md:space-x-4">
-                                                                    <div
-                                                                        class="flex items-center space-x-4 md:space-x-2 md:space-x-reverse">
-                                                                        <!-- Icon -->
-                                                                        <div
-                                                                            class="flex items-center justify-center w-10 h-10 rounded-full bg-white shadow md:order-1">
-                                                                            <svg class="fill-indigo-500"
-                                                                                xmlns="http://www.w3.org/2000/svg"
-                                                                                width="16" height="16">
-                                                                                <path
-                                                                                    d="M8 0a8 8 0 1 0 8 8 8.009 8.009 0 0 0-8-8Zm0 12a4 4 0 1 1 0-8 4 4 0 0 1 0 8Z" />
-                                                                            </svg>
-                                                                        </div>
-                                                                        <!-- Date -->
-                                                                        <time
-                                                                            class=" md:w-28">Apr
-                                                                            7, 2024</time>
-                                                                    </div>
-                                                                    <!-- Title -->
-                                                                    <div class="text-slate-500 ml-14"><span
-                                                                            class="text-slate-900 font-bold">User</span>
-                                                                    </div>
-                                                                </div>
-                                                                <!-- Card -->
-                                                                <div class=" text-slate-500 ml-14 md:ml-44">Various
-                                                                    versions have evolved over the years, sometimes by
-                                                                    accident,
-                                                                    sometimes on purpose injected humour and the like.
-                                                                </div>
+                                                                </form>
                                                             </div>
                                                         </div>
+                                                        <form [formGroup]="commentForm">
+                                                            <div *ngIf="showRply == issue.id && issue['children'].length == 0"
+                                                                class="w-full h-12 ml-14 md:ml-44">
+                                                                <nz-input-group [nzSuffix]="suffixIconSearch"
+                                                                    class="w-full h-full">
+                                                                    <input formControlName="message" type="text"
+                                                                        nz-input placeholder="Write your thoughs" />
+                                                                </nz-input-group>
+                                                                <ng-template #suffixIconSearch>
+                                                                    <i (click)="saveComment(item,issue)"
+                                                                        class="fa-regular fa-paper-plane text-lg hover:text-blue-600 cursor-pointer hover:text-xl"></i>
+                                                                </ng-template>
+                                                            </div>
+                                                        </form>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
-                                        <form [formGroup]="commentForm">
-                                            <div class="c-footer">
-                                                <div class="comment">
-                                                    <div class="input-group2">
-                                                        <textarea rows="2" formControlName="comment"
-                                                            placeholder="Write a Comment here..." nz-input></textarea>
-                                                    </div>
-                                                </div>
-                                                <div class="status">
-                                                    <button (click)="saveComment(item)" class="comment-save-button"
-                                                        nz-button nzType="primary">Comment</button>
-                                                </div>
-                                            </div>
-                                        </form>
                                     </div>
                                 </ng-container>
                             </nz-drawer>
@@ -251,8 +181,8 @@
                 <context-menu #oneContextMenu>
                     <ng-template contextMenuItem (execute)="copyJson(item)"
                         [visible]="isShowContextMenu">Copy</ng-template>
-                    <ng-template contextMenuItem (execute)="issue(item)"
-                        [visible]="isShowContextMenu">Issue</ng-template>
+                    <ng-template contextMenuItem (execute)="issueReport(item)" [visible]="isShowContextMenu">Issue
+                        Report</ng-template>
                 </context-menu>
                 <st-mains [item]="item" [formlyModel]="formlyModel" [screenName]="screenName" [screenId]="screenId"
                     [isLast]='isLast' [form]="form" *ngIf="item"></st-mains>
