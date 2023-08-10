@@ -230,7 +230,7 @@ export class PagesComponent implements OnInit {
                             let obj = {
                               event: element.actionLink,
                               actions: [
-                                { actionType: element.actionType, url: element.httpAddress, method: element.actionLink, elementName: element.elementNameTo }
+                                { actionType: element.actionType, url: element.httpAddress, method: element.actionLink, elementName: element.elementNameTo,submit : element.submit }
                               ]
                             };
                             eventActionConfig['appConfigurableEvent'].push(obj);
@@ -239,7 +239,7 @@ export class PagesComponent implements OnInit {
                             let obj = {
                               event: element.actionLink,
                               actions: [
-                                { actionType: element.actionType, url: element.httpAddress, method: element.actionLink, elementName: element.elementNameTo }
+                                { actionType: element.actionType, url: element.httpAddress, method: element.actionLink, elementName: element.elementNameTo,submit : element.submit}
                               ]
                             };
                             eventActionConfig['appConfigurableEvent'].push(obj);
@@ -269,7 +269,7 @@ export class PagesComponent implements OnInit {
                         let obj = {
                           event: element.actionLink,
                           actions: [
-                            { actionType: element.actionType, url: element.httpAddress, method: element.actionLink, elementName: element.elementNameTo }
+                            { actionType: element.actionType, url: element.httpAddress, method: element.actionLink, elementName: element.elementNameTo ,submit : element.submit}
                           ]
                         };
                         findObj['appConfigurableEvent'].push(obj);
@@ -278,7 +278,7 @@ export class PagesComponent implements OnInit {
                         let obj = {
                           event: element.actionLink,
                           actions: [
-                            { actionType: element.actionType, url: element.httpAddress, method: element.actionLink, elementName: element.elementNameTo }
+                            { actionType: element.actionType, url: element.httpAddress, method: element.actionLink, elementName: element.elementNameTo,submit : element.submit }
                           ]
                         };
                         findObj['appConfigurableEvent'].push(obj);
@@ -303,7 +303,7 @@ export class PagesComponent implements OnInit {
             //       findObj.highLight = true;
             //     }
             //   })
-            // } 
+            // }
             // else {
             //   this.dataSharedService.screenCommentList.forEach(element => {
             //     let findObj = this.findObjectById(this.resData[0], element.commentId);
@@ -1822,6 +1822,73 @@ export class PagesComponent implements OnInit {
         }
       }
     }
+    const filteredNodes = this.filterInputElements(this.resData[0].children[1].children[0].children[1].children);
+    if (filteredNodes.length > 0) {
+      for (let index = 0; index < filteredNodes.length; index++) {
+        const element = filteredNodes[index];
+        if (element.formly[0].fieldGroup[0].props['appConfigurableEvent']) {
+          for (let j = 0; j < element.formly[0].fieldGroup[0].props['appConfigurableEvent'].length; j++) {
+            const getActions = element.formly[0].fieldGroup[0].props['appConfigurableEvent'][j];
+            if(getActions.actions?.[0]?.submit == 'change' || getActions.actions?.[0]?.submit == 'onchange')
+            {
+              // let subParamId = '';
+              // if(element.formly[0].fieldGroup[0].key.includes('.')){
+              //   const check =   element.formly[0].fieldGroup[0].key.split('.')
+              //   subParamId = this.formlyModel[check[0]][check[1]];
+              // }
+              let url  = '';
+              if(getActions.actions?.[0]?.url.endsWith('/'))
+                url = getActions.actions?.[0]?.url.endsWith('/')
+              else url = getActions.actions?.[0]?.url + '/'
+
+              this.applicationService.getBackendCommonAPI( url + targetId).subscribe(res => {
+                if (res) {
+                  if(res.data.length > 0) {
+                    let data = res.data;
+                    let propertyNames = Object.keys(data[0]);
+                    let result = data.map((item: any) => {
+                      let newObj: any = {};
+                      let propertiesToGet: string[];
+                      if ('id' in item && 'name' in item) {
+                        propertiesToGet = ['id', 'name'];
+                      } else {
+                        propertiesToGet = Object.keys(item).slice(0, 2);
+                      }
+                      propertiesToGet.forEach((prop) => {
+                        newObj[prop] = item[prop];
+                      });
+                      return newObj;
+                    });
+
+                    let finalObj = result.map((item: any) => {
+                      return {
+                        label: item.name || item[propertyNames[1]],
+                        value: item.id || item[propertyNames[0]],
+                      };
+                    });
+                    for (let j = 0; j < filteredNodes.length; j++) {
+                      const ele = filteredNodes[j];
+                      if(ele.formly[0].fieldGroup[0].key == getActions.actions?.[0]?.elementName){
+                        ele.formly[0].fieldGroup[0].props.options = finalObj;
+                      }
+                    }
+                  }else{
+                    for (let j = 0; j < filteredNodes.length; j++) {
+                      const ele = filteredNodes[j];
+                      if(ele.formly[0].fieldGroup[0].key == getActions.actions?.[0]?.elementName){
+                        ele.formly[0].fieldGroup[0].props.options = [];
+                      }
+                    }
+                  }
+
+                  this.updateNodes();
+                }
+              })
+            }
+          }
+        }
+      }
+    }
   }
   getEnumApi(data: any, targetId: any, findObj: any) {
     if (!targetId)
@@ -1859,30 +1926,32 @@ export class PagesComponent implements OnInit {
 
   }
   saveDataGrid(res: any) {
+    if(this.formlyModel){
+      let model = Object.keys(this.formlyModel);
+      let findElement: any = {};
+      const filteredNodes = this.filterInputElements(this.resData[0].children[1].children[0].children[1].children);
+      if (filteredNodes.length > 0) {
+        for (let index = 0; index < filteredNodes.length; index++) {
+          const element = filteredNodes[index];
+          if (element.formly[0].fieldGroup[0].key == model[0]) {
+            findElement = element;
+            break;
+          }
+        }
+      }
+      if (findElement) {
+        let obj = {
+          "EnumList": {
+            "enumName": this.formlyModel[model[0]],
+            "gridData": res
+          }
+        }
+        this.applicationService.addNestCommonAPI('cp', obj).subscribe(res => {
+          this.getEnumList(findElement, this.formlyModel[model[0]]);
+        })
+      }
+    }
 
-    let model = Object.keys(this.formlyModel);
-    let findElement: any = {};
-    const filteredNodes = this.filterInputElements(this.resData[0].children[1].children[0].children[1].children);
-    if (filteredNodes.length > 0) {
-      for (let index = 0; index < filteredNodes.length; index++) {
-        const element = filteredNodes[index];
-        if (element.formly[0].fieldGroup[0].key == model[0]) {
-          findElement = element;
-          break;
-        }
-      }
-    }
-    if (findElement) {
-      let obj = {
-        "EnumList": {
-          "enumName": this.formlyModel[model[0]],
-          "gridData": res
-        }
-      }
-      this.applicationService.addNestCommonAPI('cp', obj).subscribe(res => {
-        this.getEnumList(findElement, this.formlyModel[model[0]]);
-      })
-    }
   }
 
   assignIssue(node: any, issue: any) {
