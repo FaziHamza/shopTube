@@ -18,7 +18,7 @@
                             </ng-container> -->
                             <!-- <nz-avatar [nzText]="typeFirstAlphabetAsIcon(item['commentUser'][0])"></nz-avatar> -->
                             <div
-                                class="w-4 h-4 rounded-full {{ item['comment'][0]['status'] === 'open' ? 'bg-red-500' : (item['comment'][0]['status'] === 'inprogress' ? 'bg-orange-500' : (item['comment'][0]['status'] === 'completed' ? 'bg-green-500' : 'bg-red-500')) }}">
+                                class="w-4 h-4 rounded-full {{ item['comment'][0]['status'] === 'open' ? 'bg-red-500' : (item['comment'][0]['status'] === 'inProgress' ? 'bg-orange-500' : (item['comment'][0]['status'] === 'completed' ? 'bg-green-500' : 'bg-red-500')) }}">
                             </div>
                         </div>
                         <!-- <div (click)="toggleCommentDisplay(item)" class="user-detail">
@@ -30,134 +30,114 @@
                             <small>{{item['comment'].length-1}} Replies</small>
                         </div> -->
                         <div class="comment-modal">
-                            <nz-drawer [nzWrapClassName]="'comment-drawer'" nzWidth="500px" [nzClosable]="false"
+                            <nz-drawer [nzWrapClassName]="'comment-drawer'" nzWidth="700px" [nzClosable]="false"
                                 [(nzVisible)]="item['showAllComments']" nzPlacement="right" nzTitle="Task Manager"
                                 (nzOnClose)="handleCancel(item)">
                                 <ng-container *nzDrawerContent>
-                                    <!-- <div class="comments-chat">
-                                        <div class="c-body">
-                                            <div class="comment-box" *ngFor="let comment of item['comment']">
-                                                <div class="profile">
-                                                    <nz-avatar nzIcon="user" class="mr-2"></nz-avatar>
-                                                </div>
-                                                <div class="comment">
-                                                    <h6>
-                                                        {{comment['whoCreated']}} <span>{{comment.dateTime | date :
-                                                            "dd/MMM/yyyy hh:mm"}}</span>
-                                                    </h6>
-                                                    <nz-tag *ngIf="comment['status']"
-                                                        [nzColor]="comment['status'] == 'resolved' ? 'blue' : (comment['status'] == 'inProgress' ? 'green' : 'red')">{{comment['status']}}</nz-tag>
-                                                    <div class="edit-comment">
-                                                        <p>{{comment.comment}}</p>
-                                                        <span nz-icon nzType="edit" nzTheme="outline"
-                                                            (click)="edit(comment)"></span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="c-footer">
-                                            <form [formGroup]="commentForm">
-                                                <div class="comment-form">
-                                                    <label for="status">Status</label>
-                                                    <nz-select nzShowSearch nzAllowClear nzPlaceHolder="Select Status"
-                                                        formControlName="status">
-                                                        <nz-option nzLabel="Open" nzValue="open"></nz-option>
-                                                        <nz-option nzLabel="In Progress"
-                                                            nzValue="inProgress"></nz-option>
-                                                        <nz-option nzLabel="resolved" nzValue="resolved"></nz-option>
-                                                    </nz-select>
-                                                    <label for="comment">Comment</label>
-                                                    <textarea rows="2" formControlName="comment"
-                                                        placeholder="Write a message here..." nz-input></textarea>
-                                                </div>
-                                            </form>
-                                            <button (click)="saveComment(item)" *ngIf="!commentEdit" class="mt-2"
-                                                nz-button nzType="primary">Save</button>
-                                            <button (click)="saveComment(item)" *ngIf="commentEdit" class="mt-2"
-                                                nz-button nzType="primary">Update</button>
-                                        </div>
-                                    </div> -->
                                     <div class="comments-chat">
                                         <div class="c-header">
-                                            <div class="arrows">
-                                                <!-- <a href="">
-                                                    <i class="fa-regular fa-angle-left"></i>
-                                                </a>
-                                                <a href="">
-                                                    <i class="fa-regular fa-angle-right"></i>
-                                                </a> -->
+                                            <div class="status-options">
+                                                <div class="assign">
+                                                    <label for="countries"
+                                                        class="block  text-sm font-medium text-gray-900">
+                                                        Assignee
+                                                    </label>
+                                                    <select id="countries"
+                                                        class=" focus:ring-blue-500 focus:border-blue-500 block ">
+                                                        <option selected>No Assignee</option>
+                                                        <option>Name</option>
+                                                        <option>Name</option>
+                                                        <option>Name</option>
+                                                        <option>Name</option>
+                                                    </select>
+                                                </div>
+                                                <div class="assign">
+                                                    <label for="countries"
+                                                        class="block  text-sm font-medium text-gray-900">
+                                                        Due Date
+                                                    </label>
+                                                    <input type="date">
+                                                </div>
+                                                <div class="assign">
+                                                    <label for="countries"
+                                                        class="block  text-sm font-medium text-gray-900">
+                                                        Wave
+                                                    </label>
+                                                    <select id="countries" [(ngModel)]="item['comment'][0]['status']"
+                                                        (ngModelChange)="statusChange(item['comment'][0]['status'], item)"
+                                                        class="focus:ring-blue-500 focus:border-blue-500 block">
+                                                        <option value="open">open</option>
+                                                        <option value="inProgress">inProgress</option>
+                                                        <option value="completed">completed</option>
+                                                    </select>
+
+                                                </div>
                                             </div>
                                             <div class="actions">
-                                                <!-- <a href="">
+                                                <a href="">
                                                     <i class="fa-solid fa-ellipsis"></i>
                                                 </a>
                                                 <a href="">
-                                                    <i class="fa-regular fa-circle-check"></i>
-                                                </a>
-                                                <a href="">
-                                                    <i class="fa-regular fa-arrow-up-right-from-square"></i>
-                                                </a> -->
-                                                <a (click)="handleCancel(item)">
                                                     <i class="fa-regular fa-xmark"></i>
                                                 </a>
                                             </div>
                                         </div>
-
                                         <div class="c-body">
-                                            <div class="comment-box" *ngFor="let comment of item['comment']">
-                                                <div class="profile">
-                                                    <nz-avatar nzIcon="user" class="mr-2"></nz-avatar>
-                                                </div>
-                                                <div class="comment">
-                                                    <div class="text-edit">
-                                                        <h6>
-                                                            {{comment['whoCreated']}} <span>{{comment.dateTime | date :
-                                                                "dd/MMM/yyyy hh:mm"}}</span>
-                                                            <div class="dot" *ngIf="comment['status']"
-                                                                [ngStyle]="{'background' : comment['status'] == 'open' ? 'red' : (comment['status'] == 'resolved' ? 'blue' : 'green')}">
+                                            <div
+                                                class="space-y-8 relative before:absolute before:inset-0 before:ml-5 before:-translate-x-px md:before:ml-[8.75rem] md:before:translate-x-0 before:h-full before:w-0.5 before:bg-gradient-to-b before:from-transparent before:via-slate-300 before:to-transparent">
+                                                <!-- Item #1 -->
+                                                <div *ngFor="let comment of item['comment']" class="relative">
+                                                    <div class="md:flex items-center md:space-x-4 ">
+                                                        <div
+                                                            class="flex items-center space-x-4 md:space-x-2 md:space-x-reverse">
+                                                            <!-- Icon -->
+                                                            <div
+                                                                class="flex items-center justify-center w-10 h-10 rounded-full bg-white shadow md:order-1">
+                                                                <svg class="{{ comment['status'] == 'open' ? 'bg-red-500' : (comment['status'] == 'inProgress' ? 'bg-orange-500' : (comment['status'] == 'completed' ? 'bg-green-500' : 'bg-gray-200')) }}"
+                                                                    xmlns="http://www.w3.org/2000/svg" width="16"
+                                                                    height="16">
+                                                                    <path
+                                                                        d="M8 0a8 8 0 1 0 8 8 8.009 8.009 0 0 0-8-8Zm0 12a4 4 0 1 1 0-8 4 4 0 0 1 0 8Z" />
+                                                                </svg>
                                                             </div>
-                                                        </h6>
-                                                        <span>
-                                                            <i (click)="edit(comment)"
-                                                                class="fa-regular fa-pen-to-square"></i>
-                                                        </span>
+                                                            <!-- Date -->
+                                                            <time
+                                                                class="font-caveat font-medium text-sm md:w-28">{{comment.dateTime
+                                                                    | date :
+                                                                    "dd/MMM/yyyy hh:mm"}}</time>
+                                                        </div>
+                                                        <!-- Title -->
+                                                        <div class="text-slate-500 ml-14"><span
+                                                                class="text-slate-900 font-bold">{{comment['whoCreated']}}</span> </div>
                                                     </div>
-                                                    <p>{{comment.comment}}
-                                                    </p>
+                                                    <!-- Card -->
+                                                    <div class=" text-slate-500 ml-14 md:ml-44">Various versions have
+                                                        {{comment.comment}}</div>
                                                 </div>
                                             </div>
                                         </div>
-                                        <form [formGroup]="commentForm">
-                                            <div class="c-footer">
-                                                <div class="profile">
-                                                    <nz-avatar nzIcon="user" class="mr-2"></nz-avatar>
-                                                </div>
-                                                <div class="comment">
-                                                    <div class="input-group2">
-                                                        <input formControlName="comment" type="text"
-                                                            class="form-control" placeholder="Reply">
-                                                        <div (click)="saveComment(item)" class="send">
-                                                            <i class="fa-regular fa-arrow-up"></i>
-                                                        </div>
+                                        <div class="c-footer">
+                                            <div class="profile">
+                                                <nz-avatar nzIcon="user" class="mr-2"></nz-avatar>
+                                            </div>
+                                            <div class="comment">
+                                                <div class="input-group2">
+                                                    <input type="text" class="form-control" placeholder="Reply">
+                                                    <div class="send">
+                                                        <i class="fa-regular fa-arrow-up"></i>
                                                     </div>
                                                 </div>
-                                                <div class="status">
-                                                    <select formControlName="status" name="" id="">
-                                                        <option value="inProgress">In Progress</option>
-                                                        <option value="open">Open</option>
-                                                        <option value="resolved">Resolved</option>
-                                                    </select>
-                                                </div>
                                             </div>
-                                        </form>
+                                            <div class="status">
+                                                <select name="" id="">
+                                                    <option value="">Proceed</option>
+                                                    <option value="">Open</option>
+                                                    <option value="">Resolved</option>
+                                                </select>
+                                            </div>
+                                        </div>
                                     </div>
                                 </ng-container>
-                                <!-- <div *nzModalFooter>
-                                    <button (click)="saveComment(item)" *ngIf="!commentEdit" class="mt-2" nz-button
-                                        nzType="primary">Save</button>
-                                    <button (click)="saveComment(item)" *ngIf="commentEdit" class="mt-2" nz-button
-                                        nzType="primary">Update</button>
-                                </div> -->
                             </nz-drawer>
                         </div>
                     </div>

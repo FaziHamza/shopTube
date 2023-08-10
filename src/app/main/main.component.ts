@@ -604,4 +604,14 @@ export class MainComponent implements OnInit {
       status: data.status
     });
   }
+  statusChange(status: any, data: any) {
+    debugger
+    if (data['comment'].length > 0 && status) {
+      data['comment'] = data['comment'].map((comm: any) => {
+        comm['status'] = status;
+        return comm;
+      });
+    }
+  }
+
 }
