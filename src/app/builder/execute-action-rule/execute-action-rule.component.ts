@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { EmployeeService } from 'src/app/services/employee.service';
 
 @Component({
   selector: 'st-execute-action-rule',
@@ -8,7 +9,7 @@ import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 })
 export class ExecuteActionRuleComponent implements OnInit {
 
-  constructor(private fb: FormBuilder) { }
+  constructor(private fb: FormBuilder,private employeeService:EmployeeService) { }
 
   actionList: any = JSON.stringify([
     {
@@ -114,10 +115,8 @@ export class ExecuteActionRuleComponent implements OnInit {
     ]
   );
   actionModel: any = JSON.stringify({
-    "userId": 123,
-    "userTypeId": 2,
+    "userTypeId": 1,
     "status": "premium",
-    "productId": 456,
     "price": 250
   }
   )
@@ -155,8 +154,10 @@ export class ExecuteActionRuleComponent implements OnInit {
 
   async processActionRules() {
     try {
-      const results = await this.processActionRulesV1(this.actionRule, this.actionModel);
-      this.actionResult = JSON.stringify(results, null, 2);
+      await this.employeeService.saveSQLDatabaseTable('knex-query/execute-actions' ,JSON.parse(this.actionModel)).subscribe(res=>{
+        this.actionResult = JSON.stringify(res, null, 2);
+      })
+      // const results = await this.processActionRulesV1(this.actionRule, this.actionModel);
     } catch (error) {
       console.error('Error while processing action rules:', error);
       this.actionResult = 'Error occurred while processing action rules';
