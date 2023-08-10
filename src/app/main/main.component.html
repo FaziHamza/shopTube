@@ -16,45 +16,43 @@
                                 (nzOnClose)="handleCancel(item)">
                                 <ng-container *nzDrawerContent>
                                     <div class="comments-chat">
-                                        <div class="c-header">
+                                        <div class="c-header ">
                                             <div class="status-options">
                                                 <div class="assign">
                                                     <div class="flex items-center">
                                                         <label for="countries"
-                                                            class="block  text-sm font-medium text-gray-900">
-                                                            Assignee
+                                                            class="block  text-sm font-semibold text-white">
+                                                            Assignee <span class="font-bold ml-0.5 text-lg">:</span>
                                                         </label>
                                                         <p
-                                                            class="py-0.5 ml-3 px-1.5 border-2 border-dashed border-black w-fit h-fit rounded-full">
+                                                            class="py-0.5 ml-3 px-1.5 border-2 border-dashed border-white w-fit h-fit rounded-full">
                                                             <i class="fa-light fa-user-large"></i>
                                                         </p>
                                                     </div>
                                                     <select id="countries"
                                                         class=" focus:ring-blue-500 focus:border-blue-500 block text-red-400">
-                                                        <option selected>No Assignee</option>
-                                                        <option>Name</option>
-                                                        <option>Name</option>
-                                                        <option>Name</option>
-                                                        <option>Name</option>
+                                                        <option [value]="user.username"
+                                                            *ngFor="let user of this.dataSharedService.usersData">
+                                                            {{user.username}}</option>
                                                     </select>
                                                 </div>
                                                 <div class="assign">
                                                     <label for="countries"
-                                                        class="block  text-sm font-medium text-gray-900">
-                                                        Due Date
+                                                        class="block  text-sm font-semibold text-white">
+                                                        Due Date <span class="font-bold ml-0.5 text-lg">:</span>
                                                     </label>
-                                                    <input type="date" class="text-red-400">
+                                                    <input type="date" class="text-white">
                                                 </div>
                                                 <div class="assign">
                                                     <label for="countries"
-                                                        class="block  text-sm font-medium text-gray-900">
-                                                        Wave
+                                                        class="block  text-sm font-semibold text-white">
+                                                        Wave <span class="font-bold ml-0.5 text-lg">:</span>
                                                     </label>
                                                     <select [(ngModel)]="item['issueReport'][0]['status']"
                                                         (ngModelChange)="statusChange(item['issueReport'][0]['status'], item)"
                                                         id="
                                                         countries"
-                                                        class="focus:ring-blue-500 focus:border-blue-500 block text-red-400">
+                                                        class="focus:ring-blue-500 focus:border-blue-500 block text-white">
                                                         <option value="open">open</option>
                                                         <option value="inProgress">inProgress</option>
                                                         <option value="completed">completed</option>
@@ -63,19 +61,20 @@
                                                 </div>
                                             </div>
                                             <div class="actions">
-                                                <a href="">
+                                                <a>
                                                     <i class="fa-solid fa-ellipsis hover:!text-red-400 text-lg"></i>
                                                 </a>
-                                                <a href="">
+                                                <a (click)="handleCancel(item)">
                                                     <i class="fa-regular fa-xmark hover:!text-red-400 text-xl"></i>
                                                 </a>
                                             </div>
                                         </div>
                                         <div class="c-body pb-2 pt-2">
                                             <div
-                                                class="space-y-8 relative before:absolute before:inset-0 before:ml-5 before:-translate-x-px md:before:ml-[8.75rem] md:before:translate-x-0 before:h-full before:w-0.5 before:bg-gradient-to-b before:from-transparent before:via-slate-300 before:to-transparent">
+                                                class="space-y-8 ml-2.5 relative before:absolute before:inset-0 before:ml-5 before:-translate-x-px  md:before:translate-x-0 before:h-full before:w-0.5  before:bg-gradient-to-b before:from-transparent before:via-slate-300 before:to-transparent">
                                                 <!-- Item -->
-                                                <div *ngFor="let issue of item['issueReport']" class="relative">
+                                                <div *ngFor="let issue of item['issueReport'] ; let i = index"
+                                                    class="relative">
                                                     <div class="md:flex items-center md:space-x-4 ">
                                                         <div
                                                             class="flex items-center space-x-4 md:space-x-2 md:space-x-reverse">
@@ -89,62 +88,102 @@
                                                                         d="M8 0a8 8 0 1 0 8 8 8.009 8.009 0 0 0-8-8Zm0 12a4 4 0 1 1 0-8 4 4 0 0 1 0 8Z" />
                                                                 </svg>
                                                             </div>
-                                                            <!-- Date -->
-                                                            <time
-                                                                class=" text-slate-500 text-sm md:w-28">{{issue['dateTime']
-                                                                | date :
-                                                                "dd/MMM/yyyy"}}</time>
+
                                                         </div>
                                                         <!-- Title -->
-                                                        <div class="text-slate-500 ml-14"><span
-                                                                class="text-slate-900 font-bold">{{issue['createdBy']}}</span><span>
-                                                                <i (click)="reply(issue)"
-                                                                    class="fa-regular fa-reply cursor-pointer text-lg ml-1 reply"></i></span>
+                                                        <div
+                                                            class="text-slate-500 ml-14 flex w-full items-center justify-between h-5">
+                                                            <div class="flex items-center">
+                                                                <span
+                                                                    class="text-slate-800 font-semibold opacity-80">{{issue['createdBy']}}</span>
+                                                                <span *ngIf="issue['children']">
+                                                                    <button *ngIf="issue['children'].length == 0"
+                                                                        type="button"
+                                                                        class=" text-sm ml-1 reply text-white hover:bg-white border-2 border-[#2563EB] active:outline-2 active:outline-transparent focus:outline-2 focus:outline-transparent flex items-center  hover:text-[#2563EB] bg-[#2563EB] rounded-xl px-2"
+                                                                        (click)="reply(issue)">
+                                                                        Reply
+                                                                    </button>
+
+                                                                </span>
+                                                                <span>
+
+                                                                    <button *ngIf="!issue['children']" type="button"
+                                                                        class=" text-sm ml-1 reply text-white hover:bg-white border-2 border-[#2563EB] active:outline-2 active:outline-transparent focus:outline-2 focus:outline-transparent flex items-center  hover:text-[#2563EB] bg-[#2563EB] rounded-xl px-2"
+                                                                        (click)="reply(issue)">
+                                                                        Reply
+                                                                    </button>
+
+                                                                </span>
+
+                                                            </div>
+                                                            <div>
+                                                                <!-- Date -->
+                                                                <time
+                                                                    class=" text-slate-500 text-base w-fit mr-2 ">{{issue['dateTime']
+                                                                    | date :
+                                                                    "dd/MMM/yyyy"}}</time>
+                                                            </div>
                                                         </div>
                                                     </div>
-                                                    <!-- Card -->
-                                                    <div class=" text-slate-500 ml-14 md:ml-44">
+                                                    <!-- sub-Card -->
+                                                    <div class=" text-slate-500 ml-9">
                                                         <p>
                                                             {{issue['message']}}
                                                         </p>
-
-                                                        <div class="space-y-8 relative mt-5 before:absolute before:inset-0 before:ml-5 before:-translate-x-px md:before:ml-[8.75rem] md:before:translate-x-0 before:h-full before:w-0.5 before:bg-gradient-to-b before:from-transparent before:via-slate-300 before:to-transparent"
-                                                            *ngIf="issue['children'].length > 0">
-                                                            <div *ngFor="let IssueReportChild of issue['children']">
-                                                                <!-- Item #1 -->
-                                                                <div class="relative">
-                                                                    <div class="md:flex items-center md:space-x-4 ">
-                                                                        <div
-                                                                            class="flex items-center space-x-4 md:space-x-2 md:space-x-reverse">
-                                                                            <!-- Icon -->
+                                                        <div *ngIf="issue['children']">
+                                                            <div class="space-y-4 relative mt-5 before:absolute before:inset-0 before:ml-[13px] before:-translate-x-px  md:before:translate-x-0 before:h-full before:w-0.5 before:bg-gradient-to-b before:from-transparent before:via-slate-300 before:to-transparent"
+                                                                *ngIf="issue['children'].length > 0">
+                                                                <div *ngFor="let IssueReportChild of issue['children'] let last = last">
+                                                                    <!-- Item #1 -->
+                                                                    <div class="relative">
+                                                                        <div class="md:flex items-center md:space-x-4 ">
                                                                             <div
-                                                                                class="flex items-center justify-center w-10 h-10 rounded-full bg-white shadow md:order-1">
-                                                                                <svg class="fill-indigo-500"
-                                                                                    xmlns="http://www.w3.org/2000/svg"
-                                                                                    width="16" height="16">
-                                                                                    <path
-                                                                                        d="M8 0a8 8 0 1 0 8 8 8.009 8.009 0 0 0-8-8Zm0 12a4 4 0 1 1 0-8 4 4 0 0 1 0 8Z" />
-                                                                                </svg>
+                                                                                class="flex items-center space-x-4 md:space-x-2 md:space-x-reverse">
+                                                                                <!-- Icon -->
+                                                                                <div
+                                                                                    class="flex items-center justify-center w-7 h-7 rounded-full bg-white shadow md:order-1">
+                                                                                    <svg class="fill-indigo-500"
+                                                                                        xmlns="http://www.w3.org/2000/svg"
+                                                                                        width="16" height="16">
+                                                                                        <path
+                                                                                            d="M8 0a8 8 0 1 0 8 8 8.009 8.009 0 0 0-8-8Zm0 12a4 4 0 1 1 0-8 4 4 0 0 1 0 8Z" />
+                                                                                    </svg>
+                                                                                </div>
+
                                                                             </div>
-                                                                            <!-- Date -->
-                                                                            <time
-                                                                                class=" md:w-28 text-slate-500">{{IssueReportChild['dateTime']
-                                                                                | date :
-                                                                                "dd/MMM/yyyy"}}</time>
-                                                                        </div>
-                                                                        <!-- Title -->
-                                                                        <div class="text-slate-500 ml-14"><span
-                                                                                class="text-slate-900 font-bold">{{IssueReportChild['createdBy']}}</span>
-                                                                            <p class="text-slate-500">
-                                                                                {{IssueReportChild['message']}}
-                                                                            </p>
+                                                                            <!-- Title -->
+                                                                            <div class="text-slate-500 ml-14 w-full">
+                                                                                <div
+                                                                                    class="flex items-center justify-between h-fit w-full">
+                                                                                    <span
+                                                                                        class="text-slate-800 font-semibold opacity-70">{{IssueReportChild['createdBy']}}
+                                                                                        <span >
+                                                                                            <button
+                                                                                            *ngIf="issue['children'].length > 0 && last"
+                                                                                                type="button"
+                                                                                                class=" text-sm ml-1 reply text-white hover:bg-white border-2 border-[#2563EB] active:outline-2 active:outline-transparent focus:outline-2 focus:outline-transparent flex items-center  hover:text-[#2563EB] bg-[#2563EB] rounded-xl px-2"
+                                                                                                (click)="reply(issue)">
+                                                                                                Reply
+                                                                                            </button></span>
+                                                                                            </span>
+                                                                                        <!-- Date -->
+                                                                                        <time
+                                                                                            class=" w-fit text-xs text-slate-500 opacity-75">{{IssueReportChild['dateTime']
+                                                                                            | date :
+                                                                                            "dd/MMM/yyyy"}}</time>
+                                                                                </div>
+                                                                                <p class="text-slate-500">
+                                                                                    {{IssueReportChild['message']}}
+                                                                                </p>
+                                                                            </div>
                                                                         </div>
                                                                     </div>
                                                                 </div>
                                                             </div>
                                                         </div>
+
                                                         <form [formGroup]="commentForm">
-                                                            <div *ngIf="showRply == issue.id" class="h-12 mr-4">
+                                                            <div *ngIf="showRply == issue.id" class="h-12 mr-4 mt-4">
                                                                 <nz-input-group [nzSuffix]="suffixIconSearch"
                                                                     class="h-full">
                                                                     <input formControlName="message" type="text"
