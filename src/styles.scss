@@ -5255,15 +5255,19 @@ ul.ant-cascader-menu:nth-child(2)>li:nth-child(1)>div:nth-child(2)>i:nth-child(1
 
 }
 
-th,
-td,
-td .editable-cell {
-  white-space: nowrap;
-  white-space: nowrap;
-  width: 100%;
-  overflow: hidden;
-  text-overflow: ellipsis;
+.dynamic-table {
+
+  th,
+  td,
+  td .editable-cell {
+    white-space: nowrap;
+    white-space: nowrap;
+    width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
 }
+
 
 .ant-select-dropdown {
   margin: 10px 0px !important;
@@ -5568,8 +5572,12 @@ td .editable-cell {
 
 
     .comment {
-      padding-left: 15px;
-      width: calc(100% - 160px);
+      .textarea.ant-input {
+        border-radius: 6px;
+      }
+
+      padding-left: 0px;
+      width: calc(100% - 120px);
       position: relative;
 
       .input-group2 {
@@ -5608,7 +5616,7 @@ td .editable-cell {
     }
 
     .status {
-      width: 130px;
+      width: 123px;
       padding-left: 15px;
 
       select {
@@ -5684,14 +5692,15 @@ li.ant-cascader-menu-item:nth-child(1):hover {
     }
   }
 }
+
 // .dynamic-menu {
 //   .ant-menu-inline-collapsed {
 
-    
+
 //     .nav-item {      
 //       .menu-item-icon {
 //         padding-top: 20% !important;
-        
+
 //       }
 //     }
 //   }
@@ -5730,13 +5739,15 @@ li.ant-cascader-menu-item:nth-child(1):hover {
       height: 5.7vh;
     }
   }
-  formly-field-image-upload{
+
+  formly-field-image-upload {
     .ant-input-group .ant-input {
       height: 5.7vh;
     }
   }
 }
-.floating_filled{
+
+.floating_filled {
   nz-checkbox-wrapper {
     height: 52px;
   }
@@ -5754,16 +5765,26 @@ li.ant-cascader-menu-item:nth-child(1):hover {
       padding-top: 22px;
     }
   }
-  formly-field-image-upload{
+
+  formly-field-image-upload {
     .ant-input-group .ant-input {
       padding-bottom: 6px;
     }
   }
 }
+
 .ant-menu-vertical {
-  .layout-tabs-drop-down-submenu{
-    .ant-menu-submenu-vertical:hover i{
+  .layout-tabs-drop-down-submenu {
+    .ant-menu-submenu-vertical:hover i {
       color: #fff !important;
     }
   }
+}
+
+
+.comment-save-button {
+  border-radius: 6px;
+  height: 40px;
+  text-align: center;
+  background: #3b82f6;
 }

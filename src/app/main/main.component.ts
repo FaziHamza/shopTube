@@ -57,7 +57,7 @@ export class MainComponent implements OnInit {
   ngOnInit(): void {
     this.commentForm = this.formBuilder.group({
       comment: ['', Validators.required],
-      status: ['', Validators.required],
+      // status: ['', Validators.required],
     });
     if (this.router.url.includes('/pages'))
       this.isShowContextMenu = true;
@@ -457,7 +457,7 @@ export class MainComponent implements OnInit {
     this.clipboard.copy(data);
     this.toastr.success('Copied to clipboard', { nzDuration: 3000 });
   }
-  comment(json: any) {
+  issue(json: any) {
     const modal = this.modalService.create<CommentModalComponent>({
       nzTitle: 'Issue Report',
       nzContent: CommentModalComponent,
@@ -503,6 +503,7 @@ export class MainComponent implements OnInit {
     }
   }
   saveComment(data: any) {
+    debugger
     if (!this.commentForm.valid) {
       this.toastr.warning('Please fill this', { nzDuration: 3000 });
       return;
@@ -519,7 +520,7 @@ export class MainComponent implements OnInit {
       ObjectID: data.id,
       whoCreated: userData.username,
       comment: this.commentForm.value.comment,
-      status: this.commentForm.value.status,
+      // status: this.commentForm.value.status,
       dateTime: new Date(),
       avatar: 'avatar.png'
     };
@@ -546,7 +547,7 @@ export class MainComponent implements OnInit {
         if (res.isSuccess) {
           this.commentForm.patchValue({
             comment: '',
-            status: ''
+            // status: ''
           });
           this.toastr.success(`UserComment: ${res.message}`, { nzDuration: 3000 });
 
@@ -601,11 +602,10 @@ export class MainComponent implements OnInit {
     this.commentEditObj = data;
     this.commentForm.patchValue({
       comment: data.comment,
-      status: data.status
+      // status: data.status
     });
   }
   statusChange(status: any, data: any) {
-    debugger
     if (data['comment'].length > 0 && status) {
       data['comment'] = data['comment'].map((comm: any) => {
         comm['status'] = status;
