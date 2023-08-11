@@ -26,6 +26,9 @@ body {
   font-family: Roboto, "Helvetica Neue", sans-serif, Rubik, sans-serif;
 }
 
+i{
+  cursor: pointer !important;
+}
 @font-face {
   font-family: 'Jameel Noori Nastaleeq';
   src: url('./assets/fonts/jameel-noori-nastaleeq.ttf') format('truetype');
@@ -5418,9 +5421,8 @@ ul.ant-cascader-menu:nth-child(2)>li:nth-child(1)>div:nth-child(2)>i:nth-child(1
   overflow: hidden;
   padding: 0;
   .c-header {
-    height: 50px;
-    padding: 10px;
-    padding-left: 12px;
+    height: 60px;
+    padding: 10px 12px;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -5478,11 +5480,13 @@ ul.ant-cascader-menu:nth-child(2)>li:nth-child(1)>div:nth-child(2)>i:nth-child(1
     border-radius: 100px;
     background: #000;
   }
-
+ 
   .c-body {
+    scrollbar-width: thin;
+    scrollbar-color: #000 transparent; /* Color of the thumb and track respectively */
     width: 100%;
     overflow-y: auto;
-    height: calc(100vh - 50px);
+    height: calc(100vh - 60px);
 
     .comment-box:hover {
       .text-edit i {
