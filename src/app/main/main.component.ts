@@ -48,6 +48,7 @@ export class MainComponent implements OnInit {
   commentEdit = false;
   showRply = '';
   commentEditObj: any = {};
+  assignToresponse: any = '';
   commentForm: FormGroup;
   constructor(private cd: ChangeDetectorRef, private nzImageService: NzImageService, private employeeService: EmployeeService,
     private builderService: BuilderService, private applicationServices: ApplicationService,
@@ -483,32 +484,6 @@ export class MainComponent implements OnInit {
       }
     });
   }
-  assignComment(node: any, comment: any) {
-    if (comment['componentId']) {
-      if (node.id == comment['componentId']) {
-        if (!node['issueReport']) {
-          node['issueReport'] = [];
-        }
-
-        node['issueReport'].push(comment);
-
-        if (!node['issueUser']) {
-          node['issueUser'] = [comment['createdBy']];
-        }
-        else {
-          if (!node['issueUser'].includes(comment['createdBy'])) {
-            node['issueUser'].push(comment.createdBy);
-          }
-        }
-      }
-
-      if (node.children.length > 0) {
-        node.children.forEach((child: any) => {
-          this.assignComment(child, comment);
-        });
-      }
-    }
-  }
   saveComment(data: any, issue: any, issueIndex?: any) {
     debugger
     if (!this.commentForm.valid) {
@@ -593,6 +568,25 @@ export class MainComponent implements OnInit {
 
   toggleCommentDisplay(data: any) {
     data['showAllComments'] = true;
+
+    this.requestSubscription = this.applicationService.getNestCommonAPIById('cp/UserAssignTask', data.id).subscribe({
+      next: (res: any) => {
+        if (res) {
+          if (res.data.length > 0) {
+            this.assignToresponse = res.data[0];
+            data['dueDate'] = res.data[0]['dueDate'];
+            data['assignTo'] = res.data[0]['assignTo'];
+            this.toastr.success(`UserAssignTask : ${res.message}`, { nzDuration: 3000 });
+          } else {
+            data['dueDate'] = new Date();
+            data['dueDate'] = data['dueDate'].toISOString().split('T')[0];
+          }
+        }
+      }, error: (err: any) => {
+        console.error(err); // Log the error to the console
+        this.toastr.error(`UserAssignTask : An error occurred`, { nzDuration: 3000 });
+      }
+    })
   }
   handleCancel(data: any) {
     data['showAllComments'] = false;
@@ -628,6 +622,40 @@ export class MainComponent implements OnInit {
   }
   reply(issue: any) {
     this.showRply = issue.id;
-  }
 
+  }
+  userAssigneeSave(data: any, issue: any) {
+    const userData = JSON.parse(localStorage.getItem('user')!);
+    let obj = {
+      screenId: this.screenName,
+      dueDate: data.dueDate,
+      status: issue.status,
+      organizationId: JSON.parse(localStorage.getItem('organizationId')!),
+      applicationId: JSON.parse(localStorage.getItem('applicationId')!),
+      componentId: data.id,
+      createdBy: userData.username,
+      assignTo: data.assignTo,
+    }
+    let UserAssignTaskModel = {
+      "UserAssignTask": obj
+    }
+    let requestObservable: Observable<any>;
+    if (!this.assignToresponse) {
+      requestObservable = this.applicationService.addNestCommonAPI('cp', UserAssignTaskModel);
+    } else {
+      requestObservable = this.applicationService.updateNestCommonAPI('cp/UserAssignTask', this.assignToresponse._id, UserAssignTaskModel);
+    }
+    requestObservable.subscribe({
+      next: (res: any) => {
+        if (res) {
+          this.assignToresponse = res.data;
+          // this.assignToresponse['id'] = res.data['_id'];
+          this.toastr.success(`UserAssignTask : ${res.message}`, { nzDuration: 3000 });
+        }
+      }, error: (err: any) => {
+        console.error(err); // Log the error to the console
+        this.toastr.error(`UserAssignTask : An error occurred`, { nzDuration: 3000 });
+      }
+    })
+  }
 }
