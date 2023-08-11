@@ -75,14 +75,16 @@ export class FormlyFieldImageUploadComponent extends FieldWrapper<FieldTypeConfi
   }
 
   uploadFile(file: File) {
+    debugger
     const reader = new FileReader();
     if (file) {
       if (file.type === 'application/json') {
         reader.onload = () => {
           const base64Data = reader.result as string;
           const makeData = JSON.parse(base64Data);
+          let data = makeData.screenData ? makeData.screenData : makeData;
           const currentData = JSON.parse(
-            JSON.stringify(makeData.screenData, function (key, value) {
+            JSON.stringify(data, function (key, value) {
               if (typeof value === 'function') {
                 return value.toString();
               } else {

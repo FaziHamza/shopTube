@@ -473,13 +473,16 @@ export class MainComponent implements OnInit {
     modal.afterClose.subscribe((res: any) => {
       if (res) {
         res['id'] = res._id;
+        delete res._id;
+        delete res.__v
+          ;
         if (json['issueReport']) {
           json['issueReport'].push(res);
         } else {
           json['issueReport'] = [];
           json['issueReport'].push(res);
-
         }
+        this.cd.detectChanges();
         // this.assignComment(this.mainData, res);
       }
     });
