@@ -17,8 +17,8 @@
                                 <ng-container *nzDrawerContent>
                                     <div class="comments-chat">
                                         <div class="c-header ">
-                                            <div class="status-options">
-                                                <div class="assign">
+                                            <div class="status-options w-full">
+                                                <div class="assign w-2/5">
                                                     <div class="flex items-center">
                                                         <label for="countries"
                                                             class="block  text-sm font-semibold text-white">
@@ -35,29 +35,31 @@
                                                             {{user.username}}</option>
                                                     </select>
                                                 </div>
-                                                <div class="assign">
+                                                <div class="w-3/5 flex items-center" >
+                                                <div class="assign w-3/5 pl-[18px]">
                                                     <label for="countries"
                                                         class="block  text-sm font-semibold text-white">
                                                         Due Date <span class="font-bold text-base">:</span>
                                                     </label>
                                                     <input type="date" class="text-white">
                                                 </div>
-                                                <div class="assign">
+                                                <div class="assign w-2/5">
                                                     <label for="countries"
                                                         class="block  text-sm font-semibold text-white">
                                                         Status <span class="font-bold text-base">:</span>
                                                     </label>
-                                                    <select [(ngModel)]="item['issueReport'][0]['status']"
+                                                    <select [(ngModel)]="item['issueReport'][0]['status'] "
                                                         (ngModelChange)="statusChange(item['issueReport'][0]['status'], item)"
                                                         id="
                                                         countries"
-                                                        class="focus:ring-blue-500 focus:border-blue-500 block text-white bg-[#2563EB] ">
+                                                        class="focus:ring-blue-500 w-[100px] focus:border-blue-500 block text-white bg-[#2563EB] " nz-typography nzEllipsis="">
                                                         <option class="text-black" value="open">open</option>
                                                         <option class="text-black" value="inProgress">inProgress</option>
                                                         <option class="text-black" value="completed">completed</option>
                                                         <option class="text-black"  value="closed">Closed</option>
                                                     </select>
                                                 </div>
+                                            </div>
                                             </div>
                                             <div class="actions">
                                                 <p (click)="handleCancel(item)">
