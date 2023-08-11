@@ -26,9 +26,10 @@ body {
   font-family: Roboto, "Helvetica Neue", sans-serif, Rubik, sans-serif;
 }
 
-i{
+i {
   cursor: pointer !important;
 }
+
 @font-face {
   font-family: 'Jameel Noori Nastaleeq';
   src: url('./assets/fonts/jameel-noori-nastaleeq.ttf') format('truetype');
@@ -5420,6 +5421,7 @@ ul.ant-cascader-menu:nth-child(2)>li:nth-child(1)>div:nth-child(2)>i:nth-child(1
   color: #000;
   overflow: hidden;
   padding: 0;
+
   .c-header {
     height: 60px;
     padding: 10px 12px;
@@ -5430,6 +5432,7 @@ ul.ant-cascader-menu:nth-child(2)>li:nth-child(1)>div:nth-child(2)>i:nth-child(1
     color: #fff;
     border-bottom: 1px solid #cccccc77;
     box-sizing: border-box;
+
     .status-options {
       display: flex;
       align-items: center;
@@ -5480,10 +5483,11 @@ ul.ant-cascader-menu:nth-child(2)>li:nth-child(1)>div:nth-child(2)>i:nth-child(1
     border-radius: 100px;
     background: #000;
   }
- 
+
   .c-body {
     scrollbar-width: thin;
-    scrollbar-color: #000 transparent; /* Color of the thumb and track respectively */
+    scrollbar-color: #000 transparent;
+    /* Color of the thumb and track respectively */
     width: 100%;
     overflow-y: auto;
     height: calc(100vh - 60px);
@@ -5800,4 +5804,83 @@ li.ant-cascader-menu-item:nth-child(1):hover {
   height: 40px;
   text-align: center;
   background: #3b82f6;
+}
+
+
+.ant-tabs{
+
+  .ant-tabs-nav{
+    margin-top: 10px;
+    .ant-tabs-tab {
+    padding: 12px;
+    border-radius: 6px 6px 0 0;
+    }
+    .ant-tabs-tab:hover{
+      background-color: #2563EB;
+      color: #fff;
+      border-radius: 6px 6px 0 0;
+      .ant-tabs-tab-btn{
+        color: #fff;
+      }
+    }
+
+    .ant-tabs-tab-active{
+      background-color: #2563EB;
+      border-radius: 6px 6px 0 0;
+      .ant-tabs-tab-btn{
+        color: #fff;
+      }
+    }
+
+  }
+.ant-tabs-content-holder{
+
+
+.ant-tabs-tabpane {
+
+  .ant-tabs-nav {
+    width: 150px;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    text-overflow: "...";
+
+    .ant-tabs-tab-active,
+    .ant-tabs-tab-active:hover {
+      background-color: #2563EB;
+      display: flex;
+      justify-content: center;
+      border-radius: 0 6px 6px 0;
+      align-items: center;
+
+      .ant-tabs-tab-btn {
+        color: #fff;
+      }
+    }
+
+    .ant-tabs-tab {
+      display: flex;
+      justify-content: center;
+      border-radius: 0 6px 6px 0;
+      ;
+      align-items: center;
+    }
+
+    .ant-tabs-tab:hover {
+      background-color: #2563EB;
+      border-radius: 0 6px 6px 0;
+      ;
+
+      .ant-tabs-tab-btn {
+        color: #fff;
+      }
+    }
+  }
+
+  nz-tabset.ant-tabs:nth-child(1)>div:nth-child(2) {
+    width: calc(100% - 150px);
+  }
+
+}
+}
 }
