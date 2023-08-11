@@ -471,9 +471,9 @@ export class MainComponent implements OnInit {
     });
     modal.afterClose.subscribe((res: any) => {
       if (res) {
+        res['id'] = res._id;
         if (json['issueReport']) {
           json['issueReport'].push(res);
-
         } else {
           json['issueReport'] = [];
           json['issueReport'].push(res);
@@ -509,7 +509,7 @@ export class MainComponent implements OnInit {
       }
     }
   }
-  saveComment(data: any, issue: any, issueIndex: any) {
+  saveComment(data: any, issue: any, issueIndex?: any) {
     debugger
     if (!this.commentForm.valid) {
       this.toastr.warning('Please fill this', { nzDuration: 3000 });
