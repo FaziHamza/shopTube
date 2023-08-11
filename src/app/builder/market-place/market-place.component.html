@@ -1,16 +1,24 @@
 <nz-spin [nzSpinning]="saveLoader" [nzSize]="'large'">
-<div class="basic-button-save text-end">
-  <button nz-button nzType="primary" class="save-btn" (click)="close()">Save</button>
-  <button nz-button (click)="cancel()" class="cancel-btn">Cancel</button>
-</div>
-<nz-tabset>
-  <nz-tab *ngFor="let group of groupedData" [nzTitle]="group.categoryname">
-    <div class="flex flex-wrap">
-    <div *ngFor="let item of group.items" class="w-1/6 px-2 " (click)="addNodes(item,group)">
-      <img [src]="item?.thumbnailimage ? enviorment + item?.thumbnailimage :  'assets/images/banner.png'" alt="" class="cursor-pointer">
-      <h6>{{ item.name }}</h6>
-    </div>
+  <div class="basic-button-save text-end">
+    <button nz-button nzType="primary" class="save-btn" (click)="close()">Save</button>
+    <button nz-button (click)="cancel()" class="cancel-btn">Cancel</button>
   </div>
-  </nz-tab>
-</nz-tabset>
+  <nz-tabset>
+    <nz-tab *ngFor="let group of groupedData" [nzTitle]="group.categoryname">
+      <nz-tabset [nzSelectedIndex]="0" [nzTabPosition]="'right'" *ngIf="group.children.length > 0">
+        {{group.children | json}}
+        <nz-tab *ngFor="let groupChild of group.children" [nzTitle]="groupChild.subcategoryname">
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-2 " *ngIf="groupChild.children">
+            <div class="img " *ngFor="let groupSubchild of groupChild.children"
+              (click)="addNodes(groupSubchild)">
+              <img
+                [src]="groupSubchild?.thumbnailimage ? enviorment + groupSubchild?.thumbnailimage :  'assets/images/banner.png'"
+                alt="" class="cursor-pointer rounded-lg w-full h-auto bg-cover">
+              <h6 class="inline-block w-full text-center font-semibold" >{{ groupSubchild.name }}</h6>
+            </div>
+          </div>
+        </nz-tab>
+      </nz-tabset>
+    </nz-tab>
+  </nz-tabset>
 </nz-spin>

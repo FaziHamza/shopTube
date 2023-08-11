@@ -83,7 +83,7 @@ export class SiteLayoutComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    debugger
+    this.getUsers();
     this.currentUser = JSON.parse(localStorage.getItem('user')!);
     this.requestSubscription = this.dataSharedService.collapseMenu.subscribe({
       next: (res) => {
@@ -377,10 +377,10 @@ export class SiteLayoutComponent implements OnInit {
     });
   }
   getUsers() {
-    this.requestSubscription = this.applicationService.getNestCommonAPI('cp/Users').subscribe({
+    this.requestSubscription = this.applicationService.getNestCommonAPI('cp/user').subscribe({
       next: (res: any) => {
         if (res.data.length > 0) {
-
+          this.dataSharedService.usersData = res.data;
         }
       },
       error: (err) => {

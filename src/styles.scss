@@ -26,6 +26,10 @@ body {
   font-family: Roboto, "Helvetica Neue", sans-serif, Rubik, sans-serif;
 }
 
+i {
+  cursor: pointer !important;
+}
+
 @font-face {
   font-family: 'Jameel Noori Nastaleeq';
   src: url('./assets/fonts/jameel-noori-nastaleeq.ttf') format('truetype');
@@ -5410,19 +5414,24 @@ ul.ant-cascader-menu:nth-child(2)>li:nth-child(1)>div:nth-child(2)>i:nth-child(1
 
 .comments-chat {
   width: 100%;
-  height: 100%;
+  height: 100vh;
   max-width: 1000px;
   background: #f5f5f5;
   padding: 10px 15px;
   color: #000;
+  overflow: hidden;
+  padding: 0;
 
   .c-header {
-    height: 35px;
-    padding-bottom: 5px;
+    height: 60px;
+    padding: 10px 12px;
     display: flex;
     justify-content: space-between;
     align-items: center;
+    background-color: #2563EB;
+    color: #fff;
     border-bottom: 1px solid #cccccc77;
+    box-sizing: border-box;
 
     .status-options {
       display: flex;
@@ -5430,7 +5439,7 @@ ul.ant-cascader-menu:nth-child(2)>li:nth-child(1)>div:nth-child(2)>i:nth-child(1
 
       .assign {
         display: flex;
-        margin-right: 20px;
+        margin-right: 0px;
         align-items: center;
 
         label {
@@ -5476,9 +5485,12 @@ ul.ant-cascader-menu:nth-child(2)>li:nth-child(1)>div:nth-child(2)>i:nth-child(1
   }
 
   .c-body {
+    scrollbar-width: thin;
+    scrollbar-color: #000 transparent;
+    /* Color of the thumb and track respectively */
     width: 100%;
     overflow-y: auto;
-    height: calc(100% - 100px);
+    height: calc(100vh - 60px);
 
     .comment-box:hover {
       .text-edit i {
@@ -5794,155 +5806,81 @@ li.ant-cascader-menu-item:nth-child(1):hover {
   background: #3b82f6;
 }
 
-.top-action-bar-wrap {
-  // display: flex;
-  align-items: center;
-  margin-bottom: 10px;
-  .ant-btn {
-    flex-shrink: 0;
-    border-radius: 4px;
-    margin: 0px 4px;
-    i {
-      font-size: 16px;
+
+.ant-tabs{
+
+  .ant-tabs-nav{
+    margin-top: 10px;
+    .ant-tabs-tab {
+    padding: 12px;
+    border-radius: 6px 6px 0 0;
     }
-  }
-  .page-selector {
-    width: 235px;
-    padding-right: 12px;
-
-    .ant-select-item-option-content {
-      text-transform: capitalize;
-    }
-
-    .ant-form-item-control-input {
-      width: 100%;
-    }
-
-    .ant-select-selector {
-      width: 100%;
-      height: 42px;
-      display: flex;
-      font-size: 14px;
-      align-items: center;
-      border-radius: 6px;
-      border: 1px solid #DBDBDB;
-      background: #FFF;
-    }
-  }
-
-  .action-bar {
-    display: flex;
-    justify-content: space-between;
-    width: calc(100% - 235px);
-  }
-
-  .component-actions {
-    padding: 7px 3px;
-    height: 42px;
-    border-radius: 6px;
-    border: 1px solid #DBDBDB;
-    background: #F5F5F5;
-
-    .ant-btn {
-      width: 28px;
-      height: 28px;
-      flex-shrink: 0;
-      border-radius: 4px;
-      color: #000000;
-      margin: 0px 4px;
-
-      i {
-        font-size: 16px;
+    .ant-tabs-tab:hover{
+      background-color: #2563EB;
+      color: #fff;
+      border-radius: 6px 6px 0 0;
+      .ant-tabs-tab-btn{
+        color: #fff;
       }
     }
 
-    .ant-btn.active {
-      background: $main;
-      color: white !important;
-
-    }
-
-    .ant-btn:hover {
-      background: $main;
-      color: white !important;
-
-    }
-  }
-
-  .screen-sizing {
-    height: 40px;
-    border-radius: 6px;
-    border: 1px solid #DBDBDB;
-    background: #F5F5F5;
-
-    .ant-btn {
-      width: 39px;
-      height: 39px;
-      flex-shrink: 0;
-      border: none !important;
-      border-radius: 6px;
-      border: none;
-      color: #000000;
-
-      i {
-        font-size: 16px;
+    .ant-tabs-tab-active{
+      background-color: #2563EB;
+      border-radius: 6px 6px 0 0;
+      .ant-tabs-tab-btn{
+        color: #fff;
       }
     }
 
-    .ant-btn.active {
-      background: $main;
-      color: white !important;
-
-    }
-
-    .ant-btn:hover {
-      background: $main;
-      color: white !important;
-
-    }
   }
+.ant-tabs-content-holder{
 
-  .action-drop-down {
-    display: flex;
 
-    .actions-btn {
-      width: 140px;
-      height: 40px;
-      flex-shrink: 0;
-      border-radius: 6px;
-      background: #2563EB;
-      color: #FFF;
-      font-size: 14px;
-      font-style: normal;
-      line-height: 140%;
-      letter-spacing: 0.2px;
+.ant-tabs-tabpane {
+
+  .ant-tabs-nav {
+    width: 150px;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    text-overflow: "...";
+
+    .ant-tabs-tab-active,
+    .ant-tabs-tab-active:hover {
+      background-color: #2563EB;
       display: flex;
-      justify-content: space-between;
+      justify-content: center;
+      border-radius: 0 6px 6px 0;
       align-items: center;
 
-      svg {
-        height: 12px;
-        width: 12px;
+      .ant-tabs-tab-btn {
+        color: #fff;
       }
     }
 
-    .upload-btn {
-      width: 40px;
-      height: 40px;
-      flex-shrink: 0;
-      border-radius: 6px;
-      background: #2563EB;
-      color: #FFF;
-      font-size: 16px;
-      font-style: normal;
-      font-weight: 600;
-      line-height: 140%;
-      letter-spacing: 0.2px;
-      margin-left: 12px;
+    .ant-tabs-tab {
+      display: flex;
+      justify-content: center;
+      border-radius: 0 6px 6px 0;
+      ;
+      align-items: center;
+    }
 
-      i {
-        font-size: 14px;
+    .ant-tabs-tab:hover {
+      background-color: #2563EB;
+      border-radius: 0 6px 6px 0;
+      ;
+
+      .ant-tabs-tab-btn {
+        color: #fff;
       }
     }
   }
+
+  nz-tabset.ant-tabs:nth-child(1)>div:nth-child(2) {
+    width: calc(100% - 150px);
+  }
+
+}
+}
 }

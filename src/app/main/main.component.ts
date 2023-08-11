@@ -48,6 +48,7 @@ export class MainComponent implements OnInit {
   commentEdit = false;
   showRply = '';
   commentEditObj: any = {};
+  assignToresponse: any = '';
   commentForm: FormGroup;
   constructor(private cd: ChangeDetectorRef, private nzImageService: NzImageService, private employeeService: EmployeeService,
     private builderService: BuilderService, private applicationServices: ApplicationService,
@@ -457,7 +458,7 @@ export class MainComponent implements OnInit {
     this.clipboard.copy(data);
     this.toastr.success('Copied to clipboard', { nzDuration: 3000 });
   }
-  issueReport(json: any) {
+  issueReportFun(json: any) {
     const modal = this.modalService.create<CommentModalComponent>({
       nzTitle: 'Issue Report',
       nzContent: CommentModalComponent,
@@ -471,37 +472,22 @@ export class MainComponent implements OnInit {
     });
     modal.afterClose.subscribe((res: any) => {
       if (res) {
-        this.assignComment(this.mainData, res);
+        res['id'] = res._id;
+        delete res._id;
+        delete res.__v
+          ;
+        if (json['issueReport']) {
+          json['issueReport'].push(res);
+        } else {
+          json['issueReport'] = [];
+          json['issueReport'].push(res);
+        }
+        this.cd.detectChanges();
+        // this.assignComment(this.mainData, res);
       }
     });
   }
-  assignComment(node: any, comment: any) {
-    if (comment['componentId']) {
-      if (node.id == comment['componentId']) {
-        if (!node['issueReport']) {
-          node['issueReport'] = [];
-        }
-
-        node['issueReport'].push(comment);
-
-        if (!node['issueUser']) {
-          node['issueUser'] = [comment['createdBy']];
-        }
-        else {
-          if (!node['issueUser'].includes(comment['createdBy'])) {
-            node['issueUser'].push(comment.createdBy);
-          }
-        }
-      }
-
-      if (node.children.length > 0) {
-        node.children.forEach((child: any) => {
-          this.assignComment(child, comment);
-        });
-      }
-    }
-  }
-  saveComment(data: any, issue: any) {
+  saveComment(data: any, issue: any, issueIndex?: any) {
     debugger
     if (!this.commentForm.valid) {
       this.toastr.warning('Please fill this', { nzDuration: 3000 });
@@ -550,7 +536,6 @@ export class MainComponent implements OnInit {
           this.toastr.success(`UserComment: ${res.message}`, { nzDuration: 3000 });
 
           if (this.commentEdit) {
-
             let Newdata: any = data.comment.map((comm: any) => {
               if (comm._id === res.data._id) {
                 return res.data;
@@ -560,14 +545,16 @@ export class MainComponent implements OnInit {
             data.comment = (JSON.parse(JSON.stringify(Newdata)))
           }
           else {
-            const matchedIssueIndex = data['issueReport'].findIndex((a : any) => a.id === issue.id);
-
-            if (matchedIssueIndex !== -1) {
-              res.data['id'] = res.data. _id; 
-              data.issueReport[matchedIssueIndex].children.push(res.data);
+            if (data['issueReport'][issueIndex]['children']) {
+              res.data['id'] = res.data._id;
+              data.issueReport[issueIndex].children.push(res.data);
             } else {
-              console.log("Issue not found in the issueReport array");
+              data['issueReport'][issueIndex]['children'] = [];
+              res.data['id'] = res.data._id;
+              data['issueReport'][issueIndex]['children'].push(res.data);
             }
+
+
           }
           this.commentEdit = false;
         } else {
@@ -584,6 +571,25 @@ export class MainComponent implements OnInit {
 
   toggleCommentDisplay(data: any) {
     data['showAllComments'] = true;
+
+    this.requestSubscription = this.applicationService.getNestCommonAPIById('cp/UserAssignTask', data.id).subscribe({
+      next: (res: any) => {
+        if (res) {
+          if (res.data.length > 0) {
+            this.assignToresponse = res.data[0];
+            data['dueDate'] = res.data[0]['dueDate'];
+            data['assignTo'] = res.data[0]['assignTo'];
+            this.toastr.success(`UserAssignTask : ${res.message}`, { nzDuration: 3000 });
+          } else {
+            data['dueDate'] = new Date();
+            data['dueDate'] = data['dueDate'].toISOString().split('T')[0];
+          }
+        }
+      }, error: (err: any) => {
+        console.error(err); // Log the error to the console
+        this.toastr.error(`UserAssignTask : An error occurred`, { nzDuration: 3000 });
+      }
+    })
   }
   handleCancel(data: any) {
     data['showAllComments'] = false;
@@ -619,6 +625,40 @@ export class MainComponent implements OnInit {
   }
   reply(issue: any) {
     this.showRply = issue.id;
-  }
 
+  }
+  userAssigneeSave(data: any, issue: any) {
+    const userData = JSON.parse(localStorage.getItem('user')!);
+    let obj = {
+      screenId: this.screenName,
+      dueDate: data.dueDate,
+      status: issue.status,
+      organizationId: JSON.parse(localStorage.getItem('organizationId')!),
+      applicationId: JSON.parse(localStorage.getItem('applicationId')!),
+      componentId: data.id,
+      createdBy: userData.username,
+      assignTo: data.assignTo,
+    }
+    let UserAssignTaskModel = {
+      "UserAssignTask": obj
+    }
+    let requestObservable: Observable<any>;
+    if (!this.assignToresponse) {
+      requestObservable = this.applicationService.addNestCommonAPI('cp', UserAssignTaskModel);
+    } else {
+      requestObservable = this.applicationService.updateNestCommonAPI('cp/UserAssignTask', this.assignToresponse._id, UserAssignTaskModel);
+    }
+    requestObservable.subscribe({
+      next: (res: any) => {
+        if (res) {
+          this.assignToresponse = res.data;
+          // this.assignToresponse['id'] = res.data['_id'];
+          this.toastr.success(`UserAssignTask : ${res.message}`, { nzDuration: 3000 });
+        }
+      }, error: (err: any) => {
+        console.error(err); // Log the error to the console
+        this.toastr.error(`UserAssignTask : An error occurred`, { nzDuration: 3000 });
+      }
+    })
+  }
 }
