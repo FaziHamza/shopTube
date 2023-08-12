@@ -120,7 +120,27 @@ export class UserTaskManagementComponent implements OnInit {
   getIssues(screenId: string, applicationId: string) {
     const objScreen = this.screens.find((x: any) => x._id == screenId);
     const data = this.builderService.getUserAssignTask(objScreen.navigation, applicationId).subscribe((res: any) => {
+      res.issue
       this.data = res.data;
+      this.data.forEach((obj: any) => {
+        obj.expand = false;
+      });
+      this.data[0]['children'] = [];
+      let obj =
+      {
+
+        "_id":
+          "64d64d428909734e2f0a24d3",
+        "screenId": "CakeForm",
+        "dueDate": "2023-08-11",
+        "status": "open",
+        "organizationId": "64abfde576ac2e992aa14d75",
+        "applicationId": "64c7cf48c577c6286a78ce45",
+        "componentId": "cakeform_input_22a7f843",
+        "createdBy": "zubairv@gmail.com",
+        "assignTo": "zubairv2@gmail.com",
+      }
+      this.data[0]['children'].push(obj);
       console.log(this.data);
     })
   }
@@ -134,7 +154,7 @@ export class UserTaskManagementComponent implements OnInit {
 
   }
 
-  cancelEdit(data: any, index: any): void {
+  cancelEdit(data?: any, index?: any): void {
     debugger
     this.data[index] = this.editObj;
     this.data[index].status = this.editObj.status;
@@ -152,12 +172,12 @@ export class UserTaskManagementComponent implements OnInit {
       } else {
         this.toastr.error(res.message, { nzDuration: 3000 });
       }
-  })
-}
+    })
+  }
 
-ngOnDestroy(): void {
-  this.requestSubscription.unsubscribe();
-}
+  ngOnDestroy(): void {
+    this.requestSubscription.unsubscribe();
+  }
 
 
 }
