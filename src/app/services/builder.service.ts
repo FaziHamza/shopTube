@@ -131,7 +131,7 @@ export class BuilderService {
   }
   genericApisWithId(api: any, id: any): Observable<any> {
     return this.http.get<any>(
-      this.baseUrl + api+`?key=${id}`
+      this.baseUrl + api + `?key=${id}`
     );
   }
   genericApisPost(api: any, data: any): Observable<any> {
@@ -144,7 +144,7 @@ export class BuilderService {
       this.nestUrl + api, data
     );
   }
-  genericPost(id: any, modal: any , api : any): Observable<any[]> {
+  genericPost(id: any, modal: any, api: any): Observable<any[]> {
     return this.http.put<any[]>(
       this.baseUrl + api + "/" + id, modal
     );
@@ -271,7 +271,7 @@ export class BuilderService {
   }
   getScreenByModuleName(moduleName: any): Observable<any[]> {
     return this.http.get<any[]>(
-      this.baseUrl + "jsonScreenModule?applicationName="+ moduleName
+      this.baseUrl + "jsonScreenModule?applicationName=" + moduleName
     );
   }
   updateScreenModule(id: any, modal: any): Observable<any[]> {
@@ -356,19 +356,25 @@ export class BuilderService {
   }
   getModuleByApplicationName(applicationName: any): Observable<any[]> {
     return this.http.get<any[]>(
-      this.baseUrl + "jsonModule?applicationName="+applicationName
+      this.baseUrl + "jsonModule?applicationName=" + applicationName
     );
   }
   getApplicationByDomainName(domain: any): Observable<any> {
     return this.http.get<any>(
-      this.nestUrl + "cp/domain/Application/"+domain
+      this.nestUrl + "cp/domain/Application/" + domain
     );
   }
   getApplicationByHeaderName(domain: any): Observable<any> {
     return this.http.get<any>(
-      this.nestUrl + "cp/header/Application/"+domain
+      this.nestUrl + "cp/header/Application/" + domain
     );
   }
+  getUserAssignTask(screenId: any, applicationId: any): Observable<any> {
+    return this.http.get<any>(
+      this.nestUrl + "cp/userAssignTask/UserAssignTask/" + screenId + '/' + applicationId
+    );
+  }
+
   deletejsonModule(id: number): Observable<any[]> {
 
     return this.http.delete<any[]>(
@@ -387,7 +393,7 @@ export class BuilderService {
   }
   getCommentById(id: any): Observable<any> {
     return this.http.get<any>(
-      this.baseUrl + "commentList?id="+id
+      this.baseUrl + "commentList?id=" + id
     );
   }
   jsonSaveValidationRule(modal: any): Observable<any[]> {

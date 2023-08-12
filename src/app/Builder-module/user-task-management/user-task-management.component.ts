@@ -3,6 +3,7 @@ import { NzCascaderOption } from 'ng-zorro-antd/cascader';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { Subscription } from 'rxjs';
 import { ApplicationService } from 'src/app/services/application.service';
+import { BuilderService } from 'src/app/services/builder.service';
 
 @Component({
   selector: 'st-user-task-management',
@@ -17,23 +18,22 @@ export class UserTaskManagementComponent implements OnInit {
   applicationData: any = [];
   requestSubscription: Subscription;
   _id: any = "";
-  constructor(private toastr: NzMessageService, private applicationService: ApplicationService) {
-    this.data.forEach(item => {
-      this.editCache[item.id] = {
-        edit: false,
-        data: { ...item }
-      };
-    });
+  editId: any = '';
+  editObj: any = {};
+  constructor(private toastr: NzMessageService, private applicationService: ApplicationService, public builderService: BuilderService,) {
+
   }
   editCache: { [key: string]: { edit: boolean; data: any } } = {};
 
   ngOnInit(): void {
     this.loadDepartmentData();
   }
+
+
   onDepartmentChange(departmentId: any) {
-    if (departmentId.length === 3 ) {
-      if(departmentId[2] != 'selectScreen'){
-        this.getScreenData(departmentId[2])
+    if (departmentId.length === 3) {
+      if (departmentId[2] != 'selectScreen') {
+        this.getIssues(departmentId[2], departmentId[1])
       }
     }
   }
@@ -41,7 +41,6 @@ export class UserTaskManagementComponent implements OnInit {
     try {
       const res = await this.applicationService.getNestCommonAPI('cp/Department').toPromise();
       if (res?.isSuccess) {
-        debugger
         this.departmentData = res.data?.map((data: any) => {
           return {
             label: data.name,
@@ -118,49 +117,67 @@ export class UserTaskManagementComponent implements OnInit {
       }
     }
   }
-  getScreenData(data: any) {
-    const objScreen = this.screens.find((x: any) => x._id == data);
-    this._id = objScreen._id;
-    this.getBuilderScreen();
-  }
-  getBuilderScreen() {
-    // this.requestSubscription = this.applicationService.getNestCommonAPIById('cp/Builder', this._id).subscribe({
-    //   next: (res: any) => {
-    //     if (res.isSuccess) {
+  getIssues(screenId: string, applicationId: string) {
+    const objScreen = this.screens.find((x: any) => x._id == screenId);
+    const data = this.builderService.getUserAssignTask(objScreen.navigation, applicationId).subscribe((res: any) => {
+      res.issue
+      this.data = res.data;
+      this.data.forEach((obj: any) => {
+        obj.expand = false;
+      });
+      this.data[0]['children'] = [];
+      let obj =
+      {
 
-    //     }
-    //   },
-    //   error: (err) => {
-    //     console.error(err); // Log the error to the console
-    //     this.toastr.error("An error occurred", { nzDuration: 3000 }); // Show an error message to the user
-    //   }
-    // });
-  }
-  data: any[] = [
-    { id: 1, issue: 'Issue 1', status: 'open' },
-    { id: 2, issue: 'Issue 2', status: 'progress' },
-    { id: 3, issue: 'Issue 3', status: 'complete' },
-    { id: 4, issue: 'Issue 4', status: 'inprogress' },
-    { id: 5, issue: 'Issue 5', status: 'close' },
-  ];
-  startEdit(id: number): void {
-    this.editCache[id].edit = true;
+        "_id":
+          "64d64d428909734e2f0a24d3",
+        "screenId": "CakeForm",
+        "dueDate": "2023-08-11",
+        "status": "open",
+        "organizationId": "64abfde576ac2e992aa14d75",
+        "applicationId": "64c7cf48c577c6286a78ce45",
+        "componentId": "cakeform_input_22a7f843",
+        "createdBy": "zubairv@gmail.com",
+        "assignTo": "zubairv2@gmail.com",
+      }
+      this.data[0]['children'].push(obj);
+      console.log(this.data);
+    })
   }
 
-  cancelEdit(id: number): void {
-    const index = this.data.findIndex(item => item.id === id);
-    this.editCache[id] = {
-      data: { ...this.data[index] },
-      edit: false
-    };
+  data: any = [];
+
+  startEdit(id: any, data: any): void {
+    this.editObj = JSON.parse(JSON.stringify(data));
+    this.editId = id;
+    this.editObj.status = data.status;
+
+  }
+
+  cancelEdit(data?: any, index?: any): void {
+    debugger
+    this.data[index] = this.editObj;
+    this.data[index].status = this.editObj.status;
+    // data = this.editObj
+    this.editId = '';
   }
 
   saveEdit(id: number): void {
-    const index = this.data.findIndex(item => item.id === id);
-    Object.assign(this.data[index], this.editCache[id].data);
-    this.editCache[id].edit = false;
+    const index = this.data.findIndex((item: any) => item._id === id);
+    Object.assign(this.data[index], this.editId.data);
+    this.editId = '';
+    const updatedTask = this.applicationService.updateNestCommonAPI(this.data, id, this.editId).subscribe((res: any) => {
+      if (res.isSuccess) {
+        this.toastr.success(res.message, { nzDuration: 3000 });
+      } else {
+        this.toastr.error(res.message, { nzDuration: 3000 });
+      }
+    })
   }
+
   ngOnDestroy(): void {
     this.requestSubscription.unsubscribe();
   }
+
+
 }

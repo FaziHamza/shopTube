@@ -155,8 +155,8 @@ export class BuilderComponent implements OnInit {
 
   // onDepartmentChange
   onDepartmentChange(departmentId: any) {
-    if (departmentId.length === 3 ) {
-      if(departmentId[2] != 'selectScreen'){
+    if (departmentId.length === 3) {
+      if (departmentId[2] != 'selectScreen') {
         this.getScreenData(departmentId[2])
       }
     }
@@ -494,7 +494,7 @@ export class BuilderComponent implements OnInit {
     })
 
   }
-  getBuilderScreen() {
+  getBuilderScreen() {  
     this.requestSubscription = this.applicationService.getNestCommonAPIById('cp/Builder', this._id).subscribe({
       next: (res: any) => {
         if (res.isSuccess) {
