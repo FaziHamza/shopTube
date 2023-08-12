@@ -1,3 +1,4 @@
+<nz-spin [nzSpinning]="saveLoader" [nzSize]="'large'">
 <div class="b-card top-action-bar-wrap p-3 UTM">
   <div class="page-selector user-task-manager-cascader">
     <nz-form-control nzErrorTip="Please Select Page">
@@ -26,7 +27,7 @@
         <ng-template ngFor let-data [ngForOf]="nestedTable.data">
           <tr>
             <td nzWidth="11.11%" [(nzExpand)]="data.expand"></td>
-            <td nzWidth="11.11%" > <p class="w-full" nz-typography nzEllipsis > 
+            <td nzWidth="11.11%" > <p class="w-full" nz-typography nzEllipsis >
               {{data._id}}
             </p> </td>
             <td nzWidth="16.66%" >{{data.issue}}</td>
