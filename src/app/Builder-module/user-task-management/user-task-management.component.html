@@ -1,5 +1,5 @@
-<div class="b-card top-action-bar-wrap p-3">
-  <div class="page-selector">
+<div class="b-card top-action-bar-wrap p-3 UTM">
+  <div class="page-selector user-task-manager-cascader">
     <nz-form-control nzErrorTip="Please Select Page">
       <nz-cascader nzChangeOnSelect [nzAllowClear]="true" style="padding-left: 4px; width: 100%"
         [(ngModel)]="selectDepartmentName" [nzOptions]="departmentData" (ngModelChange)="onDepartmentChange($event)"
@@ -9,28 +9,30 @@
   </div>
   <br>
   <div class="assigtask-table">
-    <nz-table #nestedTable [nzData]="data" [nzPageSize]="10">
+    <nz-table #nestedTable [nzData]="data" nzBordered [nzPageSize]="10" class="rounded-lg">
       <thead>
         <tr>
-          <th nzWidth="10%" class="">Type</th>
-          <th class=""><i class="fa-regular fa-hashtag mr-2  "></i> key</th>
-          <th><i class="fa-regular fa-bars-sort mr-2 "></i>Summary</th>
-          <th><i class="fa-regular fa-circle-arrow-right mr-2 "></i>Status</th>
-          <th><i class="fa-regular fa-circle-user mr-2 "></i>Assignee</th>
-          <th><i class="fa-regular fa-calendar-days mr-2 "></i>Due Date</th>
-          <th><i class="fa-regular fa-calendar-days mr-2 "></i>Priority</th>
-          <th>Actions</th>
+          <th nzWidth="11.11%" class="!text-gray-400 rounded-tl-lg">Type</th>
+          <th nzWidth="11.11%" class="!text-gray-400 " nz-typography nzEllipsis><i class="fa-regular fa-hashtag mr-1.5 text-lg "></i> key</th>
+          <th nzWidth="16.66%" class="!text-gray-400 "><i class="fa-regular text-lg fa-bars-sort mr-1.5 "></i>Summary</th>
+          <th nzWidth="11.11%" class="!text-gray-400 "><i class="fa-regular text-lg fa-circle-arrow-right mr-1.5 "></i> Status </th>
+          <th nzWidth="16.66%" class="!text-gray-400 "><i class="fa-regular fa-at text-lg mr-1.5"></i> Assignee </th>
+          <th nzWidth="11.11%" class="!text-gray-400 "><i class="fa-regular fa-calendar-days text-lg mr-1.5 "></i> Due Date</th>
+          <th nzWidth="11.11%" class="!text-gray-400 "><i class="fa-regular fa-circle-chevron-up text-lg mr-1.5"></i> Priority</th>
+          <th nzWidth="11.11%" class="!text-gray-400 ">Actions</th>
         </tr>
       </thead>
       <tbody>
         <ng-template ngFor let-data [ngForOf]="nestedTable.data">
           <tr>
-            <td [(nzExpand)]="data.expand"></td>
-            <td> {{data._id}}</td>
-            <td>{{data.issue}}</td>
-            <td>
+            <td nzWidth="11.11%" [(nzExpand)]="data.expand"></td>
+            <td nzWidth="11.11%" > <p class="w-full" nz-typography nzEllipsis > 
+              {{data._id}}
+            </p> </td>
+            <td nzWidth="16.66%" >{{data.issue}}</td>
+            <td nzWidth="11.11%">
               <div *ngIf="editId != data._id">
-                <nz-tag
+                <nz-tag class="font-semibold"
                   [nzColor]="data['status'] == 'open' ? 'red' : (data['status'] == 'inProgress' ? 'orange' : (data['status'] == 'completed' ? 'green' : 'gray'))">{{data.status}}</nz-tag>
               </div>
               <div>
@@ -42,10 +44,20 @@
                 </nz-select>
               </div>
             </td>
-            <td>{{data.assignTo}}</td>
-            <td>{{data.dueDate}}</td>
-            <td></td>
-            <td><button nz-button *ngIf="editId != data._id" (click)="startEdit(data._id,data)" class="ant-btn"
+            <td nzWidth="16.66%" >
+              <div class="tab-div w-full flex items-center space-x-2">
+                <nz-avatar nzIcon="user" class="table-avatar"></nz-avatar>
+                <p>{{data.assignTo}}</p>
+              </div>
+            </td>
+            <td nzWidth="11.11%" >
+              <p class="!bg-gray-200 px-1 rounded-sm w-fit text-gray-700"> {{data.dueDate}} </p>
+            </td>
+            <td nzWidth="11.11%" ><div class="flex items-center space-x-2 cursor-pointer" >
+              <i class="fa-solid fa-chevrons-up text-xs text-red-400"></i>
+              <p > Text</p>
+            </div></td>
+            <td nzWidth="11.11%" ><button nz-button *ngIf="editId != data._id" (click)="startEdit(data._id,data)" class="ant-btn"
                 nzType="primary">Edit</button>
               <button nz-button *ngIf="editId == data._id" (click)="saveEdit(data._id)" class="ant-btn mr-2"
                 nzType="primary">Save</button>
@@ -57,25 +69,35 @@
             <nz-table #innerTable [nzData]="data.children" nzSize="middle" [nzShowPagination]="true">
               <thead>
                 <tr>
-                  <th nzWidth="10%" class="">Type</th>
-                  <th class=""><i class="fa-regular fa-hashtag mr-2  "></i> key</th>
-                  <th><i class="fa-regular fa-bars-sort mr-2 "></i>Summary</th>
-                  <th><i class="fa-regular fa-circle-arrow-right mr-2 "></i>Status</th>
-                  <th><i class="fa-regular fa-circle-user mr-2 "></i>Assignee</th>
-                  <th><i class="fa-regular fa-calendar-days mr-2 "></i>Due Date</th>
-                  <th><i class="fa-regular fa-calendar-days mr-2 "></i>Priority</th>
-                  <th>Actions</th>
+                  <th nzWidth="11.11%" class="!text-gray-400 rounded-tl-lg">Type</th>
+                  <th nzWidth="11.11%" class="!text-gray-400 "><i class="fa-regular fa-hashtag mr-1.5 text-lg "></i> key</th>
+                  <th nzWidth="16.66%" class="!text-gray-400 "><i class="fa-regular text-lg fa-bars-sort mr-1.5 "></i>Summary</th>
+                  <th nzWidth="11.11%" class="!text-gray-400 "><i class="fa-regular text-lg fa-circle-arrow-right mr-1.5 "></i> Status </th>
+                  <th nzWidth="16.66%" class="!text-gray-400 "><i class="fa-regular fa-at text-lg mr-1.5"></i> Assignee </th>
+                  <th nzWidth="11.11%" class="!text-gray-400 "><i class="fa-regular fa-calendar-days text-lg mr-1.5 "></i> Due Date</th>
+                  <th nzWidth="11.11%" class="!text-gray-400 "><i class="fa-regular fa-circle-chevron-up text-lg mr-1.5"></i> Priority</th>
+                  <th nzWidth="11.11%" class="!text-gray-400 ">Actions</th>
                 </tr>
               </thead>
       <tbody>
         <tr *ngFor="let data of innerTable.data">
-          <td [(nzExpand)]="data.expand"></td>
-          <td> {{data._id}}</td>
-          <td>{{data.issue}}</td>
+          <td nzWidth="11.11%" [(nzExpand)]="data.expand"></td>
+          <td nzWidth="11.11%" > {{data._id}}</td>
+          <td nzWidth="16.66%" >{{data.issue}}</td>
           <td>{{data.status}}</td>
-          <td>{{data.assignTo}}</td>
-          <td>{{data.dueDate}}</td>
-          <td></td>
+          <td><div class="tab-div w-full flex items-center space-x-2">
+            <nz-avatar nzIcon="user" class="table-avatar"></nz-avatar>
+            <p>{{data.assignTo}}</p>
+          </div></td>
+          <td>
+            <p class="!bg-gray-200 px-1 rounded-sm w-fit text-gray-700"> {{data.dueDate}} </p>
+          </td>
+          <td>
+            <div class="flex items-center space-x-2 cursor-pointer" >
+              <i class="fa-solid fa-chevrons-up text-xs text-red-400"></i>
+              <p > Text</p>
+            </div>
+          </td>
         </tr>
       </tbody>
     </nz-table>

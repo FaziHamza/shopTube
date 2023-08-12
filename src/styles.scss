@@ -5856,20 +5856,20 @@ li.ant-cascader-menu-item:nth-child(1):hover {
           overflow-y: auto;
           scrollbar-color: #2563eb;
           scrollbar-width: thin;
-          
+
           &::-webkit-scrollbar {
             width: 7px;
           }
-          
+
           &::-webkit-scrollbar-thumb {
-            background-color: #2563EB; 
+            background-color: #2563EB;
           }
-          
+
           &::-webkit-scrollbar-track {
-            background-color: #fff; 
+            background-color: #fff;
           }
-        
-        
+
+
 
 
           .ant-tabs-tab-active,
@@ -5922,18 +5922,34 @@ li.ant-cascader-menu-item:nth-child(1):hover {
 
 }
 
+.UTM {
 
-.user-task-manager-cascader{
-  width: 219px;
-  .ant-select-single:not(.ant-select-customize-input) .ant-select-selector  {
-    width: 100%;
-    height: 42px;
-    display: flex;
-    font-size: 14px;
-    align-items: center;
-    border-radius: 6px;
-    border: 1px solid #DBDBDB;
-    background: #FFF;
+  .user-task-manager-cascader {
+    width: 219px;
+
+    .ant-select-single:not(.ant-select-customize-input) .ant-select-selector {
+      width: 100%;
+      height: 42px;
+      display: flex;
+      font-size: 14px;
+      align-items: center;
+      border-radius: 6px;
+      border: 1px solid #DBDBDB;
+      background: #FFF;
+    }
+
   }
-  
+
+  .tab-div {
+
+    .table-avatar {
+      width: 30px;
+      height: 30px;
+    }
+
+    .ant-avatar-icon {
+      font-size: 14px !important;
+    }
+  }
+
 }
