@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { NzCascaderOption } from 'ng-zorro-antd/cascader';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { Subscription } from 'rxjs';
@@ -17,10 +17,11 @@ export class UserTaskManagementComponent implements OnInit {
   screens: any;
   applicationData: any = [];
   requestSubscription: Subscription;
-  _id: any = "";
   editId: any = '';
   editObj: any = {};
-  constructor(private toastr: NzMessageService, private applicationService: ApplicationService, public builderService: BuilderService,) {
+  saveLoader: boolean = false;
+  constructor(private toastr: NzMessageService, private applicationService: ApplicationService, public builderService: BuilderService,
+    private cdr: ChangeDetectorRef) {
 
   }
   editCache: { [key: string]: { edit: boolean; data: any } } = {};
@@ -119,29 +120,47 @@ export class UserTaskManagementComponent implements OnInit {
   }
   getIssues(screenId: string, applicationId: string) {
     const objScreen = this.screens.find((x: any) => x._id == screenId);
-    const data = this.builderService.getUserAssignTask(objScreen.navigation, applicationId).subscribe((res: any) => {
-      res.issue
-      this.data = res.data;
-      this.data.forEach((obj: any) => {
-        obj.expand = false;
-      });
-      this.data[0]['children'] = [];
-      let obj =
-      {
+    this.saveLoader = true;
+    this.requestSubscription = this.builderService.getUserAssignTask(objScreen.navigation, applicationId).subscribe({
+      next: (res: any) => {
+        if (res.isSuccess) {
+          if (res.data.length > 0) {
+            this.data = res.data;
+            this.data.forEach((obj: any) => {
+              obj.expand = false;
+            });
+            this.data[0]['children'] = [];
+            let obj =
+            {
 
-        "_id":
-          "64d64d428909734e2f0a24d3",
-        "screenId": "CakeForm",
-        "dueDate": "2023-08-11",
-        "status": "open",
-        "organizationId": "64abfde576ac2e992aa14d75",
-        "applicationId": "64c7cf48c577c6286a78ce45",
-        "componentId": "cakeform_input_22a7f843",
-        "createdBy": "zubairv@gmail.com",
-        "assignTo": "zubairv2@gmail.com",
+              "_id":
+                "64d64d428909734e2f0a24d3",
+              "screenId": "CakeForm",
+              "dueDate": "2023-08-11",
+              "status": "open",
+              "organizationId": "64abfde576ac2e992aa14d75",
+              "applicationId": "64c7cf48c577c6286a78ce45",
+              "componentId": "cakeform_input_22a7f843",
+              "createdBy": "zubairv@gmail.com",
+              "assignTo": "zubairv2@gmail.com",
+            }
+            this.data[0]['children'].push(obj);
+            this.saveLoader = false;
+          } else {
+            this.toastr.error(`No data against this screen:`, { nzDuration: 3000 });
+            this.saveLoader = false;
+          }
+        }
+        else {
+          this.toastr.error(`userAssignTask:` + res.message, { nzDuration: 3000 });
+          this.saveLoader = false;
+        }
+      },
+      error: (err) => {
+        console.error(err);
+        this.toastr.error("An error occurred", { nzDuration: 3000 });
+        this.saveLoader = false;
       }
-      this.data[0]['children'].push(obj);
-      console.log(this.data);
     })
   }
 
@@ -150,27 +169,30 @@ export class UserTaskManagementComponent implements OnInit {
   startEdit(id: any, data: any): void {
     this.editObj = JSON.parse(JSON.stringify(data));
     this.editId = id;
-    this.editObj.status = data.status;
-
   }
 
-  cancelEdit(data?: any, index?: any): void {
-    debugger
-    this.data[index] = this.editObj;
-    this.data[index].status = this.editObj.status;
-    // data = this.editObj
+  cancelEdit(data?: any): void {
+    data.status = this.editObj.status;
     this.editId = '';
   }
 
-  saveEdit(id: number): void {
-    const index = this.data.findIndex((item: any) => item._id === id);
-    Object.assign(this.data[index], this.editId.data);
-    this.editId = '';
-    const updatedTask = this.applicationService.updateNestCommonAPI(this.data, id, this.editId).subscribe((res: any) => {
-      if (res.isSuccess) {
-        this.toastr.success(res.message, { nzDuration: 3000 });
-      } else {
-        this.toastr.error(res.message, { nzDuration: 3000 });
+  async saveEdit(data: any) {
+    let UserAssignTaskModel = {
+      "UserAssignTask": data
+    }
+    this.saveLoader = true;
+    this.requestSubscription = this.applicationService.updateNestCommonAPI('cp/UserAssignTask', data._id, UserAssignTaskModel).subscribe({
+      next: (res: any) => {
+        if (res) {
+          this.toastr.success(`UserAssignTask : ${res.message}`, { nzDuration: 3000 });
+          this.getIssues(this.selectDepartmentName[2],this.selectDepartmentName[1]);
+          this.editId = '';
+          this.saveLoader = false;
+        }
+      }, error: (err: any) => {
+        console.error(err); // Log the error to the console
+        this.toastr.error(`UserAssignTask : An error occurred`, { nzDuration: 3000 });
+        this.saveLoader = false;
       }
     })
   }

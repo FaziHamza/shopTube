@@ -1,30 +1,75 @@
-<div class="b-card top-action-bar-wrap p-3">
-  <div class="page-selector">
-    <nz-form-control nzErrorTip="Please Select Page">
-      <nz-cascader nzChangeOnSelect [nzAllowClear]="true" style="padding-left: 4px; width: 100%"
-        [(ngModel)]="selectDepartmentName" [nzOptions]="departmentData" (ngModelChange)="onDepartmentChange($event)"
-        [nzLoadData]="loadData.bind(this)" placeholder="Select Screen">
-      </nz-cascader>
-    </nz-form-control>
-  </div>
-  <br>
-  <div class="assigtask-table">
-    <nz-table #nestedTable [nzData]="data" [nzPageSize]="10">
-      <thead>
-        <tr>
-          <th nzWidth="10%" class="">Type</th>
-          <th class=""><i class="fa-regular fa-hashtag mr-2  "></i> key</th>
-          <th><i class="fa-regular fa-bars-sort mr-2 "></i>Summary</th>
-          <th><i class="fa-regular fa-circle-arrow-right mr-2 "></i>Status</th>
-          <th><i class="fa-regular fa-circle-user mr-2 "></i>Assignee</th>
-          <th><i class="fa-regular fa-calendar-days mr-2 "></i>Due Date</th>
-          <th><i class="fa-regular fa-calendar-days mr-2 "></i>Priority</th>
-          <th>Actions</th>
-        </tr>
-      </thead>
-      <tbody>
-        <ng-template ngFor let-data [ngForOf]="nestedTable.data">
+<nz-spin [nzSpinning]="saveLoader" [nzSize]="'large'">
+  <div class="b-card top-action-bar-wrap p-3">
+    <div class="page-selector">
+      <nz-form-control nzErrorTip="Please Select Page">
+        <nz-cascader nzChangeOnSelect [nzAllowClear]="true" style="padding-left: 4px; width: 100%"
+          [(ngModel)]="selectDepartmentName" [nzOptions]="departmentData" (ngModelChange)="onDepartmentChange($event)"
+          [nzLoadData]="loadData.bind(this)" placeholder="Select Screen">
+        </nz-cascader>
+      </nz-form-control>
+    </div>
+    <br>
+    <div class="assigtask-table">
+      <nz-table #nestedTable [nzData]="data" [nzPageSize]="10">
+        <thead>
           <tr>
+            <th nzWidth="10%" class="">Type</th>
+            <th class=""><i class="fa-regular fa-hashtag mr-2  "></i> key</th>
+            <th><i class="fa-regular fa-bars-sort mr-2 "></i>Summary</th>
+            <th><i class="fa-regular fa-circle-arrow-right mr-2 "></i>Status</th>
+            <th><i class="fa-regular fa-circle-user mr-2 "></i>Assignee</th>
+            <th><i class="fa-regular fa-calendar-days mr-2 "></i>Due Date</th>
+            <th><i class="fa-regular fa-calendar-days mr-2 "></i>Priority</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <ng-template ngFor let-data [ngForOf]="nestedTable.data">
+            <tr>
+              <td [(nzExpand)]="data.expand"></td>
+              <td> {{data._id}}</td>
+              <td>{{data.issue}}</td>
+              <td>
+                <div *ngIf="editId != data._id">
+                  <nz-tag
+                    [nzColor]="data['status'] == 'open' ? 'red' : (data['status'] == 'inProgress' ? 'orange' : (data['status'] == 'completed' ? 'green' : 'gray'))">{{data.status}}</nz-tag>
+                </div>
+                <div>
+                  <nz-select *ngIf="editId == data._id" [(ngModel)]="data.status">
+                    <nz-option nzValue="open" nzLabel="Open"></nz-option>
+                    <nz-option nzValue="inProgress" nzLabel="inProgress"></nz-option>
+                    <nz-option nzValue="completed" nzLabel="completed"></nz-option>
+                    <nz-option nzValue="close" nzLabel="Close"></nz-option>
+                  </nz-select>
+                </div>
+              </td>
+              <td>{{data.assignTo}}</td>
+              <td>{{data.dueDate}}</td>
+              <td></td>
+              <td><button nz-button *ngIf="editId != data._id" (click)="startEdit(data._id,data)" class="ant-btn"
+                  nzType="primary">Edit</button>
+                <button nz-button *ngIf="editId == data._id" (click)="saveEdit(data)" class="ant-btn mr-2"
+                  nzType="primary">Save</button>
+                <button nz-button *ngIf="editId == data._id" (click)="cancelEdit(data)" nzType="primary" class="ant-btn"
+                  nzDanger>Cancel</button>
+              </td>
+            </tr>
+            <tr [nzExpand]="data.expand">
+              <nz-table #innerTable [nzData]="data.children" nzSize="middle" [nzShowPagination]="true">
+                <thead>
+                  <tr>
+                    <th nzWidth="10%" class="">Type</th>
+                    <th class=""><i class="fa-regular fa-hashtag mr-2  "></i> key</th>
+                    <th><i class="fa-regular fa-bars-sort mr-2 "></i>Summary</th>
+                    <th><i class="fa-regular fa-circle-arrow-right mr-2 "></i>Status</th>
+                    <th><i class="fa-regular fa-circle-user mr-2 "></i>Assignee</th>
+                    <th><i class="fa-regular fa-calendar-days mr-2 "></i>Due Date</th>
+                    <th><i class="fa-regular fa-calendar-days mr-2 "></i>Priority</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+        <tbody>
+          <tr *ngFor="let data of innerTable.data">
             <td [(nzExpand)]="data.expand"></td>
             <td> {{data._id}}</td>
             <td>{{data.issue}}</td>
@@ -53,88 +98,19 @@
                 nzDanger>Cancel</button>
             </td>
           </tr>
-          <tr [nzExpand]="data.expand">
-            <nz-table #innerTable [nzData]="data.children" nzSize="middle" [nzShowPagination]="true">
-              <thead>
-                <tr>
-                  <th nzWidth="10%" class="">Type</th>
-                  <th class=""><i class="fa-regular fa-hashtag mr-2  "></i> key</th>
-                  <th><i class="fa-regular fa-bars-sort mr-2 "></i>Summary</th>
-                  <th><i class="fa-regular fa-circle-arrow-right mr-2 "></i>Status</th>
-                  <th><i class="fa-regular fa-circle-user mr-2 "></i>Assignee</th>
-                  <th><i class="fa-regular fa-calendar-days mr-2 "></i>Due Date</th>
-                  <th><i class="fa-regular fa-calendar-days mr-2 "></i>Priority</th>
-                  <th>Actions</th>
-                </tr>
-              </thead>
-      <tbody>
-        <tr *ngFor="let data of innerTable.data">
-          <td [(nzExpand)]="data.expand"></td>
-          <td> {{data._id}}</td>
-          <td>{{data.issue}}</td>
-          <td>{{data.status}}</td>
-          <td>{{data.assignTo}}</td>
-          <td>{{data.dueDate}}</td>
-          <td></td>
-        </tr>
+        </tbody>
+      </nz-table>
+      </tr>
+      </ng-template>
       </tbody>
-    </nz-table>
-    </tr>
-    </ng-template>
-    </tbody>
-    </nz-table>
-  </div>
+      </nz-table>
+    </div>
 
-  <div class="flex justify-end">
-    <button class="upload-btn" nz-button nzType="primary">
-      <span nz-icon nzType="save"></span>
-      Save
-    </button>
+    <div class="flex justify-end">
+      <button class="upload-btn" nz-button nzType="primary">
+        <span nz-icon nzType="save"></span>
+        Save
+      </button>
+    </div>
   </div>
-  <!-- <nz-table #editTable [nzData]="data" nzBordered class="w-full">
-    <thead>
-      <tr>
-        <th class="w-2/12">ID</th>
-        <th class="w-1/4">Issue</th>
-        <th>Status</th>
-        <th class="w-1/4">Action</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let data of data ; let i = index">
-        <td>{{ data._id }}</td>
-        <td>{{ data.issue }}</td>
-        <td>
-          <ng-container *ngIf="editId != data._id">
-            {{ data.status }}
-          </ng-container>
-          <nz-select *ngIf="editId == data._id" [(ngModel)]="data.status">
-            <nz-option nzValue="open" nzLabel="Open"></nz-option>
-            <nz-option nzValue="progress" nzLabel="Progress"></nz-option>
-            <nz-option nzValue="complete" nzLabel="Complete"></nz-option>
-            <nz-option nzValue="inprogress" nzLabel="In Progress"></nz-option>
-            <nz-option nzValue="close" nzLabel="Close"></nz-option>
-          </nz-select>
-        </td>
-        <td>
-          <button nz-button *ngIf="editId != data._id" (click)="startEdit(data._id,data)" class="ant-btn"
-            nzType="primary">Edit</button>
-          <button nz-button *ngIf="editId == data._id" (click)="saveEdit(data._id)" class="ant-btn mr-2"
-            nzType="primary">Save</button>
-          <button nz-button *ngIf="editId == data._id" (click)="cancelEdit(data, i)" nzType="primary"
-            class="ant-btn" nzDanger>Cancel</button>
-
-          <span  nz-table-action nzType="link" >
-            Edit
-          </span>
-          <span *ngIf="editCache[data._id].edit" nz-table-action nzType="link" (click)="saveEdit(data._id)">
-            Save
-          </span>
-          <span *ngIf="editCache[data._id].edit" nz-table-action nzType="link" (click)="cancelEdit(data._id)">
-            Cancel
-          </span>
-        </td>
-      </tr>
-    </tbody>
-  </nz-table> -->
-</div>
+</nz-spin>
