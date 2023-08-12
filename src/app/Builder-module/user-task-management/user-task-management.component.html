@@ -107,56 +107,11 @@
     </nz-table>
   </div>
 
-  <div class="flex justify-end">
-    <button class="upload-btn" nz-button nzType="primary">
-      <span nz-icon nzType="save"></span>
-      Save
-    </button>
+    <div class="flex justify-end">
+      <button class="upload-btn" nz-button nzType="primary">
+        <span nz-icon nzType="save"></span>
+        Save
+      </button>
+    </div>
   </div>
-  <!-- <nz-table #editTable [nzData]="data" nzBordered class="w-full">
-    <thead>
-      <tr>
-        <th class="w-2/12">ID</th>
-        <th class="w-1/4">Issue</th>
-        <th>Status</th>
-        <th class="w-1/4">Action</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let data of data ; let i = index">
-        <td>{{ data._id }}</td>
-        <td>{{ data.issue }}</td>
-        <td>
-          <ng-container *ngIf="editId != data._id">
-            {{ data.status }}
-          </ng-container>
-          <nz-select *ngIf="editId == data._id" [(ngModel)]="data.status">
-            <nz-option nzValue="open" nzLabel="Open"></nz-option>
-            <nz-option nzValue="progress" nzLabel="Progress"></nz-option>
-            <nz-option nzValue="complete" nzLabel="Complete"></nz-option>
-            <nz-option nzValue="inprogress" nzLabel="In Progress"></nz-option>
-            <nz-option nzValue="close" nzLabel="Close"></nz-option>
-          </nz-select>
-        </td>
-        <td>
-          <button nz-button *ngIf="editId != data._id" (click)="startEdit(data._id,data)" class="ant-btn"
-            nzType="primary">Edit</button>
-          <button nz-button *ngIf="editId == data._id" (click)="saveEdit(data._id)" class="ant-btn mr-2"
-            nzType="primary">Save</button>
-          <button nz-button *ngIf="editId == data._id" (click)="cancelEdit(data, i)" nzType="primary"
-            class="ant-btn" nzDanger>Cancel</button>
-
-          <span  nz-table-action nzType="link" >
-            Edit
-          </span>
-          <span *ngIf="editCache[data._id].edit" nz-table-action nzType="link" (click)="saveEdit(data._id)">
-            Save
-          </span>
-          <span *ngIf="editCache[data._id].edit" nz-table-action nzType="link" (click)="cancelEdit(data._id)">
-            Cancel
-          </span>
-        </td>
-      </tr>
-    </tbody>
-  </nz-table> -->
-</div>
+</nz-spin>

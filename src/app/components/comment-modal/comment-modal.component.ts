@@ -16,6 +16,7 @@ export class CommentModalComponent implements OnInit {
   @Input() data: any = {};
   @Input() screenName: any;
   @Input() update: any;
+  @Input() type: any;
   form: FormGroup;
   newComment: any = '';
   requestSubscription: Subscription;
@@ -40,10 +41,13 @@ export class CommentModalComponent implements OnInit {
   }
 
   onSubmit() {
-    if (!this.screenName) {
-      this.toastr.warning("Please select any screen", { nzDuration: 3000 });
-      return;
+    if (this.type != 'menu') {
+      if (!this.screenName) {
+        this.toastr.warning("Please select any screen", { nzDuration: 3000 });
+        return;
+      }
     }
+
 
     if (!this.form.valid) {
       this.toastr.warning('Please fill this', { nzDuration: 3000 });
@@ -61,7 +65,8 @@ export class CommentModalComponent implements OnInit {
       applicationId: JSON.parse(localStorage.getItem('applicationId')!),
       componentId: this.data.id,
       createdBy: userData.username,
-      parentId:"",
+      parentId: "",
+      type: this.type
     }
     const userCommentModel = {
       "UserComment": commentObj

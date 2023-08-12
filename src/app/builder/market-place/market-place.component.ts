@@ -31,62 +31,33 @@ export class MarketPlaceComponent implements OnInit {
     this.applicationService.getNestCommonAPI('market-place').subscribe(res => {
       this.saveLoader = false;
       if (res) {
-        // const groupedDataMap = new Map<string, any[]>();
-        // for (const item of res) {
-        //   const categoryKey = item.categoryname;
-        //   const itemsArray = groupedDataMap.get(categoryKey) ?? [];
-        //   itemsArray.push(item);
-        //   groupedDataMap.set(categoryKey, itemsArray);
-        // }
-        // this.groupedData = Array.from(groupedDataMap.entries()).map(([categoryname, items]) => ({
-        //   categoryname,
-        //   items,
-        // }));
 
-        const groupedData: { [category: string]: { [subcategory: string]: any[] } } = {};
+
+        const expectedData: any = [];
 
         res.forEach((data: any) => {
-          if (!groupedData[data.categoryname]) {
-            groupedData[data.categoryname] = {};
+          const categoryIndex = expectedData.findIndex((item: any) => item._id === data.categoryDetails[0]._id);
+          if (categoryIndex === -1) {
+            expectedData.push({
+              ...data.categoryDetails[0],
+              children: [{
+                ...data.subcategoryDetails[0],
+                children: [data],
+              }],
+            });
+          } else {
+            const subcategoryIndex = expectedData[categoryIndex].children.findIndex((item: any) => item._id === data.subcategoryDetails[0]._id);
+            if (subcategoryIndex === -1) {
+              expectedData[categoryIndex].children.push({
+                ...data.subcategoryDetails[0],
+                children: [data],
+              });
+            } else {
+              expectedData[categoryIndex].children[subcategoryIndex].children.push(data);
+            }
           }
-          if (!groupedData[data.categoryname][data.subcategoryname]) {
-            groupedData[data.categoryname][data.subcategoryname] = [];
-          }
-
-          groupedData[data.categoryname][data.subcategoryname].push(data);
         });
-
-        const needData: any[] = [];
-
-        Object.keys(groupedData).forEach(category => {
-          const categoryData = groupedData[category];
-          const categoryItem: any = {
-            _id: categoryData[Object.keys(categoryData)[0]][0]._id,
-            name: categoryData[Object.keys(categoryData)[0]][0].name,
-            categoryname: categoryData[Object.keys(categoryData)[0]][0].categoryname,
-            subcategoryname: Object.keys(categoryData)[0],
-            children: [],
-          };
-
-          Object.keys(categoryData).forEach(subcategory => {
-            const subcategoryData = categoryData[subcategory];
-            const subcategoryItem: any = {
-              _id: subcategoryData[0]._id,
-              name: subcategoryData[0].name,
-              categoryname: subcategoryData[0].categoryname,
-              subcategoryname: subcategory,
-              children: subcategoryData,
-            };
-            categoryItem.children?.push(subcategoryItem);
-          });
-
-          needData.push(categoryItem);
-        });
-
-        console.log(needData);
-
-
-        this.groupedData = needData;
+        this.groupedData = expectedData;
         // this.groupedData = this.transformCategoryChildren(data);
       }
     })
@@ -134,7 +105,7 @@ export class MarketPlaceComponent implements OnInit {
                 this.nodesData = templateData;
                 this.toastr.success(data?.categoryname + ' added successfully', { nzDuration: 3000 })
               }
-            } 
+            }
             else {
               this.nodesData[0].children[1].children.push(templateData);
               this.toastr.success(data?.subcategoryname + ' added successfully', { nzDuration: 3000 })
@@ -179,8 +150,5 @@ export class MarketPlaceComponent implements OnInit {
 
     return expectedData;
   }
-
-
-
 
 }

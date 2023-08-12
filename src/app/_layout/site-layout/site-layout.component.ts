@@ -1,7 +1,9 @@
-import { ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, Input, OnInit, ViewContainerRef } from '@angular/core';
 import { ActivatedRoute, NavigationEnd, Params, Router } from '@angular/router';
 import { NzMessageService } from 'ng-zorro-antd/message';
+import { NzModalService } from 'ng-zorro-antd/modal';
 import { Subscription, filter, forkJoin } from 'rxjs';
+import { CommentModalComponent } from 'src/app/components';
 import { Guid } from 'src/app/models/guid';
 import { ApplicationService } from 'src/app/services/application.service';
 import { BuilderService } from 'src/app/services/builder.service';
@@ -31,7 +33,8 @@ export class SiteLayoutComponent implements OnInit {
   currentUrl: any = "";
   fullCurrentUrl = "";
   currentUser: any;
-  domainData:any;
+  domainData: any;
+  isShowContextMenu = true;
   newSelectedTheme = {
     menuMode: 'inline',
     layout: 'vertical',
@@ -64,7 +67,8 @@ export class SiteLayoutComponent implements OnInit {
   }
 
   constructor(private applicationService: ApplicationService, public dataSharedService: DataSharedService, public builderService: BuilderService,
-    private toastr: NzMessageService, private router: Router, private activatedRoute: ActivatedRoute, private cd: ChangeDetectorRef) {
+    private toastr: NzMessageService, private router: Router, private activatedRoute: ActivatedRoute, private cd: ChangeDetectorRef, private modalService: NzModalService,
+    private viewContainerRef: ViewContainerRef) {
     this.requestSubscription = this.dataSharedService.localhostHeaderFooter.subscribe({
       next: (res) => {
         if (res) {
@@ -173,10 +177,13 @@ export class SiteLayoutComponent implements OnInit {
                 this.selectedTheme = selectedTheme;
                 this.selectedTheme.allMenuItems = getMenu;
                 this.menuItems = getMenu;
+                this.getComments();
                 if (selectedTheme?.layout == 'horizental') {
                   this.makeMenuData();
                 }
-              } if (this.currentWebsiteLayout == 'website') {
+
+              }
+              if (this.currentWebsiteLayout == 'website') {
                 this.dataSharedService.menus = this.selectedTheme;
                 this.dataSharedService.menus.allMenuItems = getMenu;
               }
@@ -391,5 +398,82 @@ export class SiteLayoutComponent implements OnInit {
       }
     });
   }
+  issueReportFun() {
+    const modal = this.modalService.create<CommentModalComponent>({
+      nzTitle: 'Issue Report',
+      nzContent: CommentModalComponent,
+      nzViewContainerRef: this.viewContainerRef,
+      nzComponentParams: {
+        data: this.dataSharedService.rightClickMenuData,
+        // screenName: this.screenName,
+        update: null,
+        type: 'menu',
+      },
+      nzFooter: []
+    });
+    modal.afterClose.subscribe((res: any) => {
+      if (res) {
+        res['id'] = res._id;
+        delete res._id;
+        delete res.__v
+          ;
+        this.selectedTheme.allMenuItems
+        this.selectedTheme.allMenuItems.forEach((element: any) => {
+          if (element.id == this.dataSharedService.rightClickMenuData.id) {
+            if (element['issueReport']) {
+              element['issueReport'].push(res);
+            } else {
+              element['issueReport'] = [];
+              element['issueReport'].push(res);
+            }
+            this.cd.detectChanges();
+          }
+        });
+
+
+      }
+    });
+  }
+  getComments() {
+    this.requestSubscription = this.applicationService.getNestCommonAPI("cp/getuserComments/UserComment/menu").subscribe((res: any) => {
+      if (res.isSuccess) {
+        let commentList = res.data
+        this.dataSharedService.menuCommentList = commentList;
+        this.dataSharedService.menuCommentList.forEach(element => {
+          this.assignIssue(this.selectedTheme.allMenuItems, element);
+        });
+
+      }
+    })
+  }
+  assignIssue(node: any, issue: any) {
+    node.forEach((element: any) => {
+      if (issue['componentId']) {
+        if (element.id == issue['componentId']) {
+          if (!element['issueReport']) {
+            element['issueReport'] = [];
+          }
+
+          element['issueReport'].push(issue);
+
+          if (!element['issueUser']) {
+            element['issueUser'] = [issue['createdBy']];
+          }
+          else {
+            if (!element['issueUser'].includes(issue['createdBy'])) {
+              // Check if the user is not already in the array, then add them
+              element['issueUser'].push(issue.createdBy);
+            }
+          }
+        }
+
+        if (element.children.length > 0) {
+          this.assignIssue(element.children, issue);
+        }
+      }
+    });
+
+  }
+
 }
 
