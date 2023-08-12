@@ -467,6 +467,7 @@ export class MainComponent implements OnInit {
         data: json,
         screenName: this.screenName,
         update: null,
+        type:'pages',
       },
       nzFooter: []
     });
@@ -508,6 +509,7 @@ export class MainComponent implements OnInit {
       componentId: data.id,
       createdBy: userData.username,
       parentId: issue.id,
+      type:'pages'
     };
 
     const userCommentModel = {
@@ -600,12 +602,6 @@ export class MainComponent implements OnInit {
       this.cd.detectChanges;
     } else {
       node['commentBackgroundColor'] = '';
-    }
-  }
-  typeFirstAlphabetAsIcon(user: any) {
-    if (user) {
-      let firstAlphabet = user?.charAt(0)?.toUpperCase();
-      return firstAlphabet;
     }
   }
   edit(data: any) {

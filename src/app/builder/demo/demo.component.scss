@@ -14,3 +14,31 @@ button {
   display: block;
 }
 
+.container {
+  position: relative;
+  width: 200px;
+  height: 200px;
+  background-color: lightgray;
+}
+
+.item {
+  padding: 10px;
+  border-bottom: 1px solid gray;
+}
+
+.context-menu {
+  position: absolute;
+  background-color: white;
+  border: 1px solid gray;
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+  z-index: 1000;
+}
+
+.context-menu-item {
+  padding: 8px;
+  cursor: pointer;
+}
+
+.context-menu-item:hover {
+  background-color: lightblue;
+}

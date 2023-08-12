@@ -28,6 +28,7 @@ export class DataSharedService {
   // public defaultPage: Subject<any> = new Subject();
   defaultPageNodes:any;
   screenCommentList : any[] = []
+  menuCommentList : any[] = []
   checkContentForFixFooter : any;
   commentId : any;
   public menus : any;
@@ -44,7 +45,7 @@ export class DataSharedService {
   headerLogo : any = '';
   applicationDefaultScreen : any = '';
   usersData:any = [];
-
+  rightClickMenuData : any = '';
   constructor() { }
 
   setData(data: any) {

@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, TemplateRef, ViewContainerRef, HostListener } from '@angular/core';
+import { Component, OnInit, ViewChild, TemplateRef, ViewContainerRef, HostListener, ElementRef } from '@angular/core';
 import { FormBuilder, FormGroup, FormArray, Validators, AbstractControl } from '@angular/forms';
 
 @Component({
@@ -8,7 +8,11 @@ import { FormBuilder, FormGroup, FormArray, Validators, AbstractControl } from '
 })
 export class DemoComponent implements OnInit {
   nestedForm: FormGroup;
-  constructor(private fb: FormBuilder) { }
+  items: string[] = ['Item 1', 'Item 2', 'Item 3'];
+  isContextMenuVisible = false;
+  contextMenuPosition = { x: 0, y: 0 };
+  contextMenuOptions: string[] = ['Option 1', 'Option 2', 'Option 3'];
+  constructor(private fb: FormBuilder, private elementRef: ElementRef) { }
   ngOnInit(): void {
     this.nestedForm = this.fb.group({
       businessRule: this.fb.array([])
@@ -91,10 +95,25 @@ export class DemoComponent implements OnInit {
       condition: this.fb.array([]),
       then: this.fb.array([]),
     });
-  
+
     const rule = this.nestedForm.get('businessRule') as FormArray;
     const childrenArray = rule.at(ruleIndex).get('children') as FormArray;
     childrenArray.push(childGroup);
   }
-  
+  onContextMenu(event: MouseEvent): void {
+    event.preventDefault();
+    this.isContextMenuVisible = true;
+    this.contextMenuPosition = { x: event.clientX, y: event.clientY };
+  }
+
+  onMenuItemClick(option: string): void {
+    console.log('Clicked:', option);
+    this.isContextMenuVisible = false;
+  }
+
+  @HostListener('document:click', ['$event'])
+  onDocumentClick(event: MouseEvent): void {
+    this.isContextMenuVisible = false;
+  }
+
 }

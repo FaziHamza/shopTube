@@ -5,10 +5,9 @@
   </div>
   <div class="market-place" >
   <nz-tabset>
-    <nz-tab *ngFor="let group of groupedData" [nzTitle]="group.categoryname">
+    <nz-tab *ngFor="let group of groupedData" [nzTitle]="group.name">
       <nz-tabset [nzSelectedIndex]="0" [nzTabPosition]="'right'" *ngIf="group.children.length > 0">
-        {{group.children | json}}
-        <nz-tab *ngFor="let groupChild of group.children" [nzTitle]="groupChild.subcategoryname" >
+        <nz-tab *ngFor="let groupChild of group.children" [nzTitle]="groupChild.name" >
           <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-2 " *ngIf="groupChild.children">
             <div class="img " *ngFor="let groupSubchild of groupChild.children"
               (click)="addNodes(groupSubchild)">

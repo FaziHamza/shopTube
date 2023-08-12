@@ -35,7 +35,7 @@ export class SectionsComponent implements OnInit {
     , private applicationServices: ApplicationService, private cd: ChangeDetectorRef) { }
 
   ngOnInit(): void {
-    
+
     this.screenName;
     this.getJoiValidation();
     let btnData = this.findObjectByTypeBase(this.sections, "button");
@@ -61,7 +61,7 @@ export class SectionsComponent implements OnInit {
               if (this.dataModel.hasOwnProperty(key)) {
                 const value = this.getValueFromNestedObject(key, this.formlyModel);
                 if (value !== undefined) {
-                  this.dataModel[key] =  this.dataModel[key] ? this.dataModel[key] : value;
+                  this.dataModel[key] = this.dataModel[key] ? this.dataModel[key] : value;
                 }
               }
             }
@@ -133,7 +133,7 @@ export class SectionsComponent implements OnInit {
     return inputElements;
   }
   saveData(data: any) {
-    
+
     if (data.isSubmit) {
       this.joiValidation();
       if (this.joiValidationData.length > 0) {
@@ -181,11 +181,11 @@ export class SectionsComponent implements OnInit {
   saveData1(data: any) {
     // this.submit();
     let oneModelData = this.convertModel(this.dataModel);
-    if (Object.keys(oneModelData).length > 0){
+    if (Object.keys(oneModelData).length > 0) {
       let findClickApi = data.appConfigurableEvent.filter((item: any) => item.actions.some((action: any) => action.method === 'post' && action.actionType == 'api'));
 
-      let  empData : any = {} ;
-      if(findClickApi?.[0].actions?.[0]?.url?.includes('/cp') || findClickApi?.[0].actions?.[0]?.url?.includes('/market-place')){
+      let empData: any = {};
+      if (findClickApi?.[0].actions?.[0]?.url?.includes('/cp') || findClickApi?.[0].actions?.[0]?.url?.includes('/market-place')) {
         let mainTableName = "";
         const removePrefix = (data: Record<string, any>): Record<string, any> => {
           const newData: Record<string, any> = {};
@@ -202,13 +202,13 @@ export class SectionsComponent implements OnInit {
         };
 
         let result = removePrefix(oneModelData);
-        result['id']='';
-        if(findClickApi?.[0].actions?.[0]?.url?.includes('/market-place')){
+        result['id'] = '';
+        if (findClickApi?.[0].actions?.[0]?.url?.includes('/market-place')) {
           empData = result;
-        }else{
+        } else {
           empData[mainTableName] = result;
         }
-      }else{
+      } else {
         empData = {
           screenId: this.screenName,
           modalData: oneModelData
@@ -238,23 +238,27 @@ export class SectionsComponent implements OnInit {
         let relationIds: any = remainingTables.map(table => `${Arraytables[0]}_id`);
         relationIds = relationIds.toString();
         // if (Object.keys(empData.modalData).length > 0)
-          this.applicationServices.addBackendCommonApi(findClickApi.length > 0 ? findClickApi?.[0].actions?.[0]?.url : 'knex-query', empData).subscribe({
-            next: (res) => {
-              if (res[0]?.error)
-                this.toastr.error(res[0]?.error, { nzDuration: 3000 });
-              else {
-                this.toastr.success("Save Successfully", { nzDuration: 3000 });
-                // this.setInternalValuesEmpty(this.dataModel)
-                // this.employeeService.getSQLDatabaseTable(`knex-query?tables=${tables}&relationIds=id,${relationIds.toString()}`).subscribe({
-                this.getFromQuery(data);
-              }
-            },
-            error: (err) => {
-              console.error(err);
-              this.toastr.error("An error occurred", { nzDuration: 3000 });
+        this.applicationServices.addBackendCommonApi(findClickApi.length > 0 ? findClickApi?.[0].actions?.[0]?.url : 'knex-query', empData).subscribe({
+          next: (res) => {
+            if (res[0]?.error)
+              this.toastr.error(res[0]?.error, { nzDuration: 3000 });
+            else {
+              this.toastr.success("Save Successfully", { nzDuration: 3000 });
+              this.setInternalValuesEmpty(this.dataModel);
+              this.setInternalValuesEmpty(this.formlyModel);
+              this.form.patchValue(this.formlyModel);
+              // this.setInternalValuesEmpty(this.dataModel)
+              // this.employeeService.getSQLDatabaseTable(`knex-query?tables=${tables}&relationIds=id,${relationIds.toString()}`).subscribe({
+              this.getFromQuery(data);
             }
-          });
-      } else {
+          },
+          error: (err) => {
+            console.error(err);
+            this.toastr.error("An error occurred", { nzDuration: 3000 });
+          }
+        });
+      } 
+      else {
         let findClickApi = data.appConfigurableEvent.filter((item: any) => item.actions.some((action: any) => action.method === 'put' && action.actionType == 'api'));
         if (this.dataModel) {
           // this.form.get(dynamicPropertyName);
@@ -277,16 +281,19 @@ export class SectionsComponent implements OnInit {
             ...model,
             modalData: removePrefix(model.modalData)
           };
-            this.applicationServices.addNestCommonAPI(findClickApi.length > 0 ? findClickApi?.[0].actions?.[0]?.url : 'knex-query/executeQuery', result).subscribe({
-              next: (res) => {
-                this.toastr.success("Update Successfully", { nzDuration: 3000 });
-                this.getFromQuery(data);
-              },
-              error: (err) => {
-                console.error(err);
-                this.toastr.error("An error occurred", { nzDuration: 3000 });
-              }
-            });
+          this.applicationServices.addNestCommonAPI(findClickApi.length > 0 ? findClickApi?.[0].actions?.[0]?.url : 'knex-query/executeQuery', result).subscribe({
+            next: (res) => {
+              this.toastr.success("Update Successfully", { nzDuration: 3000 });
+              this.setInternalValuesEmpty(this.dataModel);
+              this.setInternalValuesEmpty(this.formlyModel);
+              this.form.patchValue(this.formlyModel);
+              this.getFromQuery(data);
+            },
+            error: (err) => {
+              console.error(err);
+              this.toastr.error("An error occurred", { nzDuration: 3000 });
+            }
+          });
         }
       }
     }
@@ -326,7 +333,7 @@ export class SectionsComponent implements OnInit {
           this.employeeService.getSQLDatabaseTable(findClickApi.length > 0 ? findClickApi?.[0].actions?.[0]?.url : `knex-query/${this.screenName}`).subscribe({
             next: (res) => {
               if (tableData && res) {
-                if(res.length > 0){
+                if (res.length > 0) {
                   let saveForm = JSON.parse(JSON.stringify(res[0]));
                   const firstObjectKeys = Object.keys(saveForm);
                   let tableKey = firstObjectKeys.map(key => ({ name: key }));
@@ -387,7 +394,7 @@ export class SectionsComponent implements OnInit {
     }
   }
   gridRules(getRes: any, data: any) {
-    
+
     let gridFilter = getRes.data.filter((a: any) => a.gridType == 'Body');
     for (let m = 0; m < gridFilter.length; m++) {
       if (gridFilter[m].gridKey == data.key && data.tableData) {
