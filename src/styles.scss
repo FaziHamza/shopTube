@@ -5921,3 +5921,19 @@ li.ant-cascader-menu-item:nth-child(1):hover {
   }
 
 }
+
+
+.user-task-manager-cascader{
+  width: 219px;
+  .ant-select-single:not(.ant-select-customize-input) .ant-select-selector  {
+    width: 100%;
+    height: 42px;
+    display: flex;
+    font-size: 14px;
+    align-items: center;
+    border-radius: 6px;
+    border: 1px solid #DBDBDB;
+    background: #FFF;
+  }
+  
+}
