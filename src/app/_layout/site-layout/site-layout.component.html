@@ -9,7 +9,7 @@
       <nz-header *ngIf="!currentHeader">
         <st-menu [selectedTheme]="selectedTheme"></st-menu>
       </nz-header>
-      <st-pages *ngIf="currentHeader" [resData]="currentHeader"></st-pages>
+      <st-pages *ngIf="currentHeader" [resData]="currentHeader" [screenName]="domainData?.header?.navigation" [screenId]="domainData?.header?.screenBuilderId"></st-pages>
       <nz-layout
         [class]="'main-layout2' + (selectedTheme?.layout === 'horizental' ? ' b-horizontal-menu' : '') + (selectedTheme.layout == 'rtl' ? ' rtl-layout2' : '')">
         <div *ngIf="!selectedTheme.isCollapsed" class="backdrop"></div>
@@ -45,7 +45,7 @@
           <router-outlet></router-outlet>
           <div [ngClass]="{'dynamic-footer':!dataSharedService.checkContentForFixFooter}"
             *ngIf="currentFooter && !fullCurrentUrl.includes('/menu-builder')">
-            <st-pages [resData]="currentFooter"></st-pages>
+            <st-pages [resData]="currentFooter"  [screenName]="domainData?.footer?.navigation" [screenId]="domainData?.footer?.screenBuilderId"></st-pages>
           </div>
         </nz-content>
       </nz-layout>
