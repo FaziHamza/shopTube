@@ -69,7 +69,7 @@
               </td>
               <td nzWidth="11.11%"><button nz-button *ngIf="editId != data._id" (click)="startEdit(data._id,data)"
                   class="ant-btn" nzType="primary">Edit</button>
-                <button nz-button *ngIf="editId == data._id" (click)="saveEdit(data._id)" class="ant-btn mr-2"
+                <button nz-button *ngIf="editId == data._id" (click)="saveEdit(data)" class="ant-btn mr-2"
                   nzType="primary">Save</button>
                 <button nz-button *ngIf="editId == data._id" (click)="cancelEdit(data)" nzType="primary" class="ant-btn"
                   nzDanger>Cancel</button>
@@ -135,7 +135,7 @@
             </td>
             <td nzWidth="11.11%"><button nz-button *ngIf="editId != data._id" (click)="startEdit(data._id,data)"
                 class="ant-btn" nzType="primary">Edit</button>
-              <button nz-button *ngIf="editId == data._id" (click)="saveEdit(data._id)" class="ant-btn mr-2"
+              <button nz-button *ngIf="editId == data._id" (click)="saveEdit(data)" class="ant-btn mr-2"
                 nzType="primary">Save</button>
               <button nz-button *ngIf="editId == data._id" (click)="cancelEdit(data)" nzType="primary" class="ant-btn"
                 nzDanger>Cancel</button>
