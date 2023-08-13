@@ -4,7 +4,8 @@
       <div formArrayName="buisnessRule">
         <div *ngFor="let employee of buisnessRule().controls; let mainIndex=index">
           <div class="row" [formGroupName]="mainIndex"
-            style="border: 1px solid rgb(197 187 187); border-radius: 5px;padding: 1%;">
+            style="border: 1px solid rgb(197 187 187); border-radius: 5px; padding: 1%; position: relative;">
+            <i class="fa fa-window-close close-icon" (click)="removeBuisnessRule(mainIndex)" aria-hidden="true"></i>
             <div class="grid grid-cols-3 gap-4 pb-2">
               <div class="flex-inline">
                 <label class="label">Name</label>
@@ -51,7 +52,7 @@
                           <input nz-input type="text" placeholder="Enter value" id="getValue{{mainIndex}}"
                             formControlName="getValue" required class="form-control" name="getValue{{mainIndex}}" />
                         </div>
-                        
+
                         <div class="ml-1">
                           <button nz-button nzType="primary" nzDanger
                             *ngIf="buisnessRuleIfMain(mainIndex).controls.length > 1"

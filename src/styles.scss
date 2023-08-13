@@ -992,6 +992,7 @@ a.fc-event:hover {
       }
     }
   }
+
 }
 
 .floating_standard {
@@ -1025,7 +1026,7 @@ a.fc-event:hover {
 
   .ng-star-inserted {
     outline: none !important;
-
+    left: 0;
     st-multi-select {
       nz-select {
         padding-top: 3px;
@@ -4883,13 +4884,13 @@ object {
 
 .floating_outlined {
   .ant-input-number {
-    padding-top: 0.3rem;
+    padding-top: 6px;
   }
 
   nz-radio-group {
     border-radius: 0px;
     border: 1px solid #d9d9d9;
-    padding-top: 0.9rem;
+    padding-top: 0.8rem;
   }
 
   nz-checkbox-wrapper {
@@ -5766,15 +5767,18 @@ li.ant-cascader-menu-item:nth-child(1):hover {
 
 .floating_filled {
   nz-checkbox-wrapper {
-    height: 52px;
+    // height: 52px;
+    padding-top: 18px;
   }
 
   nz-input-number {
-    height: 3.2rem
+    // height: 3.2rem
+    padding-top: 10px;
   }
 
   nz-radio-group {
-    height: 3.2rem;
+    // height: 3.2rem;
+    padding-bottom: 7px;
   }
 
   .masking {
@@ -5785,9 +5789,29 @@ li.ant-cascader-menu-item:nth-child(1):hover {
 
   formly-field-image-upload {
     .ant-input-group .ant-input {
-      padding-bottom: 6px;
+      padding-bottom: 0.4rem;
     }
   }
+
+  nz-checkbox-wrapper,
+  nz-input-number,
+  nz-range-picker,
+  nz-radio-group,
+  nz-date-picker,
+  nz-time-picker,
+  nz-month-picker,
+  .masking .ant-input-group .ant-input,
+  formly-field-image-upload .ant-input-group .ant-input {
+
+
+    outline: 2px solid transparent !important;
+    box-shadow: none !important;
+  }
+
+  nz-input-group label {
+    left: 0 !important;
+  }
+
 }
 
 .ant-menu-vertical {
@@ -5952,4 +5976,40 @@ li.ant-cascader-menu-item:nth-child(1):hover {
     }
   }
 
+  st-formly-float {
+    st-time-picker {
+      label {
+        left: 0;
+      }
+    }
+  }
+}
+
+.custom-modal-class {
+
+
+  .ant-modal-content {
+    border-radius: 16px;
+  }
+
+  .anticon-question-circle{
+    margin-top: 3px !important;
+  }
+  
+  .ant-modal-confirm-btns {
+    display: flex;
+    width: 100%;
+  }
+
+  .ant-modal-confirm-btns>button:nth-child(1) {
+    width: 50%;
+    height: 35px;
+    border-radius: 8px;
+  }
+
+  .ant-modal-confirm-btns>button:nth-child(2) {
+    width: 50%;
+    height: 35px;
+    border-radius: 8px;
+  }
 }

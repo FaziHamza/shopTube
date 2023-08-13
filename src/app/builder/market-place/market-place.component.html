@@ -13,7 +13,7 @@
               (click)="addNodes(groupSubchild)">
               <img
                 [src]="groupSubchild?.thumbnailimage ? enviorment + groupSubchild?.thumbnailimage :  'assets/images/banner.png'"
-                alt="" class="cursor-pointer rounded-2xl w-full h-auto bg-cover">
+                alt="" class="cursor-pointer hover:shadow-lg rounded-2xl w-full h-auto !max-w-[230px] min-h-[144px] !max-h-36 bg-cover">
               <h6 class="inline-block w-full text-center font-semibold" >{{ groupSubchild.name }}</h6>
             </div>
           </div>
