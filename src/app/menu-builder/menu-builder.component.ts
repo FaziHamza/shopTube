@@ -64,7 +64,7 @@ export class MenuBuilderComponent implements OnInit {
   selectDepartmentName: any = [];
   departmentData: any = [];
   public editorOptions: JsonEditorOptions;
-  domainName : any = undefined;
+  domainName: any = undefined;
   // actionType: any;
   constructor(private clickButtonService: BuilderClickButtonService,
     private applicationService: ApplicationService,
@@ -1256,146 +1256,91 @@ export class MenuBuilderComponent implements OnInit {
 
   changeLayout(data: any) {
     if (!data.inPageMenu) {
-      let layoutType = data.layoutType;
-      if (
-        layoutType.includes('showButton') ||
-        layoutType.includes('buttonClass') ||
-        layoutType.includes('iconType')) {
-        this.selectedTheme[layoutType.split('_')[1]] = layoutType.split('_')[0];
-        if (layoutType.includes('iconType')) {
-          this.changeIconType(this.selectedTheme['iconType'], this.nodes);
-        }
-        if (layoutType.includes('showButton')) {
-          this.selectedTheme[layoutType.split('_')[1]] = layoutType.split('_')[0] == 'true' ? true : false;
-        }
-        if (layoutType.includes('showLogo')) {
-          this.selectedTheme[layoutType.split('_')[1]] = layoutType.split('_')[0] == 'true' ? true : false;
-        }
-        if (layoutType.includes('buttonClass')) {
-          this.selectedTheme[layoutType.split('_')[1]] = layoutType.split('_')[0].replace(',', ' ');
+      const layoutType = data.layoutType;
+      if (layoutType.includes('showButton') || layoutType.includes('buttonClass') || layoutType.includes('iconType')) {
+        const action = layoutType.split('_')[0];
+        const property = layoutType.split('_')[1];
+
+        switch (property) {
+          case 'iconType':
+            this.changeIconType(this.selectedTheme[property], this.nodes);
+            break;
+
+          case 'showButton':
+          case 'showLogo':
+            this.selectedTheme[property] = action === 'true';
+            break;
+
+          case 'buttonClass':
+            this.selectedTheme[property] = action.replace(',', ' ');
+            break;
         }
       }
 
-      else if (layoutType == 'design1' || layoutType == 'design2' || layoutType == 'design3' || layoutType == 'design4') {
-        this.selectedTheme['design'] = layoutType;
-      }
-      else if (layoutType == 'vertical' || layoutType == 'fluid' || layoutType == 'sidebarViewDefault' || layoutType == 'twoColumn' || layoutType == 'rtl') {
-        this.selectedTheme.menuMode = "inline",
+      switch (layoutType) {
+        case 'design1':
+        case 'design2':
+        case 'design3':
+        case 'design4':
+          this.selectedTheme['design'] = layoutType;
+          break;
+
+        case 'vertical':
+        case 'sidebarViewDefault':
+        case 'twoColumn':
+        case 'rtl':
+          this.selectedTheme.menuMode = 'inline';
           this.selectedTheme.isCollapsed = false;
-        this.selectedTheme.topHeaderMenu = 'w-1/6'
-        this.selectedTheme.topHeader = 'w-10/12';
-        // this.selectedTheme.menuColumn = 'w-1/6';
-        // this.selectedTheme.rowClass = 'w-10/12';
-        if (layoutType == 'vertical' || layoutType == 'fluid' || layoutType == 'rtl') {
-          this.selectedTheme.horizontalRow = 'flex flex-wrap';
-          this.selectedTheme.menuColumn = 'w-1/6';
-          this.selectedTheme.rowClass = 'w-10/12';
-          if (layoutType == 'vertical' || layoutType == 'rtl')
-            this.selectedTheme.layout = layoutType;
-        }
-        if (layoutType == 'twoColumn') {
-          this.selectedTheme.isCollapsed = true;
-          this.selectedTheme.layoutPosition = '';
           this.selectedTheme.layout = layoutType;
-          this.selectedTheme.horizontalRow = 'flex flex-wrap'
-          this.selectedTheme.rowClass = 'w-11/12';
-          // this.selectedTheme.isTwoColumnCollapsed = false;
-          this.selectedTheme.menuColumn = 'w-1/12';
-          this.selectedTheme.topHeaderMenu = 'w-1/6'
-          this.selectedTheme.topHeader = 'w-10/12';
-          this.selectedTheme.layoutWidth = '';
-          if (this.selectedTheme.menuChildArrayTwoColumn.length > 0) {
-            this.selectedTheme.rowClass = 'w-10/12';
-            this.selectedTheme.menuColumn = 'w-2/12';
+
+          if (layoutType === 'twoColumn') {
+            this.selectedTheme.isCollapsed = true;
           }
-        }
-        if (this.selectedTheme.sideBarSize == 'smallIconView' || this.selectedTheme.sideBarSize == 'smallHoverView') {
+
+          if (this.selectedTheme.sideBarSize === 'smallIconView' || this.selectedTheme.sideBarSize === 'smallHoverView') {
+            this.selectedTheme.isCollapsed = true;
+            this.selectedTheme.checked = false;
+          }
+
+          break;
+
+        case 'horizental':
+          this.selectedTheme.siderBarImages = '';
+          this.selectedTheme.layout = layoutType;
+          this.selectedTheme.isCollapsed = false;
+          this.selectedTheme.menuMode = 'horizontal';
+          break;
+
+        case 'smallIconView':
+        case 'smallHoverView':
           this.selectedTheme.isCollapsed = true;
           this.selectedTheme.checked = false;
-          this.selectedTheme.topHeaderMenu = 'w-1/12';
-          this.selectedTheme.topHeader = 'w-full';
-          this.selectedTheme.menuColumn = '';
-          this.selectedTheme.rowClass = 'w-full';
-        }
-      }
-      else if (layoutType == 'horizental') {
-        this.selectedTheme.siderBarImages = '';
-        // this.selectedTheme.isCollapsed = false;
-        this.selectedTheme.layout = layoutType;
-        this.horizentalLayout();
-        if (!this.selectedTheme.layoutWidth) {
-          this.selectedTheme.layoutWidth = 'fluid';
-        }
-        else if (this.selectedTheme.layoutWidth == 'boxed')
-          this.selectedTheme.rowClass = 'w-full'
-      }
-      else if (layoutType == 'dark') {
-        this.selectedTheme.theme = true;
-      }
-      else if (layoutType == 'light') {
-        this.selectedTheme.theme = false;
-      }
-      else if (layoutType == 'smallIconView' || layoutType == 'smallHoverView') {
-        this.selectedTheme.isCollapsed = true;
-        this.selectedTheme.topHeaderMenu = 'w-1/12';
-        this.selectedTheme.topHeader = 'w-full';
-        this.selectedTheme.menuColumn = '';
-        this.selectedTheme.rowClass = 'w-full';
-        this.selectedTheme.checked = false;
-      }
-      else if (layoutType == 'boxed') {
-        if (this.selectedTheme.layout == 'horizental') {
-          this.selectedTheme.horizontalRow = 'flex flex-wrap';
-          this.selectedTheme.rowClass = 'w-full',
-            this.selectedTheme.menuMode = "horizontal",
-            this.selectedTheme.menuColumn = 'w-full',
+          this.selectedTheme.sideBarSize = layoutType;
+          break;
+        case 'fluid':
+        case 'boxed':
+          this.selectedTheme.layoutWidth = layoutType;
+          if (this.selectedTheme.layout === 'horizental' && ['fluid', 'boxed'].includes(layoutType)) {
             this.selectedTheme.isCollapsed = false;
-        }
-        else {
-          this.selectedTheme.isCollapsed = false;
-          this.selectedTheme.menuColumn = 'w-1/6';
-          this.selectedTheme.rowClass = 'w-10/12';
-          this.selectedTheme.topHeaderMenu = 'w-1/6';
-          this.selectedTheme.topHeader = 'w-10/12';
-        }
-      }
-      else if (layoutType == 'default' || layoutType == 'compact' || layoutType == 'compact_right' || layoutType == 'compact_left') {
-        this.selectedTheme.isCollapsed = false;
-        this.selectedTheme.menuColumn = 'w-1/6';
-        this.selectedTheme.rowClass = 'w-10/12';
-        this.selectedTheme.topHeaderMenu = 'w-1/6';
-        this.selectedTheme.topHeader = 'w-10/12';
-      }
-      // This conditions is used to assign value to object
-      if (layoutType == 'vertical' || layoutType == 'horizental' || layoutType == 'twoColumn' || layoutType == 'rtl') {
-        this.selectedTheme.layout = layoutType;
-        if (layoutType == 'horizental' || layoutType == 'twoColumn')
-          this.selectedTheme.sideBarSize = '';
-      }
-      else if (layoutType == 'fluid' || layoutType == 'boxed') {
-        this.selectedTheme.layoutWidth = layoutType;
-        if (this.selectedTheme.layout == 'horizental' && layoutType == 'fluid') {
-          this.horizentalLayout();
-        }
-      }
-      else if (layoutType == 'light' || layoutType == 'dark') {
-        this.selectedTheme.sieBarColor = layoutType;
-      }
-      else if (layoutType == 'smallIconView' || layoutType == 'smallHoverView' || layoutType == 'default' || layoutType == 'compact' || layoutType == 'compact_right' || layoutType == 'compact_left') {
-        this.selectedTheme.sideBarSize = layoutType;
-      }
-      else if (layoutType == 'fixed' || layoutType == 'scrollable') {
-        this.selectedTheme.layoutPosition = layoutType;
-      }
-      else if (layoutType == 'sidebarViewDefault' || layoutType == 'detatatched') {
-        this.selectedTheme.siderBarView = layoutType;
-      }
-      else if (layoutType.includes('assets/images/menu/image') || layoutType == '') {
-        this.selectedTheme.siderBarImages = layoutType;
-      }
-      this.makeMenuData();
+          }
+          break;
 
+        case 'default':
+        case 'compact':
+        case 'compact_right':
+        case 'compact_left':
+          this.selectedTheme.sideBarSize = layoutType;
+          this.selectedTheme.isCollapsed = false;
+          break;
+
+        default:
+          this.selectedTheme.siderBarImages = layoutType;
+          break;
+      }
+
+      this.makeMenuData();
     }
+
     else if (data.inPageMenu) {
       if (
         data.layoutType.includes('childiconType')) {
@@ -1418,26 +1363,16 @@ export class MenuBuilderComponent implements OnInit {
         icon: "down",
         id: 'menu_428605c1',
         key: 'menu_0f7d1e4e',
-        children: []
+        children: this.nodes.slice(7)
       }]
-      this.selectedTheme.newMenuArray[0].children = this.nodes.slice(7);
-      this.selectedTheme.allMenuItems = arrayList.filter((a: any) => a.isTitle != true).slice(0, 7);
+      this.selectedTheme.allMenuItems = arrayList.slice(0, 7);
     }
     else {
       this.selectedTheme.allMenuItems = arrayList;
     }
   }
 
-  horizentalLayout() {
-    this.selectedTheme.isCollapsed = false;
-    this.selectedTheme.topHeaderMenu = 'w-1/6';
-    this.selectedTheme.topHeader = 'w-10/12';
-    this.selectedTheme.horizontalRow = '';
-    this.selectedTheme.rowClass = 'w-full';
-    this.selectedTheme.menuMode = "horizontal";
-    this.selectedTheme.menuColumn = 'w-full';
-    this.makeMenuData();
-  }
+
 
   addIconCommonConfiguration(configurationFields: any, allowIcon?: boolean) {
     const formFieldData = new formFeildData();
@@ -1620,26 +1555,91 @@ export class MenuBuilderComponent implements OnInit {
     }
   }
 
-  controlUndefinedValues() {
-    if (!this.selectedTheme['buttonClassArray']) {
-      this.selectedTheme['buttonClassArray'] = []
-    }
-    if (!this.selectedTheme['menuChildArrayTwoColumn']) {
-      this.selectedTheme['menuChildArrayTwoColumn'] = []
-    }
-    if (this.selectedTheme['showButton'] == undefined || this.selectedTheme['showButton'] == '' || this.selectedTheme['showButton'] == null) {
-      this.selectedTheme['showButton'] = true
-    }
-    if (this.selectedTheme['showLogo'] == undefined || this.selectedTheme['showLogo'] == '' || this.selectedTheme['showLogo'] == null) {
-      this.selectedTheme['showLogo'] = true
-    }
-    if (!this.selectedTheme['inPageMenu']) {
-      this.selectedTheme['inPageMenu'] = {};
-    }
-    if (!this.selectedTheme['inPageMenu']['child']) {
-      this.selectedTheme['inPageMenu']['child'] = {};
-    }
+  // controlUndefinedValues() {
+  //   if (!this.selectedTheme['buttonClassArray']) {
+  //     this.selectedTheme['buttonClassArray'] = []
+  //   }
+  //   if (!this.selectedTheme['menuChildArrayTwoColumn']) {
+  //     this.selectedTheme['menuChildArrayTwoColumn'] = []
+  //   }
+  //   if (this.selectedTheme['showButton'] == undefined || this.selectedTheme['showButton'] == '' || this.selectedTheme['showButton'] == null) {
+  //     this.selectedTheme['showButton'] = true
+  //   }
+  //   if (this.selectedTheme['showLogo'] == undefined || this.selectedTheme['showLogo'] == '' || this.selectedTheme['showLogo'] == null) {
+  //     this.selectedTheme['showLogo'] = true
+  //   }
+  //   if (!this.selectedTheme['inPageMenu']) {
+  //     this.selectedTheme['inPageMenu'] = {};
+  //   }
+  //   if (!this.selectedTheme['inPageMenu']['child']) {
+  //     this.selectedTheme['inPageMenu']['child'] = {};
+  //   }
 
+  //   const defaultProperties = [
+  //     { property: 'backGroundColor', defaultValue: '#ffffff' },
+  //     { property: 'hoverBgColor', defaultValue: '#3b82f6' },
+  //     { property: 'activeTextColor', defaultValue: '#6f777d' },
+  //     { property: 'textColor', defaultValue: '#6f777d' },
+  //     { property: 'activeBackgroundColor', defaultValue: '#e6f7ff' },
+  //     { property: 'hoverTextColor', defaultValue: '#ffffff' },
+  //     { property: 'iconColor', defaultValue: '#6f777d' },
+  //     { property: 'hoverIconColor', defaultValue: '#ffffff' },
+  //     { property: 'activeIconColor', defaultValue: '#6f777d' },
+  //     { property: 'titleSize', defaultValue: 15 },
+  //     { property: 'iconSize', defaultValue: 15 },
+  //     { property: 'font', defaultValue: 'font-roboto' },
+  //     { property: 'buttonIcon', defaultValue: 'fa-regular fa-bars' },
+  //     { property: 'buttonIconType', defaultValue: 'font_awsome' },
+  //     { property: 'buttonIconType', defaultValue: 'right' },
+  //   ];
+  //   const defaultPropertiesInPageMenu = [
+  //     { property: 'backGroundColor', defaultValue: '#ffffff' },
+  //     { property: 'activeTextColor', defaultValue: '#2563eb' },
+  //     { property: 'textColor', defaultValue: '#73757A' },
+  //     { property: 'activeBackgroundColor', defaultValue: '#2563eb' },
+  //     { property: 'hoverTextColor', defaultValue: '#73757A' },
+  //     { property: 'iconColor', defaultValue: '#73757A' },
+  //     { property: 'hoverIconColor', defaultValue: '#73757A' },
+  //     { property: 'activeIconColor', defaultValue: '#2563eb' },
+  //     { property: 'titleSize', defaultValue: 16 },
+  //     { property: 'iconSize', defaultValue: 15 },
+  //     { property: 'font', defaultValue: 'font-roboto' },
+  //   ];
+  //   const defaultPropertiesInPageMenuChild = [
+  //     { property: 'backGroundColor', defaultValue: '#ffffff' },
+  //     { property: 'activeTextColor', defaultValue: '#ffffff' },
+  //     { property: 'textColor', defaultValue: '#73757A' },
+  //     { property: 'activeBackgroundColor', defaultValue: '#ffffff' },
+  //     { property: 'hoverTextColor', defaultValue: '#ffffff' },
+  //     { property: 'iconColor', defaultValue: '#73757A' },
+  //     { property: 'hoverIconColor', defaultValue: '#73757A' },
+  //     { property: 'activeIconColor', defaultValue: '#ffffff' },
+  //     { property: 'titleSize', defaultValue: 16 },
+  //     { property: 'iconSize', defaultValue: 15 },
+  //     { property: 'font', defaultValue: 'font-roboto' },
+  //     { property: 'hoverBgColor', defaultValue: '#3b82f6' },
+
+  //   ];
+
+  //   for (const prop of defaultProperties) {
+  //     if (!this.selectedTheme[prop.property]) {
+  //       this.selectedTheme[prop.property] = prop.defaultValue;
+  //     }
+  //   }
+  //   for (const prop of defaultPropertiesInPageMenu) {
+  //     if (!this.selectedTheme['inPageMenu'][prop.property]) {
+  //       this.selectedTheme['inPageMenu'][prop.property] = prop.defaultValue;
+  //     }
+  //   }
+  //   for (const prop of defaultPropertiesInPageMenuChild) {
+  //     if (!this.selectedTheme['inPageMenu']['child'][prop.property]) {
+  //       this.selectedTheme['inPageMenu']['child'][prop.property] = prop.defaultValue;
+  //     }
+  //   }
+  // }
+
+
+  controlUndefinedValues() {
     const defaultProperties = [
       { property: 'backGroundColor', defaultValue: '#ffffff' },
       { property: 'hoverBgColor', defaultValue: '#3b82f6' },
@@ -1686,22 +1686,44 @@ export class MenuBuilderComponent implements OnInit {
 
     ];
 
-    for (const prop of defaultProperties) {
-      if (!this.selectedTheme[prop.property]) {
-        this.selectedTheme[prop.property] = prop.defaultValue;
+    const handleDefaultProperties = (target: any, properties: any) => {
+      for (const prop of properties) {
+        const propValue = target[prop.property];
+        if (!propValue) {
+          target[prop.property] = prop.defaultValue;
+        }
       }
+    };
+
+    if (!this.selectedTheme.buttonClassArray) {
+      this.selectedTheme.buttonClassArray = [];
     }
-    for (const prop of defaultPropertiesInPageMenu) {
-      if (!this.selectedTheme['inPageMenu'][prop.property]) {
-        this.selectedTheme['inPageMenu'][prop.property] = prop.defaultValue;
-      }
+
+    if (!this.selectedTheme.menuChildArrayTwoColumn) {
+      this.selectedTheme.menuChildArrayTwoColumn = [];
     }
-    for (const prop of defaultPropertiesInPageMenuChild) {
-      if (!this.selectedTheme['inPageMenu']['child'][prop.property]) {
-        this.selectedTheme['inPageMenu']['child'][prop.property] = prop.defaultValue;
-      }
+
+    if (this.selectedTheme.showButton === undefined || this.selectedTheme.showButton === '' || this.selectedTheme.showButton === null) {
+      this.selectedTheme.showButton = true;
     }
+
+    if (this.selectedTheme.showLogo === undefined || this.selectedTheme.showLogo === '' || this.selectedTheme.showLogo === null) {
+      this.selectedTheme.showLogo = true;
+    }
+
+    if (!this.selectedTheme.inPageMenu) {
+      this.selectedTheme.inPageMenu = {};
+    }
+
+    if (!this.selectedTheme.inPageMenu.child) {
+      this.selectedTheme.inPageMenu.child = {};
+    }
+
+    handleDefaultProperties(this.selectedTheme, defaultProperties);
+    handleDefaultProperties(this.selectedTheme.inPageMenu, defaultPropertiesInPageMenu);
+    handleDefaultProperties(this.selectedTheme.inPageMenu.child, defaultPropertiesInPageMenuChild);
   }
+
   // typeFirstAlphabetAsIcon(node: any) {
   //   if (node.origin.type === 'input') {
   //     if (node?.parentNode?.origin) {

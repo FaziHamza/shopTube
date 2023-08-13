@@ -24,7 +24,8 @@ import {
   BarChartComponent,PieChartComponent,BubbleChartComponent,CandlestickChartComponent,ColumnChartComponent,GanttChartComponent,
   GeoChartComponent, HistogramChartComponent,LineChartComponent, SankeyChartComponent,ScatterChartComponent,
   TimelineChartComponent,AreaChartComponent,ComboChartComponent,SteppedAreaChartComponent ,OrgChartComponent,TableChartComponent,ListWithComponentsComponent,TreeMapComponent,
-  CardWithComponentsComponent,CommentModalComponent, CommentListComponent,MenuControllComponent,PrintInvoiceComponent,FileManagerComponent,googleMapComponent
+  CardWithComponentsComponent,CommentModalComponent, CommentListComponent,MenuControllComponent,PrintInvoiceComponent,FileManagerComponent,googleMapComponent,
+  TaskReportComponent
 
 } from '../components'
 import { SanitizePipe } from '../pipe/sanitize.pipe';
@@ -109,6 +110,7 @@ import { ConfigurableSelectDirective } from 'src/directive/configuration-select.
     PrintInvoiceComponent,FileManagerComponent,googleMapComponent,
     ConfigurableDirective,
     ConfigurableSelectDirective,
+    TaskReportComponent
     //
     // ErrorComponent
   ],
@@ -163,6 +165,7 @@ import { ConfigurableSelectDirective } from 'src/directive/configuration-select.
     PrintInvoiceComponent,FileManagerComponent,googleMapComponent,
     ConfigurableDirective,
     ConfigurableSelectDirective,
+    TaskReportComponent
     //
     // ErrorComponent
   ],

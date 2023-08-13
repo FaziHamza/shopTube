@@ -34,7 +34,7 @@ export class SiteLayoutComponent implements OnInit {
   fullCurrentUrl = "";
   currentUser: any;
   domainData: any;
-  isShowContextMenu = true;
+  isShowContextMenu = false;
   newSelectedTheme = {
     menuMode: 'inline',
     layout: 'vertical',
@@ -171,6 +171,7 @@ export class SiteLayoutComponent implements OnInit {
               this.selectedTheme['isCollapsed'] = theme['isCollapsed'];
             }
             if (!window.location.href.includes('/menu-builder')) {
+              this.isShowContextMenu = true;
               let getMenu = res.data['menu'] ? this.jsonParseWithObject(res.data['menu']['menuData']) : '';
               let selectedTheme = res.data['menu'] ? this.jsonParseWithObject(res.data['menu'].selectedTheme) : {};
               if (getMenu) {
@@ -417,7 +418,6 @@ export class SiteLayoutComponent implements OnInit {
         delete res._id;
         delete res.__v
           ;
-        this.selectedTheme.allMenuItems
         this.selectedTheme.allMenuItems.forEach((element: any) => {
           if (element.id == this.dataSharedService.rightClickMenuData.id) {
             if (element['issueReport']) {
@@ -428,9 +428,24 @@ export class SiteLayoutComponent implements OnInit {
             }
             this.cd.detectChanges();
           }
+
         });
+        if (this.selectedTheme['menuChildArrayTwoColumn']) {
+          if (this.selectedTheme['menuChildArrayTwoColumn'].length > 0) {
+            this.selectedTheme['menuChildArrayTwoColumn'].forEach((element: any) => {
+              if (element.id == this.dataSharedService.rightClickMenuData.id) {
+                if (element['issueReport']) {
+                  element['issueReport'].push(res);
+                } else {
+                  element['issueReport'] = [];
+                  element['issueReport'].push(res);
+                }
+                this.cd.detectChanges();
+              }
 
-
+            });
+          }
+        }
       }
     });
   }

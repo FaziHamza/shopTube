@@ -18,9 +18,9 @@
           (selectedTheme.sideBarSize == 'smallIconView' && (selectedTheme.layout == 'vertical' || selectedTheme.layout == 'rtl') ? ' small-icon-view-menu' : '') + (selectedTheme.layout == 'rtl' ? ' mobile-side-menu-rtl' : '')
           " nzTheme="light" nzCollapsible nzWidth="240px" nzBreakpoint="md" [(nzCollapsed)]="selectedTheme.isCollapsed"
           [nzTrigger]="null">
-          <span [contextMenu]="oneContextMenu" *ngIf="isShowContextMenu">
+          <span [contextMenu]="oneContextMenu" *ngIf="isShowContextMenu ; else nonContextMenu">
             <context-menu #oneContextMenu>
-              <ng-template contextMenuItem  (execute)="issueReportFun()"[visible]="isShowContextMenu">Issue
+              <ng-template contextMenuItem (execute)="issueReportFun()" [visible]="isShowContextMenu">Issue
                 Report</ng-template>
             </context-menu>
             <div class="dynamic-menu desktop-toggle">
@@ -32,7 +32,16 @@
                 (notify)="loadTabsAndButtons($event)"></st-app-side-menu>
             </div>
           </span>
-
+          <ng-template #nonContextMenu>
+            <div class="dynamic-menu desktop-toggle">
+              <st-app-side-menu [selectedTheme]="selectedTheme" [menuItems]="menuItems" [mobileView]="false"
+                (notify)="loadTabsAndButtons($event)"></st-app-side-menu>
+            </div>
+            <div *ngIf="!selectedTheme.isCollapsed" class="dynamic-menu mobile-toggle">
+              <st-app-side-menu [selectedTheme]="selectedTheme" [menuItems]="menuItems" [mobileView]="true"
+                (notify)="loadTabsAndButtons($event)"></st-app-side-menu>
+            </div>
+          </ng-template>
         </nz-sider>
         <nz-sider *ngIf="currentWebsiteLayout == 'website' && !fullCurrentUrl.includes('/menu-builder')" [class]="'menu-sidebar mobile-toggle' + (selectedTheme.layout === 'twoColumn' && selectedTheme['menuChildArrayTwoColumn'].length == 0 ? ' two-column-sider' : '')+
           (selectedTheme.sideBarSize == 'smallIconView' && (selectedTheme.layout == 'vertical' || selectedTheme.layout == 'rtl') ? ' small-icon-view-menu' : '') + (selectedTheme.layout == 'rtl' ? ' mobile-side-menu-rtl' : '')
