@@ -429,6 +429,7 @@ export class BuilderComponent implements OnInit {
   getScreenData(data: any) {
     this.modalService.confirm({
       nzTitle: 'Are you sure you want to switch your screen?',
+      nzClassName: 'custom-modal-class',
       nzOnOk: () => {
         new Promise((resolve, reject) => {
           setTimeout(Math.random() > 0.5 ? resolve : reject, 100);
