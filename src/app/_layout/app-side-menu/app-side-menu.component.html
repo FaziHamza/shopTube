@@ -1,6 +1,6 @@
 <div (mouseenter)="setHovered(false,$event)" (mouseleave)="setHovered(true,$event)" [ngClass]="{
     'tow-colmn-sidebar': selectedTheme.layout == 'twoColumn',
-    'flex':selectedTheme.layout == 'twoColumn' && !selectedTheme.isCollapsed && menuChildArrayTwoColumn.length > 0,
+    'flex':selectedTheme.layout == 'twoColumn' && !selectedTheme.isCollapsed && selectedTheme['menuChildArrayTwoColumn'].length > 0,
     'rtlMenu': selectedTheme.layout == 'rtl' ,
     'compact-sidebar': selectedTheme.sideBarSize == 'compact' && (selectedTheme.layout == 'vertical' || selectedTheme.layout == 'rtl') ,
     'compact-sidebar-right': selectedTheme.sideBarSize == 'compact_right' && (selectedTheme.layout == 'vertical' || selectedTheme.layout == 'rtl'),
@@ -30,7 +30,7 @@
             {{ item.title | translate }}
           </span>
         </li>
-        
+
         <li
           *ngIf="item.children.length > 0 && (item.children[0].type != 'mainTab' || item.children.length > 1);else menu"
           [ngStyle]="{ 'background': isActiveShow == item.id ? (selectedTheme['activeBackgroundColor'] ? selectedTheme['activeBackgroundColor'] : '' ) : '' }"
@@ -116,205 +116,7 @@
           </ul>
         </li>
         <ng-template #menu>
-          <span *ngIf="item['issueReport']">
-          <span *ngIf="item['issueReport'].length > 0">
-            <div class="b-comment">
-              <div (click)="toggleCommentDisplay(item)">
-                <div
-                  class="w-4 h-4 rounded-full hover:cursor-pointer {{ item['issueReport'][0]['status'] === 'open' ? 'bg-red-500' : (item['issueReport'][0]['status'] === 'inProgress' ? 'bg-orange-500' : (item['issueReport'][0]['status'] === 'completed' ? 'bg-green-500' : 'bg-red-500')) }}">
-                </div>
-              </div>
-              <div class="comment-modal">
-                <nz-drawer *ngIf="item['activeMenu'] == item.id" [nzWrapClassName]="'comment-drawer'" nzWidth="750px" [nzClosable]="false"
-                  [(nzVisible)]="item['showAllComments']" nzPlacement="right" nzTitle="Task Manager"
-                  (nzOnClose)="handleCancel(item)">
-                  <ng-container *nzDrawerContent>
-                    <div class="comments-chat">
-                      <div class="c-header ">
-                        <div class="status-options w-full">
-                          <div class="assign w-2/5">
-                            <div class="flex items-center">
-                              <label for="countries" class="block  text-sm font-semibold text-white">
-                                Assignee <span class="font-bold text-base">:</span>
-                              </label>
-                              <p
-                                class="py-0.5 mx-1.5 px-1.5 border-2 border-dashed border-white w-fit h-fit rounded-full">
-                                <i class="fa-light fa-user-large text-sm"></i>
-                              </p>
-                            </div>
-                            <select id="countries" [(ngModel)]="item['assignTo']"
-                              (ngModelChange)="userAssigneeSave(item , item['issueReport'][0])"
-                              class=" focus:ring-blue-500 focus:border-blue-500 block w-[170px] box-border text-white"
-                              nz-typography nzEllipsis>
-                              <option [value]="user.username" class="text-black"
-                                *ngFor="let user of this.dataSharedService.usersData">
-                                {{user.username}}</option>
-                            </select>
-                          </div>
-                          <div class="w-3/5 flex items-center">
-                            <div class="assign w-3/5 pl-[18px]">
-                              <label for="countries" class="block  text-sm font-semibold text-white">
-                                Due Date <span class="font-bold text-base">:</span>
-                              </label>
-                              <input [(ngModel)]="item['dueDate']" type="date" class="text-white">
-                            </div>
-                            <div class="assign w-2/5">
-                              <label for="countries" class="block  text-sm font-semibold text-white">
-                                Status <span class="font-bold text-base">:</span>
-                              </label>
-                              <select [(ngModel)]="item['issueReport'][0]['status'] "
-                                (ngModelChange)="statusChange(item['issueReport'][0]['status'], item)" id="
-                                                  countries"
-                                class="focus:ring-blue-500 w-[100px] focus:border-blue-500 block text-white bg-[#2563EB] "
-                                nz-typography nzEllipsis="">
-                                <option class="text-black" value="open">open</option>
-                                <option class="text-black" value="inProgress">inProgress
-                                </option>
-                                <option class="text-black" value="completed">completed
-                                </option>
-                                <option class="text-black" value="closed">Closed</option>
-                              </select>
-                            </div>
-                          </div>
-                        </div>
-                        <div class="actions">
-                          <p (click)="handleCancel(item)">
-                            <i class="fa-regular fa-xmark !text-white text-xl"></i>
-                          </p>
-                        </div>
-                      </div>
-                      <div class="c-body pb-2 pt-2">
-                        <div
-                          class="space-y-3 ml-2.5 relative before:absolute before:inset-0 before:ml-5 before:-translate-x-px  md:before:translate-x-0 before:h-full before:w-0.5  before:bg-gradient-to-b before:from-transparent before:via-slate-300 before:to-transparent">
-                          <!-- Item -->
-                          <div *ngFor="let issue of item['issueReport'] ; let i = index" class="relative">
-                            <div class="md:flex items-center md:space-x-4 ">
-                              <div class="flex items-center space-x-4 md:space-x-2 md:space-x-reverse">
-                                <!-- Icon -->
-                                <div
-                                  class="flex items-center justify-center w-10 h-10 rounded-full bg-white shadow md:order-1">
-                                  <svg
-                                    class="{{ issue['status'] == 'open' ? 'fill-red-500' : (issue['status'] == 'inProgress' ? 'fill-orange-500' : (issue['status'] == 'completed' ? 'fill-green-500' : 'fill-gray-200')) }}"
-                                    xmlns="http://www.w3.org/2000/svg" width="16" height="16">
-                                    <path
-                                      d="M8 0a8 8 0 1 0 8 8 8.009 8.009 0 0 0-8-8Zm0 12a4 4 0 1 1 0-8 4 4 0 0 1 0 8Z" />
-                                  </svg>
-                                </div>
 
-                              </div>
-                              <!-- Title -->
-                              <div class="text-slate-500 ml-14 flex w-full items-center justify-between h-5">
-                                <div class="flex items-center">
-                                  <span class="text-slate-800 font-semibold opacity-80">{{issue['createdBy']}}</span>
-                                  <span *ngIf="issue['children']">
-                                    <button *ngIf="issue['children'].length == 0" type="button"
-                                      class=" text-sm ml-1 reply text-white hover:bg-white border-2 border-[#2563EB] active:outline-2 active:outline-transparent focus:outline-2 focus:outline-transparent flex items-center  hover:text-[#2563EB] bg-[#2563EB] rounded-xl px-2"
-                                      (click)="reply(issue)">
-                                      Reply
-                                    </button>
-
-                                  </span>
-                                  <span>
-
-                                    <button *ngIf="!issue['children']" type="button"
-                                      class=" text-sm ml-1 reply text-white hover:bg-white border-2 border-[#2563EB] active:outline-2 active:outline-transparent focus:outline-2 focus:outline-transparent flex items-center  hover:text-[#2563EB] bg-[#2563EB] rounded-xl px-2"
-                                      (click)="reply(issue)">
-                                      Reply
-                                    </button>
-
-                                  </span>
-
-                                </div>
-                                <div>
-                                  <!-- Date -->
-                                  <time class=" text-slate-500 text-base w-fit mr-2 ">{{issue['dateTime']
-                                    | date :
-                                    "dd/MMM/yyyy"}}</time>
-                                </div>
-                              </div>
-                            </div>
-                            <!-- sub-Card -->
-                            <div class=" text-slate-500 ml-14">
-                              <p>
-                                {{issue['message']}}
-                              </p>
-                              <div *ngIf="issue['children']">
-                                <div
-                                  class="space-y-4 relative mt-2.5 before:absolute before:inset-0 before:ml-[13px] before:-translate-x-px  md:before:translate-x-0 before:h-full before:w-0.5 before:bg-gradient-to-b before:from-transparent before:via-slate-300 before:to-transparent"
-                                  *ngIf="issue['children'].length > 0">
-                                  <div *ngFor="let IssueReportChild of issue['children'] let last = last">
-                                    <!-- Item #1 -->
-                                    <div class="relative">
-                                      <div class="md:flex items-center md:space-x-4 ">
-                                        <div class="flex items-center space-x-4 md:space-x-2 md:space-x-reverse">
-                                          <!-- Icon -->
-                                          <div
-                                            class="flex items-center justify-center w-7 h-7 rounded-full bg-white shadow md:order-1">
-                                            <svg class="fill-indigo-500" xmlns="http://www.w3.org/2000/svg" width="16"
-                                              height="16">
-                                              <path
-                                                d="M8 0a8 8 0 1 0 8 8 8.009 8.009 0 0 0-8-8Zm0 12a4 4 0 1 1 0-8 4 4 0 0 1 0 8Z" />
-                                            </svg>
-                                          </div>
-
-                                        </div>
-                                        <!-- Title -->
-                                        <div class="text-slate-500 ml-14 w-full">
-                                          <div class="flex items-center justify-between h-fit w-full">
-                                            <div class="flex items-center">
-                                              <!-- Use flex container to keep both elements in the same line -->
-                                              <span class="text-slate-800 font-semibold opacity-70">
-                                                {{
-                                                IssueReportChild['createdBy']
-                                                }}
-                                              </span>
-                                              <button *ngIf="issue['children'].length > 0 && last" type="button"
-                                                class="text-sm ml-1 reply text-white hover:bg-white border-2 border-[#2563EB] active:outline-2 active:outline-transparent focus:outline-2 focus:outline-transparent flex items-center hover:text-[#2563EB] bg-[#2563EB] rounded-xl px-2"
-                                                (click)="reply(issue)">
-                                                Reply
-                                              </button>
-                                            </div>
-
-                                            <!-- Date -->
-                                            <time class="w-fit text-xs text-slate-500 opacity-75 mr-2">{{
-                                              IssueReportChild['dateTime'] |
-                                              date : "dd/MMM/yyyy" }}</time>
-                                          </div>
-                                          <p class="text-slate-500">
-                                            {{ IssueReportChild['message'] }}
-                                          </p>
-                                        </div>
-
-                                      </div>
-                                    </div>
-                                  </div>
-                                </div>
-                              </div>
-
-
-                              <form [formGroup]="commentForm">
-                                <div *ngIf="showRply == issue.id" class="h-12 mr-4 mt-4">
-                                  <nz-input-group [nzSuffix]="suffixIconSearch" class="h-full">
-                                    <input formControlName="message" type="text" nz-input
-                                      placeholder="Write your thoughs" />
-                                  </nz-input-group>
-                                  <ng-template #suffixIconSearch>
-                                    <i (click)="saveComment(item,issue , i)"
-                                      class="fa-regular fa-paper-plane text-lg hover:text-blue-600 cursor-pointer hover:text-xl"></i>
-                                  </ng-template>
-                                </div>
-                              </form>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </ng-container>
-                </nz-drawer>
-              </div>
-            </div>
-          </span>
-        </span>
           <li [ngStyle]="{
                   'background': isActiveShow === item.id ? selectedTheme['activeBackgroundColor'] : ''
                 }" (contextmenu)="handleContextMenu($event,item)" (mouseenter)="hoverActiveShow = item.id"
@@ -333,11 +135,12 @@
               [style.color]="(hoverActiveShow === item.id) ? selectedTheme['hoverTextColor'] : ((isActiveShow === item.id) ? (selectedTheme['activeTextColor'] || selectedTheme['textColor']) : selectedTheme['textColor'])">
               {{ item.title | translate }}
             </span>
+            <span><st-task-report *ngIf="item['issueReport']" [item]="item" [type]="'menu'"></st-task-report></span>
           </li>
         </ng-template>
       </ng-container>
       <!-- THIS BUTTON IS USED IN HORIZENTAL WHNEN LENGTH OF MENU IS GREATER THAN 7 -->
-      <ng-container *ngIf="selectedTheme.menuMode == 'horizontal' && selectedTheme.allMenuItems.length >= 7 ">
+      <ng-container *ngIf="selectedTheme.layout == 'horizental' && selectedTheme.allMenuItems.length >= 7 ">
         <ng-container *ngFor="let mainMenu of selectedTheme.newMenuArray">
           <li (contextmenu)="handleContextMenu($event,mainMenu)"
             (click)="loadTabsAndButtons($event, mainMenu,false,false)" (mouseenter)="hoverActiveShow = mainMenu.id"
@@ -471,11 +274,11 @@
   <div [ngClass]="{
     'menu-bg-image':selectedTheme.siderBarImages
       }" class="two-column-second-column" [style.background-image]="'url(' + selectedTheme.siderBarImages + ')'"
-    *ngIf="selectedTheme.layout == 'twoColumn' && !selectedTheme.isCollapsed && menuChildArrayTwoColumn.length > 0">
+    *ngIf="selectedTheme.layout == 'twoColumn' && !selectedTheme.isCollapsed && selectedTheme['menuChildArrayTwoColumn'].length > 0">
     <ul [class]="selectedTheme?.font" [style.background]="selectedTheme.backGroundColor" nz-menu
-      style="background-size: cover; background-repeat: no-repeat; height: 100%; " [nzMode]='selectedTheme.menuMode'
+      style="background-size: cover; background-repeat: no-repeat; height: 100%; " [nzMode]="'inline'"
       [nzTheme]="selectedTheme.theme ? 'dark' : 'light'">
-      <ng-container *ngFor="let item of menuChildArrayTwoColumn">
+      <ng-container *ngFor="let item of selectedTheme['menuChildArrayTwoColumn']">
         <li
           *ngIf="item.children.length > 0  && (item.children[0].type != 'mainTab' || item.children.length > 1);else menu"
           [ngStyle]="{ 'background': isActiveShow == item.id ? (selectedTheme['activeBackgroundColor'] ? selectedTheme['activeBackgroundColor'] : '' ) : '' }"
@@ -516,13 +319,15 @@
         'background': isActiveShow === item.id ? (selectedTheme['activeBackgroundColor'] || '') : ''
       }" (mouseenter)="hoverActiveShow = item.id" (mouseleave)="hoverActiveShow = null" nz-menu-item nz-tooltip
             nzTooltipPlacement="right" [nzTooltipTitle]="selectedTheme.isCollapsed ? item.title : ''"
-            *ngIf="item.type != 'mainTab'" (click)="loadTabsAndButtons($event,item,false,true,true)">
+            *ngIf="item.type != 'mainTab'" (contextmenu)="handleContextMenu($event,item)"
+            (click)="loadTabsAndButtons($event,item,false,true,true)">
             <!-- <span style="font-size: 5px;"
             [style.color]="(hoverActiveShow === item.id) ? selectedTheme['hoverTextColor'] :
             ((isActiveShow === item.id) ? (selectedTheme['activeTextColor'] || item['iconColor']) : item['iconColor'])"
             nz-icon nzType="line"></span> -->
             <span [style.font-size.px]="selectedTheme['titleSize'] || 15"
               [style.color]="(hoverActiveShow === item.id) ? selectedTheme['hoverTextColor'] : ((isActiveShow === item.id) ? (selectedTheme['activeTextColor'] || selectedTheme['textColor']) : selectedTheme['textColor'])">{{item.title}}</span>
+            <span><st-task-report *ngIf="item['issueReport']" [item]="item" [type]="'menu'"></st-task-report></span>
           </li>
         </ng-template>
       </ng-container>

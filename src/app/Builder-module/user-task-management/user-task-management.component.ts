@@ -130,21 +130,21 @@ export class UserTaskManagementComponent implements OnInit {
               obj.expand = false;
             });
             this.data[0]['children'] = [];
-            let obj =
-            {
+            // let obj =
+            // {
 
-              "_id":
-                "64d64d428909734e2f0a24d3",
-              "screenId": "CakeForm",
-              "dueDate": "2023-08-11",
-              "status": "open",
-              "organizationId": "64abfde576ac2e992aa14d75",
-              "applicationId": "64c7cf48c577c6286a78ce45",
-              "componentId": "cakeform_input_22a7f843",
-              "createdBy": "zubairv@gmail.com",
-              "assignTo": "zubairv2@gmail.com",
-            }
-            this.data[0]['children'].push(obj);
+            //   "_id":
+            //     "64d64d428909734e2f0a24d3",
+            //   "screenId": "CakeForm",
+            //   "dueDate": "2023-08-11",
+            //   "status": "open",
+            //   "organizationId": "64abfde576ac2e992aa14d75",
+            //   "applicationId": "64c7cf48c577c6286a78ce45",
+            //   "componentId": "cakeform_input_22a7f843",
+            //   "createdBy": "zubairv@gmail.com",
+            //   "assignTo": "zubairv2@gmail.com",
+            // }
+            // this.data[0]['children'].push(obj);
             this.saveLoader = false;
           } else {
             this.toastr.error(`No data against this screen:`, { nzDuration: 3000 });
@@ -189,7 +189,8 @@ export class UserTaskManagementComponent implements OnInit {
           this.editId = '';
           this.saveLoader = false;
         }
-      }, error: (err: any) => {
+      }, 
+      error: (err: any) => {
         console.error(err); // Log the error to the console
         this.toastr.error(`UserAssignTask : An error occurred`, { nzDuration: 3000 });
         this.saveLoader = false;
