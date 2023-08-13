@@ -5953,3 +5953,32 @@ li.ant-cascader-menu-item:nth-child(1):hover {
   }
 
 }
+
+.custom-modal-class {
+
+
+  .ant-modal-content {
+    border-radius: 16px;
+  }
+
+  .anticon-question-circle{
+    margin-top: 3px !important;
+  }
+  
+  .ant-modal-confirm-btns {
+    display: flex;
+    width: 100%;
+  }
+
+  .ant-modal-confirm-btns>button:nth-child(1) {
+    width: 50%;
+    height: 35px;
+    border-radius: 8px;
+  }
+
+  .ant-modal-confirm-btns>button:nth-child(2) {
+    width: 50%;
+    height: 35px;
+    border-radius: 8px;
+  }
+}
