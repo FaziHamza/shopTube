@@ -257,7 +257,7 @@ export class SectionsComponent implements OnInit {
             this.toastr.error("An error occurred", { nzDuration: 3000 });
           }
         });
-      } 
+      }
       else {
         let findClickApi = data.appConfigurableEvent.filter((item: any) => item.actions.some((action: any) => action.method === 'put' && action.actionType == 'api'));
         if (this.dataModel) {
@@ -330,20 +330,36 @@ export class SectionsComponent implements OnInit {
       if (findClickApi.length > 0) {
         let tableData = this.findObjectByKey(this.sections, findClickApi?.[0].actions?.[0]?.elementName);
         if (tableData) {
-          this.employeeService.getSQLDatabaseTable(findClickApi.length > 0 ? findClickApi?.[0].actions?.[0]?.url : `knex-query/${this.screenName}`).subscribe({
+          let pagination = '';
+          if (tableData.serverSidePagination) {
+            pagination = '?page=' + 1 + '&pageSize=' + tableData?.end;
+          }
+          const apiUrl = findClickApi.length > 0 ? findClickApi?.[0].actions?.[0]?.url : `knex-query/${this.screenName}`;
+          this.employeeService.getSQLDatabaseTable(apiUrl + pagination).subscribe({
             next: (res) => {
-              if (tableData && res) {
-                if (res.length > 0) {
-                  let saveForm = JSON.parse(JSON.stringify(res[0]));
+              if (tableData && res.isSuccess) {
+
+                if (res.data.length > 0) {
+                  let saveForm = JSON.parse(JSON.stringify(res.data[0]));
                   const firstObjectKeys = Object.keys(saveForm);
                   let tableKey = firstObjectKeys.map(key => ({ name: key }));
                   let obj = firstObjectKeys.map(key => ({ name: key, key: key }));
                   tableData.tableData = [];
                   saveForm.id = tableData.tableData.length + 1;
-                  res.forEach((element: any) => {
+                  res.data.forEach((element: any) => {
                     element.id = (element?.id)?.toString();
                     tableData.tableData?.push(element);
                   });
+                  // pagniation work start
+                  if (!tableData.end) {
+                    tableData.end = 10;
+                  }
+                  tableData.pageIndex = 1;
+                  tableData.totalCount = res.count;
+                  tableData.serverApi = findClickApi.length > 0 ? findClickApi?.[0].actions?.[0]?.url : `knex-query/${this.screenName}`;
+                  tableData.targetId = '';
+                  tableData.displayData = tableData.tableData.length > tableData.end ? tableData.tableData.slice(0, tableData.end) : tableData.tableData;
+                  // pagniation work end
                   if (tableData.tableHeaders.length == 0) {
                     tableData.tableHeaders = obj;
                     tableData['tableKey'] = tableKey

@@ -5,6 +5,7 @@ import { map, Observable, observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { MenuItem } from '../models/menu';
 import { TreeNode } from '../models/treeNode';
+import { ApiResponse } from 'src/common/interfaces/api-response';
 
 @Injectable({
   providedIn: 'root'
@@ -100,7 +101,12 @@ export class EmployeeService {
       this.nestUrl + api + obj
     );
   }
-  getSQLDatabaseTable(api: string): Observable<any> {
+  getSQLDatabaseTable(api: string): Observable<ApiResponse> {
+    return this.http.get<ApiResponse>(
+       api.includes('http') ? api : this.nestUrl + api
+    );
+  }
+  getSQLDatabaseTableCRUD(api: string): Observable<any> {
     return this.http.get<any>(
        api.includes('http') ? api : this.nestUrl + api
     );

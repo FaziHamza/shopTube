@@ -8,6 +8,7 @@
 export interface ApiResponse {
     isSuccess: boolean;
     message: string;
-    data?: Object | Object[];
+    data?: any;
+    count?:number;
   }
-  
+

@@ -37,6 +37,7 @@ import { E } from '@formulajs/formulajs';
 import { TemplatePopupComponent } from './template-popup/template-popup.component';
 import { MarketPlaceComponent } from './market-place/market-place.component';
 import { FormGroup } from '@angular/forms';
+import { EmployeeService } from '../services/employee.service';
 @Component({
   selector: 'st-builder',
   templateUrl: './builder.component.html',
@@ -108,6 +109,7 @@ export class BuilderComponent implements OnInit {
     private drawerService: NzDrawerService,
     // private formBuilder: FormBuilder,
     private _encryptionService: EncryptionService,
+    private employeeService: EmployeeService,
     private toastr: NzMessageService,
     private dataService: DataService,
     private modalService: NzModalService,
@@ -333,6 +335,7 @@ export class BuilderComponent implements OnInit {
       let gridData = this.findObjectByTypeBase(this.nodes[0], 'gridList');
       if (gridData) {
         gridData.tableData = [];
+        gridData.displayData = [];
       }
       const screenData = this.jsonParse(this.jsonStringifyWithObject(this.nodes));
       const data: any = {
@@ -494,7 +497,7 @@ export class BuilderComponent implements OnInit {
     })
 
   }
-  getBuilderScreen() {  
+  getBuilderScreen() {
     this.requestSubscription = this.applicationService.getNestCommonAPIById('cp/Builder', this._id).subscribe({
       next: (res: any) => {
         if (res.isSuccess) {
@@ -4201,6 +4204,8 @@ export class BuilderComponent implements OnInit {
           this.selectedNode['rowClickApi'] = event.form?.rowClickApi;
           this.selectedNode['nzLoading'] = event.form?.nzLoading;
           this.selectedNode['nzShowPagination'] = event.form?.nzShowPagination;
+          this.selectedNode['end'] = event.form?.end;
+          this.selectedNode['serverSidePagination'] = event.form?.serverSidePagination;
           const tableData = event.tableDta ? event.tableDta : event.form.options;
           const updatedData = tableData.filter((updatedItem: any) => {
             const key = updatedItem.key;
@@ -6030,20 +6035,34 @@ export class BuilderComponent implements OnInit {
   getFromQuery(name: string) {
     let tableData = this.findObjectByTypeBase(this.nodes[0], "gridList");
     if (tableData) {
-      this.builderService.getSQLDatabaseTable(`knex-query/${name}`).subscribe({
+      let pagination = '';
+      if (tableData.serverSidePagination) {
+        pagination = '?page=' + 1 + '&pageSize=' + tableData?.end;
+      }
+      this.employeeService.getSQLDatabaseTable(`knex-query/${name}`+pagination).subscribe({
         next: (res) => {
-          if (tableData && res) {
-            if (res.length > 0) {
-              let saveForm = JSON.parse(JSON.stringify(res[0]));
+          if (tableData && res.isSuccess) {
+            if (res.data.length > 0) {
+              let saveForm = JSON.parse(JSON.stringify(res.data[0]));
               const firstObjectKeys = Object.keys(saveForm);
               let tableKey = firstObjectKeys.map(key => ({ name: key }));
               let obj = firstObjectKeys.map(key => ({ name: key, key: key }));
               tableData.tableData = [];
               saveForm.id = tableData.tableData.length + 1;
-              res.forEach((element: any) => {
+              res.data.forEach((element: any) => {
                 element.id = (element?.id)?.toString();
                 tableData.tableData?.push(element);
               });
+              // pagniation work start
+              if (!tableData.end) {
+                tableData.end = 10;
+              }
+              tableData.targetId = '';
+              tableData.pageIndex = 1;
+              tableData.totalCount = res.count;
+              tableData.serverApi = `knex-query/${name}`;
+              tableData.displayData = tableData.tableData.length > tableData.end ? tableData.tableData.slice(0, tableData.end) : tableData.tableData;
+              // pagniation work end
               if (tableData.tableHeaders.length == 0) {
                 tableData.tableHeaders = obj;
                 tableData['tableKey'] = tableKey

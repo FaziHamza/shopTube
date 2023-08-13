@@ -408,6 +408,8 @@ export interface TreeNode {
   nzPaginationType?: any;
   nzPaginationPosition?: any;
   nzFrontPagination?: any;
+  end?: any,
+  serverSidePagination?: any,
   nzShowPagination?: any;
   showColumnHeader?: any;
   pattern?: any;

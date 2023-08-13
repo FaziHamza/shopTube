@@ -219,10 +219,10 @@ export class CreateDatabaseComponent implements OnInit {
   }
   tableFields: any;
   getDatabaseTablev1() {
-    this.employeeService.getSQLDatabaseTable('knex-crud/tables').subscribe({
+    this.employeeService.getSQLDatabaseTableCRUD('knex-crud/tables').subscribe({
       next: (objTRes) => {
         if (objTRes) {
-          this.employeeService.getSQLDatabaseTable('knex-crud/table_schema').subscribe({
+          this.employeeService.getSQLDatabaseTableCRUD('knex-crud/table_schema').subscribe({
             next: (objFRes) => {
               this.tableFields = objFRes;
               this.data = [];

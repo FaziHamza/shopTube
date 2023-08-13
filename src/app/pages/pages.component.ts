@@ -230,7 +230,7 @@ export class PagesComponent implements OnInit {
                             let obj = {
                               event: element.actionLink,
                               actions: [
-                                { actionType: element.actionType, url: element.httpAddress, method: element.actionLink, elementName: element.elementNameTo,submit : element.submit }
+                                { actionType: element.actionType, url: element.httpAddress, method: element.actionLink, elementName: element.elementNameTo, submit: element.submit }
                               ]
                             };
                             eventActionConfig['appConfigurableEvent'].push(obj);
@@ -239,7 +239,7 @@ export class PagesComponent implements OnInit {
                             let obj = {
                               event: element.actionLink,
                               actions: [
-                                { actionType: element.actionType, url: element.httpAddress, method: element.actionLink, elementName: element.elementNameTo,submit : element.submit}
+                                { actionType: element.actionType, url: element.httpAddress, method: element.actionLink, elementName: element.elementNameTo, submit: element.submit }
                               ]
                             };
                             eventActionConfig['appConfigurableEvent'].push(obj);
@@ -269,7 +269,7 @@ export class PagesComponent implements OnInit {
                         let obj = {
                           event: element.actionLink,
                           actions: [
-                            { actionType: element.actionType, url: element.httpAddress, method: element.actionLink, elementName: element.elementNameTo ,submit : element.submit}
+                            { actionType: element.actionType, url: element.httpAddress, method: element.actionLink, elementName: element.elementNameTo, submit: element.submit }
                           ]
                         };
                         findObj['appConfigurableEvent'].push(obj);
@@ -278,7 +278,7 @@ export class PagesComponent implements OnInit {
                         let obj = {
                           event: element.actionLink,
                           actions: [
-                            { actionType: element.actionType, url: element.httpAddress, method: element.actionLink, elementName: element.elementNameTo,submit : element.submit }
+                            { actionType: element.actionType, url: element.httpAddress, method: element.actionLink, elementName: element.elementNameTo, submit: element.submit }
                           ]
                         };
                         findObj['appConfigurableEvent'].push(obj);
@@ -420,18 +420,32 @@ export class PagesComponent implements OnInit {
   getFromQuery() {
     let tableData = this.findObjectByTypeBase(this.resData[0], "gridList");
     if (tableData) {
-      this.employeeService.getSQLDatabaseTable(`knex-query/${this.screenName}`).subscribe({
+      let pagination = '';
+      if (tableData.serverSidePagination) {
+        pagination = '?page=' + 1 + '&pageSize=' + tableData?.end;
+      }
+      this.employeeService.getSQLDatabaseTable(`knex-query/${this.screenName}`+pagination).subscribe({
         next: (res) => {
-          if (tableData && res) {
-            let saveForm = JSON.parse(JSON.stringify(res[0]));
+          if (tableData && res.isSuccess) {
+            let saveForm = JSON.parse(JSON.stringify(res.data[0]));
             const firstObjectKeys = Object.keys(saveForm);
             let obj = firstObjectKeys.map(key => ({ name: key }));
             tableData.tableData = [];
             saveForm.id = tableData.tableData.length + 1
-            res.forEach((element: any) => {
+            res.data.forEach((element: any) => {
               element.id = (element?.id)?.toString();
               tableData.tableData?.push(element);
             });
+            // pagniation work start
+            if (!tableData.end) {
+              tableData.end = 10;
+            }
+            tableData.pageIndex = 1;
+            tableData.totalCount = res.count;
+            tableData.serverApi = `knex-query/${this.screenName}`;
+            tableData.targetId = '';
+            tableData.displayData = tableData.tableData.length > tableData.end ? tableData.tableData.slice(0, tableData.end) : tableData.tableData;
+            // pagniation work end
             if (JSON.stringify(tableData['tableKey']) != JSON.stringify(obj)) {
               const updatedData = tableData.tableHeaders.filter((updatedItem: any) => {
                 const name = updatedItem.name;
@@ -1041,7 +1055,7 @@ export class PagesComponent implements OnInit {
             let modelKey = key.split('.')[1];
             data[actionKey[0]][modelKey] = value.replace(/'/g, '');
           }
-          else{
+          else {
             data[key] = value.replace(/'/g, '');
           }
         }
@@ -1055,7 +1069,7 @@ export class PagesComponent implements OnInit {
             let actionKey = action.split('.');
             let modelKey = key.split('.')[1];
             data[actionKey[0]][modelKey] = '';
-          }else{
+          } else {
             data[key] = '';
           }
         }
@@ -1781,6 +1795,16 @@ export class PagesComponent implements OnInit {
                 element.id = (element?.id)?.toString();
                 tableData.tableData?.push(element);
               });
+              // pagniation work start
+              if (!tableData.end) {
+                tableData.end = 10;
+              }
+              tableData.serverApi = data.props.apiUrl;
+              tableData.pageIndex = 1;
+              tableData.totalCount = response.count;
+              tableData.targetId = targetId;
+              tableData.displayData = tableData.tableData.length > tableData.end ? tableData.tableData.slice(0, tableData.end) : tableData.tableData;
+              // pagniation work end
               if (JSON.stringify(tableData['tableKey']) != JSON.stringify(obj)) {
                 const updatedData = tableData.tableHeaders.filter((updatedItem: any) => {
                   const name = updatedItem.name;
@@ -1829,21 +1853,20 @@ export class PagesComponent implements OnInit {
         if (element.formly[0].fieldGroup[0].props['appConfigurableEvent']) {
           for (let j = 0; j < element.formly[0].fieldGroup[0].props['appConfigurableEvent'].length; j++) {
             const getActions = element.formly[0].fieldGroup[0].props['appConfigurableEvent'][j];
-            if(getActions.actions?.[0]?.submit == 'change' || getActions.actions?.[0]?.submit == 'onchange')
-            {
+            if (getActions.actions?.[0]?.submit == 'change' || getActions.actions?.[0]?.submit == 'onchange') {
               // let subParamId = '';
               // if(element.formly[0].fieldGroup[0].key.includes('.')){
               //   const check =   element.formly[0].fieldGroup[0].key.split('.')
               //   subParamId = this.formlyModel[check[0]][check[1]];
               // }
-              let url  = '';
-              if(getActions.actions?.[0]?.url.endsWith('/'))
+              let url = '';
+              if (getActions.actions?.[0]?.url.endsWith('/'))
                 url = getActions.actions?.[0]?.url.endsWith('/')
               else url = getActions.actions?.[0]?.url + '/'
 
-              this.applicationService.getBackendCommonAPI( url + targetId).subscribe(res => {
+              this.applicationService.getBackendCommonAPI(url + targetId).subscribe(res => {
                 if (res) {
-                  if(res.data.length > 0) {
+                  if (res.data.length > 0) {
                     let data = res.data;
                     let propertyNames = Object.keys(data[0]);
                     let result = data.map((item: any) => {
@@ -1868,14 +1891,14 @@ export class PagesComponent implements OnInit {
                     });
                     for (let j = 0; j < filteredNodes.length; j++) {
                       const ele = filteredNodes[j];
-                      if(ele.formly[0].fieldGroup[0].key == getActions.actions?.[0]?.elementName){
+                      if (ele.formly[0].fieldGroup[0].key == getActions.actions?.[0]?.elementName) {
                         ele.formly[0].fieldGroup[0].props.options = finalObj;
                       }
                     }
-                  }else{
+                  } else {
                     for (let j = 0; j < filteredNodes.length; j++) {
                       const ele = filteredNodes[j];
-                      if(ele.formly[0].fieldGroup[0].key == getActions.actions?.[0]?.elementName){
+                      if (ele.formly[0].fieldGroup[0].key == getActions.actions?.[0]?.elementName) {
                         ele.formly[0].fieldGroup[0].props.options = [];
                       }
                     }
@@ -1926,7 +1949,7 @@ export class PagesComponent implements OnInit {
 
   }
   saveDataGrid(res: any) {
-    if(this.formlyModel){
+    if (this.formlyModel) {
       let model = Object.keys(this.formlyModel);
       let findElement: any = {};
       const filteredNodes = this.filterInputElements(this.resData[0].children[1].children[0].children[1].children);

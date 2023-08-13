@@ -28,10 +28,10 @@
   </nz-collapse>
   <dynamic-table *ngIf='this.itemData?.mappingNode && this.itemData?.mappingNode?.tableBody.length == 0'
     [tableId]='tableId' [checkType]='true' [tableHeaders]="itemData.mappingNode.tableHeader"
-    [data]="itemData.mappingNode"></dynamic-table>
+    [data]="itemData.mappingNode"  [displayData]="itemData.mappingNode.displayData"></dynamic-table>
   <dynamic-table *ngIf='this.itemData?.mappingNode && this.itemData?.mappingNode?.tableBody.length'
     [tableId]='tableId' [checkType]='true' [tableHeaders]="itemData.mappingNode.tableHeader"
-    [tableData]='itemData.mappingNode.tableBody' [data]="itemData.mappingNode"></dynamic-table>
+    [tableData]='itemData.mappingNode.tableBody' [displayData]="itemData.mappingNode.displayData" [data]="itemData.mappingNode"></dynamic-table>
   <br>
   <button nz-button nzType="primary" (click)="onSubmit()">Save</button>
   <button class="mx-2" nz-button nzType="primary" nzDanger (click)="onDelete(this.itemData)">Delete</button>

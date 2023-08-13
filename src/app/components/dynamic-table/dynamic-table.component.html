@@ -10,99 +10,48 @@
   <button nz-button (click)="addColumn()" *ngIf="checkType" nzType="primary">Add</button>
 </div>
 <div class="dynamic-table">
-  <nz-table #editRowTable [nzPageSize]="10" [nzBordered]='data.nzBordered' [nzData]="tableData" *ngIf="data"
-  [nzScroll]="{ x: tableData.length > 0 ?  '100vw' : '10vw', y: null }" [nzLoading]="data?.nzLoading"
-  [nzPaginationPosition]='data?.nzPaginationPosition' [nzPaginationType]='data?.nzPaginationType'
-  [nzFrontPagination]='data?.nzFrontPagination' [nzShowPagination]='data?.nzShowPagination' [nzTitle]='data?.nzTitle'
-  [nzSize]="data.nzSize" [nzSimple]="data.nzSimple" [nzShowSizeChanger]="data.nzShowSizeChanger">
-  <thead>
-    <tr *ngIf="data?.showColumnHeader == undefined ? true : data?.showColumnHeader">
-      <th *ngIf="data.showCheckbox" [(nzChecked)]="allChecked" [nzIndeterminate]="indeterminate"
-        (nzCheckedChange)="checkAll($event)"></th>
-      <ng-container *ngFor="let header of tableHeaders">
-        <th *ngIf="header.name != 'defaultValue' && header.name != 'children' && header.name != 'expandable'"
-          [nzSortOrder]="header?.sortOrder" [nzSortFn]="header?.sortFn" [nzSortDirections]="header?.sortDirections"
-          [nzFilterMultiple]="header?.filterMultiple" [nzFilters]="header?.listOfFilter" [nzFilterFn]="header?.filterFn"
-          (click)="header?.columnClickApi ? onClickColumn(header.columnClickApi,header): ''">
-          {{header.name | translate}}<span *ngIf="header?.gridHeaderSum">({{header?.gridHeaderSum}})</span>
-        </th>
-      </ng-container>
-      <th *ngIf="tableHeaders.length > 0">Delete</th>
-    </tr>
-  </thead>
-  <tbody>
-    <ng-template #recursiveList let-data1>
-      <ng-container *ngFor="let item of data1; let i = index">
-        <tr [ngStyle]="{'background': item?.color}" *ngIf="!responsiveTable" (dblclick)="updateModel(item)"
-          (click)="data?.rowClickApi!='' ? onClickRow(data.rowClickApi,item): ''">
-          <td *ngIf="item.expandable" [(nzExpand)]="item.expand"></td>
-          <td *ngIf="data.showCheckbox" [(nzChecked)]="item.checked" (nzCheckedChange)="refreshStatus()"></td>
-          <ng-container *ngFor="let header of data['tableKey']; let index = index">
-            <td [nzEllipsis]="true" class="5"
-              *ngIf="header.name != 'headerButton' && header.name != 'footerButton' && header.name != 'expandable' && header.name != 'checked'
-            && header.name != 'expand' && header.name !='children' && header.name != 'defaultValue' && header.name != 'children'">
-              <div class="1"
-                *ngIf="tableHeaders[index]?.dataType !='select' && tableHeaders[index]?.dataType !='image' && !isMyDataArray(item[header.name])">
-                <div class="editable-cell" [hidden]="editId === item.id" (click)="startEdit(item.id)">
-                  {{item[header.name] | translate}}
-                </div>
-                <input [hidden]="editId !== item.id" type="text" nz-input [(ngModel)]="item[header.name]" />
-              </div>
-              <div class="2"
-                *ngIf="tableHeaders[index]?.dataType =='select' && tableHeaders[index]?.dataType !='image' || isMyDataArray(item[header.name])">
-                <nz-select nzAllowClear nzShowSearch style="width: 100px" nzPlaceHolder="Select Value"
-                  [(ngModel)]="item.defaultValue" (ngModelChange)="select(i, $event)">
-                  <nz-option *ngFor="let option of item[header.name]" [nzLabel]="option.type ? option.type : option.key"
-                    [nzValue]="option.value ? option.value : option">
-                  </nz-option>
-                </nz-select>
-              </div>
-
-              <div *ngIf="tableHeaders[index]?.dataType =='image'" class="4">
-                <img nz-image width="80px" height="80px"
-                  nzSrc="https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png" alt />
-              </div>
-            </td>
-            <td *ngIf="header.name == 'headerButton'">
-              <button (click)="showModal('Header')" type="button"
-                class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-                Button
-              </button>
-            </td>
-            <td *ngIf="header.name == 'footerButton'">
-              <button type="button" (click)="showModal('Footer')"
-                class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-                Button
-              </button>
-            </td>
-          </ng-container>
-
-          <td>
-            <a nz-popconfirm nzPopconfirmTitle="Sure to delete?" (nzOnConfirm)="deleteRow(item)">
-              <span class="text-red-500" nz-icon nzType="delete" nzTheme="outline"></span>
-            </a>
-          </td>
-        </tr>
-        <ng-container *ngIf="responsiveTable">
-          <tr *ngFor="let entryKey of getObjectKeys(item)">
+  <!-- [nzFrontPagination]='data?.nzFrontPagination' -->
+  <!-- [nzShowPagination]='data?.nzShowPagination' -->
+  <nz-table #editRowTable [nzPageSize]="10" [nzBordered]='data.nzBordered' [nzData]="displayData" *ngIf="data"
+    [nzScroll]="{ x: displayData.length > 0 ?  '100vw' : '10vw', y: null }" [nzLoading]="data?.nzLoading"
+    [nzPaginationPosition]='data?.nzPaginationPosition' [nzPaginationType]='data?.nzPaginationType'
+    [nzFrontPagination]='false' [nzTitle]='data?.nzTitle' [nzSize]="data.nzSize" [nzSimple]="data.nzSimple"
+    [nzShowSizeChanger]="data.nzShowSizeChanger">
+    <thead>
+      <tr *ngIf="data?.showColumnHeader == undefined ? true : data?.showColumnHeader">
+        <th *ngIf="data.showCheckbox" [(nzChecked)]="allChecked" [nzIndeterminate]="indeterminate"
+          (nzCheckedChange)="checkAll($event)"></th>
+        <ng-container *ngFor="let header of tableHeaders">
+          <th *ngIf="header.name != 'defaultValue' && header.name != 'children' && header.name != 'expandable'"
+            [nzSortOrder]="header?.sortOrder" [nzSortFn]="header?.sortFn" [nzSortDirections]="header?.sortDirections"
+            [nzFilterMultiple]="header?.filterMultiple" [nzFilters]="header?.listOfFilter"
+            [nzFilterFn]="header?.filterFn"
+            (click)="header?.columnClickApi ? onClickColumn(header.columnClickApi,header): ''">
+            {{header.name | translate}}<span *ngIf="header?.gridHeaderSum">({{header?.gridHeaderSum}})</span>
+          </th>
+        </ng-container>
+        <th *ngIf="tableHeaders.length > 0">Delete</th>
+      </tr>
+    </thead>
+    <tbody>
+      <ng-template #recursiveList let-data1>
+        <ng-container *ngFor="let item of data1; let i = index">
+          <tr [ngStyle]="{'background': item?.color}" *ngIf="!responsiveTable" (dblclick)="updateModel(item)"
+            (click)="data?.rowClickApi!='' ? onClickRow(data.rowClickApi,item): ''">
+            <td *ngIf="item.expandable" [(nzExpand)]="item.expand"></td>
+            <td *ngIf="data.showCheckbox" [(nzChecked)]="item.checked" (nzCheckedChange)="refreshStatus()"></td>
             <ng-container *ngFor="let header of data['tableKey']; let index = index">
-              <ng-container *ngIf="header.name == entryKey">
-                <td class="font-bold bg-blue-500 text-white hover:text-black">{{
-                  entryKey }}</td>
-                <td *ngIf="entryKey == 'expand'" [(nzExpand)]="item[entryKey]"></td>
-                <td class="responsive-checkBox" *ngIf="data.showCheckbox && entryKey == 'checked'"
-                  [(nzChecked)]="item.checked" (nzCheckedChange)="refreshStatus()"></td>
-                <td
-                  *ngIf="tableHeaders[index]?.dataType !='select' && tableHeaders[index]?.dataType !='image' && !isMyDataArray(item[header.name]) && item[header.name]"
-                  (click)="editValue(entryKey)">
-                  <ng-container *ngIf="editingEntry == entryKey">
-                    <input nz-input type="text" [(ngModel)]="item[entryKey]">
-                  </ng-container>
-                  <ng-container *ngIf="editingEntry != entryKey">
-                    {{ item[entryKey] }}
-                  </ng-container>
-                </td>
-                <td
+              <td [nzEllipsis]="true" class="5"
+                *ngIf="header.name != 'headerButton' && header.name != 'footerButton' && header.name != 'expandable' && header.name != 'checked'
+            && header.name != 'expand' && header.name !='children' && header.name != 'defaultValue' && header.name != 'children'">
+                <div class="1"
+                  *ngIf="tableHeaders[index]?.dataType !='select' && tableHeaders[index]?.dataType !='image' && !isMyDataArray(item[header.name])">
+                  <div class="editable-cell" [hidden]="editId === item.id" (click)="startEdit(item.id)">
+                    {{item[header.name] | translate}}
+                  </div>
+                  <input [hidden]="editId !== item.id" type="text" nz-input [(ngModel)]="item[header.name]" />
+                </div>
+                <div class="2"
                   *ngIf="tableHeaders[index]?.dataType =='select' && tableHeaders[index]?.dataType !='image' || isMyDataArray(item[header.name])">
                   <nz-select nzAllowClear nzShowSearch style="width: 100px" nzPlaceHolder="Select Value"
                     [(ngModel)]="item.defaultValue" (ngModelChange)="select(i, $event)">
@@ -111,81 +60,100 @@
                       [nzValue]="option.value ? option.value : option">
                     </nz-option>
                   </nz-select>
-                </td>
-              </ng-container>
+                </div>
+
+                <div *ngIf="tableHeaders[index]?.dataType =='image'" class="4">
+                  <img nz-image width="80px" height="80px"
+                    nzSrc="https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png" alt />
+                </div>
+              </td>
+              <td *ngIf="header.name == 'headerButton'">
+                <button (click)="showModal('Header')" type="button"
+                  class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                  Button
+                </button>
+              </td>
+              <td *ngIf="header.name == 'footerButton'">
+                <button type="button" (click)="showModal('Footer')"
+                  class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                  Button
+                </button>
+              </td>
             </ng-container>
-          </tr>
-          <tr>
-            <td class="font-bold bg-blue-500 text-white hover:text-black">Action</td>
+
             <td>
               <a nz-popconfirm nzPopconfirmTitle="Sure to delete?" (nzOnConfirm)="deleteRow(item)">
                 <span class="text-red-500" nz-icon nzType="delete" nzTheme="outline"></span>
               </a>
             </td>
           </tr>
-          <br>
-        </ng-container>
-
-        <!-- <tr [nzExpand]="item.expand">
-        <td colspan="4">
-          <dynamic-table *ngIf="item?.children?.length" [tableId]='tableId' [checkType]='true'
-            [tableData]='item.children' [tableHeaders]='tableHeaders' [data]="data"></dynamic-table>
-        </td>
-      </tr> -->
-
-        <!-- <ng-container *ngIf="item.children?.length > 0 && data.expandable" >
-    <tr *ngFor="let child of item.children" [nzExpand]="item.expand">
-      <td colspan="8">
-        <nz-table #recursiveTableChild [nzData]="child" [nzPageSize]="10">
-          <thead>
-            <th *ngFor="let ch of childKey" >{{ch}}</th>
-          </thead>
-          <tbody>
-            <ng-container *ngFor="let key of childKey">
-              <td [nzEllipsis]="true" *ngIf="key != 'description' && key != 'checked' && key != 'expand'">
-                <div class="editable-cell" [hidden]="editId === child.id+item.id" (click)="startEdit(child.id+item.id)">
-                  {{child[key]}}
-                </div>
-                <input [hidden]="editId !== child.id+item.id" type="text" nz-input [(ngModel)]="child[key]" />
+          <ng-container *ngIf="responsiveTable">
+            <tr *ngFor="let entryKey of getObjectKeys(item)">
+              <ng-container *ngFor="let header of data['tableKey']; let index = index">
+                <ng-container *ngIf="header.name == entryKey">
+                  <td class="font-bold bg-blue-500 text-white hover:text-black">{{
+                    entryKey }}</td>
+                  <td *ngIf="entryKey == 'expand'" [(nzExpand)]="item[entryKey]"></td>
+                  <td class="responsive-checkBox" *ngIf="data.showCheckbox && entryKey == 'checked'"
+                    [(nzChecked)]="item.checked" (nzCheckedChange)="refreshStatus()"></td>
+                  <td
+                    *ngIf="tableHeaders[index]?.dataType !='select' && tableHeaders[index]?.dataType !='image' && !isMyDataArray(item[header.name]) && item[header.name]"
+                    (click)="editValue(entryKey)">
+                    <ng-container *ngIf="editingEntry == entryKey">
+                      <input nz-input type="text" [(ngModel)]="item[entryKey]">
+                    </ng-container>
+                    <ng-container *ngIf="editingEntry != entryKey">
+                      {{ item[entryKey] }}
+                    </ng-container>
+                  </td>
+                  <td
+                    *ngIf="tableHeaders[index]?.dataType =='select' && tableHeaders[index]?.dataType !='image' || isMyDataArray(item[header.name])">
+                    <nz-select nzAllowClear nzShowSearch style="width: 100px" nzPlaceHolder="Select Value"
+                      [(ngModel)]="item.defaultValue" (ngModelChange)="select(i, $event)">
+                      <nz-option *ngFor="let option of item[header.name]"
+                        [nzLabel]="option.type ? option.type : option.key"
+                        [nzValue]="option.value ? option.value : option">
+                      </nz-option>
+                    </nz-select>
+                  </td>
+                </ng-container>
+              </ng-container>
+            </tr>
+            <tr>
+              <td class="font-bold bg-blue-500 text-white hover:text-black">Action</td>
+              <td>
+                <a nz-popconfirm nzPopconfirmTitle="Sure to delete?" (nzOnConfirm)="deleteRow(item)">
+                  <span class="text-red-500" nz-icon nzType="delete" nzTheme="outline"></span>
+                </a>
               </td>
-            </ng-container>
-          </tbody>
-        </nz-table>
-      </td>
-    </tr>
-  </ng-container> -->
-      </ng-container>
-
-      <!-- <tr *ngIf="data.expandable" [nzExpand]="item.expand">
-  <th *ngFor="let child of childKey" nzWidth="80px">{{child}}</th>
-</tr>
-<ng-container *ngFor="let child of item.children">
-  <tr *ngIf="data.expandable" [nzExpand]="item.expand">
-    <ng-container *ngFor="let key of childKey">
-      <td [nzEllipsis]="true" *ngIf="key != 'description' && key != 'checked' && key != 'expand'">
-        <div class="editable-cell" [hidden]="editId === child.id" (click)="startEdit(child.id)">
-          {{child[key]}}
-        </div>
-        <input [hidden]="editId !== child.id" type="text" nz-input [(ngModel)]="child[key]" />
-      </td>
-    </ng-container>
-  </tr>
-</ng-container> -->
-    </ng-template>
-    <!-- <ng-container *ngTemplateOutlet="recursiveKeyList; context:{ $implicit: editRowTable.data }"></ng-container> -->
-    <ng-container *ngTemplateOutlet="recursiveList; context:{ $implicit: editRowTable.data }"></ng-container>
-  </tbody>
-  <tfoot *ngIf="data?.nzFooter && !responsiveTable" class="bg-gray-100">
-    <tr nz-custom-footer>
-      {{data?.nzFooter}}
-      <td nzWidth="40px" *ngIf="data.expandable"></td>
-      <td *ngIf="data.showCheckbox" nzWidth="60px"></td>
-      <td *ngFor="let header of footerData"> <span *ngIf="header.gridFooterSum">
-          ({{header.gridFooterSum}})</span>
-      </td>
-    </tr>
-  </tfoot>
-</nz-table>
+            </tr>
+            <br>
+          </ng-container>
+        </ng-container>
+      </ng-template>
+      <ng-container *ngTemplateOutlet="recursiveList; context:{ $implicit: editRowTable.data }"></ng-container>
+    </tbody>
+    <tfoot *ngIf="data?.nzFooter && !responsiveTable" class="bg-gray-100">
+      <tr nz-custom-footer>
+        {{data?.nzFooter}}
+        <td nzWidth="40px" *ngIf="data.expandable"></td>
+        <td *ngIf="data.showCheckbox" nzWidth="60px"></td>
+        <td *ngFor="let header of footerData"> <span *ngIf="header.gridFooterSum">
+            ({{header.gridFooterSum}})</span>
+        </td>
+      </tr>
+    </tfoot>
+  </nz-table>
+  <div class="paginatio-bottom" *ngIf="data?.nzShowPagination">
+    <div>
+      <p class="showing">Showing <span>{{start}} - {{end ? end : data?.end}}</span> from
+        <span>{{data.totalCount}}</span> data</p>
+    </div>
+    <div>
+      <nz-pagination [nzTotal]="data.totalCount" [(nzPageIndex)]="data.pageIndex"
+        [(nzPageSize)]="pageSize ? pageSize : data.end" (nzPageIndexChange)="onPageIndexChange($event)"></nz-pagination>
+    </div>
+  </div>
 </div>
 
 

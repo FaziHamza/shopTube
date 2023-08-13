@@ -4,7 +4,7 @@ import { Guid } from '../models/guid';
 @Component({
   selector: 'nz-demo-table-edit-cell',
   template: `
- <dynamic-table *ngIf='this.formData.length' [tableId]='tableId' [checkType]='true' [tableData]='this.formData' [tableHeaders]='tableHeader' [data]="data"></dynamic-table>
+ <dynamic-table *ngIf='this.formData.length' [tableId]='tableId' [checkType]='true' [tableData]='this.formData' [displayData]='this.formData' [tableHeaders]='tableHeader' [data]="data"></dynamic-table>
   `,
   styles: [
     `
