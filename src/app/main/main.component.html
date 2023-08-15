@@ -1,8 +1,8 @@
 <div [class]="'card-content ' + (mainData['rowClass'] ? mainData['rowClass'] : 'flex flex-wrap')">
     <div class="{{!item.hideExpression   ? item.className : ''}}"
         *ngFor="let item of mainData.children ; index as i; last as isLast">
-        <div [ngClass]="{'highLight': item.highLight == true}" *ngIf="!item.hideExpression">
-            <st-task-report *ngIf="item['issueReport']" [item]="item" [screenName]="screenName"
+        <div style="position: relative" [ngClass]="{'highLight': item.highLight == true}" *ngIf="!item.hideExpression">
+            <st-task-report class="close-icon" *ngIf="item['issueReport']" [item]="item" [screenName]="screenName"
                 [type]="'pages'"></st-task-report>
             <span [contextMenu]="oneContextMenu" *ngIf="isShowContextMenu">
                 <context-menu #oneContextMenu>

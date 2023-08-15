@@ -495,7 +495,7 @@ export class BuilderComponent implements OnInit {
     })
 
   }
-  getBuilderScreen() {  
+  getBuilderScreen() {
     this.requestSubscription = this.applicationService.getNestCommonAPIById('cp/Builder', this._id).subscribe({
       next: (res: any) => {
         if (res.isSuccess) {
@@ -3594,11 +3594,15 @@ export class BuilderComponent implements OnInit {
             this.selectedNode.checkData == undefined
               ? ''
               : this.selectedNode.checkData;
+          // let check = this.arrayEqual(
+          //   this.selectedNode.checkData,
+          //   event.tableDta == undefined
+          //     ? event.tableDta
+          //     : this.selectedNode.tableBody
+          // );
           let check = this.arrayEqual(
             this.selectedNode.checkData,
-            event.tableDta == undefined
-              ? event.tableDta
-              : this.selectedNode.tableBody
+            event.form.tableData
           );
           if (!check) {
             if (event.dbData) {
@@ -3629,8 +3633,32 @@ export class BuilderComponent implements OnInit {
                   event.type == 'listWithComponentsChild' ||
                   event.type == 'cardWithComponents'
                 ) {
-                  if (event.tableDta) {
-                    event.tableDta.forEach((element: any) => {
+                  // if (event.tableDta) {
+                  //   event.tableDta.forEach((element: any) => {
+                  //     if (newNode.length) {
+                  //       newNode.forEach((j: any) => {
+                  //         const keyObj = this.findObjectByKey(
+                  //           j,
+                  //           element.fileHeader
+                  //         );
+                  //         if (keyObj && element.defaultValue) {
+                  //           const updatedObj = this.dataReplace(
+                  //             keyObj,
+                  //             item,
+                  //             element
+                  //           );
+                  //           j = this.replaceObjectByKey(
+                  //             j,
+                  //             keyObj.key,
+                  //             updatedObj
+                  //           );
+                  //         }
+                  //       });
+                  //     }
+                  //   });
+                  // }
+                  if (event.form.tableData) {
+                    event.form.tableData.forEach((element: any) => {
                       if (newNode.length) {
                         newNode.forEach((j: any) => {
                           const keyObj = this.findObjectByKey(
@@ -3660,8 +3688,28 @@ export class BuilderComponent implements OnInit {
                   event.type != 'listWithComponentsChild' &&
                   event.type != 'cardWithComponents'
                 ) {
-                  if (event.tableDta) {
-                    event.tableDta.forEach((element: any) => {
+                  // if (event.tableDta) {
+                  //   event.tableDta.forEach((element: any) => {
+                  //     const keyObj = this.findObjectByKey(
+                  //       newNode,
+                  //       element.fileHeader
+                  //     );
+                  //     if (keyObj && element.defaultValue) {
+                  //       const updatedObj = this.dataReplace(
+                  //         keyObj,
+                  //         item,
+                  //         element
+                  //       );
+                  //       newNode = this.replaceObjectByKey(
+                  //         newNode,
+                  //         keyObj.key,
+                  //         updatedObj
+                  //       );
+                  //     }
+                  //   });
+                  // }
+                  if (event.form.tableData) {
+                    event.form.tableData.forEach((element: any) => {
                       const keyObj = this.findObjectByKey(
                         newNode,
                         element.fileHeader
@@ -3703,11 +3751,17 @@ export class BuilderComponent implements OnInit {
               this.updateNodes();
             }
             this.selectedNode.dbData = event.dbData;
-            this.selectedNode.tableBody = event.tableDta;
+            // this.selectedNode.tableBody = event.tableDta;
+            this.selectedNode.tableBody = event.form.tableBody;
             this.selectedNode.mapApi = event.form.mapApi;
-            if (event.tableDta) {
+            // if (event.tableDta) {
+            //   this.selectedNode.checkData = JSON.parse(
+            //     JSON.stringify(event.tableDta)
+            //   );
+            // }
+            if (event.form.tableBody) {
               this.selectedNode.checkData = JSON.parse(
-                JSON.stringify(event.tableDta)
+                JSON.stringify(event.form.tableBody)
               );
             }
           } else {
@@ -3723,8 +3777,11 @@ export class BuilderComponent implements OnInit {
       case 'tree':
       case 'treeView':
       case 'cascader':
-        if (event.tableDta) {
-          this.selectedNode.nodes = event.tableDta;
+        // if (event.tableDta) {
+        //   this.selectedNode.nodes = event.tableDta;
+        // }
+        if (event.form.nodes) {
+          this.selectedNode.nodes = event.form.nodes;
         }
         if (event.form.api) {
           this.requestSubscription = this.builderService
@@ -3774,23 +3831,28 @@ export class BuilderComponent implements OnInit {
         this.addDynamic(event.form.divRepeat, 'div', 'mainDiv');
         break;
       case 'rate':
-        if (event.tableDta) {
-          this.selectedNode.options = event.tableDta.map(
-            (option: any) => option.label
-          );
-        } else {
-          this.selectedNode.options = this.selectedNode.options.map(
-            (option: any) => option.label
-          );
-        }
+        // if (event.tableDta) {
+        //   this.selectedNode.options = event.tableDta.map(
+        //     (option: any) => option.label
+        //   );
+        // } 
+        // else {
+        //   this.selectedNode.options = this.selectedNode.options.map(
+        //     (option: any) => option.label
+        //   );
+        // }
+        this.selectedNode.options = event.form.options.map(
+              (option: any) => option.label
+            );
         break;
 
       case 'statistic':
-        if (event.tableDta) {
-          this.selectedNode.statisticArray = event.tableDta;
-        } else {
-          this.selectedNode.statisticArray = this.selectedNode.statisticArray;
-        }
+        // if (event.tableDta) {
+        //   this.selectedNode.statisticArray = event.tableDta;
+        // } else {
+        //   this.selectedNode.statisticArray = this.selectedNode.statisticArray;
+        // }
+        this.selectedNode.statisticArray = event.form.statisticArray;
         break;
       case 'button':
       case 'linkbutton':
@@ -3833,11 +3895,12 @@ export class BuilderComponent implements OnInit {
         break;
       case 'segmented':
       case 'tag':
-        if (event.tableDta) {
-          this.selectedNode.options = event.tableDta;
-        } else {
-          this.selectedNode.options = this.selectedNode.options;
-        }
+        // if (event.tableDta) {
+        //   this.selectedNode.options = event.tableDta;
+        // } else {
+        //   this.selectedNode.options = this.selectedNode.options;
+        // }
+        this.selectedNode.options = this.selectedNode.options;
         break;
       case 'select':
       case 'repeatSection':
@@ -3960,9 +4023,10 @@ export class BuilderComponent implements OnInit {
             // props['hideExpression'] = event.form.hideExpression;
             props.placeholder = event.form.placeholder;
             // props['className'] = event.form.className;
-            if (event.tableDta) {
-              props['options'] = event.tableDta;
-            }
+            // if (event.tableDta) {
+            //   props['options'] = event.tableDta;
+            // }
+            props['options'] = event.form.options
             props['required'] = event.form.required;
             props['apiUrl'] = event.form.apiUrl;
             props['maxLength'] = event.form.maxLength;
@@ -4039,9 +4103,10 @@ export class BuilderComponent implements OnInit {
             props['additionalProperties']['fileUploadSize'] = event.form?.fileUploadSize;
             props['additionalProperties']['multiFileUploadTypes'] = event.form?.multiFileUploadTypes;
             props['readonly'] = event.form.readonly;
-            if (event.tableDta) {
-              props['options'] = event.tableDta;
-            }
+            props['options'] = event.form.options;
+            // if (event.tableDta) {
+            //   props['options'] = event.tableDta;
+            // }
             // if (this.selectedNode.type == "multiselect" && event.form.defaultValue) {
             //   const arr = event.form.defaultValue.split(',');
             //   props['defaultValue'] = arr;
@@ -4202,7 +4267,8 @@ export class BuilderComponent implements OnInit {
           this.selectedNode['rowClickApi'] = event.form?.rowClickApi;
           this.selectedNode['nzLoading'] = event.form?.nzLoading;
           this.selectedNode['nzShowPagination'] = event.form?.nzShowPagination;
-          const tableData = event.tableDta ? event.tableDta : event.form.options;
+          // const tableData = event.tableDta ? event.tableDta : event.form.options;
+          const tableData = event.form.options;
           const updatedData = tableData.filter((updatedItem: any) => {
             const key = updatedItem.key;
             return !this.selectedNode.tableHeaders.some((headerItem: any) => headerItem.key === key);
@@ -4217,9 +4283,10 @@ export class BuilderComponent implements OnInit {
               return newItem;
             });
           }
-          this.selectedNode.tableHeaders = event.tableDta
-            ? event.tableDta
-            : event.form.options;
+          // this.selectedNode.tableHeaders = event.tableDta
+          //   ? event.tableDta
+          //   : event.form.options;
+          this.selectedNode.tableHeaders = event.form.options;
           if (this.selectedNode.tableHeaders.length > 0) {
             let newHeaders = this.selectedNode.tableHeaders.map((obj: any) => {
               let newObj = { ...obj };
@@ -4241,8 +4308,9 @@ export class BuilderComponent implements OnInit {
             this.selectedNode.tableHeaders = newHeaders;
           }
           this.selectedNode.columnData = this.updateTableData(
-            event.tableDta ? event.tableDta : event.form.options,
-            event.tableDta ? event.tableDta : event.form.options
+            // event.tableDta ? event.tableDta : event.form.options,
+            // event.tableDta ? event.tableDta : event.form.options
+            event.form.options, event.form.options
           );
           if (event.form.api) {
             this.requestSubscription = this.builderService
@@ -4274,9 +4342,10 @@ export class BuilderComponent implements OnInit {
 
       case 'dropdownButton':
         this.selectedNode.btnIcon = event.form?.icon;
-        if (event.tableDta) {
-          this.selectedNode.dropdownOptions = event.tableDta;
-        }
+        // if (event.tableDta) {
+        //   this.selectedNode.dropdownOptions = event.tableDta;
+        // }
+        this.selectedNode.dropdownOptions = event.tableDta;
         break;
       case 'fixedDiv':
         if (event.form.api) {
@@ -4369,9 +4438,10 @@ export class BuilderComponent implements OnInit {
       //   }
       //   break;
       case 'page':
-        this.selectedNode.options = event.tableDta
-          ? event.tableDta
-          : event.form?.options;
+        this.selectedNode.options = event.form?.options;
+        // this.selectedNode.options = event.tableDta
+        //   ? event.tableDta
+        //   : event.form?.options;
         if (
           this.selectedNode &&
           this.selectedNode.children &&
@@ -4439,10 +4509,11 @@ export class BuilderComponent implements OnInit {
         }
         break;
       case 'carouselCrossfade':
-        event.tableDta != undefined
-          ? (this.selectedNode.carousalConfig = event.tableDta)
-          : (this.selectedNode.carousalConfig =
-            this.selectedNode.carousalConfig);
+        // event.tableDta != undefined
+        //   ? (this.selectedNode.carousalConfig = event.tableDta)
+        //   : (this.selectedNode.carousalConfig =
+        //     this.selectedNode.carousalConfig);
+        this.selectedNode.carousalConfig = event.form.carousalConfig;
         if (event.form.link != undefined || event.form.link != '') {
           this.requestSubscription = this.builderService
             .genericApis(event.form.link)
@@ -4460,9 +4531,10 @@ export class BuilderComponent implements OnInit {
         break;
       case 'timeline':
         this.selectedNode['data'] = event.form.options;
-        if (event.tableDta) {
-          this.selectedNode.data = event.tableDta;
-        }
+        // if (event.tableDta) {
+        //   this.selectedNode.data = event.tableDta;
+        // }
+        this.selectedNode.data = event.form.data;
         if (event.form.api) {
           this.requestSubscription = this.builderService
             .genericApis(event.form.api)
@@ -4515,9 +4587,17 @@ export class BuilderComponent implements OnInit {
               : event.form.color?.split(','),
           };
 
-          if (event.tableDta) {
-            this.selectedNode.tableData = event.tableDta;
-            this.selectedNode.chartData = event.tableDta.map((data: any) => [
+          // if (event.tableDta) {
+          //   this.selectedNode.tableData = event.tableDta;
+          //   this.selectedNode.chartData = event.tableDta.map((data: any) => [
+          //     data.name,
+          //     data.value,
+          //     data.value2,
+          //   ]);
+          // }
+          if (event.form.tableData) {
+            this.selectedNode.tableData = event.form.tableData;
+            this.selectedNode.chartData = event.form.tableData.map((data: any) => [
               data.name,
               data.value,
               data.value2,
@@ -4526,9 +4606,16 @@ export class BuilderComponent implements OnInit {
         }
         break;
       case 'pieChart':
-        if (event.tableDta) {
-          this.selectedNode.tableData = event.tableDta;
-          this.selectedNode.chartData = event.tableDta.map((data: any) => [
+        // if (event.tableDta) {
+        //   this.selectedNode.tableData = event.tableDta;
+        //   this.selectedNode.chartData = event.tableDta.map((data: any) => [
+        //     data.name,
+        //     Number(data.value),
+        //   ]);
+        // }
+        if (event.form.tableData) {
+          this.selectedNode.tableData = event.form.tableData;
+          this.selectedNode.chartData = event.form.tableData.map((data: any) => [
             data.name,
             Number(data.value),
           ]);
@@ -4569,9 +4656,18 @@ export class BuilderComponent implements OnInit {
             },
           },
         };
-        if (event.tableDta) {
-          this.selectedNode.tableData = event.tableDta;
-          this.selectedNode.chartData = event.tableDta.map((data: any) => [
+        // if (event.tableDta) {
+        //   this.selectedNode.tableData = event.tableDta;
+        //   this.selectedNode.chartData = event.tableDta.map((data: any) => [
+        //     data.id,
+        //     Number(data.x),
+        //     Number(data.y),
+        //     Number(data.temprature),
+        //   ]);
+        // }
+        if (event.form.tableData) {
+          this.selectedNode.tableData = event.form.tableData;
+          this.selectedNode.chartData = event.form.tableData.map((data: any) => [
             data.id,
             Number(data.x),
             Number(data.y),
@@ -4580,9 +4676,19 @@ export class BuilderComponent implements OnInit {
         }
         break;
       case 'candlestickChart':
-        if (event.tableDta) {
-          this.selectedNode.tableData = event.tableDta;
-          this.selectedNode.chartData = event.tableDta.map((data: any) => [
+        // if (event.tableDta) {
+        //   this.selectedNode.tableData = event.tableDta;
+        //   this.selectedNode.chartData = event.tableDta.map((data: any) => [
+        //     data.name,
+        //     Number(data.value),
+        //     Number(data.value1),
+        //     Number(data.value2),
+        //     Number(data.value3),
+        //   ]);
+        // }
+        if (event.form.tableData) {
+          this.selectedNode.tableData = event.form.tableData;
+          this.selectedNode.chartData = event.form.tableData.map((data: any) => [
             data.name,
             Number(data.value),
             Number(data.value1),
@@ -4616,9 +4722,23 @@ export class BuilderComponent implements OnInit {
             ? event.form.color
             : event.form.color?.split(','),
         };
-        if (event.tableDta) {
-          this.selectedNode.tableData = event.tableDta;
-          this.selectedNode['chartData'] = event.tableDta.map((data: any) => [
+        // if (event.tableDta) {
+        //   this.selectedNode.tableData = event.tableDta;
+        //   this.selectedNode['chartData'] = event.tableDta.map((data: any) => [
+        //     data.id,
+        //     Number(data.col1),
+        //     Number(data.col2),
+        //     Number(data.col3),
+        //     Number(data.col4),
+        //     Number(data.col5),
+        //     Number(data.col6),
+        //     data.style,
+        //     data.annotation,
+        //   ]);
+        // }
+        if (event.form.tableData) {
+          this.selectedNode.tableData = event.form.tableData;
+          this.selectedNode['chartData'] = event.form.tableData.map((data: any) => [
             data.id,
             Number(data.col1),
             Number(data.col2),
@@ -4651,9 +4771,22 @@ export class BuilderComponent implements OnInit {
           innerGridTrack: { fill: event.form.innerGridTrack },
           innerGridDarkTrack: { fill: event.form.innerGridDarkTrack },
         };
-        if (event.tableDta) {
-          this.selectedNode.tableData = event.tableDta;
-          this.selectedNode.chartData = event.tableDta.map((data: any) => [
+        // if (event.tableDta) {
+        //   this.selectedNode.tableData = event.tableDta;
+        //   this.selectedNode.chartData = event.tableDta.map((data: any) => [
+        //     data.taskID,
+        //     data.taskName,
+        //     data.resource,
+        //     new Date(data.startDate),
+        //     new Date(data.endDate),
+        //     data.duration,
+        //     data.percentComplete,
+        //     data.dependencies,
+        //   ]);
+        // }
+        if (event.form.tableData) {
+          this.selectedNode.tableData = event.form.tableData;
+          this.selectedNode.chartData = event.form.tableData.map((data: any) => [
             data.taskID,
             data.taskName,
             data.resource,
@@ -4677,9 +4810,16 @@ export class BuilderComponent implements OnInit {
           datalessRegionColor: event.form.color,
           defaultColor: event.form.defaultColor,
         };
-        if (event.tableDta) {
-          this.selectedNode.tableData = event.tableDta;
-          this.selectedNode.chartData = event.tableDta.map((data: any) => [
+        // if (event.tableDta) {
+        //   this.selectedNode.tableData = event.tableDta;
+        //   this.selectedNode.chartData = event.tableDta.map((data: any) => [
+        //     data.label,
+        //     data.value,
+        //   ]);
+        // }
+        if (event.form.tableData) {
+          this.selectedNode.tableData = event.form.tableData;
+          this.selectedNode.chartData = event.form.tableData.map((data: any) => [
             data.label,
             data.value,
           ]);
@@ -4701,9 +4841,18 @@ export class BuilderComponent implements OnInit {
           useWeightedAverageForAggregation:
             event.form.useWeightedAverageForAggregation,
         };
-        if (event.tableDta) {
-          this.selectedNode.tableData = event.tableDta;
-          this.selectedNode.chartData = event.tableDta.map((data: any) => [
+        // if (event.tableDta) {
+        //   this.selectedNode.tableData = event.tableDta;
+        //   this.selectedNode.chartData = event.tableDta.map((data: any) => [
+        //     data.id,
+        //     data.value1,
+        //     data.value2,
+        //     data.value3,
+        //   ]);
+        // }
+        if (event.form.tableData) {
+          this.selectedNode.tableData = event.form.tableData;
+          this.selectedNode.chartData = event.form.tableData.map((data: any) => [
             data.id,
             data.value1,
             data.value2,
@@ -4718,18 +4867,34 @@ export class BuilderComponent implements OnInit {
         this.selectedNode.options.histogram = event.form.histogram;
         this.selectedNode.options.hAxis = event.form.hAxis;
         this.selectedNode.options.vAxis = event.form.vAxis;
-        if (event.tableDta) {
-          this.selectedNode.tableData = event.tableDta;
-          this.selectedNode.chartData = event.tableDta.map((data: any) => [
+        // if (event.tableDta) {
+        //   this.selectedNode.tableData = event.tableDta;
+        //   this.selectedNode.chartData = event.tableDta.map((data: any) => [
+        //     data.label,
+        //     data.value,
+        //   ]);
+        // }
+        if (event.form.tableData) {
+          this.selectedNode.tableData = event.form.tableData;
+          this.selectedNode.chartData = event.form.tableData.map((data: any) => [
             data.label,
             data.value,
           ]);
         }
         break;
       case 'tableChart':
-        if (event.tableDta) {
-          this.selectedNode.tableData = event.tableDta;
-          this.selectedNode.chartData = event.tableDta.map((data: any) => [
+        // if (event.tableDta) {
+        //   this.selectedNode.tableData = event.tableDta;
+        //   this.selectedNode.chartData = event.tableDta.map((data: any) => [
+        //     data.col1,
+        //     data.col2,
+        //     data.col3,
+        //     data.col4,
+        //   ]);
+        // }
+        if (event.form.tableData) {
+          this.selectedNode.tableData = event.form.tableData;
+          this.selectedNode.chartData = event.form.tableData.map((data: any) => [
             data.col1,
             data.col2,
             data.col3,
@@ -4744,9 +4909,18 @@ export class BuilderComponent implements OnInit {
             subtitle: event.form.subtitle,
           },
         };
-        if (event.tableDta) {
-          this.selectedNode.tableData = event.tableDta;
-          this.selectedNode.chartData = event.tableDta.map((data: any) => [
+        // if (event.tableDta) {
+        //   this.selectedNode.tableData = event.tableDta;
+        //   this.selectedNode.chartData = event.tableDta.map((data: any) => [
+        //     Number(data.id),
+        //     Number(data.col1),
+        //     Number(data.col2),
+        //     Number(data.col3),
+        //   ]);
+        // }
+        if (event.form.tableData) {
+          this.selectedNode.tableData = event.form.tableData;
+          this.selectedNode.chartData = event.form.tableData.map((data: any) => [
             Number(data.id),
             Number(data.col1),
             Number(data.col2),
@@ -4755,9 +4929,17 @@ export class BuilderComponent implements OnInit {
         }
         break;
       case 'sankeyChart':
-        if (event.tableDta) {
-          this.selectedNode.tableData = event.tableDta;
-          this.selectedNode.chartData = event.tableDta.map((data: any) => [
+        // if (event.tableDta) {
+        //   this.selectedNode.tableData = event.tableDta;
+        //   this.selectedNode.chartData = event.tableDta.map((data: any) => [
+        //     data.label,
+        //     data.link,
+        //     data.value,
+        //   ]);
+        // }
+        if (event.form.tableData) {
+          this.selectedNode.tableData = event.form.tableData;
+          this.selectedNode.chartData = event.form.tableData.map((data: any) => [
             data.label,
             data.link,
             data.value,
@@ -4779,18 +4961,35 @@ export class BuilderComponent implements OnInit {
             },
           },
         };
-        if (event.tableDta) {
-          this.selectedNode.tableData = event.tableDta;
-          this.selectedNode.chartData = event.tableDta.map((data: any) => [
+        // if (event.tableDta) {
+        //   this.selectedNode.tableData = event.tableDta;
+        //   this.selectedNode.chartData = event.tableDta.map((data: any) => [
+        //     data.id,
+        //     data.value,
+        //   ]);
+        // }
+        if (event.form.tableData) {
+          this.selectedNode.tableData = event.form.tableData;
+          this.selectedNode.chartData = event.form.tableData.map((data: any) => [
             data.id,
             data.value,
           ]);
         }
         break;
       case 'areaChart':
-        if (event.tableDta) {
-          this.selectedNode.tableData = event.tableDta;
-          this.selectedNode.chartData = event.tableDta.map((data: any) => [
+        // if (event.tableDta) {
+        //   this.selectedNode.tableData = event.tableDta;
+        //   this.selectedNode.chartData = event.tableDta.map((data: any) => [
+        //     data.label,
+        //     Number(data.col1),
+        //     Number(data.col2),
+        //     Number(data.col3),
+        //     Number(data.col4),
+        //   ]);
+        // }
+        if (event.form.tableData) {
+          this.selectedNode.tableData = event.form.tableData;
+          this.selectedNode.chartData = event.form.tableData.map((data: any) => [
             data.label,
             Number(data.col1),
             Number(data.col2),
@@ -4815,9 +5014,21 @@ export class BuilderComponent implements OnInit {
         };
         break;
       case 'comboChart':
-        if (event.tableDta) {
-          this.selectedNode.tableData = event.tableDta;
-          this.selectedNode.chartData = event.tableDta.map((data: any) => [
+        // if (event.tableDta) {
+        //   this.selectedNode.tableData = event.tableDta;
+        //   this.selectedNode.chartData = event.tableDta.map((data: any) => [
+        //     data.label,
+        //     Number(data.col1),
+        //     Number(data.col2),
+        //     Number(data.col3),
+        //     Number(data.col4),
+        //     Number(data.col5),
+        //     Number(data.col6),
+        //   ]);
+        // }
+        if (event.form.tableData) {
+          this.selectedNode.tableData = event.form.tableData;
+          this.selectedNode.chartData = event.form.tableData.map((data: any) => [
             data.label,
             Number(data.col1),
             Number(data.col2),
@@ -4835,9 +5046,19 @@ export class BuilderComponent implements OnInit {
         };
         break;
       case 'steppedAreaChart':
-        if (event.tableDta) {
-          this.selectedNode.tableData = event.tableDta;
-          this.selectedNode.chartData = event.tableDta.map((data: any) => [
+        // if (event.tableDta) {
+        //   this.selectedNode.tableData = event.tableDta;
+        //   this.selectedNode.chartData = event.tableDta.map((data: any) => [
+        //     data.label,
+        //     Number(data.value1),
+        //     Number(data.value2),
+        //     Number(data.value3),
+        //     Number(data.value4),
+        //   ]);
+        // }
+        if (event.form.tableData) {
+          this.selectedNode.tableData = event.form.tableData;
+          this.selectedNode.chartData = event.form.tableData.map((data: any) => [
             data.label,
             Number(data.value1),
             Number(data.value2),
@@ -4861,9 +5082,18 @@ export class BuilderComponent implements OnInit {
         };
         break;
       case 'timelineChart':
-        if (event.tableDta) {
-          this.selectedNode.tableData = event.tableDta;
-          this.selectedNode.chartData = event.tableDta.map((data: any) => [
+        // if (event.tableDta) {
+        //   this.selectedNode.tableData = event.tableDta;
+        //   this.selectedNode.chartData = event.tableDta.map((data: any) => [
+        //     data.label,
+        //     data.value,
+        //     new Date(data.startDate),
+        //     new Date(data.endDate),
+        //   ]);
+        // }
+        if (event.form.tableData) {
+          this.selectedNode.tableData = event.form.tableData;
+          this.selectedNode.chartData = event.form.tableData.map((data: any) => [
             data.label,
             data.value,
             new Date(data.startDate),
