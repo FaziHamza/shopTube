@@ -485,7 +485,7 @@ export class BuilderComponent implements OnInit {
   actionListData: any[] = [];
   getActions() {
     this.saveLoader = true;
-    this.requestSubscription = this.applicationService.getNestCommonAPIById("cp/actionbyscreenname", this.navigation).subscribe({
+    this.requestSubscription = this.applicationService.getNestCommonAPIById("cp/actionbyscreenname", this._id).subscribe({
       next: (res: any) => {
         this.actionListData = res?.data;
         this.getBuilderScreen();
@@ -3838,7 +3838,7 @@ export class BuilderComponent implements OnInit {
         //   this.selectedNode.options = event.tableDta.map(
         //     (option: any) => option.label
         //   );
-        // } 
+        // }
         // else {
         //   this.selectedNode.options = this.selectedNode.options.map(
         //     (option: any) => option.label
