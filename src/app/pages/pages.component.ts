@@ -27,11 +27,10 @@ export class PagesComponent implements OnInit {
     private toastr: NzMessageService,
     public dataSharedService: DataSharedService, private router: Router) {
     this.dataSharedService.change.subscribe(({ event, field }) => {
-      debugger
       if (field && event)
         this.getEnumList(field, event);
       if (event && field && this.router.url.includes('/pages')) {
-
+        debugger
         if (this.formlyModel) {
           this.formlyModel[field.key] = event;
           console.log("key value : " + event);
@@ -179,17 +178,8 @@ export class PagesComponent implements OnInit {
 
           }
         })
-        this.requestSubscription = this.applicationService.getNestCommonAPIById("cp/actionbyscreenname", params["schema"]).subscribe({
-          next: (res: any) => {
-            this.actionListData = res?.data;
-            this.getBuilderScreen(params);
-          },
-          error: (err) => {
-            this.getBuilderScreen(params);
-            console.error(err);
-            // this.toastr.error("An error occurred", { nzDuration: 3000 });
-          }
-        })
+        this.getBuilderScreen(params);
+
       }
 
     });
@@ -199,7 +189,30 @@ export class PagesComponent implements OnInit {
       next: (res: any) => {
         if (res.isSuccess) {
           if (res.data.length > 0) {
-            this.screenId = res.data[0].screenBuilderId;
+            this.requestSubscription = this.applicationService.getNestCommonAPIById("cp/actionbyscreenname",res.data[0].screenBuilderId).subscribe({
+              next: (actions: any) => {
+                this.actionListData = actions?.data;
+                this.actionsBindWithPage(res);
+              },
+              error: (err) => {
+                // this.getBuilderScreen(params);
+                this.actionsBindWithPage(res);
+                console.error(err);
+                // this.toastr.error("An error occurred", { nzDuration: 3000 });
+              }
+            })
+
+          }
+        } else
+          this.toastr.error(res.message, { nzDuration: 3000 });
+      },
+      error: (err) => {
+        console.error(err); // Log the error to the console
+      }
+    });
+  }
+  actionsBindWithPage(res:any){
+    this.screenId = res.data[0].screenBuilderId;
             this.getBusinessRule(res.data[0].screenBuilderId);
             this.getUIRuleData(res.data[0].screenBuilderId);
             const data = JSON.parse(res.data[0].screenData);
@@ -315,14 +328,6 @@ export class PagesComponent implements OnInit {
             this.dataSharedService.screenCommentList.forEach(element => {
               this.assignIssue(this.resData[0], element);
             });
-          }
-        } else
-          this.toastr.error(res.message, { nzDuration: 3000 });
-      },
-      error: (err) => {
-        console.error(err); // Log the error to the console
-      }
-    });
   }
   saveData(data: any) {
     if (data.isSubmit) {
