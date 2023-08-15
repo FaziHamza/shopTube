@@ -331,12 +331,13 @@ export class ActionRuleComponent implements OnInit {
 
   SaveAction() {
     const mainModuleId = this.screens.filter((a: any) => a.name == this.screenName)
-    this.applicationService.deleteNestCommonAPI('cp/Action/DeleteAction', mainModuleId[0].navigation).subscribe(res => {
+    this.applicationService.deleteNestCommonAPI('cp/Action/DeleteAction', mainModuleId[0]._id).subscribe(res => {
       const observables = this.actionForm.value.Actions.map((element: any) => {
 
         let actionData: any = {
           "moduleName": this.screenName,
           "moduleId": mainModuleId.length > 0 ? mainModuleId[0].navigation : "",
+          "pageId": mainModuleId.length > 0 ? mainModuleId[0]._id : "",
           "btnActionType": element.submissionType ? element.submissionType : "",
           "elementName": element.elementName,
           "elementNameTo": element.elementNameTo,
@@ -394,7 +395,7 @@ export class ActionRuleComponent implements OnInit {
     debugger
     const selectedScreen = this.screens.filter((a: any) => a.name == this.screenName)
     if (selectedScreen[0].navigation != null && selectedScreen[0].navigation != undefined) { // selectedScreen[0].navigation
-      this.requestSubscription = this.applicationService.getNestCommonAPIById("cp/actionbyscreenname", selectedScreen[0].navigation).subscribe({
+      this.requestSubscription = this.applicationService.getNestCommonAPIById("cp/actionbyscreenname", selectedScreen[0]._id).subscribe({
         next: (res: any) => {
           if (res.isSuccess) {
             // this.toastr.success(`Action : Success => ${JSON.stringify(res.data)}`)
