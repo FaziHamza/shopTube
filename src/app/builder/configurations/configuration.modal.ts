@@ -11091,6 +11091,25 @@ export class formFeildData {
           }
         },
         {
+          key: 'end',
+          type: 'number',
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          wrappers: ["formly-vertical-theme-wrapper"],
+          props: {
+            label: 'Total Records Show'
+          }
+        },
+        {
+          key: 'serverSidePagination',
+          type: 'checkbox',
+          wrappers: ["formly-vertical-theme-wrapper"],
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          props: {
+            label: 'Server Pagination',
+          },
+          defaultValue: false
+        },
+        {
           key: 'nzPaginationPosition',
           type: 'select',
           className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
@@ -11230,6 +11249,7 @@ export class formFeildData {
           },
           defaultValue: false
         },
+
         {
           key: 'nzLoading',
           type: 'checkbox',

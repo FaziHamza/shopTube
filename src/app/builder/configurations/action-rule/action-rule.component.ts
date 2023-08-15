@@ -4,7 +4,7 @@ import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { Subscription, catchError, forkJoin, of } from 'rxjs';
 import { DataSharedService } from 'src/app/services/data-shared.service';
-import {} from 'ngx-monaco-editor';
+import { } from 'ngx-monaco-editor';
 import { EmployeeService } from 'src/app/services/employee.service';
 import { ApplicationService } from 'src/app/services/application.service';
 import { environment } from 'src/environments/environment';
@@ -16,7 +16,7 @@ import { environment } from 'src/environments/environment';
   styleUrls: ['./action-rule.component.scss']
 })
 export class ActionRuleComponent implements OnInit {
-  backendApi  = environment.nestBaseUrl;
+  backendApi = environment.nestBaseUrl;
   userTheme: string = "vs-dark";
   userLanguage: string = "javascript";
   editorOptions: any = {
@@ -30,8 +30,8 @@ export class ActionRuleComponent implements OnInit {
     this.editor = editor
   }
   ngOnDestroy() {
-    if(this.requestSubscription)
-    this.requestSubscription.unsubscribe();
+    if (this.requestSubscription)
+      this.requestSubscription.unsubscribe();
   }
   @Input() screens: any;
   @Input() screenName: any;
@@ -206,7 +206,7 @@ export class ActionRuleComponent implements OnInit {
         } else {
           apiUrl = this.backendApi + 'knex-query';
         }
-      }else{
+      } else {
         apiUrl = this.backendApi;
       }
     }
@@ -277,61 +277,61 @@ export class ActionRuleComponent implements OnInit {
     }
   }
 
-// Save Action Backup 💾
-/*
-SaveAction() {
-  debugger
-   const mainModuleId = this.screens.filter((a: any) => a.name == this.screenName)
-   const observables = this.actionForm.value.Actions.map((element: any) => {
-     let data: any = {
-       "moduleName": this.screenName,
-       "moduleId": mainModuleId.length > 0 ? mainModuleId[0].screenId : "",
-       "btnActionType": element.submissionType ? element.submissionType : "",
-       "elementName": element.elementName,
-       "actionType": element.actionType,
-       "actionLink": element.actionLink,
-       "quryType": element.referenceId,
-       "quries": element.query,
-       "submit": element.submit,
-       "type": element.type,
-       "sqlType": element.sqlType,
-       "email": element.email,
-       "confirmEmail": element.confirmEmail,
-       "referenceId": element.referenceId,
-       "httpAddress": element.httpAddress ? element.httpAddress : "",
-       "contentType": element.contentType ? element.contentType : ""
-     }
-     if (element.id == 0) {
-       return this.employeeService.saveSQLDatabaseTable('knex-crud/SQLQueries', data).pipe(
-         catchError(error => of(error)) // Handle error and continue the forkJoin
-       );
-     } else {
-       return this.employeeService.updateSQLDatabaseTable('knex-crud/SQLQueries/' + element.id, data).pipe(
-         catchError(error => of(error)) // Handle error and continue the forkJoin
-       );
-     }
-   });
-
-   forkJoin(observables).subscribe({
-     next: (results: any) => {
-       if (results.every((result: any) => !(result instanceof Error))) {
-         this.getActionData();
-         this.toastr.success("Actions Save Successfully", { nzDuration: 3000 });
+  // Save Action Backup 💾
+  /*
+  SaveAction() {
+    debugger
+     const mainModuleId = this.screens.filter((a: any) => a.name == this.screenName)
+     const observables = this.actionForm.value.Actions.map((element: any) => {
+       let data: any = {
+         "moduleName": this.screenName,
+         "moduleId": mainModuleId.length > 0 ? mainModuleId[0].screenId : "",
+         "btnActionType": element.submissionType ? element.submissionType : "",
+         "elementName": element.elementName,
+         "actionType": element.actionType,
+         "actionLink": element.actionLink,
+         "quryType": element.referenceId,
+         "quries": element.query,
+         "submit": element.submit,
+         "type": element.type,
+         "sqlType": element.sqlType,
+         "email": element.email,
+         "confirmEmail": element.confirmEmail,
+         "referenceId": element.referenceId,
+         "httpAddress": element.httpAddress ? element.httpAddress : "",
+         "contentType": element.contentType ? element.contentType : ""
+       }
+       if (element.id == 0) {
+         return this.employeeService.saveSQLDatabaseTable('knex-crud/SQLQueries', data).pipe(
+           catchError(error => of(error)) // Handle error and continue the forkJoin
+         );
        } else {
+         return this.employeeService.updateSQLDatabaseTable('knex-crud/SQLQueries/' + element.id, data).pipe(
+           catchError(error => of(error)) // Handle error and continue the forkJoin
+         );
+       }
+     });
+
+     forkJoin(observables).subscribe({
+       next: (results: any) => {
+         if (results.every((result: any) => !(result instanceof Error))) {
+           this.getActionData();
+           this.toastr.success("Actions Save Successfully", { nzDuration: 3000 });
+         } else {
+           this.toastr.error("Actions not saved", { nzDuration: 3000 });
+         }
+       },
+       error: (err) => {
+         console.error(err);
          this.toastr.error("Actions not saved", { nzDuration: 3000 });
        }
-     },
-     error: (err) => {
-       console.error(err);
-       this.toastr.error("Actions not saved", { nzDuration: 3000 });
-     }
-   });
- } */
+     });
+   } */
 
 
   SaveAction() {
     const mainModuleId = this.screens.filter((a: any) => a.name == this.screenName)
-    this.applicationService.deleteNestCommonAPI('cp/Action/DeleteAction',mainModuleId[0].navigation).subscribe(res=>{
+    this.applicationService.deleteNestCommonAPI('cp/Action/DeleteAction', mainModuleId[0].navigation).subscribe(res => {
       const observables = this.actionForm.value.Actions.map((element: any) => {
 
         let actionData: any = {
@@ -357,7 +357,7 @@ SaveAction() {
 
 
         const actionModel = {
-          "Action" : actionData
+          "Action": actionData
         }
         return this.applicationService.addNestCommonAPI('cp', actionModel).pipe(
           catchError(error => of(error)) // Handle error and continue the forkJoin
@@ -370,12 +370,12 @@ SaveAction() {
       });
       forkJoin(observables).subscribe({
         next: (allResults: any) => {
-          if (allResults.every((result:any) => result.isSuccess === true)) {  //results.every((result: any) => !(result instanceof Error))
+          if (allResults.every((result: any) => result.isSuccess === true)) {  //results.every((result: any) => !(result instanceof Error))
             debugger
             // if (allResults) {
-              this.getActionData();
-              this.getFromQuery();
-              this.toastr.success("Actions Save Successfully", { nzDuration: 3000 });
+            this.getActionData();
+            this.getFromQuery();
+            this.toastr.success("Actions Save Successfully", { nzDuration: 3000 });
             // }
           } else {
             this.toastr.error("Actions not saved", { nzDuration: 3000 });
@@ -394,8 +394,8 @@ SaveAction() {
     debugger
     const selectedScreen = this.screens.filter((a: any) => a.name == this.screenName)
     if (selectedScreen[0].navigation != null && selectedScreen[0].navigation != undefined) { // selectedScreen[0].navigation
-      this.requestSubscription = this.applicationService.getNestCommonAPIById("cp/actionbyscreenname", selectedScreen[0].navigation ).subscribe({
-        next: (res:any) => {
+      this.requestSubscription = this.applicationService.getNestCommonAPIById("cp/actionbyscreenname", selectedScreen[0].navigation).subscribe({
+        next: (res: any) => {
           if (res.isSuccess) {
             // this.toastr.success(`Action : Success => ${JSON.stringify(res.data)}`)
           }
@@ -456,23 +456,37 @@ SaveAction() {
       }
   }
   getFromQuery() {
-    let tableData = this.findObjectByTypeBase(this.nodes[0],"gridList");
-    if(tableData){
+    let tableData = this.findObjectByTypeBase(this.nodes[0], "gridList");
+    if (tableData) {
       const mainModuleId = this.screens.filter((a: any) => a.name == this.screenName)
-      this.employeeService.getSQLDatabaseTable(`knex-query/${mainModuleId[0].navigation}`).subscribe({
+      let pagination = '';
+      if (tableData.serverSidePagination) {
+        pagination = '?page=' + 1 + '&pageSize=' + tableData?.end;
+      }
+      this.employeeService.getSQLDatabaseTable(`knex-query/${mainModuleId[0].navigation}`+pagination).subscribe({
         next: (res) => {
-          if (tableData  && res) {
-            let saveForm = JSON.parse(JSON.stringify(res[0]));
+          if (tableData && res.isSuccess) {
+            let saveForm = JSON.parse(JSON.stringify(res.data[0]));
             const firstObjectKeys = Object.keys(saveForm);
-            let obj = firstObjectKeys.map(key => ({ name: key,key: key}));
+            let obj = firstObjectKeys.map(key => ({ name: key, key: key }));
             tableData.tableData = [];
             tableData['tableKey'] = obj;
             tableData.tableHeaders = tableData['tableKey'];
-            saveForm.id = tableData.tableData.length + 1
-            res.forEach((element: any) => {
+            saveForm.id = tableData.tableData.length + 1;
+            res.data.forEach((element: any) => {
               element.id = (element.id).toString();
               tableData.tableData?.push(element);
             });
+            // pagniation work start
+            if (!tableData.end) {
+              tableData.end = 10;
+            }
+            tableData.pageIndex = 1;
+            tableData.totalCount = res.count;
+            tableData.serverApi = `knex-query/${this.screenName}`;
+            tableData.targetId = '';
+            tableData.displayData = tableData.tableData.length > tableData.end ? tableData.tableData.slice(0, tableData.end) : tableData.tableData;
+            // pagniation work end
           }
         }
       });

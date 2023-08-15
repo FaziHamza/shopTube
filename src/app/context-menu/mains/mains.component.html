@@ -118,7 +118,7 @@
     <ng-template #sixteen>
         <dynamic-table [tableId]='item.tableId' *ngIf="item.type =='gridList';else seventeen" [checkType]="false"
             [tableData]='item.tableData' [tableHeaders]='item.tableHeaders' [formlyModel]="formlyModel" [form]="form"
-            [screenId]="screenId" [data]="item" [screenName]="screenName"></dynamic-table>
+            [screenId]="screenId" [data]="item" [displayData]="item.displayData" [screenName]="screenName"></dynamic-table>
     </ng-template>
     <ng-template #seventeen>
         <st-table *ngIf="item.forCommomComponentCondition =='simpleGridList';else eighteen"></st-table>

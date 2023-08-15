@@ -18,6 +18,7 @@ export class DynamicTableComponent implements OnInit {
   @Input() form: any;
   @Input() checkType: boolean;
   @Input() tableData: any[] = [];
+  @Input() displayData: any[] = [];
   @Input() tableHeaders: any[] = [];
   @Input() data: any;
   editId: string | null = null;
@@ -43,6 +44,10 @@ export class DynamicTableComponent implements OnInit {
     { key: "Husnain", value: "Husnain" },
   ];
   editingEntry: any = null;
+  // pagination
+  pageSize: any;
+  start = 1;
+  end: any;
   constructor(public _dataSharedService: DataSharedService, private builderService: BuilderService,
     private applicationService: ApplicationService,
     private employeeService: EmployeeService, private toastr: NzMessageService, private cdr: ChangeDetectorRef) {
@@ -129,171 +134,174 @@ export class DynamicTableComponent implements OnInit {
         if (getRes.isSuccess) {
           if (getRes.data.length > 0) {
             // this.formlyModel['input34d5985f']='1313'
-            let gridFilter = getRes.data.filter((a: any) => a.gridType == 'Body');
-            for (let m = 0; m < gridFilter.length; m++) {
-              if (gridFilter[m].gridKey == this.data.key && this.data.tableData) {
-                const objRuleData = JSON.parse(gridFilter[m].businessRuleData);
-                for (let index = 0; index < objRuleData.length; index++) {
-                  const elementv1 = objRuleData[index];
-                  let checkType = Object.keys(this.data.tableData[0]).filter(a => a == elementv1.target);
-                  if (checkType.length == 0) {
-                    console.log("No obj Found!")
-                  }
-                  else {
-                    for (let j = 0; j < this.data.tableData.length; j++) {
-                      //query
-                      let query: any;
-                      if (elementv1.oprator == 'NotNull')
-                        query = "1==1"
-                      else
-                        query = this.tableData[j][elementv1.ifCondition] + elementv1.oprator + elementv1.getValue
+            this.applyBusinessRule(getRes);
+          }
+          this.loadTableData();
+        } else
+          this.toastr.error(getRes.message, { nzDuration: 3000 });
+      }));
+  }
+  applyBusinessRule(getRes: any) {
+    let gridFilter = getRes.data.filter((a: any) => a.gridType == 'Body');
+    for (let m = 0; m < gridFilter.length; m++) {
+      if (gridFilter[m].gridKey == this.data.key && this.data.tableData) {
+        const objRuleData = JSON.parse(gridFilter[m].businessRuleData);
+        for (let index = 0; index < objRuleData.length; index++) {
+          const elementv1 = objRuleData[index];
+          let checkType = Object.keys(this.data.tableData[0]).filter(a => a == elementv1.target);
+          if (checkType.length == 0) {
+            console.log("No obj Found!")
+          }
+          else {
+            for (let j = 0; j < this.data.tableData.length; j++) {
+              //query
+              let query: any;
+              if (elementv1.oprator == 'NotNull')
+                query = "1==1"
+              else
+                query = this.tableData[j][elementv1.ifCondition] + elementv1.oprator + elementv1.getValue
 
-                      if (eval(query)) {
-                        for (let k = 0; k < elementv1.getRuleCondition.length; k++) {
-                          const elementv2 = elementv1.getRuleCondition[k];
-                          if (elementv1.getRuleCondition[k].referenceOperator != '') {
-                            this.data.tableData[j][elementv1.target] = eval(`${this.data.tableData[j][elementv2.ifCondition]} ${elementv1.getRuleCondition[k].oprator} ${this.data.tableData[j][elementv2.target]}`);
-                            this.data.tableData[j]['color'] = elementv1.getRuleCondition[k].referenceColor;
-                          } else {
-                            if (k > 0) {
-                              this.data.tableData[j][elementv1.target] = eval(`${this.data.tableData[j][elementv1.target]} ${elementv1.getRuleCondition[k - 1].referenceOperator} ${this.data.tableData[j][elementv2.ifCondition]} ${elementv1.getRuleCondition[k].oprator} ${this.data.tableData[j][elementv2.target]}`);
-                              this.data.tableData[j]['color'] = elementv1.getRuleCondition[k].referenceColor;
-                            }
-                            else
-                              this.data.tableData[j][elementv1.target] = eval(`${this.data.tableData[j][elementv2.ifCondition]} ${elementv1.getRuleCondition[k].oprator} ${this.data.tableData[j][elementv2.target]}`);
-                            this.data.tableData[j]['color'] = elementv1.getRuleCondition[k].referenceColor;
-                          }
-                          if (elementv2.multiConditionList.length > 0) {
-                            for (let l = 0; l < elementv2.multiConditionList.length; l++) {
-                              const elementv3 = elementv2.multiConditionList[l];
-                              const value = this.data.tableData[j][elementv1.target];
-                              this.data.tableData[j][elementv1.target] = eval(`${value} ${elementv3.oprator} ${this.data.tableData[j][elementv3.target]}`);
-                              // this.data.tableData[j]['color'] = elementv1.getRuleCondition[k].referenceColor;
-                            }
-                          }
-                        }
-                        for (let k = 0; k < elementv1.thenCondition.length; k++) {
-                          const elementv2 = elementv1.thenCondition[k];
-                          for (let l = 0; l < elementv2.getRuleCondition.length; l++) {
-                            const elementv3 = elementv2.getRuleCondition[l];
-                            this.data.tableData[j][elementv2.thenTarget] = eval(`${this.data.tableData[j][elementv3.ifCondition]} ${elementv3.oprator} ${this.data.tableData[j][elementv3.target]}`);
-                            if (elementv3.multiConditionList.length > 0) {
-                              for (let m = 0; m < elementv3.multiConditionList.length; m++) {
-                                const elementv4 = elementv3.multiConditionList[m];
-                                const value = this.data.tableData[j][elementv2.thenTarget];
-                                this.data.tableData[j][elementv2.thenTarget] = eval(`${value} ${elementv4.oprator} ${this.data.tableData[j][elementv4.target]}`);
-                                // this.data.tableData[j]['color'] = elementv1.getRuleCondition[k].referenceColor;
-                              }
-                            }
-                          }
-                        }
+              if (eval(query)) {
+                for (let k = 0; k < elementv1.getRuleCondition.length; k++) {
+                  const elementv2 = elementv1.getRuleCondition[k];
+                  if (elementv1.getRuleCondition[k].referenceOperator != '') {
+                    this.data.tableData[j][elementv1.target] = eval(`${this.data.tableData[j][elementv2.ifCondition]} ${elementv1.getRuleCondition[k].oprator} ${this.data.tableData[j][elementv2.target]}`);
+                    this.data.tableData[j]['color'] = elementv1.getRuleCondition[k].referenceColor;
+                  } else {
+                    if (k > 0) {
+                      this.data.tableData[j][elementv1.target] = eval(`${this.data.tableData[j][elementv1.target]} ${elementv1.getRuleCondition[k - 1].referenceOperator} ${this.data.tableData[j][elementv2.ifCondition]} ${elementv1.getRuleCondition[k].oprator} ${this.data.tableData[j][elementv2.target]}`);
+                      this.data.tableData[j]['color'] = elementv1.getRuleCondition[k].referenceColor;
+                    }
+                    else
+                      this.data.tableData[j][elementv1.target] = eval(`${this.data.tableData[j][elementv2.ifCondition]} ${elementv1.getRuleCondition[k].oprator} ${this.data.tableData[j][elementv2.target]}`);
+                    this.data.tableData[j]['color'] = elementv1.getRuleCondition[k].referenceColor;
+                  }
+                  if (elementv2.multiConditionList.length > 0) {
+                    for (let l = 0; l < elementv2.multiConditionList.length; l++) {
+                      const elementv3 = elementv2.multiConditionList[l];
+                      const value = this.data.tableData[j][elementv1.target];
+                      this.data.tableData[j][elementv1.target] = eval(`${value} ${elementv3.oprator} ${this.data.tableData[j][elementv3.target]}`);
+                      // this.data.tableData[j]['color'] = elementv1.getRuleCondition[k].referenceColor;
+                    }
+                  }
+                }
+                for (let k = 0; k < elementv1.thenCondition.length; k++) {
+                  const elementv2 = elementv1.thenCondition[k];
+                  for (let l = 0; l < elementv2.getRuleCondition.length; l++) {
+                    const elementv3 = elementv2.getRuleCondition[l];
+                    this.data.tableData[j][elementv2.thenTarget] = eval(`${this.data.tableData[j][elementv3.ifCondition]} ${elementv3.oprator} ${this.data.tableData[j][elementv3.target]}`);
+                    if (elementv3.multiConditionList.length > 0) {
+                      for (let m = 0; m < elementv3.multiConditionList.length; m++) {
+                        const elementv4 = elementv3.multiConditionList[m];
+                        const value = this.data.tableData[j][elementv2.thenTarget];
+                        this.data.tableData[j][elementv2.thenTarget] = eval(`${value} ${elementv4.oprator} ${this.data.tableData[j][elementv4.target]}`);
+                        // this.data.tableData[j]['color'] = elementv1.getRuleCondition[k].referenceColor;
                       }
                     }
                   }
                 }
               }
             }
-            let headerFilter = getRes.filter((a: any) => a.gridType == 'Header');
-            for (let m = 0; m < headerFilter.length; m++) {
-              if (headerFilter[m].gridKey == this.data.key && this.data.tableData) {
-                for (let index = 0; index < headerFilter[m].businessRuleData.length; index++) {
-                  const elementv1 = headerFilter[m].businessRuleData[index];
-                  let checkType = Object.keys(this.data.tableData[0]).filter(a => a == elementv1.target);
-                  if (checkType.length == 0) {
-                    // const filteredData = this.filterTableData(elementv1)
-                    // const result = this.makeAggregateFunctions(filteredData, elementv1.target);
-                    // elementv1.getRuleCondition.forEach((elementv2: any) => {
-                    //   element = this.applyAggreateFunctions(elementv2, element, result, 'gridHeaderSum')
-                    // });
-                  }
-                  else {
-                    this.tableHeaders.forEach(element => {
-                      if (element.key == checkType[0]) {
-                        element['gridHeaderSum'] = 0;
-                        const filteredData = this.filterTableData(elementv1)
-                        const result = this.makeAggregateFunctions(filteredData, elementv1.target)
-                        elementv1.getRuleCondition.forEach((elementv2: any) => {
-                          element = this.applyAggreateFunctions(elementv2, element, result, 'gridHeaderSum')
-                        });
-                        for (let k = 0; k < elementv1.thenCondition.length; k++) {
-                          const elementv2 = elementv1.thenCondition[k];
-                          for (let l = 0; l < elementv2.getRuleCondition.length; l++) {
-                            const elementv3 = elementv2.getRuleCondition[l];
-                            let checkType = Object.keys(this.data.tableData[0]).filter(a => a == elementv3.ifCondition);
-                            if (checkType.length == 0) {
-                              console.log("No obj Found!")
-                            }
-                            else {
-                              const resultData = this.makeAggregateFunctions(filteredData, elementv3.ifCondition)
-                              this.tableHeaders.forEach(element => {
-                                if (element.key == checkType[0]) {
-                                  element = this.applyAggreateFunctions(elementv3, element, resultData, 'gridHeaderSum')
-                                }
-                              })
-                            }
-                          }
-                        }
-                      }
-                      else {
-                        if (!element.gridHeaderSum)
-                          element['gridHeaderSum'] = '';
-                      }
-                    });
-                  }
-                }
-              }
-            }
-            let footerFilter = getRes.filter((a: any) => a.gridType == 'Footer');
-            for (let m = 0; m < footerFilter.length; m++) {
-              if (footerFilter[m].gridKey == this.data.key && this.data.tableData) {
-                for (let index = 0; index < footerFilter[m].businessRuleData.length; index++) {
-                  const elementv1 = footerFilter[m].businessRuleData[index];
-                  let checkType = Object.keys(this.data.tableData[0]).filter(a => a == elementv1.target);
-                  if (checkType.length == 0) {
-                    console.log("No obj Found!")
-                  }
-                  else {
-                    this.tableHeaders.forEach(element => {
-                      if (element.key == checkType[0]) {
-                        element['gridFooterSum'] = 0;
-                        const filteredData = this.filterTableData(elementv1)
-                        const result = this.makeAggregateFunctions(filteredData, elementv1.target)
-                        elementv1.getRuleCondition.forEach((elementv2: any) => {
-                          element = this.applyAggreateFunctions(elementv2, element, result, 'gridFooterSum')
-                        });
-                        for (let k = 0; k < elementv1.thenCondition.length; k++) {
-                          const elementv2 = elementv1.thenCondition[k];
-                          for (let l = 0; l < elementv2.getRuleCondition.length; l++) {
-                            const elementv3 = elementv2.getRuleCondition[l];
-                            let checkType = Object.keys(this.data.tableData[0]).filter(a => a == elementv3.ifCondition);
-                            if (checkType.length == 0) {
-                              console.log("No obj Found!")
-                            }
-                            else {
-                              const resultData = this.makeAggregateFunctions(filteredData, elementv3.ifCondition)
-                              this.tableHeaders.forEach(element => {
-                                if (element.key == checkType[0]) {
-                                  element = this.applyAggreateFunctions(elementv3, element, resultData, 'gridFooterSum')
-                                }
-                              })
-                            }
-                          }
-                        }
-                      }
-                      else {
-                        if (!element.gridHeaderSum)
-                          element['gridHeaderSum'] = '';
-                      }
-                    });
-                  }
-                }
-              }
-            }
           }
-          this.loadTableData();
-        } else
-          this.toastr.error(getRes.message, { nzDuration: 3000 });
-      }));
+        }
+      }
+    }
+    let headerFilter = getRes.filter((a: any) => a.gridType == 'Header');
+    for (let m = 0; m < headerFilter.length; m++) {
+      if (headerFilter[m].gridKey == this.data.key && this.data.tableData) {
+        for (let index = 0; index < headerFilter[m].businessRuleData.length; index++) {
+          const elementv1 = headerFilter[m].businessRuleData[index];
+          let checkType = Object.keys(this.data.tableData[0]).filter(a => a == elementv1.target);
+          if (checkType.length == 0) {
+            // const filteredData = this.filterTableData(elementv1)
+            // const result = this.makeAggregateFunctions(filteredData, elementv1.target);
+            // elementv1.getRuleCondition.forEach((elementv2: any) => {
+            //   element = this.applyAggreateFunctions(elementv2, element, result, 'gridHeaderSum')
+            // });
+          }
+          else {
+            this.tableHeaders.forEach(element => {
+              if (element.key == checkType[0]) {
+                element['gridHeaderSum'] = 0;
+                const filteredData = this.filterTableData(elementv1)
+                const result = this.makeAggregateFunctions(filteredData, elementv1.target)
+                elementv1.getRuleCondition.forEach((elementv2: any) => {
+                  element = this.applyAggreateFunctions(elementv2, element, result, 'gridHeaderSum')
+                });
+                for (let k = 0; k < elementv1.thenCondition.length; k++) {
+                  const elementv2 = elementv1.thenCondition[k];
+                  for (let l = 0; l < elementv2.getRuleCondition.length; l++) {
+                    const elementv3 = elementv2.getRuleCondition[l];
+                    let checkType = Object.keys(this.data.tableData[0]).filter(a => a == elementv3.ifCondition);
+                    if (checkType.length == 0) {
+                      console.log("No obj Found!")
+                    }
+                    else {
+                      const resultData = this.makeAggregateFunctions(filteredData, elementv3.ifCondition)
+                      this.tableHeaders.forEach(element => {
+                        if (element.key == checkType[0]) {
+                          element = this.applyAggreateFunctions(elementv3, element, resultData, 'gridHeaderSum')
+                        }
+                      })
+                    }
+                  }
+                }
+              }
+              else {
+                if (!element.gridHeaderSum)
+                  element['gridHeaderSum'] = '';
+              }
+            });
+          }
+        }
+      }
+    }
+    let footerFilter = getRes.filter((a: any) => a.gridType == 'Footer');
+    for (let m = 0; m < footerFilter.length; m++) {
+      if (footerFilter[m].gridKey == this.data.key && this.data.tableData) {
+        for (let index = 0; index < footerFilter[m].businessRuleData.length; index++) {
+          const elementv1 = footerFilter[m].businessRuleData[index];
+          let checkType = Object.keys(this.data.tableData[0]).filter(a => a == elementv1.target);
+          if (checkType.length == 0) {
+            console.log("No obj Found!")
+          }
+          else {
+            this.tableHeaders.forEach(element => {
+              if (element.key == checkType[0]) {
+                element['gridFooterSum'] = 0;
+                const filteredData = this.filterTableData(elementv1)
+                const result = this.makeAggregateFunctions(filteredData, elementv1.target)
+                elementv1.getRuleCondition.forEach((elementv2: any) => {
+                  element = this.applyAggreateFunctions(elementv2, element, result, 'gridFooterSum')
+                });
+                for (let k = 0; k < elementv1.thenCondition.length; k++) {
+                  const elementv2 = elementv1.thenCondition[k];
+                  for (let l = 0; l < elementv2.getRuleCondition.length; l++) {
+                    const elementv3 = elementv2.getRuleCondition[l];
+                    let checkType = Object.keys(this.data.tableData[0]).filter(a => a == elementv3.ifCondition);
+                    if (checkType.length == 0) {
+                      console.log("No obj Found!")
+                    }
+                    else {
+                      const resultData = this.makeAggregateFunctions(filteredData, elementv3.ifCondition)
+                      this.tableHeaders.forEach(element => {
+                        if (element.key == checkType[0]) {
+                          element = this.applyAggreateFunctions(elementv3, element, resultData, 'gridFooterSum')
+                        }
+                      })
+                    }
+                  }
+                }
+              }
+              else {
+                if (!element.gridHeaderSum)
+                  element['gridHeaderSum'] = '';
+              }
+            });
+          }
+        }
+      }
+    }
   }
   applyAggreateFunctions(elementv3: any, element: any, resultData: any, value: any) {
     if (elementv3.oprator == 'sum')
@@ -419,6 +427,8 @@ export class DynamicTableComponent implements OnInit {
       this.employeeService.saveSQLDatabaseTable('knex-query/executeQuery', model).subscribe({
         next: (res) => {
           this.tableData = this.tableData.filter((d: any) => d.id !== data.id);
+          this.displayData = this.displayData.filter((d: any) => d.id !== data.id);
+          this.pageChange(1);
           this.toastr.success("Delete Successfully", { nzDuration: 3000 });
         },
         error: (err) => {
@@ -428,6 +438,8 @@ export class DynamicTableComponent implements OnInit {
       });
     } else {
       this.tableData = this.tableData.filter((d: any) => d.id !== data.id);
+      this.displayData = this.displayData.filter((d: any) => d.id !== data.id);
+      this.pageChange(1);
       this.toastr.success("Delete from userend successfully", { nzDuration: 3000 });
     }
 
@@ -471,6 +483,8 @@ export class DynamicTableComponent implements OnInit {
         nzPaginationType: "default",
         nzLoading: false,
         nzFrontPagination: true,
+        start: 1,
+        end: 10,
         nzShowPagination: true,
         nzBordered: true,
         showColumnHeader: true,
@@ -687,5 +701,63 @@ export class DynamicTableComponent implements OnInit {
   }
   getObjectKeys(obj: object): string[] {
     return Object.keys(obj);
+  }
+  onPageIndexChange(index: number): void {
+    if (this.data.serverSidePagination) {
+      if (this.data?.targetId) {
+        const pagination = '?page=' + index + '&pageSize=' + this.data?.end;
+        this.pageSize = this.data.end
+        this.applicationService.getNestCommonAPIById(this.data?.serverApi + pagination, this.data?.targetId).subscribe(response => {
+          if (response.isSuccess) {
+            this.tableData = [];
+            this.displayData = [];
+            response.data?.forEach((element: any) => {
+              element.id = (element?.id)?.toString();
+              this.tableData?.push(element);
+            });
+            this.updateGridPagination();
+          }
+        })
+      }
+      else {
+        const pagination = '?page=' + index + '&pageSize=' + this.data?.end;
+        this.pageSize = this.data.end
+        this.employeeService.getSQLDatabaseTable(this.data?.serverApi + pagination).subscribe(response => {
+          if (response.isSuccess) {
+            this.tableData = [];
+            this.displayData = [];
+            response.data.forEach((element: any) => {
+              element.id = (element?.id)?.toString();
+              this.tableData?.push(element);
+            });
+            this.displayData = this.tableData;
+            this.updateGridPagination();
+          }
+
+        })
+      }
+    }
+    else {
+      this.pageChange(index);
+    }
+  }
+  pageChange(index: number) {
+    this.data.pageIndex = index;
+    if (!this.pageSize)
+      this.pageSize = this.data.end;
+    this.updateDisplayData();
+  }
+  updateDisplayData(): void {
+    const start = (this.data.pageIndex - 1) * this.pageSize;
+    const end = start + this.pageSize;
+    this.start = start == 0 ? 1 : ((this.data.pageIndex * this.pageSize) - this.pageSize) + 1;
+    this.displayData = this.tableData.slice(start, end);
+    this.end = this.displayData.length != 6 ? this.tableData.length : this.data.pageIndex * this.pageSize;
+  }
+  updateGridPagination(){
+    const start = (this.data.pageIndex - 1) * this.pageSize;
+    const end = start + this.pageSize;
+    this.start = start == 0 ? 1 : ((this.data.pageIndex * this.pageSize) - this.pageSize) + 1;
+    this.end = this.displayData.length == this.data.end ? (this.data.pageIndex * this.data.end) : this.data.totalCount;
   }
 }
