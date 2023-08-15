@@ -4,6 +4,7 @@ import { NzMessageService } from 'ng-zorro-antd/message';
 import { Subscription } from 'rxjs';
 import { ApplicationService } from 'src/app/services/application.service';
 import { BuilderService } from 'src/app/services/builder.service';
+import { DataSharedService } from 'src/app/services/data-shared.service';
 
 @Component({
   selector: 'st-user-task-management',
@@ -18,9 +19,13 @@ export class UserTaskManagementComponent implements OnInit {
   applicationData: any = [];
   requestSubscription: Subscription;
   editId: any = '';
+  assignToresponse: any = '';
+  userTaskManagement: any = '';
   editObj: any = {};
   saveLoader: boolean = false;
+  issueReport: any = [];
   constructor(private toastr: NzMessageService, private applicationService: ApplicationService, public builderService: BuilderService,
+    public dataSharedService: DataSharedService,
     private cdr: ChangeDetectorRef) {
 
   }
@@ -28,6 +33,7 @@ export class UserTaskManagementComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadDepartmentData();
+    this.getUsers();
   }
 
 
@@ -120,8 +126,9 @@ export class UserTaskManagementComponent implements OnInit {
   }
   getIssues(screenId: string, applicationId: string) {
     const objScreen = this.screens.find((x: any) => x._id == screenId);
+
     this.saveLoader = true;
-    this.requestSubscription = this.builderService.getUserAssignTask(objScreen.navigation, applicationId).subscribe({
+    this.requestSubscription = this.builderService.getUserAssignTask(objScreen ? objScreen.navigation : screenId, applicationId).subscribe({
       next: (res: any) => {
         if (res.isSuccess) {
           if (res.data.length > 0) {
@@ -130,21 +137,6 @@ export class UserTaskManagementComponent implements OnInit {
               obj.expand = false;
             });
             this.data[0]['children'] = [];
-            // let obj =
-            // {
-
-            //   "_id":
-            //     "64d64d428909734e2f0a24d3",
-            //   "screenId": "CakeForm",
-            //   "dueDate": "2023-08-11",
-            //   "status": "open",
-            //   "organizationId": "64abfde576ac2e992aa14d75",
-            //   "applicationId": "64c7cf48c577c6286a78ce45",
-            //   "componentId": "cakeform_input_22a7f843",
-            //   "createdBy": "zubairv@gmail.com",
-            //   "assignTo": "zubairv2@gmail.com",
-            // }
-            // this.data[0]['children'].push(obj);
             this.saveLoader = false;
           } else {
             this.toastr.error(`No data against this screen:`, { nzDuration: 3000 });
@@ -185,11 +177,11 @@ export class UserTaskManagementComponent implements OnInit {
       next: (res: any) => {
         if (res) {
           this.toastr.success(`UserAssignTask : ${res.message}`, { nzDuration: 3000 });
-          this.getIssues(this.selectDepartmentName[2],this.selectDepartmentName[1]);
+          this.getIssues(this.selectDepartmentName[2], this.selectDepartmentName[1]);
           this.editId = '';
           this.saveLoader = false;
         }
-      }, 
+      },
       error: (err: any) => {
         console.error(err); // Log the error to the console
         this.toastr.error(`UserAssignTask : An error occurred`, { nzDuration: 3000 });
@@ -201,6 +193,80 @@ export class UserTaskManagementComponent implements OnInit {
   ngOnDestroy(): void {
     this.requestSubscription.unsubscribe();
   }
+  showIssue(data: any): void {
+    this.saveLoader = true;
+    this.requestSubscription = this.applicationService.getNestCommonAPI("cp/getuserComments/UserComment/pages/" + data.screenId).subscribe({
+      next: (res: any) => {
+        this.saveLoader = false;
+        this.issueReport['issueReport'] = '';
+        this.issueReport['showAllComments'] = false;
+        if (res.isSuccess && res.data.length > 0) {
+          const filterIssue = res.data.filter((rep: any) => rep.componentId === data.componentId);
+          if (filterIssue.length > 0) {
+            this.userTaskManagement = data;
+            this.issueReport['showAllComments'] = true;
+            this.issueReport['issueReport'] = filterIssue;
+            this.issueReport['id'] = filterIssue[0].componentId;
+            this.callAssignee(this.issueReport);
+          } else {
+            this.saveLoader = false;
+            this.toastr.error(`UserComment : No comments against this`, { nzDuration: 3000 });
+          }
+        }
+      },
+      error: (err) => {
+        this.issueReport['issueReport'] = '';
+        this.issueReport['showAllComments'] = false;
+        console.error(err); // Log the error to the console
+        this.toastr.error(`UserComment : An error occurred`, { nzDuration: 3000 });
+      }
+    });
+  }
 
+  getUsers() {
+    this.requestSubscription = this.applicationService.getNestCommonAPI('cp/user').subscribe({
+      next: (res: any) => {
+        if (res.data.length > 0) {
+          this.dataSharedService.usersData = res.data;
+        }
+      },
+      error: (err) => {
+        console.error(err); // Log the error to the console
+        this.toastr.error(`UserComment : An error occurred`, { nzDuration: 3000 });
+      }
+    });
+  }
+  callAssignee(data: any) {
+    this.requestSubscription = this.applicationService.getNestCommonAPIById('cp/UserAssignTask', data.id).subscribe({
+      next: (res: any) => {
+        if (res) {
+          if (res.data.length > 0) {
+            this.assignToresponse = res.data[0];
+            data['dueDate'] = res.data[0]['dueDate'];
+            data['assignTo'] = res.data[0]['assignTo'];
+            this.toastr.success(`UserAssignTask : ${res.message}`, { nzDuration: 3000 });
+          } else {
+            data['dueDate'] = new Date();
+            data['dueDate'] = data['dueDate'].toISOString().split('T')[0];
+          }
+        }
+      }, error: (err: any) => {
+        console.error(err); // Log the error to the console
+        this.toastr.error(`UserAssignTask : An error occurred`, { nzDuration: 3000 });
+      }
+    })
+  }
+  updateIssues(updateData: any) {
 
+    if (updateData) {
+      // const elementIndex = this.data.findIndex((element: any) => element._id === updateData.data._id);
+      // if (elementIndex !== -1) {
+      //   this.data[elementIndex] = updateData.data;
+      //   this.data = [...this.data];
+      //   this.cdr.detach();
+      // }
+      // this.screenId = updateData.data.screenId;
+      this.getIssues(updateData.data.screenId , updateData.data.applicationId)
+    }
+  }
 }
