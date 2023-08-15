@@ -25,6 +25,8 @@
               Date</th>
             <th nzWidth="11.11%" class="!text-gray-400 "><i class="fa-regular fa-circle-chevron-up text-lg mr-1.5"></i>
               Priority</th>
+            <th nzWidth="11.11%" class="!text-gray-400 "><i class="fa-regular text-lg fa-circle-arrow-right mr-1.5"></i>
+              Show</th>
             <th nzWidth="11.11%" class="!text-gray-400 ">Actions</th>
           </tr>
         </thead>
@@ -46,9 +48,9 @@
                 <div>
                   <nz-select *ngIf="editId == data._id" [(ngModel)]="data.status">
                     <nz-option nzValue="open" nzLabel="Open"></nz-option>
-                    <nz-option nzValue="inProgress" nzLabel="inProgress"></nz-option>
+                    <nz-option nzValue="inProgress" nzLabel="In Progress"></nz-option>
                     <nz-option nzValue="completed" nzLabel="completed"></nz-option>
-                    <nz-option nzValue="close" nzLabel="Close"></nz-option>
+                    <nz-option nzValue="closed" nzLabel="Close"></nz-option>
                   </nz-select>
                 </div>
               </td>
@@ -67,6 +69,9 @@
                   <p> Text</p>
                 </div>
               </td>
+              <td (click)="showIssue(data)" nzWidth="11.11%">
+                <i class="fa-regular text-lg fa-circle-arrow-right text-gray-400"></i>
+              </td>
               <td nzWidth="11.11%"><button nz-button *ngIf="editId != data._id" (click)="startEdit(data._id,data)"
                   class="ant-btn" nzType="primary">Edit</button>
                 <button nz-button *ngIf="editId == data._id" (click)="saveEdit(data)" class="ant-btn mr-2"
@@ -80,18 +85,24 @@
                 <thead>
                   <tr>
                     <th nzWidth="11.11%" class="!text-gray-400 rounded-tl-lg">Type</th>
-                    <th nzWidth="11.11%" class="!text-gray-400 "><i class="fa-regular fa-hashtag mr-1.5 text-lg "></i>
-                      key</th>
+                    <th nzWidth="11.11%" class="!text-gray-400 " nz-typography nzEllipsis><i
+                        class="fa-regular fa-hashtag mr-1.5 text-lg "></i> key</th>
                     <th nzWidth="16.66%" class="!text-gray-400 "><i
-                        class="fa-regular text-lg fa-bars-sort mr-1.5 "></i>Summary</th>
+                        class="fa-regular text-lg fa-bars-sort mr-1.5 "></i>Summary
+                    </th>
                     <th nzWidth="11.11%" class="!text-gray-400 "><i
                         class="fa-regular text-lg fa-circle-arrow-right mr-1.5 "></i> Status </th>
                     <th nzWidth="16.66%" class="!text-gray-400 "><i class="fa-regular fa-at text-lg mr-1.5"></i>
                       Assignee </th>
                     <th nzWidth="11.11%" class="!text-gray-400 "><i
-                        class="fa-regular fa-calendar-days text-lg mr-1.5 "></i> Due Date</th>
+                        class="fa-regular fa-calendar-days text-lg mr-1.5 "></i> Due
+                      Date</th>
                     <th nzWidth="11.11%" class="!text-gray-400 "><i
-                        class="fa-regular fa-circle-chevron-up text-lg mr-1.5"></i> Priority</th>
+                        class="fa-regular fa-circle-chevron-up text-lg mr-1.5"></i>
+                      Priority</th>
+                    <th nzWidth="11.11%" class="!text-gray-400 "><i
+                        class="fa-regular text-lg fa-circle-arrow-right mr-1.5"></i>
+                      Show</th>
                     <th nzWidth="11.11%" class="!text-gray-400 ">Actions</th>
                   </tr>
                 </thead>
@@ -112,9 +123,9 @@
               <div>
                 <nz-select *ngIf="editId == data._id" [(ngModel)]="data.status">
                   <nz-option nzValue="open" nzLabel="Open"></nz-option>
-                  <nz-option nzValue="inProgress" nzLabel="inProgress"></nz-option>
+                  <nz-option nzValue="inProgress" nzLabel="In Progress"></nz-option>
                   <nz-option nzValue="completed" nzLabel="completed"></nz-option>
-                  <nz-option nzValue="close" nzLabel="Close"></nz-option>
+                  <nz-option nzValue="closed" nzLabel="Close"></nz-option>
                 </nz-select>
               </div>
             </td>
@@ -133,6 +144,9 @@
                 <p> Text</p>
               </div>
             </td>
+            <td (click)="showIssue(data)" nzWidth="11.11%">
+              <i class="fa-regular text-lg fa-circle-arrow-right text-gray-400"></i>
+            </td>
             <td nzWidth="11.11%"><button nz-button *ngIf="editId != data._id" (click)="startEdit(data._id,data)"
                 class="ant-btn" nzType="primary">Edit</button>
               <button nz-button *ngIf="editId == data._id" (click)="saveEdit(data)" class="ant-btn mr-2"
@@ -150,3 +164,8 @@
     </div>
   </div>
 </nz-spin>
+<div *ngIf="this.issueReport['issueReport']">
+  <st-task-report (notify)="updateIssues($event)" class="close-icon" [item]="this.issueReport"
+    [screenName]="this.issueReport['issueReport'][0].screenId" [assignToresponse]="this.assignToresponse"
+    [type]="'userTaskManagement'" [userTaskManagementData]="data"></st-task-report>
+</div>

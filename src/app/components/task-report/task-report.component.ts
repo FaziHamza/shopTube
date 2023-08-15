@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, Input, OnInit, ViewContainerRef } from '@angular/core';
+import { ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output, ViewContainerRef } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { Observable, Subscription } from 'rxjs';
@@ -14,13 +14,15 @@ export class TaskReportComponent implements OnInit {
   @Input() item: any;
   @Input() screenName: any;
   @Input() type: any;
+  @Input() assignToresponse: any;
+  @Input() userTaskManagementData: any;
+  @Output() notify: EventEmitter<any> = new EventEmitter();
   newcomment: any = '';
   newCommentRes: any = '';
   showAllComments = false;
   commentEdit = false;
   showRply = '';
   commentEditObj: any = {};
-  assignToresponse: any = '';
   commentForm: FormGroup;
   requestSubscription: Subscription;
   constructor(private cd: ChangeDetectorRef, private toastr: NzMessageService, public dataSharedService: DataSharedService,
@@ -51,7 +53,7 @@ export class TaskReportComponent implements OnInit {
       componentId: data.id,
       createdBy: userData.username,
       parentId: issue.id,
-      type: this.type
+      type: this.type == 'userTaskManagement' ? 'pages' : this.type
     };
 
     const userCommentModel = {
@@ -166,6 +168,7 @@ export class TaskReportComponent implements OnInit {
 
   }
   userAssigneeSave(data: any, issue: any) {
+    debugger
     const userData = JSON.parse(localStorage.getItem('user')!);
     let obj = {
       screenId: this.screenName,
@@ -190,8 +193,11 @@ export class TaskReportComponent implements OnInit {
       next: (res: any) => {
         if (res) {
           this.assignToresponse = res.data;
-          // this.assignToresponse['id'] = res.data['_id'];
           this.toastr.success(`UserAssignTask : ${res.message}`, { nzDuration: 3000 });
+          if (this.userTaskManagementData) {
+            this.notify.emit(res);
+          }
+
         }
       }, error: (err: any) => {
         console.error(err); // Log the error to the console
