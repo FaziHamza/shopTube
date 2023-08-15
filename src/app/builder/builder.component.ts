@@ -4274,7 +4274,7 @@ export class BuilderComponent implements OnInit {
           const tableData = event.form.options;
           this.selectedNode['end'] = event.form?.end;
           this.selectedNode['serverSidePagination'] = event.form?.serverSidePagination;
-          const tableData = event.tableDta ? event.tableDta : event.form.options;
+          // const tableData = event.tableDta ? event.tableDta : event.form.options;
           const updatedData = tableData.filter((updatedItem: any) => {
             const key = updatedItem.key;
             return !this.selectedNode.tableHeaders.some((headerItem: any) => headerItem.key === key);
