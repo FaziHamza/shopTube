@@ -833,6 +833,7 @@ export class AddControlService {
       isAddRow: false,
       rowClickApi: "",
       tableKey: [],
+      displayData: [],
       tableHeaders: [
         // {
         //   name: 'Id',
