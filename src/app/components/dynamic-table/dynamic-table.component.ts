@@ -374,7 +374,8 @@ export class DynamicTableComponent implements OnInit {
     const id = this.tableData.length - 1;
     const newRow = JSON.parse(JSON.stringify(this.tableData[0]));
     newRow["id"] = this.tableData[id].id + 1;
-    this.tableData = [...this.tableData, newRow];
+    this.tableData.push(newRow);
+    this.displayData = [...this.tableData];
     // if (this.tableData.length > 0) {
     //   const firstObjectKeys = Object.keys(this.tableData[0]);
     //   for (let index = 0; index < firstObjectKeys.length; index++) {
@@ -436,10 +437,10 @@ export class DynamicTableComponent implements OnInit {
           this.toastr.error("An error occurred", { nzDuration: 3000 });
         }
       });
-    } else {
-      this.tableData = this.tableData.filter((d: any) => d.id !== data.id);
-      this.displayData = this.displayData.filter((d: any) => d.id !== data.id);
-      this.pageChange(1);
+    }
+    else {
+      
+      this.pageChange(1, data);
       this.toastr.success("Delete from userend successfully", { nzDuration: 3000 });
     }
 
@@ -453,6 +454,7 @@ export class DynamicTableComponent implements OnInit {
   }
 
   loadTableData() {
+    debugger
     if (this.tableData.length > 0) {
       const firstObjectKeys = Object.keys(this.tableData[0]);
       this.data['tableKey'] = firstObjectKeys.map(key => ({ name: key }));
@@ -474,6 +476,7 @@ export class DynamicTableComponent implements OnInit {
           j['id'] = newId;
         });
       }
+      this.displayData = this.tableData;
     }
     if (!this.data) {
       const newNode = {
@@ -741,11 +744,27 @@ export class DynamicTableComponent implements OnInit {
       this.pageChange(index);
     }
   }
-  pageChange(index: number) {
+  pageChange(index: number, data?: any) {
     this.data.pageIndex = index;
-    if (!this.pageSize)
+    if (!this.pageSize) {
       this.pageSize = this.data.end;
-    this.updateDisplayData();
+      if (this.pageSize) {
+        this.tableData = this.tableData.filter((d: any) => d.id !== data.id);
+        this.displayData = this.displayData.filter((d: any) => d.id !== data.id);
+        this.updateDisplayData();
+      }
+      else {
+        const indexToRemove = this.tableData.findIndex((d: any) => d.id === data.id);
+
+        if (indexToRemove !== -1) {
+          this.tableData.splice(indexToRemove, 1);
+        }
+        // this.tableData = this.tableData.filter((d: any) => d.id !== data.id);
+        // this.tableData = JSON.parse(JSON.stringify(updatedData));
+        // this.tableData = [...this.displayData]
+        this.displayData = [...this.tableData];
+      }
+    }
   }
   updateDisplayData(): void {
     const start = (this.data.pageIndex - 1) * this.pageSize;
@@ -754,7 +773,7 @@ export class DynamicTableComponent implements OnInit {
     this.displayData = this.tableData.slice(start, end);
     this.end = this.displayData.length != 6 ? this.tableData.length : this.data.pageIndex * this.pageSize;
   }
-  updateGridPagination(){
+  updateGridPagination() {
     const start = (this.data.pageIndex - 1) * this.pageSize;
     const end = start + this.pageSize;
     this.start = start == 0 ? 1 : ((this.data.pageIndex * this.pageSize) - this.pageSize) + 1;

@@ -31,12 +31,11 @@ export class MarketPlaceComponent implements OnInit {
     this.saveLoader = true;
     this.applicationService.getNestCommonAPI('market-place').subscribe(res => {
       this.saveLoader = false;
-      if (res) {
-
+      if (res.isSuccess) {
 
         const expectedData: any = [];
 
-        res.forEach((data: any) => {
+        res.data.forEach((data: any) => {
           const categoryIndex = expectedData.findIndex((item: any) => item._id === data.categoryDetails[0]._id);
           if (categoryIndex === -1) {
             expectedData.push({
