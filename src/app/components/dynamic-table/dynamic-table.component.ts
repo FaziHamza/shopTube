@@ -405,17 +405,17 @@ export class DynamicTableComponent implements OnInit {
   }
 
   addRow(): void {
-    const id = this.tableData.length - 1;
+    const id = this.displayData.length - 1;
     if (id == -1) {
       let row = {
         id: 1, name: '',
       }
-      this.tableData = [...this.tableData, row];
+      this.displayData = [...this.tableData, row];
     }
     else {
       const newRow = JSON.parse(JSON.stringify(this.tableData[0]));
       newRow["id"] = this.tableData[id].id + 1;
-      this.tableData = [...this.tableData, newRow];
+      this.displayData = [...this.tableData, newRow];
     }
   };
   deleteRow(data: any): void {
@@ -439,7 +439,7 @@ export class DynamicTableComponent implements OnInit {
       });
     }
     else {
-      
+
       this.pageChange(1, data);
       this.toastr.success("Delete from userend successfully", { nzDuration: 3000 });
     }
@@ -563,8 +563,8 @@ export class DynamicTableComponent implements OnInit {
   save() {
     this._dataSharedService.setData(this.tableData);
     if (this.data.doubleClick == false)
-      this._dataSharedService.saveGridData(this.tableData);
-    alert("Data save");
+      this._dataSharedService.saveGridData(this.displayData);
+    // alert("Data save");
   }
 
   checkAll(value: boolean): void {

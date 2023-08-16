@@ -5956,6 +5956,9 @@ li.ant-cascader-menu-item:nth-child(1):hover {
     line-height: 16.8px !important;
     text-align: center !important;
   }
+  .ant-tabs-left>.ant-tabs-nav .ant-tabs-tab, .ant-tabs-left>div>.ant-tabs-nav .ant-tabs-tab, .ant-tabs-right>.ant-tabs-nav .ant-tabs-tab, .ant-tabs-right>div>.ant-tabs-nav .ant-tabs-tab{
+    text-align: left !important;
+  }
 }
 
 .UTM {
