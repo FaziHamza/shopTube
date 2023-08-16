@@ -202,7 +202,7 @@ export class SectionsComponent implements OnInit {
         };
 
         let result = removePrefix(oneModelData);
-        result['id'] = '';
+        // result['id'] = '';
         if (findClickApi?.[0].actions?.[0]?.url?.includes('/market-place')) {
           empData = result;
         } else {
@@ -338,8 +338,26 @@ export class SectionsComponent implements OnInit {
           this.employeeService.getSQLDatabaseTable(apiUrl + pagination).subscribe({
             next: (res) => {
               if (tableData && res.isSuccess) {
-
                 if (res.data.length > 0) {
+                  if (findClickApi?.[0].actions?.[0]?.url.includes('market-place')) {
+
+                    let requiredData = res.data.map((item: any) => {
+                      // Create a new object without unwanted properties
+                      const {
+                        _id,
+                        __v,
+                        subcategoryDetails,
+                        categoryDetails,
+                        ...rest
+                      } = item;
+                      return {
+                        id: _id, // Rename _id to id
+                        ...rest
+                      };
+                    });
+                    res.data = requiredData;
+                  }
+
                   let saveForm = JSON.parse(JSON.stringify(res.data[0]));
                   const firstObjectKeys = Object.keys(saveForm);
                   let tableKey = firstObjectKeys.map(key => ({ name: key }));
