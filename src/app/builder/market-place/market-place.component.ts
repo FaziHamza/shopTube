@@ -34,7 +34,7 @@ export class MarketPlaceComponent implements OnInit {
       if (res.isSuccess) {
 
         const expectedData: any = [];
-
+        console.log(JSON.stringify(res.data))
         res.data.forEach((data: any) => {
           const categoryIndex = expectedData.findIndex((item: any) => item._id === data.categoryDetails[0]._id);
           if (categoryIndex === -1) {
@@ -46,7 +46,7 @@ export class MarketPlaceComponent implements OnInit {
               }],
             });
           } else {
-            const subcategoryIndex = expectedData[categoryIndex].children.findIndex((item: any) => item._id === data.subcategoryDetails[0]._id);
+            const subcategoryIndex = expectedData[categoryIndex].children.findIndex((item: any) => item._id === data.subcategoryDetails?.[0]?._id);
             if (subcategoryIndex === -1) {
               expectedData[categoryIndex].children.push({
                 ...data.subcategoryDetails[0],

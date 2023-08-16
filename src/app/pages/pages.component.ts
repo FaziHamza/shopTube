@@ -1975,6 +1975,7 @@ export class PagesComponent implements OnInit {
           }
         }
         this.applicationService.addNestCommonAPI('cp', obj).subscribe(res => {
+          this.toastr.success("Success Added Record", { nzDuration: 3000 });
           this.getEnumList(findElement, this.formlyModel[model[0]]);
         })
       }

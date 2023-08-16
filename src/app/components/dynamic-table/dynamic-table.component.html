@@ -157,9 +157,9 @@
 </div>
 
 
-<!-- <div *ngIf="data?.isAddRow == undefined ? true: data?.isAddRow">
+<div *ngIf="data?.isAddRow">
   <button nz-button (click)="save()" nzType="primary">Save Change</button>
-</div> -->
+</div>
 <nz-modal [nzWidth]="1400" [(nzVisible)]="isHeaderVisible" nzTitle="Grid Rule" (nzOnCancel)="handleCancel()"
   (nzOnOk)="handleOk()">
   <ng-container *nzModalContent>
