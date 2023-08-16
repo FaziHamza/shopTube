@@ -6441,16 +6441,17 @@ export class BuilderComponent implements OnInit {
         { value: string },
         string
       >({
-        nzTitle: 'Market Place',
+        // nzTitle: 'Market Place',
         nzWidth: '80%',
         nzMaskClosable: false,
+        // nzExtra: '#saving',
         nzContent: MarketPlaceComponent,
         nzContentParams: {
           nodes: this.nodes,
         },
       });
       drawerRef.afterOpen.subscribe(() => {
-        console.log('Drawer(Component) open');
+        // console.log('Drawer(Component) open');
       });
       drawerRef.afterClose.subscribe((data: any) => {
         if (data) {
