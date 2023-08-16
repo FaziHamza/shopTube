@@ -1,20 +1,32 @@
 <nz-spin [nzSpinning]="saveLoader" [nzSize]="'large'">
-  <div class="basic-button-save text-end">
-    <button nz-button nzType="primary" class="save-btn" (click)="close()">Save</button>
-    <button nz-button (click)="cancel()" class="cancel-btn">Cancel</button>
+  <div class="grid grid-cols-3 market-place">
+    <div>
+      <h3><b>Market Place</b></h3>
+    </div>
+    <div>
+      <nz-input-group nzSearch>
+        <input type="text" nz-input id="searchControll" nzAllowClear (input)="filterData($event)" placeholder="Search.." />
+      </nz-input-group>
+    </div>
+    <div class="basic-button-save text-end justify-end">
+      <button nz-button (click)="reset()" class="cancel-btn">Reset</button>
+      <button nz-button nzType="primary" class="save-btn ml-3" (click)="close()">Save</button>
+      <button nz-button (click)="cancel()" class="cancel-btn">Cancel</button>
+    </div>
   </div>
+
   <div class="market-place">
     <nz-tabset class="mt-3">
       <nz-tab *ngFor="let group of groupedData" [nzTitle]="group.name">
         <nz-tabset [nzSelectedIndex]="0" [nzTabPosition]="'right'" *ngIf="group.children.length > 0">
           <nz-tab *ngFor="let groupChild of group.children" [nzTitle]="groupChild.name">
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-2 "
+            <div class="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-2 gap-2 "
               *ngIf="groupChild.children">
               <div class="img " *ngFor="let groupSubchild of groupChild.children" (click)="addNodes(groupSubchild)">
                 <img
                   [src]="groupSubchild?.thumbnailimage ? enviorment + groupSubchild?.thumbnailimage :  'assets/images/banner.png'"
                   alt=""
-                  class="cursor-pointer hover:shadow-lg rounded-2xl w-full h-auto !max-w-[230px] min-h-[144px] !max-h-36 bg-cover">
+                  class="cursor-pointer hover:shadow-lg rounded-2xl w-full h-auto  max-h-[250px] bg-cover">
                 <h6 class="inline-block w-full text-center font-semibold">{{ groupSubchild.name }}</h6>
               </div>
             </div>

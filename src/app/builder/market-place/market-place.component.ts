@@ -14,6 +14,7 @@ export class MarketPlaceComponent implements OnInit {
   enviorment = environment.nestImageUrl;
   @Input() nodes: any[] = [];
   groupedData: any[];
+  marketPlaceList: any[];
   data: any[] = []
   saveLoader: any = false;
   nodesData: any[] = [];
@@ -58,10 +59,42 @@ export class MarketPlaceComponent implements OnInit {
           }
         });
         this.groupedData = expectedData;
+        this.marketPlaceList = expectedData;
+        // console.log(JSON.stringify(this.groupedData));
         // this.groupedData = this.transformCategoryChildren(data);
       }
     })
   }
+  filterNestedData(data: any[], searchTerm: string): any[] {
+    const filteredData = [];
+
+    for (const item of data) {
+      const matchingChildren = item.children ? this.filterNestedData(item.children, searchTerm) : [];
+      const matchesSearch = item?.name?.toLowerCase().includes(searchTerm.toLowerCase());
+
+      if (matchesSearch || matchingChildren.length > 0) {
+        const newItem = { ...item };
+        if (matchingChildren.length > 0) {
+          newItem.children = matchingChildren;
+        }
+        filteredData.push(newItem);
+      }
+    }
+
+    return filteredData;
+  }
+
+  filterData(search:any){
+    this.groupedData = this.filterNestedData(JSON.parse(JSON.stringify(this.marketPlaceList)),search.target.value);
+  }
+  reset(){
+    this.groupedData = this.marketPlaceList;
+  }
+  // Example usage
+  // const searchTerm = "Academy";
+  // const filteredResult = filterNestedData(sampleData, searchTerm);
+  // console.log(filteredResult);
+
   // addNodes(item: any, group: any) {
   //   debugger
   //   let templateData = JSON.parse(item.data);
@@ -103,12 +136,12 @@ export class MarketPlaceComponent implements OnInit {
               const checkSection = templateData.find((a: any) => a.type === 'sections');
               if (checkPage) {
                 this.nodesData = templateData;
-                this.toastr.success(data?.categoryname + ' added successfully', { nzDuration: 3000 })
+                this.toastr.success(data?.name + ' added successfully', { nzDuration: 3000 })
               }
             }
             else {
               this.nodesData[0].children[1].children.push(templateData);
-              this.toastr.success(data?.subcategoryname + ' added successfully', { nzDuration: 3000 })
+              this.toastr.success(data?.name + ' added successfully', { nzDuration: 3000 })
             }
           }
         }
