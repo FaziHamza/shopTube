@@ -5715,7 +5715,7 @@ li.ant-cascader-menu-item:nth-child(1):hover {
 //   .ant-menu-inline-collapsed {
 
 
-//     .nav-item {      
+//     .nav-item {
 //       .menu-item-icon {
 //         padding-top: 20% !important;
 
@@ -5834,7 +5834,7 @@ li.ant-cascader-menu-item:nth-child(1):hover {
 .market-place {
 
   .ant-tabs-nav {
-    margin-top: 10px;
+    // margin-top: 10px;
 
     .ant-tabs-tab {
       padding: 12px;
@@ -5874,7 +5874,7 @@ li.ant-cascader-menu-item:nth-child(1):hover {
 
       .ant-tabs-nav {
         width: 150px;
-
+        margin-top: -6px;
         .ant-tabs-nav-list {
           height: 100%;
           overflow-y: auto;
@@ -5995,7 +5995,7 @@ li.ant-cascader-menu-item:nth-child(1):hover {
   .anticon-question-circle{
     margin-top: 3px !important;
   }
-  
+
   .ant-modal-confirm-btns {
     display: flex;
     width: 100%;
