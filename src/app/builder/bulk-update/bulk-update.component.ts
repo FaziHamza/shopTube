@@ -11,6 +11,7 @@ export class BulkUpdateComponent implements OnInit {
   @Input() types: any;
   @Input() formlyModel: any;
   tabelNodes: any[] = [];
+  keyValidation: any[] = [];
   constructor(private drawerRef: NzDrawerRef<any>) { }
 
   ngOnInit(): void {
@@ -34,9 +35,9 @@ export class BulkUpdateComponent implements OnInit {
           key: forms.formly[0].fieldGroup[0].key,
           title: forms.formly[0].fieldGroup[0].props.label,
           formlyType: 'input',
-          defaultValue:forms.formly[0].fieldGroup[0].defaultValue,
-          placeholder:forms.formly[0].fieldGroup[0].props.placeholder,
-          type:this.types
+          defaultValue: forms.formly[0].fieldGroup[0].defaultValue,
+          placeholder: forms.formly[0].fieldGroup[0].props.placeholder,
+          type: this.types
         }
         this.tabelNodes[index].children.push(obj);
       });
@@ -45,16 +46,18 @@ export class BulkUpdateComponent implements OnInit {
   close() {
     this.drawerRef.close(this.nodes);
   }
- 
+
 
   save() {
+    debugger
     let check = this.filterInputElementKey(this.tabelNodes);
-    if(check.length > 0){
+    if (check.length > 0) {
       alert("key cannot be empty")
-    }else{
+    }
+    else {
       this.tabelNodes.forEach((element, index) => {
         this.nodes[0].children[1].children[index].key = element.key;
-        if(this.nodes[0].children[1].children[index].title != element.title){
+        if (this.nodes[0].children[1].children[index].title != element.title) {
           this.nodes[0].children[1].children[index].title = element.title;
           this.nodes[0].children[1].children[index].children[0].title = element.title;
         }
@@ -63,7 +66,7 @@ export class BulkUpdateComponent implements OnInit {
           findInputs.forEach((input: any) => {
             for (let j = 0; j < element.children.length; j++) {
               const check = element.children[j];
-              if(check.id == input.id) {
+              if (check.id == input.id) {
                 // if(input.formly[0].fieldGroup[0].key != check.key){
                 //   delete this.formlyModel[input.formly[0].fieldGroup[0].key];
                 // }
@@ -80,10 +83,19 @@ export class BulkUpdateComponent implements OnInit {
         });
       });
       let obj = {
-        nodes:this.nodes,
+        nodes: this.nodes,
         // formlyModel :this.formlyModel
       }
-      this.drawerRef.close(obj);
+      this.keyValidation = [];
+      this.checkKeyValidation(this.tabelNodes);
+      if (this.keyValidation.length == 0) {
+        this.drawerRef.close(obj);
+      } else {
+        // this.drawerRef.close(undefined);
+        alert(this.keyValidation);
+        console.log(this.keyValidation)
+      }
+
     }
 
   }
@@ -130,4 +142,24 @@ export class BulkUpdateComponent implements OnInit {
     traverse(data);
     return inputElements;
   }
+  checkKeyValidation(nodes: any) {
+    const pattern = /^[a-z0-9_.]+$/; // Your pattern
+
+    // Use a separate function to handle recursion
+    const validateNode = (node: any) => {
+      if (!pattern.test(node.key)) {
+        this.keyValidation.push(`${node.title} : ${node.key}`);
+      }
+      if (node.children && node.children.length > 0) {
+        for (const childNode of node.children) {
+          validateNode(childNode); // Recursively call the validation function for child nodes
+        }
+      }
+    };
+
+    for (const node of nodes) {
+      validateNode(node); // Start validation from the root nodes
+    }
+  }
+
 }

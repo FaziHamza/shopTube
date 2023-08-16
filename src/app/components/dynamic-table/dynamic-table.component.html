@@ -12,7 +12,7 @@
 <div class="dynamic-table">
   <!-- [nzFrontPagination]='data?.nzFrontPagination' -->
   <!-- [nzShowPagination]='data?.nzShowPagination' -->
-  <nz-table #editRowTable [nzPageSize]="10" [nzBordered]='data.nzBordered' [nzData]="displayData" *ngIf="data"
+  <nz-table #editRowTable [nzPageSize]="10" [nzBordered]='data.nzBordered' [nzData]="displayData" *ngIf="data && displayData"
     [nzScroll]="{ x: displayData.length > 0 ?  '100vw' : '10vw', y: null }" [nzLoading]="data?.nzLoading"
     [nzPaginationPosition]='data?.nzPaginationPosition' [nzPaginationType]='data?.nzPaginationType'
     [nzFrontPagination]='false' [nzTitle]='data?.nzTitle' [nzSize]="data.nzSize" [nzSimple]="data.nzSimple"

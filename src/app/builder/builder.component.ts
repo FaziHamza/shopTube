@@ -974,9 +974,9 @@ export class BuilderComponent implements OnInit {
         if (data) {
           if (data.nodes) this.nodes = data.nodes;
           if (data.formlyModel) this.formlyModel = data.formlyModel;
+          this.updateNodes();
+          this.cdr.detectChanges();
         }
-        this.updateNodes();
-        this.cdr.detectChanges();
       });
     } else {
       this.toastr.error('Please select Screen first', { nzDuration: 3000 });
@@ -3845,8 +3845,8 @@ export class BuilderComponent implements OnInit {
         //   );
         // }
         this.selectedNode.options = event.form.options.map(
-              (option: any) => option.label
-            );
+          (option: any) => option.label
+        );
         break;
 
       case 'statistic':
@@ -6271,7 +6271,7 @@ export class BuilderComponent implements OnInit {
       if (tableData.serverSidePagination) {
         pagination = '?page=' + 1 + '&pageSize=' + tableData?.end;
       }
-      this.employeeService.getSQLDatabaseTable(`knex-query/${name}`+pagination).subscribe({
+      this.employeeService.getSQLDatabaseTable(`knex-query/${name}` + pagination).subscribe({
         next: (res) => {
           if (tableData && res.isSuccess) {
             if (res.data.length > 0) {
