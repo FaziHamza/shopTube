@@ -39,6 +39,7 @@ export class ApplicationBuilderComponent implements OnInit {
   footerSaved: boolean = false;
   searchArray: any = [];
   currentUser: any;
+  designStudio: any;
   listOfColumns = [
     {
       name: '',
@@ -130,6 +131,7 @@ export class ApplicationBuilderComponent implements OnInit {
       { label: 'Formly' },
       { label: 'Pages', active: true }
     ];
+    this.callDesignStudio();
     this.getOrganizationData();
     this.getDepartment();
     this.getApplication();
@@ -656,24 +658,25 @@ export class ApplicationBuilderComponent implements OnInit {
   }
 
   loadApplicationFields() {
+    debugger
     const options = this.listOfData.map((item: any) => ({
       label: item.name,
       value: item._id
     }));
-    let departments = this.listOfData.filter((org: any) => org.organizationId === "64abfde576ac2e992aa14d75");
-    let data: any = [];
-    departments.forEach((element: any) => {
-      let applications = this.listOfChildrenData.filter((d: any) => d.departmentId === element._id);
-      if (applications.length > 0) {
-        applications.forEach((app: any) => {
-          data.push(app);
-        });
-      }
-    });
-    const cloneApplicationOptions = data.map((item: any) => ({
-      label: item.name,
-      value: item._id
-    }));
+    // let departments = this.listOfData.filter((org: any) => org.organizationId === "64abfde576ac2e992aa14d75");
+    // let data: any = [];
+    // departments.forEach((element: any) => {
+    //   let applications = this.listOfChildrenData.filter((d: any) => d.departmentId === element._id);
+    //   if (applications.length > 0) {
+    //     applications.forEach((app: any) => {
+    //       data.push(app);
+    //     });
+    //   }
+    // });
+    // const cloneApplicationOptions = data.map((item: any) => ({
+    //   label: item.name,
+    //   value: item._id
+    // }));
     this.fields = [
       {
         fieldGroup: [
@@ -811,7 +814,7 @@ export class ApplicationBuilderComponent implements OnInit {
                 showArrow: true,
                 showSearch: true,
               },
-              options: cloneApplicationOptions,
+              options: this.designStudio,
             }
           }
         ]
@@ -842,5 +845,16 @@ export class ApplicationBuilderComponent implements OnInit {
         searchValue: ''
       };
     });
+  }
+  callDesignStudio() {
+    this.applicationService.getNestCommonAPI('applications/cloneApplicationData').subscribe(((res: any) => {
+      if (res.isSuccess) {
+        this.designStudio = res.data.map((item: any) => ({
+          label: item.name,
+          value: item._id
+        }));
+      } else
+        this.toastr.warning(res.message, { nzDuration: 2000 });
+    }));
   }
 }
