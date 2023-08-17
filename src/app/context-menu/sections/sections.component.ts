@@ -342,19 +342,23 @@ export class SectionsComponent implements OnInit {
                   if (findClickApi?.[0].actions?.[0]?.url.includes('market-place')) {
 
                     let requiredData = res.data.map((item: any) => {
+                      // Extracting category details and subcategory details
+                      const categoryDetails = item?.categoryDetails?.[0];
+                      const subcategoryDetails = item?.subcategoryDetails?.[0];
+
                       // Create a new object without unwanted properties
-                      const {
-                        _id,
-                        __v,
-                        subcategoryDetails,
-                        categoryDetails,
-                        ...rest
-                      } = item;
                       return {
-                        id: _id, // Rename _id to id
-                        ...rest
+                        id: item._id, // Rename _id to id
+                        name: item.name,
+                        categoryId: item.categoryId,
+                        categoryName: categoryDetails?.name, // Access the name property from categoryDetails
+                        subcategoryId: item.subcategoryId,
+                        subcategoryName: subcategoryDetails?.name, // Access the name property from subcategoryDetails
+                        thumbnailimage: item.thumbnailimage,
+                        // ...rest
                       };
                     });
+
                     res.data = requiredData;
                   }
 

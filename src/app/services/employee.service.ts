@@ -101,14 +101,18 @@ export class EmployeeService {
       this.nestUrl + api + obj
     );
   }
+  deleteCommonApi(api: string, obj: number): Observable<any> {
+    const url = api.includes('http') ? api : this.nestUrl + api
+    return this.http.delete<any>(url  + '/'  + obj);
+  }
   getSQLDatabaseTable(api: string): Observable<ApiResponse> {
     return this.http.get<ApiResponse>(
-       api.includes('http') ? api : this.nestUrl + api
+      api.includes('http') ? api : this.nestUrl + api
     );
   }
   getSQLDatabaseTableCRUD(api: string): Observable<any> {
     return this.http.get<any>(
-       api.includes('http') ? api : this.nestUrl + api
+      api.includes('http') ? api : this.nestUrl + api
     );
   }
 

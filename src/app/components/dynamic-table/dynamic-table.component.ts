@@ -425,22 +425,44 @@ export class DynamicTableComponent implements OnInit {
       modalData: data
     };
     if (this.screenName != undefined) {
-      this.employeeService.saveSQLDatabaseTable('knex-query/executeQuery', model).subscribe({
-        next: (res) => {
-          this.tableData = this.tableData.filter((d: any) => d.id !== data.id);
-          this.displayData = this.displayData.filter((d: any) => d.id !== data.id);
-          this.pageChange(1);
-          this.toastr.success("Delete Successfully", { nzDuration: 3000 });
-        },
-        error: (err) => {
-          console.error(err);
-          this.toastr.error("An error occurred", { nzDuration: 3000 });
-        }
-      });
+      if (this.data?.appConfigurableEvent) {
+        let findClickApi = this.data?.appConfigurableEvent?.filter((item: any) => item.actions.some((action: any) => action.method === 'delete' && action.actionType == 'api'));
+        this.employeeService.deleteCommonApi(findClickApi?.length > 0 ? findClickApi?.[0].actions?.[0]?.url : 'knex-query/executeQuery', data?.id).subscribe(res => {
+          if (res) {
+            this.tableData = this.tableData.filter((d: any) => d.id !== data.id);
+            this.displayData = this.displayData.filter((d: any) => d.id !== data.id);
+            this.pageChange(1);
+            this.toastr.success("Delete Successfully", { nzDuration: 3000 });
+          }
+        })
+      }
+      else {
+        this.employeeService.saveSQLDatabaseTable('knex-query/executeQuery', model).subscribe({
+          next: (res) => {
+            this.tableData = this.tableData.filter((d: any) => d.id !== data.id);
+            this.displayData = this.displayData.filter((d: any) => d.id !== data.id);
+            this.pageChange(1);
+            this.toastr.success("Delete Successfully", { nzDuration: 3000 });
+          },
+          error: (err) => {
+            console.error(err);
+            this.toastr.error("An error occurred", { nzDuration: 3000 });
+          }
+        });
+      }
     }
     else {
+      this.pageSize = 10;
+      const indexToRemove = this.tableData.findIndex((d: any) => d.id === data.id);
 
-      this.pageChange(1, data);
+      if (indexToRemove !== -1) {
+        this.tableData.splice(indexToRemove, 1);
+      }
+      // this.tableData = this.tableData.filter((d: any) => d.id !== data.id);
+      // this.tableData = JSON.parse(JSON.stringify(updatedData));
+      // this.tableData = [...this.displayData]
+      this.displayData = [...this.tableData];
+      this.pageChange(1);
       this.toastr.success("Delete from userend successfully", { nzDuration: 3000 });
     }
 
@@ -744,34 +766,40 @@ export class DynamicTableComponent implements OnInit {
       this.pageChange(index);
     }
   }
-  pageChange(index: number, data?: any) {
-    this.data.pageIndex = index;
-    if (!this.pageSize) {
-      this.pageSize = this.data.end;
-      if (this.pageSize) {
-        this.tableData = this.tableData.filter((d: any) => d.id !== data.id);
-        this.displayData = this.displayData.filter((d: any) => d.id !== data.id);
-        this.updateDisplayData();
-      }
-      else {
-        const indexToRemove = this.tableData.findIndex((d: any) => d.id === data.id);
+  // pageChange(index: number, data?: any) {
+  //   this.data.pageIndex = index;
+  //   if (!this.pageSize) {
+  //     this.pageSize = this.data.end;
+  //     if (this.pageSize) {
+  //       this.tableData = this.tableData.filter((d: any) => d.id !== data.id);
+  //       this.displayData = this.displayData.filter((d: any) => d.id !== data.id);
+  //       this.updateDisplayData();
+  //     }
+  //     else {
+  //       const indexToRemove = this.tableData.findIndex((d: any) => d.id === data.id);
 
-        if (indexToRemove !== -1) {
-          this.tableData.splice(indexToRemove, 1);
-        }
-        // this.tableData = this.tableData.filter((d: any) => d.id !== data.id);
-        // this.tableData = JSON.parse(JSON.stringify(updatedData));
-        // this.tableData = [...this.displayData]
-        this.displayData = [...this.tableData];
-      }
-    }
+  //       if (indexToRemove !== -1) {
+  //         this.tableData.splice(indexToRemove, 1);
+  //       }
+  //       // this.tableData = this.tableData.filter((d: any) => d.id !== data.id);
+  //       // this.tableData = JSON.parse(JSON.stringify(updatedData));
+  //       // this.tableData = [...this.displayData]
+  //       this.displayData = [...this.tableData];
+  //     }
+  //   }
+  // }
+  pageChange(index: number) {
+    this.data.pageIndex = index;
+    if (!this.pageSize)
+      this.pageSize = this.data.end;
+    this.updateDisplayData();
   }
   updateDisplayData(): void {
     const start = (this.data.pageIndex - 1) * this.pageSize;
     const end = start + this.pageSize;
     this.start = start == 0 ? 1 : ((this.data.pageIndex * this.pageSize) - this.pageSize) + 1;
     this.displayData = this.tableData.slice(start, end);
-    this.end = this.displayData.length != 6 ? this.tableData.length : this.data.pageIndex * this.pageSize;
+    this.end = this.displayData.length != this.data.end ? this.tableData.length : this.data.pageIndex * this.pageSize;
   }
   updateGridPagination() {
     const start = (this.data.pageIndex - 1) * this.pageSize;
