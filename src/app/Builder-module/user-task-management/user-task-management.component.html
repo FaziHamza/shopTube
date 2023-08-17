@@ -155,7 +155,7 @@
     </div>
   </div>
 </nz-spin>
-<div *ngIf="this.issueReport['issueReport']">
+<div *ngIf="this.issueReport['issueReport'] && this.issueReport['issueReport']?.length  > 0">
   <st-task-report (notify)="updateIssues($event)" class="close-icon" [item]="this.issueReport"
     [screenName]="this.issueReport['issueReport'][0].screenId" [assignToresponse]="this.assignToresponse"
     [type]="'userTaskManagement'" [userTaskManagementData]="data"></st-task-report>

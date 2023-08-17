@@ -43,6 +43,11 @@ export class NumberInputComponent extends FieldType<FieldTypeConfig> {
   // isBelowMax(value: any): boolean {
   //   return this.max == null || value <= this.max;
   // }
+  getMaxlength(value: number | undefined): number {
+    return value !== undefined && value == null ? value : Number.MAX_SAFE_INTEGER;
+  }
+  // return value == 10000000 && value == null ? null  : Number.MAX_SAFE_INTEGER;
+
   onModelChange(event: any, model: any) {
     this.sharedService.onChange(event, this.field);
     // this.formControl.setValue(event);

@@ -2108,7 +2108,7 @@ export class BuilderComponent implements OnInit {
                       },
                       apiUrl: '',
                       rows: 1,
-                      maxLength: 10000000,
+                      maxLength: null,
                       minLength: 1,
                       type: data?.fieldType,
                       label: res?.title ? res.title : obj.title,

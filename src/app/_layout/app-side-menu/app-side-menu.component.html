@@ -135,7 +135,7 @@
               [style.color]="(hoverActiveShow === item.id) ? selectedTheme['hoverTextColor'] : ((isActiveShow === item.id) ? (selectedTheme['activeTextColor'] || selectedTheme['textColor']) : selectedTheme['textColor'])">
               {{ item.title | translate }}
             </span>
-            <span><st-task-report *ngIf="item['issueReport']" [item]="item" [type]="'menu'"></st-task-report></span>
+            <span><st-task-report *ngIf="item['issueReport'] && item['issueReport']?.length > 0" [item]="item" [type]="'menu'"></st-task-report></span>
           </li>
         </ng-template>
       </ng-container>
@@ -327,7 +327,7 @@
             nz-icon nzType="line"></span> -->
             <span [style.font-size.px]="selectedTheme['titleSize'] || 15"
               [style.color]="(hoverActiveShow === item.id) ? selectedTheme['hoverTextColor'] : ((isActiveShow === item.id) ? (selectedTheme['activeTextColor'] || selectedTheme['textColor']) : selectedTheme['textColor'])">{{item.title}}</span>
-            <span><st-task-report *ngIf="item['issueReport']" [item]="item" [type]="'menu'"></st-task-report></span>
+            <span><st-task-report *ngIf="item['issueReport'] && item['issueReport']?.length > 0" [item]="item" [type]="'menu'"></st-task-report></span>
           </li>
         </ng-template>
       </ng-container>
