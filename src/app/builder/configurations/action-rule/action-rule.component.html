@@ -115,7 +115,7 @@
                   <div class="w-1/2 theme-body">
                     <div class=" flex flex-wrap">
                       <label class="w-1/3 py-2 col-form-label column-form-label">
-                        Action Type
+                        Submit Type
                       </label>
                       <div class="w-2/3 column-form-input form-control-style v-body-border" style="padding: 0px">
                         <nz-select class="form-select" formControlName="submissionType" nzDisabled>
@@ -137,7 +137,7 @@
                         Action Type
                       </label>
                       <div class="w-2/3 column-form-input form-control-style v-body-border" style="padding: 0px">
-                        <input nz-input type="text" placeholder="Enter value" id="actionLink{{i}}" nzDisabled
+                        <input nz-input type="text" placeholder="Enter value" id="actionLink{{i}}" [disabled]="true" [readOnly]="true"
                           formControlName="actionLink" required class="form-control" name="actionLink{{i}}" />
                       </div>
                     </div>
