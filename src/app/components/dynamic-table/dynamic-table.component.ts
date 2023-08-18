@@ -72,6 +72,12 @@ export class DynamicTableComponent implements OnInit {
     if (this.data.doubleClick != false) {
       const dynamicPropertyName = Object.keys(this.form.value)[0]; // Assuming the dynamic property name is the first property in this.form.value
       if (this.form.get(dynamicPropertyName)) {
+        // let newData = JSON.parse(JSON.stringify(data));
+        // for (let key  in newData){
+        //   if(newData[key].includes(',')){
+        //     newData[key] = newData[key].split(',');
+        //   }
+        // }
         this.form.get(dynamicPropertyName)?.patchValue(data);
       }
       // this._dataSharedService.onupdateModel(data);

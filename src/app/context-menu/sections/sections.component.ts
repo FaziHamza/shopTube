@@ -938,10 +938,15 @@ export class SectionsComponent implements OnInit {
     }
   }
   setInternalValuesEmpty = (obj: any) => {
+    const dateRegex = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}.\d{3}Z$/;
     for (const key in obj) {
       if (typeof obj[key] === 'object' && obj[key] !== null) {
         this.setInternalValuesEmpty(obj[key]);
-      } else {
+      } 
+      // else if (Array.isArray(obj)) {
+      //   obj = [];
+      // }
+      else {
         obj[key] = '';
       }
     }

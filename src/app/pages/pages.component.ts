@@ -30,7 +30,6 @@ export class PagesComponent implements OnInit {
       if (field && event)
         this.getEnumList(field, event);
       if (event && field && this.router.url.includes('/pages')) {
-        debugger
         if (this.formlyModel) {
           this.formlyModel[field.key] = event;
           console.log("key value : " + event);
@@ -299,10 +298,11 @@ export class PagesComponent implements OnInit {
                 findObj['appConfigurableEvent'].push(obj);
               }
             }
-          } else {
-            findObj['appConfigurableEvent'] = [];
-            findObj['eventActionconfig'] = {};
-          }
+          } 
+          // else {
+          //   findObj['appConfigurableEvent'] = [];
+          //   findObj['eventActionconfig'] = {};
+          // }
         }
       }
       this.resData = nodesData;
@@ -864,11 +864,17 @@ export class PagesComponent implements OnInit {
     return convertedModel;
   }
   setInternalValuesEmpty = (obj: any) => {
+    const dateRegex = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}.\d{3}Z$/;
     for (const key in obj) {
       if (typeof obj[key] === 'object' && obj[key] !== null) {
         this.setInternalValuesEmpty(obj[key]);
       } else {
-        obj[key] = '';
+        const isAnyContractMatching = obj[key].some((contract: string) => dateRegex.test(contract));
+        if(isAnyContractMatching){
+          obj[key] = [];
+        }else{
+          obj[key] = '';
+        }
       }
     }
   };
