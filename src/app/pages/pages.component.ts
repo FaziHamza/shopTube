@@ -192,7 +192,6 @@ export class PagesComponent implements OnInit {
         if (res.isSuccess) {
           if (res.data.length > 0) {
             this.requestSubscription = this.applicationService.getNestCommonAPIById("cp/actionbyscreenname", res.data[0].screenBuilderId).subscribe({
-            this.requestSubscription = this.applicationService.getNestCommonAPIById("cp/actionbyscreenname", res.data[0].screenBuilderId).subscribe({
               next: (actions: any) => {
                 this.actionListData = actions?.data;
                 this.actionsBindWithPage(res);
