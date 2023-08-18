@@ -41,6 +41,7 @@ export class CommentModalComponent implements OnInit {
   }
 
   onSubmit() {
+    debugger
     if (this.type != 'menu') {
       if (!this.screenName) {
         this.toastr.warning("Please select any screen", { nzDuration: 3000 });

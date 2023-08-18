@@ -55,6 +55,7 @@ export class PagesComponent implements OnInit {
   isPageContextShow = false;
   @Input() form: any = new FormGroup({});
   actionListData: any[] = [];
+  getTaskManagementIssues: any[] = [];
   isVisible: boolean = false;
   ngOnInit(): void {
     this.requestSubscription = this.dataSharedService.pageSubmit.subscribe({
@@ -176,6 +177,7 @@ export class PagesComponent implements OnInit {
             let commentList = res.data
             this.dataSharedService.screenCommentList = commentList;
 
+            this.getTaskManagementIssuesFunc(params["schema"],JSON.parse(localStorage.getItem('applicationId')!));
           }
         })
         this.getBuilderScreen(params);
@@ -189,7 +191,7 @@ export class PagesComponent implements OnInit {
       next: (res: any) => {
         if (res.isSuccess) {
           if (res.data.length > 0) {
-            this.requestSubscription = this.applicationService.getNestCommonAPIById("cp/actionbyscreenname",res.data[0].screenBuilderId).subscribe({
+            this.requestSubscription = this.applicationService.getNestCommonAPIById("cp/actionbyscreenname", res.data[0].screenBuilderId).subscribe({
               next: (actions: any) => {
                 this.actionListData = actions?.data;
                 this.actionsBindWithPage(res);
@@ -211,123 +213,123 @@ export class PagesComponent implements OnInit {
       }
     });
   }
-  actionsBindWithPage(res:any){
+  actionsBindWithPage(res: any) {
     this.screenId = res.data[0].screenBuilderId;
-            this.getBusinessRule(res.data[0].screenBuilderId);
-            this.getUIRuleData(res.data[0].screenBuilderId);
-            const data = JSON.parse(res.data[0].screenData);
-            let nodesData = this.jsonParseWithObject(this.jsonStringifyWithObject(data));
-            // this.resData = this.jsonParseWithObject(this.jsonStringifyWithObject(data));
-            this.dataSharedService.checkContentForFixFooter = this.jsonParseWithObject(this.jsonStringifyWithObject(data));
-            if (this.actionListData.length > 0) {
-              let getInputs = this.filterInputElements(nodesData);
-              if (getInputs && getInputs.length > 0) {
-                getInputs.forEach((node) => {
-                  const formlyConfig = node.formly?.[0]?.fieldGroup?.[0]?.key;
-                  for (let index = 0; index < this.actionListData.length; index++) {
-                    const element = this.actionListData[index];
-                    if (formlyConfig == element.elementName && element.actionType == 'api') {
-                      const eventActionConfig = node?.formly?.[0]?.fieldGroup?.[0]?.props;
-                      if (eventActionConfig) {
-                        if (index == 0) {
-                          eventActionConfig['appConfigurableEvent'] = [];
-                          eventActionConfig['eventActionconfig'] = {};
-                        }
-                        if (element.btnActionType == 'load') {
-                          eventActionConfig['eventActionconfig'] = {};
-                          let obj = { actionType: element.actionType, url: element.httpAddress, method: element.actionLink }
-                          eventActionConfig['eventActionconfig'] = obj;
-                        }
-                        else {
-                          if (eventActionConfig['appConfigurableEvent']) {
-                            let obj = {
-                              event: element.actionLink,
-                              actions: [
-                                { actionType: element.actionType, url: element.httpAddress, method: element.actionLink, elementName: element.elementNameTo, submit: element.submit }
-                              ]
-                            };
-                            eventActionConfig['appConfigurableEvent'].push(obj);
-                          } else {
-                            eventActionConfig['appConfigurableEvent'] = [];
-                            let obj = {
-                              event: element.actionLink,
-                              actions: [
-                                { actionType: element.actionType, url: element.httpAddress, method: element.actionLink, elementName: element.elementNameTo, submit: element.submit }
-                              ]
-                            };
-                            eventActionConfig['appConfigurableEvent'].push(obj);
-                          }
-                        }
-                      }
-                    }
-                  }
-                });
-              }
-              let checkFirst: any = {};
-              for (let index = 0; index < this.actionListData.length; index++) {
-                const element = this.actionListData[index];
-                let findObj = this.findObjectByKey(nodesData[0], element.elementName);
-                if (findObj) {
-                  if (findObj?.key == element.elementName && element.actionType == 'api') {
-                    if (!checkFirst[findObj?.key]) {
-                      findObj['appConfigurableEvent'] = [];
-                      findObj['eventActionconfig'] = {};
-                      checkFirst[findObj?.key] = "done";
-                    }
-                    if (element.btnActionType == 'load') {
-                      let obj = { actionType: element.actionType, url: element.httpAddress, method: element.actionLink }
-                      findObj.eventActionconfig = obj;
-                    } else {
-                      if (findObj['appConfigurableEvent']) {
-                        let obj = {
-                          event: element.actionLink,
-                          actions: [
-                            { actionType: element.actionType, url: element.httpAddress, method: element.actionLink, elementName: element.elementNameTo, submit: element.submit }
-                          ]
-                        };
-                        findObj['appConfigurableEvent'].push(obj);
-                      } else {
-                        findObj['appConfigurableEvent'] = [];
-                        let obj = {
-                          event: element.actionLink,
-                          actions: [
-                            { actionType: element.actionType, url: element.httpAddress, method: element.actionLink, elementName: element.elementNameTo, submit: element.submit }
-                          ]
-                        };
-                        findObj['appConfigurableEvent'].push(obj);
-                      }
-                    }
+    this.getBusinessRule(res.data[0].screenBuilderId);
+    this.getUIRuleData(res.data[0].screenBuilderId);
+    const data = JSON.parse(res.data[0].screenData);
+    let nodesData = this.jsonParseWithObject(this.jsonStringifyWithObject(data));
+    // this.resData = this.jsonParseWithObject(this.jsonStringifyWithObject(data));
+    this.dataSharedService.checkContentForFixFooter = this.jsonParseWithObject(this.jsonStringifyWithObject(data));
+    if (this.actionListData.length > 0) {
+      let getInputs = this.filterInputElements(nodesData);
+      if (getInputs && getInputs.length > 0) {
+        getInputs.forEach((node) => {
+          const formlyConfig = node.formly?.[0]?.fieldGroup?.[0]?.key;
+          for (let index = 0; index < this.actionListData.length; index++) {
+            const element = this.actionListData[index];
+            if (formlyConfig == element.elementName && element.actionType == 'api') {
+              const eventActionConfig = node?.formly?.[0]?.fieldGroup?.[0]?.props;
+              if (eventActionConfig) {
+                if (index == 0) {
+                  eventActionConfig['appConfigurableEvent'] = [];
+                  eventActionConfig['eventActionconfig'] = {};
+                }
+                if (element.btnActionType == 'load') {
+                  eventActionConfig['eventActionconfig'] = {};
+                  let obj = { actionType: element.actionType, url: element.httpAddress, method: element.actionLink }
+                  eventActionConfig['eventActionconfig'] = obj;
+                }
+                else {
+                  if (eventActionConfig['appConfigurableEvent']) {
+                    let obj = {
+                      event: element.actionLink,
+                      actions: [
+                        { actionType: element.actionType, url: element.httpAddress, method: element.actionLink, elementName: element.elementNameTo, submit: element.submit }
+                      ]
+                    };
+                    eventActionConfig['appConfigurableEvent'].push(obj);
                   } else {
-                    findObj['appConfigurableEvent'] = [];
-                    findObj['eventActionconfig'] = {};
+                    eventActionConfig['appConfigurableEvent'] = [];
+                    let obj = {
+                      event: element.actionLink,
+                      actions: [
+                        { actionType: element.actionType, url: element.httpAddress, method: element.actionLink, elementName: element.elementNameTo, submit: element.submit }
+                      ]
+                    };
+                    eventActionConfig['appConfigurableEvent'].push(obj);
                   }
                 }
               }
-              this.resData = nodesData;
-            } else
-              this.resData = nodesData;
-            this.checkDynamicSection();
-            this.uiRuleGetData({ key: 'text_f53ed35b', id: 'formly_86_input_text_f53ed35b_0' });
-            // this.getFromQuery();
-            // if (params["commentId"] != "all") {
-            //   this.builderService.getCommentById(params["commentId"]).subscribe(res => {
-            //     if (res.length > 0) {
-            //       let findObj = this.findObjectById(this.resData[0], res[0].commentId);
-            //       findObj.highLight = true;
-            //     }
-            //   })
-            // }
-            // else {
-            //   this.dataSharedService.screenCommentList.forEach(element => {
-            //     let findObj = this.findObjectById(this.resData[0], element.commentId);
-            //     findObj.highLight = true;
-            //   });
-            // }
-            // let commentsData = this.transformComments(this.dataSharedService.screenCommentList);
-            // console.log(commentsData);
-            this.dataSharedService.screenCommentList.forEach(element => {
-              this.assignIssue(this.resData[0], element);
-            });
+            }
+          }
+        });
+      }
+      let checkFirst: any = {};
+      for (let index = 0; index < this.actionListData.length; index++) {
+        const element = this.actionListData[index];
+        let findObj = this.findObjectByKey(nodesData[0], element.elementName);
+        if (findObj) {
+          if (findObj?.key == element.elementName && element.actionType == 'api') {
+            if (!checkFirst[findObj?.key]) {
+              findObj['appConfigurableEvent'] = [];
+              findObj['eventActionconfig'] = {};
+              checkFirst[findObj?.key] = "done";
+            }
+            if (element.btnActionType == 'load') {
+              let obj = { actionType: element.actionType, url: element.httpAddress, method: element.actionLink }
+              findObj.eventActionconfig = obj;
+            } else {
+              if (findObj['appConfigurableEvent']) {
+                let obj = {
+                  event: element.actionLink,
+                  actions: [
+                    { actionType: element.actionType, url: element.httpAddress, method: element.actionLink, elementName: element.elementNameTo, submit: element.submit }
+                  ]
+                };
+                findObj['appConfigurableEvent'].push(obj);
+              } else {
+                findObj['appConfigurableEvent'] = [];
+                let obj = {
+                  event: element.actionLink,
+                  actions: [
+                    { actionType: element.actionType, url: element.httpAddress, method: element.actionLink, elementName: element.elementNameTo, submit: element.submit }
+                  ]
+                };
+                findObj['appConfigurableEvent'].push(obj);
+              }
+            }
+          } else {
+            findObj['appConfigurableEvent'] = [];
+            findObj['eventActionconfig'] = {};
+          }
+        }
+      }
+      this.resData = nodesData;
+    } else
+      this.resData = nodesData;
+    this.checkDynamicSection();
+    this.uiRuleGetData({ key: 'text_f53ed35b', id: 'formly_86_input_text_f53ed35b_0' });
+    // this.getFromQuery();
+    // if (params["commentId"] != "all") {
+    //   this.builderService.getCommentById(params["commentId"]).subscribe(res => {
+    //     if (res.length > 0) {
+    //       let findObj = this.findObjectById(this.resData[0], res[0].commentId);
+    //       findObj.highLight = true;
+    //     }
+    //   })
+    // }
+    // else {
+    //   this.dataSharedService.screenCommentList.forEach(element => {
+    //     let findObj = this.findObjectById(this.resData[0], element.commentId);
+    //     findObj.highLight = true;
+    //   });
+    // }
+    // let commentsData = this.transformComments(this.dataSharedService.screenCommentList);
+    // console.log(commentsData);
+    this.dataSharedService.screenCommentList.forEach(element => {
+      this.assignIssue(this.resData[0], element);
+    });
   }
   saveData(data: any) {
     if (data.isSubmit) {
@@ -429,7 +431,7 @@ export class PagesComponent implements OnInit {
       if (tableData.serverSidePagination) {
         pagination = '?page=' + 1 + '&pageSize=' + tableData?.end;
       }
-      this.employeeService.getSQLDatabaseTable(`knex-query/${this.screenName}`+pagination).subscribe({
+      this.employeeService.getSQLDatabaseTable(`knex-query/${this.screenName}` + pagination).subscribe({
         next: (res) => {
           if (tableData && res.isSuccess) {
             let saveForm = JSON.parse(JSON.stringify(res.data[0]));
@@ -1986,19 +1988,54 @@ export class PagesComponent implements OnInit {
   assignIssue(node: any, issue: any) {
     if (issue['componentId']) {
       if (node.id == issue['componentId']) {
-        if (!node['issueReport']) {
-          node['issueReport'] = [];
-        }
+        let assign = this.getTaskManagementIssues.find(a => a.componentId == node.id)
+        if (node.formly) {
+          if (node.formly.length > 0) {
+            if (node.formly[0].fieldGroup) {
+              if (node.formly[0].fieldGroup[0]) {
+                node.formly[0].fieldGroup[0].props['screenName'] = this.screenName;
+                node.formly[0].fieldGroup[0].props['id'] = node.id;
+                if (assign && assign?.status) {
+                  node.formly[0].fieldGroup[0].props['status'] = assign.status;
+                }
+                if (!node.formly[0].fieldGroup[0].props['issueReport']) {
+                  node.formly[0].fieldGroup[0].props['issueReport'] = [];
+                }
 
-        node['issueReport'].push(issue);
+                node.formly[0].fieldGroup[0].props['issueReport'].push(issue);
 
-        if (!node['issueUser']) {
-          node['issueUser'] = [issue['createdBy']];
+                if (!node.formly[0].fieldGroup[0].props['issueUser']) {
+                  node.formly[0].fieldGroup[0].props['issueUser'] = [issue['createdBy']];
+                }
+                else {
+                  if (!node.formly[0].fieldGroup[0].props['issueUser'].includes(issue['createdBy'])) {
+                    // Check if the user is not already in the array, then add them
+                    node.formly[0].fieldGroup[0].props['issueUser'].push(issue.createdBy);
+                  }
+                }
+
+              }
+            }
+          }
         }
         else {
-          if (!node['issueUser'].includes(issue['createdBy'])) {
-            // Check if the user is not already in the array, then add them
-            node['issueUser'].push(issue.createdBy);
+          if (assign && assign?.status) {
+            node['status'] = assign.status;
+          }
+          if (!node['issueReport']) {
+            node['issueReport'] = [];
+          }
+
+          node['issueReport'].push(issue);
+
+          if (!node['issueUser']) {
+            node['issueUser'] = [issue['createdBy']];
+          }
+          else {
+            if (!node['issueUser'].includes(issue['createdBy'])) {
+              // Check if the user is not already in the array, then add them
+              node['issueUser'].push(issue.createdBy);
+            }
           }
         }
       }
@@ -2030,5 +2067,24 @@ export class PagesComponent implements OnInit {
       });
     }
   }
-
+  getTaskManagementIssuesFunc(screenId: string, applicationId: string) {
+    this.requestSubscription = this.builderService.getUserAssignTask(screenId, applicationId).subscribe({
+      next: (res: any) => {
+        if (res.isSuccess) {
+          if (res.data.length > 0) {
+            this.getTaskManagementIssues = res.data;
+          } else {
+            this.toastr.error(`No data against this screen:`, { nzDuration: 3000 });
+          }
+        }
+        else {
+          this.toastr.error(`userAssignTask:` + res.message, { nzDuration: 3000 });
+        }
+      },
+      error: (err) => {
+        console.error(err);
+        this.toastr.error("An error occurred", { nzDuration: 3000 });
+      }
+    })
+  }
 }

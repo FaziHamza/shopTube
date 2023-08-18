@@ -374,6 +374,11 @@ export class BuilderService {
       this.nestUrl + "cp/userAssignTask/UserAssignTask/" + screenId + '/' + applicationId
     );
   }
+  getusermenuAssignTask(applicationId: any): Observable<any> {
+    return this.http.get<any>(
+      this.nestUrl + "cp/userMenuAssignTask/UserAssignTask/" + applicationId
+    );
+  }
 
   deletejsonModule(id: number): Observable<any[]> {
 

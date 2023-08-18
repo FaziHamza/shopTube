@@ -292,7 +292,7 @@ export class MainComponent implements OnInit {
         data: json,
         screenName: this.screenName,
         update: null,
-        type:'pages',
+        type: 'pages',
       },
       nzFooter: []
     });
@@ -300,16 +300,35 @@ export class MainComponent implements OnInit {
       if (res) {
         res['id'] = res._id;
         delete res._id;
-        delete res.__v
-          ;
-        if (json['issueReport']) {
-          json['issueReport'].push(res);
-        } else {
-          json['issueReport'] = [];
-          json['issueReport'].push(res);
+        delete res.__v;
+
+        if (json.formly) {
+          if (json.formly.length > 0) {
+            if (json.formly[0].fieldGroup) {
+              if (json.formly[0].fieldGroup[0]) {
+                json.formly[0].fieldGroup[0].props['screenName'] = this.screenName;
+                json.formly[0].fieldGroup[0].props['id'] = json.id;
+                if (json.formly[0].fieldGroup[0].props['issueReport']) {
+                  json.formly[0].fieldGroup[0].props['issueReport'].push(res);
+                } else {
+                  json.formly[0].fieldGroup[0].props['issueReport'] = [];
+                  json.formly[0].fieldGroup[0].props['issueReport'].push(res);
+                }
+              }
+            }
+          }
+          this.cd.detectChanges();
+          json.formly = JSON.parse(JSON.stringify(json.formly));
         }
-        this.cd.detectChanges();
-        // this.assignComment(this.mainData, res);
+        else {
+          if (json['issueReport']) {
+            json['issueReport'].push(res);
+          } else {
+            json['issueReport'] = [];
+            json['issueReport'].push(res);
+          }
+          this.cd.detectChanges();
+        }
       }
     });
   }

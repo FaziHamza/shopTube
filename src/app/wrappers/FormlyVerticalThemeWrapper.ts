@@ -16,6 +16,8 @@ import { Subscription } from 'rxjs';
       <span class="mr-1 mb-1">
         <st-icon *ngIf="to['additionalProperties']?.titleIcon" [type]="to['additionalProperties']?.iconType || 'outline'" [icon]="to['additionalProperties']?.titleIcon" [size]="to['additionalProperties']?.iconSize" [hoverIconColor]="to['additionalProperties']?.hoverIconColor || ''" [color]="to['additionalProperties']?.iconColor"></st-icon>
       </span>
+      <st-task-report class="close-icon mr-2" *ngIf="to['issueReport'] && to['issueReport']?.length > 0 " [item]="to" [screenName]="to['screenName']"
+                [type]="'pages'"></st-task-report>
       <span [class]="to['additionalProperties']?.labelClassName">{{to.label | translate}}</span>
       <span *ngIf="to.required" class="text-red-600">*</span>
       <span *ngIf="to['additionalProperties']?.tooltip && (to['additionalProperties']['tooltipPosition'] == 'right' || to['additionalProperties']?.tooltipPosition == undefined) && !to['additionalProperties']?.tooltipWithoutIcon || false" nz-tooltip [nzTooltipTitle]="to['additionalProperties']?.tooltip">

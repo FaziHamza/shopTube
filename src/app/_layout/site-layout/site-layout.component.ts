@@ -27,6 +27,7 @@ export class SiteLayoutComponent implements OnInit {
   dropdown: any = [];
   modules: any = [];
   menuList: any = [];
+  getTaskManagementIssues: any = [];
   requestSubscription: Subscription;
   loader: boolean = false;
   currentWebsiteLayout = "";
@@ -89,6 +90,7 @@ export class SiteLayoutComponent implements OnInit {
 
   ngOnInit(): void {
     this.getUsers();
+    this.getTaskManagementIssuesFunc(JSON.parse(localStorage.getItem('applicationId')!));
     this.currentUser = JSON.parse(localStorage.getItem('user')!);
     this.requestSubscription = this.dataSharedService.collapseMenu.subscribe({
       next: (res) => {
@@ -465,6 +467,10 @@ export class SiteLayoutComponent implements OnInit {
     node.forEach((element: any) => {
       if (issue['componentId']) {
         if (element.id == issue['componentId']) {
+          let assign = this.getTaskManagementIssues.find((a: any) => a.componentId == element.id)
+          if (assign && assign?.status) {
+            element['status'] = assign.status;
+          }
           if (!element['issueReport']) {
             element['issueReport'] = [];
           }
@@ -487,7 +493,26 @@ export class SiteLayoutComponent implements OnInit {
         }
       }
     });
-
+  }
+  getTaskManagementIssuesFunc(applicationId: string) {
+    this.requestSubscription = this.builderService.getusermenuAssignTask(applicationId).subscribe({
+      next: (res: any) => {
+        if (res.isSuccess) {
+          if (res.data.length > 0) {
+            this.getTaskManagementIssues = res.data;
+          } else {
+            this.toastr.error(`No data against this screen:`, { nzDuration: 3000 });
+          }
+        }
+        else {
+          this.toastr.error(`userAssignTask:` + res.message, { nzDuration: 3000 });
+        }
+      },
+      error: (err) => {
+        console.error(err);
+        this.toastr.error("An error occurred", { nzDuration: 3000 });
+      }
+    })
   }
 
 }

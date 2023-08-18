@@ -125,7 +125,7 @@ export class TaskReportComponent implements OnInit {
             this.assignToresponse = res.data[0];
             data['dueDate'] = res.data[0]['dueDate'];
             data['assignTo'] = res.data[0]['assignTo'];
-            this.toastr.success(`UserAssignTask : ${res.message}`, { nzDuration: 3000 });
+            // this.toastr.success(`UserAssignTask : ${res.message}`, { nzDuration: 3000 });
           } else {
             data['dueDate'] = new Date();
             data['dueDate'] = data['dueDate'].toISOString().split('T')[0];
@@ -155,14 +155,14 @@ export class TaskReportComponent implements OnInit {
       message: data.message,
     });
   }
-  statusChange(status: any, data: any) {
-    if (data['issueReport'].length > 0 && status) {
-      data['issueReport'] = data['issueReport'].map((comm: any) => {
-        comm['status'] = status;
-        return comm;
-      });
-    }
-  }
+  // statusChange(status: any, data: any) {
+  //   if (data['issueReport'].length > 0 && status) {
+  //     data['issueReport'] = data['issueReport'].map((comm: any) => {
+  //       comm['status'] = status;
+  //       return comm;
+  //     });
+  //   }
+  // }
   reply(issue: any) {
     this.showRply = issue.id;
 
@@ -173,7 +173,7 @@ export class TaskReportComponent implements OnInit {
     let obj = {
       screenId: this.screenName,
       dueDate: data.dueDate,
-      status: issue.status,
+      status: data.status,
       organizationId: JSON.parse(localStorage.getItem('organizationId')!),
       applicationId: JSON.parse(localStorage.getItem('applicationId')!),
       componentId: data.id,

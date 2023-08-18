@@ -19,8 +19,11 @@ import { DataSharedService } from '../services/data-shared.service';
         <st-icon *ngIf="to['additionalProperties']?.titleIcon" [type]="to['additionalProperties']?.iconType || 'outline'" [icon]="to['additionalProperties']?.titleIcon" [hoverIconColor]="to['additionalProperties']?.hoverIconColor || ''" [size]="to['additionalProperties']?.iconSize" [color]="to['additionalProperties']?.iconColor"></st-icon>
       </span>
       <!-- <span nz-icon [nzType]="to.titleIcon" nzTheme="outline" class="mr-1 mb-1"></span> -->
-      
-      <span [class]="to['additionalProperties']?.labelClassName">{{ to.label | translate}}</span>
+      <st-task-report class="close-icon mr-2" *ngIf="to['issueReport'] && to['issueReport']?.length > 0 " [item]="to" [screenName]="to['screenName']"
+                [type]="'pages'"></st-task-report>
+      <span [class]="to['additionalProperties']?.labelClassName">{{ to.label | translate}}
+
+      </span>
       <span *ngIf="to.required" class="text-red-600">*</span>
     </span>
     <span *ngIf="to['additionalProperties']?.tooltip && (to['additionalProperties']?.tooltipPosition == 'right' || to['additionalProperties']?.tooltipPosition == undefined) && !to['additionalProperties']?.tooltipWithoutIcon" nz-tooltip [nzTooltipTitle]="to['additionalProperties']?.tooltip">
