@@ -147,9 +147,20 @@ export class ActionRuleComponent implements OnInit {
               s = (`${s}.${keyvalue}`);
               values.push(`$${s.toLocaleLowerCase()}`);
             } else {
-              values.push(`$${key.toLocaleLowerCase()}`);
+              if(this.actionForm.value.actionLink == 'put'){
+                const valueMatched = key.split('.')[1];
+                values.push(`$${valueMatched ? valueMatched.toLocaleLowerCase() : key.toLocaleLowerCase()}`);
+              }
+              else
+                values.push(`$${key.toLocaleLowerCase()}`);
             }
-            joinFields.push(`${key.toLocaleLowerCase()}`);
+            if(this.actionForm.value.actionLink == 'put'){
+              const valueMatched = key.split('.')[1];
+              joinFields.push(`${valueMatched ? valueMatched.toLocaleLowerCase() : key.toLocaleLowerCase()}`);
+
+            }else{
+              joinFields.push(`${key.toLocaleLowerCase()}`);
+            }
           }
         }
       }
@@ -188,7 +199,7 @@ export class ActionRuleComponent implements OnInit {
         dataForQuery += `insert into ${element.name.toLocaleLowerCase()} ( ${columnName.join(', ')} ) OUTPUT INSERTED.ID VALUES ( ${columnValues.join(', ')});`;
       } else if (this.actionForm.value.actionLink == 'put') {
         const columnName = fields.filter(item => item !== 'id');
-        const columnValues = values.filter(item => !item.includes('.id'));
+        const columnValues = values.filter(item => !item.includes('$id'));
         let updateQuery = columnName.map((field, index) => `${field} = '${columnValues[index]}'`).join(', ');
         dataForQuery += "UPDATE " + element.name.toLocaleLowerCase() + " SET " + updateQuery + " WHERE " + `id = $id; `;
         // dataForQuery += "UPDATE " + element.name.toLocaleLowerCase() + " SET " + updateQuery + " WHERE " + `${element.name.toLocaleLowerCase()}.id = $${element.name.toLocaleLowerCase()}.id; `;
@@ -203,7 +214,11 @@ export class ActionRuleComponent implements OnInit {
       if (this.actionForm.value.elementName.includes('button')) {
         if (this.actionForm.value.actionLink === 'get') {
           apiUrl = this.backendApi + 'knex-query/' + this.screenName;
-        } else {
+        }
+        else if (this.actionForm.value.actionLink === 'put') {
+          apiUrl = this.backendApi + 'knex-query/executeQuery';
+        }
+         else {
           apiUrl = this.backendApi + 'knex-query';
         }
       } else {
@@ -337,7 +352,7 @@ export class ActionRuleComponent implements OnInit {
         let actionData: any = {
           "moduleName": this.screenName,
           "moduleId": mainModuleId.length > 0 ? mainModuleId[0].navigation : "",
-          "pageId": mainModuleId.length > 0 ? mainModuleId[0]._id : "",
+          "screenBuilderId": mainModuleId.length > 0 ? mainModuleId[0]._id : "",
           "btnActionType": element.submissionType ? element.submissionType : "",
           "elementName": element.elementName,
           "elementNameTo": element.elementNameTo,

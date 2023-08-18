@@ -192,6 +192,7 @@ export class PagesComponent implements OnInit {
         if (res.isSuccess) {
           if (res.data.length > 0) {
             this.requestSubscription = this.applicationService.getNestCommonAPIById("cp/actionbyscreenname", res.data[0].screenBuilderId).subscribe({
+            this.requestSubscription = this.applicationService.getNestCommonAPIById("cp/actionbyscreenname", res.data[0].screenBuilderId).subscribe({
               next: (actions: any) => {
                 this.actionListData = actions?.data;
                 this.actionsBindWithPage(res);
@@ -431,6 +432,7 @@ export class PagesComponent implements OnInit {
       if (tableData.serverSidePagination) {
         pagination = '?page=' + 1 + '&pageSize=' + tableData?.end;
       }
+
       this.employeeService.getSQLDatabaseTable(`knex-query/${this.screenName}` + pagination).subscribe({
         next: (res) => {
           if (tableData && res.isSuccess) {

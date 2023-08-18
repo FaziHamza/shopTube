@@ -41,7 +41,7 @@ export class ApplicationService {
     // }
     addNestCommonAPI(api: string, modal: any): Observable<any> {
         return this.http.post<any>(
-            this.nestUrl + api, modal
+          api.includes('http') ? api : this.nestUrl + api , modal
         );
     }
     addBackendCommonApi(api: string, modal: any): Observable<any> {

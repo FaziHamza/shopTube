@@ -957,12 +957,13 @@ export class BuilderComponent implements OnInit {
         { value: string },
         string
       >({
-        nzTitle: 'Bulk Update',
+        // nzTitle: 'Bulk Update',
         nzWidth: 1000,
         nzContent: BulkUpdateComponent,
         nzContentParams: {
           nodes: this.nodes,
           types: this.formlyTypes,
+          screenName: this.screenName,
           // formlyModel: this.formlyModel,
         },
       });

@@ -10,6 +10,7 @@ export class BulkUpdateComponent implements OnInit {
   @Input() nodes: any;
   @Input() types: any;
   @Input() formlyModel: any;
+  @Input() screenName: any;
   tabelNodes: any[] = [];
   keyValidation: any[] = [];
   constructor(private drawerRef: NzDrawerRef<any>) { }
@@ -98,6 +99,13 @@ export class BulkUpdateComponent implements OnInit {
 
     }
 
+  }
+  apply() {
+    let findInputs = this.filterInputElements(this.tabelNodes);
+    findInputs.forEach(res => {
+      if(!res.key.includes('.'))
+        res.key = this.screenName +'.' + res.key;
+    })
   }
   filterInputElementKey(data: any): any[] {
     const inputElements: any[] = [];
