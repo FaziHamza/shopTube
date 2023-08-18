@@ -813,4 +813,7 @@ export class DynamicTableComponent implements OnInit {
     this.start = start == 0 ? 1 : ((this.data.pageIndex * this.pageSize) - this.pageSize) + 1;
     this.end = this.displayData.length == this.data.end ? (this.data.pageIndex * this.data.end) : this.data.totalCount;
   }
+  isDateWithTime(value: any): boolean {
+    return value instanceof Date && !isNaN(value.getTime());
+  }
 }
