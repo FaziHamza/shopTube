@@ -35,7 +35,6 @@ export class MultiSelectComponent extends FieldType<FieldTypeConfig> implements 
 
 
   onModelChange(event: any, model: any) {
-    debugger
     if (!Array.isArray(event)) {
       if(event){
         if (event.includes(',')) {

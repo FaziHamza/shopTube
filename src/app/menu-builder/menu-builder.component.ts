@@ -208,26 +208,28 @@ export class MenuBuilderComponent implements OnInit {
         if (res.data.length > 0) {
           this.applicationId = res.data[0]._id
           this.nodes = JSON.parse(res.data[0].menuData);
-          let theme = JSON.parse(res.data[0].selectedTheme);
           this.selectedTheme = JSON.parse(res.data[0].selectedTheme);
           this.controlUndefinedValues();
           this.makeMenuData();
           this.clickBack();
+          let getApplication = this.applications.find((a: any) => a._id == id);
+          if (getApplication) {
+            this.domainName = getApplication.domain ? getApplication.domain : undefined;
+            let domain = getApplication.domain ? getApplication.domain : '';
+            this.dataSharedService.localhostHeaderFooter.next(domain);
+            this.selectApplicationType = getApplication['application_Type'] ? getApplication['application_Type'] : '';
+          }
+        }else{
+          this.toastr.warning('No menu againts this', { nzDuration: 3000 });
         }
-        else {
-          this.selectedTheme = JSON.parse(res.data[0].selectedTheme);
-          this.controlUndefinedValues();
-          this.clearChildNode();
-          this.applicationId = '';
-          this.clickBack();
-        }
-        let getApplication = this.applications.find((a: any) => a._id == id);
-        if (getApplication) {
-          this.domainName = getApplication.domain ? getApplication.domain : undefined;
-          let domain = getApplication.domain ? getApplication.domain : '';
-          this.dataSharedService.localhostHeaderFooter.next(domain);
-          this.selectApplicationType = getApplication['application_Type'] ? getApplication['application_Type'] : '';
-        }
+        // else {
+        //   this.selectedTheme = JSON.parse(res.data[0].selectedTheme);
+        //   this.controlUndefinedValues();
+        //   this.clearChildNode();
+        //   this.applicationId = '';
+        //   this.clickBack();
+        // }
+
       } else
         this.toastr.error(res.message, { nzDuration: 3000 });
     }));

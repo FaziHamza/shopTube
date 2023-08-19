@@ -173,7 +173,7 @@ export class TaskReportComponent implements OnInit {
     let obj = {
       screenId: this.screenName,
       dueDate: data.dueDate,
-      status: data.status,
+      status: data.status ? data.status : 'open',
       organizationId: JSON.parse(localStorage.getItem('organizationId')!),
       applicationId: JSON.parse(localStorage.getItem('applicationId')!),
       componentId: data.id,

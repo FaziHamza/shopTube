@@ -4429,21 +4429,23 @@ export class BuilderComponent implements OnInit {
           }
         }
         break;
-      // case "heading":
-      //   this.selectedNode.fontSize = event.form.style + event.form.textAlignment + 'color:' + event.form.headingColor;
-      //   if (event.form.headingApi) {
-      //     this.requestSubscription = this.builderService.genericApis(event.form.headingApi).subscribe({
-      //       next: (res) => {
-      //         this.selectedNode.data = res.data;
-      //         this.updateNodes();
-      //       },
-      //       error: (err) => {
-      //         console.error(err); // Log the error to the console
-      //         this.toastr.error("An error occurred", { nzDuration: 3000 }); // Show an error message to the user
-      //       }
-      //     })
-      //   }
-      //   break;
+      case "heading":
+        debugger
+        this.selectedNode.fontstyle = event.form.fontstyle
+        // this.selectedNode.fontSize = event.form.style + event.form.textAlignment + 'color:' + event.form.headingColor;
+        // if (event.form.headingApi) {
+        //   this.requestSubscription = this.builderService.genericApis(event.form.headingApi).subscribe({
+        //     next: (res) => {
+        //       this.selectedNode.data = res.data;
+        //       this.updateNodes();
+        //     },
+        //     error: (err) => {
+        //       console.error(err); // Log the error to the console
+        //       this.toastr.error("An error occurred", { nzDuration: 3000 }); // Show an error message to the user
+        //     }
+        //   })
+        // }
+        break;
       case 'page':
         this.selectedNode.options = event.form?.options;
         // this.selectedNode.options = event.tableDta
