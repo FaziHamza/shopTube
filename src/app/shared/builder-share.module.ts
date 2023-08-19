@@ -25,6 +25,7 @@ import { RoleManagementComponent } from '../admin/role-management/role-managemen
 import { MenuRolePermissionComponent } from '../admin/menu-role-permission/menu-role-permission.component';
 import { TaskManagementComponent } from '../admin/task-management/task-management.component';
 import { ReleaseManagementComponent } from '../admin/release-management/release-management.component';
+import { TaskManagementListComponent } from '../Builder-module/task-management-list/task-management-list.component';
 
 @NgModule({
   imports:
@@ -56,6 +57,8 @@ import { ReleaseManagementComponent } from '../admin/release-management/release-
     TaskManagementComponent,
     ReleaseManagementComponent,
     UserTaskManagementComponent,
+    TaskManagementListComponent,
+
   ],
   exports: [
     MenuBuilderComponent,
@@ -70,6 +73,8 @@ import { ReleaseManagementComponent } from '../admin/release-management/release-
     ReleaseManagementComponent,
     TaskManagementComponent,
     UserTaskManagementComponent,
+    TaskManagementListComponent,
+
   ],
   providers: [
 

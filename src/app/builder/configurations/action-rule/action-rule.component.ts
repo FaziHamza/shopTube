@@ -244,6 +244,7 @@ export class ActionRuleComponent implements OnInit {
         query: [this.actionForm.value.actionType === "query" ? this.reorderQueries(dataForQuery) : ""]
       })
     );
+    this.toastr.success('Action Added', { nzDuration: 3000 });
   }
 
   reorderQueries(queryString: any) {

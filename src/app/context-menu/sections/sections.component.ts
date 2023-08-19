@@ -31,6 +31,7 @@ export class SectionsComponent implements OnInit {
   schemaValidation: any;
   ruleObj: any = {};
   ruleValidation: any = {};
+  saveLoader: boolean = false;
   constructor(public dataSharedService: DataSharedService, private toastr: NzMessageService, private employeeService: EmployeeService
     , private applicationServices: ApplicationService, private cd: ChangeDetectorRef) { }
 
@@ -235,9 +236,11 @@ export class SectionsComponent implements OnInit {
         }
       }
       if (id == undefined) {
+
         let relationIds: any = remainingTables.map(table => `${Arraytables[0]}_id`);
         relationIds = relationIds.toString();
         // if (Object.keys(empData.modalData).length > 0)
+        this.saveLoader = true;
         this.applicationServices.addBackendCommonApi(findClickApi.length > 0 ? findClickApi?.[0].actions?.[0]?.url : 'knex-query', empData).subscribe({
           next: (res) => {
             if (res[0]?.error)
@@ -251,10 +254,12 @@ export class SectionsComponent implements OnInit {
               // this.employeeService.getSQLDatabaseTable(`knex-query?tables=${tables}&relationIds=id,${relationIds.toString()}`).subscribe({
               this.getFromQuery(data);
             }
+
           },
           error: (err) => {
             console.error(err);
             this.toastr.error("An error occurred", { nzDuration: 3000 });
+            this.saveLoader = false;
           }
         });
       }
@@ -281,6 +286,7 @@ export class SectionsComponent implements OnInit {
             ...model,
             modalData: removePrefix(model.modalData)
           };
+          this.saveLoader = true;
           this.applicationServices.addNestCommonAPI(findClickApi.length > 0 ? findClickApi?.[0].actions?.[0]?.url : 'knex-query/executeQuery', result).subscribe({
             next: (res) => {
               this.toastr.success("Update Successfully", { nzDuration: 3000 });
@@ -292,6 +298,7 @@ export class SectionsComponent implements OnInit {
             error: (err) => {
               console.error(err);
               this.toastr.error("An error occurred", { nzDuration: 3000 });
+              this.saveLoader = false;
             }
           });
         }
@@ -335,6 +342,7 @@ export class SectionsComponent implements OnInit {
             pagination = '?page=' + 1 + '&pageSize=' + tableData?.end;
           }
           const apiUrl = findClickApi.length > 0 ? findClickApi?.[0].actions?.[0]?.url : `knex-query/${this.screenName}`;
+          this.saveLoader = true;
           this.employeeService.getSQLDatabaseTable(apiUrl + pagination).subscribe({
             next: (res) => {
               if (tableData && res.isSuccess) {
@@ -383,6 +391,15 @@ export class SectionsComponent implements OnInit {
                   tableData.displayData = tableData.tableData.length > tableData.end ? tableData.tableData.slice(0, tableData.end) : tableData.tableData;
                   // pagniation work end
                   if (tableData.tableHeaders.length == 0) {
+                    let formlyInputs = this.filterInputElements(this.sections.children[1].children);
+                    obj.forEach((head: any) => {
+                      let input = formlyInputs.find(a => a.key.split('.')[1] == head.key);
+                      if (input) {
+                        head['dataType'] = input.formly[0].fieldGroup[0].type;
+                        head['subDataType'] = input.formly[0].fieldGroup[0].props.type;
+                        head['title'] = input.title;
+                      }
+                    });
                     tableData.tableHeaders = obj;
                     tableData['tableKey'] = tableKey
                   }
@@ -403,9 +420,28 @@ export class SectionsComponent implements OnInit {
                       }
                     }
                   }
+                  if (tableData.tableHeaders.length > 0) {
+                    if (!tableData.tableHeaders[0]['dataType']) {
+                      let formlyInputs = this.filterInputElements(this.sections.children[1].children);
+                      obj.forEach((head: any) => {
+                        let input = formlyInputs.find(a => a.key.split('.')[1] == head.key);
+                        if (input) {
+                          head['dataType'] = input.formly[0].fieldGroup[0].type;
+                          head['subDataType'] = input.formly[0].fieldGroup[0].props.type;
+                          head['title'] = input.title;
+                        }
+                      });
+                      tableData.tableHeaders = obj;
+                    }
+                  }
+                  this.saveLoader = false;
                 }
                 this.assignGridRules(tableData);
               }
+            }, error: (error: any) => {
+              console.error(error);
+              this.toastr.error("An error occurred", { nzDuration: 3000 });
+              this.saveLoader = false;
             }
           });
         }
@@ -942,7 +978,7 @@ export class SectionsComponent implements OnInit {
     for (const key in obj) {
       if (typeof obj[key] === 'object' && obj[key] !== null) {
         this.setInternalValuesEmpty(obj[key]);
-      } 
+      }
       // else if (Array.isArray(obj)) {
       //   obj = [];
       // }

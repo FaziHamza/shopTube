@@ -4,7 +4,7 @@ import { Guid } from '../models/guid';
 @Component({
   selector: 'nz-demo-table-edit-cell',
   template: `
- <dynamic-table *ngIf='this.formData.length' [tableId]='tableId' [checkType]='true' [tableData]='this.formData' [tableHeaders]='tableHeader' [data]="data" [displayData]="this.formData"></dynamic-table>
+ <dynamic-table *ngIf='this.formData.length' [tableId]='tableId' [checkType]='true' [tableData]='this.formData' [tableHeaders]='tableHeader' [data]="data" [displayData]="this.formData" [configurationTable]="true"></dynamic-table>
   `,
   styles: [
     `
@@ -26,7 +26,7 @@ export class formlyRepeatSectionComponent extends FieldArrayType {
   tableId: any = "";
   formData: any = "";
   tableHeader: any = [];
-  data : any = {};
+  data: any = {};
   ngOnInit(): void {
     debugger
 
@@ -35,14 +35,17 @@ export class formlyRepeatSectionComponent extends FieldArrayType {
     if (key) {
       this.formData = this.form.value[key];
     }
-    const firstObjectKeys = Object.keys(this.formData[0]);
-    this.tableHeader = firstObjectKeys.map(key => ({ name: key }));
-    // if (this.field.fieldGroup) {
-    //   this.field.fieldGroup.forEach((item: any) => {
-    //     if(item.)
-    //     let obj = {}
-    //   })
-    // }
+    if (this.formData && this.formData?.length > 0) {
+      const firstObjectKeys = Object.keys(this.formData[0]);
+      this.tableHeader = firstObjectKeys.map(key => ({ name: key }));
+      // if (this.field.fieldGroup) {
+      //   this.field.fieldGroup.forEach((item: any) => {
+      //     if(item.)
+      //     let obj = {}
+      //   })
+      // }
+    }
+
 
 
   }

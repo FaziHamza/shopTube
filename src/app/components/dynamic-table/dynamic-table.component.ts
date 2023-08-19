@@ -1,3 +1,4 @@
+import { DatePipe } from '@angular/common';
 import {
   ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output,
 } from '@angular/core';
@@ -17,6 +18,7 @@ export class DynamicTableComponent implements OnInit {
   @Input() tableId: any;
   @Input() form: any;
   @Input() checkType: boolean;
+  @Input() configurationTable: boolean = false;
   @Input() tableData: any[] = [];
   @Input() displayData: any[] = [];
   @Input() tableHeaders: any[] = [];
@@ -69,12 +71,26 @@ export class DynamicTableComponent implements OnInit {
     };
   }
   updateModel(data: any) {
+    debugger
     if (this.data.doubleClick != false) {
       const dynamicPropertyName = Object.keys(this.form.value)[0]; // Assuming the dynamic property name is the first property in this.form.value
       if (this.form.get(dynamicPropertyName)) {
-        // let newData = JSON.parse(JSON.stringify(data));
-        // for (let key  in newData){
-        //   if(newData[key].includes(',')){
+        // let newData : any = JSON.parse(JSON.stringify(data));
+        // const checkMultiselect = this.tableHeaders.find((header: any) => header.dataType === "multiselect");
+        // if (checkMultiselect) {
+        //   for (const key in data) {
+        //     const filteredData = this.tableHeaders.find((header: any) => header.key === key);
+
+        //     if (filteredData && filteredData.dataType === "multiselect") {
+        //       newData[key] = newData[key]?.includes(',') ? newData[key].split(',') : ((newData[key] == undefined || newData[key] == '') ? [] : [newData[key]]);
+        //     }
+        //   }
+        // }
+
+
+
+        // for (let key in newData) {
+        //   if (newData[key].includes(',')) {
         //     newData[key] = newData[key].split(',');
         //   }
         // }
@@ -482,7 +498,6 @@ export class DynamicTableComponent implements OnInit {
   }
 
   loadTableData() {
-    debugger
     if (this.tableData.length > 0) {
       const firstObjectKeys = Object.keys(this.tableData[0]);
       this.data['tableKey'] = firstObjectKeys.map(key => ({ name: key }));
@@ -813,4 +828,35 @@ export class DynamicTableComponent implements OnInit {
     this.start = start == 0 ? 1 : ((this.data.pageIndex * this.pageSize) - this.pageSize) + 1;
     this.end = this.displayData.length == this.data.end ? (this.data.pageIndex * this.data.end) : this.data.totalCount;
   }
+
+  transform(dateRange: string): any {
+    if (dateRange.includes('GMT+0500') && dateRange) {
+      // Split the date range by ","
+      const dateParts = dateRange.split(',');
+
+      if (dateParts.length >= 2) {
+        // Extract the start and end date parts
+        const startDate = dateParts[0].trim();
+        const endDate = dateParts[1].trim();
+
+        // Format the start and end dates
+        const formattedStartDate = this.formatDate(startDate);
+        const formattedEndDate = this.formatDate(endDate);
+
+        // Return the formatted date range
+        return `${formattedStartDate} - ${formattedEndDate}`;
+      } else {
+        // If there are not enough parts, return the original date range
+        return dateRange;
+      }
+
+    }
+    return null;
+  }
+
+  private formatDate(dateString: string): any {
+    const date = new Date(dateString);
+    return new DatePipe('en-US').transform(date, 'EEE MMM dd yyyy HH:mm:ss');
+  }
+
 }
