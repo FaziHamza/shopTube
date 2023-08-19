@@ -51,7 +51,7 @@ export class ConfigurableSelectDirective implements OnInit, OnDestroy {
 
 
   private loadOptions(): void {
-    if (this.loadAction) {
+    if (this.loadAction && Object.keys(this.loadAction).length != 0) {
       this.executeAction(this.loadAction)
         .subscribe(response => {
           this.data = response.data;
@@ -68,7 +68,7 @@ export class ConfigurableSelectDirective implements OnInit, OnDestroy {
 
   private executeAction(action: Action): Observable<any> {
     const { url, method, data, headers } = action;
-    return this.applicationService.callApi(url, method, data, headers)
+      return this.applicationService.callApi(url, method, data, headers)
       .pipe(takeUntil(this.unsubscribe$));
   }
 }
