@@ -132,7 +132,7 @@ export class ActionRuleComponent implements OnInit {
       { actionLink: 'post', type: 'api' },
       { actionLink: 'put', type: 'api' },
       { actionLink: 'get', type: 'api' },
-      { actionLink: 'delete', type: 'api' },
+      // { actionLink: 'delete', type: 'api' },
     ];
 
     actions.forEach((action) => {
@@ -146,7 +146,7 @@ export class ActionRuleComponent implements OnInit {
           actionType: action.type,
           elementName: (action.type === 'api' && (action.actionLink === 'get' || action.actionLink === 'put' || action.actionLink === 'post')) ? buttonData.key : (action.type === 'api' && action.actionLink === 'delete') ? tableData.key : this.nodes[0].key,
           elementNameTo: (action.type === 'api' && action.actionLink === 'get') ? tableData.key : '',
-          submissionType: action.actionLink === 'get' && action.type === 'api' ? 'load' : 'click',
+          submissionType:  'click',
         };
 
         this.actionForm.patchValue(obj);
@@ -258,22 +258,25 @@ export class ActionRuleComponent implements OnInit {
     }
     let apiUrl = '';
     if (this.actionForm.value.actionType === 'api') {
-      if (this.actionForm.value.elementName.includes('button')) {
-        if (this.actionForm.value.actionLink === 'get') {
-          apiUrl = this.backendApi + 'knex-query/' + this.screenName;
-        }
-        else if (this.actionForm.value.actionLink === 'put') {
-          apiUrl = this.backendApi + 'knex-query/executeQuery';
-        }
-        else if (this.actionForm.value.actionLink === 'delete') {
-          apiUrl = this.backendApi + 'knex-query/executeQuery';
-        }
-        else {
-          apiUrl = this.backendApi + 'knex-query';
-        }
-      } else {
-        apiUrl = this.backendApi;
+      if (this.actionForm.value.actionLink === 'delete') {
+        apiUrl = this.backendApi + 'knex-query/executeQuery';
       }
+      else if (this.actionForm.value.actionLink === 'get') {
+        apiUrl = this.backendApi + 'knex-query/' + this.screenName;
+      }
+      else if (this.actionForm.value.actionLink === 'put') {
+        apiUrl = this.backendApi + 'knex-query/executeQuery';
+      }
+      
+      else {
+        apiUrl = this.backendApi + 'knex-query';
+      }
+      // if (this.actionForm.value.elementName.includes('button')) {
+        
+      // }
+      //  else {
+      //   apiUrl = this.backendApi;
+      // }
     }
     this.ActionsForms.push(
       this.formBuilder.group({
