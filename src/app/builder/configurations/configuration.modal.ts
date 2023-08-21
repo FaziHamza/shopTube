@@ -11359,6 +11359,15 @@ export class formFeildData {
           }
         },
         {
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          key: 'showEditInput',
+          type: 'checkbox',
+          wrappers: ["formly-vertical-theme-wrapper"],
+          props: {
+            label: 'Show Edit Input'
+          }
+        },
+        {
           key: 'options',
           type: 'repeatSection',
           className: "w-full px-1",
@@ -11453,6 +11462,7 @@ export class formFeildData {
                   label: 'Header Button'
                 }
               },
+             
 
               // {
               //   key: 'sortOrder',

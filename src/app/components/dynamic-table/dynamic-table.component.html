@@ -33,7 +33,7 @@
         <th *ngIf="tableHeaders.length > 0">Delete</th>
       </tr>
     </thead>
-    <tbody>
+    <tbody class="dynamic-responsive-table-body">
       <ng-template #recursiveList let-data1>
         <ng-container *ngFor="let item of data1; let i = index">
           <tr [ngStyle]="{'background': item?.color}" *ngIf="!responsiveTable" (dblclick)="updateModel(item)"
@@ -46,7 +46,7 @@
                 *ngIf="header.name != 'headerButton' && header.name != 'footerButton' && header.name != 'expandable' && header.name != 'checked'
                 && header.name != 'expand' && header.name !='children' && header.name != 'defaultValue' && header.name != 'children'">
                 <div class="1"
-                  *ngIf="(tableHeaders[index]?.dataType !='select' || !configurationTable) && tableHeaders[index]?.dataType !='image' && !isMyDataArray(item[header.name]
+                  *ngIf="(tableHeaders[index]?.dataType !='select' || !configurationTable) && tableHeaders[index]?.dataType !='image-upload' && !isMyDataArray(item[header.name]
                 )
                    && tableHeaders[index]?.subDataType != 'datetime-local' && tableHeaders[index]?.dataType != 'rangePicker' ">
                   <div class="editable-cell" [hidden]="editId === item.id && configurationTable">
@@ -68,7 +68,7 @@
 
                 <div *ngIf="tableHeaders[index]?.dataType =='image-upload'" class="4">
                   <img nz-image width="80px" height="80px"
-                    nzSrc="https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png" alt />
+                    [nzSrc]="item[header.name] ? item[header.name] :'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png'" alt />
                 </div>
                 <ng-container 
                   *ngIf="tableHeaders[index]?.dataType =='input' && tableHeaders[index]?.subDataType == 'datetime-local'">

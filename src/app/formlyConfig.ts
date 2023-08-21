@@ -8,7 +8,6 @@ import { DatePickerComponent } from "./wrappers/date-picker/date-picker.componen
 import { FormlyFieldCustomInputComponent } from "./wrappers/formly-field-custom-input.component";
 import { FormlyFieldNgSearchComponent } from "./wrappers/formly-field-ng-search.component";
 import { FormlyFieldNgSelectComponent } from "./wrappers/formly-field-ng-select.component";
-import { FormlyFieldRepeatSectionComponent } from "./wrappers/formly-field-repeat-section.component";
 import { FormlyFloatComponent } from "./wrappers/formly-float/formly-float.component";
 import { FormlyFieldRangeDate } from "./wrappers/FormlyFieldRangeDate";
 import { FormlyFieldStepper } from "./wrappers/FormlyFieldStepper";
@@ -40,7 +39,6 @@ export const fieldComponents = [
   FormlyVerticalThemeWrapper,
   FormlyFieldRangeDate,
   FormlyFieldTimePicker,
-  FormlyFieldRepeatSectionComponent,
   formlyRepeatSectionComponent,
   InputWrapperComponent,
   MultiFileUploadWrapperComponent,

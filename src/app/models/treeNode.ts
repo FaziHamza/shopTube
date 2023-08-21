@@ -543,4 +543,5 @@ export interface TreeNode {
   isLeaf?: any,
   labelClassName?: any,
   inputLabelClassName?: any,
+  showEditInput?: any,
 }

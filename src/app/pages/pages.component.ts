@@ -2079,9 +2079,10 @@ export class PagesComponent implements OnInit {
         if (res.isSuccess) {
           if (res.data.length > 0) {
             this.getTaskManagementIssues = res.data;
-          } else {
-            this.toastr.error(`No data against this screen:`, { nzDuration: 3000 });
-          }
+          } 
+          // else {
+          //   this.toastr.error(`No data against this screen:`, { nzDuration: 3000 });
+          // }
         }
         else {
           this.toastr.error(`userAssignTask:` + res.message, { nzDuration: 3000 });

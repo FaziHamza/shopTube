@@ -7,7 +7,7 @@
       <nz-form-control nzErrorTip="Please Select Page">
         <nz-cascader nzChangeOnSelect [nzAllowClear]="true" style="padding-left: 4px; width: 100%"
           [(ngModel)]="selectDepartmentName" [nzOptions]="departmentData" (ngModelChange)="onDepartmentChange($event)"
-          [nzLoadData]="loadData.bind(this)" placeholder="Select Screen">
+          [nzLoadData]="loadData.bind(this)" placeholder="Select Screen" [nzShowSearch]="true">
         </nz-cascader>
       </nz-form-control>
     </div>

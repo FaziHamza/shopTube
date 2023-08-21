@@ -448,10 +448,10 @@ export class SectionsComponent implements OnInit {
                       // tableData.tableHeaders = obj;
                     }
                   }
-                  this.saveLoader = false;
                 }
                 this.assignGridRules(tableData);
               }
+              this.saveLoader = false;
             }, error: (error: any) => {
               console.error(error);
               this.toastr.error("An error occurred", { nzDuration: 3000 });

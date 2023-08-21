@@ -834,6 +834,7 @@ export class AddControlService {
       rowClickApi: "",
       tableKey: [],
       displayData: [],
+      showEditInput:false,
       tableHeaders: [
         // {
         //   name: 'Id',

@@ -45,7 +45,7 @@ export class formlyRepeatSectionComponent extends FieldArrayType {
       //   })
       // }
     }
-
+    // this.data['nzBordered'] = true
 
 
   }
