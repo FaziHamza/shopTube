@@ -6085,7 +6085,7 @@ tr:hover {
   }
 
   td {
-    border: none !important;
+    // border: none !important;
     font-weight: 500 !important;
 
     font-size: 14px !important;
@@ -6209,12 +6209,14 @@ tbody tr td {
         }
 
         td:first-child {
+          background-color: #2563EB !important;
           color: #fff !important;
         }
-
+        
         // td:last-child {
         //   color: #000 !important; 
         //   }
       }
+
     }
   }
