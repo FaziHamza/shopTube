@@ -127,6 +127,7 @@ export class BuilderClickButtonService {
       uploadSelectType: node.formly[0].fieldGroup[0].props['additionalProperties']['uploadSelectType'],
       multiFileUploadTypes: node.formly[0].fieldGroup[0].props['additionalProperties']['multiFileUploadTypes'],
       fileUploadSize: node.formly[0].fieldGroup[0].props['additionalProperties']['fileUploadSize'],
+      innerInputClass: node.formly[0].fieldGroup[0].props['additionalProperties']['innerInputClass'],
       disabled: node.formly[0].fieldGroup[0].props?.disabled,
       readonly: node.formly[0].fieldGroup[0].props?.readonly,
       // hideExpression: node.formly[0].fieldGroup[0].props?.hideExpression,

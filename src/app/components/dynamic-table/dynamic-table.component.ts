@@ -7,6 +7,7 @@ import { ApplicationService } from 'src/app/services/application.service';
 import { BuilderService } from 'src/app/services/builder.service';
 import { DataSharedService } from 'src/app/services/data-shared.service';
 import { EmployeeService } from 'src/app/services/employee.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'dynamic-table',
@@ -26,6 +27,7 @@ export class DynamicTableComponent implements OnInit {
   editId: string | null = null;
   @Input() screenName: any;
   GridType: string = '';
+  serverPath = environment.nestImageUrl
   // key: any;
   screenNameaa: any;
   footerData: any[] = [];
@@ -438,7 +440,13 @@ export class DynamicTableComponent implements OnInit {
     else {
       const newRow = JSON.parse(JSON.stringify(this.tableData[0]));
       newRow["id"] = this.tableData[id].id + 1;
-      this.displayData = [...this.tableData, newRow];
+      delete newRow?._id;
+      delete newRow?.__v;
+      this.tableData.unshift(newRow);
+      this.displayData = [...this.tableData];
+      if (!this.pageSize)
+      this.pageSize = this.data.end;
+      this.updateDisplayData();
     }
   };
   deleteRow(data: any): void {

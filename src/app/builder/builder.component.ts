@@ -2105,7 +2105,8 @@ export class BuilderComponent implements OnInit {
                         uploadLimit: 10,
                         fileUploadSize: 30,
                         selectType: 'multiple',
-                        multiFileUploadTypes: 'dragNDrop'
+                        multiFileUploadTypes: 'dragNDrop',
+                        innerInputClass:'',
                       },
                       apiUrl: '',
                       rows: 1,
@@ -4106,6 +4107,7 @@ export class BuilderComponent implements OnInit {
             props['additionalProperties']['uploadSelectType'] = event.form?.uploadSelectType;
             props['additionalProperties']['fileUploadSize'] = event.form?.fileUploadSize;
             props['additionalProperties']['multiFileUploadTypes'] = event.form?.multiFileUploadTypes;
+            props['additionalProperties']['innerInputClass'] = event.form?.innerInputClass;
             props['readonly'] = event.form.readonly;
             props['options'] = event.form.options;
             // if (event.tableDta) {
