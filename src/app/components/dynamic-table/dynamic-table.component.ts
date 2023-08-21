@@ -458,7 +458,15 @@ export class DynamicTableComponent implements OnInit {
     if (this.screenName != undefined) {
       if (this.data?.appConfigurableEvent) {
         let findClickApi = this.data?.appConfigurableEvent?.filter((item: any) => item.actions.some((action: any) => action.method === 'delete' && action.actionType == 'api'));
-        this.employeeService.deleteCommonApi(findClickApi?.length > 0 ? findClickApi?.[0].actions?.[0]?.url : 'knex-query/executeQuery', data?.id).subscribe(res => {
+        let id = '';
+        if (findClickApi?.length > 0) {
+          if (findClickApi?.[0].actions?.[0]?.url.includes('EnumList')) {
+            id = data?._id
+          } else
+            id = data?.id
+        } else
+          id = data?.id
+        this.employeeService.deleteCommonApi(findClickApi?.length > 0 ? findClickApi?.[0].actions?.[0]?.url : 'knex-query/executeQuery', id).subscribe(res => {
           if (res) {
             this.tableData = this.tableData.filter((d: any) => d.id !== data.id);
             this.displayData = this.displayData.filter((d: any) => d.id !== data.id);
@@ -615,7 +623,7 @@ export class DynamicTableComponent implements OnInit {
   save() {
     this._dataSharedService.setData(this.tableData);
     if (this.data.doubleClick == false)
-      this._dataSharedService.saveGridData(this.displayData);
+      this._dataSharedService.saveGridData(this.tableData);
     // alert("Data save");
   }
 
@@ -830,12 +838,14 @@ export class DynamicTableComponent implements OnInit {
     this.start = start == 0 ? 1 : ((this.data.pageIndex * this.pageSize) - this.pageSize) + 1;
     this.displayData = this.tableData.slice(start, end);
     this.end = this.displayData.length != this.data.end ? this.tableData.length : this.data.pageIndex * this.pageSize;
+    this.data.totalCount = this.tableData.length;
   }
   updateGridPagination() {
     const start = (this.data.pageIndex - 1) * this.pageSize;
     const end = start + this.pageSize;
     this.start = start == 0 ? 1 : ((this.data.pageIndex * this.pageSize) - this.pageSize) + 1;
     this.end = this.displayData.length == this.data.end ? (this.data.pageIndex * this.data.end) : this.data.totalCount;
+    // this.data.totalCount = this.tableData.length;
   }
 
   transform(dateRange: string): any {

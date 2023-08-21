@@ -67,10 +67,10 @@
                 </div>
 
                 <div *ngIf="tableHeaders[index]?.dataType =='image-upload'" class="4">
-                  <img nz-image width="80px" height="80px"
-                    [nzSrc]="item[header.name] ? item[header.name] :'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png'" alt />
+                  <img nz-image width="80px" height="80px" *ngIf="item[header.name]"
+                    [nzSrc]="serverPath +item[header.name]" alt />
                 </div>
-                <ng-container 
+                <ng-container
                   *ngIf="tableHeaders[index]?.dataType =='input' && tableHeaders[index]?.subDataType == 'datetime-local'">
                   {{ item[header.name] | date:'dd-MM-yyyy HH:mm:ss'}}
                 </ng-container>

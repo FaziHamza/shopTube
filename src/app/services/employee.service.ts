@@ -101,7 +101,7 @@ export class EmployeeService {
       this.nestUrl + api + obj
     );
   }
-  deleteCommonApi(api: string, obj: number): Observable<any> {
+  deleteCommonApi(api: string, obj: any): Observable<any> {
     const url = api.includes('http') ? api : this.nestUrl + api
     return this.http.delete<any>(url  + '/'  + obj);
   }
