@@ -103,7 +103,7 @@
             <tr *ngFor="let entryKey of getObjectKeys(item)">
               <ng-container *ngFor="let header of data['tableKey']; let index = index">
                 <ng-container *ngIf="header.name == entryKey">
-                  <td class="font-bold bg-[#2563EB] !text-white hover:text-black">{{
+                  <td class="font-bold bg-blue-600 !text-white hover:text-black">{{
                     entryKey }}</td>
                   <td *ngIf="entryKey == 'expand'" [(nzExpand)]="item[entryKey]"></td>
                   <td class="responsive-checkBox" *ngIf="data.showCheckbox && entryKey == 'checked'"

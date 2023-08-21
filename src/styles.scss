@@ -5437,9 +5437,11 @@ ul.ant-cascader-menu:nth-child(2)>li:nth-child(1)>div:nth-child(2)>i:nth-child(1
   padding: 0;
 
   .c-header {
-    height: 60px;
+    min-height: 60px;
+    height: fit-content !important;
     padding: 10px 12px;
     display: flex;
+    flex-direction: column;
     justify-content: space-between;
     align-items: center;
     background-color: #2563EB;
@@ -6171,14 +6173,14 @@ tr:hover {
 }
 
 
-.dynamic-responsive-table{
-  .ant-table-row{
-    padding: 10px !important;
-    .ant-table-row:first-child {
-      text-align: center !important;
-      color: white;
-      /* Add any other custom styles you want */
-    }
+// .dynamic-responsive-table{
+//   .ant-table-row{
+//     padding: 10px !important;
+//     .ant-table-row:first-child {
+//       text-align: center !important;
+//       color: white;
+//       /* Add any other custom styles you want */
+//     }
     
-  }
-}
+//   }
+// }
