@@ -6064,7 +6064,7 @@ li.ant-cascader-menu-item:nth-child(1):hover {
 }
 
 tr:hover {
-  background-color: #2563eb05  !important;
+  background-color: #2563eb05 !important;
 
   td {
     background-color: #2563eb05 !important;
@@ -6077,7 +6077,7 @@ tr:hover {
     font-weight: 700 !important;
     font-size: 15px !important;
     line-height: 19px !important;
-    color: #1b212d !important;
+    color: #1b212d;
 
     input {
       border-radius: 4px !important;
@@ -6172,15 +6172,49 @@ tr:hover {
   }
 }
 
+.dynamic-table {
+/* Styling for header cells */
+thead tr th {
+  min-width: 125px !important;
+  width: 125px !important;
+  max-width: 250px !important;
+  overflow: hidden;
+  white-space: nowrap !important;
+  text-overflow: ellipsis !important;
+}
 
-// .dynamic-responsive-table{
-//   .ant-table-row{
-//     padding: 10px !important;
-//     .ant-table-row:first-child {
-//       text-align: center !important;
-//       color: white;
-//       /* Add any other custom styles you want */
-//     }
-    
-//   }
-// }
+/* Styling for regular cells */
+tbody tr td {
+  min-width: 125px !important;
+  max-width: 250px !important;
+  width: 125px !important;
+  overflow: hidden;
+  white-space: nowrap !important;
+  text-overflow: ellipsis !important;
+}
+
+
+
+}
+.dynamic-responsive-table-body {
+    .dynamic-responsive-table {
+      .ant-table-row {
+        td {
+          padding: 5px 10px !important;
+          box-sizing: border-box;
+          height: 42px !important;
+          max-height: 42px !important;
+          min-height: fit-content !important;
+          vertical-align: middle !important;
+        }
+
+        td:first-child {
+          color: #fff !important;
+        }
+
+        // td:last-child {
+        //   color: #000 !important; 
+        //   }
+      }
+    }
+  }
