@@ -40,7 +40,6 @@
                     </h5>
                 </div>
                 <ng-template #paragraph>
-                    {{headingData.fontstyle}}
                     <p nz-typography (click)="pageRoute(headingData.link)"
                         [class]=" headingData.heading + ' ' +  headingData.fontweight + ' ' + headingData.fontstyle"
                         [style.color]="headingData.color || undefined">
@@ -59,3 +58,4 @@
             nzTheme="outline"></span>
     </span> -->
 </div>
+
