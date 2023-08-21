@@ -107,6 +107,53 @@ export class ActionRuleComponent implements OnInit {
   get ActionsForms() {
     return this.actionForm.get('Actions') as FormArray;
   }
+  addActionToForm(actionLink: string, actionType: string, elementName: string): void {
+    if (!this.actionForm.value?.Actions.some((a: any) => a.actionLink === actionLink && a.type === actionType)) {
+      const obj = {
+        actionLink: actionLink,
+        actionType: actionType,
+        elementName: elementName,
+        elementNameTo: "",
+        submissionType: "click"
+      };
+      this.actionForm.patchValue(obj);
+      this.addActionFormGroup();
+    }
+  }
+  makeActionRules() {
+    const buttonData = this.findObjectByTypeBase(this.nodes[0], "button");
+    const tableData = this.findObjectByTypeBase(this.nodes[0], "gridList");
+
+    const actions = [
+      { actionLink: 'get', type: 'query' },
+      { actionLink: 'post', type: 'query' },
+      { actionLink: 'put', type: 'query' },
+      { actionLink: 'delete', type: 'query' },
+      { actionLink: 'post', type: 'api' },
+      { actionLink: 'put', type: 'api' },
+      { actionLink: 'get', type: 'api' },
+      { actionLink: 'delete', type: 'api' },
+    ];
+
+    actions.forEach((action) => {
+      const existingAction = this.actionForm.value?.Actions.find((a: any) =>
+        a.actionLink === action.actionLink && a.type === action.type
+      );
+
+      if (!existingAction) {
+        const obj = {
+          actionLink: action.actionLink,
+          actionType: action.type,
+          elementName: (action.type === 'api' && (action.actionLink === 'get' || action.actionLink === 'put' || action.actionLink === 'post')) ? buttonData.key : (action.type === 'api' && action.actionLink === 'delete') ? tableData.key : this.nodes[0].key,
+          elementNameTo: (action.type === 'api' && action.actionLink === 'get') ? tableData.key : '',
+          submissionType: action.actionLink === 'get' && action.type === 'api' ? 'load' : 'click',
+        };
+
+        this.actionForm.patchValue(obj);
+        this.addActionFormGroup();
+      }
+    });
+  }
 
   addActionFormGroup() {
     debugger
@@ -147,18 +194,18 @@ export class ActionRuleComponent implements OnInit {
               s = (`${s}.${keyvalue}`);
               values.push(`$${s.toLocaleLowerCase()}`);
             } else {
-              if(this.actionForm.value.actionLink == 'put'){
+              if (this.actionForm.value.actionLink == 'put') {
                 const valueMatched = key.split('.')[1];
                 values.push(`$${valueMatched ? valueMatched.toLocaleLowerCase() : key.toLocaleLowerCase()}`);
               }
               else
                 values.push(`$${key.toLocaleLowerCase()}`);
             }
-            if(this.actionForm.value.actionLink == 'put'){
+            if (this.actionForm.value.actionLink == 'put') {
               const valueMatched = key.split('.')[1];
               joinFields.push(`${valueMatched ? valueMatched.toLocaleLowerCase() : key.toLocaleLowerCase()}`);
 
-            }else{
+            } else {
               joinFields.push(`${key.toLocaleLowerCase()}`);
             }
           }
@@ -218,7 +265,10 @@ export class ActionRuleComponent implements OnInit {
         else if (this.actionForm.value.actionLink === 'put') {
           apiUrl = this.backendApi + 'knex-query/executeQuery';
         }
-         else {
+        else if (this.actionForm.value.actionLink === 'delete') {
+          apiUrl = this.backendApi + 'knex-query/executeQuery';
+        }
+        else {
           apiUrl = this.backendApi + 'knex-query';
         }
       } else {
@@ -480,7 +530,7 @@ export class ActionRuleComponent implements OnInit {
       if (tableData.serverSidePagination) {
         pagination = '?page=' + 1 + '&pageSize=' + tableData?.end;
       }
-      this.employeeService.getSQLDatabaseTable(`knex-query/${mainModuleId[0].navigation}`+pagination).subscribe({
+      this.employeeService.getSQLDatabaseTable(`knex-query/${mainModuleId[0].navigation}` + pagination).subscribe({
         next: (res) => {
           if (tableData && res.isSuccess) {
             let saveForm = JSON.parse(JSON.stringify(res.data[0]));

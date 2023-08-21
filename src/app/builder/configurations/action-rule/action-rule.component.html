@@ -45,10 +45,14 @@
         </nz-select>
       </div>
       <div>
-        <button nz-button nzType="primary" (click)="addActionFormGroup()">
-          <span nz-icon nzType="plus" nzTheme="outline"></span>
-          Add Action
-        </button>
+        <div class="basic-button-save">
+          <button nz-button nzType="primary" class="save-btn ml-3" (click)="addActionFormGroup()">
+            <span nz-icon nzType="plus" nzTheme="outline"></span>
+            Add Action</button>
+          <button nz-button nzType="primary" class="save-btn ml-3" (click)="makeActionRules()">
+            <span nz-icon nzType="plus" nzTheme="outline"></span>
+            Add All Action</button>
+        </div>
       </div>
     </div>
 
@@ -137,8 +141,9 @@
                         Action Type
                       </label>
                       <div class="w-2/3 column-form-input form-control-style v-body-border" style="padding: 0px">
-                        <input nz-input type="text" placeholder="Enter value" id="actionLink{{i}}" [disabled]="true" [readOnly]="true"
-                          formControlName="actionLink" required class="form-control" name="actionLink{{i}}" />
+                        <input nz-input type="text" placeholder="Enter value" id="actionLink{{i}}" [disabled]="true"
+                          [readOnly]="true" formControlName="actionLink" required class="form-control"
+                          name="actionLink{{i}}" />
                       </div>
                     </div>
                   </div>
