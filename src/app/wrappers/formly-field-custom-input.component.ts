@@ -6,7 +6,7 @@ import { FieldType, FieldTypeConfig } from '@ngx-formly/core';
 @Component({
    selector: 'st-formly-field-custom-input',
    template: `
-<div [ngClass]="to['additionalProperties']?.wrapper && to['additionalProperties']?.wrapper == 'floating_filled' || to['additionalProperties']?.wrapper == 'floating_outlined' || to['additionalProperties']?.wrapper == 'floating_standard' ? 'masking' : ''">
+<div [class]="to['additionalProperties']?.innerInputClass" [ngClass]="to['additionalProperties']?.wrapper && to['additionalProperties']?.wrapper == 'floating_filled' || to['additionalProperties']?.wrapper == 'floating_outlined' || to['additionalProperties']?.wrapper == 'floating_standard' ? 'masking' : ''">
    <div [class]="to['additionalProperties']?.wrapper=='floating_standard' ? 'relative z-0' : ''">
       <nz-input-group  [ngClass]="showError ? 'input-border' : ''"  [nzSuffix]="to['additionalProperties']?.addonRight" [nzPrefix]="to['additionalProperties']?.addonLeft" [nzStatus]="to['additionalProperties']?.status" [nzSize]="to['additionalProperties']?.size">
       <input [ngClass]="showError && !to['additionalProperties']?.suffixicon && !to['additionalProperties']?.prefixicon && !to['additionalProperties']?.addonLeft && !to['additionalProperties']?.addonRight ? 'input-border' : ''"  [ngClass]="to['additionalProperties']?.wrapper=='floating_filled' || to['additionalProperties']?.wrapper=='floating_standard'

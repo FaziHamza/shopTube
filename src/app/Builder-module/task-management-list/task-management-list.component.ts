@@ -138,6 +138,9 @@ export class TaskManagementListComponent implements OnInit {
             this.assignToresponse = res.data[0];
             data['dueDate'] = res.data[0]['dueDate'];
             data['assignTo'] = res.data[0]['assignTo'];
+            data['startDate'] = res.data[0]['startDate'];
+            data['endDate'] = res.data[0]['endDate'];
+            data['tags'] = res.data[0]['tags'];
             // this.toastr.success(`UserAssignTask : ${res.message}`, { nzDuration: 3000 });
           } else {
             data['dueDate'] = new Date();

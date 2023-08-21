@@ -125,6 +125,9 @@ export class TaskReportComponent implements OnInit {
             this.assignToresponse = res.data[0];
             data['dueDate'] = res.data[0]['dueDate'];
             data['assignTo'] = res.data[0]['assignTo'];
+            data['startDate'] = res.data[0]['startDate'];
+            data['endDate'] = res.data[0]['endDate'];
+            data['tags'] = res.data[0]['tags'];
             // this.toastr.success(`UserAssignTask : ${res.message}`, { nzDuration: 3000 });
           } else {
             data['dueDate'] = new Date();
@@ -167,19 +170,21 @@ export class TaskReportComponent implements OnInit {
     this.showRply = issue.id;
 
   }
-  userAssigneeSave(data: any, issue: any) {
+  userAssigneeSave(data: any) {
     debugger
     const userData = JSON.parse(localStorage.getItem('user')!);
     let obj = {
       screenId: this.screenName,
-      dueDate: data?.dueDate,
+      // dueDate: data?.dueDate,
       status: data.status ? data.status : 'open',
       organizationId: JSON.parse(localStorage.getItem('organizationId')!),
       applicationId: JSON.parse(localStorage.getItem('applicationId')!),
       componentId: data?.id,
       createdBy: userData.username,
       assignTo: data?.assignTo,
-      tags:data?.tags
+      tags: data?.tags,
+      startDate: data?.startDate,
+      endDate: data?.endDate
     }
     let UserAssignTaskModel = {
       "UserAssignTask": obj

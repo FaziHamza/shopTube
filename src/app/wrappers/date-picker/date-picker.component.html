@@ -3,7 +3,7 @@
     [nzSuffix]="(to['additionalProperties']?.addonRight   || to['additionalProperties']?.suffixicon) ? suffixTemplateInfo : undefined"
     [nzPrefix]="(to['additionalProperties']?.addonLeft || to['additionalProperties']?.prefixicon) ? prefixTemplateUser : undefined"
     [nzStatus]="to['additionalProperties']?.status">
-    <nz-date-picker style="width:100%" (ngModelChange)="onModelChange($event, field)" [ngClass]="to['additionalProperties']?.wrapper=='floating_filled' || to['additionalProperties']?.wrapper=='floating_standard'
+    <nz-date-picker [class]="to['additionalProperties']?.innerInputClass" style="width:100%" (ngModelChange)="onModelChange($event, field)" [ngClass]="to['additionalProperties']?.wrapper=='floating_filled' || to['additionalProperties']?.wrapper=='floating_standard'
     || to['additionalProperties']?.wrapper=='floating_outlined' ? to['additionalProperties']?.floatFieldClass : ''"
       [style.border-radius]="to['additionalProperties']?.borderRadius" [nzFormat]="to['additionalProperties']?.format"
       [nzSize]="to['additionalProperties']?.size" [formControl]="formControl"

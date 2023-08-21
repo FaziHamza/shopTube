@@ -10,7 +10,7 @@
     <ng-container *nzDrawerContent>
         <div class="comments-chat">
             <div class="c-header ">
-                <div class="status-options w-full">
+                <div class="status-options w-full mb-1.5">
                     <div class="assign w-full">
                         <div class="flex items-center">
                             <label for="countries" class="block  text-sm font-semibold text-white">
@@ -28,24 +28,41 @@
                                 *ngFor="let user of this.dataSharedService.usersData">
                                 {{user.username}}</option>
                         </select>
+                        <div class="assign w-fit ">
+                            <label for="countries" class="block  text-sm font-semibold text-white">
+                                Start Date <span class="font-bold text-base">:</span>
+                            </label>
+                            <input [(ngModel)]="item['startDate']" type="date" class="text-white">
+                        </div>
+                        <div class="assign w-fit ">
+                            <label for="countries" class="block  text-sm font-semibold text-white">
+                                End Date <span class="font-bold text-base">:</span>
+                            </label>
+                            <input [(ngModel)]="item['endDate']" type="date" class="text-white">
+                        </div>
+                    </div>
+                    <div class="actions">
+                        <p (click)="handleCancel(item)" class="mr-[15px]">
+                            <i class="fa-regular fa-xmark !text-white text-xl"></i>
+                        </p>
                     </div>
 
                 </div>
                 <div class="status-options w-full">
-                    <div class="w-full items-center">
-                        <div class="assign w-3/5 pl-[18px]">
+                    <div class="w-full flex justify-between items-center">
+                        <!-- <div class="assign w-fit ">
                             <label for="countries" class="block  text-sm font-semibold text-white">
                                 Due Date <span class="font-bold text-base">:</span>
                             </label>
                             <input [(ngModel)]="item['dueDate']" type="date" class="text-white">
-                        </div>
-                        <div class="assign w-2/5">
+                        </div> -->
+                        <div class="assign w-fit">
                             <label for="countries" class="block  text-sm font-semibold text-white">
                                 Status <span class="font-bold text-base">:</span>
                             </label>
                             <select [(ngModel)]="item['status']" id="
                                     countries"
-                                class="focus:ring-blue-500 w-[100px] focus:border-blue-500 block text-white bg-[#2563EB] "
+                                class="focus:ring-blue-500 w-[100px] focus:border-blue-500 block text-white bg-blue-600 "
                                 nz-typography nzEllipsis="">
                                 <option class="text-black" value="open">open</option>
                                 <option class="text-black" value="inProgress">inProgress
@@ -54,14 +71,12 @@
                                 </option>
                                 <option class="text-black" value="closed">Closed</option>
                             </select>
-                        </div>
-                        <div class="assign w-2/5">
                             <label for="countries" class="block  text-sm font-semibold text-white">
                                 Tags <span class="font-bold text-base">:</span>
                             </label>
                             <select [(ngModel)]="item['tags']" id="
                                     countries"
-                                class="focus:ring-blue-500 w-[100px] focus:border-blue-500 block text-white bg-[#2563EB] "
+                                class="focus:ring-blue-500 w-[100px] focus:border-blue-500 block text-white bg-blue-600 "
                                 nz-typography nzEllipsis="">
                                 <option class="text-black" value="bug">Bug</option>
                                 <option class="text-black" value="ui">Ui
@@ -70,14 +85,10 @@
                         </div>
                         <button type="default" nzShape="circle" nz-button class="mr-2"><i
                                 class="fas fa-save text-blue-500"
-                                (click)="userAssigneeSave(item , item['issueReport'][0])"></i></button>
+                                (click)="userAssigneeSave(item )"></i></button>
                     </div>
                 </div>
-                <div class="actions">
-                    <p (click)="handleCancel(item)">
-                        <i class="fa-regular fa-xmark !text-white text-xl"></i>
-                    </p>
-                </div>
+
             </div>
             <div class="c-body pb-2 pt-2">
                 <div
@@ -107,7 +118,7 @@
                                     <span class="text-slate-800 font-semibold opacity-80">{{issue['createdBy']}}</span>
                                     <span *ngIf="issue['children']">
                                         <button *ngIf="issue['children'].length == 0" type="button"
-                                            class=" text-sm ml-1 reply text-white hover:bg-white border-2 border-[#2563EB] active:outline-2 active:outline-transparent focus:outline-2 focus:outline-transparent flex items-center  hover:text-[#2563EB] bg-[#2563EB] rounded-xl px-2"
+                                            class=" text-sm ml-1 reply text-white hover:bg-white border-2 border-blue-600 active:outline-2 active:outline-transparent focus:outline-2 focus:outline-transparent flex items-center  hover:text-blue-600 bg-blue-600 rounded-xl px-2"
                                             (click)="reply(issue)">
                                             Reply
                                         </button>
@@ -116,7 +127,7 @@
                                     <span>
 
                                         <button *ngIf="!issue['children']" type="button"
-                                            class=" text-sm ml-1 reply text-white hover:bg-white border-2 border-[#2563EB] active:outline-2 active:outline-transparent focus:outline-2 focus:outline-transparent flex items-center  hover:text-[#2563EB] bg-[#2563EB] rounded-xl px-2"
+                                            class=" text-sm ml-1 reply text-white hover:bg-white border-2 border-blue-600 active:outline-2 active:outline-transparent focus:outline-2 focus:outline-transparent flex items-center  hover:text-blue-600 bg-blue-600 rounded-xl px-2"
                                             (click)="reply(issue)">
                                             Reply
                                         </button>
@@ -169,7 +180,7 @@
                                                             </span>
                                                             <button *ngIf="issue['children'].length > 0 && last"
                                                                 type="button"
-                                                                class="text-sm ml-1 reply text-white hover:bg-white border-2 border-[#2563EB] active:outline-2 active:outline-transparent focus:outline-2 focus:outline-transparent flex items-center hover:text-[#2563EB] bg-[#2563EB] rounded-xl px-2"
+                                                                class="text-sm ml-1 reply text-white hover:bg-white border-2 border-blue-600 active:outline-2 active:outline-transparent focus:outline-2 focus:outline-transparent flex items-center hover:text-blue-600 bg-blue-600 rounded-xl px-2"
                                                                 (click)="reply(issue)">
                                                                 Reply
                                                             </button>
