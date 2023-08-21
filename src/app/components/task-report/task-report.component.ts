@@ -172,13 +172,14 @@ export class TaskReportComponent implements OnInit {
     const userData = JSON.parse(localStorage.getItem('user')!);
     let obj = {
       screenId: this.screenName,
-      dueDate: data.dueDate,
-      status: data.status,
+      dueDate: data?.dueDate,
+      status: data.status ? data.status : 'open',
       organizationId: JSON.parse(localStorage.getItem('organizationId')!),
       applicationId: JSON.parse(localStorage.getItem('applicationId')!),
-      componentId: data.id,
+      componentId: data?.id,
       createdBy: userData.username,
-      assignTo: data.assignTo,
+      assignTo: data?.assignTo,
+      tags:data?.tags
     }
     let UserAssignTaskModel = {
       "UserAssignTask": obj

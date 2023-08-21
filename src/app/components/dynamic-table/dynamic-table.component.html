@@ -27,7 +27,7 @@
             [nzFilterMultiple]="header?.filterMultiple" [nzFilters]="header?.listOfFilter"
             [nzFilterFn]="header?.filterFn"
             (click)="header?.columnClickApi ? onClickColumn(header.columnClickApi,header): ''">
-            {{header.name | translate}}<span *ngIf="header?.gridHeaderSum">({{header?.gridHeaderSum}})</span>
+            {{header['title'] ? header['title'] : header['name']| translate}}<span *ngIf="header?.gridHeaderSum">({{header?.gridHeaderSum}})</span>
           </th>
         </ng-container>
         <th *ngIf="tableHeaders.length > 0">Delete</th>
@@ -41,18 +41,22 @@
             <td *ngIf="item.expandable" [(nzExpand)]="item.expand"></td>
             <td *ngIf="data.showCheckbox" [(nzChecked)]="item.checked" (nzCheckedChange)="refreshStatus()"></td>
             <ng-container *ngFor="let header of data['tableKey']; let index = index">
-              <td [nzEllipsis]="true" class="5"
+              <!-- {{tableHeaders[index]?.dataType | json}} -->
+              <td (click)="startEdit(item.id)" [nzEllipsis]="true" class="5"
                 *ngIf="header.name != 'headerButton' && header.name != 'footerButton' && header.name != 'expandable' && header.name != 'checked'
-            && header.name != 'expand' && header.name !='children' && header.name != 'defaultValue' && header.name != 'children'">
+                && header.name != 'expand' && header.name !='children' && header.name != 'defaultValue' && header.name != 'children'">
                 <div class="1"
-                  *ngIf="tableHeaders[index]?.dataType !='select' && tableHeaders[index]?.dataType !='image' && !isMyDataArray(item[header.name])">
-                  <div class="editable-cell" [hidden]="editId === item.id" (click)="startEdit(item.id)">
+                  *ngIf="(tableHeaders[index]?.dataType !='select' || !configurationTable) && tableHeaders[index]?.dataType !='image' && !isMyDataArray(item[header.name]
+                )
+                   && tableHeaders[index]?.subDataType != 'datetime-local' && tableHeaders[index]?.dataType != 'rangePicker' ">
+                  <div class="editable-cell" [hidden]="editId === item.id && configurationTable">
                     {{item[header.name] | translate}}
                   </div>
-                  <input [hidden]="editId !== item.id" type="text" nz-input [(ngModel)]="item[header.name]" />
+                  <input *ngIf="configurationTable" [hidden]="editId !== item.id" type="text" nz-input
+                    [(ngModel)]="item[header.name]" />
                 </div>
                 <div class="2"
-                  *ngIf="tableHeaders[index]?.dataType =='select' && tableHeaders[index]?.dataType !='image' || isMyDataArray(item[header.name])">
+                  *ngIf="tableHeaders[index]?.dataType =='select' && configurationTable || isMyDataArray(item[header.name]) ">
                   <nz-select nzAllowClear nzShowSearch style="width: 100px" nzPlaceHolder="Select Value"
                     [(ngModel)]="item.defaultValue" (ngModelChange)="select(i, $event)">
                     <nz-option *ngFor="let option of item[header.name]"
@@ -62,9 +66,17 @@
                   </nz-select>
                 </div>
 
-                <div *ngIf="tableHeaders[index]?.dataType =='image'" class="4">
+                <div *ngIf="tableHeaders[index]?.dataType =='image-upload'" class="4">
                   <img nz-image width="80px" height="80px"
                     nzSrc="https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png" alt />
+                </div>
+                <ng-container 
+                  *ngIf="tableHeaders[index]?.dataType =='input' && tableHeaders[index]?.subDataType == 'datetime-local'">
+                  {{ item[header.name] | date:'dd-MM-yyyy HH:mm:ss'}}
+                </ng-container>
+                <div  *ngIf="tableHeaders[index]?.dataType =='rangePicker'" class="date">
+                  <!-- {{ item[header.name]}} -->
+                  {{ transform(item[header.name]) }}
                 </div>
               </td>
               <td *ngIf="header.name == 'headerButton'">
@@ -99,7 +111,7 @@
                   <td
                     *ngIf="tableHeaders[index]?.dataType !='select' && tableHeaders[index]?.dataType !='image' && !isMyDataArray(item[header.name]) && item[header.name]"
                     (click)="editValue(entryKey)">
-                    <ng-container *ngIf="editingEntry == entryKey">
+                    <ng-container *ngIf="editingEntry == entryKey && configurationTable">
                       <input nz-input type="text" [(ngModel)]="item[entryKey]">
                     </ng-container>
                     <ng-container *ngIf="editingEntry != entryKey">

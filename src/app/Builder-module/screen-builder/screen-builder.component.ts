@@ -510,6 +510,7 @@ export class ScreenBuilderComponent implements OnInit {
               label: 'Screen Id',
               placeholder: 'Screen Id...',
               required: true,
+              pattern: /^[a-z0-9_.]+$/,
             },
           },
         ],

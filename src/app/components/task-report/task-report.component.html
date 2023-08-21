@@ -5,13 +5,13 @@
        (item['status'] === 'closed' ? 'bg-gray-500' : 'bg-red-500'))) }}">
 </span>
 
-<nz-drawer [nzWrapClassName]="'comment-drawer'" nzWidth="750px" [nzClosable]="false"
+<nz-drawer [nzWrapClassName]="'comment-drawer'" nzWidth="780px" [nzClosable]="false"
     [(nzVisible)]="item['showAllComments']" nzPlacement="right" nzTitle="Task Manager" (nzOnClose)="handleCancel(item)">
     <ng-container *nzDrawerContent>
         <div class="comments-chat">
             <div class="c-header ">
                 <div class="status-options w-full">
-                    <div class="assign w-2/5">
+                    <div class="assign w-full">
                         <div class="flex items-center">
                             <label for="countries" class="block  text-sm font-semibold text-white">
                                 Assignee <span class="font-bold text-base">:</span>
@@ -29,7 +29,10 @@
                                 {{user.username}}</option>
                         </select>
                     </div>
-                    <div class="w-3/5 flex items-center">
+
+                </div>
+                <div class="status-options w-full">
+                    <div class="w-full items-center">
                         <div class="assign w-3/5 pl-[18px]">
                             <label for="countries" class="block  text-sm font-semibold text-white">
                                 Due Date <span class="font-bold text-base">:</span>
@@ -50,6 +53,19 @@
                                 <option class="text-black" value="completed">completed
                                 </option>
                                 <option class="text-black" value="closed">Closed</option>
+                            </select>
+                        </div>
+                        <div class="assign w-2/5">
+                            <label for="countries" class="block  text-sm font-semibold text-white">
+                                Tags <span class="font-bold text-base">:</span>
+                            </label>
+                            <select [(ngModel)]="item['tags']" id="
+                                    countries"
+                                class="focus:ring-blue-500 w-[100px] focus:border-blue-500 block text-white bg-[#2563EB] "
+                                nz-typography nzEllipsis="">
+                                <option class="text-black" value="bug">Bug</option>
+                                <option class="text-black" value="ui">Ui
+                                </option>
                             </select>
                         </div>
                         <button type="default" nzShape="circle" nz-button class="mr-2"><i
