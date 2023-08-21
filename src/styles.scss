@@ -5869,9 +5869,9 @@ li.ant-cascader-menu-item:nth-child(1):hover {
       // background-color: #2563EB;
       border-radius: 6px 6px 0 0;
 
-      .ant-tabs-tab-btn {
-        // color: #fff;
-      }
+      // .ant-tabs-tab-btn {
+      //   color: #fff;
+      // }
     }
 
   }
@@ -5899,13 +5899,13 @@ li.ant-cascader-menu-item:nth-child(1):hover {
             width: 7px;
           }
 
-          &::-webkit-scrollbar-thumb {
-            // background-color: #2563EB;
-          }
+          // &::-webkit-scrollbar-thumb {
+          //   background-color: #2563EB;
+          // }
 
-          &::-webkit-scrollbar-track {
-            // background-color: #fff;
-          }
+          // &::-webkit-scrollbar-track {
+          //   background-color: #fff;
+          // }
 
 
 
@@ -5918,9 +5918,9 @@ li.ant-cascader-menu-item:nth-child(1):hover {
             border-radius: 0 6px 6px 0;
             align-items: center;
 
-            .ant-tabs-tab-btn {
-              // color: #fff;
-            }
+            // .ant-tabs-tab-btn {
+            //   color: #fff;
+            // }
           }
 
           .ant-tabs-tab {
@@ -5943,9 +5943,9 @@ li.ant-cascader-menu-item:nth-child(1):hover {
               border-radius: 0 6px 6px 0;
               ;
 
-              .ant-tabs-tab-btn {
-                // color: #fff;
-              }
+              // .ant-tabs-tab-btn {
+              //   color: #fff;
+              // }
             }
           }
         }
@@ -6053,7 +6053,7 @@ li.ant-cascader-menu-item:nth-child(1):hover {
   }
 }
 
-.market-place {}
+// .market-place {}
 
 
 
@@ -6167,5 +6167,18 @@ tr:hover {
       margin: 0px 2px;
       color: $main;
     }
+  }
+}
+
+
+.dynamic-responsive-table{
+  .ant-table-row{
+    padding: 10px !important;
+    .ant-table-row:first-child {
+      text-align: center !important;
+      color: white;
+      /* Add any other custom styles you want */
+    }
+    
   }
 }

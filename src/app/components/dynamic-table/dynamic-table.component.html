@@ -12,7 +12,7 @@
 <div class="dynamic-table">
   <!-- [nzFrontPagination]='data?.nzFrontPagination' -->
   <!-- [nzShowPagination]='data?.nzShowPagination' -->
-  <nz-table #editRowTable [nzPageSize]="10" [nzBordered]='data.nzBordered' [nzData]="displayData"
+  <nz-table  #editRowTable [nzPageSize]="10" [nzBordered]='data.nzBordered' [nzData]="displayData"
     *ngIf="data && displayData" [nzScroll]="{ x: displayData.length > 0 ?  '1600px' : 'auto'}"
     [nzLoading]="data?.nzLoading" [nzPaginationPosition]='data?.nzPaginationPosition'
     [nzPaginationType]='data?.nzPaginationType' [nzFrontPagination]='false' [nzTitle]='data?.nzTitle'
@@ -87,11 +87,11 @@
               </a>
             </td>
           </tr>
-          <ng-container *ngIf="responsiveTable">
+          <div  class="dynamic-responsive-table" *ngIf="responsiveTable">
             <tr *ngFor="let entryKey of getObjectKeys(item)">
               <ng-container *ngFor="let header of data['tableKey']; let index = index">
                 <ng-container *ngIf="header.name == entryKey">
-                  <td class="font-bold bg-blue-500 text-white hover:text-black">{{
+                  <td class="font-bold bg-[#2563EB] !text-white hover:text-black">{{
                     entryKey }}</td>
                   <td *ngIf="entryKey == 'expand'" [(nzExpand)]="item[entryKey]"></td>
                   <td class="responsive-checkBox" *ngIf="data.showCheckbox && entryKey == 'checked'"
@@ -128,7 +128,7 @@
               </td>
             </tr>
             <br>
-          </ng-container>
+          </div>
         </ng-container>
       </ng-template>
       <ng-container *ngTemplateOutlet="recursiveList; context:{ $implicit: editRowTable.data }"></ng-container>
