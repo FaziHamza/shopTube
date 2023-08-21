@@ -4352,7 +4352,7 @@ export class BuilderComponent implements OnInit {
         // if (event.tableDta) {
         //   this.selectedNode.dropdownOptions = event.tableDta;
         // }
-        this.selectedNode.dropdownOptions = event.tableDta;
+        this.selectedNode.dropdownOptions = event?.form?.dropdownOptions;
         break;
       case 'fixedDiv':
         if (event.form.api) {

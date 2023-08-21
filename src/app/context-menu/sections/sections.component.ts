@@ -391,16 +391,22 @@ export class SectionsComponent implements OnInit {
                   tableData.displayData = tableData.tableData.length > tableData.end ? tableData.tableData.slice(0, tableData.end) : tableData.tableData;
                   // pagniation work end
                   if (tableData.tableHeaders.length == 0) {
-                    let formlyInputs = this.filterInputElements(this.sections.children[1].children);
-                    obj.forEach((head: any) => {
-                      let input = formlyInputs.find(a => a.key.split('.')[1] == head.key);
-                      if (input) {
-                        head['dataType'] = input.formly[0].fieldGroup[0].type;
-                        head['subDataType'] = input.formly[0].fieldGroup[0].props.type;
-                        head['title'] = input.title;
-                      }
-                    });
                     tableData.tableHeaders = obj;
+                    // let checkDataTypeExist = tableData.tableHeaders.every((check: any) => check.hasOwnProperty('dataType'));
+                    // if (!checkDataTypeExist) {
+                    //   let formlyInputs = this.filterInputElements(this.sections.children[1].children);
+                    //   if (formlyInputs && formlyInputs?.length > 0) {
+                    //     obj.forEach((head: any) => {
+                    //       let input = formlyInputs.find(a => a.formly[0].fieldGroup[0].key.includes('.') ? a.formly[0].fieldGroup[0].key.split('.')[1] == head.key : a.formly[0].fieldGroup[0].key == head.key);
+                    //       if (input) {
+                    //         head['dataType'] = input.formly[0].fieldGroup[0].type;
+                    //         head['subDataType'] = input.formly[0].fieldGroup[0].props.type;
+                    //         head['title'] = input.title;
+                    //       }
+                    //     });
+                    //     tableData.tableHeaders = obj;
+                    //   }
+                    // }
                     tableData['tableKey'] = tableKey
                   }
                   else {
@@ -418,20 +424,28 @@ export class SectionsComponent implements OnInit {
                           return newItem;
                         });
                       }
+
                     }
                   }
-                  if (tableData.tableHeaders.length > 0) {
-                    if (!tableData.tableHeaders[0]['dataType']) {
-                      let formlyInputs = this.filterInputElements(this.sections.children[1].children);
-                      obj.forEach((head: any) => {
-                        let input = formlyInputs.find(a => a.key.split('.')[1] == head.key);
+
+                  // Make DataType 
+                  let propertiesWithoutDataType = tableData.tableHeaders.filter((check: any) => !check.hasOwnProperty('dataType'));
+                  if (propertiesWithoutDataType.length > 0) {
+                    let formlyInputs = this.filterInputElements(this.sections.children[1].children);
+
+                    if (formlyInputs && formlyInputs.length > 0) {
+                      propertiesWithoutDataType.forEach((head: any) => {
+                        let input = formlyInputs.find(a => a.formly[0].fieldGroup[0].key.includes('.') ? a.formly[0].fieldGroup[0].key.split('.')[1] == head.key : a.formly[0].fieldGroup[0].key == head.key);
+
                         if (input) {
                           head['dataType'] = input.formly[0].fieldGroup[0].type;
                           head['subDataType'] = input.formly[0].fieldGroup[0].props.type;
                           head['title'] = input.title;
                         }
                       });
-                      tableData.tableHeaders = obj;
+
+                      tableData.tableHeaders = tableData.tableHeaders.concat(propertiesWithoutDataType.filter((item : any) => !tableData.tableHeaders.some((objItem : any) => objItem.key === item.key)));
+                      // tableData.tableHeaders = obj;
                     }
                   }
                   this.saveLoader = false;
