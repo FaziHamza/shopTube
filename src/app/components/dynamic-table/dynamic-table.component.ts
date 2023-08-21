@@ -75,26 +75,27 @@ export class DynamicTableComponent implements OnInit {
     if (this.data.doubleClick != false) {
       const dynamicPropertyName = Object.keys(this.form.value)[0]; // Assuming the dynamic property name is the first property in this.form.value
       if (this.form.get(dynamicPropertyName)) {
-        // let newData : any = JSON.parse(JSON.stringify(data));
-        // const checkMultiselect = this.tableHeaders.find((header: any) => header.dataType === "multiselect");
-        // if (checkMultiselect) {
-        //   for (const key in data) {
-        //     const filteredData = this.tableHeaders.find((header: any) => header.key === key);
+        let newData : any = JSON.parse(JSON.stringify(data));
+        for (const key in data) {
+          const filteredData = this.tableHeaders.find((header: any) => header.key === key);
 
-        //     if (filteredData && filteredData.dataType === "multiselect") {
-        //       newData[key] = newData[key]?.includes(',') ? newData[key].split(',') : ((newData[key] == undefined || newData[key] == '') ? [] : [newData[key]]);
-        //     }
-        //   }
-        // }
-
-
+          if (filteredData && filteredData?.dataType === "multiselect") {
+            newData[key] = newData[key]?.includes(',') ? newData[key].split(',') : ((newData[key] == undefined || newData[key] == '') ? [] : [newData[key]]);
+          }
+          else if (filteredData && filteredData?.dataType === "rangePicker") {
+            newData[key] = newData[key]?.includes(',') ? newData[key].split(',') : ((newData[key] == undefined || newData[key] == '') ? [] : [newData[key]]);
+          }
+          else if (filteredData && filteredData?.dataType === "datetime-local") {
+            newData[key] = newData[key] ? new Date(newData[key]) : ((newData[key] == undefined || newData[key] == '') ? [] : [newData[key]]);
+          }
+        }
 
         // for (let key in newData) {
         //   if (newData[key].includes(',')) {
         //     newData[key] = newData[key].split(',');
         //   }
         // }
-        this.form.get(dynamicPropertyName)?.patchValue(data);
+        this.form.get(dynamicPropertyName)?.patchValue(newData);
       }
       // this._dataSharedService.onupdateModel(data);
     }
