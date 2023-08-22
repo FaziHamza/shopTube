@@ -18,7 +18,10 @@ export const environment = {
     messagingSenderId: '',
     appId: '',
     measurementId: '',
-  }
+  },
+  recaptcha: {
+    siteKey: '6LfKNi0cAAAAACeYwFRY9_d_qjGhpiwYUo5gNW5-',
+  },
 };
 
 // ng serve --host=0.0.0.0 --disable-host-check
