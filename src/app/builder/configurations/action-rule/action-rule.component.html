@@ -1,5 +1,5 @@
 <div #monacoComponent></div>
-<div class="general_faq mt-3">
+<div *ngIf="showActionRuleForm" class="general_faq mt-3">
   <form [formGroup]="actionForm">
     <div class="grid lg:grid-cols-5 sm:grid-cols-2 gap-2">
       <div>
@@ -202,8 +202,10 @@
       </ng-container>
     </div>
 
-    <button nz-button nzType="primary" (click)="SaveAction()" class="mt-2"><span nz-icon nzType="save"
-        nzTheme="outline"></span>
-      Save Action</button>
+    <button nz-button nzType="primary" (click)="SaveAction()" class="mt-2 save_Action"><span nz-icon nzType="save"
+      nzTheme="outline"></span>
+    Save Action</button>
   </form>
 </div>
+<nz-alert *ngIf="!showActionRuleForm" nzType="warning" nzMessage="Please contact your DBA to approve fields"
+  nzShowIcon></nz-alert>

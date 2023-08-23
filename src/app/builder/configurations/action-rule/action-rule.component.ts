@@ -39,6 +39,7 @@ export class ActionRuleComponent implements OnInit {
   @Input() formlyModel: any;
   @Input() nodes: any;
   @Input() applicationId: string;
+  @Input() screeenBuilderId: string;
   actionForm: FormGroup;
   genrateQuery: any;
   genrateValue: any;
@@ -46,6 +47,7 @@ export class ActionRuleComponent implements OnInit {
   generatedSqlQuery: any;
   requestSubscription: Subscription;
   screenActions: any[];
+  showActionRuleForm: boolean = true;
   nodeList: { title: string, key: string }[] = [];
   constructor(private formBuilder: FormBuilder, private builderService: BuilderService,
     private employeeService: EmployeeService,
@@ -53,7 +55,7 @@ export class ActionRuleComponent implements OnInit {
     private applicationService: ApplicationService) { }
 
   ngOnInit(): void {
-
+    this.getPendingTableFileds();
     this.actionFormLoad();
     this.getActionData();
     this.extractNodes(this.nodes, this.nodeList);
@@ -146,7 +148,7 @@ export class ActionRuleComponent implements OnInit {
           actionType: action.type,
           elementName: (action.type === 'api' && (action.actionLink === 'get' || action.actionLink === 'put' || action.actionLink === 'post')) ? buttonData.key : (action.type === 'api' && action.actionLink === 'delete') ? tableData.key : this.nodes[0].key,
           elementNameTo: (action.type === 'api' && action.actionLink === 'get') ? tableData.key : '',
-          submissionType:  'click',
+          submissionType: 'click',
         };
 
         this.actionForm.patchValue(obj);
@@ -267,12 +269,12 @@ export class ActionRuleComponent implements OnInit {
       else if (this.actionForm.value.actionLink === 'put') {
         apiUrl = this.backendApi + 'knex-query/executeQuery';
       }
-      
+
       else {
         apiUrl = this.backendApi + 'knex-query';
       }
       // if (this.actionForm.value.elementName.includes('button')) {
-        
+
       // }
       //  else {
       //   apiUrl = this.backendApi;
@@ -579,5 +581,19 @@ export class ActionRuleComponent implements OnInit {
         return null;
       }
     }
+  }
+  getPendingTableFileds() {
+    this.requestSubscription = this.builderService.getPendingTableFields('knex-crud/getPending/table_schema/' + this.screeenBuilderId).subscribe({
+      next: (res: any) => {
+        if (res) {
+          if (res.length > 0) {
+            this.showActionRuleForm = false;
+          }
+        }
+      }, error: (err: any) => {
+        console.error(err); // Log the error to the console
+        this.toastr.error(`UserAssignTask : An error occurred`, { nzDuration: 3000 });
+      }
+    })
   }
 }

@@ -133,8 +133,9 @@
         <ng-template #nzTreeTemplate let-node let-origin="origin">
           <div class="custom-node flex card-lable-row" (mouseover)="hoverIn(node)" (mouseleave)="hoverOut(node)"
             [ngClass]="isActiveShow === node.origin.id ? 'isActive' : ''">
-            <span  (click)="[openField(node),highlightSelect(node.origin.id,true)]">
-              <i class="tree-layer-icon" *ngIf="node.origin.type == 'page' || node.origin.type == 'pageHeader' || node.origin.type == 'pageBody' || node.origin.type == 'pageFooter' || node.origin.type == 'sections' || node.origin.type == 'header' || node.origin.type == 'body' || node.origin.type == 'footer' ; else labelWithType"
+            <span (click)="[openField(node),highlightSelect(node.origin.id,true)]">
+              <i class="tree-layer-icon"
+                *ngIf="node.origin.type == 'page' || node.origin.type == 'pageHeader' || node.origin.type == 'pageBody' || node.origin.type == 'pageFooter' || node.origin.type == 'sections' || node.origin.type == 'header' || node.origin.type == 'body' || node.origin.type == 'footer' ; else labelWithType"
                 [class]="node.isExpanded ? (node.origin.treeExpandIcon ? node.origin.treeExpandIcon : 'fa-regular fa-square-dashed ') : (node.origin.treeInExpandIcon ? node.origin.treeInExpandIcon : 'fa-regular fa-square-dashed')"></i>
               <ng-template #labelWithType>
                 <span class="jameel-font">{{ typeFirstAlphabetAsIcon(node) }}</span>
@@ -151,7 +152,8 @@
               </label>
               <span class=" mx-1" *ngIf="isVisible === node.origin.id
               && node?.origin?.type != 'pageHeader' && node?.origin?.type != 'pageBody'  && node?.origin?.type != 'page' && node?.origin?.type != 'header'
-              && node?.origin?.type != 'body' && node?.origin?.type != 'footer' && node?.origin?.type != 'pageFooter'" (click)="insertAt(node)">
+              && node?.origin?.type != 'body' && node?.origin?.type != 'footer' && node?.origin?.type != 'pageFooter'"
+                (click)="insertAt(node)">
                 <!-- <span class="fa " nz-icon
                   nzType="copy"
                   nzTheme="outline" ></span> -->
@@ -169,7 +171,8 @@
               </label>
 
               <label class="mx-1" *ngIf="isVisible === node.origin.id   && node.origin.type != 'pageHeader' && node.origin.type != 'pageBody'  && node.origin.type != 'page' && node.origin.type != 'header'
-              && node.origin.type != 'body' && node.origin.type != 'footer' && node.origin.type != 'pageFooter'" (click)="remove(node, node)">
+              && node.origin.type != 'body' && node.origin.type != 'footer' && node.origin.type != 'pageFooter'"
+                (click)="remove(node, node)">
 
                 <!-- <span class="fa " nz-icon
                   nzType="delete"
@@ -214,33 +217,38 @@
                 </div>
               </div>
             </nz-tab>
-            <nz-tab nzTitle="UI Rule" class="UI-Rule" >
+            <nz-tab nzTitle="UI Rule" (nzClick)="showRulesFunc('uiRule')">
               <st-uirule [applicationId]="selectApplicationName" [selectedNode]="selectedNode"
-                *ngIf="selectedNode && nodes.length  > 0" [screenId]="_id" [screenName]="screenName" [screens]="screens"
-                [nodes]="nodes" (ruleNotify)="getUIRuleData($event)"></st-uirule>
+                *ngIf="selectedNode && nodes.length  > 0 && showRules == 'uiRule'" [screenId]="_id"
+                [screenName]="screenName" [screens]="screens" [nodes]="nodes"
+                (ruleNotify)="getUIRuleData($event)"></st-uirule>
               <!-- [screenName]="screenName" [screenModule]="screenModule" [nodes]="nodes" (ruleNotify)="getUIRuleData($event)"></st-uirule> -->
             </nz-tab>
-            <nz-tab nzTitle="Validation Rule">
+            <nz-tab nzTitle="Validation Rule" (nzClick)="showRulesFunc('validationRule')">
               <st-generic-field [modal]="validationFieldData.modelData" (notify)="notifyEmit($event)"
                 [itemData]="validationFieldData" [type]="validationFieldData.type" [screenId]="_id"
-                [screenName]="screenName" (deleteValidation)="deleteValidationRule($event)" *ngIf="validationFieldData">
+                [screenName]="screenName" (deleteValidation)="deleteValidationRule($event)"
+                *ngIf="validationFieldData &&  showRules == 'validationRule'">
               </st-generic-field>
               <!-- <st-validation-rule [configurationData]="validationFieldData"></st-validation-rule> -->
             </nz-tab>
-            <nz-tab nzTitle="Buisness Rule">
+            <nz-tab nzTitle="Buisness Rule" (nzClick)="showRulesFunc('businessRule')">
               <st-business-rule [applicationId]="selectApplicationName" [selectedNode]="selectedNode"
-                *ngIf="selectedNode" [screenName]="screenName" [screenId]="_id" [screens]="screens" [nodes]="nodes"
-                [formlyModel]="this.formlyModel"></st-business-rule>
+                *ngIf="selectedNode && showRules == 'businessRule'" [screenName]="screenName" [screenId]="_id"
+                [screens]="screens" [nodes]="nodes" [formlyModel]="this.formlyModel"></st-business-rule>
             </nz-tab>
-            <nz-tab nzTitle="Actions">
-              <st-action-rule [selectedNode]="selectedNode" *ngIf="selectedNode" [screenName]="screenName"
+            <nz-tab nzTitle="Actions" (nzClick)="showRulesFunc('actionRule')">
+              <st-action-rule [selectedNode]="selectedNode"
+                *ngIf="selectedNode && showActionRule && showRules == 'actionRule'" [screenName]="screenName"
                 [formlyModel]="this.formlyModel" [applicationId]="selectApplicationName" [nodes]="nodes"
-                [screens]="screens"></st-action-rule>
+                [screens]="screens" [screeenBuilderId]="_id"></st-action-rule>
+              <nz-alert *ngIf="!showActionRule" nzType="warning" nzMessage="Please contact your DBA to approve fields"
+                nzShowIcon></nz-alert>
             </nz-tab>
-            <nz-tab nzTitle="Grid Rules">
-              <st-business-rule-grid *ngIf="selectedNode && nodes.length  > 0" [selectedNode]="selectedNode"
-                [screenName]="screenName" [applicationId]="selectApplicationName" [screenId]="_id" [screens]="screens"
-                [nodes]="nodes"></st-business-rule-grid>
+            <nz-tab nzTitle="Grid Rules" (nzClick)="showRulesFunc('gridBusinessRule')">
+              <st-business-rule-grid *ngIf="selectedNode && nodes.length  > 0 && showRules == 'gridBusinessRule'"
+                [selectedNode]="selectedNode" [screenName]="screenName" [applicationId]="selectApplicationName"
+                [screenId]="_id" [screens]="screens" [nodes]="nodes"></st-business-rule-grid>
             </nz-tab>
           </nz-tabset>
         </div>
@@ -396,7 +404,8 @@
         to save as block?</label>
       <label class="mt-2" nz-checkbox [(ngModel)]="saveCommit">Do you want
         to save and commit?</label>
-      <label class="mt-2" nz-checkbox [(ngModel)]="isTableSave">Are you want to
+      <label nz-tooltip [nzTooltipTitle]="!showActionRule ? 'Save screen then table' : ''" [disabled]="!showActionRule"
+        class="mt-2" nz-checkbox [(ngModel)]="isTableSave">Are you want to
         save table?</label>
     </div>
   </ng-container>

@@ -44,6 +44,8 @@ import { EmployeeService } from '../services/employee.service';
   styleUrls: ['./builder.component.scss'],
 })
 export class BuilderComponent implements OnInit {
+  showRules : any = '';
+  showActionRule: any = true;
   public editorOptions: JsonEditorOptions;
   isSavedDb = false;
   makeOptions = () => new JsonEditorOptions();
@@ -365,6 +367,7 @@ export class BuilderComponent implements OnInit {
         next: (res: any) => {
           if (res.isSuccess) {
             this.toastr.success(res.message, { nzDuration: 3000 });
+            this.showActionRule = true;
             // this.getBuilderScreen();
             this.getFromQuery(this.navigation);
           }
@@ -505,6 +508,7 @@ export class BuilderComponent implements OnInit {
           this.builderScreenData = res.data;
           this.form = new FormGroup({});
           if (res.data.length > 0) {
+            this.showActionRule = true;
             const objScreenData = JSON.parse(res.data[0].screenData);
             this.isSavedDb = true;
             // this.moduleId = res[0].moduleId;
@@ -1444,6 +1448,7 @@ export class BuilderComponent implements OnInit {
       const modal =
         this.modalService.create<AddControlCommonPropertiesComponent>({
           nzTitle: 'Change Control Value',
+          nzWidth: '550px',
           nzContent: AddControlCommonPropertiesComponent,
           nzViewContainerRef: this.viewContainerRef,
           nzComponentParams: {
@@ -2106,7 +2111,7 @@ export class BuilderComponent implements OnInit {
                         fileUploadSize: 30,
                         selectType: 'multiple',
                         multiFileUploadTypes: 'dragNDrop',
-                        innerInputClass:'',
+                        innerInputClass: '',
                       },
                       apiUrl: '',
                       rows: 1,
@@ -2135,7 +2140,8 @@ export class BuilderComponent implements OnInit {
             ],
           };
           newNode = { ...newNode, ...formlyObj };
-          newNode = this.applyFloatingLastNodeWrapper(newNode)
+          newNode = this.applyFloatingLastNodeWrapper(newNode);
+          this.showActionRule = false;
         }
         break;
     }
@@ -2352,6 +2358,7 @@ export class BuilderComponent implements OnInit {
   }
   closeConfigurationList() {
     this.IsShowConfig = false;
+    this.showRules = '';
   }
   openConfig(parent: any, node: any) {
     if (node.origin) {
@@ -5577,6 +5584,9 @@ export class BuilderComponent implements OnInit {
           description: '',
           status: 'Pending',
           isActive: true,
+          screenBuilderId: this._id,
+          // applicationId: JSON.parse(localStorage.getItem('applicationId')!),
+          // organizationId: JSON.parse(localStorage.getItem('organizationId')!),
         };
         return this.builderService
           .saveSQLDatabaseTable('knex-crud/table_schema', objFields)
@@ -5642,6 +5652,7 @@ export class BuilderComponent implements OnInit {
                             table_id: item.table_id,
                             fieldName: fieldName,
                             status: item.status,
+                            screenBuilderId: this._id,
                           };
                           this.deleteCases.push(deleteCase);
                         }
@@ -5661,12 +5672,16 @@ export class BuilderComponent implements OnInit {
                       }
                       this.saveDBFields(tableElement[0]?.id);
                       this.deleteDBFields();
-                    } else {
+                    }
+                    else {
                       const objTableNames = {
                         tableName: element.name,
                         comment: '',
                         totalFields: '',
                         isActive: 'Pending',
+                        screenBuilderId: this._id,
+                        applicationId: JSON.parse(localStorage.getItem('applicationId')!),
+                        organizationId: JSON.parse(localStorage.getItem('organizationId')!),
                       };
                       this.builderService
                         .saveSQLDatabaseTable('knex-crud/tables', objTableNames)
@@ -5681,6 +5696,9 @@ export class BuilderComponent implements OnInit {
                                   description: '',
                                   status: 'Pending',
                                   isActive: true,
+                                  screenBuilderId: this._id,
+                                  // applicationId: JSON.parse(localStorage.getItem('applicationId')!),
+                                  // organizationId: JSON.parse(localStorage.getItem('organizationId')!),
                                 };
                                 this.builderService
                                   .saveSQLDatabaseTable(
@@ -6469,5 +6487,8 @@ export class BuilderComponent implements OnInit {
     } else {
       this.toastr.error('Please select Screen first', { nzDuration: 3000 });
     }
+  }
+  showRulesFunc(ruleType : any){
+    this.showRules = ruleType;
   }
 }
