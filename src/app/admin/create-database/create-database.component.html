@@ -10,7 +10,7 @@
 
 
 <div class="flex flex-wrap">
-  <div class="w-1/4">
+  <div class="w-1/4 tabset-container">
     <nz-tabset>
       <!--isActive [Approved] -->
       <nz-tab nzTitle="Approved">
@@ -18,13 +18,16 @@
           <nz-list-header>
             <!-- <h3><b style="background-color: #6BC146;color:white; padding:3px 5px; border-radius:10px">Approved</b></h3> -->
             <!-- <hr /> -->
-            <input type="text" nz-input placeholder="Search Schema" class="my-2" />
+            <input type="text" nz-input placeholder="Search Schema" class="my-2 tabset-container-input" />
           </nz-list-header>
           <li nz-list-item *ngFor="let item of filteredApproved;" nzNoFlex>
 
             <ul nz-list-item-actions>
               <nz-list-item-action>
-                <a (click)="editTableData(item)">edit</a>
+                <a (click)="editTableData(item)">
+                  <i class="fa-regular fa-pen-to-square text-base text-blue-600 hover:text-blue-500"></i>
+
+                </a>
               </nz-list-item-action>
             </ul>
             {{ item.tableName }}
@@ -37,12 +40,14 @@
           <nz-list-header>
             <!-- <h3><b style="background-color: #FFCC00; padding:3px 5px; border-radius:10px">Pending</b></h3> -->
             <!-- <hr /> -->
-            <input type="text" nz-input placeholder="Search Schema" class="my-2" />
+            <input type="text" nz-input placeholder="Search Schema" class="my-2 tabset-container-input" />
           </nz-list-header>
           <li nz-list-item *ngFor="let itemPending of filteredPending" nzNoFlex>
             <ul nz-list-item-actions>
               <nz-list-item-action>
-                <a (click)="editTableData(itemPending)">edit</a>
+                <a (click)="editTableData(itemPending)">
+                  <i class="fa-regular fa-pen-to-square text-base text-blue-600 hover:text-blue-500"></i>
+                </a>
               </nz-list-item-action>
             </ul>
             {{ itemPending.tableName }}
@@ -56,7 +61,8 @@
 
   </div>
   <div class="w-3/4 pl-2">
-    <form [formGroup]="myForm">
+    <div class="h-[46px] mb-[15px] flex items-center px-[15px] rounded-md bg-white text-black text-2xl font-semibold" >DATABASE</div>
+    <form [formGroup]="myForm"  >
       <div class="flex flex-wrap">
         <div class="w-1/2 theme-body" *ngFor="let item of fields">
           <formly-form [model]="model" [fields]="item.fieldGroup" [options]="options" [form]="myForm"></formly-form>
@@ -70,13 +76,13 @@
           <h3 [ngStyle]="{ margin: '16px 0' }"><b>Table Fields</b></h3>
         </div>
         <div class="w-3/6 text-right">
-          <button nz-button nzType="primary" class="my-2 " title="Save" (click)="submitFormv1()" ngbTooltip="Save Table"
+          <button nz-button nzType="primary" class="my-2 btn" title="Save" (click)="submitFormv1()" ngbTooltip="Save Table"
             *ngIf="tableId == 0">Save </button>
-          <button nz-button nzType="primary" class="my-2 " title="Update" (click)="updateFormv1()"
+          <button nz-button nzType="primary" class="my-2 btn" title="Update" (click)="updateFormv1()"
             ngbTooltip="Update Table" *ngIf="tableId !=0">Update </button>
-          <button nz-button nzType="primary" class="my-2 mx-2" title="Cancel" (click)="cancelEditTable()"
+          <button nz-button nzType="primary" class="my-2 mx-2 btn" title="Cancel" (click)="cancelEditTable()"
             ngbTooltip="Cancel" *ngIf="tableId !=0">Cancel </button>
-          <button nz-button nzType="primary" class="my-2 mx-2" title="Clear" (click)="cancelEditTable()"
+          <button nz-button nzType="primary" class="my-2 mx-2 btn" title="Clear" (click)="cancelEditTable()"
             ngbTooltip="Clear" *ngIf="tableId ==0">Clear </button>
         </div>
       </div>
