@@ -264,6 +264,7 @@ export class SectionsComponent implements OnInit {
         });
       }
       else {
+        
         let findClickApi = data.appConfigurableEvent.filter((item: any) => item.actions.some((action: any) => action.method === 'put' && action.actionType == 'api'));
         if (this.dataModel) {
           // this.form.get(dynamicPropertyName);
@@ -286,6 +287,8 @@ export class SectionsComponent implements OnInit {
             ...model,
             modalData: removePrefix(model.modalData)
           };
+          console.log(result);
+          return;
           this.saveLoader = true;
           this.applicationServices.addNestCommonAPI(findClickApi.length > 0 ? findClickApi?.[0].actions?.[0]?.url : 'knex-query/executeQuery', result).subscribe({
             next: (res) => {

@@ -77,7 +77,7 @@ export class DynamicTableComponent implements OnInit {
     if (this.data.doubleClick != false) {
       const dynamicPropertyName = Object.keys(this.form.value)[0]; // Assuming the dynamic property name is the first property in this.form.value
       if (this.form.get(dynamicPropertyName)) {
-        let newData : any = JSON.parse(JSON.stringify(data));
+        let newData: any = JSON.parse(JSON.stringify(data));
         for (const key in data) {
           const filteredData = this.tableHeaders.find((header: any) => header.key === key);
 
@@ -89,6 +89,27 @@ export class DynamicTableComponent implements OnInit {
           }
           else if (filteredData && filteredData?.dataType === "datetime-local") {
             newData[key] = newData[key] ? new Date(newData[key]) : ((newData[key] == undefined || newData[key] == '') ? [] : [newData[key]]);
+          }
+          else if (filteredData && filteredData?.dataType === "image-upload") {
+            if (newData[key]) {
+
+            }
+            const url = "image-1692710150321-926327922.jpeg";
+
+            // Split the URL by '/' to get the file name
+            const fileNameWithExtension = url;
+
+            // Split the file name to separate name and type
+            const fileNameArray = fileNameWithExtension.split('.');
+            const name = fileNameArray[0];
+            const type = "image/jpeg";
+
+            const blob = new Blob([url], { type: type });
+
+            // Step 2: Create a File from the Blob
+            const file = new File([blob], url, { type: type });
+            newData[key] = file;
+
           }
         }
 
@@ -445,7 +466,7 @@ export class DynamicTableComponent implements OnInit {
       this.tableData.unshift(newRow);
       this.displayData = [...this.tableData];
       if (!this.pageSize)
-      this.pageSize = this.data.end;
+        this.pageSize = this.data.end;
       this.updateDisplayData();
     }
   };
@@ -877,5 +898,60 @@ export class DynamicTableComponent implements OnInit {
     const date = new Date(dateString);
     return new DatePipe('en-US').transform(date, 'EEE MMM dd yyyy HH:mm:ss');
   }
+
+  convertBase64ToBlob(base64String: string, mimeType: string): Blob {
+    // Remove the data URL prefix (e.g., 'data:image/png;base64,') if it exists
+    const base64WithoutPrefix = base64String.startsWith('data:') ? base64String.split(',')[1] : base64String;
+
+    // Decode the Base64 string into a binary array
+    const binaryArray = atob(base64WithoutPrefix);
+
+    // Create a Uint8Array to hold the binary data
+    const uint8Array = new Uint8Array(binaryArray.length);
+
+    // Populate the Uint8Array with binary values from the Base64 string
+    for (let i = 0; i < binaryArray.length; i++) {
+      uint8Array[i] = binaryArray.charCodeAt(i);
+    }
+
+    // Create a Blob with the binary data and specified MIME type
+    return new Blob([uint8Array], { type: mimeType });
+  }
+
+  // convertBase64ToBlob(base64String: string, mimeType: string): Blob | null {
+  //   // Check if the string starts with the correct data URI prefix
+  //   if (!base64String.startsWith(`data:${mimeType};base64,`)) {
+  //     console.error('Invalid Base64 string format');
+  //     return null;
+  //   }
+
+  //   // Extract the Base64 data part
+  //   const base64WithoutPrefix = base64String.split(',')[1];
+
+  //   try {
+  //     // Convert the Base64 string to a Uint8Array
+  //     const binaryString = atob(base64WithoutPrefix);
+  //     const binaryData = new Uint8Array(binaryString.length);
+  //     for (let i = 0; i < binaryString.length; i++) {
+  //       binaryData[i] = binaryString.charCodeAt(i);
+  //     }
+
+  //     // Create a Blob object from the Uint8Array with the specified MIME type
+  //     return new Blob([binaryData], { type: mimeType });
+  //   } catch (error) {
+  //     console.error('Error decoding Base64:', error);
+  //     return null;
+  //   }
+  // }
+
+  // Example usage
+
+
+
+
+
+
+
+
 
 }

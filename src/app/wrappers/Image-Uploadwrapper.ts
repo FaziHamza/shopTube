@@ -6,7 +6,7 @@ import { DataSharedService } from '../services/data-shared.service';
   selector: 'formly-field-image-upload',
   template: `
 
-   <div class="imageUpoload"[class]="to['additionalProperties']?.wrapper=='floating_standard' ? 'relative z-0' : ''"
+<div class="imageUpoload"[class]="to['additionalProperties']?.wrapper=='floating_standard' ? 'relative z-0' : ''"
    *ngIf="to.type != 'number'">
    <nz-input-group [style.border-radius]="to['additionalProperties']?.borderRadius"
    [ngClass]="showError ? 'input-border' : ''"
@@ -23,7 +23,7 @@ import { DataSharedService } from '../services/data-shared.service';
    [formlyAttributes]=" field"
    nz-input
    [type]="'file'"
-   (change)="onFileSelected($event)" #fileInput
+   (change)="onFileSelected($event)" 
    [placeholder]="to.placeholder"
    [nzStatus]="to['additionalProperties']?.status"
    [nzSize]="to['additionalProperties']?.size"

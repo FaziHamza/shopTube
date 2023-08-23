@@ -6173,50 +6173,59 @@ tr:hover {
 }
 
 .dynamic-table {
-/* Styling for header cells */
-thead tr th {
-  min-width: 125px !important;
-  width: 125px !important;
-  max-width: 250px !important;
-  overflow: hidden;
-  white-space: nowrap !important;
-  text-overflow: ellipsis !important;
+
+  /* Styling for header cells */
+  thead tr th {
+    min-width: 125px !important;
+    width: 125px !important;
+    max-width: 250px !important;
+    overflow: hidden;
+    white-space: nowrap !important;
+    text-overflow: ellipsis !important;
+  }
+
+  /* Styling for regular cells */
+  tbody tr td {
+    min-width: 125px !important;
+    max-width: 250px !important;
+    width: 125px !important;
+    overflow: hidden;
+    white-space: nowrap !important;
+    text-overflow: ellipsis !important;
+  }
+
+
+
 }
 
-/* Styling for regular cells */
-tbody tr td {
-  min-width: 125px !important;
-  max-width: 250px !important;
-  width: 125px !important;
-  overflow: hidden;
-  white-space: nowrap !important;
-  text-overflow: ellipsis !important;
-}
-
-
-
-}
 .dynamic-responsive-table-body {
-    .dynamic-responsive-table {
-      .ant-table-row {
-        td {
-          padding: 5px 10px !important;
-          box-sizing: border-box;
-          height: 42px !important;
-          max-height: 42px !important;
-          min-height: fit-content !important;
-          vertical-align: middle !important;
-        }
-
-        td:first-child {
-          background-color: #2563EB !important;
-          color: #fff !important;
-        }
-        
-        // td:last-child {
-        //   color: #000 !important; 
-        //   }
+  .dynamic-responsive-table {
+    .ant-table-row {
+      td {
+        padding: 5px 10px !important;
+        box-sizing: border-box;
+        height: 42px !important;
+        max-height: 42px !important;
+        min-height: fit-content !important;
+        vertical-align: middle !important;
       }
 
+      td:first-child {
+        background-color: #2563EB !important;
+        color: #fff !important;
+      }
+
+      // td:last-child {
+      //   color: #000 !important; 
+      //   }
     }
+
   }
+}
+
+.status-color {
+  .ant-select-selector {
+    cursor: text;
+    border-color: red !important;
+  }
+}

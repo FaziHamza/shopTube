@@ -102,9 +102,9 @@ export class CreateDatabaseComponent implements OnInit {
           props: {
             label: 'Select Status',
             options: [
-              {label: "Approved", value: "Approved"},
-              {label: "Pending", value: "Pending"},
-              {label: "Reject", value: "Reject"}
+              { label: "Approved", value: "Approved" },
+              { label: "Pending", value: "Pending" },
+              { label: "Reject", value: "Reject" }
             ]
           }
         }
@@ -115,15 +115,15 @@ export class CreateDatabaseComponent implements OnInit {
     private encryptionService: EncryptionService) { }
 
   //Encrypt work
-//   encryptData :any;
-//   inputFiled :any;
-//  sendEncryptData(){
-//   console.log(CryptoJS.AES.encrypt("78w82y", "myemail").toString()); //email
-//   this.encryptData = CryptoJS.AES.encrypt(this.inputFiled, "myemail").toString()
-//  }
+  //   encryptData :any;
+  //   inputFiled :any;
+  //  sendEncryptData(){
+  //   console.log(CryptoJS.AES.encrypt("78w82y", "myemail").toString()); //email
+  //   this.encryptData = CryptoJS.AES.encrypt(this.inputFiled, "myemail").toString()
+  //  }
 
   ngOnDestroy() {
-    if(this.requestSubscription)
+    if (this.requestSubscription)
       this.requestSubscription.unsubscribe();
   }
   ngOnInit(): void {
@@ -212,6 +212,7 @@ export class CreateDatabaseComponent implements OnInit {
     this.enableEditCache();
   }
   updateData() {
+    debugger
     this.listOfData.forEach((record, index) => {
       record.id = index + 1;
     });
@@ -243,17 +244,49 @@ export class CreateDatabaseComponent implements OnInit {
                     ),
                   };
                   this.data.push(objlistData);
-                  this.filteredApproved = this.data.filter(
-                    (item) => item.isActive === 'Approved'
-                  );
-                  this.filteredPending = this.data.filter(
-                    (item) => item.isActive === 'Pending'
-                  );
+                  // this.filteredApproved = this.data.filter(
+                  //   (item) => item.isActive === 'Approved'
+                  // );
+                  // this.filteredPending = this.data.filter(
+                  //   (item) => item.isActive === 'Pending'
+                  // );
 
                   // console.warn("filteredPending:", this.filteredPending);
                   // console.warn("filteredApproved:", this.filteredApproved);
                 });
+                this.filteredApproved = this.data.filter((item) => {
+                  return item.isActive === 'Approved';
+                });
 
+                this.filteredPending = this.data.filter((item) => {
+                  return item.isActive === 'Pending' && item.schema.some((a: any) => a.status === 'Pending');
+                });
+                let statusFilterd = this.data.filter((item) => {
+                  return item.isActive === 'Approved' && item.schema.some((a: any) => a.status === 'Pending');
+                });
+
+                statusFilterd.forEach(element => {
+                  this.filteredPending.push(element);
+                });
+
+                // this.filteredPending = this.data.map((item) => {
+                //   return {
+                //     ...item,
+                //     schema: item.schema.filter((a: any) => a.status === 'Pending')
+                //   };
+                // }).filter((item) => item.isActive === 'Pending' && item.schema.length > 0);
+                // let abc = this.data.map((item) => {
+                //   return {
+                //     ...item,
+                //     schema: item.schema.filter((a: any) => a.status === 'Pending')
+                //   };
+                // }).filter((item) => item.isActive === 'Approved' && item.schema.length > 0);
+                // abc.forEach(element => {
+                //   this.filteredPending.push(element);
+                // });
+                // this.filteredPending = this.data.filter(
+                //   (item) => item.isActive === 'Pending'
+                // );
               }
             },
             error: (err) => {
@@ -299,10 +332,10 @@ export class CreateDatabaseComponent implements OnInit {
       };
       console.log(data);
       if (this.myForm.value.isActive === "Approved")
-      // saving table if status is approved.
+        // saving table if status is approved.
         this.employeeService.saveSQLDatabaseTable('knex', data).subscribe({
           next: (res) => {
-           ;
+            ;
             this.toastr.success("Save Successfully", { nzDuration: 3000 });
           },
           error: (err) => {
@@ -397,7 +430,7 @@ export class CreateDatabaseComponent implements OnInit {
             this.toastr.error("An error occurred", { nzDuration: 3000 });
           }
         });
-      } else if(this.myForm.value.isActive === "Pending" || this.myForm.value.isActive === "Reject"){
+      } else if (this.myForm.value.isActive === "Pending" || this.myForm.value.isActive === "Reject") {
         this.toastr.warning("Setting is done.", { nzDuration: 3000 });
       }
 
