@@ -90,27 +90,27 @@ export class DynamicTableComponent implements OnInit {
           else if (filteredData && filteredData?.dataType === "datetime-local") {
             newData[key] = newData[key] ? new Date(newData[key]) : ((newData[key] == undefined || newData[key] == '') ? [] : [newData[key]]);
           }
-          else if (filteredData && filteredData?.dataType === "image-upload") {
-            if (newData[key]) {
+          // else if (filteredData && filteredData?.dataType === "image-upload") {
+          //   if (newData[key]) {
 
-            }
-            const url = "image-1692710150321-926327922.jpeg";
+          //   }
+          //   const url = "image-1692710150321-926327922.jpeg";
 
-            // Split the URL by '/' to get the file name
-            const fileNameWithExtension = url;
+          //   // Split the URL by '/' to get the file name
+          //   const fileNameWithExtension = url;
 
-            // Split the file name to separate name and type
-            const fileNameArray = fileNameWithExtension.split('.');
-            const name = fileNameArray[0];
-            const type = "image/jpeg";
+          //   // Split the file name to separate name and type
+          //   const fileNameArray = fileNameWithExtension.split('.');
+          //   const name = fileNameArray[0];
+          //   const type = "image/jpeg";
 
-            const blob = new Blob([url], { type: type });
+          //   const blob = new Blob([url], { type: type });
 
-            // Step 2: Create a File from the Blob
-            const file = new File([blob], url, { type: type });
-            newData[key] = file;
-
-          }
+          //   // Step 2: Create a File from the Blob
+          //   const file = new File([blob], url, { type: type });
+          //   newData[key] = file;
+          //   // newData[key].setValue(file);
+          // }
         }
 
         // for (let key in newData) {

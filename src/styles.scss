@@ -6229,3 +6229,9 @@ tr:hover {
     border-color: red !important;
   }
 }
+
+.g-recaptcha {
+  body {
+    height: 0px !important;
+  }
+}

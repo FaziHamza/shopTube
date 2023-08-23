@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { EmployeeService } from 'src/app/services/employee.service';
@@ -11,9 +11,16 @@ import { CommonService } from 'src/common/common-services/common.service';
   styleUrls: ['./login.component.scss'],
 })
 export class LoginComponent implements OnInit {
+  ngAfterViewInit() {
+    // Reinitialize reCAPTCHA after the view has been initialized
+    grecaptcha.render('recaptcha', { sitekey: '6LfKNi0cAAAAACeYwFRY9_d_qjGhpiwYUo5gNW5-' });
+  }
+
+  recaptchaResponse = '';
   ngOnInit(): void {
     // init Form
     this.create();
+    this.cdr.detectChanges();
   }
 
   showLoader: boolean = false;
@@ -22,8 +29,9 @@ export class LoginComponent implements OnInit {
     public authService: AuthService,
     private route: ActivatedRoute,
     private router: Router,
-    private commonService: CommonService
-  ) {}
+    private commonService: CommonService,
+    private cdr: ChangeDetectorRef,
+  ) { }
 
   isFormSubmit: boolean = false;
   form: FormGroup;
@@ -33,6 +41,7 @@ export class LoginComponent implements OnInit {
       email: [null, [Validators.required, Validators.email]],
       password: [null, [Validators.required]],
       remember: [true],
+      recaptch: [false]
     });
   }
 
@@ -41,6 +50,14 @@ export class LoginComponent implements OnInit {
   }
 
   submitForm(): void {
+    debugger
+    this.recaptchaResponse = grecaptcha.getResponse();
+    if (!this.recaptchaResponse) {
+      alert("You are not human");
+      return;
+    }
+
+
     this.isFormSubmit = true;
     if (this.form.invalid) {
       return;

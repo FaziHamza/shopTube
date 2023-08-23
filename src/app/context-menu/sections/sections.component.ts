@@ -288,7 +288,6 @@ export class SectionsComponent implements OnInit {
             modalData: removePrefix(model.modalData)
           };
           console.log(result);
-          return;
           this.saveLoader = true;
           this.applicationServices.addNestCommonAPI(findClickApi.length > 0 ? findClickApi?.[0].actions?.[0]?.url : 'knex-query/executeQuery', result).subscribe({
             next: (res) => {
