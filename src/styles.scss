@@ -6257,3 +6257,38 @@ tr:hover {
 
 
 
+.tabset-container {
+  // .ant-tabs-nav {
+  //   margin-bottom: 6px;
+  // }
+
+  .ant-tabs-nav-wrap {
+    background: #fff;
+    padding: 0 10px;
+    border-radius: 6px;
+  }
+  
+  
+  .tabset-container-input {
+    height: 40px;
+    border-radius: 6px;
+  }
+  
+  .ant-tabs-content-holder {
+    background: #fff !important;
+    border-radius: 6px;
+
+    .ant-list-items li {
+      &:hover {
+        background-color: rgb(249, 249, 249) !important;
+      }
+    }
+  }
+
+  .ant-list-bordered.ant-list-lg .ant-list-footer,
+  .ant-list-bordered.ant-list-lg .ant-list-header,
+  .ant-list-bordered.ant-list-lg .ant-list-item {
+    padding: 10px 15px;
+  }
+
+}

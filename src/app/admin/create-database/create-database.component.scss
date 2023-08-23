@@ -1,0 +1,37 @@
+.ant-btn-icon-only {
+    height: 40px;
+    flex-shrink: 0;
+    border-radius: 6px;
+    background: #2563EB;
+    color: #FFF;
+    font-size: 14px;
+    font-style: normal;
+    line-height: 140%;
+    letter-spacing: 0.2px;
+    width: 40px;
+
+    &:hover {
+        background-color: #3b82f6;
+    }
+}
+
+.btn {
+    height: 40px;
+    flex-shrink: 0;
+    border-radius: 6px;
+    background: #2563EB;
+    color: #FFF;
+    font-size: 14px;
+    font-style: normal;
+    line-height: 140%;
+    letter-spacing: 0.2px;
+    width: fit-content;
+
+    &:hover {
+        background-color: #3b82f6;
+    }
+}
+
+  
+
+
