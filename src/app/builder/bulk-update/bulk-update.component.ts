@@ -100,12 +100,15 @@ export class BulkUpdateComponent implements OnInit {
     }
 
   }
-  apply() {
-    let findInputs = this.filterInputElements(this.tabelNodes);
-    findInputs.forEach(res => {
-      if(!res.key.includes('.'))
-        res.key = this.screenName +'.' + res.key;
-    })
+  apply(key: any, data: any) {
+    if (data.children.length > 0) {
+      key = key.toLowerCase();
+      let findInputs = this.filterInputElements(data.children);
+      findInputs.forEach(res => {
+        if (!res.key.includes('.'))
+          res.key = key + '.' + res.key;
+      })
+    }
   }
   filterInputElementKey(data: any): any[] {
     const inputElements: any[] = [];
