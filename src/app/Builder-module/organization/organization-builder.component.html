@@ -99,7 +99,7 @@
                     </td>
                 </tr>
                 <tr [nzExpand]="data.expand">
-                    <button nz-button nzType="primary"
+                    <button nz-button nzType="primary" class="btn"
                         (click)="openModal('department', true,data._id)"><span nz-icon
                             nzType="plus"
                             nzTheme="outline"></span>Add
@@ -149,11 +149,11 @@
     </div>
 </nz-card>
 <ng-template #extraTemplate>
-    <button nz-button nzType="primary" (click)="openModal('department')"><span
+    <button nz-button nzType="primary" class="btn" (click)="openModal('department')"><span
             nz-icon nzType="plus"
             nzTheme="outline"></span>Add
         Department</button>
-    <button nz-button nzType="primary" class="ml-2"
+    <button nz-button nzType="primary" class="ml-2 btn"
         (click)="openModal('organization')"><span nz-icon nzType="plus"
             nzTheme="outline"></span>Add
         Organization</button>
@@ -181,13 +181,13 @@
     </ng-container>
 </nz-drawer>
 <ng-template #footerTpl>
-    <button class="mr-2" nz-button nzType="primary" nzDanger
+    <button class="mr-2 btn" nz-button nzType="primary" nzDanger
         (click)="handleCancel()"><span nz-icon nzType="close"
             nzTheme="outline"></span>Close</button>
-    <button nz-button *ngIf="isSubmit" nzType="primary" (click)="submit()"
+    <button nz-button class="btn" *ngIf="isSubmit" nzType="primary" (click)="submit()"
         [disabled]="!form.valid"><span nz-icon
             nzType="database" nzTheme="outline"></span>Submit</button>
-    <button nz-button *ngIf="!isSubmit" nzType="primary" (click)="submit()"
+    <button nz-button class="btn" *ngIf="!isSubmit" nzType="primary" (click)="submit()"
         [disabled]="!form.valid"><span nz-icon
             nzType="redo" nzTheme="outline"></span>Update</button>
 </ng-template>

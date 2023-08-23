@@ -156,9 +156,9 @@
     </ng-container>
   </nz-drawer>
   <ng-template #config>
-    <button nz-button nzType="default" (click)="closeConfigurationList()">Cancel</button>
+    <button nz-button nzType="default" class="btn-no" (click)="closeConfigurationList()">Cancel</button>
     &nbsp;
-    <button nz-button nzType="primary" (click)="closeConfigurationList()">OK</button>
+    <button nz-button nzType="primary" class="btn" (click)="closeConfigurationList()">OK</button>
   </ng-template>
   <nz-drawer [nzSize]="'large'" [nzWidth]="'80%'" *ngIf="controlListvisible" [nzVisible]="controlListvisible"
     nzPlacement="right" [nzTitle]="'Control List'" [nzExtra]="extra" (nzOnClose)="controlListClose()">

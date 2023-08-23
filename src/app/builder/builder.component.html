@@ -207,14 +207,14 @@
           <nz-tabset>
             <nz-tab nzTitle="Configuration">
               <div class=" general_faq mt-3">
-                <div style="position:relative ;">
+                <div style="position:relative ;" class="overall-drawer">
                   <st-generic-field [modal]="formModalData" (notify)="notifyEmit($event)" [itemData]="fieldData"
                     [type]="fieldData.type" [screenId]="_id" [screenName]="screenName" *ngIf="fieldData">
                   </st-generic-field>
                 </div>
               </div>
             </nz-tab>
-            <nz-tab nzTitle="UI Rule">
+            <nz-tab nzTitle="UI Rule" class="UI-Rule" >
               <st-uirule [applicationId]="selectApplicationName" [selectedNode]="selectedNode"
                 *ngIf="selectedNode && nodes.length  > 0" [screenId]="_id" [screenName]="screenName" [screens]="screens"
                 [nodes]="nodes" (ruleNotify)="getUIRuleData($event)"></st-uirule>
@@ -251,8 +251,8 @@
 <ng-template #config>
   <!-- <span class="mr-2 text-lg hover:cursor-pointer" nz-icon nzType="close-circle" nzTheme="twotone"
   (click)="closeConfigurationList()"></span> -->
-  <button nz-button nzType="primary" (click)="backNode()">Back</button>
-  <button nz-button nzType="primary" (click)="nextNode()">Next</button>
+  <button nz-button nzType="primary" class="btn mr-2" (click)="backNode()">Back</button>
+  <button nz-button nzType="primary" class="btn" (click)="nextNode()">Next</button>
   <!-- <button nz-button nzType="default"
   (click)="closeConfigurationList()">Cancel</button>
 &nbsp;
@@ -364,7 +364,7 @@
         (click)="searchControll()"></span></button>
   </ng-template>
 </ng-template>
-<nz-modal [nzWidth]="modalType === 'previewJson' ? '800px' : '500px'" [(nzVisible)]="showModal"
+<nz-modal class="builder-selected-json" [nzWidth]="modalType === 'previewJson' ? '800px' : '500px'" [(nzVisible)]="showModal"
   [nzTitle]="modalType === 'previewJson' ? 'Selected Json' : (modalType === 'webCode' ? 'Web Template Preview' : (modalType === 'saveAsTemplate' ? 'Save As Template' : ''))"
   (nzOnCancel)="handleCancel()" (nzOnOk)="handleOk()">
   <ng-container *nzModalContent>
