@@ -453,6 +453,11 @@ export class BuilderService {
       this.nestUrl + api
     );
   }
+  getPendingTableFields(api: string): Observable<any> {
+    return this.http.get<any>(
+      this.nestUrl + api
+    );
+  }
 }
 
 
