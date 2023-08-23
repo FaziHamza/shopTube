@@ -1,10 +1,10 @@
-<div class="container" (contextmenu)="onContextMenu($event)">
-    <div class="item" *ngFor="let item of items">{{ item }}</div>
-</div>
-
-<div class="context-menu" *ngIf="isContextMenuVisible" [style.left.px]="contextMenuPosition.x"
-    [style.top.px]="contextMenuPosition.y">
-    <div class="context-menu-item" *ngFor="let option of contextMenuOptions" (click)="onMenuItemClick(option)">
-        {{ option }}
-    </div>
-</div>
+<!-- demo.component.html -->
+<form #form="ngForm">
+  <!-- ... your other form fields ... -->
+  <div class="mb-2">
+    <div class="g-recaptcha" data-sitekey="6LfKNi0cAAAAACeYwFRY9_d_qjGhpiwYUo5gNW5-"></div>
+  </div>
+  <div class="mt-2">
+    <button type="button" class="btn btn-primary" (click)="send(form)">Send</button>
+  </div>
+</form>

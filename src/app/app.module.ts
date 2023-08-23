@@ -43,6 +43,8 @@ const antDesignIcons = AllIcons as {
   [key: string]: IconDefinition;
 };
 const icons: IconDefinition[] = Object.keys(antDesignIcons).map(key => antDesignIcons[key])
+import { RECAPTCHA_SETTINGS, RecaptchaFormsModule, RecaptchaModule, RecaptchaSettings } from 'ng-recaptcha';
+import { environment } from 'src/environments/environment';
 
 @NgModule({
   declarations: [
@@ -76,6 +78,8 @@ const icons: IconDefinition[] = Object.keys(antDesignIcons).map(key => antDesign
     AppRoutingModule,
     ShareModule,
     GoogleChartsModule,
+    RecaptchaFormsModule,
+    RecaptchaModule,
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,
@@ -103,7 +107,12 @@ const icons: IconDefinition[] = Object.keys(antDesignIcons).map(key => antDesign
       multi: true,
       deps: [Router, EnvService],
     },
-
+    {
+      provide: RECAPTCHA_SETTINGS,
+      useValue: {
+        siteKey: environment.recaptcha.siteKey,
+      } as RecaptchaSettings,
+    },
   ],
   bootstrap: [AppComponent],
 })
