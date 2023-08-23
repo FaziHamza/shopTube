@@ -6235,3 +6235,25 @@ tr:hover {
     height: 0px !important;
   }
 }
+
+
+
+#recaptcha>div:nth-child(1)>div:nth-child(1)>iframe:nth-child(1) {
+  width: 381px !important;
+}
+
+
+#recaptcha>div:nth-child(1) {
+  width: fit-content !important;
+}
+
+
+
+.reCaptcha {
+  .rc-anchor-normal {
+    width: 100% !important;
+  }
+}
+
+
+
