@@ -368,10 +368,11 @@
       placeholder="Search.." />
   </nz-input-group>
   <ng-template #suffixIconButton>
-    <button nz-button nzType="primary" nzSearch><span nz-icon nzType="search"
+    <button nz-button nzType="primary"  nzSearch><span nz-icon nzType="search"
         (click)="searchControll()"></span></button>
   </ng-template>
 </ng-template>
+<div class="selected-modal" >
 <nz-modal class="builder-selected-json" [nzWidth]="modalType === 'previewJson' ? '800px' : '500px'" [(nzVisible)]="showModal"
   [nzTitle]="modalType === 'previewJson' ? 'Selected Json' : (modalType === 'webCode' ? 'Web Template Preview' : (modalType === 'saveAsTemplate' ? 'Save As Template' : ''))"
   (nzOnCancel)="handleCancel()" (nzOnOk)="handleOk()">
@@ -410,3 +411,4 @@
     </div>
   </ng-container>
 </nz-modal>
+</div>

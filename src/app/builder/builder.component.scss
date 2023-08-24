@@ -65,45 +65,39 @@
     line-height: 140%;
     letter-spacing: 0.2px;
     width: fit-content;
+
     &:hover {
         background-color: #3b82f6;
-      }
-    
+    }
+
 }
 
 
 
-/* Element | http://aman.com:5600/ */
+.ant-modal-content {
+    .ant-modal-footer>button:nth-child(1) {
+        height: 40px;
+        height: 40px;
+        flex-shrink: 0;
+        border-radius: 6px;
+        font-size: 14px;
+        font-style: normal;
+        line-height: 140%;
+        letter-spacing: 0.2px;
+        width: fit-content;
+    }
 
-.ant-modal-footer > button:nth-child(1) {
-    width: 50%;
-    height: 40px;
-    height: 40px;
-    flex-shrink: 0;
-    border-radius: 6px;
-    font-size: 14px;
-    font-style: normal;
-    line-height: 140%;
-    letter-spacing: 0.2px;
-    width: fit-content;
-  }
-  
-  /* Element | http://aman.com:5600/ */
-  
-  .ant-modal-footer > button:nth-child(2) {
-    height: 40px;
-    flex-shrink: 0;
-    border-radius: 6px;
-    background: #2563EB;
-    color: #FFF;
-    font-size: 14px;
-    font-style: normal;
-    line-height: 140%;
-    letter-spacing: 0.2px;
-    width: fit-content;
-    &:hover {
-        background-color: #3b82f6;
-      }
-  }
-  
-  
+    .ant-modal-footer>button:nth-child(2) {
+        height: 40px;
+        flex-shrink: 0;
+        border-radius: 6px;
+        background: #2563EB;
+        color: #FFF;
+        font-size: 14px;
+        font-style: normal;
+        line-height: 140%;
+        letter-spacing: 0.2px;
+        width: fit-content;
+    }
+
+}
