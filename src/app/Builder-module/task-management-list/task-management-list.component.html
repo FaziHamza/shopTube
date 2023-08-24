@@ -1,58 +1,84 @@
 <nz-spin [nzSpinning]="saveLoader" [nzSize]="'large'">
-    <nz-card nzTitle="TASK MANAGEMENT LIST">
-        <nz-table #basicTable [nzData]="tasks" [nzPageSize]="10">
-            <thead>
-                <tr>
-                    <th>Screen Id</th>
-                    <th>Date & Time</th>
-                    <th>Message</th>
-                    <th>Status</th>
-                    <th>Type</th>
-                    <th>Component Id</th>
-                    <th>Created By</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr *ngFor="let data of basicTable.data">
-                    <td>{{ data.screenId }}</td>
-                    <td>{{ data.dateTime | date :
-                        "dd/MMM/yyyy hh:mm:ss"}}</td>
-                    <td *ngIf="editId != data._id">{{ data.message }}</td>
-                    <td *ngIf="editId != data._id"> <nz-tag *ngIf="data['status'] ; else openStatus"
-                            class="font-semibold"
-                            [nzColor]="data['status'] == 'open' ? 'red' : (data['status'] == 'inProgress' ? 'orange' : (data['status'] == 'completed' ? 'green' : 'gray'))">{{data.status}}</nz-tag>
-                        <ng-template #openStatus>
-                            <nz-tag class="font-semibold" [nzColor]="'red'">open</nz-tag>
-                        </ng-template>
-                    </td>
-                    <td *ngIf="editId == data._id"><input nz-input type="text" class="form-control"
-                            [(ngModel)]="data.message"></td>
-                    <td *ngIf="editId == data._id"><nz-select [(ngModel)]="data.status">
-                            <nz-option nzValue="open" nzLabel="Open"></nz-option>
-                            <nz-option nzValue="inProgress" nzLabel="In Progress"></nz-option>
-                            <nz-option nzValue="completed" nzLabel="completed"></nz-option>
-                            <nz-option nzValue="closed" nzLabel="Close"></nz-option>
-                        </nz-select></td>
+    <nz-collapse class="mb-2">
+        <nz-collapse-panel *ngFor="let panel of tasks let i = index" [nzHeader]="header" [nzActive]="true">
+            <ng-template #header>
+                <p>
+                    <span class="font-bold">{{panel.week}}</span>
+                    <span class="ml-2">(</span>
+                    <span>{{panel.weekStartDate | date : "dd/MM/yyyy"}}</span>
+                    <span class="ml-1">-</span>
+                    <span>{{panel.weekEndDate | date : "dd/MM/yyyy"}}</span>
+                    <span>)</span>
+                </p>
 
-                    <td>{{ data.type }}</td>
-                    <td>{{ data.componentId }}</td>
-                    <td>{{ data.createdBy }}</td>
-                    <td>
-                        <i *ngIf="editId != data._id" class=" text-xl fas fa-edit text-green-500"
-                        (click)="startEdit(data._id,data)"></i>
-                        <i *ngIf="editId != data._id" class=" text-xl fas fa-trash text-red-500 ml-2"
-                        (click)="deleteTask(data)"></i>
-                        <i *ngIf="editId == data._id" class=" text-xl fas fa-save text-blue-500"
-                        (click)="saveEdit(data)"></i>
-                        <i *ngIf="editId == data._id" class=" text-xl fas fa-times-circle text-red-500 ml-2"
-                        (click)="cancelEdit(data)"></i>
-                        <i class="fa-regular text-lg fa-circle-arrow-right text-gray-400 ml-2" (click)="showIssue(data)"></i>
-                    </td>
-                </tr>
-            </tbody>
-        </nz-table>
-    </nz-card>
+            </ng-template>
+            <nz-card nzTitle="TASK MANAGEMENT LIST">
+                <nz-table #basicTable [nzData]="panel.issues
+                " [nzPageSize]="10">
+                    <thead>
+                        <tr>
+                            <!-- <th>Screen Id</th>
+                            <th>Date & Time</th> -->
+                            <th>Message</th>
+                            <th>Status</th>
+                            <th>Assignee</th>
+                            <th>Priority</th>
+                            <th>Specs</th>
+                            <th>Estimation</th>
+                            <!-- <th>Type</th>
+                            <th>Component Id</th> -->
+                            <!-- <th>Actions</th> -->
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let data of basicTable.data">
+                            <td *ngIf="editId != data._id" (click)="showIssue(data)">{{ data.message }}</td>
+                            <td *ngIf="editId == data._id"><input nz-input type="text" class="form-control"
+                                    [(ngModel)]="data.message"></td>
+                            <!-- <td>{{ data.screenId }}</td>
+                            <td>{{ data.dateTime | date :
+                                "dd/MMM/yyyy hh:mm:ss"}}</td> -->
+                            <td *ngIf="editId != data._id && data['status'] ; else openStatus"
+                                [class]="data['status'] == 'open' ? 'bg-red-500' : (data['status'] == 'inProgress' ? 'bg-orange-500' : (data['status'] == 'completed' ? 'bg-green-500' : 'bg-gray-500')) + ' text-white'">
+                                <span class="text-white"> {{data?.status}}</span>
+                            </td>
+                            <ng-template #openStatus>
+                                <td *ngIf="editId != data._id && !data['status']" [class]="'bg-red-500'">open
+                                </td>
+                            </ng-template>
+                            <td *ngIf="editId == data._id"><nz-select [(ngModel)]="data.status">
+                                    <nz-option nzValue="open" nzLabel="Open"></nz-option>
+                                    <nz-option nzValue="inProgress" nzLabel="In Progress"></nz-option>
+                                    <nz-option nzValue="completed" nzLabel="completed"></nz-option>
+                                    <nz-option nzValue="closed" nzLabel="Close"></nz-option>
+                                </nz-select></td>
+                            <td><nz-avatar [nzTooltipTitle]="data.assignTo ? data.assignTo : ''" nz-tooltip
+                                    nzIcon="user" style="background-color:#87d068;"></nz-avatar></td>
+
+                            <td class="bg-orange-400"><span class="text-white">Medium</span> </td>
+                            <td class="bg-gray-400"></td>
+                            <td>{{ data?.endDate
+                                | date :
+                                "dd/MMM/yyyy"}}</td>
+                            <!-- <td>{{ data.componentId }}</td> -->
+                            <!-- <td>
+                                <i *ngIf="editId != data._id" class=" text-xl fas fa-edit text-green-500"
+                                    (click)="startEdit(data._id,data)"></i>
+                                <i *ngIf="editId != data._id" class=" text-xl fas fa-trash text-red-500 ml-2"
+                                    (click)="deleteTask(data)"></i>
+                                <i *ngIf="editId == data._id" class=" text-xl fas fa-save text-blue-500"
+                                    (click)="saveEdit(data)"></i>
+                                <i *ngIf="editId == data._id" class=" text-xl fas fa-times-circle text-red-500 ml-2"
+                                    (click)="cancelEdit(data)"></i>
+                                <i class="fa-regular text-lg fa-circle-arrow-right text-gray-400 ml-2"
+                                    (click)="showIssue(data)"></i>
+                            </td> -->
+                        </tr>
+                    </tbody>
+                </nz-table>
+            </nz-card>
+        </nz-collapse-panel>
+    </nz-collapse>
 </nz-spin>
 <div *ngIf="this.issueReport['issueReport'] && this.issueReport['issueReport']?.length  > 0">
     <st-task-report (notify)="updateIssues($event)" class="close-icon" [item]="this.issueReport"

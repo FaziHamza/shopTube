@@ -66,7 +66,7 @@ import { DataSharedService } from '../services/data-shared.service';
 export class FormlyFieldImageUploadComponent extends FieldWrapper<FieldTypeConfig> {
   @ViewChild('fileInput') fileInput!: ElementRef<HTMLInputElement>;
   imageUrl: any;
-  constructor(private sharedService: DataSharedService) {
+  constructor(private sharedService: DataSharedService ) {
     super();
   }
   onFileSelected(event: any) {
@@ -103,6 +103,7 @@ export class FormlyFieldImageUploadComponent extends FieldWrapper<FieldTypeConfi
         reader.readAsDataURL(file); // Read other types of files as data URL (base64)
         reader.onload = () => {
           const base64Data = reader.result as string;
+          this.sharedService.imageUrl = base64Data;
           // this.formControl.setValue(base64Data);
           this.sharedService.onChange(base64Data, this.field);
         };

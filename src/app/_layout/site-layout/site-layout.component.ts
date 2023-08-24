@@ -452,7 +452,7 @@ export class SiteLayoutComponent implements OnInit {
     });
   }
   getComments() {
-    this.requestSubscription = this.applicationService.getNestCommonAPI("cp/getuserComments/UserComment/menu").subscribe((res: any) => {
+    this.requestSubscription = this.applicationService.getNestCommonAPI("cp/getuserCommentsByApp/UserComment/menu").subscribe((res: any) => {
       if (res.isSuccess) {
         let commentList = res.data
         this.dataSharedService.menuCommentList = commentList;
