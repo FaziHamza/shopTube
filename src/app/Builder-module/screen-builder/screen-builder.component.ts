@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { FormlyFormOptions } from '@ngx-formly/core';
@@ -13,6 +13,7 @@ import { DataSharedService } from 'src/app/services/data-shared.service';
   styleUrls: ['./screen-builder.component.scss']
 })
 export class ScreenBuilderComponent implements OnInit {
+  paginatedData: any[] = [];
   departmenData: any;
   organizationData: any;
   ApplicationData: any;
@@ -31,6 +32,9 @@ export class ScreenBuilderComponent implements OnInit {
   options: FormlyFormOptions = {};
   form: any = new FormGroup({});
   pageIndex: any = 1;
+  totalItems: number = 0; // Total number of items
+  startIndex = 1;
+  endIndex: any = 10;
   listOfColumns = [
     {
       name: 'Screen Id',
@@ -130,7 +134,8 @@ export class ScreenBuilderComponent implements OnInit {
     public dataSharedService: DataSharedService,
     private toastr: NzMessageService,
     private router: Router,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private cdr: ChangeDetectorRef
   ) {
     this.dataSharedService.change.subscribe(({ event, field }) => {
       if (field.key === 'departmentId' && event) {
@@ -144,6 +149,7 @@ export class ScreenBuilderComponent implements OnInit {
     });
   }
   ngOnInit(): void {
+    this.totalItems = this.listOfDisplayData.length;
     // this.form = new FormGroup({
     //   name: new FormControl('', Validators.required),
     //   screenId: new FormControl('', Validators.required),
@@ -175,6 +181,7 @@ export class ScreenBuilderComponent implements OnInit {
           this.listOfData = res.data;
           this.loading = false;
           this.jsonScreenModule = res.data;
+          this.handlePageChange(1);
           const nonEmptySearchArray = this.listOfColumns.filter(
             (element: any) => element.searchValue
           );
@@ -364,6 +371,7 @@ export class ScreenBuilderComponent implements OnInit {
       .subscribe((res: any) => {
         if (res.isSuccess) {
           this.jsonScreenModuleList();
+          this.handlePageChange(1);
           this.toastr.success(`Screen: ${res.message}`, { nzDuration: 2000, });
         } else this.toastr.error(`Screen: ${res.message}`, { nzDuration: 2000, });
       });
@@ -517,4 +525,15 @@ export class ScreenBuilderComponent implements OnInit {
       },
     ];
   }
+  handlePageChange(event: number): void {
+    this.pageSize = !this.pageSize || this.pageSize < 1 ? 1 : this.pageSize
+    this.pageIndex = event;
+    const start = (this.pageIndex - 1) * this.pageSize;
+    const end = start + this.pageSize;
+    this.startIndex = start == 0 ? 1 : ((this.pageIndex * this.pageSize) - this.pageSize) + 1;
+    this.listOfDisplayData = this.listOfData.slice(start, end);
+    this.endIndex = this.listOfDisplayData.length != this.pageSize ? this.listOfData.length : this.pageIndex * this.pageSize;
+  }
+
+
 }

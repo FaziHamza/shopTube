@@ -33,6 +33,9 @@ export class organizationBuilderComponent implements OnInit {
   fields: any = [];
   searchArray: any = [];
   departmentSubmit: boolean = false;
+  startIndex = 1;
+  endIndex: any = 10;
+  pageIndex: any = 1;
   listOfColumns: any = [
     {
       name: '',
@@ -229,6 +232,7 @@ export class organizationBuilderComponent implements OnInit {
           this.organizationData = res.data;
           this.loading = false;
           this.getDepartment();
+          this.handlePageChange(1);
           const nonEmptySearchArray = this.listOfColumns.filter(
             (element: any) => element.searchValue
           );
@@ -404,6 +408,7 @@ export class organizationBuilderComponent implements OnInit {
         : this.applicationService.deleteNestCommonAPI('cp/Organization', id);
     api$.subscribe((res: any) => {
       if (res.isSuccess) {
+        this.handlePageChange(1);
         this.organizationBuilder();
         this.getDepartment();
         this.toastr.success(res.message, { nzDuration: 2000 });
@@ -671,5 +676,14 @@ export class organizationBuilderComponent implements OnInit {
         searchValue: '',
       };
     });
+  }
+  handlePageChange(event: number): void {
+    this.pageSize = !this.pageSize || this.pageSize < 1 ? 1 : this.pageSize
+    this.pageIndex = event;
+    const start = (this.pageIndex - 1) * this.pageSize;
+    const end = start + this.pageSize;
+    this.startIndex = start == 0 ? 1 : ((this.pageIndex * this.pageSize) - this.pageSize) + 1;
+    this.listOfDisplayData = this.listOfData.slice(start, end);
+    this.endIndex = this.listOfDisplayData.length != this.pageSize ? this.listOfData.length : this.pageIndex * this.pageSize;
   }
 }

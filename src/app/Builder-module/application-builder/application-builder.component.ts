@@ -40,6 +40,9 @@ export class ApplicationBuilderComponent implements OnInit {
   searchArray: any = [];
   currentUser: any;
   designStudio: any;
+  startIndex = 1;
+  endIndex: any =  10;
+  pageIndex: any = 1;
   listOfColumns = [
     {
       name: '',
@@ -553,6 +556,7 @@ export class ApplicationBuilderComponent implements OnInit {
       if (res.isSuccess) {
         this.getDepartment();
         this.getApplication();
+        this.handlePageChange(1);
         this.toastr.success(res.message, { nzDuration: 2000 });
       } else
         this.toastr.error(res.message, { nzDuration: 2000 });
@@ -601,8 +605,10 @@ export class ApplicationBuilderComponent implements OnInit {
   getApplication() {
     this.requestSubscription = this.applicationService.getNestCommonAPI('cp/Application').subscribe({
       next: (res: any) => {
-        if (res.isSuccess)
+        if (res.isSuccess){
           this.listOfChildrenData = res.data;
+          this.handlePageChange(1);
+        }
         else
           this.toastr.error(res.message, { nzDuration: 3000 }); // Show an error message to the user
         this.loading = false;
@@ -856,5 +862,14 @@ export class ApplicationBuilderComponent implements OnInit {
       } else
         this.toastr.warning(res.message, { nzDuration: 2000 });
     }));
+  }
+  handlePageChange(event: number): void {
+    this.pageSize = !this.pageSize || this.pageSize < 1 ? 1 : this.pageSize
+    this.pageIndex = event;
+    const start = (this.pageIndex - 1) * this.pageSize;
+    const end = start + this.pageSize;
+    this.startIndex = start == 0 ? 1 : ((this.pageIndex * this.pageSize) - this.pageSize) + 1;
+    this.listOfDisplayData = this.listOfData.slice(start, end);
+    this.endIndex = this.listOfDisplayData.length != this.pageSize ? this.listOfData.length : this.pageIndex * this.pageSize;
   }
 }

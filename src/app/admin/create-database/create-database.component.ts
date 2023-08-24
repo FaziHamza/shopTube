@@ -14,6 +14,7 @@ import { EncryptionService } from 'src/app/services/encryption.service';
   styleUrls: ['./create-database.component.scss']
 })
 export class CreateDatabaseComponent implements OnInit {
+  saveLoader: boolean = false;
   editCache: { [key: number]: { edit: boolean; data: any } } = {};
   listOfData: any[] = [];
   requestSubscription: Subscription;
@@ -23,8 +24,11 @@ export class CreateDatabaseComponent implements OnInit {
   data: any[] = [];
   // Separation of pending and Approved.
   filteredApproved: any[] = [];
+  searchFilteredApprovedValue: string = '';
+  searchFilteredPendingValue: string = '';
+  searchFilterdApproved: any[] = [];
+  searchFilterdPending: any[] = [];
   filteredPending: any[] = [];
-
   tableId = 0;
   fieldType: any[] = [
     { "id": "INT", "name": "INT" },
@@ -220,11 +224,17 @@ export class CreateDatabaseComponent implements OnInit {
   }
   tableFields: any;
   getDatabaseTablev1() {
+    this.searchFilteredApprovedValue = '';
+    this.searchFilteredPendingValue = '';
+    this.saveLoader = true;
     this.employeeService.getSQLDatabaseTableCRUD('knex-crud/tables').subscribe({
       next: (objTRes) => {
+        this.saveLoader = false;
         if (objTRes) {
+          this.saveLoader = true;
           this.employeeService.getSQLDatabaseTableCRUD('knex-crud/table_schema').subscribe({
             next: (objFRes) => {
+              this.saveLoader = false;
               this.tableFields = objFRes;
               this.data = [];
               if (objFRes) {
@@ -257,7 +267,7 @@ export class CreateDatabaseComponent implements OnInit {
                 this.filteredApproved = this.data.filter((item) => {
                   return item.isActive === 'Approved';
                 });
-
+                this.searchFilterdApproved = this.filteredApproved
                 this.filteredPending = this.data.filter((item) => {
                   return item.isActive === 'Pending' && item.schema.some((a: any) => a.status === 'Pending');
                 });
@@ -268,7 +278,7 @@ export class CreateDatabaseComponent implements OnInit {
                 statusFilterd.forEach(element => {
                   this.filteredPending.push(element);
                 });
-
+                this.searchFilterdPending = this.filteredPending;
                 // this.filteredPending = this.data.map((item) => {
                 //   return {
                 //     ...item,
@@ -290,6 +300,7 @@ export class CreateDatabaseComponent implements OnInit {
               }
             },
             error: (err) => {
+              this.saveLoader = false;
               console.error(err);
               this.toastr.error("An error occurred", { nzDuration: 3000 });
             }
@@ -297,6 +308,7 @@ export class CreateDatabaseComponent implements OnInit {
         }
       },
       error: (err) => {
+        this.saveLoader = false;
         console.error(err);
         this.toastr.error("An error occurred", { nzDuration: 3000 });
       }
@@ -332,13 +344,16 @@ export class CreateDatabaseComponent implements OnInit {
       };
       console.log(data);
       if (this.myForm.value.isActive === "Approved")
+      this.saveLoader = true;
         // saving table if status is approved.
         this.employeeService.saveSQLDatabaseTable('knex', data).subscribe({
           next: (res) => {
             ;
+            this.saveLoader = false;
             this.toastr.success("Save Successfully", { nzDuration: 3000 });
           },
           error: (err) => {
+            this.saveLoader = false;
             console.error(err);
             this.toastr.error("An error occurred", { nzDuration: 3000 });
           }
@@ -350,9 +365,10 @@ export class CreateDatabaseComponent implements OnInit {
         "totalFields": this.myForm.value.totalFields,
         "isActive": this.myForm.value.isActive
       };
-
+      this.saveLoader = true;
       this.employeeService.saveSQLDatabaseTable('knex-crud/tables', objTableNames).subscribe({
         next: (res) => {
+          this.saveLoader = false;
           const observables = this.listOfData.map(element => {
             const objFields = {
               "table_id": res?.id,
@@ -363,22 +379,27 @@ export class CreateDatabaseComponent implements OnInit {
               "isActive": true
             };
             return this.employeeService.saveSQLDatabaseTable('knex-crud/table_schema', objFields).pipe(
-              catchError(error => of(error)) // Handle error and continue the forkJoin
+              catchError(error => of(error)
+              ) // Handle error and continue the forkJoin
+              
             );
           });
 
           forkJoin(observables).subscribe({
             next: (results) => {
               if (results.every(result => !(result instanceof Error))) {
+                this.saveLoader = false;
                 this.toastr.success("Save Table Fields Successfully", { nzDuration: 3000 });
                 this.cancelEditTable();
                 this.getDatabaseTablev1();
                 this.deletedIds = [];
               } else {
+                this.saveLoader = false;
                 this.toastr.error("Fields not inserted", { nzDuration: 3000 });
               }
             },
             error: (err) => {
+              this.saveLoader = false;
               console.error(err);
               this.toastr.error("Fields not inserted", { nzDuration: 3000 });
             }
@@ -421,11 +442,14 @@ export class CreateDatabaseComponent implements OnInit {
         "schema": fields
       };
       if (this.myForm.value.isActive === "Approved") {
+        this.saveLoader = true;
         this.employeeService.saveSQLDatabaseTable('knex', data).subscribe({
           next: (res) => {
+            this.saveLoader = false;
             this.toastr.success("Save Successfully", { nzDuration: 3000 });
           },
           error: (err) => {
+            this.saveLoader = false;
             console.error(err);
             this.toastr.error("An error occurred", { nzDuration: 3000 });
           }
@@ -440,9 +464,10 @@ export class CreateDatabaseComponent implements OnInit {
         "totalFields": this.myForm.value.totalFields,
         "isActive": this.myForm.value.isActive
       };
-
+      this.saveLoader = true;
       this.employeeService.updateSQLDatabaseTable('knex-crud/tables/' + this.tableId, objTableNames).subscribe({
         next: (res) => {
+          this.saveLoader = false;
           this.toastr.success("Table fields updated successfully", { nzDuration: 3000 });
           const observables = this.listOfData.map(element => {
             const objFields = {
@@ -464,8 +489,10 @@ export class CreateDatabaseComponent implements OnInit {
               );
             }
           });
+          this.saveLoader = true;
           forkJoin(observables).subscribe({
             next: (results) => {
+              this.saveLoader = false;
               if (results.every(result => !(result instanceof Error))) {
                 if (this.deletedIds.length == 0) {
                   // this.toastr.success("Save and Update Table Fields Successfully", { nzDuration: 3000 });
@@ -480,12 +507,14 @@ export class CreateDatabaseComponent implements OnInit {
               }
             },
             error: (err) => {
+              this.saveLoader = false;
               console.error(err);
               this.toastr.error("Fields not inserted", { nzDuration: 3000 });
             }
           });
         },
         error: (err) => {
+          this.saveLoader = false;
           console.error(err);
           this.toastr.error("An error occurred", { nzDuration: 3000 });
         }
@@ -570,4 +599,24 @@ export class CreateDatabaseComponent implements OnInit {
     this.deletedIds = [];
     this.listOfData = [];
   }
+  search(type: string, searchValue: string): void {
+    if (type === 'approved') {
+      this.filteredApproved = this.filterData(this.searchFilterdApproved, searchValue);
+    } else if (type === 'pending') {
+      this.filteredPending = this.filterData(this.searchFilterdPending, searchValue);
+    }
+  }
+
+  filterData(data: any, searchValue: any): any[] {
+    if (!searchValue) {
+      return data; // Return the original data when searchValue is empty
+    }
+
+    const lowerCaseSearchValue = searchValue.toLocaleLowerCase();
+    return data.filter((item: any) =>
+      item.tableName.toLocaleLowerCase().includes(lowerCaseSearchValue)
+    );
+  }
+
+
 }
