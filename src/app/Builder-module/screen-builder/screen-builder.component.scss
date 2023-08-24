@@ -1,11 +1,26 @@
 .custom-width {
   width: 50px;
 }
+
 .pagination {
   display: flex;
   align-items: center;
   width: 12%;
   margin-right: 15px;
+
+  .ant-input-number {
+    border-radius: 6px;
+
+    .ant-input-number-input {
+      height: 40px;
+      background: #fff;
+      border: 2px solid gray;
+      border-radius: 6px;
+    }
+
+  }
+
+
 }
 
 .label {
@@ -15,6 +30,7 @@
 .input-container {
   flex-grow: 1;
 }
+
 .search-box {
   padding: 8px;
 }
@@ -31,4 +47,18 @@
 
 .search-button {
   margin-right: 8px;
+}
+
+.search-box {
+  .ant-input {
+    width: fit-content;
+    height: 40px;
+    flex-shrink: 0;
+    border-radius: 6px;
+    font-size: 14px;
+    font-style: normal;
+    line-height: 140%;
+    letter-spacing: 0.2px;
+    margin-bottom: 0px !important;
+  }
 }
