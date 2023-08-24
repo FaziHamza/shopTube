@@ -38,8 +38,18 @@
                     <td>{{ data.contact }}</td>
                     <td>{{ data.website }}</td>
                     <td>{{ data.year_founded }}</td>
-                    <td>{{ data.mission_statement }}</td>
-                    <td> <img nz-image width="50px" height="50px" [nzSrc]="data.image" alt /></td>
+                    <td><p class="ellipsis" >
+                        {{ data.mission_statement }}
+                    </p>
+                    </td>
+                    <td>
+                        <ng-container *ngIf="data.image; else emptyContent" >
+                            <img nz-image width="50px" height="50px" nzNotFoundImage="simple" [nzSrc]="data.image" alt />
+                        </ng-container>
+                        <ng-template #emptyContent >
+                            <nz-empty class="no-image" nzNotFoundImage="simple"></nz-empty> 
+                        </ng-template>
+                    </td>
                     <td>
                         <span class="text-blue-500 hover:cursor-pointer" nz-icon nzType="edit" nzTheme="outline"
                             nzTooltipTitle="Edit" nz-tooltip
@@ -50,7 +60,7 @@
                     </td>
                 </tr>
                 <tr [nzExpand]="data.expand">
-                    <button nz-button  nzType="primary" class="btn mb-4"
+                    <button nz-button nzType="primary" class="btn mb-4"
                         (click)="openModal('department', true,data._id)"><span nz-icon nzType="plus"
                             nzTheme="outline"></span>Add
                         Department</button>
@@ -83,22 +93,25 @@
     </ng-template>
     </tbody>
     </nz-table>
-    <div class="paginatio-bottom">
+    <div class="paginatio-bottom flex justify-between items-center my-3">
         <div>
             <p class="showing">Showing <span>{{startIndex}} - {{endIndex}}</span> from
                 <span>{{listOfData.length}}</span> data
             </p>
         </div>
-        <div>
-            <nz-pagination [nzPageIndex]="pageIndex" [nzTotal]="listOfData.length" [nzPageSize]="pageSize"
-                (nzPageIndexChange)="handlePageChange($event)"></nz-pagination>
-        </div>
-    </div>
-    <div class="pagination">
-        <label class="label">Pagination</label>
-        <div class="input-container">
-            <nz-input-number [(ngModel)]="pageSize" (ngModelChange)="handlePageChange(1)" [nzStep]="1"
-                [nzMin]="1"></nz-input-number>
+
+        <div class="flex items-center justify-end">
+            <div class="pagination mr-4">
+                <label class="label">Pagination</label>
+                <div class="input-container">
+                    <nz-input-number [(ngModel)]="pageSize" (ngModelChange)="handlePageChange(1)" [nzStep]="1"
+                        [nzMin]="1"></nz-input-number>
+                </div>
+            </div>
+            <div>
+                <nz-pagination [nzPageIndex]="pageIndex" [nzTotal]="listOfData.length" [nzPageSize]="pageSize"
+                    (nzPageIndexChange)="handlePageChange($event)"></nz-pagination>
+            </div>
         </div>
     </div>
 </nz-card>
