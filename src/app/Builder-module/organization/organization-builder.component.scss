@@ -1,8 +1,7 @@
 .pagination {
     display: flex;
     align-items: center;
-    width: 12%;
-    padding-top: 1%;
+    width: 140px;
 }
 
 .label {
@@ -34,3 +33,16 @@
 .ant-table-cell-with-append {
     padding: 10px !important;
 }
+
+
+
+.ant-empty-image {
+    height: 30px;
+  } 
+  .w-10 > div:nth-child(1) {
+    margin-bottom: 0px;
+  } 
+  .w-10 > p:nth-child(2) {
+    font-size: 12px;
+  }
+  

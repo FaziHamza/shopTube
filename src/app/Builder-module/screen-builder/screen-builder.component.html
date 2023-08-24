@@ -48,28 +48,32 @@
         </tbody>
     </nz-table>
 
-    <div class="paginatio-bottom">
+    <div class="paginatio-bottom flex justify-between items-center my-3">
         <div>
             <p class="showing">Showing <span>{{startIndex}} - {{endIndex}}</span> from
                 <span>{{listOfData.length}}</span> data
             </p>
         </div>
-        <div>
-            <nz-pagination [nzPageIndex]="pageIndex" [nzTotal]="listOfData.length" [nzPageSize]="pageSize"
+
+        <div class="flex items-center justify-end" >
+            <div class="pagination mr-4">
+                <label class="label">Pagination</label>
+                <div class="input-container">
+                    <nz-input-number
+                        [(ngModel)]="pageSize"
+                        (ngModelChange)="handlePageChange(1)"
+                        [nzStep]="1"
+                        [nzMin]="1" 
+                    ></nz-input-number>
+                </div>
+            </div>
+            <div>
+                <nz-pagination [nzPageIndex]="pageIndex" [nzTotal]="listOfData.length" [nzPageSize]="pageSize"
                 (nzPageIndexChange)="handlePageChange($event)"></nz-pagination>
+            </div>
         </div>
     </div>
-    <div class="pagination">
-        <label class="label">Pagination</label>
-        <div class="input-container">
-            <nz-input-number
-                [(ngModel)]="pageSize"
-                (ngModelChange)="handlePageChange(1)"
-                [nzStep]="1"
-                [nzMin]="1" 
-            ></nz-input-number>
-        </div>
-    </div>
+    
 </nz-card>
 <ng-template #extraTemplate>
     <button nz-button nzType="primary" class="btn" (click)="openModal()"><span nz-icon nzType="plus"
