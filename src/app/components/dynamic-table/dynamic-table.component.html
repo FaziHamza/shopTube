@@ -31,7 +31,7 @@
               *ngIf="header?.gridHeaderSum">({{header?.gridHeaderSum}})</span>
           </th>
         </ng-container>
-        <th *ngIf="tableHeaders.length > 0">Delete</th>
+        <th *ngIf="tableHeaders.length > 0 && (data?.isDeleteAllow || data?.isDeleteAllow == undefined)">Delete</th>
       </tr>
     </thead>
     <tbody class="dynamic-responsive-table-body w-full" style="width: 100%;">
@@ -94,7 +94,7 @@
               </td>
             </ng-container>
 
-            <td>
+            <td *ngIf="data?.isDeleteAllow || data?.isDeleteAllow == undefined">
               <a nz-popconfirm nzPopconfirmTitle="Sure to delete?" (nzOnConfirm)="deleteRow(item)">
                 <span class="text-red-500" nz-icon nzType="delete" nzTheme="outline"></span>
               </a>
@@ -145,7 +145,7 @@
                 </ng-container>
               </ng-container>
             </tr>
-            <tr>
+            <tr *ngIf="data?.isDeleteAllow || data?.isDeleteAllow == undefined">
               <td class="font-bold bg-blue-500 text-white hover:text-black">Action</td>
               <td>
                 <a nz-popconfirm nzPopconfirmTitle="Sure to delete?" (nzOnConfirm)="deleteRow(item)">

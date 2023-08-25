@@ -11393,6 +11393,15 @@ export class formFeildData {
           }
         },
         {
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          key: 'isDeleteAllow',
+          type: 'checkbox',
+          wrappers: ["formly-vertical-theme-wrapper"],
+          props: {
+            label: 'Allow Delete'
+          }
+        },
+        {
           key: 'options',
           type: 'repeatSection',
           className: "w-full px-1",

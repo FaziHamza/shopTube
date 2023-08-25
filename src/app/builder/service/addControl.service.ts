@@ -835,6 +835,7 @@ export class AddControlService {
       tableKey: [],
       displayData: [],
       showEditInput:false,
+      isDeleteAllow:true,
       tableHeaders: [
         // {
         //   name: 'Id',
