@@ -51,10 +51,10 @@
                         </ng-template>
                     </td>
                     <td>
-                        <span class="text-blue-500 hover:cursor-pointer" nz-icon nzType="edit" nzTheme="outline"
+                        <span class="text-blue-600 hover:cursor-pointer" nz-icon nzType="edit" nzTheme="outline"
                             nzTooltipTitle="Edit" nz-tooltip
                             (click)="[openModal('Organization'),editItem(data )]"></span>
-                        <span class="text-red-500 pl-2 hover:cursor-pointer" nz-icon nzType="delete" nzTheme="outline"
+                        <span class="text-[#fd3636] pl-2 hover:cursor-pointer" nz-icon nzType="delete" nzTheme="outline"
                             nzTooltipTitle="Delete" nz-tooltip nz-popconfirm nzPopconfirmTitle="Sure to delete?"
                             (nzOnConfirm)="deleteRow(data._id , 'Organization')"></span>
                     </td>
@@ -80,9 +80,9 @@
                 <td>{{ data.companyName ? data.companyName :
                     data.organizationName}}</td>
                 <td>
-                    <span class="text-blue-500 hover:cursor-pointer" nz-icon nzType="edit" nzTheme="outline"
+                    <span class="text-blue-600 hover:cursor-pointer" nz-icon nzType="edit" nzTheme="outline"
                         nzTooltipTitle="Edit" nz-tooltip (click)="[openModal('department'),editItem(data)]"></span>
-                    <span class="text-red-500 pl-2 hover:cursor-pointer" nz-icon nzType="delete" nzTheme="outline"
+                    <span class="text-[#fd3636] pl-2 hover:cursor-pointer" nz-icon nzType="delete" nzTheme="outline"
                         nzTooltipTitle="Delete" nz-tooltip nz-popconfirm nzPopconfirmTitle="Sure to delete?"
                         (nzOnConfirm)="deleteRow(data._id , 'department')"></span>
                 </td>

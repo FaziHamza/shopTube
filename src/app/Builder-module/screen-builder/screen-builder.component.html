@@ -34,14 +34,14 @@
                 <td>{{ data.departmentName ? data.departmentName : data.applicationName}}</td>
                 <td>{{ data.moduleName ? data.moduleName : data.applicationName}}</td>
                 <td>
-                    <span class="text-blue-500 hover:cursor-pointer" nz-icon nzType="edit" nzTheme="outline"
+                    <span class="text-blue-600 hover:cursor-pointer" nz-icon nzType="edit" nzTheme="outline"
                         nzTooltipTitle="Edit" nz-tooltip (click)="[openModal(),editItem(data)]"></span>
-                    <span class="text-red-500 pl-2 hover:cursor-pointer" nz-icon nzType="delete" nzTheme="outline"
+                    <span class="text-[#fd3636] pl-2 hover:cursor-pointer" nz-icon nzType="delete" nzTheme="outline"
                         nzTooltipTitle="Delete" nz-tooltip nz-popconfirm nzPopconfirmTitle="Sure to delete?"
                         (nzOnConfirm)="deleteRow(data._id)"></span>
-                    <span class="text-blue-500 hover:cursor-pointer pl-2" nz-icon nzType="file-done" nzTheme="outline"
+                    <span class="text-green-600 hover:cursor-pointer pl-2" nz-icon nzType="file-done" nzTheme="outline"
                         nzTooltipTitle="Go To Page" nz-tooltip routerLink="/pages/{{data.navigation}}"></span>
-                    <span class="text-blue-500 hover:cursor-pointer pl-2" nz-icon nzType="form" nzTheme="outline"
+                    <span class="text-black hover:cursor-pointer pl-2" nz-icon nzType="form" nzTheme="outline"
                         nzTooltipTitle="Go To Build Page" nz-tooltip (click)="goToBuildPage(data)"></span>
                 </td>
             </tr>

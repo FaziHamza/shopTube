@@ -6469,3 +6469,26 @@ tr:hover {
   text-overflow: ellipsis;
   white-space: nowrap;
 }
+
+.ant-table-filter-trigger {
+  font-size: 16px;
+  border-bottom: 2px solid transparent;
+  border-radius: 6px;
+
+  // background-color: #fafafa;
+  &:hover {
+    color: #2563EB;
+    //   border-color: #2563EB;
+    //   background-color: #fafafa;
+  }
+}
+
+.ant-drawer-close {
+  padding: 5px;
+  border: 2px solid #fd3636;
+  border-radius: 6px;
+  color: #fd3636 !important;
+  &:hover{
+    color: #fd3636 !important;
+  }
+}
