@@ -26,6 +26,7 @@ import { MenuRolePermissionComponent } from '../admin/menu-role-permission/menu-
 import { TaskManagementComponent } from '../admin/task-management/task-management.component';
 import { ReleaseManagementComponent } from '../admin/release-management/release-management.component';
 import { TaskManagementListComponent } from '../Builder-module/task-management-list/task-management-list.component';
+import { BacklogComponent } from '../Builder-module/backlog/backlog.component';
 
 @NgModule({
   imports:
@@ -58,6 +59,7 @@ import { TaskManagementListComponent } from '../Builder-module/task-management-l
     ReleaseManagementComponent,
     UserTaskManagementComponent,
     TaskManagementListComponent,
+    BacklogComponent
 
   ],
   exports: [
@@ -74,6 +76,7 @@ import { TaskManagementListComponent } from '../Builder-module/task-management-l
     TaskManagementComponent,
     UserTaskManagementComponent,
     TaskManagementListComponent,
+    BacklogComponent
 
   ],
   providers: [

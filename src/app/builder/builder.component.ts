@@ -4281,6 +4281,7 @@ export class BuilderComponent implements OnInit {
           this.selectedNode['nzLoading'] = event.form?.nzLoading;
           this.selectedNode['nzShowPagination'] = event.form?.nzShowPagination;
           this.selectedNode['showEditInput'] = event.form?.showEditInput;
+          this.selectedNode['openComponent'] = event.form?.openComponent;
           // const tableData = event.tableDta ? event.tableDta : event.form.options;
           const tableData = event.form.options;
           this.selectedNode['end'] = event.form?.end;

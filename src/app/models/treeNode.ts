@@ -544,4 +544,5 @@ export interface TreeNode {
   labelClassName?: any,
   inputLabelClassName?: any,
   showEditInput?: any,
+  openComponent?: any,
 }

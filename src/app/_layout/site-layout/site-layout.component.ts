@@ -168,27 +168,29 @@ export class SiteLayoutComponent implements OnInit {
             this.currentWebsiteLayout = res.data.appication['application_Type'] ? res.data.appication['application_Type'] : 'backend_application';
             this.currentHeader = res.data['header'] ? this.jsonParseWithObject(res.data['header']['screenData']) : '';
             this.currentFooter = res.data['footer'] ? this.jsonParseWithObject(res.data['footer']['screenData']) : '';
-            if (this.selectedTheme && res.data['menu'].selectedTheme) {
-              const theme = JSON.parse(res.data['menu'].selectedTheme);
-              this.selectedTheme['isCollapsed'] = theme['isCollapsed'];
-            }
-            if (!window.location.href.includes('/menu-builder')) {
-              this.isShowContextMenu = true;
-              let getMenu = res.data['menu'] ? this.jsonParseWithObject(res.data['menu']['menuData']) : '';
-              let selectedTheme = res.data['menu'] ? this.jsonParseWithObject(res.data['menu'].selectedTheme) : {};
-              if (getMenu) {
-                this.selectedTheme = selectedTheme;
-                this.selectedTheme.allMenuItems = getMenu;
-                this.menuItems = getMenu;
-                this.getComments();
-                if (selectedTheme?.layout == 'horizental') {
-                  this.makeMenuData();
-                }
-
+            if (res.data['menu']) {
+              if (this.selectedTheme && res.data['menu']?.selectedTheme) {
+                const theme = JSON.parse(res.data['menu'].selectedTheme);
+                this.selectedTheme['isCollapsed'] = theme['isCollapsed'];
               }
-              if (this.currentWebsiteLayout == 'website') {
-                this.dataSharedService.menus = this.selectedTheme;
-                this.dataSharedService.menus.allMenuItems = getMenu;
+              if (!window.location.href.includes('/menu-builder')) {
+                this.isShowContextMenu = true;
+                let getMenu = res.data['menu'] ? this.jsonParseWithObject(res.data['menu']['menuData']) : '';
+                let selectedTheme = res.data['menu'] ? this.jsonParseWithObject(res.data['menu'].selectedTheme) : {};
+                if (getMenu) {
+                  this.selectedTheme = selectedTheme;
+                  this.selectedTheme.allMenuItems = getMenu;
+                  this.menuItems = getMenu;
+                  this.getComments();
+                  if (selectedTheme?.layout == 'horizental') {
+                    this.makeMenuData();
+                  }
+
+                }
+                if (this.currentWebsiteLayout == 'website') {
+                  this.dataSharedService.menus = this.selectedTheme;
+                  this.dataSharedService.menus.allMenuItems = getMenu;
+                }
               }
             }
             this.loader = false;
@@ -500,9 +502,7 @@ export class SiteLayoutComponent implements OnInit {
         if (res.isSuccess) {
           if (res.data.length > 0) {
             this.getTaskManagementIssues = res.data;
-          } else {
-            this.toastr.error(`No data against this screen:`, { nzDuration: 3000 });
-          }
+          } 
         }
         else {
           this.toastr.error(`userAssignTask:` + res.message, { nzDuration: 3000 });
