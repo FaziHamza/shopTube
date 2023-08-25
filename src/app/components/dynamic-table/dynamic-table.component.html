@@ -13,7 +13,7 @@
   <!-- [nzFrontPagination]='data?.nzFrontPagination' -->
   <!-- [nzShowPagination]='data?.nzShowPagination' -->
   <nz-table #editRowTable [nzPageSize]="10" [nzBordered]='data.nzBordered' [nzData]="displayData"
-    *ngIf="data && displayData" 
+    *ngIf="data && displayData"
     [nzLoading]="data?.nzLoading" [nzPaginationPosition]='data?.nzPaginationPosition'
     [nzPaginationType]='data?.nzPaginationType' [nzFrontPagination]='false' [nzTitle]='data?.nzTitle'
     [nzSize]="data.nzSize" [nzSimple]="data.nzSimple" [nzShowSizeChanger]="data.nzShowSizeChanger">
@@ -195,3 +195,9 @@
       [nodes]="_dataSharedService.nodes"></st-business-rule-grid>
   </ng-container>
 </nz-modal>
+
+<div *ngIf="this.issueReport['issueReport'] && this.issueReport['issueReport']?.length  > 0">
+  <st-task-report (notify)="updateIssues($event)" class="close-icon" [item]="this.issueReport"
+      [screenName]="this.issueReport['issueReport'][0].screenId" [assignToresponse]="this.assignToresponse"
+      [type]="'userTaskManagement'" [userTaskManagementData]="tasks"></st-task-report>
+</div>

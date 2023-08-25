@@ -264,7 +264,7 @@ export class SectionsComponent implements OnInit {
         });
       }
       else {
-        
+
         let findClickApi = data.appConfigurableEvent.filter((item: any) => item.actions.some((action: any) => action.method === 'put' && action.actionType == 'api'));
         if (this.dataModel) {
           // this.form.get(dynamicPropertyName);
@@ -430,7 +430,7 @@ export class SectionsComponent implements OnInit {
                     }
                   }
 
-                  // Make DataType 
+                  // Make DataType
                   let propertiesWithoutDataType = tableData.tableHeaders.filter((check: any) => !check.hasOwnProperty('dataType'));
                   if (propertiesWithoutDataType.length > 0) {
                     let formlyInputs = this.filterInputElements(this.sections.children[1].children);
@@ -853,56 +853,6 @@ export class SectionsComponent implements OnInit {
     return processSubCondition(condition);
   }
 
-
-
-
-
-
-
-
-
-
-  // evaluateGridCondition(condition: any): boolean {
-  //   const operators: { [key: string]: (a: any, b: any) => boolean } = {
-  //     "==": (a: any, b: any) => a == b,
-  //     "!=": (a: any, b: any) => a != b,
-  //     ">=": (a: any, b: any) => a >= b,
-  //     "<=": (a: any, b: any) => a <= b,
-  //     "=": (a: any, b: any) => a === b,
-  //     ">": (a: any, b: any) => a > b,
-  //     "<": (a: any, b: any) => a < b,
-  //     "null": (a: any, b: any) => a === null,
-  //     "contains": (a: any, b: any) => a.includes(b),
-  //   };
-
-  //   const logicalOperatorsRegex = /\s+(AND|OR)\s+/;
-  //   const conditionParts = condition.split(logicalOperatorsRegex);
-
-  //   const evaluateExpression = (expr: string): boolean => {
-  //     const [leftOperand, operator, rightOperand] = expr.split(/(==|!=|>=|<=|=|>|<|null|contains)/).map(part => part.trim());
-
-  //     if (!operators[operator]) {
-  //       throw new Error(`Unknown operator: ${operator}`);
-  //     }
-
-  //     return operators[operator](leftOperand, rightOperand);
-  //   };
-
-  //   condition = condition.trim().replace(/^\(|\)$/g, '');
-  //   const evaluateCondition = (condition: any): boolean => {
-  //     if (condition.includes("AND")) {
-  //       const subConditions = condition.split(" AND ");
-  //       return subConditions.every((subCondition: any) => evaluateCondition(subCondition));
-  //     } else if (condition.includes("OR")) {
-  //       const subConditions = condition.split(" OR ");
-  //       return subConditions.some((subCondition: any) => evaluateCondition(subCondition));
-  //     } else {
-  //       return evaluateExpression(condition);
-  //     }
-  //   };
-
-  //   return evaluateCondition(condition);
-  // }
   parseOperand(operand: string): any {
     const trimmedOperand = operand.trim();
     if (/^[-+]?(\d+(\.\d*)?|\.\d+)$/.test(trimmedOperand)) {

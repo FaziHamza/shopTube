@@ -36,7 +36,7 @@ export class TaskManagementListComponent implements OnInit {
         if (res.isSuccess && res.data?.length > 0) {
 
           this.tasks = res.data.filter((a: any) => a.parentId == '' || a.parentId == undefined);
-          let groupedData = this.groupDataByWeek(this.tasks);
+          let groupedData = this.tasks;
           this.tasks = groupedData;
           let newData = JSON.parse(JSON.stringify(groupedData));
           this.chartData = this.groupDataByStatus(newData)

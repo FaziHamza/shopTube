@@ -13,12 +13,14 @@ export class AccordionButtonComponent implements OnInit {
   @Input() screenName: any;
   expandIconPosition: any = "left";
   expand: any = false;
-  constructor(private cd: ChangeDetectorRef) { }
+  accordingListData: any[] = [];
+  constructor() {
+    this.processData = this.processData.bind(this);
+  }
   ngOnInit(): void {
   }
   submit() {
     // this.commonChartService.submit();
-    this.cd.detectChanges();
   }
   handleIndexChange(e: number): void {
     console.log(e);
@@ -26,8 +28,105 @@ export class AccordionButtonComponent implements OnInit {
   onClose(): void {
     console.log('tag was closed.');
   }
-  accordionCollapse(){
-    debugger
+  accordionCollapse() {
     this.expand = !this.expand;
+  }
+  processData(data: any[]) {
+    if (data?.length > 0) {
+      this.accordingListData = data.map(element => {
+        const according = JSON.parse(JSON.stringify(this.accordionData));
+
+        // Format weekStartDate
+        const startDate = new Date(element.weekStartDate);
+        const formattedStartDate = startDate.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+
+        // Format weekEndDate
+        const endDate = new Date(element.weekEndDate);
+        const formattedEndDate = endDate.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+
+        const newTitle = `${element?.week} ${formattedStartDate} -  ${formattedEndDate}`;
+        let tableData = this.findObjectByTypeBase(according, "gridList");
+        if (tableData) {
+          const getGridUpdateData = this.getFromQuery(element.issues, tableData);
+          according.children = [getGridUpdateData];
+        }
+        according.title = newTitle;
+        return according;
+      });
+    }
+    return data
+  }
+  findObjectByTypeBase(data: any, type: any) {
+    if (data) {
+      if (data.type && type) {
+        if (data.type === type) {
+          return data;
+        }
+        if (data.children.length > 0) {
+          for (let child of data.children) {
+            let result: any = this.findObjectByTypeBase(child, type);
+            if (result !== null) {
+              return result;
+            }
+          }
+        }
+        return null;
+      }
+    }
+  }
+  getFromQuery(res: any, tableData: any) {
+    if (tableData && res) {
+      if (res.length > 0) {
+        const requiredData = res.map(({ __v, _id, ...rest }: any) => ({
+          id: _id,
+          ...rest
+        }));
+
+        res = requiredData;
+        let saveForm = JSON.parse(JSON.stringify(res[0]));
+        const firstObjectKeys = Object.keys(saveForm);
+        let tableKey = firstObjectKeys.map(key => ({ name: key }));
+        let obj = firstObjectKeys.map(key => ({ name: key, key: key }));
+        tableData.tableData = [];
+        saveForm.id = tableData.tableData.length + 1;
+
+        res.forEach((element: any) => {
+          element.id = (element?.id)?.toString();
+          tableData.tableData?.push(element);
+        });
+        // pagniation work start
+        if (!tableData.end) {
+          tableData.end = 10;
+        }
+        tableData.pageIndex = 1;
+        tableData.totalCount = res.count ? res.count : res.length;
+        tableData.serverApi = '';
+        tableData.targetId = '';
+        tableData.displayData = tableData.tableData.length > tableData.end ? tableData.tableData.slice(0, tableData.end) : tableData.tableData;
+        // pagniation work end
+        if (tableData.tableHeaders.length == 0) {
+          tableData.tableHeaders = obj;
+          tableData['tableKey'] = tableKey
+        }
+        else {
+          if (JSON.stringify(tableData['tableKey']) != JSON.stringify(tableKey)) {
+            const updatedData = tableData.tableHeaders.filter((updatedItem: any) => {
+              const name = updatedItem.name;
+              return !tableKey.some((headerItem: any) => headerItem.name === name);
+            });
+            if (updatedData.length > 0) {
+              tableData.tableHeaders.map((item: any) => {
+                const newItem = { ...item };
+                for (let i = 0; i < updatedData.length; i++) {
+                  newItem[updatedData[i].key] = "";
+                }
+                return newItem;
+              });
+            }
+          }
+        }
+      }
+      return tableData;
+    }
   }
 }
