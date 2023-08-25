@@ -62,8 +62,9 @@ export class DynamicTableComponent implements OnInit {
   }
 
   ngOnInit(): void {
-
+    debugger
     this.loadTableData();
+    this.gridInitilize();
   }
   updateModel(data: any) {
     debugger
@@ -124,36 +125,52 @@ export class DynamicTableComponent implements OnInit {
     console.log("Column Click " + name);
   }
   gridInitilize() {
-    if (this.data.api) {
-      this.builderService.genericApis(this.data.api).subscribe(res => {
-        if (res)
-          res.forEach(function (v: any) { delete v.id });
-        this.tableData = res;
-        this.data['tableData'] = res;
-        const firstObjectKeys = Object.keys(this.tableData[0]);
-        let obj = firstObjectKeys.map(key => ({ name: key }));
-        this.data['tableKey'] = obj
-        this.data['tableHeaders'] = obj
-        this.tableHeaders = obj;
-        // this.loadTableData();
-      })
+    let getRes: any = {
+      data: [
+        {
+          "_id": {
+            "$oid": "649bce85e4823f1628e266c1"
+          },
+          "businessRule": [
+            {
+              "if": "id == 1",
+              "then": [
+                "id == (id-id)"
+              ]
+            }
+          ],
+          "businessRuleData": '[{"target":"status","opratorForTraget":"==","resultValue":"","ifRuleMain":[{"ifCondition":"status","oprator":"==","isGetValue":true,"getValue":"open","condType":"","conditional":[]}],"thenCondition":[],"getRuleCondition":[{"ifCondition":"status","oprator":"==","target":"status","referenceId":"","referenceOperator":"","referenceColor":"","referenceColumnColor":"#EF4444","condition":"","multiConditionList":[]}]},{"target":"status","opratorForTraget":"==","resultValue":"","ifRuleMain":[{"ifCondition":"status","oprator":"==","isGetValue":true,"getValue":"completed","condType":"","conditional":[]}],"thenCondition":[],"getRuleCondition":[{"ifCondition":"status","oprator":"==","target":"status","referenceId":"","referenceOperator":"","referenceColor":"","referenceColumnColor":"#EF4444","condition":"","multiConditionList":[]}]}]',
+          "gridKey": "gridlist_5ef02c4b",
+          "gridType": "Body",
+          "screenName": "Card",
+          "screenBuilderId": {
+            "$oid": "64901e0007e01828b29b0146"
+          },
+          "__v": 0
+        }
+      ]
+    };
+    this.applyBusinessRule(getRes, this.data);
+    this.loadTableData();
+    if (this.screenId == 'taskmanager') {
+
+    } else {
+      if (this.screenId)
+        this.applicationService.getNestCommonAPIById('cp/GridBusinessRule', this.screenId).subscribe(((getRes: any) => {
+          if (getRes.isSuccess) {
+            if (getRes.data.length > 0) {
+              // this.formlyModel['input34d5985f']='1313'
+              this.applyBusinessRule(getRes, this.data);
+            }
+            this.loadTableData();
+          } else
+            this.toastr.error(getRes.message, { nzDuration: 3000 });
+        }));
     }
-    else {
-      this.loadTableData();
-    }
-    if (this.screenId)
-      this.applicationService.getNestCommonAPIById('cp/GridBusinessRule', this.screenId).subscribe(((getRes: any) => {
-        if (getRes.isSuccess) {
-          if (getRes.data.length > 0) {
-            // this.formlyModel['input34d5985f']='1313'
-            this.applyBusinessRule(getRes,this.data);
-          }
-          this.loadTableData();
-        } else
-          this.toastr.error(getRes.message, { nzDuration: 3000 });
-      }));
+
   }
-  applyBusinessRule(getRes: any,data:any) {
+  applyBusinessRule(getRes: any, data: any) {
+    debugger
     let gridFilter = getRes.data.filter((a: any) => a.gridType == 'Body');
     for (let m = 0; m < gridFilter.length; m++) {
       if (gridFilter[m].gridKey == data.key && data.tableData) {
@@ -221,22 +238,34 @@ export class DynamicTableComponent implements OnInit {
                   if (elementv1.getRuleCondition[k].referenceOperator != '') {
                     data.tableData[j][elementv1.target] = this.evaluateGridConditionOperator(`${data.tableData[j][elementv2.ifCondition]} ${elementv1.getRuleCondition[k].oprator} ${data.tableData[j][elementv2.target]}`);
                     data.tableData[j]['color'] = elementv1.getRuleCondition[k].referenceColor;
+                    data.tableData[j]['columnColor'] = elementv1.getRuleCondition[k].referenceColumnColor;
                   }
                   else {
                     if (k > 0) {
                       data.tableData[j][elementv1.target] = this.evaluateGridConditionOperator(`${data.tableData[j][elementv1.target]} ${elementv1.getRuleCondition[k - 1].referenceOperator} ${data.tableData[j][elementv2.ifCondition]} ${elementv1.getRuleCondition[k].oprator} ${data.tableData[j][elementv2.target]}`);
                       data.tableData[j]['color'] = elementv1.getRuleCondition[k].referenceColor;
+                      data.tableData[j]['columnColor'] = elementv1.getRuleCondition[k].referenceColor;
                     }
                     else
+                      data.tableData[j]['color'] = elementv1.getRuleCondition[k].referenceColor;
+                    if (elementv1.getRuleCondition[k].referenceColumnColor) {
+                      // data.tableHeaders.filter((check: any) => !check.hasOwnProperty('dataType'));
+                      let head = data.tableHeaders.find((a: any) => a.name == elementv1.target)
+                      if (head) {
+                        head['dataType'] = 'objectType';
+                        head['columnColor'] = elementv1.getRuleCondition[k].referenceColumnColor;
+                      }
+                    } else {
                       data.tableData[j][elementv1.target] = this.evaluateGridConditionOperator(`${data.tableData[j][elementv2.ifCondition]} ${elementv1.getRuleCondition[k].oprator} ${data.tableData[j][elementv2.target]}`);
-                    data.tableData[j]['color'] = elementv1.getRuleCondition[k].referenceColor;
+
+                    }
                   }
                   if (elementv2.multiConditionList.length > 0) {
                     for (let l = 0; l < elementv2.multiConditionList.length; l++) {
                       const elementv3 = elementv2.multiConditionList[l];
                       const value = data.tableData[j][elementv1.target];
                       data.tableData[j][elementv1.target] = this.evaluateGridConditionOperator(`${value} ${elementv3.oprator} ${data.tableData[j][elementv3.target]}`);
-                      // this.data.tableData[j]['color'] = elementv1.getRuleCondition[k].referenceColor;
+                      this.data.tableData[j]['columnColor'] = elementv1.getRuleCondition[k].referenceColumnColor;
                     }
                   }
                 }
@@ -250,7 +279,7 @@ export class DynamicTableComponent implements OnInit {
                         const elementv4 = elementv3.multiConditionList[m];
                         const value = data.tableData[j][elementv2.thenTarget];
                         data.tableData[j][elementv2.thenTarget] = this.evaluateGridConditionOperator(`${value} ${elementv4.oprator} ${data.tableData[j][elementv4.target]}`);
-                        // this.data.tableData[j]['color'] = elementv1.getRuleCondition[k].referenceColor;
+                        this.data.tableData[j]['columnColor'] = elementv1.getRuleCondition[k].referenceColumnColor;
                       }
                     }
                   }
@@ -407,10 +436,11 @@ export class DynamicTableComponent implements OnInit {
       "-": (a: any, b: any) => this.isNumeric(a) && this.isNumeric(b) ? a - b : null,
       "*": (a: any, b: any) => this.isNumeric(a) && this.isNumeric(b) ? a * b : null,
       "/": (a: any, b: any) => this.isNumeric(a) && this.isNumeric(b) ? a / b : null,
+      "==": (a: any, b: any) => this.isNumeric(a) && this.isNumeric(b) ? a == b : null,
       "%": (a: any, b: any) => this.isNumeric(a) && this.isNumeric(b) ? a % b : null,
     };
 
-    const parts = condition.split(/(\+|-|\*|\/|%)/).map(part => part.trim());
+    const parts = condition.split(/(\+|-|\*|\/|%|==)/).map(part => part.trim());
     const leftOperand = parts[0];
     const operator = parts[1];
     const rightOperand = parts[2];
@@ -924,6 +954,11 @@ export class DynamicTableComponent implements OnInit {
     // this.tableData[rowIndex].defaultValue = value.type;
     // Perform any additional updates to 'listOfData' if needed
   }
+  checkTypeData(item: any) {
+    if (this.data?.openComponent == 'drawer') {
+      this.showIssue(item);
+    }
+  }
   transform(dateRange: string): any {
     if (dateRange.includes('GMT+0500') && dateRange) {
       // Split the date range by ","
@@ -1047,7 +1082,7 @@ export class DynamicTableComponent implements OnInit {
         closed: [],
       };
 
-      weekData.issues.forEach((issue : any) => {
+      weekData.issues.forEach((issue: any) => {
         const status = issue.status;
 
         // Push the issue to the corresponding status array

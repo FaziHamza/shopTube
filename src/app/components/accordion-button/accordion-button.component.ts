@@ -77,11 +77,11 @@ export class AccordionButtonComponent implements OnInit {
   getFromQuery(res: any, tableData: any) {
     if (tableData && res) {
       if (res.length > 0) {
-        const requiredData = res.map(({ __v, _id, ...rest }: any) => ({
+        const requiredData = res.map(({ __v, _id,  ...rest }: any) => ({
           id: _id,
-          ...rest
-        }));
+          ...rest,
 
+        }));
         res = requiredData;
         let saveForm = JSON.parse(JSON.stringify(res[0]));
         const firstObjectKeys = Object.keys(saveForm);
@@ -89,7 +89,6 @@ export class AccordionButtonComponent implements OnInit {
         let obj = firstObjectKeys.map(key => ({ name: key, key: key }));
         tableData.tableData = [];
         saveForm.id = tableData.tableData.length + 1;
-
         res.forEach((element: any) => {
           element.id = (element?.id)?.toString();
           tableData.tableData?.push(element);
