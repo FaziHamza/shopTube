@@ -545,4 +545,5 @@ export interface TreeNode {
   inputLabelClassName?: any,
   showEditInput?: any,
   openComponent?: any,
+  isDeleteAllow?: boolean,
 }

@@ -193,6 +193,10 @@ export class SiteLayoutComponent implements OnInit {
                 }
               }
             }
+            if (!window.location.href.includes('/pages') && res.data?.default?.navigation) {
+              this.router.navigate(['/pages/' + res.data?.default?.navigation
+              ]);
+            }
             this.loader = false;
           }
         },
@@ -502,7 +506,7 @@ export class SiteLayoutComponent implements OnInit {
         if (res.isSuccess) {
           if (res.data.length > 0) {
             this.getTaskManagementIssues = res.data;
-          } 
+          }
         }
         else {
           this.toastr.error(`userAssignTask:` + res.message, { nzDuration: 3000 });
