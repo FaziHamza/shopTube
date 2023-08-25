@@ -1,5 +1,47 @@
 <nz-spin [nzSpinning]="saveLoader" [nzSize]="'large'">
-    <nz-collapse class="mb-2">
+    <div *ngIf="saveLoader && tasks.length == 0" style="height: 100vh;"></div>
+    <div class="task-chart mb-6 grid grid-cols-3 gap-3">
+        <div *ngFor="let week of chartData">
+            <div class="chart" >
+                <div class="inner"><span class="center">AGILE</span></div>
+                <div class="segment" style="--rotate: 0deg;">
+                </div>
+                <div class="segment" style="--rotate: 72deg;">
+                    <span>Segment 2</span>
+                </div>
+                <div class="segment" style="--rotate: 144deg;">
+                    <span>Segment 3</span>
+                </div>
+                <div class="segment" style="--rotate: 216deg;">
+                    <span>Segment 4</span>
+                </div>
+                <div class="segment" style="--rotate: 288deg;">
+                    <span>Segment 5</span>
+                </div>
+                <div class="" >
+                    <span class="first">open {{week.issues.open.length}}</span>
+                    <span class="second">In Progress {{week.issues.inProgress.length}}</span>
+                    <span class="third">Completed {{week.issues.completed.length}}</span>
+                    <span class="fourth">Closed {{week.issues.closed.length}}</span>
+                    <span class="fifth">Review 0</span>
+                </div>
+            </div>
+            <div class="first-arrow ">
+                <div class="content">
+                    <p>Requirment </p>
+                </div>
+            </div>
+            <div class="last-arrow ">
+                <div class="content">
+                    <p> </p>
+                </div>
+            </div>
+            <div >
+                <p class="text-lg font-bold pl-20 pt-2">{{week.week}}</p>
+            </div>
+        </div>
+    </div>
+    <nz-collapse class="mb-2" *ngIf="tasks.length > 0">
         <nz-collapse-panel *ngFor="let panel of tasks let i = index" [nzHeader]="header" [nzActive]="true">
             <ng-template #header>
                 <p>
@@ -12,7 +54,7 @@
                 </p>
 
             </ng-template>
-            <nz-card nzTitle="TASK MANAGEMENT LIST">
+            <nz-card nzTitle="TASK MANAGEMENT LIST" class="task-management-list">
                 <nz-table #basicTable [nzData]="panel.issues
                 " [nzPageSize]="10">
                     <thead>
@@ -31,14 +73,17 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr *ngFor="let data of basicTable.data">
-                            <td *ngIf="editId != data._id" (click)="showIssue(data)">{{ data.message }}</td>
+                        <tr class="hover:bg-transparent" *ngFor="let data of basicTable.data">
+                            <td *ngIf="editId != data._id" (click)="showIssue(data)">
+                                <span class="cursor-pointer">{{ data.message }}</span>
+                            </td>
+
                             <td *ngIf="editId == data._id"><input nz-input type="text" class="form-control"
                                     [(ngModel)]="data.message"></td>
                             <!-- <td>{{ data.screenId }}</td>
                             <td>{{ data.dateTime | date :
                                 "dd/MMM/yyyy hh:mm:ss"}}</td> -->
-                            <td *ngIf="editId != data._id && data['status'] ; else openStatus"
+                            <td class="!hover:bg-red-500" *ngIf="editId != data._id && data['status'] ; else openStatus"
                                 [class]="data['status'] == 'open' ? 'bg-red-500' : (data['status'] == 'inProgress' ? 'bg-orange-500' : (data['status'] == 'completed' ? 'bg-green-500' : 'bg-gray-500')) + ' text-white'">
                                 <span class="text-white"> {{data?.status}}</span>
                             </td>

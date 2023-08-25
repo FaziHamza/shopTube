@@ -19,6 +19,7 @@ export class TaskManagementListComponent implements OnInit {
   issueReport: any = [];
   assignToresponse: any = '';
   userTaskManagement: any = '';
+  chartData: any = [];
   constructor(private applicationService: ApplicationService, private toastr: NzMessageService, public dataSharedService: DataSharedService,) { }
 
   ngOnInit(): void {
@@ -37,6 +38,8 @@ export class TaskManagementListComponent implements OnInit {
           this.tasks = res.data.filter((a: any) => a.parentId == '' || a.parentId == undefined);
           let groupedData = this.groupDataByWeek(this.tasks);
           this.tasks = groupedData;
+          let newData = JSON.parse(JSON.stringify(groupedData));
+          this.chartData = this.groupDataByStatus(newData)
         }
       },
       error: (err) => {
@@ -242,8 +245,32 @@ export class TaskManagementListComponent implements OnInit {
     const weekNumber = Math.ceil((days + firstDay.getDay()) / 7);
     return weekNumber;
   }
+  groupDataByStatus(data: any[]): any[] {
+    return data.map((weekData) => {
+      const statusGroups: { [status: string]: any[] } = {
+        open: [],
+        completed: [],
+        inProgress: [],
+        closed: [],
+      };
 
+      weekData.issues.forEach((issue : any) => {
+        const status = issue.status;
 
+        // Push the issue to the corresponding status array
+        if (status in statusGroups) {
+          statusGroups[status].push(issue);
+        }
+      });
+
+      return {
+        week: weekData.week,
+        issues: statusGroups,
+        weekStartDate: weekData.weekStartDate,
+        weekEndDate: weekData.weekEndDate,
+      };
+    });
+  }
 
 
 }
