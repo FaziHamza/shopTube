@@ -3,6 +3,7 @@ import {
   ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output,
 } from '@angular/core';
 import { NzMessageService } from 'ng-zorro-antd/message';
+import { Subscription } from 'rxjs';
 import { ApplicationService } from 'src/app/services/application.service';
 import { BuilderService } from 'src/app/services/builder.service';
 import { DataSharedService } from 'src/app/services/data-shared.service';
@@ -34,6 +35,7 @@ export class DynamicTableComponent implements OnInit {
   childKey: any;
   allChecked = false;
   indeterminate = false;
+  saveLoader = false;
   scrollX: string | null = null;
   scrollY: string | null = null;
   @Input() screenId: any;
@@ -41,6 +43,7 @@ export class DynamicTableComponent implements OnInit {
   storeRows: any = [];
   storeColums: any = [];
   responsiveTable: boolean = false;
+  requestSubscription: Subscription;
   selectList = [
     { key: "Faizan", value: "Faizan" },
     { key: "Arfan", value: "Arfan" },
@@ -60,17 +63,7 @@ export class DynamicTableComponent implements OnInit {
 
   ngOnInit(): void {
 
-    // if (this.tableData.length > 0) {
-    //   this.storeRows = JSON.parse(JSON.stringify(this.tableData));
-    // }
-    // if (this.tableHeaders.length > 0) {
-    //   this.storeColums = JSON.parse(JSON.stringify(this.tableHeaders));
-    // }
-    // this.gridInitilize();
     this.loadTableData();
-    window.onresize = () => {
-      this.controlMenu();
-    };
   }
   updateModel(data: any) {
     debugger
@@ -90,37 +83,10 @@ export class DynamicTableComponent implements OnInit {
           else if (filteredData && filteredData?.dataType === "datetime-local") {
             newData[key] = newData[key] ? new Date(newData[key]) : ((newData[key] == undefined || newData[key] == '') ? [] : [newData[key]]);
           }
-          // else if (filteredData && filteredData?.dataType === "image-upload") {
-          //   if (newData[key]) {
-
-          //   }
-          //   const url = "image-1692710150321-926327922.jpeg";
-
-          //   // Split the URL by '/' to get the file name
-          //   const fileNameWithExtension = url;
-
-          //   // Split the file name to separate name and type
-          //   const fileNameArray = fileNameWithExtension.split('.');
-          //   const name = fileNameArray[0];
-          //   const type = "image/jpeg";
-
-          //   const blob = new Blob([url], { type: type });
-
-          //   // Step 2: Create a File from the Blob
-          //   const file = new File([blob], url, { type: type });
-          //   newData[key] = file;
-          //   // newData[key].setValue(file);
-          // }
         }
 
-        // for (let key in newData) {
-        //   if (newData[key].includes(',')) {
-        //     newData[key] = newData[key].split(',');
-        //   }
-        // }
         this.form.get(dynamicPropertyName)?.patchValue(newData);
       }
-      // this._dataSharedService.onupdateModel(data);
     }
   }
   onClickRow(api: string, item: any) {
@@ -180,53 +146,96 @@ export class DynamicTableComponent implements OnInit {
         if (getRes.isSuccess) {
           if (getRes.data.length > 0) {
             // this.formlyModel['input34d5985f']='1313'
-            this.applyBusinessRule(getRes);
+            this.applyBusinessRule(getRes,this.data);
           }
           this.loadTableData();
         } else
           this.toastr.error(getRes.message, { nzDuration: 3000 });
       }));
   }
-  applyBusinessRule(getRes: any) {
+  applyBusinessRule(getRes: any,data:any) {
     let gridFilter = getRes.data.filter((a: any) => a.gridType == 'Body');
     for (let m = 0; m < gridFilter.length; m++) {
-      if (gridFilter[m].gridKey == this.data.key && this.data.tableData) {
+      if (gridFilter[m].gridKey == data.key && data.tableData) {
         const objRuleData = JSON.parse(gridFilter[m].businessRuleData);
         for (let index = 0; index < objRuleData.length; index++) {
+          // const elementv1 = objRuleData[index].ifRuleMain;
           const elementv1 = objRuleData[index];
-          let checkType = Object.keys(this.data.tableData[0]).filter(a => a == elementv1.target);
+          let checkType = Object.keys(data.tableData[0]).filter(a => a == elementv1.target);
           if (checkType.length == 0) {
             console.log("No obj Found!")
           }
           else {
-            for (let j = 0; j < this.data.tableData.length; j++) {
+            for (let j = 0; j < data.tableData.length; j++) {
               //query
-              let query: any;
-              if (elementv1.oprator == 'NotNull')
-                query = "1==1"
-              else
-                query = this.tableData[j][elementv1.ifCondition] + elementv1.oprator + elementv1.getValue
-
-              if (eval(query)) {
+              let query: any = '';
+              objRuleData[index].ifRuleMain.forEach((element: any, ruleIndex: number) => {
+                if (objRuleData[index].ifRuleMain.length > 1) {
+                  if (element.oprator == 'NotNull') {
+                    if (!query) {
+                      query = " ( 1==1"
+                    } else {
+                      query += " ( 1==1"
+                    }
+                  }
+                  else {
+                    let firstValue = data.tableData[j][element.ifCondition] ? data.tableData[j][element.ifCondition] : "0";
+                    let appendString = element.conditional.length > 0 ? " ( " : ' ';
+                    if (ruleIndex == 0) {
+                      query = appendString + firstValue + element.oprator + element.getValue
+                    } else {
+                      query += appendString + firstValue + element.oprator + element.getValue
+                    }
+                  }
+                  for (let k = 0; k < element.conditional.length; k++) {
+                    const conditionElement = element.conditional[k];
+                    let check = data.tableData[j][conditionElement.condifCodition] ? data.tableData[j][conditionElement.condifCodition] : '0';
+                    query += ' ' + conditionElement.condType + ' ' + check + conditionElement.condOperator + conditionElement.condValue;
+                    if (k + 1 == element.conditional.length)
+                      query += " ) " + element.condType
+                  }
+                }
+                else {
+                  if (element.oprator == 'NotNull')
+                    query = "1==1"
+                  else {
+                    let firstValue = data.tableData[j][element.ifCondition] ? data.tableData[j][element.ifCondition] : "0";
+                    query = firstValue + element.oprator + element.getValue
+                  }
+                  for (let k = 0; k < element.conditional.length; k++) {
+                    const conditionElement = element.conditional[k];
+                    let check = data.tableData[j][conditionElement.condifCodition] ? data.tableData[j][conditionElement.condifCodition] : '0';
+                    query += ' ' + conditionElement.condType + ' ' + check + conditionElement.condOperator + conditionElement.condValue;
+                  }
+                }
+              });
+              let checkCondition = false;
+              if (objRuleData[index].ifRuleMain.length > 1) {
+                checkCondition = this.evaluateGridCondition(query)
+              } else {
+                checkCondition = this.evaluateGridConditionMain(query)
+              }
+              if (checkCondition) {
                 for (let k = 0; k < elementv1.getRuleCondition.length; k++) {
                   const elementv2 = elementv1.getRuleCondition[k];
                   if (elementv1.getRuleCondition[k].referenceOperator != '') {
-                    this.data.tableData[j][elementv1.target] = eval(`${this.data.tableData[j][elementv2.ifCondition]} ${elementv1.getRuleCondition[k].oprator} ${this.data.tableData[j][elementv2.target]}`);
-                    this.data.tableData[j]['color'] = elementv1.getRuleCondition[k].referenceColor;
-                  } else {
+                    data.tableData[j][elementv1.target] = this.evaluateGridConditionOperator(`${data.tableData[j][elementv2.ifCondition]} ${elementv1.getRuleCondition[k].oprator} ${data.tableData[j][elementv2.target]}`);
+                    data.tableData[j]['color'] = elementv1.getRuleCondition[k].referenceColor;
+                  }
+                  else {
                     if (k > 0) {
-                      this.data.tableData[j][elementv1.target] = eval(`${this.data.tableData[j][elementv1.target]} ${elementv1.getRuleCondition[k - 1].referenceOperator} ${this.data.tableData[j][elementv2.ifCondition]} ${elementv1.getRuleCondition[k].oprator} ${this.data.tableData[j][elementv2.target]}`);
-                      this.data.tableData[j]['color'] = elementv1.getRuleCondition[k].referenceColor;
+                      data.tableData[j][elementv1.target] = this.evaluateGridConditionOperator(`${data.tableData[j][elementv1.target]} ${elementv1.getRuleCondition[k - 1].referenceOperator} ${data.tableData[j][elementv2.ifCondition]} ${elementv1.getRuleCondition[k].oprator} ${data.tableData[j][elementv2.target]}`);
+                      data.tableData[j]['color'] = elementv1.getRuleCondition[k].referenceColor;
                     }
                     else
-                      this.data.tableData[j][elementv1.target] = eval(`${this.data.tableData[j][elementv2.ifCondition]} ${elementv1.getRuleCondition[k].oprator} ${this.data.tableData[j][elementv2.target]}`);
-                    this.data.tableData[j]['color'] = elementv1.getRuleCondition[k].referenceColor;
+                      data.tableData[j][elementv1.target] = this.evaluateGridConditionOperator(`${data.tableData[j][elementv2.ifCondition]} ${elementv1.getRuleCondition[k].oprator} ${data.tableData[j][elementv2.target]}`);
+                    data.tableData[j]['color'] = elementv1.getRuleCondition[k].referenceColor;
                   }
                   if (elementv2.multiConditionList.length > 0) {
                     for (let l = 0; l < elementv2.multiConditionList.length; l++) {
                       const elementv3 = elementv2.multiConditionList[l];
-                      const value = this.data.tableData[j][elementv1.target];
-                      this.data.tableData[j][elementv1.target] = eval(`${value} ${elementv3.oprator} ${this.data.tableData[j][elementv3.target]}`);
+                      const value = data.tableData[j][elementv1.target];
+                      data.tableData[j][elementv1.target] = this.evaluateGridConditionOperator(`${value} ${elementv3.oprator} ${data.tableData[j][elementv3.target]}`);
                       // this.data.tableData[j]['color'] = elementv1.getRuleCondition[k].referenceColor;
                     }
                   }
@@ -235,12 +244,12 @@ export class DynamicTableComponent implements OnInit {
                   const elementv2 = elementv1.thenCondition[k];
                   for (let l = 0; l < elementv2.getRuleCondition.length; l++) {
                     const elementv3 = elementv2.getRuleCondition[l];
-                    this.data.tableData[j][elementv2.thenTarget] = eval(`${this.data.tableData[j][elementv3.ifCondition]} ${elementv3.oprator} ${this.data.tableData[j][elementv3.target]}`);
+                    data.tableData[j][elementv2.thenTarget] = this.evaluateGridConditionOperator(`${data.tableData[j][elementv3.ifCondition]} ${elementv3.oprator} ${data.tableData[j][elementv3.target]}`);
                     if (elementv3.multiConditionList.length > 0) {
                       for (let m = 0; m < elementv3.multiConditionList.length; m++) {
                         const elementv4 = elementv3.multiConditionList[m];
-                        const value = this.data.tableData[j][elementv2.thenTarget];
-                        this.data.tableData[j][elementv2.thenTarget] = eval(`${value} ${elementv4.oprator} ${this.data.tableData[j][elementv4.target]}`);
+                        const value = data.tableData[j][elementv2.thenTarget];
+                        data.tableData[j][elementv2.thenTarget] = this.evaluateGridConditionOperator(`${value} ${elementv4.oprator} ${data.tableData[j][elementv4.target]}`);
                         // this.data.tableData[j]['color'] = elementv1.getRuleCondition[k].referenceColor;
                       }
                     }
@@ -252,12 +261,12 @@ export class DynamicTableComponent implements OnInit {
         }
       }
     }
-    let headerFilter = getRes.filter((a: any) => a.gridType == 'Header');
+    let headerFilter = getRes.data.filter((a: any) => a.gridType == 'Header');
     for (let m = 0; m < headerFilter.length; m++) {
-      if (headerFilter[m].gridKey == this.data.key && this.data.tableData) {
+      if (headerFilter[m].gridKey == data.key && data.tableData) {
         for (let index = 0; index < headerFilter[m].businessRuleData.length; index++) {
           const elementv1 = headerFilter[m].businessRuleData[index];
-          let checkType = Object.keys(this.data.tableData[0]).filter(a => a == elementv1.target);
+          let checkType = Object.keys(data.tableData[0]).filter(a => a == elementv1.target);
           if (checkType.length == 0) {
             // const filteredData = this.filterTableData(elementv1)
             // const result = this.makeAggregateFunctions(filteredData, elementv1.target);
@@ -266,10 +275,10 @@ export class DynamicTableComponent implements OnInit {
             // });
           }
           else {
-            this.tableHeaders.forEach(element => {
+            data.tableHeaders.forEach((element: any) => {
               if (element.key == checkType[0]) {
                 element['gridHeaderSum'] = 0;
-                const filteredData = this.filterTableData(elementv1)
+                const filteredData = this.filterTableData(elementv1, data)
                 const result = this.makeAggregateFunctions(filteredData, elementv1.target)
                 elementv1.getRuleCondition.forEach((elementv2: any) => {
                   element = this.applyAggreateFunctions(elementv2, element, result, 'gridHeaderSum')
@@ -278,13 +287,13 @@ export class DynamicTableComponent implements OnInit {
                   const elementv2 = elementv1.thenCondition[k];
                   for (let l = 0; l < elementv2.getRuleCondition.length; l++) {
                     const elementv3 = elementv2.getRuleCondition[l];
-                    let checkType = Object.keys(this.data.tableData[0]).filter(a => a == elementv3.ifCondition);
+                    let checkType = Object.keys(data.tableData[0]).filter(a => a == elementv3.ifCondition);
                     if (checkType.length == 0) {
                       console.log("No obj Found!")
                     }
                     else {
                       const resultData = this.makeAggregateFunctions(filteredData, elementv3.ifCondition)
-                      this.tableHeaders.forEach(element => {
+                      data.tableHeaders.forEach((element: any) => {
                         if (element.key == checkType[0]) {
                           element = this.applyAggreateFunctions(elementv3, element, resultData, 'gridHeaderSum')
                         }
@@ -302,20 +311,20 @@ export class DynamicTableComponent implements OnInit {
         }
       }
     }
-    let footerFilter = getRes.filter((a: any) => a.gridType == 'Footer');
+    let footerFilter = getRes.data.filter((a: any) => a.gridType == 'Footer');
     for (let m = 0; m < footerFilter.length; m++) {
-      if (footerFilter[m].gridKey == this.data.key && this.data.tableData) {
+      if (footerFilter[m].gridKey == data.key && data.tableData) {
         for (let index = 0; index < footerFilter[m].businessRuleData.length; index++) {
           const elementv1 = footerFilter[m].businessRuleData[index];
-          let checkType = Object.keys(this.data.tableData[0]).filter(a => a == elementv1.target);
+          let checkType = Object.keys(data.tableData[0]).filter(a => a == elementv1.target);
           if (checkType.length == 0) {
             console.log("No obj Found!")
           }
           else {
-            this.tableHeaders.forEach(element => {
+            data.tableHeaders.forEach((element: any) => {
               if (element.key == checkType[0]) {
                 element['gridFooterSum'] = 0;
-                const filteredData = this.filterTableData(elementv1)
+                const filteredData = this.filterTableData(elementv1, data)
                 const result = this.makeAggregateFunctions(filteredData, elementv1.target)
                 elementv1.getRuleCondition.forEach((elementv2: any) => {
                   element = this.applyAggreateFunctions(elementv2, element, result, 'gridFooterSum')
@@ -324,13 +333,13 @@ export class DynamicTableComponent implements OnInit {
                   const elementv2 = elementv1.thenCondition[k];
                   for (let l = 0; l < elementv2.getRuleCondition.length; l++) {
                     const elementv3 = elementv2.getRuleCondition[l];
-                    let checkType = Object.keys(this.data.tableData[0]).filter(a => a == elementv3.ifCondition);
+                    let checkType = Object.keys(data.tableData[0]).filter(a => a == elementv3.ifCondition);
                     if (checkType.length == 0) {
                       console.log("No obj Found!")
                     }
                     else {
                       const resultData = this.makeAggregateFunctions(filteredData, elementv3.ifCondition)
-                      this.tableHeaders.forEach(element => {
+                      data.tableHeaders.forEach((element: any) => {
                         if (element.key == checkType[0]) {
                           element = this.applyAggreateFunctions(elementv3, element, resultData, 'gridFooterSum')
                         }
@@ -349,6 +358,167 @@ export class DynamicTableComponent implements OnInit {
       }
     }
   }
+  private isNumeric(value: any): boolean {
+    return !isNaN(parseFloat(value)) && isFinite(value);
+  }
+  evaluateGridConditionMain(condition: string): boolean {
+    const operators: { [key: string]: (a: any, b: any) => boolean } = {
+      "==": (a: any, b: any) => a == b,
+      "!=": (a: any, b: any) => a != b,
+      ">=": (a: any, b: any) => a >= b,
+      "<=": (a: any, b: any) => a <= b,
+      "=": (a: any, b: any) => a === b,
+      ">": (a: any, b: any) => a > b,
+      "<": (a: any, b: any) => a < b,
+      "null": (a: any, b: any) => a === null,
+      "contains": (a: any, b: any) => a.includes(b),
+    };
+
+    const logicalOperatorsRegex = /\s+(AND|OR)\s+/;
+    const conditionParts = condition.split(logicalOperatorsRegex);
+
+    const evaluateExpression = (expr: string): boolean => {
+      const [leftOperand, operator, rightOperand] = expr.split(/(==|!=|>=|<=|=|>|<|null|contains)/).map(part => part.trim());
+
+      if (!operators[operator]) {
+        throw new Error(`Unknown operator: ${operator}`);
+      }
+
+      return operators[operator](leftOperand, rightOperand);
+    };
+
+    const evaluateCondition = (condition: string): boolean => {
+      if (condition.includes("AND")) {
+        const subConditions = condition.split(" AND ");
+        return subConditions.every(subCondition => evaluateCondition(subCondition));
+      } else if (condition.includes("OR")) {
+        const subConditions = condition.split(" OR ");
+        return subConditions.some(subCondition => evaluateCondition(subCondition));
+      } else {
+        return evaluateExpression(condition);
+      }
+    };
+
+    return evaluateCondition(condition);
+  }
+  evaluateGridConditionOperator(condition: string): any {
+    const operators: { [key: string]: (a: any, b: any) => any } = {
+      "+": (a: any, b: any) => this.isNumeric(a) && this.isNumeric(b) ? a + b : null,
+      "-": (a: any, b: any) => this.isNumeric(a) && this.isNumeric(b) ? a - b : null,
+      "*": (a: any, b: any) => this.isNumeric(a) && this.isNumeric(b) ? a * b : null,
+      "/": (a: any, b: any) => this.isNumeric(a) && this.isNumeric(b) ? a / b : null,
+      "%": (a: any, b: any) => this.isNumeric(a) && this.isNumeric(b) ? a % b : null,
+    };
+
+    const parts = condition.split(/(\+|-|\*|\/|%)/).map(part => part.trim());
+    const leftOperand = parts[0];
+    const operator = parts[1];
+    const rightOperand = parts[2];
+
+    const leftValue = this.isNumeric(leftOperand) ? Number(leftOperand) : null;
+    const rightValue = this.isNumeric(rightOperand) ? Number(rightOperand) : null;
+
+    return operators[operator](leftValue, rightValue);
+  }
+  evaluateGridCondition(condition: any): boolean {
+    const operators: { [key: string]: (a: any, b: any) => boolean } = {
+      "==": (a: any, b: any) => a == b,
+      "!=": (a: any, b: any) => a != b,
+      ">=": (a: any, b: any) => a >= b,
+      "<=": (a: any, b: any) => a <= b,
+      "=": (a: any, b: any) => a === b,
+      ">": (a: any, b: any) => a > b,
+      "<": (a: any, b: any) => a < b,
+      "null": (a: any, b: any) => a === null,
+      "contains": (a: any, b: any) => a.includes(b),
+    };
+
+    const evaluateExpression = (expr: string): boolean => {
+      if (!expr.includes(' false ') && !expr.includes(' true ')) {
+        const [leftOperand, operator, rightOperand] = expr.trim().split(/(==|!=|>=|<=|=|>|<|null|contains)/).map(part => part.trim());
+
+        let leftValue: any = leftOperand;
+        if (leftOperand) {
+          leftValue = leftOperand;
+        } else if (leftOperand === 'null') {
+          leftValue = null;
+        }
+
+        let rightValue: any = rightOperand;
+        if (rightOperand) {
+          rightValue = rightOperand;
+        } else if (rightOperand === 'null') {
+          rightValue = null;
+        }
+
+        if (!operators[operator]) {
+          throw new Error(`Unknown operator: ${operator}`);
+        }
+
+        return operators[operator](leftValue, rightValue);
+      }
+      else {
+        if (expr.includes(' false ')) {
+          return false;
+        } else {
+          return true;
+        }
+      }
+
+
+
+    };
+
+    const processSubCondition = (subCondition: string): boolean => {
+      const stack: string[] = [];
+      let currentExpression = '';
+
+      for (const char of subCondition) {
+        if (char === '(') {
+          if (currentExpression) {
+            stack.push(currentExpression);
+            currentExpression = '';
+          }
+          stack.push(char);
+        } else if (char === ')') {
+          if (currentExpression) {
+            stack.push(currentExpression);
+            currentExpression = '';
+          }
+          let innerExpression = '';
+          while (stack.length > 0 && stack[stack.length - 1] !== '(') {
+            innerExpression = stack.pop() + innerExpression;
+          }
+          stack.pop(); // Remove the opening parenthesis from the stack
+
+          const innerResult = processSubCondition(innerExpression);
+          stack.push(innerResult.toString());
+        } else {
+          currentExpression += char;
+        }
+      }
+
+      if (currentExpression) {
+        stack.push(currentExpression);
+      }
+
+      return evaluateCondition(stack.join(' '));
+    };
+
+    const evaluateCondition = (condition: any): boolean => {
+      if (condition.includes("OR")) {
+        const subConditions = condition.split(" OR ");
+        return subConditions.some((subCondition: any) => processSubCondition(subCondition));
+      } else if (condition.includes("AND")) {
+        const subConditions = condition.split(" AND ");
+        return subConditions.every((subCondition: any) => processSubCondition(subCondition));
+      } else {
+        return evaluateExpression(condition);
+      }
+    };
+
+    return processSubCondition(condition);
+  }
   applyAggreateFunctions(elementv3: any, element: any, resultData: any, value: any) {
     if (elementv3.oprator == 'sum')
       element[value] = resultData?.sum;
@@ -363,8 +533,8 @@ export class DynamicTableComponent implements OnInit {
       element[value] = resultData.max;
     return element;
   }
-  filterTableData(elementv1: any) {
-    let filterData = this.data.tableData.filter((item: any) => {
+  filterTableData(elementv1: any, data: any) {
+    let filterData = data.tableData.filter((item: any) => {
       const condition = item[elementv1.ifCondition];
       const value = elementv1.getValue;
 
@@ -541,9 +711,6 @@ export class DynamicTableComponent implements OnInit {
       this.data['tableKey'] = firstObjectKeys.map(key => ({ name: key }));
 
       this.data['tableKey'] = this.data['tableKey'].filter((header: any) => header.name !== 'color');
-      // this.childKey = this.getChildrenData();
-      // let checkcount = this.getParentChildrenKeys(this.tableData);
-      // console.log(JSON.stringify(checkcount));
       this.footerData = this.tableHeaders;
       if (!this.tableHeaders || !this.footerData) {
         this.tableHeaders = this.data['tableKey'];
@@ -598,10 +765,6 @@ export class DynamicTableComponent implements OnInit {
   handleOk(): void {
     this.isHeaderVisible = false;
   }
-  // handleCancel(): void {
-  //   console.log('Button cancel clicked!');
-  //   this.isVisible = false;
-  // }
   getSumOfRow(data: any) {
     if (data.sum) {
       if (this.tableData.some((item: any) => item.hasOwnProperty(data.key.toLowerCase()))) {
@@ -664,17 +827,6 @@ export class DynamicTableComponent implements OnInit {
     this.allChecked = allChecked;
     this.indeterminate = !allChecked && !allUnChecked;
   }
-  // getNestedChildrenCount(obj: any): number {
-  //   if (!obj.children) {
-  //     return 0;
-  //   }
-  //   let maxLevel = 0;
-  //   obj.children.forEach((child:any) => {
-  //     const childLevel = this.getNestedChildrenCount(child);
-  //     maxLevel = Math.max(maxLevel, childLevel);
-  //   });
-  //   return 1 + maxLevel;
-  // }
   getChildKeys(obj: any): any {
     const keys: any = {};
     const firstObjectKeys = Object.keys(obj);
@@ -694,95 +846,17 @@ export class DynamicTableComponent implements OnInit {
     return result;
   }
 
-  // addThousanRows(){
-  //     for (let index = 0; index < 1000; index++) {
-  //       this.addRow();
-  //     }
-  // }
   isMyDataArray(data: any): boolean {
     return Array.isArray(data);
-  }
-
-  select(rowIndex: number, value: any) {
-    // this.tableData[rowIndex].defaultValue = value.type;
-    // Perform any additional updates to 'listOfData' if needed
   }
   isEditing(entry: any): boolean {
     return this.editingEntry === entry;
   }
 
-  // Method to start editing an entry
   editValue(entry: any): void {
     this.editingEntry = entry;
   }
 
-  // Method to save the updated value of an entry
-
-  controlMenu() {
-
-    const screenWidth = window.innerWidth;
-    if (screenWidth <= 756) {
-      // this.tableData = this.storeRows;
-      // if (this.tableData.length > 0) {
-      //   let newData: any = [];
-      //   this.storeRows = this.tableData;
-      //   this.tableData.forEach((item: any) => {
-      //     let id: any = item['id'];
-      //     for (let key in item) {
-      //       this.tableHeaders.forEach((columnData: any) => {
-      //         if (item.hasOwnProperty(key) && columnData.name.toLowerCase() == key.toLowerCase()) {
-      //           let value = item[key];
-      //           let obj: any = {};
-      //           obj['id'] = id;
-      //           let columnKey = columnData.name + '_' + 'column';
-      //           obj[columnKey] = columnData.name;
-      //           obj[key] = value;
-      //           if (key.toLowerCase() != 'id') {
-      //             newData.push(obj);
-      //           }
-      //         };
-      //       });
-      //     };
-      //   });
-      //   let tablekey: any = [];
-      //   const firstObjectKeys = Object.keys(this.tableData[0]);
-      //   this.data['tableKey'] = firstObjectKeys.map(key => ({ name: key }));
-      //   this.data['tableKey'] = this.data['tableKey'].filter((header: any) => header.name !== 'color');
-      //   this.tableHeaders.forEach(j => {
-      //     this.data['tableKey'].forEach((rowKey: any) => {
-      //       if (j.name.toLowerCase() == rowKey.name.toLowerCase()) {
-      //         let obj = { 'name': j.name + '_' + 'column' };
-      //         tablekey.push(obj);
-      //         let obj1 = { 'name': rowKey.name };
-      //         tablekey.push(obj1);
-      //       }
-      //     });
-      //   });
-      //   this.tableData = JSON.parse(JSON.stringify(newData));
-      //   this.data['tableKey'] = tablekey;
-      //   this.data['showColumnHeader'] = false;
-      //   // this.gridInitilize();
-      //   this.storeColums = JSON.parse(JSON.stringify(this.tableHeaders));
-      //   this.tableHeaders.forEach(headElement => {
-      //     if (headElement['dataType'] == 'select') {
-      //       headElement['dataType'] = 'input';
-      //     }
-      //   });
-      // }
-      this.data['showColumnHeader'] = false;
-      this.responsiveTable = true;
-      // console.log(screenWidth);
-      // console.log(this.responsiveTable);
-      this.cdr.detectChanges();
-    }
-    else {
-      // this.tableHeaders = this.storeColums;
-      // this.tableData = this.storeRows;
-      // this.loadTableData();
-      this.data['showColumnHeader'] = true;
-      this.responsiveTable = false;
-    }
-  }
   getObjectKeys(obj: object): string[] {
     return Object.keys(obj);
   }
@@ -825,28 +899,6 @@ export class DynamicTableComponent implements OnInit {
       this.pageChange(index);
     }
   }
-  // pageChange(index: number, data?: any) {
-  //   this.data.pageIndex = index;
-  //   if (!this.pageSize) {
-  //     this.pageSize = this.data.end;
-  //     if (this.pageSize) {
-  //       this.tableData = this.tableData.filter((d: any) => d.id !== data.id);
-  //       this.displayData = this.displayData.filter((d: any) => d.id !== data.id);
-  //       this.updateDisplayData();
-  //     }
-  //     else {
-  //       const indexToRemove = this.tableData.findIndex((d: any) => d.id === data.id);
-
-  //       if (indexToRemove !== -1) {
-  //         this.tableData.splice(indexToRemove, 1);
-  //       }
-  //       // this.tableData = this.tableData.filter((d: any) => d.id !== data.id);
-  //       // this.tableData = JSON.parse(JSON.stringify(updatedData));
-  //       // this.tableData = [...this.displayData]
-  //       this.displayData = [...this.tableData];
-  //     }
-  //   }
-  // }
   pageChange(index: number) {
     this.data.pageIndex = index;
     if (!this.pageSize)
@@ -868,7 +920,10 @@ export class DynamicTableComponent implements OnInit {
     this.end = this.displayData.length == this.data.end ? (this.data.pageIndex * this.data.end) : this.data.totalCount;
     // this.data.totalCount = this.tableData.length;
   }
-
+  select(rowIndex: number, value: any) {
+    // this.tableData[rowIndex].defaultValue = value.type;
+    // Perform any additional updates to 'listOfData' if needed
+  }
   transform(dateRange: string): any {
     if (dateRange.includes('GMT+0500') && dateRange) {
       // Split the date range by ","
@@ -898,60 +953,115 @@ export class DynamicTableComponent implements OnInit {
     const date = new Date(dateString);
     return new DatePipe('en-US').transform(date, 'EEE MMM dd yyyy HH:mm:ss');
   }
-
-  convertBase64ToBlob(base64String: string, mimeType: string): Blob {
-    // Remove the data URL prefix (e.g., 'data:image/png;base64,') if it exists
-    const base64WithoutPrefix = base64String.startsWith('data:') ? base64String.split(',')[1] : base64String;
-
-    // Decode the Base64 string into a binary array
-    const binaryArray = atob(base64WithoutPrefix);
-
-    // Create a Uint8Array to hold the binary data
-    const uint8Array = new Uint8Array(binaryArray.length);
-
-    // Populate the Uint8Array with binary values from the Base64 string
-    for (let i = 0; i < binaryArray.length; i++) {
-      uint8Array[i] = binaryArray.charCodeAt(i);
-    }
-
-    // Create a Blob with the binary data and specified MIME type
-    return new Blob([uint8Array], { type: mimeType });
+  tasks: any = [];
+  editObj: any = {};
+  Object = Object;
+  chartData: any[] = [];
+  issueReport: any = [];
+  userTaskManagement: any = '';
+  showIssue(data: any): void {
+    this.saveLoader = true;
+    this.requestSubscription = this.applicationService.getNestCommonAPI("cp/getuserComments/UserComment/pages/" + data.screenId).subscribe({
+      next: (res: any) => {
+        this.saveLoader = false;
+        this.issueReport['issueReport'] = '';
+        this.issueReport['showAllComments'] = false;
+        if (res.isSuccess && res.data.length > 0) {
+          const filterIssue = res.data.filter((rep: any) => rep.componentId === data.componentId);
+          if (filterIssue.length > 0) {
+            this.userTaskManagement = data;
+            this.issueReport['status'] = data['status'];
+            this.issueReport['showAllComments'] = true;
+            this.issueReport['issueReport'] = filterIssue;
+            this.issueReport['id'] = filterIssue[0].componentId;
+            this.callAssignee(this.issueReport);
+          } else {
+            this.saveLoader = false;
+            this.toastr.error(`UserComment : No comments against this`, { nzDuration: 3000 });
+          }
+        }
+      },
+      error: (err) => {
+        this.issueReport['issueReport'] = '';
+        this.issueReport['showAllComments'] = false;
+        console.error(err); // Log the error to the console
+        this.toastr.error(`UserComment : An error occurred`, { nzDuration: 3000 });
+      }
+    });
   }
+  getTasks() {
+    this.saveLoader = true;
+    this.requestSubscription = this.applicationService.getNestCommonAPI('cp/getuserCommentsCurrentMonth/UserComment').subscribe({
+      next: (res: any) => {
+        this.saveLoader = false;
+        if (res.isSuccess && res.data?.length > 0) {
+          this.tasks = res.data.filter((a: any) => a.parentId == '' || a.parentId == undefined);
+          let groupedData = this.tasks;
+          this.tasks = groupedData;
+          let newData = JSON.parse(JSON.stringify(groupedData));
+          this.chartData = this.groupDataByStatus(newData)
+        }
+      },
+      error: (err) => {
+        this.saveLoader = false;
+        console.error(err); // Log the error to the console
+        this.toastr.error(`UserComment : An error occurred`, { nzDuration: 3000 });
+      }
+    });
+  }
+  assignToresponse: any = '';
+  callAssignee(data: any) {
+    this.requestSubscription = this.applicationService.getNestCommonAPIById('cp/UserAssignTask', data.id).subscribe({
+      next: (res: any) => {
+        if (res) {
+          if (res.data.length > 0) {
+            this.assignToresponse = res.data[0];
+            data['dueDate'] = res.data[0]['dueDate'];
+            data['assignTo'] = res.data[0]['assignTo'];
+            data['startDate'] = res.data[0]['startDate'];
+            data['endDate'] = res.data[0]['endDate'];
+            data['tags'] = res.data[0]['tags'];
+            // this.toastr.success(`UserAssignTask : ${res.message}`, { nzDuration: 3000 });
+          } else {
+            data['dueDate'] = new Date();
+            data['dueDate'] = data['dueDate'].toISOString().split('T')[0];
+          }
+        }
+      }, error: (err: any) => {
+        console.error(err); // Log the error to the console
+        this.toastr.error(`UserAssignTask : An error occurred`, { nzDuration: 3000 });
+      }
+    })
+  }
+  updateIssues(updateData: any) {
+    if (updateData) {
+      this.getTasks();
+    }
+  }
+  groupDataByStatus(data: any[]): any[] {
+    return data.map((weekData) => {
+      const statusGroups: { [status: string]: any[] } = {
+        open: [],
+        completed: [],
+        inProgress: [],
+        closed: [],
+      };
 
-  // convertBase64ToBlob(base64String: string, mimeType: string): Blob | null {
-  //   // Check if the string starts with the correct data URI prefix
-  //   if (!base64String.startsWith(`data:${mimeType};base64,`)) {
-  //     console.error('Invalid Base64 string format');
-  //     return null;
-  //   }
+      weekData.issues.forEach((issue : any) => {
+        const status = issue.status;
 
-  //   // Extract the Base64 data part
-  //   const base64WithoutPrefix = base64String.split(',')[1];
+        // Push the issue to the corresponding status array
+        if (status in statusGroups) {
+          statusGroups[status].push(issue);
+        }
+      });
 
-  //   try {
-  //     // Convert the Base64 string to a Uint8Array
-  //     const binaryString = atob(base64WithoutPrefix);
-  //     const binaryData = new Uint8Array(binaryString.length);
-  //     for (let i = 0; i < binaryString.length; i++) {
-  //       binaryData[i] = binaryString.charCodeAt(i);
-  //     }
-
-  //     // Create a Blob object from the Uint8Array with the specified MIME type
-  //     return new Blob([binaryData], { type: mimeType });
-  //   } catch (error) {
-  //     console.error('Error decoding Base64:', error);
-  //     return null;
-  //   }
-  // }
-
-  // Example usage
-
-
-
-
-
-
-
-
-
+      return {
+        week: weekData.week,
+        issues: statusGroups,
+        weekStartDate: weekData.weekStartDate,
+        weekEndDate: weekData.weekEndDate,
+      };
+    });
+  }
 }
