@@ -153,6 +153,7 @@ export class ApplicationBuilderComponent implements OnInit {
           this.listOfDisplayData = res.data;
           this.listOfData = res.data;
           this.departmentData = res.data;
+          this.handlePageChange(1);
           const nonEmptySearchArray = this.listOfColumns.filter((element: any) => element.searchValue);
           nonEmptySearchArray.forEach((element: any) => {
             this.search(element.searchValue, element);
@@ -607,7 +608,6 @@ export class ApplicationBuilderComponent implements OnInit {
       next: (res: any) => {
         if (res.isSuccess){
           this.listOfChildrenData = res.data;
-          this.handlePageChange(1);
         }
         else
           this.toastr.error(res.message, { nzDuration: 3000 }); // Show an error message to the user

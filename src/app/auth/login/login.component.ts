@@ -13,7 +13,7 @@ import { CommonService } from 'src/common/common-services/common.service';
 export class LoginComponent implements OnInit {
   ngAfterViewInit() {
     // Reinitialize reCAPTCHA after the view has been initialized
-    grecaptcha.render('recaptcha', { sitekey: '6LfKNi0cAAAAACeYwFRY9_d_qjGhpiwYUo5gNW5-' });
+    grecaptcha.render('recaptcha', { sitekey: '6LcZ59MnAAAAAEFG5x2mJoJ_ptOFR7O2hSX0HHx3' });
   }
 
   recaptchaResponse = '';

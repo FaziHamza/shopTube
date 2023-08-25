@@ -20,7 +20,7 @@ export const environment = {
     measurementId: '',
   },
   recaptcha: {
-    siteKey: '6LfKNi0cAAAAACeYwFRY9_d_qjGhpiwYUo5gNW5-',
+    siteKey: '6LcZ59MnAAAAAEFG5x2mJoJ_ptOFR7O2hSX0HHx3',
   },
 };
 

@@ -116,6 +116,7 @@ export class TaskReportComponent implements OnInit {
 
 
   toggleCommentDisplay(data: any) {
+    debugger
     data['showAllComments'] = true;
 
     this.requestSubscription = this.applicationService.getNestCommonAPIById('cp/UserAssignTask', data.id).subscribe({
@@ -128,6 +129,7 @@ export class TaskReportComponent implements OnInit {
             data['startDate'] = res.data[0]['startDate'];
             data['endDate'] = res.data[0]['endDate'];
             data['tags'] = res.data[0]['tags'];
+            data['status'] = res.data[0]['status'];
             // this.toastr.success(`UserAssignTask : ${res.message}`, { nzDuration: 3000 });
           } else {
             data['dueDate'] = new Date();

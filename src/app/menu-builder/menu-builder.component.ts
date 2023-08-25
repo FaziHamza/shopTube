@@ -65,6 +65,7 @@ export class MenuBuilderComponent implements OnInit {
   departmentData: any = [];
   public editorOptions: JsonEditorOptions;
   domainName: any = undefined;
+  selectedAppId : any = "";
   // actionType: any;
   constructor(private clickButtonService: BuilderClickButtonService,
     private applicationService: ApplicationService,
@@ -684,10 +685,11 @@ export class MenuBuilderComponent implements OnInit {
     temporaryData.allMenuItems = []
     temporaryData.menuChildArrayTwoColumn = []
     temporaryData.newMenuArray = []
+    let appData = this.applications.find((a : any) => a._id == this.selectedAppId)
     var data: any =
     {
-      "name": this.applicationName,
-      "applicationId": this.applicationName,
+      "name": appData.name,
+      "applicationId": this.selectedAppId,
       "menuData": JSON.stringify(currentData),
       // "applicationId": mainApplicationId.length > 0 ? mainApplicationId[0].id : "",
       "selectedTheme": JSON.stringify(temporaryData)
@@ -967,13 +969,21 @@ export class MenuBuilderComponent implements OnInit {
   //   });
   // };
   jsonUpload(event: Event) {
+    debugger
     // && event.target.files.length > 0
     if (event.target instanceof HTMLInputElement) {
       const reader = new FileReader();
       reader.onloadend = () => {
         let contents = reader.result as string;
         let theme = JSON.parse(contents);
-        this.selectedTheme = theme.selectedTheme
+        if(this.selectedTheme){
+          this.selectedTheme = theme.selectedTheme
+
+        }else{
+          this.selectedTheme = {}
+          this.selectedTheme = theme.selectedTheme
+
+        }
         this.controlUndefinedValues();
         this.nodes = JSON.parse(theme.menuData);
         this.makeMenuData();
@@ -1769,6 +1779,7 @@ export class MenuBuilderComponent implements OnInit {
   onDepartmentChange(departmentId: any) {
     if (departmentId.length === 2) {
       if (departmentId[1] != 'selectApplication') {
+        this.selectedAppId = departmentId[1];
         this.getMenus(departmentId[1])
       }
     }

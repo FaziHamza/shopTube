@@ -170,7 +170,7 @@ export class PagesComponent implements OnInit {
         this.isPageContextShow = true;
         // this.dataSharedService.urlModule.next({ aplication: '', module: '' });
         this.screenName = params["schema"];
-        this.requestSubscription = this.applicationService.getNestCommonAPI("cp/getuserComments/UserComment/pages/" + params["schema"]).subscribe((res: any) => {
+        this.requestSubscription = this.applicationService.getNestCommonAPI("cp/getuserCommentsByApp/UserComment/pages/" + params["schema"]).subscribe((res: any) => {
           if (res.isSuccess) {
             let commentList = res.data
             this.dataSharedService.screenCommentList = commentList;

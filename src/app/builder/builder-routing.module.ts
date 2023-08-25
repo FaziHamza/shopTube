@@ -16,6 +16,7 @@ import { TaskManagementComponent } from '../admin/task-management/task-managemen
 import { ReleaseManagementComponent } from '../admin/release-management/release-management.component';
 import { ExecuteActionRuleComponent } from './execute-action-rule/execute-action-rule.component';
 import { TaskManagementListComponent } from '../Builder-module/task-management-list/task-management-list.component';
+import { BacklogComponent } from '../Builder-module/backlog/backlog.component';
 
 const routes: Routes = [
   {
@@ -81,6 +82,10 @@ const routes: Routes = [
       {
         path: 'user-task-list',
         component: TaskManagementListComponent
+      },
+      {
+        path: 'backlog',
+        component: BacklogComponent
       },
     ]
   },

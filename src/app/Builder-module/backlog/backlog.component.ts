@@ -5,11 +5,12 @@ import { ApplicationService } from 'src/app/services/application.service';
 import { DataSharedService } from 'src/app/services/data-shared.service';
 
 @Component({
-  selector: 'st-task-management-list',
-  templateUrl: './task-management-list.component.html',
-  styleUrls: ['./task-management-list.component.scss']
+  selector: 'st-backlog',
+  templateUrl: './backlog.component.html',
+  styleUrls: ['./backlog.component.scss']
 })
-export class TaskManagementListComponent implements OnInit {
+export class BacklogComponent implements OnInit {
+
   tasks: any = [];
   editId: any = '';
   editObj: any = {};
@@ -19,7 +20,6 @@ export class TaskManagementListComponent implements OnInit {
   issueReport: any = [];
   assignToresponse: any = '';
   userTaskManagement: any = '';
-  chartData: any = [];
   constructor(private applicationService: ApplicationService, private toastr: NzMessageService, public dataSharedService: DataSharedService,) { }
 
   ngOnInit(): void {
@@ -28,22 +28,14 @@ export class TaskManagementListComponent implements OnInit {
   }
 
   getTasks() {
-    debugger
-    this.saveLoader = true;
-    this.requestSubscription = this.applicationService.getNestCommonAPI('cp/getuserCommentsCurrentMonth/UserComment').subscribe({
+    this.requestSubscription = this.applicationService.getNestCommonAPI('cp/UserComment').subscribe({
       next: (res: any) => {
-        this.saveLoader = false;
         if (res.isSuccess && res.data?.length > 0) {
 
           this.tasks = res.data.filter((a: any) => a.parentId == '' || a.parentId == undefined);
-          let groupedData = this.groupDataByWeek(this.tasks);
-          this.tasks = groupedData;
-          let newData = JSON.parse(JSON.stringify(groupedData));
-          this.chartData = this.groupDataByStatus(newData)
         }
       },
       error: (err) => {
-        this.saveLoader = false;
         console.error(err); // Log the error to the console
         this.toastr.error(`UserComment : An error occurred`, { nzDuration: 3000 });
       }
@@ -147,9 +139,6 @@ export class TaskManagementListComponent implements OnInit {
             this.assignToresponse = res.data[0];
             data['dueDate'] = res.data[0]['dueDate'];
             data['assignTo'] = res.data[0]['assignTo'];
-            data['startDate'] = res.data[0]['startDate'];
-            data['endDate'] = res.data[0]['endDate'];
-            data['tags'] = res.data[0]['tags'];
             // this.toastr.success(`UserAssignTask : ${res.message}`, { nzDuration: 3000 });
           } else {
             data['dueDate'] = new Date();
@@ -175,102 +164,5 @@ export class TaskManagementListComponent implements OnInit {
       }
     });
   }
-  groupDataByWeek(data: any[]): any[] {
-    // Create an object to store data for each week
-    const groupedData: { [week: string]: any[] } = {};
-
-    // Iterate through the data and group it by week
-    data.forEach((item) => {
-      const date = new Date(item.dateTime);
-      const year = date.getFullYear();
-      const month = date.getMonth() + 1; // Month is 0-indexed
-      const weekNumber = this.getISOWeek(date);
-
-      // Convert the week number to a string for grouping
-      const weekLabel = `Week ${this.getWeekNumberInMonth(date)}`;
-      const weekKey = `${year}-${month}-${weekLabel}`;
-      const weekStartDate = this.getWeekStartDate(date);
-      const weekEndDate = this.getWeekEndDate(date);
-
-      if (!groupedData[weekKey]) {
-        groupedData[weekKey] = [];
-      }
-
-      groupedData[weekKey].push({
-        ...item,
-        weekLabel: weekLabel,
-        weekStartDate: weekStartDate.toISOString(),
-        weekEndDate: weekEndDate.toISOString(),
-      });
-    });
-
-    // Convert the grouped data object to an array
-    const result = Object.keys(groupedData).map((key) => ({
-      week: key.split('-').slice(-1)[0], // Extract the week label
-      issues: groupedData[key],
-      weekStartDate: groupedData[key][0].weekStartDate,
-      weekEndDate: groupedData[key][0].weekEndDate,
-    }));
-
-    return result;
-  }
-
-  // Function to get the ISO week number
-  getISOWeek(date: Date): number {
-    const d: any = new Date(date);
-    d.setHours(0, 0, 0, 0);
-    d.setDate(d.getDate() + 4 - (d.getDay() || 7));
-    const yearStart: any = new Date(d.getFullYear(), 0, 1);
-    return Math.ceil(((d - yearStart) / 86400000 + 1) / 7);
-  }
-
-  // Function to get the start date of the week
-  getWeekStartDate(date: Date): Date {
-    const d = new Date(date);
-    d.setDate(d.getDate() - d.getDay() + 1);
-    return d;
-  }
-
-  // Function to get the end date of the week
-  getWeekEndDate(date: Date): Date {
-    const d = new Date(date);
-    d.setDate(d.getDate() - d.getDay() + 7);
-    return d;
-  }
-
-  // Function to get the week number in the month
-  getWeekNumberInMonth(date: Date): number {
-    const firstDay = new Date(date.getFullYear(), date.getMonth(), 1);
-    const days = date.getDate();
-    const weekNumber = Math.ceil((days + firstDay.getDay()) / 7);
-    return weekNumber;
-  }
-  groupDataByStatus(data: any[]): any[] {
-    return data.map((weekData) => {
-      const statusGroups: { [status: string]: any[] } = {
-        open: [],
-        completed: [],
-        inProgress: [],
-        closed: [],
-      };
-
-      weekData.issues.forEach((issue : any) => {
-        const status = issue.status;
-
-        // Push the issue to the corresponding status array
-        if (status in statusGroups) {
-          statusGroups[status].push(issue);
-        }
-      });
-
-      return {
-        week: weekData.week,
-        issues: statusGroups,
-        weekStartDate: weekData.weekStartDate,
-        weekEndDate: weekData.weekEndDate,
-      };
-    });
-  }
-
 
 }
