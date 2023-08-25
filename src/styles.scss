@@ -6086,7 +6086,7 @@ li.ant-cascader-menu-item:nth-child(1):hover {
 }
 
 tr:hover {
-  background-color: #2563eb05 ;
+  background-color: #2563eb05;
 
   td {
     background-color: #2563eb05 !important;
@@ -6469,119 +6469,129 @@ tr:hover {
   text-overflow: ellipsis;
   white-space: nowrap;
 }
-.task-chart{
+
+.task-chart {
   .chart {
-      width: 250px;
-      height: 250px;
-      position: relative;
-      background: conic-gradient(from 0deg,
-          #4285F4 0% 20%,
-          #0F9D58 20% 40%,
-          #F4B400 40% 60%,
-          #DB4437 60% 80%,
-          #30df3e 80% 100%);
-      border-radius: 50%;
-      overflow: hidden;
-      transform: rotate(34deg);
-      color: white;
+    width: 250px;
+    height: 250px;
+    position: relative;
+    background: conic-gradient(from 0deg,
+        #4285F4 0% 20%,
+        #0F9D58 20% 40%,
+        #F4B400 40% 60%,
+        #DB4437 60% 80%,
+        #30df3e 80% 100%);
+    border-radius: 50%;
+    overflow: hidden;
+    transform: rotate(34deg);
+    color: white;
+  }
+
+  .segment {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    clip-path: polygon(100% 0%, 100% 100%, 0% 100%);
+    transform-origin: 100% 100%;
+    transform: rotate(var(--rotate));
+  }
+
+
+
+  .inner {
+    position: absolute;
+    top: 19%;
+    right: 19%;
+    background: #fff;
+    border-radius: 50%;
+    width: 62%;
+    height: 62%;
+    transform: rotate(-34deg);
+
+  }
+
+  .first-arrow {
+    margin-top: -48px;
+    margin-left: -10px;
+    width: 140px;
+    height: 48px;
+    position: relative;
+    background-color: #3498db;
+  }
+
+  .last-arrow {
+    margin-left: 9%;
+    margin-top: -48px;
+    width: 120px;
+    height: 48px;
+    position: relative;
+    background-color: #F4B400;
+    z-index: -1;
+  }
+
+  .content {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+    text-align: center;
+    font-size: small;
+  }
+
+  .center {
+    position: absolute;
+    top: 47%;
+    left: 38%;
+    transform: rotate(0);
+  }
+
+  .first {
+    position: absolute;
+    top: 60%;
+    right: 5%;
+    font-size: xx-small;
+    transform: rotate(-34deg);
+  }
+
+  .second {
+    position: absolute;
+    top: 10%;
+    right: 25%;
+    font-size: xx-small;
+    transform: rotate(-34deg);
+  }
+
+  .third {
+    position: absolute;
+    top: 15%;
+    left: 20%;
+    font-size: xx-small;
+    transform: rotate(-34deg);
+  }
+
+  .fourth {
+    position: absolute;
+    top: 50%;
+    left: 0%;
+    font-size: xx-small;
+    transform: rotate(-34deg);
+  }
+
+  .fifth {
+    position: absolute;
+    top: 85%;
+    left: 30%;
+    font-size: xx-small;
+    transform: rotate(-34deg);
+  }
+
+  .task-list-table {
+
+    .ant-table.ant-table-bordered>.ant-table-container>.ant-table-content>table,
+    .ant-table.ant-table-bordered>.ant-table-container>.ant-table-header>table {
+      border-top: 1px solid #f0f0f0;
+      border-left: 1px solid #f0f0f0 !important;
     }
-    
-    .segment {
-      width: 100%;
-      height: 100%;
-      position: absolute;
-      clip-path: polygon(100% 0%, 100% 100%, 0% 100%);
-      transform-origin: 100% 100%;
-      transform: rotate(var(--rotate));
-    }
-    
-    
-    
-    .inner {
-      position: absolute;
-      top: 19%;
-      right: 19%;
-      background: #fff;
-      border-radius: 50%;
-      width: 62%;
-      height: 62%;
-      transform: rotate(-34deg);
-    
-    }
-    
-    .first-arrow {
-      margin-top: -48px;
-      margin-left: -10px;
-      width: 140px;
-      height: 48px;
-      position: relative;
-      background-color: #3498db;
-    }
-    
-    .last-arrow {
-      margin-left: 9%;
-      margin-top: -48px;
-      width: 120px;
-      height: 48px;
-      position: relative;
-      background-color: #F4B400;
-      z-index: -1;
-    }
-    
-    .content {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      color: white;
-      text-align: center;
-      font-size: small;
-    }
-    
-    .center {
-      position: absolute;
-      top: 47%;
-      left: 38%;
-      transform: rotate(0);
-    }
-    
-    .first {
-      position: absolute;
-      top: 60%;
-      right: 5%;
-      font-size: xx-small;
-      transform: rotate(-34deg);
-    }
-    
-    .second {
-      position: absolute;
-      top: 10%;
-      right: 25%;
-      font-size: xx-small;
-      transform: rotate(-34deg);
-    }
-    
-    .third {
-      position: absolute;
-      top: 15%;
-      left: 20%;
-      font-size: xx-small;
-      transform: rotate(-34deg);
-    }
-    
-    .fourth {
-      position: absolute;
-      top: 50%;
-      left: 0%;
-      font-size: xx-small;
-      transform: rotate(-34deg);
-    }
-    
-    .fifth {
-      position: absolute;
-      top: 85%;
-      left: 30%;
-      font-size: xx-small;
-      transform: rotate(-34deg);
-    }
+  }
 }

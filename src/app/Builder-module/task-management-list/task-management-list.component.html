@@ -2,7 +2,7 @@
     <div *ngIf="saveLoader && tasks.length == 0" style="height: 100vh;"></div>
     <div class="task-chart mb-6 grid grid-cols-3 gap-3">
         <div *ngFor="let week of chartData">
-            <div class="chart" >
+            <div class="chart">
                 <div class="inner"><span class="center">AGILE</span></div>
                 <div class="segment" style="--rotate: 0deg;">
                 </div>
@@ -18,7 +18,7 @@
                 <div class="segment" style="--rotate: 288deg;">
                     <span>Segment 5</span>
                 </div>
-                <div class="" >
+                <div class="">
                     <span class="first">open {{week.issues.open.length}}</span>
                     <span class="second">In Progress {{week.issues.inProgress.length}}</span>
                     <span class="third">Completed {{week.issues.completed.length}}</span>
@@ -36,7 +36,7 @@
                     <p> </p>
                 </div>
             </div>
-            <div >
+            <div>
                 <p class="text-lg font-bold pl-20 pt-2">{{week.week}}</p>
             </div>
         </div>
@@ -54,74 +54,72 @@
                 </p>
 
             </ng-template>
-            <nz-card nzTitle="TASK MANAGEMENT LIST" class="task-management-list">
-                <nz-table #basicTable [nzData]="panel.issues
-                " [nzPageSize]="10">
-                    <thead>
-                        <tr>
-                            <!-- <th>Screen Id</th>
-                            <th>Date & Time</th> -->
-                            <th>Message</th>
-                            <th>Status</th>
-                            <th>Assignee</th>
-                            <th>Priority</th>
-                            <th>Specs</th>
-                            <th>Estimation</th>
-                            <!-- <th>Type</th>
-                            <th>Component Id</th> -->
-                            <!-- <th>Actions</th> -->
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr class="hover:bg-transparent" *ngFor="let data of basicTable.data">
-                            <td *ngIf="editId != data._id" (click)="showIssue(data)">
-                                <span class="cursor-pointer">{{ data.message }}</span>
-                            </td>
+            <nz-table #basicTable [nzData]="panel.issues
+            " [nzPageSize]="10" [nzBordered]="true" class="task-list-table">
+                <thead>
+                    <tr>
+                        <!-- <th>Screen Id</th>
+                        <th>Date & Time</th> -->
+                        <th>Message</th>
+                        <th>Status</th>
+                        <th>Assignee</th>
+                        <th>Priority</th>
+                        <th>Specs</th>
+                        <th>Estimation</th>
+                        <!-- <th>Type</th>
+                        <th>Component Id</th> -->
+                        <!-- <th>Actions</th> -->
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="hover:bg-transparent" *ngFor="let data of basicTable.data">
+                        <td *ngIf="editId != data._id" (click)="showIssue(data)">
+                            <span class="cursor-pointer">{{ data.message }}</span>
+                        </td>
 
-                            <td *ngIf="editId == data._id"><input nz-input type="text" class="form-control"
-                                    [(ngModel)]="data.message"></td>
-                            <!-- <td>{{ data.screenId }}</td>
-                            <td>{{ data.dateTime | date :
-                                "dd/MMM/yyyy hh:mm:ss"}}</td> -->
-                            <td class="!hover:bg-red-500" *ngIf="editId != data._id && data['status'] ; else openStatus"
-                                [class]="data['status'] == 'open' ? 'bg-red-500' : (data['status'] == 'inProgress' ? 'bg-orange-500' : (data['status'] == 'completed' ? 'bg-green-500' : 'bg-gray-500')) + ' text-white'">
-                                <span class="text-white"> {{data?.status}}</span>
+                        <td *ngIf="editId == data._id"><input nz-input type="text" class="form-control"
+                                [(ngModel)]="data.message"></td>
+                        <!-- <td>{{ data.screenId }}</td>
+                        <td>{{ data.dateTime | date :
+                            "dd/MMM/yyyy hh:mm:ss"}}</td> -->
+                        <td class="!hover:bg-red-500" *ngIf="editId != data._id && data['status'] ; else openStatus"
+                            [class]="data['status'] == 'open' ? 'bg-red-500' : (data['status'] == 'inProgress' ? 'bg-orange-500' : (data['status'] == 'completed' ? 'bg-green-500' : 'bg-gray-500')) + ' text-white'">
+                            <span class="text-white"> {{data?.status}}</span>
+                        </td>
+                        <ng-template #openStatus>
+                            <td *ngIf="editId != data._id && !data['status']" [class]="'bg-red-500'">open
                             </td>
-                            <ng-template #openStatus>
-                                <td *ngIf="editId != data._id && !data['status']" [class]="'bg-red-500'">open
-                                </td>
-                            </ng-template>
-                            <td *ngIf="editId == data._id"><nz-select [(ngModel)]="data.status">
-                                    <nz-option nzValue="open" nzLabel="Open"></nz-option>
-                                    <nz-option nzValue="inProgress" nzLabel="In Progress"></nz-option>
-                                    <nz-option nzValue="completed" nzLabel="completed"></nz-option>
-                                    <nz-option nzValue="closed" nzLabel="Close"></nz-option>
-                                </nz-select></td>
-                            <td><nz-avatar [nzTooltipTitle]="data.assignTo ? data.assignTo : ''" nz-tooltip
-                                    nzIcon="user" style="background-color:#87d068;"></nz-avatar></td>
+                        </ng-template>
+                        <td *ngIf="editId == data._id"><nz-select [(ngModel)]="data.status">
+                                <nz-option nzValue="open" nzLabel="Open"></nz-option>
+                                <nz-option nzValue="inProgress" nzLabel="In Progress"></nz-option>
+                                <nz-option nzValue="completed" nzLabel="completed"></nz-option>
+                                <nz-option nzValue="closed" nzLabel="Close"></nz-option>
+                            </nz-select></td>
+                        <td><nz-avatar [nzTooltipTitle]="data.assignTo ? data.assignTo : ''" nz-tooltip nzIcon="user"
+                                style="background-color:#87d068;"></nz-avatar></td>
 
-                            <td class="bg-orange-400"><span class="text-white">Medium</span> </td>
-                            <td class="bg-gray-400"></td>
-                            <td>{{ data?.endDate
-                                | date :
-                                "dd/MMM/yyyy"}}</td>
-                            <!-- <td>{{ data.componentId }}</td> -->
-                            <!-- <td>
-                                <i *ngIf="editId != data._id" class=" text-xl fas fa-edit text-green-500"
-                                    (click)="startEdit(data._id,data)"></i>
-                                <i *ngIf="editId != data._id" class=" text-xl fas fa-trash text-red-500 ml-2"
-                                    (click)="deleteTask(data)"></i>
-                                <i *ngIf="editId == data._id" class=" text-xl fas fa-save text-blue-500"
-                                    (click)="saveEdit(data)"></i>
-                                <i *ngIf="editId == data._id" class=" text-xl fas fa-times-circle text-red-500 ml-2"
-                                    (click)="cancelEdit(data)"></i>
-                                <i class="fa-regular text-lg fa-circle-arrow-right text-gray-400 ml-2"
-                                    (click)="showIssue(data)"></i>
-                            </td> -->
-                        </tr>
-                    </tbody>
-                </nz-table>
-            </nz-card>
+                        <td class="bg-orange-400"><span class="text-white">Medium</span> </td>
+                        <td class="bg-gray-400"></td>
+                        <td>{{ data?.endDate
+                            | date :
+                            "dd/MMM/yyyy"}}</td>
+                        <!-- <td>{{ data.componentId }}</td> -->
+                        <!-- <td>
+                            <i *ngIf="editId != data._id" class=" text-xl fas fa-edit text-green-500"
+                                (click)="startEdit(data._id,data)"></i>
+                            <i *ngIf="editId != data._id" class=" text-xl fas fa-trash text-red-500 ml-2"
+                                (click)="deleteTask(data)"></i>
+                            <i *ngIf="editId == data._id" class=" text-xl fas fa-save text-blue-500"
+                                (click)="saveEdit(data)"></i>
+                            <i *ngIf="editId == data._id" class=" text-xl fas fa-times-circle text-red-500 ml-2"
+                                (click)="cancelEdit(data)"></i>
+                            <i class="fa-regular text-lg fa-circle-arrow-right text-gray-400 ml-2"
+                                (click)="showIssue(data)"></i>
+                        </td> -->
+                    </tr>
+                </tbody>
+            </nz-table>
         </nz-collapse-panel>
     </nz-collapse>
 </nz-spin>
