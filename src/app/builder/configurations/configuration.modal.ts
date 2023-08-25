@@ -11240,6 +11240,31 @@ export class formFeildData {
           },
         },
         {
+          key: 'openComponent',
+          type: 'select',
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          wrappers: ["formly-vertical-theme-wrapper"],
+          props: {
+            label: 'Open Component',
+            options: [
+              {
+                label: 'Drawer',
+                value: 'drawer'
+              },
+              {
+                label: 'Modal',
+                value: 'modal'
+              }
+            ],
+            additionalProperties: {
+              allowClear: true,
+              serveSearch: false,
+              showArrow: true,
+              showSearch: true,
+            },
+          },
+        },
+        {
           key: 'filterMultiple',
           type: 'checkbox',
           wrappers: ["formly-vertical-theme-wrapper"],
