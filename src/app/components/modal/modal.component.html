@@ -6,7 +6,7 @@
   [nzMaskClosable]="true" [nzOkText]="modalData.okBtnText" [nzCloseIcon]="iconTemplate" [nzWidth]="modalData.width"
   [nzZIndex]="modalData.zIndex" [nzCancelText]="modalData.cancalButtontext" [nzCentered]="modalData.centered">
   <ng-container *nzModalContent>
-    <div>
+    <div [class]="modalData?.modalClass">
       {{modalData.modalContent}}
       <st-main [mainData]="modalData" [screenName]="screenName" [form]="form" [formlyModel]="formlyModel"></st-main>
     </div>

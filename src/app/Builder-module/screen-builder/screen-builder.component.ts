@@ -175,7 +175,7 @@ export class ScreenBuilderComponent implements OnInit {
     this.loading = true;
     this.applicationService.getNestCommonAPI('cp/ScreenBuilder').subscribe({
       next: (res: any) => {
-        if (res.isSuccess) {
+        if (res.isSuccess && res?.data.length > 0) {
           this.toastr.success(`Screen : ${res.message}`, { nzDuration: 3000 });
           this.listOfDisplayData = res.data;
           this.listOfData = res.data;
@@ -190,10 +190,12 @@ export class ScreenBuilderComponent implements OnInit {
           });
         } else {
           this.toastr.error(`Screen : ${res.message}`, { nzDuration: 3000 });
+          this.loading = false;
         }
       },
       error: (err) => {
         this.toastr.error(`Screen : An error occured`, { nzDuration: 3000 });
+        this.loading = false;
       },
     });
   }
