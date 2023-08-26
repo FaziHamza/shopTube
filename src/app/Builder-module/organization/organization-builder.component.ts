@@ -230,7 +230,6 @@ export class organizationBuilderComponent implements OnInit {
           });
           this.listOfData = res.data;
           this.organizationData = res.data;
-          this.loading = false;
           this.getDepartment();
           this.handlePageChange(1);
           const nonEmptySearchArray = this.listOfColumns.filter(
@@ -240,9 +239,9 @@ export class organizationBuilderComponent implements OnInit {
             this.search(element.searchValue, element);
           });
         } else {
-          this.loading = false;
           this.toastr.error(res.message, { nzDuration: 2000 });
         }
+        this.loading = false;
       },
       error: (err) => {
         this.loading = false;

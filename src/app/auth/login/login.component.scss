@@ -11,3 +11,10 @@
     display: block;
     
 }
+.bottom-div{
+    height: 94px !important;
+}
+
+.img-div{
+    height: calc(100vh - 94px);
+}

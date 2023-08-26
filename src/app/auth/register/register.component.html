@@ -1,1 +1,182 @@
-<p>register works!</p>
+<div class="w-full flex flex-wrap h-screen">
+    <!-- poster -->
+    <div class="lg:w-1/2 hidden lg:inline-block h-full relative box-border bg-[#2563EB] text-white">
+        <!-- logo -->
+        <div class="flex items-center absolute space-x-[14px] top-6 left-6">
+            <img src="/assets/images/Exclude.png" class="w-[34px] h-[34px]" alt="Fastify_Logo" />
+            <p class="text-[28px] not-italic font-bold leading-[35px] tracking-[-0.346px]">
+                Fastify
+            </p>
+        </div>
+        <!-- logo -->
+
+        <!-- Carousel_indicator -->
+
+
+        <nz-carousel [nzEffect]="effect" nzAutoPlay>
+
+            <div nz-carousel-content>
+                <div class="pt-[50px] flex justify-center items-center img-div px-[70px]">
+                    <div
+                        class="w-[75%] h-4/5 flex justify-center items-center rounded-full bg-gradient-to-b from-[#306BEC] to-[#2563EB]">
+                        <div
+                            class="w-[70%] h-[70%] relative flex justify-center items-center rounded-full bg-gradient-to-b from-[#467AED] to-[#2563EB]">
+                            <img src="assets/images/Illustration.png" class="absolute top-2 left-2 !w-96 h-96" alt="" />
+                        </div>
+                    </div>
+                </div>
+
+                <div class="h-fit bottom-div relative bottom-8 flex flex-col items-center text-center">
+                    <p class="text-[24px] mb-3 text-white not-italic font-bold leading-[30px] tracking-[0.2px]">
+                        Customizable Multipurpose Dashboard
+                    </p>
+                    <p class="text-[14px] text-[#F8FAFC] opacity-60 not-italic font-normal leading-[22px]">
+                        Everything you need in an easily customizable dashboard.
+                    </p>
+                </div>
+            </div>
+            <div nz-carousel-content>
+                <div class="pt-[50px] flex justify-center items-center img-div px-[70px]">
+                    <div
+                        class="w-[75%] h-4/5 flex justify-center items-center rounded-full bg-gradient-to-b from-[#306BEC] to-[#2563EB]">
+                        <div
+                            class="w-[70%] h-[70%] relative flex justify-center items-center rounded-full bg-gradient-to-b from-[#467AED] to-[#2563EB]">
+                            <img src="assets/images/Illustration.png" class="absolute top-2 left-2 !w-96 h-96" alt="" />
+                        </div>
+                    </div>
+                </div>
+
+                <div class="h-fit bottom-div relative bottom-8 flex flex-col items-center text-center">
+                    <p class="text-[24px] mb-3 text-white not-italic font-bold leading-[30px] tracking-[0.2px]">
+                        Customizable Multipurpose Dashboard
+                    </p>
+                    <p class="text-[14px] text-[#F8FAFC] opacity-60 not-italic font-normal leading-[22px]">
+                        Everything you need in an easily customizable dashboard.
+                    </p>
+                </div>
+            </div>
+            <div nz-carousel-content>
+                <div class="pt-[50px] flex justify-center items-center img-div px-[70px]">
+                    <div
+                        class="w-[75%] h-4/5 flex justify-center items-center rounded-full bg-gradient-to-b from-[#306BEC] to-[#2563EB]">
+                        <div
+                            class="w-[70%] h-[70%] relative flex justify-center items-center rounded-full bg-gradient-to-b from-[#467AED] to-[#2563EB]">
+                            <img src="assets/images/Illustration.png" class="absolute top-2 left-2 !w-96 h-96" alt="" />
+                        </div>
+                    </div>
+                </div>
+
+                <div class="h-fit bottom-div relative bottom-8 flex flex-col items-center text-center">
+                    <p class="text-[24px] mb-3 text-white not-italic font-bold leading-[30px] tracking-[0.2px]">
+                        Customizable Multipurpose Dashboard
+                    </p>
+                    <p class="text-[14px] text-[#F8FAFC] opacity-60 not-italic font-normal leading-[22px]">
+                        Everything you need in an easily customizable dashboard.
+                    </p>
+                </div>
+            </div>
+
+        </nz-carousel>
+
+        <!-- Carousel_indicator -->
+    </div>
+    <!-- poster -->
+
+    <!-- Form -->
+    <div class="w-full lg:w-1/2 h-full flex justify-center box-border items-center">
+        <div class="w-[400px] flex flex-col items-center">
+            <div class="w-full">
+                <p
+                    class="text-[24px] ml-[13px] !text-left mb-4 not-italic font-bold leading-[30px] tracking-[0.2px] text-[#0F172A]">
+                    Sign Up for an Account
+                </p>
+            </div>
+
+            <form action="" [formGroup]="form" (ngSubmit)="submitForm()">
+                <div class="flex flex-col">
+                    <!-- <nz-input-group [nzPrefix]="prefixTemplateUser"
+                        class="!w-[350px] rounded-lg py-2 mt-4 px-4 !h-[46px]">
+                        <input type="text" nz-input placeholder="Username" />
+                    </nz-input-group>
+                    <ng-template #prefixTemplateUser>
+                        <i class="fa-light fa-user mr-3 text-lg"></i>
+                    </ng-template> -->
+
+                    <nz-input-group [nzPrefix]="prefixTemplatemail"
+                        class="!w-[350px] rounded-lg py-2 my-4 px-4 !h-[46px]">
+                        <input type="email" formControlName="email" nz-input placeholder="Email" />
+                    </nz-input-group>
+                    <app-error [form_control]="f['email']" [isSubmitted]="isFormSubmit"></app-error>
+                    <ng-template #prefixTemplatemail>
+                        <i class="fa-light fa-envelope mr-3 text-lg"></i>
+                    </ng-template>
+
+                    <nz-input-group [nzPrefix]="prefixTemplatepass" [nzSuffix]="suffixTemplateInfo"
+                        class="!w-[350px] mb-1 rounded-lg py-2 px-4 !h-[46px]">
+                        <input type="password" formControlName="password" nz-input placeholder="Password" />
+                    </nz-input-group>
+                    <app-error [form_control]="f['password']" [isSubmitted]="isFormSubmit"></app-error>
+                    <ng-template #prefixTemplatepass>
+                        <i class="fa-regular fa-lock-keyhole mr-3 text-lg"></i>
+                    </ng-template>
+                    <ng-template #suffixTemplateInfo>
+                        <i class="fa-light fa-eye-slash text-lg"></i>
+                    </ng-template>
+                    <nz-form-control nzErrorTip="Please Select Page">
+                        <nz-cascader formControlName="application" nzChangeOnSelect [nzAllowClear]="true" style="padding-left: 4px; width: 100%"
+                            [(ngModel)]="cascaderValue" [nzLoadData]="loadData.bind(this)"
+                            [nzOptions]="cascaderData" placeholder="Select Application"
+                            (ngModelChange)="onDepartmentChange($event)">
+                        </nz-cascader>
+                    </nz-form-control>
+                    <app-error [form_control]="f['application']" [isSubmitted]="isFormSubmit"></app-error>
+                </div>
+                <!-- <p
+                    class="text-xs h-fit text-left mb-3 ml-1 inline-block text-[#64748B] not-italic font-normal leading-[19.2px]">
+                    Your password must have at least 8 characters
+                </p> -->
+
+                <div class="flex items-start mb-3">
+                    <input type="checkbox" id="vehicle1" name="vehicle1" value="Bike"
+                        class="!w-4 border mt-1.5 mr-2 !border-[#E2E8F0] !h-4" />
+                    <label for="vehicle1"
+                        class="text-xs h-fit inline-block !w-[340px] text-[#64748B] not-italic font-normal leading-[19.2px]">By
+                        creating an account means you agree to the
+                        <a href="#" class="font-semibold text-[#0F172A]">Terms & Conditions</a>
+                        and our
+                        <span class="font-semibold text-[#0F172A]">Privacy Policy</span>
+                    </label>
+                </div>
+                <div class="flex">
+                    <button class="!w-[350px] bg-[#2563EB] rounded-lg text-white font-bold py-2 mt-4 px-4 !h-[46px]">
+                        Sign Up
+                    </button>
+                </div>
+            </form>
+
+            <nz-divider nzText="Or Sign Up with" class="!text-xs not-italic font-normal leading-[19.2px]"></nz-divider>
+
+            <div class="w-full flex justify-evenly">
+                <div
+                    class="rounded border flex justify-center items-center w-[45%] bg-white font-bold py-2 mt-4 px-4 !h-[46px]">
+                    <img src="assets/images/5847f9cbcef1014c0b5e48c8.png" class="w-4 mr-2.5 h-4" alt="Google logo" />
+                    <p class="text-[16px] not-italic font-semibold tracking-[0.2px]">
+                        Google
+                    </p>
+                </div>
+                <div
+                    class="rounded border flex justify-center items-center w-[45%] bg-white font-bold py-2 mt-4 px-4 !h-[46px]">
+                    <img src="assets/images/logo-facebookpng-32240.png" class="w-4 mr-2.5 h-4" alt="Facebook logo" />
+                    <p class="text-[16px] not-italic font-semibold tracking-[0.2px]">
+                        Facebook
+                    </p>
+                </div>
+            </div>
+
+            <p class="text-[14px] not-italic font-normal leading-[22.4px] my-3">
+                Already have an account?<a href="#" class="font-bold text-[#2563EB] ml-1">Log In</a>
+            </p>
+        </div>
+    </div>
+    <!-- Form -->
+</div>

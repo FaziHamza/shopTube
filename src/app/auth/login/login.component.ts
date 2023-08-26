@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { EmployeeService } from 'src/app/services/employee.service';
 import { AuthService } from '../services/auth.service';
 import { CommonService } from 'src/common/common-services/common.service';
+import { NzMessageService } from 'ng-zorro-antd/message';
 
 @Component({
   selector: 'st-login',
@@ -11,6 +12,8 @@ import { CommonService } from 'src/common/common-services/common.service';
   styleUrls: ['./login.component.scss'],
 })
 export class LoginComponent implements OnInit {
+  passwordType: string = "password";
+  passwordIcon: string = "fa-light fa-eye-slash text-lg";
   ngAfterViewInit() {
     // Reinitialize reCAPTCHA after the view has been initialized
     grecaptcha.render('recaptcha', { sitekey: '6LcZ59MnAAAAAEFG5x2mJoJ_ptOFR7O2hSX0HHx3' });
@@ -31,6 +34,7 @@ export class LoginComponent implements OnInit {
     private router: Router,
     private commonService: CommonService,
     private cdr: ChangeDetectorRef,
+    private toastr: NzMessageService,
   ) { }
 
   isFormSubmit: boolean = false;
@@ -50,10 +54,9 @@ export class LoginComponent implements OnInit {
   }
 
   submitForm(): void {
-    debugger
     this.recaptchaResponse = grecaptcha.getResponse();
     if (!this.recaptchaResponse) {
-      alert("You are not human");
+      this.toastr.warning('You are not human', { nzDuration: 3000 }); // Show an error message to the user
       return;
     }
 
@@ -91,5 +94,9 @@ export class LoginComponent implements OnInit {
         this.showLoader = false;
       }
     );
+  }
+  showPassword() {
+    this.passwordType = this.passwordType == 'password' ? 'string' : 'password';
+    this.passwordIcon = this.passwordIcon == 'fa-light fa-eye-slash text-lg' ? 'fa-light fa-eye text-lg' : 'fa-light fa-eye-slash text-lg'
   }
 }
