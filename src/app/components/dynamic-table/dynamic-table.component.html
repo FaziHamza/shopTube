@@ -207,8 +207,11 @@
   </ng-container>
 </nz-modal>
 
-<div *ngIf="this.issueReport['issueReport'] && this.issueReport['issueReport']?.length  > 0">
+<!-- <div *ngIf="this.issueReport['issueReport'] && this.issueReport['issueReport']?.length  > 0">
   <st-task-report (notify)="updateIssues($event)" class="close-icon" [item]="this.issueReport"
     [screenName]="this.issueReport['issueReport'][0].screenId" [assignToresponse]="this.assignToresponse"
     [type]="'userTaskManagement'" [userTaskManagementData]="tasks"></st-task-report>
-</div>
+</div> -->
+<st-main [mainData]="data" [screenName]="screenName" [form]="form" [formlyModel]="formlyModel"></st-main>
+
+

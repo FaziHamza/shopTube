@@ -820,7 +820,7 @@ export class AddControlService {
       noResult: false,
       nzSimple: false,
       nzSize: 'default',
-      isNextChild: false,
+      isNextChild: true,
       nzShowSizeChanger: false,
       api: "",
       showCheckbox: false,

@@ -188,11 +188,12 @@ export class MainComponent implements OnInit {
     let data = accordingList.data;
     let accordionData = accordingList.screenData;
     let findObject = this.findObjectByTypeBase(this.mainData, accordionData.type);
+    let tableData = this.findObjectByTypeBase(accordionData, "gridList");
     if (findObject) {
       let pushIndex = 0;
       data.forEach((element: any, index: number) => {
         const according = accordionData;
-        let newNode: any = JSON.parse(JSON.stringify(findObject));
+        let newNode = JSON.parse(JSON.stringify(findObject));
         // Format weekStartDate
         const startDate = new Date(element.weekStartDate);
         const formattedStartDate = startDate.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
@@ -202,10 +203,9 @@ export class MainComponent implements OnInit {
         const formattedEndDate = endDate.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
 
         const newTitle = `${element?.week} ${formattedStartDate} -  ${formattedEndDate}`;
-        let tableData = this.findObjectByTypeBase(according, "gridList");
-        let newTable = JSON.parse(JSON.stringify(tableData));
-        if (newTable) {
-          const getGridUpdateData = this.getFromQuery(element.issues, newTable);
+        // let newTable = this.deepCopy(tableData);
+        if (tableData) {
+          const getGridUpdateData = this.getFromQuery(element.issues, tableData);
           const newGrid = JSON.parse(JSON.stringify(getGridUpdateData));
           if (index != 0) {
             newNode = JSON.parse(JSON.stringify(findObject));
@@ -329,4 +329,6 @@ export class MainComponent implements OnInit {
       return tableData;
     }
   }
+  
+  
 }

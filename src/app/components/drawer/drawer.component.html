@@ -1,6 +1,6 @@
-<button nz-button nzType="primary" *ngIf="showModal" (click)="open()">{{drawerData.btnText}}</button>
+<button nz-button nzType="primary" *ngIf="!drawerData.notShowButton" (click)="open()">{{drawerData.btnText}}</button>
 <!-- <button nz-button  (click)="open()" style="margin-top: 28px;">{{drawerData.btnText}}</button> -->
-<nz-drawer *ngIf="showModal" [nzClosable]="drawerData.isClosable" [nzVisible]="visible"
+<nz-drawer *ngIf="showModal" [nzClosable]="drawerData.isClosable" [nzVisible]="drawerData?.visible || false"
     [nzPlacement]="drawerData.placement" [nzTitle]="drawerData.title | translate" (nzOnClose)="close()"
     [nzClosable]="true" [nzCloseIcon]="iconTemplate" [nzExtra]="extra" [nzKeyboard]="drawerData.isKeyboard"
     [nzFooter]="drawerData.footerText" [nzSize]="drawerData.size" [nzVisible]="drawerData.isVisible"

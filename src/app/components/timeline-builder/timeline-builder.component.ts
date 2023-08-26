@@ -7,6 +7,9 @@ import { Component, Input, OnInit, ViewChild } from '@angular/core';
 })
 export class TimelineBuilderComponent implements OnInit {
   @Input() timelineData: any;
+  @Input() formlyModel: any;
+  @Input() form: any;
+  @Input() screenName: any;
   constructor() { }
 
   ngOnInit(): void {

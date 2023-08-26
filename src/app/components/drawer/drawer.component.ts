@@ -19,15 +19,15 @@ export class DrawerComponent implements OnInit {
     debugger
     this.drawerData;
     if(!this.showModal){
-      this.visible = true;
+      this.drawerData.visible = true;
     }
   }
 
   open(): void {
-    this.visible = true;
+    this.drawerData['visible'] = true;
   }
 
   close(): void {
-    this.visible = false;
+    this.drawerData['visible'] = false;
   }
 }
