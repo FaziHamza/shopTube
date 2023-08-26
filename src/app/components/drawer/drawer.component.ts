@@ -8,13 +8,19 @@ import { NzDrawerPlacement } from 'ng-zorro-antd/drawer';
 })
 export class DrawerComponent implements OnInit {
   visible = false;
-  @Input() drawerData : any;
-
+  @Input() formlyModel: any;
+  @Input() form: any;
+  @Input() screenName: any;
+  @Input() drawerData: any;
+  @Input() showModal = true;
   constructor() { }
 
   ngOnInit(): void {
+    debugger
     this.drawerData;
-
+    if(!this.showModal){
+      this.visible = true;
+    }
   }
 
   open(): void {

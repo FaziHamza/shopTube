@@ -8,7 +8,7 @@
     </span> -->
     <st-sales-card [salesdata]="item" *ngIf="item.type == 'chart';else second "></st-sales-card>
     <ng-template #second>
-        <div  *ngIf="item.type == 'headerLogo';else third">
+        <div *ngIf="item.type == 'headerLogo';else third">
             <img class="desktop-toggle"
                 [style.height]="item.height !== undefined && item.height !== null && item.height !== 0 && item.height !== '' ? item.height + 'px' : 'auto'"
                 [style.width]="item.width !== undefined && item.width !== null && item.width !== 0 && item.width !== '' ? item.width + 'px' : 'auto'"
@@ -102,8 +102,8 @@
         <div *ngIf="item.type =='cardWithComponents'; else sixteen">
             <nz-ribbon *ngIf="item?.badgeType == 'ribbon'" [nzColor]="item.dot_ribbon_color"
                 [nzText]="item?.badgeRibbonText">
-                <st-card-with-components [item]="item" [form]="form"
-                    [formlyModel]="formlyModel" [screenName]="screenName"></st-card-with-components>
+                <st-card-with-components [item]="item" [form]="form" [formlyModel]="formlyModel"
+                    [screenName]="screenName"></st-card-with-components>
             </nz-ribbon>
             <!-- <nz-badge *ngIf="item?.badgeType == 'count'" [nzCount]="item?.badgeCount">
               <st-card-with-components [item]="item"></st-card-with-components>
@@ -118,7 +118,8 @@
     <ng-template #sixteen>
         <dynamic-table [tableId]='item.tableId' *ngIf="item.type =='gridList';else seventeen" [checkType]="false"
             [tableData]='item.tableData' [tableHeaders]='item.tableHeaders' [formlyModel]="formlyModel" [form]="form"
-            [screenId]="screenId" [data]="item" [displayData]="item.displayData" [screenName]="screenName" [configurationTable]="item?.showEditInput ? item?.showEditInput : false"></dynamic-table>
+            [screenId]="screenId" [data]="item" [displayData]="item.displayData" [screenName]="screenName"
+            [configurationTable]="item?.showEditInput ? item?.showEditInput : false"></dynamic-table>
     </ng-template>
     <ng-template #seventeen>
         <st-table *ngIf="item.forCommomComponentCondition =='simpleGridList';else eighteen"></st-table>
@@ -202,7 +203,8 @@
         </st-stepper>
     </ng-template>
     <ng-template #thirtyTwo>
-        <st-accordion-button [accordionData]="item" (accordingEmit)="accordingList($event)" [form]="form" [screenId]="screenId" [screenName]="screenName" [formlyModel]="formlyModel"
+        <st-accordion-button [accordionData]="item" (accordingEmit)="accordingList($event)" [form]="form"
+            [screenId]="screenId" [screenName]="screenName" [formlyModel]="formlyModel"
             *ngIf="item.type == 'accordionButton'; else thirtyThree"></st-accordion-button>
     </ng-template>
     <ng-template #thirtyThree>
@@ -354,7 +356,8 @@
         <st-statistic [statisticData]="item" *ngIf="item.type == 'statistic' ; else sixtyFour"></st-statistic>
     </ng-template>
     <ng-template #sixtyFour>
-        <st-drawer [drawerData]="item" *ngIf="item.type == 'drawer' else sixtyFive"></st-drawer>
+        <st-drawer [screenName]="screenName" [formlyModel]="formlyModel" [form]="form"
+            [drawerData]="item" *ngIf="item.type == 'drawer' else sixtyFive"></st-drawer>
     </ng-template>
     <ng-template #sixtyFive>
         <st-skeleton [skeltonData]="item" *ngIf="item.type == 'skeleton' else sixtySix"></st-skeleton>
@@ -476,7 +479,8 @@
     </ng-template>
     <ng-template #nintyOne>
         <st-list-with-components class="overflow-x-auto" *ngIf="item.type == 'listWithComponents' ; else nintyTwo"
-            [listData]="item" [formlyModel]="formlyModel" [screenName]="screenName" [form]="form"></st-list-with-components>
+            [listData]="item" [formlyModel]="formlyModel" [screenName]="screenName"
+            [form]="form"></st-list-with-components>
     </ng-template>
     <ng-template #nintyTwo>
         <st-tree-map *ngIf="item.type == 'treeMapChart' ; else hTwo"

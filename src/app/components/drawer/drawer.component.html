@@ -1,25 +1,14 @@
-<button nz-button nzType="primary" (click)="open()">{{drawerData.btnText}}</button>
+<button nz-button nzType="primary" *ngIf="showModal" (click)="open()">{{drawerData.btnText}}</button>
 <!-- <button nz-button  (click)="open()" style="margin-top: 28px;">{{drawerData.btnText}}</button> -->
-<nz-drawer [nzClosable]="drawerData.isClosable" 
-[nzVisible]="visible" 
-[nzPlacement]="drawerData.placement"
-    [nzTitle]="drawerData.title | translate" 
-    (nzOnClose)="close()" 
-    [nzClosable]="true"
-    [nzCloseIcon]="iconTemplate" 
-    [nzExtra]="extra" 
-    [nzKeyboard]="drawerData.isKeyboard"
-    [nzFooter]="drawerData.footerText" 
-    [nzSize]="drawerData.size" 
-    [nzVisible]="drawerData.isVisible"
-    [nzSize]="drawerData.size"
-    [nzWidth]="drawerData.width"
-    [nzHeight]="drawerData.height"
-    [nzOffsetX]="drawerData.offsetX"
-    [nzOffsetY]="drawerData.offsetY"
-    >
+<nz-drawer *ngIf="showModal" [nzClosable]="drawerData.isClosable" [nzVisible]="visible"
+    [nzPlacement]="drawerData.placement" [nzTitle]="drawerData.title | translate" (nzOnClose)="close()"
+    [nzClosable]="true" [nzCloseIcon]="iconTemplate" [nzExtra]="extra" [nzKeyboard]="drawerData.isKeyboard"
+    [nzFooter]="drawerData.footerText" [nzSize]="drawerData.size" [nzVisible]="drawerData.isVisible"
+    [nzSize]="drawerData.size" [nzWidth]="drawerData.width" [nzHeight]="drawerData.height"
+    [nzOffsetX]="drawerData.offsetX" [nzOffsetY]="drawerData.offsetY">
     <ng-container *nzDrawerContent>
         <P>{{drawerData.content}}</P>
+        <st-main [mainData]="drawerData" [screenName]="screenName" [form]="form" [formlyModel]="formlyModel"></st-main>
     </ng-container>
 </nz-drawer>
 
@@ -35,7 +24,11 @@
 
 <ng-template #iconTemplate>
     <span *ngIf="drawerData.icon" class="ant-scroll-number-custom-component">
-      <st-icon  [type]="drawerData.iconType || 'outline'" [icon]="drawerData.icon"
-      [hoverIconColor]="drawerData?.hoverIconColor || ''" [size]="drawerData.iconSize" [color]="drawerData.iconColor"></st-icon>
+        <st-icon [type]="drawerData.iconType || 'outline'" [icon]="drawerData.icon"
+            [hoverIconColor]="drawerData?.hoverIconColor || ''" [size]="drawerData.iconSize"
+            [color]="drawerData.iconColor"></st-icon>
     </span>
-  </ng-template>
+</ng-template>
+<div *ngIf="!showModal">
+    <st-main [mainData]="drawerData" [screenName]="screenName" [form]="form" [formlyModel]="formlyModel"></st-main>
+</div>

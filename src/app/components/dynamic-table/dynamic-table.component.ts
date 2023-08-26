@@ -62,7 +62,6 @@ export class DynamicTableComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    debugger
     this.loadTableData();
     this.gridInitilize();
   }
@@ -170,13 +169,13 @@ export class DynamicTableComponent implements OnInit {
 
   }
   applyBusinessRule(getRes: any, data: any) {
-    debugger
     let gridFilter = getRes.data.filter((a: any) => a.gridType == 'Body');
     for (let m = 0; m < gridFilter.length; m++) {
       if (gridFilter[m].gridKey == data.key && data.tableData) {
         const objRuleData = JSON.parse(gridFilter[m].businessRuleData);
         for (let index = 0; index < objRuleData.length; index++) {
-          // const elementv1 = objRuleData[index].ifRuleMain;
+          if(data.tableData.length > 0){
+            // const elementv1 = objRuleData[index].ifRuleMain;
           const elementv1 = objRuleData[index];
           let checkType = Object.keys(data.tableData[0]).filter(a => a == elementv1.target);
           if (checkType.length == 0) {
@@ -287,6 +286,8 @@ export class DynamicTableComponent implements OnInit {
               }
             }
           }
+          }
+          
         }
       }
     }

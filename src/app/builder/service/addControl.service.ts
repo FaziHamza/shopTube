@@ -1815,7 +1815,7 @@ export class AddControlService {
   }
   drawerControl() {
     return {
-      isNextChild: false,
+      isNextChild: true,
       color: "bg-blue-500",
       btnText: "Open Drawer",
       isClosable: true,
@@ -1827,7 +1827,6 @@ export class AddControlService {
       placement: "right",
       size: "default",
       hoverIconColor: '',
-
       width: 500,
       height: 500,
       offsetX: 0,

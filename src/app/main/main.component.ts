@@ -189,6 +189,7 @@ export class MainComponent implements OnInit {
     let accordionData = accordingList.screenData;
     let findObject = this.findObjectByTypeBase(this.mainData, accordionData.type);
     if (findObject) {
+      let pushIndex = 0;
       data.forEach((element: any, index: number) => {
         const according = accordionData;
         let newNode: any = JSON.parse(JSON.stringify(findObject));
@@ -202,13 +203,15 @@ export class MainComponent implements OnInit {
 
         const newTitle = `${element?.week} ${formattedStartDate} -  ${formattedEndDate}`;
         let tableData = this.findObjectByTypeBase(according, "gridList");
-        if (tableData) {
-          const getGridUpdateData = this.getFromQuery(element.issues, tableData);
+        let newTable = JSON.parse(JSON.stringify(tableData));
+        if (newTable) {
+          const getGridUpdateData = this.getFromQuery(element.issues, newTable);
+          const newGrid = JSON.parse(JSON.stringify(getGridUpdateData));
           if (index != 0) {
-            newNode = findObject;
-            newNode.children = [getGridUpdateData];
+            newNode = JSON.parse(JSON.stringify(findObject));
+            newNode.children = [newGrid];
           } else {
-            findObject.children = [getGridUpdateData];
+            findObject.children = [newGrid];
           }
         }
         if (index != 0) {
@@ -216,7 +219,8 @@ export class MainComponent implements OnInit {
           newNode.appConfigurableEvent = [];
           newNode.eventActionconfig = {};
           const idx = this.mainData.children.indexOf(accordionData as TreeNode);
-          this.mainData.children.splice((idx as number) + 1, 0, newNode);
+          pushIndex = pushIndex + 1;
+          this.mainData.children.splice((idx as number) + pushIndex, 0, newNode);
         } else {
           findObject.title = newTitle;
           findObject.appConfigurableEvent = [];
@@ -296,27 +300,31 @@ export class MainComponent implements OnInit {
         tableData.targetId = '';
         tableData.displayData = tableData.tableData.length > tableData.end ? tableData.tableData.slice(0, tableData.end) : tableData.tableData;
         // pagniation work end
-        if (tableData.tableHeaders.length == 0) {
-          tableData.tableHeaders = obj;
-          tableData['tableKey'] = tableKey
-        }
-        else {
-          if (JSON.stringify(tableData['tableKey']) != JSON.stringify(tableKey)) {
-            const updatedData = tableData.tableHeaders.filter((updatedItem: any) => {
-              const name = updatedItem.name;
-              return !tableKey.some((headerItem: any) => headerItem.name === name);
-            });
-            if (updatedData.length > 0) {
-              tableData.tableHeaders.map((item: any) => {
-                const newItem = { ...item };
-                for (let i = 0; i < updatedData.length; i++) {
-                  newItem[updatedData[i].key] = "";
-                }
-                return newItem;
-              });
-            }
-          }
-        }
+        tableData.tableHeaders = obj;
+        tableData['tableKey'] = tableKey
+
+
+        // if (tableData.tableHeaders.length == 0) {
+        //   tableData.tableHeaders = obj;
+        //   tableData['tableKey'] = tableKey
+        // }
+        // else {
+        //   if (JSON.stringify(tableData['tableKey']) != JSON.stringify(tableKey)) {
+        //     const updatedData = tableData.tableHeaders.filter((updatedItem: any) => {
+        //       const name = updatedItem.name;
+        //       return !tableKey.some((headerItem: any) => headerItem.name === name);
+        //     });
+        //     if (updatedData.length > 0) {
+        //       tableData.tableHeaders.map((item: any) => {
+        //         const newItem = { ...item };
+        //         for (let i = 0; i < updatedData.length; i++) {
+        //           newItem[updatedData[i].key] = "";
+        //         }
+        //         return newItem;
+        //       });
+        //     }
+        //   }
+        // }
       }
       return tableData;
     }
