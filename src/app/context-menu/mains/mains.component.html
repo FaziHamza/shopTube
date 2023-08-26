@@ -202,7 +202,7 @@
         </st-stepper>
     </ng-template>
     <ng-template #thirtyTwo>
-        <st-accordion-button [accordionData]="item" [form]="form" [screenName]="screenName" [formlyModel]="formlyModel"
+        <st-accordion-button [accordionData]="item" (accordingEmit)="accordingList($event)" [form]="form" [screenId]="screenId" [screenName]="screenName" [formlyModel]="formlyModel"
             *ngIf="item.type == 'accordionButton'; else thirtyThree"></st-accordion-button>
     </ng-template>
     <ng-template #thirtyThree>

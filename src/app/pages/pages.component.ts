@@ -297,7 +297,7 @@ export class PagesComponent implements OnInit {
                 findObj['appConfigurableEvent'].push(obj);
               }
             }
-          } 
+          }
           // else {
           //   findObj['appConfigurableEvent'] = [];
           //   findObj['eventActionconfig'] = {};
@@ -468,7 +468,7 @@ export class PagesComponent implements OnInit {
                 });
               }
             }
-            this.assignGridRules(tableData);
+            // this.assignGridRules(tableData);
           }
         }
       });
@@ -2079,7 +2079,7 @@ export class PagesComponent implements OnInit {
         if (res.isSuccess) {
           if (res.data.length > 0) {
             this.getTaskManagementIssues = res.data;
-          } 
+          }
           // else {
           //   this.toastr.error(`No data against this screen:`, { nzDuration: 3000 });
           // }
