@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 
 @Component({
@@ -11,9 +11,11 @@ export class AccordionButtonComponent implements OnInit {
   @Input() formlyModel: any;
   @Input() form: any;
   @Input() screenName: any;
+  @Input() screenId: any;
   expandIconPosition: any = "left";
   expand: any = false;
   accordingListData: any[] = [];
+  @Output() accordingEmit :EventEmitter<any> = new EventEmitter();
   constructor() {
     this.processData = this.processData.bind(this);
   }
@@ -33,26 +35,31 @@ export class AccordionButtonComponent implements OnInit {
   }
   processData(data: any[]) {
     if (data?.length > 0) {
-      this.accordingListData = data.map(element => {
-        const according = JSON.parse(JSON.stringify(this.accordionData));
+      let obj = {
+        data:data,
+        screenData :this.accordionData
+      }
+      this.accordingEmit.emit(obj);
+      //  data.map(element => {
+      //   const according = JSON.parse(JSON.stringify(this.accordionData));
 
-        // Format weekStartDate
-        const startDate = new Date(element.weekStartDate);
-        const formattedStartDate = startDate.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+      //   // Format weekStartDate
+      //   const startDate = new Date(element.weekStartDate);
+      //   const formattedStartDate = startDate.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
 
-        // Format weekEndDate
-        const endDate = new Date(element.weekEndDate);
-        const formattedEndDate = endDate.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+      //   // Format weekEndDate
+      //   const endDate = new Date(element.weekEndDate);
+      //   const formattedEndDate = endDate.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
 
-        const newTitle = `${element?.week} ${formattedStartDate} -  ${formattedEndDate}`;
-        let tableData = this.findObjectByTypeBase(according, "gridList");
-        if (tableData) {
-          const getGridUpdateData = this.getFromQuery(element.issues, tableData);
-          according.children = [getGridUpdateData];
-        }
-        according.title = newTitle;
-        return according;
-      });
+      //   const newTitle = `${element?.week} ${formattedStartDate} -  ${formattedEndDate}`;
+      //   let tableData = this.findObjectByTypeBase(according, "gridList");
+      //   if (tableData) {
+      //     const getGridUpdateData = this.getFromQuery(element.issues, tableData);
+      //     this.accordionData.children = [getGridUpdateData];
+      //   }
+      //   this.accordionData.title = newTitle;
+      //   return according;
+      // });
     }
     return data
   }
