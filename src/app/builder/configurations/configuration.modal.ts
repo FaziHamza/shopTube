@@ -7782,15 +7782,15 @@ export class formFeildData {
             label: 'MainIcon',
           }
         },
-        // {
-        //   className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
-        //   key: 'nodes',
-        //   type: 'input',
-        //   wrappers: ["formly-vertical-theme-wrapper"],
-        //   props: {
-        //     label: 'Nodes',
-        //   }
-        // },
+        {
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          key: 'classForIcon',
+          type: 'input',
+          wrappers: ["formly-vertical-theme-wrapper"],
+          props: {
+            label: 'Icon Class',
+          }
+        },
         {
           key: 'mode',
           type: 'select',
@@ -7834,6 +7834,16 @@ export class formFeildData {
           },
         },
         {
+          key: 'pendingText',
+          type: 'input',
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          wrappers: ["formly-vertical-theme-wrapper"],
+          props: {
+            type: 'text',
+            label: 'Pending Text',
+          }
+        },
+        {
           key: 'nodes',
           type: 'input',
           className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
@@ -7843,100 +7853,6 @@ export class formFeildData {
             label: 'Number of Nodes',
           }
         },
-        // {
-        //   className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
-        //   key: 'api',
-        //   type: 'select',
-        //   wrappers: ["formly-vertical-theme-wrapper"],
-        //   props: {
-        //     label: 'Api',
-        //     options: [
-        //       {
-        //         label: 'Api',
-        //         value: 'timeLine'
-        //       },
-        //     ],
-        //     additionalProperties: {
-        //       allowClear: true,
-        //       serveSearch: false,
-        //       showArrow: true,
-        //       showSearch: true,
-        //     },
-        //   }
-        // },
-        // {
-        //   key: 'options',
-        //   type: 'repeatSection',
-        //   className: "w-full",
-        //   props: {
-        //     style: "margin-top: 6%;",
-        //     canAdd: true,
-        //     canRemove: true
-        //   },
-        //   fieldArray: {
-        //     fieldGroup: [
-        //       {
-        //         key: 'title',
-        //         type: 'input',
-        //         props: {
-        //           label: 'Title',
-        //         }
-        //       },
-        //       {
-        //         key: 'dotIcon',
-        //         type: 'input',
-        //         props: {
-        //           label: 'Icon',
-        //         },
-        //       },
-        //       {
-        //         key: 'timecolor',
-        //         type: 'select',
-        //         props: {
-        //           label: 'Color',
-        //           options: [
-        //             {
-        //               label: 'Blue',
-        //               value: 'blue'
-        //             },
-        //             {
-        //               label: 'Green',
-        //               value: 'green'
-        //             },
-        //             {
-        //               label: 'Red',
-        //               value: 'red'
-        //             },
-        //             {
-        //               label: 'Gray',
-        //               value: 'grey'
-        //             },
-        //           ],
-        //           additionalProperties: {
-        //             allowClear: true,
-        //             serveSearch: true,
-        //             showArrow: true,
-        //             showSearch: true,
-        //           },
-        //         },
-        //       },
-        //       {
-        //         key: 'date',
-        //         type: 'input',
-        //         props: {
-        //           label: 'Date',
-        //         }
-        //       },
-        //       {
-        //         key: 'timeLineDescription',
-        //         type: 'input',
-        //         props: {
-        //           label: 'Description',
-        //         }
-        //       },
-        //     ]
-        //   }
-        // },
       ]
     },
   ]
