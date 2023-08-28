@@ -212,6 +212,6 @@
     [screenName]="this.issueReport['issueReport'][0].screenId" [assignToresponse]="this.assignToresponse"
     [type]="'userTaskManagement'" [userTaskManagementData]="tasks"></st-task-report>
 </div> -->
-<!-- <st-main [mainData]="data" *ngIf="data?.children.length > 0" [screenName]="screenName" [form]="form" [formlyModel]="formlyModel"></st-main> -->
+<st-main [mainData]="data" *ngIf="data?.children.length > 0 && !configurationTable" [screenName]="screenName" [form]="form" [formlyModel]="formlyModel"></st-main>
 
 
