@@ -6035,7 +6035,13 @@ li.ant-cascader-menu-item:nth-child(1):hover {
 
 
   .ant-modal-content {
-    border-radius: 16px;
+    border-radius: 10px;
+    .ant-modal-close-icon {
+      padding: 3px;
+      border: 2px solid red;
+      border-radius: 6px;
+      color: red;
+    }
   }
 
   .anticon-question-circle {
@@ -6610,11 +6616,17 @@ tr:hover {
 }
 
 .ant-drawer-close {
-  padding: 5px;
+  padding: 2.5px;
   border: 2px solid #fd3636;
   border-radius: 6px;
   color: #fd3636 !important;
-  &:hover{
+
+  &:hover {
     color: #fd3636 !important;
   }
+}
+
+.cdk-virtual-scroll-viewport {
+  height: fit-content;
+  max-height: 250px !important;
 }
