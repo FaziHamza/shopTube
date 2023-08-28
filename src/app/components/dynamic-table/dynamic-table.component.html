@@ -13,8 +13,7 @@
   <!-- [nzFrontPagination]='data?.nzFrontPagination' -->
   <!-- [nzShowPagination]='data?.nzShowPagination' -->
   <nz-table #editRowTable [nzPageSize]="10" [nzBordered]='data.nzBordered' [nzData]="displayData"
-    *ngIf="data && displayData"
-    [nzLoading]="data?.nzLoading" [nzPaginationPosition]='data?.nzPaginationPosition'
+    *ngIf="data && displayData" [nzLoading]="data?.nzLoading" [nzPaginationPosition]='data?.nzPaginationPosition'
     [nzPaginationType]='data?.nzPaginationType' [nzFrontPagination]='false' [nzTitle]='data?.nzTitle'
     [nzSize]="data.nzSize" [nzSimple]="data.nzSimple" [nzShowSizeChanger]="data.nzShowSizeChanger">
     <thead class="desktop-toggle">
@@ -31,20 +30,20 @@
               *ngIf="header?.gridHeaderSum">({{header?.gridHeaderSum}})</span>
           </th>
         </ng-container>
-        <th *ngIf="tableHeaders.length > 0">Delete</th>
+        <th *ngIf="tableHeaders.length > 0 && (data?.isDeleteAllow || data?.isDeleteAllow == undefined)">Delete</th>
       </tr>
     </thead>
     <tbody class="dynamic-responsive-table-body w-full" style="width: 100%;">
       <ng-template #recursiveList let-data1>
         <ng-container *ngFor="let item of data1; let i = index">
-          <tr [ngStyle]="{'background': item?.color}" class="desktop-toggle" (dblclick)="updateModel(item)"
-            (click)="data?.rowClickApi!='' ? onClickRow(data.rowClickApi,item): ''">
+          <tr [ngStyle]="{'background': item?.color}" (click)="checkTypeData(item)" class="desktop-toggle"
+            (dblclick)="updateModel(item)" (click)="data?.rowClickApi!='' ? onClickRow(data.rowClickApi,item): ''">
             <td *ngIf="item.expandable" [(nzExpand)]="item.expand"></td>
             <td *ngIf="data.showCheckbox" [(nzChecked)]="item.checked" (nzCheckedChange)="refreshStatus()"></td>
             <ng-container *ngFor="let header of data['tableKey']; let index = index">
               <!-- {{tableHeaders[index]?.dataType | json}} -->
               <td (click)="startEdit(item.id)" [nzEllipsis]="true" class="5"
-                *ngIf="header.name != 'headerButton' && header.name != 'footerButton' && header.name != 'expandable' && header.name != 'checked'
+                *ngIf="tableHeaders[index]?.dataType !='objectType' && header.name != 'headerButton' && header.name != 'footerButton' && header.name != 'expandable' && header.name != 'checked'
                 && header.name != 'expand' && header.name !='children' && header.name != 'defaultValue' && header.name != 'children'">
                 <div class="1"
                   *ngIf="(tableHeaders[index]?.dataType !='select' || !configurationTable) && tableHeaders[index]?.dataType !='image-upload' && !isMyDataArray(item[header.name]
@@ -75,10 +74,17 @@
                   *ngIf="tableHeaders[index]?.dataType =='input' && tableHeaders[index]?.subDataType == 'datetime-local'">
                   {{ item[header.name] | date:'dd-MM-yyyy HH:mm:ss'}}
                 </ng-container>
+                <ng-container *ngIf="tableHeaders[index]?.dataType =='objectType'">
+                  {{item[header.name]}}
+                </ng-container>
                 <div *ngIf="tableHeaders[index]?.dataType =='rangePicker'" class="date">
                   <!-- {{ item[header.name]}} -->
                   {{ transform(item[header.name]) }}
                 </div>
+              </td>
+              <td class="5" *ngIf="tableHeaders[index]?.dataType =='objectType'"
+                [class]="item[header.name] == 'open' ? 'bg-red-500' : (item[header.name] == 'inProgress' ? 'bg-orange-500' : (item[header.name] == 'completed' ? 'bg-green-500' : 'bg-gray-500')) + ' text-white'">
+                {{item[header.name]}}
               </td>
               <td *ngIf="header.name == 'headerButton'">
                 <button (click)="showModal('Header')" type="button"
@@ -94,7 +100,7 @@
               </td>
             </ng-container>
 
-            <td>
+            <td *ngIf="data?.isDeleteAllow || data?.isDeleteAllow == undefined">
               <a nz-popconfirm nzPopconfirmTitle="Sure to delete?" (nzOnConfirm)="deleteRow(item)">
                 <span class="text-red-500" nz-icon nzType="delete" nzTheme="outline"></span>
               </a>
@@ -110,7 +116,7 @@
                   <td class="responsive-checkBox" *ngIf="data.showCheckbox && entryKey == 'checked'"
                     [(nzChecked)]="item.checked" (nzCheckedChange)="refreshStatus()"></td>
                   <td
-                    *ngIf="header.name != 'headerButton' && header.name != 'footerButton' && header.name != 'expandable' && header.name != 'checked'
+                    *ngIf="tableHeaders[index]?.dataType !='objectType' && header.name != 'headerButton' && header.name != 'footerButton' && header.name != 'expandable' && header.name != 'checked'
                   && header.name != 'expand' && header.name !='children' && header.name != 'defaultValue' && header.name != 'children'">
                     <ng-container class="editable-cell" *ngIf="editingEntry == entryKey && configurationTable">
                       <input nz-input type="text" [(ngModel)]="item[entryKey]">
@@ -142,10 +148,15 @@
                     <!-- {{ item[header.name]}} -->
                     {{ transform(item[header.name]) }}
                   </td>
+                  <td class="5" *ngIf="tableHeaders[index]?.dataType =='objectType'"
+                   [ngStyle]="{'background':tableHeaders[index]?.columnColor}" >
+                   {{tableHeaders[index]?.columnColor}}
+                    {{item[header.name]}}
+                  </td>
                 </ng-container>
               </ng-container>
             </tr>
-            <tr>
+            <tr *ngIf="data?.isDeleteAllow || data?.isDeleteAllow == undefined">
               <td class="font-bold bg-blue-500 text-white hover:text-black">Action</td>
               <td>
                 <a nz-popconfirm nzPopconfirmTitle="Sure to delete?" (nzOnConfirm)="deleteRow(item)">
@@ -196,8 +207,11 @@
   </ng-container>
 </nz-modal>
 
-<div *ngIf="this.issueReport['issueReport'] && this.issueReport['issueReport']?.length  > 0">
+<!-- <div *ngIf="this.issueReport['issueReport'] && this.issueReport['issueReport']?.length  > 0">
   <st-task-report (notify)="updateIssues($event)" class="close-icon" [item]="this.issueReport"
-      [screenName]="this.issueReport['issueReport'][0].screenId" [assignToresponse]="this.assignToresponse"
-      [type]="'userTaskManagement'" [userTaskManagementData]="tasks"></st-task-report>
-</div>
+    [screenName]="this.issueReport['issueReport'][0].screenId" [assignToresponse]="this.assignToresponse"
+    [type]="'userTaskManagement'" [userTaskManagementData]="tasks"></st-task-report>
+</div> -->
+<st-main [mainData]="data" [screenName]="screenName" [form]="form" [formlyModel]="formlyModel"></st-main>
+
+

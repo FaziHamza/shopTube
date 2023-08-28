@@ -56,4 +56,8 @@ export class MainsComponent implements OnInit {
   defaultPageRoute() {
     this.router.navigate(['/pages/' + this.dataSharedService.applicationDefaultScreen]);
   }
+  accordingList(event: any) {
+    this.notify.emit(event);
+  }
+
 }

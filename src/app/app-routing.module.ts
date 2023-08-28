@@ -1,4 +1,3 @@
-import { RegisterComponent } from './user/register/register.component';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { PagesComponent } from './pages/pages.component';
@@ -7,6 +6,7 @@ import { BarChartComponent,  FileManagerComponent, googleMapComponent } from './
 import { DemoComponent } from './builder/demo/demo.component';
 import { Screenv1Component } from './Builder-module/screenv1/screenv1.component';
 import { AuthGuard } from './auth/auth.Guard';
+import { RegisterComponent } from './auth/register/register.component';
 
 const routes: Routes = [
   {

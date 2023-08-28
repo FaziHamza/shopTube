@@ -394,21 +394,6 @@ export class SectionsComponent implements OnInit {
                   // pagniation work end
                   if (tableData.tableHeaders.length == 0) {
                     tableData.tableHeaders = obj;
-                    // let checkDataTypeExist = tableData.tableHeaders.every((check: any) => check.hasOwnProperty('dataType'));
-                    // if (!checkDataTypeExist) {
-                    //   let formlyInputs = this.filterInputElements(this.sections.children[1].children);
-                    //   if (formlyInputs && formlyInputs?.length > 0) {
-                    //     obj.forEach((head: any) => {
-                    //       let input = formlyInputs.find(a => a.formly[0].fieldGroup[0].key.includes('.') ? a.formly[0].fieldGroup[0].key.split('.')[1] == head.key : a.formly[0].fieldGroup[0].key == head.key);
-                    //       if (input) {
-                    //         head['dataType'] = input.formly[0].fieldGroup[0].type;
-                    //         head['subDataType'] = input.formly[0].fieldGroup[0].props.type;
-                    //         head['title'] = input.title;
-                    //       }
-                    //     });
-                    //     tableData.tableHeaders = obj;
-                    //   }
-                    // }
                     tableData['tableKey'] = tableKey
                   }
                   else {
@@ -451,7 +436,7 @@ export class SectionsComponent implements OnInit {
                     }
                   }
                 }
-                this.assignGridRules(tableData);
+                // this.assignGridRules(tableData);
               }
               this.saveLoader = false;
             }, error: (error: any) => {

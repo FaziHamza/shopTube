@@ -62,8 +62,8 @@ export class DynamicTableComponent implements OnInit {
   }
 
   ngOnInit(): void {
-
     this.loadTableData();
+    this.gridInitilize();
   }
   updateModel(data: any) {
     debugger
@@ -124,133 +124,162 @@ export class DynamicTableComponent implements OnInit {
     console.log("Column Click " + name);
   }
   gridInitilize() {
-    if (this.data.api) {
-      this.builderService.genericApis(this.data.api).subscribe(res => {
-        if (res)
-          res.forEach(function (v: any) { delete v.id });
-        this.tableData = res;
-        this.data['tableData'] = res;
-        const firstObjectKeys = Object.keys(this.tableData[0]);
-        let obj = firstObjectKeys.map(key => ({ name: key }));
-        this.data['tableKey'] = obj
-        this.data['tableHeaders'] = obj
-        this.tableHeaders = obj;
-        // this.loadTableData();
-      })
+    let getRes: any = {
+      data: [
+        {
+          "_id": {
+            "$oid": "649bce85e4823f1628e266c1"
+          },
+          "businessRule": [
+            {
+              "if": "id == 1",
+              "then": [
+                "id == (id-id)"
+              ]
+            }
+          ],
+          "businessRuleData": '[{"target":"status","opratorForTraget":"==","resultValue":"","ifRuleMain":[{"ifCondition":"status","oprator":"==","isGetValue":true,"getValue":"open","condType":"","conditional":[]}],"thenCondition":[],"getRuleCondition":[{"ifCondition":"status","oprator":"==","target":"status","referenceId":"","referenceOperator":"","referenceColor":"","referenceColumnColor":"#EF4444","condition":"","multiConditionList":[]}]},{"target":"status","opratorForTraget":"==","resultValue":"","ifRuleMain":[{"ifCondition":"status","oprator":"==","isGetValue":true,"getValue":"completed","condType":"","conditional":[]}],"thenCondition":[],"getRuleCondition":[{"ifCondition":"status","oprator":"==","target":"status","referenceId":"","referenceOperator":"","referenceColor":"","referenceColumnColor":"#EF4444","condition":"","multiConditionList":[]}]}]',
+          "gridKey": "gridlist_5ef02c4b",
+          "gridType": "Body",
+          "screenName": "Card",
+          "screenBuilderId": {
+            "$oid": "64901e0007e01828b29b0146"
+          },
+          "__v": 0
+        }
+      ]
+    };
+    this.applyBusinessRule(getRes, this.data);
+    this.loadTableData();
+    if (this.screenId == 'taskmanager') {
+
+    } else {
+      if (this.screenId)
+        this.applicationService.getNestCommonAPIById('cp/GridBusinessRule', this.screenId).subscribe(((getRes: any) => {
+          if (getRes.isSuccess) {
+            if (getRes.data.length > 0) {
+              // this.formlyModel['input34d5985f']='1313'
+              this.applyBusinessRule(getRes, this.data);
+            }
+            this.loadTableData();
+          } else
+            this.toastr.error(getRes.message, { nzDuration: 3000 });
+        }));
     }
-    else {
-      this.loadTableData();
-    }
-    if (this.screenId)
-      this.applicationService.getNestCommonAPIById('cp/GridBusinessRule', this.screenId).subscribe(((getRes: any) => {
-        if (getRes.isSuccess) {
-          if (getRes.data.length > 0) {
-            // this.formlyModel['input34d5985f']='1313'
-            this.applyBusinessRule(getRes,this.data);
-          }
-          this.loadTableData();
-        } else
-          this.toastr.error(getRes.message, { nzDuration: 3000 });
-      }));
+
   }
-  applyBusinessRule(getRes: any,data:any) {
+  applyBusinessRule(getRes: any, data: any) {
     let gridFilter = getRes.data.filter((a: any) => a.gridType == 'Body');
     for (let m = 0; m < gridFilter.length; m++) {
       if (gridFilter[m].gridKey == data.key && data.tableData) {
         const objRuleData = JSON.parse(gridFilter[m].businessRuleData);
         for (let index = 0; index < objRuleData.length; index++) {
-          // const elementv1 = objRuleData[index].ifRuleMain;
-          const elementv1 = objRuleData[index];
-          let checkType = Object.keys(data.tableData[0]).filter(a => a == elementv1.target);
-          if (checkType.length == 0) {
-            console.log("No obj Found!")
-          }
-          else {
-            for (let j = 0; j < data.tableData.length; j++) {
-              //query
-              let query: any = '';
-              objRuleData[index].ifRuleMain.forEach((element: any, ruleIndex: number) => {
+          if (data.tableData.length > 0) {
+            // const elementv1 = objRuleData[index].ifRuleMain;
+            const elementv1 = objRuleData[index];
+            let checkType = Object.keys(data.tableData[0]).filter(a => a == elementv1.target);
+            if (checkType.length == 0) {
+              console.log("No obj Found!")
+            }
+            else {
+              for (let j = 0; j < data.tableData.length; j++) {
+                //query
+                let query: any = '';
+                objRuleData[index].ifRuleMain.forEach((element: any, ruleIndex: number) => {
+                  if (objRuleData[index].ifRuleMain.length > 1) {
+                    if (element.oprator == 'NotNull') {
+                      if (!query) {
+                        query = " ( 1==1"
+                      } else {
+                        query += " ( 1==1"
+                      }
+                    }
+                    else {
+                      let firstValue = data.tableData[j][element.ifCondition] ? data.tableData[j][element.ifCondition] : "0";
+                      let appendString = element.conditional.length > 0 ? " ( " : ' ';
+                      if (ruleIndex == 0) {
+                        query = appendString + firstValue + element.oprator + element.getValue
+                      } else {
+                        query += appendString + firstValue + element.oprator + element.getValue
+                      }
+                    }
+                    for (let k = 0; k < element.conditional.length; k++) {
+                      const conditionElement = element.conditional[k];
+                      let check = data.tableData[j][conditionElement.condifCodition] ? data.tableData[j][conditionElement.condifCodition] : '0';
+                      query += ' ' + conditionElement.condType + ' ' + check + conditionElement.condOperator + conditionElement.condValue;
+                      if (k + 1 == element.conditional.length)
+                        query += " ) " + element.condType
+                    }
+                  }
+                  else {
+                    if (element.oprator == 'NotNull')
+                      query = "1==1"
+                    else {
+                      let firstValue = data.tableData[j][element.ifCondition] ? data.tableData[j][element.ifCondition] : "0";
+                      query = firstValue + element.oprator + element.getValue
+                    }
+                    for (let k = 0; k < element.conditional.length; k++) {
+                      const conditionElement = element.conditional[k];
+                      let check = data.tableData[j][conditionElement.condifCodition] ? data.tableData[j][conditionElement.condifCodition] : '0';
+                      query += ' ' + conditionElement.condType + ' ' + check + conditionElement.condOperator + conditionElement.condValue;
+                    }
+                  }
+                });
+                let checkCondition = false;
                 if (objRuleData[index].ifRuleMain.length > 1) {
-                  if (element.oprator == 'NotNull') {
-                    if (!query) {
-                      query = " ( 1==1"
-                    } else {
-                      query += " ( 1==1"
-                    }
-                  }
-                  else {
-                    let firstValue = data.tableData[j][element.ifCondition] ? data.tableData[j][element.ifCondition] : "0";
-                    let appendString = element.conditional.length > 0 ? " ( " : ' ';
-                    if (ruleIndex == 0) {
-                      query = appendString + firstValue + element.oprator + element.getValue
-                    } else {
-                      query += appendString + firstValue + element.oprator + element.getValue
-                    }
-                  }
-                  for (let k = 0; k < element.conditional.length; k++) {
-                    const conditionElement = element.conditional[k];
-                    let check = data.tableData[j][conditionElement.condifCodition] ? data.tableData[j][conditionElement.condifCodition] : '0';
-                    query += ' ' + conditionElement.condType + ' ' + check + conditionElement.condOperator + conditionElement.condValue;
-                    if (k + 1 == element.conditional.length)
-                      query += " ) " + element.condType
-                  }
+                  checkCondition = this.evaluateGridCondition(query)
+                } else {
+                  checkCondition = this.evaluateGridConditionMain(query)
                 }
-                else {
-                  if (element.oprator == 'NotNull')
-                    query = "1==1"
-                  else {
-                    let firstValue = data.tableData[j][element.ifCondition] ? data.tableData[j][element.ifCondition] : "0";
-                    query = firstValue + element.oprator + element.getValue
-                  }
-                  for (let k = 0; k < element.conditional.length; k++) {
-                    const conditionElement = element.conditional[k];
-                    let check = data.tableData[j][conditionElement.condifCodition] ? data.tableData[j][conditionElement.condifCodition] : '0';
-                    query += ' ' + conditionElement.condType + ' ' + check + conditionElement.condOperator + conditionElement.condValue;
-                  }
-                }
-              });
-              let checkCondition = false;
-              if (objRuleData[index].ifRuleMain.length > 1) {
-                checkCondition = this.evaluateGridCondition(query)
-              } else {
-                checkCondition = this.evaluateGridConditionMain(query)
-              }
-              if (checkCondition) {
-                for (let k = 0; k < elementv1.getRuleCondition.length; k++) {
-                  const elementv2 = elementv1.getRuleCondition[k];
-                  if (elementv1.getRuleCondition[k].referenceOperator != '') {
-                    data.tableData[j][elementv1.target] = this.evaluateGridConditionOperator(`${data.tableData[j][elementv2.ifCondition]} ${elementv1.getRuleCondition[k].oprator} ${data.tableData[j][elementv2.target]}`);
-                    data.tableData[j]['color'] = elementv1.getRuleCondition[k].referenceColor;
-                  }
-                  else {
-                    if (k > 0) {
-                      data.tableData[j][elementv1.target] = this.evaluateGridConditionOperator(`${data.tableData[j][elementv1.target]} ${elementv1.getRuleCondition[k - 1].referenceOperator} ${data.tableData[j][elementv2.ifCondition]} ${elementv1.getRuleCondition[k].oprator} ${data.tableData[j][elementv2.target]}`);
-                      data.tableData[j]['color'] = elementv1.getRuleCondition[k].referenceColor;
-                    }
-                    else
+                if (checkCondition) {
+                  for (let k = 0; k < elementv1.getRuleCondition.length; k++) {
+                    const elementv2 = elementv1.getRuleCondition[k];
+                    if (elementv1.getRuleCondition[k].referenceOperator != '') {
                       data.tableData[j][elementv1.target] = this.evaluateGridConditionOperator(`${data.tableData[j][elementv2.ifCondition]} ${elementv1.getRuleCondition[k].oprator} ${data.tableData[j][elementv2.target]}`);
-                    data.tableData[j]['color'] = elementv1.getRuleCondition[k].referenceColor;
-                  }
-                  if (elementv2.multiConditionList.length > 0) {
-                    for (let l = 0; l < elementv2.multiConditionList.length; l++) {
-                      const elementv3 = elementv2.multiConditionList[l];
-                      const value = data.tableData[j][elementv1.target];
-                      data.tableData[j][elementv1.target] = this.evaluateGridConditionOperator(`${value} ${elementv3.oprator} ${data.tableData[j][elementv3.target]}`);
-                      // this.data.tableData[j]['color'] = elementv1.getRuleCondition[k].referenceColor;
+                      data.tableData[j]['color'] = elementv1.getRuleCondition[k].referenceColor;
+                      data.tableData[j]['columnColor'] = elementv1.getRuleCondition[k].referenceColumnColor;
+                    }
+                    else {
+                      if (k > 0) {
+                        data.tableData[j][elementv1.target] = this.evaluateGridConditionOperator(`${data.tableData[j][elementv1.target]} ${elementv1.getRuleCondition[k - 1].referenceOperator} ${data.tableData[j][elementv2.ifCondition]} ${elementv1.getRuleCondition[k].oprator} ${data.tableData[j][elementv2.target]}`);
+                        data.tableData[j]['color'] = elementv1.getRuleCondition[k].referenceColor;
+                        data.tableData[j]['columnColor'] = elementv1.getRuleCondition[k].referenceColor;
+                      }
+                      else
+                        data.tableData[j]['color'] = elementv1.getRuleCondition[k].referenceColor;
+                      if (elementv1.getRuleCondition[k].referenceColumnColor) {
+                        // data.tableHeaders.filter((check: any) => !check.hasOwnProperty('dataType'));
+                        let head = data.tableHeaders.find((a: any) => a.name == elementv1.target)
+                        if (head) {
+                          head['dataType'] = 'objectType';
+                          head['columnColor'] = elementv1.getRuleCondition[k].referenceColumnColor;
+                        }
+                      } else {
+                        data.tableData[j][elementv1.target] = this.evaluateGridConditionOperator(`${data.tableData[j][elementv2.ifCondition]} ${elementv1.getRuleCondition[k].oprator} ${data.tableData[j][elementv2.target]}`);
+
+                      }
+                    }
+                    if (elementv2.multiConditionList.length > 0) {
+                      for (let l = 0; l < elementv2.multiConditionList.length; l++) {
+                        const elementv3 = elementv2.multiConditionList[l];
+                        const value = data.tableData[j][elementv1.target];
+                        data.tableData[j][elementv1.target] = this.evaluateGridConditionOperator(`${value} ${elementv3.oprator} ${data.tableData[j][elementv3.target]}`);
+                        this.data.tableData[j]['columnColor'] = elementv1.getRuleCondition[k].referenceColumnColor;
+                      }
                     }
                   }
-                }
-                for (let k = 0; k < elementv1.thenCondition.length; k++) {
-                  const elementv2 = elementv1.thenCondition[k];
-                  for (let l = 0; l < elementv2.getRuleCondition.length; l++) {
-                    const elementv3 = elementv2.getRuleCondition[l];
-                    data.tableData[j][elementv2.thenTarget] = this.evaluateGridConditionOperator(`${data.tableData[j][elementv3.ifCondition]} ${elementv3.oprator} ${data.tableData[j][elementv3.target]}`);
-                    if (elementv3.multiConditionList.length > 0) {
-                      for (let m = 0; m < elementv3.multiConditionList.length; m++) {
-                        const elementv4 = elementv3.multiConditionList[m];
-                        const value = data.tableData[j][elementv2.thenTarget];
-                        data.tableData[j][elementv2.thenTarget] = this.evaluateGridConditionOperator(`${value} ${elementv4.oprator} ${data.tableData[j][elementv4.target]}`);
-                        // this.data.tableData[j]['color'] = elementv1.getRuleCondition[k].referenceColor;
+                  for (let k = 0; k < elementv1.thenCondition.length; k++) {
+                    const elementv2 = elementv1.thenCondition[k];
+                    for (let l = 0; l < elementv2.getRuleCondition.length; l++) {
+                      const elementv3 = elementv2.getRuleCondition[l];
+                      data.tableData[j][elementv2.thenTarget] = this.evaluateGridConditionOperator(`${data.tableData[j][elementv3.ifCondition]} ${elementv3.oprator} ${data.tableData[j][elementv3.target]}`);
+                      if (elementv3.multiConditionList.length > 0) {
+                        for (let m = 0; m < elementv3.multiConditionList.length; m++) {
+                          const elementv4 = elementv3.multiConditionList[m];
+                          const value = data.tableData[j][elementv2.thenTarget];
+                          data.tableData[j][elementv2.thenTarget] = this.evaluateGridConditionOperator(`${value} ${elementv4.oprator} ${data.tableData[j][elementv4.target]}`);
+                          this.data.tableData[j]['columnColor'] = elementv1.getRuleCondition[k].referenceColumnColor;
+                        }
                       }
                     }
                   }
@@ -258,6 +287,7 @@ export class DynamicTableComponent implements OnInit {
               }
             }
           }
+
         }
       }
     }
@@ -407,10 +437,11 @@ export class DynamicTableComponent implements OnInit {
       "-": (a: any, b: any) => this.isNumeric(a) && this.isNumeric(b) ? a - b : null,
       "*": (a: any, b: any) => this.isNumeric(a) && this.isNumeric(b) ? a * b : null,
       "/": (a: any, b: any) => this.isNumeric(a) && this.isNumeric(b) ? a / b : null,
+      "==": (a: any, b: any) => this.isNumeric(a) && this.isNumeric(b) ? a == b : null,
       "%": (a: any, b: any) => this.isNumeric(a) && this.isNumeric(b) ? a % b : null,
     };
 
-    const parts = condition.split(/(\+|-|\*|\/|%)/).map(part => part.trim());
+    const parts = condition.split(/(\+|-|\*|\/|%|==)/).map(part => part.trim());
     const leftOperand = parts[0];
     const operator = parts[1];
     const rightOperand = parts[2];
@@ -924,6 +955,12 @@ export class DynamicTableComponent implements OnInit {
     // this.tableData[rowIndex].defaultValue = value.type;
     // Perform any additional updates to 'listOfData' if needed
   }
+  checkTypeData(item: any) {
+    debugger
+    if (this.data?.openComponent == 'drawer') {
+      this.showIssue(item);
+    }
+  }
   transform(dateRange: string): any {
     if (dateRange.includes('GMT+0500') && dateRange) {
       // Split the date range by ","
@@ -963,18 +1000,24 @@ export class DynamicTableComponent implements OnInit {
     this.saveLoader = true;
     this.requestSubscription = this.applicationService.getNestCommonAPI("cp/getuserComments/UserComment/pages/" + data.screenId).subscribe({
       next: (res: any) => {
+        debugger
         this.saveLoader = false;
         this.issueReport['issueReport'] = '';
         this.issueReport['showAllComments'] = false;
         if (res.isSuccess && res.data.length > 0) {
           const filterIssue = res.data.filter((rep: any) => rep.componentId === data.componentId);
           if (filterIssue.length > 0) {
-            this.userTaskManagement = data;
-            this.issueReport['status'] = data['status'];
-            this.issueReport['showAllComments'] = true;
-            this.issueReport['issueReport'] = filterIssue;
-            this.issueReport['id'] = filterIssue[0].componentId;
-            this.callAssignee(this.issueReport);
+            let drawer = this.findObjectByTypeBase(this.data, "drawer");
+            drawer['visible'] = true;
+            drawer['notShowButton'] = true;
+            let timeline = this.findObjectByTypeBase(this.data, "timeline");
+            timeline['children'] = filterIssue;
+            // this.userTaskManagement = data;
+            // this.issueReport['status'] = data['status'];
+            // this.issueReport['showAllComments'] = true;
+            // this.issueReport['issueReport'] = filterIssue;
+            // this.issueReport['id'] = filterIssue[0].componentId;
+            // this.callAssignee(this.issueReport);
           } else {
             this.saveLoader = false;
             this.toastr.error(`UserComment : No comments against this`, { nzDuration: 3000 });
@@ -1047,7 +1090,7 @@ export class DynamicTableComponent implements OnInit {
         closed: [],
       };
 
-      weekData.issues.forEach((issue : any) => {
+      weekData.issues.forEach((issue: any) => {
         const status = issue.status;
 
         // Push the issue to the corresponding status array
@@ -1064,4 +1107,23 @@ export class DynamicTableComponent implements OnInit {
       };
     });
   }
+  findObjectByTypeBase(data: any, type: any) {
+    if (data) {
+      if (data.type && type) {
+        if (data.type === type) {
+          return data;
+        }
+        if (data.children.length > 0) {
+          for (let child of data.children) {
+            let result: any = this.findObjectByTypeBase(child, type);
+            if (result !== null) {
+              return result;
+            }
+          }
+        }
+        return null;
+      }
+    }
+  }
+
 }

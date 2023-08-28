@@ -230,7 +230,6 @@ export class organizationBuilderComponent implements OnInit {
           });
           this.listOfData = res.data;
           this.organizationData = res.data;
-          this.loading = false;
           this.getDepartment();
           this.handlePageChange(1);
           const nonEmptySearchArray = this.listOfColumns.filter(
@@ -240,9 +239,9 @@ export class organizationBuilderComponent implements OnInit {
             this.search(element.searchValue, element);
           });
         } else {
-          this.loading = false;
           this.toastr.error(res.message, { nzDuration: 2000 });
         }
+        this.loading = false;
       },
       error: (err) => {
         this.loading = false;
@@ -327,16 +326,25 @@ export class organizationBuilderComponent implements OnInit {
           this.model._id,
           organizationModel
         );
-
+      this.loading = true;
       addOrUpdateOrganization$.subscribe((res: any) => {
-        if (res.isSuccess) {
-          this.organizationBuilder();
-          this.isSubmit = true;
-          this.resetForm();
-          this.handleCancel();
-          this.toastr.success(`Org. : ${res.message}`, { nzDuration: 2000 });
-        } else {
-          this.toastr.error(`Org. : ${res.message}`, { nzDuration: 2000 });
+        try {
+          if (res.isSuccess) {
+            this.loading = false;
+            this.organizationBuilder();
+            this.isSubmit = true;
+            this.resetForm();
+            this.handleCancel();
+            this.toastr.success(`Org. : ${res.message}`, { nzDuration: 2000 });
+          } else {
+            this.toastr.error(`Org. : ${res.message}`, { nzDuration: 2000 });
+            this.loading = false;
+          }
+        } catch (error) {
+          this.loading = false;
+          // Handle any errors that occur during execution
+          console.error("An error occurred:", error);
+          // You can add additional error handling here, such as showing an error message to the user.
         }
       });
     }
@@ -374,18 +382,29 @@ export class organizationBuilderComponent implements OnInit {
           this.model._id,
           modelData
         );
+      this.loading = true;
       action$.subscribe((res: any) => {
-        if (res.isSuccess) {
-          this.organizationBuilder();
-          // this.getDepartment();
-          this.resetForm();
-          this.isSubmit = true;
-          this.handleCancel();
-          this.toastr.success(res.message, { nzDuration: 2000 });
-        } else {
-          this.toastr.error(res.message, { nzDuration: 2000 });
+        try {
+          if (res.isSuccess) {
+            this.loading = false;
+            this.organizationBuilder();
+            // this.getDepartment();
+            this.resetForm();
+            this.isSubmit = true;
+            this.handleCancel();
+            this.toastr.success(res.message, { nzDuration: 2000 });
+          } else {
+            this.loading = true;
+            this.toastr.error(res.message, { nzDuration: 2000 });
+          }
+        } catch (error) {
+          // Handle any errors that occur during execution
+          this.loading = false;
+          console.error("An error occurred:", error);
+          // You can add additional error handling here, such as showing an error message to the user.
         }
       });
+
     }
   }
   resetForm() {
@@ -402,20 +421,32 @@ export class organizationBuilderComponent implements OnInit {
     this.isSubmit = false;
   }
   deleteRow(id: any, type: any): void {
-    const api$ =
-      type == 'department'
-        ? this.applicationService.deleteNestCommonAPI('cp/Department', id)
-        : this.applicationService.deleteNestCommonAPI('cp/Organization', id);
-    api$.subscribe((res: any) => {
-      if (res.isSuccess) {
-        this.handlePageChange(1);
-        this.organizationBuilder();
-        this.getDepartment();
-        this.toastr.success(res.message, { nzDuration: 2000 });
-      } else
-        this.toastr.error(res.message, { nzDuration: 2000 });
-    });
+    try {
+      this.loading = true
+      const api$ =
+        type == 'department'
+          ? this.applicationService.deleteNestCommonAPI('cp/Department', id)
+          : this.applicationService.deleteNestCommonAPI('cp/Organization', id);
+
+      api$.subscribe((res: any) => {
+        if (res.isSuccess) {
+          this.loading = false
+          this.handlePageChange(1);
+          this.organizationBuilder();
+          this.getDepartment();
+          this.toastr.success(res.message, { nzDuration: 2000 });
+        } else {
+          this.loading = false
+          this.toastr.error(res.message, { nzDuration: 2000 });
+        }
+      });
+    } catch (error) {
+      // Handle any errors that occur during execution
+      console.error("An error occurred:", error);
+      // You can add additional error handling here, such as showing an error message to the user.
+    }
   }
+
 
   search(event?: any, data?: any): void {
     const inputValue = event?.target
@@ -482,18 +513,27 @@ export class organizationBuilderComponent implements OnInit {
   }
 
   getDepartment() {
-    this.loading = true;
-    this.applicationService
-      .getNestCommonAPI('cp/Department')
-      .subscribe((res: any) => {
-        if (res.isSuccess)
-          this.listOfChildrenData = res.data;
-        else
-          this.toastr.error(res.message, { nzDuration: 2000 });
-
-        this.loading = false;
-      });
+    try {
+      this.loading = true;
+      this.applicationService
+        .getNestCommonAPI('cp/Department')
+        .subscribe((res: any) => {
+          if (res.isSuccess) {
+            this.listOfChildrenData = res.data;
+          } else {
+            this.toastr.error(res.message, { nzDuration: 2000 });
+          }
+          this.loading = false;
+        });
+    } catch (error) {
+      this.loading = false;
+      // Handle any errors that occur during execution
+      console.error("An error occurred:", error);
+      // You can add additional error handling here, such as showing an error message to the user.
+    }
   }
+
+
 
   loadDepartmentFields() {
     const options = this.listOfData.map((item: any) => ({

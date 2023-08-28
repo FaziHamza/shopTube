@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 
 @Component({
@@ -11,9 +11,11 @@ export class AccordionButtonComponent implements OnInit {
   @Input() formlyModel: any;
   @Input() form: any;
   @Input() screenName: any;
+  @Input() screenId: any;
   expandIconPosition: any = "left";
   expand: any = false;
   accordingListData: any[] = [];
+  @Output() accordingEmit :EventEmitter<any> = new EventEmitter();
   constructor() {
     this.processData = this.processData.bind(this);
   }
@@ -33,26 +35,31 @@ export class AccordionButtonComponent implements OnInit {
   }
   processData(data: any[]) {
     if (data?.length > 0) {
-      this.accordingListData = data.map(element => {
-        const according = JSON.parse(JSON.stringify(this.accordionData));
+      let obj = {
+        data:data,
+        screenData :this.accordionData
+      }
+      this.accordingEmit.emit(obj);
+      //  data.map(element => {
+      //   const according = JSON.parse(JSON.stringify(this.accordionData));
 
-        // Format weekStartDate
-        const startDate = new Date(element.weekStartDate);
-        const formattedStartDate = startDate.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+      //   // Format weekStartDate
+      //   const startDate = new Date(element.weekStartDate);
+      //   const formattedStartDate = startDate.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
 
-        // Format weekEndDate
-        const endDate = new Date(element.weekEndDate);
-        const formattedEndDate = endDate.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+      //   // Format weekEndDate
+      //   const endDate = new Date(element.weekEndDate);
+      //   const formattedEndDate = endDate.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
 
-        const newTitle = `${element?.week} ${formattedStartDate} -  ${formattedEndDate}`;
-        let tableData = this.findObjectByTypeBase(according, "gridList");
-        if (tableData) {
-          const getGridUpdateData = this.getFromQuery(element.issues, tableData);
-          according.children = [getGridUpdateData];
-        }
-        according.title = newTitle;
-        return according;
-      });
+      //   const newTitle = `${element?.week} ${formattedStartDate} -  ${formattedEndDate}`;
+      //   let tableData = this.findObjectByTypeBase(according, "gridList");
+      //   if (tableData) {
+      //     const getGridUpdateData = this.getFromQuery(element.issues, tableData);
+      //     this.accordionData.children = [getGridUpdateData];
+      //   }
+      //   this.accordionData.title = newTitle;
+      //   return according;
+      // });
     }
     return data
   }
@@ -77,11 +84,11 @@ export class AccordionButtonComponent implements OnInit {
   getFromQuery(res: any, tableData: any) {
     if (tableData && res) {
       if (res.length > 0) {
-        const requiredData = res.map(({ __v, _id, ...rest }: any) => ({
+        const requiredData = res.map(({ __v, _id,  ...rest }: any) => ({
           id: _id,
-          ...rest
-        }));
+          ...rest,
 
+        }));
         res = requiredData;
         let saveForm = JSON.parse(JSON.stringify(res[0]));
         const firstObjectKeys = Object.keys(saveForm);
@@ -89,7 +96,6 @@ export class AccordionButtonComponent implements OnInit {
         let obj = firstObjectKeys.map(key => ({ name: key, key: key }));
         tableData.tableData = [];
         saveForm.id = tableData.tableData.length + 1;
-
         res.forEach((element: any) => {
           element.id = (element?.id)?.toString();
           tableData.tableData?.push(element);

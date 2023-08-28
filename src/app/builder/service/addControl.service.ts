@@ -820,7 +820,7 @@ export class AddControlService {
       noResult: false,
       nzSimple: false,
       nzSize: 'default',
-      isNextChild: false,
+      isNextChild: true,
       nzShowSizeChanger: false,
       api: "",
       showCheckbox: false,
@@ -835,6 +835,7 @@ export class AddControlService {
       tableKey: [],
       displayData: [],
       showEditInput:false,
+      isDeleteAllow:true,
       tableHeaders: [
         // {
         //   name: 'Id',
@@ -1123,64 +1124,69 @@ export class AddControlService {
       mainIcon: "loading",
       reverse: false,
       labelText: '',
-      isNextChild: false,
+      isNextChild: true,
       mode: 'left',
       iconType: 'outline',
       iconSize: 15,
       hoverIconColor: '',
-
+      nodes: 3,
       iconColor: '',
-      data: [
-        {
-          title: "Timeline Event One",
-          dotIcon: 'loading',
-          color: 'green',
-          date: '11-Apr-2023',
-          timeLineDescription: 'description',
-        },
-        {
-          title: "Timeline Event two",
-          dotIcon: 'down',
-          timecolor: 'green',
-          date: '11-Apr-2023',
-          timeLineDescription: 'description',
-        },
-        {
-          title: "Timeline Event three",
-          dotIcon: 'loading',
-          timecolor: 'green',
-          date: '11-Apr-2023',
-          timeLineDescription: 'description',
-        },
-        {
-          title: "Timeline Event One",
-          dotIcon: 'loading',
-          timecolor: 'green',
-          date: '11-Apr-2023',
-          timeLineDescription: 'description',
-        },
-        {
-          title: "Timeline Event One",
-          dotIcon: 'loading',
-          timecolor: 'green',
-          date: '11-Apr-2023',
-          timeLineDescription: 'description',
-        },
-        {
-          title: "Timeline Event One",
-          dotIcon: 'loading',
-          timecolor: 'green',
-          date: '11-Apr-2023',
-          timeLineDescription: 'description',
-        },
-        {
-          title: "Timeline Event One",
-          dotIcon: 'loading',
-          timecolor: 'green',
-          date: '11-Apr-2023',
-          timeLineDescription: 'description',
-        },
-      ],
+      // data: [
+      //   {
+      //     title: "Timeline Event One",
+      //     dotIcon: 'loading',
+      //     color: 'green',
+      //     date: '11-Apr-2023',
+      //     timeLineDescription: 'description',
+      //   },
+      //   {
+      //     title: "Timeline Event two",
+      //     dotIcon: 'down',
+      //     timecolor: 'green',
+      //     date: '11-Apr-2023',
+      //     timeLineDescription: 'description',
+      //   },
+      //   {
+      //     title: "Timeline Event three",
+      //     dotIcon: 'loading',
+      //     timecolor: 'green',
+      //     date: '11-Apr-2023',
+      //     timeLineDescription: 'description',
+      //   },
+      //   {
+      //     title: "Timeline Event One",
+      //     dotIcon: 'loading',
+      //     timecolor: 'green',
+      //     date: '11-Apr-2023',
+      //     timeLineDescription: 'description',
+      //   },
+      //   {
+      //     title: "Timeline Event One",
+      //     dotIcon: 'loading',
+      //     timecolor: 'green',
+      //     date: '11-Apr-2023',
+      //     timeLineDescription: 'description',
+      //   },
+      //   {
+      //     title: "Timeline Event One",
+      //     dotIcon: 'loading',
+      //     timecolor: 'green',
+      //     date: '11-Apr-2023',
+      //     timeLineDescription: 'description',
+      //   },
+      //   {
+      //     title: "Timeline Event One",
+      //     dotIcon: 'loading',
+      //     timecolor: 'green',
+      //     date: '11-Apr-2023',
+      //     timeLineDescription: 'description',
+      //   },
+      // ],
+    }
+  }
+  timelineChildControl() {
+    return {
+      isNextChild: true,
     }
   }
   fixedDivControl() {
@@ -1814,7 +1820,7 @@ export class AddControlService {
   }
   drawerControl() {
     return {
-      isNextChild: false,
+      isNextChild: true,
       color: "bg-blue-500",
       btnText: "Open Drawer",
       isClosable: true,
@@ -1826,7 +1832,6 @@ export class AddControlService {
       placement: "right",
       size: "default",
       hoverIconColor: '',
-
       width: 500,
       height: 500,
       offsetX: 0,

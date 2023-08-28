@@ -44,7 +44,7 @@ import { EmployeeService } from '../services/employee.service';
   styleUrls: ['./builder.component.scss'],
 })
 export class BuilderComponent implements OnInit {
-  showRules : any = '';
+  showRules: any = '';
   showActionRule: any = true;
   public editorOptions: JsonEditorOptions;
   isSavedDb = false;
@@ -1411,15 +1411,9 @@ export class BuilderComponent implements OnInit {
       value == 'mainStep' ||
       value == 'mainTab' ||
       value == 'kanban' ||
+      value == 'timeline' ||
       value == 'gridList' ||
-      value == 'accordionButton' ||
-      value == 'header_1' ||
-      value == 'header_2' ||
-      value == 'header_3' ||
-      value == 'header_4' ||
-      value == 'header_5' ||
-      value == 'header_6' ||
-      value == 'header_7'
+      value == 'accordionButton'
     )
       return 'w-full';
     else if (value == 'body') return 'px-6 pt-6 pb-10';
@@ -1796,6 +1790,10 @@ export class BuilderComponent implements OnInit {
         newNode = { ...newNode, ...this.addControlService.timelineControl() };
         this.ParentAdd = newNode;
         break;
+      case 'timelineChild':
+        newNode = { ...newNode, ...this.addControlService.timelineChildControl() };
+        this.chilAdd = newNode;
+        break;
 
       case 'fixedDiv':
         newNode = { ...newNode, ...this.addControlService.fixedDivControl() };
@@ -2169,7 +2167,7 @@ export class BuilderComponent implements OnInit {
   }
 
   addNode(node: TreeNode, newNode: TreeNode) {
-    if (node.children) {
+    if (node?.children) {
       node.children.push(newNode);
       if (node.children.length > 0) {
         delete node.isLeaf
@@ -3383,6 +3381,8 @@ export class BuilderComponent implements OnInit {
       this.addChildControlsWithSubChild('mainStep', 'step');
     else if (type == 'kanabnAddNew')
       this.addChildControls('kanban', 'kanbanTask');
+    else if (type == 'timeline')
+      this.addChildControlsWithSubChild('timeline', 'timelineChild');
     else if (type == 'listWithComponents')
       this.addChildControlsWithSubChild(
         'listWithComponents',
@@ -4282,6 +4282,7 @@ export class BuilderComponent implements OnInit {
           this.selectedNode['nzShowPagination'] = event.form?.nzShowPagination;
           this.selectedNode['showEditInput'] = event.form?.showEditInput;
           this.selectedNode['openComponent'] = event.form?.openComponent;
+          this.selectedNode['isDeleteAllow'] = event.form?.isDeleteAllow;
           // const tableData = event.tableDta ? event.tableDta : event.form.options;
           const tableData = event.form.options;
           this.selectedNode['end'] = event.form?.end;
@@ -4550,27 +4551,29 @@ export class BuilderComponent implements OnInit {
         }
         break;
       case 'timeline':
-        this.selectedNode['data'] = event.form.options;
-        // if (event.tableDta) {
-        //   this.selectedNode.data = event.tableDta;
+        this.addDynamic(event.form.nodes, 'timelineChild', 'timeline');
+
+        // this.selectedNode['data'] = event.form.options;
+        // // if (event.tableDta) {
+        // //   this.selectedNode.data = event.tableDta;
+        // // }
+        // this.selectedNode.data = event.form.data;
+        // if (event.form.api) {
+        //   this.requestSubscription = this.builderService
+        //     .genericApis(event.form.api)
+        //     .subscribe({
+        //       next: (res) => {
+        //         if (res) {
+        //           this.selectedNode.data = res;
+        //           this.updateNodes();
+        //         }
+        //       },
+        //       error: (err) => {
+        //         console.error(err); // Log the error to the console
+        //         this.toastr.error('An error occurred', { nzDuration: 3000 }); // Show an error message to the user
+        //       },
+        //     });
         // }
-        this.selectedNode.data = event.form.data;
-        if (event.form.api) {
-          this.requestSubscription = this.builderService
-            .genericApis(event.form.api)
-            .subscribe({
-              next: (res) => {
-                if (res) {
-                  this.selectedNode.data = res;
-                  this.updateNodes();
-                }
-              },
-              error: (err) => {
-                console.error(err); // Log the error to the console
-                this.toastr.error('An error occurred', { nzDuration: 3000 }); // Show an error message to the user
-              },
-            });
-        }
         break;
       case 'simpleCardWithHeaderBodyFooter':
         if (event.form.imageSrc) {
@@ -5208,6 +5211,7 @@ export class BuilderComponent implements OnInit {
     });
   }
   addDynamic(abc: any, subType: any, mainType: any) {
+    debugger
     try {
       if (this.selectedNode.children) {
         this.addControl = true;
@@ -5218,10 +5222,8 @@ export class BuilderComponent implements OnInit {
             if (nodesLength < abc) {
               if (mainType != 'mainDiv') {
                 this.addControlToJson(subType);
-                if (mainType != 'timeline') {
-                  this.selectedNode = this.chilAdd;
-                  this.addControlToJson('text', this.textJsonObj);
-                }
+                this.selectedNode = this.chilAdd;
+                this.addControlToJson('text', this.textJsonObj);
                 this.selectedNode = this.ParentAdd;
               } else {
                 if (this.selectedNode?.children) {
@@ -6489,7 +6491,7 @@ export class BuilderComponent implements OnInit {
       this.toastr.error('Please select Screen first', { nzDuration: 3000 });
     }
   }
-  showRulesFunc(ruleType : any){
+  showRulesFunc(ruleType: any) {
     this.showRules = ruleType;
   }
 }
