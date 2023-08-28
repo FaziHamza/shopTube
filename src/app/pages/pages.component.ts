@@ -175,7 +175,7 @@ export class PagesComponent implements OnInit {
             let commentList = res.data
             this.dataSharedService.screenCommentList = commentList;
 
-            this.getTaskManagementIssuesFunc(params["schema"],JSON.parse(localStorage.getItem('applicationId')!));
+            this.getTaskManagementIssuesFunc(params["schema"], JSON.parse(localStorage.getItem('applicationId')!));
           }
         })
         this.getBuilderScreen(params);
@@ -869,9 +869,9 @@ export class PagesComponent implements OnInit {
         this.setInternalValuesEmpty(obj[key]);
       } else {
         const isAnyContractMatching = obj[key].some((contract: string) => dateRegex.test(contract));
-        if(isAnyContractMatching){
+        if (isAnyContractMatching) {
           obj[key] = [];
-        }else{
+        } else {
           obj[key] = '';
         }
       }
@@ -1394,39 +1394,35 @@ export class PagesComponent implements OnInit {
     return data;
   };
   checkDynamicSection() {
-
     if (this.resData) {
-      this.resData[0].children[1].children.forEach((element: any, i: number) => {
-        let selectedNode: any = undefined;
-        if (selectedNode = this.findObjectByType(element, "sections", element.key)) {
-          this.makeDynamicSections(selectedNode.mapApi, selectedNode);
-        }
-        if (this.resData[0].children[1].children[i].children[1].children.length) {
-          this.resData[0].children[1].children[i].children[1].children.forEach((j: any) => {
-            if (selectedNode = this.findObjectByType(this.resData[0].children[1].children[i].children[1], "listWithComponents", j.key)) {
-              selectedNode.children.forEach((item: any) => {
-                this.makeDynamicSections(item.mapApi, item);
-              });
-            }
-            if (selectedNode = this.findObjectByType(this.resData[0].children[1].children[i].children[1], "mainTab", j.key)) {
-              selectedNode.children.forEach((item: any) => {
-                this.makeDynamicSections(item.mapApi, item);
-              });
-            }
-            if (selectedNode = this.findObjectByType(this.resData[0].children[1].children[i].children[1], "mainStep", j.key)) {
-              selectedNode.children.forEach((item: any) => {
-                this.makeDynamicSections(item.mapApi, item);
-              });
-            }
-            if (selectedNode = this.findObjectByType(this.resData[0].children[1].children[i].children[1], "div", j.key)) {
-              this.makeDynamicSections(selectedNode.mapApi, selectedNode);
-            }
-            if (selectedNode = this.findObjectByType(this.resData[0].children[1].children[i].children[1], "cardWithComponents", j.key)) {
-              this.makeDynamicSections(selectedNode.mapApi, selectedNode);
-            }
-          })
-        }
+      this.recursiveCheck(this.resData[0].children[1].children);
+    }
+  }
+  recursiveCheck(data: any): void {
+    if (Array.isArray(data)) {
+      data.forEach((element: any) => {
+        this.recursiveCheck(element);
       });
+    }
+    else if (typeof data === 'object' && data !== null) {
+      if (data.type) {
+        if (data.type === 'sections' || data.type === 'div' || data.type === 'cardWithComponents') {
+          if (data.mapApi) {
+            this.makeDynamicSections(data.mapApi, data);
+          }
+        } else if (data.type === 'listWithComponents' || data.type === 'mainTab' || data.type === 'mainStep') {
+          if (data.children) {
+            data.children.forEach((item: any) => {
+              if(item.mapApi){
+                this.makeDynamicSections(item.mapApi, item);
+              }
+            });
+          }
+        }
+      }
+      if (data.children) {
+        this.recursiveCheck(data.children);
+      }
     }
   }
   makeDynamicSections(api: any, selectedNode: any) {
@@ -1434,10 +1430,10 @@ export class PagesComponent implements OnInit {
     let checkFirstTime = true;
     let tabsAndStepper: any = [];
     if (api)
-      this.requestSubscription = this.builderService.genericApis(api).subscribe(res => {
-        if (res) {
-          for (let index = 0; index < res.length; index++) {
-            const item = res[index];
+      this.requestSubscription = this.applicationService.getNestCommonAPI('market-place/mapping').subscribe(res => {
+        if (res.data.length > 0) {
+          for (let index = 0; index < res.data.length; index++) {
+            const item = res.data[index];
             let newNode: any = {};
             if (selectedNode.type == 'tabs' || selectedNode.type == 'step' || selectedNode.type == 'div' || selectedNode.type == 'listWithComponentsChild' || selectedNode.type == 'cardWithComponents') {
               newNode = JSON.parse(JSON.stringify(selectedNode?.children));
@@ -1494,7 +1490,7 @@ export class PagesComponent implements OnInit {
                     }
                   });
                 }
-                if (index == res.length - 1) {
+                if (index == res.data.length - 1) {
                   if (tabsAndStepper.length) {
                     tabsAndStepper.forEach((j: any) => {
                       selectedNode?.children?.push(j);
@@ -1518,36 +1514,36 @@ export class PagesComponent implements OnInit {
                 newSelected.children = newNode;
                 let data = JSON.parse(JSON.stringify(newSelected));
                 tabsAndStepper.push(data);
-                if (index == res.length - 1) {
-
+                if (index == res.data.length - 1) {
                   this.resData[0].children[1].children.forEach((a: any,) => {
                     let checkPushOrNot = true
-                    a.children[1].children.forEach((b: any, i: number) => {
-                      let idx = i;
-                      if ((b.type == 'div' || selectedNode.type == 'cardWithComponents') && b.id == selectedNode.id && checkPushOrNot) {
-                        if (tabsAndStepper) {
-                          tabsAndStepper.forEach((div: any) => {
-                            a.children[1].children.splice(idx + 1, 0, div);
-                            idx++;
-                          });
-                          checkPushOrNot = false;
-                        }
+                    if ((selectedNode.type == 'div' || selectedNode.type == 'cardWithComponents') && checkPushOrNot) {
+                      if (tabsAndStepper) {
+                        this.pushObjectsById(this.resData, tabsAndStepper, selectedNode.id);
+                        checkPushOrNot = false;
                       }
-                      else if (b.type == 'listWithComponents') {
-                        b.children.forEach((listChild: any, chilIndex: number) => {
-                          let idx = chilIndex
-                          if (listChild.type == 'listWithComponentsChild' && listChild.id == selectedNode.id && checkPushOrNot) {
-                            if (tabsAndStepper) {
-                              tabsAndStepper.forEach((div: any) => {
-                                b.children.splice(idx + 1, 0, div);
-                                idx++;
-                              });
-                              checkPushOrNot = false;
-                            }
-                          }
-                        });
-                      }
-                    })
+                    } 
+                    // else {
+                    //   a.children[1].children.forEach((b: any, i: number) => {
+                    //     let idx = i;
+  
+                    //     else if (b.type == 'listWithComponents') {
+                    //       b.children.forEach((listChild: any, chilIndex: number) => {
+                    //         let idx = chilIndex
+                    //         if (listChild.type == 'listWithComponentsChild' && listChild.id == selectedNode.id && checkPushOrNot) {
+                    //           if (tabsAndStepper) {
+                    //             tabsAndStepper.forEach((div: any) => {
+                    //               b.children.splice(idx + 1, 0, div);
+                    //               idx++;
+                    //             });
+                    //             checkPushOrNot = false;
+                    //           }
+                    //         }
+                    //       });
+                    //     }
+                    //   })
+                    // }
+
                   })
                 }
               }
@@ -2093,5 +2089,28 @@ export class PagesComponent implements OnInit {
         this.toastr.error("An error occurred", { nzDuration: 3000 });
       }
     })
+  }
+  pushObjectsById(targetArray: any[], sourceArray: any[], idToMatch: string): void {
+    for (let i = 0; i < targetArray.length; i++) {
+      const item = targetArray[i];
+
+      // Check if the current item's id matches the id to match
+      if (item.id === idToMatch) {
+        // Find the index of the matched item in the target array
+        const index = targetArray.indexOf(item);
+
+        // Check if the item was found in the target array
+        if (index !== -1) {
+          // Splice the source array into the target array at the next index
+          targetArray.splice(index + 1, 0, ...sourceArray);
+          return; // Stop processing as the operation is complete
+        }
+      }
+
+      // If the current item has children, recursively search within them
+      if (item.children && item.children.length > 0) {
+        this.pushObjectsById(item.children, sourceArray, idToMatch);
+      }
+    }
   }
 }

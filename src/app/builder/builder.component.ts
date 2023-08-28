@@ -3673,8 +3673,8 @@ export class BuilderComponent implements OnInit {
                   //     }
                   //   });
                   // }
-                  if (event.form.tableData) {
-                    event.form.tableData.forEach((element: any) => {
+                  if (event.form.tableDta) {
+                    event.form.tableDta.forEach((element: any) => {
                       if (newNode.length) {
                         newNode.forEach((j: any) => {
                           const keyObj = this.findObjectByKey(
@@ -3767,8 +3767,8 @@ export class BuilderComponent implements OnInit {
               this.updateNodes();
             }
             this.selectedNode.dbData = event.dbData;
-            // this.selectedNode.tableBody = event.tableDta;
-            this.selectedNode.tableBody = event.form.tableBody;
+            this.selectedNode.tableBody = event.form.tableDta;
+            // this.selectedNode.tableBody = event.form.tableBody;
             this.selectedNode.mapApi = event.form.mapApi;
             // if (event.tableDta) {
             //   this.selectedNode.checkData = JSON.parse(

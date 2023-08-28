@@ -839,7 +839,7 @@ export class DynamicTableComponent implements OnInit {
     this._dataSharedService.setData(this.tableData);
     if (this.data.doubleClick == false)
       this._dataSharedService.saveGridData(this.tableData);
-    // alert("Data save");
+    alert("Data save");
   }
 
   checkAll(value: boolean): void {
@@ -996,6 +996,7 @@ export class DynamicTableComponent implements OnInit {
   chartData: any[] = [];
   issueReport: any = [];
   userTaskManagement: any = '';
+  getTimelIne : any;
   showIssue(data: any): void {
     this.saveLoader = true;
     this.requestSubscription = this.applicationService.getNestCommonAPI("cp/getuserComments/UserComment/pages/" + data.screenId).subscribe({
@@ -1005,24 +1006,76 @@ export class DynamicTableComponent implements OnInit {
         this.issueReport['issueReport'] = '';
         this.issueReport['showAllComments'] = false;
         if (res.isSuccess && res.data.length > 0) {
-          const filterIssue = res.data.filter((rep: any) => rep.componentId === data.componentId);
-          if (filterIssue.length > 0) {
-            let drawer = this.findObjectByTypeBase(this.data, "drawer");
-            drawer['visible'] = true;
-            drawer['notShowButton'] = true;
-            let timeline = this.findObjectByTypeBase(this.data, "timeline");
-            timeline['children'] = filterIssue;
-            // this.userTaskManagement = data;
-            // this.issueReport['status'] = data['status'];
-            // this.issueReport['showAllComments'] = true;
-            // this.issueReport['issueReport'] = filterIssue;
-            // this.issueReport['id'] = filterIssue[0].componentId;
-            // this.callAssignee(this.issueReport);
+          const filteredIssues = res.data.filter((rep: any) => rep.componentId === data.componentId);
+
+          if (filteredIssues.length > 0) {
+            try {
+              const drawer = this.findObjectByTypeBase(this.data, "drawer");
+              drawer['visible'] = true;
+              drawer['notShowButton'] = true;
+
+              const timeline = this.findObjectByTypeBase(drawer, "timeline");
+              const timelineChild = this.findObjectByTypeBase(timeline, "timelineChild");
+              const newChild = JSON.parse(JSON.stringify(timelineChild));
+              const childTimelineData = this.findObjectByTypeBase(newChild, "timeline");
+              const timelineChildChild = this.findObjectByTypeBase(childTimelineData, "timelineChild");
+              const timelineChildChildParse = JSON.parse(JSON.stringify(timelineChildChild));
+              timeline.children = [];
+
+
+              for (const issue of filteredIssues) {
+                const paragragh = this.findAllObjectsByType(newChild, "paragraph");
+                paragragh[0].text = issue.createdBy
+                paragragh[1].text = issue.dateTime;
+                paragragh[2].text = issue.message
+
+                newChild.children = [];
+                newChild.children.push(paragragh[0]);
+                newChild.children.push(paragragh[1]);
+                newChild.children.push(paragragh[2]);
+
+                
+                
+                if (issue.children.length > 0 && timelineChildChildParse) {
+
+                  timelineChildChild.children = [];
+                  childTimelineData.children = [];
+                  for (const childIssue of issue.children) {
+                    const childParagragh = this.findAllObjectsByType(newChild, "paragraph");
+                    childParagragh[0].text = childIssue.createdBy
+                    childParagragh[1].text = childIssue.dateTime;
+                    childParagragh[2].text = childIssue.message
+                    
+                    timelineChildChildParse.children = [];
+                    timelineChildChildParse.children.push(paragragh[0]);
+                    timelineChildChildParse.children.push(paragragh[1]);
+                    timelineChildChildParse.children.push(paragragh[2]);
+                    childTimelineData?.children.push(JSON.parse(JSON.stringify(timelineChildChildParse)));
+                  }
+                  newChild?.children.push(JSON.parse(JSON.stringify(childTimelineData)));
+                }
+                timeline?.children.push(JSON.parse(JSON.stringify(newChild)));
+              }
+
+              // Update other properties as needed
+              // this.userTaskManagement = data;
+              // this.issueReport['status'] = data['status'];
+              // this.issueReport['showAllComments'] = true;
+              // this.issueReport['issueReport'] = filteredIssues;
+              // this.issueReport['id'] = filteredIssues[0].componentId;
+              // this.callAssignee(this.issueReport);
+            } catch (error) {
+              console.error("An error occurred:", error);
+              this.toastr.error(`An error occurred`, { nzDuration: 3000 });
+            }
+
+
           } else {
             this.saveLoader = false;
-            this.toastr.error(`UserComment : No comments against this`, { nzDuration: 3000 });
+            this.toastr.error(`UserComment: No comments against this`, { nzDuration: 3000 });
           }
         }
+
       },
       error: (err) => {
         this.issueReport['issueReport'] = '';
@@ -1125,5 +1178,25 @@ export class DynamicTableComponent implements OnInit {
       }
     }
   }
+  findAllObjectsByType(data: any, type: any): any[] {
+    const foundObjects: any[] = [];
+
+    function searchForType(node: any) {
+      if (node) {
+        if (node.type && node.type === type) {
+          foundObjects.push(node);
+        }
+        if (node.children && node.children.length > 0) {
+          for (const child of node.children) {
+            searchForType(child);
+          }
+        }
+      }
+    }
+
+    searchForType(data);
+    return foundObjects;
+  }
+
 
 }
