@@ -4,6 +4,7 @@ import { FormGroup } from '@angular/forms';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { Subscription } from 'rxjs';
 import { Guid } from 'src/app/models/guid';
+import { ApplicationService } from 'src/app/services/application.service';
 import { BuilderService } from 'src/app/services/builder.service';
 import { DataSharedService } from 'src/app/services/data-shared.service';
 
@@ -32,7 +33,8 @@ export class GenericFieldComponent implements OnInit {
   optionsArray: any[] = [];
 
 
-  constructor(private toastr: NzMessageService, private _dataSharedService: DataSharedService, public builderService: BuilderService) { }
+  constructor(private toastr: NzMessageService, private _dataSharedService: DataSharedService, public builderService: BuilderService,
+    private applicationService: ApplicationService,) { }
   ngOnInit(): void {
 
     this.itemData;
@@ -59,6 +61,7 @@ export class GenericFieldComponent implements OnInit {
 
   }
   onSubmit() {
+    debugger
     // event.stopPropagation();
     // this.valueChange.emit(this.model + ' from child.');
     // const newProduct = { productName: "New", quantity: 666 };
@@ -70,7 +73,7 @@ export class GenericFieldComponent implements OnInit {
     }
     if (this.actionform.valid) {
       var currentData = JSON.parse(JSON.stringify(formData) || '{}');
-      currentData["tableDta"] = this._dataSharedService.getData();
+      currentData.form["tableDta"] = this._dataSharedService.getData();
       if (this.resData) {
         currentData["dbData"] = this.resData;
       }
@@ -91,30 +94,33 @@ export class GenericFieldComponent implements OnInit {
     this.resData = [];
     let obj: { mapApi?: any } = this.actionform.value;
     if (obj.mapApi) {
-      this.requestSubscription = this.builderService.genericApis(obj.mapApi).subscribe({
+      this.requestSubscription = this.applicationService.getNestCommonAPI('market-place/mapping').subscribe({
         next: (res) => {
-          this.resData = res;
-          this.itemData.mappingNode.tableBody = [];
-          let firstObjectKeys = Object.keys(res[0]);
-          let key = firstObjectKeys.map(key => ({ key: key, value: key }));
-          this.optionsArray = [];
-          if (this.itemData.mappingNode.type == 'tabs' || this.itemData.mappingNode.type == 'step' || this.itemData.mappingNode.type == 'div' || this.itemData.mappingNode.type == 'listWithComponentsChild' || this.itemData.mappingNode.type == 'cardWithComponents') {
-            this.itemData.mappingNode.children.forEach((element: any) => {
-              this.createOptionsArray(element);
-            });
-          }
-          else {
-            this.createOptionsArray(this.itemData.mappingNode.children[1].children[0]);
-          }
-          this.optionsArray.forEach((item: any, index: number) => {
-            let newObj = {
-              // id: index + 1,
-              fileHeader: item.key,
-              SelectQBOField: key,
-              defaultValue: '',
+          if (res.data.length > 0) {
+            this.resData = res.data;
+            this.itemData.mappingNode.tableBody = [];
+            let firstObjectKeys = Object.keys(res.data[0]);
+            let key = firstObjectKeys.map(key => ({ key: key, value: key }));
+            this.optionsArray = [];
+            if (this.itemData.mappingNode.type == 'tabs' || this.itemData.mappingNode.type == 'step' || this.itemData.mappingNode.type == 'div' || this.itemData.mappingNode.type == 'listWithComponentsChild' || this.itemData.mappingNode.type == 'cardWithComponents') {
+              this.itemData.mappingNode.children.forEach((element: any) => {
+                this.createOptionsArray(element);
+              });
             }
-            this.itemData.mappingNode.tableBody.push(newObj);
-          })
+            else {
+              this.createOptionsArray(this.itemData.mappingNode.children[1].children[0]);
+            }
+            this.optionsArray.forEach((item: any, index: number) => {
+              let newObj = {
+                // id: index + 1,
+                fileHeader: item.key,
+                SelectQBOField: key,
+                defaultValue: '',
+              }
+              this.itemData.mappingNode.tableBody.push(newObj);
+            })
+          }
+
         },
         error: (err) => {
           console.error(err); // Log the error to the console

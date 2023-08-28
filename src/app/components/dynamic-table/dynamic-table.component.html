@@ -195,7 +195,7 @@
 </div>
 
 
-<div *ngIf="data?.isAddRow">
+<div >
   <button nz-button (click)="save()" nzType="primary">Save Change</button>
 </div>
 <nz-modal [nzWidth]="1400" [(nzVisible)]="isHeaderVisible" nzTitle="Grid Rule" (nzOnCancel)="handleCancel()"
@@ -212,6 +212,6 @@
     [screenName]="this.issueReport['issueReport'][0].screenId" [assignToresponse]="this.assignToresponse"
     [type]="'userTaskManagement'" [userTaskManagementData]="tasks"></st-task-report>
 </div> -->
-<st-main [mainData]="data" [screenName]="screenName" [form]="form" [formlyModel]="formlyModel"></st-main>
+<!-- <st-main [mainData]="data" *ngIf="data?.children.length > 0" [screenName]="screenName" [form]="form" [formlyModel]="formlyModel"></st-main> -->
 
 
