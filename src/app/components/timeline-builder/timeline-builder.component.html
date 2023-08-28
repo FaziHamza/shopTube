@@ -2,19 +2,19 @@
     [nzMode]="timelineData.mode">
     <ng-container *ngIf="timelineData.children.length > 0">
         <ng-container *ngFor="let item of timelineData.children">
-            <nz-timeline-item>
+            <nz-timeline-item [nzDot]="pendingIcon">
                 <ng-container *ngIf="item.children">
                     <st-main [mainData]="item" [screenName]="screenName" [form]="form"
                         [formlyModel]="formlyModel"></st-main>
                 </ng-container>
             </nz-timeline-item>
-            <ng-template #characterIcon>
+            <!-- <ng-template #characterIcon>
                 <span *ngIf="item?.dotIcon">
                     <st-icon [type]="timelineData?.iconType || 'outline'" [icon]="item?.dotIcon"
                         [hoverIconColor]="timelineData?.hoverIconColor || ''" [size]="timelineData?.iconSize"
                         [color]="timelineData?.iconColor"></st-icon>
                 </span>
-            </ng-template>
+            </ng-template> -->
         </ng-container>
     </ng-container>
 
@@ -22,7 +22,7 @@
 </nz-timeline>
 
 <ng-template #pendingIcon>
-    <span *ngIf="timelineData?.mainIcon">
+    <span *ngIf="timelineData?.mainIcon" [class]="timelineData.classForIcon">
         <st-icon [type]="timelineData?.iconType || 'outline'" [icon]="timelineData?.mainIcon"
             [hoverIconColor]="timelineData?.hoverIconColor || ''" [size]="timelineData?.iconSize"
             [color]="timelineData?.iconColor"></st-icon>
