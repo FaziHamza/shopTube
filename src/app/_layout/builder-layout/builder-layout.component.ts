@@ -3,6 +3,7 @@ import { NzMessageService } from 'ng-zorro-antd/message';
 import { Subscription } from 'rxjs';
 import { EmployeeService } from 'src/app/services/employee.service';
 import { ApplicationService } from 'src/app/services/application.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'st-builder-layout',
@@ -24,10 +25,16 @@ export class BuilderLayoutComponent implements OnInit {
     },
     "__v": 0
   }
-  constructor(private toastr: NzMessageService, private employeeService: EmployeeService, private applicationService: ApplicationService) { }
+  constructor(private toastr: NzMessageService, private employeeService: EmployeeService, private applicationService: ApplicationService,private router: Router) { }
 
   ngOnInit(): void {
     this.menus = JSON.parse(this.menuStringify.menuData);
     this.selectedTheme = JSON.parse(this.menuStringify.menuData);
   }
+
+
+  navigate(){
+    this.router.navigate(['/login'])
+  }
+
 }

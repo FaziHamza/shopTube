@@ -10,6 +10,9 @@ import { ApplicationService } from 'src/app/services/application.service';
   styleUrls: ['./register.component.scss']
 })
 export class RegisterComponent implements OnInit {
+  passwordType: string = "password";
+  passwordIcon: string = "fa-light fa-eye-slash text-lg";
+
   cascaderValue: any[] = [];
   cascaderData: any[] = [];
   applications: any[] = [];
@@ -183,4 +186,11 @@ export class RegisterComponent implements OnInit {
     });
     this.isFormSubmit = false;
   }
+
+  showPassword() {
+    this.passwordType = this.passwordType == 'password' ? 'string' : 'password';
+    this.passwordIcon = this.passwordIcon == 'fa-light fa-eye-slash text-lg' ? 'fa-light fa-eye text-lg' : 'fa-light fa-eye-slash text-lg'
+  }
+
+
 }

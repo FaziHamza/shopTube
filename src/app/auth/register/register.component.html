@@ -116,11 +116,11 @@
                         <input type="password" formControlName="password" nz-input placeholder="Password" />
                     </nz-input-group>
                     <app-error [form_control]="f['password']" [isSubmitted]="isFormSubmit"></app-error>
-                    <ng-template #prefixTemplatepass>
+                    <ng-template #prefixTemplatepass> 
                         <i class="fa-regular fa-lock-keyhole mr-3 text-lg"></i>
                     </ng-template>
                     <ng-template #suffixTemplateInfo>
-                        <i class="fa-light fa-eye-slash text-lg"></i>
+                        <i (click)="showPassword()" [class]="passwordIcon"></i>
                     </ng-template>
 
                     <nz-form-control nzErrorTip="Please Select Page" class="!w-[350px] mb-4" >
