@@ -726,6 +726,12 @@ export const htmlTabsData = [
                 label: "Timeline",
                 isLeaf: true
               },
+              // {
+              //   parameter: "timelineChild",
+              //   icon: "uil-sliders-v-alt",
+              //   label: "Timeline Child",
+              //   isLeaf: true
+              // },
               {
                 parameter: "popOver",
                 icon: "uil-sliders-v-alt",

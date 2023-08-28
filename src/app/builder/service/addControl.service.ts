@@ -1124,64 +1124,69 @@ export class AddControlService {
       mainIcon: "loading",
       reverse: false,
       labelText: '',
-      isNextChild: false,
+      isNextChild: true,
       mode: 'left',
       iconType: 'outline',
       iconSize: 15,
       hoverIconColor: '',
-
+      nodes: 3,
       iconColor: '',
-      data: [
-        {
-          title: "Timeline Event One",
-          dotIcon: 'loading',
-          color: 'green',
-          date: '11-Apr-2023',
-          timeLineDescription: 'description',
-        },
-        {
-          title: "Timeline Event two",
-          dotIcon: 'down',
-          timecolor: 'green',
-          date: '11-Apr-2023',
-          timeLineDescription: 'description',
-        },
-        {
-          title: "Timeline Event three",
-          dotIcon: 'loading',
-          timecolor: 'green',
-          date: '11-Apr-2023',
-          timeLineDescription: 'description',
-        },
-        {
-          title: "Timeline Event One",
-          dotIcon: 'loading',
-          timecolor: 'green',
-          date: '11-Apr-2023',
-          timeLineDescription: 'description',
-        },
-        {
-          title: "Timeline Event One",
-          dotIcon: 'loading',
-          timecolor: 'green',
-          date: '11-Apr-2023',
-          timeLineDescription: 'description',
-        },
-        {
-          title: "Timeline Event One",
-          dotIcon: 'loading',
-          timecolor: 'green',
-          date: '11-Apr-2023',
-          timeLineDescription: 'description',
-        },
-        {
-          title: "Timeline Event One",
-          dotIcon: 'loading',
-          timecolor: 'green',
-          date: '11-Apr-2023',
-          timeLineDescription: 'description',
-        },
-      ],
+      // data: [
+      //   {
+      //     title: "Timeline Event One",
+      //     dotIcon: 'loading',
+      //     color: 'green',
+      //     date: '11-Apr-2023',
+      //     timeLineDescription: 'description',
+      //   },
+      //   {
+      //     title: "Timeline Event two",
+      //     dotIcon: 'down',
+      //     timecolor: 'green',
+      //     date: '11-Apr-2023',
+      //     timeLineDescription: 'description',
+      //   },
+      //   {
+      //     title: "Timeline Event three",
+      //     dotIcon: 'loading',
+      //     timecolor: 'green',
+      //     date: '11-Apr-2023',
+      //     timeLineDescription: 'description',
+      //   },
+      //   {
+      //     title: "Timeline Event One",
+      //     dotIcon: 'loading',
+      //     timecolor: 'green',
+      //     date: '11-Apr-2023',
+      //     timeLineDescription: 'description',
+      //   },
+      //   {
+      //     title: "Timeline Event One",
+      //     dotIcon: 'loading',
+      //     timecolor: 'green',
+      //     date: '11-Apr-2023',
+      //     timeLineDescription: 'description',
+      //   },
+      //   {
+      //     title: "Timeline Event One",
+      //     dotIcon: 'loading',
+      //     timecolor: 'green',
+      //     date: '11-Apr-2023',
+      //     timeLineDescription: 'description',
+      //   },
+      //   {
+      //     title: "Timeline Event One",
+      //     dotIcon: 'loading',
+      //     timecolor: 'green',
+      //     date: '11-Apr-2023',
+      //     timeLineDescription: 'description',
+      //   },
+      // ],
+    }
+  }
+  timelineChildControl() {
+    return {
+      isNextChild: true,
     }
   }
   fixedDivControl() {
