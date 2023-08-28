@@ -259,8 +259,10 @@
 <ng-template #config>
   <!-- <span class="mr-2 text-lg hover:cursor-pointer" nz-icon nzType="close-circle" nzTheme="twotone"
   (click)="closeConfigurationList()"></span> -->
-  <button nz-button nzType="primary" class="btn mr-2" (click)="backNode()"> <i class="fa-regular fa-arrow-left mr-2"></i> Back</button>
-  <button nz-button nzType="primary" class="btn" (click)="nextNode()">Next <i class="fa-regular fa-arrow-right ml-2"></i> </button>
+  <button nz-button nzType="primary" class="btn mr-2" (click)="backNode()"> <i
+      class="fa-regular fa-arrow-left mr-2"></i> Back</button>
+  <button nz-button nzType="primary" class="btn" (click)="nextNode()">Next <i
+      class="fa-regular fa-arrow-right ml-2"></i> </button>
   <!-- <button nz-button nzType="default"
   (click)="closeConfigurationList()">Cancel</button>
 &nbsp;
@@ -364,15 +366,15 @@
 </nz-drawer>
 <ng-template #extra>
   <nz-input-group nzSearch [nzAddOnAfter]="suffixIconButton">
-    <input type="text" class="h-10 rounded-tl-md rounded-bl-md" nz-input id="searchControll" [(ngModel)]="searchControlValue" (ngModelChange)="searchControll()"
-      placeholder="Search.." />
+    <input type="text" class="h-10 rounded-tl-md rounded-bl-md" nz-input id="searchControll"
+      [(ngModel)]="searchControlValue" (ngModelChange)="searchControll()" placeholder="Search.." />
   </nz-input-group>
   <ng-template #suffixIconButton>
-    <button nz-button nzType="primary" class="!rounded-tr-md !rounded-br-md" nzSearch><span nz-icon  nzType="search"
+    <button nz-button nzType="primary" class="!rounded-tr-md !rounded-br-md" nzSearch><span nz-icon nzType="search"
         (click)="searchControll()"></span></button>
   </ng-template>
 </ng-template>
-<div class="selected-modal">
+<div class="selected-modal tem-modal">
   <nz-modal class="builder-selected-json" [nzWidth]="modalType === 'previewJson' ? '800px' : '500px'"
     [(nzVisible)]="showModal"
     [nzTitle]="modalType === 'previewJson' ? 'Selected Json' : (modalType === 'webCode' ? 'Web Template Preview' : (modalType === 'saveAsTemplate' ? 'Save As Template' : ''))"
@@ -389,26 +391,35 @@
         <img *ngIf="htmlBlockimagePreview.content" nz-image [nzSrc]="htmlBlockimagePreview.content" alt />
       </div>
       <div *ngIf="modalType == 'saveAsTemplate'">
-        <label for="template-name">Template Name</label>
-        <input id="template-name" [(ngModel)]="templateName" nz-input placeholder="Template Name..." />
+        <label for="template-name" class="temp-modal-label">Template Name</label>
+        <input id="template-name" class="temp-modal-input" [(ngModel)]="templateName" nz-input
+          placeholder="Template Name..." />
         <label class="mt-2" nz-checkbox [(ngModel)]="saveAsTemplate">Do you want
           to Save as Template?</label>
         <br>
         <br>
-        <label for="template-name">Website Block Name</label>
-        <input id="template-name" [(ngModel)]="websiteBlockName" nz-input placeholder="Website Block Name..." />
-        <label for="template-name">Website Block Type</label>
-        <nz-select nzShowSearch nzAllowClear [(ngModel)]="webisteBlockType">
+        <label for="template-name" class="temp-modal-label">Website Block Name</label>
+        <input id="template-name" class="temp-modal-input" [(ngModel)]="websiteBlockName" nz-input
+          placeholder="Website Block Name..." />
+        <label for="template-name" class="temp-modal-label">Website Block Type</label>
+        <nz-select nzShowSearch nzAllowClear class="temp-modal-select" [(ngModel)]="webisteBlockType">
           <nz-option [nzValue]="item.label" placeholder="Select Block Type..." [nzLabel]="item.label"
             *ngFor="let item of websiteBlockTypeArray"></nz-option>
         </nz-select>
-        <label class="mt-2" nz-checkbox [(ngModel)]="websiteBlockSave">Do you want
-          to save as block?</label>
-        <label class="mt-2" nz-checkbox [(ngModel)]="saveCommit">Do you want
-          to save and commit?</label>
-        <label nz-tooltip [nzTooltipTitle]="!showActionRule ? 'Save screen then table' : ''"
-          [disabled]="!showActionRule" class="mt-2" nz-checkbox [(ngModel)]="isTableSave">Are you want to
-          save table?</label>
+        <div>
+          <label class="mt-2" nz-checkbox [(ngModel)]="websiteBlockSave">Do you want
+            to save as block?</label>
+        </div>
+        <div>
+
+          <label class="mt-2" nz-checkbox [(ngModel)]="saveCommit">Do you want
+            to save and commit?</label>
+        </div>
+        <div>
+          <label nz-tooltip [nzTooltipTitle]="!showActionRule ? 'Save screen then table' : ''"
+            [disabled]="!showActionRule" class="mt-2" nz-checkbox [(ngModel)]="isTableSave">Are you want to
+            save table?</label>
+        </div>
       </div>
     </ng-container>
   </nz-modal>

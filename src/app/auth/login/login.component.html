@@ -109,7 +109,7 @@
                         </ng-template>
 
                         <nz-input-group [nzPrefix]="prefixTemplatepass" [nzSuffix]="suffixTemplateInfo"
-                            class="!w-[350px] mb-1 rounded-lg py-2 px-4 !h-[46px]">
+                            class="!w-[350px] mb-4 rounded-lg py-2 px-4 !h-[46px]">
                             <input [type]="passwordType" formControlName="password" nz-input placeholder="Password" />
                         </nz-input-group>
                         <app-error [form_control]="f['password']" [isSubmitted]="isFormSubmit"></app-error>
@@ -120,21 +120,21 @@
                             <i (click)="showPassword()" [class]="passwordIcon"></i>
                         </ng-template>
                     </div>
-                    <div class="mb-2">
+                    <div class="">
                         <div class="reCaptcha" id="recaptcha" class="g-recaptcha"
                             data-sitekey="6LcZ59MnAAAAAEFG5x2mJoJ_ptOFR7O2hSX0HHx3"></div>
                     </div>
-                    <div class="flex justify-between items-center mt-3 mx-5">
-                        <div class="inline-flex w-fit mb-3">
+                    <div class="flex justify-between items-center mt-4">
+                        <div class="inline-flex w-fit ">
                             <input type="checkbox" id="vehicle1" name="vehicle1" value="Bike"
-                                class="!w-4 border mt-1.5 mr-2 !border-[#E2E8F0] !h-4" />
+                                class="!w-4 border mt-[1px] mr-2 !border-[#E2E8F0] !h-4" />
                             <label for="vehicle1"
                                 class="text-xs h-fit text-[#64748B] not-italic font-normal leading-[19.2px]">Remember Me
                             </label>
                         </div>
                         <div>
                             <a href="#"
-                                class="text-xs h-fit text-left mb-3 ml-1 inline-block text-[#2563EB] not-italic font-bold leading-[19.2px]">
+                                class="text-xs h-fit text-left ml-1 inline-block text-[#2563EB] not-italic font-bold leading-[19.2px]">
                                 Forgot Password
                             </a>
                         </div>
@@ -151,9 +151,9 @@
                 <nz-divider nzText="Or Sign In with"
                     class="!text-xs not-italic font-normal leading-[19.2px]"></nz-divider>
 
-                <div class="w-full flex justify-evenly mt-2">
+                <div class="w-full flex justify-evenly ">
                     <div
-                        class="rounded border flex justify-center items-center w-[45%] bg-white font-bold py-2 px-4 !h-[46px]">
+                        class="rounded border flex justify-center items-center w-[45%] bg-white cursor-pointer hover:bg-gray-100 font-bold py-2 px-4 !h-[46px]">
                         <img src="assets/images/5847f9cbcef1014c0b5e48c8.png" class="w-4 mr-2.5 h-4"
                             alt="Google logo" />
                         <p class="text-[16px] not-italic font-semibold tracking-[0.2px]">
@@ -161,7 +161,7 @@
                         </p>
                     </div>
                     <div
-                        class="rounded border flex justify-center items-center w-[45%] bg-white font-bold py-2 px-4 !h-[46px]">
+                        class="rounded border flex justify-center items-center w-[45%] bg-white cursor-pointer hover:bg-gray-100 font-bold py-2 px-4 !h-[46px]">
                         <img src="assets/images/logo-facebookpng-32240.png" class="w-4 mr-2.5 h-4"
                             alt="Facebook logo" />
                         <p class="text-[16px] not-italic font-semibold tracking-[0.2px]">
@@ -169,10 +169,11 @@
                         </p>
                     </div>
                 </div>
-
-                <p class="text-[14px] not-italic font-normal leading-[22.4px] my-3">
-                    Don't have account?<a href="#" class="font-bold text-[#2563EB] ml-1">Sign Up</a>
-                </p>
+                <div class="my-4" >
+                    <p class="text-[14px] not-italic font-normal leading-[22.4px]">
+                        Don't have account?<a href="#" class="font-bold text-[#2563EB] ml-1">Sign Up</a>
+                    </p>
+                </div>
             </div>
         </div>
         <!-- Form -->

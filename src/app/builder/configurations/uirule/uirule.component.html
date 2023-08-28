@@ -2,7 +2,7 @@
   <div style="position:relative ;">
     <form action="javascript:void(0);" [formGroup]="uiRuleForm">
       <div formArrayName="uiRules">
-        <nz-collapse>
+        <nz-collapse class="business-rule-form" >
           <nz-collapse-panel *ngFor="let uiRuleObj of getUiRule().controls; let uiIndex=index"
             [nzHeader]="(uiIndex+1).toString()">
             <div [formGroupName]="uiIndex">
@@ -34,9 +34,9 @@
                         formControlName="targetValue" required class="form-control" name="targetValue{{uiIndex}}" />
                     </div>
                   </div>
-                  <div class="w-1/4   px-2 mt-5">
-                    <button nz-button nzType="primary" nzDanger (click)="removeUIRule(uiIndex)" type="button">
-                      <span nz-icon nzType="delete" nzTheme="outline"></span></button>
+                  <div class="w-1/4   px-2 h-fit my-5">
+                    <button nz-button nzType="primary" class="mt-[2px]" nzDanger (click)="removeUIRule(uiIndex)" type="button">
+                      <i class="fa-regular fa-trash text-[10px]"></i></button>
                   </div>
                 </div>
 
@@ -80,10 +80,10 @@
                                   class="form-control" name="targetValue{{uiIndex}}{{ifIndex}}" />
                               </div>
                             </div>
-                            <div class="w-1/4  mt-5 px-2">
-                              <button nz-button nzType="primary" nzDanger class="btn btn-danger w-100"
+                            <div class="w-1/4 h-fit my-5 px-2">
+                              <button nz-button nzType="primary" nzDanger class="btn btn-danger w-100 mt-[2px]"
                                 (click)="removeIfUIRule(uiIndex,ifIndex)" type="button">
-                                <span nz-icon nzType="delete" nzTheme="outline"></span>
+                                <i class="fa-regular fa-trash text-[10px]"></i>
                               </button>
                             </div>
                           </div>
@@ -91,10 +91,10 @@
                       </div>
                     </div>
 
-                    <div class="pt-2">
+                    <div class="py-2">
                       <button nz-button nzType="primary" nzPrimary class="btn btn-primary btn-sm w-100"
                         (click)="addUITargetIfRule(uiIndex)">
-                        <b>+</b> If</button>
+                        <i class="fa-regular fa-plus text-[10px] mr-0.5"></i> If</button>
                     </div>
                   </div>
                   <div class="col-md-12">
@@ -125,17 +125,16 @@
                             </div>
                             <div class="col-md-1 mt-4">
                               <button nz-button nzType="primary" nzDanger class="btn btn-danger mx-1 mt-3"
-                                (click)="removeTargetUIRule(uiIndex,index)" type="button"> <span nz-icon nzType="delete"
-                                  nzTheme="outline"></span></button>
+                                (click)="removeTargetUIRule(uiIndex,index)" type="button"><i class="fa-regular fa-trash text-[10px]"></i></button>
                             </div>
                           </div>
                         </nz-collapse-panel>
                       </nz-collapse>
 
                     </div>
-                    <div class=" pt-2">
+                    <div class=" py-2">
                       <button nz-button nzType="primary" nzPrimary (click)="addUITargetRule(uiIndex)">
-                        <b>+</b> Target</button>
+                        <i class="fa-regular fa-plus text-[10px] mr-0.5"></i> Target</button>
                     </div>
                   </div>
                 </div>
@@ -143,7 +142,7 @@
             </div>
           </nz-collapse-panel>
         </nz-collapse>
-        <button nz-button nzType="primary" nzPrimary class="btn btn-primary mb-3 mt-2" (click)="addUIRule()">
+        <button nz-button nzType="primary" nzPrimary class="btn btn-primary mb-3 mt-2 border-x-green-500 !bg-green-500 hover:!bg-green-400" (click)="addUIRule()">
           <!-- <span nz-icon nzType="plus-square" nzTheme="twotone" class="-mt-4"></span> -->
           <i class="fa-regular fa-plus mr-2"></i> Add Rule</button>
         <button nz-button nzType="primary" nzPrimary class=" mb-3 ml-2 mt-2" (click)="saveUIRule()">

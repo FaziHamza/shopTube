@@ -1,11 +1,12 @@
 <div class=" general_faq mt-3">
   <div *ngIf="dynmaicRule  && UIRule == false" style="position:relative ;">
-    <form [formGroup]="businessForm">
+    <form [formGroup]="businessForm" class="business-rule-form">
       <div formArrayName="buisnessRule">
         <div *ngFor="let employee of buisnessRule().controls; let mainIndex=index">
           <div class="row" [formGroupName]="mainIndex"
             style="border: 1px solid rgb(197 187 187); border-radius: 5px; padding: 1%; position: relative;">
-            <i class="fa fa-window-close close-icon" (click)="removeBuisnessRule(mainIndex)" aria-hidden="true"></i>
+            <i class="fa fa-window-close close-rule-icon" nz-tooltip nzTooltipTitle="Close the rule"
+              (click)="removeBuisnessRule(mainIndex)" aria-hidden="true"></i>
             <div class="grid grid-cols-3 gap-4 pb-2">
               <div class="flex-inline">
                 <label class="label">Name</label>
@@ -33,8 +34,8 @@
                         <button nz-button nzType="primary"
                           *ngIf="ifIndex === buisnessRuleIfMain(mainIndex).controls.length - 1"
                           (click)="addBuisnessIfRuleMain(mainIndex)">
-                          <b>+</b></button>
-                        <h3 class="text-lg mr-1">If</h3>
+                          <i class="fa-regular fa-plus text-[10px]"></i></button>
+                        <h3 class="text-lg mx-2">If</h3>
                         <div class="w-1/4 pr-1">
                           <nz-select nzShowSearch nzAllowClear formControlName="ifCondition"
                             (change)="changeDynamicBuisnessRuleIf()">
@@ -54,10 +55,11 @@
                         </div>
 
                         <div class="ml-1">
-                          <button nz-button nzType="primary" nzDanger
+                          <button nz-button nzType="primary" nzDanger class="mt-[1px]"
                             *ngIf="buisnessRuleIfMain(mainIndex).controls.length > 1"
                             (click)="removeBuisnessIfRuleMain(mainIndex,ifIndex)">
-                            <span nz-icon nzType="delete" nzTheme="outline" class="-mt-9"></span></button>
+                            <i class="fa-regular fa-trash text-[10px] -mt-9"></i>
+                          </button>
                         </div>
                       </div>
                       <div class="w-full ">
@@ -92,9 +94,10 @@
                                 </div>
 
                                 <div class="ml-1">
-                                  <button nz-button nzType="primary" nzDanger
+                                  <button nz-button nzType="primary" class="mt-[1px]" nzDanger
                                     (click)="removeBuisnessRuleConditional(mainIndex,ifIndex,conditionIndex)">
-                                    <span nz-icon nzType="delete" nzTheme="outline" class="-mt-9"></span></button>
+                                    <i class="fa-regular fa-trash text-[10px] -mt-9"></i>
+                                  </button>
                                 </div>
                               </div>
 
@@ -103,7 +106,7 @@
                         </div>
                         <div class="mt-2">
                           <button nz-button nzType="primary" (click)="addBuisnessRuleConditional(mainIndex,ifIndex)">
-                            <b>+</b> Condition</button>
+                            <i class="fa-regular fa-plus text-[10px] mr-1"></i> Condition</button>
                         </div>
                       </div>
                       <div class="mt-1" *ngIf="ifIndex !== buisnessRuleIfMain(mainIndex).controls.length - 1">
@@ -118,7 +121,7 @@
                 <div class="mt-2">
                   <button nz-button nzType="primary" *ngIf="buisnessRuleIfMain(mainIndex).controls.length === 0"
                     (click)="addBuisnessIfRuleMain(mainIndex)">
-                    <b>+</b> If</button>
+                    <i class="fa-regular fa-plus text-[10px] mr-1"></i> If</button>
                 </div>
               </div>
               <div class="w-full">
@@ -145,10 +148,11 @@
                               name="thenResultValue{{mainIndex}}" />
                           </div>
                           <div class="ml-1">
-                            <button nz-button nzType="primary" nzDanger
+                            <button nz-button nzType="primary" nzDanger class="mt-[1px]"
                               *ngIf="buisnessRuleThen(mainIndex).controls.length > 1"
                               (click)="removeBuisnessRuleThen(mainIndex,thenIndex)">
-                              <span nz-icon nzType="delete" nzTheme="outline" class="-mt-9"></span> </button>
+                              <i class="fa-regular fa-trash text-[10px] -mt-9"></i>
+                            </button>
                           </div>
                         </div>
                       </div>
@@ -158,7 +162,7 @@
                 </div>
                 <div class="mt-2">
                   <button nz-button nzType="primary" (click)="addBuisnessRuleThen(mainIndex)">
-                    <b>+</b> Then</button>
+                    <i class="fa-regular fa-plus text-[10px] mr-1"></i> Then</button>
                 </div>
               </div>
             </div>
@@ -167,7 +171,7 @@
         </div>
       </div>
     </form>
-    <button nz-button nzType="primary" (click)="addBuisnessRule()">
+    <button nz-button nzType="primary" class="!bg-green-500 hover:!bg-green-400" (click)="addBuisnessRule()">
       <span nz-icon nzType="plus"></span>
       Add Rule
     </button>

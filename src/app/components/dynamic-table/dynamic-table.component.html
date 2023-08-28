@@ -6,8 +6,8 @@
   </ng-container>
 </nz-modal> -->
 <div *ngIf="data?.isAddRow == undefined ? true: data?.isAddRow">
-  <button nz-button (click)="addRow()" *ngIf="!checkType" nzType="primary">Add</button>
-  <button nz-button (click)="addColumn()" *ngIf="checkType" nzType="primary">Add</button>
+  <button nz-button (click)="addRow()" *ngIf="!checkType" nzType="primary"> <i class="fa-regular fa-plus mr-2"></i> Add</button>
+  <button nz-button (click)="addColumn()" *ngIf="checkType" nzType="primary"> <i class="fa-regular fa-plus mr-2"></i> Add</button>
 </div>
 <div class="dynamic-table">
   <!-- [nzFrontPagination]='data?.nzFrontPagination' -->
@@ -88,13 +88,13 @@
               </td>
               <td *ngIf="header.name == 'headerButton'">
                 <button (click)="showModal('Header')" type="button"
-                  class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                  class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded">
                   Button
                 </button>
               </td>
               <td *ngIf="header.name == 'footerButton'">
                 <button type="button" (click)="showModal('Footer')"
-                  class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                  class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded">
                   Button
                 </button>
               </td>

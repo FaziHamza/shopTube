@@ -1,4 +1,4 @@
-<form [formGroup]="actionform">
+<form [formGroup]="actionform" class="dynamic-table-form" >
   <nz-collapse *ngIf="itemData.commonData">
     <nz-collapse-panel [nzHeader]="'Common  Attribute value'" [nzActive]="true">
       <div class="theme-body">
@@ -20,7 +20,7 @@
           <formly-form [form]="actionform" [model]="modal" [fields]="itemData.mappingConfig"></formly-form>
           <span>
             <button class="mt-2" *ngIf='this.itemData.mappingNode' nz-button nzType="primary"
-              (click)="dynamicSectionOption()">Get Mapping</button>
+              (click)="dynamicSectionOption()"> <i class="fa-solid fa-folder-arrow-down text-base mr-2"></i> Get Mapping</button>
           </span>
         </span>
       </div>
