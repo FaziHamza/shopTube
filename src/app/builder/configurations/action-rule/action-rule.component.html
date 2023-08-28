@@ -1,6 +1,6 @@
 <div #monacoComponent></div>
 <div *ngIf="showActionRuleForm" class="general_faq mt-3">
-  <form [formGroup]="actionForm">
+  <form [formGroup]="actionForm" >
     <div class="grid lg:grid-cols-5 sm:grid-cols-2 gap-2">
       <div>
         <nz-select class="form-select" formControlName="submissionType" aria-label="Default Select Example">
@@ -58,7 +58,7 @@
 
     <div class="mb-3" formArrayName="Actions">
       <ng-container *ngFor="let ActionForm of ActionsForms.controls; let i = index">
-        <div class="flex flex-wrap mt-1" style="border: 1px solid rgb(197 187 187); border-radius: 5px;"
+        <div  class="flex flex-wrap mt-1" style="border: 1px solid rgb(197 187 187); border-radius: 5px;"
           [formGroupName]="i">
           <div class="w-10/12 p-1">
             <div *ngIf="ActionsForms.value[i].type == 'email'">
@@ -188,14 +188,13 @@
                 formControlName="confirmEmail" (init)="editorInit($event)"></ngx-monaco-editor>
             </div>
           </div>
-          <div class="w-2/12 " style="margin-top: 7%;">
+          <div class="w-2/12 business-rule-form" style="margin-top: 7%;">
             <button nz-button nzType="primary" nzDanger (click)="removeActionFormGroup(i,ActionsForms.value[i])">
-              <span nz-icon nzType="delete" nzTheme="outline"></span>
+              <i class="fa-regular fa-trash text-[10px] "></i>
             </button>
             <button nz-button nzType="primary" nzDanger class="ml-2"
               (click)="duplicateActionFormGroup(i,ActionsForms.value[i].type)">
-              <span nz-icon nzType="copy" nzTheme="outline"></span>
-            </button>
+              <i class="fa-regular fa-copy text-[10px] "></i> </button>
 
           </div>
         </div>
@@ -203,8 +202,8 @@
     </div>
 
     <button nz-button nzType="primary" (click)="SaveAction()" class="mt-2 save_Action"><span nz-icon nzType="save"
-      nzTheme="outline"></span>
-    Save Action</button>
+        nzTheme="outline"></span>
+      Save Action</button>
   </form>
 </div>
 <nz-alert *ngIf="!showActionRuleForm" nzType="warning" nzMessage="Please contact your DBA to approve fields"

@@ -1,17 +1,17 @@
 <nz-spin [nzSpinning]="saveLoader" [nzSize]="'large'">
   <div class="grid grid-cols-3 market-place">
-    <div>
+    <div class="flex justify-start items-center text-lg" >
       <h3><b>Market Place</b></h3>
     </div>
     <div>
       <nz-input-group nzSearch>
-        <input type="text" nz-input id="searchControll" nzAllowClear (input)="filterData($event)" placeholder="Search.." />
+        <input type="text" nz-input class="!h-10 !rounded-md" id="searchControll" nzAllowClear (input)="filterData($event)" placeholder="Search.." />
       </nz-input-group>
     </div>
     <div class="basic-button-save text-end justify-end">
-      <button nz-button (click)="reset()" class="cancel-btn">Reset</button>
-      <button nz-button nzType="primary" class="save-btn ml-3" (click)="close()">Save</button>
-      <button nz-button (click)="cancel()" class="cancel-btn">Cancel</button>
+      <button nz-button (click)="reset()" class="cancel-btn text-sm !font-normal !bg-green-500 hover:!bg-green-400 !text-white"> <i class="fa-regular fa-gear-complex-code mr-2"></i> Reset</button>
+      <button nz-button nzType="primary" class="save-btn ml-3" (click)="close()"> <i class="fa-regular fa-floppy-disk mr-2"></i> Save</button>
+      <button nz-button (click)="cancel()" class="cancel-btn text-sm !bg-red-500 hover:!bg-red-400 !text-white !font-normal"> <i class="fa-solid fa-circle-xmark mr-2"></i> Cancel</button>
     </div>
   </div>
 

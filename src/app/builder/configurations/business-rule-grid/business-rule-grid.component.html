@@ -1,7 +1,7 @@
 <nz-modal [(nzVisible)]="isVisible" nzWidth=700px nzTitle="The first Modal" (nzOnCancel)="handleCancel()"
   (nzOnOk)="handleOk()">
   <ng-container *nzModalContent>
-    <form [formGroup]="conditionForm">
+    <form [formGroup]="conditionForm" class="business-rule-form">
       <div formArrayName="getRuleCondition">
         <div *ngFor="let condition of getRuleCondition().controls; let i=index">
           <div [formGroupName]="i">
@@ -68,7 +68,7 @@
                   <div class="w-1/12 ml-1">
                     <button nz-button nzType="primary" nzDanger type="button" class="ml-1"
                       (click)="removeMathmaticRule(i)">
-                      <span nz-icon nzType="delete" nzTheme="outline"></span></button>
+                      <i class="fa-regular fa-trash text-[10px]"></i></button>
                   </div>
                 </div>
               </div>
@@ -109,14 +109,14 @@
                       <div class="w-1/12">
                         <button nzSize='small' nz-button nzType="primary" nzDanger type="button" class="mt-1"
                           (click)="removegetRuleMultiCondition(i,j)">
-                          <span nz-icon nzType="delete" nzTheme="outline"></span></button>
+                          <i class="fa-regular fa-trash text-[10px]"></i></button>
                       </div>
                     </div>
                   </div>
                 </div>
                 <div class="w-full m-2">
                   <button nz-button nzType="primary" class="btn btn-blue" (click)="addgetRuleMultiCondition(i)">
-                    <b>+</b> Operator</button>
+                    <i class="fa-regular fa-plus mr-1 text-[10px]"></i> Operator</button>
                 </div>
               </div>
             </div>
@@ -142,18 +142,18 @@
         [readonly]="isReadOnly" (dblclick)="isReadOnly = !isReadOnly" /> -->
     </div>
 
-    <button nz-button nzType="default" (click)="addMathmaticRule()">Add Rule</button>
-    <button nz-button nzType="primary" (click)="handleOk()">Save</button>
-    <button nz-button nzType="default" (click)="handleCancel()">Cancel</button>
+    <button nz-button nzType="default" class="!bg-green-500 hover:!bg-green-400" (click)="addMathmaticRule()"> <i class="fa-regular fa-plus mr-2"></i> Add Rule</button>
+    <button nz-button nzType="primary" class="btn-no !bg-blue-600 hover:!bg-blue-500 mx-2" (click)="handleOk()"> <i class="fa-regular fa-save mr-2"></i>Save</button>
+    <button nz-button nzType="default" class=""  (click)="handleCancel()"> <i class="fa-solid fa-circle-xmark mr-2"></i> Cancel</button>
   </div>
 </nz-modal>
 <div *ngIf="dynmaicRule && UIRule == false" style="position:relative ;">
-  <form [formGroup]="buisnessForm">
+  <form [formGroup]="buisnessForm" class="business-rule-form" >
     <div formArrayName="buisnessRule">
       <div *ngFor="let employee of buisnessRule().controls; let i=index">
         <div class="flex flex-wrap mb-2" [formGroupName]="i"
         style="border: 1px solid rgb(197 187 187); border-radius: 5px; padding: 1%; position: relative;">
-          <i class="fa fa-window-close close-icon" (click)="removeBuisnessRule(i)" aria-hidden="true"></i>
+          <i class="fa fa-window-close close-rule-icon" nz-tooltip nzTooltipTitle="Close the Rule" (click)="removeBuisnessRule(i)" aria-hidden="true"></i>
           <div class="w-1/2">
             <div formArrayName="ifRuleMain">
               <div *ngFor="let objIfRule of buisnessRuleIfMain(i).controls; let ifIndex=index">
@@ -162,7 +162,7 @@
                     <div class="ml-1">
                       <button nz-button nzType="primary" *ngIf="ifIndex === buisnessRuleIfMain(i).controls.length - 1"
                         (click)="addBuisnessIfRuleMain(i)">
-                        <b>+</b></button>
+                        <i class="fa-regular fa-plus !text-[10px]"></i></button>
                     </div>
                     <h3 class="pt-1 ml-4 mr-4"> If</h3>
                     <div class="w-1/4 ml-1">
@@ -225,14 +225,14 @@
                           <div class="ml-1">
                             <button nz-button nzType="primary" nzDanger class="btn btn-danger"
                               (click)="removeBuisnessRuleSkill(i,ifIndex,conditionIndex)">
-                              <span nz-icon nzType="delete" nzTheme="outline"></span></button>
+                              <i class="fa-regular fa-trash text-[10px]"></i></button>
                           </div>
                         </div>
                       </div>
                     </div>
                     <div class="mr-1 ml-1">
                       <button nz-button nzType="primary" class="w-full mt-1" (click)="addRuleCondition(i,ifIndex)">
-                        <b>+</b> Condition</button>
+                        <i class="fa-regular fa-plus mr-1 text-[10px]"></i> Condition</button>
                     </div>
                   </div>
                   <div class="mt-1 mb-1 ml-1" *ngIf="ifIndex !== buisnessRuleIfMain(i).controls.length - 1">
@@ -281,9 +281,9 @@
                   formControlName="resultValue" required class="form-control ml-1" style="direction: ltr; "
                   name="resultValue{{i}}" readonly />
               </div>
-              <div class="w-1/6">
+              <div class="w-1/6 pl-2">
                 <button nz-button nzType="primary" class="w-9 mr-1" (click)="addConditionRule(i)">
-                  +
+                  <i class="fa-regular fa-plus text-[10px]"></i>
                 </button>
 
               </div>
@@ -324,12 +324,12 @@
                         formControlName="thenResultValue" required class="form-control ml-1" style="direction: ltr; "
                         name="resultValue{{i}}" readonly />
                     </div>
-                    <div class="w-1/6 ">
+                    <div class="w-1/6 flex pl-2">
                       <button nz-button nzType="primary" class="w-9  mr-1"
-                        (click)='addConditionRule(i,thenIndex)'>+</button>
+                        (click)='addConditionRule(i,thenIndex)'><i class="fa-regular fa-plus text-[10px]"></i></button>
                       <button nz-button nzType="primary" nzDanger class="w-11"
                         (click)="removeBuisnessRuleThen(i,thenIndex)">
-                        <span nz-icon nzType="delete" nzTheme="outline" class="pr-1"></span></button>
+                        <i class="fa-regular fa-trash text-[10px]"></i></button>
                     </div>
 
                   </div>
@@ -337,7 +337,7 @@
               </div>
               <div class="mr-1 ml-1">
                 <button nz-button nzType="primary" class="w-full mt-1" (click)="addBuisnessRuleThen(i)">
-                  <b>+</b> Then</button>
+                  <i class="fa-regular text-[10px] fa-plus mr-1"></i>Then</button>
               </div>
             </div>
           </div>
@@ -345,9 +345,10 @@
       </div>
     </div>
   </form>
-  <button nz-button nzType="primary" class=" mb-3" (click)="addGridBuisnessRule()">Add Rule</button>
-  <button nz-button nzType="primary" class="btn btn-info mb-3 ml-2" (click)="saveGridBusinessRule()">Save Grid
-    Rule</button>
+  <button nz-button nzType="primary" class=" mb-3 !bg-green-500 hover:!bg-green-400" (click)="addGridBuisnessRule()"> <i class="fa-regular fa-plus mr-2"></i>  Add Rule</button>
+  <button nz-button nzType="primary" class="btn-no !bg-blue-600 hover:!bg-blue-500 mb-3 ml-2" (click)="saveGridBusinessRule()">
+    <i class="fa-regular fa-save mr-2"></i>
+    Save Grid Rule</button>
   <button nzDanger nz-button nzType="primary" class="mb-3 ml-2 mt-1" (click)="deleteGridBuisnessRule()">
-    <span nz-icon nzType="delete" nzTheme="outline"></span>Delete</button>
+    <i class="fa-regular fa-trash mr-2"></i> Delete</button>
 </div>

@@ -1120,7 +1120,7 @@ export class AddControlService {
   }
   timelineControl() {
     return {
-      pendingText: "Recording...",
+      pendingText: "",
       mainIcon: "loading",
       reverse: false,
       labelText: '',

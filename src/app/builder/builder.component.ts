@@ -2825,7 +2825,11 @@ export class BuilderComponent implements OnInit {
         this.fieldData.formData = _formFieldData.alertFeilds;
         break;
       case 'timeline':
+        debugger
         this.addIconCommonConfiguration(_formFieldData.timelineFeilds, false);
+        if (_formFieldData.timelineFeilds[0].fieldGroup) {
+          _formFieldData.timelineFeilds[0].fieldGroup = _formFieldData.timelineFeilds[0].fieldGroup.filter(item => item.key !== 'iconClass');
+        }
         this.fieldData.formData = _formFieldData.timelineFeilds;
         break;
       case 'simpleCardWithHeaderBodyFooter':
