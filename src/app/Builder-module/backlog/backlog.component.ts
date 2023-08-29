@@ -30,6 +30,7 @@ export class BacklogComponent implements OnInit {
   getTasks() {
     this.requestSubscription = this.applicationService.getNestCommonAPI('cp/UserComment').subscribe({
       next: (res: any) => {
+        debugger
         if (res.isSuccess && res.data?.length > 0) {
 
           this.tasks = res.data.filter((a: any) => a.parentId == '' || a.parentId == undefined);

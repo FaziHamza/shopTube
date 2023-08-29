@@ -23,10 +23,11 @@ export class DynamicTableComponent implements OnInit {
   @Input() configurationTable: boolean = false;
   @Input() tableData: any[] = [];
   @Input() displayData: any[] = [];
-  @Input() tableHeaders: any[] = [];
+  @Input() tableHeaders: any = [];
   @Input() data: any;
   editId: string | null = null;
   @Input() screenName: any;
+  @Input() showPagination: any = true;
   GridType: string = '';
   serverPath = environment.nestImageUrl
   // key: any;
@@ -62,6 +63,7 @@ export class DynamicTableComponent implements OnInit {
   }
 
   ngOnInit(): void {
+
     this.loadTableData();
     this.gridInitilize();
   }
@@ -738,6 +740,25 @@ export class DynamicTableComponent implements OnInit {
 
   loadTableData() {
     if (this.tableData.length > 0) {
+      const requiredData = this.tableData.map(({ __v, _id, ...rest }: any) => ({
+        expand: false,
+        id: _id,
+        ...rest,
+      }));
+      this.tableData = JSON.parse(JSON.stringify(requiredData));
+
+      let newId = 0;
+      if (!this.tableData[0].id) {
+        let newId = 0;
+        this.tableData = this.tableData.map((j: any) => {
+          newId++;
+          return {
+            id: newId,
+            ...j,
+          };
+        });
+      }
+
       const firstObjectKeys = Object.keys(this.tableData[0]);
       this.data['tableKey'] = firstObjectKeys.map(key => ({ name: key }));
 
@@ -746,14 +767,6 @@ export class DynamicTableComponent implements OnInit {
       if (!this.tableHeaders || !this.footerData) {
         this.tableHeaders = this.data['tableKey'];
         this.footerData = this.data['tableKey'];
-      }
-
-      let newId = 0;
-      if (!this.tableData[0].id) {
-        this.tableData.forEach((j: any) => {
-          newId = newId + 1
-          j['id'] = newId;
-        });
       }
       this.displayData = this.tableData;
     }
@@ -958,7 +971,7 @@ export class DynamicTableComponent implements OnInit {
   checkTypeData(item: any) {
     debugger
     if (this.data?.openComponent == 'drawer') {
-      this.showIssue(item);
+      // this.showIssue(item);
     }
   }
   transform(dateRange: string): any {
@@ -996,94 +1009,144 @@ export class DynamicTableComponent implements OnInit {
   chartData: any[] = [];
   issueReport: any = [];
   userTaskManagement: any = '';
-  getTimelIne : any;
+  getTimelIne: any;
   showIssue(data: any): void {
     this.saveLoader = true;
-    this.requestSubscription = this.applicationService.getNestCommonAPI("cp/getuserComments/UserComment/pages/" + data.screenId).subscribe({
-      next: (res: any) => {
-        debugger
-        this.saveLoader = false;
-        this.issueReport['issueReport'] = '';
-        this.issueReport['showAllComments'] = false;
-        if (res.isSuccess && res.data.length > 0) {
-          const filteredIssues = res.data.filter((rep: any) => rep.componentId === data.componentId);
+    if (this.data?.appConfigurableEvent) {
+      if (this.data?.appConfigurableEvent.length > 0) {
+        if (!data?.children) {
+          data.children = [];
+          const url = this.data?.appConfigurableEvent
+            .filter((item: any) => item.actions.some((action: any) => action.submit === 'change'))
+            .map((item: any) => item.actions.find((action: any) => action.submit === 'change').url);
+          // Create a URL object
+          const parsedURL = new URL(url);
 
-          if (filteredIssues.length > 0) {
-            try {
-              const drawer = this.findObjectByTypeBase(this.data, "drawer");
-              drawer['visible'] = true;
-              drawer['notShowButton'] = true;
+          // Extract the pathname
+          let path = parsedURL.pathname;
 
-              const timeline = this.findObjectByTypeBase(drawer, "timeline");
-              const timelineChild = this.findObjectByTypeBase(timeline, "timelineChild");
-              const newChild = JSON.parse(JSON.stringify(timelineChild));
-              const childTimelineData = this.findObjectByTypeBase(newChild, "timeline");
-              const timelineChildChild = this.findObjectByTypeBase(childTimelineData, "timelineChild");
-              const timelineChildChildParse = JSON.parse(JSON.stringify(timelineChildChild));
-              timeline.children = [];
+          // Remove the leading slash if it exists
+          if (path.startsWith("/")) {
+            path = path.substring(1);
+          }
+          this.requestSubscription = this.applicationService.getNestCommonAPI(path + data.screenId).subscribe({
+            next: (res: any) => {
+              debugger
+              this.saveLoader = false;
+              this.issueReport['issueReport'] = '';
+              this.issueReport['showAllComments'] = false;
+              if (res.isSuccess && res.data.length > 0) {
+                const filteredIssues = res.data.filter((rep: any) => rep.componentId === data.componentId);
+                const requiredData = filteredIssues.map(({ __v, _id, ...rest }: any) => ({
+                  expand: false,
+                  id: _id,
+                  // expandable: true,
+                  ...rest,
+                }));
+
+                data.children = requiredData;
+                // if (filteredIssues.length > 0) {
+                //   try {
+                //     const drawer = this.findObjectByTypeBase(this.data, "drawer");
+                //     drawer['visible'] = true;
+                //     drawer['notShowButton'] = true;
+
+                //     const timeline = this.findObjectByTypeBase(drawer, "timeline");
+                //     const timelineChild = this.findObjectByTypeBase(timeline, "timelineChild");
+                //     const newChild = JSON.parse(JSON.stringify(timelineChild));
+                //     const childTimelineData = this.findObjectByTypeBase(newChild, "timeline");
+                //     const timelineChildChild = this.findObjectByTypeBase(childTimelineData, "timelineChild");
+                //     const timelineChildChildParse = JSON.parse(JSON.stringify(timelineChildChild));
+                //     timeline.children = [];
 
 
-              for (const issue of filteredIssues) {
-                const paragragh = this.findAllObjectsByType(newChild, "paragraph");
-                paragragh[0].text = issue.createdBy
-                paragragh[1].text = issue.dateTime;
-                paragragh[2].text = issue.message
+                //     for (const issue of filteredIssues) {
+                //       const paragragh = this.findAllObjectsByType(newChild, "paragraph");
+                //       paragragh[0].text = issue.createdBy
+                //       paragragh[1].text = issue.dateTime;
+                //       paragragh[2].text = issue.message
 
-                newChild.children = [];
-                newChild.children.push(paragragh[0]);
-                newChild.children.push(paragragh[1]);
-                newChild.children.push(paragragh[2]);
+                //       newChild.children = [];
+                //       newChild.children.push(paragragh[0]);
+                //       newChild.children.push(paragragh[1]);
+                //       newChild.children.push(paragragh[2]);
 
-                
-                
-                if (issue.children.length > 0 && timelineChildChildParse) {
 
-                  timelineChildChild.children = [];
-                  childTimelineData.children = [];
-                  for (const childIssue of issue.children) {
-                    const childParagragh = this.findAllObjectsByType(newChild, "paragraph");
-                    childParagragh[0].text = childIssue.createdBy
-                    childParagragh[1].text = childIssue.dateTime;
-                    childParagragh[2].text = childIssue.message
-                    
-                    timelineChildChildParse.children = [];
-                    timelineChildChildParse.children.push(paragragh[0]);
-                    timelineChildChildParse.children.push(paragragh[1]);
-                    timelineChildChildParse.children.push(paragragh[2]);
-                    childTimelineData?.children.push(JSON.parse(JSON.stringify(timelineChildChildParse)));
-                  }
-                  newChild?.children.push(JSON.parse(JSON.stringify(childTimelineData)));
-                }
-                timeline?.children.push(JSON.parse(JSON.stringify(newChild)));
+
+                //       if (issue.children.length > 0 && timelineChildChildParse) {
+
+                //         timelineChildChild.children = [];
+                //         childTimelineData.children = [];
+                //         for (const childIssue of issue.children) {
+                //           const childParagragh = this.findAllObjectsByType(newChild, "paragraph");
+                //           childParagragh[0].text = childIssue.createdBy
+                //           childParagragh[1].text = childIssue.dateTime;
+                //           childParagragh[2].text = childIssue.message
+
+                //           timelineChildChildParse.children = [];
+                //           timelineChildChildParse.children.push(paragragh[0]);
+                //           timelineChildChildParse.children.push(paragragh[1]);
+                //           timelineChildChildParse.children.push(paragragh[2]);
+                //           childTimelineData?.children.push(JSON.parse(JSON.stringify(timelineChildChildParse)));
+                //         }
+                //         newChild?.children.push(JSON.parse(JSON.stringify(childTimelineData)));
+                //       }
+                //       timeline?.children.push(JSON.parse(JSON.stringify(newChild)));
+                //     }
+
+                //     // Update other properties as needed
+                //     // this.userTaskManagement = data;
+                //     // this.issueReport['status'] = data['status'];
+                //     // this.issueReport['showAllComments'] = true;
+                //     // this.issueReport['issueReport'] = filteredIssues;
+                //     // this.issueReport['id'] = filteredIssues[0].componentId;
+                //     // this.callAssignee(this.issueReport);
+                //   } catch (error) {
+                //     console.error("An error occurred:", error);
+                //     this.toastr.error(`An error occurred`, { nzDuration: 3000 });
+                //   }
+
+
+                // } else {
+                //   this.saveLoader = false;
+                //   this.toastr.error(`UserComment: No comments against this`, { nzDuration: 3000 });
+                // }
               }
 
-              // Update other properties as needed
-              // this.userTaskManagement = data;
-              // this.issueReport['status'] = data['status'];
-              // this.issueReport['showAllComments'] = true;
-              // this.issueReport['issueReport'] = filteredIssues;
-              // this.issueReport['id'] = filteredIssues[0].componentId;
-              // this.callAssignee(this.issueReport);
-            } catch (error) {
-              console.error("An error occurred:", error);
-              this.toastr.error(`An error occurred`, { nzDuration: 3000 });
+
+            },
+            error: (err) => {
+              this.issueReport['issueReport'] = '';
+              this.issueReport['showAllComments'] = false;
+              console.error(err); // Log the error to the console
+              this.toastr.error(`UserComment : An error occurred`, { nzDuration: 3000 });
             }
-
-
-          } else {
-            this.saveLoader = false;
-            this.toastr.error(`UserComment: No comments against this`, { nzDuration: 3000 });
-          }
+          });
         }
-
-      },
-      error: (err) => {
-        this.issueReport['issueReport'] = '';
-        this.issueReport['showAllComments'] = false;
-        console.error(err); // Log the error to the console
-        this.toastr.error(`UserComment : An error occurred`, { nzDuration: 3000 });
+        else {
+          console.log("Data");
+          console.log("Data");
+          const requiredData = data.children.map(({ __v, _id, ...rest }: any) => {
+            if (rest.children) {
+              const childData = rest.children;
+              delete rest.children;
+              return {
+                id: _id,
+                ...rest,
+                children: childData.length > 0 ? childData : undefined,
+              };
+            } else {
+              // If the 'children' property doesn't exist, return the object without it
+              return {
+                id: _id,
+                ...rest,
+              };
+            }
+          });
+          data.children = requiredData;
+        }
       }
-    });
+    }
   }
   getTasks() {
     this.saveLoader = true;

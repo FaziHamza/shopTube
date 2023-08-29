@@ -275,7 +275,9 @@ export class MainComponent implements OnInit {
     if (tableData && res) {
       if (res.length > 0) {
         const requiredData = res.map(({ __v, _id, ...rest }: any) => ({
+          expand:false,
           id: _id,
+          // expandable:true,
           ...rest,
 
         }));

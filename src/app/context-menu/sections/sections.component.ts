@@ -40,43 +40,50 @@ export class SectionsComponent implements OnInit {
     this.screenName;
     this.getJoiValidation();
     let btnData = this.findObjectByTypeBase(this.sections, "button");
-    if (btnData)
+    if (btnData) {
       this.getFromQuery(btnData);
-    this.requestSubscription = this.dataSharedService.sectionSubmit.subscribe({
-      next: (res) => {
-        const checkButtonExist = this.findObjectById(this.sections, res.id);
-        // const checkButtonExist = this.isButtonIdExist(this.sections.children[1].children, res.id);
-        if (checkButtonExist?.appConfigurableEvent) {
-          let makeModel: any = {};
-          const filteredNodes = this.filterInputElements(this.sections.children[1].children);
-          for (let item in this.formlyModel) {
-            filteredNodes.forEach((element) => {
-              if (item == element.formly[0].fieldGroup[0].key) {
-                makeModel[item] = this.formlyModel[item]
-              }
-            });
-          }
-          this.dataModel = makeModel;
-          if (Object.keys(makeModel).length > 0) {
-            for (const key in this.dataModel) {
-              if (this.dataModel.hasOwnProperty(key)) {
-                const value = this.getValueFromNestedObject(key, this.formlyModel);
-                if (value !== undefined) {
-                  this.dataModel[key] = this.dataModel[key] ? this.dataModel[key] : value;
+      this.requestSubscription = this.dataSharedService.sectionSubmit.subscribe({
+        next: (res) => {
+          const checkButtonExist = this.findObjectById(this.sections, res.id);
+          // const checkButtonExist = this.isButtonIdExist(this.sections.children[1].children, res.id);
+          if (checkButtonExist?.appConfigurableEvent) {
+            let makeModel: any = {};
+            const filteredNodes = this.filterInputElements(this.sections.children[1].children);
+            for (let item in this.formlyModel) {
+              filteredNodes.forEach((element) => {
+                if (item == element.formly[0].fieldGroup[0].key) {
+                  makeModel[item] = this.formlyModel[item]
+                }
+              });
+            }
+            this.dataModel = makeModel;
+            if (Object.keys(makeModel).length > 0) {
+              for (const key in this.dataModel) {
+                if (this.dataModel.hasOwnProperty(key)) {
+                  const value = this.getValueFromNestedObject(key, this.formlyModel);
+                  if (value !== undefined) {
+                    this.dataModel[key] = this.dataModel[key] ? this.dataModel[key] : value;
+                  }
                 }
               }
             }
+            // this.submit();
+            if (Object.keys(makeModel).length > 0) {
+              this.saveData(res)
+            }
           }
-          // this.submit();
-          if (Object.keys(makeModel).length > 0) {
-            this.saveData(res)
-          }
+        },
+        error: (err) => {
+          console.error(err);
         }
-      },
-      error: (err) => {
-        console.error(err);
+      })
+    } else {
+      let gridListData = this.findObjectByTypeBase(this.sections, "gridList");
+      if (gridListData) {
+        this.getFromQueryOnlyTable(gridListData);
       }
-    })
+    }
+
   }
   getValueFromNestedObject(key: string, obj: any): any {
     const keys = key.split('.');
@@ -431,7 +438,7 @@ export class SectionsComponent implements OnInit {
                         }
                       });
 
-                      tableData.tableHeaders = tableData.tableHeaders.concat(propertiesWithoutDataType.filter((item : any) => !tableData.tableHeaders.some((objItem : any) => objItem.key === item.key)));
+                      tableData.tableHeaders = tableData.tableHeaders.concat(propertiesWithoutDataType.filter((item: any) => !tableData.tableHeaders.some((objItem: any) => objItem.key === item.key)));
                       // tableData.tableHeaders = obj;
                     }
                   }
@@ -448,9 +455,92 @@ export class SectionsComponent implements OnInit {
         }
       }
     }
-
-
   }
+  getFromQueryOnlyTable(data: any) {
+    const findClickApi = data?.appConfigurableEvent?.find((item: any) =>
+      item.actions.some((action: any) => action.method === 'get' && action.actionType === 'api')
+    );
+
+    if (!findClickApi) return;
+
+    const apiUrl = findClickApi.actions[0]?.url || `knex-query/${this.screenName}`;
+    const pagination = data.serverSidePagination ? `?page=1&pageSize=${data?.end}` : '';
+
+    this.saveLoader = true;
+    this.employeeService.getSQLDatabaseTable(apiUrl + pagination).subscribe({
+      next: (res) => {
+        if (data && res.isSuccess && res.data.length > 0) {
+          if (findClickApi.actions[0]?.url.includes('/userComment')) {
+            // let tasks = res.data.filter((a: any) => a.parentId == '' || a.parentId == undefined); 
+
+            // const parentData = res.data.filter((a : any) => a.parentId == ''); // Filter top-level items
+            // let parseParent = JSON.parse(JSON.stringify(parentData))
+            // parseParent.forEach((element: any) => {
+            //     // Find children for each parent based on componentId
+            //     const children = res.data.filter((a : any) => a.componentId === element.componentId && a.parentId === '');
+            //     element['children'] = children;
+
+            //     // Find grandchildren for each child based on parentId
+            //     if (element.children) {
+            //         if (element.children.length > 0) {
+            //             element.children.forEach((child: any) => {
+            //                 const grandchildren = res.data.filter((a : any) => a.parentId === child._id);
+            //                 console.log("grandCHild : " + grandchildren)
+            //                 child['children'] = grandchildren;
+            //             });
+            //         }
+            //     }
+            // });
+
+
+            const requiredData = res.data.map(({ __v, _id, ...rest }: any) => ({
+              expand: false,
+              id: _id,
+              ...rest,
+            }));
+            res.data = JSON.parse(JSON.stringify(requiredData));
+          }
+
+          data.tableData = res.data.map((element: any) => ({ ...element, id: element.id?.toString() }));
+
+          if (!data.end) {
+            data.end = 10;
+          }
+          data.pageIndex = 1;
+          data.totalCount = res.data.length;
+          data.serverApi = apiUrl;
+          data.targetId = '';
+          data.displayData = data.tableData.length > data.end ? data.tableData.slice(0, data.end) : data.tableData;
+
+          if (data.tableHeaders.length === 0) {
+            data.tableHeaders = Object.keys(data.tableData[0] || {}).map(key => ({ name: key }));
+            data['tableKey'] = data.tableHeaders;
+          } else {
+            const tableKey = Object.keys(data.tableData[0] || {}).map(key => ({ name: key }));
+            if (JSON.stringify(data['tableKey']) !== JSON.stringify(tableKey)) {
+              const updatedData = data.tableHeaders.filter((updatedItem: any) =>
+                !tableKey.some(headerItem => headerItem.name === updatedItem.name)
+              );
+              if (updatedData.length > 0) {
+                data.tableHeaders.forEach((item: any) => {
+                  for (let i = 0; i < updatedData.length; i++) {
+                    item[updatedData[i].name] = '';
+                  }
+                });
+              }
+            }
+          }
+        }
+        this.saveLoader = false;
+      },
+      error: (error: any) => {
+        console.error(error);
+        this.toastr.error("An error occurred", { nzDuration: 3000 });
+        this.saveLoader = false;
+      }
+    });
+  }
+
   gridRulesData: any;
   assignGridRules(data: any) {
     if (this.gridRulesData?.data.length > 0) {

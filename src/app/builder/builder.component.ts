@@ -6498,4 +6498,15 @@ export class BuilderComponent implements OnInit {
   showRulesFunc(ruleType: any) {
     this.showRules = ruleType;
   }
+  applyHighlightSearch(data: any) {
+  const isMatch = data?.label.toLowerCase() === this.searchValue.searchValue.toLowerCase();
+  data['searchHighlight'] = isMatch;
+
+  if (data?.children?.length > 0) {
+    data.children.forEach((element: any) => {
+      this.applyHighlightSearch(element);
+    });
+  }
+}
+  
 }

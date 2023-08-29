@@ -1413,7 +1413,7 @@ export class PagesComponent implements OnInit {
         } else if (data.type === 'listWithComponents' || data.type === 'mainTab' || data.type === 'mainStep') {
           if (data.children) {
             data.children.forEach((item: any) => {
-              if(item.mapApi){
+              if (item.mapApi) {
                 this.makeDynamicSections(item.mapApi, item);
               }
             });
@@ -1522,11 +1522,11 @@ export class PagesComponent implements OnInit {
                         this.pushObjectsById(this.resData, tabsAndStepper, selectedNode.id);
                         checkPushOrNot = false;
                       }
-                    } 
+                    }
                     // else {
                     //   a.children[1].children.forEach((b: any, i: number) => {
                     //     let idx = i;
-  
+
                     //     else if (b.type == 'listWithComponents') {
                     //       b.children.forEach((listChild: any, chilIndex: number) => {
                     //         let idx = chilIndex

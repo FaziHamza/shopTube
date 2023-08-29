@@ -6,8 +6,10 @@
   </ng-container>
 </nz-modal> -->
 <div *ngIf="data?.isAddRow == undefined ? true: data?.isAddRow">
-  <button nz-button (click)="addRow()" *ngIf="!checkType" nzType="primary"> <i class="fa-regular fa-plus mr-2"></i> Add</button>
-  <button nz-button (click)="addColumn()" *ngIf="checkType" nzType="primary"> <i class="fa-regular fa-plus mr-2"></i> Add</button>
+  <button nz-button (click)="addRow()" *ngIf="!checkType" nzType="primary"> <i class="fa-regular fa-plus mr-2"></i>
+    Add</button>
+  <button nz-button (click)="addColumn()" *ngIf="checkType" nzType="primary"> <i class="fa-regular fa-plus mr-2"></i>
+    Add</button>
 </div>
 <div class="dynamic-table">
   <!-- [nzFrontPagination]='data?.nzFrontPagination' -->
@@ -21,10 +23,9 @@
         <th *ngIf="data.showCheckbox" [(nzChecked)]="allChecked" [nzIndeterminate]="indeterminate"
           (nzCheckedChange)="checkAll($event)"></th>
         <ng-container *ngFor="let header of tableHeaders">
-          <th *ngIf="header.name != 'defaultValue' && header.name != 'children' && header.name != 'expandable'"
-            [nzSortOrder]="header?.sortOrder" [nzSortFn]="header?.sortFn" [nzSortDirections]="header?.sortDirections"
-            [nzFilterMultiple]="header?.filterMultiple" [nzFilters]="header?.listOfFilter"
-            [nzFilterFn]="header?.filterFn"
+          <th *ngIf="header.name != 'defaultValue'  " [nzSortOrder]="header?.sortOrder" [nzSortFn]="header?.sortFn"
+            [nzSortDirections]="header?.sortDirections" [nzFilterMultiple]="header?.filterMultiple"
+            [nzFilters]="header?.listOfFilter" [nzFilterFn]="header?.filterFn"
             (click)="header?.columnClickApi ? onClickColumn(header.columnClickApi,header): ''">
             {{header['title'] ? header['title'] : header['name']| translate}}<span
               *ngIf="header?.gridHeaderSum">({{header?.gridHeaderSum}})</span>
@@ -38,13 +39,12 @@
         <ng-container *ngFor="let item of data1; let i = index">
           <tr [ngStyle]="{'background': item?.color}" (click)="checkTypeData(item)" class="desktop-toggle"
             (dblclick)="updateModel(item)" (click)="data?.rowClickApi!='' ? onClickRow(data.rowClickApi,item): ''">
-            <td *ngIf="item.expandable" [(nzExpand)]="item.expand"></td>
+            <td *ngIf="item.expand != undefined" [(nzExpand)]="item.expand"></td>
             <td *ngIf="data.showCheckbox" [(nzChecked)]="item.checked" (nzCheckedChange)="refreshStatus()"></td>
             <ng-container *ngFor="let header of data['tableKey']; let index = index">
               <!-- {{tableHeaders[index]?.dataType | json}} -->
-              <td (click)="startEdit(item.id)" [nzEllipsis]="true" class="5"
-                *ngIf="tableHeaders[index]?.dataType !='objectType' && header.name != 'headerButton' && header.name != 'footerButton' && header.name != 'expandable' && header.name != 'checked'
-                && header.name != 'expand' && header.name !='children' && header.name != 'defaultValue' && header.name != 'children'">
+              <td (click)="startEdit(item.id)" [nzEllipsis]="true" class="5" *ngIf="tableHeaders[index]?.dataType !='objectType' && header.name != 'headerButton' && header.name != 'footerButton' && header.name != 'expandable' && header.name != 'checked'
+                && header.name != 'expand' && header.name !='children' && header.name != 'defaultValue' ">
                 <div class="1"
                   *ngIf="(tableHeaders[index]?.dataType !='select' || !configurationTable) && tableHeaders[index]?.dataType !='image-upload' && !isMyDataArray(item[header.name]
                 )
@@ -106,6 +106,14 @@
               </a>
             </td>
           </tr>
+          <tr [nzExpand]="item.expand">
+            <ng-container *ngIf="item?.children && item.expand">
+              <dynamic-table [tableId]='item.tableId' *ngIf="item?.children.length > 0" [checkType]="false"
+                [tableData]='item?.children' [tableHeaders]='item.tableHeaders' [formlyModel]="formlyModel" [form]="form"
+                [screenId]="screenId" [data]="data" [displayData]="item?.children" [screenName]="screenName"
+                [configurationTable]="item?.showEditInput ? item?.showEditInput : false" [showPagination]="false"></dynamic-table>
+            </ng-container>
+          </tr>
           <div (dblclick)="updateModel(item)" class="dynamic-responsive-table mobile-toggle" style="width: 100%;">
             <tr *ngFor="let entryKey of getObjectKeys(item)">
               <ng-container *ngFor="let header of tableHeaders; let index = index">
@@ -115,9 +123,8 @@
                   <td *ngIf="entryKey == 'expand'" [(nzExpand)]="item[entryKey]"></td>
                   <td class="responsive-checkBox" *ngIf="data.showCheckbox && entryKey == 'checked'"
                     [(nzChecked)]="item.checked" (nzCheckedChange)="refreshStatus()"></td>
-                  <td
-                    *ngIf="tableHeaders[index]?.dataType !='objectType' && header.name != 'headerButton' && header.name != 'footerButton' && header.name != 'expandable' && header.name != 'checked'
-                  && header.name != 'expand' && header.name !='children' && header.name != 'defaultValue' && header.name != 'children'">
+                  <td *ngIf="tableHeaders[index]?.dataType !='objectType' && header.name != 'headerButton' && header.name != 'footerButton' && header.name != 'expandable' && header.name != 'checked'
+                  && header.name != 'expand' && header.name != 'defaultValue' ">
                     <ng-container class="editable-cell" *ngIf="editingEntry == entryKey && configurationTable">
                       <input nz-input type="text" [(ngModel)]="item[entryKey]">
                     </ng-container>
@@ -149,8 +156,8 @@
                     {{ transform(item[header.name]) }}
                   </td>
                   <td class="5" *ngIf="tableHeaders[index]?.dataType =='objectType'"
-                   [ngStyle]="{'background':tableHeaders[index]?.columnColor}" >
-                   {{tableHeaders[index]?.columnColor}}
+                    [ngStyle]="{'background':tableHeaders[index]?.columnColor}">
+                    {{tableHeaders[index]?.columnColor}}
                     {{item[header.name]}}
                   </td>
                 </ng-container>
@@ -181,7 +188,7 @@
       </tr>
     </tfoot>
   </nz-table>
-  <div class="paginatio-bottom" *ngIf="data?.nzShowPagination && data.totalCount > data?.end">
+  <div class="paginatio-bottom" *ngIf="data?.nzShowPagination && data.totalCount > data?.end && showPagination">
     <div>
       <p class="showing">Showing <span>{{start}} - {{end ? end : data?.end}}</span> from
         <span>{{data.totalCount}}</span> data
@@ -189,14 +196,15 @@
     </div>
     <div>
       <nz-pagination [nzTotal]="data.totalCount" [(nzPageIndex)]="data.pageIndex"
-        [(nzPageSize)]="pageSize ? pageSize : data.end" (nzPageIndexChange)="onPageIndexChange($event)"></nz-pagination>
+        [(nzPageSize)]="pageSize ? pageSize : data.end" (nzPageIndexChange)="onPageIndexChange($event)">
+      </nz-pagination>
     </div>
   </div>
 </div>
 
 
-<div >
-  <button nz-button (click)="save()" nzType="primary">Save Change</button>
+<div>
+  <button nz-button *ngIf="configurationTable" (click)="save()" nzType="primary">Save Change</button>
 </div>
 <nz-modal [nzWidth]="1400" [(nzVisible)]="isHeaderVisible" nzTitle="Grid Rule" (nzOnCancel)="handleCancel()"
   (nzOnOk)="handleOk()">
@@ -212,6 +220,7 @@
     [screenName]="this.issueReport['issueReport'][0].screenId" [assignToresponse]="this.assignToresponse"
     [type]="'userTaskManagement'" [userTaskManagementData]="tasks"></st-task-report>
 </div> -->
-<st-main [mainData]="data" *ngIf="data?.children.length > 0 && !configurationTable" [screenName]="screenName" [form]="form" [formlyModel]="formlyModel"></st-main>
-
-
+<ng-container *ngIf="data?.children">
+  <st-main [mainData]="data" *ngIf="data?.children.length > 0 && !configurationTable" [screenName]="screenName"
+    [form]="form" [formlyModel]="formlyModel"></st-main>
+</ng-container>
