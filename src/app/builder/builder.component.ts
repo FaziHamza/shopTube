@@ -327,6 +327,7 @@ export class BuilderComponent implements OnInit {
     this.applySize();
   }
   saveJson() {
+    debugger
     if (this.screenPage) {
       this.saveLoader = true;
       if (this.selectedNode) {
@@ -749,6 +750,9 @@ export class BuilderComponent implements OnInit {
     isLeaf: true
   };
   downloadJson() {
+    if (this.selectedNode) {
+      this.highlightSelect(this.selectedNode.id, false);
+    }
     var currentData = this.jsonParse(this.jsonStringifyWithObject(this.nodes));
     // JSON.parse(
     //   JSON.stringify(this.nodes, function (key, value) {
@@ -766,7 +770,7 @@ export class BuilderComponent implements OnInit {
       "screenData": currentData,
       "navigation": this.navigation
     };
-
+   
     const blob = new Blob([JSON.stringify(data)], { type: 'application/json' });
     const a = document.createElement('a');
     a.href = URL.createObjectURL(blob);
@@ -3265,6 +3269,7 @@ export class BuilderComponent implements OnInit {
     this.addControlToJson('text', this.textJsonObj);
   }
   openField(event: any) {
+    debugger
     this.searchControlValue = '';
     let id = event.origin.id;
     let node = event.origin;
