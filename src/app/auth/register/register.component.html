@@ -113,7 +113,7 @@
 
                     <nz-input-group [nzPrefix]="prefixTemplatepass" [nzSuffix]="suffixTemplateInfo"
                         class="!w-[350px] mb-4 rounded-lg py-2 px-4 !h-[46px]">
-                        <input type="password" formControlName="password" nz-input placeholder="Password" />
+                        <input [type]="passwordType" formControlName="password" nz-input placeholder="Password" />
                     </nz-input-group>
                     <app-error [form_control]="f['password']" [isSubmitted]="isFormSubmit"></app-error>
                     <ng-template #prefixTemplatepass> 
