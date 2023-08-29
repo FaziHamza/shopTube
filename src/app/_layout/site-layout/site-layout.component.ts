@@ -193,7 +193,7 @@ export class SiteLayoutComponent implements OnInit {
                 }
               }
             }
-            if (!window.location.href.includes('/pages') && res.data?.default?.navigation) {
+            if (!window.location.href.includes('/pages') && res.data?.default?.navigation && !window.location.href.includes('/menu-builder')) {
               this.router.navigate(['/pages/' + res.data?.default?.navigation
               ]);
             }
