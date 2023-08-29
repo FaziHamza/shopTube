@@ -17,6 +17,7 @@
         "build": {
           "builder": "@angular-builders/custom-webpack:browser",
           "options": {
+            "outputPath": "dist/ngZorro",
             "customWebpackConfig": {
               "path": "./webpack.config.ts"
             },
@@ -83,6 +84,10 @@
         },
         "serve": {
           "builder": "@angular-builders/custom-webpack:dev-server",
+          "options": {
+            "browserTarget": "ngZorro:build",
+            "port": 5600
+          },
           "configurations": {
             "production": {
               "browserTarget": "ngZorro:build:production"
