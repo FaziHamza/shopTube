@@ -22,6 +22,8 @@
 // @import "assets/style/main.min.scss";
 @import "output.css";
 
+$primary-color : #2563EB;
+
 body {
   font-family: Roboto, "Helvetica Neue", sans-serif, Rubik, sans-serif;
 }
@@ -3689,7 +3691,7 @@ object {
         height: 40px;
         flex-shrink: 0;
         border-radius: 6px;
-        background: #2563EB;
+        background: $primary-color;
         color: #FFF;
         font-size: 14px;
         font-style: normal;
@@ -3710,7 +3712,7 @@ object {
         height: 40px;
         flex-shrink: 0;
         border-radius: 6px;
-        background: #2563EB;
+        background: $primary-color;
         color: #FFF;
         font-size: 16px;
         font-style: normal;
@@ -3731,8 +3733,9 @@ object {
     display: flex;
 
     .builder-tree {
-      width: 235px;
-      margin-right: 10px;
+      width:100%;
+      // width: 235px;
+      // margin-right: 10px;
       height: calc(100vh - 165px);
     }
 
@@ -3887,7 +3890,7 @@ object {
     }
 
     .text-primary {
-      color: #2563EB;
+      color: $primary-color;
     }
 
     .fa-file {
@@ -4402,7 +4405,7 @@ object {
 
   .banner-area {
     padding: 40px;
-    background: #2563EB;
+    background: $primary-color;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -4579,7 +4582,7 @@ object {
 
           /* 22.4px */
           a {
-            color: var(--primary-600-base, #2563EB);
+            color: var(--primary-600-base, $primary-color);
 
             /* body/medium/bold */
 
@@ -4601,7 +4604,7 @@ object {
         gap: 10px;
         flex-shrink: 0;
         border-radius: 12px;
-        background: var(--primary-600-base, #2563EB);
+        background: var(--primary-600-base, $primary-color);
         color: var(--additional-white, #FFF);
 
         /* Heading/H6 */
@@ -4704,7 +4707,7 @@ object {
     height: 40px;
     flex-shrink: 0;
     border-radius: 6px;
-    background: #2563EB;
+    background: $primary-color;
     color: #FFF;
     font-size: 14px;
     font-style: normal;
@@ -5113,7 +5116,7 @@ nz-content {
     background-color: #ECF6FF;
 
     i {
-      color: #2563EB !important;
+      color: $primary-color !important;
     }
 
     &:hover i {
@@ -5221,7 +5224,7 @@ nz-content {
 li.ant-cascader-menu-item:nth-child(1),
 li.ant-cascader-menu-item:nth-child(1):hover {
   color: #fff;
-  background: #2563EB;
+  background: $primary-color;
   height: 50px;
   padding: 0 25px;
   border-radius: 4px 0 0 0;
@@ -5449,7 +5452,7 @@ ul.ant-cascader-menu:nth-child(2)>li:nth-child(1)>div:nth-child(2)>i:nth-child(1
     flex-direction: column;
     justify-content: space-between;
     align-items: center;
-    background-color: #2563EB;
+    background-color: $primary-color;
     color: #fff;
     border-bottom: 1px solid #cccccc77;
     box-sizing: border-box;
@@ -5687,7 +5690,7 @@ ul.ant-cascader-menu:nth-child(2)>li:nth-child(1)>div:nth-child(2)>i:nth-child(1
 li.ant-cascader-menu-item:nth-child(1),
 li.ant-cascader-menu-item:nth-child(1):hover {
   color: #fff;
-  background: #2563EB;
+  background: $primary-color;
   height: 50px;
   padding: 0 25px;
   border-radius: 4px 0 0 0;
@@ -5862,18 +5865,18 @@ li.ant-cascader-menu-item:nth-child(1):hover {
       margin-left: 6px;
 
       &:hover {
-        // background-color: #2563EB;
+        // background-color: $primary-color;
         // color: #fff;
         border-radius: 6px 6px 0 0;
 
         .ant-tabs-tab-btn {
-          color: #2563EB;
+          color: $primary-color;
         }
       }
     }
 
     .ant-tabs-tab-active {
-      // background-color: #2563EB;
+      // background-color: $primary-color;
       border-radius: 6px 6px 0 0;
 
       // .ant-tabs-tab-btn {
@@ -5899,7 +5902,7 @@ li.ant-cascader-menu-item:nth-child(1):hover {
         .ant-tabs-nav-list {
           height: 100%;
           overflow-y: auto;
-          // scrollbar-color: #2563eb;
+          // scrollbar-color: $primary-color;
           scrollbar-width: thin;
 
           &::-webkit-scrollbar {
@@ -5907,7 +5910,7 @@ li.ant-cascader-menu-item:nth-child(1):hover {
           }
 
           // &::-webkit-scrollbar-thumb {
-          //   background-color: #2563EB;
+          //   background-color: $primary-color;
           // }
 
           // &::-webkit-scrollbar-track {
@@ -5919,7 +5922,7 @@ li.ant-cascader-menu-item:nth-child(1):hover {
 
           .ant-tabs-tab-active,
           .ant-tabs-tab-active:hover {
-            // background-color: #2563EB;
+            // background-color: $primary-color;
             display: flex;
             justify-content: center;
             border-radius: 0 6px 6px 0;
@@ -5946,7 +5949,7 @@ li.ant-cascader-menu-item:nth-child(1):hover {
             }
 
             &:hover {
-              // background-color: #2563EB;
+              // background-color: $primary-color;
               border-radius: 0 6px 6px 0;
               ;
 
@@ -5972,7 +5975,7 @@ li.ant-cascader-menu-item:nth-child(1):hover {
   .ant-input-group>.ant-input:first-child,
   .ant-input-group>.ant-input:first-child .ant-select .ant-select-selector {
     // color: #fff;
-    // background: #2563EB;
+    // background: $primary-color;
     height: 40px !important;
     padding: 0 10px !important;
     border-radius: 6px !important;
@@ -6071,7 +6074,7 @@ li.ant-cascader-menu-item:nth-child(1):hover {
     height: 40px;
     flex-shrink: 0;
     border-radius: 6px;
-    background: #2563EB;
+    background: $primary-color;
     color: #FFF;
     font-size: 14px;
     font-style: normal;
@@ -6093,10 +6096,10 @@ li.ant-cascader-menu-item:nth-child(1):hover {
 }
 
 tr:hover {
-  background-color: #2563eb05;
+  background-color: #2563EB05;
 
   td {
-    background-color: #2563eb05 !important;
+    background-color: #2563EB05 !important;
   }
 }
 
@@ -6240,7 +6243,7 @@ tr:hover {
       }
 
       td:first-child {
-        background-color: #2563EB !important;
+        background-color: $primary-color !important;
         color: #fff !important;
       }
 
@@ -6346,7 +6349,7 @@ tr:hover {
   height: 40px;
   flex-shrink: 0;
   border-radius: 6px;
-  background: #2563EB;
+  background: $primary-color;
   color: #FFF;
   font-size: 14px;
   font-style: normal;
@@ -6381,7 +6384,7 @@ tr:hover {
     height: 40px;
     flex-shrink: 0;
     border-radius: 6px;
-    background: #2563EB;
+    background: $primary-color;
     color: #FFF;
     font-size: 14px;
     font-style: normal;
@@ -6428,7 +6431,7 @@ tr:hover {
   .ant-btn-primary {
     height: 35px !important;
     border-radius: 6px !important;
-    background: #2563EB !important;
+    background: $primary-color !important;
     color: #FFF !important;
     font-size: 14px !important;
     font-style: normal !important;
@@ -6610,8 +6613,8 @@ tr:hover {
 
   // background-color: #fafafa;
   &:hover {
-    color: #2563EB;
-    //   border-color: #2563EB;
+    color: $primary-color;
+    //   border-color: $primary-color;
     //   background-color: #fafafa;
   }
 }
@@ -6733,7 +6736,7 @@ tr:hover {
   height: 40px;
   flex-shrink: 0;
   border-radius: 6px;
-  background: #2563EB;
+  background: $primary-color;
   color: #FFF;
   font-size: 14px;
   font-style: normal;
@@ -6755,3 +6758,46 @@ tr:hover {
 
 
 
+.selectedJsonModal {
+
+
+  .jsoneditor-menu {
+    border-radius: 6px 6px 0 0;
+    background: $primary-color;
+    color: #fff !important;
+    height: 40px;
+    display: flex;
+    align-items: center;
+  }
+
+  .jsoneditor-search {
+    margin-right: 3px;
+  }
+
+  .jsoneditor-frame {
+    height: 31px;
+    display: flex;
+    align-items: center;
+    border-radius: 4px;
+  }
+
+  .jsoneditor-frame>input:nth-child(2) {
+    height: 25px;
+  }
+
+  .jsoneditor {
+    border-radius: 6px;
+  }
+
+  .jsoneditor-outer {
+    height: 350px;
+  }
+
+  .jsoneditor-results {
+    padding: 2.5px 5px;
+    font-weight: 600;
+    /*! color: #fff; */
+  }
+  
+
+}
