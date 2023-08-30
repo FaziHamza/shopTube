@@ -1,6 +1,3 @@
-<!-- (click)="LayerShow()" -->
-<!-- (click)="checkPage()" go to page -->
-<!-- {{departmentData | json}} -->
 <nz-spin [nzSpinning]="saveLoader" [nzSize]="'large'">
   <div class="b-card top-action-bar p-3">
     <div class="page-selector">
@@ -38,32 +35,32 @@
           <i class="fa-regular fa-trash"></i>
         </button>
         <button [ngClass]="iconActive == 'clearChildNode' ? 'active' : ''" [nzTooltipTitle]="'
-          Add New Page'" nz-tooltip nz-button nzType="link" (click)="openMarketPlace()">
+            Add New Page'" nz-tooltip nz-button nzType="link" (click)="openMarketPlace()">
           <i class="fa-regular fa-circle-plus"></i>
         </button>
         <!-- <button [ngClass]="iconActive == 'clearChildNode' ? 'active' : ''" [nzTooltipTitle]="'
-          Add Template'" nz-tooltip nz-button nzType="link" (click)="addWebsiteTemplate()">
-          <i class="fa-regular fa-file-circle-plus"></i> -->
+            Add Template'" nz-tooltip nz-button nzType="link" (click)="addWebsiteTemplate()">
+            <i class="fa-regular fa-file-circle-plus"></i> -->
         <button [ngClass]="iconActive == 'clearChildNode' ? 'active' : ''" [nzTooltipTitle]="'
-          Add Template'" nz-tooltip nz-button nzType="link" (click)="clearChildNode()">
+            Add Template'" nz-tooltip nz-button nzType="link" (click)="clearChildNode()">
           <i class="fa-regular fa-file-circle-plus"></i>
         </button>
       </div>
-
+  
       <!-- <div class="screen-sizing">
-        <button nz-button nzType="link" class="active">
-          <i class="fa-solid fa-display"></i>
-        </button>
-        <button nz-button nzType="link">
-          <i class="fa-solid fa-laptop"></i>
-        </button>
-        <button nz-button nzType="link">
-          <i class="fa-solid fa-tablet-screen-button"></i>
-        </button>
-        <button nz-button nzType="link">
-          <i class="fa-solid fa-mobile-screen"></i>
-        </button>
-      </div> -->
+          <button nz-button nzType="link" class="active">
+            <i class="fa-solid fa-display"></i>
+          </button>
+          <button nz-button nzType="link">
+            <i class="fa-solid fa-laptop"></i>
+          </button>
+          <button nz-button nzType="link">
+            <i class="fa-solid fa-tablet-screen-button"></i>
+          </button>
+          <button nz-button nzType="link">
+            <i class="fa-solid fa-mobile-screen"></i>
+          </button>
+        </div> -->
       <div class="action-drop-down">
         <button nz-button nzType="primary" class="actions-btn" nz-dropdown [nzDropdownMenu]="menu4">
           Actions
@@ -100,329 +97,339 @@
         <input type="file" class="form-control" id="selectedFileInput" style="display:none"
           (change)="selectedJsonUpload($event)">
         <!-- <nz-space>
-          <button *nzSpaceItem nz-button (click)="pageConfig()" nzType="primary" class="upload-btn">
-            <i class="fa-light fa-gear"></i>
-          </button>
-        </nz-space> -->
+            <button *nzSpaceItem nz-button (click)="pageConfig()" nzType="primary" class="upload-btn">
+              <i class="fa-light fa-gear"></i>
+            </button>
+          </nz-space> -->
         <button nz-button nzType="primary" class="upload-btn" (click)="checkPage()">
           <i class="fa-regular fa-arrow-up-from-bracket"></i>
         </button>
       </div>
     </div>
   </div>
-  <div class="builder-main-body ">
-    <div class="builder-tree b-card" *ngIf="IslayerVisible">
-      <nz-input-group class="input-group-icon">
-        <input type="text" nz-input id="mySearch" (keyup)="applyHighlightSearch(nodes[0])" [(ngModel)]="searchValue"
-          placeholder="Search..">
-        <i class="fa-regular fa-magnifying-glass"></i>
-      </nz-input-group>
-      <ul id="search-menu" *ngIf="filterMenuData.length > 0  ">
-        <div *ngFor="let item of filterMenuData">
-          <li class="menu-labels d-flex justify-content-between">{{item.title
-            | uppercase}}
-            <label (click)="openConfig(item,item)">
-              <span nz-icon nzType="sliders" nzTheme="outline"></span>
-            </label>
-          </li>
-        </div>
-      </ul>
-      <div class="b-tree">
-        <nz-tree nzDraggable nzBlockNode [nzData]="nodes"
-          [nzTreeTemplate]="nzTreeTemplate" (nzExpandChange)="nzEvent($event)"></nz-tree>
-        <ng-template #nzTreeTemplate let-node let-origin="origin">
-          <div
-            class="custom-node flex card-lable-row {{ node.origin?.searchHighlight ? 'border-2 border-indigo-600' : '' }}"
-            (mouseover)="hoverIn(node)" (mouseleave)="hoverOut(node)"
-            [ngClass]="isActiveShow === node.origin.id ? 'isActive' : ''">
-            <span (click)="[openField(node),highlightSelect(node.origin.id,true)]">
-              <i class="tree-layer-icon"
-                *ngIf="node.origin.type == 'page' || node.origin.type == 'pageHeader' || node.origin.type == 'pageBody' || node.origin.type == 'pageFooter' || node.origin.type == 'sections' || node.origin.type == 'header' || node.origin.type == 'body' || node.origin.type == 'footer' ; else labelWithType"
-                [class]="node.isExpanded ? (node.origin.treeExpandIcon ? node.origin.treeExpandIcon : 'fa-regular fa-square-dashed ') : (node.origin.treeInExpandIcon ? node.origin.treeInExpandIcon : 'fa-regular fa-square-dashed')"></i>
-              <ng-template #labelWithType>
-                <span class="jameel-font">{{ typeFirstAlphabetAsIcon(node) }}</span>
-              </ng-template>
-              <span class="folder-name">{{ node.origin.title ? node.title :
-                node.origin.id }}</span>
-            </span>
-            <span *ngIf="screenPage" class="row-icon">
-              <label class="mx-1"
-                *ngIf="isVisible === node.origin.id && node?.origin?.type != 'page' && node?.origin?.type !='sections'"
-                (click)="[openField(node),highlightSelect(node.origin.id,true)]">
-                <span class="fa hover:shadow-lg text-gray-500" nz-icon nzType="plus-circle" nzTooltipTitle="Add"
-                  nzTheme="outline" nz-tooltip></span>
-              </label>
-              <span class=" mx-1" *ngIf="isVisible === node.origin.id
-              && node?.origin?.type != 'pageHeader' && node?.origin?.type != 'pageBody'  && node?.origin?.type != 'page' && node?.origin?.type != 'header'
-              && node?.origin?.type != 'body' && node?.origin?.type != 'footer' && node?.origin?.type != 'pageFooter'"
-                (click)="insertAt(node)">
-                <!-- <span class="fa " nz-icon
-                  nzType="copy"
-                  nzTheme="outline" ></span> -->
-
-                <i class="fa-regular fa-file-plus hover:shadow-lg text-blue-500" nzTooltipTitle="Duplicate"
-                  nz-tooltip></i>
-              </span>
-              <label class="mx-1" *ngIf="isVisible === node.origin.id" (click)="openConfig(node,node)">
-                <!-- <span class="fa " nz-icon nzType="setting"
-                  nzTheme="outline" ></span>
-                   -->
-                <i class="fa-regular fa-gear hover:shadow-lg text-gray-500" nzTooltipTitle="Configuration"
-                  nz-tooltip></i>
-
-              </label>
-
-              <label class="mx-1" *ngIf="isVisible === node.origin.id   && node.origin.type != 'pageHeader' && node.origin.type != 'pageBody'  && node.origin.type != 'page' && node.origin.type != 'header'
-              && node.origin.type != 'body' && node.origin.type != 'footer' && node.origin.type != 'pageFooter'"
-                (click)="remove(node, node)">
-
-                <!-- <span class="fa " nz-icon
-                  nzType="delete"
-                  nzTheme="outline" ></span> -->
-
-                <i class="fa-regular fa-trash  hover:shadow-lg text-red-500" nzTooltipTitle="Delete" nz-tooltip></i>
-              </label>
-              <label class="mx-1" *ngIf="isVisible === node.origin.id" (click)="openModal('previewJson' , node)">
-                <i nzTooltipTitle="Preview Json " nz-tooltip
-                  class="fa-regular fa-brackets-curly hover:shadow-lg text-green-500"></i>
-              </label>
-            </span>
+  <as-split class="builder-body-layout" [gutterSize]="3">
+    <as-split-area [size]="sizes[0]">
+      <div class="builder-main-body ">
+        <div class="builder-tree b-card" *ngIf="IslayerVisible">
+          <nz-input-group class="input-group-icon">
+            <input type="text" nz-input id="mySearch" (keyup)="applyHighlightSearch(nodes[0])" [(ngModel)]="searchValue"
+              placeholder="Search..">
+            <i class="fa-regular fa-magnifying-glass"></i>
+          </nz-input-group>
+          <ul id="search-menu" *ngIf="filterMenuData.length > 0  ">
+            <div *ngFor="let item of filterMenuData">
+              <li class="menu-labels d-flex justify-content-between">{{item.title
+                | uppercase}}
+                <label (click)="openConfig(item,item)">
+                  <span nz-icon nzType="sliders" nzTheme="outline"></span>
+                </label>
+              </li>
+            </div>
+          </ul>
+          <div class="b-tree">
+            <nz-tree nzDraggable nzBlockNode [nzData]="nodes" [nzTreeTemplate]="nzTreeTemplate"
+              (nzExpandChange)="nzEvent($event)"></nz-tree>
+            <ng-template #nzTreeTemplate let-node let-origin="origin">
+              <div
+                class="custom-node flex card-lable-row {{ node.origin?.searchHighlight ? 'border-2 border-indigo-600' : '' }}"
+                (mouseover)="hoverIn(node)" (mouseleave)="hoverOut(node)"
+                [ngClass]="isActiveShow === node.origin.id ? 'isActive' : ''">
+                <span (click)="[openField(node),highlightSelect(node.origin.id,true)]">
+                  <i class="tree-layer-icon"
+                    *ngIf="node.origin.type == 'page' || node.origin.type == 'pageHeader' || node.origin.type == 'pageBody' || node.origin.type == 'pageFooter' || node.origin.type == 'sections' || node.origin.type == 'header' || node.origin.type == 'body' || node.origin.type == 'footer' ; else labelWithType"
+                    [class]="node.isExpanded ? (node.origin.treeExpandIcon ? node.origin.treeExpandIcon : 'fa-regular fa-square-dashed ') : (node.origin.treeInExpandIcon ? node.origin.treeInExpandIcon : 'fa-regular fa-square-dashed')"></i>
+                  <ng-template #labelWithType>
+                    <span class="jameel-font">{{ typeFirstAlphabetAsIcon(node) }}</span>
+                  </ng-template>
+                  <span class="folder-name">{{ node.origin.title ? node.title :
+                    node.origin.id }}</span>
+                </span>
+                <span *ngIf="screenPage" class="row-icon">
+                  <label class="mx-1"
+                    *ngIf="isVisible === node.origin.id && node?.origin?.type != 'page' && node?.origin?.type !='sections'"
+                    (click)="[openField(node),highlightSelect(node.origin.id,true)]">
+                    <span class="fa hover:shadow-lg text-gray-500" nz-icon nzType="plus-circle" nzTooltipTitle="Add"
+                      nzTheme="outline" nz-tooltip></span>
+                  </label>
+                  <span class=" mx-1"
+                    *ngIf="isVisible === node.origin.id
+                    && node?.origin?.type != 'pageHeader' && node?.origin?.type != 'pageBody'  && node?.origin?.type != 'page' && node?.origin?.type != 'header'
+                    && node?.origin?.type != 'body' && node?.origin?.type != 'footer' && node?.origin?.type != 'pageFooter'"
+                    (click)="insertAt(node)">
+                    <!-- <span class="fa " nz-icon
+                        nzType="copy"
+                        nzTheme="outline" ></span> -->
+  
+                    <i class="fa-regular fa-file-plus hover:shadow-lg text-blue-500" nzTooltipTitle="Duplicate"
+                      nz-tooltip></i>
+                  </span>
+                  <label class="mx-1" *ngIf="isVisible === node.origin.id" (click)="openConfig(node,node)">
+                    <!-- <span class="fa " nz-icon nzType="setting"
+                        nzTheme="outline" ></span>
+                         -->
+                    <i class="fa-regular fa-gear hover:shadow-lg text-gray-500" nzTooltipTitle="Configuration"
+                      nz-tooltip></i>
+  
+                  </label>
+  
+                  <label class="mx-1" *ngIf="isVisible === node.origin.id   && node.origin.type != 'pageHeader' && node.origin.type != 'pageBody'  && node.origin.type != 'page' && node.origin.type != 'header'
+                    && node.origin.type != 'body' && node.origin.type != 'footer' && node.origin.type != 'pageFooter'"
+                    (click)="remove(node, node)">
+  
+                    <!-- <span class="fa " nz-icon
+                        nzType="delete"
+                        nzTheme="outline" ></span> -->
+  
+                    <i class="fa-regular fa-trash  hover:shadow-lg text-red-500" nzTooltipTitle="Delete" nz-tooltip></i>
+                  </label>
+                  <label class="mx-1" *ngIf="isVisible === node.origin.id" (click)="openModal('previewJson' , node)">
+                    <i nzTooltipTitle="Preview Json " nz-tooltip
+                      class="fa-regular fa-brackets-curly hover:shadow-lg text-green-500"></i>
+                  </label>
+                </span>
+              </div>
+            </ng-template>
           </div>
-        </ng-template>
+        </div>
+        <div class="builder-tree b-card" *ngIf="IsjsonEditorVisible">
+          <json-editor id="inputJsonDataa085f" [options]="editorOptions" [(ngModel)]="this.nodes"
+            [options]="editorOptions"></json-editor>
+        </div>
+  
       </div>
-    </div>
-    <div class="builder-tree b-card" *ngIf="IsjsonEditorVisible">
-      <json-editor id="inputJsonDataa085f" [options]="editorOptions" [(ngModel)]="this.nodes"
-        [options]="editorOptions"></json-editor>
-    </div>
-    <div [class]="IslayerVisible ? 'b-content-body' : 'b-content-body-full'">
-      <div class="b-card form-card-body">
-        <st-pages [resData]="nodes" [screenName]="screenName" [screenId]="_id" [form]="form" [formlyModel]="formlyModel"
-          *ngIf="nodes.length  > 0"></st-pages>
+    </as-split-area>
+    <as-split-area [size]="sizes[1]">
+      <div [class]="IslayerVisible ? 'b-content-body' : 'b-content-body-full'">
+        <div class="b-card form-card-body">
+          <st-pages [resData]="nodes" [screenName]="screenName" [navigation]="navigation" [screenId]="_id" [form]="form" [formlyModel]="formlyModel"
+            *ngIf="nodes.length  > 0 && navigation"></st-pages>
+            
+        </div>
       </div>
-    </div>
-  </div>
-</nz-spin>
-<nz-drawer [nzSize]="'large'" [nzWidth]="'80%'" [nzVisible]="IsShowConfig" nzPlacement="right"
-  [nzTitle]="'Control List'" [nzExtra]="config" (nzOnClose)="closeConfigurationList()">
-  <ng-container *nzDrawerContent>
-    <div id="mySidenav-right" class="sidenav-right">
-      <div class="mySidenav-right">
-        <div class="side-nav-body">
+    </as-split-area>
+  </as-split>
+  <nz-drawer [nzSize]="'large'" [nzWidth]="'80%'" [nzVisible]="IsShowConfig" nzPlacement="right"
+    [nzTitle]="'Control List'" [nzExtra]="config" (nzOnClose)="closeConfigurationList()">
+    <ng-container *nzDrawerContent>
+      <div id="mySidenav-right" class="sidenav-right">
+        <div class="mySidenav-right">
+          <div class="side-nav-body">
+            <nz-tabset>
+              <nz-tab nzTitle="Configuration">
+                <div class=" general_faq mt-3">
+                  <div style="position:relative ;" class="overall-drawer">
+                    <st-generic-field [modal]="formModalData" (notify)="notifyEmit($event)" [itemData]="fieldData"
+                      [type]="fieldData.type" [screenId]="_id" [screenName]="screenName" *ngIf="fieldData">
+                    </st-generic-field>
+                  </div>
+                </div>
+              </nz-tab>
+              <nz-tab nzTitle="UI Rule" (nzClick)="showRulesFunc('uiRule')">
+                <st-uirule [applicationId]="selectApplicationName" [selectedNode]="selectedNode"
+                  *ngIf="selectedNode && nodes.length  > 0 && showRules == 'uiRule'" [screenId]="_id"
+                  [screenName]="screenName" [screens]="screens" [nodes]="nodes"
+                  (ruleNotify)="getUIRuleData($event)"></st-uirule>
+                <!-- [screenName]="screenName" [screenModule]="screenModule" [nodes]="nodes" (ruleNotify)="getUIRuleData($event)"></st-uirule> -->
+              </nz-tab>
+              <nz-tab nzTitle="Validation Rule" (nzClick)="showRulesFunc('validationRule')">
+                <st-generic-field [modal]="validationFieldData.modelData" (notify)="notifyEmit($event)"
+                  [itemData]="validationFieldData" [type]="validationFieldData.type" [screenId]="_id"
+                  [screenName]="screenName" (deleteValidation)="deleteValidationRule($event)"
+                  *ngIf="validationFieldData &&  showRules == 'validationRule'">
+                </st-generic-field>
+                <!-- <st-validation-rule [configurationData]="validationFieldData"></st-validation-rule> -->
+              </nz-tab>
+              <nz-tab nzTitle="Buisness Rule" (nzClick)="showRulesFunc('businessRule')">
+                <st-business-rule [applicationId]="selectApplicationName" [selectedNode]="selectedNode"
+                  *ngIf="selectedNode && showRules == 'businessRule'" [screenName]="screenName" [screenId]="_id"
+                  [screens]="screens" [nodes]="nodes" [formlyModel]="this.formlyModel"></st-business-rule>
+              </nz-tab>
+              <nz-tab nzTitle="Actions" (nzClick)="showRulesFunc('actionRule')">
+                <st-action-rule [selectedNode]="selectedNode"
+                  *ngIf="selectedNode && showActionRule && showRules == 'actionRule'" [screenName]="screenName"
+                  [formlyModel]="this.formlyModel" [applicationId]="selectApplicationName" [nodes]="nodes"
+                  [screens]="screens" [screeenBuilderId]="_id"></st-action-rule>
+                <nz-alert *ngIf="!showActionRule" nzType="warning" nzMessage="Please contact your DBA to approve fields"
+                  nzShowIcon></nz-alert>
+              </nz-tab>
+              <nz-tab nzTitle="Grid Rules" (nzClick)="showRulesFunc('gridBusinessRule')">
+                <st-business-rule-grid *ngIf="selectedNode && nodes.length  > 0 && showRules == 'gridBusinessRule'"
+                  [selectedNode]="selectedNode" [screenName]="screenName" [applicationId]="selectApplicationName"
+                  [screenId]="_id" [screens]="screens" [nodes]="nodes"></st-business-rule-grid>
+              </nz-tab>
+            </nz-tabset>
+          </div>
+        </div>
+      </div>
+    </ng-container>
+  </nz-drawer>
+  <ng-template #config>
+    <!-- <span class="mr-2 text-lg hover:cursor-pointer" nz-icon nzType="close-circle" nzTheme="twotone"
+          (click)="closeConfigurationList()"></span> -->
+    <button nz-button nzType="primary" class="btn mr-2" (click)="backNode()"> <i
+        class="fa-regular fa-arrow-left mr-2"></i> Back</button>
+    <button nz-button nzType="primary" class="btn" (click)="nextNode()">Next <i
+        class="fa-regular fa-arrow-right ml-2"></i> </button>
+    <!-- <button nz-button nzType="default"
+          (click)="closeConfigurationList()">Cancel</button>
+        &nbsp;
+        <button nz-button nzType="primary"
+          (click)="closeConfigurationList()">OK</button> -->
+  </ng-template>
+  
+  <!-- side-nav-right -->
+  <nz-drawer [nzSize]="'large'" [nzWidth]="'80%'" [nzVisible]="controlListvisible" nzPlacement="right"
+    [nzTitle]="'Control List'" [nzExtra]="extra" (nzOnClose)="controlListClose()">
+    <ng-container *nzDrawerContent>
+      <div *ngFor="let item of htmlTabsData">
+        <div class="nav-header" style="height:6%">
+          <!-- <h3>{{item.label}}</h3> -->
+          <div class="side-bar-search-row">
+            <div class="search-bar">
+              <ul id="search-menu " *ngIf="searchControllData.length > 0 ">
+                <div class="flex flex-wrap tab-pills z-50">
+                  <div class="col-md-3 mb-1 p-1 hover:bg-#1890ff  " *ngFor="let searchItems of searchControllData">
+                    <button nz-button class=" rounded w-auto"
+                      *ngIf="searchItems.parameter != 'dashonictabsAddNew' && searchItems.parameter != 'timeline'  && searchItems.parameter != 'stepperAddNew' && searchItems.parameter != 'listWithComponents' && searchItems.parameter != 'kanabnAddNew'  && searchItems.parameter != 'addSection' && searchItems.parameter != 'cvtemplate'  && searchItems.parameter != 'dashnoicPricingTemplate'  && searchItems.parameter != 'login' && searchItems.parameter != 'loremIpsum'  && searchItems.parameter != 'dashnoicPricingTabletemplate' && searchItems.parameter != 'pricingtemplate' && searchItems.parameter != 'registerTemplate' && searchItems.parameter != 'signUpTemplate' && searchItems.parameter != 'profiletemplate' && searchItems.parameter != 'invoiceTemplate'"
+                      (click)="addControlToJson(searchItems.parameter,searchItems)"><i
+                        class={{searchItems.icon}}></i><span class="text-wrap">{{searchItems.label}}</span>
+                    </button>
+                    <ng-container
+                      *ngIf="searchItems.parameter != 'cvtemplate'  && searchItems.parameter != 'dashnoicPricingTemplate'  && searchItems.parameter != 'login' && searchItems.parameter != 'loremIpsum'  && searchItems.parameter != 'dashnoicPricingTabletemplate' && searchItems.parameter != 'pricingtemplate' && searchItems.parameter != 'registerTemplate' && searchItems.parameter != 'signUpTemplate' && searchItems.parameter != 'profiletemplate' && searchItems.parameter != 'invoiceTemplate'">
+                      <button nz-button class="w-auto rounded"
+                        *ngIf="searchItems.parameter == 'dashonictabsAddNew' || searchItems.parameter == 'timeline' || searchItems.parameter == 'listWithComponents' || searchItems.parameter == 'addSection' || searchItems.parameter == 'stepperAddNew' || searchItems.parameter == 'kanabnAddNew' || searchItems.parameter == 'address_form' || searchItems.parameter == 'employee_form' || searchItems.parameter == 'login_Form' || searchItems.parameter == 'signUp_Form'"
+                        (click)="addFunctionsInHtml(searchItems.parameter)"><i class={{searchItems.icon}}></i>
+                        <span class="text-wrap">{{searchItems.label}}</span>
+                      </button>
+                    </ng-container>
+                    <button nz-button nzType="default" nzBlock class="rounded"
+                      *ngIf=" searchItems.parameter == 'cvtemplate'  || searchItems.parameter == 'dashnoicPricingTemplate'  || searchItems.parameter == 'login' || searchItems.parameter == 'loremIpsum'  || searchItems.parameter == 'dashnoicPricingTabletemplate' || searchItems.parameter == 'pricingtemplate' || searchItems.parameter == 'registerTemplate' || searchItems.parameter == 'signUpTemplate' || searchItems.parameter == 'profiletemplate' || searchItems.parameter == 'invoiceTemplate'">
+                      <span nz-icon nzType="eye"
+                        (mouseover)="openModal('webCode' ,searchItems)"></span>{{searchItems.label}}
+                    </button>
+                  </div>
+                </div>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="nav-body z-0 " *ngIf="!showSectionOnly">
           <nz-tabset>
-            <nz-tab nzTitle="Configuration">
-              <div class=" general_faq mt-3">
-                <div style="position:relative ;" class="overall-drawer">
-                  <st-generic-field [modal]="formModalData" (notify)="notifyEmit($event)" [itemData]="fieldData"
-                    [type]="fieldData.type" [screenId]="_id" [screenName]="screenName" *ngIf="fieldData">
-                  </st-generic-field>
+            <nz-tab (nzSelect)="showWebBlockList(item1.label)" [nzTitle]="item1.label"
+              *ngFor="let item1 of item.children let i= index">
+              <div class="website-block" *ngIf="item1.id == 'website-block'">
+                <div class="btnss-body">
+                  <div class="block-Button flex flex-wrap">
+                    <div class="p-1 " *ngFor="let blockButton of websiteBlockButton">
+                      <button (click)="addTemplate(blockButton,'website-block')" nz-button nzType="default" nzBlock
+                        class="rounded">
+                        <i></i><span class="text-wrap">{{blockButton.label}}</span>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+                <div class="website-block-menu">
+                  <ul nz-menu nzMode="inline">
+                    <li *ngFor="let webSiteBlock of item1.children" nz-menu-item
+                      (click)="loadWebsiteBlockChild(webSiteBlock)">
+                      <span class="text-wrap">{{webSiteBlock.label}}</span>
+                    </li>
+                  </ul>
                 </div>
               </div>
-            </nz-tab>
-            <nz-tab nzTitle="UI Rule" (nzClick)="showRulesFunc('uiRule')">
-              <st-uirule [applicationId]="selectApplicationName" [selectedNode]="selectedNode"
-                *ngIf="selectedNode && nodes.length  > 0 && showRules == 'uiRule'" [screenId]="_id"
-                [screenName]="screenName" [screens]="screens" [nodes]="nodes"
-                (ruleNotify)="getUIRuleData($event)"></st-uirule>
-              <!-- [screenName]="screenName" [screenModule]="screenModule" [nodes]="nodes" (ruleNotify)="getUIRuleData($event)"></st-uirule> -->
-            </nz-tab>
-            <nz-tab nzTitle="Validation Rule" (nzClick)="showRulesFunc('validationRule')">
-              <st-generic-field [modal]="validationFieldData.modelData" (notify)="notifyEmit($event)"
-                [itemData]="validationFieldData" [type]="validationFieldData.type" [screenId]="_id"
-                [screenName]="screenName" (deleteValidation)="deleteValidationRule($event)"
-                *ngIf="validationFieldData &&  showRules == 'validationRule'">
-              </st-generic-field>
-              <!-- <st-validation-rule [configurationData]="validationFieldData"></st-validation-rule> -->
-            </nz-tab>
-            <nz-tab nzTitle="Buisness Rule" (nzClick)="showRulesFunc('businessRule')">
-              <st-business-rule [applicationId]="selectApplicationName" [selectedNode]="selectedNode"
-                *ngIf="selectedNode && showRules == 'businessRule'" [screenName]="screenName" [screenId]="_id"
-                [screens]="screens" [nodes]="nodes" [formlyModel]="this.formlyModel"></st-business-rule>
-            </nz-tab>
-            <nz-tab nzTitle="Actions" (nzClick)="showRulesFunc('actionRule')">
-              <st-action-rule [selectedNode]="selectedNode"
-                *ngIf="selectedNode && showActionRule && showRules == 'actionRule'" [screenName]="screenName"
-                [formlyModel]="this.formlyModel" [applicationId]="selectApplicationName" [nodes]="nodes"
-                [screens]="screens" [screeenBuilderId]="_id"></st-action-rule>
-              <nz-alert *ngIf="!showActionRule" nzType="warning" nzMessage="Please contact your DBA to approve fields"
-                nzShowIcon></nz-alert>
-            </nz-tab>
-            <nz-tab nzTitle="Grid Rules" (nzClick)="showRulesFunc('gridBusinessRule')">
-              <st-business-rule-grid *ngIf="selectedNode && nodes.length  > 0 && showRules == 'gridBusinessRule'"
-                [selectedNode]="selectedNode" [screenName]="screenName" [applicationId]="selectApplicationName"
-                [screenId]="_id" [screens]="screens" [nodes]="nodes"></st-business-rule-grid>
+              <nz-collapse *ngIf="item1.id != 'website-block'">
+                <nz-collapse-panel *ngFor="let item2 of item1.children let i = index" [nzHeader]="item2.label">
+                  <div class="flex flex-wrap">
+                    <div class="p-1 w-1/6" *ngFor="let item3 of item2.children">
+                      <button nz-button nzType="default" nzBlock class="rounded"
+                        *ngIf="item1.id != 'template' && item3.parameter != 'dashonictabsAddNew' && item3.parameter != 'listWithComponents' && item3.parameter != 'stepperAddNew' && item3.parameter != 'kanabnAddNew'  && item3.parameter != 'addSection' && item1.id != 'webCode'"
+                        (click)=" addControlToJson(item3.parameter,item3)">
+                        <i class={{item3.icon}}></i><span class="text-wrap">{{item3.label}}</span>
+                      </button>
+                      <button nz-button nzType="default" nzBlock class="rounded"
+                        *ngIf="item3.parameter == 'dashonictabsAddNew' || item3.parameter == 'timeline' || item3.parameter == 'addSection' || item3.parameter == 'stepperAddNew' || item3.parameter == 'kanabnAddNew' || item3.parameter == 'listWithComponents'"
+                        (click)="addFunctionsInHtml(item3.parameter)">
+                        <i class={{item3.icon}}></i>
+                        <span class="text-wrap">{{item3.label}}</span>
+                      </button>
+                      <button nz-button nzType="default" nzBlock class="rounded" *ngIf="item1.id == 'webCode'">
+                        <span class="text-wrap">
+                          <span class="mr-2" nz-icon nzType="eye"
+                            (mouseover)="openModal('webCode',item3)"></span>{{item3.label}}
+                        </span>
+                      </button>
+                      <button *ngIf="item1.id == 'template'" nz-button nzType="default" nzBlock class="rounded"
+                        (click)="addTemplate(item3,'template')"><span class="text-wrap">{{item3.label}}</span>
+                      </button>
+                    </div>
+                  </div>
+                </nz-collapse-panel>
+              </nz-collapse>
             </nz-tab>
           </nz-tabset>
         </div>
       </div>
-    </div>
-  </ng-container>
-</nz-drawer>
-<ng-template #config>
-  <!-- <span class="mr-2 text-lg hover:cursor-pointer" nz-icon nzType="close-circle" nzTheme="twotone"
-  (click)="closeConfigurationList()"></span> -->
-  <button nz-button nzType="primary" class="btn mr-2" (click)="backNode()"> <i
-      class="fa-regular fa-arrow-left mr-2"></i> Back</button>
-  <button nz-button nzType="primary" class="btn" (click)="nextNode()">Next <i
-      class="fa-regular fa-arrow-right ml-2"></i> </button>
-  <!-- <button nz-button nzType="default"
-  (click)="closeConfigurationList()">Cancel</button>
-&nbsp;
-<button nz-button nzType="primary"
-  (click)="closeConfigurationList()">OK</button> -->
-</ng-template>
-
-<!-- side-nav-right -->
-<nz-drawer [nzSize]="'large'" [nzWidth]="'80%'" [nzVisible]="controlListvisible" nzPlacement="right"
-  [nzTitle]="'Control List'" [nzExtra]="extra" (nzOnClose)="controlListClose()">
-  <ng-container *nzDrawerContent>
-    <div *ngFor="let item of htmlTabsData">
-      <div class="nav-header" style="height:6%">
-        <!-- <h3>{{item.label}}</h3> -->
-        <div class="side-bar-search-row">
-          <div class="search-bar">
-            <ul id="search-menu " *ngIf="searchControllData.length > 0 ">
-              <div class="flex flex-wrap tab-pills z-50">
-                <div class="col-md-3 mb-1 p-1 hover:bg-#1890ff  " *ngFor="let searchItems of searchControllData">
-                  <button nz-button class=" rounded w-auto"
-                    *ngIf="searchItems.parameter != 'dashonictabsAddNew' && searchItems.parameter != 'timeline'  && searchItems.parameter != 'stepperAddNew' && searchItems.parameter != 'listWithComponents' && searchItems.parameter != 'kanabnAddNew'  && searchItems.parameter != 'addSection' && searchItems.parameter != 'cvtemplate'  && searchItems.parameter != 'dashnoicPricingTemplate'  && searchItems.parameter != 'login' && searchItems.parameter != 'loremIpsum'  && searchItems.parameter != 'dashnoicPricingTabletemplate' && searchItems.parameter != 'pricingtemplate' && searchItems.parameter != 'registerTemplate' && searchItems.parameter != 'signUpTemplate' && searchItems.parameter != 'profiletemplate' && searchItems.parameter != 'invoiceTemplate'"
-                    (click)="addControlToJson(searchItems.parameter,searchItems)"><i
-                      class={{searchItems.icon}}></i><span class="text-wrap">{{searchItems.label}}</span>
-                  </button>
-                  <ng-container
-                    *ngIf="searchItems.parameter != 'cvtemplate'  && searchItems.parameter != 'dashnoicPricingTemplate'  && searchItems.parameter != 'login' && searchItems.parameter != 'loremIpsum'  && searchItems.parameter != 'dashnoicPricingTabletemplate' && searchItems.parameter != 'pricingtemplate' && searchItems.parameter != 'registerTemplate' && searchItems.parameter != 'signUpTemplate' && searchItems.parameter != 'profiletemplate' && searchItems.parameter != 'invoiceTemplate'">
-                    <button nz-button class="w-auto rounded"
-                      *ngIf="searchItems.parameter == 'dashonictabsAddNew' || searchItems.parameter == 'timeline' || searchItems.parameter == 'listWithComponents' || searchItems.parameter == 'addSection' || searchItems.parameter == 'stepperAddNew' || searchItems.parameter == 'kanabnAddNew' || searchItems.parameter == 'address_form' || searchItems.parameter == 'employee_form' || searchItems.parameter == 'login_Form' || searchItems.parameter == 'signUp_Form'"
-                      (click)="addFunctionsInHtml(searchItems.parameter)"><i class={{searchItems.icon}}></i>
-                      <span class="text-wrap">{{searchItems.label}}</span>
-                    </button>
-                  </ng-container>
-                  <button nz-button nzType="default" nzBlock class="rounded"
-                    *ngIf=" searchItems.parameter == 'cvtemplate'  || searchItems.parameter == 'dashnoicPricingTemplate'  || searchItems.parameter == 'login' || searchItems.parameter == 'loremIpsum'  || searchItems.parameter == 'dashnoicPricingTabletemplate' || searchItems.parameter == 'pricingtemplate' || searchItems.parameter == 'registerTemplate' || searchItems.parameter == 'signUpTemplate' || searchItems.parameter == 'profiletemplate' || searchItems.parameter == 'invoiceTemplate'">
-                    <span nz-icon nzType="eye"
-                      (mouseover)="openModal('webCode' ,searchItems)"></span>{{searchItems.label}}
-                  </button>
-                </div>
-              </div>
-            </ul>
+    </ng-container>
+  </nz-drawer>
+  <ng-template #extra>
+    <nz-input-group nzSearch [nzAddOnAfter]="suffixIconButton">
+      <input type="text" class="h-10 rounded-tl-md rounded-bl-md" nz-input id="searchControll"
+        [(ngModel)]="searchControlValue" (ngModelChange)="searchControll()" placeholder="Search.." />
+    </nz-input-group>
+    <ng-template #suffixIconButton>
+      <button nz-button nzType="primary" class="!rounded-tr-md !rounded-br-md" nzSearch><span nz-icon nzType="search"
+          (click)="searchControll()"></span></button>
+    </ng-template>
+  </ng-template>
+  
+  <div class="selected-modal tem-modal">
+    <nz-modal class="builder-selected-json" [nzWidth]="modalType === 'previewJson' ? '800px' : '500px'"
+      [(nzVisible)]="showModal"
+      [nzTitle]="modalType === 'previewJson' ? 'Selected Json' : (modalType === 'webCode' ? 'Web Template Preview' : (modalType === 'saveAsTemplate' ? 'Save As Template' : ''))"
+      (nzOnCancel)="handleCancel()" (nzOnOk)="handleOk()">
+      <ng-container *nzModalContent>
+        <div *ngIf="modalType == 'previewJson'">
+          <div class="mb-2">
+            <button nz-button nzType="primary" (click)="selectedDownloadJson()" class="mx-1"
+              nz-tooltip="download Json"><span nz-icon nzType="download"></span>Dwonload</button>
+          </div>
+          <json-editor class="selectedJsonModal"  id="jsonPreview121" [(ngModel)]="selectedNode"></json-editor>
+        </div>
+        <div class="image-wrapper" *ngIf="modalType == 'webCode'">
+          <img *ngIf="htmlBlockimagePreview.content" nz-image [nzSrc]="htmlBlockimagePreview.content" alt />
+        </div>
+        <div *ngIf="modalType == 'saveAsTemplate'">
+          <label for="template-name" class="temp-modal-label">Template Name</label>
+          <input id="template-name" class="temp-modal-input" [(ngModel)]="templateName" nz-input
+            placeholder="Template Name..." />
+          <label class="mt-2" nz-checkbox [(ngModel)]="saveAsTemplate">Do you want
+            to Save as Template?</label>
+          <br>
+          <br>
+          <label for="template-name" class="temp-modal-label">Website Block Name</label>
+          <input id="template-name" class="temp-modal-input" [(ngModel)]="websiteBlockName" nz-input
+            placeholder="Website Block Name..." />
+          <label for="template-name" class="temp-modal-label">Website Block Type</label>
+          <nz-select nzShowSearch nzAllowClear class="temp-modal-select" [(ngModel)]="webisteBlockType">
+            <nz-option [nzValue]="item.label" placeholder="Select Block Type..." [nzLabel]="item.label"
+              *ngFor="let item of websiteBlockTypeArray"></nz-option>
+          </nz-select>
+          <div>
+            <label class="mt-2" nz-checkbox [(ngModel)]="websiteBlockSave">Do you want
+              to save as block?</label>
+          </div>
+          <div>
+  
+            <label class="mt-2" nz-checkbox [(ngModel)]="saveCommit">Do you want
+              to save and commit?</label>
+          </div>
+          <div>
+            <label nz-tooltip [nzTooltipTitle]="!showActionRule ? 'Save screen then table' : ''"
+              [disabled]="!showActionRule" class="mt-2" nz-checkbox [(ngModel)]="isTableSave">Are you want to
+              save table?</label>
           </div>
         </div>
-      </div>
-      <div class="nav-body z-0 " *ngIf="!showSectionOnly">
-        <nz-tabset>
-          <nz-tab (nzSelect)="showWebBlockList(item1.label)" [nzTitle]="item1.label"
-            *ngFor="let item1 of item.children let i= index">
-            <div class="website-block" *ngIf="item1.id == 'website-block'">
-              <div class="btnss-body">
-                <div class="block-Button flex flex-wrap">
-                  <div class="p-1 " *ngFor="let blockButton of websiteBlockButton">
-                    <button (click)="addTemplate(blockButton,'website-block')" nz-button nzType="default" nzBlock
-                      class="rounded">
-                      <i></i><span class="text-wrap">{{blockButton.label}}</span>
-                    </button>
-                  </div>
-                </div>
-              </div>
-              <div class="website-block-menu">
-                <ul nz-menu nzMode="inline">
-                  <li *ngFor="let webSiteBlock of item1.children" nz-menu-item
-                    (click)="loadWebsiteBlockChild(webSiteBlock)">
-                    <span class="text-wrap">{{webSiteBlock.label}}</span>
-                  </li>
-                </ul>
-              </div>
-            </div>
-            <nz-collapse *ngIf="item1.id != 'website-block'">
-              <nz-collapse-panel *ngFor="let item2 of item1.children let i = index" [nzHeader]="item2.label">
-                <div class="flex flex-wrap">
-                  <div class="p-1 w-1/6" *ngFor="let item3 of item2.children">
-                    <button nz-button nzType="default" nzBlock class="rounded"
-                      *ngIf="item1.id != 'template' && item3.parameter != 'dashonictabsAddNew' && item3.parameter != 'listWithComponents' && item3.parameter != 'stepperAddNew' && item3.parameter != 'kanabnAddNew'  && item3.parameter != 'addSection' && item1.id != 'webCode'"
-                      (click)=" addControlToJson(item3.parameter,item3)">
-                      <i class={{item3.icon}}></i><span class="text-wrap">{{item3.label}}</span>
-                    </button>
-                    <button nz-button nzType="default" nzBlock class="rounded"
-                      *ngIf="item3.parameter == 'dashonictabsAddNew' || item3.parameter == 'timeline' || item3.parameter == 'addSection' || item3.parameter == 'stepperAddNew' || item3.parameter == 'kanabnAddNew' || item3.parameter == 'listWithComponents'"
-                      (click)="addFunctionsInHtml(item3.parameter)">
-                      <i class={{item3.icon}}></i>
-                      <span class="text-wrap">{{item3.label}}</span>
-                    </button>
-                    <button nz-button nzType="default" nzBlock class="rounded" *ngIf="item1.id == 'webCode'">
-                      <span class="text-wrap">
-                        <span class="mr-2" nz-icon nzType="eye"
-                          (mouseover)="openModal('webCode',item3)"></span>{{item3.label}}
-                      </span>
-                    </button>
-                    <button *ngIf="item1.id == 'template'" nz-button nzType="default" nzBlock class="rounded"
-                      (click)="addTemplate(item3,'template')"><span class="text-wrap">{{item3.label}}</span>
-                    </button>
-                  </div>
-                </div>
-              </nz-collapse-panel>
-            </nz-collapse>
-          </nz-tab>
-        </nz-tabset>
-      </div>
-    </div>
-  </ng-container>
-</nz-drawer>
-<ng-template #extra>
-  <nz-input-group nzSearch [nzAddOnAfter]="suffixIconButton">
-    <input type="text" class="h-10 rounded-tl-md rounded-bl-md" nz-input id="searchControll"
-      [(ngModel)]="searchControlValue" (ngModelChange)="searchControll()" placeholder="Search.." />
-  </nz-input-group>
-  <ng-template #suffixIconButton>
-    <button nz-button nzType="primary" class="!rounded-tr-md !rounded-br-md" nzSearch><span nz-icon nzType="search"
-        (click)="searchControll()"></span></button>
-  </ng-template>
-</ng-template>
-<div class="selected-modal tem-modal">
-  <nz-modal class="builder-selected-json" [nzWidth]="modalType === 'previewJson' ? '800px' : '500px'"
-    [(nzVisible)]="showModal"
-    [nzTitle]="modalType === 'previewJson' ? 'Selected Json' : (modalType === 'webCode' ? 'Web Template Preview' : (modalType === 'saveAsTemplate' ? 'Save As Template' : ''))"
-    (nzOnCancel)="handleCancel()" (nzOnOk)="handleOk()">
-    <ng-container *nzModalContent>
-      <div *ngIf="modalType == 'previewJson'">
-        <div class="mb-2">
-          <button nz-button nzType="primary" (click)="selectedDownloadJson()" class="mx-1"
-            nz-tooltip="download Json"><span nz-icon nzType="download"></span>Dwonload</button>
-        </div>
-        <json-editor id="jsonPreview121" [(ngModel)]="selectedNode"></json-editor>
-      </div>
-      <div class="image-wrapper" *ngIf="modalType == 'webCode'">
-        <img *ngIf="htmlBlockimagePreview.content" nz-image [nzSrc]="htmlBlockimagePreview.content" alt />
-      </div>
-      <div *ngIf="modalType == 'saveAsTemplate'">
-        <label for="template-name" class="temp-modal-label">Template Name</label>
-        <input id="template-name" class="temp-modal-input" [(ngModel)]="templateName" nz-input
-          placeholder="Template Name..." />
-        <label class="mt-2" nz-checkbox [(ngModel)]="saveAsTemplate">Do you want
-          to Save as Template?</label>
-        <br>
-        <br>
-        <label for="template-name" class="temp-modal-label">Website Block Name</label>
-        <input id="template-name" class="temp-modal-input" [(ngModel)]="websiteBlockName" nz-input
-          placeholder="Website Block Name..." />
-        <label for="template-name" class="temp-modal-label">Website Block Type</label>
-        <nz-select nzShowSearch nzAllowClear class="temp-modal-select" [(ngModel)]="webisteBlockType">
-          <nz-option [nzValue]="item.label" placeholder="Select Block Type..." [nzLabel]="item.label"
-            *ngFor="let item of websiteBlockTypeArray"></nz-option>
-        </nz-select>
-        <div>
-          <label class="mt-2" nz-checkbox [(ngModel)]="websiteBlockSave">Do you want
-            to save as block?</label>
-        </div>
-        <div>
-
-          <label class="mt-2" nz-checkbox [(ngModel)]="saveCommit">Do you want
-            to save and commit?</label>
-        </div>
-        <div>
-          <label nz-tooltip [nzTooltipTitle]="!showActionRule ? 'Save screen then table' : ''"
-            [disabled]="!showActionRule" class="mt-2" nz-checkbox [(ngModel)]="isTableSave">Are you want to
-            save table?</label>
-        </div>
-      </div>
-    </ng-container>
-  </nz-modal>
-</div>
+      </ng-container>
+    </nz-modal>
+  </div>
+</nz-spin>

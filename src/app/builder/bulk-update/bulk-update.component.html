@@ -29,10 +29,12 @@
       <tr [nzExpand]="data.expand">
         <div class="container">
           <div class="table-key">
-            <input nz-input type="text" placeholder="Enter Table key" class="form-control" class="table-key-input" [(ngModel)]="data['tableKey']">
-            <button nz-button (click)="apply(data['tableKey'] , data)" class="cancel-btn bg-blue-600 hover:bg-blue-500 text-white hover:!text-white">
+            <input nz-input type="text" placeholder="Enter Table key" class="form-control" class="table-key-input"
+              [(ngModel)]="data['tableKey']">
+            <button nz-button (click)="apply(data['tableKey'] , data)"
+              class="cancel-btn bg-blue-600 hover:bg-blue-500 text-white hover:!text-white">
               <i class="fa-regular fa-key mr-2"></i>
-                Apply Screen Key
+              Apply Screen Key
             </button>
           </div>
         </div>
@@ -45,6 +47,7 @@
               <th>Title</th>
               <th>Default Value</th>
               <th>Placeholder</th>
+              <th>Classification</th>
             </tr>
           </thead>
   <tbody>
@@ -54,6 +57,9 @@
       <td><input nz-input type="text" class="form-control" [(ngModel)]="data.title"></td>
       <td><input nz-input type="text" class="form-control" [(ngModel)]="data.defaultValue"></td>
       <td><input nz-input type="text" class="form-control" [(ngModel)]="data.placeholder"></td>
+      <td> <nz-select nzShowSearch nzAllowClear [(ngModel)]="data['dataClassification']">
+          <nz-option [nzLabel]="option.label" [nzValue]="option.value" *ngFor="let option of optionData"></nz-option>
+        </nz-select></td>
     </tr>
   </tbody>
 </nz-table>

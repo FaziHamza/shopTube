@@ -20,7 +20,7 @@
                 'padding-right': (sections.className === 'w-full sm:w-full md:w-1/2 lg:w-1/3 xl:w-1/3' && i % 2 !== 0) ? '3px' : '',
                 'border-color': sections.borderColor + '!important'
               }">
-          <span [contextMenu]="oneContextMenu" *ngIf="isPageContextShow">
+          <span [contextMenu]="oneContextMenu">
             <context-menu #oneContextMenu>
               <ng-template contextMenuItem (execute)="copySectionJson(resData[0].children[1].children)"
                 [visible]="true">Copy
@@ -30,9 +30,9 @@
               [screenId]="screenId" [formlyModel]="formlyModel" (traverseChangeEmit)="traverseAndChange($event)"
               (sectionRepeatEmit)="sectionRepeat($event)"></st-sections>
           </span>
-          <st-sections [resData]="resData" [screenName]="screenName" [form]="form" [sections]="sections"
+          <!-- <st-sections [resData]="resData" [screenName]="screenName" [form]="form" [sections]="sections"
             [screenId]="screenId" [formlyModel]="formlyModel" *ngIf="!isPageContextShow"
-            (traverseChangeEmit)="traverseAndChange($event)" (sectionRepeatEmit)="sectionRepeat($event)"></st-sections>
+            (traverseChangeEmit)="traverseAndChange($event)" (sectionRepeatEmit)="sectionRepeat($event)"></st-sections> -->
         </div>
       </ng-container>
     </div>

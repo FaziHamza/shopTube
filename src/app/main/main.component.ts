@@ -50,6 +50,7 @@ export class MainComponent implements OnInit {
   commentEditObj: any = {};
   assignToresponse: any = '';
   commentForm: FormGroup;
+  selectedHighLight: any = '';
   constructor(private cd: ChangeDetectorRef, private nzImageService: NzImageService, private employeeService: EmployeeService,
     private builderService: BuilderService, private applicationServices: ApplicationService,
     private toastr: NzMessageService, private router: Router, public dataSharedService: DataSharedService,
@@ -275,7 +276,7 @@ export class MainComponent implements OnInit {
     if (tableData && res) {
       if (res.length > 0) {
         const requiredData = res.map(({ __v, _id, ...rest }: any) => ({
-          expand:false,
+          expand: false,
           id: _id,
           // expandable:true,
           ...rest,
@@ -331,6 +332,22 @@ export class MainComponent implements OnInit {
       return tableData;
     }
   }
-  
-  
+
+  applyHiglightInSideLayer(data: any, id: any, event: any) {
+    this.dataSharedService.highlightFalse.next(true);
+    this.applyHighlight(data, id, event);
+  }
+
+  applyHighlight(data: any, id: any, event: any) {
+    if (id && !this.router.url.includes('/pages')) {
+      event.stopPropagation();
+      const isMatch = data.id == id ? true : false;
+      data['searchHighlight'] = isMatch;
+      if (data?.children?.length > 0) {
+        data.children.forEach((element: any) => {
+          this.applyHighlight(element, id, event);
+        });
+      }
+    }
+  }
 }

@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { NzDrawerRef } from 'ng-zorro-antd/drawer';
+import { dataClassification } from '../data-classification';
 
 @Component({
   selector: 'st-bulk-update',
@@ -13,6 +14,7 @@ export class BulkUpdateComponent implements OnInit {
   @Input() screenName: any;
   tabelNodes: any[] = [];
   keyValidation: any[] = [];
+  optionData : any[] = dataClassification;
   constructor(private drawerRef: NzDrawerRef<any>) { }
 
   ngOnInit(): void {
@@ -38,7 +40,8 @@ export class BulkUpdateComponent implements OnInit {
           formlyType: 'input',
           defaultValue: forms.formly[0].fieldGroup[0].defaultValue,
           placeholder: forms.formly[0].fieldGroup[0].props.placeholder,
-          type: this.types
+          type: this.types,
+          dataClassification: forms.formly[0].fieldGroup[0].props.additionalProperties['dataClassification'],
         }
         this.tabelNodes[index].children.push(obj);
       });
@@ -76,6 +79,7 @@ export class BulkUpdateComponent implements OnInit {
                 input.formly[0].fieldGroup[0].props.label = check.title;
                 input.formly[0].fieldGroup[0].defaultValue = check.defaultValue;
                 input.formly[0].fieldGroup[0].props.placeholder = check.placeholder;
+                input.formly[0].fieldGroup[0].props.additionalProperties['dataClassification'] = check.dataClassification;
                 // this.formlyModel[input.formly[0].fieldGroup[0].key] = check.defaultValue;
                 break;
               }

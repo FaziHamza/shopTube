@@ -50,6 +50,7 @@ export class PagesComponent implements OnInit {
   businessRuleData: any;
   @Input() screenName = '';
   @Input() screenId: any;
+  @Input() navigation: any = undefined;
   requestSubscription: Subscription;
   isPageContextShow = false;
   @Input() form: any = new FormGroup({});
@@ -57,6 +58,32 @@ export class PagesComponent implements OnInit {
   getTaskManagementIssues: any[] = [];
   isVisible: boolean = false;
   ngOnInit(): void {
+    console.log("pages")
+    debugger
+    if (this.navigation) {
+      this.requestSubscription = this.applicationService.getNestCommonAPI("cp/getuserCommentsByApp/UserComment/pages/" + this.navigation).subscribe((res: any) => {
+        if (res.isSuccess) {
+          let commentList = res.data
+          this.dataSharedService.screenCommentList = commentList;
+          this.getTaskManagementIssuesFunc(this.navigation, JSON.parse(localStorage.getItem('applicationId')!));
+          this.dataSharedService.screenCommentList.forEach(element => {
+            this.assignIssue(this.resData[0], element);
+          });
+          this.cdr.detectChanges();
+
+        }
+      })
+    }
+    this.requestSubscription = this.dataSharedService.highlightFalse.subscribe({
+      next: (res) => {
+        if (this.resData.length > 0 && res) {
+          this.removeHighlight(this.resData[0].children[1].children[0].children[1]);
+        }
+      },
+      error: (err) => {
+        console.error(err);
+      }
+    })
     this.requestSubscription = this.dataSharedService.pageSubmit.subscribe({
       next: (res) => {
 
@@ -1515,36 +1542,39 @@ export class PagesComponent implements OnInit {
                 let data = JSON.parse(JSON.stringify(newSelected));
                 tabsAndStepper.push(data);
                 if (index == res.data.length - 1) {
-                  this.resData[0].children[1].children.forEach((a: any,) => {
-                    let checkPushOrNot = true
-                    if ((selectedNode.type == 'div' || selectedNode.type == 'cardWithComponents') && checkPushOrNot) {
-                      if (tabsAndStepper) {
-                        this.pushObjectsById(this.resData, tabsAndStepper, selectedNode.id);
-                        checkPushOrNot = false;
-                      }
+                  let checkPushOrNot = true
+                  if ((selectedNode.type == 'div' || selectedNode.type == 'cardWithComponents') && checkPushOrNot) {
+                    if (tabsAndStepper) {
+                      this.pushObjectsById(this.resData, tabsAndStepper, selectedNode.id);
+                      checkPushOrNot = false;
                     }
-                    // else {
-                    //   a.children[1].children.forEach((b: any, i: number) => {
-                    //     let idx = i;
+                  }
 
-                    //     else if (b.type == 'listWithComponents') {
-                    //       b.children.forEach((listChild: any, chilIndex: number) => {
-                    //         let idx = chilIndex
-                    //         if (listChild.type == 'listWithComponentsChild' && listChild.id == selectedNode.id && checkPushOrNot) {
-                    //           if (tabsAndStepper) {
-                    //             tabsAndStepper.forEach((div: any) => {
-                    //               b.children.splice(idx + 1, 0, div);
-                    //               idx++;
-                    //             });
-                    //             checkPushOrNot = false;
-                    //           }
-                    //         }
-                    //       });
-                    //     }
-                    //   })
-                    // }
 
-                  })
+                  // this.resData[0].children[1].children.forEach((a: any,) => {
+
+                  //   // else {
+                  //   //   a.children[1].children.forEach((b: any, i: number) => {
+                  //   //     let idx = i;
+
+                  //   //     else if (b.type == 'listWithComponents') {
+                  //   //       b.children.forEach((listChild: any, chilIndex: number) => {
+                  //   //         let idx = chilIndex
+                  //   //         if (listChild.type == 'listWithComponentsChild' && listChild.id == selectedNode.id && checkPushOrNot) {
+                  //   //           if (tabsAndStepper) {
+                  //   //             tabsAndStepper.forEach((div: any) => {
+                  //   //               b.children.splice(idx + 1, 0, div);
+                  //   //               idx++;
+                  //   //             });
+                  //   //             checkPushOrNot = false;
+                  //   //           }
+                  //   //         }
+                  //   //       });
+                  //   //     }
+                  //   //   })
+                  //   // }
+
+                  // })
                 }
               }
               else if (selectedNode.children[1]) {
@@ -2015,7 +2045,10 @@ export class PagesComponent implements OnInit {
                     node.formly[0].fieldGroup[0].props['issueUser'].push(issue.createdBy);
                   }
                 }
-
+                // node = [...node]
+                // // let ParseData = JSON.parse(JSON.stringify(node));
+                // // node = JSON.parse(JSON.stringify(ParseData));
+                // this.cdr.detectChanges;
               }
             }
           }
@@ -2111,6 +2144,14 @@ export class PagesComponent implements OnInit {
       if (item.children && item.children.length > 0) {
         this.pushObjectsById(item.children, sourceArray, idToMatch);
       }
+    }
+  }
+  removeHighlight(data: any) {
+    data['searchHighlight'] = false;
+    if (data.children.length > 0) {
+      data.children.forEach((element: any) => {
+        this.removeHighlight(element)
+      });
     }
   }
 }

@@ -5,14 +5,15 @@
       <st-task-report class="close-icon"
         *ngIf="item['issueReport'] && item['issueReport']?.length > 0 && item.type != 'input'" [item]="item"
         [screenName]="screenName" [type]="'pages'"></st-task-report>
-      <span [contextMenu]="oneContextMenu" *ngIf="isShowContextMenu">
+      <span [contextMenu]="oneContextMenu">
         <context-menu #oneContextMenu>
-          <ng-template contextMenuItem (execute)="copyJson(item)" [visible]="isShowContextMenu">Copy</ng-template>
-          <ng-template contextMenuItem (execute)="issueReportFun(item)" [visible]="isShowContextMenu">Issue
+          <ng-template contextMenuItem (execute)="copyJson(item)">Copy</ng-template>
+          <ng-template contextMenuItem (execute)="issueReportFun(item)">Issue
             Report</ng-template>
         </context-menu>
-        <st-mains [item]="item" [formlyModel]="formlyModel" (notify)="updatedData($event)" [screenName]="screenName" [screenId]="screenId"
-          [isLast]='isLast' [form]="form" *ngIf="item"></st-mains>
+        <st-mains (click)="applyHiglightInSideLayer(mainData , item.id , $event)" [item]="item" [formlyModel]="formlyModel"
+          (notify)="updatedData($event)" [screenName]="screenName" [screenId]="screenId" [isLast]='isLast' [form]="form"
+          *ngIf="item"></st-mains>
       </span>
       <span class="tooltip-icon" *ngIf="item?.tooltipPosition ==  undefined || item?.tooltipPosition == 'top'">
         <span *ngIf="item.type != 'progressBar' && item.type != 'alert'
@@ -24,8 +25,8 @@
       </span>
       <div>
 
-        <st-mains [item]="item" [isLast]="isLast" [form]="form" (notify)="updatedData($event)" [screenName]="screenName" [screenId]="screenId"
-          *ngIf="item && !isShowContextMenu"></st-mains>
+        <!-- <st-mains [item]="item" [isLast]="isLast" [form]="form" (notify)="updatedData($event)" [screenName]="screenName"
+          [screenId]="screenId" *ngIf="item && !isShowContextMenu"></st-mains> -->
 
       </div>
     </div>

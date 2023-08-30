@@ -72,7 +72,12 @@
                 </div>
                 <ng-container
                   *ngIf="tableHeaders[index]?.dataType =='input' && tableHeaders[index]?.subDataType == 'datetime-local'">
-                  {{ item[header.name] | date:'dd-MM-yyyy HH:mm:ss'}}
+                  <ng-container *ngIf="item[header.name]">
+                    {{ item[header.name] | date:'dd-MM-yyyy HH:mm:ss'}}
+                  </ng-container>
+                  <ng-container *ngIf="!item[header.name] || item[header.name] == ''">
+                 ""
+                  </ng-container>
                 </ng-container>
                 <ng-container *ngIf="tableHeaders[index]?.dataType =='objectType'">
                   {{item[header.name]}}

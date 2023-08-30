@@ -1,4 +1,5 @@
 import { FormlyFieldConfig } from "@ngx-formly/core";
+import { dataClassification } from "../data-classification";
 
 export interface actionTypeFeild {
   form?: any;
@@ -12098,6 +12099,22 @@ export class formFeildData {
           props: {
             label: 'Types',
             options: [],
+            additionalProperties: {
+              allowClear: true,
+              serveSearch: false,
+              showArrow: true,
+              showSearch: true,
+            },
+          }
+        },
+        {
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          key: 'dataClassification',
+          type: 'select',
+          wrappers: ["formly-vertical-theme-wrapper"],
+          props: {
+            label: 'Data Classification',
+            options : dataClassification,
             additionalProperties: {
               allowClear: true,
               serveSearch: false,

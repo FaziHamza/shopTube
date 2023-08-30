@@ -33,7 +33,6 @@ import { ApplicationService } from '../services/application.service';
 import { BulkUpdateComponent } from './bulk-update/bulk-update.component';
 import { NzDrawerService } from 'ng-zorro-antd/drawer';
 import { NzCascaderOption } from 'ng-zorro-antd/cascader';
-import { E } from '@formulajs/formulajs';
 import { TemplatePopupComponent } from './template-popup/template-popup.component';
 import { MarketPlaceComponent } from './market-place/market-place.component';
 import { FormGroup } from '@angular/forms';
@@ -56,8 +55,7 @@ export class BuilderComponent implements OnInit {
   selectDepartmentName: any = [];
   IslayerVisible: boolean = true;
   IsjsonEditorVisible: boolean = false;
-  sizes = [20, 80, 0];
-  IsConfigurationVisible: boolean = true;
+  sizes = [18, 82];
   IsShowConfig: boolean = false;
   htmlTabsData: any = [];
   nodes: any = [];
@@ -65,7 +63,6 @@ export class BuilderComponent implements OnInit {
   screenName: any;
   navigation: any = '';
   _id: any = "";
-  // moduleId: any;
   screenPage: boolean = false;
   fieldData: GenaricFeild;
   validationFieldData: GenaricFeild;
@@ -104,12 +101,12 @@ export class BuilderComponent implements OnInit {
   currentUser: any;
   iconActive: string = '';
   form: any = new FormGroup({});
+  getTaskManagementIssues: any[] = [];
   constructor(
     public builderService: BuilderService,
     private viewContainerRef: ViewContainerRef,
     private applicationService: ApplicationService,
     private drawerService: NzDrawerService,
-    // private formBuilder: FormBuilder,
     private _encryptionService: EncryptionService,
     private employeeService: EmployeeService,
     private toastr: NzMessageService,
@@ -143,6 +140,7 @@ export class BuilderComponent implements OnInit {
     this.controlListvisible = true;
   }
   ngOnInit(): void {
+    this.getUsers();
     this.currentUser = JSON.parse(localStorage.getItem('user')!);
     this.loadDepartmentData();
     document
@@ -352,14 +350,6 @@ export class BuilderComponent implements OnInit {
       const builderModel = {
         "Builder": data
       }
-      // if ((this.screenName.includes('-header') || this.screenName.includes('-footer')) && this.selectApplicationName) {
-      //   data['module'] = this.selectApplicationName;
-      //   this.dataSharedService.headerData = [];
-      //   this.dataSharedService.footerData = [];
-      //   this.dataSharedService.checkModule = '';
-      // }
-      // this.navigation = selectedScreen[0].navigation;
-      // if (this.navigation > 0) {
       const checkBuilderAndProcess = this.builderScreenData.length > 0
         ? this.applicationService.updateNestCommonAPI('cp/Builder', this.builderScreenData[0]._id, builderModel)
         : this.applicationService.addNestCommonAPI('cp', builderModel);
@@ -382,50 +372,6 @@ export class BuilderComponent implements OnInit {
           this.toastr.error("An error occurred", { nzDuration: 3000 });
         }
       });
-      // this.requestSubscription = this.builderService.jsonBuilderSettingV1(this.screenName).subscribe({
-      //   next: (res: any) => {
-      //     if (res.length > 0) {
-      //       this.requestSubscription = this.builderService.jsonDeleteBuilder(res[0].id).subscribe({
-      //         next: (res) => {
-      //           this.requestSubscription = this.builderService.jsonSaveBuilder(data).subscribe({
-      //             next: (res) => {
-      //               this.saveLoader = false;
-      //               alert("Data Save");
-      //             },
-      //             error: (err) => {
-      //               console.error(err); // Log the error to the console
-      //               this.toastr.error("An error occurred", { nzDuration: 3000 }); // Show an error message to the user
-      //               this.saveLoader = false;
-      //             }
-      //           })
-      //         },
-      //         error: (err) => {
-      //           console.error(err); // Log the error to the console
-      //           this.toastr.error("An error occurred", { nzDuration: 3000 }); // Show an error message to the user
-      //           this.saveLoader = false;
-      //         }
-      //       })
-      //     }
-      //     else {
-      //       this.requestSubscription = this.builderService.jsonSaveBuilder(data).subscribe({
-      //         next: (res) => {
-      //           alert("Data Save");
-      //           this.saveLoader = false;
-      //         },
-      //         error: (err) => {
-      //           console.error(err); // Log the error to the console
-      //           this.toastr.error("An error occurred", { nzDuration: 3000 }); // Show an error message to the user
-      //           this.saveLoader = false;
-      //         }
-      //       })
-      //     }
-      //   },
-      //   error: (err) => {
-      //     console.error(err); // Log the error to the console
-      //     this.toastr.error("An error occurred", { nzDuration: 3000 }); // Show an error message to the user
-      //     this.saveLoader = false;
-      //   }
-      // })
     } else {
       alert('Please Select Screen');
     }
@@ -448,6 +394,14 @@ export class BuilderComponent implements OnInit {
           this.getActions();
           // this.getBuilderScreen();
           this.screenPage = true;
+          this.requestSubscription = this.applicationService.getNestCommonAPI("cp/getuserCommentsByApp/UserComment/pages/" + this.navigation).subscribe((res: any) => {
+            if (res.isSuccess) {
+              let commentList = res.data
+              this.dataSharedService.screenCommentList = commentList;
+
+              // this.getTaskManagementIssuesFunc(this.navigation, JSON.parse(localStorage.getItem('applicationId')!));
+            }
+          })
           if (objScreen.name.includes('_header') && this.selectApplicationName) {
             let application = this.applicationData.find((item: any) => item._id == this.selectApplicationName);
             this.dataSharedService.headerLogo = application['image'];
@@ -503,18 +457,22 @@ export class BuilderComponent implements OnInit {
 
   }
   getBuilderScreen() {
+    this.nodes = [];
     this.requestSubscription = this.applicationService.getNestCommonAPIById('cp/Builder', this._id).subscribe({
       next: (res: any) => {
         if (res.isSuccess) {
           this.builderScreenData = res.data;
           this.form = new FormGroup({});
           if (res.data.length > 0) {
+            // this.navigation = '';
             this.showActionRule = true;
             const objScreenData = JSON.parse(res.data[0].screenData);
             this.isSavedDb = true;
             // this.moduleId = res[0].moduleId;
             this.formlyModel = [];
+
             let nodesData = this.jsonParseWithObject(this.jsonStringifyWithObject(objScreenData));
+
             if (this.actionListData.length > 0) {
               let getInputs = this.filterInputElements(nodesData);
               if (getInputs && getInputs.length > 0) {
@@ -606,14 +564,15 @@ export class BuilderComponent implements OnInit {
                 }
               }
               this.nodes = nodesData;
-            } else
+            }
+            else
               this.nodes = nodesData;
 
 
             // if (!this.nodes[0].isLeaf) {
             //   this.addOrRemoveisLeaf(this.nodes[0]);
             // }
-            this.updateNodes();
+            // this.updateNodes();
             this.applyDefaultValue();
             this.getJoiValidation(this._id);
             this.saveLoader = false;
@@ -629,6 +588,9 @@ export class BuilderComponent implements OnInit {
             //   // this.uiRuleGetData(res[0].moduleId);
             //   // this.uiGridRuleGetData(res[0].moduleId);
             // }
+            // this.dataSharedService.screenCommentList.forEach(element => {
+            //   this.assignIssue(this.nodes[0], element);
+            // });
 
           }
           else {
@@ -666,6 +628,7 @@ export class BuilderComponent implements OnInit {
           this.getBusinessRule();
           this.expandedKeys = this.nodes.map((node: any) => node.key);
           this.uiRuleGetData(this.screenName);
+          this.updateNodes();
         } else {
           this.toastr.error(res.message, { nzDuration: 3000 }); // Show an error message to the user
           this.saveLoader = false;
@@ -770,7 +733,7 @@ export class BuilderComponent implements OnInit {
       "screenData": currentData,
       "navigation": this.navigation
     };
-   
+
     const blob = new Blob([JSON.stringify(data)], { type: 'application/json' });
     const a = document.createElement('a');
     a.href = URL.createObjectURL(blob);
@@ -2114,6 +2077,7 @@ export class BuilderComponent implements OnInit {
                         selectType: 'multiple',
                         multiFileUploadTypes: 'dragNDrop',
                         innerInputClass: '',
+                        dataClassification:'',
                       },
                       apiUrl: '',
                       rows: 1,
@@ -2369,7 +2333,6 @@ export class BuilderComponent implements OnInit {
     }
     // this.isActiveShow = node.origin.id;
     this.searchControllData = [];
-    this.IsConfigurationVisible = true;
     this.controlListvisible = false;
     // document.getElementById("mySidenav-right").style.width = "100%";
     this.IsShowConfig = true;
@@ -2384,39 +2347,13 @@ export class BuilderComponent implements OnInit {
     this.dataSharedService.screenName = this.screenName;
   }
   applySize() {
-    this.sizes = [25, 75, 0];
-    if (
-      !this.IslayerVisible &&
-      this.IsConfigurationVisible &&
-      !this.IsjsonEditorVisible
-    ) {
-      this.sizes = [1, 99, 0];
-    } else if (
-      !this.IslayerVisible &&
-      this.IsConfigurationVisible &&
-      this.IsjsonEditorVisible
-    ) {
-      this.sizes = [25, 75, 0];
-    } else if (
-      !this.IslayerVisible &&
-      !this.IsConfigurationVisible &&
-      this.IsjsonEditorVisible
-    ) {
-      this.sizes = [25, 75, 0];
-    } else if (
-      this.IslayerVisible &&
-      !this.IsConfigurationVisible &&
-      !this.IsjsonEditorVisible
-    ) {
-      this.sizes = [25, 75, 0];
-    } else if (
-      !this.IslayerVisible &&
-      !this.IsConfigurationVisible &&
-      !this.IsjsonEditorVisible
-    ) {
-      this.sizes = [1, 99, 0];
+    if (!this.IslayerVisible && !this.IsjsonEditorVisible) {
+      this.sizes = [0, 100];
+    } else {
+      this.sizes = [18, 82];
     }
   }
+
 
   clickButton(type: any) {
     debugger
@@ -4124,6 +4061,7 @@ export class BuilderComponent implements OnInit {
             props['additionalProperties']['fileUploadSize'] = event.form?.fileUploadSize;
             props['additionalProperties']['multiFileUploadTypes'] = event.form?.multiFileUploadTypes;
             props['additionalProperties']['innerInputClass'] = event.form?.innerInputClass;
+            props['additionalProperties']['dataClassification'] = event.form?.dataClassification;
             props['readonly'] = event.form.readonly;
             props['options'] = event.form.options;
             // if (event.tableDta) {
@@ -6307,10 +6245,13 @@ export class BuilderComponent implements OnInit {
       if (tableData.serverSidePagination) {
         pagination = '?page=' + 1 + '&pageSize=' + tableData?.end;
       }
+      this.saveLoader = true;
       this.employeeService.getSQLDatabaseTable(`knex-query/${name}` + pagination).subscribe({
         next: (res) => {
           if (tableData && res.isSuccess) {
             if (res.data.length > 0) {
+
+
               let saveForm = JSON.parse(JSON.stringify(res.data[0]));
               const firstObjectKeys = Object.keys(saveForm);
               let tableKey = firstObjectKeys.map(key => ({ name: key }));
@@ -6325,10 +6266,10 @@ export class BuilderComponent implements OnInit {
               if (!tableData.end) {
                 tableData.end = 10;
               }
-              tableData.targetId = '';
               tableData.pageIndex = 1;
               tableData.totalCount = res.count;
               tableData.serverApi = `knex-query/${name}`;
+              tableData.targetId = '';
               tableData.displayData = tableData.tableData.length > tableData.end ? tableData.tableData.slice(0, tableData.end) : tableData.tableData;
               // pagniation work end
               if (tableData.tableHeaders.length == 0) {
@@ -6350,10 +6291,40 @@ export class BuilderComponent implements OnInit {
                       return newItem;
                     });
                   }
+
+                }
+              }
+
+              // Make DataType
+              let propertiesWithoutDataType = tableData.tableHeaders.filter((check: any) => !check.hasOwnProperty('dataType'));
+              if (propertiesWithoutDataType.length > 0) {
+                let formlyInputs = this.filterInputElements(this.nodes[0].children[1].children);
+
+                if (formlyInputs && formlyInputs.length > 0) {
+                  propertiesWithoutDataType.forEach((head: any) => {
+                    let input = formlyInputs.find(a => a.formly[0].fieldGroup[0].key.includes('.') ? a.formly[0].fieldGroup[0].key.split('.')[1] == head.key : a.formly[0].fieldGroup[0].key == head.key);
+
+                    if (input) {
+                      head['dataType'] = input.formly[0].fieldGroup[0].type;
+                      head['subDataType'] = input.formly[0].fieldGroup[0].props.type;
+                      head['title'] = input.title;
+                    }
+                  });
+
+                  tableData.tableHeaders = tableData.tableHeaders.concat(propertiesWithoutDataType.filter((item: any) => !tableData.tableHeaders.some((objItem: any) => objItem.key === item.key)));
+                  // tableData.tableHeaders = obj;
                 }
               }
             }
+            // this.assignGridRules(tableData);
+            this.updateNodes();
+            this.cdr.detectChanges();
           }
+          this.saveLoader = false;
+        }, error: (error: any) => {
+          console.error(error);
+          this.toastr.error("An error occurred", { nzDuration: 3000 });
+          this.saveLoader = false;
         }
       });
     }
@@ -6504,14 +6475,112 @@ export class BuilderComponent implements OnInit {
     this.showRules = ruleType;
   }
   applyHighlightSearch(data: any) {
-  const isMatch = data?.label.toLowerCase() === this.searchValue.searchValue.toLowerCase();
-  data['searchHighlight'] = isMatch;
+    if (this.searchValue) {
+      const isMatch = data?.title ? data?.title.toLowerCase().includes(this.searchValue.toLowerCase()) : data?.id.toLowerCase().includes(this.searchValue.toLowerCase());
+      data['searchHighlight'] = isMatch;
+      if (data?.children?.length > 0) {
+        data.children.forEach((element: any) => {
+          this.applyHighlightSearch(element);
+        });
+      }
+    }
+    else {
+      data['searchHighlight'] = false;
+      if (data?.children?.length > 0) {
+        data.children.forEach((element: any) => {
+          this.applyHighlightSearch(element);
+        });
+      }
+    }
+  }
+  // getTaskManagementIssuesFunc(screenId: string, applicationId: string) {
+  //   this.requestSubscription = this.builderService.getUserAssignTask(screenId, applicationId).subscribe({
+  //     next: (res: any) => {
+  //       if (res.isSuccess) {
+  //         if (res.data.length > 0) {
+  //           this.getTaskManagementIssues = res.data;
+  //         }
+  //       }
+  //     },
+  //     error: (err) => {
+  //       console.error(err);
+  //       this.toastr.error("An error occurred", { nzDuration: 3000 });
+  //     }
+  //   })
+  // }
+  // assignIssue(node: any, issue: any) {
+  //   if (issue['componentId']) {
+  //     if (node.id == issue['componentId']) {
+  //       let assign = this.getTaskManagementIssues.find(a => a.componentId == node.id)
+  //       if (node.formly) {
+  //         if (node.formly.length > 0) {
+  //           if (node.formly[0].fieldGroup) {
+  //             if (node.formly[0].fieldGroup[0]) {
+  //               node.formly[0].fieldGroup[0].props['screenName'] = this.screenName;
+  //               node.formly[0].fieldGroup[0].props['id'] = node.id;
+  //               if (assign && assign?.status) {
+  //                 node.formly[0].fieldGroup[0].props['status'] = assign.status;
+  //               }
+  //               if (!node.formly[0].fieldGroup[0].props['issueReport']) {
+  //                 node.formly[0].fieldGroup[0].props['issueReport'] = [];
+  //               }
 
-  if (data?.children?.length > 0) {
-    data.children.forEach((element: any) => {
-      this.applyHighlightSearch(element);
+  //               node.formly[0].fieldGroup[0].props['issueReport'].push(issue);
+
+  //               if (!node.formly[0].fieldGroup[0].props['issueUser']) {
+  //                 node.formly[0].fieldGroup[0].props['issueUser'] = [issue['createdBy']];
+  //               }
+  //               else {
+  //                 if (!node.formly[0].fieldGroup[0].props['issueUser'].includes(issue['createdBy'])) {
+  //                   // Check if the user is not already in the array, then add them
+  //                   node.formly[0].fieldGroup[0].props['issueUser'].push(issue.createdBy);
+  //                 }
+  //               }
+
+  //             }
+  //           }
+  //         }
+  //       }
+  //       else {
+  //         if (assign && assign?.status) {
+  //           node['status'] = assign.status;
+  //         }
+  //         if (!node['issueReport']) {
+  //           node['issueReport'] = [];
+  //         }
+
+  //         node['issueReport'].push(issue);
+
+  //         if (!node['issueUser']) {
+  //           node['issueUser'] = [issue['createdBy']];
+  //         }
+  //         else {
+  //           if (!node['issueUser'].includes(issue['createdBy'])) {
+  //             // Check if the user is not already in the array, then add them
+  //             node['issueUser'].push(issue.createdBy);
+  //           }
+  //         }
+  //       }
+  //     }
+
+  //     if (node.children.length > 0) {
+  //       node.children.forEach((child: any) => {
+  //         this.assignIssue(child, issue);
+  //       });
+  //     }
+  //   }
+  // }
+  getUsers() {
+    this.requestSubscription = this.applicationService.getNestCommonAPI('cp/user').subscribe({
+      next: (res: any) => {
+        if (res.data.length > 0) {
+          this.dataSharedService.usersData = res.data;
+        }
+      },
+      error: (err) => {
+        console.error(err); // Log the error to the console
+        this.toastr.error(`UserComment : An error occurred`, { nzDuration: 3000 });
+      }
     });
   }
-}
-  
 }
