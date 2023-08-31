@@ -2841,7 +2841,9 @@ object {
 }
 
 .builder-body-layout {
-  height: calc(100vh - 220px) !important;
+  height: calc(100vh - 164px) !important;
+  border-radius: 0 0 18px 18px !important;
+  overflow: auto;
 }
 
 .sub-header {
@@ -3383,7 +3385,11 @@ object {
         a,
         i,
         span {
-          color: white;
+          color: white !important ;
+        }
+        
+        i::before , i::after{
+          color: white !important ;
         }
 
         .colapsed-menu-title {
@@ -3733,7 +3739,7 @@ object {
     display: flex;
 
     .builder-tree {
-      width:100%;
+      width: 100%;
       // width: 235px;
       // margin-right: 10px;
       height: calc(100vh - 165px);
@@ -3782,7 +3788,7 @@ object {
 
   .b-tree {
     overflow-y: auto;
-    height: calc(100vh - 205px);
+    height: calc(100vh - 202px);
     padding: 12px;
 
     nz-tree {
@@ -6042,8 +6048,8 @@ li.ant-cascader-menu-item:nth-child(1):hover {
 
     .ant-modal-close-icon {
       padding: 3px;
-      border: 2px solid red;
-      border-radius: 6px;
+      // border: 2px solid red;
+      // border-radius: 6px;
       color: red;
     }
   }
@@ -6464,13 +6470,26 @@ tr:hover {
 }
 
 .no-image {
+
+
+
   .ant-empty-image {
-    height: 30px !important;
+    height: 22.5px !important;
+  }
+
+  .ant-empty-image {
+    margin-bottom: 2px;
   }
 
   p {
-    font-size: 10px;
+    font-size: 8px;
+    font-weight: bold;
   }
+
+  .ant-empty-img-default {
+    width: fit-content;
+  }
+
 }
 
 .ellipsis {
@@ -6621,8 +6640,9 @@ tr:hover {
 
 .ant-drawer-close {
   padding: 2.5px;
-  border: 2px solid #fd3636;
-  border-radius: 6px;
+  // border: 2px solid #fd3636;
+  // border-radius: 6px;
+  font-size: 16px;
   color: #fd3636 !important;
 
   &:hover {
@@ -6750,10 +6770,10 @@ tr:hover {
 }
 
 .ant-modal-close-icon {
-  border: 2px solid red;
+  // border: 2px solid red;
   padding: 5px;
   color: red;
-  border-radius: 6px;
+  // border-radius: 6px;
 }
 
 
@@ -6786,11 +6806,13 @@ tr:hover {
   }
 
   .jsoneditor {
-    border-radius: 6px;
+    border-radius: 6px 6px 0 0;
   }
 
   .jsoneditor-outer {
-    height: 350px;
+    height: auto;
+    max-height: 300px;
+    overflow-y: auto;
   }
 
   .jsoneditor-results {
@@ -6798,6 +6820,36 @@ tr:hover {
     font-weight: 600;
     /*! color: #fff; */
   }
-  
 
+
+}
+
+
+.searchigh {
+  border: 2px solid $primary-color !important;
+  padding: 0 6px;
+  margin: 2px 0;
+  border-radius: 4px;
+  font-weight: 500;
+}
+
+
+/* styles.css | http://aman.com:5600/styles.css */
+
+.ant-modal-content {
+  /* border-radius: 2px; */
+  border-radius: 10px;
+}
+
+/* Element | http://aman.com:5600/ */
+
+.ant-modal-header {
+  border-radius: 10px 10px 0 0;
+}
+
+
+/* styles.css | http://localhost:5600/styles.css */
+
+.ant-pagination.mini .ant-pagination-item {
+  margin-right: 4px;
 }

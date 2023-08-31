@@ -1,4 +1,4 @@
-<span *ngIf="type != 'userTaskManagement'" (click)="toggleCommentDisplay(item)" class="inline-block w-4 h-4 rounded-full text-center 
+<span *ngIf="type != 'userTaskManagement'" (click)="toggleCommentDisplay(item)" class="inline-block w-4 h-4 rounded-full text-center mt-2 mx-2 cursor-pointer
     {{ item['status'] === 'open' ? 'bg-red-500' : 
        (item['status'] === 'inProgress' ? 'bg-orange-500' : 
        (item['status'] === 'completed' ? 'bg-green-500' : 
