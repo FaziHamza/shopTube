@@ -9,6 +9,7 @@ import { ApplicationService } from 'src/app/services/application.service';
 import { BuilderService } from 'src/app/services/builder.service';
 import { DataSharedService } from 'src/app/services/data-shared.service';
 import { forkJoin } from 'rxjs';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'st-application-builder',
@@ -16,6 +17,7 @@ import { forkJoin } from 'rxjs';
   styleUrls: ['./application-builder.component.scss']
 })
 export class ApplicationBuilderComponent implements OnInit {
+  serverPath = environment.nestImageUrl
   organizations: any[] = [];
   companyBuilder: any;
   departmentData: any = [];
@@ -41,7 +43,7 @@ export class ApplicationBuilderComponent implements OnInit {
   currentUser: any;
   designStudio: any;
   startIndex = 1;
-  endIndex: any =  10;
+  endIndex: any = 10;
   pageIndex: any = 1;
   listOfColumns = [
     {
@@ -126,7 +128,17 @@ export class ApplicationBuilderComponent implements OnInit {
         }
       }
     });
+    this.dataSharedService.change.subscribe(({ event, field }) => {
+      debugger
+      if (event && field && field.key == 'image') {
+        if (this.myForm) {
+          this.model['image'] = event;
+          this.myForm.value['image'] = event
+        }
+      }
+    });
   }
+
 
   ngOnInit(): void {
     this.currentUser = JSON.parse(localStorage.getItem('user')!);
@@ -494,7 +506,8 @@ export class ApplicationBuilderComponent implements OnInit {
         objDataModel = {
           "Application": this.myForm.value
         }
-      } else {
+      } 
+      else {
         objDataModel = {
           "Department": this.myForm.value
         }
@@ -532,7 +545,6 @@ export class ApplicationBuilderComponent implements OnInit {
       if (action$) {
         action$.subscribe((res: any) => {
           if (res.isSuccess) {
-
             this.getDepartment();
             this.getApplication();
             this.handleCancel();
@@ -599,14 +611,13 @@ export class ApplicationBuilderComponent implements OnInit {
     a.click();
   }
   callChild(department: any) {
-
     const moduleData = this.listOfChildrenData.filter((item: any) => (item.applicationName == department.name) || (item.departmentName == department.name));
     department['children'] = moduleData;
   }
   getApplication() {
     this.requestSubscription = this.applicationService.getNestCommonAPI('cp/Application').subscribe({
       next: (res: any) => {
-        if (res.isSuccess){
+        if (res.isSuccess) {
           this.listOfChildrenData = res.data;
         }
         else
@@ -664,7 +675,6 @@ export class ApplicationBuilderComponent implements OnInit {
   }
 
   loadApplicationFields() {
-    debugger
     const options = this.listOfData.map((item: any) => ({
       label: item.name,
       value: item._id
@@ -768,7 +778,7 @@ export class ApplicationBuilderComponent implements OnInit {
             fieldGroup: [
               {
                 key: 'image',
-                type: 'input',
+                type: 'image-upload',
                 className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
                 wrappers: ["formly-vertical-theme-wrapper"],
                 props: {

@@ -29,7 +29,7 @@ export class MenuBuilderComponent implements OnInit {
   formModalData: any;
   IslayerVisible: boolean = true;
   IsjsonEditorVisible: boolean = false;
-  sizes = [20, 80, 0];
+  sizes = [18, 82];
   controlListvisible: boolean = false;
   nodes: any = [];
   IsConfigurationVisible: boolean = true;
@@ -65,7 +65,7 @@ export class MenuBuilderComponent implements OnInit {
   departmentData: any = [];
   public editorOptions: JsonEditorOptions;
   domainName: any = undefined;
-  selectedAppId : any = "";
+  selectedAppId: any = "";
   // actionType: any;
   constructor(private clickButtonService: BuilderClickButtonService,
     private applicationService: ApplicationService,
@@ -220,7 +220,7 @@ export class MenuBuilderComponent implements OnInit {
             this.dataSharedService.localhostHeaderFooter.next(domain);
             this.selectApplicationType = getApplication['application_Type'] ? getApplication['application_Type'] : '';
           }
-        }else{
+        } else {
           this.toastr.warning('No menu againts this', { nzDuration: 3000 });
         }
         // else {
@@ -305,7 +305,7 @@ export class MenuBuilderComponent implements OnInit {
     // this.applySize();
     this.selectedNode = node;
     this.selectedParentNode = parent;
-    this.clickButton(node?.type)
+    this.clickButton(node?.type, parent, node)
   }
   nzEvent(event: NzFormatEmitEvent): void {
     // console.log(event);
@@ -355,7 +355,8 @@ export class MenuBuilderComponent implements OnInit {
     this.selectedNode = node;
     // this.applySize();
   }
-  clickButton(type: any) {
+  clickButton(type: any, parent?: any, node?: any) {
+    debugger
     // this.actionType = type;
     let _formFieldData = new formFeildData();
     this.fieldData = new GenaricFeild({
@@ -373,6 +374,14 @@ export class MenuBuilderComponent implements OnInit {
       case "input":
         configObj = { ...configObj, ...this.clickButtonService.getMenuAttributeConfig(selectedNode) };
         this.addIconCommonConfiguration(_formFieldData.menufield, true);
+        if (parent) {
+          if (parent) {
+            if (_formFieldData.menufield[0].fieldGroup) {
+              _formFieldData.menufield[0].fieldGroup = _formFieldData.menufield[0].fieldGroup.filter(item => item.key !== 'isTitle');
+            }
+          }
+
+        }
         this.fieldData.formData = _formFieldData.menufield;
         break;
       case "tabs":
@@ -685,7 +694,7 @@ export class MenuBuilderComponent implements OnInit {
     temporaryData.allMenuItems = []
     temporaryData.menuChildArrayTwoColumn = []
     temporaryData.newMenuArray = []
-    let appData = this.applications.find((a : any) => a._id == this.selectedAppId)
+    let appData = this.applications.find((a: any) => a._id == this.selectedAppId)
     var data: any =
     {
       "name": appData.name,
@@ -976,10 +985,10 @@ export class MenuBuilderComponent implements OnInit {
       reader.onloadend = () => {
         let contents = reader.result as string;
         let theme = JSON.parse(contents);
-        if(this.selectedTheme){
+        if (this.selectedTheme) {
           this.selectedTheme = theme.selectedTheme
 
-        }else{
+        } else {
           this.selectedTheme = {}
           this.selectedTheme = theme.selectedTheme
 
@@ -1223,21 +1232,10 @@ export class MenuBuilderComponent implements OnInit {
   }
 
   applySize() {
-    this.sizes = [25, 75, 0]
-    if (!this.IslayerVisible && this.IsConfigurationVisible && !this.IsjsonEditorVisible) {
-      this.sizes = [1, 99, 0]
-    }
-    else if (!this.IslayerVisible && this.IsConfigurationVisible && this.IsjsonEditorVisible) {
-      this.sizes = [25, 75, 0]
-    }
-    else if (!this.IslayerVisible && !this.IsConfigurationVisible && this.IsjsonEditorVisible) {
-      this.sizes = [25, 75, 0]
-    }
-    else if (this.IslayerVisible && !this.IsConfigurationVisible && !this.IsjsonEditorVisible) {
-      this.sizes = [25, 75, 0]
-    }
-    else if (!this.IslayerVisible && !this.IsConfigurationVisible && !this.IsjsonEditorVisible) {
-      this.sizes = [1, 99, 0]
+    if (!this.IslayerVisible && !this.IsjsonEditorVisible) {
+      this.sizes = [0, 100];
+    } else {
+      this.sizes = [18, 82];
     }
   }
 

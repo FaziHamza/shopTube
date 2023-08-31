@@ -740,13 +740,14 @@ export class DynamicTableComponent implements OnInit {
 
   loadTableData() {
     if (this.tableData.length > 0) {
-      const requiredData = this.tableData.map(({ __v, _id, ...rest }: any) => ({
-        expand: false,
-        id: _id,
-        ...rest,
-      }));
-      this.tableData = JSON.parse(JSON.stringify(requiredData));
-
+      if (this.tableData[0].__v || this.tableData[0]._id) {
+        const requiredData = this.tableData.map(({ __v, _id, ...rest }: any) => ({
+          expand: false,
+          id: _id,
+          ...rest,
+        }));
+        this.tableData = JSON.parse(JSON.stringify(requiredData));
+      }
       let newId = 0;
       if (!this.tableData[0].id) {
         let newId = 0;

@@ -21,6 +21,7 @@ export class GenericFieldComponent implements OnInit {
   @Input() modal: string;
   @Input() screenId: any;
   @Input() screenName: any;
+  @Input() componentType: any;
   @Output() valueChange = new EventEmitter();
   @Output() notify: EventEmitter<any> = new EventEmitter<any>();
   @Output() deleteValidation: EventEmitter<any> = new EventEmitter<any>();
@@ -48,7 +49,12 @@ export class GenericFieldComponent implements OnInit {
         });
       }
       this.itemData.mappingNode['tableHeader'] = this.itemData?.mappingNode?.tableHeader == undefined ? [
-        { name: 'fileHeader', }, { name: 'SelectQBOField' }, { name: 'defaultValue' },] : this.itemData?.mappingNode?.tableHeader;
+        { name: 'Id' }, { name: 'fileHeader' }, { name: 'SelectQBOField' }, { name: 'defaultValue' },] : this.itemData?.mappingNode?.tableHeader;
+      let checkId = this.itemData.mappingNode['tableHeader'].find((a: any) => a.name == 'Id');
+      if (!checkId) {
+        let obj = { name: 'Id' }
+        this.itemData.mappingNode['tableHeader'].unshift(obj);
+      }
       this.tableId = this.itemData.mappingNode.key + Guid.newGuid();
       this.itemData.mappingNode['tableKey'] = this.itemData.mappingNode['tableHeader']
       if (this.itemData?.mappingNode?.dbData) {
@@ -73,7 +79,10 @@ export class GenericFieldComponent implements OnInit {
     }
     if (this.actionform.valid) {
       var currentData = JSON.parse(JSON.stringify(formData) || '{}');
-      currentData.form["tableDta"] = this._dataSharedService.getData();
+      let check = this._dataSharedService.getData()
+      if (check) {
+        currentData.form["tableDta"] = this._dataSharedService.getData();
+      }
       if (this.resData) {
         currentData["dbData"] = this.resData;
       }
@@ -94,7 +103,7 @@ export class GenericFieldComponent implements OnInit {
     this.resData = [];
     let obj: { mapApi?: any } = this.actionform.value;
     if (obj.mapApi) {
-      this.requestSubscription = this.applicationService.getNestCommonAPI('market-place/mapping').subscribe({
+      this.requestSubscription = this.applicationService.getNestCommonAPI(obj.mapApi).subscribe({
         next: (res) => {
           if (res.data.length > 0) {
             this.resData = res.data;
