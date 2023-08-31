@@ -49,7 +49,9 @@
         <ul nz-menu nzMode="inline"
           [nzInlineCollapsed]="selectedTheme.isCollapsed">
           <li nz-menu-item *ngFor="let menu of menus" [routerLink]="menu.link"
-            routerLinkActive="active">
+            routerLinkActive="active" nz-tooltip
+            nzTooltipPlacement="right"
+            [nzTooltipTitle]="selectedTheme.isCollapsed ? menu.title : ''">
             <i [class]="menu.icon"></i>
             <span class="colapsed-menu-title">{{menu.title}}</span>
           </li>
