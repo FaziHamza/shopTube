@@ -6248,10 +6248,11 @@ export class BuilderComponent implements OnInit {
       this.saveLoader = true;
       this.employeeService.getSQLDatabaseTable(`knex-query/${name}` + pagination).subscribe({
         next: (res) => {
-          if (tableData && res.isSuccess) {
+          this.saveLoader = false;
+          if (tableData && res?.isSuccess) {
+            this.saveLoader = false;
             if (res.data.length > 0) {
-
-
+              this.saveLoader = false;
               let saveForm = JSON.parse(JSON.stringify(res.data[0]));
               const firstObjectKeys = Object.keys(saveForm);
               let tableKey = firstObjectKeys.map(key => ({ name: key }));
@@ -6321,7 +6322,6 @@ export class BuilderComponent implements OnInit {
             this.updateNodes();
             this.cdr.detectChanges();
           }
-          this.saveLoader = false;
         }, error: (error: any) => {
           console.error(error);
           this.toastr.error("An error occurred", { nzDuration: 3000 });

@@ -24,7 +24,6 @@ export class BuilderClickButtonService {
           headerButton: '',
           footerButton: '',
           listOfFilter: obj.listOfFilter ? JSON.stringify(obj.listOfFilter) : obj.listOfFilter,
-          id: 0,
           columnClickApi: obj?.columnClickApi
         };
       })

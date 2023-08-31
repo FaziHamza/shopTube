@@ -469,6 +469,7 @@ export class SectionsComponent implements OnInit {
     this.saveLoader = true;
     this.employeeService.getSQLDatabaseTable(apiUrl + pagination).subscribe({
       next: (res) => {
+        this.saveLoader = false;
         if (data && res.isSuccess && res.data.length > 0) {
           if (findClickApi.actions[0]?.url.includes('/userComment')) {
             // let tasks = res.data.filter((a: any) => a.parentId == '' || a.parentId == undefined); 
@@ -502,7 +503,6 @@ export class SectionsComponent implements OnInit {
           }
 
           data.tableData = res.data.map((element: any) => ({ ...element, id: element.id?.toString() }));
-
           if (!data.end) {
             data.end = 10;
           }
@@ -511,9 +511,9 @@ export class SectionsComponent implements OnInit {
           data.serverApi = apiUrl;
           data.targetId = '';
           data.displayData = data.tableData.length > data.end ? data.tableData.slice(0, data.end) : data.tableData;
-
+          data.tableHeaders = Object.keys(data.tableData[0] || {}).map(key => ({ name: key, key: key }));
           if (data.tableHeaders.length === 0) {
-            data.tableHeaders = Object.keys(data.tableData[0] || {}).map(key => ({ name: key }));
+            data.tableHeaders = Object.keys(data.tableData[0] || {}).map(key => ({ name: key, key: key }));
             data['tableKey'] = data.tableHeaders;
           } else {
             const tableKey = Object.keys(data.tableData[0] || {}).map(key => ({ name: key }));
