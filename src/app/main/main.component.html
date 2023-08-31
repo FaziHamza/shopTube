@@ -7,11 +7,11 @@
         [screenName]="screenName" [type]="'pages'"></st-task-report>
       <span [contextMenu]="oneContextMenu">
         <context-menu #oneContextMenu>
-          <ng-template contextMenuItem (execute)="copyJson(item)">Copy</ng-template>
+          <!-- <ng-template contextMenuItem (execute)="copyJson(item)">Copy</ng-template> -->
           <ng-template contextMenuItem (execute)="issueReportFun(item)">Issue
             Report</ng-template>
         </context-menu>
-        <st-mains (click)="applyHiglightInSideLayer(mainData , item.id , $event)" [item]="item" [formlyModel]="formlyModel"
+        <st-mains (click)="applyHighlightInsideLayer(mainData , item.id , $event)" [item]="item" [formlyModel]="formlyModel"
           (notify)="updatedData($event)" [screenName]="screenName" [screenId]="screenId" [isLast]='isLast' [form]="form"
           *ngIf="item"></st-mains>
       </span>

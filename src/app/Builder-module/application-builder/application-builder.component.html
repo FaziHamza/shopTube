@@ -37,16 +37,19 @@
                     <td>{{ data.companyName ?
                         data.companyName:data.organizationName}}</td>
                     <td>
-                        <span class="text-blue-600 hover:cursor-pointer" nz-icon nzType="edit" nzTheme="outline"
-                            nzTooltipTitle="Edit" nz-tooltip (click)="[openModal('department'),editItem(data)]"></span>
-                        <span class="text-[#fd3636] pl-2 hover:cursor-pointer" nz-icon nzType="delete" nzTheme="outline"
-                            nzTooltipTitle="Delete" nz-tooltip nz-popconfirm nzPopconfirmTitle="Sure to delete?"
-                            (nzOnConfirm)="deleteRow(data._id , 'department')"></span>
+                        <span class="text-blue-600 hover:cursor-pointer" nzTooltipTitle="Edit" nz-tooltip
+                            (click)="[openModal('department'),editItem(data)]"><i
+                                class="fa-regular fa-pen-to-square"></i></span>
+                        <span class="text-[#fd3636] pl-2 hover:cursor-pointer" nzTooltipTitle="Delete" nz-tooltip
+                            nz-popconfirm nzPopconfirmTitle="Sure to delete?"
+                            (nzOnConfirm)="deleteRow(data._id , 'department')"><i
+                                class="fa-regular fa-trash"></i></span>
                     </td>
                 </tr>
                 <tr [nzExpand]="data.expand">
-                    <button nz-button nzType="primary" class="btn mb-4" (click)="openModal('application',true,data._id)"><span nz-icon
-                            nzType="plus" nzTheme="outline"></span>Add
+                    <button nz-button nzType="primary" class="btn mb-4"
+                        (click)="openModal('application',true,data._id)"><span nz-icon nzType="plus"
+                            nzTheme="outline"></span>Add
                         Application</button>
                     <nz-table #innerTable nzBordered [nzData]="data?.children" nzSize="middle"
                         [nzShowPagination]="true">
@@ -75,13 +78,14 @@
                 <td>{{ data.application_Type }}</td>
                 <td>{{ data.layout }}</td>
                 <td>{{ data.domain }}</td>
-                <td> <img nz-image width="50px" height="50px" [nzSrc]="data.image" alt /></td>
+                <td> <img nz-image width="50px" height="50px" [nzSrc]="serverPath +data.image" alt /></td>
                 <td>
-                    <span class="text-blue-600 hover:cursor-pointer" nz-icon nzType="edit" nzTheme="outline"
-                        nzTooltipTitle="Edit" nz-tooltip (click)="[openModal('application'),editItem(data)]"></span>
-                    <span class="text-[#fd3636] pl-2 hover:cursor-pointer" nz-icon nzType="delete" nzTheme="outline"
-                        nzTooltipTitle="Delete" nz-tooltip nz-popconfirm nzPopconfirmTitle="Sure to delete?"
-                        (nzOnConfirm)="deleteRow(data._id , 'application')"></span>
+                    <span class="text-blue-600 hover:cursor-pointer" nzTooltipTitle="Edit" nz-tooltip
+                        (click)="[openModal('application'),editItem(data)]"><i
+                            class="fa-regular fa-pen-to-square"></i></span>
+                    <span class="text-[#fd3636] pl-2 hover:cursor-pointer" nzTooltipTitle="Delete" nz-tooltip
+                        nz-popconfirm nzPopconfirmTitle="Sure to delete?"
+                        (nzOnConfirm)="deleteRow(data._id , 'application')"><i class="fa-regular fa-trash"></i></span>
                 </td>
             </tr>
         </tbody>
@@ -97,21 +101,17 @@
             </p>
         </div>
 
-        <div class="flex items-center justify-end" >
+        <div class="flex items-center justify-end">
             <div class="pagination mr-4">
                 <label class="label">Pagination</label>
                 <div class="input-container">
-                    <nz-input-number
-                        [(ngModel)]="pageSize"
-                        (ngModelChange)="handlePageChange(1)"
-                        [nzStep]="1"
-                        [nzMin]="1" 
-                    ></nz-input-number>
+                    <nz-input-number [(ngModel)]="pageSize" (ngModelChange)="handlePageChange(1)" [nzStep]="1"
+                        [nzMin]="1"></nz-input-number>
                 </div>
             </div>
             <div>
                 <nz-pagination [nzPageIndex]="pageIndex" [nzTotal]="listOfData.length" [nzPageSize]="pageSize"
-                (nzPageIndexChange)="handlePageChange($event)"></nz-pagination>
+                    (nzPageIndexChange)="handlePageChange($event)"></nz-pagination>
             </div>
         </div>
     </div>
@@ -145,6 +145,6 @@
             nzTheme="outline"></span>Close</button>
     <button nz-button class="btn" *ngIf="isSubmit" nzType="primary" (click)="onSubmit()"
         [disabled]="!myForm.valid"><span nz-icon nzType="database" nzTheme="outline"></span>Submit</button>
-    <button nz-button class="btn" *ngIf="!isSubmit" nzType="primary" [disabled]="!myForm.valid"
-        (click)="onSubmit()"><span nz-icon nzType="redo" nzTheme="outline"></span>Update</button>
+    <button nz-button class="btn" *ngIf="!isSubmit" nzType="primary" [disabled]="!myForm.valid" (click)="onSubmit()"><i
+            class="fa-regular fa-arrows-rotate mr-2"></i>Update</button>
 </ng-template>

@@ -38,25 +38,29 @@
                     <td>{{ data.contact }}</td>
                     <td>{{ data.website }}</td>
                     <td>{{ data.year_founded }}</td>
-                    <td><p class="ellipsis" >
-                        {{ data.mission_statement }}
-                    </p>
+                    <td>
+                        <p class="ellipsis">
+                            {{ data.mission_statement }}
+                        </p>
                     </td>
                     <td>
-                        <ng-container *ngIf="data.image; else emptyContent" >
-                            <img nz-image width="50px" height="50px" nzNotFoundImage="simple" [nzSrc]="data.image" alt />
+                        <ng-container *ngIf="data.image; else emptyContent">
+                            <img nz-image width="50px" height="50px" [nzSrc]="data.image"
+                                alt />
                         </ng-container>
-                        <ng-template #emptyContent >
-                            <nz-empty class="no-image" nzNotFoundImage="simple"></nz-empty> 
+                        <ng-template #emptyContent>
+                            <nz-empty class="no-image"></nz-empty>
                         </ng-template>
                     </td>
                     <td>
-                        <span class="text-blue-600 hover:cursor-pointer" nz-icon nzType="edit" nzTheme="outline"
-                            nzTooltipTitle="Edit" nz-tooltip
-                            (click)="[openModal('Organization'),editItem(data )]"></span>
-                        <span class="text-[#fd3636] pl-2 hover:cursor-pointer" nz-icon nzType="delete" nzTheme="outline"
-                            nzTooltipTitle="Delete" nz-tooltip nz-popconfirm nzPopconfirmTitle="Sure to delete?"
-                            (nzOnConfirm)="deleteRow(data._id , 'Organization')"></span>
+                        <span class="text-blue-600 hover:cursor-pointer" nzTooltipTitle="Edit" nz-tooltip
+                            (click)="[openModal('Organization'),editItem(data )]"><i
+                                class="fa-regular fa-pen-to-square"></i></span>
+
+                        <span class="text-[#fd3636] pl-2 hover:cursor-pointer" nzTooltipTitle="Delete" nz-tooltip
+                            nz-popconfirm nzPopconfirmTitle="Sure to delete?"
+                            (nzOnConfirm)="deleteRow(data._id , 'Organization')"><i
+                                class="fa-regular fa-trash"></i></span>
                     </td>
                 </tr>
                 <tr [nzExpand]="data.expand">
@@ -148,5 +152,5 @@
     <button nz-button class="btn" *ngIf="isSubmit" nzType="primary" (click)="submit()" [disabled]="!form.valid"><span
             nz-icon nzType="database" nzTheme="outline"></span>Submit</button>
     <button nz-button class="btn" *ngIf="!isSubmit" nzType="primary" (click)="submit()" [disabled]="!form.valid"><span
-            nz-icon nzType="redo" nzTheme="outline"></span>Update</button>
+            ><i class="fa-regular fa-arrows-rotate mr-2"></i></span>Update</button>
 </ng-template>

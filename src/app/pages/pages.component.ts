@@ -77,13 +77,13 @@ export class PagesComponent implements OnInit {
     this.requestSubscription = this.dataSharedService.highlightFalse.subscribe({
       next: (res) => {
         if (this.resData.length > 0 && res) {
-          this.removeHighlight(this.resData[0].children[1].children[0].children[1]);
+          this.removeHighlightRecursive(this.resData[0].children[1].children[0].children[1]);
         }
       },
       error: (err) => {
         console.error(err);
       }
-    })
+    });
     this.requestSubscription = this.dataSharedService.pageSubmit.subscribe({
       next: (res) => {
 
@@ -2146,12 +2146,11 @@ export class PagesComponent implements OnInit {
       }
     }
   }
-  removeHighlight(data: any) {
+  removeHighlightRecursive(data: any) {
     data['searchHighlight'] = false;
-    if (data.children.length > 0) {
-      data.children.forEach((element: any) => {
-        this.removeHighlight(element)
-      });
+    data['expanded'] = true;
+    for (const child of data.children || []) {
+      this.removeHighlightRecursive(child);
     }
   }
 }

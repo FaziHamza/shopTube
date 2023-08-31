@@ -333,21 +333,21 @@ export class MainComponent implements OnInit {
     }
   }
 
-  applyHiglightInSideLayer(data: any, id: any, event: any) {
-    this.dataSharedService.highlightFalse.next(true);
-    this.applyHighlight(data, id, event);
+  applyHighlightInsideLayer(data: any, id: any, event: any) {
+    if (id && !this.router.url.includes('/pages')) {
+      this.dataSharedService.highlightFalse.next(true);
+      this.applyHighlight(data, id, event);
+    }
   }
 
   applyHighlight(data: any, id: any, event: any) {
-    if (id && !this.router.url.includes('/pages')) {
-      event.stopPropagation();
-      const isMatch = data.id == id ? true : false;
-      data['searchHighlight'] = isMatch;
-      if (data?.children?.length > 0) {
-        data.children.forEach((element: any) => {
-          this.applyHighlight(element, id, event);
-        });
-      }
+    event.stopPropagation();
+    const isMatch = data.id === id;
+    data['searchHighlight'] = isMatch;
+
+    for (const child of data.children || []) {
+      this.applyHighlight(child, id, event);
     }
   }
+
 }

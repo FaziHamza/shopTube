@@ -13,13 +13,13 @@
                 [style.height]="item.height !== undefined && item.height !== null && item.height !== 0 && item.height !== '' ? item.height + 'px' : 'auto'"
                 [style.width]="item.width !== undefined && item.width !== null && item.width !== 0 && item.width !== '' ? item.width + 'px' : 'auto'"
                 (click)="defaultPageRoute()"
-                [src]="dataSharedService.headerLogo ? dataSharedService.headerLogo : 'assets/images/logo.png'" alt>
+                [src]="dataSharedService.headerLogo ? serverPath + dataSharedService.headerLogo : 'assets/images/logo.png'" alt>
             <div class="mobile-toggle flex">
                 <button nz-button (click)="menuCollapsed()">
                     <i class="fa fa-bars"></i>
                 </button>
                 <img class="mobile-logo" (click)="defaultPageRoute()"
-                    [src]="dataSharedService.headerLogo ? dataSharedService.headerLogo : 'assets/images/logo.png'" alt>
+                [src]="dataSharedService.headerLogo ? serverPath + dataSharedService.headerLogo : 'assets/images/logo.png'" alt>
             </div>
         </div>
     </ng-template>

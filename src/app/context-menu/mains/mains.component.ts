@@ -2,6 +2,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Router } from '@angular/router';
 import { NzImageService } from 'ng-zorro-antd/image';
 import { DataSharedService } from 'src/app/services/data-shared.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'st-mains',
@@ -17,6 +18,7 @@ export class MainsComponent implements OnInit {
   @Input() screenId: any;
   @Output() notify: EventEmitter<any> = new EventEmitter();
   menu: boolean = false;
+  serverPath = environment.nestImageUrl
   constructor(private nzImageService: NzImageService, public dataSharedService: DataSharedService, private router: Router) { }
 
   ngOnInit(): void {

@@ -6315,6 +6315,7 @@ export class BuilderComponent implements OnInit {
                   // tableData.tableHeaders = obj;
                 }
               }
+              this.saveLoader = false;
             }
             // this.assignGridRules(tableData);
             this.updateNodes();

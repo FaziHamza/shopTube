@@ -27,17 +27,17 @@
       </div>
     </nz-collapse-panel>
   </nz-collapse>
-  <dynamic-table *ngIf='this.itemData?.mappingNode && this.itemData?.mappingNode?.tableBody.length == 0'
+  <!-- <dynamic-table *ngIf='this.itemData?.mappingNode && this.itemData?.mappingNode?.tableBody.length == 0'
     [tableId]='tableId' [checkType]='true' [tableHeaders]="itemData.mappingNode.tableHeader"
     [data]="itemData.mappingNode" [configurationTable]="true"
-    [displayData]="itemData.mappingNode.displayData"></dynamic-table>
+    [displayData]="itemData.mappingNode.displayData"></dynamic-table> -->
   <dynamic-table [configurationTable]="true"
-    *ngIf='this.itemData?.mappingNode && this.itemData?.mappingNode?.tableBody.length' [tableId]='tableId'
+    *ngIf='this.itemData?.mappingNode && this.itemData?.mappingNode?.tableBody?.length > 0' [tableId]='tableId'
     [checkType]='true' [tableHeaders]="itemData.mappingNode.tableHeader" [tableData]='itemData.mappingNode.tableBody'
     [displayData]="itemData.mappingNode.displayData" [data]="itemData.mappingNode"></dynamic-table>
   <br>
   <button nz-button nzType="primary" (click)="onSubmit()"> <i class="fa-light fa-floppy-disk mr-2"></i> Save</button>
-  <button class="mx-2" nz-button nzType="primary" nzDanger (click)="onDelete(this.itemData)"> <i
+  <button class="mx-2" nz-button nzType="primary" *ngIf="componentType == 'builder' || !componentType" nzDanger (click)="onDelete(this.itemData)"> <i
       class="fa-light fa-trash mr-2"></i> Delete</button>
   <!-- <button nz-button nzType="primary" type="submit">Primary Button</button> -->
 </form>
