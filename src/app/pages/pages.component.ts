@@ -58,22 +58,22 @@ export class PagesComponent implements OnInit {
   getTaskManagementIssues: any[] = [];
   isVisible: boolean = false;
   ngOnInit(): void {
-    console.log("pages")
-    debugger
-    if (this.navigation) {
-      this.requestSubscription = this.applicationService.getNestCommonAPI("cp/getuserCommentsByApp/UserComment/pages/" + this.navigation).subscribe((res: any) => {
-        if (res.isSuccess) {
-          let commentList = res.data
-          this.dataSharedService.screenCommentList = commentList;
-          this.getTaskManagementIssuesFunc(this.navigation, JSON.parse(localStorage.getItem('applicationId')!));
-          this.dataSharedService.screenCommentList.forEach(element => {
-            this.assignIssue(this.resData[0], element);
-          });
-          this.cdr.detectChanges();
+    // console.log("pages")
+    // debugger
+    // if (this.navigation) {
+    //   this.requestSubscription = this.applicationService.getNestCommonAPI("cp/getuserCommentsByApp/UserComment/pages/" + this.navigation).subscribe((res: any) => {
+    //     if (res.isSuccess) {
+    //       let commentList = res.data
+    //       this.dataSharedService.screenCommentList = commentList;
+    //       this.getTaskManagementIssuesFunc(this.navigation, JSON.parse(localStorage.getItem('applicationId')!));
+    //       this.dataSharedService.screenCommentList.forEach(element => {
+    //         this.assignIssue(this.resData[0], element);
+    //       });
+    //       this.cdr.detectChanges();
 
-        }
-      })
-    }
+    //     }
+    //   })
+    // }
     this.requestSubscription = this.dataSharedService.highlightFalse.subscribe({
       next: (res) => {
         if (this.resData.length > 0 && res) {

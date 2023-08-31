@@ -399,7 +399,7 @@ export class BuilderComponent implements OnInit {
               let commentList = res.data
               this.dataSharedService.screenCommentList = commentList;
 
-              // this.getTaskManagementIssuesFunc(this.navigation, JSON.parse(localStorage.getItem('applicationId')!));
+              this.getTaskManagementIssuesFunc(this.navigation, JSON.parse(localStorage.getItem('applicationId')!));
             }
           })
           if (objScreen.name.includes('_header') && this.selectApplicationName) {
@@ -588,9 +588,9 @@ export class BuilderComponent implements OnInit {
             //   // this.uiRuleGetData(res[0].moduleId);
             //   // this.uiGridRuleGetData(res[0].moduleId);
             // }
-            // this.dataSharedService.screenCommentList.forEach(element => {
-            //   this.assignIssue(this.nodes[0], element);
-            // });
+            this.dataSharedService.screenCommentList.forEach(element => {
+              this.assignIssue(this.nodes[0], element);
+            });
 
           }
           else {
@@ -6493,83 +6493,83 @@ export class BuilderComponent implements OnInit {
       }
     }
   }
-  // getTaskManagementIssuesFunc(screenId: string, applicationId: string) {
-  //   this.requestSubscription = this.builderService.getUserAssignTask(screenId, applicationId).subscribe({
-  //     next: (res: any) => {
-  //       if (res.isSuccess) {
-  //         if (res.data.length > 0) {
-  //           this.getTaskManagementIssues = res.data;
-  //         }
-  //       }
-  //     },
-  //     error: (err) => {
-  //       console.error(err);
-  //       this.toastr.error("An error occurred", { nzDuration: 3000 });
-  //     }
-  //   })
-  // }
-  // assignIssue(node: any, issue: any) {
-  //   if (issue['componentId']) {
-  //     if (node.id == issue['componentId']) {
-  //       let assign = this.getTaskManagementIssues.find(a => a.componentId == node.id)
-  //       if (node.formly) {
-  //         if (node.formly.length > 0) {
-  //           if (node.formly[0].fieldGroup) {
-  //             if (node.formly[0].fieldGroup[0]) {
-  //               node.formly[0].fieldGroup[0].props['screenName'] = this.screenName;
-  //               node.formly[0].fieldGroup[0].props['id'] = node.id;
-  //               if (assign && assign?.status) {
-  //                 node.formly[0].fieldGroup[0].props['status'] = assign.status;
-  //               }
-  //               if (!node.formly[0].fieldGroup[0].props['issueReport']) {
-  //                 node.formly[0].fieldGroup[0].props['issueReport'] = [];
-  //               }
+  getTaskManagementIssuesFunc(screenId: string, applicationId: string) {
+    this.requestSubscription = this.builderService.getUserAssignTask(screenId, applicationId).subscribe({
+      next: (res: any) => {
+        if (res.isSuccess) {
+          if (res.data.length > 0) {
+            this.getTaskManagementIssues = res.data;
+          }
+        }
+      },
+      error: (err) => {
+        console.error(err);
+        this.toastr.error("An error occurred", { nzDuration: 3000 });
+      }
+    })
+  }
+  assignIssue(node: any, issue: any) {
+    if (issue['componentId']) {
+      if (node.id == issue['componentId']) {
+        let assign = this.getTaskManagementIssues.find(a => a.componentId == node.id)
+        if (node.formly) {
+          if (node.formly.length > 0) {
+            if (node.formly[0].fieldGroup) {
+              if (node.formly[0].fieldGroup[0]) {
+                node.formly[0].fieldGroup[0].props['screenName'] = this.screenName;
+                node.formly[0].fieldGroup[0].props['id'] = node.id;
+                if (assign && assign?.status) {
+                  node.formly[0].fieldGroup[0].props['status'] = assign.status;
+                }
+                if (!node.formly[0].fieldGroup[0].props['issueReport']) {
+                  node.formly[0].fieldGroup[0].props['issueReport'] = [];
+                }
 
-  //               node.formly[0].fieldGroup[0].props['issueReport'].push(issue);
+                node.formly[0].fieldGroup[0].props['issueReport'].push(issue);
 
-  //               if (!node.formly[0].fieldGroup[0].props['issueUser']) {
-  //                 node.formly[0].fieldGroup[0].props['issueUser'] = [issue['createdBy']];
-  //               }
-  //               else {
-  //                 if (!node.formly[0].fieldGroup[0].props['issueUser'].includes(issue['createdBy'])) {
-  //                   // Check if the user is not already in the array, then add them
-  //                   node.formly[0].fieldGroup[0].props['issueUser'].push(issue.createdBy);
-  //                 }
-  //               }
+                if (!node.formly[0].fieldGroup[0].props['issueUser']) {
+                  node.formly[0].fieldGroup[0].props['issueUser'] = [issue['createdBy']];
+                }
+                else {
+                  if (!node.formly[0].fieldGroup[0].props['issueUser'].includes(issue['createdBy'])) {
+                    // Check if the user is not already in the array, then add them
+                    node.formly[0].fieldGroup[0].props['issueUser'].push(issue.createdBy);
+                  }
+                }
 
-  //             }
-  //           }
-  //         }
-  //       }
-  //       else {
-  //         if (assign && assign?.status) {
-  //           node['status'] = assign.status;
-  //         }
-  //         if (!node['issueReport']) {
-  //           node['issueReport'] = [];
-  //         }
+              }
+            }
+          }
+        }
+        else {
+          if (assign && assign?.status) {
+            node['status'] = assign.status;
+          }
+          if (!node['issueReport']) {
+            node['issueReport'] = [];
+          }
 
-  //         node['issueReport'].push(issue);
+          node['issueReport'].push(issue);
 
-  //         if (!node['issueUser']) {
-  //           node['issueUser'] = [issue['createdBy']];
-  //         }
-  //         else {
-  //           if (!node['issueUser'].includes(issue['createdBy'])) {
-  //             // Check if the user is not already in the array, then add them
-  //             node['issueUser'].push(issue.createdBy);
-  //           }
-  //         }
-  //       }
-  //     }
+          if (!node['issueUser']) {
+            node['issueUser'] = [issue['createdBy']];
+          }
+          else {
+            if (!node['issueUser'].includes(issue['createdBy'])) {
+              // Check if the user is not already in the array, then add them
+              node['issueUser'].push(issue.createdBy);
+            }
+          }
+        }
+      }
 
-  //     if (node.children.length > 0) {
-  //       node.children.forEach((child: any) => {
-  //         this.assignIssue(child, issue);
-  //       });
-  //     }
-  //   }
-  // }
+      if (node.children.length > 0) {
+        node.children.forEach((child: any) => {
+          this.assignIssue(child, issue);
+        });
+      }
+    }
+  }
   getUsers() {
     this.requestSubscription = this.applicationService.getNestCommonAPI('cp/user').subscribe({
       next: (res: any) => {
