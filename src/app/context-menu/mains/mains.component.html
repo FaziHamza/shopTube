@@ -15,7 +15,7 @@
                 (click)="defaultPageRoute()"
                 [src]="dataSharedService.headerLogo ? serverPath + dataSharedService.headerLogo : 'assets/images/logo.png'" alt>
             <div class="mobile-toggle flex">
-                <button nz-button (click)="menuCollapsed()">
+                <button nz-button class="rounded-md !border-gray-800 hover:!border-blue-400 mr-2" (click)="menuCollapsed()">
                     <i class="fa fa-bars"></i>
                 </button>
                 <img class="mobile-logo" (click)="defaultPageRoute()"

@@ -58,7 +58,8 @@
             [applicationType]="selectApplicationType" (notify)="changeLayout($event)"></st-layout-drawer>
           <button *ngIf="!selectedTheme" nz-button (click)="undefinedSelectedTheme()" nzType="primary"
             class="upload-btn">
-            <i class="fa-light fa-gear"></i>
+            <i class="fa-light fa-gear !relative !text-lg "></i>
+            <i class="fa-light fa-gear !absolute !top-[4px] !right-[4.5px] !text-[10px] "></i>
           </button>
         </nz-space>
         <button nz-button nzType="primary" class="upload-btn" (click)="checkPage()">
