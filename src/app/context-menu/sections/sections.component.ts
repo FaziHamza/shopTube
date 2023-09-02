@@ -349,202 +349,218 @@ export class SectionsComponent implements OnInit {
 
     if (findClickApi) {
       if (findClickApi.length > 0) {
-        let url = findClickApi.length > 0 ? findClickApi?.[0].actions?.[0]?.url : `knex-query/${this.screenName}`
+        let url = '';
+
+        for (let index = 0; index < findClickApi.length; index++) {
+          let element = findClickApi[index].actions?.[0]?.actionType;
+          if (element == 'query') {
+            url = `knex-query/${name}`;
+            break;
+          } else {
+            url = findClickApi[index].actions?.[0]?.url
+          }
+        }
         let tableData = this.findObjectByKey(this.sections, findClickApi?.[0].actions?.[0]?.elementName);
         if (tableData) {
           let pagination = '';
           if (tableData.serverSidePagination) {
             pagination = '?page=' + 1 + '&pageSize=' + tableData?.end;
           }
-          if (tableData && tableData?.sqlQuery) {
-            if (tableData?.sqlQuery?.length > 0) {
-              url = findClickApi.length > 0 ? findClickApi?.[0].actions?.[0]?.url : `knex-query/${this.screenName}`;
-              this.saveLoader = true;
-              this.employeeService.getSQLDatabaseTable(url + pagination).subscribe({
-                next: (res) => {
-                  this.saveLoader = false;
-                  if (tableData && res?.isSuccess) {
-                    if (res.data.length > 0) {
-                      if (findClickApi?.[0].actions?.[0]?.url.includes('market-place')) {
+          this.saveLoader = true;
+          this.employeeService.getSQLDatabaseTable(url + pagination).subscribe({
+            next: (res) => {
+              this.saveLoader = false;
+              if (tableData && res?.isSuccess) {
+                if (res.data.length > 0) {
+                  if (url.includes('market-place')) {
 
-                        let requiredData = res.data.map((item: any) => {
-                          // Extracting category details and subcategory details
-                          const categoryDetails = item?.categoryDetails?.[0];
-                          const subcategoryDetails = item?.subcategoryDetails?.[0];
+                    let requiredData = res.data.map((item: any) => {
+                      // Extracting category details and subcategory details
+                      const categoryDetails = item?.categoryDetails?.[0];
+                      const subcategoryDetails = item?.subcategoryDetails?.[0];
 
-                          // Create a new object without unwanted properties
-                          return {
-                            id: item._id, // Rename _id to id
-                            name: item.name,
-                            categoryId: item.categoryId,
-                            categoryName: categoryDetails?.name, // Access the name property from categoryDetails
-                            subcategoryId: item.subcategoryId,
-                            subcategoryName: subcategoryDetails?.name, // Access the name property from subcategoryDetails
-                            thumbnailimage: item.thumbnailimage,
-                            // ...rest
-                          };
-                        });
+                      // Create a new object without unwanted properties
+                      return {
+                        id: item._id, // Rename _id to id
+                        name: item.name,
+                        categoryId: item.categoryId,
+                        categoryName: categoryDetails?.name, // Access the name property from categoryDetails
+                        subcategoryId: item.subcategoryId,
+                        subcategoryName: subcategoryDetails?.name, // Access the name property from subcategoryDetails
+                        thumbnailimage: item.thumbnailimage,
+                        // ...rest
+                      };
+                    });
 
-                        res.data = requiredData;
-                      }
+                    res.data = requiredData;
+                  }
 
-                      let saveForm = JSON.parse(JSON.stringify(res.data[0]));
-                      const firstObjectKeys = Object.keys(saveForm);
-                      let tableKey = firstObjectKeys.map(key => ({ name: key }));
-                      let obj = firstObjectKeys.map(key => ({ name: key, key: key }));
-                      tableData.tableData = [];
-                      saveForm.id = tableData.tableData.length + 1;
-                      res.data.forEach((element: any) => {
-                        element.id = (element?.id)?.toString();
-                        tableData.tableData?.push(element);
+                  let saveForm = JSON.parse(JSON.stringify(res.data[0]));
+                  const firstObjectKeys = Object.keys(saveForm);
+                  let tableKey = firstObjectKeys.map(key => ({ name: key }));
+                  let obj = firstObjectKeys.map(key => ({ name: key, key: key }));
+                  tableData.tableData = [];
+                  saveForm.id = tableData.tableData.length + 1;
+                  res.data.forEach((element: any) => {
+                    element.id = (element?.id)?.toString();
+                    tableData.tableData?.push(element);
+                  });
+                  // pagniation work start
+                  if (!tableData.end) {
+                    tableData.end = 10;
+                  }
+                  tableData.pageIndex = 1;
+                  tableData.totalCount = res.count;
+                  tableData.serverApi = findClickApi.length > 0 ? findClickApi?.[0].actions?.[0]?.url : `knex-query/${this.screenName}`;
+                  tableData.targetId = '';
+                  tableData.displayData = tableData.tableData.length > tableData.end ? tableData.tableData.slice(0, tableData.end) : tableData.tableData;
+                  // pagniation work end
+                  if (tableData.tableHeaders.length == 0) {
+                    tableData.tableHeaders = obj;
+                    tableData['tableKey'] = tableKey
+                  }
+                  else {
+                    if (JSON.stringify(tableData['tableKey']) != JSON.stringify(tableKey)) {
+                      const updatedData = tableData.tableHeaders.filter((updatedItem: any) => {
+                        const name = updatedItem.name;
+                        return !tableKey.some((headerItem: any) => headerItem.name === name);
                       });
-                      // pagniation work start
-                      if (!tableData.end) {
-                        tableData.end = 10;
-                      }
-                      tableData.pageIndex = 1;
-                      tableData.totalCount = res.count;
-                      tableData.serverApi = findClickApi.length > 0 ? findClickApi?.[0].actions?.[0]?.url : `knex-query/${this.screenName}`;
-                      tableData.targetId = '';
-                      tableData.displayData = tableData.tableData.length > tableData.end ? tableData.tableData.slice(0, tableData.end) : tableData.tableData;
-                      // pagniation work end
-                      if (tableData.tableHeaders.length == 0) {
-                        tableData.tableHeaders = obj;
-                        tableData['tableKey'] = tableKey
-                      }
-                      else {
-                        if (JSON.stringify(tableData['tableKey']) != JSON.stringify(tableKey)) {
-                          const updatedData = tableData.tableHeaders.filter((updatedItem: any) => {
-                            const name = updatedItem.name;
-                            return !tableKey.some((headerItem: any) => headerItem.name === name);
-                          });
-                          if (updatedData.length > 0) {
-                            tableData.tableHeaders.map((item: any) => {
-                              const newItem = { ...item };
-                              for (let i = 0; i < updatedData.length; i++) {
-                                newItem[updatedData[i].key] = "";
-                              }
-                              return newItem;
-                            });
+                      if (updatedData.length > 0) {
+                        tableData.tableHeaders.map((item: any) => {
+                          const newItem = { ...item };
+                          for (let i = 0; i < updatedData.length; i++) {
+                            newItem[updatedData[i].key] = "";
                           }
-
-                        }
+                          return newItem;
+                        });
                       }
 
-                      // Make DataType
-                      let propertiesWithoutDataType = tableData.tableHeaders.filter((check: any) => !check.hasOwnProperty('dataType'));
-                      if (propertiesWithoutDataType.length > 0) {
-                        let formlyInputs = this.filterInputElements(this.sections.children[1].children);
+                    }
+                  }
 
-                        if (formlyInputs && formlyInputs.length > 0) {
-                          propertiesWithoutDataType.forEach((head: any) => {
-                            let input = formlyInputs.find(a => a.formly[0].fieldGroup[0].key.includes('.') ? a.formly[0].fieldGroup[0].key.split('.')[1] == head.key : a.formly[0].fieldGroup[0].key == head.key);
+                  // Make DataType
+                  let propertiesWithoutDataType = tableData.tableHeaders.filter((check: any) => !check.hasOwnProperty('dataType'));
+                  if (propertiesWithoutDataType.length > 0) {
+                    let formlyInputs = this.filterInputElements(this.sections.children[1].children);
 
-                            if (input) {
-                              head['dataType'] = input.formly[0].fieldGroup[0].type;
-                              head['subDataType'] = input.formly[0].fieldGroup[0].props.type;
-                              head['title'] = input.title;
-                            }
-                          });
+                    if (formlyInputs && formlyInputs.length > 0) {
+                      propertiesWithoutDataType.forEach((head: any) => {
+                        let input = formlyInputs.find(a => a.formly[0].fieldGroup[0].key.includes('.') ? a.formly[0].fieldGroup[0].key.split('.')[1] == head.key : a.formly[0].fieldGroup[0].key == head.key);
 
-                          tableData.tableHeaders = tableData.tableHeaders.concat(propertiesWithoutDataType.filter((item: any) => !tableData.tableHeaders.some((objItem: any) => objItem.key === item.key)));
-                          // tableData.tableHeaders = obj;
+                        if (input) {
+                          head['dataType'] = input.formly[0].fieldGroup[0].type;
+                          head['subDataType'] = input.formly[0].fieldGroup[0].props.type;
+                          head['title'] = input.title;
                         }
-                      }
-                      let CheckKey = tableData.tableHeaders.find((head: any) => !head.key)
-                      if (CheckKey) {
-                        for (let i = 0; i < tableData.tableHeaders.length; i++) {
-                          if (!tableData.tableHeaders[i].hasOwnProperty('key')) {
-                            tableData.tableHeaders[i].key = tableData.tableHeaders[i].name;
-                          }
-                        }
+                      });
+
+                      tableData.tableHeaders = tableData.tableHeaders.concat(propertiesWithoutDataType.filter((item: any) => !tableData.tableHeaders.some((objItem: any) => objItem.key === item.key)));
+                      // tableData.tableHeaders = obj;
+                    }
+                  }
+                  let CheckKey = tableData.tableHeaders.find((head: any) => !head.key)
+                  if (CheckKey) {
+                    for (let i = 0; i < tableData.tableHeaders.length; i++) {
+                      if (!tableData.tableHeaders[i].hasOwnProperty('key')) {
+                        tableData.tableHeaders[i].key = tableData.tableHeaders[i].name;
                       }
                     }
-                    // this.assignGridRules(tableData);
                   }
-                  this.saveLoader = false;
-                }, error: (error: any) => {
-                  console.error(error);
-                  this.toastr.error("An error occurred", { nzDuration: 3000 });
-                  this.saveLoader = false;
                 }
-              });
+                // this.assignGridRules(tableData);
+              }
+              this.saveLoader = false;
+            }, error: (error: any) => {
+              console.error(error);
+              this.toastr.error("An error occurred", { nzDuration: 3000 });
+              this.saveLoader = false;
             }
-          }
+          });
         }
       }
     }
   }
   getFromQueryOnlyTable(data: any) {
-    const findClickApi = data?.appConfigurableEvent?.find((item: any) =>
-      item.actions.some((action: any) => action.method === 'get' && action.actionType === 'api')
+    const findClickApi = data?.appConfigurableEvent?.filter((item: any) =>
+      item.actions.some((action: any) => action.method === 'get' && (action.actionType === 'api' || action.actionType === 'query'))
     );
 
-    if (!findClickApi) return;
-    const apiUrl = findClickApi.actions[0]?.url || `knex-query/${this.screenName}`;
-    const pagination = data.serverSidePagination ? `?page=1&pageSize=${data?.end}` : '';
-    if (data && data?.sqlQuery) {
-      if (data?.sqlQuery?.length > 0) {
-        this.saveLoader = true;
-        this.employeeService.getSQLDatabaseTable(apiUrl + pagination).subscribe({
-          next: (res) => {
-            this.saveLoader = false;
-            if (data && res.isSuccess && res.data.length > 0) {
-              if (findClickApi.actions[0]?.url.includes('/userComment')) {
-
-                const requiredData = res.data.map(({ __v, _id, ...rest }: any) => ({
-                  expand: false,
-                  id: _id,
-                  ...rest,
-                }));
-                res.data = JSON.parse(JSON.stringify(requiredData));
-              }
-
-              data.tableData = res.data.map((element: any) => ({ ...element, id: element.id?.toString() }));
-              if (!data.end) {
-                data.end = 10;
-              }
-              data.pageIndex = 1;
-              data.totalCount = res.data.length;
-              data.serverApi = apiUrl;
-              data.targetId = '';
-              data.displayData = data.tableData.length > data.end ? data.tableData.slice(0, data.end) : data.tableData;
-              if (data.tableHeaders.length === 0) {
-                data.tableHeaders = Object.keys(data.tableData[0] || {}).map(key => ({ name: key, key: key }));
-                data['tableKey'] = data.tableHeaders;
-              }
-              else {
-                const tableKey = Object.keys(data.tableData[0] || {}).map(key => ({ name: key }));
-                if (JSON.stringify(data['tableKey']) !== JSON.stringify(tableKey)) {
-                  const updatedData = data.tableHeaders.filter((updatedItem: any) =>
-                    !tableKey.some(headerItem => headerItem.name === updatedItem.name)
-                  );
-                  if (updatedData.length > 0) {
-                    data.tableHeaders.forEach((item: any) => {
-                      for (let i = 0; i < updatedData.length; i++) {
-                        item[updatedData[i].name] = '';
-                      }
-                    });
-                  }
-                }
-              }
-              let CheckKey = data.tableHeaders.find((head: any) => !head.key)
-              if (CheckKey) {
-                for (let i = 0; i < data.tableHeaders.length; i++) {
-                  if (!data.tableHeaders[i].hasOwnProperty('key')) {
-                    data.tableHeaders[i].key = data.tableHeaders[i].name;
-                  }
-                }
-              }
-            }
-            this.saveLoader = false;
-          },
-          error: (error: any) => {
-            console.error(error);
-            this.toastr.error("An error occurred", { nzDuration: 3000 });
-            this.saveLoader = false;
+    if (!findClickApi) { return };
+    if (findClickApi) {
+      if (findClickApi.length > 0) {
+        let apiUrl = '';
+        for (let index = 0; index < findClickApi.length; index++) {
+          let element = findClickApi[index].actions?.[0]?.actionType;
+          if (element == 'query') {
+            apiUrl = `knex-query/${this.screenName}`;
+            break;
+          } else {
+            apiUrl = findClickApi[index].actions?.[0]?.url
           }
-        });
+        }
+        const pagination = data.serverSidePagination ? `?page=1&pageSize=${data?.end}` : '';
+        this.saveLoader = true;
+        if (apiUrl) {
+          this.employeeService.getSQLDatabaseTable(apiUrl + pagination).subscribe({
+            next: (res) => {
+              this.saveLoader = false;
+              if (data && res.isSuccess && res.data.length > 0) {
+                if (apiUrl.includes('/userComment')) {
+
+                  const requiredData = res.data.map(({ __v, _id, ...rest }: any) => ({
+                    expand: false,
+                    id: _id,
+                    ...rest,
+                  }));
+                  res.data = JSON.parse(JSON.stringify(requiredData));
+                }
+
+                data.tableData = res.data.map((element: any) => ({ ...element, id: element.id?.toString() }));
+                if (!data.end) {
+                  data.end = 10;
+                }
+                data.pageIndex = 1;
+                data.totalCount = res.data.length;
+                data.serverApi = apiUrl;
+                data.targetId = '';
+                data.displayData = data.tableData.length > data.end ? data.tableData.slice(0, data.end) : data.tableData;
+                if (data.tableHeaders.length === 0) {
+                  data.tableHeaders = Object.keys(data.tableData[0] || {}).map(key => ({ name: key, key: key }));
+                  data['tableKey'] = data.tableHeaders;
+                }
+                else {
+                  const tableKey = Object.keys(data.tableData[0] || {}).map(key => ({ name: key }));
+                  if (JSON.stringify(data['tableKey']) !== JSON.stringify(tableKey)) {
+                    const updatedData = data.tableHeaders.filter((updatedItem: any) =>
+                      !tableKey.some(headerItem => headerItem.name === updatedItem.name)
+                    );
+                    if (updatedData.length > 0) {
+                      data.tableHeaders.forEach((item: any) => {
+                        for (let i = 0; i < updatedData.length; i++) {
+                          item[updatedData[i].name] = '';
+                        }
+                      });
+                    }
+                  }
+                }
+                let CheckKey = data.tableHeaders.find((head: any) => !head.key)
+                if (CheckKey) {
+                  for (let i = 0; i < data.tableHeaders.length; i++) {
+                    if (!data.tableHeaders[i].hasOwnProperty('key')) {
+                      data.tableHeaders[i].key = data.tableHeaders[i].name;
+                    }
+                  }
+                }
+              }
+              this.saveLoader = false;
+            },
+            error: (error: any) => {
+              console.error(error);
+              this.toastr.error("An error occurred", { nzDuration: 3000 });
+              this.saveLoader = false;
+            }
+          });
+        }
       }
     }
   }
