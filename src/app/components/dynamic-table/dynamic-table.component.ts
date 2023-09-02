@@ -30,7 +30,6 @@ export class DynamicTableComponent implements OnInit {
   @Input() showPagination: any = true;
   GridType: string = '';
   serverPath = environment.nestImageUrl
-  // key: any;
   screenNameaa: any;
   footerData: any[] = [];
   childKey: any;
@@ -52,7 +51,6 @@ export class DynamicTableComponent implements OnInit {
     { key: "Husnain", value: "Husnain" },
   ];
   editingEntry: any = null;
-  // pagination
   pageSize: any;
   start = 1;
   end: any;
@@ -61,7 +59,6 @@ export class DynamicTableComponent implements OnInit {
   constructor(public _dataSharedService: DataSharedService, private builderService: BuilderService,
     private applicationService: ApplicationService,
     private employeeService: EmployeeService, private toastr: NzMessageService, private cdr: ChangeDetectorRef) {
-    // this.getHeader();
   }
 
   ngOnInit(): void {
@@ -730,7 +727,6 @@ export class DynamicTableComponent implements OnInit {
       this.pageChange(1);
       this.toastr.success("Delete from userend successfully", { nzDuration: 3000 });
     }
-
   };
 
   startEdit(id: string): void {
@@ -772,6 +768,10 @@ export class DynamicTableComponent implements OnInit {
         this.tableHeaders = this.data['tableKey'];
         this.footerData = this.data['tableKey'];
       }
+      if (!this.tableData.some((a: any) => a.children)) {
+        this.tableHeaders = this.tableHeaders.filter((head: any) => head.name !== 'expand');
+      }
+
       this.displayData = this.tableData;
     }
     if (!this.data) {
@@ -1273,7 +1273,10 @@ export class DynamicTableComponent implements OnInit {
     searchForType(data);
     return foundObjects;
   }
-  groupedFunc(data: any, type: any) {
+  groupedFunc(data: any, type: any, header: any) {
+    header['grouping'] = type === 'add' ? data : '';
+
+
     if (this.groupingData.length == 0) {
       this.groupingData = this.tableData
     }

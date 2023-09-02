@@ -325,6 +325,24 @@ export class PagesComponent implements OnInit {
               }
             }
           }
+          else if (findObj?.key === element.elementName && element.actionType === 'query') {
+            if (!checkFirst[findObj?.key]) {
+              findObj['sqlQuery'] = [];
+              findObj['query'] = {};
+              checkFirst[findObj?.key] = 'done';
+            }
+
+            if (element.btnActionType === 'load') {
+              const obj = {
+                actionType: element.actionType,
+                url: element.httpAddress,
+                method: element.actionLink,
+                elementName: element.elementNameTo
+              };
+
+              findObj['sqlQuery'].push(obj);
+            }
+          }
           // else {
           //   findObj['appConfigurableEvent'] = [];
           //   findObj['eventActionconfig'] = {};
