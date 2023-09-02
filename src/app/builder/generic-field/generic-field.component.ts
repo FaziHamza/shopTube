@@ -100,6 +100,7 @@ export class GenericFieldComponent implements OnInit {
   }
 
   dynamicSectionOption() {
+    debugger
     this.resData = [];
     let obj: { mapApi?: any } = this.actionform.value;
     if (obj.mapApi) {

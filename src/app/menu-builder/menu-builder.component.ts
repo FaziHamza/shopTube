@@ -644,45 +644,63 @@ export class MenuBuilderComponent implements OnInit {
     this.clickBack();
     this.makeMenuData();
   }
-  menuSearch() {
-    this.filterMenuData = [];
-    var input = (document.getElementById("mySearch") as HTMLInputElement).value.toUpperCase();
-    if (input) {
-      this.nodes.forEach((element: any) => {
-        if (element.title.toUpperCase().includes(input)) {
-          this.filterMenuData.push(element);
-        }
-        else if (element.children.length > 0) {
-          element.children.forEach((element1: any) => {
-            if (element1.title.toUpperCase().includes(input)) {
-              this.filterMenuData.push(element1);
-            }
-            else if (element1.children.length > 0) {
-              element1.children.forEach((element2: any) => {
-                if (element2.title.toUpperCase().includes(input)) {
-                  this.filterMenuData.push(element2);
-                }
-                else if (element2.children.length > 0) {
-                  element2.children.forEach((element3: any) => {
-                    if (element3.title.toUpperCase().includes(input)) {
-                      this.filterMenuData.push(element3);
-                    }
-                    else if (element3.children.length > 0) {
-                      element3.children.forEach((element4: any) => {
-                        if (element4.title.toUpperCase().includes(input)) {
-                          this.filterMenuData.push(element4);
-                        }
-                      });
-                    }
-                  });
-                }
-              });
-            }
-          });
-        }
+  // menuSearch() {
+  //   this.filterMenuData = [];
+  //   var input = (document.getElementById("mySearch") as HTMLInputElement).value.toUpperCase();
+  //   if (input) {
+  //     this.nodes.forEach((element: any) => {
+  //       if (element.title.toUpperCase().includes(input)) {
+  //         this.filterMenuData.push(element);
+  //       }
+  //       else if (element.children.length > 0) {
+  //         element.children.forEach((element1: any) => {
+  //           if (element1.title.toUpperCase().includes(input)) {
+  //             this.filterMenuData.push(element1);
+  //           }
+  //           else if (element1.children.length > 0) {
+  //             element1.children.forEach((element2: any) => {
+  //               if (element2.title.toUpperCase().includes(input)) {
+  //                 this.filterMenuData.push(element2);
+  //               }
+  //               else if (element2.children.length > 0) {
+  //                 element2.children.forEach((element3: any) => {
+  //                   if (element3.title.toUpperCase().includes(input)) {
+  //                     this.filterMenuData.push(element3);
+  //                   }
+  //                   else if (element3.children.length > 0) {
+  //                     element3.children.forEach((element4: any) => {
+  //                       if (element4.title.toUpperCase().includes(input)) {
+  //                         this.filterMenuData.push(element4);
+  //                       }
+  //                     });
+  //                   }
+  //                 });
+  //               }
+  //             });
+  //           }
+  //         });
+  //       }
+  //     });
+  //   }
+  // }
+  menuSearch(data: any) {
+    var searchValue = (document.getElementById("mySearch") as HTMLInputElement).value.toLowerCase();
+    const matchSearch = (value: string) => value.toLowerCase().includes(searchValue.toLowerCase());
+
+    if (searchValue) {
+      const isMatch = data?.title ? matchSearch(data.title) : matchSearch(data.id);
+      data['searchHighlight'] = isMatch;
+    } else {
+      data['searchHighlight'] = false;
+    }
+
+    if (data?.children?.length > 0) {
+      data.children.forEach((element: any) => {
+        this.menuSearch(element);
       });
     }
   }
+
   saveLoader: any = false;
 
   saveJsonMenu() {

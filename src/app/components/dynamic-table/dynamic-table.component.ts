@@ -56,6 +56,8 @@ export class DynamicTableComponent implements OnInit {
   pageSize: any;
   start = 1;
   end: any;
+  groupingArray: any = [];
+  groupingData: any = [];
   constructor(public _dataSharedService: DataSharedService, private builderService: BuilderService,
     private applicationService: ApplicationService,
     private employeeService: EmployeeService, private toastr: NzMessageService, private cdr: ChangeDetectorRef) {
@@ -906,6 +908,12 @@ export class DynamicTableComponent implements OnInit {
     return Object.keys(obj);
   }
   onPageIndexChange(index: number): void {
+    const firstObjectKeys = Object.keys(this.tableData[0]);
+    this.data['tableKey'] = firstObjectKeys.map(key => ({ name: key }));
+    this.data['tableKey'] = this.data['tableKey'].filter((header: any) => header.name !== 'color');
+    this.tableHeaders = this.data['tableKey'];
+    this.footerData = this.tableHeaders;
+    this.displayData = this.tableData;
     if (this.data.serverSidePagination) {
       if (this.data?.targetId) {
         const pagination = '?page=' + index + '&pageSize=' + this.data?.end;
@@ -1261,6 +1269,163 @@ export class DynamicTableComponent implements OnInit {
     searchForType(data);
     return foundObjects;
   }
+  groupedFunc(data: any, type: any) {
+    if (type == 'add') {
+      if (this.groupingArray.some((group: any) => group === data)) {
+        return; // Data is already grouped, no need to proceed
+      }
+    }
 
+    if (type === 'add') {
+      this.groupingArray.push(data);
+    } else if (type === 'remove') {
+      const indexToRemove = this.groupingArray.indexOf(data);
+      if (indexToRemove !== -1) {
+        this.groupingArray.splice(indexToRemove, 1); // Remove 1 element at the specified index
+      }
+    }
+    if (this.groupingArray.length == 0) {
+      let newTableData = JSON.parse(JSON.stringify(this.tableData.slice(this.start, this.end ? this.end : this.data?.end)));
+      this.displayData = [...newTableData]
+      this.tableHeaders = this.tableHeaders.filter((a: any) => a.name !== 'expand');
+    } else {
+      let newGrouped = JSON.parse(JSON.stringify(this.groupingArray));
+      this.groupingArray = [];
+      newGrouped.forEach((element: any) => {
+        this.grouping(element);
+      });
+    }
+
+  }
+  grouping(data: any) {
+    if (!this.tableHeaders.some((head: any) => head.name === 'expand')) {
+      this.tableHeaders.unshift({
+        name: 'expand',
+        key: 'expand',
+        title: 'Expand',
+      });
+    }
+    let sourceData: any[];
+    if (this.groupingArray.length == 0) {
+      sourceData = JSON.parse(JSON.stringify(this.tableData.slice(this.start, this.end ? this.end : this.data?.end)));
+      this.displayData = [];
+    } else {
+      sourceData = JSON.parse(JSON.stringify(this.displayData));
+    }
+    const dataFind = this.tableHeaders.find((head: any) => head?.title === data || head?.name === data);
+    if (this.groupingArray.length == 0) {
+      sourceData.forEach((element: any) => {
+        const newElement = {
+          ...JSON.parse(JSON.stringify(element)),
+          expand: false,
+          children: [JSON.parse(JSON.stringify(element))],
+        };
+        for (const key in newElement) {
+          if (key != 'id' && key != dataFind.name && key != 'children' && key != 'expand') {
+            newElement[key] = ''
+          }
+        }
+        if (this.displayData.length === 0) {
+          this.displayData.push(newElement);
+        }
+
+        else {
+          if (element[dataFind.name]) {
+            let check = this.displayData.find((a: any) => {
+              const aValue = a[dataFind.name] ? a[dataFind.name] : '';
+              const elementValue = element[dataFind.name];
+
+              if (aValue && elementValue) {
+                return aValue.toLowerCase() === elementValue.toLowerCase();
+              }
+              return false; // Handle the case where either aValue or elementValue is undefined
+            });
+
+            if (check) {
+              check['expand'] = false;
+              check.children.push(element);
+            } else {
+              this.displayData.push(newElement);
+            }
+          }
+          else {
+            this.displayData.push(newElement);
+          }
+        }
+      });
+    }
+    else {
+      this.displayData = this.recursive(this.displayData, data, dataFind);
+    }
+    this.groupingArray.push(data);
+  }
+
+  recursive(data: any[], grouped: any, dataFind: any): any[] {
+    if (data.length === 0) {
+      return this.applyGrouping(data, grouped, dataFind);
+    }
+
+    return data.map((child: any) => {
+      if (child.children && child.children.length > 0) {
+        child.children = this.recursive(child.children, grouped, dataFind);
+      } else {
+        data = this.applyGrouping(data, grouped, dataFind);
+      }
+      return child;
+    });
+  }
+
+
+  // Define the applyGrouping function
+  applyGrouping(data: any, grouped: any, dataFind: any): any[] {
+    let newData: any[] = JSON.parse(JSON.stringify(data));
+    newData = []; // Clear the newData array
+
+    // Your grouping logic here
+    newData.forEach((element: any) => {
+      const newElement = {
+        ...JSON.parse(JSON.stringify(element)),
+        expand: false,
+        children: [JSON.parse(JSON.stringify(element))],
+      };
+      for (const key in newElement) {
+        if (key !== 'id' && key !== dataFind.name && key !== 'children' && key !== 'expand') {
+          newElement[key] = '';
+        }
+      }
+
+      if (newData.length === 0) {
+        newData.push(newElement);
+      } else {
+        if (element[dataFind.name]) {
+          let check = newData.find((a: any) => {
+            const aValue = a[dataFind.name] ? a[dataFind.name] : '';
+            const elementValue = element[dataFind.name];
+
+            if (aValue && elementValue) {
+              return aValue.toLowerCase() === elementValue.toLowerCase();
+            }
+            return false; // Handle the case where either aValue or elementValue is undefined
+          });
+
+          if (check) {
+            for (const key in check) {
+              if (key !== 'id' && key !== dataFind.name && key !== 'children') {
+                check[key] = '';
+              }
+            }
+            check['expand'] = false;
+            check.children.push(element);
+          } else {
+            newData.push(newElement);
+          }
+        } else {
+          newData.push(newElement);
+        }
+      }
+    });
+
+    return newData;
+  }
 
 }
