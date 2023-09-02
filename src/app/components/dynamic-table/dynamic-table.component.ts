@@ -766,6 +766,7 @@ export class DynamicTableComponent implements OnInit {
       this.data['tableKey'] = firstObjectKeys.map(key => ({ name: key }));
 
       this.data['tableKey'] = this.data['tableKey'].filter((header: any) => header.name !== 'color');
+      this.data['tableKey'] = this.data['tableKey'].filter((header: any) => header.name !== 'children');
       this.footerData = this.tableHeaders;
       if (!this.tableHeaders || !this.footerData) {
         this.tableHeaders = this.data['tableKey'];
@@ -1294,6 +1295,7 @@ export class DynamicTableComponent implements OnInit {
       this.tableHeaders = this.tableHeaders.filter((a: any) => a.name !== 'expand');
       // Apply grouping for each column in the groupingArray
       this.displayData = this.groupData(this.tableData, 0);
+      this.updateGridPagination();
     }
   }
 
@@ -1332,6 +1334,7 @@ export class DynamicTableComponent implements OnInit {
   }
 
   groupByColumn(data: any, columnName: string, index: number) {
+    let singleData: any = data[0];
     const groupedData: any = {};
     data.forEach((element: any) => {
       const groupValue = element[columnName];
@@ -1343,10 +1346,12 @@ export class DynamicTableComponent implements OnInit {
 
       if (!groupedData[parentValue][groupValue]) {
         groupedData[parentValue][groupValue] = {
+          id: element.id,
           expand: false,
           children: [],
         };
       }
+
 
       const group = groupedData[parentValue][groupValue];
       group.children.push(element);
@@ -1355,88 +1360,33 @@ export class DynamicTableComponent implements OnInit {
       // If it's the first level of grouping, add the parent value
       if (index === 0) {
         group['parent'] = parentValue;
+
       }
     });
     const result = Object.keys(groupedData).map((parentKey: string) => {
       const parentGroup = groupedData[parentKey];
       return Object.keys(parentGroup).map((groupKey: string) => {
         const groupData = parentGroup[groupKey];
-        return {
+
+        const newObj: any = {
           ...JSON.parse(JSON.stringify(groupData)),
-          [columnName]: groupKey,
+          [columnName]: groupKey
         };
+        this.tableHeaders.forEach((head : any) => {
+          if (head.name !== columnName && head.name !== 'children' && head.name !== 'id' && head.name !== 'expand') {
+            newObj[head.name] = '';
+          }
+        });
+        
+
+        return newObj;
       });
     }).flat(); // Flatten the nested arrays
+
 
     return result;
   }
 
-  recursive(data: any[], grouped: any, dataFind: any): any[] {
-    if (data.length === 0) {
-      return this.applyGrouping(data, grouped, dataFind);
-    }
 
-    return data.map((child: any) => {
-      if (child.children && child.children.length > 0) {
-        child.children = this.recursive(child.children, grouped, dataFind);
-      } else {
-        data = this.applyGrouping(data, grouped, dataFind);
-      }
-      return child;
-    });
-  }
-
-
-  // Define the applyGrouping function
-  applyGrouping(data: any, grouped: any, dataFind: any): any[] {
-    let newData: any[] = JSON.parse(JSON.stringify(data));
-    newData = []; // Clear the newData array
-
-    // Your grouping logic here
-    newData.forEach((element: any) => {
-      const newElement = {
-        ...JSON.parse(JSON.stringify(element)),
-        expand: false,
-        children: [JSON.parse(JSON.stringify(element))],
-      };
-      for (const key in newElement) {
-        if (key !== 'id' && key !== dataFind.name && key !== 'children' && key !== 'expand') {
-          newElement[key] = '';
-        }
-      }
-
-      if (newData.length === 0) {
-        newData.push(newElement);
-      } else {
-        if (element[dataFind.name]) {
-          let check = newData.find((a: any) => {
-            const aValue = a[dataFind.name] ? a[dataFind.name] : '';
-            const elementValue = element[dataFind.name];
-
-            if (aValue && elementValue) {
-              return aValue.toLowerCase() === elementValue.toLowerCase();
-            }
-            return false; // Handle the case where either aValue or elementValue is undefined
-          });
-
-          if (check) {
-            for (const key in check) {
-              if (key !== 'id' && key !== dataFind.name && key !== 'children') {
-                check[key] = '';
-              }
-            }
-            check['expand'] = false;
-            check.children.push(element);
-          } else {
-            newData.push(newElement);
-          }
-        } else {
-          newData.push(newElement);
-        }
-      }
-    });
-
-    return newData;
-  }
 
 }
