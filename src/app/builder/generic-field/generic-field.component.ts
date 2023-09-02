@@ -81,7 +81,7 @@ export class GenericFieldComponent implements OnInit {
       var currentData = JSON.parse(JSON.stringify(formData) || '{}');
       let check = this._dataSharedService.getData()
       if (check) {
-        currentData.form["tableDta"] = this._dataSharedService.getData();
+        currentData["tableDta"] = this._dataSharedService.getData();
       }
       if (this.resData) {
         currentData["dbData"] = this.resData;

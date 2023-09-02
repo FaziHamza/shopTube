@@ -4231,8 +4231,8 @@ export class BuilderComponent implements OnInit {
           this.selectedNode['openComponent'] = event.form?.openComponent;
           this.selectedNode['isDeleteAllow'] = event.form?.isDeleteAllow;
           this.selectedNode['isAllowGrouping'] = event.form?.isAllowGrouping;
-          // const tableData = event.tableDta ? event.tableDta : event.form.options;
-          const tableData = event.form.options;
+          const tableData = event.tableDta ? event.tableDta : event.form.options;
+          // const tableData = event.form.options;
           this.selectedNode['end'] = event.form?.end;
           this.selectedNode['serverSidePagination'] = event.form?.serverSidePagination;
           // const tableData = event.tableDta ? event.tableDta : event.form.options;
@@ -4250,10 +4250,10 @@ export class BuilderComponent implements OnInit {
               return newItem;
             });
           }
-          // this.selectedNode.tableHeaders = event.tableDta
-          //   ? event.tableDta
-          //   : event.form.options;
-          this.selectedNode.tableHeaders = event.form.options;
+          this.selectedNode.tableHeaders = event.tableDta
+            ? event.tableDta
+            : event.form.options;
+          // this.selectedNode.tableHeaders = event.form.options;
           if (this.selectedNode.tableHeaders.length > 0) {
             let newHeaders = this.selectedNode.tableHeaders.map((obj: any) => {
               let newObj = { ...obj };
@@ -4275,9 +4275,9 @@ export class BuilderComponent implements OnInit {
             this.selectedNode.tableHeaders = newHeaders;
           }
           this.selectedNode.columnData = this.updateTableData(
-            // event.tableDta ? event.tableDta : event.form.options,
-            // event.tableDta ? event.tableDta : event.form.options
-            event.form.options, event.form.options
+            event.tableDta ? event.tableDta : event.form.options,
+            event.tableDta ? event.tableDta : event.form.options
+            // event.form.options, event.form.options
           );
           if (event.form.api) {
             this.requestSubscription = this.builderService

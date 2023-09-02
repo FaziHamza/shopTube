@@ -28,9 +28,8 @@
             [nzFilters]="header?.listOfFilter" [nzFilterFn]="header?.filterFn"
             (click)="header?.columnClickApi ? onClickColumn(header.columnClickApi,header): ''">
             {{header['title'] ? header['title'] : header['name']| translate}}<span>
-              <a nz-dropdown [nzDropdownMenu]="menu" *ngIf="data?.isAllowGrouping">
-                Hover me
-                <span nz-icon nzType="down"></span>
+              <a nz-dropdown [nzDropdownMenu]="menu" *ngIf="header?.isAllowGrouping">
+                <i class="fa-regular fa-ellipsis-v ml-4"></i>
               </a>
               <nz-dropdown-menu #menu="nzDropdownMenu">
                 <ul nz-menu nzSelectable>

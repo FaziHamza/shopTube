@@ -909,11 +909,14 @@ export class DynamicTableComponent implements OnInit {
     return Object.keys(obj);
   }
   onPageIndexChange(index: number): void {
-    const firstObjectKeys = Object.keys(this.tableData[0]);
-    this.data['tableKey'] = firstObjectKeys.map(key => ({ name: key }));
-    this.data['tableKey'] = this.data['tableKey'].filter((header: any) => header.name !== 'color');
-    this.tableHeaders = this.data['tableKey'];
-    this.footerData = this.tableHeaders;
+    if (this.tableHeaders.length == 0) {
+      const firstObjectKeys = Object.keys(this.tableData[0]);
+      this.data['tableKey'] = firstObjectKeys.map(key => ({ name: key }));
+      this.data['tableKey'] = this.data['tableKey'].filter((header: any) => header.name !== 'color');
+      this.data['tableKey'] = this.data['tableKey'].filter((header: any) => header.name !== 'children');
+      this.tableHeaders = this.data['tableKey'];
+      this.footerData = this.tableHeaders;
+    }
     this.displayData = this.tableData;
     if (this.data.serverSidePagination) {
       if (this.data?.targetId) {
@@ -1295,7 +1298,6 @@ export class DynamicTableComponent implements OnInit {
       this.tableHeaders = this.tableHeaders.filter((a: any) => a.name !== 'expand');
       // Apply grouping for each column in the groupingArray
       this.displayData = this.groupData(this.tableData, 0);
-      this.updateGridPagination();
     }
   }
 
@@ -1322,7 +1324,6 @@ export class DynamicTableComponent implements OnInit {
           if (update.children) {
             const groupedChildren = this.groupByColumn(update.children, groupColumn, index);
             update.children = groupedChildren; // Update children with grouped data
-
             // Recursively apply grouping to children
             this.groupData(update.children, index + 1);
           }
@@ -1334,7 +1335,6 @@ export class DynamicTableComponent implements OnInit {
   }
 
   groupByColumn(data: any, columnName: string, index: number) {
-    let singleData: any = data[0];
     const groupedData: any = {};
     data.forEach((element: any) => {
       const groupValue = element[columnName];
@@ -1346,12 +1346,10 @@ export class DynamicTableComponent implements OnInit {
 
       if (!groupedData[parentValue][groupValue]) {
         groupedData[parentValue][groupValue] = {
-          id: element.id,
           expand: false,
           children: [],
         };
       }
-
 
       const group = groupedData[parentValue][groupValue];
       group.children.push(element);
@@ -1360,32 +1358,30 @@ export class DynamicTableComponent implements OnInit {
       // If it's the first level of grouping, add the parent value
       if (index === 0) {
         group['parent'] = parentValue;
-
       }
     });
     const result = Object.keys(groupedData).map((parentKey: string) => {
       const parentGroup = groupedData[parentKey];
       return Object.keys(parentGroup).map((groupKey: string) => {
         const groupData = parentGroup[groupKey];
-
-        const newObj: any = {
-          ...JSON.parse(JSON.stringify(groupData)),
-          [columnName]: groupKey
-        };
-        this.tableHeaders.forEach((head : any) => {
-          if (head.name !== columnName && head.name !== 'children' && head.name !== 'id' && head.name !== 'expand') {
-            newObj[head.name] = '';
+        const secondObj = groupData.children[0];
+        const firstObj = JSON.parse(JSON.stringify(groupData));
+        for (const key in secondObj) {
+          if (secondObj.hasOwnProperty(key)) {
+            // Check if the property does not exist in the first object
+            if (!firstObj.hasOwnProperty(key)) {
+              // Assign the property from the second object to the first object
+              firstObj[key] = secondObj[key];
+            }
           }
-        });
-        
-
-        return newObj;
+        }
+        return firstObj;
       });
     }).flat(); // Flatten the nested arrays
 
-
     return result;
   }
+
 
 
 
