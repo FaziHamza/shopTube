@@ -1270,7 +1270,7 @@ export class DynamicTableComponent implements OnInit {
     return foundObjects;
   }
   groupedFunc(data: any, type: any) {
-    if (type == 'add') {
+    if (type === 'add') {
       if (this.groupingArray.some((group: any) => group === data)) {
         return; // Data is already grouped, no need to proceed
       }
@@ -1284,80 +1284,91 @@ export class DynamicTableComponent implements OnInit {
         this.groupingArray.splice(indexToRemove, 1); // Remove 1 element at the specified index
       }
     }
-    if (this.groupingArray.length == 0) {
-      let newTableData = JSON.parse(JSON.stringify(this.tableData.slice(this.start, this.end ? this.end : this.data?.end)));
-      this.displayData = [...newTableData]
+
+    if (this.groupingArray.length === 0) {
+      this.displayData = [...this.tableData.slice(this.start, this.end ? this.end : this.data?.end)];
       this.tableHeaders = this.tableHeaders.filter((a: any) => a.name !== 'expand');
     } else {
-      let newGrouped = JSON.parse(JSON.stringify(this.groupingArray));
-      this.groupingArray = [];
-      newGrouped.forEach((element: any) => {
-        this.grouping(element);
-      });
-    }
-
-  }
-  grouping(data: any) {
-    if (!this.tableHeaders.some((head: any) => head.name === 'expand')) {
-      this.tableHeaders.unshift({
-        name: 'expand',
-        key: 'expand',
-        title: 'Expand',
-      });
-    }
-    let sourceData: any[];
-    if (this.groupingArray.length == 0) {
-      sourceData = JSON.parse(JSON.stringify(this.tableData.slice(this.start, this.end ? this.end : this.data?.end)));
+      // Reset displayData and tableHeaders before re-grouping
       this.displayData = [];
-    } else {
-      sourceData = JSON.parse(JSON.stringify(this.displayData));
+      this.tableHeaders = this.tableHeaders.filter((a: any) => a.name !== 'expand');
+      // Apply grouping for each column in the groupingArray
+      this.displayData = this.groupData(this.tableData, 0);
     }
-    const dataFind = this.tableHeaders.find((head: any) => head?.title === data || head?.name === data);
-    if (this.groupingArray.length == 0) {
-      sourceData.forEach((element: any) => {
-        const newElement = {
-          ...JSON.parse(JSON.stringify(element)),
+  }
+
+  groupData(data: any[], index: number): any {
+    if (index < this.groupingArray.length) {
+      const groupColumn = this.groupingArray[index];
+
+      if (index === 0) {
+        // Group the data by the specified column
+        const groupedData = this.groupByColumn(data, groupColumn, index);
+
+        // Update the displayData and tableHeaders for the current level
+        this.displayData = this.displayData.concat(groupedData);
+        this.tableHeaders.unshift({
+          name: 'expand',
+          key: 'expand',
+          title: 'Expand',
+        });
+
+        // Continue grouping for the next column
+        return this.groupData(groupedData, index + 1);
+      } else {
+        data.forEach((update: any) => {
+          if (update.children) {
+            const groupedChildren = this.groupByColumn(update.children, groupColumn, index);
+            update.children = groupedChildren; // Update children with grouped data
+
+            // Recursively apply grouping to children
+            this.groupData(update.children, index + 1);
+          }
+        });
+      }
+    }
+
+    return data; // Return the grouped data when all columns are processed
+  }
+
+  groupByColumn(data: any, columnName: string, index: number) {
+    const groupedData: any = {};
+    data.forEach((element: any) => {
+      const groupValue = element[columnName];
+      const parentValue = this.groupingArray[index - 1]; // Previous grouping value
+
+      if (!groupedData[parentValue]) {
+        groupedData[parentValue] = [];
+      }
+
+      if (!groupedData[parentValue][groupValue]) {
+        groupedData[parentValue][groupValue] = {
           expand: false,
-          children: [JSON.parse(JSON.stringify(element))],
+          children: [],
         };
-        for (const key in newElement) {
-          if (key != 'id' && key != dataFind.name && key != 'children' && key != 'expand') {
-            newElement[key] = ''
-          }
-        }
-        if (this.displayData.length === 0) {
-          this.displayData.push(newElement);
-        }
+      }
 
-        else {
-          if (element[dataFind.name]) {
-            let check = this.displayData.find((a: any) => {
-              const aValue = a[dataFind.name] ? a[dataFind.name] : '';
-              const elementValue = element[dataFind.name];
+      const group = groupedData[parentValue][groupValue];
+      group.children.push(element);
+      group.expand = false;
 
-              if (aValue && elementValue) {
-                return aValue.toLowerCase() === elementValue.toLowerCase();
-              }
-              return false; // Handle the case where either aValue or elementValue is undefined
-            });
-
-            if (check) {
-              check['expand'] = false;
-              check.children.push(element);
-            } else {
-              this.displayData.push(newElement);
-            }
-          }
-          else {
-            this.displayData.push(newElement);
-          }
-        }
+      // If it's the first level of grouping, add the parent value
+      if (index === 0) {
+        group['parent'] = parentValue;
+      }
+    });
+    const result = Object.keys(groupedData).map((parentKey: string) => {
+      const parentGroup = groupedData[parentKey];
+      return Object.keys(parentGroup).map((groupKey: string) => {
+        const groupData = parentGroup[groupKey];
+        return {
+          ...JSON.parse(JSON.stringify(groupData)),
+          [columnName]: groupKey,
+        };
       });
-    }
-    else {
-      this.displayData = this.recursive(this.displayData, data, dataFind);
-    }
-    this.groupingArray.push(data);
+    }).flat(); // Flatten the nested arrays
+
+    return result;
   }
 
   recursive(data: any[], grouped: any, dataFind: any): any[] {
