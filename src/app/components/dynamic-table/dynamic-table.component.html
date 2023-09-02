@@ -28,7 +28,7 @@
             [nzFilters]="header?.listOfFilter" [nzFilterFn]="header?.filterFn"
             (click)="header?.columnClickApi ? onClickColumn(header.columnClickApi,header): ''">
             {{header['title'] ? header['title'] : header['name']| translate}}<span>
-              <a nz-dropdown [nzDropdownMenu]="menu">
+              <a nz-dropdown [nzDropdownMenu]="menu" *ngIf="data?.isAllowGrouping">
                 Hover me
                 <span nz-icon nzType="down"></span>
               </a>
@@ -130,7 +130,7 @@
           <tr *ngIf="item.expand != undefined" [nzExpand]="item.expand">
             <ng-container *ngIf="item?.children && item.expand">
               <dynamic-table [tableId]='item.tableId' *ngIf="item?.children.length > 0" [checkType]="false"
-                [tableData]='item?.children' [tableHeaders]='item.tableHeaders' [formlyModel]="formlyModel"
+                [tableData]='item?.children' [tableHeaders]='tableHeaders' [formlyModel]="formlyModel"
                 [form]="form" [screenId]="screenId" [data]="data" [displayData]="item?.children"
                 [screenName]="screenName" [configurationTable]="item?.showEditInput ? item?.showEditInput : false"
                 [showPagination]="false"></dynamic-table>

@@ -4230,6 +4230,7 @@ export class BuilderComponent implements OnInit {
           this.selectedNode['showEditInput'] = event.form?.showEditInput;
           this.selectedNode['openComponent'] = event.form?.openComponent;
           this.selectedNode['isDeleteAllow'] = event.form?.isDeleteAllow;
+          this.selectedNode['isAllowGrouping'] = event.form?.isAllowGrouping;
           // const tableData = event.tableDta ? event.tableDta : event.form.options;
           const tableData = event.form.options;
           this.selectedNode['end'] = event.form?.end;
