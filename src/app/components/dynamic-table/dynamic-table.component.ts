@@ -1274,6 +1274,9 @@ export class DynamicTableComponent implements OnInit {
     return foundObjects;
   }
   groupedFunc(data: any, type: any) {
+    if (this.groupingData.length == 0) {
+      this.groupingData = this.tableData
+    }
     if (type === 'add') {
       if (this.groupingArray.some((group: any) => group === data)) {
         return; // Data is already grouped, no need to proceed
@@ -1290,14 +1293,15 @@ export class DynamicTableComponent implements OnInit {
     }
 
     if (this.groupingArray.length === 0) {
-      this.displayData = [...this.tableData.slice(this.start, this.end ? this.end : this.data?.end)];
+      this.displayData = this.groupingData;
       this.tableHeaders = this.tableHeaders.filter((a: any) => a.name !== 'expand');
     } else {
       // Reset displayData and tableHeaders before re-grouping
       this.displayData = [];
       this.tableHeaders = this.tableHeaders.filter((a: any) => a.name !== 'expand');
       // Apply grouping for each column in the groupingArray
-      this.displayData = this.groupData(this.tableData, 0);
+      this.tableData = this.groupData(this.groupingData, 0);
+      this.pageChange(1);
     }
   }
 
@@ -1310,7 +1314,7 @@ export class DynamicTableComponent implements OnInit {
         const groupedData = this.groupByColumn(data, groupColumn, index);
 
         // Update the displayData and tableHeaders for the current level
-        this.displayData = this.displayData.concat(groupedData);
+        this.tableData = this.tableData.concat(groupedData);
         this.tableHeaders.unshift({
           name: 'expand',
           key: 'expand',
@@ -1319,7 +1323,8 @@ export class DynamicTableComponent implements OnInit {
 
         // Continue grouping for the next column
         return this.groupData(groupedData, index + 1);
-      } else {
+      }
+      else {
         data.forEach((update: any) => {
           if (update.children) {
             const groupedChildren = this.groupByColumn(update.children, groupColumn, index);
