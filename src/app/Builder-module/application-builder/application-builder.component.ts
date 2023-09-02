@@ -638,21 +638,6 @@ export class ApplicationBuilderComponent implements OnInit {
       {
         fieldGroup: [
           {
-            key: 'name',
-            type: 'input',
-            wrappers: ["formly-vertical-theme-wrapper"],
-            defaultValue: '',
-            props: {
-              label: 'Department Name',
-              placeholder: 'Department Name...',
-              required: true,
-            }
-          },
-        ],
-      },
-      {
-        fieldGroup: [
-          {
             key: 'organizationId',
             type: 'select',
             wrappers: ["formly-vertical-theme-wrapper"],
@@ -670,7 +655,21 @@ export class ApplicationBuilderComponent implements OnInit {
           }
         ]
       },
-
+      {
+        fieldGroup: [
+          {
+            key: 'name',
+            type: 'input',
+            wrappers: ["formly-vertical-theme-wrapper"],
+            defaultValue: '',
+            props: {
+              label: 'Department Name',
+              placeholder: 'Department Name...',
+              required: true,
+            }
+          },
+        ],
+      },
     ];
   }
 
