@@ -225,6 +225,7 @@ export class AddControlService {
       color: "",
       hoverColor: "",
       btnIcon: "upload",
+      rightbtnIcon: "upload",
       format: "text-left",
       disabled: false,
       nzDanger: false,

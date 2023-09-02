@@ -354,7 +354,8 @@ export class SectionsComponent implements OnInit {
           this.saveLoader = true;
           this.employeeService.getSQLDatabaseTable(apiUrl + pagination).subscribe({
             next: (res) => {
-              if (tableData && res.isSuccess) {
+              this.saveLoader = false;
+              if (tableData && res?.isSuccess) {
                 if (res.data.length > 0) {
                   if (findClickApi?.[0].actions?.[0]?.url.includes('market-place')) {
 
@@ -442,6 +443,14 @@ export class SectionsComponent implements OnInit {
                       // tableData.tableHeaders = obj;
                     }
                   }
+                  let CheckKey = tableData.tableHeaders.find((head: any) => !head.key)
+                  if (CheckKey) {
+                    for (let i = 0; i < tableData.tableHeaders.length; i++) {
+                      if (!tableData.tableHeaders[i].hasOwnProperty('key')) {
+                        tableData.tableHeaders[i].key = tableData.tableHeaders[i].name;
+                      }
+                    }
+                  }
                 }
                 // this.assignGridRules(tableData);
               }
@@ -472,27 +481,6 @@ export class SectionsComponent implements OnInit {
         this.saveLoader = false;
         if (data && res.isSuccess && res.data.length > 0) {
           if (findClickApi.actions[0]?.url.includes('/userComment')) {
-            // let tasks = res.data.filter((a: any) => a.parentId == '' || a.parentId == undefined); 
-
-            // const parentData = res.data.filter((a : any) => a.parentId == ''); // Filter top-level items
-            // let parseParent = JSON.parse(JSON.stringify(parentData))
-            // parseParent.forEach((element: any) => {
-            //     // Find children for each parent based on componentId
-            //     const children = res.data.filter((a : any) => a.componentId === element.componentId && a.parentId === '');
-            //     element['children'] = children;
-
-            //     // Find grandchildren for each child based on parentId
-            //     if (element.children) {
-            //         if (element.children.length > 0) {
-            //             element.children.forEach((child: any) => {
-            //                 const grandchildren = res.data.filter((a : any) => a.parentId === child._id);
-            //                 console.log("grandCHild : " + grandchildren)
-            //                 child['children'] = grandchildren;
-            //             });
-            //         }
-            //     }
-            // });
-
 
             const requiredData = res.data.map(({ __v, _id, ...rest }: any) => ({
               expand: false,
@@ -511,11 +499,11 @@ export class SectionsComponent implements OnInit {
           data.serverApi = apiUrl;
           data.targetId = '';
           data.displayData = data.tableData.length > data.end ? data.tableData.slice(0, data.end) : data.tableData;
-          data.tableHeaders = Object.keys(data.tableData[0] || {}).map(key => ({ name: key, key: key }));
           if (data.tableHeaders.length === 0) {
             data.tableHeaders = Object.keys(data.tableData[0] || {}).map(key => ({ name: key, key: key }));
             data['tableKey'] = data.tableHeaders;
-          } else {
+          }
+          else {
             const tableKey = Object.keys(data.tableData[0] || {}).map(key => ({ name: key }));
             if (JSON.stringify(data['tableKey']) !== JSON.stringify(tableKey)) {
               const updatedData = data.tableHeaders.filter((updatedItem: any) =>
@@ -527,6 +515,14 @@ export class SectionsComponent implements OnInit {
                     item[updatedData[i].name] = '';
                   }
                 });
+              }
+            }
+          }
+          let CheckKey = data.tableHeaders.find((head: any) => !head.key)
+          if (CheckKey) {
+            for (let i = 0; i < data.tableHeaders.length; i++) {
+              if (!data.tableHeaders[i].hasOwnProperty('key')) {
+                data.tableHeaders[i].key = data.tableHeaders[i].name;
               }
             }
           }

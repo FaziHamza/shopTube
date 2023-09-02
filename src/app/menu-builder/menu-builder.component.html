@@ -73,7 +73,7 @@
       <div class="builder-main-body ">
         <div class="builder-tree b-card" *ngIf="IslayerVisible">
           <nz-input-group class="input-group-icon">
-            <input type="text" nz-input id="mySearch" placeholder="Search..">
+            <input type="text" nz-input id="mySearch" (keyup)="menuSearch(nodes[0])" placeholder="Search..">
             <i class="fa-regular fa-magnifying-glass"></i>
           </nz-input-group>
           <ul id="search-menu" *ngIf="filterMenuData.length > 0  ">
@@ -90,7 +90,8 @@
             <nz-tree [nzData]="nodes" [nzExpandedKeys]="expandedKeys" nzDraggable nzBlockNode
               (nzOnDrop)="nzEvent($event)" [nzTreeTemplate]="nzTreeTemplate"></nz-tree>
             <ng-template #nzTreeTemplate let-node let-origin="origin">
-              <div class="custom-node flex card-lable-row" (mouseover)="hoverIn(node)" (mouseleave)="hoverOut(node)"
+              <div class="custom-node flex card-lable-row {{ node.origin?.searchHighlight ? 'searchigh' : '' }}"
+                (mouseover)="hoverIn(node)" (mouseleave)="hoverOut(node)"
                 [ngClass]="isActiveShow === node.origin.id ? 'isActive' : ''">
                 <span (click)="openField(node)">
                   <span class="jameel-font">{{ node.origin.type === 'input' ? (node?.parentNode?.origin ? 'S' : 'M') :
@@ -153,8 +154,8 @@
             </div> -->
             <div class=" side-nav-body">
               <div style="position:relative ;">
-                <st-generic-field [modal]="formModalData" [componentType]="'menuBuilder'" (notify)="notifyEmit($event)" [type]="fieldData.type"
-                  [itemData]="fieldData" *ngIf="fieldData">
+                <st-generic-field [modal]="formModalData" [componentType]="'menuBuilder'" (notify)="notifyEmit($event)"
+                  [type]="fieldData.type" [itemData]="fieldData" *ngIf="fieldData">
                 </st-generic-field>
 
               </div>
