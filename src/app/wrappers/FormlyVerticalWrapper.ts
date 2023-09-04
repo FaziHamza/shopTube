@@ -49,7 +49,7 @@ export class FormlyVerticalWrapper extends FieldWrapper {
   constructor(public dataSharedService: DataSharedService, private cd: ChangeDetectorRef) {
     super();
   }
-  requestSubscription!: Subscription;
+  requestSubscription: Subscription;
   hasError: boolean = false;
   ngOnInit(): void {
     this.to;

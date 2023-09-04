@@ -13,7 +13,7 @@ export class DynamicTableRepeatSectionComponent implements OnInit {
 
   @Input() tableId: any;
   @Input() tableData: any;
-  @Input() tableHeaders!: any[];
+  @Input() tableHeaders: any[];
   @Input() data: any;
   editId: string | null = null;
   @Output() notifyTable: EventEmitter<any> = new EventEmitter();

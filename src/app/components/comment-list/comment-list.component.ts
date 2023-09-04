@@ -15,10 +15,10 @@ import { ApplicationService } from 'src/app/services/application.service';
 })
 export class CommentListComponent implements OnInit {
   onCardHover: boolean = false;
-  form!: FormGroup;
+  form: FormGroup;
   @Input() data: any = {};
   @Input() screenName: any;
-  requestSubscription!: Subscription;
+  requestSubscription: Subscription;
   constructor(public dataSharedService: DataSharedService, private router: Router,
     private modalService: NzModalService, private viewContainerRef: ViewContainerRef, private toastr: NzMessageService,
     private applicationService: ApplicationService, private formBuilder: FormBuilder) { }

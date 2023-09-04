@@ -17,7 +17,7 @@ export class UserTaskManagementComponent implements OnInit {
   selectApplicationName: any = '';
   screens: any;
   applicationData: any = [];
-  requestSubscription!: Subscription;
+  requestSubscription: Subscription;
   editId: any = '';
   assignToresponse: any = '';
   userTaskManagement: any = '';

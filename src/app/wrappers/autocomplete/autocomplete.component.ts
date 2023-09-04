@@ -12,7 +12,7 @@ import { DataSharedService } from 'src/app/services/data-shared.service';
 export class AutocompleteComponent extends FieldType<FieldTypeConfig> {
   filteredOptions: any = [];
   inputValue?: any;
-  requestSubscription!: Subscription;
+  requestSubscription: Subscription;
   constructor(private sharedService: DataSharedService,private applicationService: ApplicationService) {
     super();
   }

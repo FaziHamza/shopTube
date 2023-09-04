@@ -9,7 +9,7 @@ import { Subscription } from 'rxjs';
   styleUrls: ['./repeat-input.component.scss']
 })
 export class RepeatInputComponent extends FieldType<FieldTypeConfig> {
-  subscription!: Subscription;
+  subscription: Subscription;
   listOfControl: Array<{ id: number; controlInstance: string }> = [];
   constructor(private fb: UntypedFormBuilder) {
     super();

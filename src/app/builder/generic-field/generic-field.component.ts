@@ -17,15 +17,15 @@ export class GenericFieldComponent implements OnInit {
   model: any;
   tableId: any;
   @Input() itemData: any;
-  @Input() type!: string;
-  @Input() modal!: string;
+  @Input() type: string;
+  @Input() modal: string;
   @Input() screenId: any;
   @Input() screenName: any;
   @Input() componentType: any;
   @Output() valueChange = new EventEmitter();
   @Output() notify: EventEmitter<any> = new EventEmitter<any>();
   @Output() deleteValidation: EventEmitter<any> = new EventEmitter<any>();
-  requestSubscription!: Subscription;
+  requestSubscription: Subscription;
   resData: any;
   publicList: object[] = [
     { productName: "Samsung", quantity: 2 },
@@ -81,7 +81,7 @@ export class GenericFieldComponent implements OnInit {
       var currentData = JSON.parse(JSON.stringify(formData) || '{}');
       let check = this._dataSharedService.getData()
       if (check) {
-        currentData.form["tableDta"] = this._dataSharedService.getData();
+        currentData["tableDta"] = this._dataSharedService.getData();
       }
       if (this.resData) {
         currentData["dbData"] = this.resData;
@@ -100,6 +100,7 @@ export class GenericFieldComponent implements OnInit {
   }
 
   dynamicSectionOption() {
+    debugger
     this.resData = [];
     let obj: { mapApi?: any } = this.actionform.value;
     if (obj.mapApi) {

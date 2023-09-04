@@ -11,8 +11,8 @@ import { DOCUMENT } from '@angular/common';
 })
 export class ListsComponent implements OnInit {
   @Input() kanban : any;
-  @Input() list!: ListInterface;
-  @Input() listIndex!: number;
+  @Input() list: ListInterface;
+  @Input() listIndex: number;
   @Output() moveCardAcrossList: EventEmitter<MovementIntf> = new EventEmitter<MovementIntf>();
   @Output() newCardAdded: EventEmitter<Card> = new EventEmitter<CardInterface>();
   @Output() deleteList: EventEmitter<number> = new EventEmitter<number>();
@@ -45,7 +45,7 @@ export class ListsComponent implements OnInit {
 
 
   dropCard(dragEvent: DragEvent) {
-
+    
     if(dragEvent.dataTransfer){
       const data = JSON.parse(dragEvent.dataTransfer.getData('text'));
       const elements: Element[] = this.document.elementsFromPoint(dragEvent.x, dragEvent.y);

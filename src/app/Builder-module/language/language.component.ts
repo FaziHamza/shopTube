@@ -36,7 +36,7 @@ export class LanguageComponent implements OnInit {
   options: FormlyFormOptions = {};
   model: any = {};
   screenFieldsModel: any = {};
-  requestSubscription!: Subscription;
+  requestSubscription: Subscription;
   fields: any = [];
   screenFields: any = [];
   searchArray: any = [];
@@ -245,7 +245,7 @@ export class LanguageComponent implements OnInit {
     this.getMenus();
   }
   organizationDataGet() {
-
+   
     this.loading = true
     this.builderService.jsonCompanyBuilder().subscribe((res => {
       this.organizationData = res;
@@ -402,7 +402,7 @@ export class LanguageComponent implements OnInit {
   }
 
   search(event?: any, data?: any): void {
-
+   
     const inputValue = event?.target ? event.target.value?.toLowerCase() : event?.toLowerCase() ?? '';
     if (inputValue) {
       this.languageData = this.listOfData.filter((item: any) =>
@@ -437,7 +437,7 @@ export class LanguageComponent implements OnInit {
 
 
   fieldsLoad() {
-
+   
     const options = this.organizationData.map((item: any) => ({
       label: item.name,
       value: item.name
@@ -665,7 +665,7 @@ export class LanguageComponent implements OnInit {
     ];
   };
   // screenFieldsLoad() {
-  //
+  //  
   //   const options = this.organizationData.map((item: any) => ({
   //     label: item.name,
   //     value: item.name
@@ -792,7 +792,7 @@ export class LanguageComponent implements OnInit {
   }
 
   saveTranslation(key: string, translation: string): Promise<void> {
-
+   
     return this.getTranslations()
       .then((translations) => {
         translations[key] = translation;
@@ -830,7 +830,7 @@ export class LanguageComponent implements OnInit {
     }
   }
   selectDepartment(event: any) {
-
+   
     this.screens_ScreenField = '';
     this.application_ScreenField = '';
     if (event) {
@@ -849,13 +849,13 @@ export class LanguageComponent implements OnInit {
     }
   }
   selectApplication(event: any) {
-
+   
     this.screens_ScreenField = '';
     if (event) {
       let optionArray = [];
       if (this.select_Type_ScreenField == 'screen') {
         optionArray = this.screens.filter((item: any) => item.moduleName == event);
-
+       
         if (optionArray.length > 0) {
           optionArray = optionArray.map((item: any) => ({
             label: item.name,
@@ -875,7 +875,7 @@ export class LanguageComponent implements OnInit {
     }
   }
   getGridData(event: any) {
-
+   
     alert(event + ' ' + 'screen');
     // this.languageData = this.reslanguageData.filter(a => (a.screen_application === event) || (a.screens === event));
   }

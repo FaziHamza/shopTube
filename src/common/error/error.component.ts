@@ -13,6 +13,6 @@ export class ErrorComponent implements OnInit {
 
   }
 
-  @Input() form_control!: AbstractControl;
-  @Input() isSubmitted!: boolean;
+  @Input() form_control: AbstractControl;
+  @Input() isSubmitted: boolean;
 }

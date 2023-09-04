@@ -19,9 +19,9 @@ export class BlockButtonsCardComponent {
   @Output() notify: EventEmitter<any> = new EventEmitter();
   dataSrc: any;
   isShow: Boolean = false;
-  nodes!: TreeNode[];
+  nodes: TreeNode[];
   size: NzButtonSize = 'large';
-  color!: "hover:bg-[#000000]";
+  color: "hover:bg-[#000000]";
   borderColor: any;
   constructor(private modalService: NzModalService, public employeeService: EmployeeService, private toastr: NzMessageService, private router: Router,
   ) { }

@@ -11,12 +11,12 @@ import { NzMessageService } from 'ng-zorro-antd/message';
 })
 export class BoardComponent implements OnInit {
   @Input() kanbanData: any;
-  lists!: ListInterface[];
+  lists: ListInterface[];
 
   constructor(private toastr: NzMessageService,) { }
 
   ngOnInit() {
-
+    
     this.lists = this.kanbanData.kanbanSave;
     // this.lists = [];
     // for (let index = 0; index < this.kanbanData.nodes; index++) {
@@ -29,7 +29,7 @@ export class BoardComponent implements OnInit {
   }
 
   addList() {
-
+    
     const newList: ListInterface = new List();
     newList.position = this.lists.length + 1;
     newList.name = `List (${newList.position})`;

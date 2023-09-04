@@ -13,21 +13,21 @@ import { BuilderService } from 'src/app/services/builder.service';
 export class UIRuleComponent implements OnInit {
   @Output() ruleNotify: EventEmitter<any> = new EventEmitter<any>();
   @Input() screens: any;
-  @Input() screenId!: string;
-  @Input() screenName!: string;
-  @Input() applicationId!: string;
+  @Input() screenId: string;
+  @Input() screenName: string;
+  @Input() applicationId: string;
   @Input() selectedNode: any;
   @Input() nodes: any;
   public editorOptions: JsonEditorOptions;
   makeOptions = () => new JsonEditorOptions();
-  @ViewChild(JsonEditorComponent, { static: false }) editor!: JsonEditorComponent;
+  @ViewChild(JsonEditorComponent, { static: false }) editor: JsonEditorComponent;
   constructor(private formBuilder: FormBuilder, private builderService: BuilderService,
     private applicationService: ApplicationService, private toastr: NzMessageService,) {
     this.editorOptions = new JsonEditorOptions();
   }
 
-  uiRuleForm!: FormGroup;
-  screenData!: any;
+  uiRuleForm: FormGroup;
+  screenData: any;
   targetList: any = [];
   condationList: any;
   ifMenuName: any = [];

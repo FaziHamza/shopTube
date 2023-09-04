@@ -21,11 +21,11 @@ export class InvoiceTemplateComponent implements OnInit {
   isVisible = false;
   @Input() invoiceData: any;
   form: FormGroup;
-  requestSubscription!: Subscription;
+  requestSubscription: Subscription;
   constructor(private formBuilder: FormBuilder , public dataSharedService: DataSharedService , private toastr: NzMessageService) { }
 
   ngOnInit(): void {
-
+   
     this.form = this.formBuilder.group({
       image: '',
       invoiceNumber: '',
@@ -46,14 +46,14 @@ export class InvoiceTemplateComponent implements OnInit {
 
     this.requestSubscription = this.dataSharedService.invoiceSum.subscribe({
       next: (res) => {
-
+       
         this.form.patchValue({
           tax: 0,
           amountPaid: 0,
           discount: 0,
           shipping: 0
         });
-
+        
         res.forEach((item : any) => {
           this.subTotal = this.subTotal + (item.quantity * item.price)
         });

@@ -33,7 +33,7 @@ export class ApplicationBuilderComponent implements OnInit {
   myForm: any = new FormGroup({});
   options: FormlyFormOptions = {};
   model: any = {};
-  requestSubscription!: Subscription;
+  requestSubscription: Subscription;
   fields: any = [];
   listOfChildrenData: any[] = [];
   applicationSubmit: boolean = false;
@@ -506,7 +506,7 @@ export class ApplicationBuilderComponent implements OnInit {
         objDataModel = {
           "Application": this.myForm.value
         }
-      }
+      } 
       else {
         objDataModel = {
           "Department": this.myForm.value
@@ -638,21 +638,6 @@ export class ApplicationBuilderComponent implements OnInit {
       {
         fieldGroup: [
           {
-            key: 'name',
-            type: 'input',
-            wrappers: ["formly-vertical-theme-wrapper"],
-            defaultValue: '',
-            props: {
-              label: 'Department Name',
-              placeholder: 'Department Name...',
-              required: true,
-            }
-          },
-        ],
-      },
-      {
-        fieldGroup: [
-          {
             key: 'organizationId',
             type: 'select',
             wrappers: ["formly-vertical-theme-wrapper"],
@@ -670,7 +655,21 @@ export class ApplicationBuilderComponent implements OnInit {
           }
         ]
       },
-
+      {
+        fieldGroup: [
+          {
+            key: 'name',
+            type: 'input',
+            wrappers: ["formly-vertical-theme-wrapper"],
+            defaultValue: '',
+            props: {
+              label: 'Department Name',
+              placeholder: 'Department Name...',
+              required: true,
+            }
+          },
+        ],
+      },
     ];
   }
 

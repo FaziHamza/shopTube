@@ -19,10 +19,10 @@ import {
 } from './configurations/configuration.modal';
 import { htmlTabsData } from './ControlList';
 import { BuilderClickButtonService } from './service/builderClickButton.service';
-// import { ruleFactory } from '@elite-libs/rules-machine';
+import { ruleFactory } from '@elite-libs/rules-machine';
 import { Subscription, catchError, forkJoin, of } from 'rxjs';
 import { INITIAL_EVENTS } from '../shared/event-utils/event-utils';
-// import { ColorPickerService } from '../services/colorpicker.service';
+import { ColorPickerService } from '../services/colorpicker.service';
 import { DataService } from '../services/offlineDb.service';
 import { EncryptionService } from '../services/encryption.service';
 import { NzModalRef, NzModalService } from 'ng-zorro-antd/modal';
@@ -64,20 +64,20 @@ export class BuilderComponent implements OnInit {
   navigation: any = '';
   _id: any = "";
   screenPage: boolean = false;
-  fieldData!: GenaricFeild;
-  validationFieldData!: GenaricFeild;
+  fieldData: GenaricFeild;
+  validationFieldData: GenaricFeild;
   searchControllData: any = [];
-  selectedNode!: TreeNode
-  selectdParentNode!: TreeNode
+  selectedNode: TreeNode;
+  selectdParentNode: TreeNode;
   formModalData: any;
-  isActiveShow!: string;
+  isActiveShow: string;
   filterMenuData: any = [];
   joiValidationData: TreeNode[] = [];
-  isVisible!: string;
+  isVisible: string;
   showSectionOnly: boolean = false;
   columnData: any = [];
   controlListvisible = false;
-  requestSubscription!: Subscription;
+  requestSubscription: Subscription;
   showModal: boolean = false;
   showNotification: boolean = true;
   previewJsonData: any = '';
@@ -116,7 +116,7 @@ export class BuilderComponent implements OnInit {
     private addControlService: AddControlService,
     private clickButtonService: BuilderClickButtonService,
     public dataSharedService: DataSharedService,
-    // private colorPickerService: ColorPickerService,
+    private colorPickerService: ColorPickerService,
     private router: Router
   ) {
     this.editorOptions = new JsonEditorOptions();
@@ -307,7 +307,7 @@ export class BuilderComponent implements OnInit {
     this.oldIndex = index;
   }
 
-  oldIndex!: number;
+  oldIndex: number;
   decryptData(data: any) {
     let decryptData = this._encryptionService.decryptData(data?.data);
     this.nodes = this.jsonParseWithObject(decryptData);
@@ -528,16 +528,17 @@ export class BuilderComponent implements OnInit {
                 const element = this.actionListData[index];
                 let findObj = this.findObjectByKey(nodesData[0], element.elementName);
                 if (findObj) {
-                  if (findObj?.key == element.elementName && element.actionType == 'api') {
+                  if (findObj?.key == element.elementName && (element.actionType == 'api' || element.actionType === 'query')) {
                     if (!checkFirst[findObj?.key]) {
                       findObj['appConfigurableEvent'] = [];
                       findObj['eventActionconfig'] = {};
                       checkFirst[findObj?.key] = "done";
                     }
-                    if (element.btnActionType == 'load') {
+                    if (element.btnActionType == 'load' && element.actionType == 'api') {
                       let obj = { actionType: element.actionType, url: element.httpAddress, method: element.actionLink, elementName: element.elementNameTo }
                       findObj.eventActionconfig = obj;
-                    } else {
+                    }
+                    else {
                       if (findObj['appConfigurableEvent']) {
                         let obj = {
                           event: element.actionLink,
@@ -557,7 +558,8 @@ export class BuilderComponent implements OnInit {
                         findObj['appConfigurableEvent'].push(obj);
                       }
                     }
-                  } else {
+                  }
+                  else {
                     findObj['appConfigurableEvent'] = [];
                     findObj['eventActionconfig'] = {};
                   }
@@ -742,13 +744,13 @@ export class BuilderComponent implements OnInit {
     a.click();
   }
   selectForDropdown: any;
-  sections!: TreeNode
-  sectionBageBody!: TreeNode
-  sectionAccorBody!: TreeNode
-  stepperAdd!: TreeNode
-  ParentAdd!: TreeNode
-  stepperChild!: TreeNode
-  chilAdd!: TreeNode
+  sections: TreeNode;
+  sectionBageBody: TreeNode;
+  sectionAccorBody: TreeNode;
+  stepperAdd: TreeNode;
+  ParentAdd: TreeNode;
+  stepperChild: TreeNode;
+  chilAdd: TreeNode;
   screenData: any;
   businessRuleData: any;
   formlyModel: any;
@@ -1087,13 +1089,13 @@ export class BuilderComponent implements OnInit {
     } catch (error) {
       console.log(error);
     } finally {
-      // if (this.businessRuleData && this.businessRuleData.length > 0) {
-      //   const fishRhyme = ruleFactory(this.businessRuleData);
-      //   console.log(fishRhyme(this.formlyModel));
-      //   this.updateNodes();
-      //   this.updateFormlyModel();
-      //   // this.cdr.detectChanges();
-      // }
+      if (this.businessRuleData && this.businessRuleData.length > 0) {
+        const fishRhyme = ruleFactory(this.businessRuleData);
+        console.log(fishRhyme(this.formlyModel));
+        this.updateNodes();
+        this.updateFormlyModel();
+        // this.cdr.detectChanges();
+      }
       this.getSetVariableRule(model, currentValue);
     }
   }
@@ -1167,7 +1169,7 @@ export class BuilderComponent implements OnInit {
       })
     }
   }
-  lastFormlyModelValue!: string;
+  lastFormlyModelValue: string;
   makeUIJSONForSave(
     screenData: any,
     index: number,
@@ -2077,7 +2079,7 @@ export class BuilderComponent implements OnInit {
                         selectType: 'multiple',
                         multiFileUploadTypes: 'dragNDrop',
                         innerInputClass: '',
-                        dataClassification:'',
+                        dataClassification: '',
                       },
                       apiUrl: '',
                       rows: 1,
@@ -3552,15 +3554,11 @@ export class BuilderComponent implements OnInit {
             this.selectedNode.checkData == undefined
               ? ''
               : this.selectedNode.checkData;
-          // let check = this.arrayEqual(
-          //   this.selectedNode.checkData,
-          //   event.tableDta == undefined
-          //     ? event.tableDta
-          //     : this.selectedNode.tableBody
-          // );
           let check = this.arrayEqual(
             this.selectedNode.checkData,
-            event.form.tableData
+            event.tableDta == undefined
+              ? event.tableDta
+              : this.selectedNode.tableBody
           );
           if (!check) {
             if (event.dbData) {
@@ -3591,32 +3589,8 @@ export class BuilderComponent implements OnInit {
                   event.type == 'listWithComponentsChild' ||
                   event.type == 'cardWithComponents'
                 ) {
-                  // if (event.tableDta) {
-                  //   event.tableDta.forEach((element: any) => {
-                  //     if (newNode.length) {
-                  //       newNode.forEach((j: any) => {
-                  //         const keyObj = this.findObjectByKey(
-                  //           j,
-                  //           element.fileHeader
-                  //         );
-                  //         if (keyObj && element.defaultValue) {
-                  //           const updatedObj = this.dataReplace(
-                  //             keyObj,
-                  //             item,
-                  //             element
-                  //           );
-                  //           j = this.replaceObjectByKey(
-                  //             j,
-                  //             keyObj.key,
-                  //             updatedObj
-                  //           );
-                  //         }
-                  //       });
-                  //     }
-                  //   });
-                  // }
-                  if (event.form.tableDta) {
-                    event.form.tableDta.forEach((element: any) => {
+                  if (event.tableDta) {
+                    event.tableDta.forEach((element: any) => {
                       if (newNode.length) {
                         newNode.forEach((j: any) => {
                           const keyObj = this.findObjectByKey(
@@ -3646,28 +3620,8 @@ export class BuilderComponent implements OnInit {
                   event.type != 'listWithComponentsChild' &&
                   event.type != 'cardWithComponents'
                 ) {
-                  // if (event.tableDta) {
-                  //   event.tableDta.forEach((element: any) => {
-                  //     const keyObj = this.findObjectByKey(
-                  //       newNode,
-                  //       element.fileHeader
-                  //     );
-                  //     if (keyObj && element.defaultValue) {
-                  //       const updatedObj = this.dataReplace(
-                  //         keyObj,
-                  //         item,
-                  //         element
-                  //       );
-                  //       newNode = this.replaceObjectByKey(
-                  //         newNode,
-                  //         keyObj.key,
-                  //         updatedObj
-                  //       );
-                  //     }
-                  //   });
-                  // }
-                  if (event.form.tableData) {
-                    event.form.tableData.forEach((element: any) => {
+                  if (event.tableDta) {
+                    event.tableDta.forEach((element: any) => {
                       const keyObj = this.findObjectByKey(
                         newNode,
                         element.fileHeader
@@ -3709,17 +3663,11 @@ export class BuilderComponent implements OnInit {
               this.updateNodes();
             }
             this.selectedNode.dbData = event.dbData;
-            this.selectedNode.tableBody = event.form.tableDta;
-            // this.selectedNode.tableBody = event.form.tableBody;
+            this.selectedNode.tableBody = event.tableDta;
             this.selectedNode.mapApi = event.form.mapApi;
-            // if (event.tableDta) {
-            //   this.selectedNode.checkData = JSON.parse(
-            //     JSON.stringify(event.tableDta)
-            //   );
-            // }
-            if (event.form.tableBody) {
+            if (event.tableDta) {
               this.selectedNode.checkData = JSON.parse(
-                JSON.stringify(event.form.tableBody)
+                JSON.stringify(event.tableDta)
               );
             }
           } else {
@@ -4230,8 +4178,9 @@ export class BuilderComponent implements OnInit {
           this.selectedNode['showEditInput'] = event.form?.showEditInput;
           this.selectedNode['openComponent'] = event.form?.openComponent;
           this.selectedNode['isDeleteAllow'] = event.form?.isDeleteAllow;
-          // const tableData = event.tableDta ? event.tableDta : event.form.options;
-          const tableData = event.form.options;
+          this.selectedNode['isAllowGrouping'] = event.form?.isAllowGrouping;
+          const tableData = event.tableDta ? event.tableDta : event.form.options;
+          // const tableData = event.form.options;
           this.selectedNode['end'] = event.form?.end;
           this.selectedNode['serverSidePagination'] = event.form?.serverSidePagination;
           // const tableData = event.tableDta ? event.tableDta : event.form.options;
@@ -4249,10 +4198,10 @@ export class BuilderComponent implements OnInit {
               return newItem;
             });
           }
-          // this.selectedNode.tableHeaders = event.tableDta
-          //   ? event.tableDta
-          //   : event.form.options;
-          this.selectedNode.tableHeaders = event.form.options;
+          this.selectedNode.tableHeaders = event.tableDta
+            ? event.tableDta
+            : event.form.options;
+          // this.selectedNode.tableHeaders = event.form.options;
           if (this.selectedNode.tableHeaders.length > 0) {
             let newHeaders = this.selectedNode.tableHeaders.map((obj: any) => {
               let newObj = { ...obj };
@@ -4274,9 +4223,9 @@ export class BuilderComponent implements OnInit {
             this.selectedNode.tableHeaders = newHeaders;
           }
           this.selectedNode.columnData = this.updateTableData(
-            // event.tableDta ? event.tableDta : event.form.options,
-            // event.tableDta ? event.tableDta : event.form.options
-            event.form.options, event.form.options
+            event.tableDta ? event.tableDta : event.form.options,
+            event.tableDta ? event.tableDta : event.form.options
+            // event.form.options, event.form.options
           );
           if (event.form.api) {
             this.requestSubscription = this.builderService
@@ -5443,7 +5392,7 @@ export class BuilderComponent implements OnInit {
   setCustomColor(data: any) {
     let color: string;
     color = data.target.value;
-    // this.colorPickerService.setCustomColor('custom-color', color);
+    this.colorPickerService.setCustomColor('custom-color', color);
   }
 
   selectedDownloadJson() {
@@ -6240,94 +6189,113 @@ export class BuilderComponent implements OnInit {
   }
   getFromQuery(name: string) {
     let tableData = this.findObjectByTypeBase(this.nodes[0], "gridList");
-    if (tableData) {
-      let pagination = '';
-      if (tableData.serverSidePagination) {
-        pagination = '?page=' + 1 + '&pageSize=' + tableData?.end;
-      }
-      this.saveLoader = true;
-      this.employeeService.getSQLDatabaseTable(`knex-query/${name}` + pagination).subscribe({
-        next: (res) => {
-          if (tableData && res?.isSuccess) {
-            if (res.data.length > 0) {
-
-
-              let saveForm = JSON.parse(JSON.stringify(res.data[0]));
-              const firstObjectKeys = Object.keys(saveForm);
-              let tableKey = firstObjectKeys.map(key => ({ name: key }));
-              let obj = firstObjectKeys.map(key => ({ name: key, key: key }));
-              tableData.tableData = [];
-              saveForm.id = tableData.tableData.length + 1;
-              res.data.forEach((element: any) => {
-                element.id = (element?.id)?.toString();
-                tableData.tableData?.push(element);
-              });
-              // pagniation work start
-              if (!tableData.end) {
-                tableData.end = 10;
-              }
-              tableData.pageIndex = 1;
-              tableData.totalCount = res.count;
-              tableData.serverApi = `knex-query/${name}`;
-              tableData.targetId = '';
-              tableData.displayData = tableData.tableData.length > tableData.end ? tableData.tableData.slice(0, tableData.end) : tableData.tableData;
-              // pagniation work end
-              if (tableData.tableHeaders.length == 0) {
-                tableData.tableHeaders = obj;
-                tableData['tableKey'] = tableKey
-              }
-              else {
-                if (JSON.stringify(tableData['tableKey']) != JSON.stringify(tableKey)) {
-                  const updatedData = tableData.tableHeaders.filter((updatedItem: any) => {
-                    const name = updatedItem.name;
-                    return !tableKey.some((headerItem: any) => headerItem.name === name);
+    let findClickApi = tableData?.appConfigurableEvent?.filter((item: any) =>
+      item.actions.some((action: any) =>
+        (action.method === 'get' && (action.actionType === 'api' || action.actionType === 'query'))
+      )
+    );
+    if (findClickApi) {
+      if (findClickApi.length > 0) {
+        let pagination = '';
+        let url = '';
+        for (let index = 0; index < findClickApi.length; index++) {
+          let element = findClickApi[index].actions?.[0]?.actionType;
+          if (element == 'query') {
+            url = `knex-query/${name}`;
+            break;
+          } else {
+            url = findClickApi[index].actions?.[0]?.url
+          }
+        }
+        if (tableData.serverSidePagination) {
+          pagination = '?page=' + 1 + '&pageSize=' + tableData?.end;
+        }
+        if (url) {
+          this.saveLoader = true;
+          this.employeeService.getSQLDatabaseTable(url + pagination).subscribe({
+            next: (res) => {
+              this.saveLoader = false;
+              if (tableData && res?.isSuccess) {
+                this.saveLoader = false;
+                if (res.data.length > 0) {
+                  this.saveLoader = false;
+                  let saveForm = JSON.parse(JSON.stringify(res.data[0]));
+                  const firstObjectKeys = Object.keys(saveForm);
+                  let tableKey = firstObjectKeys.map(key => ({ name: key }));
+                  let obj = firstObjectKeys.map(key => ({ name: key, key: key }));
+                  tableData.tableData = [];
+                  saveForm.id = tableData.tableData.length + 1;
+                  res.data.forEach((element: any) => {
+                    element.id = (element?.id)?.toString();
+                    tableData.tableData?.push(element);
                   });
-                  if (updatedData.length > 0) {
-                    tableData.tableHeaders.map((item: any) => {
-                      const newItem = { ...item };
-                      for (let i = 0; i < updatedData.length; i++) {
-                        newItem[updatedData[i].key] = "";
+                  // pagniation work start
+                  if (!tableData.end) {
+                    tableData.end = 10;
+                  }
+                  tableData.pageIndex = 1;
+                  tableData.totalCount = res.count;
+                  tableData.serverApi = `knex-query/${name}`;
+                  tableData.targetId = '';
+                  tableData.displayData = tableData.tableData.length > tableData.end ? tableData.tableData.slice(0, tableData.end) : tableData.tableData;
+                  // pagniation work end
+                  if (tableData.tableHeaders.length == 0) {
+                    tableData.tableHeaders = obj;
+                    tableData['tableKey'] = tableKey
+                  }
+                  else {
+                    if (JSON.stringify(tableData['tableKey']) != JSON.stringify(tableKey)) {
+                      const updatedData = tableData.tableHeaders.filter((updatedItem: any) => {
+                        const name = updatedItem.name;
+                        return !tableKey.some((headerItem: any) => headerItem.name === name);
+                      });
+                      if (updatedData.length > 0) {
+                        tableData.tableHeaders.map((item: any) => {
+                          const newItem = { ...item };
+                          for (let i = 0; i < updatedData.length; i++) {
+                            newItem[updatedData[i].key] = "";
+                          }
+                          return newItem;
+                        });
                       }
-                      return newItem;
-                    });
+
+                    }
                   }
 
-                }
-              }
+                  // Make DataType
+                  let propertiesWithoutDataType = tableData.tableHeaders.filter((check: any) => !check.hasOwnProperty('dataType'));
+                  if (propertiesWithoutDataType.length > 0) {
+                    let formlyInputs = this.filterInputElements(this.nodes[0].children[1].children);
 
-              // Make DataType
-              let propertiesWithoutDataType = tableData.tableHeaders.filter((check: any) => !check.hasOwnProperty('dataType'));
-              if (propertiesWithoutDataType.length > 0) {
-                let formlyInputs = this.filterInputElements(this.nodes[0].children[1].children);
+                    if (formlyInputs && formlyInputs.length > 0) {
+                      propertiesWithoutDataType.forEach((head: any) => {
+                        let input = formlyInputs.find(a => a.formly[0].fieldGroup[0].key.includes('.') ? a.formly[0].fieldGroup[0].key.split('.')[1] == head.key : a.formly[0].fieldGroup[0].key == head.key);
 
-                if (formlyInputs && formlyInputs.length > 0) {
-                  propertiesWithoutDataType.forEach((head: any) => {
-                    let input = formlyInputs.find(a => a.formly[0].fieldGroup[0].key.includes('.') ? a.formly[0].fieldGroup[0].key.split('.')[1] == head.key : a.formly[0].fieldGroup[0].key == head.key);
+                        if (input) {
+                          head['dataType'] = input.formly[0].fieldGroup[0].type;
+                          head['subDataType'] = input.formly[0].fieldGroup[0].props.type;
+                          head['title'] = input.title;
+                        }
+                      });
 
-                    if (input) {
-                      head['dataType'] = input.formly[0].fieldGroup[0].type;
-                      head['subDataType'] = input.formly[0].fieldGroup[0].props.type;
-                      head['title'] = input.title;
+                      tableData.tableHeaders = tableData.tableHeaders.concat(propertiesWithoutDataType.filter((item: any) => !tableData.tableHeaders.some((objItem: any) => objItem.key === item.key)));
+                      // tableData.tableHeaders = obj;
                     }
-                  });
-
-                  tableData.tableHeaders = tableData.tableHeaders.concat(propertiesWithoutDataType.filter((item: any) => !tableData.tableHeaders.some((objItem: any) => objItem.key === item.key)));
-                  // tableData.tableHeaders = obj;
+                  }
+                  this.saveLoader = false;
                 }
+                // this.assignGridRules(tableData);
+                this.updateNodes();
+                this.cdr.detectChanges();
               }
+            }, error: (error: any) => {
+              console.error(error);
+              this.toastr.error("An error occurred", { nzDuration: 3000 });
               this.saveLoader = false;
             }
-            // this.assignGridRules(tableData);
-            this.updateNodes();
-            this.cdr.detectChanges();
-          }
-          this.saveLoader = false;
-        }, error: (error: any) => {
-          console.error(error);
-          this.toastr.error("An error occurred", { nzDuration: 3000 });
-          this.saveLoader = false;
+          });
         }
-      });
+      }
     }
   }
 

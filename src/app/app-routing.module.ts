@@ -47,6 +47,13 @@ const routes: Routes = [
         "src/app/builder/builder.module"
       ).then((m) => m.BuilderModule),
   },
+  {
+    path: 'builder-design',
+    loadChildren: () =>
+      import(
+        "src/app/builder-design/builder-design.module"
+      ).then((m) => m.BuilderDesignModule),
+  },
   // {
   //   path: 'auth',
   //   loadChildren: () =>

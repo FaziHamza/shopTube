@@ -19,7 +19,7 @@ export class DynamicTableComponent implements OnInit {
   @Input() itemData: any;
   @Input() tableId: any;
   @Input() form: any;
-  @Input() checkType!: boolean;
+  @Input() checkType: boolean;
   @Input() configurationTable: boolean = false;
   @Input() tableData: any[] = [];
   @Input() displayData: any[] = [];
@@ -30,7 +30,6 @@ export class DynamicTableComponent implements OnInit {
   @Input() showPagination: any = true;
   GridType: string = '';
   serverPath = environment.nestImageUrl
-  // key: any;
   screenNameaa: any;
   footerData: any[] = [];
   childKey: any;
@@ -44,7 +43,7 @@ export class DynamicTableComponent implements OnInit {
   storeRows: any = [];
   storeColums: any = [];
   responsiveTable: boolean = false;
-  requestSubscription!: Subscription;
+  requestSubscription: Subscription;
   selectList = [
     { key: "Faizan", value: "Faizan" },
     { key: "Arfan", value: "Arfan" },
@@ -52,14 +51,14 @@ export class DynamicTableComponent implements OnInit {
     { key: "Husnain", value: "Husnain" },
   ];
   editingEntry: any = null;
-  // pagination
   pageSize: any;
   start = 1;
   end: any;
+  groupingArray: any = [];
+  groupingData: any = [];
   constructor(public _dataSharedService: DataSharedService, private builderService: BuilderService,
     private applicationService: ApplicationService,
     private employeeService: EmployeeService, private toastr: NzMessageService, private cdr: ChangeDetectorRef) {
-    // this.getHeader();
   }
 
   ngOnInit(): void {
@@ -728,7 +727,6 @@ export class DynamicTableComponent implements OnInit {
       this.pageChange(1);
       this.toastr.success("Delete from userend successfully", { nzDuration: 3000 });
     }
-
   };
 
   startEdit(id: string): void {
@@ -764,11 +762,16 @@ export class DynamicTableComponent implements OnInit {
       this.data['tableKey'] = firstObjectKeys.map(key => ({ name: key }));
 
       this.data['tableKey'] = this.data['tableKey'].filter((header: any) => header.name !== 'color');
+      this.data['tableKey'] = this.data['tableKey'].filter((header: any) => header.name !== 'children');
       this.footerData = this.tableHeaders;
       if (!this.tableHeaders || !this.footerData) {
         this.tableHeaders = this.data['tableKey'];
         this.footerData = this.data['tableKey'];
       }
+      if (!this.tableData.some((a: any) => a.children)) {
+        this.tableHeaders = this.tableHeaders.filter((head: any) => head.name !== 'expand');
+      }
+
       this.displayData = this.tableData;
     }
     if (!this.data) {
@@ -906,6 +909,15 @@ export class DynamicTableComponent implements OnInit {
     return Object.keys(obj);
   }
   onPageIndexChange(index: number): void {
+    if (this.tableHeaders.length == 0) {
+      const firstObjectKeys = Object.keys(this.tableData[0]);
+      this.data['tableKey'] = firstObjectKeys.map(key => ({ name: key }));
+      this.data['tableKey'] = this.data['tableKey'].filter((header: any) => header.name !== 'color');
+      this.data['tableKey'] = this.data['tableKey'].filter((header: any) => header.name !== 'children');
+      this.tableHeaders = this.data['tableKey'];
+      this.footerData = this.tableHeaders;
+    }
+    this.displayData = this.tableData;
     if (this.data.serverSidePagination) {
       if (this.data?.targetId) {
         const pagination = '?page=' + index + '&pageSize=' + this.data?.end;
@@ -1261,6 +1273,124 @@ export class DynamicTableComponent implements OnInit {
     searchForType(data);
     return foundObjects;
   }
+  groupedFunc(data: any, type: any, header: any) {
+    header['grouping'] = type === 'add' ? data : '';
+
+
+    if (this.groupingData.length == 0) {
+      this.groupingData = this.tableData
+    }
+    if (type === 'add') {
+      if (this.groupingArray.some((group: any) => group === data)) {
+        return; // Data is already grouped, no need to proceed
+      }
+    }
+
+    if (type === 'add') {
+      this.groupingArray.push(data);
+    } else if (type === 'remove') {
+      const indexToRemove = this.groupingArray.indexOf(data);
+      if (indexToRemove !== -1) {
+        this.groupingArray.splice(indexToRemove, 1); // Remove 1 element at the specified index
+      }
+    }
+
+    if (this.groupingArray.length === 0) {
+      this.displayData = this.groupingData;
+      this.tableHeaders = this.tableHeaders.filter((a: any) => a.name !== 'expand');
+    } else {
+      // Reset displayData and tableHeaders before re-grouping
+      this.displayData = [];
+      this.tableHeaders = this.tableHeaders.filter((a: any) => a.name !== 'expand');
+      // Apply grouping for each column in the groupingArray
+      this.tableData = this.groupData(this.groupingData, 0);
+      this.pageChange(1);
+    }
+  }
+
+  groupData(data: any[], index: number): any {
+    if (index < this.groupingArray.length) {
+      const groupColumn = this.groupingArray[index];
+
+      if (index === 0) {
+        // Group the data by the specified column
+        const groupedData = this.groupByColumn(data, groupColumn, index);
+
+        // Update the displayData and tableHeaders for the current level
+        this.tableData = this.tableData.concat(groupedData);
+        this.tableHeaders.unshift({
+          name: 'expand',
+          key: 'expand',
+          title: 'Expand',
+        });
+
+        // Continue grouping for the next column
+        return this.groupData(groupedData, index + 1);
+      }
+      else {
+        data.forEach((update: any) => {
+          if (update.children) {
+            const groupedChildren = this.groupByColumn(update.children, groupColumn, index);
+            update.children = groupedChildren; // Update children with grouped data
+            // Recursively apply grouping to children
+            this.groupData(update.children, index + 1);
+          }
+        });
+      }
+    }
+
+    return data; // Return the grouped data when all columns are processed
+  }
+
+  groupByColumn(data: any, columnName: string, index: number) {
+    const groupedData: any = {};
+    data.forEach((element: any) => {
+      const groupValue = element[columnName];
+      const parentValue = this.groupingArray[index - 1]; // Previous grouping value
+
+      if (!groupedData[parentValue]) {
+        groupedData[parentValue] = [];
+      }
+
+      if (!groupedData[parentValue][groupValue]) {
+        groupedData[parentValue][groupValue] = {
+          expand: false,
+          children: [],
+        };
+      }
+
+      const group = groupedData[parentValue][groupValue];
+      group.children.push(element);
+      group.expand = false;
+
+      // If it's the first level of grouping, add the parent value
+      if (index === 0) {
+        group['parent'] = parentValue;
+      }
+    });
+    const result = Object.keys(groupedData).map((parentKey: string) => {
+      const parentGroup = groupedData[parentKey];
+      return Object.keys(parentGroup).map((groupKey: string) => {
+        const groupData = parentGroup[groupKey];
+        const secondObj = groupData.children[0];
+        const firstObj = JSON.parse(JSON.stringify(groupData));
+        for (const key in secondObj) {
+          if (secondObj.hasOwnProperty(key)) {
+            // Check if the property does not exist in the first object
+            if (!firstObj.hasOwnProperty(key)) {
+              // Assign the property from the second object to the first object
+              firstObj[key] = secondObj[key];
+            }
+          }
+        }
+        return firstObj;
+      });
+    }).flat(); // Flatten the nested arrays
+
+    return result;
+  }
+
+
 
 
 }

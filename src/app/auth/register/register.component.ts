@@ -21,7 +21,7 @@ export class RegisterComponent implements OnInit {
   array = [1, 2, 3, 4];
   effect = 'scrollx';
   loader: boolean = false;
-  form!: FormGroup;
+  form: FormGroup;
   isFormSubmit: boolean = false;
   constructor(private applicationService: ApplicationService,
     private toastr: NzMessageService, private formBuilder: FormBuilder,) { }

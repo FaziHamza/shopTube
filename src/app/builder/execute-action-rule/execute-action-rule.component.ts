@@ -316,7 +316,7 @@ export class ExecuteActionRuleComponent implements OnInit {
 
   // Rules Form
 
-  ruleForm!: FormGroup;
+  ruleForm: FormGroup;
   ngOnInit() {
     this.ruleForm = this.fb.group({
       actionRules: this.fb.array([])

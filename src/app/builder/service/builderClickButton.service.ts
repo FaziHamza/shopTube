@@ -21,10 +21,10 @@ export class BuilderClickButtonService {
           show: obj.show,
           dataType: obj.dataType,
           sum: obj.sum,
+          isAllowGrouping: obj?.isAllowGrouping,
           headerButton: '',
           footerButton: '',
           listOfFilter: obj.listOfFilter ? JSON.stringify(obj.listOfFilter) : obj.listOfFilter,
-          id: 0,
           columnClickApi: obj?.columnClickApi
         };
       })

@@ -46,12 +46,12 @@ import { DataSharedService } from '../services/data-shared.service';
   `,
 })
 export class FormlyHorizontalWrapper extends FieldWrapper {
-  labelColumn!: string;
-  fieldColumn!: string;
-  errorColumn!: string;
-  fieldPadding!: string;
+  labelColumn: string;
+  fieldColumn: string;
+  errorColumn: string;
+  fieldPadding: string;
   rtl: any;
-  requestSubscription!: Subscription;
+  requestSubscription: Subscription;
   hasError: boolean = false;
   constructor(public dataSharedService: DataSharedService, private cd: ChangeDetectorRef) {
     super();

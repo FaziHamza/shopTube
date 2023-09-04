@@ -11,9 +11,9 @@ export interface BoardInterface {
 
 export class BoardModel implements BoardInterface {
 
-  id!: string;
-  name!: string;
-  lists!: ListInterface[];
+  id: string;
+  name: string;
+  lists: ListInterface[];
 
 
   constructor() {

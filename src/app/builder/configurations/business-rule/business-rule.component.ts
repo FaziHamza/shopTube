@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
 import { BuilderService } from 'src/app/services/builder.service';
-// import { ruleFactory } from '@elite-libs/rules-machine';
+import { ruleFactory } from '@elite-libs/rules-machine';
 import { Subscription } from 'rxjs';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { ApplicationService } from 'src/app/services/application.service';
@@ -32,7 +32,7 @@ export class BusinessRuleComponent implements OnInit {
       this.requestSubscription.unsubscribe();
   }
   businessRuleData: any = [];
-  requestSubscription!: Subscription;
+  requestSubscription: Subscription;
   businessRuleIfList: any = [];
   BuisnessRuleCondationList: any;
   businessForm: FormGroup;
@@ -351,11 +351,11 @@ export class BusinessRuleComponent implements OnInit {
         // });
       }
     }
-    // const fishRhyme = ruleFactory(this.businessRuleObj);
-    // const fishRhyme1 = ruleFactory([{ if: 'text_675d95bf == "abc"', then: 'text_2e6b7d72 = "ghi"' }]);
-    // console.log(fishRhyme1({ text_675d95bf: "abc" }));
-    // console.log(fishRhyme({ text_675d95bf: "abc" })); // {fish: 'twoFish'}
-    // console.log(fishRhyme(this.formlyModel));
+    const fishRhyme = ruleFactory(this.businessRuleObj);
+    const fishRhyme1 = ruleFactory([{ if: 'text_675d95bf == "abc"', then: 'text_2e6b7d72 = "ghi"' }]);
+    console.log(fishRhyme1({ text_675d95bf: "abc" }));
+    console.log(fishRhyme({ text_675d95bf: "abc" })); // {fish: 'twoFish'}
+    console.log(fishRhyme(this.formlyModel));
   }
   checkValueIntegerOrNot(value: any) {
     return /^[0-9]+$/.test(value) ? parseInt(value) : "'" + value + "'"

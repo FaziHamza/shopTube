@@ -5,7 +5,7 @@ import { NzMessageService } from 'ng-zorro-antd/message';
 import { Subscription, catchError, forkJoin, of } from 'rxjs';
 import { EmployeeService } from 'src/app/services/employee.service';
 // Encrypt
-// import * as CryptoJS from 'crypto-js';
+import * as CryptoJS from 'crypto-js';
 import { EncryptionService } from 'src/app/services/encryption.service';
 
 @Component({
@@ -17,7 +17,7 @@ export class CreateDatabaseComponent implements OnInit {
   saveLoader: boolean = false;
   editCache: { [key: number]: { edit: boolean; data: any } } = {};
   listOfData: any[] = [];
-  requestSubscription!: Subscription;
+  requestSubscription: Subscription;
   model: any = {};
   myForm: any = new FormGroup({});
   options: FormlyFormOptions = {};
@@ -381,7 +381,7 @@ export class CreateDatabaseComponent implements OnInit {
             return this.employeeService.saveSQLDatabaseTable('knex-crud/table_schema', objFields).pipe(
               catchError(error => of(error)
               ) // Handle error and continue the forkJoin
-
+              
             );
           });
 

@@ -32,7 +32,7 @@ import { SanitizePipe } from '../pipe/sanitize.pipe';
 import { RouterModule } from '@angular/router';
 import { FullCalendarModule } from '@fullcalendar/angular';
 import { BusinessRuleGridComponent } from '../builder/configurations/business-rule-grid/business-rule-grid.component';
-// import { EditorJsWrapperComponent } from '../wrappers/editor/editor-js-wrapper/editor-js-wrapper.component';
+import { EditorJsWrapperComponent } from '../wrappers/editor/editor-js-wrapper/editor-js-wrapper.component';
 import { GoogleChartsModule } from 'angular-google-charts';
 import { MenuComponent } from '../menu/menu.component';
 import { SiteLayoutComponent,  LayoutTabsComponent,
@@ -90,8 +90,7 @@ import { ConfigurableSelectDirective } from 'src/directive/configuration-select.
     NotificationComponent, ParagraphComponent, PopconfirmComponent, ProgressbarsComponent, RangInputsComponent, RateComponent, ResultComponent,
     SalesCardComponent, SimpleCardWithHeaderBodyFooterComponent, SkeletonComponent, StatisticComponent, StepperComponent, SwitchComponent, TableComponent,
     TabsComponent, TimelineBuilderComponent, TransferComponent, TreeComponent, TreeSelectComponent, TreeViewComponent, VideosComponent, CalendarComponent,
-    SanitizePipe, IconComponent, ButtonsComponent, 
-    // EditorJsWrapperComponent,
+    SanitizePipe, IconComponent, ButtonsComponent, EditorJsWrapperComponent,
     BoardComponent, DetailComponent, SummaryComponent, ContextMenuComponent,  ListsComponent, HtmlBlockComponent,
     ContentEditDirective, BarChartComponent,PieChartComponent,BubbleChartComponent,CandlestickChartComponent,ColumnChartComponent,
     GanttChartComponent,GeoChartComponent, HistogramChartComponent,LineChartComponent,
@@ -128,14 +127,14 @@ import { ConfigurableSelectDirective } from 'src/directive/configuration-select.
     NotificationComponent, ParagraphComponent, PopconfirmComponent, ProgressbarsComponent, RangInputsComponent, RateComponent, ResultComponent,
     SalesCardComponent, SimpleCardWithHeaderBodyFooterComponent, SkeletonComponent, StatisticComponent, StepperComponent, SwitchComponent, TableComponent,
     TabsComponent, TimelineBuilderComponent, TransferComponent, TreeComponent, TreeSelectComponent, TreeViewComponent, VideosComponent, IconComponent, ButtonsComponent,
-    // EditorJsWrapperComponent,
+    EditorJsWrapperComponent,
     BoardComponent,
     DetailComponent,
     SummaryComponent,
     ContextMenuComponent,
     ListsComponent,
     ContentEditDirective,
-    // EditorJsWrapperComponent,
+    EditorJsWrapperComponent,
     HtmlBlockComponent,
     BarChartComponent,
     PieChartComponent,

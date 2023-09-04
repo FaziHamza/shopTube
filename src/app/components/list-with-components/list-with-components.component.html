@@ -1,9 +1,6 @@
-<div>
-    <div itemSize="73" class="demo-infinite-container">
-        <nz-list [nzBordered]="listData.isBordered">
-            <nz-list-item *ngFor="let item of listData.children">
-                <st-main [mainData]="item"  [screenName]="screenName" [form]="form" [formlyModel]="formlyModel"></st-main>
-            </nz-list-item>
-        </nz-list>
-    </div>
-</div>
+<nz-list >
+    <nz-list-item [ngStyle]="{'border-bottom': !listData.isBordered ? 'none' : '1px solid #f0f0f0'}"
+        *ngFor="let item of listData.children">
+        <st-main [mainData]="item" [screenName]="screenName" [form]="form" [formlyModel]="formlyModel"></st-main>
+    </nz-list-item>
+</nz-list>

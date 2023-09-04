@@ -1,12 +1,10 @@
-<button (click)="validateJSON()">Validate</button>
-<ul *ngIf="validationMessage.length">
-    <li *ngFor="let errorObj of validationMessage">{{ errorObj.message }}
-        <button (click)="fixError(errorObj)">Auto Fix</button>
-    </li>
-</ul>
-
-
-
-
-<div style="height: 60vh; width: 100vh;" #editorContainer></div>
-
+<!-- demo.component.html -->
+<form #form="ngForm">
+  <!-- ... your other form fields ... -->
+  <div class="mb-2">
+    <div class="g-recaptcha" data-sitekey="6LfKNi0cAAAAACeYwFRY9_d_qjGhpiwYUo5gNW5-"></div>
+  </div>
+  <div class="mt-2">
+    <button type="button" class="btn btn-primary" (click)="send(form)">Send</button>
+  </div>
+</form>

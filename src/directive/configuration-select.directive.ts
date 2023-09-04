@@ -8,10 +8,10 @@ import { takeUntil } from 'rxjs/operators';
 })
 export class ConfigurableSelectDirective implements OnInit, OnDestroy {
 
-  @Input('appConfigurableSelect') configs!: Array<{ event: string, actions: Array<Action> }>;
-  @Input() loadAction!: LoadAction;
-  @Input() templateRef!: TemplateRef<any>;
-  @Input() processData!: (data: any[]) => any[];
+  @Input('appConfigurableSelect') configs: Array<{ event: string, actions: Array<Action> }>;
+  @Input() loadAction: LoadAction;
+  @Input() templateRef: TemplateRef<any>;
+  @Input() processData: (data: any[]) => any[];
 
   // Store the results from API
   data: any[] = [];

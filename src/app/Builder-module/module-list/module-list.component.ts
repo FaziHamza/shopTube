@@ -12,7 +12,7 @@ import { DataSharedService } from 'src/app/services/data-shared.service';
   styleUrls: ['./module-list.component.scss']
 })
 export class ModuleListComponent implements OnInit {
-  requestSubscription!: Subscription;
+  requestSubscription: Subscription;
   applicationData: any = [];
   @Input() moduleData:any;
   // @Input() moduleData: any = [];

@@ -23,7 +23,7 @@ export class AppSideMenuComponent implements OnInit {
   menuChildArrayTwoColumn: any = [];
   moduleData: any = [];
   selectApplicationModuleData: any = [];
-  requestSubscription!: Subscription;
+  requestSubscription: Subscription;
   checked: false
   isActiveShow: any;
   hoverActiveShow: any;
@@ -34,7 +34,7 @@ export class AppSideMenuComponent implements OnInit {
     sub2: false,
     sub3: false
   };
-  commentForm!: FormGroup;
+  commentForm: FormGroup;
   newcomment: any = '';
   newCommentRes: any = '';
   showAllComments = false;
@@ -221,7 +221,7 @@ export class AppSideMenuComponent implements OnInit {
   handleContextMenu(event: MouseEvent, item: any) {
     debugger
     // event.stopPropagation();
-    // event.preventDefault();
+    // event.preventDefault(); 
     this.dataSharedService.rightClickMenuData = item;
     console.log("Right-click event occurred!");
   }

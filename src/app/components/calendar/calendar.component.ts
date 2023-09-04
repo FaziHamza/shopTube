@@ -13,7 +13,7 @@ import { createEventId, INITIAL_EVENTS } from 'src/app/shared/event-utils/event-
 })
 export class CalendarComponent {
   @Input() calenderData:any;
-  calendarOptions!: CalendarOptions;
+  calendarOptions: CalendarOptions;
   calendarVisible = true;
   ngOnInit(){
     this.calendarOptions = {
