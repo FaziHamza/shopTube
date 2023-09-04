@@ -269,7 +269,7 @@ export class PagesComponent implements OnInit {
                     let obj = {
                       event: element.actionLink,
                       actions: [
-                        { actionType: element.actionType, url: element.httpAddress, method: element.actionLink, elementName: element.elementNameTo, submit: element.submit }
+                        { actionType: element.actionType, url: element.httpAddress, method: element.actionLink, elementName: element.elementNameTo, submit: element.submit, id: element._id }
                       ]
                     };
                     eventActionConfig['appConfigurableEvent'].push(obj);
@@ -278,7 +278,7 @@ export class PagesComponent implements OnInit {
                     let obj = {
                       event: element.actionLink,
                       actions: [
-                        { actionType: element.actionType, url: element.httpAddress, method: element.actionLink, elementName: element.elementNameTo, submit: element.submit }
+                        { actionType: element.actionType, url: element.httpAddress, method: element.actionLink, elementName: element.elementNameTo, submit: element.submit, id: element._id }
                       ]
                     };
                     eventActionConfig['appConfigurableEvent'].push(obj);
@@ -308,7 +308,7 @@ export class PagesComponent implements OnInit {
                 let obj = {
                   event: element.actionLink,
                   actions: [
-                    { actionType: element.actionType, url: element.httpAddress, method: element.actionLink, elementName: element.elementNameTo, submit: element.submit }
+                    { actionType: element.actionType, url: element.httpAddress, method: element.actionLink, elementName: element.elementNameTo, submit: element.submit, id: element._id }
                   ]
                 };
                 findObj['appConfigurableEvent'].push(obj);
@@ -317,7 +317,7 @@ export class PagesComponent implements OnInit {
                 let obj = {
                   event: element.actionLink,
                   actions: [
-                    { actionType: element.actionType, url: element.httpAddress, method: element.actionLink, elementName: element.elementNameTo, submit: element.submit }
+                    { actionType: element.actionType, url: element.httpAddress, method: element.actionLink, elementName: element.elementNameTo, submit: element.submit, id: element._id }
                   ]
                 };
                 findObj['appConfigurableEvent'].push(obj);
@@ -465,10 +465,10 @@ export class PagesComponent implements OnInit {
           for (let index = 0; index < findClickApi.length; index++) {
             let element = findClickApi[index].actions?.[0]?.actionType;
             if (element == 'query') {
-              url = `knex-query/${this.screenName}`;
+              url = `knex-query/getAction/${findClickApi[index].actions?.[0]?.id}`;
               break;
             } else {
-              url = findClickApi[index].actions?.[0]?.url
+              url = `knex-query/getAction/${findClickApi[index].actions?.[0]?.id}`;
             }
           }
           if (url) {

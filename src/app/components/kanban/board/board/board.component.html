@@ -1,3 +1,4 @@
+{{kanbanData | json}}
 <button [processData]="processData" [appConfigurableSelect]="kanbanData['appConfigurableEvent']"
   [loadAction]="kanbanData['eventActionconfig']" *ngIf="this.kanbanData.showAddbtn" nz-button nzType="primary"
   (click)="addList()" [disabled]="kanbanData.maxLength  <= lists.length ? true : false">

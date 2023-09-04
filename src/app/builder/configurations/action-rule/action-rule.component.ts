@@ -541,10 +541,10 @@ export class ActionRuleComponent implements OnInit {
           for (let index = 0; index < findClickApi.length; index++) {
             let element = findClickApi[index].actions?.[0]?.actionType;
             if (element == 'query') {
-              url = `knex-query/${mainModuleId[0].navigation}`;
+              url = `knex-query/getAction/${findClickApi[index].actions?.[0]?.id}`;
               break;
             } else {
-              url = findClickApi[index].actions?.[0]?.url
+              url = `knex-query/getAction/${findClickApi[index].actions?.[0]?.id}`;
             }
           }
 
