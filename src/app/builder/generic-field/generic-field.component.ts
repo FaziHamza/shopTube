@@ -79,8 +79,12 @@ export class GenericFieldComponent implements OnInit {
     }
     if (this.actionform.valid) {
       var currentData = JSON.parse(JSON.stringify(formData) || '{}');
-      let check = this._dataSharedService.getData()
-      if (check) {
+      for (const key in currentData.form) {
+        if (Array.isArray(currentData.form[key])) {
+          currentData.form[key] = this._dataSharedService.getData();
+        }
+      }
+      if (this._dataSharedService.getData()) {
         currentData["tableDta"] = this._dataSharedService.getData();
       }
       if (this.resData) {
@@ -143,7 +147,11 @@ export class GenericFieldComponent implements OnInit {
   }
 
   createOptionsArray(node: any) {
-    this.optionsArray.push({ type: node.type, key: node.key });
+    if (node?.formly) {
+      this.optionsArray.push({ type: node.type, key: node?.formly[0]?.fieldGroup[0]?.key });
+    } else {
+      this.optionsArray.push({ type: node.type, key: node.key });
+    }
     if (node.children) {
       node.children.forEach((child: any) => {
         this.createOptionsArray(child);

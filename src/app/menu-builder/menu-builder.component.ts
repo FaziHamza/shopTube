@@ -3,7 +3,6 @@ import { Component, OnInit } from '@angular/core';
 import { actionTypeFeild, formFeildData } from '../builder/configurations/configuration.modal';
 import { BuilderClickButtonService } from '../builder/service/builderClickButton.service';
 import { TreeNode } from '../models/treeNode';
-import { MenuItem } from '../models/menu';
 import { BuilderService } from '../services/builder.service';
 import { NzFormatEmitEvent } from 'ng-zorro-antd/tree';
 import { JsonEditorOptions } from 'ang-jsoneditor';
@@ -995,80 +994,97 @@ export class MenuBuilderComponent implements OnInit {
   //     }
   //   });
   // };
-  jsonUpload(event: Event) {
-    debugger
-    // && event.target.files.length > 0
-    if (event.target instanceof HTMLInputElement) {
+  jsonUpload(event: any) {
+    debugger;
+    if (event.target instanceof HTMLInputElement && event.target.files) {
       const reader = new FileReader();
       reader.onloadend = () => {
         let contents = reader.result as string;
-        let theme = JSON.parse(contents);
-        if (this.selectedTheme) {
-          this.selectedTheme = theme.selectedTheme
 
-        } else {
-          this.selectedTheme = {}
-          this.selectedTheme = theme.selectedTheme
+        try {
+          let theme = JSON.parse(contents);
 
+          // Check if the parsed data contains valid values before assigning
+          if (theme && theme.selectedTheme) {
+            this.selectedTheme = theme.selectedTheme;
+          } else {
+            this.selectedTheme = {};
+          }
+
+          this.controlUndefinedValues();
+
+          if (theme.menuData) {
+            this.nodes = JSON.parse(theme.menuData);
+            this.makeMenuData();
+
+          }
+          // let selectDepartment = this.menuModule.find((a: any) => a.name == data);
+          // this.selectApplicationType = selectDepartment['application_Type'] ? selectDepartment['application_Type'] : '';
+          // this.applicationId = makeData[0].id
+          // this.nodes = makeData.menuData;
+          // makeData.jsonBuilderSetting[0].forEach((element: any) => {
+          //   var data =
+          //   {
+          //     "applicationName": element.applicationName,
+          //     "menuData": element.menuData,
+          //     "applicationId": element.moduleId,
+          //   };
+          //   this.builderService.jsonBuilderSettingV1(element.applicationName).subscribe(((res: any) => {
+          //     if (res.length > 0) {
+          //       var a = 1;
+          //       res.forEach((element1: any) => {
+          //         this.builderService.jsonDeleteBuilder(element1.id).subscribe((res1 => {
+          //           if (res1) {
+          //             if (a == 1) {
+          //               a++;
+          //               this.builderService.jsonSaveBuilder(data).subscribe((res2 => {
+          //                 console.log("save Screens");
+          //               }));
+          //             }
+          //           }
+          //         }));
+          //       });
+          //     }
+          //     else {
+          //       this.builderService.jsonSaveBuilder(data).subscribe((res2 => {
+          //         console.log("save");
+          //       }));
+          //     }
+          //   }))
+          //   // this.builderService.jsonDeleteBuilderBySreenName(element.applicationName).subscribe((res => {
+          //   //   this.builderService.jsonSaveBuilder(data).subscribe((res1 => {
+          //   //     console.log("save");
+          //   //   }));
+          //   // }))
+
+          // });
+          // if (makeData.jsonModule && makeData.jsonModule.length > 0) {
+          //   var moduleData = {
+          //     applicationName: makeData.jsonModule[0].applicationName,
+          //     name: makeData.jsonModule[0].name
+          //   }
+          //   this.builderService.updateModule(makeData.jsonModule[0].id, moduleData).subscribe((res => {
+          //     console.log("Application save");
+          //   }))
+          // }
+          this.toastr.success('File uploaded successfully!', {
+            nzDuration: 3000,
+          });
         }
-        this.controlUndefinedValues();
-        this.nodes = JSON.parse(theme.menuData);
-        this.makeMenuData();
-        // let selectDepartment = this.menuModule.find((a: any) => a.name == data);
-        // this.selectApplicationType = selectDepartment['application_Type'] ? selectDepartment['application_Type'] : '';
-        // this.applicationId = makeData[0].id
-        // this.nodes = makeData.menuData;
-        // makeData.jsonBuilderSetting[0].forEach((element: any) => {
-        //   var data =
-        //   {
-        //     "applicationName": element.applicationName,
-        //     "menuData": element.menuData,
-        //     "applicationId": element.moduleId,
-        //   };
-        //   this.builderService.jsonBuilderSettingV1(element.applicationName).subscribe(((res: any) => {
-        //     if (res.length > 0) {
-        //       var a = 1;
-        //       res.forEach((element1: any) => {
-        //         this.builderService.jsonDeleteBuilder(element1.id).subscribe((res1 => {
-        //           if (res1) {
-        //             if (a == 1) {
-        //               a++;
-        //               this.builderService.jsonSaveBuilder(data).subscribe((res2 => {
-        //                 console.log("save Screens");
-        //               }));
-        //             }
-        //           }
-        //         }));
-        //       });
-        //     }
-        //     else {
-        //       this.builderService.jsonSaveBuilder(data).subscribe((res2 => {
-        //         console.log("save");
-        //       }));
-        //     }
-        //   }))
-        //   // this.builderService.jsonDeleteBuilderBySreenName(element.applicationName).subscribe((res => {
-        //   //   this.builderService.jsonSaveBuilder(data).subscribe((res1 => {
-        //   //     console.log("save");
-        //   //   }));
-        //   // }))
+        catch (error) {
+          // Handle JSON parsing errors here
+          console.error('Error parsing JSON:', error);
+          // You can display an error message to the user if needed
+        }
 
-        // });
-        // if (makeData.jsonModule && makeData.jsonModule.length > 0) {
-        //   var moduleData = {
-        //     applicationName: makeData.jsonModule[0].applicationName,
-        //     name: makeData.jsonModule[0].name
-        //   }
-        //   this.builderService.updateModule(makeData.jsonModule[0].id, moduleData).subscribe((res => {
-        //     console.log("Application save");
-        //   }))
-        // }
+        // Clear the file input value after processing
+        event.target.value = '';
+
       };
-      if (event.target.files) {
-        reader.readAsText(event.target.files[0]);
-      }
+      reader.readAsText(event.target.files[0]);
     }
   }
+
   closeConfigurationList() {
 
     this.IsShowConfig = false;

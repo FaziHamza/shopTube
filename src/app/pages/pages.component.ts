@@ -1483,7 +1483,7 @@ export class PagesComponent implements OnInit {
     let checkFirstTime = true;
     let tabsAndStepper: any = [];
     if (api)
-      this.requestSubscription = this.applicationService.getNestCommonAPI('market-place/mapping').subscribe(res => {
+      this.requestSubscription = this.applicationService.getNestCommonAPI(api).subscribe(res => {
         if (res.data.length > 0) {
           for (let index = 0; index < res.data.length; index++) {
             const item = res.data[index];
@@ -1503,7 +1503,7 @@ export class PagesComponent implements OnInit {
                       if (keyObj && element.defaultValue) {
                         const updatedObj = this.dataReplace(keyObj, item, element);
                         j = this.replaceObjectByKey(j, keyObj.key, updatedObj);
-                        if (selectedNode.type == 'tabs' || selectedNode.type == 'step') {
+                        if (selectedNode.type == 'tabs' || selectedNode.type == 'step' || selectedNode.type == 'listWithComponentsChild') {
                           j['mapping'] = true;
                         }
                       }
@@ -1535,7 +1535,7 @@ export class PagesComponent implements OnInit {
               checkFirstTime = false
             }
             else {
-              if (selectedNode.type == 'tabs' || selectedNode.type == 'step') {
+              if (selectedNode.type == 'tabs' || selectedNode.type == 'step' || selectedNode.type == 'listWithComponentsChild') {
                 if (newNode.length) {
                   newNode.forEach((k: any) => {
                     if (k.mapping) {
@@ -1562,7 +1562,7 @@ export class PagesComponent implements OnInit {
                   });
                 }
               }
-              else if (selectedNode.type == 'div' || selectedNode.type == 'cardWithComponents' || selectedNode.type == 'listWithComponentsChild') {
+              else if (selectedNode.type == 'div' || selectedNode.type == 'cardWithComponents') {
                 let newSelected = JSON.parse(JSON.stringify(selectedNode));
                 newSelected.children = newNode;
                 let data = JSON.parse(JSON.stringify(newSelected));
@@ -1575,32 +1575,6 @@ export class PagesComponent implements OnInit {
                       checkPushOrNot = false;
                     }
                   }
-
-
-                  // this.resData[0].children[1].children.forEach((a: any,) => {
-
-                  //   // else {
-                  //   //   a.children[1].children.forEach((b: any, i: number) => {
-                  //   //     let idx = i;
-
-                  //   //     else if (b.type == 'listWithComponents') {
-                  //   //       b.children.forEach((listChild: any, chilIndex: number) => {
-                  //   //         let idx = chilIndex
-                  //   //         if (listChild.type == 'listWithComponentsChild' && listChild.id == selectedNode.id && checkPushOrNot) {
-                  //   //           if (tabsAndStepper) {
-                  //   //             tabsAndStepper.forEach((div: any) => {
-                  //   //               b.children.splice(idx + 1, 0, div);
-                  //   //               idx++;
-                  //   //             });
-                  //   //             checkPushOrNot = false;
-                  //   //           }
-                  //   //         }
-                  //   //       });
-                  //   //     }
-                  //   //   })
-                  //   // }
-
-                  // })
                 }
               }
               else if (selectedNode.children[1]) {

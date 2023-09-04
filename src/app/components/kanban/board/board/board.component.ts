@@ -16,20 +16,12 @@ export class BoardComponent implements OnInit {
   constructor(private toastr: NzMessageService,) { }
 
   ngOnInit() {
-    
+
     this.lists = this.kanbanData.kanbanSave;
-    // this.lists = [];
-    // for (let index = 0; index < this.kanbanData.nodes; index++) {
-    //   this.addList();
-    // }
-    // const board = this.localService.getBoard();
-
-    // ideally retrive and initialize from some storage.
-
   }
 
   addList() {
-    
+
     const newList: ListInterface = new List();
     newList.position = this.lists.length + 1;
     newList.name = `List (${newList.position})`;
@@ -56,6 +48,12 @@ export class BoardComponent implements OnInit {
     this.lists.splice(listIndex, 1);
     this.toastr.error('Delete !', { nzDuration: 3000 });
 
+  }
+
+  processData(data: any[]) {
+    debugger
+    console.log("kanban Work")
+    return data
   }
 
 }
