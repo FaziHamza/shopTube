@@ -533,7 +533,7 @@ export class BuilderComponent implements OnInit {
                       findObj['eventActionconfig'] = {};
                       checkFirst[findObj?.key] = "done";
                     }
-                    if (element.btnActionType == 'load' && element.actionType == 'api') {
+                    if (element.btnActionType == 'load' && !element.elementName.includes('gridlist')) {
                       let obj = { actionType: element.actionType, url: element.httpAddress, method: element.actionLink, elementName: element.elementNameTo }
                       findObj.eventActionconfig = obj;
                     }
@@ -5318,7 +5318,6 @@ export class BuilderComponent implements OnInit {
 
   jsonUpload(event: any) {
     let contents: any;
-    event;
     if (this.screenName) {
       if (
         event.target instanceof HTMLInputElement &&
@@ -5329,7 +5328,7 @@ export class BuilderComponent implements OnInit {
           contents = reader.result as string;
           var makeData = JSON.parse(contents);
           var currentData = JSON.parse(
-            JSON.stringify(makeData.menuData, function (key, value) {
+            JSON.stringify(makeData.screenData, function (key, value) {
               if (typeof value == 'function') {
                 return value.toString();
               } else {
@@ -5337,29 +5336,11 @@ export class BuilderComponent implements OnInit {
               }
             }) || '{}'
           );
-
-          // var data =
-          // {
-          //   "screenName": makeData.screenName,
-          //   "screenData": currentData,
-          //   "navigation": makeData.navigation,
-          // };
-          // this.navigation = makeData.navigation;
-          this.nodes = makeData.screenData;
-          // this.employeeService.menuTabs(makeData.moduleId).subscribe(((res: any) => {
-          //   if (res.length > 0) {
-          //     this.employeeService.jsonDeleteBuilder(res[0].id).subscribe((res => {
-          //       this.employeeService.jsonSaveBuilder(data).subscribe((res => {
-          //         alert("Data Save");
-          //       }))
-          //     }))
-          //   }
-          //   else {
-          //     this.employeeService.jsonSaveBuilder(data).subscribe((res => {
-          //       alert("Data Save");
-          //     }))
-          //   }
-          // }))
+          event.target.value = '';
+          this.nodes = currentData;
+          this.toastr.success('File uploaded successfully!', {
+            nzDuration: 3000,
+          });
         };
         reader.readAsText(event.target.files[0]);
       }
@@ -5367,6 +5348,7 @@ export class BuilderComponent implements OnInit {
       alert('Please Select Screen');
     }
   }
+
   ngOnDestroy() {
     this.requestSubscription.unsubscribe();
   }
@@ -5411,7 +5393,6 @@ export class BuilderComponent implements OnInit {
   }
   selectedJsonUpload(event: any) {
     let contents;
-    event;
     if (
       event.target instanceof HTMLInputElement &&
       event.target.files.length > 0
@@ -5421,7 +5402,7 @@ export class BuilderComponent implements OnInit {
         contents = reader.result as string;
         var makeData = JSON.parse(contents);
         var currentData = JSON.parse(
-          JSON.stringify(makeData.menuData, function (key, value) {
+          JSON.stringify(makeData, function (key, value) {
             if (typeof value == 'function') {
               return value.toString();
             } else {
@@ -5430,13 +5411,19 @@ export class BuilderComponent implements OnInit {
           }) || '{}'
         );
         if (this.selectedNode.children) {
-          this.selectedNode.children.push(makeData);
+          this.selectedNode.children.push(currentData);
           this.updateNodes();
-        }
+        } 
+        this.toastr.success('File uploaded successfully!', {
+          nzDuration: 3000,
+        });
+        // Reset the file input value to allow uploading the same file again
+        event.target.value = '';
       };
       reader.readAsText(event.target.files[0]);
     }
   }
+  
   handleCancel(): void {
     this.showModal = false;
   }
@@ -6186,7 +6173,8 @@ export class BuilderComponent implements OnInit {
   }
   getFromQuery(name: string) {
     let tableData = this.findObjectByTypeBase(this.nodes[0], "gridList");
-    let findClickApi = tableData?.appConfigurableEvent?.filter((item: any) =>
+    if(tableData){
+      let findClickApi = tableData?.appConfigurableEvent?.filter((item: any) =>
       item.actions.some((action: any) =>
         (action.method === 'get' && (action.actionType === 'api' || action.actionType === 'query'))
       )
@@ -6294,6 +6282,8 @@ export class BuilderComponent implements OnInit {
         }
       }
     }
+    }
+ 
   }
 
   //Fazi code

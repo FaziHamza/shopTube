@@ -1,7 +1,10 @@
-<button *ngIf="this.kanbanData.showAddbtn" nz-button nzType="primary" (click)="addList()"
-  [disabled]="kanbanData.maxLength  <= lists.length ? true : false"><i class="fa-regular fa-plus"></i>Add new</button>
-<button class="ml-2" nz-button nzType="primary" (click)="saveBoard()"><i
-    class="fa-regular fa-floppy-disk"></i>Save</button>
+<button [processData]="processData" [appConfigurableSelect]="kanbanData['appConfigurableEvent']"
+  [loadAction]="kanbanData['eventActionconfig']" *ngIf="this.kanbanData.showAddbtn" nz-button nzType="primary"
+  (click)="addList()" [disabled]="kanbanData.maxLength  <= lists.length ? true : false"><span nz-icon nzType="plus"
+    nzTheme="outline"></span>Add
+  new</button>
+<button class="ml-2" nz-button nzType="primary" (click)="saveBoard()"><span nz-icon nzType="save"
+    nzTheme="outline"></span>Save</button>
 <nz-card *ngIf="lists.length" class="overflow-x-auto mt-2 card">
   <!-- <div class="row">
     <div class="col-11"></div>

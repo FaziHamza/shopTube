@@ -503,54 +503,57 @@ export class SectionsComponent implements OnInit {
         if (apiUrl) {
           this.employeeService.getSQLDatabaseTable(apiUrl + pagination).subscribe({
             next: (res) => {
-              this.saveLoader = false;
-              if (data && res.isSuccess && res.data.length > 0) {
-                if (apiUrl.includes('/userComment')) {
+              if (res) {
+                if (data && res?.isSuccess && res?.data.length > 0) {
+                  this.saveLoader = false;
+                  if (apiUrl.includes('/userComment')) {
 
-                  const requiredData = res.data.map(({ __v, _id, ...rest }: any) => ({
-                    expand: false,
-                    id: _id,
-                    ...rest,
-                  }));
-                  res.data = JSON.parse(JSON.stringify(requiredData));
-                }
+                    const requiredData = res.data.map(({ __v, _id, ...rest }: any) => ({
+                      expand: false,
+                      id: _id,
+                      ...rest,
+                    }));
+                    res.data = JSON.parse(JSON.stringify(requiredData));
+                  }
 
-                data.tableData = res.data.map((element: any) => ({ ...element, id: element.id?.toString() }));
-                if (!data.end) {
-                  data.end = 10;
-                }
-                data.pageIndex = 1;
-                data.totalCount = res.data.length;
-                data.serverApi = apiUrl;
-                data.targetId = '';
-                data.displayData = data.tableData.length > data.end ? data.tableData.slice(0, data.end) : data.tableData;
-                if (data.tableHeaders.length === 0) {
-                  data.tableHeaders = Object.keys(data.tableData[0] || {}).map(key => ({ name: key, key: key }));
-                  data['tableKey'] = data.tableHeaders;
-                }
-                else {
-                  const tableKey = Object.keys(data.tableData[0] || {}).map(key => ({ name: key }));
-                  if (JSON.stringify(data['tableKey']) !== JSON.stringify(tableKey)) {
-                    const updatedData = data.tableHeaders.filter((updatedItem: any) =>
-                      !tableKey.some(headerItem => headerItem.name === updatedItem.name)
-                    );
-                    if (updatedData.length > 0) {
-                      data.tableHeaders.forEach((item: any) => {
-                        for (let i = 0; i < updatedData.length; i++) {
-                          item[updatedData[i].name] = '';
-                        }
-                      });
+                  data.tableData = res.data.map((element: any) => ({ ...element, id: element.id?.toString() }));
+                  if (!data.end) {
+                    data.end = 10;
+                  }
+                  data.pageIndex = 1;
+                  data.totalCount = res.data.length;
+                  data.serverApi = apiUrl;
+                  data.targetId = '';
+                  data.displayData = data.tableData.length > data.end ? data.tableData.slice(0, data.end) : data.tableData;
+                  if (data.tableHeaders.length === 0) {
+                    data.tableHeaders = Object.keys(data.tableData[0] || {}).map(key => ({ name: key, key: key }));
+                    data['tableKey'] = data.tableHeaders;
+                  }
+                  else {
+                    const tableKey = Object.keys(data.tableData[0] || {}).map(key => ({ name: key }));
+                    if (JSON.stringify(data['tableKey']) !== JSON.stringify(tableKey)) {
+                      const updatedData = data.tableHeaders.filter((updatedItem: any) =>
+                        !tableKey.some(headerItem => headerItem.name === updatedItem.name)
+                      );
+                      if (updatedData.length > 0) {
+                        data.tableHeaders.forEach((item: any) => {
+                          for (let i = 0; i < updatedData.length; i++) {
+                            item[updatedData[i].name] = '';
+                          }
+                        });
+                      }
+                    }
+                  }
+                  let CheckKey = data.tableHeaders.find((head: any) => !head.key)
+                  if (CheckKey) {
+                    for (let i = 0; i < data.tableHeaders.length; i++) {
+                      if (!data.tableHeaders[i].hasOwnProperty('key')) {
+                        data.tableHeaders[i].key = data.tableHeaders[i].name;
+                      }
                     }
                   }
                 }
-                let CheckKey = data.tableHeaders.find((head: any) => !head.key)
-                if (CheckKey) {
-                  for (let i = 0; i < data.tableHeaders.length; i++) {
-                    if (!data.tableHeaders[i].hasOwnProperty('key')) {
-                      data.tableHeaders[i].key = data.tableHeaders[i].name;
-                    }
-                  }
-                }
+                this.saveLoader = false;
               }
               this.saveLoader = false;
             },

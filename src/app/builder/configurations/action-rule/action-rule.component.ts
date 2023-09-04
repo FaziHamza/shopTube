@@ -244,7 +244,7 @@ export class ActionRuleComponent implements OnInit {
       } else if (this.actionForm.value.actionLink == 'post') {
         const columnName = fields.filter(item => item !== 'id');
         const columnValues = values.filter(item => !item.includes('.id'));
-        dataForQuery += `insert into ${element.name.toLocaleLowerCase()} ( ${columnName.join(', ')} ) OUTPUT INSERTED.ID VALUES ( ${columnValues.join(', ')});`;
+        dataForQuery += `insert into ${element.name.toLocaleLowerCase()} ( ${columnName.join(', ')} ) VALUES ( ${columnValues.join(', ')}) RETURNING id;`;
       } else if (this.actionForm.value.actionLink == 'put') {
         const columnName = fields.filter(item => item !== 'id');
         const columnValues = values.filter(item => !item.includes('$id'));
