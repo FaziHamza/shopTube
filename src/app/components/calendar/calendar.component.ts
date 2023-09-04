@@ -12,10 +12,10 @@ import { createEventId, INITIAL_EVENTS } from 'src/app/shared/event-utils/event-
   styleUrls: ['./calendar.component.scss']
 })
 export class CalendarComponent {
-  @Input() calenderData:any;
+  @Input() calenderData: any;
   calendarOptions: CalendarOptions;
   calendarVisible = true;
-  ngOnInit(){
+  ngOnInit() {
     this.calendarOptions = {
       plugins: [
         interactionPlugin,
@@ -24,7 +24,7 @@ export class CalendarComponent {
         listPlugin,
       ],
       headerToolbar: {
-        left: "sidebarToggle , "+ this.calenderData?.view,
+        left: "sidebarToggle , " + this.calenderData?.view,
         center: 'title',
         right: this.calenderData?.viewType
       },
@@ -37,7 +37,7 @@ export class CalendarComponent {
       dayMaxEvents: this.calenderData?.dayMaxEvents,
       select: this.handleDateSelect.bind(this),
       eventClick: this.handleEventClick.bind(this),
-      eventsSet: this.calenderData?.details ?  this.handleEvents.bind(this) : undefined
+      eventsSet: this.calenderData?.details ? this.handleEvents.bind(this) : undefined
       /* you can update a remote database when these fire:
       eventAdd:
       eventChange:
@@ -45,10 +45,16 @@ export class CalendarComponent {
       */
     };
   }
+  processData(data: any[]) {
+    debugger
+    console.log("Calender")
+    return data
+  }
 
   currentEvents: EventApi[] = [];
 
   constructor(private changeDetector: ChangeDetectorRef) {
+    this.processData = this.processData.bind(this);
 
   }
 
@@ -75,10 +81,10 @@ export class CalendarComponent {
         start: selectInfo.startStr,
         end: selectInfo.endStr,
         allDay: selectInfo.allDay,
-        backgroundColor:'#fbe0e0',
-        textColor:'#ea5455',
-        color:'#EF6C00',
-        borderColor:'#ea5455'
+        backgroundColor: '#fbe0e0',
+        textColor: '#ea5455',
+        color: '#EF6C00',
+        borderColor: '#ea5455'
       });
     }
   }

@@ -25,6 +25,8 @@ export class ConfigurableSelectDirective implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit() {
+    debugger
+    console.log("check")
     this.bindEvents();
     this.loadOptions();
   }
@@ -67,8 +69,8 @@ export class ConfigurableSelectDirective implements OnInit, OnDestroy {
   }
 
   private executeAction(action: Action): Observable<any> {
-    const { url, method, data, headers } = action;
-      return this.applicationService.callApi(url, method, data, headers)
+    const { url, method, data, headers , id } = action;
+      return this.applicationService.callApi(`knex-query/getAction/${id}`, method, data, headers)
       .pipe(takeUntil(this.unsubscribe$));
   }
 }
@@ -81,4 +83,5 @@ type Action = {
   method: string;
   data?: any;
   headers?: any;
+  id?:any;
 };

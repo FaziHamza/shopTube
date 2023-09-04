@@ -488,7 +488,7 @@ export class BuilderComponent implements OnInit {
                         }
                         if (element.btnActionType == 'load') {
                           eventActionConfig['eventActionconfig'] = {};
-                          let obj = { actionType: element.actionType, url: element.httpAddress, method: element.actionLink, elementName: element.elementNameTo }
+                          let obj = { actionType: element.actionType, url: element.httpAddress, method: element.actionLink, elementName: element.elementNameTo , id : element._id}
                           eventActionConfig['eventActionconfig'] = obj;
                         }
                         else {
@@ -496,7 +496,7 @@ export class BuilderComponent implements OnInit {
                             let obj = {
                               event: element.actionLink,
                               actions: [
-                                { actionType: element.actionType, url: element.httpAddress, method: element.actionLink, elementName: element.elementNameTo }
+                                { actionType: element.actionType, url: element.httpAddress, method: element.actionLink, elementName: element.elementNameTo , id : element._id}
                               ]
                             };
                             eventActionConfig['appConfigurableEvent'].push(obj);
@@ -505,7 +505,7 @@ export class BuilderComponent implements OnInit {
                             let obj = {
                               event: element.actionLink,
                               actions: [
-                                { actionType: element.actionType, url: element.httpAddress, method: element.actionLink, elementName: element.elementNameTo }
+                                { actionType: element.actionType, url: element.httpAddress, method: element.actionLink, elementName: element.elementNameTo , id : element._id}
                               ]
                             };
                             eventActionConfig['appConfigurableEvent'].push(obj);
@@ -534,7 +534,7 @@ export class BuilderComponent implements OnInit {
                       checkFirst[findObj?.key] = "done";
                     }
                     if (element.btnActionType == 'load' && !element.elementName.includes('gridlist')) {
-                      let obj = { actionType: element.actionType, url: element.httpAddress, method: element.actionLink, elementName: element.elementNameTo }
+                      let obj = { actionType: element.actionType, url: element.httpAddress, method: element.actionLink, elementName: element.elementNameTo , id : element._id}
                       findObj.eventActionconfig = obj;
                     }
                     else {
@@ -542,7 +542,7 @@ export class BuilderComponent implements OnInit {
                         let obj = {
                           event: element.actionLink,
                           actions: [
-                            { actionType: element.actionType, url: element.httpAddress, method: element.actionLink, elementName: element.elementNameTo }
+                            { actionType: element.actionType, url: element.httpAddress, method: element.actionLink, elementName: element.elementNameTo , id : element._id}
                           ]
                         };
                         findObj['appConfigurableEvent'].push(obj);
@@ -551,7 +551,7 @@ export class BuilderComponent implements OnInit {
                         let obj = {
                           event: element.actionLink,
                           actions: [
-                            { actionType: element.actionType, url: element.httpAddress, method: element.actionLink }
+                            { actionType: element.actionType, url: element.httpAddress, method: element.actionLink , id : element._id}
                           ]
                         };
                         findObj['appConfigurableEvent'].push(obj);
@@ -6186,10 +6186,10 @@ export class BuilderComponent implements OnInit {
         for (let index = 0; index < findClickApi.length; index++) {
           let element = findClickApi[index].actions?.[0]?.actionType;
           if (element == 'query') {
-            url = `knex-query/${name}`;
+            url = `knex-query/getAction/${findClickApi[index].actions?.[0]?.id}`;
             break;
           } else {
-            url = findClickApi[index].actions?.[0]?.url
+            url = `knex-query/getAction/${findClickApi[index].actions?.[0]?.id}`;
           }
         }
         if (tableData.serverSidePagination) {

@@ -13,7 +13,9 @@ export class BoardComponent implements OnInit {
   @Input() kanbanData: any;
   lists: ListInterface[];
 
-  constructor(private toastr: NzMessageService,) { }
+  constructor(private toastr: NzMessageService,) {
+    this.processData = this.processData.bind(this);
+   }
 
   ngOnInit() {
 
