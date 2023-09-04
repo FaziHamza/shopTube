@@ -3554,15 +3554,11 @@ export class BuilderComponent implements OnInit {
             this.selectedNode.checkData == undefined
               ? ''
               : this.selectedNode.checkData;
-          // let check = this.arrayEqual(
-          //   this.selectedNode.checkData,
-          //   event.tableDta == undefined
-          //     ? event.tableDta
-          //     : this.selectedNode.tableBody
-          // );
           let check = this.arrayEqual(
             this.selectedNode.checkData,
-            event.form.tableData
+            event.tableDta == undefined
+              ? event.tableDta
+              : this.selectedNode.tableBody
           );
           if (!check) {
             if (event.dbData) {
@@ -3593,32 +3589,8 @@ export class BuilderComponent implements OnInit {
                   event.type == 'listWithComponentsChild' ||
                   event.type == 'cardWithComponents'
                 ) {
-                  // if (event.tableDta) {
-                  //   event.tableDta.forEach((element: any) => {
-                  //     if (newNode.length) {
-                  //       newNode.forEach((j: any) => {
-                  //         const keyObj = this.findObjectByKey(
-                  //           j,
-                  //           element.fileHeader
-                  //         );
-                  //         if (keyObj && element.defaultValue) {
-                  //           const updatedObj = this.dataReplace(
-                  //             keyObj,
-                  //             item,
-                  //             element
-                  //           );
-                  //           j = this.replaceObjectByKey(
-                  //             j,
-                  //             keyObj.key,
-                  //             updatedObj
-                  //           );
-                  //         }
-                  //       });
-                  //     }
-                  //   });
-                  // }
-                  if (event.form.tableDta) {
-                    event.form.tableDta.forEach((element: any) => {
+                  if (event.tableDta) {
+                    event.tableDta.forEach((element: any) => {
                       if (newNode.length) {
                         newNode.forEach((j: any) => {
                           const keyObj = this.findObjectByKey(
@@ -3648,28 +3620,8 @@ export class BuilderComponent implements OnInit {
                   event.type != 'listWithComponentsChild' &&
                   event.type != 'cardWithComponents'
                 ) {
-                  // if (event.tableDta) {
-                  //   event.tableDta.forEach((element: any) => {
-                  //     const keyObj = this.findObjectByKey(
-                  //       newNode,
-                  //       element.fileHeader
-                  //     );
-                  //     if (keyObj && element.defaultValue) {
-                  //       const updatedObj = this.dataReplace(
-                  //         keyObj,
-                  //         item,
-                  //         element
-                  //       );
-                  //       newNode = this.replaceObjectByKey(
-                  //         newNode,
-                  //         keyObj.key,
-                  //         updatedObj
-                  //       );
-                  //     }
-                  //   });
-                  // }
-                  if (event.form.tableData) {
-                    event.form.tableData.forEach((element: any) => {
+                  if (event.tableDta) {
+                    event.tableDta.forEach((element: any) => {
                       const keyObj = this.findObjectByKey(
                         newNode,
                         element.fileHeader
@@ -3711,17 +3663,11 @@ export class BuilderComponent implements OnInit {
               this.updateNodes();
             }
             this.selectedNode.dbData = event.dbData;
-            this.selectedNode.tableBody = event.form.tableDta;
-            // this.selectedNode.tableBody = event.form.tableBody;
+            this.selectedNode.tableBody = event.tableDta;
             this.selectedNode.mapApi = event.form.mapApi;
-            // if (event.tableDta) {
-            //   this.selectedNode.checkData = JSON.parse(
-            //     JSON.stringify(event.tableDta)
-            //   );
-            // }
-            if (event.form.tableBody) {
+            if (event.tableDta) {
               this.selectedNode.checkData = JSON.parse(
-                JSON.stringify(event.form.tableBody)
+                JSON.stringify(event.tableDta)
               );
             }
           } else {
