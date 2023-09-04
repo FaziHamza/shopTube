@@ -837,6 +837,7 @@ export class AddControlService {
       displayData: [],
       showEditInput:false,
       isDeleteAllow:true,
+      isAllowGrouping:false,
       tableHeaders: [
         // {
         //   name: 'Id',

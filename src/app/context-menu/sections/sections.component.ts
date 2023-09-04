@@ -341,23 +341,38 @@ export class SectionsComponent implements OnInit {
     this.assignGridRules(tableData);
   }
   getFromQuery(data: any) {
-    let findClickApi = data?.appConfigurableEvent?.filter((item: any) => item.actions.some((action: any) => action.method === 'get' && action.actionType == 'api'));
+    let findClickApi = data?.appConfigurableEvent?.filter((item: any) =>
+      item.actions.some((action: any) =>
+        (action.method === 'get' && (action.actionType === 'api' || action.actionType === 'query'))
+      )
+    );
+
     if (findClickApi) {
       if (findClickApi.length > 0) {
+        let url = '';
+
+        for (let index = 0; index < findClickApi.length; index++) {
+          let element = findClickApi[index].actions?.[0]?.actionType;
+          if (element == 'query') {
+            url = `knex-query/${name}`;
+            break;
+          } else {
+            url = findClickApi[index].actions?.[0]?.url
+          }
+        }
         let tableData = this.findObjectByKey(this.sections, findClickApi?.[0].actions?.[0]?.elementName);
         if (tableData) {
           let pagination = '';
           if (tableData.serverSidePagination) {
             pagination = '?page=' + 1 + '&pageSize=' + tableData?.end;
           }
-          const apiUrl = findClickApi.length > 0 ? findClickApi?.[0].actions?.[0]?.url : `knex-query/${this.screenName}`;
           this.saveLoader = true;
-          this.employeeService.getSQLDatabaseTable(apiUrl + pagination).subscribe({
+          this.employeeService.getSQLDatabaseTable(url + pagination).subscribe({
             next: (res) => {
               this.saveLoader = false;
               if (tableData && res?.isSuccess) {
                 if (res.data.length > 0) {
-                  if (findClickApi?.[0].actions?.[0]?.url.includes('market-place')) {
+                  if (url.includes('market-place')) {
 
                     let requiredData = res.data.map((item: any) => {
                       // Extracting category details and subcategory details
@@ -466,75 +481,88 @@ export class SectionsComponent implements OnInit {
     }
   }
   getFromQueryOnlyTable(data: any) {
-    const findClickApi = data?.appConfigurableEvent?.find((item: any) =>
-      item.actions.some((action: any) => action.method === 'get' && action.actionType === 'api')
+    const findClickApi = data?.appConfigurableEvent?.filter((item: any) =>
+      item.actions.some((action: any) => action.method === 'get' && (action.actionType === 'api' || action.actionType === 'query'))
     );
 
-    if (!findClickApi) return;
-
-    const apiUrl = findClickApi.actions[0]?.url || `knex-query/${this.screenName}`;
-    const pagination = data.serverSidePagination ? `?page=1&pageSize=${data?.end}` : '';
-
-    this.saveLoader = true;
-    this.employeeService.getSQLDatabaseTable(apiUrl + pagination).subscribe({
-      next: (res) => {
-        this.saveLoader = false;
-        if (data && res.isSuccess && res.data.length > 0) {
-          if (findClickApi.actions[0]?.url.includes('/userComment')) {
-
-            const requiredData = res.data.map(({ __v, _id, ...rest }: any) => ({
-              expand: false,
-              id: _id,
-              ...rest,
-            }));
-            res.data = JSON.parse(JSON.stringify(requiredData));
-          }
-
-          data.tableData = res.data.map((element: any) => ({ ...element, id: element.id?.toString() }));
-          if (!data.end) {
-            data.end = 10;
-          }
-          data.pageIndex = 1;
-          data.totalCount = res.data.length;
-          data.serverApi = apiUrl;
-          data.targetId = '';
-          data.displayData = data.tableData.length > data.end ? data.tableData.slice(0, data.end) : data.tableData;
-          if (data.tableHeaders.length === 0) {
-            data.tableHeaders = Object.keys(data.tableData[0] || {}).map(key => ({ name: key, key: key }));
-            data['tableKey'] = data.tableHeaders;
-          }
-          else {
-            const tableKey = Object.keys(data.tableData[0] || {}).map(key => ({ name: key }));
-            if (JSON.stringify(data['tableKey']) !== JSON.stringify(tableKey)) {
-              const updatedData = data.tableHeaders.filter((updatedItem: any) =>
-                !tableKey.some(headerItem => headerItem.name === updatedItem.name)
-              );
-              if (updatedData.length > 0) {
-                data.tableHeaders.forEach((item: any) => {
-                  for (let i = 0; i < updatedData.length; i++) {
-                    item[updatedData[i].name] = '';
-                  }
-                });
-              }
-            }
-          }
-          let CheckKey = data.tableHeaders.find((head: any) => !head.key)
-          if (CheckKey) {
-            for (let i = 0; i < data.tableHeaders.length; i++) {
-              if (!data.tableHeaders[i].hasOwnProperty('key')) {
-                data.tableHeaders[i].key = data.tableHeaders[i].name;
-              }
-            }
+    if (!findClickApi) { return };
+    if (findClickApi) {
+      if (findClickApi.length > 0) {
+        let apiUrl = '';
+        for (let index = 0; index < findClickApi.length; index++) {
+          let element = findClickApi[index].actions?.[0]?.actionType;
+          if (element == 'query') {
+            apiUrl = `knex-query/${this.screenName}`;
+            break;
+          } else {
+            apiUrl = findClickApi[index].actions?.[0]?.url
           }
         }
-        this.saveLoader = false;
-      },
-      error: (error: any) => {
-        console.error(error);
-        this.toastr.error("An error occurred", { nzDuration: 3000 });
-        this.saveLoader = false;
+        const pagination = data.serverSidePagination ? `?page=1&pageSize=${data?.end}` : '';
+        this.saveLoader = true;
+        if (apiUrl) {
+          this.employeeService.getSQLDatabaseTable(apiUrl + pagination).subscribe({
+            next: (res) => {
+              this.saveLoader = false;
+              if (data && res.isSuccess && res.data.length > 0) {
+                if (apiUrl.includes('/userComment')) {
+
+                  const requiredData = res.data.map(({ __v, _id, ...rest }: any) => ({
+                    expand: false,
+                    id: _id,
+                    ...rest,
+                  }));
+                  res.data = JSON.parse(JSON.stringify(requiredData));
+                }
+
+                data.tableData = res.data.map((element: any) => ({ ...element, id: element.id?.toString() }));
+                if (!data.end) {
+                  data.end = 10;
+                }
+                data.pageIndex = 1;
+                data.totalCount = res.data.length;
+                data.serverApi = apiUrl;
+                data.targetId = '';
+                data.displayData = data.tableData.length > data.end ? data.tableData.slice(0, data.end) : data.tableData;
+                if (data.tableHeaders.length === 0) {
+                  data.tableHeaders = Object.keys(data.tableData[0] || {}).map(key => ({ name: key, key: key }));
+                  data['tableKey'] = data.tableHeaders;
+                }
+                else {
+                  const tableKey = Object.keys(data.tableData[0] || {}).map(key => ({ name: key }));
+                  if (JSON.stringify(data['tableKey']) !== JSON.stringify(tableKey)) {
+                    const updatedData = data.tableHeaders.filter((updatedItem: any) =>
+                      !tableKey.some(headerItem => headerItem.name === updatedItem.name)
+                    );
+                    if (updatedData.length > 0) {
+                      data.tableHeaders.forEach((item: any) => {
+                        for (let i = 0; i < updatedData.length; i++) {
+                          item[updatedData[i].name] = '';
+                        }
+                      });
+                    }
+                  }
+                }
+                let CheckKey = data.tableHeaders.find((head: any) => !head.key)
+                if (CheckKey) {
+                  for (let i = 0; i < data.tableHeaders.length; i++) {
+                    if (!data.tableHeaders[i].hasOwnProperty('key')) {
+                      data.tableHeaders[i].key = data.tableHeaders[i].name;
+                    }
+                  }
+                }
+              }
+              this.saveLoader = false;
+            },
+            error: (error: any) => {
+              console.error(error);
+              this.toastr.error("An error occurred", { nzDuration: 3000 });
+              this.saveLoader = false;
+            }
+          });
+        }
       }
-    });
+    }
   }
 
   gridRulesData: any;

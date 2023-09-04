@@ -11315,6 +11315,7 @@ export class formFeildData {
             label: 'Allow Delete'
           }
         },
+        
         {
           key: 'options',
           type: 'repeatSection',
@@ -11354,6 +11355,15 @@ export class formFeildData {
                 wrappers: ["formly-vertical-theme-wrapper"],
                 props: {
                   label: 'Data Type'
+                }
+              },
+              {
+                className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+                key: 'isAllowGrouping',
+                type: 'checkbox',
+                wrappers: ["formly-vertical-theme-wrapper"],
+                props: {
+                  label: 'Allow Grouping'
                 }
               },
               {
