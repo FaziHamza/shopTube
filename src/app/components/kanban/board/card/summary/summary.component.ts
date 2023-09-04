@@ -8,9 +8,9 @@ import { Card } from '../../../model/card/card.model';
 })
 export class SummaryComponent implements OnInit {
 
-  @Input() card: Card;
-  @Input() listIndex: number;
-  @Input() cardIndex: number;
+  @Input() card!: Card;
+  @Input() listIndex!: number;
+  @Input() cardIndex!: number;
 
 
   constructor() { }

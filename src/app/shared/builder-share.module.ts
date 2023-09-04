@@ -18,7 +18,7 @@ import { formlyCustomeConfig } from "../formlyConfig";
 import { CommonModule } from "@angular/common";
 import { GoogleChartsModule } from "angular-google-charts";
 import { ContextMenuModule } from "@perfectmemory/ngx-contextmenu";
-import { MonacoEditorModule } from "ngx-monaco-editor";
+// import { MonacoEditorModule } from "ngx-monaco-editor";
 import { RouterModule } from '@angular/router';
 import { ShareModule } from './share.module';
 import { RoleManagementComponent } from '../admin/role-management/role-management.component';
@@ -38,7 +38,7 @@ import { BacklogComponent } from '../Builder-module/backlog/backlog.component';
       NgZorroAntdModule,
       ReactiveFormsModule,
       FormlyNgZorroAntdModule,
-      MonacoEditorModule.forRoot(),
+      // MonacoEditorModule.forRoot(),
       NgxMaskModule.forRoot(),
       FormlyModule.forRoot(formlyCustomeConfig),
       GoogleChartsModule,

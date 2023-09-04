@@ -38,7 +38,7 @@ export class LoginComponent implements OnInit {
   ) { }
 
   isFormSubmit: boolean = false;
-  form: FormGroup;
+  form!: FormGroup;
   // form
   create() {
     this.form = this.formBuilder.group({

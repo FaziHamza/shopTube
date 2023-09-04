@@ -70,8 +70,8 @@
                 <label nz-radio-button nzValue="postgress">Postgress</label>
               </nz-radio-group>
               <input nz-input type="text" formControlName="referenceId" style="width: 18%;margin-bottom: 1%;">
-              <ngx-monaco-editor class="textEditorContainer" [options]="editorOptions" formControlName="email"
-                (init)="editorInit($event)"></ngx-monaco-editor>
+              <!-- <ngx-monaco-editor class="textEditorContainer" [options]="editorOptions" formControlName="email"
+                (init)="editorInit($event)"></ngx-monaco-editor> -->
             </div>
             <div *ngIf="ActionsForms.value[i].type == 'query'">
               <nz-form-label [nzSm]="6" [nzXs]="24">Query</nz-form-label>
@@ -83,8 +83,8 @@
                 <label nz-radio-button nzValue="mySql">MySql</label>
                 <label nz-radio-button nzValue="postgress">Postgress</label>
               </nz-radio-group>
-              <ngx-monaco-editor class="textEditorContainer" [options]="editorOptions" [id]="'query' + i"
-                formControlName="query" (init)="editorInit($event)"></ngx-monaco-editor>
+              <!-- <ngx-monaco-editor class="textEditorContainer" [options]="editorOptions" [id]="'query' + i"
+                formControlName="query" (init)="editorInit($event)"></ngx-monaco-editor> -->
             </div>
             <div *ngIf="ActionsForms.value[i].type == 'api'">
               <div class="w-full pl-2">
@@ -184,8 +184,8 @@
                 <label nz-radio-button nzValue="postgress">Postgress</label>
               </nz-radio-group>
               <input nz-input type="text" formControlName="referenceId" style="width: 18%;margin-bottom: 1%;">
-              <ngx-monaco-editor class="textEditorContainer" [options]="editorOptions" [id]="'confirmEmail' + i"
-                formControlName="confirmEmail" (init)="editorInit($event)"></ngx-monaco-editor>
+              <!-- <ngx-monaco-editor class="textEditorContainer" [options]="editorOptions" [id]="'confirmEmail' + i"
+                formControlName="confirmEmail" (init)="editorInit($event)"></ngx-monaco-editor> -->
             </div>
           </div>
           <div class="w-2/12 business-rule-form" style="margin-top: 7%;">

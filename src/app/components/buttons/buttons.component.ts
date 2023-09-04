@@ -27,7 +27,7 @@ export class ButtonsComponent implements OnInit {
   saveHoverIconColor: any;
   hoverOpacity = '';
   nodes: TreeNode[];
-  requestSubscription: Subscription;
+  requestSubscription!: Subscription;
   constructor(private modalService: NzModalService, public employeeService: EmployeeService, private toastr: NzMessageService, private router: Router,
     public dataSharedService: DataSharedService, private applicationService: ApplicationService) { }
 

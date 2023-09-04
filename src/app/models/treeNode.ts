@@ -546,5 +546,4 @@ export interface TreeNode {
   showEditInput?: any,
   openComponent?: any,
   isDeleteAllow?: boolean,
-  isAllowGrouping?: boolean,
 }

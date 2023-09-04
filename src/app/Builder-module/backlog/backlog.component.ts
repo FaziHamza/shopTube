@@ -15,7 +15,7 @@ export class BacklogComponent implements OnInit {
   editId: any = '';
   editObj: any = {};
   Object = Object;
-  requestSubscription: Subscription;
+  requestSubscription!: Subscription;
   saveLoader: boolean = false;
   issueReport: any = [];
   assignToresponse: any = '';

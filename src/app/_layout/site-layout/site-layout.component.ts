@@ -28,7 +28,7 @@ export class SiteLayoutComponent implements OnInit {
   modules: any = [];
   menuList: any = [];
   getTaskManagementIssues: any = [];
-  requestSubscription: Subscription;
+  requestSubscription!: Subscription;
   loader: boolean = false;
   currentWebsiteLayout = "";
   currentUrl: any = "";

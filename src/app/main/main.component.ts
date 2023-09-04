@@ -39,7 +39,7 @@ export class MainComponent implements OnInit {
   validationCheckStatus: any = [];
   setErrorToInput: any = [];
   joiValidationData: TreeNode[] = [];
-  requestSubscription: Subscription;
+  requestSubscription!: Subscription;
   isShowContextMenu = false;
   schemaValidation: any;
   newcomment: any = '';
@@ -49,7 +49,7 @@ export class MainComponent implements OnInit {
   showRply = '';
   commentEditObj: any = {};
   assignToresponse: any = '';
-  commentForm: FormGroup;
+  commentForm!: FormGroup;
   selectedHighLight: any = '';
   constructor(private cd: ChangeDetectorRef, private nzImageService: NzImageService, private employeeService: EmployeeService,
     private builderService: BuilderService, private applicationServices: ApplicationService,

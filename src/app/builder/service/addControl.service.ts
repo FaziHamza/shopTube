@@ -225,7 +225,6 @@ export class AddControlService {
       color: "",
       hoverColor: "",
       btnIcon: "upload",
-      rightbtnIcon: "upload",
       format: "text-left",
       disabled: false,
       nzDanger: false,
@@ -837,7 +836,6 @@ export class AddControlService {
       displayData: [],
       showEditInput:false,
       isDeleteAllow:true,
-      isAllowGrouping:false,
       tableHeaders: [
         // {
         //   name: 'Id',

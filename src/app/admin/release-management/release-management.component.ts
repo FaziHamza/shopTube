@@ -12,7 +12,7 @@ import { Release } from '../modals/release.model';
   styleUrls: ['./release-management.component.scss']
 })
 export class ReleaseManagementComponent implements OnInit {
-  requestSubscription: Subscription;
+  requestSubscription!: Subscription;
   myForm: any = new FormGroup({});
   options: FormlyFormOptions = {};
   releaseList: Release[] = [];

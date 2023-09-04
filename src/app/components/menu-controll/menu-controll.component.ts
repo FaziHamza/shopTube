@@ -13,7 +13,7 @@ export class MenuControllComponent implements OnInit {
   @Input() selectedTheme : any;
   isActiveShow : any;
   hoverActiveShow: any;
-  requestSubscription: Subscription;
+  requestSubscription!: Subscription;
   constructor(public _dataShared: DataSharedService, private toastr: NzMessageService, private router: Router, public dataSharedService: DataSharedService) {
   }
 

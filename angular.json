@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "ngZorro": {
+    "angular-monaco-example": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -12,23 +12,29 @@
       },
       "root": "",
       "sourceRoot": "src",
-      "prefix": "st",
+      "prefix": "k",
       "architect": {
         "build": {
-          "builder": "@angular-devkit/build-angular:browser",
+          "builder": "@angular-builders/custom-webpack:browser",
           "options": {
-            "outputPath": "dist/ng-zorro",
+            "customWebpackConfig": {
+              "path": "./webpack.config.ts"
+            },
+            "outputPath": "dist/angular-monaco-example",
             "index": "src/index.html",
             "main": "src/main.ts",
-            "polyfills": "src/polyfills.ts",
+            "polyfills": [
+              "zone.js"
+            ],
             "tsConfig": "tsconfig.app.json",
             "inlineStyleLanguage": "scss",
             "assets": [
               "src/favicon.ico",
               "src/assets",
-              { "glob": "**/*", "input": "../node_modules/ngx-monaco-editor/assets/monaco", "output": "./assets/monaco/" }
+              "src/manifest.webmanifest"
             ],
             "styles": [
+              "node_modules/monaco-editor/min/vs/editor/editor.main.css",
               "node_modules/ng-zorro-antd/ng-zorro-antd.min.css",
               "node_modules/ng-zorro-antd/resizable/style/index.min.css",
               "node_modules/ng-zorro-antd/code-editor/style/index.min.css",
@@ -36,33 +42,22 @@
               "src/styles.scss",
               "src/input.css"
             ],
-            "stylePreprocessorOptions": {
-              "includePaths": [
-                "node_modules"
-              ]
-            },
-            "scripts": []
+            "scripts": [],
+            "serviceWorker": true,
+            "ngswConfigPath": "ngsw-config.json"
           },
           "configurations": {
             "production": {
-              "sourceMap": false,
-              "aot": true,
               "budgets": [
                 {
                   "type": "initial",
-                  "maximumWarning": "2mb",
-                  "maximumError": "10mb"
+                  "maximumWarning": "500kb",
+                  "maximumError": "1mb"
                 },
                 {
                   "type": "anyComponentStyle",
-                  "maximumWarning": "500kb",
-                  "maximumError": "1mb"
-                }
-              ],
-              "fileReplacements": [
-                {
-                  "replace": "src/environments/environment.ts",
-                  "with": "src/environments/environment.prod.ts"
+                  "maximumWarning": "2kb",
+                  "maximumError": "4kb"
                 }
               ],
               "outputHashing": "all"
@@ -79,15 +74,13 @@
           "defaultConfiguration": "production"
         },
         "serve": {
-          "builder": "@angular-devkit/build-angular:dev-server",
+          "builder": "@angular-builders/custom-webpack:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "ngZorro:build:production",
-              "hmr": true
+              "browserTarget": "angular-monaco-example:build:production"
             },
             "development": {
-              "browserTarget": "ngZorro:build:development",
-              "hmr": true
+              "browserTarget": "angular-monaco-example:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -95,21 +88,22 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "ngZorro:build"
+            "browserTarget": "angular-monaco-example:build"
           }
         },
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
-            "main": "src/test.ts",
-            "polyfills": "src/polyfills.ts",
+            "polyfills": [
+              "zone.js",
+              "zone.js/testing"
+            ],
             "tsConfig": "tsconfig.spec.json",
-            "karmaConfig": "karma.conf.js",
             "inlineStyleLanguage": "scss",
             "assets": [
               "src/favicon.ico",
               "src/assets",
-              { "glob": "**/*", "input": "../node_modules/ngx-monaco-editor/assets/monaco", "output": "./assets/monaco/" }
+              "src/manifest.webmanifest"
             ],
             "styles": [
               "node_modules/ng-zorro-antd/ng-zorro-antd.min.css",
@@ -119,21 +113,25 @@
               "src/styles.scss",
               "src/input.css"
             ],
-            "stylePreprocessorOptions": {
-              "includePaths": [
-                "node_modules"
-              ]
-            },
             "scripts": []
+          }
+        },
+        "lint": {
+          "builder": "@angular-eslint/builder:lint",
+          "options": {
+            "lintFilePatterns": [
+              "src/**/*.ts",
+              "src/**/*.html"
+            ]
           }
         }
       }
     }
   },
   "cli": {
-    "cache": {
-      "enabled": true
-    },
-    "analytics": "b434e27d-6b49-415c-8333-1a49e33dbf3e"
+    "schematicCollections": [
+      "@angular-eslint/schematics"
+    ],
+    "analytics": "bf487466-bd0d-4bad-97af-37096c0b9b96"
   }
 }

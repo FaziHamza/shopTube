@@ -13,7 +13,7 @@ import { Role } from '../modals/role-modal';
 })
 
 export class RoleManagementComponent implements OnInit {
-  requestSubscription: Subscription;
+  requestSubscription!: Subscription;
   myForm: any = new FormGroup({});
   options: FormlyFormOptions = {};
   roleList: Role[] = [];

@@ -23,8 +23,8 @@ export class TaskReportComponent implements OnInit {
   commentEdit = false;
   showRply = '';
   commentEditObj: any = {};
-  commentForm: FormGroup;
-  requestSubscription: Subscription;
+  commentForm!: FormGroup;
+  requestSubscription!: Subscription;
   constructor(private cd: ChangeDetectorRef, private toastr: NzMessageService, public dataSharedService: DataSharedService,
     private applicationService: ApplicationService, private formBuilder: FormBuilder) { }
   ngOnInit(): void {

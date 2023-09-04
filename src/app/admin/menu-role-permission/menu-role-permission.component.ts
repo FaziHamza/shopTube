@@ -13,7 +13,7 @@ import { MenuRolePermission } from '../modals/menu-role-permission.modal';
 })
 export class MenuRolePermissionComponent implements OnInit {
 
-  requestSubscription: Subscription;
+  requestSubscription!: Subscription;
   myForm: any = new FormGroup({});
   options: FormlyFormOptions = {};
   menuRolePermissionList: any[] = [];

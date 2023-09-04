@@ -237,15 +237,6 @@ export class formFeildData {
           }
         },
         {
-          key: 'rightbtnIcon',
-          type: 'input',
-          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
-          wrappers: ["formly-vertical-theme-wrapper"],
-          props: {
-            label: 'Right Icon'
-          }
-        },
-        {
           key: 'borderColor',
           type: 'input',
           className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
@@ -289,31 +280,31 @@ export class formFeildData {
           },
           // defaultValue: 'Vertical'
         },
-        // {
-        //   key: 'iconPlacement',
-        //   type: 'select',
-        //   className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
-        //   wrappers: ["formly-vertical-theme-wrapper"],
-        //   props: {
-        //     label: 'Icon Placement',
-        //     options: [
-        //       {
-        //         label: 'Left',
-        //         value: 'left'
-        //       },
-        //       {
-        //         label: 'Right',
-        //         value: 'right'
-        //       }
-        //     ],
-        //     additionalProperties: {
-        //       allowClear: true,
-        //       serveSearch: false,
-        //       showArrow: true,
-        //       showSearch: true,
-        //     },
-        //   },
-        // },
+        {
+          key: 'iconPlacement',
+          type: 'select',
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          wrappers: ["formly-vertical-theme-wrapper"],
+          props: {
+            label: 'Icon Placement',
+            options: [
+              {
+                label: 'Left',
+                value: 'left'
+              },
+              {
+                label: 'Right',
+                value: 'right'
+              }
+            ],
+            additionalProperties: {
+              allowClear: true,
+              serveSearch: false,
+              showArrow: true,
+              showSearch: true,
+            },
+          },
+        },
         {
           key: 'nztype',
           type: 'select',
@@ -1171,13 +1162,29 @@ export class formFeildData {
           // defaultValue: 'Vertical'
         },
         {
-          key: 'rightbtnIcon',
-          type: 'input',
+          key: 'iconPlacement',
+          type: 'select',
           className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
           wrappers: ["formly-vertical-theme-wrapper"],
           props: {
-            label: 'Right Icon'
-          }
+            label: 'Icon Placement',
+            options: [
+              {
+                label: 'Left',
+                value: 'left'
+              },
+              {
+                label: 'Right',
+                value: 'right'
+              }
+            ],
+            additionalProperties: {
+              allowClear: true,
+              serveSearch: false,
+              showArrow: true,
+              showSearch: true,
+            },
+          },
         },
         {
           key: 'nzSize',
@@ -1838,13 +1845,29 @@ export class formFeildData {
           },
         },
         {
-          key: 'rightbtnIcon',
-          type: 'input',
+          key: 'iconPlacement',
+          type: 'select',
           className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
           wrappers: ["formly-vertical-theme-wrapper"],
           props: {
-            label: 'Right Icon'
-          }
+            label: 'Icon Placement',
+            options: [
+              {
+                label: 'Left',
+                value: 'left'
+              },
+              {
+                label: 'Right',
+                value: 'right'
+              }
+            ],
+            additionalProperties: {
+              allowClear: true,
+              serveSearch: false,
+              showArrow: true,
+              showSearch: true,
+            },
+          },
         },
         {
           key: 'nzShape',
@@ -11315,7 +11338,6 @@ export class formFeildData {
             label: 'Allow Delete'
           }
         },
-        
         {
           key: 'options',
           type: 'repeatSection',
@@ -11325,14 +11347,14 @@ export class formFeildData {
           fieldArray: {
             className: 'ml-3 me-2',
             fieldGroup: [
-              // {
-              //   key: 'id',
-              //   type: 'input',
-              //   wrappers: ["formly-vertical-theme-wrapper"],
-              //   props: {
-              //     label: 'id'
-              //   }
-              // },
+              {
+                key: 'id',
+                type: 'input',
+                wrappers: ["formly-vertical-theme-wrapper"],
+                props: {
+                  label: 'id'
+                }
+              },
               {
                 key: 'key',
                 type: 'input',
@@ -11355,15 +11377,6 @@ export class formFeildData {
                 wrappers: ["formly-vertical-theme-wrapper"],
                 props: {
                   label: 'Data Type'
-                }
-              },
-              {
-                className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
-                key: 'isAllowGrouping',
-                type: 'checkbox',
-                wrappers: ["formly-vertical-theme-wrapper"],
-                props: {
-                  label: 'Allow Grouping'
                 }
               },
               {

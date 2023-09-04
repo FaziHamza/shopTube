@@ -12,7 +12,7 @@ import { Observable } from 'rxjs';
 })
 export class TemplatePopupComponent implements OnInit {
 
-  form: FormGroup;
+  form!: FormGroup;
   imageUrl: string | undefined;
   constructor(
     private formBuilder: FormBuilder,

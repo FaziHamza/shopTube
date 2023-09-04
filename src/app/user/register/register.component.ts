@@ -3,7 +3,7 @@ import { UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators } 
 import { Router } from '@angular/router';
 import { NzFormTooltipIcon } from 'ng-zorro-antd/form';
 import { first } from 'rxjs';
-import { ColorPickerService } from 'src/app/services/colorpicker.service';
+// import { ColorPickerService } from 'src/app/services/colorpicker.service';
 import { EmployeeService } from 'src/app/services/employee.service';
 
 
@@ -74,15 +74,16 @@ export class RegisterComponent implements OnInit {
   constructor(private fb: UntypedFormBuilder,
     public employeeService: EmployeeService,
     private router: Router,
-    public colorPickerService: ColorPickerService) { }
+    ) { }
 
   customColor(shade: string) {
-    this.colorData = this.colorPickerService.getColor(shade);
-    return this.colorPickerService.getColor(shade);
+    // this.colorData = this.colorPickerService.getColor(shade);
+    // return this.colorPickerService.getColor(shade);
+    return shade;
   }
 
   setCustomColor(data:any) {
-    
+
     let color: string;
     color = data.target.value;
     document.documentElement.style.setProperty('--my-color', color);

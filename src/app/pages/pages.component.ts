@@ -1,6 +1,6 @@
 import { ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
-import { ruleFactory } from '@elite-libs/rules-machine';
+// import { ruleFactory } from '@elite-libs/rules-machine';
 import { BuilderService } from '../services/builder.service';
 import { EmployeeService } from '../services/employee.service';
 import { Subscription } from 'rxjs';
@@ -51,7 +51,7 @@ export class PagesComponent implements OnInit {
   @Input() screenName = '';
   @Input() screenId: any;
   @Input() navigation: any = undefined;
-  requestSubscription: Subscription;
+  requestSubscription!: Subscription;
   isPageContextShow = false;
   @Input() form: any = new FormGroup({});
   actionListData: any[] = [];
@@ -295,13 +295,13 @@ export class PagesComponent implements OnInit {
         const element = this.actionListData[index];
         let findObj = this.findObjectByKey(nodesData[0], element.elementName);
         if (findObj) {
-          if (findObj?.key == element.elementName && (element.actionType == 'api' || element.actionType === 'query')) {
+          if (findObj?.key == element.elementName && element.actionType == 'api') {
             if (!checkFirst[findObj?.key]) {
               findObj['appConfigurableEvent'] = [];
               findObj['eventActionconfig'] = {};
               checkFirst[findObj?.key] = "done";
             }
-            if (element.btnActionType == 'load' && element.actionType == 'api') {
+            if (element.btnActionType == 'load') {
               let obj = { actionType: element.actionType, url: element.httpAddress, method: element.actionLink }
               findObj.eventActionconfig = obj;
             } else {
@@ -325,7 +325,6 @@ export class PagesComponent implements OnInit {
               }
             }
           }
-
           // else {
           //   findObj['appConfigurableEvent'] = [];
           //   findObj['eventActionconfig'] = {};
@@ -454,79 +453,53 @@ export class PagesComponent implements OnInit {
   getFromQuery() {
     let tableData = this.findObjectByTypeBase(this.resData[0], "gridList");
     if (tableData) {
-      let findClickApi = tableData?.appConfigurableEvent?.filter((item: any) =>
-        item.actions.some((action: any) =>
-          (action.method === 'get' && (action.actionType === 'api' || action.actionType === 'query'))
-        )
-      );
-
-      if (findClickApi) {
-        if (findClickApi.length > 0) {
-          let url = '';
-          for (let index = 0; index < findClickApi.length; index++) {
-            let element = findClickApi[index].actions?.[0]?.actionType;
-            if (element == 'query') {
-              url = `knex-query/${this.screenName}`;
-              break;
-            } else {
-              url = findClickApi[index].actions?.[0]?.url
-            }
-          }
-          if (url) {
-            if (tableData) {
-              let pagination = '';
-              if (tableData.serverSidePagination) {
-                pagination = '?page=' + 1 + '&pageSize=' + tableData?.end;
-              }
-
-              this.employeeService.getSQLDatabaseTable(url + pagination).subscribe({
-                next: (res) => {
-                  if (tableData && res.isSuccess) {
-                    let saveForm = JSON.parse(JSON.stringify(res.data[0]));
-                    const firstObjectKeys = Object.keys(saveForm);
-                    let obj = firstObjectKeys.map(key => ({ name: key }));
-                    tableData.tableData = [];
-                    saveForm.id = tableData.tableData.length + 1
-                    res.data.forEach((element: any) => {
-                      element.id = (element?.id)?.toString();
-                      tableData.tableData?.push(element);
-                    });
-                    // pagniation work start
-                    if (!tableData.end) {
-                      tableData.end = 10;
-                    }
-                    tableData.pageIndex = 1;
-                    tableData.totalCount = res.count;
-                    tableData.serverApi = `knex-query/${this.screenName}`;
-                    tableData.targetId = '';
-                    tableData.displayData = tableData.tableData.length > tableData.end ? tableData.tableData.slice(0, tableData.end) : tableData.tableData;
-                    // pagniation work end
-                    if (JSON.stringify(tableData['tableKey']) != JSON.stringify(obj)) {
-                      const updatedData = tableData.tableHeaders.filter((updatedItem: any) => {
-                        const name = updatedItem.name;
-                        return !obj.some((headerItem: any) => headerItem.name === name);
-                      });
-                      if (updatedData.length > 0) {
-                        tableData.tableData = tableData.tableData.map((item: any) => {
-                          const newItem = { ...item };
-                          for (let i = 0; i < updatedData.length; i++) {
-                            newItem[updatedData[i].key] = "";
-                          }
-                          return newItem;
-                        });
-                      }
-                    }
-                    // this.assignGridRules(tableData);
-                  }
-                }
-              });
-            }
-          }
-        }
+      let pagination = '';
+      if (tableData.serverSidePagination) {
+        pagination = '?page=' + 1 + '&pageSize=' + tableData?.end;
       }
 
+      this.employeeService.getSQLDatabaseTable(`knex-query/${this.screenName}` + pagination).subscribe({
+        next: (res) => {
+          if (tableData && res.isSuccess) {
+            let saveForm = JSON.parse(JSON.stringify(res.data[0]));
+            const firstObjectKeys = Object.keys(saveForm);
+            let obj = firstObjectKeys.map(key => ({ name: key }));
+            tableData.tableData = [];
+            saveForm.id = tableData.tableData.length + 1
+            res.data.forEach((element: any) => {
+              element.id = (element?.id)?.toString();
+              tableData.tableData?.push(element);
+            });
+            // pagniation work start
+            if (!tableData.end) {
+              tableData.end = 10;
+            }
+            tableData.pageIndex = 1;
+            tableData.totalCount = res.count;
+            tableData.serverApi = `knex-query/${this.screenName}`;
+            tableData.targetId = '';
+            tableData.displayData = tableData.tableData.length > tableData.end ? tableData.tableData.slice(0, tableData.end) : tableData.tableData;
+            // pagniation work end
+            if (JSON.stringify(tableData['tableKey']) != JSON.stringify(obj)) {
+              const updatedData = tableData.tableHeaders.filter((updatedItem: any) => {
+                const name = updatedItem.name;
+                return !obj.some((headerItem: any) => headerItem.name === name);
+              });
+              if (updatedData.length > 0) {
+                tableData.tableData = tableData.tableData.map((item: any) => {
+                  const newItem = { ...item };
+                  for (let i = 0; i < updatedData.length; i++) {
+                    newItem[updatedData[i].key] = "";
+                  }
+                  return newItem;
+                });
+              }
+            }
+            // this.assignGridRules(tableData);
+          }
+        }
+      });
     }
-
   }
   gridRulesData: any[] = [];
   assignGridRules(data: any) {

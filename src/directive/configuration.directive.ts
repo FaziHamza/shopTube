@@ -6,7 +6,7 @@ import { ApplicationService } from "src/app/services/application.service";
   selector: '[appConfigurable]'
 })
 export class ConfigurableDirective implements OnInit, OnDestroy {
-  @Input('appConfigurable') configs: Array<{event: string, action: {url: string, method: string, data?: any, headers?: any}}>;
+  @Input('appConfigurable') configs!: Array<{event: string, action: {url: string, method: string, data?: any, headers?: any}}>;
 
   private unsubscribe$ = new Subject<void>();
 

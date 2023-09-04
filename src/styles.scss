@@ -11,12 +11,12 @@
 // @tailwind base;
 // @tailwind components;
 // @tailwind utilities;
-@import "~ng-zorro-antd/ng-zorro-antd.min.css";
-@import "~ng-zorro-antd/style/index.min.css";
+// @import "~ng-zorro-antd/ng-zorro-antd.min.css";
+// @import "~ng-zorro-antd/style/index.min.css";
 /* Import base styles */
-@import "~ng-zorro-antd/button/style/index.min.css";
+// @import "~ng-zorro-antd/button/style/index.min.css";
 /* Import one component's styles */
-@import "~jsoneditor/dist/jsoneditor.min.css";
+// @import "~jsoneditor/dist/jsoneditor.min.css";
 @import url("https://site-assets.fontawesome.com/releases/v6.4.0/css/all.css");
 @import "./node_modules/@perfectmemory/ngx-contextmenu/src/assets/stylesheets/base.scss";
 // @import "assets/style/main.min.scss";
@@ -3387,7 +3387,7 @@ object {
         span {
           color: white !important ;
         }
-        
+
         i::before , i::after{
           color: white !important ;
         }
@@ -6255,7 +6255,7 @@ tr:hover {
       }
 
       // td:last-child {
-      //   color: #000 !important; 
+      //   color: #000 !important;
       //   }
     }
 

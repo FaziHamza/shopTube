@@ -23,7 +23,7 @@ export class MenuComponent implements OnInit {
 
   isVisible: boolean = false;
   showCollapseButton: boolean = true;
-  requestSubscription: Subscription;
+  requestSubscription!: Subscription;
   currentUser: any;
   languages = [
     {

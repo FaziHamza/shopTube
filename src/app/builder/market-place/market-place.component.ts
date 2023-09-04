@@ -13,12 +13,12 @@ import { environment } from 'src/environments/environment';
 export class MarketPlaceComponent implements OnInit {
   enviorment = environment.nestImageUrl;
   @Input() nodes: any[] = [];
-  groupedData: any[];
-  marketPlaceList: any[];
+  groupedData!: any[];
+  marketPlaceList!: any[];
   data: any[] = []
   saveLoader: any = false;
   nodesData: any[] = [];
-  requestSubscription: Subscription;
+  requestSubscription!: Subscription;
   constructor(private applicationService: ApplicationService, private drawerRef: NzDrawerRef<any>,
     private toastr: NzMessageService) { }
 

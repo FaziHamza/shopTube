@@ -29,7 +29,7 @@ export class organizationBuilderComponent implements OnInit {
   form: any = new FormGroup({});
   options: FormlyFormOptions = {};
   model: any = {};
-  requestSubscription: Subscription;
+  requestSubscription!: Subscription;
   fields: any = [];
   searchArray: any = [];
   departmentSubmit: boolean = false;
@@ -544,6 +544,21 @@ export class organizationBuilderComponent implements OnInit {
       {
         fieldGroup: [
           {
+            key: 'name',
+            type: 'input',
+            wrappers: ['formly-vertical-theme-wrapper'],
+            defaultValue: '',
+            props: {
+              label: 'Department Name',
+              placeholder: 'Department Name...',
+              required: true,
+            },
+          },
+        ],
+      },
+      {
+        fieldGroup: [
+          {
             key: 'organizationId',
             type: 'select',
             wrappers: ['formly-vertical-theme-wrapper'],
@@ -557,21 +572,6 @@ export class organizationBuilderComponent implements OnInit {
                 showSearch: true,
               },
               options: options,
-            },
-          },
-        ],
-      },  
-      {
-        fieldGroup: [
-          {
-            key: 'name',
-            type: 'input',
-            wrappers: ['formly-vertical-theme-wrapper'],
-            defaultValue: '',
-            props: {
-              label: 'Department Name',
-              placeholder: 'Department Name...',
-              required: true,
             },
           },
         ],

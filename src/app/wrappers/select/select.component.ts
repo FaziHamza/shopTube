@@ -13,7 +13,7 @@ import { ApplicationService } from 'src/app/services/application.service';
 export class SelectComponent extends FieldType<FieldTypeConfig> implements OnChanges {
   @Output() change = new EventEmitter<any>();
   selectedValue: any | null = null;
-  requestSubscription: Subscription;
+  requestSubscription!: Subscription;
   constructor(private sharedService: DataSharedService, private cdr: ChangeDetectorRef) {
     super();
     this.processData = this.processData.bind(this);

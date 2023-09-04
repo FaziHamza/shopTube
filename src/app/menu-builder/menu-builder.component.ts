@@ -23,9 +23,9 @@ import { NzCascaderOption } from 'ng-zorro-antd/cascader';
   styleUrls: ['./menu-builder.component.scss']
 })
 export class MenuBuilderComponent implements OnInit {
-  fieldData: GenaricFeild;
-  selectedNode: TreeNode;
-  selectedParentNode: TreeNode;
+  fieldData!: GenaricFeild;
+  selectedNode!: TreeNode;
+  selectedParentNode!: TreeNode;
   formModalData: any;
   IslayerVisible: boolean = true;
   IsjsonEditorVisible: boolean = false;
@@ -44,13 +44,13 @@ export class MenuBuilderComponent implements OnInit {
   filterMenuData: any = [];
   departments: any[] = [];
   expandedKeys: any;
-  isVisible: string;
-  tabsChild: TreeNode;
-  tabsAdd: TreeNode;
+  isVisible!: string;
+  tabsChild!: TreeNode;
+  tabsAdd!: TreeNode;
   dropdownAdd: any;
-  pagesAdd: TreeNode;
+  pagesAdd!: TreeNode;
   selectForDropdown: any;
-  isActiveShow: string;
+  isActiveShow!: string;
   htmlTabsData: any = [];
   tabsArray: any = [];
   dropdownButtonArray: any = [];
@@ -58,7 +58,7 @@ export class MenuBuilderComponent implements OnInit {
   selectDepartment: any = '';
   iconType: any = '';
   selectApplicationType: any = '';
-  requestSubscription: Subscription;
+  requestSubscription!: Subscription;
   currentUser: any;
   iconActive: string = '';
   selectDepartmentName: any = [];
@@ -644,63 +644,45 @@ export class MenuBuilderComponent implements OnInit {
     this.clickBack();
     this.makeMenuData();
   }
-  // menuSearch() {
-  //   this.filterMenuData = [];
-  //   var input = (document.getElementById("mySearch") as HTMLInputElement).value.toUpperCase();
-  //   if (input) {
-  //     this.nodes.forEach((element: any) => {
-  //       if (element.title.toUpperCase().includes(input)) {
-  //         this.filterMenuData.push(element);
-  //       }
-  //       else if (element.children.length > 0) {
-  //         element.children.forEach((element1: any) => {
-  //           if (element1.title.toUpperCase().includes(input)) {
-  //             this.filterMenuData.push(element1);
-  //           }
-  //           else if (element1.children.length > 0) {
-  //             element1.children.forEach((element2: any) => {
-  //               if (element2.title.toUpperCase().includes(input)) {
-  //                 this.filterMenuData.push(element2);
-  //               }
-  //               else if (element2.children.length > 0) {
-  //                 element2.children.forEach((element3: any) => {
-  //                   if (element3.title.toUpperCase().includes(input)) {
-  //                     this.filterMenuData.push(element3);
-  //                   }
-  //                   else if (element3.children.length > 0) {
-  //                     element3.children.forEach((element4: any) => {
-  //                       if (element4.title.toUpperCase().includes(input)) {
-  //                         this.filterMenuData.push(element4);
-  //                       }
-  //                     });
-  //                   }
-  //                 });
-  //               }
-  //             });
-  //           }
-  //         });
-  //       }
-  //     });
-  //   }
-  // }
-  menuSearch(data: any) {
-    var searchValue = (document.getElementById("mySearch") as HTMLInputElement).value.toLowerCase();
-    const matchSearch = (value: string) => value.toLowerCase().includes(searchValue.toLowerCase());
-
-    if (searchValue) {
-      const isMatch = data?.title ? matchSearch(data.title) : matchSearch(data.id);
-      data['searchHighlight'] = isMatch;
-    } else {
-      data['searchHighlight'] = false;
-    }
-
-    if (data?.children?.length > 0) {
-      data.children.forEach((element: any) => {
-        this.menuSearch(element);
+  menuSearch() {
+    this.filterMenuData = [];
+    var input = (document.getElementById("mySearch") as HTMLInputElement).value.toUpperCase();
+    if (input) {
+      this.nodes.forEach((element: any) => {
+        if (element.title.toUpperCase().includes(input)) {
+          this.filterMenuData.push(element);
+        }
+        else if (element.children.length > 0) {
+          element.children.forEach((element1: any) => {
+            if (element1.title.toUpperCase().includes(input)) {
+              this.filterMenuData.push(element1);
+            }
+            else if (element1.children.length > 0) {
+              element1.children.forEach((element2: any) => {
+                if (element2.title.toUpperCase().includes(input)) {
+                  this.filterMenuData.push(element2);
+                }
+                else if (element2.children.length > 0) {
+                  element2.children.forEach((element3: any) => {
+                    if (element3.title.toUpperCase().includes(input)) {
+                      this.filterMenuData.push(element3);
+                    }
+                    else if (element3.children.length > 0) {
+                      element3.children.forEach((element4: any) => {
+                        if (element4.title.toUpperCase().includes(input)) {
+                          this.filterMenuData.push(element4);
+                        }
+                      });
+                    }
+                  });
+                }
+              });
+            }
+          });
+        }
       });
     }
   }
-
   saveLoader: any = false;
 
   saveJsonMenu() {

@@ -17,9 +17,9 @@ export class CommentModalComponent implements OnInit {
   @Input() screenName: any;
   @Input() update: any;
   @Input() type: any;
-  form: FormGroup;
+  form!: FormGroup;
   newComment: any = '';
-  requestSubscription: Subscription;
+  requestSubscription!: Subscription;
   constructor(
     private formBuilder: FormBuilder,
     public builderService: BuilderService,

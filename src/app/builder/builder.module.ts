@@ -13,7 +13,7 @@ import { ShareModule } from "../shared/share.module";
 import { CommonModule } from "@angular/common";
 import { GoogleChartsModule } from "angular-google-charts";
 import { ContextMenuModule } from "@perfectmemory/ngx-contextmenu";
-import {  MonacoEditorModule } from "ngx-monaco-editor";
+// import {  MonacoEditorModule } from "ngx-monaco-editor";
 import { TranslateLoader, TranslateModule } from "@ngx-translate/core";
 import { HttpClient } from "@angular/common/http";
 import { TranslateHttpLoader } from "@ngx-translate/http-loader";
@@ -39,7 +39,7 @@ import { ExecuteActionRuleComponent } from './execute-action-rule/execute-action
     NgZorroAntdModule,
     ReactiveFormsModule,
     FormlyNgZorroAntdModule,
-    MonacoEditorModule.forRoot(),
+    // MonacoEditorModule.forRoot(),
     NgxMaskModule.forRoot(),
     FormlyModule.forRoot(formlyCustomeConfig),
     BuilderRoutingModule,

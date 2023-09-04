@@ -21,7 +21,7 @@ export class BusinessRuleGridComponent implements OnInit {
   @Input() GridType: any;
   @Input() selectedNode: any;
   @Input() nodes: any;
-  @Input() applicationId: string;
+  @Input() applicationId!: string;
   isVisible = false;
   GridBusinessRuleData: any;
   constructor(private formBuilder: FormBuilder,
@@ -31,7 +31,7 @@ export class BusinessRuleGridComponent implements OnInit {
     private modalService: NzModalService, private toastr: NzMessageService) { }
   isModalVisible = false;
   isReadOnly: boolean = true;
-  requestSubscription: Subscription;
+  requestSubscription!: Subscription;
   gridRuleId: string = '';
 
   ngOnInit(): void {
@@ -129,8 +129,8 @@ export class BusinessRuleGridComponent implements OnInit {
   //     this.conditionFormInput = getRes[0].condition;
   //   }));
   // }
-  conditionFormInput: string;
-  conditionForm: FormGroup;
+  conditionFormInput!: string;
+  conditionForm!: FormGroup;
   conditonFormOprator = [
     { name: "+", key: "+" },
     { name: "-", key: "-" },
@@ -430,7 +430,7 @@ export class BusinessRuleGridComponent implements OnInit {
   buisnessRuleData: any = [];
   buisnessRuleIfList: any = [];
   BuisnessRuleCondationList: any;
-  buisnessForm: FormGroup;
+  buisnessForm!: FormGroup;
   buisnessRuleTargetList: any = [];
   // buisnessRuleVariableTargetList: any = [];
   // bussinessRuleObj: any = [];
