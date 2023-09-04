@@ -33,22 +33,22 @@
           <span nz-icon nzType="down"></span>
         </button>
         <nz-dropdown-menu #menu4="nzDropdownMenu">
-          <ul nz-menu>
+          <ul nz-menu class="!p-2" >
             <li nz-menu-item>
-              <a (click)="downloadAllJson()">Download Json</a>
+              <a (click)="downloadAllJson() " class="text-black" >Download Json</a>
             </li>
             <li nz-menu-item>
-              <a onclick="document.getElementById('fileInput').click()">
+              <a onclick="document.getElementById('fileInput').click()" class="text-black">
                 Json Upload</a>
             </li>
             <li nz-menu-item>
-              <a (click)="downloadJson()">Selected Json Download</a>
+              <a (click)="downloadJson()" class="text-black" >Selected Json Download</a>
             </li>
             <li nz-menu-item>
-              <a (click)="bulkUpdate()">Bulk Update</a>
+              <a (click)="bulkUpdate()" class="text-black" >Bulk Update</a>
             </li>
             <li nz-menu-item>
-              <a>Bulk Import</a>
+              <a class="text-black" >Bulk Import</a>
             </li>
           </ul>
         </nz-dropdown-menu>
@@ -62,7 +62,7 @@
             <i class="fa-light fa-gear !absolute !top-[4px] !right-[4.5px] !text-[10px] "></i>
           </button>
         </nz-space>
-        <button nz-button nzType="primary" class="upload-btn" (click)="checkPage()">
+        <button nz-button nzType="primary" class="upload-btn" nzTooltipTitle="Go To Page" nz-tooltip (click)="checkPage()">
           <i class="fa-regular fa-arrow-up-from-bracket"></i>
         </button>
       </div>

@@ -66,30 +66,30 @@
           Actions
           <span nz-icon nzType="down"></span>
         </button>
-        <nz-dropdown-menu #menu4="nzDropdownMenu">
-          <ul nz-menu>
+        <nz-dropdown-menu #menu4="nzDropdownMenu" class="action-drop-down-list" >
+          <ul nz-menu class="!p-2" >
             <li nz-menu-item>
-              <a (click)="downloadJson()">Download Json</a>
+              <a (click)="downloadJson()" class="!text-black">Download Json</a>
             </li>
             <li nz-menu-item>
-              <a onclick="document.getElementById('fileInput').click()">Json
+              <a onclick="document.getElementById('fileInput').click()" class="!text-black" >Json
                 Upload</a>
             </li>
             <!-- <li nz-menu-item>
               <a (click)="pasteFromClipboard()">Paste</a>
             </li> -->
             <li nz-menu-item>
-              <a (click)="selectedDownloadJson()">Selected Json Download</a>
+              <a (click)="selectedDownloadJson()" class="!text-black" >Selected Json Download</a>
             </li>
             <li nz-menu-item>
-              <a onclick="document.getElementById('selectedFileInput').click()">Selected
+              <a onclick="document.getElementById('selectedFileInput').click()" class="!text-black" >Selected
                 Json Upload</a>
             </li>
             <li nz-menu-item>
-              <a (click)="bulkUpdate()">Bulk Update</a>
+              <a (click)="bulkUpdate()" class="!text-black" >Bulk Update</a>
             </li>
             <li nz-menu-item>
-              <a>Bulk Import</a>
+              <a class="!text-black">Bulk Import</a>
             </li>
           </ul>
         </nz-dropdown-menu>
@@ -373,8 +373,8 @@
   </nz-drawer>
   <ng-template #extra>
     <nz-input-group nzSearch [nzAddOnAfter]="suffixIconButton">
-      <input type="text" class="h-10 rounded-tl-md rounded-bl-md" nz-input id="searchControll"
-        [(ngModel)]="searchControlValue" (ngModelChange)="searchControll()" placeholder="Search.." />
+      <input type="text" class="!h-10 !rounded-tl-md !rounded-bl-md" nz-input id="searchControll"
+        [(ngModel)]="searchControlValue" (ngModelChange)="searchControll()" placeholder="Search..." />
     </nz-input-group>
     <ng-template #suffixIconButton>
       <button nz-button nzType="primary" class="!rounded-tr-md !rounded-br-md" nzSearch><span nz-icon nzType="search"

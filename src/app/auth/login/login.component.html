@@ -6,7 +6,7 @@
             <!-- logo -->
             <div class="flex items-center absolute space-x-[14px] top-6 left-6">
                 <img src="/assets/images/Exclude.png" class="w-[34px] h-[34px]" alt="Fastify_Logo" />
-                <p class="text-[28px] not-italic font-bold leading-[35px] tracking-[-0.346px]">
+                <p class="text-[28px] not-italic font-bold leading-[35px] tracking-[-0.346px] mb-0">
                     Fastify
                 </p>
             </div>
@@ -100,7 +100,7 @@
                 <form action="" [formGroup]="form" (ngSubmit)="submitForm()">
                     <div class="flex items-center w-full flex-col">
                         <nz-input-group [nzPrefix]="prefixTemplatemail"
-                            class="!w-[350px] rounded-lg py-2 my-4 px-4 !h-[46px]">
+                            class="!w-[350px] !rounded-md py-2 my-4 px-4 !h-[46px]">
                             <input type="email" formControlName="email" nz-input placeholder="Email" />
                         </nz-input-group>
                         <app-error [form_control]="f['email']" [isSubmitted]="isFormSubmit"></app-error>
@@ -109,7 +109,7 @@
                         </ng-template>
 
                         <nz-input-group [nzPrefix]="prefixTemplatepass" [nzSuffix]="suffixTemplateInfo"
-                            class="!w-[350px] mb-4 rounded-lg py-2 px-4 !h-[46px]">
+                            class="!w-[350px] mb-4 !rounded-md py-2 px-4 !h-[46px]">
                             <input [type]="passwordType" formControlName="password" nz-input placeholder="Password" />
                         </nz-input-group>
                         <app-error [form_control]="f['password']" [isSubmitted]="isFormSubmit"></app-error>
@@ -142,7 +142,7 @@
 
                     <div class="flex justify-center">
                         <button type="submit"
-                            class="!w-[350px] bg-[#2563EB] rounded-lg text-white font-bold py-2 mt-4 px-4 !h-[46px]">
+                            class="!w-[350px] bg-[#2563EB] !rounded-md text-white font-bold py-2 mt-4 px-4 !h-[46px]">
                             Sign In
                         </button>
                     </div>
@@ -156,7 +156,7 @@
                         class="rounded border flex justify-center items-center w-[45%] bg-white cursor-pointer hover:bg-gray-100 font-bold py-2 px-4 !h-[46px]">
                         <img src="assets/images/5847f9cbcef1014c0b5e48c8.png" class="w-4 mr-2.5 h-4"
                             alt="Google logo" />
-                        <p class="text-[16px] not-italic font-semibold tracking-[0.2px]">
+                        <p class="text-[16px] not-italic font-semibold tracking-[0.2px] !mb-0">
                             Google
                         </p>
                     </div>
@@ -164,7 +164,7 @@
                         class="rounded border flex justify-center items-center w-[45%] bg-white cursor-pointer hover:bg-gray-100 font-bold py-2 px-4 !h-[46px]">
                         <img src="assets/images/logo-facebookpng-32240.png" class="w-4 mr-2.5 h-4"
                             alt="Facebook logo" />
-                        <p class="text-[16px] not-italic font-semibold tracking-[0.2px]">
+                        <p class="text-[16px] not-italic font-semibold tracking-[0.2px] !mb-0">
                             Facebook
                         </p>
                     </div>

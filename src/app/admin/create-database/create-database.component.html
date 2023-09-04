@@ -16,9 +16,9 @@
         <nz-tab nzTitle="Approved">
           <ul nz-list [nzDataSource]="data" nzBordered nzSize="large">
             <nz-list-header>
-              <nz-input-group [nzSuffix]="suffixIconSearch" class="rounded-md p-0 pr-[8px]" >
+              <nz-input-group [nzSuffix]="suffixIconSearch" class="!rounded-md !h-10 p-0 pr-[8px]" >
                 <input type="text" [(ngModel)]="searchFilteredApprovedValue" nz-input (keyup)="search('approved' , searchFilteredApprovedValue)"
-                placeholder="Search Schema" class="tabset-container-input !py-[4px] !px-[11px]" />
+                placeholder="Search Schema" class=" " />
               </nz-input-group>
 
               <ng-template #suffixIconSearch>
@@ -46,9 +46,9 @@
               <!-- <h3><b style="background-color: #FFCC00; padding:3px 5px; border-radius:10px">Pending</b></h3> -->
               <!-- <hr /> -->
               
-              <nz-input-group [nzSuffix]="suffixIconSearch2" class="rounded-md p-0 pr-[8px]" >
+              <nz-input-group [nzSuffix]="suffixIconSearch2" class="!rounded-md  p-0 pr-[8px]" >
                 <input type="text" [(ngModel)]="searchFilteredPendingValue" nz-input (keyup)="search('pending' , searchFilteredPendingValue)"
-                placeholder="Search Schema" class="tabset-container-input !py-[4px] !px-[11px]" />
+                placeholder="Search Schema" class="!h-10 !rounded-md !py-[4px] !px-[11px]" />
                 </nz-input-group>
   
                 <ng-template #suffixIconSearch2>
@@ -77,7 +77,7 @@
     <div class="w-3/4 pl-2">
       <div class="h-[46px] mb-[10px] flex items-center px-[15px] rounded-md bg-white text-black text-2xl font-semibold">
         DATABASE</div>
-      <nz-card class="w-fit mb-[10px] rounded-md">
+      <nz-card class="w-fit !mb-[10px] !rounded-md">
         <form [formGroup]="myForm">
           <div class="flex flex-wrap">
             <div class="w-1/2 theme-body" *ngFor="let item of fields">
@@ -85,7 +85,8 @@
             </div>
           </div>
   
-          <button nz-button nzType="primary" class="my-2 " title="Add row" (click)="addRow()" ngbTooltip="Add row"><i
+          <button nz-button  class="my-2 btn" title="Add row" (click)="addRow()" nzTooltipTitle="Add Row"
+          nz-tooltip><i
               class="fa fa-plus"></i> </button>
           <div class="flex flex-wrap">
             <div class="w-3/6">
@@ -97,14 +98,14 @@
               <button nz-button nzType="primary" class="my-2 btn border-green-500 !bg-green-500 hover:!bg-green-400" title="Update" (click)="updateFormv1()"
                 ngbTooltip="Update Table" *ngIf="tableId !=0"> <i class="fa-regular fa-arrows-rotate mr-2"></i> Update </button>
               <button nz-button  class="my-2 mx-2 btn-no !bg-white hover:!bg-gray-50 !text-gray-700 !border-black hover:!border-blue-500 hover:!text-blue-500" title="Cancel" (click)="cancelEditTable()"
-                ngbTooltip="Cancel" *ngIf="tableId !=0"> <i class="fa-regular fa-circle-xmark mr-2"></i> Cancel </button>
-              <button nz-button nzType="primary" class="my-2 mx-2 btn-no border-red-500 !bg-red-500 hover:!bg-red-400" title="Clear" (click)="cancelEditTable()"
+                ngbTooltip="Cancel" *ngIf="tableId !=0"> <i class="fa-regular fa-circle-xmark !bg-white mr-2"></i> Cancel </button>
+              <button nz-button nzType="primary" class="my-2 mx-2 btn-no border-red-500 !border-none !bg-red-500 hover:!bg-red-400" title="Clear" (click)="cancelEditTable()"
                 ngbTooltip="Clear" *ngIf="tableId ==0"> <i class="fa-regular fa-broom-wide mr-2"></i> Clear </button>
             </div>
           </div>
         </form>
       </nz-card>
-      <nz-card class="w-fit rounded-md">
+      <nz-card class="w-fit !rounded-md">
         <nz-table #editRowTable nzBordered [nzData]="listOfData" nzTableLayout="fixed" [nzPageSize]="10">
           <thead>
             <tr>

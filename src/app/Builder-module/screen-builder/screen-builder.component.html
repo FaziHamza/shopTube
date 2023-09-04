@@ -1,6 +1,6 @@
 <nz-card nzTitle="Screen List" [nzExtra]="extraTemplate">
-    <nz-table class="screen-builder-table" [nzShowPagination]="false" [nzScroll]="{ x: '1200px', y: null }" #filterTable [nzLoading]="loading"
-        [nzData]="listOfDisplayData" [nzPageSize]="pageSize">
+    <nz-table class="screen-builder-table" [nzShowPagination]="false" [nzScroll]="{ x: '1200px', y: null }" #filterTable
+        [nzLoading]="loading" [nzData]="listOfDisplayData" [nzPageSize]="pageSize">
         <thead>
             <tr>
                 <!-- <th>#</th> -->
@@ -34,15 +34,19 @@
                 <td>{{ data.departmentName ? data.departmentName : data.applicationName}}</td>
                 <td>{{ data.moduleName ? data.moduleName : data.applicationName}}</td>
                 <td>
-                    <span class="text-blue-600 hover:cursor-pointer" nz-icon nzType="edit" nzTheme="outline"
-                        nzTooltipTitle="Edit" nz-tooltip (click)="[openModal(),editItem(data)]"></span>
-                    <span class="text-[#fd3636] pl-2 hover:cursor-pointer" nz-icon nzType="delete" nzTheme="outline"
-                        nzTooltipTitle="Delete" nz-tooltip nz-popconfirm nzPopconfirmTitle="Sure to delete?"
-                        (nzOnConfirm)="deleteRow(data._id)"></span>
-                    <span class="text-green-600 hover:cursor-pointer pl-2" nz-icon nzType="file-done" nzTheme="outline"
-                        nzTooltipTitle="Go To Page" nz-tooltip routerLink="/pages/{{data.navigation}}"></span>
-                    <span class="text-black hover:cursor-pointer pl-2" nz-icon nzType="form" nzTheme="outline"
-                        nzTooltipTitle="Go To Build Page" nz-tooltip (click)="goToBuildPage(data)"></span>
+                    <i class="fa-regular fa-pen-to-square !text-blue-600 hover:cursor-pointer" nzTooltipTitle="Edit"
+                        nz-tooltip (click)="[openModal(),editItem(data)]"></i>
+
+                    <i class="fa-regular fa-trash !text-[#fd3636] pl-2 hover:cursor-pointer" nzTooltipTitle="Delete"
+                        nz-tooltip nz-popconfirm nzPopconfirmTitle="Sure to delete?"
+                        (nzOnConfirm)="deleteRow(data._id)"></i>
+
+                    <i class="fa-regular fa-file-export !text-green-600 hover:cursor-pointer pl-2"
+                        nzTooltipTitle="Go To Page" nz-tooltip routerLink="/pages/{{data.navigation}}"></i>
+
+                    <i class="fa-regular fa-arrow-up-right-from-square !text-black hover:cursor-pointer pl-2"
+                        nzTooltipTitle="Go To Build Page" nz-tooltip (click)="goToBuildPage(data)"></i>
+
                 </td>
             </tr>
         </tbody>
@@ -55,25 +59,21 @@
             </p>
         </div>
 
-        <div class="flex items-center justify-end" >
+        <div class="flex items-center justify-end">
             <div class="pagination mr-4">
                 <label class="label">Pagination</label>
                 <div class="input-container">
-                    <nz-input-number
-                        [(ngModel)]="pageSize"
-                        (ngModelChange)="handlePageChange(1)"
-                        [nzStep]="1"
-                        [nzMin]="1" 
-                    ></nz-input-number>
+                    <nz-input-number [(ngModel)]="pageSize" (ngModelChange)="handlePageChange(1)" [nzStep]="1"
+                        [nzMin]="1"></nz-input-number>
                 </div>
             </div>
             <div>
                 <nz-pagination [nzPageIndex]="pageIndex" [nzTotal]="listOfData.length" [nzPageSize]="pageSize"
-                (nzPageIndexChange)="handlePageChange($event)"></nz-pagination>
+                    (nzPageIndexChange)="handlePageChange($event)"></nz-pagination>
             </div>
         </div>
     </div>
-    
+
 </nz-card>
 <ng-template #extraTemplate>
     <button nz-button nzType="primary" class="btn" (click)="openModal()"><span nz-icon nzType="plus"
@@ -97,10 +97,14 @@
     </ng-container>
 </nz-drawer>
 <ng-template #footerTpl>
-    <button class="mr-2 btn-dangerous" nz-button nzType="primary" nzDanger (click)="handleCancel()"><span nz-icon nzType="close"
-            nzTheme="outline"></span>Close</button>
-    <button nz-button *ngIf="isSubmit" class="btn" nzType="primary" (click)="onSubmit()" [disabled]="!form.valid"><span nz-icon
-            nzType="database" nzTheme="outline"></span>Submit</button>
-    <button nz-button *ngIf="!isSubmit" class="btn" nzType="primary" [disabled]="!form.valid" (click)="onSubmit()"><span nz-icon
-            nzType="redo" nzTheme="outline"></span>Update</button>
+    <div class="src-btn">
+        <button class="mr-2 btn-dangerous" nz-button nzType="primary" nzDanger (click)="handleCancel()">
+            <i class="fa-regular fa-xmark mr-1.5"></i>Close</button>
+        <button nz-button *ngIf="isSubmit" [ngClass]="{'btn-no' : !form.valid,'btn': form.valid}" nzType="primary"
+            (click)="onSubmit()" [disabled]="!form.valid">
+            <i class="fa-regular fa-database mr-1.5"></i>
+                Submit</button>
+        <button nz-button *ngIf="!isSubmit" class="btn" nzType="primary" [disabled]="!form.valid"
+            (click)="onSubmit()"><span nz-icon nzType="redo" nzTheme="outline"></span>Update</button>
+    </div>
 </ng-template>

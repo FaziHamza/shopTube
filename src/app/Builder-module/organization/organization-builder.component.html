@@ -45,8 +45,7 @@
                     </td>
                     <td>
                         <ng-container *ngIf="data.image; else emptyContent">
-                            <img nz-image width="50px" height="50px" [nzSrc]="data.image"
-                                alt />
+                            <img nz-image width="50px" height="50px" [nzSrc]="data.image" alt />
                         </ng-container>
                         <ng-template #emptyContent>
                             <nz-empty class="no-image"></nz-empty>
@@ -84,11 +83,11 @@
                 <td>{{ data.companyName ? data.companyName :
                     data.organizationName}}</td>
                 <td>
-                    <span class="text-blue-600 hover:cursor-pointer" nz-icon nzType="edit" nzTheme="outline"
-                        nzTooltipTitle="Edit" nz-tooltip (click)="[openModal('department'),editItem(data)]"></span>
-                    <span class="text-[#fd3636] pl-2 hover:cursor-pointer" nz-icon nzType="delete" nzTheme="outline"
-                        nzTooltipTitle="Delete" nz-tooltip nz-popconfirm nzPopconfirmTitle="Sure to delete?"
-                        (nzOnConfirm)="deleteRow(data._id , 'department')"></span>
+                    <i class="fa-regular fa-pen-to-square !text-blue-600 hover:cursor-pointer" nzTooltipTitle="Edit" nz-tooltip (click)="[openModal('department'),editItem(data)]"></i>
+                   
+                    <i class="fa-regular fa-trash !text-[#fd3636] pl-2 hover:cursor-pointer" nz-tooltip nzTooltipTitle="delete" nz-popconfirm nzPopconfirmTitle="Sure to delete?"
+                    (nzOnConfirm)="deleteRow(data._id , 'department')" ></i>
+                
                 </td>
             </tr>
         </tbody>
@@ -120,12 +119,12 @@
     </div>
 </nz-card>
 <ng-template #extraTemplate>
-    <button nz-button nzType="primary" class="btn" (click)="openModal('department')"><span nz-icon nzType="plus"
-            nzTheme="outline"></span>Add
-        Department</button>
-    <button nz-button nzType="primary" class="ml-2 btn" (click)="openModal('organization')"><span nz-icon nzType="plus"
-            nzTheme="outline"></span>Add
-        Organization</button>
+    <div class="org-btn">
+        <button nz-button nzType="primary" class="btn-add" (click)="openModal('department')"><span nz-icon nzType="plus"
+                nzTheme="outline"></span>Add Department</button>
+        <button nz-button nzType="primary" class="ml-2 btn-add" (click)="openModal('organization')"><span nz-icon
+                nzType="plus" nzTheme="outline"></span>Add Organization</button>
+    </div>
 </ng-template>
 
 <!-- Drawer -->
@@ -136,7 +135,7 @@
             <div class="flex flex-wrap">
                 <div class="w-1/2" *ngFor="let item of fields">
                     <div class="theme-body">
-                        <div *ngIf="item">
+                        <div *ngIf="item" >
                             <formly-form [model]="model" [fields]="item.fieldGroup" [options]="options"
                                 [form]="form"></formly-form>
                         </div>
@@ -149,8 +148,10 @@
 <ng-template #footerTpl>
     <button class="mr-2 btn" nz-button nzType="primary" nzDanger (click)="handleCancel()"><span nz-icon nzType="close"
             nzTheme="outline"></span>Close</button>
-    <button nz-button class="btn" *ngIf="isSubmit" nzType="primary" (click)="submit()" [disabled]="!form.valid"><span
-            nz-icon nzType="database" nzTheme="outline"></span>Submit</button>
-    <button nz-button class="btn" *ngIf="!isSubmit" nzType="primary" (click)="submit()" [disabled]="!form.valid"><span
-            ><i class="fa-regular fa-arrows-rotate mr-2"></i></span>Update</button>
+    <button nz-button [ngClass]="{ 'btn-no' : !form.valid , 'btn' : form.valid }" *ngIf="isSubmit" nzType="primary"
+        (click)="submit()" [disabled]="!form.valid"><span nz-icon nzType="database"
+            nzTheme="outline"></span>Submit</button>
+    <button nz-button [ngClass]="{ 'btn-no' : !form.valid , 'btn' : form.valid }" *ngIf="!isSubmit" nzType="primary"
+        (click)="submit()" [disabled]="!form.valid"><span><i
+                class="fa-regular fa-arrows-rotate mr-2"></i></span>Update</button>
 </ng-template>

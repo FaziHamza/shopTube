@@ -78,7 +78,16 @@
                 <td>{{ data.application_Type }}</td>
                 <td>{{ data.layout }}</td>
                 <td>{{ data.domain }}</td>
-                <td> <img nz-image width="50px" height="50px" [nzSrc]="serverPath +data.image" alt /></td>
+
+                <td>
+                    <ng-container *ngIf="data.image; else emptyContent">
+                        <img nz-image width="50px" height="50px" [nzSrc]="data.image" alt />
+                    </ng-container>
+                    <ng-template #emptyContent>
+                        <nz-empty class="no-image"></nz-empty>
+                    </ng-template>
+                </td>
+
                 <td>
                     <span class="text-blue-600 hover:cursor-pointer" nzTooltipTitle="Edit" nz-tooltip
                         (click)="[openModal('application'),editItem(data)]"><i
@@ -143,8 +152,9 @@
 <ng-template #footerTpl>
     <button class="mr-2 btn" nz-button nzType="primary" nzDanger (click)="handleCancel()"><span nz-icon nzType="close"
             nzTheme="outline"></span>Close</button>
-    <button nz-button class="btn" *ngIf="isSubmit" nzType="primary" (click)="onSubmit()"
-        [disabled]="!myForm.valid"><span nz-icon nzType="database" nzTheme="outline"></span>Submit</button>
-    <button nz-button class="btn" *ngIf="!isSubmit" nzType="primary" [disabled]="!myForm.valid" (click)="onSubmit()"><i
-            class="fa-regular fa-arrows-rotate mr-2"></i>Update</button>
+    <button nz-button [ngClass]="{'btn-no' : !myForm.valid ,'btn' : myForm.valid }" *ngIf="isSubmit" nzType="primary"
+        (click)="onSubmit()" [disabled]="!myForm.valid"><span nz-icon nzType="database"
+            nzTheme="outline"></span>Submit</button>
+    <button nz-button [ngClass]="{'btn-no' : !myForm.valid ,'btn' : myForm.valid }" *ngIf="!isSubmit" nzType="primary"
+        [disabled]="!myForm.valid" (click)="onSubmit()"><i class="fa-regular fa-arrows-rotate mr-2"></i>Update</button>
 </ng-template>

@@ -175,6 +175,12 @@ object {
 .theme-body {
   padding-top: 0px !important;
 
+  .ant-select-selection-search {
+    display: flex !important;
+    align-items: center !important;
+  }
+  
+
   .ant-checkbox {
     margin-top: 7px;
   }
@@ -3385,11 +3391,12 @@ object {
         a,
         i,
         span {
-          color: white !important ;
+          color: white !important;
         }
 
-        i::before , i::after{
-          color: white !important ;
+        i::before,
+        i::after {
+          color: white !important;
         }
 
         .colapsed-menu-title {
@@ -3616,6 +3623,19 @@ object {
         border: 1px solid #DBDBDB;
         background: #FFF;
       }
+
+      .ant-select-selection-search {
+        display: flex;
+        align-items: center;
+      }
+
+      .ant-select-dropdown {
+        padding: 0 !important;
+      }
+
+
+
+
     }
 
     .action-bar {
@@ -3638,6 +3658,8 @@ object {
         border-radius: 4px;
         color: #000000;
         margin: 0px 4px;
+        padding: 4px !important;
+        cursor: pointer !important;
 
         i {
           font-size: 16px;
@@ -3727,6 +3749,7 @@ object {
         line-height: 140%;
         letter-spacing: 0.2px;
         margin-left: 12px;
+        padding: 4.5px !important;
 
         i {
           font-size: 14px;
@@ -4541,15 +4564,15 @@ object {
 
         .btn {
           width: 190px !important;
-          display: flex;
-          height: 56px;
-          justify-content: center;
-          align-items: center;
-          gap: 12px;
-          border-radius: 12px;
-          border: 1px solid var(--greyscale-200, #E2E8F0);
-          background: var(--additional-white, #FFF);
-          color: var(--greyscale-900, #0F172A);
+          display: flex !important;
+          height: 56px !important;
+          justify-content: center !important;
+          align-items: center !important;
+          gap: 12px !important;
+          border-radius: 12px !important;
+          border: 1px solid var(--greyscale-200, #E2E8F0) !important;
+          background: var(--additional-white, #FFF) !important;
+          color: var(--greyscale-900, #0F172A) !important;
 
           img {
             height: 20px;
@@ -5306,7 +5329,7 @@ ul.ant-cascader-menu:nth-child(2)>li:nth-child(1)>div:nth-child(2)>i:nth-child(1
   margin: 10px 0px !important;
   border-radius: 6px !important;
   overflow: hidden;
-  padding: 0px;
+  padding: 0px !important;
 
   .ant-cascader-menus {
     margin: 0px !important;
@@ -6299,7 +6322,7 @@ tr:hover {
 .tabset-container {
 
   .ant-tabs-nav {
-    margin-bottom: 10px;
+    margin-bottom: 10px !important;
   }
 
   .ant-list-bordered {
@@ -6312,14 +6335,14 @@ tr:hover {
 
   .ant-tabs-nav-wrap {
     background: #fff;
-    padding: 4px 10px;
+    padding: 4px 10px !important;
     border-radius: 6px;
   }
 
 
   .tabset-container-input {
-    height: 40px;
-    border-radius: 6px;
+    height: 40px !important;
+    border-radius: 6px !important;
   }
 
   .ant-tabs-content-holder {
@@ -6342,36 +6365,39 @@ tr:hover {
 }
 
 .btn-no {
-  width: fit-content;
-  height: 40px;
-  flex-shrink: 0;
-  border-radius: 6px;
-  font-size: 14px;
-  font-style: normal;
-  line-height: 140%;
-  letter-spacing: 0.2px;
+  width: fit-content !important;
+  height: 40px !important;
+  flex-shrink: 0 !important;
+  border-radius: 6px !important;
+  font-size: 14px !important;
+  font-style: normal !important;
+  line-height: 140% !important;
+  letter-spacing: 0.2px !important;
 }
 
 .btn {
-  height: 40px;
-  flex-shrink: 0;
-  border-radius: 6px;
-  background: $primary-color;
-  color: #FFF;
-  font-size: 14px;
-  font-style: normal;
-  line-height: 140%;
-  letter-spacing: 0.2px;
-  width: fit-content;
+  height: 40px !important;
+  flex-shrink: 0 !important;
+  border-radius: 6px !important;
+  background: $primary-color !important;
+  color: #FFF !important;
+  font-size: 14px !important;
+  font-style: normal !important;
+  line-height: 140% !important;
+  letter-spacing: 0.2px !important;
+  width: fit-content !important;
+  border: none !important;
 
   &:hover {
-    background-color: #3b82f6;
+    background-color: #3b82f6 !important;
   }
 }
 
-.btn-dangerous {
-  height: 40px;
-  flex-shrink: 0;
+.src-btn{
+
+  .btn-dangerous {
+    height: 40px;
+    flex-shrink: 0;
   border-radius: 6px;
   background: #fd3636;
   color: #FFF;
@@ -6386,6 +6412,7 @@ tr:hover {
   }
 }
 
+}
 .side-nav-body {
   .ant-btn-primary {
     height: 40px;
@@ -6627,13 +6654,13 @@ tr:hover {
 }
 
 .ant-table-filter-trigger {
-  font-size: 16px;
+  font-size: 14px !important;
   border-bottom: 2px solid transparent;
-  border-radius: 6px;
+  border-radius: 6px !important;
 
   // background-color: #fafafa;
   &:hover {
-    color: $primary-color;
+    color: $primary-color !important;
     //   border-color: $primary-color;
     //   background-color: #fafafa;
   }
@@ -6669,7 +6696,7 @@ tr:hover {
   .ant-select-selector {
     height: 46px !important;
     padding: 7px 10px !important;
-    border-radius: 8px !important;
+    border-radius: 6px !important;
   }
 }
 
@@ -6853,4 +6880,30 @@ tr:hover {
 
 .ant-pagination.mini .ant-pagination-item {
   margin-right: 4px;
+}
+
+.ant-select-dropdown {
+  ul li {
+    font-size: 12px !important;
+  }
+}
+
+.org-btn {
+  .btn-add {
+
+    height: 40px !important;
+    flex-shrink: 0 !important;
+    border-radius: 6px !important;
+    background: $primary-color !important;
+    color: #FFF !important;
+    font-size: 14px !important;
+    font-style: normal !important;
+    line-height: 140% !important;
+    letter-spacing: 0.2px !important;
+    width: fit-content !important;
+
+    &:hover {
+      background-color: #3b82f6 !important;
+    }
+  }
 }
