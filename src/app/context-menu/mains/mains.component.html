@@ -241,8 +241,8 @@
     </ng-template>
     <ng-template #thirtySeven>
         <nz-card *ngIf="item.type == 'textEditor'; else thirtyEight">
-            <st-editor-js-wrapper [(ngModel)]="item.editorJson" [minHeight]="'300px'"
-                [data]="item.editorJson"></st-editor-js-wrapper>
+            <!-- <st-editor-js-wrapper [(ngModel)]="item.editorJson" [minHeight]="'300px'"
+                [data]="item.editorJson"></st-editor-js-wrapper> -->
         </nz-card>
         <!-- <pre>{{ item.editorJson | json }}</pre> -->
         <!-- <st-editors [editorData]="item"></st-editors> -->

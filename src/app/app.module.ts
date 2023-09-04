@@ -23,7 +23,6 @@ import { CommonModule } from '@angular/common';
 import { ShareModule } from './shared/share.module';
 import { FullCalendarModule } from '@fullcalendar/angular';
 import { GoogleChartsModule } from 'angular-google-charts';
-import { MonacoEditorModule } from 'ngx-monaco-editor';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { MapComponent } from './components/map/map.component';
@@ -68,7 +67,6 @@ import { environment } from 'src/environments/environment';
     BrowserModule,
     NgZorroAntdModule,
     ReactiveFormsModule,
-    MonacoEditorModule.forRoot(),
     FormlyNgZorroAntdModule,
     NgxMaskModule.forRoot(),
     FormlyModule.forRoot(formlyCustomeConfig),

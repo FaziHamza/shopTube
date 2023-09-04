@@ -19,7 +19,6 @@ import {
 } from './configurations/configuration.modal';
 import { htmlTabsData } from './ControlList';
 import { BuilderClickButtonService } from './service/builderClickButton.service';
-import { ruleFactory } from '@elite-libs/rules-machine';
 import { Subscription, catchError, forkJoin, of } from 'rxjs';
 import { INITIAL_EVENTS } from '../shared/event-utils/event-utils';
 import { ColorPickerService } from '../services/colorpicker.service';
@@ -1090,8 +1089,6 @@ export class BuilderComponent implements OnInit {
       console.log(error);
     } finally {
       if (this.businessRuleData && this.businessRuleData.length > 0) {
-        const fishRhyme = ruleFactory(this.businessRuleData);
-        console.log(fishRhyme(this.formlyModel));
         this.updateNodes();
         this.updateFormlyModel();
         // this.cdr.detectChanges();

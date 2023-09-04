@@ -4,7 +4,6 @@ import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { Subscription, catchError, forkJoin, of } from 'rxjs';
 import { DataSharedService } from 'src/app/services/data-shared.service';
-import { } from 'ngx-monaco-editor';
 import { EmployeeService } from 'src/app/services/employee.service';
 import { ApplicationService } from 'src/app/services/application.service';
 import { environment } from 'src/environments/environment';
