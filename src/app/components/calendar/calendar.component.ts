@@ -15,6 +15,44 @@ export class CalendarComponent {
   @Input() calenderData: any;
   calendarOptions: CalendarOptions;
   calendarVisible = true;
+  eventData: any[] = [
+    {
+      "id": 1, // Increment the index to start from 1
+      "title": 'asdfghfgh',
+      "start": '2023-08-04',
+      "backgroundColor": "#fbe0e0",
+      "textColor": "#ea5455",
+      "color": "#EF6C00",
+      "borderColor": "#ea5455"
+    },
+    {
+      "id": 2, // Increment the index to start from 1
+      "title": 'assdfsd',
+      "start": '2023-08-04',
+      "backgroundColor": "#fbe0e0",
+      "textColor": "#ea5455",
+      "color": "#EF6C00",
+      "borderColor": "#ea5455"
+    },
+    {
+      "id": 3, // Increment the index to start from 1
+      "title": 'asdqweqwe',
+      "start": '2023-08-05',
+      "backgroundColor": "#fbe0e0",
+      "textColor": "#ea5455",
+      "color": "#EF6C00",
+      "borderColor": "#ea5455"
+    },
+    {
+      "id": 4, // Increment the index to start from 1
+      "title": 'asdasd',
+      "start": '2023-09-02',
+      "backgroundColor": "#fbe0e0",
+      "textColor": "#ea5455",
+      "color": "#EF6C00",
+      "borderColor": "#ea5455"
+    }
+  ]
   ngOnInit() {
     this.calendarOptions = {
       plugins: [
@@ -29,7 +67,7 @@ export class CalendarComponent {
         right: this.calenderData?.viewType
       },
       initialView: 'dayGridMonth',
-      initialEvents: this.calenderData?.options, // alternatively, use the `events` setting to fetch from a feed
+      initialEvents: this.calenderData.options, // alternatively, use the `events` setting to fetch from a feed
       weekends: this.calenderData?.weekends,
       editable: this.calenderData?.editable,
       selectable: this.calenderData?.selectable,
@@ -45,63 +83,11 @@ export class CalendarComponent {
       */
     };
   }
-  processData(data: any[]) {
-    debugger
-    if (data.length > 0) {
-      this.calenderData.options = [];
-      data.forEach((element, index) => {
-        let event = {
-          "id": index + 1, // Increment the index to start from 1
-          "title": element.message,
-          "start": this.extractDate(element.dateTime),
-          "backgroundColor": "#fbe0e0",
-          "textColor": "#ea5455",
-          "color": "#EF6C00",
-          "borderColor": "#ea5455"
-        };
-        this.calenderData.options.push(event);
-      });
-      this.calendarOptions.initialEvents = this.calenderData.options;
-      this.calendarOptions = {
-        plugins: [
-          interactionPlugin,
-          dayGridPlugin,
-          timeGridPlugin,
-          listPlugin,
-        ],
-        headerToolbar: {
-          left: "sidebarToggle , " + this.calenderData?.view,
-          center: 'title',
-          right: this.calenderData?.viewType
-        },
-        initialView: 'dayGridMonth',
-        initialEvents: this.calenderData?.options, // alternatively, use the `events` setting to fetch from a feed
-        weekends: this.calenderData?.weekends,
-        editable: this.calenderData?.editable,
-        selectable: this.calenderData?.selectable,
-        selectMirror: this.calenderData?.selectMirror,
-        dayMaxEvents: this.calenderData?.dayMaxEvents,
-        // select: this.handleDateSelect.bind(this),
-        eventClick: this.handleEventClick.bind(this),
-        eventsSet: this.handleEvents.bind(this)
-        /* you can update a remote database when these fire:
-        eventAdd:
-        eventChange:
-        eventRemove:
-        */
-      };
-      // this.handleEvents(this);
-      console.log("Calender")
-    }
-    
-    this.changeDetector.detectChanges();
-    return data
-  }
 
   currentEvents: EventApi[] = [];
 
   constructor(private changeDetector: ChangeDetectorRef) {
-    this.processData = this.processData.bind(this);
+    this.handleEvents.bind(this)
 
   }
 

@@ -13,13 +13,16 @@
                 [style.height]="item.height !== undefined && item.height !== null && item.height !== 0 && item.height !== '' ? item.height + 'px' : 'auto'"
                 [style.width]="item.width !== undefined && item.width !== null && item.width !== 0 && item.width !== '' ? item.width + 'px' : 'auto'"
                 (click)="defaultPageRoute()"
-                [src]="dataSharedService.headerLogo ? serverPath + dataSharedService.headerLogo : 'assets/images/logo.png'" alt>
+                [src]="dataSharedService.headerLogo ? serverPath + dataSharedService.headerLogo : 'assets/images/logo.png'"
+                alt>
             <div class="mobile-toggle flex">
-                <button nz-button class="rounded-md !border-gray-800 hover:!border-blue-400 mr-2" (click)="menuCollapsed()">
+                <button nz-button class="rounded-md !border-gray-800 hover:!border-blue-400 mr-2"
+                    (click)="menuCollapsed()">
                     <i class="fa fa-bars"></i>
                 </button>
                 <img class="mobile-logo" (click)="defaultPageRoute()"
-                [src]="dataSharedService.headerLogo ? serverPath + dataSharedService.headerLogo : 'assets/images/logo.png'" alt>
+                    [src]="dataSharedService.headerLogo ? serverPath + dataSharedService.headerLogo : 'assets/images/logo.png'"
+                    alt>
             </div>
         </div>
     </ng-template>
@@ -145,9 +148,8 @@
     </ng-template>
     <ng-template #twentythree>
         <nz-card *ngIf="item.type == 'calender' ;else twentyfour">
-            <st-calendar [calenderData]="item"></st-calendar>
+            <st-parent-calendar [item]="item"></st-parent-calendar>
         </nz-card>
-
         <!-- <st-tui-calendar [calendarData]="item"></st-tui-calendar> -->
     </ng-template>
     <ng-template #twentyfour>
@@ -356,8 +358,8 @@
         <st-statistic [statisticData]="item" *ngIf="item.type == 'statistic' ; else sixtyFour"></st-statistic>
     </ng-template>
     <ng-template #sixtyFour>
-        <st-drawer [screenName]="screenName" [formlyModel]="formlyModel" [form]="form"
-            [drawerData]="item" *ngIf="item.type == 'drawer' else sixtyFive"></st-drawer>
+        <st-drawer [screenName]="screenName" [formlyModel]="formlyModel" [form]="form" [drawerData]="item"
+            *ngIf="item.type == 'drawer' else sixtyFive"></st-drawer>
     </ng-template>
     <ng-template #sixtyFive>
         <st-skeleton [skeltonData]="item" *ngIf="item.type == 'skeleton' else sixtySix"></st-skeleton>
