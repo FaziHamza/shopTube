@@ -1,7 +1,7 @@
 .card {
   margin-bottom: 10px;
   width: 300px;
-  max-height: 150px;
+  border-radius: 7px;
 }
 
 .card-title {
@@ -9,11 +9,6 @@
   margin-bottom: .35rem;
 }
 
-
-
-.card-body {
-  max-height: 160px;
-}
 p.card-text {
   max-height: 65px;
   overflow-y: hidden;
