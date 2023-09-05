@@ -1,25 +1,26 @@
-{{kanbanData | json}}
-<button *ngIf="this.kanbanData.showAddbtn" nz-button nzType="primary"
-  (click)="addList()">
+<!-- <button [processData]="processData"
+  [appConfigurableSelect]="kanbanData?.appConfigurableEvent ? kanbanData?.appConfigurableEvent : []"
+  [loadAction]="kanbanData?.eventActionconfig ? kanbanData?.eventActionconfig : {}" *ngIf="this.kanbanData.showAddbtn"
+  nz-button nzType="primary" (click)="addList()">
   <i class="fa-regular fa-plus"></i>
   Add
   new</button>
 <button class="ml-2" nz-button nzType="primary" (click)="saveBoard()">
   <i class="fa-regular fa-plus"></i>
-  Save</button>
-  <nz-card *ngIf="kanbanData.children.length > 0" class="overflow-x-auto mt-2 card">
-    <!-- <div class="row">
+  Save</button> -->
+<nz-card *ngIf="kanbanData.children.length > 0" class="overflow-x-auto mt-2 card">
+  <!-- <div class="row">
       <div class="col-11"></div>
       <div class="col"><button (click)="saveBoard()">Save</button></div>
     </div> -->
-    <div class="flex flex-nowrap flex-row ">
-      <div class="p-1" *ngFor="let list of kanbanData.children;let i = index">
-        <st-lists [list]="list" [listIndex]="i" (moveCardAcrossList)="moveCardAcrossList($event)"
-          (deleteList)="deleteList($event)" attr.listIndex="{{i}}"></st-lists>
-      </div>
+  <div class="flex flex-nowrap flex-row ">
+    <div class="p-1" *ngFor="let list of kanbanData.children;let i = index">
+      <st-lists [list]="list" [listIndex]="i" (moveCardAcrossList)="moveCardAcrossList($event)"
+        (deleteList)="deleteList($event)" attr.listIndex="{{i}}"></st-lists>
     </div>
-    <!-- <div class="" style="margin:10px;padding:15px;padding-top:15px;padding-bottom:15px;">
+  </div>
+  <!-- <div class="" style="margin:10px;padding:15px;padding-top:15px;padding-bottom:15px;">
       <h6 class="text-center add-new-list" *ngIf="kanbanData.showAddbtn && lists.length < kanbanData.maxLength"
         (click)="addList()">Add new item...</h6>
     </div> -->
-  </nz-card>
+</nz-card>

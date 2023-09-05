@@ -36,8 +36,8 @@ export class BoardComponent implements OnInit {
   }
 
   moveCardAcrossList(movementInformation: MovementIntf) {
-    const cardMoved = this.lists[movementInformation.fromListIdx].cards.splice(movementInformation.fromCardIdx ?? 0, 1);
-    this.lists[movementInformation.toListIdx].cards.splice(movementInformation?.toCardIdx ?? 0, 0, ...cardMoved);
+    const cardMoved = this.kanbanData.children[movementInformation.fromListIdx].children.splice(movementInformation.fromCardIdx ?? 0, 1);
+    this.kanbanData.children[movementInformation.toListIdx].children.splice(movementInformation?.toCardIdx ?? 0, 0, ...cardMoved);
   }
 
   saveBoard() {
