@@ -47,6 +47,7 @@ import { ErrorComponent } from 'src/common/error/error.component';
 import { CommonService } from '../../common/common-services/common.service';
 import { ConfigurableDirective } from 'src/directive/configuration.directive';
 import { ConfigurableSelectDirective } from 'src/directive/configuration-select.directive';
+import { ParentCalendarComponent } from '../components/parent-calendar/parent-calendar.component';
 // import { CommonService } from './common.service';
 // import { WebsiteModules } from '../Website/website.module';
 
@@ -89,7 +90,7 @@ import { ConfigurableSelectDirective } from 'src/directive/configuration-select.
     InvoiceTemplateComponent, ListComponent, MentionComponent, MessageComponent, ModalComponent, MultiFileUploadComponent, NewAlertsComponent,
     NotificationComponent, ParagraphComponent, PopconfirmComponent, ProgressbarsComponent, RangInputsComponent, RateComponent, ResultComponent,
     SalesCardComponent, SimpleCardWithHeaderBodyFooterComponent, SkeletonComponent, StatisticComponent, StepperComponent, SwitchComponent, TableComponent,
-    TabsComponent, TimelineBuilderComponent, TransferComponent, TreeComponent, TreeSelectComponent, TreeViewComponent, VideosComponent, CalendarComponent,
+    TabsComponent, TimelineBuilderComponent, TransferComponent, TreeComponent, TreeSelectComponent, TreeViewComponent, VideosComponent, CalendarComponent,ParentCalendarComponent,
     SanitizePipe, IconComponent, ButtonsComponent,
     // EditorJsWrapperComponent,
     BoardComponent, DetailComponent, SummaryComponent, ContextMenuComponent,  ListsComponent, HtmlBlockComponent,
@@ -166,7 +167,8 @@ import { ConfigurableSelectDirective } from 'src/directive/configuration-select.
     PrintInvoiceComponent,FileManagerComponent,googleMapComponent,
     ConfigurableDirective,
     ConfigurableSelectDirective,
-    TaskReportComponent
+    TaskReportComponent,
+    ParentCalendarComponent
     //
     // ErrorComponent
   ],
