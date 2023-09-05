@@ -238,12 +238,45 @@ export class MenuBuilderComponent implements OnInit {
     this.nodes = [...this.nodes];
   }
   downloadJson() {
-    const blob = new Blob([JSON.stringify(this.nodes)], { type: 'application/json' });
+    const blob = new Blob([JSON.stringify(this.selectedNode)], { type: 'application/json' });
     const a = document.createElement('a');
     a.href = URL.createObjectURL(blob);
     a.download = 'file.';
     document.body.appendChild(a);
     a.click();
+  }
+  selectedJsonUpload(event: any) {
+    debugger
+    let contents;
+    if (
+      event.target instanceof HTMLInputElement &&
+      event.target.files.length > 0
+    ) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        contents = reader.result as string;
+        var makeData = JSON.parse(contents);
+        var currentData = JSON.parse(
+          JSON.stringify(makeData, function (key, value) {
+            if (typeof value == 'function') {
+              return value.toString();
+            } else {
+              return value;
+            }
+          }) || '{}'
+        );
+        if (this.selectedNode.children) {
+          this.selectedNode.children.push(currentData);
+          this.clickBack();
+        }
+        this.toastr.success('File uploaded successfully!', {
+          nzDuration: 3000,
+        });
+        // Reset the file input value to allow uploading the same file again
+        event.target.value = '';
+      };
+      reader.readAsText(event.target.files[0]);
+    }
   }
   // closeDetail() {
   //   this.controlListvisible = false;
@@ -1397,6 +1430,7 @@ export class MenuBuilderComponent implements OnInit {
   }
 
   makeMenuData() {
+    debugger
     let arrayList = [];
     arrayList = this.nodes;
     this.selectedTheme.allMenuItems = [];

@@ -33,27 +33,32 @@
           <span nz-icon nzType="down"></span>
         </button>
         <nz-dropdown-menu #menu4="nzDropdownMenu">
-          <ul nz-menu class="!p-2" >
+          <ul nz-menu class="!p-2">
             <li nz-menu-item>
-              <a (click)="downloadAllJson() " class="text-black" >Download Json</a>
+              <a (click)="downloadAllJson() " class="text-black">Download Json</a>
             </li>
             <li nz-menu-item>
               <a onclick="document.getElementById('fileInput').click()" class="text-black">
                 Json Upload</a>
             </li>
             <li nz-menu-item>
-              <a (click)="downloadJson()" class="text-black" >Selected Json Download</a>
+              <a (click)="downloadJson()" class="text-black">Selected Json Download</a>
             </li>
             <li nz-menu-item>
-              <a (click)="bulkUpdate()" class="text-black" >Bulk Update</a>
+              <a onclick="document.getElementById('selectedFileInput').click()" class="!text-black">Selected
+                Json Upload</a>
             </li>
             <li nz-menu-item>
-              <a class="text-black" >Bulk Import</a>
+              <a (click)="bulkUpdate()" class="text-black">Bulk Update</a>
+            </li>
+            <li nz-menu-item>
+              <a class="text-black">Bulk Import</a>
             </li>
           </ul>
         </nz-dropdown-menu>
         <input type="file" class="form-control" id="fileInput" style="display:none" (change)="jsonUpload($event)">
-        <nz-space>
+        <input type="file" class="form-control" id="selectedFileInput" style="display:none"
+          (change)="selectedJsonUpload($event)"> <nz-space>
           <st-layout-drawer *ngIf="selectedTheme" [selectedTheme]="selectedTheme"
             [applicationType]="selectApplicationType" (notify)="changeLayout($event)"></st-layout-drawer>
           <button *ngIf="!selectedTheme" nz-button (click)="undefinedSelectedTheme()" nzType="primary"
@@ -62,7 +67,8 @@
             <i class="fa-light fa-gear !absolute !top-[4px] !right-[4.5px] !text-[10px] "></i>
           </button>
         </nz-space>
-        <button nz-button nzType="primary" class="upload-btn" nzTooltipTitle="Go To Page" nz-tooltip (click)="checkPage()">
+        <button nz-button nzType="primary" class="upload-btn" nzTooltipTitle="Go To Page" nz-tooltip
+          (click)="checkPage()">
           <i class="fa-regular fa-arrow-up-from-bracket"></i>
         </button>
       </div>
