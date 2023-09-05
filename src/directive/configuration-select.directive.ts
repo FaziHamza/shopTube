@@ -35,19 +35,21 @@ export class ConfigurableSelectDirective implements OnInit, OnDestroy {
   }
 
   private bindEvents(): void {
-    if (this.configs.length > 0) {
-      this.configs?.forEach(config => {
-        if (config?.event && config?.actions) {
-          this.renderer.listen(this.viewContainer.element.nativeElement, config.event, () => {
-            // alert(`${config.event.charAt(0).toUpperCase() + config.event.slice(1)} event triggered!`);
-            config.actions.forEach(action => {
-              this.loadAction = action;
-              this.loadOptions();
-              // this.executeAction(action);
+    if (this.configs) {
+      if (this.configs.length > 0) {
+        this.configs?.forEach(config => {
+          if (config?.event && config?.actions) {
+            this.renderer.listen(this.viewContainer.element.nativeElement, config.event, () => {
+              // alert(`${config.event.charAt(0).toUpperCase() + config.event.slice(1)} event triggered!`);
+              config.actions.forEach(action => {
+                this.loadAction = action;
+                this.loadOptions();
+                // this.executeAction(action);
+              });
             });
-          });
-        }
-      });
+          }
+        });
+      }
     }
   }
 

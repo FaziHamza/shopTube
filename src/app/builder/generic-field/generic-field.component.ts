@@ -67,7 +67,7 @@ export class GenericFieldComponent implements OnInit {
 
   }
   onSubmit() {
-    debugger
+    
     // event.stopPropagation();
     // this.valueChange.emit(this.model + ' from child.');
     // const newProduct = { productName: "New", quantity: 666 };
@@ -104,7 +104,7 @@ export class GenericFieldComponent implements OnInit {
   }
 
   dynamicSectionOption() {
-    debugger
+    
     this.resData = [];
     let obj: { mapApi?: any } = this.actionform.value;
     if (obj.mapApi) {

@@ -1691,7 +1691,7 @@ export class BuilderComponent implements OnInit {
         break;
       case 'kanban':
         newNode = { ...newNode, ...this.addControlService.getKanbanControl() };
-        this.ParentAdd = newNode;
+        this.ParentAdd =  newNode;
         break;
       case 'kanbanChild':
         newNode = {
@@ -5137,7 +5137,7 @@ export class BuilderComponent implements OnInit {
               if (mainType != 'mainDiv') {
                 this.addControlToJson(subType);
                 this.selectedNode = this.chilAdd;
-                this.addControlToJson('text', this.textJsonObj);
+                this.addControlToJson('input', this.textJsonObj);
                 this.selectedNode = this.ParentAdd;
               } else {
                 if (this.selectedNode?.children) {

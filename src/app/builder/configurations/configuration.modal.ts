@@ -8126,25 +8126,25 @@ export class formFeildData {
             label: 'Nodes',
           },
         },
-        {
-          key: 'maxLength',
-          type: 'input',
-          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
-          wrappers: ["formly-vertical-theme-wrapper"],
-          props: {
-            type: 'number',
-            label: 'Max',
-          },
-        },
-        {
-          key: 'showAddbtn',
-          type: 'checkbox',
-          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
-          wrappers: ["formly-vertical-theme-wrapper"],
-          props: {
-            label: 'Show Button',
-          },
-        },
+        // {
+        //   key: 'maxLength',
+        //   type: 'input',
+        //   className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+        //   wrappers: ["formly-vertical-theme-wrapper"],
+        //   props: {
+        //     type: 'number',
+        //     label: 'Max',
+        //   },
+        // },
+        // {
+        //   key: 'showAddbtn',
+        //   type: 'checkbox',
+        //   className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+        //   wrappers: ["formly-vertical-theme-wrapper"],
+        //   props: {
+        //     label: 'Show Button',
+        //   },
+        // },
       ]
     },
   ]

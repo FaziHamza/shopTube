@@ -492,10 +492,10 @@ export class SectionsComponent implements OnInit {
         for (let index = 0; index < findClickApi.length; index++) {
           let element = findClickApi[index].actions?.[0]?.actionType;
           if (element == 'query') {
-            apiUrl = `knex-query/${this.screenName}`;
+            apiUrl = `knex-query/getAction/${findClickApi[index].actions?.[0]?.id}`;
             break;
           } else {
-            apiUrl = findClickApi[index].actions?.[0]?.url
+            apiUrl = `knex-query/getAction/${findClickApi[index].actions?.[0]?.id}`
           }
         }
         const pagination = data.serverSidePagination ? `?page=1&pageSize=${data?.end}` : '';

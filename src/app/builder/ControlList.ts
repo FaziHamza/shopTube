@@ -1346,11 +1346,11 @@ export const htmlTabsData = [
                 icon: "uil uil-file-alt",
                 label: "kanban"
               },
-              {
-                parameter: "kanbanChild",
-                icon: "uil uil-file-alt",
-                label: "kanban Child"
-              },
+              // {
+              //   parameter: "kanbanChild",
+              //   icon: "uil uil-file-alt",
+              //   label: "kanban Child"
+              // },
               // {
               //   parameter: "kanbanTask",
               //   icon: "uil uil-file-alt",
