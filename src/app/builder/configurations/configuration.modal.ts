@@ -8117,15 +8117,15 @@ export class formFeildData {
     {
       fieldGroupClassName: "flex flex-wrap",
       fieldGroup: [
-        // {
-        //   key: 'nodes',
-        //   type: 'input',
-        //   className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
-        //   wrappers: ["formly-vertical-theme-wrapper"],
-        //   props: {
-        //     label: 'Nodes',
-        //   },
-        // },
+        {
+          key: 'nodes',
+          type: 'number',
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          wrappers: ["formly-vertical-theme-wrapper"],
+          props: {
+            label: 'Nodes',
+          },
+        },
         {
           key: 'maxLength',
           type: 'input',

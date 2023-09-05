@@ -3738,6 +3738,9 @@ export class BuilderComponent implements OnInit {
       case 'mainTab':
         this.addDynamic(event.form.nodes, 'tabs', 'mainTab');
         break;
+      case 'kanban':
+        this.addDynamic(event.form.nodes, 'kanbanChild', 'kanban');
+        break;
       case 'mainStep':
         this.addDynamic(event.form.nodes, 'step', 'mainStep');
         break;
