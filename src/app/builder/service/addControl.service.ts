@@ -657,21 +657,20 @@ export class AddControlService {
       maxLength: 10,
       showAddbtn: true,
       isNextChild: true,
-      kanbanSave: [],
     }
   }
   getKanbanTaskControl() {
     return {
-      isNextChild: false,
-      date: "14 Oct, 2019",
-      content: "In enim justo rhoncus ut",
-      users: [
-        {
-          "name": "Emily Surface"
-        }
-      ],
-      status: "open",
-      variant: "bg-primary",
+      isNextChild: true,
+      // date: "14 Oct, 2019",
+      // content: "In enim justo rhoncus ut",
+      // users: [
+      //   {
+      //     "name": "Emily Surface"
+      //   }
+      // ],
+      // status: "open",
+      // variant: "bg-primary",
     }
   }
   getLinkbuttonControl() {

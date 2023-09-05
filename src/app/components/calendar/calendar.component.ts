@@ -46,7 +46,6 @@ export class CalendarComponent {
     };
   }
   processData(data: any[]) {
-    debugger
     console.log("Calender")
     return data
   }

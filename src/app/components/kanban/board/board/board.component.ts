@@ -15,7 +15,7 @@ export class BoardComponent implements OnInit {
 
   constructor(private toastr: NzMessageService,) {
     this.processData = this.processData.bind(this);
-   }
+  }
 
   ngOnInit() {
 
@@ -23,13 +23,14 @@ export class BoardComponent implements OnInit {
   }
 
   addList() {
-
-    const newList: ListInterface = new List();
-    newList.position = this.lists.length + 1;
-    newList.name = `List (${newList.position})`;
+    debugger
     if (this.lists === undefined) {
       this.lists = [];
     }
+    const newList: ListInterface = new List();
+    // newList.position = this.lists.length + 1;
+    // newList.name = `List (${newList.position})`;
+
     this.lists.push(newList);
     this.toastr.success('Board add!', { nzDuration: 3000 });
   }

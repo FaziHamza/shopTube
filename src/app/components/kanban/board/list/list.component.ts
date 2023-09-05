@@ -27,6 +27,7 @@ export class ListsComponent implements OnInit {
 
   addNewCard() {
     const card = new Card(this.cardCount++ + '', 'header ' + this.cardCount, 'summary ' + this.cardCount, 'sample desc');
+    this.list['cards'] = [];
     this.list.cards.push(card);
     this.newCardAdded.emit(card);
   }

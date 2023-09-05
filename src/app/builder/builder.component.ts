@@ -488,7 +488,7 @@ export class BuilderComponent implements OnInit {
                         }
                         if (element.btnActionType == 'load') {
                           eventActionConfig['eventActionconfig'] = {};
-                          let obj = { actionType: element.actionType, url: element.httpAddress, method: element.actionLink, elementName: element.elementNameTo , id : element._id}
+                          let obj = { actionType: element.actionType, url: element.httpAddress, method: element.actionLink, elementName: element.elementNameTo, id: element._id }
                           eventActionConfig['eventActionconfig'] = obj;
                         }
                         else {
@@ -496,7 +496,7 @@ export class BuilderComponent implements OnInit {
                             let obj = {
                               event: element.actionLink,
                               actions: [
-                                { actionType: element.actionType, url: element.httpAddress, method: element.actionLink, elementName: element.elementNameTo , id : element._id}
+                                { actionType: element.actionType, url: element.httpAddress, method: element.actionLink, elementName: element.elementNameTo, id: element._id }
                               ]
                             };
                             eventActionConfig['appConfigurableEvent'].push(obj);
@@ -505,7 +505,7 @@ export class BuilderComponent implements OnInit {
                             let obj = {
                               event: element.actionLink,
                               actions: [
-                                { actionType: element.actionType, url: element.httpAddress, method: element.actionLink, elementName: element.elementNameTo , id : element._id}
+                                { actionType: element.actionType, url: element.httpAddress, method: element.actionLink, elementName: element.elementNameTo, id: element._id }
                               ]
                             };
                             eventActionConfig['appConfigurableEvent'].push(obj);
@@ -534,7 +534,7 @@ export class BuilderComponent implements OnInit {
                       checkFirst[findObj?.key] = "done";
                     }
                     if (element.btnActionType == 'load' && !element.elementName.includes('gridlist')) {
-                      let obj = { actionType: element.actionType, url: element.httpAddress, method: element.actionLink, elementName: element.elementNameTo , id : element._id}
+                      let obj = { actionType: element.actionType, url: element.httpAddress, method: element.actionLink, elementName: element.elementNameTo, id: element._id }
                       findObj.eventActionconfig = obj;
                     }
                     else {
@@ -542,7 +542,7 @@ export class BuilderComponent implements OnInit {
                         let obj = {
                           event: element.actionLink,
                           actions: [
-                            { actionType: element.actionType, url: element.httpAddress, method: element.actionLink, elementName: element.elementNameTo , id : element._id}
+                            { actionType: element.actionType, url: element.httpAddress, method: element.actionLink, elementName: element.elementNameTo, id: element._id }
                           ]
                         };
                         findObj['appConfigurableEvent'].push(obj);
@@ -551,7 +551,7 @@ export class BuilderComponent implements OnInit {
                         let obj = {
                           event: element.actionLink,
                           actions: [
-                            { actionType: element.actionType, url: element.httpAddress, method: element.actionLink , id : element._id}
+                            { actionType: element.actionType, url: element.httpAddress, method: element.actionLink, id: element._id }
                           ]
                         };
                         findObj['appConfigurableEvent'].push(obj);
@@ -1691,12 +1691,14 @@ export class BuilderComponent implements OnInit {
         break;
       case 'kanban':
         newNode = { ...newNode, ...this.addControlService.getKanbanControl() };
+        this.ParentAdd = newNode;
         break;
-      case 'kanbanTask':
+      case 'kanbanChild':
         newNode = {
           ...newNode,
           ...this.addControlService.getKanbanTaskControl(),
         };
+        this.chilAdd = newNode;
         break;
       case 'simplecard':
         newNode = { ...newNode, ...this.addControlService.simplecardControl() };
@@ -3320,33 +3322,49 @@ export class BuilderComponent implements OnInit {
   addFunctionsInHtml(type: any) {
     this.addControl = true;
     this.showNotification = false;
-    if (type == 'dashonictabsAddNew')
-      this.addChildControlsWithSubChild('mainTab', 'tabs');
-    else if (type == 'stepperAddNew')
-      this.addChildControlsWithSubChild('mainStep', 'step');
-    else if (type == 'kanabnAddNew')
-      this.addChildControls('kanban', 'kanbanTask');
-    else if (type == 'timeline')
-      this.addChildControlsWithSubChild('timeline', 'timelineChild');
-    else if (type == 'listWithComponents')
-      this.addChildControlsWithSubChild(
-        'listWithComponents',
-        'listWithComponentsChild'
-      );
-    else if (
-      type == 'address_form' ||
-      type == 'employee_form' ||
-      type == 'login_Form' ||
-      type == 'signUp_Form'
-    )
-      this.formDataFromApi(type);
-    else if (type == 'addSection') {
-      this.addSection('sections');
+
+    switch (type) {
+      case 'dashonictabsAddNew':
+        this.addChildControlsWithSubChild('mainTab', 'tabs');
+        break;
+
+      case 'stepperAddNew':
+        this.addChildControlsWithSubChild('mainStep', 'step');
+        break;
+
+      case 'kanbanAddNew':
+        this.addChildControlsWithSubChild('kanban', 'kanbanChild');
+        break;
+
+      case 'timeline':
+        this.addChildControlsWithSubChild('timeline', 'timelineChild');
+        break;
+
+      case 'listWithComponents':
+        this.addChildControlsWithSubChild('listWithComponents', 'listWithComponentsChild');
+        break;
+
+      case 'address_form':
+      case 'employee_form':
+      case 'login_Form':
+      case 'signUp_Form':
+        this.formDataFromApi(type);
+        break;
+
+      case 'addSection':
+        this.addSection('sections');
+        break;
+
+      default:
+        // Handle unrecognized type here, if needed
+        break;
     }
+
     this.addControl = false;
     this.showNotification = true;
     this.toastr.success('Control Added', { nzDuration: 3000 });
   }
+
 
   addChildControls(parent?: any, child?: any) {
     this.addControlToJson(parent);
@@ -5413,7 +5431,7 @@ export class BuilderComponent implements OnInit {
         if (this.selectedNode.children) {
           this.selectedNode.children.push(currentData);
           this.updateNodes();
-        } 
+        }
         this.toastr.success('File uploaded successfully!', {
           nzDuration: 3000,
         });
@@ -5423,7 +5441,7 @@ export class BuilderComponent implements OnInit {
       reader.readAsText(event.target.files[0]);
     }
   }
-  
+
   handleCancel(): void {
     this.showModal = false;
   }
@@ -6173,117 +6191,117 @@ export class BuilderComponent implements OnInit {
   }
   getFromQuery(name: string) {
     let tableData = this.findObjectByTypeBase(this.nodes[0], "gridList");
-    if(tableData){
+    if (tableData) {
       let findClickApi = tableData?.appConfigurableEvent?.filter((item: any) =>
-      item.actions.some((action: any) =>
-        (action.method === 'get' && (action.actionType === 'api' || action.actionType === 'query'))
-      )
-    );
-    if (findClickApi) {
-      if (findClickApi.length > 0) {
-        let pagination = '';
-        let url = '';
-        for (let index = 0; index < findClickApi.length; index++) {
-          let element = findClickApi[index].actions?.[0]?.actionType;
-          if (element == 'query') {
-            url = `knex-query/getAction/${findClickApi[index].actions?.[0]?.id}`;
-            break;
-          } else {
-            url = `knex-query/getAction/${findClickApi[index].actions?.[0]?.id}`;
-          }
-        }
-        if (tableData.serverSidePagination) {
-          pagination = '?page=' + 1 + '&pageSize=' + tableData?.end;
-        }
-        if (url) {
-          this.saveLoader = true;
-          this.employeeService.getSQLDatabaseTable(url + pagination).subscribe({
-            next: (res) => {
-              this.saveLoader = false;
-              if (tableData && res?.isSuccess) {
-                this.saveLoader = false;
-                if (res.data.length > 0) {
-                  this.saveLoader = false;
-                  let saveForm = JSON.parse(JSON.stringify(res.data[0]));
-                  const firstObjectKeys = Object.keys(saveForm);
-                  let tableKey = firstObjectKeys.map(key => ({ name: key }));
-                  let obj = firstObjectKeys.map(key => ({ name: key, key: key }));
-                  tableData.tableData = [];
-                  saveForm.id = tableData.tableData.length + 1;
-                  res.data.forEach((element: any) => {
-                    element.id = (element?.id)?.toString();
-                    tableData.tableData?.push(element);
-                  });
-                  // pagniation work start
-                  if (!tableData.end) {
-                    tableData.end = 10;
-                  }
-                  tableData.pageIndex = 1;
-                  tableData.totalCount = res.count;
-                  tableData.serverApi = `knex-query/${name}`;
-                  tableData.targetId = '';
-                  tableData.displayData = tableData.tableData.length > tableData.end ? tableData.tableData.slice(0, tableData.end) : tableData.tableData;
-                  // pagniation work end
-                  if (tableData.tableHeaders.length == 0) {
-                    tableData.tableHeaders = obj;
-                    tableData['tableKey'] = tableKey
-                  }
-                  else {
-                    if (JSON.stringify(tableData['tableKey']) != JSON.stringify(tableKey)) {
-                      const updatedData = tableData.tableHeaders.filter((updatedItem: any) => {
-                        const name = updatedItem.name;
-                        return !tableKey.some((headerItem: any) => headerItem.name === name);
-                      });
-                      if (updatedData.length > 0) {
-                        tableData.tableHeaders.map((item: any) => {
-                          const newItem = { ...item };
-                          for (let i = 0; i < updatedData.length; i++) {
-                            newItem[updatedData[i].key] = "";
-                          }
-                          return newItem;
-                        });
-                      }
-
-                    }
-                  }
-
-                  // Make DataType
-                  let propertiesWithoutDataType = tableData.tableHeaders.filter((check: any) => !check.hasOwnProperty('dataType'));
-                  if (propertiesWithoutDataType.length > 0) {
-                    let formlyInputs = this.filterInputElements(this.nodes[0].children[1].children);
-
-                    if (formlyInputs && formlyInputs.length > 0) {
-                      propertiesWithoutDataType.forEach((head: any) => {
-                        let input = formlyInputs.find(a => a.formly[0].fieldGroup[0].key.includes('.') ? a.formly[0].fieldGroup[0].key.split('.')[1] == head.key : a.formly[0].fieldGroup[0].key == head.key);
-
-                        if (input) {
-                          head['dataType'] = input.formly[0].fieldGroup[0].type;
-                          head['subDataType'] = input.formly[0].fieldGroup[0].props.type;
-                          head['title'] = input.title;
-                        }
-                      });
-
-                      tableData.tableHeaders = tableData.tableHeaders.concat(propertiesWithoutDataType.filter((item: any) => !tableData.tableHeaders.some((objItem: any) => objItem.key === item.key)));
-                      // tableData.tableHeaders = obj;
-                    }
-                  }
-                  this.saveLoader = false;
-                }
-                // this.assignGridRules(tableData);
-                this.updateNodes();
-                this.cdr.detectChanges();
-              }
-            }, error: (error: any) => {
-              console.error(error);
-              this.toastr.error("An error occurred", { nzDuration: 3000 });
-              this.saveLoader = false;
+        item.actions.some((action: any) =>
+          (action.method === 'get' && (action.actionType === 'api' || action.actionType === 'query'))
+        )
+      );
+      if (findClickApi) {
+        if (findClickApi.length > 0) {
+          let pagination = '';
+          let url = '';
+          for (let index = 0; index < findClickApi.length; index++) {
+            let element = findClickApi[index].actions?.[0]?.actionType;
+            if (element == 'query') {
+              url = `knex-query/getAction/${findClickApi[index].actions?.[0]?.id}`;
+              break;
+            } else {
+              url = `knex-query/getAction/${findClickApi[index].actions?.[0]?.id}`;
             }
-          });
+          }
+          if (tableData.serverSidePagination) {
+            pagination = '?page=' + 1 + '&pageSize=' + tableData?.end;
+          }
+          if (url) {
+            this.saveLoader = true;
+            this.employeeService.getSQLDatabaseTable(url + pagination).subscribe({
+              next: (res) => {
+                this.saveLoader = false;
+                if (tableData && res?.isSuccess) {
+                  this.saveLoader = false;
+                  if (res.data.length > 0) {
+                    this.saveLoader = false;
+                    let saveForm = JSON.parse(JSON.stringify(res.data[0]));
+                    const firstObjectKeys = Object.keys(saveForm);
+                    let tableKey = firstObjectKeys.map(key => ({ name: key }));
+                    let obj = firstObjectKeys.map(key => ({ name: key, key: key }));
+                    tableData.tableData = [];
+                    saveForm.id = tableData.tableData.length + 1;
+                    res.data.forEach((element: any) => {
+                      element.id = (element?.id)?.toString();
+                      tableData.tableData?.push(element);
+                    });
+                    // pagniation work start
+                    if (!tableData.end) {
+                      tableData.end = 10;
+                    }
+                    tableData.pageIndex = 1;
+                    tableData.totalCount = res.count;
+                    tableData.serverApi = `knex-query/${name}`;
+                    tableData.targetId = '';
+                    tableData.displayData = tableData.tableData.length > tableData.end ? tableData.tableData.slice(0, tableData.end) : tableData.tableData;
+                    // pagniation work end
+                    if (tableData.tableHeaders.length == 0) {
+                      tableData.tableHeaders = obj;
+                      tableData['tableKey'] = tableKey
+                    }
+                    else {
+                      if (JSON.stringify(tableData['tableKey']) != JSON.stringify(tableKey)) {
+                        const updatedData = tableData.tableHeaders.filter((updatedItem: any) => {
+                          const name = updatedItem.name;
+                          return !tableKey.some((headerItem: any) => headerItem.name === name);
+                        });
+                        if (updatedData.length > 0) {
+                          tableData.tableHeaders.map((item: any) => {
+                            const newItem = { ...item };
+                            for (let i = 0; i < updatedData.length; i++) {
+                              newItem[updatedData[i].key] = "";
+                            }
+                            return newItem;
+                          });
+                        }
+
+                      }
+                    }
+
+                    // Make DataType
+                    let propertiesWithoutDataType = tableData.tableHeaders.filter((check: any) => !check.hasOwnProperty('dataType'));
+                    if (propertiesWithoutDataType.length > 0) {
+                      let formlyInputs = this.filterInputElements(this.nodes[0].children[1].children);
+
+                      if (formlyInputs && formlyInputs.length > 0) {
+                        propertiesWithoutDataType.forEach((head: any) => {
+                          let input = formlyInputs.find(a => a.formly[0].fieldGroup[0].key.includes('.') ? a.formly[0].fieldGroup[0].key.split('.')[1] == head.key : a.formly[0].fieldGroup[0].key == head.key);
+
+                          if (input) {
+                            head['dataType'] = input.formly[0].fieldGroup[0].type;
+                            head['subDataType'] = input.formly[0].fieldGroup[0].props.type;
+                            head['title'] = input.title;
+                          }
+                        });
+
+                        tableData.tableHeaders = tableData.tableHeaders.concat(propertiesWithoutDataType.filter((item: any) => !tableData.tableHeaders.some((objItem: any) => objItem.key === item.key)));
+                        // tableData.tableHeaders = obj;
+                      }
+                    }
+                    this.saveLoader = false;
+                  }
+                  // this.assignGridRules(tableData);
+                  this.updateNodes();
+                  this.cdr.detectChanges();
+                }
+              }, error: (error: any) => {
+                console.error(error);
+                this.toastr.error("An error occurred", { nzDuration: 3000 });
+                this.saveLoader = false;
+              }
+            });
+          }
         }
       }
     }
-    }
- 
+
   }
 
   //Fazi code
