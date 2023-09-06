@@ -1,6 +1,6 @@
 <nz-card nzTitle="Department List" [nzExtra]="extraTemplate">
     <nz-table [nzShowPagination]="false" #nestedTable nzBordered [nzLoading]="loading" [nzData]="listOfDisplayData"
-        [nzPageSize]="pageSize" nzBordered>
+        [nzPageSize]="pageSize">
         <thead>
             <tr>
                 <ng-container *ngFor="let column of listOfColumns">
