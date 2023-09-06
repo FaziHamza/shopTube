@@ -15,8 +15,9 @@ export class DrawerComponent implements OnInit {
   @Input() screenName: any;
   @Input() drawerData: any;
   @Input() showModal = true;
-  nodes: TreeNode[];
+  nodes: any = [];
   loader: boolean = false
+  screenId: any;
   requestSubscription: Subscription;
   constructor(private applicationService: ApplicationService) { }
 
@@ -28,15 +29,16 @@ export class DrawerComponent implements OnInit {
 
   }
 
-  open(): void {
+  open(event: MouseEvent,): void {
     if (this.drawerData?.link) {
+      event.stopPropagation();
       this.loader = true;
       this.requestSubscription = this.applicationService.getNestCommonAPIById('cp/Builder', this.drawerData?.link).subscribe({
         next: (res: any) => {
           if (res.isSuccess) {
             if (res.data.length > 0) {
-              const data = JSON.parse(res.data[0].screenData);
-              this.nodes = this.jsonParseWithObject(this.jsonStringifyWithObject(data));
+              this.screenId = res.data[0].screenBuilderId;
+              this.nodes.push(res);
             }
           }
           this.loader = false;
