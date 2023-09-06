@@ -18,7 +18,7 @@ export class DrawerComponent implements OnInit {
   bgColor : any;
   borderColor : any;
   hoverTextColor : any;
-  nodes: TreeNode[];
+  nodes: any = [];
   loader: boolean = false
   screenId: any;
   requestSubscription: Subscription;
