@@ -2,7 +2,7 @@
     'background-color': bgColor || drawerData.color,
     'border-color': borderColor || drawerData.borderColor,
     'color': hoverTextColor || drawerData.textColor
-  }" (click)="open()"><span>
+  }" (click)="open($event)"><span>
     <st-icon *ngIf="drawerData.btnIcon" [icon]="drawerData.btnIcon" [color]="drawerData.iconColor"
       [hoverIconColor]="drawerData?.hoverIconColor || ''" [size]="drawerData.iconSize"
       [type]="drawerData.iconType"></st-icon>
