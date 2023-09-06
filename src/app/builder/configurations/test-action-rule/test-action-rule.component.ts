@@ -1,25 +1,23 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { editor } from 'monaco-editor/esm/vs/editor/editor.api';
-// import { editor } from 'monaco-editor';
+import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import * as monaco from 'monaco-editor';
 import Ajv, { ErrorObject } from 'ajv';
-
-import 'monaco-editor';
-
 @Component({
-  selector: 'st-demo',
-  templateUrl: './demo.component.html',
-  styleUrls: ['./demo.component.scss'],
+  selector: 'k-test-action-rule',
+  templateUrl: './test-action-rule.component.html',
+  styleUrls: ['./test-action-rule.component.scss']
 })
-export class DemoComponent implements OnInit {
+export class TestActionRuleComponent implements OnInit {
+  @Input() selectedNode: any;
+
   @ViewChild('editorContainer', { static: true }) _editorContainer!: ElementRef;
   codeEditorInstance!: monaco.editor.IStandaloneCodeEditor;
   validationMessage: any[] = [];
-  columnsFields :any=[] = ["Age", "Membership","bouns", "Salary","Qty", "Price"];
-  operators = ['greaterThan', 'equal'];
+  columnsFields: any = [] = ["Age", "Membership", "bouns", "Salary", "Qty", "Price"];
+  operators = ['==', '!=', '>', '<', '>=', '<='];
   // eslint-disable-next-line @typescript-eslint/no-empty-function
-  constructor() {}
-   jsonSchema = {
+  constructor() { }
+
+  jsonSchema = {
     type: 'array',
     items: {
       type: 'object',
@@ -60,8 +58,7 @@ export class DemoComponent implements OnInit {
               }
             }
           },
-      "additionalProperties": false
-
+          "additionalProperties": false
         },
         execute_after: {
           type: 'array',
@@ -77,17 +74,12 @@ export class DemoComponent implements OnInit {
       "additionalProperties": false
     }
   };
-      // Your fields and operators
+  // Your fields and operators
 
   ngOnInit() {
     debugger
     const languageId = 'json';
-
-
-
     // Define a JSON schema for suggestions
-
-
     monaco.editor.defineTheme('myCustomTheme', {
       base: 'vs', // can also be vs-dark or hc-black
       inherit: true, // can also be false to completely replace the built-in rules
@@ -138,6 +130,7 @@ export class DemoComponent implements OnInit {
         }
       ]` // Initial value
     });
+
     this.codeEditorInstance.addAction({
       id: 'validate-json',
       label: 'Validate JSON',
@@ -145,8 +138,8 @@ export class DemoComponent implements OnInit {
         this.validateJSON(); // Call the validation method
       }
     });
-    this.addCustomButton();
 
+    this.addCustomButton();
   }
 
   addCustomButton() {
@@ -172,7 +165,6 @@ export class DemoComponent implements OnInit {
     }, 1000); // Adjust the timeout if necessary
   }
 
-
   validateJSON() {
     this.validationMessage = [];
     try {
@@ -191,7 +183,6 @@ export class DemoComponent implements OnInit {
     }
   }
 
-
   customErrorMessage(error: ErrorObject): string {
     if (error.keyword === 'enum' && error.instancePath.includes('conditions')) {
       const field = error.instancePath.split('/')[3];
@@ -207,9 +198,9 @@ export class DemoComponent implements OnInit {
       const validProperties = Object.keys(error.parentSchema?.['properties'] || {}).join(', ');
       return `Unknown property '${propertyName}'. Please choose from the following valid properties: ${validProperties}`;
     }
-
     return error.message || 'Unknown error';
   }
+
   fixError(errorObj: any) {
     const error = errorObj.originalError; // Extract the original Ajv error object
     if (!error || !error.instancePath) {
@@ -238,12 +229,9 @@ export class DemoComponent implements OnInit {
     this.validateJSON(); // Re-run the validation
   }
 
-
-
   updateEditor(json: any) {
     const editorContent = JSON.stringify(json, null, 2);
     // Assuming you have a reference to the Monaco editor instance
     this.codeEditorInstance.setValue(editorContent);
   }
-
 }

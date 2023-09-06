@@ -46,7 +46,7 @@
           <i class="fa-regular fa-file-circle-plus"></i>
         </button>
       </div>
-
+  
       <!-- <div class="screen-sizing">
           <button nz-button nzType="link" class="active">
             <i class="fa-solid fa-display"></i>
@@ -66,27 +66,27 @@
           Actions
           <span nz-icon nzType="down"></span>
         </button>
-        <nz-dropdown-menu #menu4="nzDropdownMenu" class="action-drop-down-list">
-          <ul nz-menu class="!p-2">
+        <nz-dropdown-menu #menu4="nzDropdownMenu" class="action-drop-down-list" >
+          <ul nz-menu class="!p-2" >
             <li nz-menu-item>
               <a (click)="downloadJson()" class="!text-black">Download Json</a>
             </li>
             <li nz-menu-item>
-              <a onclick="document.getElementById('fileInput').click()" class="!text-black">Json
+              <a onclick="document.getElementById('fileInput').click()" class="!text-black" >Json
                 Upload</a>
             </li>
             <!-- <li nz-menu-item>
               <a (click)="pasteFromClipboard()">Paste</a>
             </li> -->
             <li nz-menu-item>
-              <a (click)="selectedDownloadJson()" class="!text-black">Selected Json Download</a>
+              <a (click)="selectedDownloadJson()" class="!text-black" >Selected Json Download</a>
             </li>
             <li nz-menu-item>
-              <a onclick="document.getElementById('selectedFileInput').click()" class="!text-black">Selected
+              <a onclick="document.getElementById('selectedFileInput').click()" class="!text-black" >Selected
                 Json Upload</a>
             </li>
             <li nz-menu-item>
-              <a (click)="bulkUpdate()" class="!text-black">Bulk Update</a>
+              <a (click)="bulkUpdate()" class="!text-black" >Bulk Update</a>
             </li>
             <li nz-menu-item>
               <a class="!text-black">Bulk Import</a>
@@ -127,10 +127,11 @@
             </div>
           </ul>
           <div class="b-tree">
-            <nz-tree nzDraggable nzBlockNode [nzData]="nodes" [nzTreeTemplate]="nzTreeTemplate"
+            <nz-tree  nzDraggable nzBlockNode [nzData]="nodes" [nzTreeTemplate]="nzTreeTemplate"
               (nzExpandChange)="nzEvent($event)"></nz-tree>
             <ng-template #nzTreeTemplate let-node let-origin="origin">
-              <div class="custom-node flex card-lable-row {{ node.origin?.searchHighlight ? 'searchigh' : '' }}"
+              <div
+              class="custom-node flex card-lable-row {{ node.origin?.searchHighlight ? 'searchigh' : '' }}"
                 (mouseover)="hoverIn(node)" (mouseleave)="hoverOut(node)"
                 [ngClass]="isActiveShow === node.origin.id ? 'isActive' : ''">
                 <span (click)="[openField(node),highlightSelect(node.origin.id,true)]">
@@ -158,7 +159,7 @@
                     <!-- <span class="fa " nz-icon
                         nzType="copy"
                         nzTheme="outline" ></span> -->
-
+  
                     <i class="fa-regular fa-file-plus hover:shadow-lg text-blue-500" nzTooltipTitle="Duplicate"
                       nz-tooltip></i>
                   </span>
@@ -168,17 +169,17 @@
                          -->
                     <i class="fa-regular fa-gear hover:shadow-lg text-gray-500" nzTooltipTitle="Configuration"
                       nz-tooltip></i>
-
+  
                   </label>
-
+  
                   <label class="mx-1" *ngIf="isVisible === node.origin.id   && node.origin.type != 'pageHeader' && node.origin.type != 'pageBody'  && node.origin.type != 'page' && node.origin.type != 'header'
                     && node.origin.type != 'body' && node.origin.type != 'footer' && node.origin.type != 'pageFooter'"
                     (click)="remove(node, node)">
-
+  
                     <!-- <span class="fa " nz-icon
                         nzType="delete"
                         nzTheme="outline" ></span> -->
-
+  
                     <i class="fa-regular fa-trash  hover:shadow-lg text-red-500" nzTooltipTitle="Delete" nz-tooltip></i>
                   </label>
                   <label class="mx-1" *ngIf="isVisible === node.origin.id" (click)="openModal('previewJson' , node)">
@@ -194,15 +195,15 @@
           <json-editor id="inputJsonDataa085f" [options]="editorOptions" [(ngModel)]="this.nodes"
             [options]="editorOptions"></json-editor>
         </div>
-
+  
       </div>
     </as-split-area>
     <as-split-area [size]="sizes[1]">
       <div [class]="IslayerVisible ? 'b-content-body' : 'b-content-body-full'">
         <div class="b-card form-card-body">
-          <st-pages [resData]="nodes" [screenName]="screenName" [navigation]="navigation" [screenId]="_id" [form]="form"
-            [formlyModel]="formlyModel" *ngIf="nodes.length  > 0 && navigation"></st-pages>
-
+          <st-pages [resData]="nodes" [screenName]="screenName" [navigation]="navigation" [screenId]="_id" [form]="form" [formlyModel]="formlyModel"
+            *ngIf="nodes.length  > 0 && navigation"></st-pages>
+            
         </div>
       </div>
     </as-split-area>
@@ -218,8 +219,7 @@
                 <div class=" general_faq mt-3">
                   <div style="position:relative ;" class="overall-drawer">
                     <st-generic-field [modal]="formModalData" (notify)="notifyEmit($event)" [itemData]="fieldData"
-                      [type]="fieldData.type" [componentType]="'builder'" [screenId]="_id" [screenName]="screenName"
-                      *ngIf="fieldData">
+                      [type]="fieldData.type" [componentType]="'builder'" [screenId]="_id" [screenName]="screenName" *ngIf="fieldData">
                     </st-generic-field>
                   </div>
                 </div>
@@ -276,7 +276,7 @@
         <button nz-button nzType="primary"
           (click)="closeConfigurationList()">OK</button> -->
   </ng-template>
-
+  
   <!-- side-nav-right -->
   <nz-drawer [nzSize]="'large'" [nzWidth]="'80%'" [nzVisible]="controlListvisible" nzPlacement="right"
     [nzTitle]="'Control List'" [nzExtra]="extra" (nzOnClose)="controlListClose()">
@@ -290,14 +290,14 @@
                 <div class="flex flex-wrap tab-pills z-50">
                   <div class="col-md-3 mb-1 p-1 hover:bg-#1890ff  " *ngFor="let searchItems of searchControllData">
                     <button nz-button class=" rounded w-auto"
-                      *ngIf="searchItems.parameter != 'dashonictabsAddNew' && searchItems.parameter != 'kanbanAddNew' &&  searchItems.parameter != 'timeline'  && searchItems.parameter != 'stepperAddNew' && searchItems.parameter != 'listWithComponents' && searchItems.parameter != 'addSection' && searchItems.parameter != 'cvtemplate'  && searchItems.parameter != 'dashnoicPricingTemplate'  && searchItems.parameter != 'login' && searchItems.parameter != 'loremIpsum'  && searchItems.parameter != 'dashnoicPricingTabletemplate' && searchItems.parameter != 'pricingtemplate' && searchItems.parameter != 'registerTemplate' && searchItems.parameter != 'signUpTemplate' && searchItems.parameter != 'profiletemplate' && searchItems.parameter != 'invoiceTemplate'"
+                      *ngIf="searchItems.parameter != 'dashonictabsAddNew' && searchItems.parameter != 'timeline'  && searchItems.parameter != 'stepperAddNew' && searchItems.parameter != 'listWithComponents' && searchItems.parameter != 'kanabnAddNew'  && searchItems.parameter != 'addSection' && searchItems.parameter != 'cvtemplate'  && searchItems.parameter != 'dashnoicPricingTemplate'  && searchItems.parameter != 'login' && searchItems.parameter != 'loremIpsum'  && searchItems.parameter != 'dashnoicPricingTabletemplate' && searchItems.parameter != 'pricingtemplate' && searchItems.parameter != 'registerTemplate' && searchItems.parameter != 'signUpTemplate' && searchItems.parameter != 'profiletemplate' && searchItems.parameter != 'invoiceTemplate'"
                       (click)="addControlToJson(searchItems.parameter,searchItems)"><i
                         class={{searchItems.icon}}></i><span class="text-wrap">{{searchItems.label}}</span>
                     </button>
                     <ng-container
                       *ngIf="searchItems.parameter != 'cvtemplate'  && searchItems.parameter != 'dashnoicPricingTemplate'  && searchItems.parameter != 'login' && searchItems.parameter != 'loremIpsum'  && searchItems.parameter != 'dashnoicPricingTabletemplate' && searchItems.parameter != 'pricingtemplate' && searchItems.parameter != 'registerTemplate' && searchItems.parameter != 'signUpTemplate' && searchItems.parameter != 'profiletemplate' && searchItems.parameter != 'invoiceTemplate'">
                       <button nz-button class="w-auto rounded"
-                        *ngIf="searchItems.parameter == 'dashonictabsAddNew' || searchItems.parameter == 'kanbanAddNew' || searchItems.parameter == 'timeline' || searchItems.parameter == 'listWithComponents' || searchItems.parameter == 'addSection' || searchItems.parameter == 'stepperAddNew' || searchItems.parameter == 'address_form' || searchItems.parameter == 'employee_form' || searchItems.parameter == 'login_Form' || searchItems.parameter == 'signUp_Form'"
+                        *ngIf="searchItems.parameter == 'dashonictabsAddNew' || searchItems.parameter == 'timeline' || searchItems.parameter == 'listWithComponents' || searchItems.parameter == 'addSection' || searchItems.parameter == 'stepperAddNew' || searchItems.parameter == 'kanabnAddNew' || searchItems.parameter == 'address_form' || searchItems.parameter == 'employee_form' || searchItems.parameter == 'login_Form' || searchItems.parameter == 'signUp_Form'"
                         (click)="addFunctionsInHtml(searchItems.parameter)"><i class={{searchItems.icon}}></i>
                         <span class="text-wrap">{{searchItems.label}}</span>
                       </button>
@@ -342,12 +342,12 @@
                   <div class="flex flex-wrap">
                     <div class="p-1 w-1/6" *ngFor="let item3 of item2.children">
                       <button nz-button nzType="default" nzBlock class="rounded"
-                        *ngIf="item1.id != 'template' && item3.parameter != 'dashonictabsAddNew' && item3.parameter != 'kanbanAddNew' && item3.parameter != 'listWithComponents' && item3.parameter != 'stepperAddNew' && item3.parameter != 'addSection' && item1.id != 'webCode'"
+                        *ngIf="item1.id != 'template' && item3.parameter != 'dashonictabsAddNew' && item3.parameter != 'listWithComponents' && item3.parameter != 'stepperAddNew' && item3.parameter != 'kanabnAddNew'  && item3.parameter != 'addSection' && item1.id != 'webCode'"
                         (click)=" addControlToJson(item3.parameter,item3)">
                         <i class={{item3.icon}}></i><span class="text-wrap">{{item3.label}}</span>
                       </button>
                       <button nz-button nzType="default" nzBlock class="rounded"
-                        *ngIf="item3.parameter == 'dashonictabsAddNew' || item3.parameter == 'kanbanAddNew' || item3.parameter == 'timeline' || item3.parameter == 'addSection' || item3.parameter == 'stepperAddNew' || item3.parameter == 'listWithComponents'"
+                        *ngIf="item3.parameter == 'dashonictabsAddNew' || item3.parameter == 'timeline' || item3.parameter == 'addSection' || item3.parameter == 'stepperAddNew' || item3.parameter == 'kanabnAddNew' || item3.parameter == 'listWithComponents'"
                         (click)="addFunctionsInHtml(item3.parameter)">
                         <i class={{item3.icon}}></i>
                         <span class="text-wrap">{{item3.label}}</span>
@@ -381,7 +381,7 @@
           (click)="searchControll()"></span></button>
     </ng-template>
   </ng-template>
-
+  
   <div class="selected-modal tem-modal">
     <nz-modal class="builder-selected-json" [nzWidth]="modalType === 'previewJson' ? '800px' : '500px'"
       [(nzVisible)]="showModal"
@@ -393,7 +393,7 @@
             <button nz-button nzType="primary" (click)="selectedDownloadJson()" class="mx-1"
               nz-tooltip="download Json"><span nz-icon nzType="download"></span>Dwonload</button>
           </div>
-          <json-editor class="selectedJsonModal" id="jsonPreview121" [(ngModel)]="selectedNode"></json-editor>
+          <json-editor class="selectedJsonModal"  id="jsonPreview121" [(ngModel)]="selectedNode"></json-editor>
         </div>
         <div class="image-wrapper" *ngIf="modalType == 'webCode'">
           <img *ngIf="htmlBlockimagePreview.content" nz-image [nzSrc]="htmlBlockimagePreview.content" alt />
@@ -419,7 +419,7 @@
               to save as block?</label>
           </div>
           <div>
-
+  
             <label class="mt-2" nz-checkbox [(ngModel)]="saveCommit">Do you want
               to save and commit?</label>
           </div>

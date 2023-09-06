@@ -26,6 +26,7 @@ import { TaskManagementComponent } from '../admin/task-management/task-managemen
 import { ReleaseManagementComponent } from '../admin/release-management/release-management.component';
 import { TaskManagementListComponent } from '../Builder-module/task-management-list/task-management-list.component';
 import { BacklogComponent } from '../Builder-module/backlog/backlog.component';
+import { TestActionRuleComponent } from '../builder/configurations/test-action-rule/test-action-rule.component';
 
 @NgModule({
   imports:
@@ -57,6 +58,7 @@ import { BacklogComponent } from '../Builder-module/backlog/backlog.component';
     ReleaseManagementComponent,
     UserTaskManagementComponent,
     TaskManagementListComponent,
+    TestActionRuleComponent,
     BacklogComponent
 
   ],
@@ -64,7 +66,7 @@ import { BacklogComponent } from '../Builder-module/backlog/backlog.component';
     MenuBuilderComponent,
     ActionRuleComponent, BusinessRuleComponent, UIRuleComponent, ValidationRuleComponent, DemoComponent, NestedTableComponent,
     ScreenBuilderComponent, ModuleListComponent, ApplicationBuilderComponent, AddControlCommonPropertiesComponent, organizationBuilderComponent,
-    LanguageComponent,
+    LanguageComponent,TestActionRuleComponent,
     BulkUpdateComponent,
     CreateDatabaseComponent,
     RoleManagementComponent,
