@@ -178,6 +178,15 @@ export class formFeildData {
       fieldGroupClassName: "flex flex-wrap",
       fieldGroup: [
         {
+          key: 'rightbtnIcon',
+          type: 'input',
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          wrappers: ["formly-vertical-theme-wrapper"],
+          props: {
+            label: 'Right Icon'
+          }
+        },
+        {
           key: 'buttonClass',
           type: 'input',
           className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
@@ -234,15 +243,6 @@ export class formFeildData {
           props: {
             type: "color",
             label: 'Hover Border Color'
-          }
-        },
-        {
-          key: 'rightbtnIcon',
-          type: 'input',
-          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
-          wrappers: ["formly-vertical-theme-wrapper"],
-          props: {
-            label: 'Right Icon'
           }
         },
         {
@@ -8899,56 +8899,6 @@ export class formFeildData {
           }
         },
         {
-          key: 'color',
-          type: 'input',
-          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
-          wrappers: ["formly-vertical-theme-wrapper"],
-          props: {
-            type: "color",
-            label: 'Background color'
-          }
-        },
-        {
-          key: 'hoverTextColor',
-          type: 'input',
-          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
-          wrappers: ["formly-vertical-theme-wrapper"],
-          props: {
-            type: "color",
-            label: 'Hover text color'
-          }
-        },
-        {
-          key: 'textColor',
-          type: 'input',
-          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
-          wrappers: ["formly-vertical-theme-wrapper"],
-          props: {
-            type: "color",
-            label: 'Text color'
-          }
-        },
-        {
-          key: 'hoverColor',
-          type: 'input',
-          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
-          wrappers: ["formly-vertical-theme-wrapper"],
-          props: {
-            type: "color",
-            label: 'Bg color on hover'
-          }
-        },
-        {
-          key: 'hoverBorderColor',
-          type: 'input',
-          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
-          wrappers: ["formly-vertical-theme-wrapper"],
-          props: {
-            type: "color",
-            label: 'Hover Border Color'
-          }
-        },
-        {
           key: 'rightbtnIcon',
           type: 'input',
           className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
@@ -8956,50 +8906,6 @@ export class formFeildData {
           props: {
             label: 'Right Icon'
           }
-        },
-        {
-          key: 'borderColor',
-          type: 'input',
-          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
-          wrappers: ["formly-vertical-theme-wrapper"],
-          props: {
-            type: "color",
-            label: 'Border Color'
-          }
-        },
-        {
-          key: 'format',
-          type: 'select',
-          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
-          wrappers: ["formly-vertical-theme-wrapper"],
-          props: {
-            label: 'Button Position',
-            options: [
-              {
-                label: 'Left',
-                value: 'text-left'
-              },
-              {
-                label: 'Right',
-                value: 'text-right'
-              },
-              {
-                label: 'Center',
-                value: 'text-center'
-              },
-              {
-                label: 'None',
-                value: ''
-              },
-            ],
-            additionalProperties: {
-              allowClear: true,
-              serveSearch: false,
-              showArrow: true,
-              showSearch: true,
-            },
-          },
-          // defaultValue: 'Vertical'
         },
         {
           className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
