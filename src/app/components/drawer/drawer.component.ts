@@ -15,7 +15,10 @@ export class DrawerComponent implements OnInit {
   @Input() screenName: any;
   @Input() drawerData: any;
   @Input() showModal = true;
-  nodes: any = [];
+  bgColor : any;
+  borderColor : any;
+  hoverTextColor : any;
+  nodes: TreeNode[];
   loader: boolean = false
   screenId: any;
   requestSubscription: Subscription;

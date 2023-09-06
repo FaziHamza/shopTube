@@ -1,5 +1,18 @@
-<button nz-button nzType="primary" *ngIf="!drawerData.notShowButton"
-    (click)="open($event)">{{drawerData.btnText}}</button>
+<button nz-button *ngIf="!drawerData.notShowButton" [class]="drawerData.buttonClass" [ngStyle]="{
+    'background-color': bgColor || drawerData.color,
+    'border-color': borderColor || drawerData.borderColor,
+    'color': hoverTextColor || drawerData.textColor
+  }" (click)="open()"><span>
+    <st-icon *ngIf="drawerData.btnIcon" [icon]="drawerData.btnIcon" [color]="drawerData.iconColor"
+      [hoverIconColor]="drawerData?.hoverIconColor || ''" [size]="drawerData.iconSize"
+      [type]="drawerData.iconType"></st-icon>
+    <span [class]="drawerData.btnLabelPaddingClass" *ngIf="drawerData.title">
+      {{ drawerData.btnText | translate}}
+    </span>
+    <st-icon *ngIf="drawerData.rightbtnIcon" [icon]="drawerData.rightbtnIcon" [color]="drawerData.iconColor"
+      [size]="drawerData.iconSize" [hoverIconColor]="drawerData?.hoverIconColor || ''"
+      [type]="drawerData.iconType"></st-icon>
+  </span></button>
 <!-- <button nz-button  (click)="open()" style="margin-top: 28px;">{{drawerData.btnText}}</button> -->
 <nz-drawer *ngIf="showModal" [nzClosable]="drawerData.isClosable" [nzVisible]="drawerData?.visible || false"
     [nzPlacement]="drawerData.placement" [nzTitle]="drawerData.title | translate" (nzOnClose)="close()"

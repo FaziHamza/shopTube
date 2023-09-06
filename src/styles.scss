@@ -6907,3 +6907,11 @@ tr:hover {
     }
   }
 }
+
+.board-card{
+  .ant-card-body {
+    min-width: 350px !important;
+    width: auto !important;
+    border-radius: 6px !important;
+  }
+}
