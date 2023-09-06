@@ -7,8 +7,19 @@
     [nzSize]="drawerData.size" [nzWidth]="drawerData.width" [nzHeight]="drawerData.height"
     [nzOffsetX]="drawerData.offsetX" [nzOffsetY]="drawerData.offsetY">
     <ng-container *nzDrawerContent>
-        <P>{{drawerData.content}}</P>
-        <st-main [mainData]="drawerData" [screenName]="screenName" [form]="form" [formlyModel]="formlyModel"></st-main>
+
+        <div *ngIf="drawerData.link == undefined || drawerData.link == '' ; else screen">
+            <P>{{drawerData.content}}</P>
+            <st-main [mainData]="drawerData" [screenName]="screenName" [form]="form"
+                [formlyModel]="formlyModel"></st-main>
+        </div>
+        <ng-template #screen>
+            <nz-spin [nzSpinning]="loader" [nzSize]="'large'">
+                <ng-container *ngIf="nodes">
+                    <st-pages [resData]="nodes" *ngIf="nodes.length > 0"></st-pages>
+                </ng-container>
+            </nz-spin>
+        </ng-template>
     </ng-container>
 </nz-drawer>
 

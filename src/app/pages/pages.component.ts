@@ -367,7 +367,7 @@ export class PagesComponent implements OnInit {
     this.dataModel = this.formlyModel;
   }
   saveData1(data: any) {
-
+    debugger
     this.dataModel = this.formlyModel;
     let oneModelData = this.convertModel(this.dataModel);
     // const objModel: any = this.dataModel;

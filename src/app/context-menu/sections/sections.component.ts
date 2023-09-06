@@ -187,10 +187,11 @@ export class SectionsComponent implements OnInit {
     });
   }
   saveData1(data: any) {
+    debugger
     // this.submit();
     let oneModelData = this.convertModel(this.dataModel);
     if (Object.keys(oneModelData).length > 0) {
-      let findClickApi = data.appConfigurableEvent.filter((item: any) => item.actions.some((action: any) => action.method === 'post' && action.actionType == 'api'));
+      let findClickApi = data.appConfigurableEvent.filter((item: any) => item.actions.some((action: any) => action.method === 'post' && action.actionType == 'api' || action.actionType == 'query'));
 
       let empData: any = {};
       if (findClickApi?.[0].actions?.[0]?.url?.includes('/cp') || findClickApi?.[0].actions?.[0]?.url?.includes('/market-place')) {
@@ -216,7 +217,8 @@ export class SectionsComponent implements OnInit {
         } else {
           empData[mainTableName] = result;
         }
-      } else {
+      } 
+      else {
         empData = {
           screenId: this.screenName,
           modalData: oneModelData
@@ -248,8 +250,9 @@ export class SectionsComponent implements OnInit {
         relationIds = relationIds.toString();
         // if (Object.keys(empData.modalData).length > 0)
         this.saveLoader = true;
-        this.applicationServices.addBackendCommonApi(findClickApi.length > 0 ? findClickApi?.[0].actions?.[0]?.url : 'knex-query', empData).subscribe({
+        this.applicationServices.addBackendCommonApi('knex-query', empData).subscribe({
           next: (res) => {
+            this.saveLoader = false;
             if (res[0]?.error)
               this.toastr.error(res[0]?.error, { nzDuration: 3000 });
             else {
