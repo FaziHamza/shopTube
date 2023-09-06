@@ -15,7 +15,7 @@ export class BoardComponent implements OnInit {
 
   constructor(private toastr: NzMessageService,) {
     this.processData = this.processData.bind(this);
-   }
+  }
 
   ngOnInit() {
 
@@ -23,20 +23,21 @@ export class BoardComponent implements OnInit {
   }
 
   addList() {
-
-    const newList: ListInterface = new List();
-    newList.position = this.lists.length + 1;
-    newList.name = `List (${newList.position})`;
+    debugger
     if (this.lists === undefined) {
       this.lists = [];
     }
+    const newList: ListInterface = new List();
+    // newList.position = this.lists.length + 1;
+    // newList.name = `List (${newList.position})`;
+
     this.lists.push(newList);
     this.toastr.success('Board add!', { nzDuration: 3000 });
   }
 
   moveCardAcrossList(movementInformation: MovementIntf) {
-    const cardMoved = this.lists[movementInformation.fromListIdx].cards.splice(movementInformation.fromCardIdx ?? 0, 1);
-    this.lists[movementInformation.toListIdx].cards.splice(movementInformation?.toCardIdx ?? 0, 0, ...cardMoved);
+    const cardMoved = this.kanbanData.children[movementInformation.fromListIdx].children.splice(movementInformation.fromCardIdx ?? 0, 1);
+    this.kanbanData.children[movementInformation.toListIdx].children.splice(movementInformation?.toCardIdx ?? 0, 0, ...cardMoved);
   }
 
   saveBoard() {

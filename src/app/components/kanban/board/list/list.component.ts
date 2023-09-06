@@ -11,11 +11,14 @@ import { DOCUMENT } from '@angular/common';
 })
 export class ListsComponent implements OnInit {
   @Input() kanban : any;
-  @Input() list: ListInterface;
+  @Input() list: any;
   @Input() listIndex: number;
   @Output() moveCardAcrossList: EventEmitter<MovementIntf> = new EventEmitter<MovementIntf>();
   @Output() newCardAdded: EventEmitter<Card> = new EventEmitter<CardInterface>();
   @Output() deleteList: EventEmitter<number> = new EventEmitter<number>();
+  @Input() formlyModel: any;
+  @Input() form: any;
+  @Input() screenName: any;
 
   private cardCount = 0;
 
@@ -27,6 +30,7 @@ export class ListsComponent implements OnInit {
 
   addNewCard() {
     const card = new Card(this.cardCount++ + '', 'header ' + this.cardCount, 'summary ' + this.cardCount, 'sample desc');
+    this.list['cards'] = [];
     this.list.cards.push(card);
     this.newCardAdded.emit(card);
   }

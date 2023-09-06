@@ -15,6 +15,44 @@ export class CalendarComponent {
   @Input() calenderData: any;
   calendarOptions: CalendarOptions;
   calendarVisible = true;
+  eventData: any[] = [
+    {
+      "id": 1, // Increment the index to start from 1
+      "title": 'asdfghfgh',
+      "start": '2023-08-04',
+      "backgroundColor": "#fbe0e0",
+      "textColor": "#ea5455",
+      "color": "#EF6C00",
+      "borderColor": "#ea5455"
+    },
+    {
+      "id": 2, // Increment the index to start from 1
+      "title": 'assdfsd',
+      "start": '2023-08-04',
+      "backgroundColor": "#fbe0e0",
+      "textColor": "#ea5455",
+      "color": "#EF6C00",
+      "borderColor": "#ea5455"
+    },
+    {
+      "id": 3, // Increment the index to start from 1
+      "title": 'asdqweqwe',
+      "start": '2023-08-05',
+      "backgroundColor": "#fbe0e0",
+      "textColor": "#ea5455",
+      "color": "#EF6C00",
+      "borderColor": "#ea5455"
+    },
+    {
+      "id": 4, // Increment the index to start from 1
+      "title": 'asdasd',
+      "start": '2023-09-02',
+      "backgroundColor": "#fbe0e0",
+      "textColor": "#ea5455",
+      "color": "#EF6C00",
+      "borderColor": "#ea5455"
+    }
+  ]
   ngOnInit() {
     this.calendarOptions = {
       plugins: [
@@ -29,13 +67,13 @@ export class CalendarComponent {
         right: this.calenderData?.viewType
       },
       initialView: 'dayGridMonth',
-      initialEvents: this.calenderData?.options, // alternatively, use the `events` setting to fetch from a feed
+      initialEvents: this.calenderData.options, // alternatively, use the `events` setting to fetch from a feed
       weekends: this.calenderData?.weekends,
       editable: this.calenderData?.editable,
       selectable: this.calenderData?.selectable,
       selectMirror: this.calenderData?.selectMirror,
       dayMaxEvents: this.calenderData?.dayMaxEvents,
-      select: this.handleDateSelect.bind(this),
+      // select: this.handleDateSelect.bind(this),
       eventClick: this.handleEventClick.bind(this),
       eventsSet: this.calenderData?.details ? this.handleEvents.bind(this) : undefined
       /* you can update a remote database when these fire:
@@ -45,16 +83,11 @@ export class CalendarComponent {
       */
     };
   }
-  processData(data: any[]) {
-    debugger
-    console.log("Calender")
-    return data
-  }
 
   currentEvents: EventApi[] = [];
 
   constructor(private changeDetector: ChangeDetectorRef) {
-    this.processData = this.processData.bind(this);
+    this.handleEvents.bind(this)
 
   }
 
@@ -98,5 +131,12 @@ export class CalendarComponent {
   handleEvents(events: EventApi[]) {
     this.currentEvents = events;
     this.changeDetector.detectChanges();
+  }
+  extractDate(date: any) {
+    const dateObject = new Date(date);
+    const year = dateObject.getFullYear();
+    const month = String(dateObject.getMonth() + 1).padStart(2, "0"); // Add 1 to the month because it's zero-based
+    const day = String(dateObject.getDate()).padStart(2, "0");
+    return `${year}-${month}-${day}`;
   }
 }

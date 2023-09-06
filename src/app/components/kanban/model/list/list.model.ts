@@ -3,7 +3,7 @@ import {Card, CardInterface} from '../card/card.model';
 export interface ListInterface {
   id: string;
   name: string;
-  position: number;
+  // position: number;
   cards: CardInterface[];
 
 }
@@ -14,7 +14,7 @@ export class List implements ListInterface {
   cards: CardInterface[] = [];
   id: string;
   name: string;
-  position: number;
+  // position: number;
 
 
   constructor() {

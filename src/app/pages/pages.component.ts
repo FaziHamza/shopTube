@@ -238,6 +238,7 @@ export class PagesComponent implements OnInit {
     });
   }
   actionsBindWithPage(res: any) {
+    debugger
     this.screenId = res.data[0].screenBuilderId;
     this.getBusinessRule(res.data[0].screenBuilderId);
     this.getUIRuleData(res.data[0].screenBuilderId);
@@ -300,7 +301,7 @@ export class PagesComponent implements OnInit {
               findObj['eventActionconfig'] = {};
               checkFirst[findObj?.key] = "done";
             }
-            if (element.btnActionType == 'load' && element.actionType == 'api') {
+            if (element.btnActionType == 'load' && !element.elementName.includes('gridlist')) {
               let obj = { actionType: element.actionType, url: element.httpAddress, method: element.actionLink }
               findObj.eventActionconfig = obj;
             } else {
@@ -366,7 +367,7 @@ export class PagesComponent implements OnInit {
     this.dataModel = this.formlyModel;
   }
   saveData1(data: any) {
-
+    debugger
     this.dataModel = this.formlyModel;
     let oneModelData = this.convertModel(this.dataModel);
     // const objModel: any = this.dataModel;

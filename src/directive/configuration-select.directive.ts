@@ -25,8 +25,6 @@ export class ConfigurableSelectDirective implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit() {
-    debugger
-    console.log("check")
     this.bindEvents();
     this.loadOptions();
   }
@@ -37,18 +35,22 @@ export class ConfigurableSelectDirective implements OnInit, OnDestroy {
   }
 
   private bindEvents(): void {
-    this.configs?.forEach(config => {
-      if (config?.event && config?.actions) {
-        this.renderer.listen(this.viewContainer.element.nativeElement, config.event, () => {
-          // alert(`${config.event.charAt(0).toUpperCase() + config.event.slice(1)} event triggered!`);
-          config.actions.forEach(action => {
-            this.loadAction = action;
-            this.loadOptions();
-            // this.executeAction(action);
-          });
+    if (this.configs) {
+      if (this.configs.length > 0) {
+        this.configs?.forEach(config => {
+          if (config?.event && config?.actions) {
+            this.renderer.listen(this.viewContainer.element.nativeElement, config.event, () => {
+              // alert(`${config.event.charAt(0).toUpperCase() + config.event.slice(1)} event triggered!`);
+              config.actions.forEach(action => {
+                this.loadAction = action;
+                this.loadOptions();
+                // this.executeAction(action);
+              });
+            });
+          }
         });
       }
-    });
+    }
   }
 
 
@@ -69,8 +71,8 @@ export class ConfigurableSelectDirective implements OnInit, OnDestroy {
   }
 
   private executeAction(action: Action): Observable<any> {
-    const { url, method, data, headers , id } = action;
-      return this.applicationService.callApi(`knex-query/getAction/${id}`, method, data, headers)
+    const { id, method, data, headers } = action;
+    return this.applicationService.callApi(`knex-query/getAction/${id}`, method, data, headers)
       .pipe(takeUntil(this.unsubscribe$));
   }
 }
@@ -83,5 +85,5 @@ type Action = {
   method: string;
   data?: any;
   headers?: any;
-  id?:any;
+  id?: any;
 };

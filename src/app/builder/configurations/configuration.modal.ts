@@ -8117,34 +8117,34 @@ export class formFeildData {
     {
       fieldGroupClassName: "flex flex-wrap",
       fieldGroup: [
+        {
+          key: 'nodes',
+          type: 'number',
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          wrappers: ["formly-vertical-theme-wrapper"],
+          props: {
+            label: 'Nodes',
+          },
+        },
         // {
-        //   key: 'nodes',
+        //   key: 'maxLength',
         //   type: 'input',
         //   className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
         //   wrappers: ["formly-vertical-theme-wrapper"],
         //   props: {
-        //     label: 'Nodes',
+        //     type: 'number',
+        //     label: 'Max',
         //   },
         // },
-        {
-          key: 'maxLength',
-          type: 'input',
-          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
-          wrappers: ["formly-vertical-theme-wrapper"],
-          props: {
-            type: 'number',
-            label: 'Max',
-          },
-        },
-        {
-          key: 'showAddbtn',
-          type: 'checkbox',
-          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
-          wrappers: ["formly-vertical-theme-wrapper"],
-          props: {
-            label: 'Show Button',
-          },
-        },
+        // {
+        //   key: 'showAddbtn',
+        //   type: 'checkbox',
+        //   className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+        //   wrappers: ["formly-vertical-theme-wrapper"],
+        //   props: {
+        //     label: 'Show Button',
+        //   },
+        // },
       ]
     },
   ]
@@ -8890,37 +8890,107 @@ export class formFeildData {
       fieldGroupClassName: "flex flex-wrap",
       fieldGroup: [
         {
+          key: 'buttonClass',
+          type: 'input',
           className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
-          key: 'color',
-          type: 'select',
           wrappers: ["formly-vertical-theme-wrapper"],
           props: {
-            label: 'Button Color',
+            label: 'CSS ClassName'
+          }
+        },
+        {
+          key: 'color',
+          type: 'input',
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          wrappers: ["formly-vertical-theme-wrapper"],
+          props: {
+            type: "color",
+            label: 'Background color'
+          }
+        },
+        {
+          key: 'hoverTextColor',
+          type: 'input',
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          wrappers: ["formly-vertical-theme-wrapper"],
+          props: {
+            type: "color",
+            label: 'Hover text color'
+          }
+        },
+        {
+          key: 'textColor',
+          type: 'input',
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          wrappers: ["formly-vertical-theme-wrapper"],
+          props: {
+            type: "color",
+            label: 'Text color'
+          }
+        },
+        {
+          key: 'hoverColor',
+          type: 'input',
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          wrappers: ["formly-vertical-theme-wrapper"],
+          props: {
+            type: "color",
+            label: 'Bg color on hover'
+          }
+        },
+        {
+          key: 'hoverBorderColor',
+          type: 'input',
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          wrappers: ["formly-vertical-theme-wrapper"],
+          props: {
+            type: "color",
+            label: 'Hover Border Color'
+          }
+        },
+        {
+          key: 'rightbtnIcon',
+          type: 'input',
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          wrappers: ["formly-vertical-theme-wrapper"],
+          props: {
+            label: 'Right Icon'
+          }
+        },
+        {
+          key: 'borderColor',
+          type: 'input',
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          wrappers: ["formly-vertical-theme-wrapper"],
+          props: {
+            type: "color",
+            label: 'Border Color'
+          }
+        },
+        {
+          key: 'format',
+          type: 'select',
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          wrappers: ["formly-vertical-theme-wrapper"],
+          props: {
+            label: 'Button Position',
             options: [
               {
-                label: 'Blue',
-                value: 'bg-blue-500'
+                label: 'Left',
+                value: 'text-left'
               },
               {
-                label: 'Red',
-                value: 'bg-red-500'
+                label: 'Right',
+                value: 'text-right'
               },
               {
-                label: 'Light Blue',
-                value: 'bg-blue-300'
+                label: 'Center',
+                value: 'text-center'
               },
               {
-                label: 'Light Gray',
-                value: 'bg-gray-300'
+                label: 'None',
+                value: ''
               },
-              {
-                label: 'yellow',
-                value: 'bg-yellow-500'
-              },
-              {
-                label: 'gray',
-                value: 'bg-gray-500'
-              }
             ],
             additionalProperties: {
               allowClear: true,
@@ -8928,7 +8998,8 @@ export class formFeildData {
               showArrow: true,
               showSearch: true,
             },
-          }
+          },
+          // defaultValue: 'Vertical'
         },
         {
           className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
@@ -8948,15 +9019,6 @@ export class formFeildData {
             label: 'Close Icon',
           }
         },
-        // {
-        //   className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
-        //   key: 'extra',
-        //   type: 'input',
-        //   wrappers: ["formly-vertical-theme-wrapper"],
-        //   props: {
-        //     label: 'extra ID reference',
-        //   }
-        // },
         {
           className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
           key: 'footerText',
@@ -9079,6 +9141,15 @@ export class formFeildData {
           wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             label: 'Offset Y',
+          }
+        },
+        {
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          key: 'link',
+          type: 'input',
+          wrappers: ["formly-vertical-theme-wrapper"],
+          props: {
+            label: 'Page link',
           }
         },
         // {
