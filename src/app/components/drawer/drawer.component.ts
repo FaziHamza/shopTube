@@ -29,12 +29,10 @@ export class DrawerComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    if (!this.showModal) {
-      this.drawerData.visible = true;
-    }
-    if(this.drawerData?.eventActionconfig){
+    if (this.drawerData?.eventActionconfig) {
       this.showChild = false;
-    }else{
+      this.loader = true
+    } else {
       this.showChild = true;
     }
 
@@ -98,6 +96,7 @@ export class DrawerComponent implements OnInit {
       this.res = {};
       this.res['data'] = [];
     }
+    this.loader = false
     return data
   }
 
@@ -105,133 +104,152 @@ export class DrawerComponent implements OnInit {
 
     let checkFirstTime = true;
     let tabsAndStepper: any = [];
-    if (this.res.data.length > 0) {
-      for (let index = 0; index < this.res.data.length; index++) {
-        const item = this.res.data[index];
-        let newNode: any = {};
-        if (selectedNode.type == 'tabs' || selectedNode.type == 'step' || selectedNode.type == 'div' || selectedNode.type == 'listWithComponentsChild' || selectedNode.type == 'cardWithComponents') {
-          newNode = JSON.parse(JSON.stringify(selectedNode?.children));
-        }
-        else {
-          newNode = JSON.parse(JSON.stringify(selectedNode?.children?.[1]?.children?.[0]));
-        }
-        if (selectedNode.type == 'tabs' || selectedNode.type == 'step' || selectedNode.type == 'div' || selectedNode.type == 'listWithComponentsChild' || selectedNode.type == 'cardWithComponents') {
-          if (selectedNode.tableBody) {
-            selectedNode.tableBody.forEach((element: any) => {
-              if (newNode.length) {
-                newNode.forEach((j: any) => {
-                  const keyObj = this.findObjectByKey(j, element.fileHeader);
-                  if (keyObj && element.defaultValue) {
-                    const updatedObj = this.dataReplace(keyObj, item, element);
-                    j = this.replaceObjectByKey(j, keyObj.key, updatedObj);
-                    if (selectedNode.type == 'tabs' || selectedNode.type == 'step' || selectedNode.type == 'listWithComponentsChild') {
-                      j['mapping'] = true;
-                    }
-                  }
-                });
-              }
-            });
-          }
-        }
-        else if (selectedNode.type != 'tabs' && selectedNode.type != 'step' && selectedNode.type != 'div' && selectedNode.type != 'listWithComponentsChild' && selectedNode.type != 'cardWithComponents') {
-          if (selectedNode.tableBody) {
-            selectedNode.tableBody.forEach((element: any) => {
-              const keyObj = this.findObjectByKey(newNode, element.fileHeader);
-              if (keyObj && element.defaultValue) {
-                const updatedObj = this.dataReplace(keyObj, item, element);
-                newNode = this.replaceObjectByKey(newNode, keyObj.key, updatedObj);
-              }
-            });
-          }
-        }
-        if (checkFirstTime) {
-          if (selectedNode.type == 'tabs' || selectedNode.type == 'step' || selectedNode.type == 'div' || selectedNode.type == 'listWithComponentsChild' || selectedNode.type == 'cardWithComponents') {
-            selectedNode.children = newNode;
-          }
-          else if (selectedNode.children[1]) {
-            selectedNode.children[1].children = [];
-            selectedNode?.children[1]?.children?.push(newNode);
-          }
-          // this.updateNodes();
-          checkFirstTime = false
-        }
-        else {
-          if (selectedNode.type == 'tabs' || selectedNode.type == 'step' || selectedNode.type == 'listWithComponentsChild') {
+    for (let index = 0; index < this.res.data.length; index++) {
+      const item = this.res.data[index];
+      let newNode: any = {};
+      if (selectedNode.type == 'tabs' || selectedNode.type == 'step' || selectedNode.type == 'div' || selectedNode.type == 'listWithComponentsChild' || selectedNode.type == 'cardWithComponents' || selectedNode.type === 'timelineChild') {
+        newNode = JSON.parse(JSON.stringify(selectedNode?.children));
+      }
+      else {
+        newNode = JSON.parse(JSON.stringify(selectedNode?.children?.[1]?.children?.[0]));
+      }
+      if (selectedNode.type == 'tabs' || selectedNode.type == 'step' || selectedNode.type == 'div' || selectedNode.type === 'timelineChild' || selectedNode.type == 'listWithComponentsChild' || selectedNode.type == 'cardWithComponents') {
+        if (selectedNode.tableBody) {
+          selectedNode.tableBody.forEach((element: any) => {
             if (newNode.length) {
-              newNode.forEach((k: any) => {
-                if (k.mapping) {
-                  tabsAndStepper.push(k);
+              newNode.forEach((j: any) => {
+                const keyObj = this.findObjectByKey(j, element.fileHeader);
+                if (keyObj && element.defaultValue) {
+                  const updatedObj = this.dataReplace(keyObj, item, element);
+                  j = this.replaceObjectByKey(j, keyObj.key, updatedObj);
+                  if (selectedNode.type == 'tabs' || selectedNode.type == 'step' || selectedNode.type == 'listWithComponentsChild') {
+                    j['mapping'] = true;
+                  }
                 }
               });
             }
-            if (index == this.res.data.length - 1) {
-              if (tabsAndStepper.length) {
-                tabsAndStepper.forEach((j: any) => {
-                  selectedNode?.children?.push(j);
-                });
-              }
-              let unMapped = selectedNode?.children.filter((child: any) => child.mapping == undefined);
-              let mapped = selectedNode?.children.filter((child: any) => child.mapping);
-              selectedNode.children = mapped;
-              if (unMapped.length) {
-                unMapped.forEach((element: any) => {
-                  selectedNode.children.push(element);
-                });
-              }
-              selectedNode.children.forEach((k: any) => {
-                delete k.mapping
-              });
-            }
-          }
-          else if (selectedNode.type == 'div' || selectedNode.type == 'cardWithComponents') {
-            let newSelected = JSON.parse(JSON.stringify(selectedNode));
-            newSelected.children = newNode;
-            let data = JSON.parse(JSON.stringify(newSelected));
-            tabsAndStepper.push(data);
-            if (index == this.res.data.length - 1) {
-              let checkPushOrNot = true
-              if ((selectedNode.type == 'div' || selectedNode.type == 'cardWithComponents') && checkPushOrNot) {
-                if (tabsAndStepper) {
-                  this.pushObjectsById(this.drawerData, tabsAndStepper, selectedNode.id);
-                  checkPushOrNot = false;
-                }
-              }
-            }
-          }
-          else if (selectedNode.children[1]) {
-            selectedNode?.children[1]?.children?.push(newNode);
-          }
+          });
         }
       }
-      // this.updateNodes();
+      else if (selectedNode.type != 'tabs' && selectedNode.type != 'step' && selectedNode.type != 'div' && selectedNode.type != 'listWithComponentsChild' && selectedNode.type != 'listWithComponentsChild' && selectedNode.type != 'cardWithComponents') {
+        if (selectedNode.tableBody) {
+          selectedNode.tableBody.forEach((element: any) => {
+            const keyObj = this.findObjectByKey(newNode, element.fileHeader);
+            if (keyObj && element.defaultValue) {
+              const updatedObj = this.dataReplace(keyObj, item, element);
+              newNode = this.replaceObjectByKey(newNode, keyObj.key, updatedObj);
+            }
+          });
+        }
+      }
+      if (checkFirstTime) {
+        if (selectedNode.type == 'tabs' || selectedNode.type == 'step' || selectedNode.type == 'div' || selectedNode.type == 'listWithComponentsChild' || selectedNode.type == 'cardWithComponents' || selectedNode.type == 'timelineChild') {
+          selectedNode.children = newNode;
+        }
+        else if (selectedNode.children[1]) {
+          selectedNode.children[1].children = [];
+          selectedNode?.children[1]?.children?.push(newNode);
+        }
+        selectedNode = JSON.parse(JSON.stringify(selectedNode))
+        // this.updateNodes();
+        checkFirstTime = false
+      }
+      else {
+        if (selectedNode.type == 'tabs' || selectedNode.type == 'step' || selectedNode.type == 'listWithComponentsChild') {
+          if (newNode.length) {
+            newNode.forEach((k: any) => {
+              if (k.mapping) {
+                tabsAndStepper.push(k);
+              }
+            });
+          }
+          if (index == this.res.data.length - 1) {
+            if (tabsAndStepper.length) {
+              tabsAndStepper.forEach((j: any) => {
+                selectedNode?.children?.push(j);
+              });
+            }
+            let unMapped = selectedNode?.children.filter((child: any) => child.mapping == undefined);
+            let mapped = selectedNode?.children.filter((child: any) => child.mapping);
+            selectedNode.children = mapped;
+            if (unMapped.length) {
+              unMapped.forEach((element: any) => {
+                selectedNode.children.push(element);
+              });
+            }
+            selectedNode.children.forEach((k: any) => {
+              delete k.mapping
+            });
+          }
+        }
+        else if (selectedNode.type == 'div' || selectedNode.type == 'timelineChild' || selectedNode.type == 'cardWithComponents') {
+          let newSelected = JSON.parse(JSON.stringify(selectedNode));
+          newSelected.children = newNode;
+          let data = JSON.parse(JSON.stringify(newSelected));
+          tabsAndStepper.push(data);
+          if (index == this.res.data.length - 1) {
+            let checkPushOrNot = true
+            if ((selectedNode.type == 'div' || selectedNode.type == 'cardWithComponents' || selectedNode.type == 'timelineChild') && checkPushOrNot) {
+              if (tabsAndStepper) {
+                this.pushObjectsById(this.drawerData, tabsAndStepper, selectedNode.id);
+                checkPushOrNot = false;
+              }
+            }
+          }
+        }
+        else if (selectedNode.children[1]) {
+          selectedNode?.children[1]?.children?.push(newNode);
+        }
+      }
     }
+    selectedNode = JSON.parse(JSON.stringify(selectedNode))
   }
-  pushObjectsById(targetArray: any[], sourceArray: any[], idToMatch: string): void {
-    for (let i = 0; i < targetArray.length; i++) {
-      const item = targetArray[i];
+  pushObjectsById(targetObject: any, sourceArray: any[], idToMatch: string): void {
+    // Variable to keep track of the parent object
+    let parent: any = null;
 
-      // Check if the current item's id matches the id to match
-      if (item.id === idToMatch) {
-        // Find the index of the matched item in the target array
-        const index = targetArray.indexOf(item);
+    // Function to recursively search and update the object
+    function pushObjects(obj: any, sourceArray: any[], id: string): boolean {
+      if (obj.id === id) {
+        // Check if the current item's id matches the id to match
+        if (parent) {
+          const index = parent.children.indexOf(obj);
 
-        // Check if the item was found in the target array
-        if (index !== -1) {
-          // Splice the source array into the target array at the next index
-          targetArray.splice(index + 1, 0, ...sourceArray);
-          return; // Stop processing as the operation is complete
+          // Check if the item was found in the parent's children
+          if (index !== -1) {
+            // Splice the source array into the parent's children at the next index
+            sourceArray.forEach(element => {
+              parent.children.push(element);
+            });
+            return true; // Operation is complete
+          }
         }
       }
 
       // If the current item has children, recursively search within them
-      if (item.children && item.children.length > 0) {
-        this.pushObjectsById(item.children, sourceArray, idToMatch);
+      if (obj.children && obj.children.length > 0) {
+        // Update the parent to the current object before traversing children
+        parent = obj;
+        for (const child of obj.children) {
+          if (pushObjects(child, sourceArray, id)) {
+            return true; // Operation is complete
+          }
+        }
+        // Restore the parent to its previous value after traversing children
+        parent = obj;
       }
+
+      return false; // Item not found, operation incomplete
     }
+
+    // Call the recursive function with the top-level object
+    pushObjects(targetObject, sourceArray, idToMatch);
   }
-  // updateNodes() {
-  //   this.drawerData = [...this.drawerData];
-  // }
+
+
+  updateNodes() {
+    this.drawerData = JSON.parse(JSON.stringify(this.drawerData));
+  }
   dataReplace(node: any, replaceData: any, value: any): any {
     let typeMap: any = {
       cardWithComponents: 'title',
@@ -383,8 +401,13 @@ export class DrawerComponent implements OnInit {
   }
   checkDynamicSection() {
     if (this.drawerData && this.drawerData.children && this.drawerData.children.length > 0) {
-      const firstChild = this.drawerData.children[0];
-      this.drawerData.children = [firstChild];
+      if (this.drawerData.children[0].type == 'timeline') {
+        const firstChild = this.drawerData.children[0].children[0];
+        this.drawerData.children[0].children = [firstChild];
+      } else {
+        const firstChild = this.drawerData.children[0];
+        this.drawerData.children[0] = [firstChild];
+      }
       this.recursiveCheck(this.drawerData.children);
     }
   }
@@ -399,7 +422,7 @@ export class DrawerComponent implements OnInit {
     }
     else if (typeof data === 'object' && data !== null) {
       if (data.type) {
-        if (data.type === 'sections' || data.type === 'div' || data.type === 'cardWithComponents') {
+        if (data.type === 'sections' || data.type === 'div' || data.type === 'cardWithComponents' || data.type === 'timelineChild') {
           if (data.mapApi) {
             this.makeDynamicSections(data.mapApi, data);
           }
@@ -418,5 +441,4 @@ export class DrawerComponent implements OnInit {
       }
     }
   }
-
 }

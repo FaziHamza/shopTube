@@ -8916,15 +8916,7 @@ export class formFeildData {
             label: 'Button Text',
           }
         },
-        {
-          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
-          key: 'notvisible',
-          type: 'checkbox',
-          wrappers: ["formly-vertical-theme-wrapper"],
-          props: {
-            label: 'Show Button',
-          },
-        },
+        
         {
           className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
           key: 'icon',
@@ -9134,6 +9126,15 @@ export class formFeildData {
             label: 'isKeyboard',
           },
           defaultValue: false
+        },
+        {
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          key: 'notvisible',
+          type: 'checkbox',
+          wrappers: ["formly-vertical-theme-wrapper"],
+          props: {
+            label: 'Show Button',
+          },
         },
         // {
         //   className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",

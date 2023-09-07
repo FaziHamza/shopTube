@@ -1479,7 +1479,7 @@ export class PagesComponent implements OnInit {
     }
     else if (typeof data === 'object' && data !== null) {
       if (data.type) {
-        if (data.type === 'sections' || data.type === 'div' || data.type === 'cardWithComponents') {
+        if (data.type === 'sections' || data.type === 'div' || data.type === 'cardWithComponents' || data.type === 'timelineChild') {
           if (data.mapApi) {
             this.makeDynamicSections(data.mapApi, data);
           }
@@ -1508,13 +1508,13 @@ export class PagesComponent implements OnInit {
           for (let index = 0; index < res.data.length; index++) {
             const item = res.data[index];
             let newNode: any = {};
-            if (selectedNode.type == 'tabs' || selectedNode.type == 'step' || selectedNode.type == 'div' || selectedNode.type == 'listWithComponentsChild' || selectedNode.type == 'cardWithComponents') {
+            if (selectedNode.type == 'tabs' || selectedNode.type == 'step' || selectedNode.type == 'div' || selectedNode.type == 'listWithComponentsChild' || selectedNode.type == 'cardWithComponents' || selectedNode.type === 'timelineChild') {
               newNode = JSON.parse(JSON.stringify(selectedNode?.children));
             }
             else {
               newNode = JSON.parse(JSON.stringify(selectedNode?.children?.[1]?.children?.[0]));
             }
-            if (selectedNode.type == 'tabs' || selectedNode.type == 'step' || selectedNode.type == 'div' || selectedNode.type == 'listWithComponentsChild' || selectedNode.type == 'cardWithComponents') {
+            if (selectedNode.type == 'tabs' || selectedNode.type == 'step' || selectedNode.type == 'div' || selectedNode.type === 'timelineChild' || selectedNode.type == 'listWithComponentsChild' || selectedNode.type == 'cardWithComponents') {
               if (selectedNode.tableBody) {
                 selectedNode.tableBody.forEach((element: any) => {
                   if (newNode.length) {
@@ -1532,7 +1532,7 @@ export class PagesComponent implements OnInit {
                 });
               }
             }
-            else if (selectedNode.type != 'tabs' && selectedNode.type != 'step' && selectedNode.type != 'div' && selectedNode.type != 'listWithComponentsChild' && selectedNode.type != 'cardWithComponents') {
+            else if (selectedNode.type != 'tabs' && selectedNode.type != 'step' && selectedNode.type != 'div' && selectedNode.type != 'listWithComponentsChild' && selectedNode.type != 'listWithComponentsChild' && selectedNode.type != 'cardWithComponents') {
               if (selectedNode.tableBody) {
                 selectedNode.tableBody.forEach((element: any) => {
                   const keyObj = this.findObjectByKey(newNode, element.fileHeader);
@@ -1544,7 +1544,7 @@ export class PagesComponent implements OnInit {
               }
             }
             if (checkFirstTime) {
-              if (selectedNode.type == 'tabs' || selectedNode.type == 'step' || selectedNode.type == 'div' || selectedNode.type == 'listWithComponentsChild' || selectedNode.type == 'cardWithComponents') {
+              if (selectedNode.type == 'tabs' || selectedNode.type == 'step' || selectedNode.type == 'div' || selectedNode.type == 'listWithComponentsChild' || selectedNode.type == 'cardWithComponents' || selectedNode.type == 'timelineChild') {
                 selectedNode.children = newNode;
               }
               else if (selectedNode.children[1]) {
@@ -1582,14 +1582,14 @@ export class PagesComponent implements OnInit {
                   });
                 }
               }
-              else if (selectedNode.type == 'div' || selectedNode.type == 'cardWithComponents') {
+              else if (selectedNode.type == 'div' || selectedNode.type == 'timelineChild' || selectedNode.type == 'cardWithComponents') {
                 let newSelected = JSON.parse(JSON.stringify(selectedNode));
                 newSelected.children = newNode;
                 let data = JSON.parse(JSON.stringify(newSelected));
                 tabsAndStepper.push(data);
                 if (index == res.data.length - 1) {
                   let checkPushOrNot = true
-                  if ((selectedNode.type == 'div' || selectedNode.type == 'cardWithComponents') && checkPushOrNot) {
+                  if ((selectedNode.type == 'div' || selectedNode.type == 'cardWithComponents' || selectedNode.type == 'timelineChild') && checkPushOrNot) {
                     if (tabsAndStepper) {
                       this.pushObjectsById(this.resData, tabsAndStepper, selectedNode.id);
                       checkPushOrNot = false;

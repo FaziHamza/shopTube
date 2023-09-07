@@ -1342,7 +1342,7 @@ export const htmlTabsData = [
               // },
 
               {
-                parameter: "kanbanAddNew",
+                parameter: "kanabnAddNew",
                 icon: "uil uil-file-alt",
                 label: "kanban"
               },

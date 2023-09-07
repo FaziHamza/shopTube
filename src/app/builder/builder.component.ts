@@ -2783,6 +2783,11 @@ export class BuilderComponent implements OnInit {
         this.fieldData.mappingNode = this.selectedNode;
         this.fieldData.formData = _formFieldData.divFields;
         break;
+      case 'timelineChild':
+        this.fieldData.mappingConfig = _formFieldData.mappingFields;
+        this.fieldData.mappingNode = this.selectedNode;
+        this.fieldData.formData = _formFieldData.divFields;
+        break;
       case 'mainDiv':
         this.fieldData.formData = _formFieldData.mainDivFields;
         break;
@@ -3332,7 +3337,7 @@ export class BuilderComponent implements OnInit {
         this.addChildControlsWithSubChild('mainStep', 'step');
         break;
 
-      case 'kanbanAddNew':
+      case 'kanabnAddNew':
         this.addChildControlsWithSubChild('kanban', 'kanbanChild');
         break;
 
@@ -3478,12 +3483,16 @@ export class BuilderComponent implements OnInit {
       case 'body':
         this.selectedNode = this.api(event.form.api, this.selectedNode);
         break;
+        case 'drawer':
+        this.selectedNode['notvisible'] = event.form.notvisible;
+        break;
       case 'sections':
       case 'tabs':
       case 'step':
       case 'div':
       case 'listWithComponentsChild':
       case 'cardWithComponents':
+      case 'timelineChild':
         if (this.selectedNode.id) {
 
           if (event.type == 'div') {
@@ -3585,12 +3594,14 @@ export class BuilderComponent implements OnInit {
                   event.type == 'step' ||
                   event.type == 'div' ||
                   event.type == 'listWithComponentsChild' ||
-                  event.type == 'cardWithComponents'
+                  event.type == 'cardWithComponents' ||
+                  event.type == 'timelineChild'
                 ) {
                   newNode = JSON.parse(
                     JSON.stringify(this.selectedNode?.children)
                   );
-                } else {
+                }
+                else {
                   newNode = JSON.parse(
                     JSON.stringify(
                       this.selectedNode?.children?.[1]?.children?.[0]
@@ -3601,6 +3612,7 @@ export class BuilderComponent implements OnInit {
                   event.type == 'tabs' ||
                   event.type == 'step' ||
                   event.type == 'div' ||
+                  event.type == 'timelineChild' ||
                   event.type == 'listWithComponentsChild' ||
                   event.type == 'cardWithComponents'
                 ) {
@@ -3632,6 +3644,7 @@ export class BuilderComponent implements OnInit {
                   event.type != 'tabs' &&
                   event.type != 'step' &&
                   event.type != 'div' &&
+                  event.type != 'timelineChild' &&
                   event.type != 'listWithComponentsChild' &&
                   event.type != 'cardWithComponents'
                 ) {
@@ -3662,6 +3675,7 @@ export class BuilderComponent implements OnInit {
                     event.type == 'tabs' ||
                     event.type == 'step' ||
                     event.type == 'div' ||
+                    event.type == 'timelineChild' ||
                     event.type == 'listWithComponentsChild' ||
                     event.type == 'cardWithComponents'
                   ) {
@@ -3685,7 +3699,7 @@ export class BuilderComponent implements OnInit {
                 JSON.stringify(event.tableDta)
               );
             }
-          } 
+          }
           else {
             alert('change Data if you want mapping');
           }
