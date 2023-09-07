@@ -1,12 +1,13 @@
 import { Component, OnInit, Input, EventEmitter, Output, ChangeDetectorRef } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { NzMessageService } from 'ng-zorro-antd/message';
-import { Subscription } from 'rxjs';
+import { Subscription, elementAt } from 'rxjs';
 import { TreeNode } from 'src/app/models/treeNode';
 import { ApplicationService } from 'src/app/services/application.service';
 import { DataSharedService } from 'src/app/services/data-shared.service';
 import { EmployeeService } from 'src/app/services/employee.service';
 import * as Joi from 'joi';
+import { DataService } from 'src/app/services/offlineDb.service';
 
 @Component({
   selector: 'st-sections',
@@ -32,8 +33,9 @@ export class SectionsComponent implements OnInit {
   ruleObj: any = {};
   ruleValidation: any = {};
   saveLoader: boolean = false;
-  constructor(public dataSharedService: DataSharedService, private toastr: NzMessageService, private employeeService: EmployeeService
-    , private applicationServices: ApplicationService, private cd: ChangeDetectorRef) { }
+  constructor(public dataSharedService: DataSharedService, private toastr: NzMessageService, private employeeService: EmployeeService,
+    private dataService: DataService,
+    private applicationServices: ApplicationService, private cd: ChangeDetectorRef) { }
 
   ngOnInit(): void {
 
@@ -345,7 +347,7 @@ export class SectionsComponent implements OnInit {
     let tableData = this.findObjectByTypeBase(this.sections, "gridList");
     this.assignGridRules(tableData);
   }
-  getFromQuery(data: any) {
+  async getFromQuery(data: any) {
     let findClickApi = data?.appConfigurableEvent?.filter((item: any) =>
       item.actions.some((action: any) =>
         (action.method === 'get' && (action.actionType === 'api' || action.actionType === 'query'))
@@ -372,8 +374,10 @@ export class SectionsComponent implements OnInit {
             pagination = '?page=' + 1 + '&pageSize=' + tableData?.end;
           }
           this.saveLoader = true;
+          const applicationId = localStorage.getItem('applicationId') || '';
+          let savedGroupData = await this.dataService.getNodes(JSON.parse(applicationId), this.screenName, "Table");
           this.employeeService.getSQLDatabaseTable(url + pagination).subscribe({
-            next: (res) => {
+            next: async (res) => {
               this.saveLoader = false;
               if (tableData && res?.isSuccess) {
                 if (res.data.length > 0) {
@@ -425,21 +429,16 @@ export class SectionsComponent implements OnInit {
                     tableData['tableKey'] = tableKey
                   }
                   else {
-                    if (JSON.stringify(tableData['tableKey']) != JSON.stringify(tableKey)) {
-                      const updatedData = tableData.tableHeaders.filter((updatedItem: any) => {
-                        const name = updatedItem.name;
-                        return !tableKey.some((headerItem: any) => headerItem.name === name);
-                      });
+                    if (JSON.stringify(tableData['tableKey']) !== JSON.stringify(tableKey)) {
+                      const updatedData = tableKey.filter(updatedItem =>
+                        !tableData.tableHeaders.some((headerItem: any) => headerItem.name === updatedItem.name)
+                      );
                       if (updatedData.length > 0) {
-                        tableData.tableHeaders.map((item: any) => {
-                          const newItem = { ...item };
-                          for (let i = 0; i < updatedData.length; i++) {
-                            newItem[updatedData[i].key] = "";
-                          }
-                          return newItem;
+                        updatedData.forEach(updatedItem => {
+                          tableData.tableHeaders.push({ id: tableData.tableHeaders.length + 1, key: updatedItem.name, name: updatedItem.name, });
                         });
+                        tableData['tableKey'] = tableData.tableHeaders;
                       }
-
                     }
                   }
 
@@ -471,6 +470,25 @@ export class SectionsComponent implements OnInit {
                       }
                     }
                   }
+                  let getData = savedGroupData[savedGroupData.length - 1];
+                  if (getData.data.length > 0) {
+                    let groupingArray: any = [];
+                    let updateTableData: any = [];
+                    getData.data.forEach((elem: any) => {
+                      let findData = tableData.tableHeaders.find((item: any) => item.key == elem);
+                      if (findData) {
+                        updateTableData = this.groupedFunc(elem, 'add', findData, groupingArray, tableData.displayData, tableData.tableData, tableData.tableHeaders);
+                      }
+                    })
+                    tableData.tableData = updateTableData;
+                    tableData.displayData = tableData.tableData.length > tableData.end ? tableData.tableData.slice(0, tableData.end) : tableData.tableData;
+                    tableData.tableHeaders.unshift({
+                      name: 'expand',
+                      key: 'expand',
+                      title: 'Expand',
+                    });
+                    tableData.totalCount = tableData.tableData
+                  }
                 }
                 // this.assignGridRules(tableData);
               }
@@ -485,8 +503,106 @@ export class SectionsComponent implements OnInit {
       }
     }
   }
-  getFromQueryOnlyTable(data: any) {
-    const findClickApi = data?.appConfigurableEvent?.filter((item: any) =>
+  groupedFunc(data: any, type: any, header: any, groupingArray: any, displayData: any, tableData: any, tableHeaders: any) {
+    header['grouping'] = type === 'add' ? data : '';
+
+    if (type === 'add')
+      groupingArray.push(data);
+
+    if (groupingArray.length === 0) {
+      tableHeaders = tableHeaders.filter((a: any) => a.name !== 'expand');
+    } else {
+      // Reset displayData and tableHeaders before re-grouping
+      displayData = [];
+      tableHeaders = tableHeaders.filter((a: any) => a.name !== 'expand');
+      // Apply grouping for each column in the groupingArray
+      return this.groupData(tableData, 0, groupingArray, tableData, tableHeaders);
+    }
+
+  }
+  groupData(data: any[], index: number, groupingArray: any, tableData: any, tableHeaders: any): any {
+    if (index < groupingArray.length) {
+      const groupColumn = groupingArray[index];
+
+      if (index === 0) {
+        // Group the data by the specified column
+        const groupedData = this.groupByColumn(data, groupColumn, index, groupingArray);
+
+        // Update the displayData and tableHeaders for the current level
+        tableData = tableData.concat(groupedData);
+        tableHeaders.unshift({
+          name: 'expand',
+          key: 'expand',
+          title: 'Expand',
+        });
+
+        // Continue grouping for the next column
+        return this.groupData(groupedData, index + 1, groupingArray, tableData, tableHeaders);
+      }
+      else {
+        data.forEach((update: any) => {
+          if (update.children) {
+            const groupedChildren = this.groupByColumn(update.children, groupColumn, index, groupingArray);
+            update.children = groupedChildren; // Update children with grouped data
+            // Recursively apply grouping to children
+            this.groupData(update.children, index + 1, groupingArray, tableData, tableHeaders);
+          }
+        });
+      }
+    }
+
+    return data; // Return the grouped data when all columns are processed
+  }
+
+  groupByColumn(data: any, columnName: string, index: number, groupingArray: any) {
+    const groupedData: any = {};
+    data.forEach((element: any) => {
+      const groupValue = element[columnName];
+      const parentValue = groupingArray[index - 1]; // Previous grouping value
+
+      if (!groupedData[parentValue]) {
+        groupedData[parentValue] = [];
+      }
+
+      if (!groupedData[parentValue][groupValue]) {
+        groupedData[parentValue][groupValue] = {
+          expand: false,
+          children: [],
+        };
+      }
+
+      const group = groupedData[parentValue][groupValue];
+      group.children.push(element);
+      group.expand = false;
+
+      // If it's the first level of grouping, add the parent value
+      if (index === 0) {
+        group['parent'] = parentValue;
+      }
+    });
+    const result = Object.keys(groupedData).map((parentKey: string) => {
+      const parentGroup = groupedData[parentKey];
+      return Object.keys(parentGroup).map((groupKey: string) => {
+        const groupData = parentGroup[groupKey];
+        const secondObj = groupData.children[0];
+        const firstObj = JSON.parse(JSON.stringify(groupData));
+        for (const key in secondObj) {
+          if (secondObj.hasOwnProperty(key)) {
+            // Check if the property does not exist in the first object
+            if (!firstObj.hasOwnProperty(key)) {
+              // Assign the property from the second object to the first object
+              firstObj[key] = secondObj[key];
+            }
+          }
+        }
+        return firstObj;
+      });
+    }).flat(); // Flatten the nested arrays
+
+    return result;
+  }
+  async getFromQueryOnlyTable(tableData: any) {
+    const findClickApi = tableData?.appConfigurableEvent?.filter((item: any) =>
       item.actions.some((action: any) => action.method === 'get' && (action.actionType === 'api' || action.actionType === 'query'))
     );
 
@@ -503,13 +619,15 @@ export class SectionsComponent implements OnInit {
             apiUrl = `knex-query/getAction/${findClickApi[index].actions?.[0]?.id}`
           }
         }
-        const pagination = data.serverSidePagination ? `?page=1&pageSize=${data?.end}` : '';
+        const pagination = tableData.serverSidePagination ? `?page=1&pageSize=${tableData?.end}` : '';
         this.saveLoader = true;
         if (apiUrl) {
+          const applicationId = localStorage.getItem('applicationId') || '';
+          let savedGroupData = await this.dataService.getNodes(JSON.parse(applicationId), this.screenName, "Table");
           this.employeeService.getSQLDatabaseTable(apiUrl + pagination).subscribe({
             next: (res) => {
               if (res) {
-                if (data && res?.isSuccess && res?.data.length > 0) {
+                if (tableData && res?.isSuccess && res?.data.length > 0) {
                   this.saveLoader = false;
                   if (apiUrl.includes('/userComment')) {
 
@@ -521,41 +639,61 @@ export class SectionsComponent implements OnInit {
                     res.data = JSON.parse(JSON.stringify(requiredData));
                   }
 
-                  data.tableData = res.data.map((element: any) => ({ ...element, id: element.id?.toString() }));
-                  if (!data.end) {
-                    data.end = 10;
+                  tableData.tableData = res.data.map((element: any) => ({ ...element, id: element.id?.toString() }));
+                  if (!tableData.end) {
+                    tableData.end = 10;
                   }
-                  data.pageIndex = 1;
-                  data.totalCount = res.data.length;
-                  data.serverApi = apiUrl;
-                  data.targetId = '';
-                  data.displayData = data.tableData.length > data.end ? data.tableData.slice(0, data.end) : data.tableData;
-                  if (data.tableHeaders.length === 0) {
-                    data.tableHeaders = Object.keys(data.tableData[0] || {}).map(key => ({ name: key, key: key }));
-                    data['tableKey'] = data.tableHeaders;
+                  tableData.pageIndex = 1;
+                  tableData.totalCount = res.data.length;
+                  tableData.serverApi = apiUrl;
+                  tableData.targetId = '';
+                  tableData.displayData = tableData.tableData.length > tableData.end ? tableData.tableData.slice(0, tableData.end) : tableData.tableData;
+                  if (tableData.tableHeaders.length === 0) {
+                    tableData.tableHeaders = Object.keys(tableData.tableData[0] || {}).map(key => ({ name: key, key: key }));
+                    tableData['tableKey'] = tableData.tableHeaders;
                   }
                   else {
-                    const tableKey = Object.keys(data.tableData[0] || {}).map(key => ({ name: key }));
-                    if (JSON.stringify(data['tableKey']) !== JSON.stringify(tableKey)) {
-                      const updatedData = data.tableHeaders.filter((updatedItem: any) =>
-                        !tableKey.some(headerItem => headerItem.name === updatedItem.name)
+                    const tableKey = Object.keys(tableData.tableData[0] || {}).map(key => ({ name: key }));
+                    if (JSON.stringify(tableData['tableKey']) !== JSON.stringify(tableKey)) {
+                      const updatedData = tableKey.filter(updatedItem =>
+                        !tableData.tableHeaders.some((headerItem: any) => headerItem.name === updatedItem.name)
                       );
                       if (updatedData.length > 0) {
-                        data.tableHeaders.forEach((item: any) => {
-                          for (let i = 0; i < updatedData.length; i++) {
-                            item[updatedData[i].name] = '';
-                          }
+                        updatedData.forEach(updatedItem => {
+                          tableData.tableHeaders.push({ id: tableData.tableHeaders.length + 1, key: updatedItem.name, name: updatedItem.name, });
                         });
+                        tableData['tableKey'] = tableData.tableHeaders;
+                      }
+                    }
+
+                  }
+                  let CheckKey = tableData.tableHeaders.find((head: any) => !head.key)
+                  if (CheckKey) {
+                    for (let i = 0; i < tableData.tableHeaders.length; i++) {
+                      if (!tableData.tableHeaders[i].hasOwnProperty('key')) {
+                        tableData.tableHeaders[i].key = tableData.tableHeaders[i].name;
                       }
                     }
                   }
-                  let CheckKey = data.tableHeaders.find((head: any) => !head.key)
-                  if (CheckKey) {
-                    for (let i = 0; i < data.tableHeaders.length; i++) {
-                      if (!data.tableHeaders[i].hasOwnProperty('key')) {
-                        data.tableHeaders[i].key = data.tableHeaders[i].name;
+
+                  let getData = savedGroupData[savedGroupData.length - 1];
+                  if (getData.data.length > 0) {
+                    let groupingArray: any = [];
+                    let updateTableData: any = [];
+                    getData.data.forEach((elem: any) => {
+                      let findData = tableData.tableHeaders.find((item: any) => item.key == elem);
+                      if (findData) {
+                        updateTableData = this.groupedFunc(elem, 'add', findData, groupingArray, tableData.displayData, tableData.tableData, tableData.tableHeaders);
                       }
-                    }
+                    })
+                    tableData.tableData = updateTableData;
+                    tableData.displayData = tableData.tableData.length > tableData.end ? tableData.tableData.slice(0, tableData.end) : tableData.tableData;
+                    tableData.tableHeaders.unshift({
+                      name: 'expand',
+                      key: 'expand',
+                      title: 'Expand',
+                    });
+                    tableData.totalCount = tableData.tableData
                   }
                 }
                 this.saveLoader = false;

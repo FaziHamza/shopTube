@@ -80,4 +80,5 @@ export class DataSharedService {
   setLanguageChange(val: string): void {
     this.languageChange.next(val);
   }
+  
 }

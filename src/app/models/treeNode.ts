@@ -85,6 +85,7 @@ export interface TreeNode {
   enableSwipe?: any;
   showDots?: any;
   affixType?: any;
+  notvisible?: any;
   target?: any;
   buttonClass?: any;
   bond?: any;

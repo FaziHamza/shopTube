@@ -464,6 +464,16 @@ export class CreateDatabaseComponent implements OnInit {
         "totalFields": this.myForm.value.totalFields,
         "isActive": this.myForm.value.isActive
       };
+      const listdata = this.listOfData.filter((data)=>{
+        data.status = 'Approved';
+        return true;
+      })
+      if(listdata && this.myForm.value.isActive === "Approved"){
+        
+      } else {
+        alert('Please Approved Select Status');
+        return
+      }
       this.saveLoader = true;
       this.employeeService.updateSQLDatabaseTable('knex-crud/tables/' + this.tableId, objTableNames).subscribe({
         next: (res) => {
@@ -519,7 +529,7 @@ export class CreateDatabaseComponent implements OnInit {
           this.toastr.error("An error occurred", { nzDuration: 3000 });
         }
       });
-    }
+    };
   }
   deleteRowData() {
     if (this.deletedIds.length > 0) {

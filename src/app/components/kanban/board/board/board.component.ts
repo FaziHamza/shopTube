@@ -54,7 +54,6 @@ export class BoardComponent implements OnInit {
   }
 
   processData(data: any[]) {
-    debugger
     console.log("kanban Work")
     return data
   }

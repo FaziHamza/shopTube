@@ -253,12 +253,8 @@
                   nzShowIcon></nz-alert>
               </nz-tab>
               <nz-tab nzTitle="Actions" (nzClick)="showRulesFunc('testActionRule')">
-                <k-test-action-rule *ngIf="selectedNode && showActionRule && showRules == 'testActionRule'"
-                  [selectedNode]="selectedNode"></k-test-action-rule>
-                <st-action-rule [selectedNode]="selectedNode"
-                  *ngIf="selectedNode && showActionRule && showRules == 'actionRule'" [screenName]="screenName"
-                  [formlyModel]="this.formlyModel" [applicationId]="selectApplicationName" [nodes]="nodes"
-                  [screens]="screens" [screeenBuilderId]="_id"></st-action-rule>
+                <st-execute-action-rule *ngIf="selectedNode && showActionRule && showRules == 'testActionRule'"></st-execute-action-rule>
+
                 <!-- <nz-alert *ngIf="!showActionRule" nzType="warning" nzMessage="Please contact your DBA to approve fields"
                   nzShowIcon></nz-alert> -->
               </nz-tab>
