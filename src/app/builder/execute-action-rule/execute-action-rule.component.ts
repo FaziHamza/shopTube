@@ -695,4 +695,11 @@ export class ExecuteActionRuleComponent implements OnInit, AfterViewInit {
       required: ['if']
     }
   };
+  IsShowConfig: boolean = false;
+  closeConfigurationList() {
+    this.IsShowConfig = false;
+  }
+  controlListOpen(): void {
+    this.IsShowConfig = true;
+  }
 }
