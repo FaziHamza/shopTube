@@ -16,9 +16,9 @@
         <nz-tab nzTitle="Approved">
           <ul nz-list [nzDataSource]="data" nzBordered nzSize="large">
             <nz-list-header>
-              <nz-input-group [nzSuffix]="suffixIconSearch" class="!rounded-md !h-10 p-0 pr-[8px]" >
-                <input type="text" [(ngModel)]="searchFilteredApprovedValue" nz-input (keyup)="search('approved' , searchFilteredApprovedValue)"
-                placeholder="Search Schema" class=" " />
+              <nz-input-group [nzSuffix]="suffixIconSearch" class="!rounded-md !h-10 p-0 pr-[8px]">
+                <input type="text" [(ngModel)]="searchFilteredApprovedValue" nz-input
+                  (keyup)="search('approved' , searchFilteredApprovedValue)" placeholder="Search Schema" class=" " />
               </nz-input-group>
 
               <ng-template #suffixIconSearch>
@@ -26,17 +26,20 @@
               </ng-template>
 
             </nz-list-header>
-            <li nz-list-item *ngFor="let item of filteredApproved;" nzNoFlex>
-              <ul nz-list-item-actions>
-                <nz-list-item-action>
-                  <a (click)="editTableData(item)">
-                    <i class="fa-regular fa-pen-to-square text-base text-blue-600 hover:text-blue-500"></i>
-  
-                  </a>
-                </nz-list-item-action>
-              </ul>
-              {{ item.tableName }}
-            </li>
+            <div style=" height: 486px; overflow: auto;">
+              <li nz-list-item *ngFor="let item of filteredApproved;" nzNoFlex>
+                <ul nz-list-item-actions>
+                  <nz-list-item-action>
+                    <a (click)="editTableData(item)">
+                      <i class="fa-regular fa-pen-to-square text-base text-blue-600 hover:text-blue-500"></i>
+
+                    </a>
+                  </nz-list-item-action>
+                </ul>
+                {{ item.tableName }}
+              </li>
+            </div>
+
           </ul>
         </nz-tab>
         <!--isActive [Pending] -->
@@ -45,34 +48,37 @@
             <nz-list-header>
               <!-- <h3><b style="background-color: #FFCC00; padding:3px 5px; border-radius:10px">Pending</b></h3> -->
               <!-- <hr /> -->
-              
-              <nz-input-group [nzSuffix]="suffixIconSearch2" class="!rounded-md  p-0 pr-[8px]" >
-                <input type="text" [(ngModel)]="searchFilteredPendingValue" nz-input (keyup)="search('pending' , searchFilteredPendingValue)"
-                placeholder="Search Schema" class="!h-10 !rounded-md !py-[4px] !px-[11px]" />
-                </nz-input-group>
-  
-                <ng-template #suffixIconSearch2>
-                  <span nz-icon nzType="search"></span>
-                </ng-template>
+
+              <nz-input-group [nzSuffix]="suffixIconSearch2" class="!rounded-md  p-0 pr-[8px]">
+                <input type="text" [(ngModel)]="searchFilteredPendingValue" nz-input
+                  (keyup)="search('pending' , searchFilteredPendingValue)" placeholder="Search Schema"
+                  class="!h-10 !rounded-md !py-[4px] !px-[11px]" />
+              </nz-input-group>
+
+              <ng-template #suffixIconSearch2>
+                <span nz-icon nzType="search"></span>
+              </ng-template>
 
             </nz-list-header>
-            <li nz-list-item *ngFor="let itemPending of filteredPending" nzNoFlex>
-              <ul nz-list-item-actions>
-                <nz-list-item-action>
-                  <a (click)="editTableData(itemPending)">
-                    <i class="fa-regular fa-pen-to-square text-base text-blue-600 hover:text-blue-500"></i>
-                  </a>
-                </nz-list-item-action>
-              </ul>
-              {{ itemPending.tableName }}
-  
-            </li>
+            <div style=" height: 486px; overflow: auto;">
+              <li nz-list-item *ngFor="let itemPending of filteredPending" nzNoFlex>
+                <ul nz-list-item-actions>
+                  <nz-list-item-action>
+                    <a (click)="editTableData(itemPending)">
+                      <i class="fa-regular fa-pen-to-square text-base text-blue-600 hover:text-blue-500"></i>
+                    </a>
+                  </nz-list-item-action>
+                </ul>
+                {{ itemPending.tableName }}
+
+              </li>
+            </div>
             <!-- <nz-list-footer>Footer</nz-list-footer> -->
           </ul>
         </nz-tab>
       </nz-tabset>
       <!-- End of nz-tabset -->
-  
+
     </div>
     <div class="w-3/4 pl-2">
       <div class="h-[46px] mb-[10px] flex items-center px-[15px] rounded-md bg-white text-black text-2xl font-semibold">
@@ -84,9 +90,8 @@
               <formly-form [model]="model" [fields]="item.fieldGroup" [options]="options" [form]="myForm"></formly-form>
             </div>
           </div>
-  
-          <button nz-button  class="my-2 btn" title="Add row" (click)="addRow()" nzTooltipTitle="Add Row"
-          nz-tooltip><i
+
+          <button nz-button class="my-2 btn" title="Add row" (click)="addRow()" nzTooltipTitle="Add Row" nz-tooltip><i
               class="fa fa-plus"></i> </button>
           <div class="flex flex-wrap">
             <div class="w-3/6">
@@ -97,7 +102,7 @@
                 ngbTooltip="Save Table" *ngIf="tableId == 0"> <i class="fa-regular fa-floppy-disk mr-2"></i> Save </button>
               <button nz-button nzType="primary" class="my-2 btn border-green-500 !bg-green-500 hover:!bg-green-400" title="Update" (click)="updateFormv1()"
                 ngbTooltip="Update Table" *ngIf="tableId !=0"> <i class="fa-regular fa-arrows-rotate mr-2"></i> Update </button>
-              <button nz-button  class="my-2 mx-2 btn-no !bg-white hover:!bg-gray-50 !text-gray-700 !border-black hover:!border-blue-500 hover:!text-blue-500" title="Cancel" (click)="cancelEditTable()"
+              <button nz-button  class="my-2 mx-2 btn-no !bg-white hover:!bg-gray-50 !text-gray-700 !border-gray-600 hover:!border-blue-500 hover:!text-blue-500" title="Cancel" (click)="cancelEditTable()"
                 ngbTooltip="Cancel" *ngIf="tableId !=0"> <i class="fa-regular fa-circle-xmark !bg-white mr-2"></i> Cancel </button>
               <button nz-button nzType="primary" class="my-2 mx-2 btn-no border-red-500 !border-none !bg-red-500 hover:!bg-red-400" title="Clear" (click)="cancelEditTable()"
                 ngbTooltip="Clear" *ngIf="tableId ==0"> <i class="fa-regular fa-broom-wide mr-2"></i> Clear </button>
@@ -165,7 +170,7 @@
                   </a>
                 </td>
               </ng-container>
-  
+
               <!--   <ng-template #editTemplate>
               <td>
   
