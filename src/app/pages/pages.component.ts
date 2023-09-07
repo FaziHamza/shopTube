@@ -58,7 +58,6 @@ export class PagesComponent implements OnInit {
   getTaskManagementIssues: any[] = [];
   isVisible: boolean = false;
   ngOnInit(): void {
-    debugger
     // console.log("pages")
     // debugger
     // if (this.navigation) {
@@ -322,7 +321,7 @@ export class PagesComponent implements OnInit {
               checkFirst[findObj?.key] = "done";
             }
             if (element.btnActionType == 'load' && !element.elementName.includes('gridlist')) {
-              let obj = { actionType: element.actionType, url: element.httpAddress, method: element.actionLink }
+              let obj = { actionType: element.actionType, url: element.httpAddress, method: element.actionLink, id: element._id }
               findObj.eventActionconfig = obj;
             } else {
               if (findObj['appConfigurableEvent']) {
