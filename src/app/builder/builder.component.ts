@@ -3685,7 +3685,8 @@ export class BuilderComponent implements OnInit {
                 JSON.stringify(event.tableDta)
               );
             }
-          } else {
+          } 
+          else {
             alert('change Data if you want mapping');
           }
           this.updateNodes();

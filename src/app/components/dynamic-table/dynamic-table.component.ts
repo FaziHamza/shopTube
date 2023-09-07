@@ -57,6 +57,7 @@ export class DynamicTableComponent implements OnInit {
   end: any;
   groupingArray: any = [];
   groupingData: any = [];
+  showChild: boolean = false;
   constructor(public _dataSharedService: DataSharedService, private builderService: BuilderService,
     private applicationService: ApplicationService,
     private dataService: DataService,
@@ -866,7 +867,7 @@ export class DynamicTableComponent implements OnInit {
     this._dataSharedService.setData(this.tableData);
     if (this.data.doubleClick == false)
       this._dataSharedService.saveGridData(this.tableData);
-    alert("Data save");
+      this.toastr.success('Data saved successfully',{ nzDuration: 3000 });
   }
 
   checkAll(value: boolean): void {
@@ -993,8 +994,15 @@ export class DynamicTableComponent implements OnInit {
   }
   checkTypeData(item: any) {
     debugger
+    this.showChild = false;
     if (this.data?.openComponent == 'drawer') {
-      // this.showIssue(item);
+      const drawer = this.findObjectByTypeBase(this.data, "drawer");
+      drawer['visible'] = true;
+      if (drawer?.eventActionconfig) {
+        drawer.eventActionconfig['parentId'] = item.id;
+      }
+      this.data = JSON.parse(JSON.stringify(this.data));
+      this.showChild = true;
     }
   }
   transform(dateRange: string): any {
@@ -1250,6 +1258,9 @@ export class DynamicTableComponent implements OnInit {
     if (data) {
       if (data.type && type) {
         if (data.type === type) {
+          if (data.type == 'drawer') {
+            data['visible'] = true;
+          }
           return data;
         }
         if (data.children.length > 0) {
