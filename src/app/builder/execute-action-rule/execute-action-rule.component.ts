@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { EmployeeService } from 'src/app/services/employee.service';
 import * as monaco from 'monaco-editor';
@@ -11,7 +11,7 @@ import Ajv, { ErrorObject } from 'ajv';
 })
 export class ExecuteActionRuleComponent implements OnInit, AfterViewInit {
 
-  constructor(private fb: FormBuilder, private employeeService: EmployeeService) { }
+  constructor(private fb: FormBuilder, private employeeService: EmployeeService, private cdRef: ChangeDetectorRef) { }
   actionResult: any;
 
   actionList: any = JSON.stringify([
@@ -135,382 +135,27 @@ export class ExecuteActionRuleComponent implements OnInit, AfterViewInit {
     },
   };
 
-  executeAction = async (actionName: string, parameters: any) => {
-    const parsedRules = JSON.parse(this.actionList);
-    const action = parsedRules.find((a: any) => a.name === actionName);
-    if (!action) {
-      throw new Error(`Action ${actionName} not found`);
-    }
-
-    let query = action.query;
-    for (const [key, value] of Object.entries(parameters)) {
-      query = query.replace(`{${key}}`, value);
-    }
-
-    // Simulate action execution, replace with actual logic to interact with your database or API
-    // const result = await this.executeDatabaseQuery(query);
-
-    return query;
-  }
-
-  async processActionRules() {
-    try {
-      await this.employeeService.saveSQLDatabaseTable('knex-query/execute-actions', JSON.parse(this.actionModel)).subscribe(res => {
-        this.actionResult = JSON.stringify(res, null, 2);
-      })
-      // const results = await this.processActionRulesV1(this.actionRule, this.actionModel);
-    } catch (error) {
-      console.error('Error while processing action rules:', error);
-      this.actionResult = 'Error occurred while processing action rules';
-    }
-  }
-
-  async processActionRulesV1(actionRules: any, context: any) {
-    let actionModel = JSON.parse(this.actionModel);
-    const results: any = {};
-    const parsedRules = JSON.parse(actionRules);
-    const parsedContext = JSON.parse(context);
-
-    for (const rule of parsedRules) {
-      if (rule.if) {
-        try {
-          const { actionRule, key, compare, value } = rule.if;
-          const actionQuery = await this.executeAction(actionRule, parsedContext);
-
-          // Get the dynamic comparison function based on the operator
-          const comparisonFunction = this.getComparisonFunction(compare);
-
-          // Perform the comparison using the dynamic function
-          if (comparisonFunction(actionQuery, value)) {
-            let thenConditionSatisfied = true;
-
-            // Check if there is an OR condition
-            if (rule.OR) {
-              let orConditionSatisfied = false;
-
-              for (const orRule of rule.OR) {
-                const { actionRule: orActionRule, key: orKey, compare: orCompare, value: orValue } = orRule.if;
-                const orActionQuery = await this.executeAction(orActionRule, parsedContext);
-                const orComparisonFunction = this.getComparisonFunction(orCompare);
-
-                if (orComparisonFunction(orActionQuery, orValue)) {
-                  orConditionSatisfied = true;
-                }
-                thenConditionSatisfied = orConditionSatisfied;
-                if (thenConditionSatisfied) {
-                  if (orRule.then) {
-                    const thenActions = orRule.then;
-                    for (const actionKey in thenActions) {
-                      if (thenActions.hasOwnProperty(actionKey)) {
-                        const thenAction = thenActions[actionKey];
-                        if (thenAction.actionRule) {
-                          const thenActionResult = await this.executeAction(
-                            thenAction.actionRule,
-                            context
-                          );
-                          results[actionRule] = thenActionResult;
-                          actionModel[actionKey] = thenActionResult;
-                        }
-                      }
-                    }
-                  }
-                }
-              }
-
-            }
-
-            // Check if there is an AND condition
-            if (rule.AND) {
-              let andConditionSatisfied = true;
-
-              for (const andRule of rule.AND) {
-                const { actionRule: andActionRule, key: andKey, compare: andCompare, value: andValue } = andRule.if;
-                const andActionQuery = await this.executeAction(andActionRule, parsedContext);
-                const andComparisonFunction = this.getComparisonFunction(andCompare);
-
-                if (!andComparisonFunction(andActionQuery, andValue)) {
-                  andConditionSatisfied = false;
-                }
-                thenConditionSatisfied = thenConditionSatisfied && andConditionSatisfied;
-                if (thenConditionSatisfied) {
-                  if (andRule.then) {
-                    const thenActions = andRule.then;
-                    for (const actionKey in thenActions) {
-                      if (thenActions.hasOwnProperty(actionKey)) {
-                        const thenAction = thenActions[actionKey];
-                        if (thenAction.actionRule) {
-                          const thenActionResult = await this.executeAction(
-                            thenAction.actionRule,
-                            context
-                          );
-                          results[actionRule] = thenActionResult;
-                          actionModel[actionKey] = thenActionResult;
-                        }
-                      }
-                    }
-                  }
-                }
-              }
-
-            }
-
-            if (rule.then) {
-              const thenActions = rule.then;
-              for (const actionKey in thenActions) {
-                if (thenActions.hasOwnProperty(actionKey)) {
-                  const thenAction = thenActions[actionKey];
-                  if (thenAction.actionRule) {
-                    const thenActionResult = await this.executeAction(
-                      thenAction.actionRule,
-                      context
-                    );
-                    results[actionRule] = thenActionResult;
-                    actionModel[actionKey] = thenActionResult;
-                  }
-                }
-              }
-            }
-          }
-          // Always apply the 'then' actions of the main condition
-
-        } catch (error) {
-          console.error(`Error while processing action rule: ${JSON.stringify(rule)}`, error);
-        }
-      }
-    }
-    this.actionModel = JSON.stringify(actionModel);
-    return results;
-  }
-
-  getComparisonFunction(operator: string): (left: any, right: any) => boolean {
-    switch (operator) {
-      case '==':
-        return (left, right) => left.includes(`= ${right}`);
-      case '>':
-        return (left, right) => {
-          const columnValue = left.split(/([\s><=]+)/);
-          return parseFloat(columnValue) > parseFloat(right);
-        };
-      case '!=':
-        return (left, right) => left.includes(`!= ${right}`);
-      case '>=':
-        return (left, right) => {
-          let columnValue = left.split(/([\s><=]+)/);
-          return parseFloat(columnValue[columnValue.length - 1]) >= parseFloat(right);
-        };
-      case '<=':
-        return (left, right) => {
-          const [, , columnValue] = left.split(/([\s><=]+)/);
-          return parseFloat(columnValue) <= parseFloat(right);
-        };
-      case '<':
-        return (left, right) => {
-          const [, , columnValue] = left.split(/([\s><=]+)/);
-          return parseFloat(columnValue) < parseFloat(right);
-        };
-      default:
-        throw new Error(`Unknown comparison operator: ${operator}`);
-    }
-  }
-
-  // Rules Form
-
   ruleForm: FormGroup;
   ngOnInit() {
-    this.ruleForm = this.fb.group({
-      actionRules: this.fb.array([])
-    });
-    this.addRule(); // Add first rule
-  }
-  actionRulesControl(): FormArray {
-    return this.ruleForm.get('actionRules') as FormArray;
-  }
 
-  get actionRules() {
-    return this.ruleForm.get('actionRules') as FormArray;
-  }
-
-  addIfThenActions(ifIndex: number): FormArray {
-    return this.actionRulesControl()
-      .at(ifIndex)
-      .get('then') as FormArray;
-  }
-
-  createRuleGroup(rule?: any): FormGroup {
-    return this.fb.group({
-      if: this.fb.group({
-        actionRule: ['', Validators.required],
-        key: ['', Validators.required],
-        compare: ['', Validators.required],
-        value: ['', Validators.required]
-      }),
-      then: this.fb.array([]),
-      OR: this.fb.array([]),
-      AND: this.fb.array([])
-    });
-  }
-  createThenAction(): FormGroup {
-    return this.fb.group({
-      actionRule: ['', Validators.required],
-      key: ['', Validators.required],
-      // Add other form controls for your "then" action properties here
-    });
-  }
-  addRule() {
-    this.actionRules.push(this.createRuleGroup());
-  }
-
-  removeRule(index: number) {
-    this.actionRules.removeAt(index);
-  }
-
-  addIfThenAction(index: number) {
-    this.addIfThenActions(index).push(this.createThenAction());
-  }
-
-  removeIfThenAction(index: number) {
-    this.addIfThenActions(index).removeAt(index);
-  }
-  removeIfThen(index: number) {
-    this.actionRulesControl().removeAt(index);
-  }
-  removeThenAction(parentIndex: number, index: number) {
-    this.addIfThenActions(parentIndex).removeAt(index);
-  }
-
-  addORCondition(ruleGroup: FormGroup) {
-    const orConditions = ruleGroup.get('OR') as FormArray;
-    orConditions.push(this.createRuleGroup());
-  }
-
-  removeORCondition(ruleGroup: FormGroup, index: number) {
-    const orConditions = ruleGroup.get('OR') as FormArray;
-    orConditions.removeAt(index);
-  }
-
-  addANDCondition(ruleGroup: FormGroup) {
-    const andConditions = ruleGroup.get('AND') as FormArray;
-    andConditions.push(this.createRuleGroup());
-  }
-
-  // AND condition
-  createAndCondition(): FormGroup {
-    return this.fb.group({
-      if: this.fb.group({
-        actionRule: ['', Validators.required],
-        key: ['', Validators.required],
-        compare: ['', Validators.required],
-        value: ['', Validators.required]
-      }),
-      then: this.fb.array([]),
-      OR: this.fb.array([]),
-      AND: this.fb.array([])
-    });
-  }
-
-  addIfAndAction(ruleIndex: number) {
-    this.addIfAndActions(ruleIndex).push(this.createAndCondition());
-  }
-
-  addIfAndActions(ifIndex: number): FormArray {
-    return this.actionRulesControl()
-      .at(ifIndex)
-      .get('AND') as FormArray;
-  }
-
-  removeIfAndAction(parentIndex: number, index: number) {
-    this.addIfAndActions(parentIndex).removeAt(index);
-  }
-
-  addThenActions(ruleIndex: number, andIndex: number): FormArray {
-    const andConditions = this.addIfAndActions(ruleIndex);
-    const andCondition = andConditions.at(andIndex) as FormGroup;
-    return andCondition.get('then') as FormArray;
-  }
-
-  removeANDCondition(ruleIndex: number, andIndex: number): void {
-    const andConditions = this.addIfAndActions(ruleIndex);
-    andConditions.removeAt(andIndex);
-  }
-
-  addThenAction(ruleIndex: number, andIndex: number): void {
-    const thenActions = this.addThenActions(ruleIndex, andIndex);
-    thenActions.push(this.createThenAction());
-  }
-
-  removeAndThenAction(ruleIndex: number, andIndex: number, thenIndex: number): void {
-    const thenActions = this.addThenActions(ruleIndex, andIndex);
-    thenActions.removeAt(thenIndex);
   }
 
 
   validationMessage: any[] = [];
   codeEditorRuleInstance!: monaco.editor.IStandaloneCodeEditor;
   codeEditorActionsInstance!: monaco.editor.IStandaloneCodeEditor;
-  @ViewChild('editorRuleContainer', { static: true }) _editorRuleContainer!: ElementRef;
-  @ViewChild('editorActionsContainer', { static: true }) _editorActionsContainer!: ElementRef;
+  // @ViewChild('editorRuleContainer', { static: false}) _editorRuleContainer!: ElementRef;
+  @ViewChild('editorRuleContainer', { static: false }) private _editorRuleContainer: ElementRef;
+
+  @ViewChild('editorActionsContainer', { static: false }) _editorActionsContainer!: ElementRef;
   columnsFields: any = [] = ["userTypeId", "status", "premium", "price"];
   operators = ['==', '!=', '>', '<', '>=', '<='];
 
   ngAfterViewInit(): void {
-    debugger
-    const languageId = 'json';
-    // Define a JSON schema for suggestions
-    monaco.editor.defineTheme('myCustomTheme', {
-      base: 'vs', // can also be vs-dark or hc-black
-      inherit: true, // can also be false to completely replace the built-in rules
-      rules: [
-        { token: 'comment', foreground: 'ffa500' },
-        { token: 'string', foreground: '00ff00' },
-        // more rules here
-      ],
-      colors: {
-        // you can also set editor-wide colors here
-        'editor.foreground': '#000000',
-        'editor.background': '#f5f5f5',
-        // and more
-      }
-    });
+    if (this.IsShowConfig) {
+      this.initializeMonacoEditor();
+    }
 
-    // Register the JSON schema
-    monaco.languages.json.jsonDefaults.setDiagnosticsOptions({
-      validate: true,
-      schemas: [{
-        uri: 'mySchema',
-        fileMatch: ['*'],
-        schema: this.jsonSchema
-      }]
-    });
-
-    // Create editor
-    this.codeEditorRuleInstance = monaco.editor.create(this._editorRuleContainer.nativeElement, {
-      theme: 'myCustomTheme',
-      language: languageId,
-      value: this.actionRule // Initial value
-    });
-    this.codeEditorActionsInstance = monaco.editor.create(this._editorActionsContainer.nativeElement, {
-      theme: 'myCustomTheme',
-      language: languageId,
-      value: this.actionList // Initial value
-    });
-
-    this.codeEditorRuleInstance.addAction({
-      id: 'validate-json',
-      label: 'Validate JSON',
-      run: () => {
-        this.validateJSON(); // Call the validation method
-      }
-    });
-
-    this.codeEditorActionsInstance.addAction({
-      id: 'validate-json',
-      label: 'Validate JSON',
-      run: () => {
-        this.validateJSON(); // Call the validation method
-      }
-    });
-
-    this.addCustomButton();
   }
   validateJSON() {
     this.validationMessage = [];
@@ -698,8 +343,122 @@ export class ExecuteActionRuleComponent implements OnInit, AfterViewInit {
   IsShowConfig: boolean = false;
   closeConfigurationList() {
     this.IsShowConfig = false;
+    // Dispose the editors to ensure they are destroyed when the drawer is closed
+    if (this.codeEditorRuleInstance) {
+      this.codeEditorRuleInstance.dispose();
+    }
+    if (this.codeEditorActionsInstance) {
+      this.codeEditorActionsInstance.dispose();
+    }
   }
-  controlListOpen(): void {
+  controlListOpen() {
     this.IsShowConfig = true;
+    this.cdRef.detectChanges();
+    setTimeout(() => {
+      this.initializeMonacoEditor();
+    }, 100);
   }
+  isEditorInitialized = false;
+  afterDrawerOpen() {
+    alert("fazi")
+  }
+
+
+  initializeMonacoEditor(): void {
+    debugger
+    if (!this.isEditorInitialized) {
+
+
+      debugger
+      if (this._editorRuleContainer) {
+        // Try logging to see if the reference is available
+        console.log(this._editorRuleContainer?.nativeElement);
+      } else {
+        console.log('editorRuleContainer is not available');
+      }
+
+      if (this._editorActionsContainer) {
+        console.log(this._editorActionsContainer.nativeElement);
+      } else {
+        console.log('editorActionsContainer is not available');
+      }
+
+      if (this.isEditorInitialized) {
+        return;
+      }
+      const languageId = 'json';
+      // Define a JSON schema for suggestions
+      monaco.editor.defineTheme('myCustomTheme', {
+        base: 'vs', // can also be vs-dark or hc-black
+        inherit: true, // can also be false to completely replace the built-in rules
+        rules: [
+          { token: 'comment', foreground: 'ffa500' },
+          { token: 'string', foreground: '00ff00' },
+          // more rules here
+        ],
+        colors: {
+          // you can also set editor-wide colors here
+          'editor.foreground': '#000000',
+          'editor.background': '#f5f5f5',
+          // and more
+        }
+      });
+
+      // Register the JSON schema
+      monaco.languages.json.jsonDefaults.setDiagnosticsOptions({
+        validate: true,
+        schemas: [{
+          uri: 'mySchema',
+          fileMatch: ['*'],
+          schema: this.jsonSchema
+        }]
+      });
+      //   if (this._editorRuleContainer && this._editorRuleContainer.nativeElement) {
+      //     // Access the nativeElement or other properties/methods
+      // }
+
+      // Create editor
+      this.codeEditorRuleInstance = monaco.editor.create(this._editorRuleContainer.nativeElement, {
+        theme: 'myCustomTheme',
+        language: languageId,
+        value: this.actionRule // Initial value
+      });
+      this.codeEditorActionsInstance = monaco.editor.create(this._editorActionsContainer.nativeElement, {
+        theme: 'myCustomTheme',
+        language: languageId,
+        value: this.actionList // Initial value
+      });
+
+      this.codeEditorRuleInstance.addAction({
+        id: 'validate-json',
+        label: 'Validate JSON',
+        run: () => {
+          this.validateJSON(); // Call the validation method
+        }
+      });
+
+      this.codeEditorActionsInstance.addAction({
+        id: 'validate-json',
+        label: 'Validate JSON',
+        run: () => {
+          this.validateJSON(); // Call the validation method
+        }
+      });
+
+      this.addCustomButton();
+      this.isEditorInitialized = true;
+
+    }else{
+      // this.codeEditorRuleInstance.layout();
+      // this.codeEditorActionsInstance.layout();
+    }
+  }
+  onDrawerVisibilityChanged(isVisible: boolean) {
+    if (isVisible) {
+      // Adjust the editors' size to fit the container
+      this.codeEditorRuleInstance.layout();
+      this.codeEditorActionsInstance.layout();
+    }
+  }
+
 }
