@@ -1,10 +1,10 @@
 <form [formGroup]="form" (ngSubmit)="onSubmit()">
-    <textarea rows="2" formControlName="message" placeholder="Write a message here..." nz-input></textarea>
+    <textarea rows="2" formControlName="message" class="!rounded-md" placeholder="Write a message here..." nz-input></textarea>
     <div class="mt-2">
-        <button class="comment-save-button" *ngIf="!update" nz-button nzType="primary">
+        <button class="comment-save-button btn" *ngIf="!update" nz-button nzType="primary">
             <i class="fa-regular fa-floppy-disk mr-2"></i>
             Save</button>
-        <button class="comment-save-button" *ngIf="update" nz-button nzType="primary">
+        <button class="comment-save-button btn-no !bg-green-500 hover:!bg-green-400" *ngIf="update" nz-button nzType="primary">
             <i class="fa-regular fa-arrows-rotate mr-2"></i>
             Update</button>
     </div>

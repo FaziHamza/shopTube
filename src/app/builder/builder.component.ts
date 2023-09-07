@@ -54,7 +54,7 @@ export class BuilderComponent implements OnInit {
   selectDepartmentName: any = [];
   IslayerVisible: boolean = true;
   IsjsonEditorVisible: boolean = false;
-  sizes = [18, 82];
+  sizes = [17,83];
   IsShowConfig: boolean = false;
   htmlTabsData: any = [];
   nodes: any = [];
@@ -259,10 +259,10 @@ export class BuilderComponent implements OnInit {
   saveOfflineDB() {
     let data = this.jsonStringifyWithObject(this.nodes);
     let encryptData = this._encryptionService.encryptData(data);
-    this.dataService.saveData(this.screenName, encryptData);
+    this.dataService.saveData(this.screenName,this.selectApplicationName, "Builder" ,encryptData);
   }
   getOfflineDb() {
-    let data = this.dataService.getNodes(this.screenName);
+    let data = this.dataService.getNodes(this.selectApplicationName,this.screenName,"Builder");
     let decryptData = this._encryptionService.decryptData(data);
     this.nodes = this.jsonParseWithObject(
       this.jsonStringifyWithObject(decryptData)
@@ -277,11 +277,11 @@ export class BuilderComponent implements OnInit {
     }
     if (content === 'delete') {
       this.iconActive = 'delete';
-      const nodes = await this.dataService.deleteDb(this.screenName);
+      const nodes = await this.dataService.deleteDb(this.selectApplicationName,this.screenName,"Builder");
       alert('this Screen Delete db successfully!');
       return;
     }
-    const nodes = await this.dataService.getNodes(this.screenName);
+    const nodes = await this.dataService.getNodes(this.selectApplicationName,this.screenName,"Builder");
 
     if (this.oldIndex === undefined) {
       // this.oldIndex = 0;
@@ -313,7 +313,7 @@ export class BuilderComponent implements OnInit {
   }
 
   deleteOfflineDb() {
-    let data = this.dataService.deleteDb(this.screenName);
+    let data = this.dataService.deleteDb(this.selectApplicationName,this.screenName,"Builder");
   }
   JsonEditorShow() {
     this.iconActive = 'jsonEdit';
@@ -6273,21 +6273,16 @@ export class BuilderComponent implements OnInit {
                       tableData['tableKey'] = tableKey
                     }
                     else {
-                      if (JSON.stringify(tableData['tableKey']) != JSON.stringify(tableKey)) {
-                        const updatedData = tableData.tableHeaders.filter((updatedItem: any) => {
-                          const name = updatedItem.name;
-                          return !tableKey.some((headerItem: any) => headerItem.name === name);
-                        });
+                      if (JSON.stringify(tableData['tableKey']) !== JSON.stringify(tableKey)) {
+                        const updatedData = tableKey.filter(updatedItem =>
+                          !tableData.tableHeaders.some((headerItem: any) => headerItem.name === updatedItem.name)
+                        );
                         if (updatedData.length > 0) {
-                          tableData.tableHeaders.map((item: any) => {
-                            const newItem = { ...item };
-                            for (let i = 0; i < updatedData.length; i++) {
-                              newItem[updatedData[i].key] = "";
-                            }
-                            return newItem;
+                          updatedData.forEach(updatedItem => {
+                            tableData.tableHeaders.push({ id: tableData.tableHeaders.length + 1, key: updatedItem.name, name: updatedItem.name, });
                           });
+                          tableData['tableKey'] = tableData.tableHeaders;
                         }
-
                       }
                     }
 

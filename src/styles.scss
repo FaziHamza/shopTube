@@ -6068,13 +6068,13 @@ li.ant-cascader-menu-item:nth-child(1):hover {
 
 
   .ant-modal-content {
-    border-radius: 10px;
+    border-radius: 14px !important;
 
     .ant-modal-close-icon {
       padding: 3px;
       // border: 2px solid red;
       // border-radius: 6px;
-      color: red;
+      color: red !important;
     }
   }
 
@@ -6800,7 +6800,7 @@ tr:hover {
 .ant-modal-close-icon {
   // border: 2px solid red;
   padding: 5px;
-  color: red;
+  color: red ;
   // border-radius: 6px;
 }
 
@@ -6866,13 +6866,13 @@ tr:hover {
 
 .ant-modal-content {
   /* border-radius: 2px; */
-  border-radius: 10px;
+  border-radius: 14px !important;
 }
 
 /* Element | http://aman.com:5600/ */
 
 .ant-modal-header {
-  border-radius: 10px 10px 0 0;
+  border-radius: 10px 10px 0 0 !important;
 }
 
 
@@ -6914,4 +6914,9 @@ tr:hover {
     width: auto !important;
     border-radius: 6px !important;
   }
+}
+
+.editor-container {
+  width: 100% !important; 
+  height: 100% !important;
 }

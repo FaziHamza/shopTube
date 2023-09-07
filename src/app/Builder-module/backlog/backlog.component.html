@@ -41,13 +41,13 @@
                     <td>
                         <i *ngIf="editId != data._id" class=" text-xl fas fa-edit text-green-500"
                         (click)="startEdit(data._id,data)"></i>
-                        <i *ngIf="editId != data._id" class=" text-xl fas fa-trash text-red-500 ml-2"
+                        <i *ngIf="editId != data._id" class=" text-xl fas fa-trash text-red-500 ml-1.5"
                         (click)="deleteTask(data)"></i>
                         <i *ngIf="editId == data._id" class=" text-xl fas fa-save text-blue-500"
                         (click)="saveEdit(data)"></i>
-                        <i *ngIf="editId == data._id" class=" text-xl fas fa-times-circle text-red-500 ml-2"
+                        <i *ngIf="editId == data._id" class=" text-xl fas fa-times-circle text-red-500 ml-1.5"
                         (click)="cancelEdit(data)"></i>
-                        <i class="fa-regular text-lg fa-circle-arrow-right text-gray-400 ml-2" (click)="showIssue(data)"></i>
+                        <i class="fa-regular text-lg fa-circle-arrow-right text-gray-400 ml-1.5" (click)="showIssue(data)"></i>
                     </td>
                 </tr>
             </tbody>

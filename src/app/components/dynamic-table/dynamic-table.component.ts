@@ -8,6 +8,7 @@ import { ApplicationService } from 'src/app/services/application.service';
 import { BuilderService } from 'src/app/services/builder.service';
 import { DataSharedService } from 'src/app/services/data-shared.service';
 import { EmployeeService } from 'src/app/services/employee.service';
+import { DataService } from 'src/app/services/offlineDb.service';
 import { environment } from 'src/environments/environment';
 
 @Component({
@@ -59,6 +60,7 @@ export class DynamicTableComponent implements OnInit {
   showChild: boolean = false;
   constructor(public _dataSharedService: DataSharedService, private builderService: BuilderService,
     private applicationService: ApplicationService,
+    private dataService: DataService,
     private employeeService: EmployeeService, private toastr: NzMessageService, private cdr: ChangeDetectorRef) {
   }
 
@@ -66,9 +68,17 @@ export class DynamicTableComponent implements OnInit {
 
     this.loadTableData();
     this.gridInitilize();
+    this.getSaveGroupNodes();
+    
+  }
+  async getSaveGroupNodes(){
+    const applicationId = localStorage.getItem('applicationId') || '';
+    let groupedNodes  = await this.dataService.getNodes(this.screenName,JSON.parse(applicationId),"Table");
+    if(groupedNodes.length > 0){
+      this.groupingArray = groupedNodes[groupedNodes.length-1].data;
+    }
   }
   updateModel(data: any) {
-    debugger
     if (this.data.doubleClick != false) {
       const dynamicPropertyName = Object.keys(this.form.value)[0]; // Assuming the dynamic property name is the first property in this.form.value
       if (this.form.get(dynamicPropertyName)) {
@@ -918,7 +928,7 @@ export class DynamicTableComponent implements OnInit {
       this.tableHeaders = this.data['tableKey'];
       this.footerData = this.tableHeaders;
     }
-    this.displayData = this.tableData;
+    // this.displayData = this.tableData;
     if (this.data.serverSidePagination) {
       if (this.data?.targetId) {
         const pagination = '?page=' + index + '&pageSize=' + this.data?.end;
@@ -1314,6 +1324,8 @@ export class DynamicTableComponent implements OnInit {
       this.tableData = this.groupData(this.groupingData, 0);
       this.pageChange(1);
     }
+    const applicationId = localStorage.getItem('applicationId') || '';
+    this.dataService.addData(this.screenName,JSON.parse(applicationId),"Table",this.groupingArray);
   }
 
   groupData(data: any[], index: number): any {
