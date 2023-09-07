@@ -1,7 +1,7 @@
 <button *ngIf="buttonData.type != 'linkbutton' && buttonData.type != 'dropdownButton'" nz-button
   [disabled]="buttonData.disabled" [nzBlock]="buttonData.nzBlock" [nzDanger]="buttonData.nzDanger"
   [nzGhost]="buttonData.nzGhost" [nzLoading]="buttonData.nzLoading" [nzShape]="buttonData.nzShape"
-  [class]="'bg-blue-500 hover:bg-blue-600 text-white hover:text-white border border-tranparent hover:border-tranparent'" [nzSize]="buttonData.nzSize" [nzType]="buttonData.nztype"
+  [class]="buttonData.buttonClass" [nzSize]="buttonData.nzSize" [nzType]="buttonData.nztype"
   [type]="buttonData.isSubmit ? 'submit' : 'button'"
   [style.border-radius.px]="buttonData.nzShape == 'default' ? buttonData.radius : ''"
   [style.opacity]="hoverOpacity ? hoverOpacity :  buttonData.btnopacity ? buttonData.btnopacity : '1'" [ngStyle]="{

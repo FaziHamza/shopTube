@@ -1827,6 +1827,7 @@ export class AddControlService {
       isClosable: true,
       icon: "close",
       extra: "extra",
+      notvisible: true,
       isKeyboard: true,
       footerText: "",
       isVisible: false,
