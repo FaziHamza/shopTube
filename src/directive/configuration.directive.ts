@@ -13,7 +13,6 @@ export class ConfigurableDirective implements OnInit, OnDestroy {
   constructor(private renderer: Renderer2, private el: ElementRef, private applicationService: ApplicationService) { }
 
   ngOnInit() {
-    debugger
     this.configs.forEach(config => {
       if (config && config.event && config.action) {
         this.renderer.listen(this.el.nativeElement, config.event, () => {

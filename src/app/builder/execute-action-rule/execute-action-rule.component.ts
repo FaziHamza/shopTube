@@ -1,8 +1,11 @@
-import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { EmployeeService } from 'src/app/services/employee.service';
 import * as monaco from 'monaco-editor';
 import Ajv, { ErrorObject } from 'ajv';
+import { ApplicationService } from 'src/app/services/application.service';
+import { Subscription } from 'rxjs';
+import { NzMessageService } from 'ng-zorro-antd/message';
 
 @Component({
   selector: 'st-execute-action-rule',
@@ -10,10 +13,56 @@ import Ajv, { ErrorObject } from 'ajv';
   styleUrls: ['./execute-action-rule.component.scss']
 })
 export class ExecuteActionRuleComponent implements OnInit, AfterViewInit {
-
-  constructor(private fb: FormBuilder, private employeeService: EmployeeService, private cdRef: ChangeDetectorRef) { }
+  @Input() screens: any;
+  @Input() screenName: any;
+  @Input() selectedNode: any;
+  @Input() formlyModel: any;
+  @Input() nodes: any;
+  @Input() applicationId: string;
+  @Input() screeenBuilderId: string;
+  requestSubscription: Subscription;
+  nodeList: { title: string, key: string }[] = [];
+  constructor(private fb: FormBuilder, private employeeService: EmployeeService, private cdRef: ChangeDetectorRef,
+    private applicationService: ApplicationService,
+    private toastr: NzMessageService,) { }
   actionResult: any;
-
+  ngOnInit() {
+    this.getActionData();
+    this.extractNodes(this.nodes, this.nodeList);
+  }
+  extractNodes(nodes: any, nodeList: { title: string, key: string }[]) {
+    for (const node of nodes) {
+      const { title, key, children, id } = node;
+      if (title === '') {
+        nodeList.push({ title: key, key });
+        this.columnsFields.push(key);
+      } else {
+        nodeList.push({ title, key });
+        this.columnsFields.push(key);
+      }
+      if (children && children.length > 0) {
+        this.extractNodes(children, nodeList);
+      }
+    }
+  }
+  getActionData() {
+    debugger
+    const selectedScreen = this.screens.filter((a: any) => a.name == this.screenName)
+    if (selectedScreen[0].navigation != null && selectedScreen[0].navigation != undefined) { // selectedScreen[0].navigation
+      this.requestSubscription = this.applicationService.getNestCommonAPIById("cp/actionbyscreenname", selectedScreen[0]._id).subscribe({
+        next: (res: any) => {
+          if (res.data && res.data.length > 0) {
+            const getRes = res.data.map((x: any) =>  {return {name: x.elementName, query : x.quries} });
+            this.actionList = JSON.stringify(getRes);
+          }
+        },
+        error: (err) => {
+          console.error(err);
+          this.toastr.error("An error occurred", { nzDuration: 3000 });
+        }
+      })
+    }
+  }
   actionList: any = JSON.stringify([
     {
       "name": "checkUserType",
@@ -115,7 +164,7 @@ export class ExecuteActionRuleComponent implements OnInit, AfterViewInit {
           }
         }
       }
-    ]
+    ],null,2
   );
   actionModel: any = JSON.stringify({
     "userTypeId": 1,
@@ -136,9 +185,7 @@ export class ExecuteActionRuleComponent implements OnInit, AfterViewInit {
   };
 
   ruleForm: FormGroup;
-  ngOnInit() {
 
-  }
 
 
   validationMessage: any[] = [];
