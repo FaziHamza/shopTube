@@ -67,7 +67,7 @@ export class GenericFieldComponent implements OnInit {
 
   }
   onSubmit() {
-    
+
     // event.stopPropagation();
     // this.valueChange.emit(this.model + ' from child.');
     // const newProduct = { productName: "New", quantity: 666 };
@@ -104,47 +104,51 @@ export class GenericFieldComponent implements OnInit {
   }
 
   dynamicSectionOption() {
-    
     this.resData = [];
     let obj: { mapApi?: any } = this.actionform.value;
     if (obj.mapApi) {
-      this.requestSubscription = this.applicationService.getNestCommonAPI(obj.mapApi).subscribe({
-        next: (res) => {
-          if (res.data.length > 0) {
-            this.resData = res.data;
-            this.itemData.mappingNode.tableBody = [];
-            let firstObjectKeys = Object.keys(res.data[0]);
-            let key = firstObjectKeys.map(key => ({ key: key, value: key }));
-            this.optionsArray = [];
-            if (this.itemData.mappingNode.type == 'tabs' || this.itemData.mappingNode.type == 'step' || this.itemData.mappingNode.type == 'div' || this.itemData.mappingNode.type == 'listWithComponentsChild' || this.itemData.mappingNode.type == 'cardWithComponents') {
-              this.itemData.mappingNode.children.forEach((element: any) => {
-                this.createOptionsArray(element);
-              });
-            }
-            else {
-              this.createOptionsArray(this.itemData.mappingNode.children[1].children[0]);
-            }
-            this.optionsArray.forEach((item: any, index: number) => {
-              let newObj = {
-                // id: index + 1,
-                fileHeader: item.key,
-                SelectQBOField: key,
-                defaultValue: '',
+      try {
+        this.requestSubscription = this.applicationService.getNestCommonAPI(obj.mapApi).subscribe({
+          next: (res) => {
+            if (res.data.length > 0) {
+              this.resData = res.data;
+              this.itemData.mappingNode.tableBody = [];
+              let firstObjectKeys = Object.keys(res.data[0]);
+              let key = firstObjectKeys.map(key => ({ key: key, value: key }));
+              this.optionsArray = [];
+              if (this.itemData.mappingNode.type == 'tabs' || this.itemData.mappingNode.type == 'step' || this.itemData.mappingNode.type == 'div' || this.itemData.mappingNode.type == 'listWithComponentsChild' || this.itemData.mappingNode.type == 'cardWithComponents' || this.itemData.mappingNode.type == 'timelineChild') {
+                this.itemData.mappingNode.children.forEach((element: any) => {
+                  this.createOptionsArray(element);
+                });
               }
-              this.itemData.mappingNode.tableBody.push(newObj);
-            })
+              else {
+                this.createOptionsArray(this.itemData.mappingNode.children[1].children[0]);
+              }
+              this.optionsArray.forEach((item: any, index: number) => {
+                let newObj = {
+                  // id: index + 1,
+                  fileHeader: item.key,
+                  SelectQBOField: key,
+                  defaultValue: '',
+                }
+                this.itemData.mappingNode.tableBody.push(newObj);
+              })
+            }
+          },
+          error: (err) => {
+            console.error(err); // Log the error to the console
+            this.toastr.error("An error occurred", { nzDuration: 3000 }); // Show an error message to the user
           }
-
-        },
-        error: (err) => {
-          console.error(err); // Log the error to the console
-          this.toastr.error("An error occurred", { nzDuration: 3000 }); // Show an error message to the user
-        }
-      })
+        });
+      } catch (error) {
+        console.error("An error occurred in try-catch:", error);
+        // Handle the error appropriately, e.g., show an error message to the user.
+      }
     } else {
       this.itemData.mappingNode.tableBody = [];
     }
   }
+
 
   createOptionsArray(node: any) {
     if (node?.formly) {

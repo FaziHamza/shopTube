@@ -1248,9 +1248,6 @@ export class DynamicTableComponent implements OnInit {
     if (data) {
       if (data.type && type) {
         if (data.type === type) {
-          if (data.type == 'drawer') {
-            data['visible'] = true;
-          }
           return data;
         }
         if (data.children.length > 0) {

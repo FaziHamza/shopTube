@@ -834,9 +834,9 @@ export class AddControlService {
       rowClickApi: "",
       tableKey: [],
       displayData: [],
-      showEditInput:false,
-      isDeleteAllow:true,
-      isAllowGrouping:false,
+      showEditInput: false,
+      isDeleteAllow: true,
+      isAllowGrouping: false,
       tableHeaders: [
         // {
         //   name: 'Id',
@@ -1188,6 +1188,15 @@ export class AddControlService {
   timelineChildControl() {
     return {
       isNextChild: true,
+      tableHeader: [
+        { name: 'fileHeader', },
+        { name: 'SelectQBOField' },
+        { name: 'defaultValue' },
+      ],
+      tableBody: [],
+      checkData: '',
+      dbData: '',
+      tableData: [],
     }
   }
   fixedDivControl() {
