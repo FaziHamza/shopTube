@@ -54,7 +54,7 @@ export class BuilderComponent implements OnInit {
   selectDepartmentName: any = [];
   IslayerVisible: boolean = true;
   IsjsonEditorVisible: boolean = false;
-  sizes = [18, 82];
+  sizes = [17,83];
   IsShowConfig: boolean = false;
   htmlTabsData: any = [];
   nodes: any = [];

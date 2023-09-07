@@ -1,46 +1,53 @@
 <nz-spin [nzSpinning]="saveLoader" [nzSize]="'large'">
     <div *ngIf="saveLoader && tasks.length == 0" style="height: 100vh;"></div>
-    <div class="task-chart mb-6 grid grid-cols-3 gap-3">
-        <div *ngFor="let week of chartData">
-            <div class="chart">
-                <div class="inner"><span class="center">AGILE</span></div>
-                <div class="segment" style="--rotate: 0deg;">
+
+    <div class="task-chart mb-6 grid grid-cols-4 gap-3">
+        <!-- <nz-card >
+        </nz-card> -->
+            <nz-card *ngFor="let week of chartData" class="flex flex-col items-center !rounded-md">
+                <div class="chart">
+                    <div class="inner"><span class="center">AGILE</span></div>
+                    <div class="segment" style="--rotate: 0deg;">
+                    </div>
+                    <div class="segment" style="--rotate: 72deg;">
+                        <span>Segment 2</span>
+                    </div>
+                    <div class="segment" style="--rotate: 144deg;">
+                        <span>Segment 3</span>
+                    </div>
+                    <div class="segment" style="--rotate: 216deg;">
+                        <span>Segment 4</span>
+                    </div>
+                    <div class="segment" style="--rotate: 288deg;">
+                        <span>Segment 5</span>
+                    </div>
+                    <div class="">
+                        <span class="first">open {{week.issues.open.length}}</span>
+                        <span class="second">In Progress {{week.issues.inProgress.length}}</span>
+                        <span class="third">Completed {{week.issues.completed.length}}</span>
+                        <span class="fourth">Closed {{week.issues.closed.length}}</span>
+                        <span class="fifth">Review 0</span>
+                    </div>
                 </div>
-                <div class="segment" style="--rotate: 72deg;">
-                    <span>Segment 2</span>
+                <div class="first-arrow ">
+                    <div class="content">
+                        <p>Requirment </p>
+                    </div>
                 </div>
-                <div class="segment" style="--rotate: 144deg;">
-                    <span>Segment 3</span>
+                <div class="last-arrow ">
+                    <div class="content">
+                        <p> </p>
+                    </div>
                 </div>
-                <div class="segment" style="--rotate: 216deg;">
-                    <span>Segment 4</span>
+                <div>
+                    <p class="text-lg font-bold pl-20 pt-2">{{week.week}}</p>
                 </div>
-                <div class="segment" style="--rotate: 288deg;">
-                    <span>Segment 5</span>
-                </div>
-                <div class="">
-                    <span class="first">open {{week.issues.open.length}}</span>
-                    <span class="second">In Progress {{week.issues.inProgress.length}}</span>
-                    <span class="third">Completed {{week.issues.completed.length}}</span>
-                    <span class="fourth">Closed {{week.issues.closed.length}}</span>
-                    <span class="fifth">Review 0</span>
-                </div>
-            </div>
-            <div class="first-arrow ">
-                <div class="content">
-                    <p>Requirment </p>
-                </div>
-            </div>
-            <div class="last-arrow ">
-                <div class="content">
-                    <p> </p>
-                </div>
-            </div>
-            <div>
-                <p class="text-lg font-bold pl-20 pt-2">{{week.week}}</p>
-            </div>
-        </div>
+            </nz-card>
+        
     </div>
+
+
+
     <nz-collapse class="mb-2 task-list-collapse" *ngIf="tasks.length > 0">
         <nz-collapse-panel *ngFor="let panel of tasks let i = index" [nzHeader]="header" [nzActive]="false">
             <ng-template #header>
