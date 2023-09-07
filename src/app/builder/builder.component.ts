@@ -1691,7 +1691,7 @@ export class BuilderComponent implements OnInit {
         break;
       case 'kanban':
         newNode = { ...newNode, ...this.addControlService.getKanbanControl() };
-        this.ParentAdd =  newNode;
+        this.ParentAdd = newNode;
         break;
       case 'kanbanChild':
         newNode = {
@@ -4197,29 +4197,35 @@ export class BuilderComponent implements OnInit {
           this.selectedNode['openComponent'] = event.form?.openComponent;
           this.selectedNode['isDeleteAllow'] = event.form?.isDeleteAllow;
           this.selectedNode['isAllowGrouping'] = event.form?.isAllowGrouping;
-          const tableData = event.tableDta ? event.tableDta : event.form.options;
+          let tableData: any = '';
+          if (event.tableDta) {
+            tableData = event.tableDta;
+          }
           // const tableData = event.form.options;
           this.selectedNode['end'] = event.form?.end;
           this.selectedNode['serverSidePagination'] = event.form?.serverSidePagination;
           // const tableData = event.tableDta ? event.tableDta : event.form.options;
-          const updatedData = tableData.filter((updatedItem: any) => {
-            const key = updatedItem.key;
-            return !this.selectedNode.tableHeaders.some((headerItem: any) => headerItem.key === key);
-          });
-          this.selectedNode.tableKey = tableData.map((key: any) => ({ name: key.name }));
-          if (updatedData.length > 0) {
-            this.selectedNode.tableHeaders.map((item: any) => {
-              const newItem = { ...item };
-              for (let i = 0; i < updatedData.length; i++) {
-                newItem[updatedData[i].key] = "";
-              }
-              return newItem;
+          if (tableData) {
+            const updatedData = tableData.filter((updatedItem: any) => {
+              const key = updatedItem.key;
+              return !this.selectedNode.tableHeaders.some((headerItem: any) => headerItem.key === key);
             });
+            this.selectedNode.tableKey = tableData.map((key: any) => ({ name: key.name }));
+            if (updatedData.length > 0) {
+              this.selectedNode.tableHeaders.map((item: any) => {
+                const newItem = { ...item };
+                for (let i = 0; i < updatedData.length; i++) {
+                  newItem[updatedData[i].key] = "";
+                }
+                return newItem;
+              });
+            }
+            this.selectedNode.tableHeaders = event.tableDta
+              ? event.tableDta
+              : event.form.options;
+            // this.selectedNode.tableHeaders = event.form.options;
           }
-          this.selectedNode.tableHeaders = event.tableDta
-            ? event.tableDta
-            : event.form.options;
-          // this.selectedNode.tableHeaders = event.form.options;
+
           if (this.selectedNode.tableHeaders.length > 0) {
             let newHeaders = this.selectedNode.tableHeaders.map((obj: any) => {
               let newObj = { ...obj };
@@ -4240,11 +4246,13 @@ export class BuilderComponent implements OnInit {
             });
             this.selectedNode.tableHeaders = newHeaders;
           }
-          this.selectedNode.columnData = this.updateTableData(
-            event.tableDta ? event.tableDta : event.form.options,
-            event.tableDta ? event.tableDta : event.form.options
-            // event.form.options, event.form.options
-          );
+          if (event.tableDta) {
+            this.selectedNode.columnData = this.updateTableData(
+              event.tableDta ? event.tableDta : event.form.options,
+              event.tableDta ? event.tableDta : event.form.options
+              // event.form.options, event.form.options
+            );
+          }
           if (event.form.api) {
             this.requestSubscription = this.builderService
               .genericApis(event.form.api)

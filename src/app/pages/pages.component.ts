@@ -41,6 +41,7 @@ export class PagesComponent implements OnInit {
         this.saveDataGrid(res);
     });
   }
+  @Input() data: any = [];
   @Input() resData: any = [];
   @Input() formlyModel: any;
   fields: any = [];
@@ -57,6 +58,7 @@ export class PagesComponent implements OnInit {
   getTaskManagementIssues: any[] = [];
   isVisible: boolean = false;
   ngOnInit(): void {
+    debugger
     // console.log("pages")
     // debugger
     // if (this.navigation) {
@@ -153,62 +155,79 @@ export class PagesComponent implements OnInit {
     })
     // if (this.router.url.includes('/pages'))
     //   this.isPageContextShow = true;
-    this.requestSubscription = this.activatedRoute.params.subscribe((params: Params) => {
-      // // This is used in SiteLayoutComponent.component to show active route and show data on base of active route
-      // if (params["application"] && params["module"]) {
-      //   let activeModule = params["module"].replace('-', ' ');
-      //   let activeApplication = params["application"].replace('-', ' ');
-      //   if (params["module"] && (this.dataSharedService.checkModule !== params["module"] || this.dataSharedService.checkModule === '')) {
-      //     this.dataSharedService.checkModule = params["module"];
-      //     if (params["module"]) {
-      //       this.requestSubscription = this.employeeService.headerFooter(params["module"]).subscribe({
-      //         next: (res: any) => {
-      //           if (res.length > 0) {
-      //             this.setData(res[0]);
+    if (this.data.length == 0) {
+      this.requestSubscription = this.activatedRoute.params.subscribe((params: Params) => {
+        // // This is used in SiteLayoutComponent.component to show active route and show data on base of active route
+        // if (params["application"] && params["module"]) {
+        //   let activeModule = params["module"].replace('-', ' ');
+        //   let activeApplication = params["application"].replace('-', ' ');
+        //   if (params["module"] && (this.dataSharedService.checkModule !== params["module"] || this.dataSharedService.checkModule === '')) {
+        //     this.dataSharedService.checkModule = params["module"];
+        //     if (params["module"]) {
+        //       this.requestSubscription = this.employeeService.headerFooter(params["module"]).subscribe({
+        //         next: (res: any) => {
+        //           if (res.length > 0) {
+        //             this.setData(res[0]);
 
-      //             if (res.length > 1) {
-      //               this.setData(res[1]);
-      //             }
-      //           }
-      //         },
-      //         error: (err) => {
-      //           console.error(err);
-      //         }
-      //       });
-      //     }
-      //     this.dataSharedService.urlModule.next({ aplication: activeApplication, module: activeModule });
-      //   }
-      //   else {
-      //   }
-      // }
-      // else {
-      //   // this.dataSharedService.urlModule.next({ aplication: '', module: '' });
-      // }
-      // ----------------------------------------------------------------//
+        //             if (res.length > 1) {
+        //               this.setData(res[1]);
+        //             }
+        //           }
+        //         },
+        //         error: (err) => {
+        //           console.error(err);
+        //         }
+        //       });
+        //     }
+        //     this.dataSharedService.urlModule.next({ aplication: activeApplication, module: activeModule });
+        //   }
+        //   else {
+        //   }
+        // }
+        // else {
+        //   // this.dataSharedService.urlModule.next({ aplication: '', module: '' });
+        // }
+        // ----------------------------------------------------------------//
 
 
-      // ------------------
-      //  Working on Load
-      // ------------------
+        // ------------------
+        //  Working on Load
+        // ------------------
 
-      if (params["schema"]) {
-        this.dataSharedService.defaultPageNodes = '';
-        this.isPageContextShow = true;
-        // this.dataSharedService.urlModule.next({ aplication: '', module: '' });
-        this.screenName = params["schema"];
-        this.requestSubscription = this.applicationService.getNestCommonAPI("cp/getuserCommentsByApp/UserComment/pages/" + params["schema"]).subscribe((res: any) => {
-          if (res.isSuccess) {
-            let commentList = res.data
-            this.dataSharedService.screenCommentList = commentList;
+        if (params["schema"]) {
+          this.dataSharedService.defaultPageNodes = '';
+          this.isPageContextShow = true;
+          // this.dataSharedService.urlModule.next({ aplication: '', module: '' });
+          this.screenName = params["schema"];
+          this.requestSubscription = this.applicationService.getNestCommonAPI("cp/getuserCommentsByApp/UserComment/pages/" + params["schema"]).subscribe((res: any) => {
+            if (res.isSuccess) {
+              let commentList = res.data
+              this.dataSharedService.screenCommentList = commentList;
 
-            this.getTaskManagementIssuesFunc(params["schema"], JSON.parse(localStorage.getItem('applicationId')!));
-          }
-        })
-        this.getBuilderScreen(params);
+              this.getTaskManagementIssuesFunc(params["schema"], JSON.parse(localStorage.getItem('applicationId')!));
+            }
+          })
+          this.getBuilderScreen(params);
 
-      }
+        }
 
-    });
+      });
+    }
+    else if (this.data.length > 0) {
+      this.requestSubscription = this.applicationService.getNestCommonAPIById("cp/actionbyscreenname", this.data[0].data[0].screenBuilderId).subscribe({
+        next: (actions: any) => {
+          this.actionListData = actions?.data;
+          this.actionsBindWithPage(this.data[0]);
+        },
+        error: (err) => {
+          // this.getBuilderScreen(params);
+          this.actionsBindWithPage(this.data[0]);
+          console.error(err);
+          // this.toastr.error("An error occurred", { nzDuration: 3000 });
+        }
+      })
+    }
+
   }
   getBuilderScreen(params: any) {
     this.requestSubscription = this.applicationService.getNestCommonAPIById('cp/Builder', params["schema"]).subscribe({
@@ -240,6 +259,7 @@ export class PagesComponent implements OnInit {
   actionsBindWithPage(res: any) {
     debugger
     this.screenId = res.data[0].screenBuilderId;
+    this.screenName = res.data[0].navigation;
     this.getBusinessRule(res.data[0].screenBuilderId);
     this.getUIRuleData(res.data[0].screenBuilderId);
     const data = JSON.parse(res.data[0].screenData);
@@ -253,14 +273,14 @@ export class PagesComponent implements OnInit {
           const formlyConfig = node.formly?.[0]?.fieldGroup?.[0]?.key;
           for (let index = 0; index < this.actionListData.length; index++) {
             const element = this.actionListData[index];
-            if (formlyConfig == element.elementName && element.actionType == 'api') {
+            if (formlyConfig == element.elementName && (element.actionType == 'api' || element.actionType === 'query')) {
               const eventActionConfig = node?.formly?.[0]?.fieldGroup?.[0]?.props;
               if (eventActionConfig) {
                 if (index == 0) {
                   eventActionConfig['appConfigurableEvent'] = [];
                   eventActionConfig['eventActionconfig'] = {};
                 }
-                if (element.btnActionType == 'load') {
+                if (element.btnActionType == 'load' && !element.elementName.includes('gridlist')) {
                   eventActionConfig['eventActionconfig'] = {};
                   let obj = { actionType: element.actionType, url: element.httpAddress, method: element.actionLink }
                   eventActionConfig['eventActionconfig'] = obj;

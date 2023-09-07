@@ -217,7 +217,7 @@ export class SectionsComponent implements OnInit {
         } else {
           empData[mainTableName] = result;
         }
-      } 
+      }
       else {
         empData = {
           screenId: this.screenName,
@@ -250,6 +250,8 @@ export class SectionsComponent implements OnInit {
         relationIds = relationIds.toString();
         // if (Object.keys(empData.modalData).length > 0)
         this.saveLoader = true;
+        empData['id'] = findClickApi[0].actions[0].id
+        // empData.screenId = findClickApi?.[0].actions?.[0]?.url
         this.applicationServices.addBackendCommonApi('knex-query', empData).subscribe({
           next: (res) => {
             this.saveLoader = false;
