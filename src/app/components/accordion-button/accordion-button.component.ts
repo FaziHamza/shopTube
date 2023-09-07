@@ -115,19 +115,15 @@ export class AccordionButtonComponent implements OnInit {
           tableData['tableKey'] = tableKey
         }
         else {
-          if (JSON.stringify(tableData['tableKey']) != JSON.stringify(tableKey)) {
-            const updatedData = tableData.tableHeaders.filter((updatedItem: any) => {
-              const name = updatedItem.name;
-              return !tableKey.some((headerItem: any) => headerItem.name === name);
-            });
+          if (JSON.stringify(tableData['tableKey']) !== JSON.stringify(tableKey)) {
+            const updatedData = tableKey.filter(updatedItem =>
+              !tableData.tableHeaders.some((headerItem: any) => headerItem.name === updatedItem.name)
+            );
             if (updatedData.length > 0) {
-              tableData.tableHeaders.map((item: any) => {
-                const newItem = { ...item };
-                for (let i = 0; i < updatedData.length; i++) {
-                  newItem[updatedData[i].key] = "";
-                }
-                return newItem;
+              updatedData.forEach(updatedItem => {
+                tableData.tableHeaders.push({ id: tableData.tableHeaders.length + 1, key: updatedItem.name, name: updatedItem.name, });
               });
+              tableData['tableKey'] = tableData.tableHeaders;
             }
           }
         }

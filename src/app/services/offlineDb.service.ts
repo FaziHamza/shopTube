@@ -11,40 +11,36 @@ export class DataService {
   constructor() {
     this.db = new MyDatabase();
   }
-  async saveData(screenName: string, data: any): Promise<void> {
 
-    const obj = { screenName: screenName, data: data };
+  async saveData(screenName: string, applicationId: string, type: string, data: any): Promise<void> {
+    const obj = { screenName: screenName, applicationId: applicationId, type: type, data: data };
     await this.db.myTable.add(obj);
-    // await this.db.myTable.put({
-    //   tableName,
-    //   data,
-    // });
-    this.getNodes(screenName);
-    // this.deleteDb(screenName);
+    this.getNodes(applicationId, screenName, type);
   }
-  async getNodes(screenName: any) {
-   
-    let check = await this.db.myTable.where('screenName').equals(screenName).toArray();
+  
+  async getNodes(applicationId: string, screenName: string, type: string): Promise<any[]> {
+    let check = await this.db.myTable
+      .where('applicationId')
+      .equals(applicationId)
+      .and(node => node.screenName === screenName && node.type === type)
+      .toArray();
     return check;
   }
 
-  async deleteDb(screenName: any) {
-
-    this.db.myTable.where('screenName').equals(screenName).delete().then(() => {
-      console.log("Database successfully deleted");
-    }).catch((error) => {
-      console.log("Error deleting database:", error);
-    });
-
-    // this.db.delete().then(() => {
-    //   console.log("Database successfully deleted");
-    // }).catch((error) => {
-    //   console.log("Error deleting database:", error);
-    // });
+  async deleteDb(applicationId: string, screenName: string, type: string): Promise<void> {
+    await this.db.myTable.where({ applicationId: applicationId, screenName: screenName, type: type }).delete();
+    console.log("Data successfully deleted");
   }
-
-}
-
+  async addData(screenName: string, applicationId: string, type: string, data: any): Promise<void> {
+    const obj = { screenName: screenName, applicationId: applicationId, type: type, data: data };
+  
+    // Use the put method to insert or update the record based on the primary key
+    await this.db.myTable.put(obj);
+  
+    this.getNodes(applicationId, screenName, type);
+  }
+  
+}  
 
 class MyDatabase extends Dexie {
   myTable: Dexie.Table<dbModel, number>;
@@ -52,9 +48,10 @@ class MyDatabase extends Dexie {
   constructor() {
     super('MyDatabase');
     this.version(1).stores({
-      myTable: '++id,screenName',
+      myTable: '++id,screenName,applicationId,type,data', // Include applicationId as an indexed field
     });
     this.myTable = this.table('myTable');
   }
-
 }
+
+
