@@ -8918,6 +8918,15 @@ export class formFeildData {
         },
         {
           className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          key: 'notvisible',
+          type: 'checkbox',
+          wrappers: ["formly-vertical-theme-wrapper"],
+          props: {
+            label: 'Show Button',
+          },
+        },
+        {
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
           key: 'icon',
           type: 'input',
           wrappers: ["formly-vertical-theme-wrapper"],
@@ -9126,16 +9135,16 @@ export class formFeildData {
           },
           defaultValue: false
         },
-        {
-          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
-          key: 'isVisible',
-          type: 'checkbox',
-          wrappers: ["formly-vertical-theme-wrapper"],
-          props: {
-            label: 'isVisible',
-          },
-          defaultValue: false
-        },
+        // {
+        //   className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+        //   key: 'visible',
+        //   type: 'checkbox',
+        //   wrappers: ["formly-vertical-theme-wrapper"],
+        //   props: {
+        //     label: 'isVisible',
+        //   },
+        //   defaultValue: false
+        // },
         // {
         //   className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
         //   key: 'showDrawer',
