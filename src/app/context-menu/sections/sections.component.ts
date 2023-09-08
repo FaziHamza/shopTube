@@ -256,28 +256,37 @@ export class SectionsComponent implements OnInit {
           empData['id'] = findClickApi[0].actions[0].id
         }
         // empData.screenId = findClickApi?.[0].actions?.[0]?.url
-        this.applicationServices.addBackendCommonApi(findClickApi.length > 0 ? findClickApi?.[0].actions?.[0]?.url : 'knex-query', empData).subscribe({
-          next: (res) => {
-            this.saveLoader = false;
-            if (res[0]?.error)
-              this.toastr.error(res[0]?.error, { nzDuration: 3000 });
-            else {
-              this.toastr.success("Save Successfully", { nzDuration: 3000 });
-              this.setInternalValuesEmpty(this.dataModel);
-              this.setInternalValuesEmpty(this.formlyModel);
-              this.form.patchValue(this.formlyModel);
-              // this.setInternalValuesEmpty(this.dataModel)
-              // this.employeeService.getSQLDatabaseTable(`knex-query?tables=${tables}&relationIds=id,${relationIds.toString()}`).subscribe({
-              this.getFromQuery(data);
-            }
+        let apiUrl = '';
+        if (findClickApi?.[0].actions?.[0].actionType === 'api') {
+          apiUrl = findClickApi?.[0].actions?.[0]?.url;
+        } else if (findClickApi?.[0].actions?.[0].actionType === 'query') {
+          apiUrl = 'knex-query';
+        }
+        if (apiUrl) {
+          this.applicationServices.addBackendCommonApi(apiUrl, empData).subscribe({
+            next: (res) => {
+              this.saveLoader = false;
+              if (res[0]?.error)
+                this.toastr.error(res[0]?.error, { nzDuration: 3000 });
+              else {
+                this.toastr.success("Save Successfully", { nzDuration: 3000 });
+                this.setInternalValuesEmpty(this.dataModel);
+                this.setInternalValuesEmpty(this.formlyModel);
+                this.form.patchValue(this.formlyModel);
+                // this.setInternalValuesEmpty(this.dataModel)
+                // this.employeeService.getSQLDatabaseTable(`knex-query?tables=${tables}&relationIds=id,${relationIds.toString()}`).subscribe({
+                this.getFromQuery(data);
+              }
 
-          },
-          error: (err) => {
-            console.error(err);
-            this.toastr.error("An error occurred", { nzDuration: 3000 });
-            this.saveLoader = false;
-          }
-        });
+            },
+            error: (err) => {
+              console.error(err);
+              this.toastr.error("An error occurred", { nzDuration: 3000 });
+              this.saveLoader = false;
+            }
+          });
+        }
+
       }
       else {
 
