@@ -56,7 +56,7 @@
 
           <tr [ngStyle]="{'background': item?.color}" (click)="checkTypeData(item)" class="desktop-toggle"
             (dblclick)="updateModel(item)" (click)="data?.rowClickApi!='' ? onClickRow(data.rowClickApi,item): ''">
-            <td *ngIf="item.expand != undefined" [(nzExpand)]="item.expand"></td>
+            <td *ngIf="item.expand != undefined" [(nzExpand)]="item.expand">{{item.children.length}}</td>
             <td *ngIf="data.showCheckbox" [(nzChecked)]="item.checked" (nzCheckedChange)="refreshStatus()"></td>
             <ng-container *ngFor="let header of data['tableKey']; let index = index">
               <!-- {{tableHeaders[index]?.dataType | json}} -->

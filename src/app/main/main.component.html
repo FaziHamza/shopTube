@@ -2,7 +2,7 @@
   <div class="{{!item.hideExpression   ? item.className : ''}}"
     *ngFor="let item of mainData.children ; index as i; last as isLast">
     <div [ngClass]="{'highLight': item.highLight == true}" *ngIf="!item.hideExpression">
-      <st-task-report class="close-icon"
+      <st-task-report class="close-icon absolute z-[1000] "
         *ngIf="item['issueReport'] && item['issueReport']?.length > 0 && item.type != 'input'" [item]="item"
         [screenName]="screenName" [type]="'pages'"></st-task-report>
       <span [contextMenu]="oneContextMenu">
