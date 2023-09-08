@@ -139,7 +139,7 @@ export class BuilderComponent implements OnInit {
     this.controlListvisible = true;
   }
   ngOnInit(): void {
-    this.getUsers();
+    // this.getUsers();
     this.currentUser = JSON.parse(localStorage.getItem('user')!);
     this.loadDepartmentData();
     document
@@ -166,7 +166,6 @@ export class BuilderComponent implements OnInit {
     try {
       const res = await this.applicationService.getNestCommonAPI('cp/Department').toPromise();
       if (res?.isSuccess) {
-        debugger
         this.departmentData = res.data?.map((data: any) => {
           return {
             label: data.name,
@@ -280,6 +279,7 @@ export class BuilderComponent implements OnInit {
       const nodes = await this.dataService.deleteDb(this.selectApplicationName,this.screenName,"Builder");
       alert('this Screen Delete db successfully!');
       return;
+
     }
     const nodes = await this.dataService.getNodes(this.selectApplicationName,this.screenName,"Builder");
 
@@ -330,6 +330,7 @@ export class BuilderComponent implements OnInit {
       if (this.selectedNode) {
         this.highlightSelect(this.selectedNode.id, false);
       }
+      this.applyHighlightSearch(this.nodes[0], false);
       // const selectedScreen = this.screens.filter((a: any) => a._id == this.navigation)
       // Check Grid Data
       let gridData = this.findObjectByTypeBase(this.nodes[0], 'gridList');
@@ -479,7 +480,7 @@ export class BuilderComponent implements OnInit {
                   const formlyConfig = node.formly?.[0]?.fieldGroup?.[0]?.key;
                   for (let index = 0; index < this.actionListData.length; index++) {
                     const element = this.actionListData[index];
-                    if (formlyConfig == element.elementName && element.actionType == 'api') {
+                    if (formlyConfig == element.elementName && (element.actionType == 'api' || element.actionType === 'query')) {
                       const eventActionConfig = node?.formly?.[0]?.fieldGroup?.[0]?.props;
                       if (eventActionConfig) {
                         if (index == 0) {
@@ -512,16 +513,18 @@ export class BuilderComponent implements OnInit {
                           }
                         }
                       }
-                    } else {
-                      const eventActionConfig = node?.formly?.[0]?.fieldGroup?.[0]?.props;
-                      if (eventActionConfig) {
-                        eventActionConfig['appConfigurableEvent'] = [];
-                        eventActionConfig['eventActionconfig'] = {};
-                      }
-                    }
+                    } 
+                    // else {
+                    //   const eventActionConfig = node?.formly?.[0]?.fieldGroup?.[0]?.props;
+                    //   if (eventActionConfig) {
+                    //     eventActionConfig['appConfigurableEvent'] = [];
+                    //     eventActionConfig['eventActionconfig'] = {};
+                    //   }
+                    // }
                   }
                 });
               }
+              
               let checkFirst: any = {};
               for (let index = 0; index < this.actionListData.length; index++) {
                 const element = this.actionListData[index];
@@ -558,10 +561,10 @@ export class BuilderComponent implements OnInit {
                       }
                     }
                   }
-                  else {
-                    findObj['appConfigurableEvent'] = [];
-                    findObj['eventActionconfig'] = {};
-                  }
+                  // else {
+                  //   findObj['appConfigurableEvent'] = [];
+                  //   findObj['eventActionconfig'] = {};
+                  // }
                 }
               }
               this.nodes = nodesData;
@@ -717,6 +720,7 @@ export class BuilderComponent implements OnInit {
     if (this.selectedNode) {
       this.highlightSelect(this.selectedNode.id, false);
     }
+    this.applyHighlightSearch(this.nodes[0], false);
     var currentData = this.jsonParse(this.jsonStringifyWithObject(this.nodes));
     // JSON.parse(
     //   JSON.stringify(this.nodes, function (key, value) {
@@ -3277,7 +3281,7 @@ export class BuilderComponent implements OnInit {
       });
       parent.children.splice((idx as number) + 1, 0, newNode);
       if (parent) {
-        if (parent.type == 'mainTab' || parent.type == 'dropdown') {
+        if (parent.type == 'mainTab' || parent.type == 'dropdown' || parent.type == 'kanban' || parent.type == 'mainStep' || parent.type == 'timeline') {
           parent.nodes = parent.children.length;
         }
       }
@@ -3433,6 +3437,7 @@ export class BuilderComponent implements OnInit {
     if (parent?.parentNode && node.origin) {
       parent = parent?.parentNode?.origin;
       node = node.origin;
+
     }
     if (parent != undefined) {
       console.log(parent, node);
@@ -3452,6 +3457,11 @@ export class BuilderComponent implements OnInit {
       const idx = this.nodes.indexOf(node);
       this.nodes.splice(idx as number, 1);
     }
+      if (parent) {
+        if (parent.type == 'mainTab' || parent.type == 'dropdown' || parent.type == 'kanban' || parent.type == 'mainStep' || parent.type == 'timeline') {
+          parent.nodes = parent.children.length;
+        }
+      }
     this.updateNodes();
   }
   // nzEvent(event: NzFormatEmitEvent): void { }
@@ -5147,16 +5157,16 @@ export class BuilderComponent implements OnInit {
       nzDuration: 3000,
     });
   }
-  addDynamic(abc: any, subType: any, mainType: any) {
+  addDynamic(nodesNumber: any, subType: any, mainType: any) {
     debugger
     try {
       if (this.selectedNode.children) {
         this.addControl = true;
         this.showNotification = false;
         let nodesLength = this.selectedNode.children?.length;
-        if (nodesLength < abc) {
-          for (let k = 0; k < abc; k++) {
-            if (nodesLength < abc) {
+        if (nodesLength < nodesNumber) {
+          for (let k = 0; k < nodesNumber; k++) {
+            if (nodesLength < nodesNumber) {
               if (mainType != 'mainDiv') {
                 this.addControlToJson(subType);
                 this.selectedNode = this.chilAdd;
@@ -5188,7 +5198,7 @@ export class BuilderComponent implements OnInit {
               for (let i = 0; i < checkParentLength; i++) {
                 for (let j = 0; j < removeTabsLength; j++) {
                   if (this.selectdParentNode.children[i].type == mainType) {
-                    if (abc < nodesLength) {
+                    if (nodesNumber < nodesLength) {
                       this.remove(
                         this.selectdParentNode.children[i],
                         this.selectedNode.children[nodesLength - 1]
@@ -6437,6 +6447,7 @@ export class BuilderComponent implements OnInit {
     });
   }
   openMarketPlace() {
+    this.iconActive = 'openMarketPlace';
     if (this.nodes.length > 0) {
       const drawerRef = this.drawerService.create<
         MarketPlaceComponent,
@@ -6469,13 +6480,14 @@ export class BuilderComponent implements OnInit {
   showRulesFunc(ruleType: any) {
     this.showRules = ruleType;
   }
-  applyHighlightSearch(data: any) {
-    if (this.searchValue) {
+  applyHighlightSearch(data: any, allow:any) {
+    debugger
+    if (this.searchValue && allow) {
       const isMatch = data?.title ? data?.title.toLowerCase().includes(this.searchValue.toLowerCase()) : data?.id.toLowerCase().includes(this.searchValue.toLowerCase());
       data['searchHighlight'] = isMatch;
       if (data?.children?.length > 0) {
         data.children.forEach((element: any) => {
-          this.applyHighlightSearch(element);
+          this.applyHighlightSearch(element, allow);
         });
       }
     }
@@ -6483,7 +6495,7 @@ export class BuilderComponent implements OnInit {
       data['searchHighlight'] = false;
       if (data?.children?.length > 0) {
         data.children.forEach((element: any) => {
-          this.applyHighlightSearch(element);
+          this.applyHighlightSearch(element, allow);
         });
       }
     }
@@ -6565,17 +6577,5 @@ export class BuilderComponent implements OnInit {
       }
     }
   }
-  getUsers() {
-    this.requestSubscription = this.applicationService.getNestCommonAPI('cp/user').subscribe({
-      next: (res: any) => {
-        if (res.data.length > 0) {
-          this.dataSharedService.usersData = res.data;
-        }
-      },
-      error: (err) => {
-        console.error(err); // Log the error to the console
-        this.toastr.error(`UserComment : An error occurred`, { nzDuration: 3000 });
-      }
-    });
-  }
+  
 }

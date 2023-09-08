@@ -35,7 +35,7 @@
               <ul nz-menu nzSelectable>
                 <li nz-menu-item>My Profile</li>
                 <li nz-menu-item>Setting</li>
-                <li nz-menu-item (click)="navigate()" >Logout</li>
+                <li nz-menu-item (click)="navigate()">Logout</li>
               </ul>
             </nz-dropdown-menu>
           </div>
@@ -43,63 +43,14 @@
       </div>
     </nz-header>
     <nz-layout class="main-layout2 ">
-      <nz-sider class="menu-sidebar" nzTheme="light" nzCollapsible
-        nzWidth="240px" nzBreakpoint="md"
+      <nz-sider class="menu-sidebar" nzTheme="light" nzCollapsible nzWidth="240px" nzBreakpoint="md"
         [(nzCollapsed)]="selectedTheme.isCollapsed" [nzTrigger]="null">
-        <ul nz-menu nzMode="inline"
-          [nzInlineCollapsed]="selectedTheme.isCollapsed">
-          <li nz-menu-item *ngFor="let menu of menus" [routerLink]="menu.link"
-            routerLinkActive="active" nz-tooltip
-            nzTooltipPlacement="right"
-            [nzTooltipTitle]="selectedTheme.isCollapsed ? menu.title : ''">
+        <ul nz-menu nzMode="inline" [nzInlineCollapsed]="selectedTheme.isCollapsed">
+          <li nz-menu-item *ngFor="let menu of menus" [routerLink]="menu.link" routerLinkActive="active" nz-tooltip
+            nzTooltipPlacement="right" [nzTooltipTitle]="selectedTheme.isCollapsed ? menu.title : ''">
             <i [class]="menu.icon"></i>
             <span class="colapsed-menu-title">{{menu.title}}</span>
           </li>
-          <!-- <li nz-menu-item>
-            <i class="fa-light fa-square-list"></i>
-            <span>Forms</span>
-          </li>
-          <li nz-menu-item>
-            <i class="fa-light fa-feather"></i>
-            <span>Ui Features</span>
-          </li>
-          <li nz-menu-item>
-            <i class="fa-light fa-message-captions"></i>
-            <span>Modal & Overlays</span>
-          </li>
-          <li nz-menu-item>
-            <i class="fa-light fa-sidebar"></i>
-            <span>Extra Components</span>
-          </li>
-          <li nz-menu-item>
-            <i class="fa-light fa-messages"></i>
-            <span>Charts</span>
-          </li>
-          <li nz-menu-item>
-            <i class="fa-light fa-files"></i>
-            <span>File</span>
-          </li>
-          <li nz-menu-item>
-            <i class="fa-light fa-pen-to-square"></i>
-            <span>Editors</span>
-          </li>
-          <li nz-submenu nzOpen [nzTitle]="title">
-            <ng-template #title>
-              <i class="fa-light fa-table"></i>
-              <span>Tables & Date</span>
-            </ng-template>
-            <ul>
-              <li nz-menu-item nzMatchRouter>
-                <a routerLink="/welcome">Welcome</a>
-              </li>
-              <li nz-menu-item nzMatchRouter>
-                <a>Monitor</a>
-              </li>
-              <li nz-menu-item nzMatchRouter>
-                <a>Workplace</a>
-              </li>
-            </ul>
-          </li> -->
         </ul>
       </nz-sider>
       <nz-content>

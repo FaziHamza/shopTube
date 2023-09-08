@@ -54,13 +54,12 @@
       <ng-template #recursiveList let-data1>
         <ng-container *ngFor="let item of data1; let i = index">
 
-          <tr [ngStyle]="{'background': item?.color}" (click)="checkTypeData(item)" class="desktop-toggle"
-            (dblclick)="updateModel(item)" (click)="data?.rowClickApi!='' ? onClickRow(data.rowClickApi,item): ''">
-            <td *ngIf="item.expand != undefined" [(nzExpand)]="item.expand">{{item.children.length}}</td>
+          <tr [ngStyle]="{'background': item?.color}" class="desktop-toggle" (dblclick)="updateModel(item)"
+            (click)="data?.rowClickApi!='' ? onClickRow(data.rowClickApi,item): ''">
+            <td *ngIf="item.expand != undefined" [(nzExpand)]="item.expand"></td>
             <td *ngIf="data.showCheckbox" [(nzChecked)]="item.checked" (nzCheckedChange)="refreshStatus()"></td>
             <ng-container *ngFor="let header of data['tableKey']; let index = index">
-              <!-- {{tableHeaders[index]?.dataType | json}} -->
-              <td (click)="startEdit(item.id)" [nzEllipsis]="true" class="5" *ngIf="tableHeaders[index]?.dataType !='objectType' && header.name != 'headerButton' && header.name != 'footerButton' && header.name != 'expandable' && header.name != 'checked'
+              <td (click)="checkTypeData(item)" (click)="startEdit(item.id)" [nzEllipsis]="true" class="5" *ngIf="tableHeaders[index]?.dataType !='objectType' && header.name != 'headerButton' && header.name != 'footerButton' && header.name != 'expandable' && header.name != 'checked'
                 && header.name != 'expand' && header.name !='children' && header.name != 'defaultValue' ">
                 <div class="1"
                   *ngIf="(tableHeaders[index]?.dataType !='select' || !configurationTable) && tableHeaders[index]?.dataType !='image-upload' && !isMyDataArray(item[header.name]

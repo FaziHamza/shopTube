@@ -463,7 +463,6 @@ export class ActionRuleComponent implements OnInit {
   }
 
   getActionData() {
-    debugger
     const selectedScreen = this.screens.filter((a: any) => a.name == this.screenName)
     if (selectedScreen[0].navigation != null && selectedScreen[0].navigation != undefined) { // selectedScreen[0].navigation
       this.requestSubscription = this.applicationService.getNestCommonAPIById("cp/actionbyscreenname", selectedScreen[0]._id).subscribe({

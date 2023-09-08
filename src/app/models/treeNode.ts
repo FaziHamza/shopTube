@@ -86,6 +86,8 @@ export interface TreeNode {
   showDots?: any;
   affixType?: any;
   notvisible?: any;
+  closevisible?: any;
+  okvisible?: any;
   target?: any;
   buttonClass?: any;
   bond?: any;

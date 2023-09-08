@@ -1,10 +1,13 @@
-import { Injectable } from "@angular/core";
-import Dexie from "dexie";
-import { dbModel } from "../models/dbModel";
+import Dexie from 'dexie';
 
-@Injectable({
-  providedIn: 'root',
-})
+interface dbModel {
+  id?: number;
+  screenName: string;
+  applicationId: string;
+  type: string;
+  data: any;
+}
+
 export class DataService {
   private db: MyDatabase;
 
@@ -17,7 +20,7 @@ export class DataService {
     await this.db.myTable.add(obj);
     this.getNodes(applicationId, screenName, type);
   }
-  
+
   async getNodes(applicationId: string, screenName: string, type: string): Promise<any[]> {
     let check = await this.db.myTable
       .where('applicationId')
@@ -31,27 +34,32 @@ export class DataService {
     await this.db.myTable.where({ applicationId: applicationId, screenName: screenName, type: type }).delete();
     console.log("Data successfully deleted");
   }
+
   async addData(screenName: string, applicationId: string, type: string, data: any): Promise<void> {
     const obj = { screenName: screenName, applicationId: applicationId, type: type, data: data };
-  
+
     // Use the put method to insert or update the record based on the primary key
     await this.db.myTable.put(obj);
-  
+
     this.getNodes(applicationId, screenName, type);
   }
-  
-}  
+}
 
 class MyDatabase extends Dexie {
   myTable: Dexie.Table<dbModel, number>;
 
   constructor() {
     super('MyDatabase');
-    this.version(1).stores({
+    this.version(2).stores({
       myTable: '++id,screenName,applicationId,type,data', // Include applicationId as an indexed field
     });
+
+    // Create a compound index for screenName and type (if needed)
+    this.version(2).stores({
+      myTable: '++id,screenName,applicationId,type,data,screenName,type', // Add compound index (if needed)
+    });
+
     this.myTable = this.table('myTable');
   }
 }
-
 

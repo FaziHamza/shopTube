@@ -69,13 +69,13 @@ export class DynamicTableComponent implements OnInit {
     this.loadTableData();
     this.gridInitilize();
     this.getSaveGroupNodes();
-    
+
   }
-  async getSaveGroupNodes(){
+  async getSaveGroupNodes() {
     const applicationId = localStorage.getItem('applicationId') || '';
-    let groupedNodes  = await this.dataService.getNodes(this.screenName,JSON.parse(applicationId),"Table");
-    if(groupedNodes.length > 0){
-      this.groupingArray = groupedNodes[groupedNodes.length-1].data;
+    let groupedNodes = await this.dataService.getNodes(this.screenName, JSON.parse(applicationId), "Table");
+    if (groupedNodes.length > 0) {
+      this.groupingArray = groupedNodes[groupedNodes.length - 1].data;
     }
   }
   updateModel(data: any) {
@@ -691,7 +691,7 @@ export class DynamicTableComponent implements OnInit {
     };
     if (this.screenName != undefined) {
       if (this.data?.appConfigurableEvent) {
-        let findClickApi = this.data?.appConfigurableEvent?.filter((item: any) => item.actions.some((action: any) => action.method === 'delete' && action.actionType == 'api'));
+        let findClickApi = this.data?.appConfigurableEvent?.filter((item: any) => item.actions.some((action: any) => action.method === 'delete' && (action.actionType == 'api' || action.actionType == 'query')));
         let id = '';
         if (findClickApi?.length > 0) {
           if (findClickApi?.[0].actions?.[0]?.url.includes('EnumList')) {
@@ -700,14 +700,34 @@ export class DynamicTableComponent implements OnInit {
             id = data?.id
         } else
           id = data?.id
-        this.employeeService.deleteCommonApi(findClickApi?.length > 0 ? findClickApi?.[0].actions?.[0]?.url : 'knex-query/executeQuery', id).subscribe(res => {
-          if (res) {
-            this.tableData = this.tableData.filter((d: any) => d.id !== data.id);
-            this.displayData = this.displayData.filter((d: any) => d.id !== data.id);
-            this.pageChange(1);
-            this.toastr.success("Delete Successfully", { nzDuration: 3000 });
+        let url = '';
+        if (findClickApi?.[0].actions?.[0].actionType == 'api') {
+          url = findClickApi?.[0].actions?.[0]?.url;
+          if (url) {
+            this.employeeService.deleteCommonApi(url, id).subscribe(res => {
+              if (res) {
+                this.tableData = this.tableData.filter((d: any) => d.id !== data.id);
+                this.displayData = this.displayData.filter((d: any) => d.id !== data.id);
+                this.pageChange(1);
+                this.toastr.success("Delete Successfully", { nzDuration: 3000 });
+              }
+            })
           }
-        })
+
+        } else if (findClickApi?.[0].actions?.[0].actionType == 'query') {
+          url = 'knex-query/executeQuery/' + findClickApi?.[0].actions?.[0].id;
+          if (url) {
+            this.employeeService.saveSQLDatabaseTable(url, model).subscribe(res => {
+              if (res) {
+                this.tableData = this.tableData.filter((d: any) => d.id !== data.id);
+                this.displayData = this.displayData.filter((d: any) => d.id !== data.id);
+                this.pageChange(1);
+                this.toastr.success("Delete Successfully", { nzDuration: 3000 });
+              }
+            })
+          }
+        }
+
       }
       else {
         this.employeeService.saveSQLDatabaseTable('knex-query/executeQuery', model).subscribe({
@@ -867,7 +887,7 @@ export class DynamicTableComponent implements OnInit {
     this._dataSharedService.setData(this.tableData);
     if (this.data.doubleClick == false)
       this._dataSharedService.saveGridData(this.tableData);
-      this.toastr.success('Data saved successfully',{ nzDuration: 3000 });
+    this.toastr.success('Data saved successfully', { nzDuration: 3000 });
   }
 
   checkAll(value: boolean): void {
@@ -1306,7 +1326,8 @@ export class DynamicTableComponent implements OnInit {
 
     if (type === 'add') {
       this.groupingArray.push(data);
-    } else if (type === 'remove') {
+    }
+    else if (type === 'remove') {
       const indexToRemove = this.groupingArray.indexOf(data);
       if (indexToRemove !== -1) {
         this.groupingArray.splice(indexToRemove, 1); // Remove 1 element at the specified index
@@ -1325,7 +1346,7 @@ export class DynamicTableComponent implements OnInit {
       this.pageChange(1);
     }
     const applicationId = localStorage.getItem('applicationId') || '';
-    this.dataService.addData(this.screenName,JSON.parse(applicationId),"Table",this.groupingArray);
+    this.dataService.addData(this.screenName, JSON.parse(applicationId), "Table", this.groupingArray);
   }
 
   groupData(data: any[], index: number): any {
