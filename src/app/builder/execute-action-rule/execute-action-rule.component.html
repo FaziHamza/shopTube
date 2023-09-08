@@ -1,4 +1,4 @@
-<div class="" #editorActionsContainer></div>
+<!-- <div class="" #editorActionsContainer></div> -->
 <nz-drawer [nzSize]="'large'" (nzAfterOpen)="afterDrawerOpen()" (nzVisibleChange)="onDrawerVisibilityChanged($event)"
   [nzWidth]="'80%'" [nzVisible]="IsShowConfig" nzPlacement="right" [nzTitle]="'Control List'"
   (nzOnClose)="closeConfigurationList()">
@@ -33,6 +33,9 @@
                 </div> -->
 
               </div>
+              <button nz-button nzType="primary" class="btn btn-sm mr-2" (click)="save()">
+                Save
+              </button> 
             </nz-tab>
           </nz-tabset>
         </div>

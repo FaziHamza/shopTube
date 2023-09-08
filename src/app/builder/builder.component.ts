@@ -166,7 +166,6 @@ export class BuilderComponent implements OnInit {
     try {
       const res = await this.applicationService.getNestCommonAPI('cp/Department').toPromise();
       if (res?.isSuccess) {
-        debugger
         this.departmentData = res.data?.map((data: any) => {
           return {
             label: data.name,
