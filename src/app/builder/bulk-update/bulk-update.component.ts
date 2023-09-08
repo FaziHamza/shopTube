@@ -109,11 +109,22 @@ export class BulkUpdateComponent implements OnInit {
       key = key.toLowerCase();
       let findInputs = this.filterInputElements(data.children);
       findInputs.forEach(res => {
-        if (!res.key.includes('.'))
+        if (!res.key.includes('.')){
           res.key = key + '.' + res.key;
+        }
+        else if (res.key.includes('.')){
+          debugger
+          let new_key  = res.key.split(".")
+          if (new_key.length > 1) {
+            let result = new_key[1];
+            res.key = key + '.' + result;
+        }
+        }
       })
     }
   }
+
+
   filterInputElementKey(data: any): any[] {
     const inputElements: any[] = [];
 

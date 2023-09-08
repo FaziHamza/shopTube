@@ -86,7 +86,7 @@ export class PagesComponent implements OnInit {
     });
     this.requestSubscription = this.dataSharedService.pageSubmit.subscribe({
       next: (res) => {
-
+        debugger
         let makeModel: any = {};
         const filteredNodes = this.filterInputElements(this.resData[0].children[1].children[0].children[1].children);
         for (let item in this.formlyModel) {
