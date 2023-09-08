@@ -1,9 +1,7 @@
-<div class="" #editorActionsContainer></div>
-<nz-drawer [nzSize]="'large'" 
-(nzAfterOpen)="afterDrawerOpen()"
-(nzVisibleChange)="onDrawerVisibilityChanged($event)"
-[nzWidth]="'80%'" [nzVisible]="IsShowConfig" nzPlacement="right"
-  [nzTitle]="'Control List'" (nzOnClose)="closeConfigurationList()">
+<!-- <div class="" #editorActionsContainer></div> -->
+<nz-drawer [nzSize]="'large'" (nzAfterOpen)="afterDrawerOpen()" (nzVisibleChange)="onDrawerVisibilityChanged($event)"
+  [nzWidth]="'80%'" [nzVisible]="IsShowConfig" nzPlacement="right" [nzTitle]="'Control List'"
+  (nzOnClose)="closeConfigurationList()">
   <ng-container *nzDrawerContent>
     <div id="mySidenav-right" class="sidenav-right">
       <div class="mySidenav-right">
@@ -11,25 +9,33 @@
           <nz-tabset>
             <nz-tab nzTitle="Action Rules">
               <div class="flex flex-wrap">
-                <div class="w-1/3">
+                <div class="w-full">
                   <ul *ngIf="validationMessage.length">
-                    <li *ngFor="let errorObj of validationMessage">{{ errorObj.message }}
-                      <button (click)="fixError(errorObj)">Auto Fix</button>
+                    <li class="text-red-800" *ngFor="let errorObj of validationMessage">{{ errorObj.message }}
+                      <button nz-button nzType="primary" class="btn btn-sm mr-2" (click)="fixError(errorObj)">
+
+                        <svg class="w-2 h-2 text-white-800 white:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+                          <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7.75 4H19M7.75 4a2.25 2.25 0 0 1-4.5 0m4.5 0a2.25 2.25 0 0 0-4.5 0M1 4h2.25m13.5 6H19m-2.25 0a2.25 2.25 0 0 1-4.5 0m4.5 0a2.25 2.25 0 0 0-4.5 0M1 10h11.25m-4.5 6H19M7.75 16a2.25 2.25 0 0 1-4.5 0m4.5 0a2.25 2.25 0 0 0-4.5 0M1 16h2.25"/>
+                      </svg>
+
+                        Auto Fix</button>
                     </li>
                   </ul>
                   <div class="editor-container" #editorRuleContainer></div>
                 </div>
-                <div class="w-1/3">
-                  <textarea [(ngModel)]="actionModel" nz-input placeholder="Form Model"
-                    [nzAutosize]="{ minRows: 12, maxRows: 12 }"></textarea>
+                <!-- <div class="w-1/3">
+               
                   <ul *ngIf="validationMessage.length">
                     <li *ngFor="let errorObj of validationMessage">{{ errorObj.message }}
                       <button (click)="fixError(errorObj)">Auto Fix</button>
                     </li>
                   </ul> 
-                </div>
+                </div> -->
 
               </div>
+              <button nz-button nzType="primary" class="btn btn-sm mr-2" (click)="save()">
+                Save
+              </button> 
             </nz-tab>
           </nz-tabset>
         </div>
@@ -40,5 +46,4 @@
 
 
 <button nz-button nzType="primary" class="btn mr-2" (click)="controlListOpen()"> <i
-  class="fa-regular fa-arrow-left mr-2"></i> open</button>
-
+    class="fa-regular fa-arrow-left mr-2"></i> open</button>

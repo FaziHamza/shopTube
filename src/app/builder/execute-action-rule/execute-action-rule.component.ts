@@ -21,6 +21,7 @@ export class ExecuteActionRuleComponent implements OnInit, AfterViewInit {
   @Input() applicationId: string;
   @Input() screeenBuilderId: string;
   requestSubscription: Subscription;
+  languageId = 'json';
   nodeList: { title: string, key: string }[] = [];
   constructor(private fb: FormBuilder, private employeeService: EmployeeService, private cdRef: ChangeDetectorRef,
     private applicationService: ApplicationService,
@@ -28,7 +29,32 @@ export class ExecuteActionRuleComponent implements OnInit, AfterViewInit {
   actionResult: any;
   ngOnInit() {
     this.getActionData();
-    this.extractNodes(this.nodes, this.nodeList);
+    let filteredInputNodes = this.filterInputElements(this.nodes[0].children[1].children);
+    if (filteredInputNodes.length > 0) {
+      this.extractNodes(filteredInputNodes, this.nodeList);
+    }
+    this.getActionRule();
+  }
+  filterInputElements(data: any): any[] {
+    const inputElements: any[] = [];
+
+    function traverse(obj: any): void {
+      if (Array.isArray(obj)) {
+        obj.forEach((item) => {
+          traverse(item);
+        });
+      } else if (typeof obj === 'object' && obj !== null) {
+        if (obj.formlyType === 'input') {
+          inputElements.push(obj);
+        }
+        Object.values(obj).forEach((value) => {
+          traverse(value);
+        });
+      }
+    }
+
+    traverse(data);
+    return inputElements;
   }
   extractNodes(nodes: any, nodeList: { title: string, key: string }[]) {
     for (const node of nodes) {
@@ -45,6 +71,30 @@ export class ExecuteActionRuleComponent implements OnInit, AfterViewInit {
       }
     }
   }
+  actionRuleId = '';
+  getActionRule() {
+    this.requestSubscription = this.applicationService.getNestCommonAPI('cp/ActionRule').subscribe({
+      next: (res: any) => {
+        if (res.isSuccess) {
+          this.actionRule = res.data?.[0]?.rule || '';
+          this.actionRuleId = res.data?.[0]?._id || '';
+          if (!this.isEditorInitialized) {
+            this.codeEditorRuleInstance = monaco.editor.create(this._editorRuleContainer.nativeElement, {
+              theme: 'myCustomTheme',
+              language: this.languageId,
+              value: this.actionRule // Initial value
+            });
+          }
+        } else
+          this.toastr.error(res.message, { nzDuration: 3000 });
+      },
+      error: (err) => {
+        console.error(err);
+        this.toastr.error("An error occurred", { nzDuration: 3000 });
+      }
+
+    });
+  }
   getActionData() {
     debugger
     const selectedScreen = this.screens.filter((a: any) => a.name == this.screenName)
@@ -52,8 +102,17 @@ export class ExecuteActionRuleComponent implements OnInit, AfterViewInit {
       this.requestSubscription = this.applicationService.getNestCommonAPIById("cp/actionbyscreenname", selectedScreen[0]._id).subscribe({
         next: (res: any) => {
           if (res.data && res.data.length > 0) {
-            const getRes = res.data.map((x: any) =>  {return {name: x.elementName, query : x.quries} });
+            const getRes = res.data.map((x: any) => { return { name: x.quryType, query: x.quries } });
+            const schema = res.data.map((x: any) => { return x.quryType });
             this.actionList = JSON.stringify(getRes);
+            // Update the enum values in jsonSchema
+            this.jsonSchema.items.properties.if.properties.actionRule.enum = schema;
+            this.jsonSchema.items.properties.then.additionalProperties.properties.actionRule.enum = schema;
+            this.jsonSchema.items.properties.OR.items.properties.if.properties.actionRule.enum = schema;
+            this.jsonSchema.items.properties.OR.items.properties.then.additionalProperties.properties.actionRule.enum = schema;
+            this.jsonSchema.items.properties.AND.items.properties.if.properties.actionRule.enum = schema;
+            this.jsonSchema.items.properties.AND.items.properties.then.additionalProperties.properties.actionRule.enum = schema;
+
           }
         },
         error: (err) => {
@@ -63,109 +122,8 @@ export class ExecuteActionRuleComponent implements OnInit, AfterViewInit {
       })
     }
   }
-  actionList: any = JSON.stringify([
-    {
-      "name": "checkUserType",
-      "query": "select userTypeId from Users where userTypeId = {userTypeId}"
-    },
-    {
-      "name": "checkUserStatus",
-      "query": "select status from Users where status = {status}"
-    },
-    {
-      "name": "applyUserTypeDiscount",
-      "query": "update Discounts set discountPercentage = 10 where userType = {userTypeId}"
-    },
-    {
-      "name": "applyPremiumDiscount",
-      "query": "update Discounts set discountPercentage = 20 where userType = 'premium'"
-    },
-    {
-      "name": "checkMinimumValue",
-      "query": "select price from Products where price = {price}"
-    },
-    {
-      "name": "applySpecialOfferForNormalUser",
-      "query": "update Discounts set discountPercentage = 15 where userType = 'normal'"
-    },
-    {
-      "name": "notifyAdmin",
-      "query": "insert into Notifications (message) values ('Special offer applied for product with price >= {price}')"
-    },
-    {
-      "name": "sendNotification",
-      "query": "insert into Notifications (message) values ('Discount applied for user with id = {userId}')"
-    }
-  ]
-  );
-  actionRule: any = JSON.stringify(
-    [
-      {
-        "if": {
-          "actionRule": "checkUserType",
-          "key": "userTypeId",
-          "compare": "==",
-          "value": "1"
-        },
-        "then": {
-          "applyDiscount": {
-            "actionRule": "applyUserTypeDiscount",
-            "key": "userTypeId"
-          },
-          "notifyUser": {
-            "actionRule": "sendNotification",
-            "key": "userTypeId"
-          }
-        },
-        "OR": [{
-          "if": {
-            "actionRule": "checkUserStatus",
-            "key": "status",
-            "compare": "==",
-            "value": "premium"
-          },
-          "then": {
-            "applyPremiumDiscount": {
-              "actionRule": "applyPremiumDiscount",
-              "key": "status"
-            }
-          }
-        }]
-      },
-      {
-        "if": {
-          "actionRule": "checkMinimumValue",
-          "key": "price",
-          "compare": ">=",
-          "value": "200"
-        },
-        "AND": [{
-          "if": {
-            "actionRule": "checkUserType",
-            "key": "userTypeId",
-            "compare": "==",
-            "value": "2"
-          },
-          "then": {
-            "applySpecialOfferForNormalUser": {
-              "actionRule": "applySpecialOfferForNormalUser",
-              "key": "price"
-            },
-            "notifyUser": {
-              "actionRule": "sendNotification",
-              "key": "price"
-            }
-          }
-        }],
-        "then": {
-          "notifyAdmin": {
-            "actionRule": "notifyAdmin",
-            "key": "price"
-          }
-        }
-      }
-    ],null,2
-  );
+  actionList: any = '';
+  actionRule: any = '';
   actionModel: any = JSON.stringify({
     "userTypeId": 1,
     "status": "premium",
@@ -194,8 +152,8 @@ export class ExecuteActionRuleComponent implements OnInit, AfterViewInit {
   // @ViewChild('editorRuleContainer', { static: false}) _editorRuleContainer!: ElementRef;
   @ViewChild('editorRuleContainer', { static: false }) private _editorRuleContainer: ElementRef;
 
-  @ViewChild('editorActionsContainer', { static: false }) _editorActionsContainer!: ElementRef;
-  columnsFields: any = [] = ["userTypeId", "status", "premium", "price"];
+  // @ViewChild('editorActionsContainer', { static: false }) _editorActionsContainer!: ElementRef;
+  columnsFields: any = [];
   operators = ['==', '!=', '>', '<', '>=', '<='];
 
   ngAfterViewInit(): void {
@@ -293,6 +251,26 @@ export class ExecuteActionRuleComponent implements OnInit, AfterViewInit {
     }, 1000); // Adjust the timeout if necessary
   }
 
+  // fazi
+  extractActionsFromJSON(json: any): string[] {
+    const actions: string[] = [];
+    const extractActionsFromObject = (obj: any) => {
+      if (obj && typeof obj === 'object') {
+        if (obj['actionRule']) {
+          actions.push(obj['actionRule']);
+        }
+        for (let key in obj) {
+          extractActionsFromObject(obj[key]);
+        }
+      }
+    };
+    extractActionsFromObject(json);
+    return [...new Set(actions)]; // Removes duplicates
+  }
+
+  actionsList = this.extractActionsFromJSON(JSON.parse(this.actionRule));
+
+
   jsonSchema = {
     type: 'array',
     items: {
@@ -301,7 +279,17 @@ export class ExecuteActionRuleComponent implements OnInit, AfterViewInit {
         if: {
           type: 'object',
           properties: {
-            actionRule: { type: 'string' },
+            actionRule: {
+              type: 'string',
+              enum: [
+                'applyDiscount',
+                'notifyUser',
+                'applyPremiumDiscount',
+                'checkUserType',
+                'applyUserTypeDiscount',
+                // ... add other actions here
+              ]
+            },
             key: { type: 'string', enum: this.columnsFields },
             compare: { type: 'string', enum: this.operators },
             value: { type: 'string' }
@@ -314,7 +302,17 @@ export class ExecuteActionRuleComponent implements OnInit, AfterViewInit {
           additionalProperties: {
             type: 'object',
             properties: {
-              actionRule: { type: 'string' },
+              actionRule: {
+                type: 'string',
+                enum: [
+                  'applyDiscount',
+                  'notifyUser',
+                  'applyPremiumDiscount',
+                  'checkUserType',
+                  'applyUserTypeDiscount',
+                  // ... add other actions here
+                ]
+              },
               key: { type: 'string', enum: this.columnsFields }
             },
             required: ['actionRule', 'key']
@@ -328,7 +326,15 @@ export class ExecuteActionRuleComponent implements OnInit, AfterViewInit {
               if: {
                 type: 'object',
                 properties: {
-                  actionRule: { type: 'string' },
+                  actionRule: {
+                    type: 'string',
+                    enum: [
+                      'applyDiscount',
+                      'notifyUser',
+                      'applyPremiumDiscount',
+                      // ... add other actions here
+                    ]
+                  },
                   key: { type: 'string', enum: this.columnsFields },
                   compare: { type: 'string', enum: this.operators },
                   value: { type: 'string' }
@@ -341,7 +347,15 @@ export class ExecuteActionRuleComponent implements OnInit, AfterViewInit {
                 additionalProperties: {
                   type: 'object',
                   properties: {
-                    actionRule: { type: 'string' },
+                    actionRule: {
+                      type: 'string',
+                      enum: [
+                        'applyDiscount',
+                        'notifyUser',
+                        'applyPremiumDiscount',
+                        // ... add other actions here
+                      ]
+                    },
                     key: { type: 'string', enum: this.columnsFields }
                   },
                   required: ['actionRule', 'key']
@@ -359,7 +373,15 @@ export class ExecuteActionRuleComponent implements OnInit, AfterViewInit {
               if: {
                 type: 'object',
                 properties: {
-                  actionRule: { type: 'string' },
+                  actionRule: {
+                    type: 'string',
+                    enum: [
+                      'applyDiscount',
+                      'notifyUser',
+                      'applyPremiumDiscount',
+                      // ... add other actions here
+                    ]
+                  },
                   key: { type: 'string', enum: this.columnsFields },
                   compare: { type: 'string', enum: this.operators },
                   value: { type: 'string' }
@@ -372,7 +394,15 @@ export class ExecuteActionRuleComponent implements OnInit, AfterViewInit {
                 additionalProperties: {
                   type: 'object',
                   properties: {
-                    actionRule: { type: 'string' },
+                    actionRule: {
+                      type: 'string',
+                      enum: [
+                        'applyDiscount',
+                        'notifyUser',
+                        'applyPremiumDiscount',
+                        // ... add other actions here
+                      ]
+                    },
                     key: { type: 'string', enum: this.columnsFields }
                   },
                   required: ['actionRule', 'key']
@@ -424,16 +454,15 @@ export class ExecuteActionRuleComponent implements OnInit, AfterViewInit {
         console.log('editorRuleContainer is not available');
       }
 
-      if (this._editorActionsContainer) {
-        console.log(this._editorActionsContainer.nativeElement);
-      } else {
-        console.log('editorActionsContainer is not available');
-      }
+      // if (this._editorActionsContainer) {
+      //   console.log(this._editorActionsContainer.nativeElement);
+      // } else {
+      //   console.log('editorActionsContainer is not available');
+      // }
 
       if (this.isEditorInitialized) {
         return;
       }
-      const languageId = 'json';
       // Define a JSON schema for suggestions
       monaco.editor.defineTheme('myCustomTheme', {
         base: 'vs', // can also be vs-dark or hc-black
@@ -467,14 +496,14 @@ export class ExecuteActionRuleComponent implements OnInit, AfterViewInit {
       // Create editor
       this.codeEditorRuleInstance = monaco.editor.create(this._editorRuleContainer.nativeElement, {
         theme: 'myCustomTheme',
-        language: languageId,
+        language: this.languageId,
         value: this.actionRule // Initial value
       });
-      this.codeEditorActionsInstance = monaco.editor.create(this._editorActionsContainer.nativeElement, {
-        theme: 'myCustomTheme',
-        language: languageId,
-        value: this.actionList // Initial value
-      });
+      // this.codeEditorActionsInstance = monaco.editor.create(this._editorActionsContainer.nativeElement, {
+      //   theme: 'myCustomTheme',
+      //   language: this.languageId,
+      //   value: this.actionList // Initial value
+      // });
 
       this.codeEditorRuleInstance.addAction({
         id: 'validate-json',
@@ -491,15 +520,51 @@ export class ExecuteActionRuleComponent implements OnInit, AfterViewInit {
           this.validateJSON(); // Call the validation method
         }
       });
+      this.codeEditorActionsInstance.addAction({
+        id: 'my-duplicate-action',
+        label: 'Duplicate',
+        keybindings: [monaco.KeyCode.F10],
+        contextMenuGroupId: 'customActions',
+        contextMenuOrder: 1.5,
+        run: (ed: any) => {
+          const selectedText = ed.getModel().getValueInRange(ed.getSelection());
+
+          if (selectedText) {
+            try {
+              const selectedJson = JSON.parse(selectedText);
+
+              if (selectedJson.if) {
+                const content = ed.getValue();
+                const updatedContent = this.duplicateIfObjectInContent(content, selectedJson);
+                ed.setValue(updatedContent);
+              }
+            } catch (e) {
+              console.error("Invalid JSON selected or other error:", e);
+            }
+          }
+        }
+      });
 
       this.addCustomButton();
       this.isEditorInitialized = true;
 
-    }else{
+    } else {
       // this.codeEditorRuleInstance.layout();
       // this.codeEditorActionsInstance.layout();
     }
   }
+  duplicateIfObjectInContent(content: any, ifObjectToDuplicate: any) {
+    const data = JSON.parse(content);
+    const indexOfObject = data.findIndex((obj: any) => JSON.stringify(obj.if) === JSON.stringify(ifObjectToDuplicate));
+
+    if (indexOfObject !== -1) {
+      const newObject = { ...data[indexOfObject] };
+      data.splice(indexOfObject + 1, 0, newObject);
+    }
+
+    return JSON.stringify(data, null, 2);
+  }
+
   onDrawerVisibilityChanged(isVisible: boolean) {
     if (isVisible) {
       // Adjust the editors' size to fit the container
@@ -507,5 +572,32 @@ export class ExecuteActionRuleComponent implements OnInit, AfterViewInit {
       this.codeEditorActionsInstance.layout();
     }
   }
-
+  save() {
+    const ActionRule = {
+      ActionRule:{
+        rule:this.codeEditorRuleInstance.getValue(),
+        screenBuilderId:this.screeenBuilderId,
+        applicationId:this.applicationId
+      }
+    };
+    const addOrUpdateActionRule$ = !this.actionRuleId
+      ? this.applicationService.addNestCommonAPI('cp', ActionRule)
+      : this.applicationService.updateNestCommonAPI(
+        'cp/ActionRule',
+        this.actionRuleId,
+        ActionRule
+      );
+    addOrUpdateActionRule$.subscribe((res: any) => {
+      try {
+        if (res.isSuccess) {
+          this.getActionRule();
+          this.toastr.success(`Action Rule : ${res.message}`, { nzDuration: 2000 });
+        } else {
+          this.toastr.error(`Action Rule : ${res.message}`, { nzDuration: 2000 });
+        }
+      } catch (error) {
+        console.error("An error occurred:", error);
+      }
+    });
+  }
 }

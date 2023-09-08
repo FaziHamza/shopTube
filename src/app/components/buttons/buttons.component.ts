@@ -41,6 +41,7 @@ export class ButtonsComponent implements OnInit {
   }
 
   pagesRoute(data: any): void {
+    debugger
     if (data.isSubmit) {
       return;
     }
