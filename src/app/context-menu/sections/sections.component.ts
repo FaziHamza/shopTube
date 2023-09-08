@@ -252,9 +252,11 @@ export class SectionsComponent implements OnInit {
         relationIds = relationIds.toString();
         // if (Object.keys(empData.modalData).length > 0)
         this.saveLoader = true;
-        empData['id'] = findClickApi[0].actions[0].id
+        if (!findClickApi?.[0].actions?.[0]?.url?.includes('/market-place')) {
+          empData['id'] = findClickApi[0].actions[0].id
+        }
         // empData.screenId = findClickApi?.[0].actions?.[0]?.url
-        this.applicationServices.addBackendCommonApi('knex-query', empData).subscribe({
+        this.applicationServices.addBackendCommonApi(findClickApi.length > 0 ? findClickApi?.[0].actions?.[0]?.url : 'knex-query', empData).subscribe({
           next: (res) => {
             this.saveLoader = false;
             if (res[0]?.error)
@@ -381,27 +383,24 @@ export class SectionsComponent implements OnInit {
               this.saveLoader = false;
               if (tableData && res?.isSuccess) {
                 if (res.data.length > 0) {
-                  if (url.includes('market-place')) {
 
-                    let requiredData = res.data.map((item: any) => {
-                      // Extracting category details and subcategory details
-                      const categoryDetails = item?.categoryDetails?.[0];
-                      const subcategoryDetails = item?.subcategoryDetails?.[0];
+                  const parts = url.split('/'); // Split the URL by '/'
+                  const searchId = parts[parts.length - 1]; // Get the last part of the URL
 
-                      // Create a new object without unwanted properties
-                      return {
+                  const foundObject = findClickApi.find((item: any) => item.actions.some((action: any) => action.id === searchId));
+                  if (foundObject) {
+                    if (foundObject.actions[0]?.url.includes('market-place')) {
+                      res.data = res.data.map((item: any) => ({
                         id: item._id, // Rename _id to id
                         name: item.name,
                         categoryId: item.categoryId,
-                        categoryName: categoryDetails?.name, // Access the name property from categoryDetails
+                        categoryName: item.categoryDetails?.[0]?.name, // Access the name property from categoryDetails
                         subcategoryId: item.subcategoryId,
-                        subcategoryName: subcategoryDetails?.name, // Access the name property from subcategoryDetails
+                        subcategoryName: item.subcategoryDetails?.[0]?.name, // Access the name property from subcategoryDetails
                         thumbnailimage: item.thumbnailimage,
                         // ...rest
-                      };
-                    });
-
-                    res.data = requiredData;
+                      }));
+                    }
                   }
 
                   let saveForm = JSON.parse(JSON.stringify(res.data[0]));
@@ -471,23 +470,25 @@ export class SectionsComponent implements OnInit {
                     }
                   }
                   let getData = savedGroupData[savedGroupData.length - 1];
-                  if (getData.data.length > 0) {
-                    let groupingArray: any = [];
-                    let updateTableData: any = [];
-                    getData.data.forEach((elem: any) => {
-                      let findData = tableData.tableHeaders.find((item: any) => item.key == elem);
-                      if (findData) {
-                        updateTableData = this.groupedFunc(elem, 'add', findData, groupingArray, tableData.displayData, tableData.tableData, tableData.tableHeaders);
-                      }
-                    })
-                    tableData.tableData = updateTableData;
-                    tableData.displayData = tableData.tableData.length > tableData.end ? tableData.tableData.slice(0, tableData.end) : tableData.tableData;
-                    tableData.tableHeaders.unshift({
-                      name: 'expand',
-                      key: 'expand',
-                      title: 'Expand',
-                    });
-                    tableData.totalCount = tableData.tableData
+                  if (getData?.data) {
+                    if (getData.data.length > 0) {
+                      let groupingArray: any = [];
+                      let updateTableData: any = [];
+                      getData.data.forEach((elem: any) => {
+                        let findData = tableData.tableHeaders.find((item: any) => item.key == elem);
+                        if (findData) {
+                          updateTableData = this.groupedFunc(elem, 'add', findData, groupingArray, tableData.displayData, tableData.tableData, tableData.tableHeaders);
+                        }
+                      })
+                      tableData.tableData = updateTableData;
+                      tableData.displayData = tableData.tableData.length > tableData.end ? tableData.tableData.slice(0, tableData.end) : tableData.tableData;
+                      tableData.tableHeaders.unshift({
+                        name: 'expand',
+                        key: 'expand',
+                        title: 'Expand',
+                      });
+                      tableData.totalCount = tableData.tableData
+                    }
                   }
                 }
                 // this.assignGridRules(tableData);
@@ -602,6 +603,7 @@ export class SectionsComponent implements OnInit {
     return result;
   }
   async getFromQueryOnlyTable(tableData: any) {
+    debugger
     const findClickApi = tableData?.appConfigurableEvent?.filter((item: any) =>
       item.actions.some((action: any) => action.method === 'get' && (action.actionType === 'api' || action.actionType === 'query'))
     );
@@ -675,26 +677,28 @@ export class SectionsComponent implements OnInit {
                       }
                     }
                   }
-
-                  let getData = savedGroupData[savedGroupData.length - 1];
-                  if (getData.data.length > 0) {
-                    let groupingArray: any = [];
-                    let updateTableData: any = [];
-                    getData.data.forEach((elem: any) => {
-                      let findData = tableData.tableHeaders.find((item: any) => item.key == elem);
-                      if (findData) {
-                        updateTableData = this.groupedFunc(elem, 'add', findData, groupingArray, tableData.displayData, tableData.tableData, tableData.tableHeaders);
-                      }
-                    })
-                    tableData.tableData = updateTableData;
-                    tableData.displayData = tableData.tableData.length > tableData.end ? tableData.tableData.slice(0, tableData.end) : tableData.tableData;
-                    tableData.tableHeaders.unshift({
-                      name: 'expand',
-                      key: 'expand',
-                      title: 'Expand',
-                    });
-                    tableData.totalCount = tableData.tableData
+                  if (savedGroupData.length > 0) {
+                    let getData = savedGroupData[savedGroupData.length - 1];
+                    if (getData.data.length > 0) {
+                      let groupingArray: any = [];
+                      let updateTableData: any = [];
+                      getData.data.forEach((elem: any) => {
+                        let findData = tableData.tableHeaders.find((item: any) => item.key == elem);
+                        if (findData) {
+                          updateTableData = this.groupedFunc(elem, 'add', findData, groupingArray, tableData.displayData, tableData.tableData, tableData.tableHeaders);
+                        }
+                      })
+                      tableData.tableData = updateTableData;
+                      tableData.displayData = tableData.tableData.length > tableData.end ? tableData.tableData.slice(0, tableData.end) : tableData.tableData;
+                      tableData.tableHeaders.unshift({
+                        name: 'expand',
+                        key: 'expand',
+                        title: 'Expand',
+                      });
+                      tableData.totalCount = tableData.tableData
+                    }
                   }
+
                 }
                 this.saveLoader = false;
               }

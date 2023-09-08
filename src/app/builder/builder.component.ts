@@ -479,7 +479,7 @@ export class BuilderComponent implements OnInit {
                   const formlyConfig = node.formly?.[0]?.fieldGroup?.[0]?.key;
                   for (let index = 0; index < this.actionListData.length; index++) {
                     const element = this.actionListData[index];
-                    if (formlyConfig == element.elementName && element.actionType == 'api') {
+                    if (formlyConfig == element.elementName && (element.actionType == 'api' || element.actionType === 'query')) {
                       const eventActionConfig = node?.formly?.[0]?.fieldGroup?.[0]?.props;
                       if (eventActionConfig) {
                         if (index == 0) {
@@ -512,16 +512,18 @@ export class BuilderComponent implements OnInit {
                           }
                         }
                       }
-                    } else {
-                      const eventActionConfig = node?.formly?.[0]?.fieldGroup?.[0]?.props;
-                      if (eventActionConfig) {
-                        eventActionConfig['appConfigurableEvent'] = [];
-                        eventActionConfig['eventActionconfig'] = {};
-                      }
-                    }
+                    } 
+                    // else {
+                    //   const eventActionConfig = node?.formly?.[0]?.fieldGroup?.[0]?.props;
+                    //   if (eventActionConfig) {
+                    //     eventActionConfig['appConfigurableEvent'] = [];
+                    //     eventActionConfig['eventActionconfig'] = {};
+                    //   }
+                    // }
                   }
                 });
               }
+              
               let checkFirst: any = {};
               for (let index = 0; index < this.actionListData.length; index++) {
                 const element = this.actionListData[index];
@@ -558,10 +560,10 @@ export class BuilderComponent implements OnInit {
                       }
                     }
                   }
-                  else {
-                    findObj['appConfigurableEvent'] = [];
-                    findObj['eventActionconfig'] = {};
-                  }
+                  // else {
+                  //   findObj['appConfigurableEvent'] = [];
+                  //   findObj['eventActionconfig'] = {};
+                  // }
                 }
               }
               this.nodes = nodesData;
@@ -6469,7 +6471,7 @@ export class BuilderComponent implements OnInit {
   showRulesFunc(ruleType: any) {
     this.showRules = ruleType;
   }
-  applyHighlightSearch(data: any) {
+  applyHighlightSearch(data: any ) {
     if (this.searchValue) {
       const isMatch = data?.title ? data?.title.toLowerCase().includes(this.searchValue.toLowerCase()) : data?.id.toLowerCase().includes(this.searchValue.toLowerCase());
       data['searchHighlight'] = isMatch;
