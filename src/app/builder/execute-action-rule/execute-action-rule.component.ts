@@ -195,7 +195,7 @@ export class ExecuteActionRuleComponent implements OnInit, AfterViewInit {
   @ViewChild('editorRuleContainer', { static: false }) private _editorRuleContainer: ElementRef;
 
   @ViewChild('editorActionsContainer', { static: false }) _editorActionsContainer!: ElementRef;
-  columnsFields: any = [] = ["userTypeId", "status", "premium", "price"];
+  columnsFields: any = [] ;
   operators = ['==', '!=', '>', '<', '>=', '<='];
 
   ngAfterViewInit(): void {
@@ -293,98 +293,170 @@ export class ExecuteActionRuleComponent implements OnInit, AfterViewInit {
     }, 1000); // Adjust the timeout if necessary
   }
 
+// fazi
+extractActionsFromJSON(json: any): string[] {
+  const actions: string[] = [];
+  const extractActionsFromObject = (obj: any) => {
+      if (obj && typeof obj === 'object') {
+          if (obj['actionRule']) {
+              actions.push(obj['actionRule']);
+          }
+          for (let key in obj) {
+              extractActionsFromObject(obj[key]);
+          }
+      }
+  };
+  extractActionsFromObject(json);
+  return [...new Set(actions)]; // Removes duplicates
+}
+
+ actionsList = this.extractActionsFromJSON(JSON.parse(this.actionRule));
+
+
   jsonSchema = {
     type: 'array',
     items: {
-      type: 'object',
-      properties: {
-        if: {
-          type: 'object',
-          properties: {
-            actionRule: { type: 'string' },
-            key: { type: 'string', enum: this.columnsFields },
-            compare: { type: 'string', enum: this.operators },
-            value: { type: 'string' }
+        type: 'object',
+        properties: {
+            if: {
+                type: 'object',
+                properties: {
+                    actionRule: {
+                        type: 'string',
+                        enum: [
+                            'applyDiscount',
+                            'notifyUser',
+                            'applyPremiumDiscount',
+                            'checkUserType',
+                            'applyUserTypeDiscount',
+                            // ... add other actions here
+                        ]
+                    },
+                    key: { type: 'string', enum: this.columnsFields },
+                    compare: { type: 'string', enum: this.operators },
+                    value: { type: 'string' }
+                },
+                required: ['actionRule', 'key', 'compare', 'value']
+            },
+            then: {
+                type: 'object',
+                properties: {},
+                additionalProperties: {
+                    type: 'object',
+                    properties: {
+                        actionRule: {
+                            type: 'string',
+                            enum: [
+                                'applyDiscount',
+                                'notifyUser',
+                                'applyPremiumDiscount',
+                                'checkUserType',
+                                'applyUserTypeDiscount',
+                                // ... add other actions here
+                            ]
+                        },
+                        key: { type: 'string', enum: this.columnsFields }
+                    },
+                    required: ['actionRule', 'key']
+                }
+            },
+            OR: {
+              type: 'array',
+              items: {
+                  type: 'object',
+                  properties: {
+                      if: {
+                          type: 'object',
+                          properties: {
+                              actionRule: {
+                                  type: 'string',
+                                  enum: [
+                                      'applyDiscount',
+                                      'notifyUser',
+                                      'applyPremiumDiscount',
+                                      // ... add other actions here
+                                  ]
+                              },
+                              key: { type: 'string', enum: this.columnsFields },
+                              compare: { type: 'string', enum: this.operators },
+                              value: { type: 'string' }
+                          },
+                          required: ['actionRule', 'key', 'compare', 'value']
+                      },
+                      then: {
+                          type: 'object',
+                          properties: {},
+                          additionalProperties: {
+                              type: 'object',
+                              properties: {
+                                  actionRule: {
+                                      type: 'string',
+                                      enum: [
+                                          'applyDiscount',
+                                          'notifyUser',
+                                          'applyPremiumDiscount',
+                                          // ... add other actions here
+                                      ]
+                                  },
+                                  key: { type: 'string', enum: this.columnsFields }
+                              },
+                              required: ['actionRule', 'key']
+                          }
+                      }
+                  },
+                  required: ['if', 'then']
+              }
           },
-          required: ['actionRule', 'key', 'compare', 'value']
-        },
-        then: {
-          type: 'object',
-          properties: {},
-          additionalProperties: {
-            type: 'object',
-            properties: {
-              actionRule: { type: 'string' },
-              key: { type: 'string', enum: this.columnsFields }
-            },
-            required: ['actionRule', 'key']
-          }
-        },
-        OR: {
-          type: 'array',
-          items: {
-            type: 'object',
-            properties: {
-              if: {
-                type: 'object',
-                properties: {
-                  actionRule: { type: 'string' },
-                  key: { type: 'string', enum: this.columnsFields },
-                  compare: { type: 'string', enum: this.operators },
-                  value: { type: 'string' }
-                },
-                required: ['actionRule', 'key', 'compare', 'value']
-              },
-              then: {
-                type: 'object',
-                properties: {},
-                additionalProperties: {
+          AND: {
+              type: 'array',
+              items: {
                   type: 'object',
                   properties: {
-                    actionRule: { type: 'string' },
-                    key: { type: 'string', enum: this.columnsFields }
+                      if: {
+                          type: 'object',
+                          properties: {
+                              actionRule: {
+                                  type: 'string',
+                                  enum: [
+                                      'applyDiscount',
+                                      'notifyUser',
+                                      'applyPremiumDiscount',
+                                      // ... add other actions here
+                                  ]
+                              },
+                              key: { type: 'string', enum: this.columnsFields },
+                              compare: { type: 'string', enum: this.operators },
+                              value: { type: 'string' }
+                          },
+                          required: ['actionRule', 'key', 'compare', 'value']
+                      },
+                      then: {
+                          type: 'object',
+                          properties: {},
+                          additionalProperties: {
+                              type: 'object',
+                              properties: {
+                                  actionRule: {
+                                      type: 'string',
+                                      enum: [
+                                          'applyDiscount',
+                                          'notifyUser',
+                                          'applyPremiumDiscount',
+                                          // ... add other actions here
+                                      ]
+                                  },
+                                  key: { type: 'string', enum: this.columnsFields }
+                              },
+                              required: ['actionRule', 'key']
+                          }
+                      }
                   },
-                  required: ['actionRule', 'key']
-                }
+                  required: ['if', 'then']
               }
-            },
-            required: ['if', 'then']
           }
         },
-        AND: {
-          type: 'array',
-          items: {
-            type: 'object',
-            properties: {
-              if: {
-                type: 'object',
-                properties: {
-                  actionRule: { type: 'string' },
-                  key: { type: 'string', enum: this.columnsFields },
-                  compare: { type: 'string', enum: this.operators },
-                  value: { type: 'string' }
-                },
-                required: ['actionRule', 'key', 'compare', 'value']
-              },
-              then: {
-                type: 'object',
-                properties: {},
-                additionalProperties: {
-                  type: 'object',
-                  properties: {
-                    actionRule: { type: 'string' },
-                    key: { type: 'string', enum: this.columnsFields }
-                  },
-                  required: ['actionRule', 'key']
-                }
-              }
-            },
-            required: ['if', 'then']
-          }
-        }
-      },
-      additionalProperties: false,
-      required: ['if']
+        additionalProperties: false,
+        required: ['if']
     }
   };
   IsShowConfig: boolean = false;
@@ -491,7 +563,31 @@ export class ExecuteActionRuleComponent implements OnInit, AfterViewInit {
           this.validateJSON(); // Call the validation method
         }
       });
-
+      this.codeEditorActionsInstance.addAction({
+        id: 'my-duplicate-action',
+        label: 'Duplicate',
+        keybindings: [monaco.KeyCode.F10],
+        contextMenuGroupId: 'customActions',
+        contextMenuOrder: 1.5,
+        run: (ed: any) => {
+          const selectedText = ed.getModel().getValueInRange(ed.getSelection());
+  
+          if (selectedText) {
+            try {
+              const selectedJson = JSON.parse(selectedText);
+  
+              if (selectedJson.if) {
+                const content = ed.getValue();
+                const updatedContent = this.duplicateIfObjectInContent(content, selectedJson);
+                ed.setValue(updatedContent);
+              }
+            } catch (e) {
+              console.error("Invalid JSON selected or other error:", e);
+            }
+          }
+        }
+      });
+    
       this.addCustomButton();
       this.isEditorInitialized = true;
 
@@ -500,6 +596,18 @@ export class ExecuteActionRuleComponent implements OnInit, AfterViewInit {
       // this.codeEditorActionsInstance.layout();
     }
   }
+   duplicateIfObjectInContent(content:any, ifObjectToDuplicate:any) {
+    const data = JSON.parse(content);
+    const indexOfObject = data.findIndex((obj:any) => JSON.stringify(obj.if) === JSON.stringify(ifObjectToDuplicate));
+
+    if (indexOfObject !== -1) {
+        const newObject = { ...data[indexOfObject] };
+        data.splice(indexOfObject + 1, 0, newObject);
+    }
+
+    return JSON.stringify(data, null, 2);
+}
+
   onDrawerVisibilityChanged(isVisible: boolean) {
     if (isVisible) {
       // Adjust the editors' size to fit the container
