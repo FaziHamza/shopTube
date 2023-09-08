@@ -38,9 +38,9 @@
 </nz-drawer>
 
 <ng-template #extra>
-    <button nz-button nzType="default" (click)="close()">Cancel</button>
+    <button *ngIf="drawerData.closevisible" nz-button nzType="default" (click)="close()">Cancel</button>
     &nbsp;
-    <button nz-button nzType="primary" (click)="close()">OK</button>
+    <button *ngIf="drawerData.okvisible" nz-button nzType="primary" (click)="close()">OK</button>
 </ng-template>
 <ng-template #extra2>
     <button nz-button nzType="primary" (click)="close()">OK</button>

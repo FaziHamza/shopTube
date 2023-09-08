@@ -4,6 +4,7 @@ import { Subscription } from 'rxjs';
 import { EmployeeService } from 'src/app/services/employee.service';
 import { ApplicationService } from 'src/app/services/application.service';
 import { Router } from '@angular/router';
+import { DataSharedService } from 'src/app/services/data-shared.service';
 
 @Component({
   selector: 'st-builder-layout',
@@ -25,9 +26,11 @@ export class BuilderLayoutComponent implements OnInit {
     },
     "__v": 0
   }
-  constructor(private toastr: NzMessageService, private employeeService: EmployeeService, private applicationService: ApplicationService,private router: Router) { }
+  requestSubscription: any;
+  constructor(private toastr: NzMessageService, private employeeService: EmployeeService, private applicationService: ApplicationService,private router: Router, private dataSharedService:DataSharedService) { }
 
   ngOnInit(): void {
+    this.getUsers();
     this.menus = JSON.parse(this.menuStringify.menuData);
     this.selectedTheme = JSON.parse(this.menuStringify.menuData);
   }
@@ -36,6 +39,20 @@ export class BuilderLayoutComponent implements OnInit {
   navigate(){
     localStorage.clear();
     this.router.navigate(['/login'])
+  }
+  getUsers() {
+    debugger
+    this.requestSubscription = this.applicationService.getNestCommonAPI('cp/user').subscribe({
+      next: (res: any) => {
+        if (res.data.length > 0) {
+          this.dataSharedService.usersData = res.data;
+        }
+      },
+      error: (err) => {
+        console.error(err); // Log the error to the console
+        this.toastr.error(`UserComment : An error occurred`, { nzDuration: 3000 });
+      }
+    });
   }
 
 }

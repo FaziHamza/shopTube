@@ -8916,7 +8916,7 @@ export class formFeildData {
             label: 'Button Text',
           }
         },
-        
+
         {
           className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
           key: 'icon',
@@ -9134,6 +9134,24 @@ export class formFeildData {
           wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             label: 'Show Button',
+          },
+        },
+        {
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          key: 'okvisible',
+          type: 'checkbox',
+          wrappers: ["formly-vertical-theme-wrapper"],
+          props: {
+            label: 'Show Ok Button',
+          },
+        },
+        {
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          key: 'closevisible',
+          type: 'checkbox',
+          wrappers: ["formly-vertical-theme-wrapper"],
+          props: {
+            label: 'Show Close Button',
           },
         },
         // {
@@ -11302,7 +11320,7 @@ export class formFeildData {
             label: 'Allow Delete'
           }
         },
-        
+
         {
           key: 'options',
           type: 'repeatSection',
@@ -11407,7 +11425,7 @@ export class formFeildData {
                   label: 'Header Button'
                 }
               },
-             
+
 
               // {
               //   key: 'sortOrder',
@@ -12088,7 +12106,7 @@ export class formFeildData {
           wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             label: 'Data Classification',
-            options : dataClassification,
+            options: dataClassification,
             additionalProperties: {
               allowClear: true,
               serveSearch: false,
