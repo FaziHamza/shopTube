@@ -252,7 +252,7 @@
                 <nz-alert *ngIf="!showActionRule" nzType="warning" nzMessage="Please contact your DBA to approve fields"
                   nzShowIcon></nz-alert>
               </nz-tab>
-              <nz-tab nzTitle="Actions" (nzClick)="showRulesFunc('testActionRule')">
+              <nz-tab nzTitle="Action Rules" (nzClick)="showRulesFunc('testActionRule')">
                 <st-execute-action-rule  [selectedNode]="selectedNode"
                 *ngIf="selectedNode && showRules == 'testActionRule'" [screenName]="screenName"
                 [formlyModel]="this.formlyModel" [applicationId]="selectApplicationName" [nodes]="nodes"
