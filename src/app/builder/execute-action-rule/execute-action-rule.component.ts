@@ -96,7 +96,7 @@ export class ExecuteActionRuleComponent implements OnInit, AfterViewInit {
     });
   }
   getActionData() {
-    debugger
+    
     const selectedScreen = this.screens.filter((a: any) => a.name == this.screenName)
     if (selectedScreen[0].navigation != null && selectedScreen[0].navigation != undefined) { // selectedScreen[0].navigation
       this.requestSubscription = this.applicationService.getNestCommonAPIById("cp/actionbyscreenname", selectedScreen[0]._id).subscribe({
@@ -124,27 +124,6 @@ export class ExecuteActionRuleComponent implements OnInit, AfterViewInit {
   }
   actionList: any = '';
   actionRule: any = '';
-  actionModel: any = JSON.stringify({
-    "userTypeId": 1,
-    "status": "premium",
-    "price": 250
-  }
-  )
-  db = {
-    execute: async (query: string) => {
-      if (query.includes("userType")) {
-        return { status: 1 }; // Simulate premium user
-      } else if (query.includes("tblDiscount")) {
-        return { discount: 10 }; // Simulate discount value
-      } else {
-        throw new Error("Unknown query");
-      }
-    },
-  };
-
-  ruleForm: FormGroup;
-
-
 
   validationMessage: any[] = [];
   codeEditorRuleInstance!: monaco.editor.IStandaloneCodeEditor;
@@ -267,8 +246,18 @@ export class ExecuteActionRuleComponent implements OnInit, AfterViewInit {
     extractActionsFromObject(json);
     return [...new Set(actions)]; // Removes duplicates
   }
-
-  actionsList = this.extractActionsFromJSON(JSON.parse(this.actionRule));
+  async check(){
+    try {
+      await this.employeeService.saveSQLDatabaseTable('knex-query/execute-actions/' + this.screeenBuilderId,this.formlyModel?.tbl_user).subscribe(res=>{
+        // this.formlyModel = JSON.stringify(res, null, 2);
+      })
+      // const results = await this.processActionRulesV1(this.actionRule, this.actionModel);
+    } catch (error) {
+      console.error('Error while processing action rules:', error);
+      this.actionResult = 'Error occurred while processing action rules';
+    }
+  }
+  // actionsList = this.extractActionsFromJSON(JSON.parse(this.actionRule));
 
 
   jsonSchema = {
@@ -282,12 +271,7 @@ export class ExecuteActionRuleComponent implements OnInit, AfterViewInit {
             actionRule: {
               type: 'string',
               enum: [
-                'applyDiscount',
-                'notifyUser',
-                'applyPremiumDiscount',
-                'checkUserType',
-                'applyUserTypeDiscount',
-                // ... add other actions here
+               
               ]
             },
             key: { type: 'string', enum: this.columnsFields },
@@ -305,12 +289,7 @@ export class ExecuteActionRuleComponent implements OnInit, AfterViewInit {
               actionRule: {
                 type: 'string',
                 enum: [
-                  'applyDiscount',
-                  'notifyUser',
-                  'applyPremiumDiscount',
-                  'checkUserType',
-                  'applyUserTypeDiscount',
-                  // ... add other actions here
+                
                 ]
               },
               key: { type: 'string', enum: this.columnsFields }
@@ -329,10 +308,7 @@ export class ExecuteActionRuleComponent implements OnInit, AfterViewInit {
                   actionRule: {
                     type: 'string',
                     enum: [
-                      'applyDiscount',
-                      'notifyUser',
-                      'applyPremiumDiscount',
-                      // ... add other actions here
+                    
                     ]
                   },
                   key: { type: 'string', enum: this.columnsFields },
@@ -350,10 +326,6 @@ export class ExecuteActionRuleComponent implements OnInit, AfterViewInit {
                     actionRule: {
                       type: 'string',
                       enum: [
-                        'applyDiscount',
-                        'notifyUser',
-                        'applyPremiumDiscount',
-                        // ... add other actions here
                       ]
                     },
                     key: { type: 'string', enum: this.columnsFields }
@@ -376,10 +348,6 @@ export class ExecuteActionRuleComponent implements OnInit, AfterViewInit {
                   actionRule: {
                     type: 'string',
                     enum: [
-                      'applyDiscount',
-                      'notifyUser',
-                      'applyPremiumDiscount',
-                      // ... add other actions here
                     ]
                   },
                   key: { type: 'string', enum: this.columnsFields },
@@ -397,10 +365,7 @@ export class ExecuteActionRuleComponent implements OnInit, AfterViewInit {
                     actionRule: {
                       type: 'string',
                       enum: [
-                        'applyDiscount',
-                        'notifyUser',
-                        'applyPremiumDiscount',
-                        // ... add other actions here
+                     
                       ]
                     },
                     key: { type: 'string', enum: this.columnsFields }
@@ -442,11 +407,11 @@ export class ExecuteActionRuleComponent implements OnInit, AfterViewInit {
 
 
   initializeMonacoEditor(): void {
-    debugger
+    
     if (!this.isEditorInitialized) {
 
 
-      debugger
+      
       if (this._editorRuleContainer) {
         // Try logging to see if the reference is available
         console.log(this._editorRuleContainer?.nativeElement);
