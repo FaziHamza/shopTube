@@ -13,13 +13,13 @@ import { DataSharedService } from '../services/data-shared.service';
   <span style="margin-top: 4px" *ngIf="to['additionalProperties']?.tooltip && to['additionalProperties']?.tooltipPosition == 'left' && !to['additionalProperties']?.tooltipWithoutIcon" nz-tooltip [nzTooltipTitle]="to['additionalProperties']?.tooltip">
     <span nz-icon [nzType]="to['additionalProperties']['tooltipIcon'] ?  to['additionalProperties']['tooltipIcon'] : 'question-circle'" [class]="to['additionalProperties']['toolTipClass']" nzTheme="outline"></span>
   </span>
-  <label class="label-style py-1 px-2 text-muted" [attr.for]="id" *ngIf="to.label" [ngClass]="[labelColumn , to['additionalProperties']?.labelPosition , to.type != 'checkbox' && to.type!='radio' ? fieldPadding : '']">
+  <label class="label-style relative py-1 px-2 text-muted" [attr.for]="id" *ngIf="to.label" [ngClass]="[labelColumn , to['additionalProperties']?.labelPosition , to.type != 'checkbox' && to.type!='radio' ? fieldPadding : '']">
     <span>
       <span class="mr-1 mb-1">
         <st-icon *ngIf="to['additionalProperties']?.titleIcon" [type]="to['additionalProperties']?.iconType || 'outline'" [icon]="to['additionalProperties']?.titleIcon" [hoverIconColor]="to['additionalProperties']?.hoverIconColor || ''" [size]="to['additionalProperties']?.iconSize" [color]="to['additionalProperties']?.iconColor"></st-icon>
       </span>
       <!-- <span nz-icon [nzType]="to.titleIcon" nzTheme="outline" class="mr-1 mb-1"></span> -->
-      <st-task-report class="close-icon mr-2 !absolute;" style="position:absolute" *ngIf="to['issueReport'] && to['issueReport']?.length > 0 " [item]="to" [screenName]="to['screenName']"
+      <st-task-report class="close-icon mr-2 !absolute top-[2%] !left-[2%]" style="position:absolute" *ngIf="to['issueReport'] && to['issueReport']?.length > 0 " [item]="to" [screenName]="to['screenName']"
                 [type]="'pages'"></st-task-report>
       <span [class]="to['additionalProperties']?.labelClassName">{{ to.label | translate}}
 

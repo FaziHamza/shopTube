@@ -18,12 +18,12 @@ import { DataSharedService } from '../services/data-shared.service';
         <span nz-icon [nzType]="to['additionalProperties']['tooltipIcon'] ?  to['additionalProperties']['tooltipIcon'] : 'question-circle'" [class]="to['additionalProperties']['toolTipClass']" nzTheme="outline"></span>
       </span>
       </span>
-      <label class="label-style" [attr.for]="id" class="col-form-label {{to['additionalProperties']?.labelPosition}} pl-1" *ngIf="to.label" [style.background-color]="to['labelBackgroundColor']" [style.color]="to['labelColor']">
+      <label class="label-style relative" [attr.for]="id" class="col-form-label {{to['additionalProperties']?.labelPosition}} pl-1" *ngIf="to.label" [style.background-color]="to['labelBackgroundColor']" [style.color]="to['labelColor']">
         <span>
           <span class="mr-1 mb-1">
             <st-icon *ngIf="to['additionalProperties']?.titleIcon" [type]="to['additionalProperties']?.iconType || 'outline'" [icon]="to['additionalProperties']?.titleIcon" [hoverIconColor]="to['additionalProperties']?.hoverIconColor || ''" [size]="to['additionalProperties']?.iconSize" [color]="to['additionalProperties']?.iconColor"></st-icon>
           </span>
-          <st-task-report class="close-icon mr-2" *ngIf="to['issueReport'] && to['issueReport']?.length > 0 " [item]="to" [screenName]="to['screenName']"
+          <st-task-report class="close-icon mr-2 !top-[50%] !left-[2%]" *ngIf="to['issueReport'] && to['issueReport']?.length > 0 " [item]="to" [screenName]="to['screenName']"
                 [type]="'pages'"></st-task-report>
           <span *ngIf="to.required">*</span>
           <span [class]="to['additionalProperties']?.labelClassName">{{to.label | translate}}</span>
