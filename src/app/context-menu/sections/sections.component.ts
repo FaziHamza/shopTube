@@ -360,9 +360,9 @@ export class SectionsComponent implements OnInit {
   }
   async getFromQuery(data: any) {
     let findClickApi = data?.appConfigurableEvent?.filter((item: any) =>
-      item.actions.some((action: any) =>
-        (action.method === 'get' && (action.actionType === 'api' || action.actionType === 'query'))
-      )
+    (item.actionLink === 'get' && (item.actionType === 'api' || item.actionType === 'query'))
+
+     
     );
 
     if (findClickApi) {
@@ -370,15 +370,15 @@ export class SectionsComponent implements OnInit {
         let url = '';
 
         for (let index = 0; index < findClickApi.length; index++) {
-          let element = findClickApi[index].actions?.[0]?.actionType;
+          let element = findClickApi[index].actionType;
           if (element == 'query') {
-            url = `knex-query/getAction/${findClickApi[index].actions?.[0]?.id}`;
+            url = `knex-query/getAction/${findClickApi[index]._id}`;
             break;
           } else {
-            url = `knex-query/getAction/${findClickApi[index].actions?.[0]?.id}`;
+            url = `knex-query/getAction/${findClickApi[index]._id}`;
           }
         }
-        let tableData = this.findObjectByKey(this.sections, findClickApi?.[0].actions?.[0]?.elementName);
+        let tableData = this.findObjectByKey(this.sections, findClickApi?.[0].elementName);
         if (tableData) {
           let pagination = '';
           if (tableData.serverSidePagination) {
@@ -396,9 +396,9 @@ export class SectionsComponent implements OnInit {
                   const parts = url.split('/'); // Split the URL by '/'
                   const searchId = parts[parts.length - 1]; // Get the last part of the URL
 
-                  const foundObject = findClickApi.find((item: any) => item.actions.some((action: any) => action.id === searchId));
+                  const foundObject = findClickApi.find((item: any) => item.id === searchId);
                   if (foundObject) {
-                    if (foundObject.actions[0]?.url.includes('market-place')) {
+                    if (foundObject?.url.includes('market-place')) {
                       res.data = res.data.map((item: any) => ({
                         id: item._id, // Rename _id to id
                         name: item.name,
@@ -428,7 +428,7 @@ export class SectionsComponent implements OnInit {
                   }
                   tableData.pageIndex = 1;
                   tableData.totalCount = res.count;
-                  tableData.serverApi = findClickApi.length > 0 ? findClickApi?.[0].actions?.[0]?.url : `knex-query/${this.screenName}`;
+                  tableData.serverApi = findClickApi.length > 0 ? findClickApi?.[0].url : `knex-query/${this.screenName}`;
                   tableData.targetId = '';
                   tableData.displayData = tableData.tableData.length > tableData.end ? tableData.tableData.slice(0, tableData.end) : tableData.tableData;
                   // pagniation work end
