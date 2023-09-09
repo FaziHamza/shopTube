@@ -1,0 +1,23 @@
+<div id="mySidenav-right" class="sidenav-right">
+    <div class="mySidenav-right">
+        <div class="side-nav-body">
+            <div class="flex flex-wrap">
+                <div class="w-full">
+                    <ul *ngIf="validationMessage.length">
+                        <li class="text-red-800 flex justify-start items-center mb-2"
+                            *ngFor="let errorObj of validationMessage">
+                            <p class="font-semibold capitalize text-base">
+                                {{ errorObj.message }}
+                            </p>
+                            <button nz-button nzType="primary" class="btn ml-2" (click)="fixError(errorObj)">
+
+                                <i class="fa-regular fa-sliders mr-2"></i>
+                                Auto Fix</button>
+                        </li>
+                    </ul>
+                    <div class="editor-container rounded-md" #editorRuleContainer></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
