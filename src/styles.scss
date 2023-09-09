@@ -6701,11 +6701,10 @@ tr:hover {
 }
 
 .slick-dots li {
+  display: inline-block !important;
   width: 18px !important;
   height: 18px !important;
 }
-
-/* Element | http://localhost:5600/ */
 
 .slick-dots li button {
   border-radius: 100% !important;
@@ -6927,3 +6926,4 @@ tr:hover {
     border-color: #038edc !important;
   }
 }
+

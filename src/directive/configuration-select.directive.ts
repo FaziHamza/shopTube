@@ -25,6 +25,7 @@ export class ConfigurableSelectDirective implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit() {
+    debugger
     this.bindEvents();
     this.loadOptions();
   }
@@ -73,8 +74,8 @@ export class ConfigurableSelectDirective implements OnInit, OnDestroy {
   }
 
   private executeAction(action: Action): Observable<any> {
-    const { id, method, data, headers, parentId } = action;
-    return this.applicationService.callApi(`knex-query/getAction/${id}`, method, data, headers, parentId)
+    const { _id, actionLink, data, headers, parentId } = action;
+    return this.applicationService.callApi(`knex-query/getAction/${_id}`, actionLink, data, headers, parentId)
       .pipe(takeUntil(this.unsubscribe$));
   }
 }
@@ -84,9 +85,9 @@ type LoadAction = Action;
 type Action = {
   actionType: string;
   url: string;
-  method: string;
+  actionLink: string;
   data?: any;
   headers?: any;
-  id?: any;
+  _id?: any;
   parentId?: any;
 };

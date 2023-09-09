@@ -1,6 +1,6 @@
 <div class="w-full flex flex-wrap h-screen register">
     <!-- poster -->
-    <div class="lg:w-1/2 hidden lg:inline-block h-full relative box-border bg-[#2563EB] text-white">
+    <div class="lg:w-1/2 !hidden lg:!inline-block !h-full !relative !box-border !bg-[#2563EB] !text-white">
         <!-- logo -->
         <div class="flex items-center absolute space-x-[14px] top-6 left-6">
             <img src="/assets/images/Exclude.png" class="w-[34px] h-[34px]" alt="Fastify_Logo" />
@@ -13,9 +13,9 @@
         <!-- Carousel_indicator -->
 
 
-        <nz-carousel [nzEffect]="effect" nzAutoPlay>
+        <nz-carousel nzEffect="scrollx" nzAutoPlay>
 
-            <div nz-carousel-content>
+            <div nz-carousel-content class="w-full">
                 <div class="pt-[50px] flex justify-center items-center img-div px-[70px]">
                     <div
                         class="!w-[75%] h-4/5 flex justify-center items-center rounded-full !bg-gradient-to-b from-[#306BEC] to-[#2563EB]">
@@ -35,7 +35,7 @@
                     </p>
                 </div>
             </div>
-            <div nz-carousel-content>
+            <div nz-carousel-content class="w-full">
                 <div class="pt-[50px] flex justify-center items-center img-div px-[70px]">
                     <div
                         class="w-[75%] h-4/5 flex justify-center items-center rounded-full bg-gradient-to-b from-[#306BEC] to-[#2563EB]">
@@ -55,7 +55,7 @@
                     </p>
                 </div>
             </div>
-            <div nz-carousel-content>
+            <div nz-carousel-content class="w-full" >
                 <div class="pt-[50px] flex justify-center items-center img-div px-[70px]">
                     <div
                         class="w-[75%] h-4/5 flex justify-center items-center rounded-full bg-gradient-to-b from-[#306BEC] to-[#2563EB]">
