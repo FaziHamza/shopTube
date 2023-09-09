@@ -366,9 +366,9 @@ export class SectionsComponent implements OnInit {
      
     );
 
-    // if (findClickApi) {
-    //   if (findClickApi.length > 0) {
-    //     let url = '';
+    if (findClickApi) {
+      if (findClickApi.length > 0) {
+        let url = '';
 
         for (let index = 0; index < findClickApi.length; index++) {
           let element = findClickApi[index].actionType;
@@ -394,12 +394,12 @@ export class SectionsComponent implements OnInit {
               if (tableData && res?.isSuccess) {
                 if (res.data.length > 0) {
 
-    //               const parts = url.split('/'); // Split the URL by '/'
-    //               const searchId = parts[parts.length - 1]; // Get the last part of the URL
+                  const parts = url.split('/'); // Split the URL by '/'
+                  const searchId = parts[parts.length - 1]; // Get the last part of the URL
 
-                  const foundObject = findClickApi.find((item: any) => item.actions.some((action: any) => action.id === searchId));
+                  const foundObject = findClickApi.find((item: any) => item.id === searchId);
                   if (foundObject) {
-                    if (foundObject.actions[0]?.url.includes('market-place')) {
+                    if (foundObject?.url.includes('market-place')) {
                       res.data = res.data.map((item: any) => ({
                         id: item._id, // Rename _id to id
                         name: item.name,
@@ -429,7 +429,7 @@ export class SectionsComponent implements OnInit {
                   }
                   tableData.pageIndex = 1;
                   tableData.totalCount = res.count;
-                  tableData.serverApi = findClickApi.length > 0 ? findClickApi?.[0].actions?.[0]?.url : `knex-query/${this.screenName}`;
+                  tableData.serverApi = findClickApi.length > 0 ? findClickApi?.[0].url : `knex-query/${this.screenName}`;
                   tableData.targetId = '';
                   tableData.displayData = tableData.tableData.length > tableData.end ? tableData.tableData.slice(0, tableData.end) : tableData.tableData;
                   // pagniation work end
@@ -451,68 +451,68 @@ export class SectionsComponent implements OnInit {
                     }
                   }
 
-    //               // Make DataType
-    //               let propertiesWithoutDataType = tableData.tableHeaders.filter((check: any) => !check.hasOwnProperty('dataType'));
-    //               if (propertiesWithoutDataType.length > 0) {
-    //                 let formlyInputs = this.filterInputElements(this.sections.children[1].children);
+                  // Make DataType
+                  let propertiesWithoutDataType = tableData.tableHeaders.filter((check: any) => !check.hasOwnProperty('dataType'));
+                  if (propertiesWithoutDataType.length > 0) {
+                    let formlyInputs = this.filterInputElements(this.sections.children[1].children);
 
-    //                 if (formlyInputs && formlyInputs.length > 0) {
-    //                   propertiesWithoutDataType.forEach((head: any) => {
-    //                     let input = formlyInputs.find(a => a.formly[0].fieldGroup[0].key.includes('.') ? a.formly[0].fieldGroup[0].key.split('.')[1] == head.key : a.formly[0].fieldGroup[0].key == head.key);
+                    if (formlyInputs && formlyInputs.length > 0) {
+                      propertiesWithoutDataType.forEach((head: any) => {
+                        let input = formlyInputs.find(a => a.formly[0].fieldGroup[0].key.includes('.') ? a.formly[0].fieldGroup[0].key.split('.')[1] == head.key : a.formly[0].fieldGroup[0].key == head.key);
 
-    //                     if (input) {
-    //                       head['dataType'] = input.formly[0].fieldGroup[0].type;
-    //                       head['subDataType'] = input.formly[0].fieldGroup[0].props.type;
-    //                       head['title'] = input.title;
-    //                     }
-    //                   });
+                        if (input) {
+                          head['dataType'] = input.formly[0].fieldGroup[0].type;
+                          head['subDataType'] = input.formly[0].fieldGroup[0].props.type;
+                          head['title'] = input.title;
+                        }
+                      });
 
-    //                   tableData.tableHeaders = tableData.tableHeaders.concat(propertiesWithoutDataType.filter((item: any) => !tableData.tableHeaders.some((objItem: any) => objItem.key === item.key)));
-    //                   // tableData.tableHeaders = obj;
-    //                 }
-    //               }
-    //               let CheckKey = tableData.tableHeaders.find((head: any) => !head.key)
-    //               if (CheckKey) {
-    //                 for (let i = 0; i < tableData.tableHeaders.length; i++) {
-    //                   if (!tableData.tableHeaders[i].hasOwnProperty('key')) {
-    //                     tableData.tableHeaders[i].key = tableData.tableHeaders[i].name;
-    //                   }
-    //                 }
-    //               }
-    //               let getData = savedGroupData[savedGroupData.length - 1];
-    //               if (getData?.data) {
-    //                 if (getData.data.length > 0) {
-    //                   let groupingArray: any = [];
-    //                   let updateTableData: any = [];
-    //                   getData.data.forEach((elem: any) => {
-    //                     let findData = tableData.tableHeaders.find((item: any) => item.key == elem);
-    //                     if (findData) {
-    //                       updateTableData = this.groupedFunc(elem, 'add', findData, groupingArray, tableData.displayData, tableData.tableData, tableData.tableHeaders);
-    //                     }
-    //                   })
-    //                   tableData.tableData = updateTableData;
-    //                   tableData.displayData = tableData.tableData.length > tableData.end ? tableData.tableData.slice(0, tableData.end) : tableData.tableData;
-    //                   tableData.tableHeaders.unshift({
-    //                     name: 'expand',
-    //                     key: 'expand',
-    //                     title: 'Expand',
-    //                   });
-    //                   tableData.totalCount = tableData.tableData
-    //                 }
-    //               }
-    //             }
-    //             // this.assignGridRules(tableData);
-    //           }
-    //           this.saveLoader = false;
-    //         }, error: (error: any) => {
-    //           console.error(error);
-    //           this.toastr.error("An error occurred", { nzDuration: 3000 });
-    //           this.saveLoader = false;
-    //         }
-    //       });
-    //     }
-    //   }
-    // }
+                      tableData.tableHeaders = tableData.tableHeaders.concat(propertiesWithoutDataType.filter((item: any) => !tableData.tableHeaders.some((objItem: any) => objItem.key === item.key)));
+                      // tableData.tableHeaders = obj;
+                    }
+                  }
+                  let CheckKey = tableData.tableHeaders.find((head: any) => !head.key)
+                  if (CheckKey) {
+                    for (let i = 0; i < tableData.tableHeaders.length; i++) {
+                      if (!tableData.tableHeaders[i].hasOwnProperty('key')) {
+                        tableData.tableHeaders[i].key = tableData.tableHeaders[i].name;
+                      }
+                    }
+                  }
+                  let getData = savedGroupData[savedGroupData.length - 1];
+                  if (getData?.data) {
+                    if (getData.data.length > 0) {
+                      let groupingArray: any = [];
+                      let updateTableData: any = [];
+                      getData.data.forEach((elem: any) => {
+                        let findData = tableData.tableHeaders.find((item: any) => item.key == elem);
+                        if (findData) {
+                          updateTableData = this.groupedFunc(elem, 'add', findData, groupingArray, tableData.displayData, tableData.tableData, tableData.tableHeaders);
+                        }
+                      })
+                      tableData.tableData = updateTableData;
+                      tableData.displayData = tableData.tableData.length > tableData.end ? tableData.tableData.slice(0, tableData.end) : tableData.tableData;
+                      tableData.tableHeaders.unshift({
+                        name: 'expand',
+                        key: 'expand',
+                        title: 'Expand',
+                      });
+                      tableData.totalCount = tableData.tableData
+                    }
+                  }
+                }
+                // this.assignGridRules(tableData);
+              }
+              this.saveLoader = false;
+            }, error: (error: any) => {
+              console.error(error);
+              this.toastr.error("An error occurred", { nzDuration: 3000 });
+              this.saveLoader = false;
+            }
+          });
+        }
+      }
+    }
   }
   groupedFunc(data: any, type: any, header: any, groupingArray: any, displayData: any, tableData: any, tableHeaders: any) {
     header['grouping'] = type === 'add' ? data : '';
