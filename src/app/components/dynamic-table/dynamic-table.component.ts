@@ -1021,6 +1021,19 @@ export class DynamicTableComponent implements OnInit {
       const drawer = this.findObjectByTypeBase(this.data, "drawer");
       drawer['visible'] = true;
       if (drawer?.eventActionconfig) {
+        let obj: any = {
+          'task.status': item.status,
+          'task.type': item.type,
+          'task.applicationid': item.applicationid,
+          'task.enddate': item.enddate
+        };
+
+        // Loop through the keys and set values using setControl
+        Object.keys(obj).forEach(key => {
+          this.form.get(key)?.setValue(obj[key]);
+        });
+
+        // this.formlyModel.patchValue(obj);
         drawer.eventActionconfig['parentId'] = item.id;
       }
       this.data = JSON.parse(JSON.stringify(this.data));
@@ -1028,26 +1041,28 @@ export class DynamicTableComponent implements OnInit {
     }
   }
   transform(dateRange: string): any {
-    if (dateRange.includes('GMT+0500') && dateRange) {
-      // Split the date range by ","
-      const dateParts = dateRange.split(',');
+    if (dateRange) {
+      if (dateRange.includes('GMT+0500') && dateRange) {
+        // Split the date range by ","
+        const dateParts = dateRange.split(',');
 
-      if (dateParts.length >= 2) {
-        // Extract the start and end date parts
-        const startDate = dateParts[0].trim();
-        const endDate = dateParts[1].trim();
+        if (dateParts.length >= 2) {
+          // Extract the start and end date parts
+          const startDate = dateParts[0].trim();
+          const endDate = dateParts[1].trim();
 
-        // Format the start and end dates
-        const formattedStartDate = this.formatDate(startDate);
-        const formattedEndDate = this.formatDate(endDate);
+          // Format the start and end dates
+          const formattedStartDate = this.formatDate(startDate);
+          const formattedEndDate = this.formatDate(endDate);
 
-        // Return the formatted date range
-        return `${formattedStartDate} - ${formattedEndDate}`;
-      } else {
-        // If there are not enough parts, return the original date range
-        return dateRange;
+          // Return the formatted date range
+          return `${formattedStartDate} - ${formattedEndDate}`;
+        } else {
+          // If there are not enough parts, return the original date range
+          return dateRange;
+        }
       }
-
+      return null;
     }
     return null;
   }
@@ -1440,13 +1455,14 @@ export class DynamicTableComponent implements OnInit {
       let res: any = {};
       res['data'] = [];
       res['data'] = data;
-      this.getFromQueryOnlyTable(this.data , res)
+      this.getFromQueryOnlyTable(this.data, res)
     } else {
 
     }
     return data
   }
   async getFromQueryOnlyTable(tableData: any, res: any) {
+    debugger
     if (tableData && res?.data.length > 0) {
       const applicationId = localStorage.getItem('applicationId') || '';
       let savedGroupData = await this.dataService.getNodes(JSON.parse(applicationId), this.screenName, "Table");
@@ -1505,7 +1521,7 @@ export class DynamicTableComponent implements OnInit {
           getData.data.forEach((elem: any) => {
             let findData = this.tableHeaders.find((item: any) => item.key == elem);
             if (findData) {
-              // updateTableData = this.groupedFunc(elem, 'add', findData, groupingArray, tableData.displayData, tableData.tableData, tableData.tableHeaders);
+              updateTableData = this.groupedFunc(elem, 'add', findData);
             }
           })
           // this.tableData = updateTableData;
@@ -1525,7 +1541,7 @@ export class DynamicTableComponent implements OnInit {
         this.tableHeaders = this.tableHeaders.filter((head: any) => head.key != 'expand')
       }
     }
-    this.loadTableData();
+    // this.loadTableData();
   }
 
 }

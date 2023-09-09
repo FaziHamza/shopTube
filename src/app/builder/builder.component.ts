@@ -4271,6 +4271,7 @@ export class BuilderComponent implements OnInit {
             });
             this.selectedNode.tableHeaders = newHeaders;
           }
+          this.selectedNode.tableKey = this.selectedNode.tableHeaders.map((key: any) => ({ name: key.key }));
           if (event.tableDta) {
             this.selectedNode.columnData = this.updateTableData(
               event.tableDta ? event.tableDta : event.form.options,

@@ -171,7 +171,7 @@ export class SectionsComponent implements OnInit {
     // Note we need to save JSON of Button for api in JSON.stringify
     let apiJSON = JSON.parse(api);
     let findClickApi = apiJSON.filter((item: any) => item.actions.some((action: any) => action.method === 'POST' && action.actionType == 'API'));
-    this.applicationServices.addNestCommonAPI(findClickApi.length > 0 ? findClickApi?.[0].actions?.[0]?.url : 'knex-query', result).subscribe({
+    this.applicationServices.addNestCommonAPI(findClickApi.length > 0 ? findClickApi[0].actions?.[0]?.url : 'knex-query', result).subscribe({
       next: (res) => {
         if (res[0]?.error)
           this.toastr.error(res[0]?.error, { nzDuration: 3000 });
@@ -193,10 +193,10 @@ export class SectionsComponent implements OnInit {
     // this.submit();
     let oneModelData = this.convertModel(this.dataModel);
     if (Object.keys(oneModelData).length > 0) {
-      let findClickApi = data.appConfigurableEvent.filter((item: any) => item.actions.some((action: any) => action.method === 'post' && action.actionType == 'api' || action.actionType == 'query'));
+      let findClickApi = data.appConfigurableEvent.filter((item: any) => item.actionLink === 'post' && item.actionType == 'api' || item.actionType == 'query');
 
       let empData: any = {};
-      if (findClickApi?.[0].actions?.[0]?.url?.includes('/cp') || findClickApi?.[0].actions?.[0]?.url?.includes('/market-place')) {
+      if (findClickApi[0]?.httpAddress?.includes('/cp') || findClickApi[0]?.httpAddress?.includes('/market-place')) {
         let mainTableName = "";
         const removePrefix = (data: Record<string, any>): Record<string, any> => {
           const newData: Record<string, any> = {};
@@ -214,7 +214,7 @@ export class SectionsComponent implements OnInit {
 
         let result = removePrefix(oneModelData);
         // result['id'] = '';
-        if (findClickApi?.[0].actions?.[0]?.url?.includes('/market-place')) {
+        if (findClickApi[0]?.httpAddress?.includes('/market-place')) {
           empData = result;
         } else {
           empData[mainTableName] = result;
@@ -238,7 +238,7 @@ export class SectionsComponent implements OnInit {
 
       const Arraytables = Array.from(tableNames)
       const remainingTables = Arraytables.slice(1);
-      let id;
+      let id;findClickApi[0]
       for (const key in empData?.modalData) {
         if (empData.modalData.hasOwnProperty(key) &&
           key.endsWith('.id') &&
@@ -252,14 +252,14 @@ export class SectionsComponent implements OnInit {
         relationIds = relationIds.toString();
         // if (Object.keys(empData.modalData).length > 0)
         this.saveLoader = true;
-        if (!findClickApi?.[0].actions?.[0]?.url?.includes('/market-place')) {
-          empData['id'] = findClickApi[0].actions[0].id
+        if (!findClickApi[0]?.httpAddress?.includes('/market-place')) {
+          empData['id'] = findClickApi[0]?._id;
         }
-        // empData.screenId = findClickApi?.[0].actions?.[0]?.url
+        // empData.screenId = findClickApi[0].actions?.[0]?.url
         let apiUrl = '';
-        if (findClickApi?.[0].actions?.[0].actionType === 'api') {
-          apiUrl = findClickApi?.[0].actions?.[0]?.url;
-        } else if (findClickApi?.[0].actions?.[0].actionType === 'query') {
+        if (findClickApi[0].actionType === 'api') {
+          apiUrl = findClickApi[0]?.httpAddress;
+        } else if (findClickApi[0]?.actionType === 'query') {
           apiUrl = 'knex-query';
         }
         if (apiUrl) {
@@ -290,7 +290,7 @@ export class SectionsComponent implements OnInit {
       }
       else {
 
-        let findClickApi = data.appConfigurableEvent.filter((item: any) => item.actions.some((action: any) => action.method === 'put' && action.actionType == 'api'));
+        let findClickApi = data.appConfigurableEvent.filter((item: any) => item.actionLink === 'put' && item.actionType == 'api');
         if (this.dataModel) {
           // this.form.get(dynamicPropertyName);
           const model = {
@@ -314,7 +314,7 @@ export class SectionsComponent implements OnInit {
           };
           console.log(result);
           this.saveLoader = true;
-          this.applicationServices.addNestCommonAPI(findClickApi.length > 0 ? findClickApi?.[0].actions?.[0]?.url : 'knex-query/executeQuery', result).subscribe({
+          this.applicationServices.addNestCommonAPI(findClickApi.length > 0 ? findClickApi[0]?.httpAddress : 'knex-query/executeQuery', result).subscribe({
             next: (res) => {
               this.toastr.success("Update Successfully", { nzDuration: 3000 });
               this.setInternalValuesEmpty(this.dataModel);
@@ -360,159 +360,159 @@ export class SectionsComponent implements OnInit {
   }
   async getFromQuery(data: any) {
     debugger
-    let findClickApi = data?.appConfigurableEvent?.filter((item: any) =>
-      item.actions.some((action: any) =>
-        (action.method === 'get' && (action.actionType === 'api' || action.actionType === 'query'))
-      )
-    );
+    // let findClickApi = data?.appConfigurableEvent?.filter((item: any) =>
+    //   item.actions.some((action: any) =>
+    //     (action.method === 'get' && (action.actionType === 'api' || action.actionType === 'query'))
+    //   )
+    // );
 
-    if (findClickApi) {
-      if (findClickApi.length > 0) {
-        let url = '';
+    // if (findClickApi) {
+    //   if (findClickApi.length > 0) {
+    //     let url = '';
 
-        for (let index = 0; index < findClickApi.length; index++) {
-          let element = findClickApi[index].actions?.[0]?.actionType;
-          if (element == 'query') {
-            url = `knex-query/getAction/${findClickApi[index].actions?.[0]?.id}`;
-            break;
-          } else {
-            url = `knex-query/getAction/${findClickApi[index].actions?.[0]?.id}`;
-          }
-        }
-        let tableData = this.findObjectByKey(this.sections, findClickApi?.[0].actions?.[0]?.elementName);
-        if (tableData) {
-          let pagination = '';
-          if (tableData.serverSidePagination) {
-            pagination = '?page=' + 1 + '&pageSize=' + tableData?.end;
-          }
-          this.saveLoader = true;
-          const applicationId = localStorage.getItem('applicationId') || '';
-          let savedGroupData = await this.dataService.getNodes(JSON.parse(applicationId), this.screenName, "Table");
-          this.employeeService.getSQLDatabaseTable(url + pagination).subscribe({
-            next: async (res) => {
-              this.saveLoader = false;
-              if (tableData && res?.isSuccess) {
-                if (res.data.length > 0) {
+    //     for (let index = 0; index < findClickApi.length; index++) {
+    //       let element = findClickApi[index].actions?.[0]?.actionType;
+    //       if (element == 'query') {
+    //         url = `knex-query/getAction/${findClickApi[index].actions?.[0]?.id}`;
+    //         break;
+    //       } else {
+    //         url = `knex-query/getAction/${findClickApi[index].actions?.[0]?.id}`;
+    //       }
+    //     }
+    //     let tableData = this.findObjectByKey(this.sections, findClickApi[0].actions?.[0]?.elementName);
+    //     if (tableData) {
+    //       let pagination = '';
+    //       if (tableData.serverSidePagination) {
+    //         pagination = '?page=' + 1 + '&pageSize=' + tableData?.end;
+    //       }
+    //       this.saveLoader = true;
+    //       const applicationId = localStorage.getItem('applicationId') || '';
+    //       let savedGroupData = await this.dataService.getNodes(JSON.parse(applicationId), this.screenName, "Table");
+    //       this.employeeService.getSQLDatabaseTable(url + pagination).subscribe({
+    //         next: async (res) => {
+    //           this.saveLoader = false;
+    //           if (tableData && res?.isSuccess) {
+    //             if (res.data.length > 0) {
 
-                  const parts = url.split('/'); // Split the URL by '/'
-                  const searchId = parts[parts.length - 1]; // Get the last part of the URL
+    //               const parts = url.split('/'); // Split the URL by '/'
+    //               const searchId = parts[parts.length - 1]; // Get the last part of the URL
 
-                  const foundObject = findClickApi.find((item: any) => item.actions.some((action: any) => action.id === searchId));
-                  if (foundObject) {
-                    if (foundObject.actions[0]?.url.includes('market-place')) {
-                      res.data = res.data.map((item: any) => ({
-                        id: item._id, // Rename _id to id
-                        name: item.name,
-                        categoryId: item.categoryId,
-                        categoryName: item.categoryDetails?.[0]?.name, // Access the name property from categoryDetails
-                        subcategoryId: item.subcategoryId,
-                        subcategoryName: item.subcategoryDetails?.[0]?.name, // Access the name property from subcategoryDetails
-                        thumbnailimage: item.thumbnailimage,
-                        // ...rest
-                      }));
-                    }
-                  }
+    //               const foundObject = findClickApi.find((item: any) => item.actions.some((action: any) => action.id === searchId));
+    //               if (foundObject) {
+    //                 if (foundObject.actions[0]?.url.includes('market-place')) {
+    //                   res.data = res.data.map((item: any) => ({
+    //                     id: item._id, // Rename _id to id
+    //                     name: item.name,
+    //                     categoryId: item.categoryId,
+    //                     categoryName: item.categoryDetails?.[0]?.name, // Access the name property from categoryDetails
+    //                     subcategoryId: item.subcategoryId,
+    //                     subcategoryName: item.subcategoryDetails?.[0]?.name, // Access the name property from subcategoryDetails
+    //                     thumbnailimage: item.thumbnailimage,
+    //                     // ...rest
+    //                   }));
+    //                 }
+    //               }
 
-                  let saveForm = JSON.parse(JSON.stringify(res.data[0]));
-                  const firstObjectKeys = Object.keys(saveForm);
-                  let tableKey = firstObjectKeys.map(key => ({ name: key }));
-                  let obj = firstObjectKeys.map(key => ({ name: key, key: key }));
-                  tableData.tableData = [];
-                  saveForm.id = tableData.tableData.length + 1;
-                  res.data.forEach((element: any) => {
-                    element.id = (element?.id)?.toString();
-                    tableData.tableData?.push(element);
-                  });
-                  // pagniation work start
-                  if (!tableData.end) {
-                    tableData.end = 10;
-                  }
-                  tableData.pageIndex = 1;
-                  tableData.totalCount = res.count;
-                  tableData.serverApi = findClickApi.length > 0 ? findClickApi?.[0].actions?.[0]?.url : `knex-query/${this.screenName}`;
-                  tableData.targetId = '';
-                  tableData.displayData = tableData.tableData.length > tableData.end ? tableData.tableData.slice(0, tableData.end) : tableData.tableData;
-                  // pagniation work end
-                  if (tableData.tableHeaders.length == 0) {
-                    tableData.tableHeaders = obj;
-                    tableData['tableKey'] = tableKey
-                  }
-                  else {
-                    if (JSON.stringify(tableData['tableKey']) !== JSON.stringify(tableKey)) {
-                      const updatedData = tableKey.filter(updatedItem =>
-                        !tableData.tableHeaders.some((headerItem: any) => headerItem.name === updatedItem.name)
-                      );
-                      if (updatedData.length > 0) {
-                        updatedData.forEach(updatedItem => {
-                          tableData.tableHeaders.push({ id: tableData.tableHeaders.length + 1, key: updatedItem.name, name: updatedItem.name, });
-                        });
-                        tableData['tableKey'] = tableData.tableHeaders;
-                      }
-                    }
-                  }
+    //               let saveForm = JSON.parse(JSON.stringify(res.data[0]));
+    //               const firstObjectKeys = Object.keys(saveForm);
+    //               let tableKey = firstObjectKeys.map(key => ({ name: key }));
+    //               let obj = firstObjectKeys.map(key => ({ name: key, key: key }));
+    //               tableData.tableData = [];
+    //               saveForm.id = tableData.tableData.length + 1;
+    //               res.data.forEach((element: any) => {
+    //                 element.id = (element?.id)?.toString();
+    //                 tableData.tableData?.push(element);
+    //               });
+    //               // pagniation work start
+    //               if (!tableData.end) {
+    //                 tableData.end = 10;
+    //               }
+    //               tableData.pageIndex = 1;
+    //               tableData.totalCount = res.count;
+    //               tableData.serverApi = findClickApi.length > 0 ? findClickApi[0].actions?.[0]?.url : `knex-query/${this.screenName}`;
+    //               tableData.targetId = '';
+    //               tableData.displayData = tableData.tableData.length > tableData.end ? tableData.tableData.slice(0, tableData.end) : tableData.tableData;
+    //               // pagniation work end
+    //               if (tableData.tableHeaders.length == 0) {
+    //                 tableData.tableHeaders = obj;
+    //                 tableData['tableKey'] = tableKey
+    //               }
+    //               else {
+    //                 if (JSON.stringify(tableData['tableKey']) !== JSON.stringify(tableKey)) {
+    //                   const updatedData = tableKey.filter(updatedItem =>
+    //                     !tableData.tableHeaders.some((headerItem: any) => headerItem.name === updatedItem.name)
+    //                   );
+    //                   if (updatedData.length > 0) {
+    //                     updatedData.forEach(updatedItem => {
+    //                       tableData.tableHeaders.push({ id: tableData.tableHeaders.length + 1, key: updatedItem.name, name: updatedItem.name, });
+    //                     });
+    //                     tableData['tableKey'] = tableData.tableHeaders;
+    //                   }
+    //                 }
+    //               }
 
-                  // Make DataType
-                  let propertiesWithoutDataType = tableData.tableHeaders.filter((check: any) => !check.hasOwnProperty('dataType'));
-                  if (propertiesWithoutDataType.length > 0) {
-                    let formlyInputs = this.filterInputElements(this.sections.children[1].children);
+    //               // Make DataType
+    //               let propertiesWithoutDataType = tableData.tableHeaders.filter((check: any) => !check.hasOwnProperty('dataType'));
+    //               if (propertiesWithoutDataType.length > 0) {
+    //                 let formlyInputs = this.filterInputElements(this.sections.children[1].children);
 
-                    if (formlyInputs && formlyInputs.length > 0) {
-                      propertiesWithoutDataType.forEach((head: any) => {
-                        let input = formlyInputs.find(a => a.formly[0].fieldGroup[0].key.includes('.') ? a.formly[0].fieldGroup[0].key.split('.')[1] == head.key : a.formly[0].fieldGroup[0].key == head.key);
+    //                 if (formlyInputs && formlyInputs.length > 0) {
+    //                   propertiesWithoutDataType.forEach((head: any) => {
+    //                     let input = formlyInputs.find(a => a.formly[0].fieldGroup[0].key.includes('.') ? a.formly[0].fieldGroup[0].key.split('.')[1] == head.key : a.formly[0].fieldGroup[0].key == head.key);
 
-                        if (input) {
-                          head['dataType'] = input.formly[0].fieldGroup[0].type;
-                          head['subDataType'] = input.formly[0].fieldGroup[0].props.type;
-                          head['title'] = input.title;
-                        }
-                      });
+    //                     if (input) {
+    //                       head['dataType'] = input.formly[0].fieldGroup[0].type;
+    //                       head['subDataType'] = input.formly[0].fieldGroup[0].props.type;
+    //                       head['title'] = input.title;
+    //                     }
+    //                   });
 
-                      tableData.tableHeaders = tableData.tableHeaders.concat(propertiesWithoutDataType.filter((item: any) => !tableData.tableHeaders.some((objItem: any) => objItem.key === item.key)));
-                      // tableData.tableHeaders = obj;
-                    }
-                  }
-                  let CheckKey = tableData.tableHeaders.find((head: any) => !head.key)
-                  if (CheckKey) {
-                    for (let i = 0; i < tableData.tableHeaders.length; i++) {
-                      if (!tableData.tableHeaders[i].hasOwnProperty('key')) {
-                        tableData.tableHeaders[i].key = tableData.tableHeaders[i].name;
-                      }
-                    }
-                  }
-                  let getData = savedGroupData[savedGroupData.length - 1];
-                  if (getData?.data) {
-                    if (getData.data.length > 0) {
-                      let groupingArray: any = [];
-                      let updateTableData: any = [];
-                      getData.data.forEach((elem: any) => {
-                        let findData = tableData.tableHeaders.find((item: any) => item.key == elem);
-                        if (findData) {
-                          updateTableData = this.groupedFunc(elem, 'add', findData, groupingArray, tableData.displayData, tableData.tableData, tableData.tableHeaders);
-                        }
-                      })
-                      tableData.tableData = updateTableData;
-                      tableData.displayData = tableData.tableData.length > tableData.end ? tableData.tableData.slice(0, tableData.end) : tableData.tableData;
-                      tableData.tableHeaders.unshift({
-                        name: 'expand',
-                        key: 'expand',
-                        title: 'Expand',
-                      });
-                      tableData.totalCount = tableData.tableData
-                    }
-                  }
-                }
-                // this.assignGridRules(tableData);
-              }
-              this.saveLoader = false;
-            }, error: (error: any) => {
-              console.error(error);
-              this.toastr.error("An error occurred", { nzDuration: 3000 });
-              this.saveLoader = false;
-            }
-          });
-        }
-      }
-    }
+    //                   tableData.tableHeaders = tableData.tableHeaders.concat(propertiesWithoutDataType.filter((item: any) => !tableData.tableHeaders.some((objItem: any) => objItem.key === item.key)));
+    //                   // tableData.tableHeaders = obj;
+    //                 }
+    //               }
+    //               let CheckKey = tableData.tableHeaders.find((head: any) => !head.key)
+    //               if (CheckKey) {
+    //                 for (let i = 0; i < tableData.tableHeaders.length; i++) {
+    //                   if (!tableData.tableHeaders[i].hasOwnProperty('key')) {
+    //                     tableData.tableHeaders[i].key = tableData.tableHeaders[i].name;
+    //                   }
+    //                 }
+    //               }
+    //               let getData = savedGroupData[savedGroupData.length - 1];
+    //               if (getData?.data) {
+    //                 if (getData.data.length > 0) {
+    //                   let groupingArray: any = [];
+    //                   let updateTableData: any = [];
+    //                   getData.data.forEach((elem: any) => {
+    //                     let findData = tableData.tableHeaders.find((item: any) => item.key == elem);
+    //                     if (findData) {
+    //                       updateTableData = this.groupedFunc(elem, 'add', findData, groupingArray, tableData.displayData, tableData.tableData, tableData.tableHeaders);
+    //                     }
+    //                   })
+    //                   tableData.tableData = updateTableData;
+    //                   tableData.displayData = tableData.tableData.length > tableData.end ? tableData.tableData.slice(0, tableData.end) : tableData.tableData;
+    //                   tableData.tableHeaders.unshift({
+    //                     name: 'expand',
+    //                     key: 'expand',
+    //                     title: 'Expand',
+    //                   });
+    //                   tableData.totalCount = tableData.tableData
+    //                 }
+    //               }
+    //             }
+    //             // this.assignGridRules(tableData);
+    //           }
+    //           this.saveLoader = false;
+    //         }, error: (error: any) => {
+    //           console.error(error);
+    //           this.toastr.error("An error occurred", { nzDuration: 3000 });
+    //           this.saveLoader = false;
+    //         }
+    //       });
+    //     }
+    //   }
+    // }
   }
   groupedFunc(data: any, type: any, header: any, groupingArray: any, displayData: any, tableData: any, tableHeaders: any) {
     header['grouping'] = type === 'add' ? data : '';
