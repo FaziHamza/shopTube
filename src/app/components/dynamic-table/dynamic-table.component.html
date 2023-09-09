@@ -32,7 +32,7 @@
                 <i class="fa-regular fa-ellipsis-v ml-4"></i>
               </a>
               <nz-dropdown-menu #menu="nzDropdownMenu">
-                <ul nz-menu nzSelectable>
+                <ul nz-menu nzSelectable class="!p-1.5" >
                   <li nz-menu-item
                     (click)="groupedFunc(header['title'] ? header['title'] : header['name'], 'add' , header)">
                     Grouped By {{ header['title'] ? header['title'] : header['name'] | translate }}

@@ -18,8 +18,6 @@ export class RegisterComponent implements OnInit {
   applications: any[] = [];
   departments: any[] = [];
   organizations: any[] = [];
-  array = [1, 2, 3, 4];
-  effect = 'scrollx';
   loader: boolean = false;
   form: FormGroup;
   isFormSubmit: boolean = false;

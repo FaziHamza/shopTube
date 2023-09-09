@@ -9,14 +9,14 @@ import { Subscription } from 'rxjs';
   <span *ngIf="to['additionalProperties']?.tooltip && to['additionalProperties']?.tooltipPosition == 'top' && !to['additionalProperties']?.tooltipWithoutIcon || false" nz-tooltip [nzTooltipTitle]="to['additionalProperties']?.tooltip">
   <span nz-icon [nzType]="to['additionalProperties']['tooltipIcon'] ?  to['additionalProperties']['tooltipIcon'] : 'question-circle'" [class]="to['additionalProperties']['toolTipClass']" nzTheme="outline"></span></span>
   <div class=" flex flex-wrap" [dir]="to['additionalProperties']?.formatAlignment || 'ltr'">
-    <label [attr.for]="id" class="w-1/3 py-2 col-form-label column-form-label {{to['additionalProperties']?.labelPosition}}" *ngIf="to.label">
+    <label [attr.for]="id" class="w-1/3 py-2 col-form-label relative column-form-label {{to['additionalProperties']?.labelPosition}}" *ngIf="to.label">
     <span  *ngIf="to['additionalProperties']?.tooltip && to['additionalProperties']['tooltipPosition'] == 'left' && !to['additionalProperties']?.tooltipWithoutIcon || false" nz-tooltip [nzTooltipTitle]="to['additionalProperties']?.tooltip">
       <span nz-icon [nzType]="to['additionalProperties']['tooltipIcon'] ?  to['additionalProperties']['tooltipIcon'] : 'question-circle'" [class]="to['additionalProperties']['toolTipClass']" nzTheme="outline"></span>
     </span>
       <span class="mr-1 mb-1">
         <st-icon *ngIf="to['additionalProperties']?.titleIcon" [type]="to['additionalProperties']?.iconType || 'outline'" [icon]="to['additionalProperties']?.titleIcon" [size]="to['additionalProperties']?.iconSize" [hoverIconColor]="to['additionalProperties']?.hoverIconColor || ''" [color]="to['additionalProperties']?.iconColor"></st-icon>
       </span>
-      <st-task-report class="close-icon mr-2" *ngIf="to['issueReport'] && to['issueReport']?.length > 0 " [item]="to" [screenName]="to['screenName']"
+      <st-task-report class="close-icon mr-2 !absolute !left-[3%] !top-[5%]" *ngIf="to['issueReport'] && to['issueReport']?.length > 0 " [item]="to" [screenName]="to['screenName']"
                 [type]="'pages'"></st-task-report>
       <span [class]="to['additionalProperties']?.labelClassName">{{to.label | translate}}</span>
       <span *ngIf="to.required" class="text-red-600">*</span>
