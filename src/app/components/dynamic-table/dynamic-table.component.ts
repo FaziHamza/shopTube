@@ -706,12 +706,17 @@ export class DynamicTableComponent implements OnInit {
         if (findClickApi?.[0].actions?.[0].actionType == 'api') {
           url = findClickApi?.[0].actions?.[0]?.url;
           if (url) {
-            this.employeeService.deleteCommonApi(url, id).subscribe(res => {
-              if (res) {
-                this.tableData = this.tableData.filter((d: any) => d.id !== data.id);
-                this.displayData = this.displayData.filter((d: any) => d.id !== data.id);
-                this.pageChange(1);
-                this.toastr.success("Delete Successfully", { nzDuration: 3000 });
+            this.requestSubscription = this.employeeService.deleteCommonApi(url, id).subscribe({
+              next: (res) => {
+                if (res) {
+                  this.tableData = this.tableData.filter((d: any) => d.id !== data.id);
+                  this.displayData = this.displayData.filter((d: any) => d.id !== data.id);
+                  this.pageChange(1);
+                  this.toastr.success("Delete Successfully", { nzDuration: 3000 });
+                }
+              },
+              error: (err) => {
+                console.error(err);
               }
             })
           }
@@ -719,12 +724,17 @@ export class DynamicTableComponent implements OnInit {
         } else if (findClickApi?.[0].actions?.[0].actionType == 'query') {
           url = 'knex-query/executeQuery/' + findClickApi?.[0].actions?.[0].id;
           if (url) {
-            this.employeeService.saveSQLDatabaseTable(url, model).subscribe(res => {
-              if (res) {
-                this.tableData = this.tableData.filter((d: any) => d.id !== data.id);
-                this.displayData = this.displayData.filter((d: any) => d.id !== data.id);
-                this.pageChange(1);
-                this.toastr.success("Delete Successfully", { nzDuration: 3000 });
+            this.requestSubscription = this.employeeService.saveSQLDatabaseTable(url, model).subscribe({
+             next: (res) => {
+                if (res) {
+                  this.tableData = this.tableData.filter((d: any) => d.id !== data.id);
+                  this.displayData = this.displayData.filter((d: any) => d.id !== data.id);
+                  this.pageChange(1);
+                  this.toastr.success("Delete Successfully", { nzDuration: 3000 });
+                }
+              },
+              error: (err) => {
+                console.error(err);
               }
             })
           }
@@ -732,7 +742,7 @@ export class DynamicTableComponent implements OnInit {
 
       }
       else {
-        this.employeeService.saveSQLDatabaseTable('knex-query/executeQuery', model).subscribe({
+        this.requestSubscription = this.employeeService.saveSQLDatabaseTable('knex-query/executeQuery', model).subscribe({
           next: (res) => {
             this.tableData = this.tableData.filter((d: any) => d.id !== data.id);
             this.displayData = this.displayData.filter((d: any) => d.id !== data.id);

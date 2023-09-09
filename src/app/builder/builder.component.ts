@@ -489,27 +489,27 @@ export class BuilderComponent implements OnInit {
                         }
                         if (element.btnActionType == 'load') {
                           eventActionConfig['eventActionconfig'] = {};
-                          let obj = { actionType: element.actionType, url: element.httpAddress, method: element.actionLink, elementName: element.elementNameTo, id: element._id }
-                          eventActionConfig['eventActionconfig'] = obj;
+                          // let obj = { actionType: element.actionType, url: element.httpAddress, method: element.actionLink, elementName: element.elementNameTo, id: element._id }
+                          eventActionConfig['eventActionconfig'] = element;
                         }
                         else {
                           if (eventActionConfig['appConfigurableEvent']) {
-                            let obj = {
-                              event: element.actionLink,
-                              actions: [
-                                { actionType: element.actionType, url: element.httpAddress, method: element.actionLink, elementName: element.elementNameTo, id: element._id }
-                              ]
-                            };
-                            eventActionConfig['appConfigurableEvent'].push(obj);
+                            // let obj = {
+                            //   event: element.actionLink,
+                            //   actions: [
+                            //     { actionType: element.actionType, url: element.httpAddress, method: element.actionLink, elementName: element.elementNameTo, id: element._id }
+                            //   ]
+                            // };
+                            eventActionConfig['appConfigurableEvent'].push(element);
                           } else {
                             eventActionConfig['appConfigurableEvent'] = [];
-                            let obj = {
-                              event: element.actionLink,
-                              actions: [
-                                { actionType: element.actionType, url: element.httpAddress, method: element.actionLink, elementName: element.elementNameTo, id: element._id }
-                              ]
-                            };
-                            eventActionConfig['appConfigurableEvent'].push(obj);
+                            // let obj = {
+                            //   event: element.actionLink,
+                            //   actions: [
+                            //     { actionType: element.actionType, url: element.httpAddress, method: element.actionLink, elementName: element.elementNameTo, id: element._id }
+                            //   ]
+                            // };
+                            eventActionConfig['appConfigurableEvent'].push(element);
                           }
                         }
                       }
@@ -537,27 +537,27 @@ export class BuilderComponent implements OnInit {
                       checkFirst[findObj?.key] = "done";
                     }
                     if (element.btnActionType == 'load' && !element.elementName.includes('gridlist')) {
-                      let obj = { actionType: element.actionType, url: element.httpAddress, method: element.actionLink, elementName: element.elementNameTo, id: element._id }
-                      findObj.eventActionconfig = obj;
+                      // let obj = { actionType: element.actionType, url: element.httpAddress, method: element.actionLink, elementName: element.elementNameTo, id: element._id }
+                      findObj.eventActionconfig = element;
                     }
                     else {
                       if (findObj['appConfigurableEvent']) {
-                        let obj = {
-                          event: element.actionLink,
-                          actions: [
-                            { actionType: element.actionType, url: element.httpAddress, method: element.actionLink, elementName: element.elementNameTo, id: element._id }
-                          ]
-                        };
-                        findObj['appConfigurableEvent'].push(obj);
+                        // let obj = {
+                        //   event: element.actionLink,
+                        //   actions: [
+                        //     { actionType: element.actionType, url: element.httpAddress, method: element.actionLink, elementName: element.elementNameTo, id: element._id }
+                        //   ]
+                        // };
+                        findObj['appConfigurableEvent'].push(element);
                       } else {
                         findObj['appConfigurableEvent'] = [];
-                        let obj = {
-                          event: element.actionLink,
-                          actions: [
-                            { actionType: element.actionType, url: element.httpAddress, method: element.actionLink, id: element._id }
-                          ]
-                        };
-                        findObj['appConfigurableEvent'].push(obj);
+                        // let obj = {
+                        //   event: element.actionLink,
+                        //   actions: [
+                        //     { actionType: element.actionType, url: element.httpAddress, method: element.actionLink, id: element._id }
+                        //   ]
+                        // };
+                        findObj['appConfigurableEvent'].push(element);
                       }
                     }
                   }
@@ -6231,21 +6231,19 @@ export class BuilderComponent implements OnInit {
     let tableData = this.findObjectByTypeBase(this.nodes[0], "gridList");
     if (tableData) {
       let findClickApi = tableData?.appConfigurableEvent?.filter((item: any) =>
-        item.actions.some((action: any) =>
-          (action.method === 'get' && (action.actionType === 'api' || action.actionType === 'query'))
-        )
+      (item.actionLink === 'get' && (item.actionType === 'api' || item.actionType === 'query'))
       );
       if (findClickApi) {
         if (findClickApi.length > 0) {
           let pagination = '';
           let url = '';
           for (let index = 0; index < findClickApi.length; index++) {
-            let element = findClickApi[index].actions?.[0]?.actionType;
+            let element = findClickApi[index].actionType;
             if (element == 'query') {
-              url = `knex-query/getAction/${findClickApi[index].actions?.[0]?.id}`;
+              url = `knex-query/getAction/${findClickApi[index]._id}`;
               break;
             } else {
-              url = `knex-query/getAction/${findClickApi[index].actions?.[0]?.id}`;
+              url = `knex-query/getAction/${findClickApi[index]._id}`;
             }
           }
           if (tableData.serverSidePagination) {

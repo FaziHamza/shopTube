@@ -75,6 +75,7 @@ export class BulkUpdateComponent implements OnInit {
                 //   delete this.formlyModel[input.formly[0].fieldGroup[0].key];
                 // }
                 input.title = check.title;
+                input.key = check.key;
                 input.formly[0].fieldGroup[0].key = check.key
                 input.formly[0].fieldGroup[0].props.label = check.title;
                 input.formly[0].fieldGroup[0].defaultValue = check.defaultValue;

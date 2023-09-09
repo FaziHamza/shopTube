@@ -474,21 +474,20 @@ export class PagesComponent implements OnInit {
     let tableData = this.findObjectByTypeBase(this.resData[0], "gridList");
     if (tableData) {
       let findClickApi = tableData?.appConfigurableEvent?.filter((item: any) =>
-        item.actions.some((action: any) =>
-          (action.method === 'get' && (action.actionType === 'api' || action.actionType === 'query'))
-        )
+      (item.actionLink === 'get' && (item.actionType === 'api' || item.actionType === 'query'))
+        
       );
 
       if (findClickApi) {
         if (findClickApi.length > 0) {
           let url = '';
           for (let index = 0; index < findClickApi.length; index++) {
-            let element = findClickApi[index].actions?.[0]?.actionType;
+            let element = findClickApi[index].actionType;
             if (element == 'query') {
-              url = `knex-query/getAction/${findClickApi[index].actions?.[0]?.id}`;
+              url = `knex-query/getAction/${findClickApi[index]._id}`;
               break;
             } else {
-              url = `knex-query/getAction/${findClickApi[index].actions?.[0]?.id}`;
+              url = `knex-query/getAction/${findClickApi[index]._id}`;
             }
           }
           if (url) {
