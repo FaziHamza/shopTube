@@ -11,7 +11,9 @@
   <button nz-button (click)="addColumn()" *ngIf="checkType" nzType="primary"> <i class="fa-regular fa-plus mr-2"></i>
     Add</button>
 </div>
-<div class="dynamic-table">
+<div class="dynamic-table" [processData]="processData"
+  [appConfigurableSelect]="data?.appConfigurableEvent ? data?.appConfigurableEvent : []"
+  [loadAction]="data?.eventActionconfig ? data?.eventActionconfig : {}">
   <!-- [nzFrontPagination]='data?.nzFrontPagination' -->
   <!-- [nzShowPagination]='data?.nzShowPagination' -->
   <nz-table #editRowTable [nzPageSize]="10" [nzBordered]='data.nzBordered' [nzData]="displayData"
@@ -32,7 +34,7 @@
                 <i class="fa-regular fa-ellipsis-v ml-4"></i>
               </a>
               <nz-dropdown-menu #menu="nzDropdownMenu">
-                <ul nz-menu nzSelectable>
+                <ul nz-menu nzSelectable class="!p-1.5" >
                   <li nz-menu-item
                     (click)="groupedFunc(header['title'] ? header['title'] : header['name'], 'add' , header)">
                     Grouped By {{ header['title'] ? header['title'] : header['name'] | translate }}
@@ -56,7 +58,11 @@
 
           <tr [ngStyle]="{'background': item?.color}" class="desktop-toggle" (dblclick)="updateModel(item)"
             (click)="data?.rowClickApi!='' ? onClickRow(data.rowClickApi,item): ''">
-            <td *ngIf="item.expand != undefined" [(nzExpand)]="item.expand"></td>
+            <td *ngIf="item.expand != undefined" [(nzExpand)]="item.expand">
+            <p class="pb-1 " >
+             ({{item.children.length}})
+            </p>
+            </td>
             <td *ngIf="data.showCheckbox" [(nzChecked)]="item.checked" (nzCheckedChange)="refreshStatus()"></td>
             <ng-container *ngFor="let header of data['tableKey']; let index = index">
               <td (click)="checkTypeData(item)" (click)="startEdit(item.id)" [nzEllipsis]="true" class="5" *ngIf="tableHeaders[index]?.dataType !='objectType' && header.name != 'headerButton' && header.name != 'footerButton' && header.name != 'expandable' && header.name != 'checked'

@@ -61,7 +61,9 @@ export class DynamicTableComponent implements OnInit {
   constructor(public _dataSharedService: DataSharedService, private builderService: BuilderService,
     private applicationService: ApplicationService,
     private dataService: DataService,
-    private employeeService: EmployeeService, private toastr: NzMessageService, private cdr: ChangeDetectorRef) {
+    private employeeService: EmployeeService, private toastr: NzMessageService, private cdr: ChangeDetectorRef,
+  ) {
+    this.processData = this.processData.bind(this);
   }
 
   ngOnInit(): void {
@@ -704,12 +706,17 @@ export class DynamicTableComponent implements OnInit {
         if (findClickApi?.[0].actions?.[0].actionType == 'api') {
           url = findClickApi?.[0].actions?.[0]?.url;
           if (url) {
-            this.employeeService.deleteCommonApi(url, id).subscribe(res => {
-              if (res) {
-                this.tableData = this.tableData.filter((d: any) => d.id !== data.id);
-                this.displayData = this.displayData.filter((d: any) => d.id !== data.id);
-                this.pageChange(1);
-                this.toastr.success("Delete Successfully", { nzDuration: 3000 });
+            this.requestSubscription = this.employeeService.deleteCommonApi(url, id).subscribe({
+              next: (res) => {
+                if (res) {
+                  this.tableData = this.tableData.filter((d: any) => d.id !== data.id);
+                  this.displayData = this.displayData.filter((d: any) => d.id !== data.id);
+                  this.pageChange(1);
+                  this.toastr.success("Delete Successfully", { nzDuration: 3000 });
+                }
+              },
+              error: (err) => {
+                console.error(err);
               }
             })
           }
@@ -717,12 +724,17 @@ export class DynamicTableComponent implements OnInit {
         } else if (findClickApi?.[0].actions?.[0].actionType == 'query') {
           url = 'knex-query/executeQuery/' + findClickApi?.[0].actions?.[0].id;
           if (url) {
-            this.employeeService.saveSQLDatabaseTable(url, model).subscribe(res => {
-              if (res) {
-                this.tableData = this.tableData.filter((d: any) => d.id !== data.id);
-                this.displayData = this.displayData.filter((d: any) => d.id !== data.id);
-                this.pageChange(1);
-                this.toastr.success("Delete Successfully", { nzDuration: 3000 });
+            this.requestSubscription = this.employeeService.saveSQLDatabaseTable(url, model).subscribe({
+             next: (res) => {
+                if (res) {
+                  this.tableData = this.tableData.filter((d: any) => d.id !== data.id);
+                  this.displayData = this.displayData.filter((d: any) => d.id !== data.id);
+                  this.pageChange(1);
+                  this.toastr.success("Delete Successfully", { nzDuration: 3000 });
+                }
+              },
+              error: (err) => {
+                console.error(err);
               }
             })
           }
@@ -730,7 +742,7 @@ export class DynamicTableComponent implements OnInit {
 
       }
       else {
-        this.employeeService.saveSQLDatabaseTable('knex-query/executeQuery', model).subscribe({
+        this.requestSubscription = this.employeeService.saveSQLDatabaseTable('knex-query/executeQuery', model).subscribe({
           next: (res) => {
             this.tableData = this.tableData.filter((d: any) => d.id !== data.id);
             this.displayData = this.displayData.filter((d: any) => d.id !== data.id);
@@ -1431,7 +1443,99 @@ export class DynamicTableComponent implements OnInit {
     return result;
   }
 
+  processData(data: any[]) {
+    debugger
+    console.log("drawer");
+    if (data.length > 0) {
+      let res: any = {};
+      res['data'] = [];
+      res['data'] = data;
+      this.getFromQueryOnlyTable(this.data , res)
+    } else {
 
+    }
+    return data
+  }
+  async getFromQueryOnlyTable(tableData: any, res: any) {
+    if (tableData && res?.data.length > 0) {
+      const applicationId = localStorage.getItem('applicationId') || '';
+      let savedGroupData = await this.dataService.getNodes(JSON.parse(applicationId), this.screenName, "Table");
+      this.saveLoader = false;
+      // if (apiUrl.includes('/userComment')) {
 
+      //   const requiredData = res.data.map(({ __v, _id, ...rest }: any) => ({
+      //     expand: false,
+      //     id: _id,
+      //     ...rest,
+      //   }));
+      //   res.data = JSON.parse(JSON.stringify(requiredData));
+      // }
+
+      this.tableData = res.data.map((element: any) => ({ ...element, id: element.id?.toString() }));
+      if (!this.data.end) {
+        tableData.end = 10;
+      }
+      this.data.pageIndex = 1;
+      this.data.totalCount = res.data.length;
+      // tableData.serverApi = apiUrl;
+      this.data.targetId = '';
+      this.displayData = this.tableData.length > this.data.end ? this.tableData.slice(0, this.data.end) : this.tableData;
+      if (this.tableHeaders.length === 0) {
+        this.tableHeaders = Object.keys(this.tableData[0] || {}).map(key => ({ name: key, key: key }));
+        this.data['tableKey'] = this.tableHeaders;
+      }
+      else {
+        const tableKey = Object.keys(this.tableData[0] || {}).map(key => ({ name: key }));
+        if (JSON.stringify(this.data['tableKey']) !== JSON.stringify(tableKey)) {
+          const updatedData = tableKey.filter(updatedItem =>
+            !this.tableHeaders.some((headerItem: any) => headerItem.name === updatedItem.name)
+          );
+          if (updatedData.length > 0) {
+            updatedData.forEach(updatedItem => {
+              this.tableHeaders.push({ id: tableData.tableHeaders.length + 1, key: updatedItem.name, name: updatedItem.name, });
+            });
+            this.data['tableKey'] = this.tableHeaders;
+          }
+        }
+
+      }
+      let CheckKey = this.tableHeaders.find((head: any) => !head.key)
+      if (CheckKey) {
+        for (let i = 0; i < this.tableHeaders.length; i++) {
+          if (!this.tableHeaders[i].hasOwnProperty('key')) {
+            this.tableHeaders[i].key = tableData.tableHeaders[i].name;
+          }
+        }
+      }
+      if (savedGroupData.length > 0) {
+        let getData = savedGroupData[savedGroupData.length - 1];
+        if (getData.data.length > 0) {
+          let groupingArray: any = [];
+          let updateTableData: any = [];
+          getData.data.forEach((elem: any) => {
+            let findData = this.tableHeaders.find((item: any) => item.key == elem);
+            if (findData) {
+              // updateTableData = this.groupedFunc(elem, 'add', findData, groupingArray, tableData.displayData, tableData.tableData, tableData.tableHeaders);
+            }
+          })
+          // this.tableData = updateTableData;
+          // this.displayData = this.tableData.length > this.data.end ? this.tableData.slice(0, this.data.end) : this.tableData;
+          // tableData.tableHeaders.unshift({
+          //   name: 'expand',
+          //   key: 'expand',
+          //   title: 'Expand',
+          // });
+          // this.data.totalCount = this.tableData
+        } else {
+          this.tableHeaders = this.tableHeaders.filter((head: any) => head.key != 'expand')
+        }
+      }
+      else {
+        //if data is not stored in index db then remove expand column
+        this.tableHeaders = this.tableHeaders.filter((head: any) => head.key != 'expand')
+      }
+    }
+    this.loadTableData();
+  }
 
 }

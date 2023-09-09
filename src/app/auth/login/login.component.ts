@@ -18,6 +18,7 @@ export class LoginComponent implements OnInit {
     // Reinitialize reCAPTCHA after the view has been initialized
     grecaptcha.render('recaptcha', { sitekey: '6LcZ59MnAAAAAEFG5x2mJoJ_ptOFR7O2hSX0HHx3' });
   }
+  
 
   recaptchaResponse = '';
   ngOnInit(): void {
