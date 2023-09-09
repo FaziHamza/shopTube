@@ -88,10 +88,10 @@ export class CommentModalComponent implements OnInit {
 
     this.requestSubscription = requestObservable.subscribe({
       next: (res: any) => {
-        if (res.isSuccess) {
+        if (res.id) {
           this.create();
-          this.#modal.destroy(res.data);
-          this.toastr.success(`UserComment : ${res.message}`, { nzDuration: 3000 });
+          this.#modal.destroy(commentObj);
+          this.toastr.success(`UserComment save succesfully`, { nzDuration: 3000 });
         } else {
           this.toastr.error(`UserComment: ${res.message}`, { nzDuration: 3000 });
         }
