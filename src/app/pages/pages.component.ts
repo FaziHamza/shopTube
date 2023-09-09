@@ -279,29 +279,29 @@ export class PagesComponent implements OnInit {
                   eventActionConfig['appConfigurableEvent'] = [];
                   eventActionConfig['eventActionconfig'] = {};
                 }
-                if (element.btnActionType == 'load' && !element.elementName.includes('gridlist')) {
+                if (element.btnActionType == 'load') {
                   eventActionConfig['eventActionconfig'] = {};
-                  let obj = { actionType: element.actionType, url: element.httpAddress, method: element.actionLink }
-                  eventActionConfig['eventActionconfig'] = obj;
+                  // let obj = { actionType: element.actionType, url: element.httpAddress, method: element.actionLink }
+                  eventActionConfig['eventActionconfig'] = element;
                 }
                 else {
                   if (eventActionConfig['appConfigurableEvent']) {
-                    let obj = {
-                      event: element.actionLink,
-                      actions: [
-                        { actionType: element.actionType, url: element.httpAddress, method: element.actionLink, elementName: element.elementNameTo, submit: element.submit, id: element._id }
-                      ]
-                    };
-                    eventActionConfig['appConfigurableEvent'].push(obj);
+                    // let obj = {
+                    //   event: element.actionLink,
+                    //   actions: [
+                    //     // { actionType: element.actionType, url: element.httpAddress, method: element.actionLink, elementName: element.elementNameTo, submit: element.submit, id: element._id }
+                    //   ]
+                    // };
+                    eventActionConfig['appConfigurableEvent'].push(element);
                   } else {
                     eventActionConfig['appConfigurableEvent'] = [];
-                    let obj = {
-                      event: element.actionLink,
-                      actions: [
-                        { actionType: element.actionType, url: element.httpAddress, method: element.actionLink, elementName: element.elementNameTo, submit: element.submit, id: element._id }
-                      ]
-                    };
-                    eventActionConfig['appConfigurableEvent'].push(obj);
+                    // let obj = {
+                    //   event: element.actionLink,
+                    //   actions: [
+                    //     { actionType: element.actionType, url: element.httpAddress, method: element.actionLink, elementName: element.elementNameTo, submit: element.submit, id: element._id }
+                    //   ]
+                    // };
+                    eventActionConfig['appConfigurableEvent'].push(element);
                   }
                 }
               }
@@ -320,27 +320,27 @@ export class PagesComponent implements OnInit {
               findObj['eventActionconfig'] = {};
               checkFirst[findObj?.key] = "done";
             }
-            if (element.btnActionType == 'load' && !element.elementName.includes('gridlist')) {
-              let obj = { actionType: element.actionType, url: element.httpAddress, method: element.actionLink, id: element._id }
-              findObj.eventActionconfig = obj;
+            if (element.btnActionType == 'load' ) {
+              // let obj = { actionType: element.actionType, url: element.httpAddress, method: element.actionLink, id: element._id }
+              findObj.eventActionconfig = element;
             } else {
               if (findObj['appConfigurableEvent']) {
-                let obj = {
-                  event: element.actionLink,
-                  actions: [
-                    { actionType: element.actionType, url: element.httpAddress, method: element.actionLink, elementName: element.elementNameTo, submit: element.submit, id: element._id }
-                  ]
-                };
-                findObj['appConfigurableEvent'].push(obj);
+                // let obj = {
+                //   event: element.actionLink,
+                //   actions: [
+                //     { actionType: element.actionType, url: element.httpAddress, method: element.actionLink, elementName: element.elementNameTo, submit: element.submit, id: element._id }
+                //   ]
+                // };
+                findObj['appConfigurableEvent'].push(element);
               } else {
                 findObj['appConfigurableEvent'] = [];
-                let obj = {
-                  event: element.actionLink,
-                  actions: [
-                    { actionType: element.actionType, url: element.httpAddress, method: element.actionLink, elementName: element.elementNameTo, submit: element.submit, id: element._id }
-                  ]
-                };
-                findObj['appConfigurableEvent'].push(obj);
+                // let obj = {
+                //   event: element.actionLink,
+                //   actions: [
+                //     { actionType: element.actionType, url: element.httpAddress, method: element.actionLink, elementName: element.elementNameTo, submit: element.submit, id: element._id }
+                //   ]
+                // };
+                findObj['appConfigurableEvent'].push(element);
               }
             }
           }

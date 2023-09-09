@@ -59,15 +59,15 @@ export class CommentModalComponent implements OnInit {
     const userData = JSON.parse(localStorage.getItem('user')!);
     let commentObj = {
       // id:0,
-      screenId: this.screenName,
-      dateTime: new Date(),
+      screenid: this.screenName,
+      datetime: new Date(),
       message: this.form.value.message,
       status: this.update ? this.form.value.status : 'backlog',
-      organizationId: JSON.parse(localStorage.getItem('organizationId')!),
-      applicationId: JSON.parse(localStorage.getItem('applicationId')!),
-      componentId: this.data.id,
-      createdBy: userData.username,
-      parentId: "",
+      organizationid: JSON.parse(localStorage.getItem('organizationId')!),
+      applicationid: JSON.parse(localStorage.getItem('applicationId')!),
+      componentid: this.data.id,
+      createdby: userData.username,
+      parentid: "",
       type: this.type
     }
     const userCommentModel = {
@@ -77,7 +77,7 @@ export class CommentModalComponent implements OnInit {
     if (!this.update) {
       requestObservable = this.applicationService.addNestCommonAPI('knex-crud/task', commentObj);
     } else {
-      userCommentModel.UserComment['componentId'] = this.update.componentId;
+      userCommentModel.UserComment['componentid'] = this.update.componentId;
       requestObservable = this.applicationService.updateNestCommonAPI(
         'cp/UserComment',
         this.update._id,

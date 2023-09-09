@@ -38,7 +38,6 @@ export class SectionsComponent implements OnInit {
     private applicationServices: ApplicationService, private cd: ChangeDetectorRef) { }
 
   ngOnInit(): void {
-
     this.screenName;
     this.getJoiValidation();
     let btnData = this.findObjectByTypeBase(this.sections, "button");
@@ -79,10 +78,11 @@ export class SectionsComponent implements OnInit {
           console.error(err);
         }
       })
-    } else {
+    } 
+    else {
       let gridListData = this.findObjectByTypeBase(this.sections, "gridList");
       if (gridListData) {
-        this.getFromQueryOnlyTable(gridListData);
+        // this.getFromQueryOnlyTable(gridListData);
       }
     }
 
@@ -359,6 +359,7 @@ export class SectionsComponent implements OnInit {
     this.assignGridRules(tableData);
   }
   async getFromQuery(data: any) {
+    debugger
     let findClickApi = data?.appConfigurableEvent?.filter((item: any) =>
       item.actions.some((action: any) =>
         (action.method === 'get' && (action.actionType === 'api' || action.actionType === 'query'))
@@ -611,118 +612,126 @@ export class SectionsComponent implements OnInit {
 
     return result;
   }
-  async getFromQueryOnlyTable(tableData: any) {
-    debugger
-    const findClickApi = tableData?.appConfigurableEvent?.filter((item: any) =>
-      item.actions.some((action: any) => action.method === 'get' && (action.actionType === 'api' || action.actionType === 'query'))
-    );
+  // async getFromQueryOnlyTable(tableData: any) {
+  //   debugger
+  //   const findClickApi = tableData?.appConfigurableEvent?.filter((item: any) =>
+  //     item.actions.some((action: any) => action.method === 'get' && (action.actionType === 'api' || action.actionType === 'query'))
+  //   );
 
-    if (!findClickApi) { return };
-    if (findClickApi) {
-      if (findClickApi.length > 0) {
-        let apiUrl = '';
-        for (let index = 0; index < findClickApi.length; index++) {
-          let element = findClickApi[index].actions?.[0]?.actionType;
-          if (element == 'query') {
-            apiUrl = `knex-query/getAction/${findClickApi[index].actions?.[0]?.id}`;
-            break;
-          } else {
-            apiUrl = `knex-query/getAction/${findClickApi[index].actions?.[0]?.id}`
-          }
-        }
-        const pagination = tableData.serverSidePagination ? `?page=1&pageSize=${tableData?.end}` : '';
-        this.saveLoader = true;
-        if (apiUrl) {
-          const applicationId = localStorage.getItem('applicationId') || '';
-          let savedGroupData = await this.dataService.getNodes(JSON.parse(applicationId), this.screenName, "Table");
-          this.employeeService.getSQLDatabaseTable(apiUrl + pagination).subscribe({
-            next: (res) => {
-              if (res) {
-                if (tableData && res?.isSuccess && res?.data.length > 0) {
-                  this.saveLoader = false;
-                  if (apiUrl.includes('/userComment')) {
+  //   if (!findClickApi) { return };
+  //   if (findClickApi) {
+  //     if (findClickApi.length > 0) {
+  //       let apiUrl = '';
+  //       for (let index = 0; index < findClickApi.length; index++) {
+  //         let element = findClickApi[index].actions?.[0]?.actionType;
+  //         if (element == 'query') {
+  //           apiUrl = `knex-query/getAction/${findClickApi[index].actions?.[0]?.id}`;
+  //           break;
+  //         } else {
+  //           apiUrl = `knex-query/getAction/${findClickApi[index].actions?.[0]?.id}`
+  //         }
+  //       }
+  //       const pagination = tableData.serverSidePagination ? `?page=1&pageSize=${tableData?.end}` : '';
+  //       this.saveLoader = true;
+  //       if (apiUrl) {
+  //         const applicationId = localStorage.getItem('applicationId') || '';
+  //         let savedGroupData = await this.dataService.getNodes(JSON.parse(applicationId), this.screenName, "Table");
+  //         this.employeeService.getSQLDatabaseTable(apiUrl + pagination).subscribe({
+  //           next: (res) => {
+  //             if (res) {
+  //               if (tableData && res?.isSuccess && res?.data.length > 0) {
+  //                 this.saveLoader = false;
+  //                 if (apiUrl.includes('/userComment')) {
 
-                    const requiredData = res.data.map(({ __v, _id, ...rest }: any) => ({
-                      expand: false,
-                      id: _id,
-                      ...rest,
-                    }));
-                    res.data = JSON.parse(JSON.stringify(requiredData));
-                  }
+  //                   const requiredData = res.data.map(({ __v, _id, ...rest }: any) => ({
+  //                     expand: false,
+  //                     id: _id,
+  //                     ...rest,
+  //                   }));
+  //                   res.data = JSON.parse(JSON.stringify(requiredData));
+  //                 }
 
-                  tableData.tableData = res.data.map((element: any) => ({ ...element, id: element.id?.toString() }));
-                  if (!tableData.end) {
-                    tableData.end = 10;
-                  }
-                  tableData.pageIndex = 1;
-                  tableData.totalCount = res.data.length;
-                  tableData.serverApi = apiUrl;
-                  tableData.targetId = '';
-                  tableData.displayData = tableData.tableData.length > tableData.end ? tableData.tableData.slice(0, tableData.end) : tableData.tableData;
-                  if (tableData.tableHeaders.length === 0) {
-                    tableData.tableHeaders = Object.keys(tableData.tableData[0] || {}).map(key => ({ name: key, key: key }));
-                    tableData['tableKey'] = tableData.tableHeaders;
-                  }
-                  else {
-                    const tableKey = Object.keys(tableData.tableData[0] || {}).map(key => ({ name: key }));
-                    if (JSON.stringify(tableData['tableKey']) !== JSON.stringify(tableKey)) {
-                      const updatedData = tableKey.filter(updatedItem =>
-                        !tableData.tableHeaders.some((headerItem: any) => headerItem.name === updatedItem.name)
-                      );
-                      if (updatedData.length > 0) {
-                        updatedData.forEach(updatedItem => {
-                          tableData.tableHeaders.push({ id: tableData.tableHeaders.length + 1, key: updatedItem.name, name: updatedItem.name, });
-                        });
-                        tableData['tableKey'] = tableData.tableHeaders;
-                      }
-                    }
+  //                 tableData.tableData = res.data.map((element: any) => ({ ...element, id: element.id?.toString() }));
+  //                 if (!tableData.end) {
+  //                   tableData.end = 10;
+  //                 }
+  //                 tableData.pageIndex = 1;
+  //                 tableData.totalCount = res.data.length;
+  //                 tableData.serverApi = apiUrl;
+  //                 tableData.targetId = '';
+  //                 tableData.displayData = tableData.tableData.length > tableData.end ? tableData.tableData.slice(0, tableData.end) : tableData.tableData;
+  //                 if (tableData.tableHeaders.length === 0) {
+  //                   tableData.tableHeaders = Object.keys(tableData.tableData[0] || {}).map(key => ({ name: key, key: key }));
+  //                   tableData['tableKey'] = tableData.tableHeaders;
+  //                 }
+  //                 else {
+  //                   const tableKey = Object.keys(tableData.tableData[0] || {}).map(key => ({ name: key }));
+  //                   if (JSON.stringify(tableData['tableKey']) !== JSON.stringify(tableKey)) {
+  //                     const updatedData = tableKey.filter(updatedItem =>
+  //                       !tableData.tableHeaders.some((headerItem: any) => headerItem.name === updatedItem.name)
+  //                     );
+  //                     if (updatedData.length > 0) {
+  //                       updatedData.forEach(updatedItem => {
+  //                         tableData.tableHeaders.push({ id: tableData.tableHeaders.length + 1, key: updatedItem.name, name: updatedItem.name, });
+  //                       });
+  //                       tableData['tableKey'] = tableData.tableHeaders;
+  //                     }
+  //                   }
 
-                  }
-                  let CheckKey = tableData.tableHeaders.find((head: any) => !head.key)
-                  if (CheckKey) {
-                    for (let i = 0; i < tableData.tableHeaders.length; i++) {
-                      if (!tableData.tableHeaders[i].hasOwnProperty('key')) {
-                        tableData.tableHeaders[i].key = tableData.tableHeaders[i].name;
-                      }
-                    }
-                  }
-                  if (savedGroupData.length > 0) {
-                    let getData = savedGroupData[savedGroupData.length - 1];
-                    if (getData.data.length > 0) {
-                      let groupingArray: any = [];
-                      let updateTableData: any = [];
-                      getData.data.forEach((elem: any) => {
-                        let findData = tableData.tableHeaders.find((item: any) => item.key == elem);
-                        if (findData) {
-                          updateTableData = this.groupedFunc(elem, 'add', findData, groupingArray, tableData.displayData, tableData.tableData, tableData.tableHeaders);
-                        }
-                      })
-                      tableData.tableData = updateTableData;
-                      tableData.displayData = tableData.tableData.length > tableData.end ? tableData.tableData.slice(0, tableData.end) : tableData.tableData;
-                      tableData.tableHeaders.unshift({
-                        name: 'expand',
-                        key: 'expand',
-                        title: 'Expand',
-                      });
-                      tableData.totalCount = tableData.tableData
-                    }
-                  }
+  //                 }
+  //                 let CheckKey = tableData.tableHeaders.find((head: any) => !head.key)
+  //                 if (CheckKey) {
+  //                   for (let i = 0; i < tableData.tableHeaders.length; i++) {
+  //                     if (!tableData.tableHeaders[i].hasOwnProperty('key')) {
+  //                       tableData.tableHeaders[i].key = tableData.tableHeaders[i].name;
+  //                     }
+  //                   }
+  //                 }
+  //                 if (savedGroupData.length > 0) {
+  //                   let getData = savedGroupData[savedGroupData.length - 1];
+  //                   if (getData.data.length > 0) {
+  //                     let groupingArray: any = [];
+  //                     let updateTableData: any = [];
+  //                     getData.data.forEach((elem: any) => {
+  //                       let findData = tableData.tableHeaders.find((item: any) => item.key == elem);
+  //                       if (findData) {
+  //                         updateTableData = this.groupedFunc(elem, 'add', findData, groupingArray, tableData.displayData, tableData.tableData, tableData.tableHeaders);
+  //                       }
+  //                     })
+  //                     tableData.tableData = updateTableData;
+  //                     tableData.displayData = tableData.tableData.length > tableData.end ? tableData.tableData.slice(0, tableData.end) : tableData.tableData;
+  //                     tableData.tableHeaders.unshift({
+  //                       name: 'expand',
+  //                       key: 'expand',
+  //                       title: 'Expand',
+  //                     });
+  //                     tableData.totalCount = tableData.tableData
+  //                   } else {
+  //                     tableData.tableHeaders = tableData.tableHeaders.filter((head: any) => head.key != 'expand')
+  //                   }
+  //                 }
+  //                 else {
+  //                   //if data is not stored in index db then remove expand column
+  //                   tableData.tableHeaders = tableData.tableHeaders.filter((head: any) => head.key != 'expand')
+  //                 }
 
-                }
-                this.saveLoader = false;
-              }
-              this.saveLoader = false;
-            },
-            error: (error: any) => {
-              console.error(error);
-              this.toastr.error("An error occurred", { nzDuration: 3000 });
-              this.saveLoader = false;
-            }
-          });
-        }
-      }
-    }
-  }
+
+
+  //               }
+  //               this.saveLoader = false;
+  //             }
+  //             this.saveLoader = false;
+  //           },
+  //           error: (error: any) => {
+  //             console.error(error);
+  //             this.toastr.error("An error occurred", { nzDuration: 3000 });
+  //             this.saveLoader = false;
+  //           }
+  //         });
+  //       }
+  //     }
+  //   }
+  // }
 
   gridRulesData: any;
   assignGridRules(data: any) {

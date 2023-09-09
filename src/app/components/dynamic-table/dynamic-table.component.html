@@ -11,7 +11,9 @@
   <button nz-button (click)="addColumn()" *ngIf="checkType" nzType="primary"> <i class="fa-regular fa-plus mr-2"></i>
     Add</button>
 </div>
-<div class="dynamic-table">
+<div class="dynamic-table" [processData]="processData"
+  [appConfigurableSelect]="data?.appConfigurableEvent ? data?.appConfigurableEvent : []"
+  [loadAction]="data?.eventActionconfig ? data?.eventActionconfig : {}">
   <!-- [nzFrontPagination]='data?.nzFrontPagination' -->
   <!-- [nzShowPagination]='data?.nzShowPagination' -->
   <nz-table #editRowTable [nzPageSize]="10" [nzBordered]='data.nzBordered' [nzData]="displayData"
