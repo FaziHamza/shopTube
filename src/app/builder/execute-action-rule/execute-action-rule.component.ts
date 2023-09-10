@@ -247,10 +247,16 @@ export class ExecuteActionRuleComponent implements OnInit, AfterViewInit {
   removeMultiSelect(index: number) {
     this.multiSelectArray.removeAt(index);
   }
+  onEditorContentChange(content: string, index: number) {
+    const editorControl = this.multiSelectArray.at(index).get('monacoEditorControl');
+    if (editorControl) {
+      editorControl.setValue(content);
+    }
+  }
   
 
   saveMultiSelects() {
-
+    debugger
     const selectedValues = this.multiSelectArray.value;
     console.log('Selected Values:', selectedValues);
   }

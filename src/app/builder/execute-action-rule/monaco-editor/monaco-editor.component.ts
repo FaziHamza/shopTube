@@ -1,4 +1,4 @@
-import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, EventEmitter, Input, NgZone, OnInit, Output, ViewChild } from '@angular/core';
 import { EmployeeService } from 'src/app/services/employee.service';
 import * as monaco from 'monaco-editor';
 import Ajv, { ErrorObject } from 'ajv';
@@ -26,8 +26,8 @@ export class MonacoEditorComponent implements OnInit, AfterViewInit {
   nodeList: { title: string, key: string }[] = [];
   constructor(private employeeService: EmployeeService, private cdRef: ChangeDetectorRef,
     private applicationService: ApplicationService,
-    private toastr: NzMessageService,) {
-     }
+    private toastr: NzMessageService, private zone: NgZone) {
+  }
   actionResult: any;
   ngOnInit() {
     this.getActionRule();
@@ -35,15 +35,16 @@ export class MonacoEditorComponent implements OnInit, AfterViewInit {
   ngAfterViewInit(): void {
     this.IsShowConfig = true;
     this.cdRef.detectChanges();
-    
+
     // Delay the execution of initializeMonacoEditor by 1 second
     setTimeout(() => {
       if (this.IsShowConfig) {
         // this.initializeMonacoEditor();
+
       }
     }, 1000); // 1000 milliseconds (1 second)
   }
-  
+
 
   actionRuleId = '';
   getActionRule() {
@@ -53,16 +54,16 @@ export class MonacoEditorComponent implements OnInit, AfterViewInit {
           this.actionRule = res.data?.[0]?.rule || '';
           this.actionRuleId = res.data?.[0]?._id || '';
           if (!this.isEditorInitialized) {
-           this.initializeMonacoEditor();
+            this.initializeMonacoEditor();
           }
-        } else{
+        } else {
           this.initializeMonacoEditor();
           this.toastr.error(res.message, { nzDuration: 3000 });
         }
       },
       error: (err) => {
-          this.initializeMonacoEditor();
-          console.error(err);
+        this.initializeMonacoEditor();
+        console.error(err);
         this.toastr.error("An error occurred", { nzDuration: 3000 });
       }
 
@@ -73,8 +74,11 @@ export class MonacoEditorComponent implements OnInit, AfterViewInit {
   validationMessage: any[] = [];
   @Input() codeEditorRuleInstance!: monaco.editor.IStandaloneCodeEditor;
   @ViewChild('editorRuleContainer', { static: false }) private _editorRuleContainer: ElementRef;
+  @Output() contentChange = new EventEmitter<string>();
+
 
   validateJSON() {
+    debugger
     this.validationMessage = [];
     try {
       const jsonData = JSON.parse(this.codeEditorRuleInstance.getValue());
@@ -314,6 +318,18 @@ export class MonacoEditorComponent implements OnInit, AfterViewInit {
       });
 
       this.addCustomButton();
+      debugger
+      const editorInstance = this.codeEditorRuleInstance;
+
+      editorInstance.onDidChangeModelContent(() => {
+          console.log(editorInstance.getValue());
+          
+          this.zone.run(() => {
+              this.contentChange.emit(editorInstance.getValue());
+          });
+      });
+      
+
       this.isEditorInitialized = true;
 
     } else {
@@ -339,6 +355,9 @@ export class MonacoEditorComponent implements OnInit, AfterViewInit {
       this.codeEditorRuleInstance.layout();
     }
   }
+
+
+
   save() {
     const ActionRule = {
       ActionRule: {

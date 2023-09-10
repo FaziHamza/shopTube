@@ -14,12 +14,12 @@
             <nz-option [nzLabel]="item.title" [nzValue]="item.key" *ngFor="let item of nodeList"></nz-option>
           </nz-select>
         </div>
-              <!-- Create a form control for the editor -->
-      <!-- <input type="hidden"  [ngModel]="multiSelect.value"> -->
-      <!-- Use [ngModel] to bind the editor instance -->
+  
         <st-monaco-editor [selectedNode]="selectedNode" [screenName]="screenName" [formlyModel]="this.formlyModel"
           [applicationId]="applicationId" [nodes]="nodes" [screens]="screens" [jsonSchema]="jsonSchema" 
-          [screeenBuilderId]="screeenBuilderId" [formControlName]="i" [codeEditorRuleInstance]="multiSelect.value.monacoEditorControl"></st-monaco-editor>
+          [screeenBuilderId]="screeenBuilderId" [formControlName]="i"
+          (contentChange)="onEditorContentChange($event, i)"
+          [codeEditorRuleInstance]="multiSelect.value.monacoEditorControl"></st-monaco-editor>
         <div class="w-1/2">
           <button nz-button nzType="primary" class="btn btn-sm mr-2" (click)="removeMultiSelect(i)">
             Remove
