@@ -30,7 +30,7 @@ export class DrawerComponent implements OnInit {
 
   ngOnInit(): void {
     if (this.drawerData?.eventActionconfig) {
-      // this.showChild = false;
+      this.showChild = false;
       this.loader = true
     } else {
       this.showChild = true;
@@ -95,7 +95,7 @@ export class DrawerComponent implements OnInit {
       if (this.drawerData.children[0].type == 'timeline') {
         this.drawerData.children[0].hideExpression = true;
       }
-      // this.showChild = false;
+      this.showChild = true;
       this.res = {};
       this.res['data'] = [];
     }
