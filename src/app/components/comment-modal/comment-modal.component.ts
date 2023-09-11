@@ -19,6 +19,7 @@ export class CommentModalComponent implements OnInit {
   @Input() type: any;
   form: FormGroup;
   newComment: any = '';
+  saveLoader : boolean =  false;
   requestSubscription: Subscription;
   constructor(
     private formBuilder: FormBuilder,
@@ -74,6 +75,7 @@ export class CommentModalComponent implements OnInit {
       "UserComment": commentObj
     }
     let requestObservable: Observable<any>;
+    this.saveLoader = true;
     if (!this.update) {
       requestObservable = this.applicationService.addNestCommonAPI('knex-crud/task', commentObj);
     } else {
@@ -88,6 +90,7 @@ export class CommentModalComponent implements OnInit {
 
     this.requestSubscription = requestObservable.subscribe({
       next: (res: any) => {
+        this.saveLoader = false;
         if (res.id) {
           this.create();
           this.#modal.destroy(commentObj);
@@ -97,6 +100,8 @@ export class CommentModalComponent implements OnInit {
         }
       },
       error: () => {
+        this.saveLoader = false;
+
         this.toastr.error('UserComment: An error occurred', { nzDuration: 3000 });
       }
     });
