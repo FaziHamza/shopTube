@@ -69,7 +69,7 @@ export class DynamicTableComponent implements OnInit {
   ngOnInit(): void {
     if (this.data?.eventActionconfig) {
       // this.showChild = false;
-      this.saveLoader = true
+      // this.saveLoader = true
     }
     this.loadTableData();
     this.gridInitilize();
@@ -1472,13 +1472,13 @@ export class DynamicTableComponent implements OnInit {
 
   processData(data: any[]) {
     debugger
+    this.saveLoader = false;
     if (data.length > 0) {
       let res: any = {};
       res['data'] = [];
       res['data'] = data;
       this.getFromQueryOnlyTable(this.data, res)
     }
-    this.saveLoader = false;
     return data
 
   }
