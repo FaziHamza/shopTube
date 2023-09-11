@@ -689,6 +689,7 @@ export class DynamicTableComponent implements OnInit {
     }
   };
   deleteRow(data: any): void {
+
     const model = {
       screenId: this.screenName,
       postType: 'delete',
@@ -696,18 +697,18 @@ export class DynamicTableComponent implements OnInit {
     };
     if (this.screenName != undefined) {
       if (this.data?.appConfigurableEvent) {
-        let findClickApi = this.data?.appConfigurableEvent?.filter((item: any) => item.actions.some((action: any) => action.method === 'delete' && (action.actionType == 'api' || action.actionType == 'query')));
+        let findClickApi = this.data?.appConfigurableEvent?.filter((item: any) => item.actionLink === 'delete' && (item.actionType == 'api' || item.actionType == 'query'));
         let id = '';
         if (findClickApi?.length > 0) {
-          if (findClickApi?.[0].actions?.[0]?.url.includes('EnumList')) {
+          if (findClickApi[0]?.httpAddress.includes('EnumList')) {
             id = data?._id
           } else
             id = data?.id
         } else
           id = data?.id
         let url = '';
-        if (findClickApi?.[0].actions?.[0].actionType == 'api') {
-          url = findClickApi?.[0].actions?.[0]?.url;
+        if (findClickApi[0]?.actionType == 'api') {
+          url = findClickApi[0]?.httpAddress;
           if (url) {
             this.requestSubscription = this.employeeService.deleteCommonApi(url, id).subscribe({
               next: (res) => {
@@ -724,8 +725,8 @@ export class DynamicTableComponent implements OnInit {
             })
           }
 
-        } else if (findClickApi?.[0].actions?.[0].actionType == 'query') {
-          url = 'knex-query/executeQuery/' + findClickApi?.[0].actions?.[0].id;
+        } else if (findClickApi[0]?.actionType == 'query') {
+          url = 'knex-query/executeQuery/' + findClickApi[0]._id;
           if (url) {
             this.requestSubscription = this.employeeService.saveSQLDatabaseTable(url, model).subscribe({
               next: (res) => {
@@ -1038,6 +1039,7 @@ export class DynamicTableComponent implements OnInit {
         const dataTitle = this.data.title ? this.data.title + '.' : '';
         newData['parentid'] = newData.id;
         newData.id = '';
+        // newData.datetime = new Date();
 
         for (const key in newData) {
           if (Object.prototype.hasOwnProperty.call(newData, key)) {
@@ -1046,9 +1048,6 @@ export class DynamicTableComponent implements OnInit {
             } else {
               this.formlyModel[dataTitle + key] = newData[key];
             }
-
-            // Check if other objects with names like this.data.title exist
-            // and update their values if the property exists
             for (const obj of [this.formlyModel, /* other objects here */]) {
               if (Object.prototype.hasOwnProperty.call(obj, key)) {
                 obj[key] = newData[key];
