@@ -67,7 +67,10 @@ export class DynamicTableComponent implements OnInit {
   }
 
   ngOnInit(): void {
-
+    if (this.data?.eventActionconfig) {
+      // this.showChild = false;
+      this.saveLoader = true
+    }
     this.loadTableData();
     this.gridInitilize();
     this.getSaveGroupNodes();
@@ -725,7 +728,7 @@ export class DynamicTableComponent implements OnInit {
           url = 'knex-query/executeQuery/' + findClickApi?.[0].actions?.[0].id;
           if (url) {
             this.requestSubscription = this.employeeService.saveSQLDatabaseTable(url, model).subscribe({
-             next: (res) => {
+              next: (res) => {
                 if (res) {
                   this.tableData = this.tableData.filter((d: any) => d.id !== data.id);
                   this.displayData = this.displayData.filter((d: any) => d.id !== data.id);
@@ -1031,19 +1034,28 @@ export class DynamicTableComponent implements OnInit {
       const drawer = this.findObjectByTypeBase(this.data, "drawer");
       drawer['visible'] = true;
       if (drawer?.eventActionconfig) {
-        let obj: any = {
-          'task.status': item.status,
-          'task.type': item.type,
-          'task.applicationid': item.applicationid,
-          'task.enddate': item.enddate
-        };
+        let newData = JSON.parse(JSON.stringify(item));
+        const dataTitle = this.data.title ? this.data.title + '.' : '';
+        newData['parentid'] = newData.id;
+        newData.id = '';
 
-        // Loop through the keys and set values using setControl
-        Object.keys(obj).forEach(key => {
-          this.form.get(key)?.setValue(obj[key]);
-        });
+        for (const key in newData) {
+          if (Object.prototype.hasOwnProperty.call(newData, key)) {
+            if (newData[key] == null) {
+              this.formlyModel[dataTitle + key] = '';
+            } else {
+              this.formlyModel[dataTitle + key] = newData[key];
+            }
 
-        // this.formlyModel.patchValue(obj);
+            // Check if other objects with names like this.data.title exist
+            // and update their values if the property exists
+            for (const obj of [this.formlyModel, /* other objects here */]) {
+              if (Object.prototype.hasOwnProperty.call(obj, key)) {
+                obj[key] = newData[key];
+              }
+            }
+          }
+        }
         drawer.eventActionconfig['parentId'] = item.id;
       }
       this.data = JSON.parse(JSON.stringify(this.data));
@@ -1460,16 +1472,15 @@ export class DynamicTableComponent implements OnInit {
 
   processData(data: any[]) {
     debugger
-    console.log("drawer");
     if (data.length > 0) {
       let res: any = {};
       res['data'] = [];
       res['data'] = data;
       this.getFromQueryOnlyTable(this.data, res)
-    } else {
-
     }
+    this.saveLoader = false;
     return data
+
   }
   async getFromQueryOnlyTable(tableData: any, res: any) {
     debugger
@@ -1542,7 +1553,8 @@ export class DynamicTableComponent implements OnInit {
           //   title: 'Expand',
           // });
           // this.data.totalCount = this.tableData
-        } else {
+        }
+        else {
           this.tableHeaders = this.tableHeaders.filter((head: any) => head.key != 'expand')
         }
       }

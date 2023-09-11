@@ -45,6 +45,7 @@ export class SectionsComponent implements OnInit {
       this.getFromQuery(btnData);
       this.requestSubscription = this.dataSharedService.sectionSubmit.subscribe({
         next: (res) => {
+          debugger
           const checkButtonExist = this.findObjectById(this.sections, res.id);
           // const checkButtonExist = this.isButtonIdExist(this.sections.children[1].children, res.id);
           if (checkButtonExist?.appConfigurableEvent) {
@@ -70,7 +71,12 @@ export class SectionsComponent implements OnInit {
             }
             // this.submit();
             if (Object.keys(makeModel).length > 0) {
-              this.saveData(res)
+              this.dataModel = this.convertModel(this.formlyModel);
+              const allUndefined = Object.values(this.formlyModel).every((value) => value === undefined);
+              if (!allUndefined) {
+                this.saveData(res)
+              }
+
             }
           }
         },
@@ -78,7 +84,7 @@ export class SectionsComponent implements OnInit {
           console.error(err);
         }
       })
-    } 
+    }
     else {
       let gridListData = this.findObjectByTypeBase(this.sections, "gridList");
       if (gridListData) {
@@ -238,7 +244,7 @@ export class SectionsComponent implements OnInit {
 
       const Arraytables = Array.from(tableNames)
       const remainingTables = Arraytables.slice(1);
-      let id;findClickApi[0]
+      let id; findClickApi[0]
       for (const key in empData?.modalData) {
         if (empData.modalData.hasOwnProperty(key) &&
           key.endsWith('.id') &&
@@ -361,9 +367,7 @@ export class SectionsComponent implements OnInit {
   async getFromQuery(data: any) {
     debugger
     let findClickApi = data?.appConfigurableEvent?.filter((item: any) =>
-    (item.actionLink === 'get' && (item.actionType === 'api' || item.actionType === 'query'))
-
-     
+      (item.actionLink === 'get' && (item.actionType === 'api' || item.actionType === 'query'))
     );
 
     if (findClickApi) {
@@ -499,6 +503,11 @@ export class SectionsComponent implements OnInit {
                       });
                       tableData.totalCount = tableData.tableData
                     }
+                    tableData.tableHeaders = tableData.tableHeaders.filter((head: any) => head.key != 'expand')
+
+                  } else {
+                    tableData.tableHeaders = tableData.tableHeaders.filter((head: any) => head.key != 'expand')
+
                   }
                 }
                 // this.assignGridRules(tableData);

@@ -1,7 +1,8 @@
-<st-calendar *ngIf="item?.appConfigurableEvent == undefined || item?.appConfigurableEvent.length == 0 && !dataGet"
+<st-calendar *ngIf="item?.eventActionconfig == undefined && !dataGet"
     [calenderData]="item"></st-calendar>
-<div *ngIf="item?.appConfigurableEvent">
-    <st-calendar *ngIf="item?.appConfigurableEvent.length > 0 && dataGet" [processData]="processData"
-        [appConfigurableSelect]="item['appConfigurableEvent']" [loadAction]="item['eventActionconfig']"
-        [calenderData]="item"></st-calendar>
+<div [processData]="processData" [appConfigurableSelect]="item['appConfigurableEvent']"
+    [loadAction]="item['eventActionconfig']">
+    <div *ngIf="dataGet">
+        <st-calendar [calenderData]="item"></st-calendar>
+    </div>
 </div>
