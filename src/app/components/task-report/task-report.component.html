@@ -103,7 +103,7 @@
                 <div
                     class="space-y-3 ml-2.5 relative before:absolute before:inset-0 before:ml-5 before:-translate-x-px  md:before:translate-x-0 before:h-full before:w-0.5  before:bg-gradient-to-b before:from-transparent before:via-slate-300 before:to-transparent">
                     <!-- Item -->
-                    <div *ngFor="let issue of item['issueReport'] ; let i = index" class="relative">
+                    <div *ngFor="let issue of item['issuereport'] ; let i = index" class="relative">
                         <div class="md:flex items-center md:space-x-4 ">
                             <div class="flex items-center space-x-4 md:space-x-2 md:space-x-reverse">
                                 <!-- Icon -->
@@ -184,7 +184,7 @@
                                                             <!-- Use flex container to keep both elements in the same line -->
                                                             <span class="text-slate-800 font-semibold opacity-70">
                                                                 {{
-                                                                IssueReportChild['createdBy']
+                                                                IssueReportChild['createdby']
                                                                 }}
                                                             </span>
                                                             <button *ngIf="issue['children'].length > 0 && last"
@@ -197,7 +197,7 @@
 
                                                         <!-- Date -->
                                                         <time class="w-fit text-xs text-slate-500 opacity-75 mr-2">{{
-                                                            IssueReportChild['dateTime'] |
+                                                            IssueReportChild['datetime'] |
                                                             date : "dd/MMM/yyyy" }}</time>
                                                     </div>
                                                     <p class="text-slate-500">
