@@ -44,15 +44,15 @@ export class TaskReportComponent implements OnInit {
     const applicationId = JSON.parse(localStorage.getItem('applicationId')!);
 
     const commentObj = {
-      screenId: this.screenName,
-      dateTime: new Date(),
+      screenid: this.screenName,
+      datetime: new Date(),
       message: this.commentForm.value.message,
       status: '',
-      organizationId: JSON.parse(localStorage.getItem('organizationId')!),
-      applicationId: JSON.parse(localStorage.getItem('applicationId')!),
-      componentId: data.id,
-      createdBy: userData.username,
-      parentId: issue.id,
+      organizationid: JSON.parse(localStorage.getItem('organizationId')!),
+      applicationid: JSON.parse(localStorage.getItem('applicationId')!),
+      componentid: data.id,
+      createdby: userData.username,
+      parentid: issue.id,
       type: this.type == 'userTaskManagement' ? 'pages' : this.type
     };
 
@@ -63,9 +63,9 @@ export class TaskReportComponent implements OnInit {
     let requestObservable: Observable<any>;
 
     if (!this.commentEdit) {
-      requestObservable = this.applicationService.addNestCommonAPI('cp', userCommentModel);
+      requestObservable = this.applicationService.addNestCommonAPI('knex-crud/task', commentObj);
     } else {
-      userCommentModel.UserComment.componentId = this.commentEditObj.componentId;
+      // userCommentModel.UserComment.componentId = this.commentEditObj.componentId;
       requestObservable = this.applicationService.updateNestCommonAPI(
         'cp/UserComment',
         this.commentEditObj._id,
@@ -75,11 +75,11 @@ export class TaskReportComponent implements OnInit {
 
     this.requestSubscription = requestObservable.subscribe({
       next: (res: any) => {
-        if (res.isSuccess) {
+        if (res.id) {
           this.commentForm.patchValue({
             message: '',
           });
-          this.toastr.success(`UserComment: ${res.message}`, { nzDuration: 3000 });
+          this.toastr.success(`UserComment: 'User task save succesfully'`, { nzDuration: 3000 });
 
           if (this.commentEdit) {
             let Newdata: any = data.comment.map((comm: any) => {
@@ -119,7 +119,7 @@ export class TaskReportComponent implements OnInit {
     debugger
     data['showAllComments'] = true;
 
-    this.requestSubscription = this.applicationService.getNestCommonAPIById('cp/UserAssignTask', data.id).subscribe({
+    this.requestSubscription =  this.applicationService.callApi('knex-query/getAction/650064bbc5215fa775985f97', 'get', '', '', "'" + data.id + "'").subscribe({
       next: (res: any) => {
         if (res) {
           if (res.data.length > 0) {
