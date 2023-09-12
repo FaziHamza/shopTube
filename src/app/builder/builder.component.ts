@@ -54,7 +54,7 @@ export class BuilderComponent implements OnInit {
   selectDepartmentName: any = [];
   IslayerVisible: boolean = true;
   IsjsonEditorVisible: boolean = false;
-  sizes = [17,83];
+  sizes = [17, 83];
   IsShowConfig: boolean = false;
   htmlTabsData: any = [];
   nodes: any = [];
@@ -258,10 +258,10 @@ export class BuilderComponent implements OnInit {
   saveOfflineDB() {
     let data = this.jsonStringifyWithObject(this.nodes);
     let encryptData = this._encryptionService.encryptData(data);
-    this.dataService.saveData(this.screenName,this.selectApplicationName, "Builder" ,encryptData);
+    this.dataService.saveData(this.screenName, this.selectApplicationName, "Builder", encryptData);
   }
   getOfflineDb() {
-    let data = this.dataService.getNodes(this.selectApplicationName,this.screenName,"Builder");
+    let data = this.dataService.getNodes(this.selectApplicationName, this.screenName, "Builder");
     let decryptData = this._encryptionService.decryptData(data);
     this.nodes = this.jsonParseWithObject(
       this.jsonStringifyWithObject(decryptData)
@@ -276,12 +276,12 @@ export class BuilderComponent implements OnInit {
     }
     if (content === 'delete') {
       this.iconActive = 'delete';
-      const nodes = await this.dataService.deleteDb(this.selectApplicationName,this.screenName,"Builder");
+      const nodes = await this.dataService.deleteDb(this.selectApplicationName, this.screenName, "Builder");
       alert('this Screen Delete db successfully!');
       return;
 
     }
-    const nodes = await this.dataService.getNodes(this.selectApplicationName,this.screenName,"Builder");
+    const nodes = await this.dataService.getNodes(this.selectApplicationName, this.screenName, "Builder");
 
     if (this.oldIndex === undefined) {
       // this.oldIndex = 0;
@@ -313,7 +313,7 @@ export class BuilderComponent implements OnInit {
   }
 
   deleteOfflineDb() {
-    let data = this.dataService.deleteDb(this.selectApplicationName,this.screenName,"Builder");
+    let data = this.dataService.deleteDb(this.selectApplicationName, this.screenName, "Builder");
   }
   JsonEditorShow() {
     this.iconActive = 'jsonEdit';
@@ -513,7 +513,7 @@ export class BuilderComponent implements OnInit {
                           }
                         }
                       }
-                    } 
+                    }
                     // else {
                     //   const eventActionConfig = node?.formly?.[0]?.fieldGroup?.[0]?.props;
                     //   if (eventActionConfig) {
@@ -524,7 +524,7 @@ export class BuilderComponent implements OnInit {
                   }
                 });
               }
-              
+
               let checkFirst: any = {};
               for (let index = 0; index < this.actionListData.length; index++) {
                 const element = this.actionListData[index];
@@ -3457,11 +3457,11 @@ export class BuilderComponent implements OnInit {
       const idx = this.nodes.indexOf(node);
       this.nodes.splice(idx as number, 1);
     }
-      if (parent) {
-        if (parent.type == 'mainTab' || parent.type == 'dropdown' || parent.type == 'kanban' || parent.type == 'mainStep' || parent.type == 'timeline') {
-          parent.nodes = parent.children.length;
-        }
+    if (parent) {
+      if (parent.type == 'mainTab' || parent.type == 'dropdown' || parent.type == 'kanban' || parent.type == 'mainStep' || parent.type == 'timeline') {
+        parent.nodes = parent.children.length;
       }
+    }
     this.updateNodes();
   }
   // nzEvent(event: NzFormatEmitEvent): void { }
@@ -3493,7 +3493,7 @@ export class BuilderComponent implements OnInit {
       case 'body':
         this.selectedNode = this.api(event.form.api, this.selectedNode);
         break;
-        case 'drawer':
+      case 'drawer':
         this.selectedNode['notvisible'] = event.form.notvisible;
         break;
       case 'sections':
@@ -6226,12 +6226,12 @@ export class BuilderComponent implements OnInit {
 
     }
   }
-  getFromQuery(name: string) {
+  async getFromQuery(name: string) {
     debugger
     let tableData = this.findObjectByTypeBase(this.nodes[0], "gridList");
     if (tableData) {
       let findClickApi = tableData?.appConfigurableEvent?.filter((item: any) =>
-      (item.actionLink === 'get' && (item.actionType === 'api' || item.actionType === 'query'))
+        (item.actionLink === 'get' && (item.actionType === 'api' || item.actionType === 'query'))
       );
       if (findClickApi) {
         if (findClickApi.length > 0) {
@@ -6251,6 +6251,8 @@ export class BuilderComponent implements OnInit {
           }
           if (url) {
             this.saveLoader = true;
+            const applicationId = localStorage.getItem('applicationId') || '';
+            let savedGroupData = await this.dataService.getNodes(JSON.parse(applicationId), this.screenName, "Table");
             this.employeeService.getSQLDatabaseTable(url + pagination).subscribe({
               next: (res) => {
                 this.saveLoader = false;
@@ -6274,7 +6276,7 @@ export class BuilderComponent implements OnInit {
                     }
                     tableData.pageIndex = 1;
                     tableData.totalCount = res.count;
-                    tableData.serverApi = `knex-query/${name}`;
+                    tableData.serverApi = url;
                     tableData.targetId = '';
                     tableData.displayData = tableData.tableData.length > tableData.end ? tableData.tableData.slice(0, tableData.end) : tableData.tableData;
                     // pagniation work end
@@ -6315,6 +6317,32 @@ export class BuilderComponent implements OnInit {
                         tableData.tableHeaders = tableData.tableHeaders.concat(propertiesWithoutDataType.filter((item: any) => !tableData.tableHeaders.some((objItem: any) => objItem.key === item.key)));
                         // tableData.tableHeaders = obj;
                       }
+                    }
+                    let getData = savedGroupData[savedGroupData.length - 1];
+                    if (getData?.data) {
+                      if (getData.data.length > 0) {
+                        let groupingArray: any = [];
+                        let updateTableData: any = [];
+                        getData.data.forEach((elem: any) => {
+                          let findData = tableData.tableHeaders.find((item: any) => item.key == elem);
+                          if (findData) {
+                            updateTableData = this.groupedFunc(elem, 'add', findData, groupingArray, tableData.displayData, tableData.tableData, tableData.tableHeaders);
+                          }
+                        })
+                        tableData.tableData = updateTableData;
+                        tableData.displayData = tableData.tableData.length > tableData.end ? tableData.tableData.slice(0, tableData.end) : tableData.tableData;
+                        tableData.tableHeaders.unshift({
+                          name: 'expand',
+                          key: 'expand',
+                          title: 'Expand',
+                        });
+                        tableData.totalCount = tableData.tableData
+                      }
+                      tableData.tableHeaders = tableData.tableHeaders.filter((head: any) => head.key != 'expand')
+
+                    } else {
+                      tableData.tableHeaders = tableData.tableHeaders.filter((head: any) => head.key != 'expand')
+
                     }
                     this.saveLoader = false;
                   }
@@ -6480,7 +6508,7 @@ export class BuilderComponent implements OnInit {
   showRulesFunc(ruleType: any) {
     this.showRules = ruleType;
   }
-  applyHighlightSearch(data: any, allow:any) {
+  applyHighlightSearch(data: any, allow: any) {
     debugger
     if (this.searchValue && allow) {
       const isMatch = data?.title ? data?.title.toLowerCase().includes(this.searchValue.toLowerCase()) : data?.id.toLowerCase().includes(this.searchValue.toLowerCase());
@@ -6577,5 +6605,102 @@ export class BuilderComponent implements OnInit {
       }
     }
   }
-  
+  groupedFunc(data: any, type: any, header: any, groupingArray: any, displayData: any, tableData: any, tableHeaders: any) {
+    header['grouping'] = type === 'add' ? data : '';
+
+    if (type === 'add')
+      groupingArray.push(data);
+
+    if (groupingArray.length === 0) {
+      tableHeaders = tableHeaders.filter((a: any) => a.name !== 'expand');
+    } else {
+      // Reset displayData and tableHeaders before re-grouping
+      displayData = [];
+      tableHeaders = tableHeaders.filter((a: any) => a.name !== 'expand');
+      // Apply grouping for each column in the groupingArray
+      return this.groupData(tableData, 0, groupingArray, tableData, tableHeaders);
+    }
+
+  }
+  groupData(data: any[], index: number, groupingArray: any, tableData: any, tableHeaders: any): any {
+    if (index < groupingArray.length) {
+      const groupColumn = groupingArray[index];
+
+      if (index === 0) {
+        // Group the data by the specified column
+        const groupedData = this.groupByColumn(data, groupColumn, index, groupingArray);
+
+        // Update the displayData and tableHeaders for the current level
+        tableData = tableData.concat(groupedData);
+        tableHeaders.unshift({
+          name: 'expand',
+          key: 'expand',
+          title: 'Expand',
+        });
+
+        // Continue grouping for the next column
+        return this.groupData(groupedData, index + 1, groupingArray, tableData, tableHeaders);
+      }
+      else {
+        data.forEach((update: any) => {
+          if (update.children) {
+            const groupedChildren = this.groupByColumn(update.children, groupColumn, index, groupingArray);
+            update.children = groupedChildren; // Update children with grouped data
+            // Recursively apply grouping to children
+            this.groupData(update.children, index + 1, groupingArray, tableData, tableHeaders);
+          }
+        });
+      }
+    }
+
+    return data; // Return the grouped data when all columns are processed
+  }
+
+  groupByColumn(data: any, columnName: string, index: number, groupingArray: any) {
+    const groupedData: any = {};
+    data.forEach((element: any) => {
+      const groupValue = element[columnName];
+      const parentValue = groupingArray[index - 1]; // Previous grouping value
+
+      if (!groupedData[parentValue]) {
+        groupedData[parentValue] = [];
+      }
+
+      if (!groupedData[parentValue][groupValue]) {
+        groupedData[parentValue][groupValue] = {
+          expand: false,
+          children: [],
+        };
+      }
+
+      const group = groupedData[parentValue][groupValue];
+      group.children.push(element);
+      group.expand = false;
+
+      // If it's the first level of grouping, add the parent value
+      if (index === 0) {
+        group['parent'] = parentValue;
+      }
+    });
+    const result = Object.keys(groupedData).map((parentKey: string) => {
+      const parentGroup = groupedData[parentKey];
+      return Object.keys(parentGroup).map((groupKey: string) => {
+        const groupData = parentGroup[groupKey];
+        const secondObj = groupData.children[0];
+        const firstObj = JSON.parse(JSON.stringify(groupData));
+        for (const key in secondObj) {
+          if (secondObj.hasOwnProperty(key)) {
+            // Check if the property does not exist in the first object
+            if (!firstObj.hasOwnProperty(key)) {
+              // Assign the property from the second object to the first object
+              firstObj[key] = secondObj[key];
+            }
+          }
+        }
+        return firstObj;
+      });
+    }).flat(); // Flatten the nested arrays
+
+    return result;
+  }
 }

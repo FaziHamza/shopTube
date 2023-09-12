@@ -54,6 +54,8 @@ export class CalendarComponent {
     }
   ]
   ngOnInit() {
+    debugger
+    this.eventData = this.calenderData.options;
     this.calendarOptions = {
       plugins: [
         interactionPlugin,
@@ -67,7 +69,7 @@ export class CalendarComponent {
         right: this.calenderData?.viewType
       },
       initialView: 'dayGridMonth',
-      initialEvents: this.calenderData.options, // alternatively, use the `events` setting to fetch from a feed
+      initialEvents: this.eventData, // alternatively, use the `events` setting to fetch from a feed
       weekends: this.calenderData?.weekends,
       editable: this.calenderData?.editable,
       selectable: this.calenderData?.selectable,

@@ -11,16 +11,19 @@ export class ParentCalendarComponent {
   constructor(private changeDetector: ChangeDetectorRef) {
     this.processData = this.processData.bind(this);
   }
-
+  ngOnInit() {
+    this.dataGet =  false;
+  }
   processData(data: any[]) {
     debugger
+    this.dataGet = false;
     if (data.length > 0) {
       this.item.options = [];
       data.forEach((element, index) => {
         let event = {
           "id": index + 1, // Increment the index to start from 1
           "title": element.message,
-          "start": this.extractDate(element.dateTime),
+          "start": this.extractDate(element.datetime),
           "backgroundColor": "#fbe0e0",
           "textColor": "#ea5455",
           "color": "#EF6C00",
@@ -30,6 +33,8 @@ export class ParentCalendarComponent {
       });
       let newData = JSON.parse(JSON.stringify(this.item.options));
       this.item.options = JSON.parse(JSON.stringify(newData));
+      let newItem = JSON.parse(JSON.stringify(this.item));
+      this.item = JSON.parse(JSON.stringify(newItem));
     }
     this.dataGet = true;
     this.changeDetector.detectChanges();
