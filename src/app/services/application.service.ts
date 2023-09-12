@@ -44,11 +44,6 @@ export class ApplicationService {
       api.includes('http') ? api : this.nestUrl + api, modal
     );
   }
-  addBackendCommonApi(api: string, modal: any): Observable<any> {
-    return this.http.post<any>(
-      api.includes('http') ? api : this.nestUrl + api, modal
-    );
-  }
   getBackendCommonAPI(api: string): Observable<any> {
     return this.http.get<any>(
       api.includes('http') ? api : this.nestUrl + api

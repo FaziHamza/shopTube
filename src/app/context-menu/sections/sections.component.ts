@@ -263,7 +263,7 @@ export class SectionsComponent implements OnInit {
           apiUrl = 'knex-query';
         }
         if (apiUrl) {
-          this.applicationServices.addBackendCommonApi(apiUrl, empData).subscribe({
+          this.applicationServices.addNestCommonAPI(apiUrl, empData).subscribe({
             next: (res) => {
               this.saveLoader = false;
               if (res[0]?.error)
