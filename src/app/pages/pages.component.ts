@@ -320,7 +320,7 @@ export class PagesComponent implements OnInit {
               findObj['eventActionconfig'] = {};
               checkFirst[findObj?.key] = "done";
             }
-            if (element.btnActionType == 'load' ) {
+            if (element.btnActionType == 'load') {
               // let obj = { actionType: element.actionType, url: element.httpAddress, method: element.actionLink, id: element._id }
               findObj.eventActionconfig = element;
             } else {
@@ -474,8 +474,8 @@ export class PagesComponent implements OnInit {
     let tableData = this.findObjectByTypeBase(this.resData[0], "gridList");
     if (tableData) {
       let findClickApi = tableData?.appConfigurableEvent?.filter((item: any) =>
-      (item.actionLink === 'get' && (item.actionType === 'api' || item.actionType === 'query'))
-        
+        (item.actionLink === 'get' && (item.actionType === 'api' || item.actionType === 'query'))
+
       );
 
       if (findClickApi) {
@@ -1502,7 +1502,8 @@ export class PagesComponent implements OnInit {
     let checkFirstTime = true;
     let tabsAndStepper: any = [];
     if (api)
-      this.requestSubscription = this.applicationService.getNestCommonAPI(api).subscribe(res => {
+      this.requestSubscription = this.applicationService.getNestCommonAPI(api).subscribe({
+    next: (res) => {
         if (res.data.length > 0) {
           for (let index = 0; index < res.data.length; index++) {
             const item = res.data[index];
@@ -1603,7 +1604,12 @@ export class PagesComponent implements OnInit {
           }
           this.updateNodes();
         }
-      })
+      },
+      error: (err) => {
+        console.error(err);
+        this.toastr.error("An error occurred", { nzDuration: 3000 });
+      }
+    })
   }
   findObjectByType(data: any, type: any, key?: any) {
     if (data.type === type && data.key === key) {
