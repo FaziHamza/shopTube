@@ -55,6 +55,7 @@ export class ConfigurableSelectDirective implements OnInit, OnDestroy {
 
 
   private loadOptions(): void {
+    debugger
     if (this.loadAction) {
       if (this.loadAction && Object.keys(this.loadAction).length != 0) {
         this.executeAction(this.loadAction)

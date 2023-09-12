@@ -63,7 +63,8 @@ export class ApplicationService {
     let apiUrl = url.includes('http') ? url : this.nestUrl + url;
 
     if (method === 'get' && parentId !== undefined) {
-      apiUrl += `/${parentId}`;
+      // Assuming apiUrl already has a base URL
+      apiUrl += `/'${parentId}'`;
     }
 
     switch (method) {

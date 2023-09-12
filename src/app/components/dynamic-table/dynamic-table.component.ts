@@ -63,6 +63,7 @@ export class DynamicTableComponent implements OnInit {
     private dataService: DataService,
     private employeeService: EmployeeService, private toastr: NzMessageService, private cdr: ChangeDetectorRef,
     public dataSharedService: DataSharedService,
+    private applicationServices: ApplicationService,
   ) {
     this.processData = this.processData.bind(this);
   }
@@ -1051,41 +1052,43 @@ export class DynamicTableComponent implements OnInit {
     // this.tableData[rowIndex].defaultValue = value.type;
     // Perform any additional updates to 'listOfData' if needed
   }
-  checkTypeData(item: any) {
+  checkTypeData(item: any, header: any) {
     debugger
-    this.showChild = false;
-    if (this.data?.openComponent == 'drawer') {
-      const drawer = this.findObjectByTypeBase(this.data, "drawer");
-      drawer['visible'] = true;
-      if (drawer?.eventActionconfig) {
-        let newData: any = JSON.parse(JSON.stringify(item));
-        const dataTitle = this.data.title ? this.data.title + '.' : '';
-        newData['parentid'] = newData.id;
-        const userData = JSON.parse(localStorage.getItem('user')!);
-        newData.id = '';
-        newData['organizationid'] = JSON.parse(localStorage.getItem('organizationId')!) || '';
-        newData['applicationid'] = JSON.parse(localStorage.getItem('applicationId')!) || '';
-        newData['createdby'] = userData.username;
-        // newData.datetime = new Date();
+    if (header?.callApi != '' && header?.callApi != null) {
+      this.showChild = false;
+      if (this.data?.openComponent == 'drawer') {
+        const drawer = this.findObjectByTypeBase(this.data, "drawer");
+        drawer['visible'] = true;
+        if (drawer?.eventActionconfig) {
+          let newData: any = JSON.parse(JSON.stringify(item));
+          const dataTitle = this.data.title ? this.data.title + '.' : '';
+          newData['parentid'] = newData.id;
+          const userData = JSON.parse(localStorage.getItem('user')!);
+          newData.id = '';
+          newData['organizationid'] = JSON.parse(localStorage.getItem('organizationId')!) || '';
+          newData['applicationid'] = JSON.parse(localStorage.getItem('applicationId')!) || '';
+          newData['createdby'] = userData.username;
+          // newData.datetime = new Date();
 
-        for (const key in newData) {
-          if (Object.prototype.hasOwnProperty.call(newData, key)) {
-            if (newData[key] == null) {
-              this.formlyModel[dataTitle + key] = '';
-            } else {
-              this.formlyModel[dataTitle + key] = newData[key];
-            }
-            for (const obj of [this.formlyModel, /* other objects here */]) {
-              if (Object.prototype.hasOwnProperty.call(obj, key)) {
-                obj[key] = newData[key];
+          for (const key in newData) {
+            if (Object.prototype.hasOwnProperty.call(newData, key)) {
+              if (newData[key] == null) {
+                this.formlyModel[dataTitle + key] = '';
+              } else {
+                this.formlyModel[dataTitle + key] = newData[key];
+              }
+              for (const obj of [this.formlyModel, /* other objects here */]) {
+                if (Object.prototype.hasOwnProperty.call(obj, key)) {
+                  obj[key] = newData[key];
+                }
               }
             }
           }
+          drawer.eventActionconfig['parentId'] = item.id;
         }
-        drawer.eventActionconfig['parentId'] = item.id;
+        this.data = JSON.parse(JSON.stringify(this.data));
+        this.showChild = true;
       }
-      this.data = JSON.parse(JSON.stringify(this.data));
-      this.showChild = true;
     }
   }
   transform(dateRange: string): any {
@@ -1533,7 +1536,13 @@ export class DynamicTableComponent implements OnInit {
       }
       this.data.pageIndex = 1;
       this.data.totalCount = res.data.length;
-      // tableData.serverApi = apiUrl;
+      if (tableData.eventActionconfig) {
+        if (tableData.eventActionconfig.actionType == 'query') {
+          tableData.serverApi = `knex-query/getAction/${tableData.eventActionconfig._id}`;
+        } else if (tableData.eventActionconfig.actionType == 'api') {
+          tableData.serverApi = tableData.eventActionconfig.httpAddress;
+        }
+      }
       this.data.targetId = '';
       this.displayData = this.tableData.length > this.data.end ? this.tableData.slice(0, this.data.end) : this.tableData;
       if (this.tableHeaders.length === 0) {
@@ -1574,14 +1583,14 @@ export class DynamicTableComponent implements OnInit {
               updateTableData = this.groupedFunc(elem, 'add', findData);
             }
           })
-          // this.tableData = updateTableData;
-          // this.displayData = this.tableData.length > this.data.end ? this.tableData.slice(0, this.data.end) : this.tableData;
-          // tableData.tableHeaders.unshift({
-          //   name: 'expand',
-          //   key: 'expand',
-          //   title: 'Expand',
-          // });
-          // this.data.totalCount = this.tableData
+          this.tableData = updateTableData;
+          this.displayData = this.tableData.length > this.data.end ? this.tableData.slice(0, this.data.end) : this.tableData;
+          tableData.tableHeaders.unshift({
+            name: 'expand',
+            key: 'expand',
+            title: 'Expand',
+          });
+          this.data.totalCount = this.tableData
         }
         else {
           this.tableHeaders = this.tableHeaders.filter((head: any) => head.key != 'expand')
@@ -1594,5 +1603,68 @@ export class DynamicTableComponent implements OnInit {
     }
     // this.loadTableData();
   }
+  isAllowEdit(header: any): boolean {
+    let check = header.some((head: any) => head?.editMode != '' && head?.editMode != null);
+    return check;
+  }
+  saveEdit(dataModel: any) {
+    let findClickApi = this.data.appConfigurableEvent.filter((item: any) => item.actionLink === 'put' && (item.actionType == 'api' || item.actionType == 'query'));
+    if (dataModel) {
+      let newData = JSON.parse(JSON.stringify(dataModel));
+      for (const key in newData) {
+        if (Object.prototype.hasOwnProperty.call(newData, key)) {
+          const dataTitle = this.data.title ? this.data.title + '.' : '';
+          if (newData[key] == null) {
+            this.formlyModel[dataTitle + key] = '';
+          } else {
+            this.formlyModel[dataTitle + key] = newData[key];
+          }
+        }
+      }
+      // this.form.get(dynamicPropertyName);
+      const model = {
+        screenId: this.screenName,
+        postType: 'put',
+        modalData: newData
+      };
+      const removePrefix = (data: Record<string, any>): Record<string, any> => {
+        const newData: Record<string, any> = {};
+        for (const key in data) {
+          const lastDotIndex = key.lastIndexOf('.');
+          const newKey = lastDotIndex !== -1 ? key.substring(lastDotIndex + 1) : key;
+          newData[newKey] = data[key];
+        }
+        return newData;
+      };
 
+      const result = {
+        ...model,
+        modalData: removePrefix(model.modalData)
+      };
+      console.log(result);
+      // this.saveLoader = true;
+      let url = '';
+      if (findClickApi[0].actionType == 'api') {
+        url = findClickApi[0]?.httpAddress
+      } else if (findClickApi[0].actionType == 'query') {
+        url = `knex-query/executeQuery/${findClickApi[0]._id}`;
+      }
+      if (url) {
+        this.applicationServices.addNestCommonAPI(url, result).subscribe({
+          next: (res) => {
+            this.toastr.success("Update Successfully", { nzDuration: 3000 });
+
+            this.form.patchValue(this.formlyModel);
+            // this.getFromQueryOnlyTable(data);
+          },
+          error: (err) => {
+            console.error(err);
+            this.toastr.error("An error occurred", { nzDuration: 3000 });
+            this.saveLoader = false;
+          }
+        });
+      }
+
+    }
+  }
 }

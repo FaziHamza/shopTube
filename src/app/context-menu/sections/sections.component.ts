@@ -412,9 +412,9 @@ export class SectionsComponent implements OnInit {
                   const parts = url.split('/'); // Split the URL by '/'
                   const searchId = parts[parts.length - 1]; // Get the last part of the URL
 
-                  const foundObject = findClickApi.find((item: any) => item.id === searchId);
+                  const foundObject = findClickApi.find((item: any) => item._id === searchId);
                   if (foundObject) {
-                    if (foundObject?.url.includes('market-place')) {
+                    if (foundObject?.httpAddress.includes('market-place')) {
                       res.data = res.data.map((item: any) => ({
                         id: item._id, // Rename _id to id
                         name: item.name,
@@ -448,7 +448,11 @@ export class SectionsComponent implements OnInit {
                   tableData.targetId = '';
                   tableData.displayData = tableData.tableData.length > tableData.end ? tableData.tableData.slice(0, tableData.end) : tableData.tableData;
                   // pagniation work end
-                  if (tableData.tableHeaders.length == 0) {
+                  if(tableData?.tableHeaders){
+                    tableData.tableHeaders = obj;
+                    tableData['tableKey'] = tableKey
+                  }
+                  if (tableData?.tableHeaders.length == 0) {
                     tableData.tableHeaders = obj;
                     tableData['tableKey'] = tableKey
                   }

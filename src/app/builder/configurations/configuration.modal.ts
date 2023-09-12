@@ -11382,6 +11382,24 @@ export class formFeildData {
               },
               {
                 className: "ml-2",
+                key: 'editMode',
+                type: 'checkbox',
+                wrappers: ["formly-vertical-theme-wrapper"],
+                props: {
+                  label: 'Edit Mode'
+                }
+              },
+              {
+                className: "ml-2",
+                key: 'callApi',
+                type: 'checkbox',
+                wrappers: ["formly-vertical-theme-wrapper"],
+                props: {
+                  label: 'Call Api'
+                }
+              },
+              {
+                className: "ml-2",
                 key: 'sum',
                 type: 'checkbox',
                 wrappers: ["formly-vertical-theme-wrapper"],

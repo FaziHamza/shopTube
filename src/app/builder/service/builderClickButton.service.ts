@@ -20,6 +20,8 @@ export class BuilderClickButtonService {
           key: obj.key,
           show: obj.show,
           dataType: obj.dataType,
+          editMode: obj.editMode ? obj.editMode : '',
+          callApi: obj.callApi ? obj.callApi : '',
           sum: obj.sum,
           isAllowGrouping: obj?.isAllowGrouping,
           headerButton: '',

@@ -26,10 +26,11 @@
           <th *ngIf="data.showCheckbox" [(nzChecked)]="allChecked" [nzIndeterminate]="indeterminate"
             (nzCheckedChange)="checkAll($event)"></th>
           <ng-container *ngFor="let header of tableHeaders">
-            <th  *ngIf="header.name !== 'defaultValue' && (header?.show === 'yes' || header?.show === undefined || header?.show === '')"
-            [nzSortOrder]="header?.sortOrder" [nzSortFn]="header?.sortFn"
-              [nzSortDirections]="header?.sortDirections" [nzFilterMultiple]="header?.filterMultiple"
-              [nzFilters]="header?.listOfFilter" [nzFilterFn]="header?.filterFn"
+            <th
+              *ngIf="header.name !== 'defaultValue' && (header?.show === 'yes' || header?.show === undefined || header?.show === '')"
+              [nzSortOrder]="header?.sortOrder" [nzSortFn]="header?.sortFn" [nzSortDirections]="header?.sortDirections"
+              [nzFilterMultiple]="header?.filterMultiple" [nzFilters]="header?.listOfFilter"
+              [nzFilterFn]="header?.filterFn"
               (click)="header?.columnClickApi ? onClickColumn(header.columnClickApi,header): ''">
               {{header['title'] ? header['title'] : header['name']| translate}}<span>
                 <a nz-dropdown [nzDropdownMenu]="menu" *ngIf="header?.isAllowGrouping">
@@ -51,6 +52,7 @@
               </span> <span *ngIf="header?.gridHeaderSum">({{header?.gridHeaderSum}})</span>
             </th>
           </ng-container>
+          <th *ngIf="isAllowEdit(tableHeaders)">Edit</th>
           <th *ngIf="tableHeaders.length > 0 && (data?.isDeleteAllow || data?.isDeleteAllow == undefined)">Delete</th>
         </tr>
       </thead>
@@ -67,17 +69,19 @@
               </td>
               <td *ngIf="data.showCheckbox" [(nzChecked)]="item.checked" (nzCheckedChange)="refreshStatus()"></td>
               <ng-container *ngFor="let header of data['tableKey']; let index = index">
-                <td (click)="checkTypeData(item)" (click)="startEdit(item.id)" [nzEllipsis]="true" class="5" *ngIf="tableHeaders[index]?.dataType !='objectType' && header.name != 'headerButton' && header.name != 'footerButton' && header.name != 'expandable' && header.name != 'checked'
+                <td (click)="checkTypeData(item , tableHeaders[index])" (click)="startEdit(item.id)" [nzEllipsis]="true"
+                  class="5" *ngIf="tableHeaders[index]?.dataType !='objectType' && header.name != 'headerButton' && header.name != 'footerButton' && header.name != 'expandable' && header.name != 'checked'
                 && header.name != 'expand' && header.name !='children' && header.name != 'defaultValue' ">
                   <div class="1"
                     *ngIf="(tableHeaders[index]?.dataType !='select' || !configurationTable) && tableHeaders[index]?.dataType !='image-upload' && !isMyDataArray(item[header.name]
                 )
                    && tableHeaders[index]?.subDataType != 'datetime-local' && tableHeaders[index]?.dataType != 'rangePicker' ">
-                    <div class="editable-cell" [hidden]="editId === item.id && configurationTable">
+                    <div class="editable-cell"
+                      [hidden]="editId === item.id && (configurationTable || tableHeaders[index]?.editMode == 'yes')">
                       {{item[header.name] | translate}}
                     </div>
-                    <input *ngIf="configurationTable" [hidden]="editId !== item.id" type="text" nz-input
-                      [(ngModel)]="item[header.name]" />
+                    <input *ngIf="configurationTable || tableHeaders[index]?.editMode == 'yes'"
+                      [hidden]="editId !== item.id" type="text" nz-input [(ngModel)]="item[header.name]" />
                   </div>
                   <div class="2"
                     *ngIf="tableHeaders[index]?.dataType =='select' && configurationTable || isMyDataArray(item[header.name]) ">
@@ -128,12 +132,15 @@
                   </button>
                 </td>
               </ng-container>
-
+              <td *ngIf="isAllowEdit(tableHeaders)" (click)="saveEdit(item)">
+                <i class="fa-regular fa-save text-blue-500"></i>
+              </td>
               <td *ngIf="data?.isDeleteAllow || data?.isDeleteAllow == undefined">
                 <a nz-popconfirm nzPopconfirmTitle="Sure to delete?" (nzOnConfirm)="deleteRow(item)">
                   <i class="fa-regular fa-trash text-red-500"></i>
                 </a>
               </td>
+
             </tr>
             <tr *ngIf="item.expand != undefined" [nzExpand]="item.expand">
               <ng-container *ngIf="item?.children && item.expand">
