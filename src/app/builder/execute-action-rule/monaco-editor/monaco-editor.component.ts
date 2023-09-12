@@ -30,7 +30,7 @@ export class MonacoEditorComponent implements OnInit, AfterViewInit {
   }
   actionResult: any;
   ngOnInit() {
-    this.getActionRule();
+    // this.getActionRule();
   }
   ngAfterViewInit(): void {
     this.IsShowConfig = true;
@@ -39,38 +39,16 @@ export class MonacoEditorComponent implements OnInit, AfterViewInit {
     // Delay the execution of initializeMonacoEditor by 1 second
     setTimeout(() => {
       if (this.IsShowConfig) {
-        // this.initializeMonacoEditor();
+        this.initializeMonacoEditor();
 
       }
     }, 1000); // 1000 milliseconds (1 second)
   }
 
 
-  actionRuleId = '';
-  getActionRule() {
-    this.requestSubscription = this.applicationService.getNestCommonAPI('cp/ActionRule').subscribe({
-      next: (res: any) => {
-        if (res.isSuccess) {
-          this.actionRule = res.data?.[0]?.rule || '';
-          this.actionRuleId = res.data?.[0]?._id || '';
-          if (!this.isEditorInitialized) {
-            this.initializeMonacoEditor();
-          }
-        } else {
-          this.initializeMonacoEditor();
-          this.toastr.error(res.message, { nzDuration: 3000 });
-        }
-      },
-      error: (err) => {
-        this.initializeMonacoEditor();
-        console.error(err);
-        this.toastr.error("An error occurred", { nzDuration: 3000 });
-      }
 
-    });
-  }
 
-  actionRule: any = '';
+  @Input() actionRule: any = '';
   validationMessage: any[] = [];
   @Input() codeEditorRuleInstance!: monaco.editor.IStandaloneCodeEditor;
   @ViewChild('editorRuleContainer', { static: false }) private _editorRuleContainer: ElementRef;
@@ -358,33 +336,33 @@ export class MonacoEditorComponent implements OnInit, AfterViewInit {
 
 
 
-  save() {
-    const ActionRule = {
-      ActionRule: {
-        rule: this.codeEditorRuleInstance.getValue(),
-        screenBuilderId: this.screeenBuilderId,
-        applicationId: this.applicationId
-      }
-    };
-    const addOrUpdateActionRule$ = !this.actionRuleId
-      ? this.applicationService.addNestCommonAPI('cp', ActionRule)
-      : this.applicationService.updateNestCommonAPI(
-        'cp/ActionRule',
-        this.actionRuleId,
-        ActionRule
-      );
-    addOrUpdateActionRule$.subscribe((res: any) => {
-      try {
-        if (res.isSuccess) {
-          this.getActionRule();
-          this.toastr.success(`Action Rule : ${res.message}`, { nzDuration: 2000 });
-        } else {
-          this.toastr.error(`Action Rule : ${res.message}`, { nzDuration: 2000 });
-        }
-      } catch (error) {
-        console.error("An error occurred:", error);
-      }
-    });
-  }
+  // save() {
+  //   const ActionRule = {
+  //     ActionRule: {
+  //       rule: this.codeEditorRuleInstance.getValue(),
+  //       screenBuilderId: this.screeenBuilderId,
+  //       applicationId: this.applicationId
+  //     }
+  //   };
+  //   const addOrUpdateActionRule$ = !this.actionRuleId
+  //     ? this.applicationService.addNestCommonAPI('cp', ActionRule)
+  //     : this.applicationService.updateNestCommonAPI(
+  //       'cp/ActionRule',
+  //       this.actionRuleId,
+  //       ActionRule
+  //     );
+  //   addOrUpdateActionRule$.subscribe((res: any) => {
+  //     try {
+  //       if (res.isSuccess) {
+  //         // this.getActionRule();
+  //         this.toastr.success(`Action Rule : ${res.message}`, { nzDuration: 2000 });
+  //       } else {
+  //         this.toastr.error(`Action Rule : ${res.message}`, { nzDuration: 2000 });
+  //       }
+  //     } catch (error) {
+  //       console.error("An error occurred:", error);
+  //     }
+  //   });
+  // }
 
 }

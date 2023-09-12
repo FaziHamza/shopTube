@@ -34,6 +34,7 @@ export class ExecuteActionRuleComponent implements OnInit, AfterViewInit {
     debugger
     this.getActionData();
     this.extractNodes(this.nodes, this.nodeList);
+    // this.getActionRule();
   }
 
   ngAfterViewInit(): void {
@@ -41,8 +42,27 @@ export class ExecuteActionRuleComponent implements OnInit, AfterViewInit {
   }
   columnsFields: any = [];
   operators = ['==', '!=', '>', '<', '>=', '<='];
+  actionRule: any = '';
+  actionRuleId = '';
   actionList: any = '';
+  getActionRule() {
+    this.requestSubscription = this.applicationService.getNestCommonAPI('cp/ActionRule').subscribe({
+      next: (res: any) => {
+        if (res.isSuccess) {
+          this.actionRule = res.data?.[0]?.rule || '';
+          this.actionRuleId = res.data?.[0]?._id || '';
+        
+        } else {
+          this.toastr.error(res.message, { nzDuration: 3000 });
+        }
+      },
+      error: (err) => {
+        console.error(err);
+        this.toastr.error("An error occurred", { nzDuration: 3000 });
+      }
 
+    });
+  }
   getActionData() {
     const selectedScreen = this.screens.filter((a: any) => a.name == this.screenName)
     if (selectedScreen[0].navigation != null && selectedScreen[0].navigation != undefined) { // selectedScreen[0].navigation
@@ -72,8 +92,10 @@ export class ExecuteActionRuleComponent implements OnInit, AfterViewInit {
             });
 
           }
+          this.getActionRule();
         },
         error: (err) => {
+          this.getActionRule();
           console.error(err);
           this.toastr.error("An error occurred", { nzDuration: 3000 });
         }

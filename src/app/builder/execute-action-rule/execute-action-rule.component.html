@@ -1,8 +1,7 @@
 <form [formGroup]="multiSelectForm">
   <div class="flex flex-wrap">
     <!-- Add a button to add a new multi-select -->
-    <button nz-button nzType="primary" class="!bg-green-500 hover:!bg-green-400" (click)="addMultiSelect()"> <i
-        class="fa-regular fa-plus mr-2"></i> Add</button>
+ 
   </div>
   <div formArrayName="multiSelects">
     <div *ngFor="let multiSelect of multiSelectArray.controls; let i = index" class="flex flex-wrap mt-4 border">
@@ -22,7 +21,7 @@
         <div class="pb-2">
           <st-monaco-editor [selectedNode]="selectedNode" [screenName]="screenName" [formlyModel]="this.formlyModel"
             [applicationId]="applicationId" [nodes]="nodes" [screens]="screens" [jsonSchema]="jsonSchema"
-            [screeenBuilderId]="screeenBuilderId" [formControlName]="i"
+            [screeenBuilderId]="screeenBuilderId" [formControlName]="i" [actionRule]="actionRule"
             (contentChange)="onEditorContentChange($event, i)"
             [codeEditorRuleInstance]="multiSelect.value.monacoEditorControl"></st-monaco-editor>
         </div>
@@ -37,8 +36,11 @@
 
   <div class="flex flex-wrap mt-4">
     <div class="w-full">
+      <button nz-button nzType="primary" class="!bg-green-500 hover:!bg-green-400" (click)="addMultiSelect()"> <i
+        class="fa-regular fa-plus mr-2"></i> Add</button>
       <button nz-button nzType="primary" class="my-2 btn" title="Save" (click)="saveMultiSelects()"
         ngbTooltip="Save Table"> <i class="fa-regular fa-floppy-disk mr-2"></i> Save </button>
+     
     </div>
   </div>
 </form>
