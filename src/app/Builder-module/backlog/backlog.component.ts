@@ -28,12 +28,12 @@ export class BacklogComponent implements OnInit {
   }
 
   getTasks() {
-    this.requestSubscription = this.applicationService.getNestCommonAPI('cp/UserComment').subscribe({
+    this.requestSubscription =  this.applicationService.callApi('knex-query/getAction/65007a2dc5215fa775985f98', 'get', '', '', '').subscribe({
       next: (res: any) => {
         debugger
         if (res.isSuccess && res.data?.length > 0) {
 
-          this.tasks = res.data.filter((a: any) => a.parentId == '' || a.parentId == undefined);
+          this.tasks = res.data
         }
       },
       error: (err) => {

@@ -15,8 +15,8 @@
             </thead>
             <tbody>
                 <tr *ngFor="let data of basicTable.data">
-                    <td>{{ data.screenId }}</td>
-                    <td>{{ data.dateTime | date :
+                    <td>{{ data.screenid }}</td>
+                    <td>{{ data.datetime | date :
                         "dd/MMM/yyyy hh:mm:ss"}}</td>
                     <td *ngIf="editId != data._id">{{ data.message }}</td>
                     <td *ngIf="editId != data._id"> <nz-tag *ngIf="data['status'] ; else openStatus"
@@ -36,8 +36,8 @@
                         </nz-select></td>
 
                     <td>{{ data.type }}</td>
-                    <td>{{ data.componentId }}</td>
-                    <td>{{ data.createdBy }}</td>
+                    <td>{{ data.componentid }}</td>
+                    <td>{{ data.createdby }}</td>
                     <td>
                         <i *ngIf="editId != data._id" class=" text-xl fas fa-edit text-green-500"
                         (click)="startEdit(data._id,data)"></i>
