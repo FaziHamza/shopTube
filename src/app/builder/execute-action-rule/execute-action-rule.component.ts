@@ -42,33 +42,15 @@ export class ExecuteActionRuleComponent implements OnInit, AfterViewInit {
   }
   columnsFields: any = [];
   operators = ['==', '!=', '>', '<', '>=', '<='];
-  actionRule: any = '';
-  actionRuleId = '';
   actionList: any = '';
-  getActionRule() {
-    this.requestSubscription = this.applicationService.getNestCommonAPI('cp/ActionRule').subscribe({
-      next: (res: any) => {
-        if (res.isSuccess) {
-          this.actionRule = res.data?.[0]?.rule || '';
-          this.actionRuleId = res.data?.[0]?._id || '';
-        
-        } else {
-          this.toastr.error(res.message, { nzDuration: 3000 });
-        }
-      },
-      error: (err) => {
-        console.error(err);
-        this.toastr.error("An error occurred", { nzDuration: 3000 });
-      }
 
-    });
-  }
   getActionData() {
     const selectedScreen = this.screens.filter((a: any) => a.name == this.screenName)
     if (selectedScreen[0].navigation != null && selectedScreen[0].navigation != undefined) { // selectedScreen[0].navigation
       this.requestSubscription = this.applicationService.getNestCommonAPIById("cp/actionRulebyscreenname", selectedScreen[0]._id).subscribe({
         next: (res: any) => {
           if (res.data && res.data.length > 0) {
+            debugger
             // const getRes = res.data.map((x: any) => { return { name: x.quryType, query: x.quries } });
             // const schema = res.data.map((x: any) => { return x.quryType });
             // this.actionList = JSON.stringify(getRes);
@@ -77,10 +59,12 @@ export class ExecuteActionRuleComponent implements OnInit, AfterViewInit {
             });
             res.data.forEach((element: any) => {
               const schema: any = JSON.stringify(element.rule)
-              const newItem = this.fb.group({
-                selectControl: [element.componentFrom], // Initialize this with your select value
-                monacoEditorControl: [schema], // Initialize this with your Monaco editor value
+              let newItem = this.fb.group({
+                componentFrom: [element.componentFrom], // Initialize this with your select value
+                action: [element.action], // Initialize this with your select value
+                monacoEditorControl: [element.rule], // Initialize this with your Monaco editor value
               });
+              // newItem.value.monacoEditorControl?.setValue(schema);
               this.multiSelectArray.push(newItem);
               // Update the enum values in jsonSchema
               this.jsonSchema.items.properties.if.properties.actionRule.enum = schema;
@@ -92,10 +76,10 @@ export class ExecuteActionRuleComponent implements OnInit, AfterViewInit {
             });
 
           }
-          this.getActionRule();
+          // this.getActionRule();
         },
         error: (err) => {
-          this.getActionRule();
+          // this.getActionRule();
           console.error(err);
           this.toastr.error("An error occurred", { nzDuration: 3000 });
         }
@@ -269,9 +253,9 @@ export class ExecuteActionRuleComponent implements OnInit, AfterViewInit {
     return this.multiSelectForm.get('multiSelects') as FormArray;
   }
   addMultiSelect() {
-    debugger
     const newItem = this.fb.group({
-      selectControl: [''], // Initialize this with your select value
+      action: [''], // Initialize this with your select value
+      componentFrom: [''], // Initialize this with your select value
       monacoEditorControl: [this.codeEditorRuleInstance], // Initialize this with your Monaco editor value
     });
     this.multiSelectArray.push(newItem);
@@ -295,7 +279,8 @@ export class ExecuteActionRuleComponent implements OnInit, AfterViewInit {
 
         let actionData: any = {
           "screenBuilderId": mainModuleId.length > 0 ? mainModuleId[0]._id : "",
-          "componentFrom": element.selectControl,
+          "componentFrom": element.componentFrom,
+          "action": element.action,
           "rule": element.monacoEditorControl,
           "applicationId": this.applicationId,
         }

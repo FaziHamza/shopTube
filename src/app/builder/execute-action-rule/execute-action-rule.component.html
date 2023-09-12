@@ -24,7 +24,7 @@
         <div class="!p-2 !pr-0 !w-full !h-fit !flex !items-start">
           <st-monaco-editor [selectedNode]="selectedNode" [screenName]="screenName" [formlyModel]="this.formlyModel"
             [applicationId]="applicationId" [nodes]="nodes" [screens]="screens" [jsonSchema]="jsonSchema"
-            [screeenBuilderId]="screeenBuilderId" [formControlName]="i" [actionRule]="actionRule"
+            [screeenBuilderId]="screeenBuilderId" [formControlName]="i" [actionRule]="multiSelect.value.monacoEditorControl"
             (contentChange)="onEditorContentChange($event, i)"
             [codeEditorRuleInstance]="multiSelect.value.monacoEditorControl" class="!w-[95%] !inline-block"></st-monaco-editor>
             <div class="!w-[5%] !inline-block " >

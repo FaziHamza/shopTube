@@ -214,7 +214,7 @@ export class MonacoEditorComponent implements OnInit, AfterViewInit {
     if (!this.isEditorInitialized) {
       if (this._editorRuleContainer) {
         // Try logging to see if the reference is available
-        console.log(this._editorRuleContainer?.nativeElement);
+        
       } else {
         console.log('editorRuleContainer is not available');
       }
