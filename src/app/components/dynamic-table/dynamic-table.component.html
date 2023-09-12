@@ -26,7 +26,8 @@
           <th *ngIf="data.showCheckbox" [(nzChecked)]="allChecked" [nzIndeterminate]="indeterminate"
             (nzCheckedChange)="checkAll($event)"></th>
           <ng-container *ngFor="let header of tableHeaders">
-            <th *ngIf="header.name != 'defaultValue'  " [nzSortOrder]="header?.sortOrder" [nzSortFn]="header?.sortFn"
+            <th  *ngIf="header.name !== 'defaultValue' && (header?.show === 'yes' || header?.show === undefined || header?.show === '')"
+            [nzSortOrder]="header?.sortOrder" [nzSortFn]="header?.sortFn"
               [nzSortDirections]="header?.sortDirections" [nzFilterMultiple]="header?.filterMultiple"
               [nzFilters]="header?.listOfFilter" [nzFilterFn]="header?.filterFn"
               (click)="header?.columnClickApi ? onClickColumn(header.columnClickApi,header): ''">

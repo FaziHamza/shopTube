@@ -512,6 +512,7 @@ export class ActionRuleComponent implements OnInit {
       })
     }
   }
+
   changePostgress(queryType: string, index: number) {
     const sqlType: any = this.ActionsForms.at(index).get('sqlType');
     if (sqlType == "postgress")
@@ -526,6 +527,7 @@ export class ActionRuleComponent implements OnInit {
         this.ActionsForms.at(index).patchValue({ confirmEmail: value });
       }
   }
+  
   getFromQuery() {
     let tableData = this.findObjectByTypeBase(this.nodes[0], "gridList");
     if (tableData) {
@@ -602,6 +604,7 @@ export class ActionRuleComponent implements OnInit {
       }
     }
   }
+  
   getPendingTableFileds() {
     this.requestSubscription = this.builderService.getPendingTableFields('knex-crud/getPending/table_schema/' + this.screeenBuilderId).subscribe({
       next: (res: any) => {

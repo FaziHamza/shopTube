@@ -1512,7 +1512,8 @@ export class PagesComponent implements OnInit {
     let checkFirstTime = true;
     let tabsAndStepper: any = [];
     if (api)
-      this.requestSubscription = this.applicationService.getNestCommonAPI(api).subscribe(res => {
+      this.requestSubscription = this.applicationService.getNestCommonAPI(api).subscribe({
+    next: (res) => {
         if (res.data.length > 0) {
           for (let index = 0; index < res.data.length; index++) {
             const item = res.data[index];
@@ -1613,7 +1614,12 @@ export class PagesComponent implements OnInit {
           }
           this.updateNodes();
         }
-      })
+      },
+      error: (err) => {
+        console.error(err);
+        this.toastr.error("An error occurred", { nzDuration: 3000 });
+      }
+    })
   }
   findObjectByType(data: any, type: any, key?: any) {
     if (data.type === type && data.key === key) {
