@@ -6276,7 +6276,7 @@ export class BuilderComponent implements OnInit {
                     }
                     tableData.pageIndex = 1;
                     tableData.totalCount = res.count;
-                    tableData.serverApi = `knex-query/${name}`;
+                    tableData.serverApi = url;
                     tableData.targetId = '';
                     tableData.displayData = tableData.tableData.length > tableData.end ? tableData.tableData.slice(0, tableData.end) : tableData.tableData;
                     // pagniation work end

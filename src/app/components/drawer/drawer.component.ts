@@ -84,13 +84,23 @@ export class DrawerComponent implements OnInit {
   }
   processData(data: any[]) {
     debugger
-    if (data.length > 0) {
-      this.showChild = true;
-      this.res = {};
-      this.res['data'] = [];
-      this.res.data = data;
-      this.checkDynamicSection();
-    } 
+    if (data) {
+      if (data.length > 0) {
+        this.showChild = true;
+        this.res = {};
+        this.res['data'] = [];
+        this.res.data = data;
+        this.checkDynamicSection();
+      }
+      else {
+        if (this.drawerData.children[0].type == 'timeline') {
+          this.drawerData.children[0].hideExpression = true;
+        }
+        this.showChild = true;
+        this.res = {};
+        this.res['data'] = [];
+      }
+    }
     else {
       if (this.drawerData.children[0].type == 'timeline') {
         this.drawerData.children[0].hideExpression = true;
@@ -405,7 +415,7 @@ export class DrawerComponent implements OnInit {
   checkDynamicSection() {
     if (this.drawerData && this.drawerData.children && this.drawerData.children.length > 0) {
       if (this.drawerData.children[0].type == 'timeline') {
-        this.drawerData.children[0].hideExpression =  false;
+        this.drawerData.children[0].hideExpression = false;
         const firstChild = this.drawerData.children[0].children[0];
         this.drawerData.children[0].children = [firstChild];
       }
