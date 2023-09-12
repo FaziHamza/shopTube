@@ -6927,3 +6927,13 @@ tr:hover {
   }
 }
 
+.execute-form{
+  .execute-form-select{
+    width: 250px !important;
+    .ant-select-selector{
+      height: 40px !important;
+      border-radius: 6px !important;
+    }
+  }
+  
+}
