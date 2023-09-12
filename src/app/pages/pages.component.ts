@@ -199,15 +199,7 @@ export class PagesComponent implements OnInit {
           this.isPageContextShow = true;
           // this.dataSharedService.urlModule.next({ aplication: '', module: '' });
           this.screenName = params["schema"];
-          this.applicationService.callApi('knex-query/getAction/65001460e9856e9578bcb63f', 'get', '', '', "'" + params["schema"] + "'").subscribe({
-            next: (res) => {
-              this.dataSharedService.screenCommentList = res;
-            },
-            error: (error: any) => {
-              console.error(error);
-              this.toastr.error("An error occurred", { nzDuration: 3000 });
-            }
-          })
+          
           this.getBuilderScreen(params);
 
           // this.requestSubscription = this.applicationService.getNestCommonAPI("cp/getuserCommentsByApp/UserComment/pages/" + params["schema"]).subscribe((res: any) => {
@@ -383,9 +375,20 @@ export class PagesComponent implements OnInit {
     // }
     // let commentsData = this.transformComments(this.dataSharedService.screenCommentList);
     // console.log(commentsData);
-    this.dataSharedService.screenCommentList.forEach(element => {
-      this.assignIssue(this.resData[0], element);
-    });
+    this.applicationService.callApi('knex-query/getAction/65001460e9856e9578bcb63f', 'get', '', '', "'" + res.data[0].navigation + "'").subscribe({
+      next: (res) => {
+        this.dataSharedService.screenCommentList = res;
+        this.dataSharedService.screenCommentList.forEach(element => {
+          this.assignIssue(this.resData[0], element);
+        });
+        console.log(res)
+      },
+      error: (error: any) => {
+        console.error(error);
+        this.toastr.error("An error occurred", { nzDuration: 3000 });
+      }
+    })
+  
   }
   saveData(data: any) {
     if (data.isSubmit) {
@@ -2060,7 +2063,7 @@ export class PagesComponent implements OnInit {
           if (node.formly.length > 0) {
             if (node.formly[0].fieldGroup) {
               if (node.formly[0].fieldGroup[0]) {
-                node.formly[0].fieldGroup[0].props['screenName'] = this.screenName;
+                node.formly[0].fieldGroup[0].props['screenname'] = this.screenName;
                 node.formly[0].fieldGroup[0].props['id'] = node.id;
                 if (assign && assign?.status) {
                   node.formly[0].fieldGroup[0].props['status'] = assign.status;
@@ -2072,10 +2075,10 @@ export class PagesComponent implements OnInit {
                 node.formly[0].fieldGroup[0].props['issueReport'].push(issue);
 
                 if (!node.formly[0].fieldGroup[0].props['issueUser']) {
-                  node.formly[0].fieldGroup[0].props['issueUser'] = [issue['createdBy']];
+                  node.formly[0].fieldGroup[0].props['issueUser'] = [issue['createdby']];
                 }
                 else {
-                  if (!node.formly[0].fieldGroup[0].props['issueUser'].includes(issue['createdBy'])) {
+                  if (!node.formly[0].fieldGroup[0].props['issueUser'].includes(issue['createdby'])) {
                     // Check if the user is not already in the array, then add them
                     node.formly[0].fieldGroup[0].props['issueUser'].push(issue.createdBy);
                   }
@@ -2098,11 +2101,11 @@ export class PagesComponent implements OnInit {
 
           node['issueReport'].push(issue);
 
-          if (!node['issueUser']) {
-            node['issueUser'] = [issue['createdBy']];
+          if (!node['issueReport']) {
+            node['issueReport'] = [issue['createdby']];
           }
           else {
-            if (!node['issueUser'].includes(issue['createdBy'])) {
+            if (!node['issueUser'].includes(issue['createdby'])) {
               // Check if the user is not already in the array, then add them
               node['issueUser'].push(issue.createdBy);
             }
