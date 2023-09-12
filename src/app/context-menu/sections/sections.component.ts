@@ -269,7 +269,7 @@ export class SectionsComponent implements OnInit {
           apiUrl = 'knex-query';
         }
         if (apiUrl) {
-          this.applicationServices.addBackendCommonApi(apiUrl, empData).subscribe({
+          this.applicationServices.addNestCommonAPI(apiUrl, empData).subscribe({
             next: (res) => {
               this.saveLoader = false;
               if (res[0]?.error)
@@ -433,7 +433,7 @@ export class SectionsComponent implements OnInit {
                   }
                   tableData.pageIndex = 1;
                   tableData.totalCount = res.count;
-                  tableData.serverApi = findClickApi.length > 0 ? findClickApi?.[0].url : `knex-query/${this.screenName}`;
+                  tableData.serverApi = url;
                   tableData.targetId = '';
                   tableData.displayData = tableData.tableData.length > tableData.end ? tableData.tableData.slice(0, tableData.end) : tableData.tableData;
                   // pagniation work end

@@ -60,14 +60,21 @@ export class ConfigurableSelectDirective implements OnInit, OnDestroy {
       if (this.loadAction && Object.keys(this.loadAction).length != 0) {
         this.executeAction(this.loadAction)
           .subscribe(response => {
-            this.data = response.data;
-            // Process this.data
-            if (this.processData) {
-              this.data = this.processData(this.data);
-            }
-            // this.viewContainer.clear();
+            if (response) {
+              this.data = response.data;
+              // Process this.data
+              if (this.processData) {
+                this.data = this.processData(this.data);
+              }
+              // this.viewContainer.clear();
 
-            // this.viewContainer.createEmbeddedView(this.templateRef, { $implicit: this.data });
+              // this.viewContainer.createEmbeddedView(this.templateRef, { $implicit: this.data });
+            } else {
+              this.data = [];
+              if (this.processData) {
+                this.data = this.processData(this.data);
+              }
+            }
           });
       }
     }
