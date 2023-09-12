@@ -77,9 +77,9 @@ export class DynamicTableComponent implements OnInit {
     this.getSaveGroupNodes();
     this.requestSubscription = this.dataSharedService.taskmanager.subscribe({
       next: (res) => {
-        if (this.data.eventActionconfig) {
+        if (this.data.eventActionconfig && res) {
           let url = 'knex-query/getAction/' + this.data.eventActionconfig._id;
-          this.saveLoader = true;
+          // this.saveLoader = true;
           this.applicationService.callApi(url, 'get', '', '', '').subscribe({
             next: (res) => {
               this.getFromQueryOnlyTable(this.data, res)
@@ -91,7 +91,6 @@ export class DynamicTableComponent implements OnInit {
             }
           })
         }
-
       },
       error: (err) => {
         console.error(err);
@@ -1402,7 +1401,10 @@ export class DynamicTableComponent implements OnInit {
 
     if (this.groupingArray.length === 0) {
       this.displayData = this.groupingData;
+      this.tableData = JSON.parse(JSON.stringify(this.groupingData));
+      this.groupingData = [];
       this.tableHeaders = this.tableHeaders.filter((a: any) => a.name !== 'expand');
+      this.pageChange(1);
     } else {
       // Reset displayData and tableHeaders before re-grouping
       this.displayData = [];

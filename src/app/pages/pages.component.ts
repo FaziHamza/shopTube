@@ -1513,113 +1513,113 @@ export class PagesComponent implements OnInit {
     let tabsAndStepper: any = [];
     if (api)
       this.requestSubscription = this.applicationService.getNestCommonAPI(api).subscribe({
-    next: (res) => {
-        if (res.data.length > 0) {
-          for (let index = 0; index < res.data.length; index++) {
-            const item = res.data[index];
-            let newNode: any = {};
-            if (selectedNode.type == 'tabs' || selectedNode.type == 'step' || selectedNode.type == 'div' || selectedNode.type == 'listWithComponentsChild' || selectedNode.type == 'cardWithComponents' || selectedNode.type === 'timelineChild') {
-              newNode = JSON.parse(JSON.stringify(selectedNode?.children));
-            }
-            else {
-              newNode = JSON.parse(JSON.stringify(selectedNode?.children?.[1]?.children?.[0]));
-            }
-            if (selectedNode.type == 'tabs' || selectedNode.type == 'step' || selectedNode.type == 'div' || selectedNode.type === 'timelineChild' || selectedNode.type == 'listWithComponentsChild' || selectedNode.type == 'cardWithComponents') {
-              if (selectedNode.tableBody) {
-                selectedNode.tableBody.forEach((element: any) => {
-                  if (newNode.length) {
-                    newNode.forEach((j: any) => {
-                      const keyObj = this.findObjectByKey(j, element.fileHeader);
-                      if (keyObj && element.defaultValue) {
-                        const updatedObj = this.dataReplace(keyObj, item, element);
-                        j = this.replaceObjectByKey(j, keyObj.key, updatedObj);
-                        if (selectedNode.type == 'tabs' || selectedNode.type == 'step' || selectedNode.type == 'listWithComponentsChild') {
-                          j['mapping'] = true;
+        next: (res) => {
+          if (res.data.length > 0) {
+            for (let index = 0; index < res.data.length; index++) {
+              const item = res.data[index];
+              let newNode: any = {};
+              if (selectedNode.type == 'tabs' || selectedNode.type == 'step' || selectedNode.type == 'div' || selectedNode.type == 'listWithComponentsChild' || selectedNode.type == 'cardWithComponents' || selectedNode.type === 'timelineChild') {
+                newNode = JSON.parse(JSON.stringify(selectedNode?.children));
+              }
+              else {
+                newNode = JSON.parse(JSON.stringify(selectedNode?.children?.[1]?.children?.[0]));
+              }
+              if (selectedNode.type == 'tabs' || selectedNode.type == 'step' || selectedNode.type == 'div' || selectedNode.type === 'timelineChild' || selectedNode.type == 'listWithComponentsChild' || selectedNode.type == 'cardWithComponents') {
+                if (selectedNode.tableBody) {
+                  selectedNode.tableBody.forEach((element: any) => {
+                    if (newNode.length) {
+                      newNode.forEach((j: any) => {
+                        const keyObj = this.findObjectByKey(j, element.fileHeader);
+                        if (keyObj && element.defaultValue) {
+                          const updatedObj = this.dataReplace(keyObj, item, element);
+                          j = this.replaceObjectByKey(j, keyObj.key, updatedObj);
+                          if (selectedNode.type == 'tabs' || selectedNode.type == 'step' || selectedNode.type == 'listWithComponentsChild') {
+                            j['mapping'] = true;
+                          }
                         }
+                      });
+                    }
+                  });
+                }
+              }
+              else if (selectedNode.type != 'tabs' && selectedNode.type != 'step' && selectedNode.type != 'div' && selectedNode.type != 'listWithComponentsChild' && selectedNode.type != 'listWithComponentsChild' && selectedNode.type != 'cardWithComponents') {
+                if (selectedNode.tableBody) {
+                  selectedNode.tableBody.forEach((element: any) => {
+                    const keyObj = this.findObjectByKey(newNode, element.fileHeader);
+                    if (keyObj && element.defaultValue) {
+                      const updatedObj = this.dataReplace(keyObj, item, element);
+                      newNode = this.replaceObjectByKey(newNode, keyObj.key, updatedObj);
+                    }
+                  });
+                }
+              }
+              if (checkFirstTime) {
+                if (selectedNode.type == 'tabs' || selectedNode.type == 'step' || selectedNode.type == 'div' || selectedNode.type == 'listWithComponentsChild' || selectedNode.type == 'cardWithComponents' || selectedNode.type == 'timelineChild') {
+                  selectedNode.children = newNode;
+                }
+                else if (selectedNode.children[1]) {
+                  selectedNode.children[1].children = [];
+                  selectedNode?.children[1]?.children?.push(newNode);
+                }
+                this.updateNodes();
+                checkFirstTime = false
+              }
+              else {
+                if (selectedNode.type == 'tabs' || selectedNode.type == 'step' || selectedNode.type == 'listWithComponentsChild') {
+                  if (newNode.length) {
+                    newNode.forEach((k: any) => {
+                      if (k.mapping) {
+                        tabsAndStepper.push(k);
                       }
                     });
                   }
-                });
-              }
-            }
-            else if (selectedNode.type != 'tabs' && selectedNode.type != 'step' && selectedNode.type != 'div' && selectedNode.type != 'listWithComponentsChild' && selectedNode.type != 'listWithComponentsChild' && selectedNode.type != 'cardWithComponents') {
-              if (selectedNode.tableBody) {
-                selectedNode.tableBody.forEach((element: any) => {
-                  const keyObj = this.findObjectByKey(newNode, element.fileHeader);
-                  if (keyObj && element.defaultValue) {
-                    const updatedObj = this.dataReplace(keyObj, item, element);
-                    newNode = this.replaceObjectByKey(newNode, keyObj.key, updatedObj);
-                  }
-                });
-              }
-            }
-            if (checkFirstTime) {
-              if (selectedNode.type == 'tabs' || selectedNode.type == 'step' || selectedNode.type == 'div' || selectedNode.type == 'listWithComponentsChild' || selectedNode.type == 'cardWithComponents' || selectedNode.type == 'timelineChild') {
-                selectedNode.children = newNode;
-              }
-              else if (selectedNode.children[1]) {
-                selectedNode.children[1].children = [];
-                selectedNode?.children[1]?.children?.push(newNode);
-              }
-              this.updateNodes();
-              checkFirstTime = false
-            }
-            else {
-              if (selectedNode.type == 'tabs' || selectedNode.type == 'step' || selectedNode.type == 'listWithComponentsChild') {
-                if (newNode.length) {
-                  newNode.forEach((k: any) => {
-                    if (k.mapping) {
-                      tabsAndStepper.push(k);
+                  if (index == res.data.length - 1) {
+                    if (tabsAndStepper.length) {
+                      tabsAndStepper.forEach((j: any) => {
+                        selectedNode?.children?.push(j);
+                      });
                     }
-                  });
-                }
-                if (index == res.data.length - 1) {
-                  if (tabsAndStepper.length) {
-                    tabsAndStepper.forEach((j: any) => {
-                      selectedNode?.children?.push(j);
+                    let unMapped = selectedNode?.children.filter((child: any) => child.mapping == undefined);
+                    let mapped = selectedNode?.children.filter((child: any) => child.mapping);
+                    selectedNode.children = mapped;
+                    if (unMapped.length) {
+                      unMapped.forEach((element: any) => {
+                        selectedNode.children.push(element);
+                      });
+                    }
+                    selectedNode.children.forEach((k: any) => {
+                      delete k.mapping
                     });
                   }
-                  let unMapped = selectedNode?.children.filter((child: any) => child.mapping == undefined);
-                  let mapped = selectedNode?.children.filter((child: any) => child.mapping);
-                  selectedNode.children = mapped;
-                  if (unMapped.length) {
-                    unMapped.forEach((element: any) => {
-                      selectedNode.children.push(element);
-                    });
-                  }
-                  selectedNode.children.forEach((k: any) => {
-                    delete k.mapping
-                  });
                 }
-              }
-              else if (selectedNode.type == 'div' || selectedNode.type == 'timelineChild' || selectedNode.type == 'cardWithComponents') {
-                let newSelected = JSON.parse(JSON.stringify(selectedNode));
-                newSelected.children = newNode;
-                let data = JSON.parse(JSON.stringify(newSelected));
-                tabsAndStepper.push(data);
-                if (index == res.data.length - 1) {
-                  let checkPushOrNot = true
-                  if ((selectedNode.type == 'div' || selectedNode.type == 'cardWithComponents' || selectedNode.type == 'timelineChild') && checkPushOrNot) {
-                    if (tabsAndStepper) {
-                      this.pushObjectsById(this.resData, tabsAndStepper, selectedNode.id);
-                      checkPushOrNot = false;
+                else if (selectedNode.type == 'div' || selectedNode.type == 'timelineChild' || selectedNode.type == 'cardWithComponents') {
+                  let newSelected = JSON.parse(JSON.stringify(selectedNode));
+                  newSelected.children = newNode;
+                  let data = JSON.parse(JSON.stringify(newSelected));
+                  tabsAndStepper.push(data);
+                  if (index == res.data.length - 1) {
+                    let checkPushOrNot = true
+                    if ((selectedNode.type == 'div' || selectedNode.type == 'cardWithComponents' || selectedNode.type == 'timelineChild') && checkPushOrNot) {
+                      if (tabsAndStepper) {
+                        this.pushObjectsById(this.resData, tabsAndStepper, selectedNode.id);
+                        checkPushOrNot = false;
+                      }
                     }
                   }
                 }
-              }
-              else if (selectedNode.children[1]) {
-                selectedNode?.children[1]?.children?.push(newNode);
+                else if (selectedNode.children[1]) {
+                  selectedNode?.children[1]?.children?.push(newNode);
+                }
               }
             }
+            this.updateNodes();
           }
-          this.updateNodes();
+        },
+        error: (err) => {
+          console.error(err);
+          this.toastr.error("An error occurred in mapping", { nzDuration: 3000 });
         }
-      },
-      error: (err) => {
-        console.error(err);
-        this.toastr.error("An error occurred", { nzDuration: 3000 });
-      }
-    })
+      })
   }
   findObjectByType(data: any, type: any, key?: any) {
     if (data.type === type && data.key === key) {
