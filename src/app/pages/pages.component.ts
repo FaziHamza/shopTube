@@ -54,7 +54,7 @@ export class PagesComponent implements OnInit {
   requestSubscription: Subscription;
   isPageContextShow = false;
   @Input() form: any = new FormGroup({});
-  actionListData: any[] = [];
+  actionRuleList: any[] = [];
   getTaskManagementIssues: any[] = [];
   isVisible: boolean = false;
   ngOnInit(): void {
@@ -111,7 +111,7 @@ export class PagesComponent implements OnInit {
         if (res) {
 
           for (let index = 0; index < res.length; index++) {
-            const element = res[index].actions?.[0]?.elementName;
+            const element = res[index].actions?.[0]?.componentFrom;
             let findObj = this.findObjectByKey(this.resData[0], element);
             if (findObj) {
               if (findObj?.formlyType === 'input') {
@@ -213,9 +213,9 @@ export class PagesComponent implements OnInit {
       });
     }
     else if (this.data.length > 0) {
-      this.requestSubscription = this.applicationService.getNestCommonAPIById("cp/actionbyscreenname", this.data[0].data[0].screenBuilderId).subscribe({
+      this.requestSubscription = this.applicationService.getNestCommonAPIById("cp/actionRulebyscreenname", this.data[0].data[0].screenBuilderId).subscribe({
         next: (actions: any) => {
-          this.actionListData = actions?.data;
+          this.actionRuleList = actions?.data;
           this.actionsBindWithPage(this.data[0]);
         },
         error: (err) => {
@@ -235,7 +235,7 @@ export class PagesComponent implements OnInit {
           if (res.data.length > 0) {
             this.requestSubscription = this.applicationService.getNestCommonAPIById("cp/actionbyscreenname", res.data[0].screenBuilderId).subscribe({
               next: (actions: any) => {
-                this.actionListData = actions?.data;
+                this.actionRuleList = actions?.data;
                 this.actionsBindWithPage(res);
               },
               error: (err) => {
@@ -265,14 +265,14 @@ export class PagesComponent implements OnInit {
     let nodesData = this.jsonParseWithObject(this.jsonStringifyWithObject(data));
     // this.resData = this.jsonParseWithObject(this.jsonStringifyWithObject(data));
     this.dataSharedService.checkContentForFixFooter = this.jsonParseWithObject(this.jsonStringifyWithObject(data));
-    if (this.actionListData.length > 0) {
+    if (this.actionRuleList.length > 0) {
       let getInputs = this.filterInputElements(nodesData);
       if (getInputs && getInputs.length > 0) {
         getInputs.forEach((node) => {
           const formlyConfig = node.formly?.[0]?.fieldGroup?.[0]?.key;
-          for (let index = 0; index < this.actionListData.length; index++) {
-            const element = this.actionListData[index];
-            if (formlyConfig == element.elementName && (element.actionType == 'api' || element.actionType === 'query')) {
+          for (let index = 0; index < this.actionRuleList.length; index++) {
+            const element = this.actionRuleList[index];
+            if (formlyConfig == element.componentFrom ) {
               const eventActionConfig = node?.formly?.[0]?.fieldGroup?.[0]?.props;
               if (eventActionConfig) {
                 if (index == 0) {
@@ -281,27 +281,14 @@ export class PagesComponent implements OnInit {
                 }
                 if (element.btnActionType == 'load') {
                   eventActionConfig['eventActionconfig'] = {};
-                  // let obj = { actionType: element.actionType, url: element.httpAddress, method: element.actionLink }
-                  eventActionConfig['eventActionconfig'] = element;
+                  eventActionConfig['eventActionconfig'] = element?._id;
                 }
                 else {
                   if (eventActionConfig['appConfigurableEvent']) {
-                    // let obj = {
-                    //   event: element.actionLink,
-                    //   actions: [
-                    //     // { actionType: element.actionType, url: element.httpAddress, method: element.actionLink, elementName: element.elementNameTo, submit: element.submit, id: element._id }
-                    //   ]
-                    // };
-                    eventActionConfig['appConfigurableEvent'].push(element);
+                    eventActionConfig['appConfigurableEvent'].push(element?._id);
                   } else {
                     eventActionConfig['appConfigurableEvent'] = [];
-                    // let obj = {
-                    //   event: element.actionLink,
-                    //   actions: [
-                    //     { actionType: element.actionType, url: element.httpAddress, method: element.actionLink, elementName: element.elementNameTo, submit: element.submit, id: element._id }
-                    //   ]
-                    // };
-                    eventActionConfig['appConfigurableEvent'].push(element);
+                    eventActionConfig['appConfigurableEvent'].push(element?._id);
                   }
                 }
               }
@@ -310,11 +297,11 @@ export class PagesComponent implements OnInit {
         });
       }
       let checkFirst: any = {};
-      for (let index = 0; index < this.actionListData.length; index++) {
-        const element = this.actionListData[index];
-        let findObj = this.findObjectByKey(nodesData[0], element.elementName);
+      for (let index = 0; index < this.actionRuleList.length; index++) {
+        const element = this.actionRuleList[index];
+        let findObj = this.findObjectByKey(nodesData[0], element.componentFrom);
         if (findObj) {
-          if (findObj?.key == element.elementName && (element.actionType == 'api' || element.actionType === 'query')) {
+          if (findObj?.key == element.componentFrom) {
             if (!checkFirst[findObj?.key]) {
               findObj['appConfigurableEvent'] = [];
               findObj['eventActionconfig'] = {};
@@ -322,25 +309,13 @@ export class PagesComponent implements OnInit {
             }
             if (element.btnActionType == 'load' ) {
               // let obj = { actionType: element.actionType, url: element.httpAddress, method: element.actionLink, id: element._id }
-              findObj.eventActionconfig = element;
+              findObj.eventActionconfig = element?.id;
             } else {
               if (findObj['appConfigurableEvent']) {
-                // let obj = {
-                //   event: element.actionLink,
-                //   actions: [
-                //     { actionType: element.actionType, url: element.httpAddress, method: element.actionLink, elementName: element.elementNameTo, submit: element.submit, id: element._id }
-                //   ]
-                // };
-                findObj['appConfigurableEvent'].push(element);
+                findObj['appConfigurableEvent'].push(element?.id);
               } else {
                 findObj['appConfigurableEvent'] = [];
-                // let obj = {
-                //   event: element.actionLink,
-                //   actions: [
-                //     { actionType: element.actionType, url: element.httpAddress, method: element.actionLink, elementName: element.elementNameTo, submit: element.submit, id: element._id }
-                //   ]
-                // };
-                findObj['appConfigurableEvent'].push(element);
+                findObj['appConfigurableEvent'].push(element?.id);
               }
             }
           }
@@ -1949,14 +1924,14 @@ export class PagesComponent implements OnInit {
                     });
                     for (let j = 0; j < filteredNodes.length; j++) {
                       const ele = filteredNodes[j];
-                      if (ele.formly[0].fieldGroup[0].key == getActions.actions?.[0]?.elementName) {
+                      if (ele.formly[0].fieldGroup[0].key == getActions.actions?.[0]?.componentFrom) {
                         ele.formly[0].fieldGroup[0].props.options = finalObj;
                       }
                     }
                   } else {
                     for (let j = 0; j < filteredNodes.length; j++) {
                       const ele = filteredNodes[j];
-                      if (ele.formly[0].fieldGroup[0].key == getActions.actions?.[0]?.elementName) {
+                      if (ele.formly[0].fieldGroup[0].key == getActions.actions?.[0]?.componentFrom) {
                         ele.formly[0].fieldGroup[0].props.options = [];
                       }
                     }

@@ -8,20 +8,20 @@
       <div [formGroupName]="i" class="w-full h-500">
         <div class="pb-1">
           <nz-select class="form-select" nzShowSearch nzAllowClear aria-label="Default Select Example"
-            formControlName="selectControl">
+            formControlName="action">
             <nz-option [nzLabel]="item.title" [nzValue]="item.key" *ngFor="let item of EventsList"></nz-option>
           </nz-select>
         </div>
         <div class="pb-1">
           <nz-select class="form-select" nzShowSearch nzAllowClear aria-label="Default Select Example"
-            formControlName="selectControl">
+            formControlName="componentFrom">
             <nz-option [nzLabel]="item.title" [nzValue]="item.key" *ngFor="let item of nodeList"></nz-option>
           </nz-select>
         </div>
         <div class="pb-2">
-          <st-monaco-editor [selectedNode]="selectedNode" [screenName]="screenName" [formlyModel]="this.formlyModel"
+          <st-monaco-editor [selectedNode]="selectedNode" [screenName]="screenName" [formlyModel]="this.formlyModel" formControlName="monacoEditorControl"
             [applicationId]="applicationId" [nodes]="nodes" [screens]="screens" [jsonSchema]="jsonSchema"
-            [screeenBuilderId]="screeenBuilderId" [formControlName]="i" [actionRule]="actionRule"
+            [screeenBuilderId]="screeenBuilderId" [formControlName]="i" [actionRule]="multiSelect.value.monacoEditorControl"
             (contentChange)="onEditorContentChange($event, i)"
             [codeEditorRuleInstance]="multiSelect.value.monacoEditorControl"></st-monaco-editor>
         </div>

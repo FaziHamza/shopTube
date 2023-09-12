@@ -383,7 +383,7 @@ export class SectionsComponent implements OnInit {
             url = `knex-query/getAction/${findClickApi[index]._id}`;
           }
         }
-        let tableData = this.findObjectByKey(this.sections, findClickApi?.[0].elementName);
+        let tableData = this.findObjectByKey(this.sections, findClickApi?.[0].componentFrom);
         if (tableData) {
           let pagination = '';
           if (tableData.serverSidePagination) {

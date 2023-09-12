@@ -440,12 +440,12 @@ export class BuilderComponent implements OnInit {
       }
     });
   }
-  actionListData: any[] = [];
+  actionRuleList: any[] = [];
   getActions() {
     this.saveLoader = true;
-    this.requestSubscription = this.applicationService.getNestCommonAPIById("cp/actionbyscreenname", this._id).subscribe({
+    this.requestSubscription = this.applicationService.getNestCommonAPIById("cp/actionRulebyscreenname", this._id).subscribe({
       next: (res: any) => {
-        this.actionListData = res?.data;
+        this.actionRuleList = res?.data;
         this.getBuilderScreen();
       },
       error: (err) => {
@@ -473,98 +473,61 @@ export class BuilderComponent implements OnInit {
 
             let nodesData = this.jsonParseWithObject(this.jsonStringifyWithObject(objScreenData));
 
-            if (this.actionListData.length > 0) {
+            if (this.actionRuleList.length > 0) {
               let getInputs = this.filterInputElements(nodesData);
               if (getInputs && getInputs.length > 0) {
                 getInputs.forEach((node) => {
                   const formlyConfig = node.formly?.[0]?.fieldGroup?.[0]?.key;
-                  for (let index = 0; index < this.actionListData.length; index++) {
-                    const element = this.actionListData[index];
-                    if (formlyConfig == element.elementName && (element.actionType == 'api' || element.actionType === 'query')) {
+                  for (let index = 0; index < this.actionRuleList.length; index++) {
+                    const element = this.actionRuleList[index];
+                    if (formlyConfig == element.componentFrom) {
                       const eventActionConfig = node?.formly?.[0]?.fieldGroup?.[0]?.props;
                       if (eventActionConfig) {
                         if (index == 0) {
                           eventActionConfig['appConfigurableEvent'] = [];
                           eventActionConfig['eventActionconfig'] = {};
                         }
-                        if (element.btnActionType == 'load') {
+                        if (element.action == 'load') {
                           eventActionConfig['eventActionconfig'] = {};
-                          // let obj = { actionType: element.actionType, url: element.httpAddress, method: element.actionLink, elementName: element.elementNameTo, id: element._id }
-                          eventActionConfig['eventActionconfig'] = element;
+                          eventActionConfig['eventActionconfig'] = element?._id;
                         }
                         else {
                           if (eventActionConfig['appConfigurableEvent']) {
-                            // let obj = {
-                            //   event: element.actionLink,
-                            //   actions: [
-                            //     { actionType: element.actionType, url: element.httpAddress, method: element.actionLink, elementName: element.elementNameTo, id: element._id }
-                            //   ]
-                            // };
-                            eventActionConfig['appConfigurableEvent'].push(element);
+                            eventActionConfig['appConfigurableEvent'].push(element?._id);
                           } else {
                             eventActionConfig['appConfigurableEvent'] = [];
-                            // let obj = {
-                            //   event: element.actionLink,
-                            //   actions: [
-                            //     { actionType: element.actionType, url: element.httpAddress, method: element.actionLink, elementName: element.elementNameTo, id: element._id }
-                            //   ]
-                            // };
-                            eventActionConfig['appConfigurableEvent'].push(element);
+                            eventActionConfig['appConfigurableEvent'].push(element?._id);
                           }
                         }
                       }
                     }
-                    // else {
-                    //   const eventActionConfig = node?.formly?.[0]?.fieldGroup?.[0]?.props;
-                    //   if (eventActionConfig) {
-                    //     eventActionConfig['appConfigurableEvent'] = [];
-                    //     eventActionConfig['eventActionconfig'] = {};
-                    //   }
-                    // }
                   }
                 });
               }
 
               let checkFirst: any = {};
-              for (let index = 0; index < this.actionListData.length; index++) {
-                const element = this.actionListData[index];
-                let findObj = this.findObjectByKey(nodesData[0], element.elementName);
+              for (let index = 0; index < this.actionRuleList.length; index++) {
+                const element = this.actionRuleList[index];
+                let findObj = this.findObjectByKey(nodesData[0], element.componentFrom);
                 if (findObj) {
-                  if (findObj?.key == element.elementName && (element.actionType == 'api' || element.actionType === 'query')) {
+                  if (findObj?.key == element.componentFrom) {
                     if (!checkFirst[findObj?.key]) {
                       findObj['appConfigurableEvent'] = [];
                       findObj['eventActionconfig'] = {};
                       checkFirst[findObj?.key] = "done";
                     }
-                    if (element.btnActionType == 'load' && !element.elementName.includes('gridlist')) {
-                      // let obj = { actionType: element.actionType, url: element.httpAddress, method: element.actionLink, elementName: element.elementNameTo, id: element._id }
-                      findObj.eventActionconfig = element;
+                    if (element.btnActionType == 'load') {
+                      findObj.eventActionconfig = element?._id;
                     }
                     else {
                       if (findObj['appConfigurableEvent']) {
-                        // let obj = {
-                        //   event: element.actionLink,
-                        //   actions: [
-                        //     { actionType: element.actionType, url: element.httpAddress, method: element.actionLink, elementName: element.elementNameTo, id: element._id }
-                        //   ]
-                        // };
-                        findObj['appConfigurableEvent'].push(element);
+                        findObj['appConfigurableEvent'].push(element?._id);
                       } else {
                         findObj['appConfigurableEvent'] = [];
-                        // let obj = {
-                        //   event: element.actionLink,
-                        //   actions: [
-                        //     { actionType: element.actionType, url: element.httpAddress, method: element.actionLink, id: element._id }
-                        //   ]
-                        // };
-                        findObj['appConfigurableEvent'].push(element);
+                        findObj['appConfigurableEvent'].push(element?._id);
                       }
                     }
                   }
-                  // else {
-                  //   findObj['appConfigurableEvent'] = [];
-                  //   findObj['eventActionconfig'] = {};
-                  // }
                 }
               }
               this.nodes = nodesData;
@@ -572,26 +535,10 @@ export class BuilderComponent implements OnInit {
             else
               this.nodes = nodesData;
 
-
-            // if (!this.nodes[0].isLeaf) {
-            //   this.addOrRemoveisLeaf(this.nodes[0]);
-            // }
-            // this.updateNodes();
             this.applyDefaultValue();
             this.getJoiValidation(this._id);
             this.saveLoader = false;
             this.getFromQuery(res.data[0].navigation);
-            // if (res[0].menuData[0].children[1]) {
-
-            //   // this.uiRuleGetData(res[0].moduleId);
-            //   // this.uiGridRuleGetData(res[0].moduleId);
-            // }
-            // else {
-            //   this.navigation = res[0].id;
-            //   this.nodes = this.jsonParseWithObject(this.jsonStringifyWithObject(res[0].menuData));
-            //   // this.uiRuleGetData(res[0].moduleId);
-            //   // this.uiGridRuleGetData(res[0].moduleId);
-            // }
             this.dataSharedService.screenCommentList.forEach(element => {
               this.assignIssue(this.nodes[0], element);
             });
