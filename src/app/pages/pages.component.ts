@@ -194,20 +194,19 @@ export class PagesComponent implements OnInit {
         // ------------------
 
         if (params["schema"]) {
-          debugger
           this.dataSharedService.defaultPageNodes = '';
           this.isPageContextShow = true;
           // this.dataSharedService.urlModule.next({ aplication: '', module: '' });
           this.screenName = params["schema"];
-          
+
           this.getBuilderScreen(params);
+          this.getTaskManagementIssuesFunc(params["schema"], JSON.parse(localStorage.getItem('applicationId')!));
 
           // this.requestSubscription = this.applicationService.getNestCommonAPI("cp/getuserCommentsByApp/UserComment/pages/" + params["schema"]).subscribe((res: any) => {
           //   if (res.isSuccess) {
           //     let commentList = res.data
           //     this.dataSharedService.screenCommentList = commentList;
 
-          //     this.getTaskManagementIssuesFunc(params["schema"], JSON.parse(localStorage.getItem('applicationId')!));
           //   }
           // })
         }
@@ -258,7 +257,6 @@ export class PagesComponent implements OnInit {
     });
   }
   actionsBindWithPage(res: any) {
-    debugger
     this.screenId = res.data[0].screenBuilderId;
     this.screenName = res.data[0].navigation;
     this.getBusinessRule(res.data[0].screenBuilderId);
@@ -377,18 +375,19 @@ export class PagesComponent implements OnInit {
     // console.log(commentsData);
     this.applicationService.callApi('knex-query/getAction/65001460e9856e9578bcb63f', 'get', '', '', "'" + res.data[0].navigation + "'").subscribe({
       next: (res) => {
-        this.dataSharedService.screenCommentList = res;
-        this.dataSharedService.screenCommentList.forEach(element => {
-          this.assignIssue(this.resData[0], element);
-        });
-        console.log(res)
+        this.dataSharedService.screenCommentList = res.data;
+        if (this.dataSharedService.screenCommentList.length > 0) {
+          this.dataSharedService.screenCommentList.forEach(element => {
+            this.assignIssue(this.resData[0], element);
+          });
+        }
       },
       error: (error: any) => {
         console.error(error);
         this.toastr.error("An error occurred", { nzDuration: 3000 });
       }
     })
-  
+
   }
   saveData(data: any) {
     if (data.isSubmit) {
@@ -2063,7 +2062,7 @@ export class PagesComponent implements OnInit {
           if (node.formly.length > 0) {
             if (node.formly[0].fieldGroup) {
               if (node.formly[0].fieldGroup[0]) {
-                node.formly[0].fieldGroup[0].props['screenname'] = this.screenName;
+                node.formly[0].fieldGroup[0].props['screenName'] = this.screenName;
                 node.formly[0].fieldGroup[0].props['id'] = node.id;
                 if (assign && assign?.status) {
                   node.formly[0].fieldGroup[0].props['status'] = assign.status;
@@ -2101,8 +2100,8 @@ export class PagesComponent implements OnInit {
 
           node['issueReport'].push(issue);
 
-          if (!node['issueReport']) {
-            node['issueReport'] = [issue['createdby']];
+          if (!node['issueUser']) {
+            node['issueUser'] = [issue['createdby']];
           }
           else {
             if (!node['issueUser'].includes(issue['createdby'])) {
@@ -2147,9 +2146,6 @@ export class PagesComponent implements OnInit {
           if (res.data.length > 0) {
             this.getTaskManagementIssues = res.data;
           }
-          // else {
-          //   this.toastr.error(`No data against this screen:`, { nzDuration: 3000 });
-          // }
         }
         else {
           this.toastr.error(`userAssignTask:` + res.message, { nzDuration: 3000 });

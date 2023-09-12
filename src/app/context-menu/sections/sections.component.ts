@@ -377,7 +377,6 @@ export class SectionsComponent implements OnInit {
     this.assignGridRules(tableData);
   }
   async getFromQuery(data: any) {
-    debugger
     let findClickApi = data?.appConfigurableEvent?.filter((item: any) =>
       (item.actionLink === 'get' && (item.actionType === 'api' || item.actionType === 'query'))
     );

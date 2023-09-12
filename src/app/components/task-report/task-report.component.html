@@ -41,13 +41,13 @@
                             <label for="countries" class="block  text-sm font-semibold text-white">
                                 Start Date <span class="font-bold text-base">:</span>
                             </label>
-                            <input [(ngModel)]="item['startDate']" type="date" class="text-white">
+                            <input [(ngModel)]="item['startdate']" type="date" class="text-white">
                         </div>
                         <div class="assign w-fit ">
                             <label for="countries" class="block  text-sm font-semibold text-white">
                                 End Date <span class="font-bold text-base">:</span>
                             </label>
-                            <input [(ngModel)]="item['endDate']" type="date" class="text-white">
+                            <input [(ngModel)]="item['enddate']" type="date" class="text-white">
                         </div>
                     </div>
                     <div class="actions">
@@ -103,7 +103,7 @@
                 <div
                     class="space-y-3 ml-2.5 relative before:absolute before:inset-0 before:ml-5 before:-translate-x-px  md:before:translate-x-0 before:h-full before:w-0.5  before:bg-gradient-to-b before:from-transparent before:via-slate-300 before:to-transparent">
                     <!-- Item -->
-                    <div *ngFor="let issue of item['issuereport'] ; let i = index" class="relative">
+                    <div *ngFor="let issue of item['issueReport'] ; let i = index" class="relative">
                         <div class="md:flex items-center md:space-x-4 ">
                             <div class="flex items-center space-x-4 md:space-x-2 md:space-x-reverse">
                                 <!-- Icon -->
@@ -124,7 +124,7 @@
                             <!-- Title -->
                             <div class="text-slate-500 ml-14 flex w-full items-center justify-between h-5">
                                 <div class="flex items-center">
-                                    <span class="text-slate-800 font-semibold opacity-80">{{issue['createdBy']}}</span>
+                                    <span class="text-slate-800 font-semibold opacity-80">{{issue['createdby']}}</span>
                                     <span *ngIf="issue['children']">
                                         <button *ngIf="issue['children'].length == 0" type="button"
                                             class=" text-sm ml-1 reply text-white hover:bg-white border-2 border-blue-600 active:outline-2 active:outline-transparent focus:outline-2 focus:outline-transparent flex items-center  hover:text-blue-600 bg-blue-600 rounded-xl px-2"
@@ -146,7 +146,7 @@
                                 </div>
                                 <div>
                                     <!-- Date -->
-                                    <time class=" text-slate-500 text-base w-fit mr-2 ">{{issue['dateTime']
+                                    <time class=" text-slate-500 text-base w-fit mr-2 ">{{issue['datetime']
                                         | date :
                                         "dd/MMM/yyyy"}}</time>
                                 </div>
@@ -160,7 +160,7 @@
                             <div *ngIf="issue['children']">
                                 <div class="space-y-4 relative mt-2.5 before:absolute before:inset-0 before:ml-[13px] before:-translate-x-px  md:before:translate-x-0 before:h-full before:w-0.5 before:bg-gradient-to-b before:from-transparent before:via-slate-300 before:to-transparent"
                                     *ngIf="issue['children'].length > 0">
-                                    <div *ngFor="let IssueReportChild of issue['children'] let last = last">
+                                    <div *ngFor="let issueReportChild of issue['children'] let last = last">
                                         <!-- Item #1 -->
                                         <div class="relative">
                                             <div class="md:flex items-center md:space-x-4 ">
@@ -184,7 +184,7 @@
                                                             <!-- Use flex container to keep both elements in the same line -->
                                                             <span class="text-slate-800 font-semibold opacity-70">
                                                                 {{
-                                                                IssueReportChild['createdby']
+                                                                issueReportChild['createdby']
                                                                 }}
                                                             </span>
                                                             <button *ngIf="issue['children'].length > 0 && last"
@@ -197,11 +197,11 @@
 
                                                         <!-- Date -->
                                                         <time class="w-fit text-xs text-slate-500 opacity-75 mr-2">{{
-                                                            IssueReportChild['datetime'] |
+                                                            issueReportChild['datetime'] |
                                                             date : "dd/MMM/yyyy" }}</time>
                                                     </div>
                                                     <p class="text-slate-500">
-                                                        {{ IssueReportChild['message'] }}
+                                                        {{ issueReportChild['message'] }}
                                                     </p>
                                                 </div>
 
