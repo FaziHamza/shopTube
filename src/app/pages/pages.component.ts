@@ -194,20 +194,30 @@ export class PagesComponent implements OnInit {
         // ------------------
 
         if (params["schema"]) {
+          debugger
           this.dataSharedService.defaultPageNodes = '';
           this.isPageContextShow = true;
           // this.dataSharedService.urlModule.next({ aplication: '', module: '' });
           this.screenName = params["schema"];
-          this.requestSubscription = this.applicationService.getNestCommonAPI("cp/getuserCommentsByApp/UserComment/pages/" + params["schema"]).subscribe((res: any) => {
-            if (res.isSuccess) {
-              let commentList = res.data
-              this.dataSharedService.screenCommentList = commentList;
-
-              this.getTaskManagementIssuesFunc(params["schema"], JSON.parse(localStorage.getItem('applicationId')!));
+          this.applicationService.callApi('knex-query/getAction/65001460e9856e9578bcb63f', 'get', '', '', "'" + params["schema"] + "'").subscribe({
+            next: (res) => {
+              this.dataSharedService.screenCommentList = res;
+            },
+            error: (error: any) => {
+              console.error(error);
+              this.toastr.error("An error occurred", { nzDuration: 3000 });
             }
           })
           this.getBuilderScreen(params);
 
+          // this.requestSubscription = this.applicationService.getNestCommonAPI("cp/getuserCommentsByApp/UserComment/pages/" + params["schema"]).subscribe((res: any) => {
+          //   if (res.isSuccess) {
+          //     let commentList = res.data
+          //     this.dataSharedService.screenCommentList = commentList;
+
+          //     this.getTaskManagementIssuesFunc(params["schema"], JSON.parse(localStorage.getItem('applicationId')!));
+          //   }
+          // })
         }
 
       });
@@ -320,7 +330,7 @@ export class PagesComponent implements OnInit {
               findObj['eventActionconfig'] = {};
               checkFirst[findObj?.key] = "done";
             }
-            if (element.btnActionType == 'load' ) {
+            if (element.btnActionType == 'load') {
               // let obj = { actionType: element.actionType, url: element.httpAddress, method: element.actionLink, id: element._id }
               findObj.eventActionconfig = element;
             } else {
@@ -474,8 +484,8 @@ export class PagesComponent implements OnInit {
     let tableData = this.findObjectByTypeBase(this.resData[0], "gridList");
     if (tableData) {
       let findClickApi = tableData?.appConfigurableEvent?.filter((item: any) =>
-      (item.actionLink === 'get' && (item.actionType === 'api' || item.actionType === 'query'))
-        
+        (item.actionLink === 'get' && (item.actionType === 'api' || item.actionType === 'query'))
+
       );
 
       if (findClickApi) {
@@ -2037,8 +2047,8 @@ export class PagesComponent implements OnInit {
   }
 
   assignIssue(node: any, issue: any) {
-    if (issue['componentId']) {
-      if (node.id == issue['componentId']) {
+    if (issue['componentid']) {
+      if (node.id == issue['componentid']) {
         let assign = this.getTaskManagementIssues.find(a => a.componentId == node.id)
         if (node.formly) {
           if (node.formly.length > 0) {

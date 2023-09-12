@@ -6350,7 +6350,8 @@ export class BuilderComponent implements OnInit {
                   this.updateNodes();
                   this.cdr.detectChanges();
                 }
-              }, error: (error: any) => {
+              }, 
+              error: (error: any) => {
                 console.error(error);
                 this.toastr.error("An error occurred", { nzDuration: 3000 });
                 this.saveLoader = false;

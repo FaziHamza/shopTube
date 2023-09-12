@@ -24,6 +24,7 @@ export class DataSharedService {
   public formlyShowError = new BehaviorSubject<boolean>(false);
   public collapseMenu = new BehaviorSubject<boolean>(false);
   public highlightFalse = new BehaviorSubject<boolean>(false);
+  public taskmanager = new BehaviorSubject<boolean>(false);
   // public menus: Subject<any> = new Subject();
   // public currentApplication: Subject<any> = new Subject();
   // public defaultPage: Subject<any> = new Subject();

@@ -62,6 +62,7 @@ export class DynamicTableComponent implements OnInit {
     private applicationService: ApplicationService,
     private dataService: DataService,
     private employeeService: EmployeeService, private toastr: NzMessageService, private cdr: ChangeDetectorRef,
+    public dataSharedService: DataSharedService,
   ) {
     this.processData = this.processData.bind(this);
   }
@@ -74,6 +75,29 @@ export class DynamicTableComponent implements OnInit {
     this.loadTableData();
     this.gridInitilize();
     this.getSaveGroupNodes();
+    this.requestSubscription = this.dataSharedService.taskmanager.subscribe({
+      next: (res) => {
+        if (this.data.eventActionconfig) {
+          let url = 'knex-query/getAction/' + this.data.eventActionconfig._id;
+          this.saveLoader = true;
+          this.applicationService.callApi(url, 'get', '', '', '').subscribe({
+            next: (res) => {
+              this.getFromQueryOnlyTable(this.data, res)
+            },
+            error: (error: any) => {
+              console.error(error);
+              this.saveLoader = false;
+              this.toastr.error("An error occurred", { nzDuration: 3000 });
+            }
+          })
+        }
+
+      },
+      error: (err) => {
+        console.error(err);
+        this.saveLoader = false;
+      }
+    });
 
   }
   async getSaveGroupNodes() {
@@ -1034,14 +1058,14 @@ export class DynamicTableComponent implements OnInit {
     if (this.data?.openComponent == 'drawer') {
       const drawer = this.findObjectByTypeBase(this.data, "drawer");
       drawer['visible'] = true;
-      if (drawer?.eventActionconfig) { 
-        let newData : any= JSON.parse(JSON.stringify(item));
+      if (drawer?.eventActionconfig) {
+        let newData: any = JSON.parse(JSON.stringify(item));
         const dataTitle = this.data.title ? this.data.title + '.' : '';
         newData['parentid'] = newData.id;
         const userData = JSON.parse(localStorage.getItem('user')!);
         newData.id = '';
         newData['organizationid'] = JSON.parse(localStorage.getItem('organizationId')!) || '';
-        newData['applicationid'] = JSON.parse(localStorage.getItem('applicationId')! ) || '';
+        newData['applicationid'] = JSON.parse(localStorage.getItem('applicationId')!) || '';
         newData['createdby'] = userData.username;
         // newData.datetime = new Date();
 

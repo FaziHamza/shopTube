@@ -91,6 +91,18 @@ export class SectionsComponent implements OnInit {
         // this.getFromQueryOnlyTable(gridListData);
       }
     }
+    // this.requestSubscription = this.dataSharedService.taskmanager.subscribe({
+    //   next: (res) => {
+    //     debugger;
+    //     let gridListData = this.findObjectByTypeBase(this.sections, "gridList");
+    //     if (gridListData) {
+    //       this.getFromQuery(gridListData);
+    //     }
+    //   },
+    //   error: (err) => {
+    //     console.error(err);
+    //   }
+    // });
 
   }
   getValueFromNestedObject(key: string, obj: any): any {
