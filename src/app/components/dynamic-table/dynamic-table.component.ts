@@ -830,7 +830,7 @@ export class DynamicTableComponent implements OnInit {
       }
       if (!this.data['tableKey'] || this.data['tableKey']?.length == 0) {
         const firstObjectKeys = Object.keys(this.tableData[0]);
-        this.data['tableKey'] = firstObjectKeys.map(key => ({ name: key }));
+        this.data['tableKey'] = firstObjectKeys.map(key => ({ key: key }));
       }
       this.data['tableKey'] = this.data['tableKey'].filter((header: any) => header.name !== 'color');
       this.data['tableKey'] = this.data['tableKey'].filter((header: any) => header.name !== 'children');

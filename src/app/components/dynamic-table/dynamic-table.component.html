@@ -32,7 +32,7 @@
             (nzCheckedChange)="checkAll($event)"></th>
           <ng-container *ngFor="let header of tableHeaders">
             <th
-              *ngIf="header.name !== 'defaultValue' && (header?.show === 'yes' || header?.show === undefined || header?.show === '')"
+              *ngIf="header.key !== 'defaultValue' && (header?.show === 'yes' || header?.show === undefined || header?.show === '')"
               [nzSortOrder]="header?.sortOrder" [nzSortFn]="header?.sortFn" [nzSortDirections]="header?.sortDirections"
               [nzFilterMultiple]="header?.filterMultiple" [nzFilters]="header?.listOfFilter"
               [nzFilterFn]="header?.filterFn"
@@ -72,24 +72,24 @@
               <td *ngIf="data.showCheckbox" [(nzChecked)]="item.checked" (nzCheckedChange)="refreshStatus()"></td>
               <ng-container *ngFor="let header of data['tableKey']; let index = index">
                 <td (click)="checkTypeData(item , header)" (click)="startEdit(item.id)" [nzEllipsis]="true" class="5"
-                  *ngIf="tableHeaders[index]?.dataType !='objectType' && header.name != 'headerButton' && header.name != 'footerButton' && header.name != 'expandable' && header.name != 'checked'
-                && header.name != 'expand' && header.name !='children' && header.name != 'defaultValue' ">
+                  *ngIf="tableHeaders[index]?.dataType !='objectType' && header.key != 'headerButton' && header.key != 'footerButton' && header.key != 'expandable' && header.key != 'checked'
+                && header.key != 'expand' && header.key !='children' && header.key != 'defaultValue' ">
                   <div class="1"
-                    *ngIf="(tableHeaders[index]?.dataType !='select' || !configurationTable) && tableHeaders[index]?.dataType !='image-upload' && !isMyDataArray(item[header.name]
+                    *ngIf="(tableHeaders[index]?.dataType !='select' || !configurationTable) && tableHeaders[index]?.dataType !='image-upload' && !isMyDataArray(item[header.key]
                 )
                    && tableHeaders[index]?.subDataType != 'datetime-local' && tableHeaders[index]?.dataType != 'rangePicker' ">
                     <div class="editable-cell"
-                      [hidden]="editId === item.id && (configurationTable || tableHeaders[index]?.editMode == 'yes')">
-                      {{item[header.name] | translate}}
+                      >
+                      {{item[header.key] | translate}}
                     </div>
                     <input *ngIf="configurationTable || tableHeaders[index]?.editMode == 'yes'"
-                      [hidden]="editId !== item.id" type="text" nz-input [(ngModel)]="item[header.name]" />
+                      [hidden]="editId !== item.id" type="text" nz-input [(ngModel)]="item[header.key]" />
                   </div>
                   <div class="2"
-                    *ngIf="tableHeaders[index]?.dataType =='select' && configurationTable || isMyDataArray(item[header.name]) ">
+                    *ngIf="tableHeaders[index]?.dataType =='select' && configurationTable || isMyDataArray(item[header.key]) ">
                     <nz-select nzAllowClear nzShowSearch style="width: 100px" nzPlaceHolder="Select Value"
                       [(ngModel)]="item.defaultValue" (ngModelChange)="select(i, $event)">
-                      <nz-option *ngFor="let option of item[header.name]"
+                      <nz-option *ngFor="let option of item[header.key]"
                         [nzLabel]="option.type ? option.type : option.key"
                         [nzValue]="option.value ? option.value : option">
                       </nz-option>
@@ -97,36 +97,36 @@
                   </div>
 
                   <div *ngIf="tableHeaders[index]?.dataType =='image-upload'" class="4">
-                    <img nz-image width="80px" height="80px" *ngIf="item[header.name]"
-                      [nzSrc]="serverPath +item[header.name]" alt />
+                    <img nz-image width="80px" height="80px" *ngIf="item[header.key]"
+                      [nzSrc]="serverPath +item[header.key]" alt />
                   </div>
                   <ng-container
                     *ngIf="tableHeaders[index]?.dataType =='input' && tableHeaders[index]?.subDataType == 'datetime-local'">
-                    <ng-container *ngIf="item[header.name]">
-                      {{ item[header.name] | date:'dd-MM-yyyy HH:mm:ss'}}
+                    <ng-container *ngIf="item[header.key]">
+                      {{ item[header.key] | date:'dd-MM-yyyy HH:mm:ss'}}
                     </ng-container>
-                    <ng-container *ngIf="!item[header.name] || item[header.name] == ''">
+                    <ng-container *ngIf="!item[header.key] || item[header.key] == ''">
                       ""
                     </ng-container>
                   </ng-container>
                   <ng-container *ngIf="tableHeaders[index]?.dataType =='objectType'">
-                    {{item[header.name]}}
+                    {{item[header.key]}}
                   </ng-container>
                   <div *ngIf="tableHeaders[index]?.dataType =='rangePicker'" class="date">
-                    {{ transform(item[header.name]) }}
+                    {{ transform(item[header.key]) }}
                   </div>
                 </td>
                 <td class="5" *ngIf="tableHeaders[index]?.dataType =='objectType'"
-                  [class]="item[header.name] == 'open' ? 'bg-red-500' : (item[header.name] == 'inProgress' ? 'bg-orange-500' : (item[header.name] == 'completed' ? 'bg-green-500' : 'bg-gray-500')) + ' text-white'">
-                  {{item[header.name]}}
+                  [class]="item[header.key] == 'open' ? 'bg-red-500' : (item[header.key] == 'inProgress' ? 'bg-orange-500' : (item[header.key] == 'completed' ? 'bg-green-500' : 'bg-gray-500')) + ' text-white'">
+                  {{item[header.key]}}
                 </td>
-                <td *ngIf="header.name == 'headerButton'">
+                <td *ngIf="header.key == 'headerButton'">
                   <button (click)="showModal('Header')" type="button"
                     class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded">
                     Button
                   </button>
                 </td>
-                <td *ngIf="header.name == 'footerButton'">
+                <td *ngIf="header.key == 'footerButton'">
                   <button type="button" (click)="showModal('Footer')"
                     class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded">
                     Button
@@ -155,14 +155,14 @@
             <div (dblclick)="updateModel(item)" class="dynamic-responsive-table mobile-toggle" style="width: 100%;">
               <tr *ngFor="let entryKey of getObjectKeys(item)">
                 <ng-container *ngFor="let header of tableHeaders; let index = index">
-                  <ng-container *ngIf="header.name == entryKey">
+                  <ng-container *ngIf="header.key == entryKey">
                     <td class="font-bold bg-blue-600 !text-white hover:text-black">{{header['title'] ? header['title'] :
                       header['name']| translate}}</td>
                     <td *ngIf="entryKey == 'expand'" [(nzExpand)]="item[entryKey]"></td>
                     <td class="responsive-checkBox" *ngIf="data.showCheckbox && entryKey == 'checked'"
                       [(nzChecked)]="item.checked" (nzCheckedChange)="refreshStatus()"></td>
-                    <td *ngIf="tableHeaders[index]?.dataType !='objectType' && header.name != 'headerButton' && header.name != 'footerButton' && header.name != 'expandable' && header.name != 'checked'
-                  && header.name != 'expand' && header.name != 'defaultValue' ">
+                    <td *ngIf="tableHeaders[index]?.dataType !='objectType' && header.key != 'headerButton' && header.key != 'footerButton' && header.key != 'expandable' && header.key != 'checked'
+                  && header.key != 'expand' && header.key != 'defaultValue' ">
                       <ng-container class="editable-cell" *ngIf="editingEntry == entryKey && configurationTable">
                         <input nz-input type="text" [(ngModel)]="item[entryKey]">
                       </ng-container>
@@ -171,10 +171,10 @@
                       </ng-container>
                     </td>
                     <td
-                      *ngIf="tableHeaders[index]?.dataType =='select' && configurationTable || isMyDataArray(item[header.name]) ">
+                      *ngIf="tableHeaders[index]?.dataType =='select' && configurationTable || isMyDataArray(item[header.key]) ">
                       <nz-select nzAllowClear nzShowSearch style="width: 100px" nzPlaceHolder="Select Value"
                         [(ngModel)]="item.defaultValue" (ngModelChange)="select(i, $event)">
-                        <nz-option *ngFor="let option of item[header.name]"
+                        <nz-option *ngFor="let option of item[header.key]"
                           [nzLabel]="option.type ? option.type : option.key"
                           [nzValue]="option.value ? option.value : option">
                         </nz-option>
@@ -182,21 +182,21 @@
                     </td>
                     <td *ngIf="tableHeaders[index]?.dataType =='image-upload'" class="4">
                       <img nz-image width="80px" height="80px"
-                        [nzSrc]="item[header.name] ? item[header.name] :'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png'"
+                        [nzSrc]="item[header.key] ? item[header.key] :'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png'"
                         alt />
                     </td>
                     <td
                       *ngIf="tableHeaders[index]?.dataType =='input' && tableHeaders[index]?.subDataType == 'datetime-local'">
-                      {{ item[header.name] | date:'dd-MM-yyyy HH:mm:ss'}}
+                      {{ item[header.key] | date:'dd-MM-yyyy HH:mm:ss'}}
                     </td>
                     <td *ngIf="tableHeaders[index]?.dataType =='rangePicker'" class="date">
-                      <!-- {{ item[header.name]}} -->
-                      {{ transform(item[header.name]) }}
+                      <!-- {{ item[header.key]}} -->
+                      {{ transform(item[header.key]) }}
                     </td>
                     <td class="5" *ngIf="tableHeaders[index]?.dataType =='objectType'"
                       [ngStyle]="{'background':tableHeaders[index]?.columnColor}">
                       {{tableHeaders[index]?.columnColor}}
-                      {{item[header.name]}}
+                      {{item[header.key]}}
                     </td>
                   </ng-container>
                 </ng-container>
