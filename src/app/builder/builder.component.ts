@@ -4304,7 +4304,7 @@ export class BuilderComponent implements OnInit {
               this.selectedNode.tableData =
                 this.selectedNode['tableNoResultArray'];
           }
-          this.selectedNode.tableKey = this.selectedNode.tableHeaders.map((key: any) => ({ name: key.key }));
+          this.selectedNode.tableKey = this.selectedNode.tableHeaders;
         }
         break;
 
@@ -6338,7 +6338,7 @@ export class BuilderComponent implements OnInit {
                           title: 'Expand',
                         });
                         tableData.totalCount = tableData.tableData
-                      }else{
+                      } else {
                         tableData.tableHeaders = tableData.tableHeaders.filter((head: any) => head.key != 'expand')
                       }
 
@@ -6352,7 +6352,7 @@ export class BuilderComponent implements OnInit {
                   this.updateNodes();
                   this.cdr.detectChanges();
                 }
-              }, 
+              },
               error: (error: any) => {
                 console.error(error);
                 this.toastr.error("An error occurred", { nzDuration: 3000 });

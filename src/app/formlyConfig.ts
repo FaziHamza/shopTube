@@ -27,6 +27,7 @@ import { TimePickerComponent } from "./wrappers/time-picker/time-picker.componen
 import { MultiSelectComponent } from "./wrappers/multi-select/multi-select.component";
 import { RepeatInputComponent } from "./wrappers/repeat-input/repeat-input.component";
 import { MultiFileUploadWrapperComponent } from "./wrappers/multi-file-upload-wrapper/multi-file-upload-wrapper.component";
+import { AudioVideoRecorderComponent } from "./wrappers/audio-video-recorder/audio-video-recorder.component";
 // import { FormlyHorizontalWrapper } from "./wrappers/FormlyHorizontalWrapper";
 
 export const fieldComponents = [
@@ -56,7 +57,8 @@ export const fieldComponents = [
   RangeComponent,
   FormlyFloatComponent,
   MultiSelectComponent,
-  RepeatInputComponent
+  RepeatInputComponent,
+  AudioVideoRecorderComponent
 ];
 
 
@@ -97,6 +99,7 @@ export const formlyCustomeConfig: ConfigOption = {
     { name: 'tag', component: MultiSelectComponent },
     { name: 'repeat', component: RepeatInputComponent },
     { name: 'multiFileUploader', component: MultiFileUploadWrapperComponent },
+    { name: 'audioVideoRecorder', component: AudioVideoRecorderComponent },
 
     //   {
     //     name: 'select', component: FormlyFieldSelect,

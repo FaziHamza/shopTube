@@ -1054,7 +1054,7 @@ export class DynamicTableComponent implements OnInit {
   }
   checkTypeData(item: any, header: any) {
     debugger
-    let checkAllowClick = this.tableHeaders.find((head: any) => head.key == header)
+    let checkAllowClick = this.tableHeaders.find((head: any) => head.key == header.name)
     if (checkAllowClick) {
       if (checkAllowClick?.callApi != '' && checkAllowClick?.callApi != null) {
         this.showChild = false;
@@ -1617,6 +1617,7 @@ export class DynamicTableComponent implements OnInit {
       const { actionType, httpAddress, _id } = findClickApi;
 
       if (dataModel) {
+        delete dataModel.children
         const model = {
           screenId: this.screenName,
           postType: 'put',
@@ -1630,10 +1631,42 @@ export class DynamicTableComponent implements OnInit {
             next: (res) => {
               if (res) {
                 this.toastr.success('Update Successfully', { nzDuration: 3000 });
-                // this.getFromQueryOnlyTable(data);
+                this.editId = null;
+                let callget = this.data?.appConfigurableEvent?.filter((item: any) =>
+                  (item.actionLink === 'get' && (item.actionType === 'api' || item.actionType === 'query'))
+                );
+                if (callget) {
+                  if (callget.length > 0) {
+                    let getUrl = '';
+                    for (let index = 0; index < callget.length; index++) {
+                      let element = callget[index].actionType;
+                      if (element == 'query') {
+                        getUrl = `knex-query/getAction/${callget[index]._id}`;
+                        break;
+                      } else {
+                        getUrl = `knex-query/getAction/${callget[index]._id}`;
+                      }
+                    }
+                    let pagination = '';
+                    if (this.data.serverSidePagination) {
+                      pagination = '?page=' + 1 + '&pageSize=' + this.data?.end;
+                    }
+                    this.employeeService.getSQLDatabaseTable(getUrl + pagination).subscribe({
+                      next: async (res) => {
+                        if(res){
+                          this.getFromQueryOnlyTable(this.data , res)
+                        }
+                      }, error: (error: any) => {
+                        console.error(error);
+                        this.toastr.error("An error occurred", { nzDuration: 3000 });
+                        this.saveLoader = false;
+                      }
+                    });
+                  }
+                }
               }
+              // this.getFromQueryOnlyTable(data);
               this.saveLoader = false;
-
             },
             error: (err) => {
               console.error(err);
