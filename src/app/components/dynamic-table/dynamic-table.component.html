@@ -79,7 +79,7 @@
                 )
                    && tableHeaders[index]?.subDataType != 'datetime-local' && tableHeaders[index]?.dataType != 'rangePicker' ">
                     <div class="editable-cell"
-                      >
+                      [hidden]="editId === item.id && (configurationTable || tableHeaders[index]?.editMode == 'yes')">
                       {{item[header.key] | translate}}
                     </div>
                     <input *ngIf="configurationTable || tableHeaders[index]?.editMode == 'yes'"
