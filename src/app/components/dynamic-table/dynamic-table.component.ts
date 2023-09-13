@@ -30,6 +30,7 @@ export class DynamicTableComponent implements OnInit {
   @Input() screenName: any;
   @Input() showPagination: any = true;
   GridType: string = '';
+  index: number ;
   serverPath = environment.nestImageUrl
   screenNameaa: any;
   footerData: any[] = [];
@@ -1669,4 +1670,10 @@ export class DynamicTableComponent implements OnInit {
     // Save the workbook as an Excel file
     XLSX.writeFile(wb, 'grid-data.xlsx');
   }
+
+  rowselected(i:number) {
+    this.index = i;
+  }
+
+
 }
