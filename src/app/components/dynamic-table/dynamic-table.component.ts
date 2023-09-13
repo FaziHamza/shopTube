@@ -10,7 +10,7 @@ import { DataSharedService } from 'src/app/services/data-shared.service';
 import { EmployeeService } from 'src/app/services/employee.service';
 import { DataService } from 'src/app/services/offlineDb.service';
 import { environment } from 'src/environments/environment';
-
+import * as XLSX from 'xlsx';
 @Component({
   selector: 'dynamic-table',
   templateUrl: './dynamic-table.component.html',
@@ -828,10 +828,10 @@ export class DynamicTableComponent implements OnInit {
           };
         });
       }
-
-      const firstObjectKeys = Object.keys(this.tableData[0]);
-      this.data['tableKey'] = firstObjectKeys.map(key => ({ name: key }));
-
+      if (!this.data['tableKey'] || this.data['tableKey']?.length == 0) {
+        const firstObjectKeys = Object.keys(this.tableData[0]);
+        this.data['tableKey'] = firstObjectKeys.map(key => ({ name: key }));
+      }
       this.data['tableKey'] = this.data['tableKey'].filter((header: any) => header.name !== 'color');
       this.data['tableKey'] = this.data['tableKey'].filter((header: any) => header.name !== 'children');
       this.footerData = this.tableHeaders;
@@ -1054,40 +1054,43 @@ export class DynamicTableComponent implements OnInit {
   }
   checkTypeData(item: any, header: any) {
     debugger
-    if (header?.callApi != '' && header?.callApi != null) {
-      this.showChild = false;
-      if (this.data?.openComponent == 'drawer') {
-        const drawer = this.findObjectByTypeBase(this.data, "drawer");
-        drawer['visible'] = true;
-        if (drawer?.eventActionconfig) {
-          let newData: any = JSON.parse(JSON.stringify(item));
-          const dataTitle = this.data.title ? this.data.title + '.' : '';
-          newData['parentid'] = newData.id;
-          const userData = JSON.parse(localStorage.getItem('user')!);
-          newData.id = '';
-          newData['organizationid'] = JSON.parse(localStorage.getItem('organizationId')!) || '';
-          newData['applicationid'] = JSON.parse(localStorage.getItem('applicationId')!) || '';
-          newData['createdby'] = userData.username;
-          // newData.datetime = new Date();
+    let checkAllowClick = this.tableHeaders.find((head: any) => head.key == header)
+    if (checkAllowClick) {
+      if (checkAllowClick?.callApi != '' && checkAllowClick?.callApi != null) {
+        this.showChild = false;
+        if (this.data?.openComponent == 'drawer') {
+          const drawer = this.findObjectByTypeBase(this.data, "drawer");
+          drawer['visible'] = true;
+          if (drawer?.eventActionconfig) {
+            let newData: any = JSON.parse(JSON.stringify(item));
+            const dataTitle = this.data.title ? this.data.title + '.' : '';
+            newData['parentid'] = newData.id;
+            const userData = JSON.parse(localStorage.getItem('user')!);
+            newData.id = '';
+            newData['organizationid'] = JSON.parse(localStorage.getItem('organizationId')!) || '';
+            newData['applicationid'] = JSON.parse(localStorage.getItem('applicationId')!) || '';
+            newData['createdby'] = userData.username;
+            // newData.datetime = new Date();
 
-          for (const key in newData) {
-            if (Object.prototype.hasOwnProperty.call(newData, key)) {
-              if (newData[key] == null) {
-                this.formlyModel[dataTitle + key] = '';
-              } else {
-                this.formlyModel[dataTitle + key] = newData[key];
-              }
-              for (const obj of [this.formlyModel, /* other objects here */]) {
-                if (Object.prototype.hasOwnProperty.call(obj, key)) {
-                  obj[key] = newData[key];
+            for (const key in newData) {
+              if (Object.prototype.hasOwnProperty.call(newData, key)) {
+                if (newData[key] == null) {
+                  this.formlyModel[dataTitle + key] = '';
+                } else {
+                  this.formlyModel[dataTitle + key] = newData[key];
+                }
+                for (const obj of [this.formlyModel, /* other objects here */]) {
+                  if (Object.prototype.hasOwnProperty.call(obj, key)) {
+                    obj[key] = newData[key];
+                  }
                 }
               }
             }
+            drawer.eventActionconfig['parentId'] = item.id;
           }
-          drawer.eventActionconfig['parentId'] = item.id;
+          this.data = JSON.parse(JSON.stringify(this.data));
+          this.showChild = true;
         }
-        this.data = JSON.parse(JSON.stringify(this.data));
-        this.showChild = true;
       }
     }
   }
@@ -1379,7 +1382,7 @@ export class DynamicTableComponent implements OnInit {
     searchForType(data);
     return foundObjects;
   }
-  groupedFunc(data: any, type: any, header: any) {
+  groupedFunc(data: any, type: any, header: any, allowSaveInLocal?: any) {
     header['grouping'] = type === 'add' ? data : '';
 
 
@@ -1407,17 +1410,23 @@ export class DynamicTableComponent implements OnInit {
       this.tableData = JSON.parse(JSON.stringify(this.groupingData));
       this.groupingData = [];
       this.tableHeaders = this.tableHeaders.filter((a: any) => a.name !== 'expand');
+      this.data.tableHeaders = this.data.tableHeaders.filter((a: any) => a.name !== 'expand');
       this.pageChange(1);
     } else {
       // Reset displayData and tableHeaders before re-grouping
       this.displayData = [];
       this.tableHeaders = this.tableHeaders.filter((a: any) => a.name !== 'expand');
+      this.data.tableHeaders = this.data.tableHeaders.filter((a: any) => a.name !== 'expand');
+
       // Apply grouping for each column in the groupingArray
       this.tableData = this.groupData(this.groupingData, 0);
       this.pageChange(1);
     }
-    const applicationId = localStorage.getItem('applicationId') || '';
-    this.dataService.addData(this.screenName, JSON.parse(applicationId), "Table", this.groupingArray);
+    if (allowSaveInLocal) {
+      const applicationId = localStorage.getItem('applicationId') || '';
+      this.dataService.addData(this.screenName, JSON.parse(applicationId), "Table", this.groupingArray);
+    }
+
   }
 
   groupData(data: any[], index: number): any {
@@ -1435,7 +1444,11 @@ export class DynamicTableComponent implements OnInit {
           key: 'expand',
           title: 'Expand',
         });
-
+        this.data.tableHeaders.unshift({
+          name: 'expand',
+          key: 'expand',
+          title: 'Expand',
+        });
         // Continue grouping for the next column
         return this.groupData(groupedData, index + 1);
       }
@@ -1503,7 +1516,6 @@ export class DynamicTableComponent implements OnInit {
   }
 
   processData(data: any[]) {
-    debugger
     this.saveLoader = false;
     if (data.length > 0) {
       let res: any = {};
@@ -1520,16 +1532,6 @@ export class DynamicTableComponent implements OnInit {
       const applicationId = localStorage.getItem('applicationId') || '';
       let savedGroupData = await this.dataService.getNodes(JSON.parse(applicationId), this.screenName, "Table");
       this.saveLoader = false;
-      // if (apiUrl.includes('/userComment')) {
-
-      //   const requiredData = res.data.map(({ __v, _id, ...rest }: any) => ({
-      //     expand: false,
-      //     id: _id,
-      //     ...rest,
-      //   }));
-      //   res.data = JSON.parse(JSON.stringify(requiredData));
-      // }
-
       this.tableData = res.data.map((element: any) => ({ ...element, id: element.id?.toString() }));
       if (!this.data.end) {
         tableData.end = 10;
@@ -1553,7 +1555,7 @@ export class DynamicTableComponent implements OnInit {
         const tableKey = Object.keys(this.tableData[0] || {}).map(key => ({ name: key }));
         if (JSON.stringify(this.data['tableKey']) !== JSON.stringify(tableKey)) {
           const updatedData = tableKey.filter(updatedItem =>
-            !this.tableHeaders.some((headerItem: any) => headerItem.name === updatedItem.name)
+            !this.tableHeaders.some((headerItem: any) => headerItem.key === updatedItem.name)
           );
           if (updatedData.length > 0) {
             updatedData.forEach(updatedItem => {
@@ -1575,12 +1577,11 @@ export class DynamicTableComponent implements OnInit {
       if (savedGroupData.length > 0) {
         let getData = savedGroupData[savedGroupData.length - 1];
         if (getData.data.length > 0) {
-          let groupingArray: any = [];
           let updateTableData: any = [];
           getData.data.forEach((elem: any) => {
             let findData = this.tableHeaders.find((item: any) => item.key == elem);
             if (findData) {
-              updateTableData = this.groupedFunc(elem, 'add', findData);
+              updateTableData = this.groupedFunc(elem, 'add', findData, false);
             }
           })
           this.tableData = updateTableData;
@@ -1608,63 +1609,64 @@ export class DynamicTableComponent implements OnInit {
     return check;
   }
   saveEdit(dataModel: any) {
-    let findClickApi = this.data.appConfigurableEvent.filter((item: any) => item.actionLink === 'put' && (item.actionType == 'api' || item.actionType == 'query'));
-    if (dataModel) {
-      let newData = JSON.parse(JSON.stringify(dataModel));
-      for (const key in newData) {
-        if (Object.prototype.hasOwnProperty.call(newData, key)) {
-          const dataTitle = this.data.title ? this.data.title + '.' : '';
-          if (newData[key] == null) {
-            this.formlyModel[dataTitle + key] = '';
-          } else {
-            this.formlyModel[dataTitle + key] = newData[key];
-          }
+    const findClickApi = this.data.appConfigurableEvent.find((item: any) =>
+      item.actionLink === 'put' && (item.actionType === 'api' || item.actionType === 'query')
+    );
+
+    if (findClickApi) {
+      const { actionType, httpAddress, _id } = findClickApi;
+
+      if (dataModel) {
+        const model = {
+          screenId: this.screenName,
+          postType: 'put',
+          modalData: dataModel
+        };
+
+        let url = actionType === 'api' ? httpAddress : actionType === 'query' ? `knex-query/executeQuery/${_id}` : '';
+        if (url) {
+          this.saveLoader = true;
+          this.applicationServices.addNestCommonAPI(url, model).subscribe({
+            next: (res) => {
+              if (res) {
+                this.toastr.success('Update Successfully', { nzDuration: 3000 });
+                // this.getFromQueryOnlyTable(data);
+              }
+              this.saveLoader = false;
+
+            },
+            error: (err) => {
+              console.error(err);
+              this.toastr.error('An error occurred', { nzDuration: 3000 });
+              this.saveLoader = false;
+            }
+          });
         }
       }
-      // this.form.get(dynamicPropertyName);
-      const model = {
-        screenId: this.screenName,
-        postType: 'put',
-        modalData: newData
-      };
-      const removePrefix = (data: Record<string, any>): Record<string, any> => {
-        const newData: Record<string, any> = {};
-        for (const key in data) {
-          const lastDotIndex = key.lastIndexOf('.');
-          const newKey = lastDotIndex !== -1 ? key.substring(lastDotIndex + 1) : key;
-          newData[newKey] = data[key];
-        }
-        return newData;
-      };
-
-      const result = {
-        ...model,
-        modalData: removePrefix(model.modalData)
-      };
-      console.log(result);
-      // this.saveLoader = true;
-      let url = '';
-      if (findClickApi[0].actionType == 'api') {
-        url = findClickApi[0]?.httpAddress
-      } else if (findClickApi[0].actionType == 'query') {
-        url = `knex-query/executeQuery/${findClickApi[0]._id}`;
-      }
-      if (url) {
-        this.applicationServices.addNestCommonAPI(url, result).subscribe({
-          next: (res) => {
-            this.toastr.success("Update Successfully", { nzDuration: 3000 });
-
-            this.form.patchValue(this.formlyModel);
-            // this.getFromQueryOnlyTable(data);
-          },
-          error: (err) => {
-            console.error(err);
-            this.toastr.error("An error occurred", { nzDuration: 3000 });
-            this.saveLoader = false;
-          }
-        });
-      }
-
     }
+  }
+  exportToExcel() {
+    debugger
+    const dataToExport = [];
+
+    // Add header row
+    const headerRow = this.tableHeaders.map((header: any) => header.name);
+    dataToExport.push(headerRow);
+
+    // Add data rows
+    this.tableData.forEach(item => {
+      const rowData = this.tableHeaders.map((data: any) => item[data.key]);
+      dataToExport.push(rowData);
+    });
+
+    // Create a worksheet
+    const ws: XLSX.WorkSheet = XLSX.utils.aoa_to_sheet(dataToExport);
+
+    // Create a workbook
+    const wb: XLSX.WorkBook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
+
+    // Save the workbook as an Excel file
+    XLSX.writeFile(wb, 'grid-data.xlsx');
   }
 }

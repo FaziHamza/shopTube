@@ -54,7 +54,7 @@ export class CalendarComponent {
     }
   ]
   ngOnInit() {
-    debugger
+    
     this.eventData = this.calenderData.options;
     this.calendarOptions = {
       plugins: [

@@ -197,7 +197,7 @@ export class PagesComponent implements OnInit {
           this.dataSharedService.defaultPageNodes = '';
           this.isPageContextShow = true;
           // this.dataSharedService.urlModule.next({ aplication: '', module: '' });
-          this.screenName = params["schema"];
+          this.navigation = params["schema"];
 
           this.getBuilderScreen(params);
           this.getTaskManagementIssuesFunc(params["schema"], JSON.parse(localStorage.getItem('applicationId')!));
@@ -258,7 +258,8 @@ export class PagesComponent implements OnInit {
   }
   actionsBindWithPage(res: any) {
     this.screenId = res.data[0].screenBuilderId;
-    this.screenName = res.data[0].navigation;
+    this.screenName = res.data[0].screenName;
+    this.navigation = res.data[0].navigation;
     this.getBusinessRule(res.data[0].screenBuilderId);
     this.getUIRuleData(res.data[0].screenBuilderId);
     const data = JSON.parse(res.data[0].screenData);
@@ -375,9 +376,8 @@ export class PagesComponent implements OnInit {
     // console.log(commentsData);
     this.applicationService.callApi('knex-query/getAction/65001460e9856e9578bcb63f', 'get', '', '', "'" + res.data[0].navigation + "'").subscribe({
       next: (res) => {
-        this.dataSharedService.screenCommentList = res.data;
-        if (this.dataSharedService.screenCommentList.length > 0) {
-          this.dataSharedService.screenCommentList.forEach(element => {
+        if (res.data > 0) {
+          res.data.forEach((element: any) => {
             this.assignIssue(this.resData[0], element);
           });
         }
@@ -415,7 +415,7 @@ export class PagesComponent implements OnInit {
     //   }
     // });
     const empData = {
-      screenId: this.screenName,
+      screenId: this.navigation,
       modalData: oneModelData
     };
 
@@ -464,7 +464,7 @@ export class PagesComponent implements OnInit {
       if (this.dataModel) {
         // this.form.get(dynamicPropertyName);
         const model = {
-          screenId: this.screenName,
+          screenId: this.navigation,
           postType: 'put',
           modalData: empData.modalData
         };
@@ -527,7 +527,7 @@ export class PagesComponent implements OnInit {
                     }
                     tableData.pageIndex = 1;
                     tableData.totalCount = res.count;
-                    tableData.serverApi = `knex-query/${this.screenName}`;
+                    tableData.serverApi = `knex-query/${this.navigation}`;
                     tableData.targetId = '';
                     tableData.displayData = tableData.tableData.length > tableData.end ? tableData.tableData.slice(0, tableData.end) : tableData.tableData;
                     // pagniation work end
@@ -1025,7 +1025,7 @@ export class PagesComponent implements OnInit {
   }
   getUIRule(model: any, currentValue: any) {
     try {
-      if (this.screenName) {
+      if (this.navigation) {
         if (this.businessRuleData) {
           if (this.businessRuleData.length > 0) {
             this.applyRules(this.formlyModel, this.businessRuleData);
@@ -2082,10 +2082,6 @@ export class PagesComponent implements OnInit {
                     node.formly[0].fieldGroup[0].props['issueUser'].push(issue.createdBy);
                   }
                 }
-                // node = [...node]
-                // // let ParseData = JSON.parse(JSON.stringify(node));
-                // // node = JSON.parse(JSON.stringify(ParseData));
-                // this.cdr.detectChanges;
               }
             }
           }

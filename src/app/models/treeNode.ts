@@ -550,4 +550,5 @@ export interface TreeNode {
   openComponent?: any,
   isDeleteAllow?: boolean,
   isAllowGrouping?: boolean,
+  isAllowExcelReport?: boolean,
 }

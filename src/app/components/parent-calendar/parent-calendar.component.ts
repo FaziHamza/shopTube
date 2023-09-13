@@ -15,7 +15,7 @@ export class ParentCalendarComponent {
     this.dataGet =  false;
   }
   processData(data: any[]) {
-    debugger
+    
     this.dataGet = false;
     if (data.length > 0) {
       this.item.options = [];
