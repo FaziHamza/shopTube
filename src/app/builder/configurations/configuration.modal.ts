@@ -11320,6 +11320,15 @@ export class formFeildData {
             label: 'Allow Delete'
           }
         },
+        {
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          key: 'isAllowExcelReport',
+          type: 'checkbox',
+          wrappers: ["formly-vertical-theme-wrapper"],
+          props: {
+            label: 'Excel Report'
+          }
+        },
 
         {
           key: 'options',

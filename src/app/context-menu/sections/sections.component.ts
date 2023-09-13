@@ -459,7 +459,7 @@ export class SectionsComponent implements OnInit {
                   else {
                     if (JSON.stringify(tableData['tableKey']) !== JSON.stringify(tableKey)) {
                       const updatedData = tableKey.filter(updatedItem =>
-                        !tableData.tableHeaders.some((headerItem: any) => headerItem.name === updatedItem.name)
+                        !tableData.tableHeaders.some((headerItem: any) => headerItem.key === updatedItem.name)
                       );
                       if (updatedData.length > 0) {
                         updatedData.forEach(updatedItem => {
@@ -517,8 +517,9 @@ export class SectionsComponent implements OnInit {
                         title: 'Expand',
                       });
                       tableData.totalCount = tableData.tableData
+                    }else{
+                      tableData.tableHeaders = tableData.tableHeaders.filter((head: any) => head.key != 'expand')
                     }
-                    tableData.tableHeaders = tableData.tableHeaders.filter((head: any) => head.key != 'expand')
 
                   } else {
                     tableData.tableHeaders = tableData.tableHeaders.filter((head: any) => head.key != 'expand')

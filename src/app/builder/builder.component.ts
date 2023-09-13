@@ -4222,6 +4222,7 @@ export class BuilderComponent implements OnInit {
           this.selectedNode['openComponent'] = event.form?.openComponent;
           this.selectedNode['isDeleteAllow'] = event.form?.isDeleteAllow;
           this.selectedNode['isAllowGrouping'] = event.form?.isAllowGrouping;
+          this.selectedNode['isAllowExcelReport'] = event.form?.isAllowExcelReport;
           let tableData: any = '';
           if (event.tableDta) {
             tableData = event.tableDta;
@@ -4235,7 +4236,6 @@ export class BuilderComponent implements OnInit {
               const key = updatedItem.key;
               return !this.selectedNode.tableHeaders.some((headerItem: any) => headerItem.key === key);
             });
-            this.selectedNode.tableKey = tableData.map((key: any) => ({ name: key.name }));
             if (updatedData.length > 0) {
               this.selectedNode.tableHeaders.map((item: any) => {
                 const newItem = { ...item };
@@ -4304,6 +4304,7 @@ export class BuilderComponent implements OnInit {
               this.selectedNode.tableData =
                 this.selectedNode['tableNoResultArray'];
           }
+          this.selectedNode.tableKey = this.selectedNode.tableHeaders.map((key: any) => ({ name: key.key }));
         }
         break;
 
@@ -6287,13 +6288,13 @@ export class BuilderComponent implements OnInit {
                     else {
                       if (JSON.stringify(tableData['tableKey']) !== JSON.stringify(tableKey)) {
                         const updatedData = tableKey.filter(updatedItem =>
-                          !tableData.tableHeaders.some((headerItem: any) => headerItem.name === updatedItem.name)
+                          !tableData.tableHeaders.some((headerItem: any) => headerItem.key === updatedItem.name)
                         );
                         if (updatedData.length > 0) {
                           updatedData.forEach(updatedItem => {
                             tableData.tableHeaders.push({ id: tableData.tableHeaders.length + 1, key: updatedItem.name, name: updatedItem.name, });
                           });
-                          tableData['tableKey'] = tableData.tableHeaders;
+                          tableData['tableKey'] = tableData.tableHeaders.map((key: any) => ({ name: key.key }));
                         }
                       }
                     }
@@ -6337,8 +6338,9 @@ export class BuilderComponent implements OnInit {
                           title: 'Expand',
                         });
                         tableData.totalCount = tableData.tableData
+                      }else{
+                        tableData.tableHeaders = tableData.tableHeaders.filter((head: any) => head.key != 'expand')
                       }
-                      tableData.tableHeaders = tableData.tableHeaders.filter((head: any) => head.key != 'expand')
 
                     } else {
                       tableData.tableHeaders = tableData.tableHeaders.filter((head: any) => head.key != 'expand')
