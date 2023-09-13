@@ -6184,30 +6184,27 @@ export class BuilderComponent implements OnInit {
     debugger
     let tableData = this.findObjectByTypeBase(this.nodes[0], "gridList");
     if (tableData) {
-      let findClickApi = tableData?.appConfigurableEvent?.filter((item: any) =>
-        (item.actionLink === 'get' && (item.actionType === 'api' || item.actionType === 'query'))
-      );
+      let findClickApi = tableData?.eventActionconfig;
       if (findClickApi) {
-        if (findClickApi.length > 0) {
-          let pagination = '';
-          let url = '';
-          for (let index = 0; index < findClickApi.length; index++) {
-            let element = findClickApi[index].actionType;
-            if (element == 'query') {
-              url = `knex-query/getAction/${findClickApi[index]._id}`;
-              break;
-            } else {
-              url = `knex-query/getAction/${findClickApi[index]._id}`;
-            }
-          }
-          if (tableData.serverSidePagination) {
-            pagination = '?page=' + 1 + '&pageSize=' + tableData?.end;
-          }
+        let pagination = '';
+          let url = `knex-query/getexecute-rules/${findClickApi._id}`;
+          // for (let index = 0; index < findClickApi.length; index++) {
+          //   let element = findClickApi[index].actionType;
+          //   if (element == 'query') {
+          //     url = `knex-query/getAction/${findClickApi[index]._id}`;
+          //     break;
+          //   } else {
+          //     url = `knex-query/getAction/${findClickApi[index]._id}`;
+          //   }
+          // }
+          // if (tableData.serverSidePagination) {
+          //   pagination = '?page=' + 1 + '&pageSize=' + tableData?.end;
+          // }
           if (url) {
             this.saveLoader = true;
             const applicationId = localStorage.getItem('applicationId') || '';
             let savedGroupData = await this.dataService.getNodes(JSON.parse(applicationId), this.screenName, "Table");
-            this.employeeService.getSQLDatabaseTable(url + pagination).subscribe({
+            this.employeeService.getSQLDatabaseTable(url).subscribe({
               next: (res) => {
                 this.saveLoader = false;
                 if (tableData && res?.isSuccess) {
@@ -6311,7 +6308,6 @@ export class BuilderComponent implements OnInit {
               }
             });
           }
-        }
       }
     }
 
@@ -6463,7 +6459,6 @@ export class BuilderComponent implements OnInit {
     this.showRules = ruleType;
   }
   applyHighlightSearch(data: any, allow: any) {
-    debugger
     if (this.searchValue && allow) {
       const isMatch = data?.title ? data?.title.toLowerCase().includes(this.searchValue.toLowerCase()) : data?.id.toLowerCase().includes(this.searchValue.toLowerCase());
       data['searchHighlight'] = isMatch;

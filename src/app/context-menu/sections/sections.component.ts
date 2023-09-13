@@ -253,7 +253,7 @@ export class SectionsComponent implements OnInit {
         }
       }
       if (id == undefined) {
-
+        findClickApi = data.appConfigurableEvent.filter((item: any) => item.rule.includes('put_'));
         let relationIds: any = remainingTables.map(table => `${Arraytables[0]}_id`);
         relationIds = relationIds.toString();
         // if (Object.keys(empData.modalData).length > 0)
@@ -296,7 +296,7 @@ export class SectionsComponent implements OnInit {
       }
       else {
 
-        let findClickApi = data.appConfigurableEvent.filter((item: any) => item.actionLink === 'put' && item.actionType == 'api');
+        let findClickApi = data.appConfigurableEvent.filter((item: any) => item.rule.includes('put_'));
         if (this.dataModel) {
           // this.form.get(dynamicPropertyName);
           const model = {
@@ -320,8 +320,9 @@ export class SectionsComponent implements OnInit {
           };
           console.log(result);
           this.saveLoader = true;
-          this.applicationServices.addNestCommonAPI(findClickApi.length > 0 ? findClickApi[0]?.httpAddress : 'knex-query/executeQuery', result).subscribe({
+          this.applicationServices.addNestCommonAPI('knex-query/executeDelete-rules/'+findClickApi[0]._id, result).subscribe({
             next: (res) => {
+              this.saveLoader = false;
               this.toastr.success("Update Successfully", { nzDuration: 3000 });
               this.setInternalValuesEmpty(this.dataModel);
               this.setInternalValuesEmpty(this.formlyModel);
@@ -366,42 +367,40 @@ export class SectionsComponent implements OnInit {
   }
   async getFromQuery(data: any) {
     debugger
-    let findClickApi = data?.appConfigurableEvent?.filter((item: any) =>
-      (item.actionLink === 'get' && (item.actionType === 'api' || item.actionType === 'query'))
-    );
+    let findClickApi = data?.eventActionconfig;
 
     if (findClickApi) {
-      if (findClickApi.length > 0) {
-        let url = '';
+      let url = `knex-query/getexecute-rules/${findClickApi._id}`;
 
-        for (let index = 0; index < findClickApi.length; index++) {
-          let element = findClickApi[index].actionType;
-          if (element == 'query') {
-            url = `knex-query/getAction/${findClickApi[index]._id}`;
-            break;
-          } else {
-            url = `knex-query/getAction/${findClickApi[index]._id}`;
-          }
-        }
-        let tableData = this.findObjectByKey(this.sections, findClickApi?.[0].componentFrom);
+        // for (let index = 0; index < findClickApi.length; index++) {
+        //   let element = findClickApi[index].actionType;
+        //   if (element == 'query') {
+        //     url = `knex-query/getAction/${findClickApi[index]._id}`;
+        //     break;
+        //   } else {
+        //     url = `knex-query/getAction/${findClickApi[index]._id}`;
+        //   }
+        // }
+        let tableData = this.findObjectByKey(this.sections, findClickApi.componentFrom);
         if (tableData) {
-          let pagination = '';
-          if (tableData.serverSidePagination) {
-            pagination = '?page=' + 1 + '&pageSize=' + tableData?.end;
-          }
+          // let pagination = '';
+          // if (tableData.serverSidePagination) {
+          //   pagination = '?page=' + 1 + '&pageSize=' + tableData?.end;
+          // }
           this.saveLoader = true;
           const applicationId = localStorage.getItem('applicationId') || '';
           let savedGroupData = await this.dataService.getNodes(JSON.parse(applicationId), this.screenName, "Table");
-          this.employeeService.getSQLDatabaseTable(url + pagination).subscribe({
+          this.employeeService.getSQLDatabaseTable(url).subscribe({
             next: async (res) => {
               this.saveLoader = false;
               if (tableData && res?.isSuccess) {
                 if (res.data.length > 0) {
 
                   const parts = url.split('/'); // Split the URL by '/'
-                  const searchId = parts[parts.length - 1]; // Get the last part of the URL
+                  // const searchId = parts[parts.length - 1]; // Get the last part of the URL
 
-                  const foundObject = findClickApi.find((item: any) => item.id === searchId);
+                  const foundObject = findClickApi.rule.includes('market-place');
+                  // const foundObject = findClickApi.find((item: any) => item.id === searchId);
                   if (foundObject) {
                     if (foundObject?.url.includes('market-place')) {
                       res.data = res.data.map((item: any) => ({
@@ -437,7 +436,7 @@ export class SectionsComponent implements OnInit {
                   tableData.targetId = '';
                   tableData.displayData = tableData.tableData.length > tableData.end ? tableData.tableData.slice(0, tableData.end) : tableData.tableData;
                   // pagniation work end
-                  if (tableData.tableHeaders.length == 0) {
+                  if (!tableData?.tableHeaders || tableData?.tableHeaders?.length == 0) {
                     tableData.tableHeaders = obj;
                     tableData['tableKey'] = tableKey
                   }
@@ -520,7 +519,6 @@ export class SectionsComponent implements OnInit {
             }
           });
         }
-      }
     }
   }
   groupedFunc(data: any, type: any, header: any, groupingArray: any, displayData: any, tableData: any, tableHeaders: any) {

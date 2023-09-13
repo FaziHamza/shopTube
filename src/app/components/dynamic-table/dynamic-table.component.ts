@@ -697,10 +697,10 @@ export class DynamicTableComponent implements OnInit {
     };
     if (this.screenName != undefined) {
       if (this.data?.appConfigurableEvent) {
-        let findClickApi = this.data?.appConfigurableEvent?.filter((item: any) => item.actionLink === 'delete' && (item.actionType == 'api' || item.actionType == 'query'));
+        let findClickApi = this.data?.appConfigurableEvent?.filter((item: any) => item.rule.includes('delete'));
         let id = '';
         if (findClickApi?.length > 0) {
-          if (findClickApi[0]?.httpAddress.includes('EnumList')) {
+          if (findClickApi[0]?.action.includes('EnumList')) {
             id = data?._id
           } else
             id = data?.id
@@ -725,8 +725,8 @@ export class DynamicTableComponent implements OnInit {
             })
           }
 
-        } else if (findClickApi[0]?.actionType == 'query') {
-          url = 'knex-query/executeQuery/' + findClickApi[0]._id;
+        } else {
+          url = `knex-query/executeDelete-rules/${findClickApi[0]._id}`;
           if (url) {
             this.requestSubscription = this.employeeService.saveSQLDatabaseTable(url, model).subscribe({
               next: (res) => {
