@@ -536,7 +536,7 @@ export class BuilderComponent implements OnInit {
                       findObj['eventActionconfig'] = {};
                       checkFirst[findObj?.key] = "done";
                     }
-                    if (element.btnActionType == 'load' && !element.elementName.includes('gridlist')) {
+                    if (element.btnActionType == 'load' ) {
                       // let obj = { actionType: element.actionType, url: element.httpAddress, method: element.actionLink, elementName: element.elementNameTo, id: element._id }
                       findObj.eventActionconfig = element;
                     }

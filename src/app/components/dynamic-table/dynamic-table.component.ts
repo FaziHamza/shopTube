@@ -79,12 +79,13 @@ export class DynamicTableComponent implements OnInit {
     this.getSaveGroupNodes();
     this.requestSubscription = this.dataSharedService.taskmanager.subscribe({
       next: (res) => {
-        if (this.data.eventActionconfig && res) {
+        if (this.data.appConfigurableEvent && res) {
           let url = 'knex-query/getAction/' + this.data.eventActionconfig._id;
-          // this.saveLoader = true;
+          this.saveLoader = true;
           this.applicationService.callApi(url, 'get', '', '', '').subscribe({
             next: (res) => {
-              this.getFromQueryOnlyTable(this.data, res)
+              this.saveLoader = false;
+              this.getFromQueryOnlyTable(this.data, res);
             },
             error: (error: any) => {
               console.error(error);
