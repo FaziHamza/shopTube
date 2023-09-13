@@ -225,7 +225,7 @@
         </tr>
       </tfoot>
     </nz-table>
-    <div class="paginatio-bottom" *ngIf="data?.nzShowPagination && data.totalCount > data?.end && showPagination">
+    <div class="paginatio-bottom !mt-1.5" *ngIf="data?.nzShowPagination && data.totalCount > data?.end && showPagination">
       <div>
         <p class="showing">Showing <span>{{start}} - {{end ? end : data?.end}}</span> from
           <span>{{data.totalCount}}</span> data

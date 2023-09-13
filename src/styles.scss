@@ -483,12 +483,12 @@ object {
   }
 }
 
-.fc .fc-toolbar .fc-button-group .fc-button-primary:not(.fc-prev-button):not(.fc-next-button).fc-button-active,
-.fc .fc-toolbar .fc-button-group .fc-button-primary:not(.fc-prev-button):not(.fc-next-button):hover {
-  background-color: rgba(115, 103, 240, 0.2) !important;
-  border-color: #7367f0 !important;
-  color: #7367f0;
-}
+// .fc .fc-toolbar .fc-button-group .fc-button-primary:not(.fc-prev-button):not(.fc-next-button).fc-button-active,
+// .fc .fc-toolbar .fc-button-group .fc-button-primary:not(.fc-prev-button):not(.fc-next-button):hover {
+//   background-color: rgba(115, 103, 240, 0.2) !important;
+//   border-color: #7367f0 !important;
+//   color: #7367f0;
+// }
 
 .fc .fc-toolbar .fc-button-group .fc-button-primary:not(.fc-prev-button):not(.fc-next-button) {
   background-color: transparent;
@@ -6927,3 +6927,78 @@ tr:hover {
   }
 }
 
+.ant-card-body{
+  padding: 16px !important;
+}
+
+
+.list-card {
+  .ant-card-body {
+    padding: 16px !important;
+  }
+}
+
+.ant-card-body {
+  padding: 16px !important;
+}
+
+
+.calender-card{
+
+  
+  .fc-dayGridMonth-button,
+  .fc-timeGridWeek-button,
+.fc-timeGridDay-button,
+.fc-listMonth-button, .fc-today-button  {
+  text-transform: capitalize !important;
+  height: 40px !important;
+  flex-shrink: 0 !important;
+  border-radius: 6px !important;
+  background: #2563EB !important;
+  color: #FFF !important;
+  font-size: 14px !important;
+  font-style: normal !important;
+  line-height: 140% !important;
+  letter-spacing: 0.2px !important;
+  width: fit-content !important;
+  border: none !important;
+  margin-right: 4px !important;
+  
+  &:hover {
+    background-color: #3b82f6 !important;
+    color: #FFF !important;
+  }
+  
+}
+
+.fc-today-button{
+  opacity: 1 !important;
+}
+
+.fc-button-group .fc-button-active{
+  border: 2px solid #2563EB !important;
+  color: #2563EB !important;
+  background: #fff !important;
+  // &:hover{
+  //   border: 2px solid transparent !important;
+  // }
+}
+.fc-toolbar-chunk .fc-button-group .fc-prev-button , .fc-next-button {
+  background: #2563EB !important;
+  height: 40px !important;
+  border-radius: 6px !important;
+  width: fit-content !important;
+  border: none !important;
+  margin-right: 4px !important;
+  color: #fff !important;
+  &:hover {
+    background: #3b82f6 !important;
+    color: #fff !important;
+  }
+  .fc-icon{
+    color: #fff !important;
+  }
+}
+
+
+}
