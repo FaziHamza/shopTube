@@ -1484,6 +1484,13 @@ export const htmlTabsData = [
               {
                 parameter: "input",
                 icon: "uil uil-images",
+                label: "Audio Video Recorder",
+                type: 'audioVideoRecorder',
+                configType: 'audioVideoRecorder', fieldType: 'audioVideoRecorder',
+              },
+              {
+                parameter: "input",
+                icon: "uil uil-images",
                 label: "Repeat Input",
                 type: 'repeat',
                 configType: 'input', fieldType: 'input',

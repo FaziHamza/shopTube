@@ -48,6 +48,8 @@ import { CommonService } from '../../common/common-services/common.service';
 import { ConfigurableDirective } from 'src/directive/configuration.directive';
 import { ConfigurableSelectDirective } from 'src/directive/configuration-select.directive';
 import { ParentCalendarComponent } from '../components/parent-calendar/parent-calendar.component';
+import { AudioRecordingService } from '../services/audio-recording.service';
+import { VideoRecordingService } from '../services/video-recording.service';
 // import { CommonService } from './common.service';
 // import { WebsiteModules } from '../Website/website.module';
 
@@ -173,7 +175,8 @@ import { ParentCalendarComponent } from '../components/parent-calendar/parent-ca
     // ErrorComponent
   ],
   providers: [
-
+    AudioRecordingService, 
+    VideoRecordingService,
   ],
 })
 

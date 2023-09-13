@@ -45,6 +45,8 @@ const icons: IconDefinition[] = Object.keys(antDesignIcons).map(key => antDesign
 import { RECAPTCHA_SETTINGS, RecaptchaFormsModule, RecaptchaModule, RecaptchaSettings } from 'ng-recaptcha';
 import { environment } from 'src/environments/environment';
 import { DataService } from './services/offlineDb.service';
+import { AudioRecordingService } from './services/audio-recording.service';
+import { VideoRecordingService } from './services/video-recording.service';
 
 @NgModule({
   declarations: [
@@ -99,6 +101,8 @@ import { DataService } from './services/offlineDb.service';
     EnvService,
     AuthGuard,
     DataService,
+    AudioRecordingService, 
+    VideoRecordingService,
     {
       provide: HTTP_INTERCEPTORS,
       useFactory: function (router: Router, env: EnvService) {
