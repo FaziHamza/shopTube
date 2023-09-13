@@ -199,7 +199,7 @@ export class SectionsComponent implements OnInit {
     // this.submit();
     let oneModelData = this.convertModel(this.dataModel);
     if (Object.keys(oneModelData).length > 0) {
-      let findClickApi = data.appConfigurableEvent.filter((item: any) => item.actionLink === 'post' && item.actionType == 'api' || item.actionType == 'query');
+      let findClickApi = data.appConfigurableEvent.filter((item: any) => item.rule.includes('post_'));
 
       let empData: any = {};
       if (findClickApi[0]?.httpAddress?.includes('/cp') || findClickApi[0]?.httpAddress?.includes('/market-place')) {
@@ -263,13 +263,13 @@ export class SectionsComponent implements OnInit {
         }
         // empData.screenId = findClickApi[0].actions?.[0]?.url
         let apiUrl = '';
-        if (findClickApi[0].actionType === 'api') {
-          apiUrl = findClickApi[0]?.httpAddress;
-        } else if (findClickApi[0]?.actionType === 'query') {
-          apiUrl = 'knex-query';
-        }
-        if (apiUrl) {
-          this.applicationServices.addNestCommonAPI(apiUrl, empData).subscribe({
+        // if (findClickApi[0].actionType === 'api') {
+        //   apiUrl = findClickApi[0]?.httpAddress;
+        // } else if (findClickApi[0]?.actionType === 'query') {
+        //   apiUrl = 'knex-query';
+        // }
+        if (empData) {
+          this.applicationServices.addNestCommonAPI('knex-query/execute-rules/'+findClickApi[0]?._id, empData).subscribe({
             next: (res) => {
               this.saveLoader = false;
               if (res[0]?.error)

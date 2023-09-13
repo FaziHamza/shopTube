@@ -233,7 +233,7 @@ export class PagesComponent implements OnInit {
       next: (res: any) => {
         if (res.isSuccess) {
           if (res.data.length > 0) {
-            this.requestSubscription = this.applicationService.getNestCommonAPIById("cp/actionbyscreenname", res.data[0].screenBuilderId).subscribe({
+            this.requestSubscription = this.applicationService.getNestCommonAPIById("cp/actionRulebyscreenname", res.data[0].screenBuilderId).subscribe({
               next: (actions: any) => {
                 this.actionRuleList = actions?.data;
                 this.actionsBindWithPage(res);
@@ -279,16 +279,16 @@ export class PagesComponent implements OnInit {
                   eventActionConfig['appConfigurableEvent'] = [];
                   eventActionConfig['eventActionconfig'] = {};
                 }
-                if (element.btnActionType == 'load') {
+                if (element.action == 'load') {
                   eventActionConfig['eventActionconfig'] = {};
-                  eventActionConfig['eventActionconfig'] = element?._id;
+                  eventActionConfig['eventActionconfig'] = element;
                 }
                 else {
                   if (eventActionConfig['appConfigurableEvent']) {
-                    eventActionConfig['appConfigurableEvent'].push(element?._id);
+                    eventActionConfig['appConfigurableEvent'].push(element);
                   } else {
                     eventActionConfig['appConfigurableEvent'] = [];
-                    eventActionConfig['appConfigurableEvent'].push(element?._id);
+                    eventActionConfig['appConfigurableEvent'].push(element);
                   }
                 }
               }
@@ -307,15 +307,15 @@ export class PagesComponent implements OnInit {
               findObj['eventActionconfig'] = {};
               checkFirst[findObj?.key] = "done";
             }
-            if (element.btnActionType == 'load' ) {
+            if (element.action == 'load' ) {
               // let obj = { actionType: element.actionType, url: element.httpAddress, method: element.actionLink, id: element._id }
-              findObj.eventActionconfig = element?.id;
+              findObj.eventActionconfig = element;
             } else {
               if (findObj['appConfigurableEvent']) {
-                findObj['appConfigurableEvent'].push(element?.id);
+                findObj['appConfigurableEvent'].push(element);
               } else {
                 findObj['appConfigurableEvent'] = [];
-                findObj['appConfigurableEvent'].push(element?.id);
+                findObj['appConfigurableEvent'].push(element);
               }
             }
           }

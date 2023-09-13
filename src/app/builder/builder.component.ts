@@ -323,6 +323,10 @@ export class BuilderComponent implements OnInit {
     this.controlListvisible = false;
     this.applySize();
   }
+  openPageConfig(){
+    // this.selectedNode = this.nodes[0];
+    this.openConfig(this.nodes[0],this.nodes[0]);
+  }
   saveJson() {
     debugger
     if (this.screenPage) {
@@ -489,14 +493,14 @@ export class BuilderComponent implements OnInit {
                         }
                         if (element.action == 'load') {
                           eventActionConfig['eventActionconfig'] = {};
-                          eventActionConfig['eventActionconfig'] = element?._id;
+                          eventActionConfig['eventActionconfig'] = element;
                         }
                         else {
                           if (eventActionConfig['appConfigurableEvent']) {
-                            eventActionConfig['appConfigurableEvent'].push(element?._id);
+                            eventActionConfig['appConfigurableEvent'].push(element);
                           } else {
                             eventActionConfig['appConfigurableEvent'] = [];
-                            eventActionConfig['appConfigurableEvent'].push(element?._id);
+                            eventActionConfig['appConfigurableEvent'].push(element);
                           }
                         }
                       }
@@ -516,15 +520,15 @@ export class BuilderComponent implements OnInit {
                       findObj['eventActionconfig'] = {};
                       checkFirst[findObj?.key] = "done";
                     }
-                    if (element.btnActionType == 'load') {
-                      findObj.eventActionconfig = element?._id;
+                    if (element.action == 'load') {
+                      findObj.eventActionconfig = element;
                     }
                     else {
                       if (findObj['appConfigurableEvent']) {
-                        findObj['appConfigurableEvent'].push(element?._id);
+                        findObj['appConfigurableEvent'].push(element);
                       } else {
                         findObj['appConfigurableEvent'] = [];
-                        findObj['appConfigurableEvent'].push(element?._id);
+                        findObj['appConfigurableEvent'].push(element);
                       }
                     }
                   }
@@ -534,6 +538,9 @@ export class BuilderComponent implements OnInit {
             }
             else
               this.nodes = nodesData;
+
+            
+             this.form = new FormGroup({});
 
             this.applyDefaultValue();
             this.getJoiValidation(this._id);

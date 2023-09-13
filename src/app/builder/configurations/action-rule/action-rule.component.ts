@@ -404,7 +404,11 @@ export class ActionRuleComponent implements OnInit {
     const mainModuleId = this.screens.filter((a: any) => a.name == this.screenName)
     this.applicationService.deleteNestCommonAPI('cp/Action/DeleteAction', mainModuleId[0]._id).subscribe(res => {
       const observables = this.actionForm.value.Actions.map((element: any) => {
-
+        let queryType = '';
+        if(!element.referenceId.includes(element.referenceId + '_'))
+          queryType  = element.actionLink + '_' + element.referenceId;
+        else
+            queryType = element.referenceId;
         let actionData: any = {
           "moduleName": this.screenName,
           "moduleId": mainModuleId.length > 0 ? mainModuleId[0].navigation : "",
@@ -414,7 +418,7 @@ export class ActionRuleComponent implements OnInit {
           "elementNameTo": element.elementNameTo,
           "actionType": element.actionType,
           "actionLink": element.actionLink,
-          "quryType": element.referenceId,
+          "quryType": queryType,
           "quries": element.query,
           "submit": element.submit,
           "type": element.type,
