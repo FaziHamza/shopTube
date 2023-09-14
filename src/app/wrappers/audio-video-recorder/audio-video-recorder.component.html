@@ -2,17 +2,20 @@
     <div>
         <!-- <div>Audio</div> -->
         <div>
-            <button class="start-button audio-btn" *ngIf="!isAudioRecording && !audioBlobUrl"
-                (click)="startAudioRecording()"> <i class="fa-solid fa-play mr-1.5"></i>Start Recording</button>
-            <button class="stop-button audio-btn" *ngIf="isAudioRecording && !audioBlobUrl" (click)="stopAudioRecording()"> <i class=" fa-solid fa-stop mr-1.5"></i>Stop Recording</button>
-            <button class="cancel-button audio-btn" *ngIf="!isAudioRecording && audioBlobUrl"
-                (click)="clearAudioRecordedData()"> <i class="fa-regular fa-trash mr-1.5"></i> Clear Recording</button>
-            <button class="download-button audio-btn" *ngIf="!isAudioRecording && audioBlobUrl"
-                (click)="downloadAudioRecordedData()"> <i class="fa-regular fa-down-to-line mr-1.5"></i> Download Recording</button>
-            <div id="audioTimer" *ngIf="isAudioRecording && !audioBlobUrl"> {{ audioRecordedTime }} </div>
-            <audio *ngIf="!isAudioRecording && audioBlobUrl" controls>
-                <source [src]="audioBlobUrl" type="audio/mp3">
-            </audio>
+            <button class="start-button !bg-green-500 hover:!bg-green-400 audio-btn" *ngIf="!isAudioRecording && !audioBlobUrl"
+                (click)="startAudioRecording()"> <i class="fa-solid fa-microphone "></i></button>
+
+            <button id="audioTimer" class="stop-button bg-blue-600 hover:!bg-blue-500 audio-btn" *ngIf="isAudioRecording && !audioBlobUrl" (click)="stopAudioRecording()"  > <i class=" fa-solid fa-stop mr-1.5"   ></i> {{ audioRecordedTime }}</button>
+
+            <div class="!flex !justify-normal !items-center" >
+                <button class="cancel-button !bg-red-600 hover:!bg-red-500 audio-btn !mr-2" *ngIf="!isAudioRecording && audioBlobUrl"
+                (click)="clearAudioRecordedData()"> <i class="fa-regular fa-trash "></i> </button>
+                <audio *ngIf="!isAudioRecording && audioBlobUrl" controls>
+                    <source [src]="audioBlobUrl" type="audio/mp3">
+                </audio>
+                <button class="download-button !bg-green-500 hover:!bg-green-400 audio-btn !ml-2" *ngIf="!isAudioRecording && audioBlobUrl"
+                (click)="downloadAudioRecordedData()"> <i class="fa-regular fa-down-to-line "></i> </button>
+            </div>
             <!-- {{audioBlobUrl | json}} -->
         </div>
     </div>
