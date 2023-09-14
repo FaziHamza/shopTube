@@ -21,6 +21,7 @@ export class CommentModalComponent implements OnInit {
   newComment: any = '';
   saveLoader: boolean = false;
   requestSubscription: Subscription;
+  voiceissue: any;
   constructor(
     private formBuilder: FormBuilder,
     public builderService: BuilderService,
@@ -32,6 +33,17 @@ export class CommentModalComponent implements OnInit {
 
   ngOnInit(): void {
     this.create();
+
+    this.requestSubscription = this.dataSharedService.sectionSubmit.subscribe({
+      next: (res) => {
+        if (res) {
+          this.voiceissue = res;
+        }
+      },
+      error: (err) => {
+        console.error(err);
+      }
+    })
   }
   readonly #modal = inject(NzModalRef);
 
@@ -69,7 +81,8 @@ export class CommentModalComponent implements OnInit {
       componentid: this.data.id,
       createdby: userData.username,
       parentid: "",
-      type: this.type
+      type: this.type,
+      voiceissue: this.voiceissue,
     }
     const userCommentModel = {
       "UserComment": commentObj

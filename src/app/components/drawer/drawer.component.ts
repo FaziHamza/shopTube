@@ -1,7 +1,9 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { NzMessageService } from 'ng-zorro-antd/message';
 import { Subscription } from 'rxjs';
 import { TreeNode } from 'src/app/models/treeNode';
 import { ApplicationService } from 'src/app/services/application.service';
+import { DataSharedService } from 'src/app/services/data-shared.service';
 
 @Component({
   selector: 'st-drawer',
@@ -24,7 +26,7 @@ export class DrawerComponent implements OnInit {
   requestSubscription: Subscription;
   res: any = {};
   showChild: boolean = true;
-  constructor(private applicationService: ApplicationService) {
+  constructor(private applicationService: ApplicationService, public dataSharedService: DataSharedService, private toastr: NzMessageService,) {
     this.processData = this.processData.bind(this);
   }
 
@@ -35,9 +37,58 @@ export class DrawerComponent implements OnInit {
     } else {
       this.showChild = true;
     }
+    this.requestSubscription = this.dataSharedService.sectionSubmit.subscribe({
+      next: (res) => {
+        const checkButtonExist = this.findObjectById(this.drawerData, res.id);
 
+        if (checkButtonExist && window.location.href.includes('taskmanager.com')) {
+          this.requestSubscription = this.dataSharedService.taskmanager.subscribe({
+            next: (res) => {
+              if (this.drawerData.appConfigurableEvent && res) {
+                let url = 'knex-query/getAction/' + this.drawerData.appConfigurableEvent._id;
+                this.applicationService.callApi(url, 'get', '', '', '').subscribe({
+                  next: (res) => {
+                    this.res = res;
+                    this.checkDynamicSection();
+                  },
+                  error: (error: any) => {
+                    console.error(error);
+                    this.toastr.error("An error occurred", { nzDuration: 3000 });
+                  }
+                })
+              }
+            },
+            error: (err) => {
+              console.error(err);
+            }
+          });
+        }
+      },
+      error: (err) => {
+        console.error(err);
+      }
+    })
   }
 
+
+  findObjectById(data: any, key: any) {
+    if (data) {
+      if (data.id && key) {
+        if (data.id === key) {
+          return data;
+        }
+        if (data.children.length > 0) {
+          for (let child of data.children) {
+            let result: any = this.findObjectById(child, key);
+            if (result !== null) {
+              return result;
+            }
+          }
+        }
+        return null;
+      }
+    }
+  }
   open(event: MouseEvent,): void {
     if (this.drawerData?.link) {
       event.stopPropagation();

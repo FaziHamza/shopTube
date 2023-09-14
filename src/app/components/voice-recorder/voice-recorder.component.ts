@@ -2,17 +2,18 @@ import { Component, OnDestroy, OnInit, ChangeDetectionStrategy, ChangeDetectorRe
 import { DomSanitizer } from '@angular/platform-browser';
 import { FieldType, FieldTypeConfig } from '@ngx-formly/core';
 import { AudioRecordingService } from 'src/app/services/audio-recording.service';
+import { DataSharedService } from 'src/app/services/data-shared.service';
 import { VideoRecordingService } from 'src/app/services/video-recording.service';
 
+
 @Component({
-  selector: 'st-audio-video-recorder',
-  templateUrl: './audio-video-recorder.component.html',
-  styleUrls: ['./audio-video-recorder.component.scss'],
-  changeDetection: ChangeDetectionStrategy.Default
+  selector: 'st-voice-recorder',
+  templateUrl: './voice-recorder.component.html',
+  styleUrls: ['./voice-recorder.component.scss']
 })
-export class AudioVideoRecorderComponent extends FieldType<FieldTypeConfig> {
+export class VoiceRecorderComponent {
   @ViewChild('videoElement') videoElement: any;
-  @Input() audioBlobUrl: any;
+  @Input() audioData: any;
   video: any;
   isPlaying = false;
   displayControls = true;
@@ -20,7 +21,7 @@ export class AudioVideoRecorderComponent extends FieldType<FieldTypeConfig> {
   isVideoRecording = false;
   audioRecordedTime: any;
   videoRecordedTime: any;
-  // audioBlobUrl: any;
+  audioBlobUrl: any;
   videoBlobUrl: any;
   audioBlob: any;
   videoBlob: any;
@@ -35,10 +36,10 @@ export class AudioVideoRecorderComponent extends FieldType<FieldTypeConfig> {
     private ref: ChangeDetectorRef,
     private audioRecordingService: AudioRecordingService,
     private videoRecordingService: VideoRecordingService,
-    private sanitizer: DomSanitizer
+    private sanitizer: DomSanitizer,
+    public dataSharedService: DataSharedService
   ) {
 
-    super();
     this.videoRecordingService.recordingFailed().subscribe(() => {
       this.isVideoRecording = false;
       this.ref.detectChanges();
@@ -77,8 +78,7 @@ export class AudioVideoRecorderComponent extends FieldType<FieldTypeConfig> {
       this.audioBlobUrl = this.sanitizer.bypassSecurityTrustUrl(URL.createObjectURL(data.blob));
       blobToBase64(this.audioBlob)
         .then(base64Data => {
-          // Patch the base64 data into your form control here
-          this.formControl.patchValue(base64Data);
+          this.dataSharedService.sectionSubmit.next(base64Data);
         })
         .catch(error => {
           console.error('Error converting blob to base64:', error);
@@ -89,6 +89,12 @@ export class AudioVideoRecorderComponent extends FieldType<FieldTypeConfig> {
 
   ngOnInit() {
     this.video = this.videoElement.nativeElement;
+  }
+  ngOnChanges(changes: any) {
+    if (changes.audioBlobUrl && changes.audioBlobUrl.currentValue) {
+      // Update the audioBlobUrl when the input property changes
+      this.audioBlobUrl = changes.audioBlobUrl.currentValue;
+    }
   }
 
   startVideoRecording() {
@@ -132,7 +138,7 @@ export class AudioVideoRecorderComponent extends FieldType<FieldTypeConfig> {
   }
 
   downloadVideoRecordedData() {
-    this._downloadFile(this.videoBlob, 'video/mp4', this.videoName);
+    // this._downloadFile(this.videoBlob, 'video/mp4', this.videoName);
   }
 
   startAudioRecording() {

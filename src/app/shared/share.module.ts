@@ -50,6 +50,7 @@ import { ConfigurableSelectDirective } from 'src/directive/configuration-select.
 import { ParentCalendarComponent } from '../components/parent-calendar/parent-calendar.component';
 import { AudioRecordingService } from '../services/audio-recording.service';
 import { VideoRecordingService } from '../services/video-recording.service';
+import { VoiceRecorderComponent } from '../components/voice-recorder/voice-recorder.component';
 // import { CommonService } from './common.service';
 // import { WebsiteModules } from '../Website/website.module';
 
@@ -114,7 +115,7 @@ import { VideoRecordingService } from '../services/video-recording.service';
     PrintInvoiceComponent,FileManagerComponent,googleMapComponent,
     ConfigurableDirective,
     ConfigurableSelectDirective,
-    TaskReportComponent
+    TaskReportComponent,VoiceRecorderComponent
     //
     // ErrorComponent
   ],
@@ -170,7 +171,8 @@ import { VideoRecordingService } from '../services/video-recording.service';
     ConfigurableDirective,
     ConfigurableSelectDirective,
     TaskReportComponent,
-    ParentCalendarComponent
+    ParentCalendarComponent,
+    VoiceRecorderComponent
     //
     // ErrorComponent
   ],
