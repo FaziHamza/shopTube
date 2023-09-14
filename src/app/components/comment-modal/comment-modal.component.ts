@@ -108,9 +108,7 @@ export class CommentModalComponent implements OnInit {
         if (res.id) {
           this.create();
           this.#modal.destroy(commentObj);
-          if (window.location.href.includes('taskmanager.com')) {
-            this.dataSharedService.taskmanager.next(true);
-          }
+          this.dataSharedService.taskmanager.next(true);
           this.toastr.success(`UserComment save succesfully`, { nzDuration: 3000 });
         } else {
           this.toastr.error(`UserComment: ${res.message}`, { nzDuration: 3000 });

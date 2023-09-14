@@ -52,6 +52,11 @@ class MyDatabase extends Dexie {
     super('MyDatabase');
     this.version(1).stores({
       myTable: '++id,screenName,applicationId,type,data', // Include applicationId as an indexed field
+    }).upgrade(async (trans) => {
+      // Ensure the applicationId field is indexed
+      await trans.table('myTable').toCollection().modify((record) => {
+        record.applicationId; // This read will ensure the index is created
+      });
     });
 
     this.myTable = this.table('myTable');

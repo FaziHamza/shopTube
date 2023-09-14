@@ -74,7 +74,7 @@ export class DynamicTableComponent implements OnInit {
   ngOnInit(): void {
     if (this.data?.eventActionconfig) {
       // this.showChild = false;
-      // this.saveLoader = true
+      this.saveLoader = true
     }
     this.loadTableData();
     this.gridInitilize();
@@ -1533,8 +1533,11 @@ export class DynamicTableComponent implements OnInit {
   async getFromQueryOnlyTable(tableData: any, res: any) {
     debugger
     if (tableData && res?.data.length > 0) {
-      const applicationId = localStorage.getItem('applicationId') || '';
-      let savedGroupData = await this.dataService.getNodes(JSON.parse(applicationId), this.screenName, "Table");
+      // const applicationId = localStorage.getItem('applicationId') || '';
+      // let savedGroupData: any = [];
+      // if (applicationId) {
+      //   savedGroupData = await this.dataService.getNodes(JSON.parse(applicationId), this.screenName, "Table");
+      // }
       this.saveLoader = false;
       this.tableData = res.data.map((element: any) => ({ ...element, id: element.id?.toString() }));
       if (!this.data.end) {
@@ -1579,33 +1582,33 @@ export class DynamicTableComponent implements OnInit {
           }
         }
       }
-      if (savedGroupData.length > 0) {
-        let getData = savedGroupData[savedGroupData.length - 1];
-        if (getData.data.length > 0) {
-          let updateTableData: any = [];
-          getData.data.forEach((elem: any) => {
-            let findData = this.tableHeaders.find((item: any) => item.key == elem);
-            if (findData) {
-              updateTableData = this.groupedFunc(elem, 'add', findData, false);
-            }
-          })
-          this.tableData = updateTableData;
-          this.displayData = this.tableData.length > this.data.end ? this.tableData.slice(0, this.data.end) : this.tableData;
-          tableData.tableHeaders.unshift({
-            name: 'expand',
-            key: 'expand',
-            title: 'Expand',
-          });
-          this.data.totalCount = this.tableData
-        }
-        else {
-          this.tableHeaders = this.tableHeaders.filter((head: any) => head.key != 'expand')
-        }
-      }
-      else {
-        //if data is not stored in index db then remove expand column
-        this.tableHeaders = this.tableHeaders.filter((head: any) => head.key != 'expand')
-      }
+      // if (savedGroupData.length > 0) {
+      //   let getData = savedGroupData[savedGroupData.length - 1];
+      //   if (getData.data.length > 0) {
+      //     let updateTableData: any = [];
+      //     getData.data.forEach((elem: any) => {
+      //       let findData = this.tableHeaders.find((item: any) => item.key == elem);
+      //       if (findData) {
+      //         updateTableData = this.groupedFunc(elem, 'add', findData, false);
+      //       }
+      //     })
+      //     this.tableData = updateTableData;
+      //     this.displayData = this.tableData.length > this.data.end ? this.tableData.slice(0, this.data.end) : this.tableData;
+      //     tableData.tableHeaders.unshift({
+      //       name: 'expand',
+      //       key: 'expand',
+      //       title: 'Expand',
+      //     }); 
+      //     this.data.totalCount = this.tableData
+      //   }
+      //   else {
+      //     this.tableHeaders = this.tableHeaders.filter((head: any) => head.key != 'expand')
+      //   }
+      // }
+      // else {
+      //   //if data is not stored in index db then remove expand column
+      //   this.tableHeaders = this.tableHeaders.filter((head: any) => head.key != 'expand')
+      // }
     }
     // this.loadTableData();
   }
