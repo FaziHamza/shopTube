@@ -39,19 +39,22 @@ export class DrawerComponent implements OnInit {
     }
     this.requestSubscription = this.dataSharedService.sectionSubmit.subscribe({
       next: (res) => {
-        const checkButtonExist = this.findObjectById(this.drawerData, res.id);
 
-        if (checkButtonExist && window.location.href.includes('taskmanager.com')) {
-          this.requestSubscription = this.dataSharedService.taskmanager.subscribe({
+        if (window.location.href.includes('taskmanager.com')) {
+          this.requestSubscription = this.dataSharedService.taskmanagerDrawer.subscribe({
             next: (res) => {
-              if (this.drawerData.appConfigurableEvent && res) {
-                let url = 'knex-query/getAction/' + this.drawerData.appConfigurableEvent._id;
-                this.applicationService.callApi(url, 'get', '', '', '').subscribe({
+              if (this.drawerData.eventActionconfig
+              ) {
+                let url = 'knex-query/getAction/' + this.drawerData.eventActionconfig._id;
+                this.loader = true;
+                this.applicationService.callApi(url, 'get', '', '', this.drawerData.eventActionconfig.parentId).subscribe({
                   next: (res) => {
                     this.res = res;
+                    this.loader = false;
                     this.checkDynamicSection();
                   },
                   error: (error: any) => {
+                    this.loader = false;
                     console.error(error);
                     this.toastr.error("An error occurred", { nzDuration: 3000 });
                   }
@@ -59,6 +62,7 @@ export class DrawerComponent implements OnInit {
               }
             },
             error: (err) => {
+              this.loader = false;
               console.error(err);
             }
           });
