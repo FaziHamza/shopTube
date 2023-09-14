@@ -8,12 +8,13 @@
             <button id="audioTimer" class="stop-button bg-blue-600 hover:!bg-blue-500 audio-btn" *ngIf="isAudioRecording && !audioBlobUrl" (click)="stopAudioRecording()"  > <i class=" fa-solid fa-stop mr-1.5"   ></i> {{ audioRecordedTime }}</button>
 
             <div class="!flex !justify-normal !items-center" >
-                <button class="cancel-button !bg-red-600 hover:!bg-red-500 audio-btn !mr-2" *ngIf="!isAudioRecording && audioBlobUrl"
-                (click)="clearAudioRecordedData()"> <i class="fa-regular fa-trash "></i> </button>
+               
                 <audio *ngIf="!isAudioRecording && audioBlobUrl" controls>
                     <source [src]="audioBlobUrl" type="audio/mp3">
                 </audio>
-                <button class="download-button !bg-green-500 hover:!bg-green-400 audio-btn !ml-2" *ngIf="!isAudioRecording && audioBlobUrl"
+                <button class="cancel-button !bg-red-600 hover:!bg-red-500 audio-btn !mx-2" *ngIf="!isAudioRecording && audioBlobUrl"
+                (click)="clearAudioRecordedData()"> <i class="fa-regular fa-trash "></i> </button>
+                <button class="download-button !bg-green-500 hover:!bg-green-400 audio-btn " *ngIf="!isAudioRecording && audioBlobUrl"
                 (click)="downloadAudioRecordedData()"> <i class="fa-regular fa-down-to-line "></i> </button>
             </div>
             <!-- {{audioBlobUrl | json}} -->
