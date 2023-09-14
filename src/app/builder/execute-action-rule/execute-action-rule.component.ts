@@ -55,6 +55,7 @@ export class ExecuteActionRuleComponent implements OnInit, AfterViewInit {
             res.data.forEach((element: any) => {
               let newItem = this.fb.group({
                 componentFrom: [element.componentFrom], // Initialize this with your select value
+                targetId: [element.targetId], // Initialize this with your select value
                 action: [element.action], // Initialize this with your select value
                 monacoEditorControl: [element.rule], // Initialize this with your Monaco editor value
               });
@@ -268,6 +269,7 @@ export class ExecuteActionRuleComponent implements OnInit, AfterViewInit {
     const newItem = this.fb.group({
       action: [''], // Initialize this with your select value
       componentFrom: [''], // Initialize this with your select value
+      targetId: [''], // Initialize this with your select value
       monacoEditorControl: [this.codeEditorRuleInstance], // Initialize this with your Monaco editor value
     });
     this.multiSelectArray.push(newItem);
@@ -292,6 +294,7 @@ export class ExecuteActionRuleComponent implements OnInit, AfterViewInit {
         let actionData: any = {
           "screenBuilderId": mainModuleId.length > 0 ? mainModuleId[0]._id : "",
           "componentFrom": element.componentFrom,
+          "targetId": element.targetId,
           "action": element.action,
           "rule": element.monacoEditorControl,
           "applicationId": this.applicationId,

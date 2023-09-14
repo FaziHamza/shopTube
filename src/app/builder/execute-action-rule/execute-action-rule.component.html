@@ -22,6 +22,10 @@
             aria-label="Default Select Example" formControlName="componentFrom">
             <nz-option [nzLabel]="item.title" [nzValue]="item.key" *ngFor="let item of nodeList"></nz-option>
           </nz-select>
+          <nz-select class="form-select execute-form-select" nzShowSearch nzAllowClear
+            aria-label="Default Select Example" formControlName="targetId">
+            <nz-option [nzLabel]="item.title" [nzValue]="item.key" *ngFor="let item of nodeList"></nz-option>
+          </nz-select>
         </div>
 
         <div class="w-full flex justify-end items-center p-2 pt-0">

@@ -253,7 +253,7 @@ export class SectionsComponent implements OnInit {
         }
       }
       if (id == undefined) {
-        findClickApi = data.appConfigurableEvent.filter((item: any) => item.rule.includes('put_'));
+        findClickApi = data.appConfigurableEvent.filter((item: any) => item.rule.includes('post_'));
         let relationIds: any = remainingTables.map(table => `${Arraytables[0]}_id`);
         relationIds = relationIds.toString();
         // if (Object.keys(empData.modalData).length > 0)
@@ -381,7 +381,7 @@ export class SectionsComponent implements OnInit {
         //     url = `knex-query/getAction/${findClickApi[index]._id}`;
         //   }
         // }
-        let tableData = this.findObjectByKey(this.sections, findClickApi.componentFrom);
+        let tableData = this.findObjectByKey(this.sections, findClickApi.targetId);
         if (tableData) {
           // let pagination = '';
           // if (tableData.serverSidePagination) {

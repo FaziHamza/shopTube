@@ -462,6 +462,8 @@ export class BuilderComponent implements OnInit {
   }
   getBuilderScreen() {
     this.nodes = [];
+    this.form = new FormGroup({});
+    this.formlyModel = {};
     this.requestSubscription = this.applicationService.getNestCommonAPIById('cp/Builder', this._id).subscribe({
       next: (res: any) => {
         if (res.isSuccess) {
@@ -540,7 +542,6 @@ export class BuilderComponent implements OnInit {
               this.nodes = nodesData;
 
             
-             this.form = new FormGroup({});
 
             this.applyDefaultValue();
             this.getJoiValidation(this._id);
