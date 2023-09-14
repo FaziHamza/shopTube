@@ -6244,19 +6244,27 @@ tr:hover {
     overflow: hidden;
     white-space: nowrap !important;
     text-overflow: ellipsis !important;
+    font-size: 14px !important;
+    padding: 14px;
+    background: rgb(228, 228, 228) !important;
   }
 
   /* Styling for regular cells */
   tbody tr td {
+    text-align: center !important;
     min-width: 125px !important;
     max-width: 250px !important;
     width: 125px !important;
     overflow: hidden;
     white-space: nowrap !important;
     text-overflow: ellipsis !important;
+    font-size: 12px !important;
+    padding: 12px;
   }
 
-
+  .ant-table-wrapper {
+    max-height: 680px !important;
+    }
 
 }
 
@@ -7002,3 +7010,9 @@ tr:hover {
 
 
 }
+
+
+
+
+
+

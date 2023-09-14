@@ -1,20 +1,19 @@
 <div id="my-app">
     <div>
-        <div>Audio</div>
+        <!-- <div>Audio</div> -->
         <div>
-            <button class="start-button" *ngIf="!isAudioRecording && !audioBlobUrl"
-                (click)="startAudioRecording()">Start Audio Recording</button>
-            <button class="stop-button" *ngIf="isAudioRecording && !audioBlobUrl" (click)="stopAudioRecording()">Stop
-                Audio Recording</button>
-            <button class="cancel-button" *ngIf="!isAudioRecording && audioBlobUrl"
-                (click)="clearAudioRecordedData()">Clear Audio Recording</button>
-            <button class="download-button" *ngIf="!isAudioRecording && audioBlobUrl"
-                (click)="downloadAudioRecordedData()">Download Audio Recording</button>
+            <button class="start-button audio-btn" *ngIf="!isAudioRecording && !audioBlobUrl"
+                (click)="startAudioRecording()"> <i class="fa-solid fa-play mr-1.5"></i>Start Recording</button>
+            <button class="stop-button audio-btn" *ngIf="isAudioRecording && !audioBlobUrl" (click)="stopAudioRecording()"> <i class=" fa-solid fa-stop mr-1.5"></i>Stop Recording</button>
+            <button class="cancel-button audio-btn" *ngIf="!isAudioRecording && audioBlobUrl"
+                (click)="clearAudioRecordedData()"> <i class="fa-regular fa-trash mr-1.5"></i> Clear Recording</button>
+            <button class="download-button audio-btn" *ngIf="!isAudioRecording && audioBlobUrl"
+                (click)="downloadAudioRecordedData()"> <i class="fa-regular fa-down-to-line mr-1.5"></i> Download Recording</button>
             <div id="audioTimer" *ngIf="isAudioRecording && !audioBlobUrl"> {{ audioRecordedTime }} </div>
             <audio *ngIf="!isAudioRecording && audioBlobUrl" controls>
                 <source [src]="audioBlobUrl" type="audio/mp3">
             </audio>
-            {{audioBlobUrl | json}}
+            <!-- {{audioBlobUrl | json}} -->
         </div>
     </div>
     <!-- <div>
