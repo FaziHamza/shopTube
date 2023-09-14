@@ -7,7 +7,8 @@ import { VideoRecordingService } from 'src/app/services/video-recording.service'
 @Component({
   selector: 'k-audio-video-recorder',
   templateUrl: './audio-video-recorder.component.html',
-  styleUrls: ['./audio-video-recorder.component.scss']
+  styleUrls: ['./audio-video-recorder.component.scss'],
+  changeDetection: ChangeDetectionStrategy.Default
 })
 export class AudioVideoRecorderComponent extends FieldType<FieldTypeConfig> {
   @ViewChild('videoElement') videoElement: any;
@@ -143,9 +144,9 @@ export class AudioVideoRecorderComponent extends FieldType<FieldTypeConfig> {
     if (this.isAudioRecording) {
       this.audioRecordingService.stopRecording();
       this.isAudioRecording = false;
-      this.formControl.patchValue(this.audioBlob);
     }
   }
+
 
   clearAudioRecordedData() {
     this.audioBlobUrl = null;
@@ -153,6 +154,14 @@ export class AudioVideoRecorderComponent extends FieldType<FieldTypeConfig> {
 
   downloadAudioRecordedData() {
     debugger
+    blobToBase64(this.audioBlob)
+      .then(base64Data => {
+        // Patch the base64 data into your form control here
+        this.formControl.patchValue(base64Data);
+      })
+      .catch(error => {
+        console.error('Error converting blob to base64:', error);
+      });
     this._downloadFile(this.audioBlob, 'audio/mp3', this.audioName);
   }
 
@@ -172,4 +181,12 @@ export class AudioVideoRecorderComponent extends FieldType<FieldTypeConfig> {
     anchor.click();
     document.body.removeChild(anchor);
   }
+}
+function blobToBase64(blob: any) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onloadend = () => resolve(reader.result);
+    reader.onerror = reject;
+    reader.readAsDataURL(blob);
+  });
 }
