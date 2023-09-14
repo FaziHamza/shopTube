@@ -27,11 +27,11 @@
       [nzPaginationType]='data?.nzPaginationType' [nzFrontPagination]='false' [nzTitle]='data?.nzTitle'
       [nzSize]="data.nzSize" [nzSimple]="data.nzSimple" [nzShowSizeChanger]="data.nzShowSizeChanger">
       <thead class="desktop-toggle">
-        <tr class="desktop-toggle" *ngIf="data?.showColumnHeader == undefined ? true : data?.showColumnHeader">
-          <th *ngIf="data.showCheckbox" [(nzChecked)]="allChecked" [nzIndeterminate]="indeterminate"
+        <tr class="desktop-toggle " *ngIf="data?.showColumnHeader == undefined ? true : data?.showColumnHeader">
+          <th class="!font-semibold !text-gray-500 !uppercase !text-xs !text-center" *ngIf="data.showCheckbox" [(nzChecked)]="allChecked" [nzIndeterminate]="indeterminate"
             (nzCheckedChange)="checkAll($event)"></th>
           <ng-container *ngFor="let header of tableHeaders">
-            <th
+            <th class="!font-semibold !text-gray-500 !uppercase !text-xs !text-center"
               *ngIf="header.key !== 'defaultValue' && (header?.show === 'yes' || header?.show === undefined || header?.show === '')"
               [nzSortOrder]="header?.sortOrder" [nzSortFn]="header?.sortFn" [nzSortDirections]="header?.sortDirections"
               [nzFilterMultiple]="header?.filterMultiple" [nzFilters]="header?.listOfFilter"
@@ -55,8 +55,8 @@
               </span> <span *ngIf="header?.gridHeaderSum">({{header?.gridHeaderSum}})</span>
             </th>
           </ng-container>
-          <th *ngIf="isAllowEdit(tableHeaders)">Edit</th>
-          <th *ngIf="tableHeaders.length > 0 && (data?.isDeleteAllow || data?.isDeleteAllow == undefined)">Delete</th>
+          <th *ngIf="isAllowEdit(tableHeaders)" class="!text-gray-500" >Edit</th>
+          <th *ngIf="tableHeaders.length > 0 && (data?.isDeleteAllow || data?.isDeleteAllow == undefined)" class="!text-gray-500">Delete</th>
         </tr>
       </thead>
       <tbody class="dynamic-responsive-table-body w-full" style="width: 100%;">
@@ -134,11 +134,11 @@
                 </td>
               </ng-container>
               <td *ngIf="isAllowEdit(tableHeaders)" (click)="saveEdit(item)">
-                <i class="fa-regular fa-save text-blue-500"></i>
+                <i class="fa-regular !text-sm fa-save text-blue-500"></i>
               </td>
               <td *ngIf="data?.isDeleteAllow || data?.isDeleteAllow == undefined">
                 <a nz-popconfirm nzPopconfirmTitle="Sure to delete?" (nzOnConfirm)="deleteRow(item)">
-                  <i class="fa-regular fa-trash text-red-500"></i>
+                  <i class="fa-regular fa-trash !text-sm text-red-500"></i>
                 </a>
               </td>
 
