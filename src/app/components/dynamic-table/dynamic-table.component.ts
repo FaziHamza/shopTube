@@ -2,6 +2,7 @@ import { DatePipe } from '@angular/common';
 import {
   ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output,
 } from '@angular/core';
+import { DomSanitizer } from '@angular/platform-browser';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { Subscription } from 'rxjs';
 import { ApplicationService } from 'src/app/services/application.service';
@@ -30,7 +31,7 @@ export class DynamicTableComponent implements OnInit {
   @Input() screenName: any;
   @Input() showPagination: any = true;
   GridType: string = '';
-  index: number ;
+  index: number;
   serverPath = environment.nestImageUrl
   screenNameaa: any;
   footerData: any[] = [];
@@ -65,6 +66,7 @@ export class DynamicTableComponent implements OnInit {
     private employeeService: EmployeeService, private toastr: NzMessageService, private cdr: ChangeDetectorRef,
     public dataSharedService: DataSharedService,
     private applicationServices: ApplicationService,
+    private sanitizer: DomSanitizer
   ) {
     this.processData = this.processData.bind(this);
   }
@@ -1056,7 +1058,7 @@ export class DynamicTableComponent implements OnInit {
   }
   checkTypeData(item: any, header: any) {
     debugger
-    let checkAllowClick = this.tableHeaders.find((head: any) => head.key == header.name)
+    let checkAllowClick = this.tableHeaders.find((head: any) => head.key == header.key)
     if (checkAllowClick) {
       if (checkAllowClick?.callApi != '' && checkAllowClick?.callApi != null) {
         this.showChild = false;
@@ -1563,6 +1565,7 @@ export class DynamicTableComponent implements OnInit {
             updatedData.forEach(updatedItem => {
               this.tableHeaders.push({ id: tableData.tableHeaders.length + 1, key: updatedItem.name, name: updatedItem.name, });
             });
+            this.data.tableHeaders = this.tableHeaders;
             this.data['tableKey'] = this.tableHeaders;
           }
         }
@@ -1655,8 +1658,8 @@ export class DynamicTableComponent implements OnInit {
                     }
                     this.employeeService.getSQLDatabaseTable(getUrl + pagination).subscribe({
                       next: async (res) => {
-                        if(res){
-                          this.getFromQueryOnlyTable(this.data , res)
+                        if (res) {
+                          this.getFromQueryOnlyTable(this.data, res)
                         }
                       }, error: (error: any) => {
                         console.error(error);
@@ -1705,9 +1708,7 @@ export class DynamicTableComponent implements OnInit {
     XLSX.writeFile(wb, 'grid-data.xlsx');
   }
 
-  rowselected(i:number) {
+  rowselected(i: number) {
     this.index = i;
   }
-
-
 }

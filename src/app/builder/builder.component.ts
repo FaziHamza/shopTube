@@ -536,7 +536,7 @@ export class BuilderComponent implements OnInit {
                       findObj['eventActionconfig'] = {};
                       checkFirst[findObj?.key] = "done";
                     }
-                    if (element.btnActionType == 'load' ) {
+                    if (element.btnActionType == 'load') {
                       // let obj = { actionType: element.actionType, url: element.httpAddress, method: element.actionLink, elementName: element.elementNameTo, id: element._id }
                       findObj.eventActionconfig = element;
                     }
@@ -6252,8 +6252,8 @@ export class BuilderComponent implements OnInit {
           }
           if (url) {
             this.saveLoader = true;
-            const applicationId = localStorage.getItem('applicationId') || '';
-            let savedGroupData = await this.dataService.getNodes(JSON.parse(applicationId), this.screenName, "Table");
+            // const applicationId = localStorage.getItem('applicationId') || '';
+            // let savedGroupData = await this.dataService.getNodes(JSON.parse(applicationId), this.screenName, "Table");
             this.employeeService.getSQLDatabaseTable(url + pagination).subscribe({
               next: (res) => {
                 this.saveLoader = false;
@@ -6294,7 +6294,7 @@ export class BuilderComponent implements OnInit {
                           updatedData.forEach(updatedItem => {
                             tableData.tableHeaders.push({ id: tableData.tableHeaders.length + 1, key: updatedItem.name, name: updatedItem.name, });
                           });
-                          tableData['tableKey'] = tableData.tableHeaders.map((key: any) => ({ name: key.key }));
+                          tableData['tableKey'] = tableData.tableHeaders;
                         }
                       }
                     }
@@ -6319,33 +6319,34 @@ export class BuilderComponent implements OnInit {
                         // tableData.tableHeaders = obj;
                       }
                     }
-                    let getData = savedGroupData[savedGroupData.length - 1];
-                    if (getData?.data) {
-                      if (getData.data.length > 0) {
-                        let groupingArray: any = [];
-                        let updateTableData: any = [];
-                        getData.data.forEach((elem: any) => {
-                          let findData = tableData.tableHeaders.find((item: any) => item.key == elem);
-                          if (findData) {
-                            updateTableData = this.groupedFunc(elem, 'add', findData, groupingArray, tableData.displayData, tableData.tableData, tableData.tableHeaders);
-                          }
-                        })
-                        tableData.tableData = updateTableData;
-                        tableData.displayData = tableData.tableData.length > tableData.end ? tableData.tableData.slice(0, tableData.end) : tableData.tableData;
-                        tableData.tableHeaders.unshift({
-                          name: 'expand',
-                          key: 'expand',
-                          title: 'Expand',
-                        });
-                        tableData.totalCount = tableData.tableData
-                      } else {
-                        tableData.tableHeaders = tableData.tableHeaders.filter((head: any) => head.key != 'expand')
-                      }
+                    tableData['tableKey'] = tableData.tableHeaders;
+                    // let getData = savedGroupData[savedGroupData.length - 1];
+                    // if (getData?.data) {
+                    //   if (getData.data.length > 0) {
+                    //     let groupingArray: any = [];
+                    //     let updateTableData: any = [];
+                    //     getData.data.forEach((elem: any) => {
+                    //       let findData = tableData.tableHeaders.find((item: any) => item.key == elem);
+                    //       if (findData) {
+                    //         updateTableData = this.groupedFunc(elem, 'add', findData, groupingArray, tableData.displayData, tableData.tableData, tableData.tableHeaders);
+                    //       }
+                    //     })
+                    //     tableData.tableData = updateTableData;
+                    //     tableData.displayData = tableData.tableData.length > tableData.end ? tableData.tableData.slice(0, tableData.end) : tableData.tableData;
+                    //     tableData.tableHeaders.unshift({
+                    //       name: 'expand',
+                    //       key: 'expand',
+                    //       title: 'Expand',
+                    //     });
+                    //     tableData.totalCount = tableData.tableData
+                    //   } else {
+                    //     tableData.tableHeaders = tableData.tableHeaders.filter((head: any) => head.key != 'expand')
+                    //   }
 
-                    } else {
-                      tableData.tableHeaders = tableData.tableHeaders.filter((head: any) => head.key != 'expand')
+                    // } else {
+                    //   tableData.tableHeaders = tableData.tableHeaders.filter((head: any) => head.key != 'expand')
 
-                    }
+                    // }
                     this.saveLoader = false;
                   }
                   // this.assignGridRules(tableData);
