@@ -408,7 +408,9 @@ export class SectionsComponent implements OnInit {
               this.saveLoader = false;
               if (tableData && res?.isSuccess) {
                 if (res.data.length > 0) {
-
+                  if (!window.location.href.includes('http://taskmanager.com')) {
+                    this.dataSharedService.taskmanagerDrawer.next(true);
+                  }
                   const parts = url.split('/'); // Split the URL by '/'
                   const searchId = parts[parts.length - 1]; // Get the last part of the URL
 
@@ -448,7 +450,7 @@ export class SectionsComponent implements OnInit {
                   tableData.targetId = '';
                   tableData.displayData = tableData.tableData.length > tableData.end ? tableData.tableData.slice(0, tableData.end) : tableData.tableData;
                   // pagniation work end
-                  if(tableData?.tableHeaders){
+                  if (tableData?.tableHeaders) {
                     tableData.tableHeaders = obj;
                     tableData['tableKey'] = tableKey
                   }
@@ -517,7 +519,7 @@ export class SectionsComponent implements OnInit {
                         title: 'Expand',
                       });
                       tableData.totalCount = tableData.tableData
-                    }else{
+                    } else {
                       tableData.tableHeaders = tableData.tableHeaders.filter((head: any) => head.key != 'expand')
                     }
 
