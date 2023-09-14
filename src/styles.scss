@@ -6240,17 +6240,19 @@ tr:hover {
   thead tr th {
     min-width: 125px !important;
     width: 125px !important;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
     max-width: 250px !important;
     overflow: hidden;
     white-space: nowrap !important;
     text-overflow: ellipsis !important;
     font-size: 14px !important;
-    padding: 14px;
-    background: rgb(228, 228, 228) !important;
+    padding: 10px;
+    background: rgb(245, 245, 245) !important;
   }
-
+  
   /* Styling for regular cells */
   tbody tr td {
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
     text-align: center !important;
     min-width: 125px !important;
     max-width: 250px !important;
@@ -6258,8 +6260,9 @@ tr:hover {
     overflow: hidden;
     white-space: nowrap !important;
     text-overflow: ellipsis !important;
-    font-size: 12px !important;
-    padding: 12px;
+    font-size: 1px !important;
+    font-weight: 600;
+    padding: 10px;
   }
 
   // .ant-table-wrapper {
