@@ -116,7 +116,7 @@
                   <div *ngIf="header?.dataType =='rangePicker'" class="date">
                     {{ transform(item[header.key]) }}
                   </div>
-                  <div *ngIf="tableHeaders[index]?.dataType =='audioVideoRecorder'" class="!h-fit">
+                  <div *ngIf="header?.dataType =='audioVideoRecorder'" class="!h-fit">
                     <audio class="!w-[210px] !h-[30px]" controls>
                       <source [src]="serverPath + '/' + item[header.key]" type="audio/mp3">
                     </audio>
