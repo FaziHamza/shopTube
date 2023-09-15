@@ -57,7 +57,7 @@
           </ng-container>
           <th *ngIf="isAllowEdit(tableHeaders)" class="!text-gray-500">Edit</th>
           <th *ngIf="tableHeaders.length > 0 && (data?.isDeleteAllow || data?.isDeleteAllow == undefined)"
-            class="!text-gray-500">Delete</th>
+            class="!text-gray-500 !text-center">Delete</th>
         </tr>
       </thead>
       <tbody class="dynamic-responsive-table-body w-full" style="width: 100%;">
@@ -116,8 +116,8 @@
                   <div *ngIf="header?.dataType =='rangePicker'" class="date">
                     {{ transform(item[header.key]) }}
                   </div>
-                  <div *ngIf="header?.dataType =='audioVideoRecorder'">
-                    <audio controls>
+                  <div *ngIf="tableHeaders[index]?.dataType =='audioVideoRecorder'" class="!h-fit">
+                    <audio class="!w-[210px] !h-[30px]" controls>
                       <source [src]="serverPath + '/' + item[header.key]" type="audio/mp3">
                     </audio>
                   </div>
@@ -210,7 +210,7 @@
                 <td class="font-bold bg-blue-500 text-white hover:text-black">Action</td>
                 <td>
                   <a nz-popconfirm nzPopconfirmTitle="Sure to delete?" (nzOnConfirm)="deleteRow(item)">
-                    <span class="text-red-500" nz-icon nzType="delete" nzTheme="outline"></span>
+                    <i class="fa-regular fa-trash !text-red-500"></i>
                   </a>
                 </td>
               </tr>
