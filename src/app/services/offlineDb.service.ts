@@ -22,13 +22,29 @@ export class DataService {
   }
 
   async getNodes(applicationId: string, screenName: string, type: string): Promise<any[]> {
-    let check = await this.db.myTable
-      .where('applicationId')
-      .equals(applicationId)
-      .and(node => node.screenName === screenName && node.type === type)
-      .toArray();
-    return check;
+    try {
+      // Check if the applicationId is a valid string
+      if (typeof applicationId !== 'string' || applicationId.trim() === '') {
+        throw new Error('Invalid applicationId');
+      }
+
+      // Query the database
+      let check = await this.db.myTable
+        .where('applicationId')
+        .equals(applicationId)
+        .and(node => node.screenName === screenName && node.type === type)
+        .toArray();
+
+      return check;
+    } catch (error) {
+      // Handle errors here, you can log or re-throw as needed
+      // console.error('Error in getNodes:', error);
+      // throw error; // Rethrow the error to let the caller handle it
+      return [];
+    }
   }
+
+
 
   async deleteDb(applicationId: string, screenName: string, type: string): Promise<void> {
     await this.db.myTable.where({ applicationId: applicationId, screenName: screenName, type: type }).delete();

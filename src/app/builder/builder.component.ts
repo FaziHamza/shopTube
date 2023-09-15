@@ -3507,9 +3507,7 @@ export class BuilderComponent implements OnInit {
 
           if (event.type == 'div') {
             this.selectedNode['rowClass'] = event.form.rowClass;
-            this.selectedNode.imageSrc = event.form.imageSrc
-              ? event.form.imageSrc
-              : this.dataSharedService.imageUrl;
+            this.selectedNode.imageSrc = event.form.imageSrc;
             if (event.form.divRepeat > 0) {
               this.addDynamic(event.form.nodes, 'step', 'mainStep');
             }
@@ -3975,7 +3973,10 @@ export class BuilderComponent implements OnInit {
             // if (event.tableDta) {
             //   props['options'] = event.tableDta;
             // }
-            props['options'] = event.form.options
+            if (event.form.options) {
+              props['options'] = event.form.options;
+            }
+            // props['options'] = event.form.options
             props['required'] = event.form.required;
             props['apiUrl'] = event.form.apiUrl;
             props['maxLength'] = event.form.maxLength;
@@ -4054,7 +4055,7 @@ export class BuilderComponent implements OnInit {
             props['additionalProperties']['innerInputClass'] = event.form?.innerInputClass;
             props['additionalProperties']['dataClassification'] = event.form?.dataClassification;
             props['readonly'] = event.form.readonly;
-            props['options'] = event.form.options;
+            // props['options'] = event.form.options;
             // if (event.tableDta) {
             //   props['options'] = event.tableDta;
             // }
@@ -5554,14 +5555,16 @@ export class BuilderComponent implements OnInit {
     let mainArray: any[] = [];
     for (let i = 0; i < Object.keys(this.formlyModel).length; i++) {
       const element = Object.keys(this.formlyModel)[i];
-      let keyPart = element.split('.');
+      let keyPart = element.includes('.') ? element.split('.') : '';
       let check = mainArray.find((a) => a.name == keyPart[0]);
-      if (!check) {
-        let obj: any = { name: keyPart[0], children: [] };
-        obj.children.push(keyPart[1]);
-        mainArray.push(obj);
-      } else {
-        check.children.push(keyPart[1]);
+      if (keyPart) {
+        if (!check) {
+          let obj: any = { name: keyPart[0], children: [] };
+          obj.children.push(keyPart[1]);
+          mainArray.push(obj);
+        } else {
+          check.children.push(keyPart[1]);
+        }
       }
     }
     this.builderService.getSQLDatabaseTable('knex-crud/tables').subscribe({
@@ -6254,7 +6257,7 @@ export class BuilderComponent implements OnInit {
             this.saveLoader = true;
             const applicationId = localStorage.getItem('applicationId') || '';
             let savedGroupData: any = [];
-            if(applicationId){
+            if (applicationId) {
               savedGroupData = await this.dataService.getNodes(JSON.parse(applicationId), this.screenName, "Table");
             }
             this.employeeService.getSQLDatabaseTable(url + pagination).subscribe({
@@ -6516,7 +6519,6 @@ export class BuilderComponent implements OnInit {
     this.showRules = ruleType;
   }
   applyHighlightSearch(data: any, allow: any) {
-    debugger
     if (this.searchValue && allow) {
       const isMatch = data?.title ? data?.title.toLowerCase().includes(this.searchValue.toLowerCase()) : data?.id.toLowerCase().includes(this.searchValue.toLowerCase());
       data['searchHighlight'] = isMatch;

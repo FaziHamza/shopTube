@@ -88,7 +88,7 @@ export class AudioVideoRecorderComponent extends FieldType<FieldTypeConfig> {
   }
 
   ngOnInit() {
-    this.video = this.videoElement.nativeElement;
+    // this.video = this.videoElement.nativeElement;
   }
 
   startVideoRecording() {
