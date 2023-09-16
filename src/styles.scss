@@ -179,7 +179,7 @@ object {
     display: flex !important;
     align-items: center !important;
   }
-  
+
 
   .ant-checkbox {
     margin-top: 7px;
@@ -359,8 +359,7 @@ object {
 
   .col-form-label {
     padding: 13px !important;
-    height: 51px !important;
-  }
+    height: 51px !important;   }
 
   // textarea.ant-input{
   //   min-height: 100px;
@@ -6403,26 +6402,27 @@ tr:hover {
   }
 }
 
-.src-btn{
+.src-btn {
 
   .btn-dangerous {
     height: 40px;
     flex-shrink: 0;
-  border-radius: 6px;
-  background: #fd3636;
-  color: #FFF;
-  font-size: 14px;
-  font-style: normal;
-  line-height: 140%;
-  letter-spacing: 0.2px;
-  width: fit-content;
+    border-radius: 6px;
+    background: #fd3636;
+    color: #FFF;
+    font-size: 14px;
+    font-style: normal;
+    line-height: 140%;
+    letter-spacing: 0.2px;
+    width: fit-content;
 
-  &:hover {
-    background-color: #ff7875;
+    &:hover {
+      background-color: #ff7875;
+    }
   }
-}
 
 }
+
 .side-nav-body {
   .ant-btn-primary {
     height: 40px;
@@ -6809,7 +6809,7 @@ tr:hover {
 .ant-modal-close-icon {
   // border: 2px solid red;
   padding: 5px;
-  color: red ;
+  color: red;
   // border-radius: 6px;
 }
 
@@ -6917,7 +6917,7 @@ tr:hover {
   }
 }
 
-.board-card{
+.board-card {
   .ant-card-body {
     min-width: 350px !important;
     width: auto !important;
@@ -6926,18 +6926,19 @@ tr:hover {
 }
 
 .editor-container {
-  width: 100% !important; 
+  width: 100% !important;
   height: 100vh !important;
 }
 
-.ant-table-row-expand-icon{
+.ant-table-row-expand-icon {
   border: 1px solid black !important;
-  &:hover{
+
+  &:hover {
     border-color: #038edc !important;
   }
 }
 
-.ant-card-body{
+.ant-card-body {
   padding: 16px !important;
 }
 
@@ -6953,68 +6954,106 @@ tr:hover {
 }
 
 
-.calender-card{
+.calender-card {
 
-  
+
   .fc-dayGridMonth-button,
   .fc-timeGridWeek-button,
-.fc-timeGridDay-button,
-.fc-listMonth-button, .fc-today-button  {
-  text-transform: capitalize !important;
-  height: 40px !important;
-  flex-shrink: 0 !important;
-  border-radius: 6px !important;
-  background: #2563EB !important;
-  color: #FFF !important;
-  font-size: 14px !important;
-  font-style: normal !important;
-  line-height: 140% !important;
-  letter-spacing: 0.2px !important;
-  width: fit-content !important;
-  border: none !important;
-  margin-right: 4px !important;
-  
-  &:hover {
-    background-color: #3b82f6 !important;
+  .fc-timeGridDay-button,
+  .fc-listMonth-button,
+  .fc-today-button {
+    text-transform: capitalize !important;
+    height: 40px !important;
+    flex-shrink: 0 !important;
+    border-radius: 6px !important;
+    background: #2563EB !important;
     color: #FFF !important;
+    font-size: 14px !important;
+    font-style: normal !important;
+    line-height: 140% !important;
+    letter-spacing: 0.2px !important;
+    width: fit-content !important;
+    border: none !important;
+    margin-right: 4px !important;
+
+    &:hover {
+      background-color: #3b82f6 !important;
+      color: #FFF !important;
+    }
+
+  }
+
+  .fc-today-button {
+    opacity: 1 !important;
+  }
+
+  .fc-button-group .fc-button-active {
+    border: 2px solid #2563EB !important;
+    color: #2563EB !important;
+    background: #fff !important;
+    // &:hover{
+    //   border: 2px solid transparent !important;
+    // }
+  }
+
+  .fc-toolbar-chunk .fc-button-group .fc-prev-button,
+  .fc-next-button {
+    background: #2563EB !important;
+    height: 40px !important;
+    border-radius: 6px !important;
+    width: fit-content !important;
+    border: none !important;
+    margin-right: 4px !important;
+    color: #fff !important;
+
+    &:hover {
+      background: #3b82f6 !important;
+      color: #fff !important;
+    }
+
+    .fc-icon {
+      color: #fff !important;
+    }
+  }
+}
+
+.builder-design {
+  .ant-drawer-header {
+    padding: 10px !important;
+  }
+
+  .ant-drawer-body {
+    padding: 10px 20px !important;
+  }
+  .ant-tabs-tab{
+    padding-top: 5px !important; 
+    padding-bottom: 5px !important; 
+  }
+  .ant-drawer-close{
+    margin-right: 6px !important;
+  }
+  .ant-tabs-tab+.ant-tabs-tab {
+    margin:0 0 0 20px !important;
+  }
+  .ant-tabs-nav {
+    margin-bottom: 6px !important;
   }
   
-}
-
-.fc-today-button{
-  opacity: 1 !important;
-}
-
-.fc-button-group .fc-button-active{
-  border: 2px solid #2563EB !important;
-  color: #2563EB !important;
-  background: #fff !important;
-  // &:hover{
-  //   border: 2px solid transparent !important;
-  // }
-}
-.fc-toolbar-chunk .fc-button-group .fc-prev-button , .fc-next-button {
-  background: #2563EB !important;
-  height: 40px !important;
-  border-radius: 6px !important;
-  width: fit-content !important;
-  border: none !important;
-  margin-right: 4px !important;
-  color: #fff !important;
-  &:hover {
-    background: #3b82f6 !important;
-    color: #fff !important;
+  .dynamic-table-form br{
+    display: none !important;
   }
-  .fc-icon{
-    color: #fff !important;
+  
+  .ant-collapse{
+    border-radius: 4px !important;
   }
+  
+
 }
 
-
+.ant-collapse > .ant-collapse-item > .ant-collapse-header{
+  padding: 6px !important;
 }
 
-
-
-
-
-
+.ant-collapse{
+  margin-bottom: 10px !important;
+}
