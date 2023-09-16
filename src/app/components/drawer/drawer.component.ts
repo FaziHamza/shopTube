@@ -39,26 +39,27 @@ export class DrawerComponent implements OnInit {
     }
     this.requestSubscription = this.dataSharedService.sectionSubmit.subscribe({
       next: (res) => {
-
         if (window.location.href.includes('taskmanager.com')) {
           this.requestSubscription = this.dataSharedService.taskmanagerDrawer.subscribe({
             next: (res) => {
-              if (this.drawerData.eventActionconfig
-              ) {
-                let url = 'knex-query/getAction/' + this.drawerData.eventActionconfig._id;
-                this.loader = true;
-                this.applicationService.callApi(url, 'get', '', '', this.drawerData.eventActionconfig.parentId).subscribe({
-                  next: (res) => {
-                    this.res = res;
-                    this.loader = false;
-                    this.checkDynamicSection();
-                  },
-                  error: (error: any) => {
-                    this.loader = false;
-                    console.error(error);
-                    this.toastr.error("An error occurred", { nzDuration: 3000 });
-                  }
-                })
+              if (res) {
+                if (this.drawerData.eventActionconfig
+                ) {
+                  let url = 'knex-query/getAction/' + this.drawerData.eventActionconfig._id;
+                  this.loader = true;
+                  this.applicationService.callApi(url, 'get', '', '', this.drawerData.eventActionconfig.parentId).subscribe({
+                    next: (res) => {
+                      this.res = res;
+                      this.loader = false;
+                      this.checkDynamicSection();
+                    },
+                    error: (error: any) => {
+                      this.loader = false;
+                      console.error(error);
+                      this.toastr.error("An error occurred", { nzDuration: 3000 });
+                    }
+                  })
+                }
               }
             },
             error: (err) => {

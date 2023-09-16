@@ -26,7 +26,7 @@ export class DataSharedService {
   public highlightFalse = new BehaviorSubject<boolean>(false);
   public taskmanager = new BehaviorSubject<boolean>(false);
   public taskmanagerDrawer = new BehaviorSubject<boolean>(false);
-  public voiceRecord = new BehaviorSubject<boolean>(false);
+  public voiceRecord: Subject<any> = new Subject();
   // public menus: Subject<any> = new Subject();
   // public currentApplication: Subject<any> = new Subject();
   // public defaultPage: Subject<any> = new Subject();

@@ -76,7 +76,7 @@
                 <td (click)="checkTypeData(item , header)" (click)="startEdit(item.id)" [nzEllipsis]="true" class="5"
                   *ngIf="header?.dataType !='objectType' && header.key != 'headerButton' && header.key != 'footerButton' && header.key != 'expandable' && header.key != 'checked'
                 && header.key != 'expand' && header.key !='children' && header.key != 'defaultValue' ">
-                  <div class="1" *ngIf="(header?.dataType !='select' || !configurationTable) && header?.dataType !='audioVideoRecorder' && header?.dataType !='image-upload' && !isMyDataArray(item[header.key]
+                  <div class="1" *ngIf="(header?.dataType !='select' || !configurationTable) && header?.dataType !='audioVideoRecorder' && header?.dataType !='image-upload' && header?.dataType != 'repeatSection' && header?.dataType != 'dateTime' && !isMyDataArray(item[header.key]
                 )
                    && header?.subDataType != 'datetime-local' && header?.dataType != 'rangePicker' ">
                     <div class="editable-cell"
@@ -86,8 +86,7 @@
                     <input *ngIf="configurationTable ||header?.editMode == 'yes'" [hidden]="editId !== item.id"
                       type="text" nz-input [(ngModel)]="item[header.key]" />
                   </div>
-                  <div class="2"
-                    *ngIf="header?.dataType =='select' && configurationTable || isMyDataArray(item[header.key]) ">
+                  <div *ngIf=" isMyDataArray(item[header.key]) ">
                     <nz-select nzAllowClear nzShowSearch style="width: 100px" nzPlaceHolder="Select Value"
                       [(ngModel)]="item.defaultValue" (ngModelChange)="select(i, $event)">
                       <nz-option *ngFor="let option of item[header.key]"
@@ -96,7 +95,17 @@
                       </nz-option>
                     </nz-select>
                   </div>
-
+                  <div *ngIf="header?.dataType == 'repeatSection'">
+                    <div class="editable-cell" *ngIf="editId != item.id">
+                      {{item[header.key] | translate}}
+                    </div>
+                    <nz-select *ngIf="editId == item.id && (configurationTable || header?.editMode)" nzAllowClear
+                      nzShowSearch style="width: 100px" nzPlaceHolder="Select Value" [(ngModel)]="item[header.key]">
+                      <nz-option *ngFor="let option of item[header.key+'_list']" [nzLabel]="option.label "
+                        [nzValue]="option.value ">
+                      </nz-option>
+                    </nz-select>
+                  </div>
                   <div *ngIf="header?.dataType =='image-upload'" class="4">
                     <img nz-image width="80px" height="80px" *ngIf="item[header.key]"
                       [nzSrc]="serverPath +item[header.key]" alt />
@@ -106,8 +115,13 @@
                     <ng-container *ngIf="item[header.key]">
                       {{ item[header.key] | date:'dd-MM-yyyy HH:mm:ss'}}
                     </ng-container>
-                    <ng-container *ngIf="!item[header.key] || item[header.key] == ''">
-                      ""
+                  </ng-container>
+                  <ng-container *ngIf="header?.dataType =='dateTime'">
+                    <ng-container *ngIf="item[header.key] && editId != item.id">
+                      {{ item[header.key] | date:'dd-MM-yyyy'}}
+                    </ng-container>
+                    <ng-container *ngIf="editId == item.id && (configurationTable || header?.editMode)">
+                      <input [(ngModel)]="item[header.key]" type="date">
                     </ng-container>
                   </ng-container>
                   <ng-container *ngIf="header?.dataType =='objectType'">

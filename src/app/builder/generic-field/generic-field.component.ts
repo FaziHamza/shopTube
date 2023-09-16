@@ -49,7 +49,8 @@ export class GenericFieldComponent implements OnInit {
         });
       }
       this.itemData.mappingNode['tableHeader'] = this.itemData?.mappingNode?.tableHeader == undefined ? [
-        { name: 'Id' }, { name: 'fileHeader' }, { name: 'SelectQBOField' }, { name: 'defaultValue' },] : this.itemData?.mappingNode?.tableHeader;
+        { name: 'Id' , key :'id' }, { name: 'File Header' , key : 'fileHeader' }, { name: 'Select QBO Field' , key : 'SelectQBOField'}, { name: 'Default Value' , key: 'defaultValue' },] : this.itemData?.mappingNode?.tableHeader;
+        this.itemData.mappingNode['tableKey'] = this.itemData.mappingNode['tableHeader'];
       let checkId = this.itemData.mappingNode['tableHeader'].find((a: any) => a.name == 'Id');
       if (!checkId) {
         let obj = { name: 'Id' }

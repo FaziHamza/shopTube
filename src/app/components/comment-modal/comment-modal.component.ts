@@ -34,7 +34,7 @@ export class CommentModalComponent implements OnInit {
   ngOnInit(): void {
     this.create();
 
-    this.requestSubscription = this.dataSharedService.sectionSubmit.subscribe({
+    this.requestSubscription = this.dataSharedService.voiceRecord.subscribe({
       next: (res) => {
         if (res) {
           this.voiceissue = res;
@@ -61,65 +61,62 @@ export class CommentModalComponent implements OnInit {
         return;
       }
     }
+    if (this.form.valid || this.voiceissue) {
+      const userData = JSON.parse(localStorage.getItem('user')!);
+      let commentObj = {
+        // id:0,
+        screenid: this.screenName,
+        datetime: new Date(),
+        message: this.form.value.message,
+        status: this.update ? this.form.value.status : 'backlog',
+        organizationid: JSON.parse(localStorage.getItem('organizationId')!),
+        applicationid: JSON.parse(localStorage.getItem('applicationId')!),
+        componentid: this.data.id,
+        createdby: userData.username,
+        parentid: "",
+        type: this.type,
+        voiceissue: this.voiceissue,
+      }
+      const userCommentModel = {
+        "UserComment": commentObj
+      }
+      let requestObservable: Observable<any>;
+      this.saveLoader = true;
+      debugger
+      if (!this.update) {
+        requestObservable = this.applicationService.addNestCommonAPI('knex-crud/task', commentObj);
+      } else {
+        userCommentModel.UserComment['componentid'] = this.update.componentId;
+        requestObservable = this.applicationService.updateNestCommonAPI(
+          'cp/UserComment',
+          this.update._id,
+          userCommentModel
+        );
+      }
 
 
-    if (!this.form.valid) {
+      this.requestSubscription = requestObservable.subscribe({
+        next: (res: any) => {
+          this.saveLoader = false;
+          if (res.id) {
+            this.create();
+            this.#modal.destroy(commentObj);
+            this.dataSharedService.taskmanager.next(true);
+            this.toastr.success(`UserComment save succesfully`, { nzDuration: 3000 });
+          } else {
+            this.toastr.error(`UserComment: ${res.message}`, { nzDuration: 3000 });
+          }
+        },
+        error: () => {
+          this.saveLoader = false;
+
+          this.toastr.error('UserComment: An error occurred', { nzDuration: 3000 });
+        }
+      });
+    } else {
       this.toastr.warning('Please fill this', { nzDuration: 3000 });
       return;
     }
-
-
-    const userData = JSON.parse(localStorage.getItem('user')!);
-    let commentObj = {
-      // id:0,
-      screenid: this.screenName,
-      datetime: new Date(),
-      message: this.form.value.message,
-      status: this.update ? this.form.value.status : 'backlog',
-      organizationid: JSON.parse(localStorage.getItem('organizationId')!),
-      applicationid: JSON.parse(localStorage.getItem('applicationId')!),
-      componentid: this.data.id,
-      createdby: userData.username,
-      parentid: "",
-      type: this.type,
-      voiceissue: this.voiceissue,
-    }
-    const userCommentModel = {
-      "UserComment": commentObj
-    }
-    let requestObservable: Observable<any>;
-    this.saveLoader = true;
-    debugger
-    if (!this.update) {
-      requestObservable = this.applicationService.addNestCommonAPI('knex-crud/task', commentObj);
-    } else {
-      userCommentModel.UserComment['componentid'] = this.update.componentId;
-      requestObservable = this.applicationService.updateNestCommonAPI(
-        'cp/UserComment',
-        this.update._id,
-        userCommentModel
-      );
-    }
-
-
-    this.requestSubscription = requestObservable.subscribe({
-      next: (res: any) => {
-        this.saveLoader = false;
-        if (res.id) {
-          this.create();
-          this.#modal.destroy(commentObj);
-          this.dataSharedService.taskmanager.next(true);
-          this.toastr.success(`UserComment save succesfully`, { nzDuration: 3000 });
-        } else {
-          this.toastr.error(`UserComment: ${res.message}`, { nzDuration: 3000 });
-        }
-      },
-      error: () => {
-        this.saveLoader = false;
-
-        this.toastr.error('UserComment: An error occurred', { nzDuration: 3000 });
-      }
-    });
   }
 
   getCommentsData(): void {

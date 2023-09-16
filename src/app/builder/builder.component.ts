@@ -360,7 +360,7 @@ export class BuilderComponent implements OnInit {
             this.toastr.success(res.message, { nzDuration: 3000 });
             this.showActionRule = true;
             // this.getBuilderScreen();
-            this.getFromQuery(this.navigation);
+            this.getFromQuery(this.navigation, 'load');
           }
           else
             this.toastr.error(res.message, { nzDuration: 3000 });
@@ -469,7 +469,7 @@ export class BuilderComponent implements OnInit {
             const objScreenData = JSON.parse(res.data[0].screenData);
             this.isSavedDb = true;
             // this.moduleId = res[0].moduleId;
-            this.formlyModel = [];
+            this.formlyModel = {};
 
             let nodesData = this.jsonParseWithObject(this.jsonStringifyWithObject(objScreenData));
 
@@ -580,7 +580,7 @@ export class BuilderComponent implements OnInit {
             this.applyDefaultValue();
             this.getJoiValidation(this._id);
             this.saveLoader = false;
-            this.getFromQuery(res.data[0].navigation);
+            this.getFromQuery(res.data[0].navigation, 'get');
             // if (res[0].menuData[0].children[1]) {
 
             //   // this.uiRuleGetData(res[0].moduleId);
@@ -6230,13 +6230,16 @@ export class BuilderComponent implements OnInit {
 
     }
   }
-  async getFromQuery(name: string) {
+  async getFromQuery(name: string, type?: any) {
     debugger
     let tableData = this.findObjectByTypeBase(this.nodes[0], "gridList");
     if (tableData) {
       let findClickApi = tableData?.appConfigurableEvent?.filter((item: any) =>
         (item.actionLink === 'get' && (item.actionType === 'api' || item.actionType === 'query'))
       );
+      if (type == 'load' && Object.keys(tableData.eventActionconfig).length > 0) {
+        findClickApi = [tableData.eventActionconfig]
+      }
       if (findClickApi) {
         if (findClickApi.length > 0) {
           let pagination = '';

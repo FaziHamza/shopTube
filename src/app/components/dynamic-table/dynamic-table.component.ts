@@ -708,6 +708,9 @@ export class DynamicTableComponent implements OnInit {
       this.displayData = [...this.tableData, row];
     }
     else {
+      if(this.tableData.length == 0){
+        this.tableData = [...this.displayData]
+      }
       const newRow = JSON.parse(JSON.stringify(this.tableData[0]));
       newRow["id"] = this.tableData[id].id + 1;
       delete newRow?._id;
@@ -812,9 +815,46 @@ export class DynamicTableComponent implements OnInit {
     }
   };
 
-  startEdit(id: string): void {
+  async startEdit(id: string): Promise<void> {
     this.editId = id;
+    try {
+      const filteredHeaders = this.tableHeaders.filter((item: any) => item.dataType === 'repeatSection' && item.callApi);
+      if (filteredHeaders && filteredHeaders.length > 0) {
+        for (const header of filteredHeaders) {
+          if (!this.displayData.some(item => item.hasOwnProperty(header.key + '_list'))) {
+            try {
+              const res = await this.applicationService.getNestCommonAPI(header?.callApi).toPromise();
+              if (res.data?.length > 0) {
+                const propertyNames = Object.keys(res.data[0]);
+                const result = res.data.map((item: any) => {
+                  const newObj: any = {};
+                  const propertiesToGet: string[] = ('id' in item && 'name' in item) ? ['id', 'name'] : Object.keys(item).slice(0, 2);
+                  propertiesToGet.forEach((prop) => {
+                    newObj[prop] = item[prop];
+                  });
+                  return newObj;
+                });
+
+                const finalObj = result.map((item: any) => ({
+                  label: item.name || item[propertyNames[1]],
+                  value: item.name || item[propertyNames[1]],
+                }));
+
+                this.makeOptions(this.displayData, header.key + '_list', finalObj);
+              }
+            } catch (err) {
+              console.error(err); // Log the error to the console
+              this.toastr.error("An error occurred", { nzDuration: 3000 }); // Show an error message to the user
+            }
+          }
+        }
+      }
+    } catch (error) {
+      console.error("An error occurred in try-catch:", error);
+      // Handle the error appropriately, e.g., show an error message to the user.
+    }
   }
+
   stopEdit(): void {
     this.editId = null;
   }
@@ -1067,7 +1107,7 @@ export class DynamicTableComponent implements OnInit {
   checkTypeData(item: any, header: any) {
     debugger
     let checkAllowClick = this.tableHeaders.find((head: any) => head.key == header.key)
-    if (checkAllowClick) {
+    if (checkAllowClick && (header?.dataType != 'repeatSection' || header?.dataType == '' || header?.dataType == undefined)) {
       if (checkAllowClick?.callApi != '' && checkAllowClick?.callApi != null) {
         this.showChild = false;
         if (this.data?.openComponent == 'drawer') {
@@ -1105,6 +1145,7 @@ export class DynamicTableComponent implements OnInit {
         }
       }
     }
+
   }
   transform(dateRange: string): any {
     if (dateRange) {
@@ -1562,6 +1603,8 @@ export class DynamicTableComponent implements OnInit {
         }
       }
       this.data.targetId = '';
+
+
       this.displayData = this.tableData.length > this.data.end ? this.tableData.slice(0, this.data.end) : this.tableData;
       if (this.tableHeaders.length === 0) {
         this.tableHeaders = Object.keys(this.tableData[0] || {}).map(key => ({ name: key, key: key }));
@@ -1614,19 +1657,21 @@ export class DynamicTableComponent implements OnInit {
         }
       }
       else {
-        //if data is not stored in index db then remove expand column
         this.tableHeaders = this.tableHeaders.filter((head: any) => head.key != 'expand')
       }
       this.data['tableKey'] = this.tableHeaders;
       this.data['tableHeaders'] = this.tableHeaders;
+      if (window.location.href.includes('taskmanager.com')) {
+
+      }
     }
-    // this.loadTableData();
   }
   isAllowEdit(header: any): boolean {
     let check = header.some((head: any) => head?.editMode != '' && head?.editMode != null);
     return check;
   }
   saveEdit(dataModel: any) {
+    let newDataModel = JSON.parse(JSON.stringify(dataModel))
     const findClickApi = this.data.appConfigurableEvent.find((item: any) =>
       item.actionLink === 'put' && (item.actionType === 'api' || item.actionType === 'query')
     );
@@ -1634,12 +1679,18 @@ export class DynamicTableComponent implements OnInit {
     if (findClickApi) {
       const { actionType, httpAddress, _id } = findClickApi;
 
-      if (dataModel) {
-        delete dataModel.children
+      if (newDataModel) {
+        for (let key in newDataModel) {
+          if (newDataModel[key] && Array.isArray(newDataModel[key])) {
+            delete newDataModel[key];
+          }
+        }
+        
+        delete newDataModel.children
         const model = {
           screenId: this.screenName,
           postType: 'put',
-          modalData: dataModel
+          modalData: newDataModel
         };
 
         let url = actionType === 'api' ? httpAddress : actionType === 'query' ? `knex-query/executeQuery/${_id}` : '';
@@ -1722,5 +1773,16 @@ export class DynamicTableComponent implements OnInit {
 
   rowselected(i: number) {
     this.index = i;
+  }
+
+  makeOptions(data: any, key: any, value: any) {
+    data.forEach((element: any) => {
+      element[key] = value;
+      if (data.children) {
+        if (data.children.length > 0) {
+          this.makeOptions(data.children, key, value)
+        }
+      }
+    });
   }
 }

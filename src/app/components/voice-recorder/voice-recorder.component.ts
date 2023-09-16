@@ -78,7 +78,7 @@ export class VoiceRecorderComponent {
       this.audioBlobUrl = this.sanitizer.bypassSecurityTrustUrl(URL.createObjectURL(data.blob));
       blobToBase64(this.audioBlob)
         .then(base64Data => {
-          this.dataSharedService.sectionSubmit.next(base64Data);
+          this.dataSharedService.voiceRecord.next(base64Data);
         })
         .catch(error => {
           console.error('Error converting blob to base64:', error);

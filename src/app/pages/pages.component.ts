@@ -1929,16 +1929,16 @@ export class PagesComponent implements OnInit {
         if (element.formly[0].fieldGroup[0].props['appConfigurableEvent']) {
           for (let j = 0; j < element.formly[0].fieldGroup[0].props['appConfigurableEvent'].length; j++) {
             const getActions = element.formly[0].fieldGroup[0].props['appConfigurableEvent'][j];
-            if (getActions.actions?.[0]?.submit == 'change' || getActions.actions?.[0]?.submit == 'onchange') {
+            if (getActions.btnActionType == 'change' || getActions.btnActionType == 'onchange') {
               // let subParamId = '';
               // if(element.formly[0].fieldGroup[0].key.includes('.')){
               //   const check =   element.formly[0].fieldGroup[0].key.split('.')
               //   subParamId = this.formlyModel[check[0]][check[1]];
               // }
               let url = '';
-              if (getActions.actions?.[0]?.url.endsWith('/'))
-                url = getActions.actions?.[0]?.url.endsWith('/')
-              else url = getActions.actions?.[0]?.url + '/'
+              if (getActions?.httpAddress.endsWith('/'))
+                url = getActions?.httpAddress.endsWith('/')
+              else url = getActions?.httpAddress + '/'
 
               this.applicationService.getBackendCommonAPI(url + targetId).subscribe(res => {
                 if (res) {
@@ -1967,14 +1967,15 @@ export class PagesComponent implements OnInit {
                     });
                     for (let j = 0; j < filteredNodes.length; j++) {
                       const ele = filteredNodes[j];
-                      if (ele.formly[0].fieldGroup[0].key == getActions.actions?.[0]?.elementName) {
+                      if (ele.formly[0].fieldGroup[0].key == getActions?.elementNameTo) {
                         ele.formly[0].fieldGroup[0].props.options = finalObj;
                       }
                     }
-                  } else {
+                  } 
+                  else {
                     for (let j = 0; j < filteredNodes.length; j++) {
                       const ele = filteredNodes[j];
-                      if (ele.formly[0].fieldGroup[0].key == getActions.actions?.[0]?.elementName) {
+                      if (ele.formly[0].fieldGroup[0].key == getActions?.elementNameTo) {
                         ele.formly[0].fieldGroup[0].props.options = [];
                       }
                     }

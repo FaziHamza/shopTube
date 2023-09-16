@@ -50,6 +50,7 @@ export class SelectComponent extends FieldType<FieldTypeConfig> implements OnCha
       this.requestSubscription.unsubscribe();
   }
   processData(data: any[]) {
+    debugger
     if (data?.length > 0) {
       let propertyNames = Object.keys(data[0]);
       let result = data.map((item: any) => {
