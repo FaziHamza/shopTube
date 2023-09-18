@@ -19,6 +19,8 @@ export class MultiSelectComponent extends FieldType<FieldTypeConfig> implements 
       if (this.formControl.value === '' || this.formControl.value === undefined) {
         this.formControl.patchValue([]);
       }
+    } if (this.formControl.value === '') {
+      this.formControl.patchValue([]);
     }
     this.cdr.detectChanges();
   }
@@ -35,22 +37,29 @@ export class MultiSelectComponent extends FieldType<FieldTypeConfig> implements 
 
 
   onModelChange(event: any, model: any) {
-    if (!Array.isArray(event)) {
-      if(event){
-        if (event.includes(',')) {
-          event = event.split(',')
+    debugger
+    // if (event == '') {
+    //   event = [];
+    //   this.formControl.patchValue(event);
+    //   this.sharedService.onChange(event, this.field,);
+    // }
+    if (event) {
+      if (!Array.isArray(event)) {
+        if (event) {
+          if (event.includes(',')) {
+            event = event.split(',')
+          } else {
+            event = [event];
+          }
         } else {
-          event = [event];
+          event = [];
         }
-      }else{
-        event = [];
+        this.formControl.patchValue(event);
+      } else {
+        this.sharedService.onChange(event, this.field,);
+        console.log(event, model, 'radio');
       }
-      this.formControl.patchValue(event);
-    } else {
-      this.sharedService.onChange(event, this.field,);
-      console.log(event, model, 'radio');
     }
-
   }
 
   // convertToArray(): any {

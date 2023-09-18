@@ -81,7 +81,7 @@
 
                 <td>
                     <ng-container *ngIf="data.image; else emptyContent">
-                        <img nz-image width="50px" height="50px" [nzSrc]="data.image" alt />
+                        <img nz-image width="50px" height="50px" [nzSrc]="serverPath + data.image" alt />
                     </ng-container>
                     <ng-template #emptyContent>
                         <nz-empty class="no-image"></nz-empty>

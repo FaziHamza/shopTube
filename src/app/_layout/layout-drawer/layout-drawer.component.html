@@ -37,9 +37,10 @@
                                         <div class="box">
                                             <input [(ngModel)]="selectedTheme['backGroundColor']" type="color"
                                                 class="input-color">
-                                            <span>{{selectedTheme['backGroundColor']}} </span>
+                                            <span><input nz-input [(ngModel)]="selectedTheme['backGroundColor']"></span>
                                         </div>
                                     </div>
+
                                     <div class="collm lable">
                                         Active Text Color
                                     </div>

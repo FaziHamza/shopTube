@@ -17,6 +17,16 @@
       class="!rounded-md !bg-green-500 !text-white hover:!bg-green-600 hover:text-white !border !border-transparent !hover:border-transparent font-md text-lg">Download
       Excel<i class="fa-regular fa-download ml-2"></i></button>
   </div>
+  <div *ngIf="!childTable">
+    <nz-input-group nzSearch [nzAddOnAfter]="suffixIconButton">
+      <input type="text" class="!h-10 !rounded-tl-md !rounded-bl-md" nz-input id="searchControll"
+        [(ngModel)]="searchValue" placeholder="Search..." />
+    </nz-input-group>
+    <ng-template #suffixIconButton>
+      <button nz-button nzType="primary" class="!rounded-tr-md !rounded-br-md !w-10" nzSearch><span nz-icon
+          nzType="search" (click)="search()"></span></button>
+    </ng-template>
+  </div>
 
 
   <div class="dynamic-table" [processData]="processData"
@@ -132,7 +142,7 @@
                   </div>
                   <div *ngIf="header?.dataType =='audioVideoRecorder'" class="!h-fit">
                     <audio class="!w-[210px] !h-[30px]" controls>
-                      <source [src]="serverPath + '/' + item[header.key]" type="audio/mp3">
+                      <source [src]="item[header.key] ? serverPath + '/' + item[header.key] : ''" type="audio/mp3">
                     </audio>
                   </div>
                 </td>
