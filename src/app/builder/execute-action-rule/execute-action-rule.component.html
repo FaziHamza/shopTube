@@ -7,7 +7,9 @@
     <div *ngFor="let multiSelect of multiSelectArray.controls; let i = index" class="flex flex-wrap mt-4 border">
       <div [formGroupName]="i" class="w-full h-500">
         <div class="p-2 flex justify-start items-center flex-auto">
-          <nz-select class="form-select execute-form-select !mr-4" nzShowSearch nzAllowClear
+          <div class="box" >
+            <label>Action Type</label>
+            <nz-select class="form-select execute-form-select " nzShowSearch nzAllowClear
             aria-label="Default Select Example" formControlName="action">
             <nz-option nzValue="select" nzLabel="Select" selected></nz-option>
             <nz-option nzValue="load" nzLabel="On Load"></nz-option>
@@ -18,15 +20,22 @@
             <nz-option nzValue="mouseleave" nzLabel="Mouse Leave"></nz-option>
             <nz-option nzValue="mouseenter" nzLabel="Mouse Enter"></nz-option>
           </nz-select>
-          <nz-select class="form-select execute-form-select" nzShowSearch nzAllowClear
-            aria-label="Default Select Example" formControlName="componentFrom">
-            <nz-option [nzLabel]="item.title" [nzValue]="item.key" *ngFor="let item of nodeList"></nz-option>
-          </nz-select>
-          <nz-select class="form-select execute-form-select" nzShowSearch nzAllowClear
-            aria-label="Default Select Example" formControlName="targetId">
-            <nz-option [nzLabel]="item.title" [nzValue]="item.key" *ngFor="let item of nodeList"></nz-option>
-          </nz-select>
         </div>
+        <div class="box !mx-4">
+          <label >Component ID</label>
+          <nz-select class="form-select execute-form-select " nzShowSearch nzAllowClear
+          aria-label="Default Select Example" formControlName="componentFrom">
+          <nz-option [nzLabel]="item.title" [nzValue]="item.key" *ngFor="let item of nodeList"></nz-option>
+        </nz-select>
+      </div>
+      <div class="box">
+        <label >Target ID</label>
+        <nz-select class="form-select execute-form-select" nzShowSearch nzAllowClear
+        aria-label="Default Select Example" formControlName="targetId">
+        <nz-option [nzLabel]="item.title" [nzValue]="item.key" *ngFor="let item of nodeList"></nz-option>
+      </nz-select>
+    </div>
+  </div>
 
         <div class="w-full flex justify-end items-center p-2 pt-0">
 
