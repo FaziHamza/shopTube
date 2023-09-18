@@ -179,14 +179,14 @@ object {
     display: flex !important;
     align-items: center !important;
   }
-
+  
 
   .ant-checkbox {
     margin-top: 7px;
   }
 
   .input-group-text {
-    height: 40px !important;
+    height: 50px !important;
     border-radius: 0px !important;
   }
 
@@ -202,7 +202,7 @@ object {
     // text-align: right !important;
     // border: 1px 1px 0px 1px solid lightgray;
     border: 1px solid lightgray;
-    padding-top: 2px;
+    padding-top: 7px;
     font-weight: 500;
     color: black;
 
@@ -226,11 +226,11 @@ object {
   }
 
   .formly-horizontal-wrapper {
-    height: 40px !important;
+    height: 50px !important;
   }
 
   .form-control {
-    height: 40px !important;
+    height: 50px !important;
     border-radius: 0px !important;
   }
 
@@ -238,42 +238,42 @@ object {
   .ant-input-group-lg>.ant-input-group-addon {
     padding: 6.5px 11px;
     font-size: 16px;
-    height: 40px !important;
+    height: 55px !important;
   }
 
   .ant-picker-small {
-    height: 40px !important;
+    height: 51px !important;
   }
 
   .ant-input-group-sm .ant-input,
   .ant-input-group-sm>.ant-input-group-addon {
     padding: 0 7px;
-    height: 40px !important;
+    height: 55px !important;
   }
 
   .ant-input-group .ant-input {
-    height: 40px !important;
+    height: 51px !important;
   }
 
   .ant-picker-large {
     padding: 6.5px 11px;
-    height: 40px !important;
+    height: 50px !important;
   }
 
   .ant-picker {
-    height: 40px !important;
+    height: 51px !important;
   }
 
   .ant-input-number {
-    height: 40px;
+    height: 51px;
   }
 
   .ant-input-affix-wrapper-sm {
-    height: 40px !important;
+    height: 52px !important;
   }
 
   .ant-select-selector {
-    height: 40px !important;
+    height: 51px !important;
 
   }
 
@@ -291,14 +291,14 @@ object {
 
   .checkBox {
     border: 1px solid lightgray !important;
-    height: 40px;
+    height: 51px;
     padding-left: 2%;
     padding-right: 2%;
   }
 
   .imageUpoload {
     border: 1px solid lightgray;
-    height: 40px !important;
+    height: 51px !important;
     padding-left: 2%;
     padding-right: 2%;
     padding-top: 7px !important;
@@ -321,15 +321,15 @@ object {
     display: flex;
     flex-flow: row wrap;
     padding-left: 2%;
-    height: 40px !important;
+    height: 51px !important;
   }
 
   .ant-select-selection-item .align-items-center {
-    margin-top: 3px !important;
+    margin-top: 9px !important;
   }
 
   .ant-select-show-search {
-    height: 40px !important;
+    height: 50px !important;
 
     .ng-value-container {
       .ng-placeholder {
@@ -339,7 +339,7 @@ object {
   }
 
   .ng-select-container {
-    height: 40px !important;
+    height: 50px !important;
 
     .ng-value-container {
       .ng-placeholder {
@@ -359,21 +359,8 @@ object {
 
   .col-form-label {
     padding: 13px !important;
-    height: 40px !important;
-    display: flex;
-    justify-content: start;
-    align-items: center;
-    font-size: 12px;
-    font-weight: bold;
+    height: 51px !important;
   }
-  formly-field{
-    height: 40px !important;
-  }
-  :host ::ng-deep formly-vertical-theme-wrapper{
-    height: 40px !important;
-
-  }
-
 
   // textarea.ant-input{
   //   min-height: 100px;
@@ -3750,7 +3737,7 @@ object {
       }
 
       .upload-btn {
-        width: 40px !important;
+        width: 40px;
         height: 40px;
         flex-shrink: 0;
         border-radius: 6px;
@@ -6416,27 +6403,26 @@ tr:hover {
   }
 }
 
-.src-btn {
+.src-btn{
 
   .btn-dangerous {
     height: 40px;
     flex-shrink: 0;
-    border-radius: 6px;
-    background: #fd3636;
-    color: #FFF;
-    font-size: 14px;
-    font-style: normal;
-    line-height: 140%;
-    letter-spacing: 0.2px;
-    width: fit-content;
+  border-radius: 6px;
+  background: #fd3636;
+  color: #FFF;
+  font-size: 14px;
+  font-style: normal;
+  line-height: 140%;
+  letter-spacing: 0.2px;
+  width: fit-content;
 
-    &:hover {
-      background-color: #ff7875;
-    }
+  &:hover {
+    background-color: #ff7875;
   }
-
 }
 
+}
 .side-nav-body {
   .ant-btn-primary {
     height: 40px;
@@ -6823,7 +6809,7 @@ tr:hover {
 .ant-modal-close-icon {
   // border: 2px solid red;
   padding: 5px;
-  color: red;
+  color: red ;
   // border-radius: 6px;
 }
 
@@ -6931,7 +6917,7 @@ tr:hover {
   }
 }
 
-.board-card {
+.board-card{
   .ant-card-body {
     min-width: 350px !important;
     width: auto !important;
@@ -6940,19 +6926,18 @@ tr:hover {
 }
 
 .editor-container {
-  width: 100% !important;
+  width: 100% !important; 
   height: 100vh !important;
 }
 
-.ant-table-row-expand-icon {
+.ant-table-row-expand-icon{
   border: 1px solid black !important;
-
-  &:hover {
+  &:hover{
     border-color: #038edc !important;
   }
 }
 
-.ant-card-body {
+.ant-card-body{
   padding: 16px !important;
 }
 
@@ -6968,123 +6953,68 @@ tr:hover {
 }
 
 
-.calender-card {
+.calender-card{
 
-
+  
   .fc-dayGridMonth-button,
   .fc-timeGridWeek-button,
-  .fc-timeGridDay-button,
-  .fc-listMonth-button,
-  .fc-today-button {
-    text-transform: capitalize !important;
-    height: 40px !important;
-    flex-shrink: 0 !important;
-    border-radius: 6px !important;
-    background: #2563EB !important;
+.fc-timeGridDay-button,
+.fc-listMonth-button, .fc-today-button  {
+  text-transform: capitalize !important;
+  height: 40px !important;
+  flex-shrink: 0 !important;
+  border-radius: 6px !important;
+  background: #2563EB !important;
+  color: #FFF !important;
+  font-size: 14px !important;
+  font-style: normal !important;
+  line-height: 140% !important;
+  letter-spacing: 0.2px !important;
+  width: fit-content !important;
+  border: none !important;
+  margin-right: 4px !important;
+  
+  &:hover {
+    background-color: #3b82f6 !important;
     color: #FFF !important;
-    font-size: 14px !important;
-    font-style: normal !important;
-    line-height: 140% !important;
-    letter-spacing: 0.2px !important;
-    width: fit-content !important;
-    border: none !important;
-    margin-right: 4px !important;
-
-    &:hover {
-      background-color: #3b82f6 !important;
-      color: #FFF !important;
-    }
-
   }
+  
+}
 
-  .fc-today-button {
-    opacity: 1 !important;
-  }
+.fc-today-button{
+  opacity: 1 !important;
+}
 
-  .fc-button-group .fc-button-active {
-    border: 2px solid #2563EB !important;
-    color: #2563EB !important;
-    background: #fff !important;
-    // &:hover{
-    //   border: 2px solid transparent !important;
-    // }
-  }
-
-  .fc-toolbar-chunk .fc-button-group .fc-prev-button,
-  .fc-next-button {
-    background: #2563EB !important;
-    height: 40px !important;
-    border-radius: 6px !important;
-    width: fit-content !important;
-    border: none !important;
-    margin-right: 4px !important;
+.fc-button-group .fc-button-active{
+  border: 2px solid #2563EB !important;
+  color: #2563EB !important;
+  background: #fff !important;
+  // &:hover{
+  //   border: 2px solid transparent !important;
+  // }
+}
+.fc-toolbar-chunk .fc-button-group .fc-prev-button , .fc-next-button {
+  background: #2563EB !important;
+  height: 40px !important;
+  border-radius: 6px !important;
+  width: fit-content !important;
+  border: none !important;
+  margin-right: 4px !important;
+  color: #fff !important;
+  &:hover {
+    background: #3b82f6 !important;
     color: #fff !important;
-
-    &:hover {
-      background: #3b82f6 !important;
-      color: #fff !important;
-    }
-
-    .fc-icon {
-      color: #fff !important;
-    }
+  }
+  .fc-icon{
+    color: #fff !important;
   }
 }
 
-.builder-design {
-  .ant-drawer-header {
-    padding: 10px !important;
-  }
 
-  .ant-drawer-body {
-    padding: 10px 20px !important;
-  }
-
-  .ant-tabs-tab {
-    padding-top: 5px !important;
-    padding-bottom: 5px !important;
-  }
-
-  .ant-drawer-close {
-    margin-right: 6px !important;
-  }
-
-  .ant-tabs-tab+.ant-tabs-tab {
-    margin: 0 0 0 20px !important;
-  }
-
-  .ant-tabs-nav {
-    margin-bottom: 6px !important;
-  }
-
-  .dynamic-table-form br {
-    display: none !important;
-  }
-
-  .ant-collapse {
-    border-radius: 4px !important;
-  }
-
-
-}
-
-.ant-collapse>.ant-collapse-item>.ant-collapse-header {
-  padding: 6px !important;
-}
-
-.ant-collapse {
-  margin-bottom: 10px !important;
 }
 
 
 
 
-.rechateAlert{
-  .ant-alert {
-    border-radius: 6px !important;
-  }
-  .ant-alert-icon {
 
-    margin-top: 2px !important;
-    }
-}
+
