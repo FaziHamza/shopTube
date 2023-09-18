@@ -3576,6 +3576,7 @@ export class BuilderComponent implements OnInit {
             this.selectedNode['tooltipIcon'] = event.form.tooltipIcon;
             this.selectedNode['rowClass'] = event.form.rowClass;
             this.selectedNode['borderLessInputs'] = event.form.borderLessInputs;
+            this.selectedNode['inputLabelClassName']  = event.form.inputLabelClassName;
             if (this.selectedNode.children) {
               this.selectedNode.children[1]['rowClass'] = event.form.rowClass;
             }
