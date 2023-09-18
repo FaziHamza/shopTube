@@ -7,6 +7,9 @@ import { DemoComponent } from './builder/demo/demo.component';
 import { Screenv1Component } from './Builder-module/screenv1/screenv1.component';
 import { AuthGuard } from './auth/auth.Guard';
 import { RegisterComponent } from './auth/register/register.component';
+import { SOSAuthGuard } from './auth/sos-auth.Guard';
+import { BrowserUtils } from '@azure/msal-browser';
+import { MsalGuard } from '@azure/msal-angular';
 
 const routes: Routes = [
   {
@@ -64,11 +67,12 @@ const routes: Routes = [
   },
   {
     path: 'file-manager',
-    component: FileManagerComponent
+    component: FileManagerComponent, canActivate: [SOSAuthGuard]
   },
   {
     path: 'map',
-    component: googleMapComponent
+    component: googleMapComponent,
+    canActivate: [MsalGuard]
   },
   {
     path: 'screenv1',
@@ -76,8 +80,12 @@ const routes: Routes = [
   },
 ];
 
+
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [RouterModule.forRoot(routes, {
+    // Don't perform initial navigation in iframes or popups
+    initialNavigation: !BrowserUtils.isInIframe() && !BrowserUtils.isInPopup() ? 'enabledNonBlocking' : 'disabled' // Set to enabledBlocking to use Angular Universal
+  })],
   exports: [RouterModule]
 })
 export class AppRoutingModule { }

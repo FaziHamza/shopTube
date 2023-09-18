@@ -47,6 +47,60 @@ import { environment } from 'src/environments/environment';
 import { DataService } from './services/offlineDb.service';
 import { AudioRecordingService } from './services/audio-recording.service';
 import { VideoRecordingService } from './services/video-recording.service';
+import { AuthConfig, OAuthModule } from 'angular-oauth2-oidc';
+import { MsalModule, MsalInterceptor, MsalInterceptorConfiguration, MsalGuardConfiguration, MSAL_INSTANCE, MSAL_GUARD_CONFIG, MSAL_INTERCEPTOR_CONFIG, MsalService, MsalGuard, MsalBroadcastService, MsalRedirectComponent } from "@azure/msal-angular";
+import { BrowserCacheLocation, IPublicClientApplication, InteractionType, LogLevel, PublicClientApplication } from '@azure/msal-browser';
+
+export const protectedResourceMap: any = [
+  [environment.nestBaseUrl, environment.scopeUri],
+];
+
+
+export function loggerCallback(logLevel: LogLevel, message: string) {
+  console.log(message);
+}
+
+export function MSALInstanceFactory(): IPublicClientApplication {
+  return new PublicClientApplication({
+    auth: {
+      clientId: environment.msalConfig.auth.clientId,
+      authority: environment.msalConfig.auth.authority,
+      redirectUri: '/',
+      postLogoutRedirectUri: '/'
+    },
+    cache: {
+      cacheLocation: BrowserCacheLocation.LocalStorage
+    },
+    system: {
+      allowNativeBroker: false, // Disables WAM Broker
+      loggerOptions: {
+        loggerCallback,
+        logLevel: LogLevel.Info,
+        piiLoggingEnabled: false
+      }
+    }
+  });
+}
+
+export function MSALInterceptorConfigFactory(): MsalInterceptorConfiguration {
+  const protectedResourceMap = new Map<string, Array<string>>();
+  protectedResourceMap.set(environment.apiConfig.uri, environment.apiConfig.scopes);
+
+  return {
+    interactionType: InteractionType.Redirect,
+    protectedResourceMap
+  };
+}
+
+export function MSALGuardConfigFactory(): MsalGuardConfiguration {
+  return { 
+    interactionType: InteractionType.Redirect,
+    authRequest: {
+      scopes: [...environment.apiConfig.scopes]
+    },
+    loginFailedRoute: '/login-failed'
+  };
+}
 
 @NgModule({
   declarations: [
@@ -90,6 +144,9 @@ import { VideoRecordingService } from './services/video-recording.service';
         deps: [HttpClient]
       }
     }),
+    OAuthModule.forRoot(),
+    MsalModule
+  
     // NzIconModule.forRoot([ SettingOutline  ]),
   ],
   providers: [
@@ -117,7 +174,28 @@ import { VideoRecordingService } from './services/video-recording.service';
         siteKey: environment.recaptcha.siteKey,
       } as RecaptchaSettings,
     },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: MsalInterceptor,
+      multi: true
+    },
+    {
+      provide: MSAL_INSTANCE,
+      useFactory: MSALInstanceFactory
+    },
+    {
+      provide: MSAL_GUARD_CONFIG,
+      useFactory: MSALGuardConfigFactory
+    },
+    {
+      provide: MSAL_INTERCEPTOR_CONFIG,
+      useFactory: MSALInterceptorConfigFactory
+    },
+    MsalService,
+    MsalGuard,
+    MsalBroadcastService
+
   ],
-  bootstrap: [AppComponent],
+  bootstrap: [AppComponent, MsalRedirectComponent],
 })
 export class AppModule { }
