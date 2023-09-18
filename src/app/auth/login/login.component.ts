@@ -37,7 +37,7 @@ export class LoginComponent implements OnInit {
     private cdr: ChangeDetectorRef,
     private toastr: NzMessageService,
   ) { }
-
+  showRecaptcha : boolean = false;
   isFormSubmit: boolean = false;
   form: FormGroup;
   // form
@@ -57,7 +57,8 @@ export class LoginComponent implements OnInit {
   submitForm(): void {
     this.recaptchaResponse = grecaptcha.getResponse();
     if (!this.recaptchaResponse) {
-      this.toastr.warning('You are not human', { nzDuration: 3000 }); // Show an error message to the user
+      // this.toastr.warning('You are not human', { nzDuration: 3000 }); // Show an error message to the user
+      this.showRecaptcha = true;
       return;
     }
 

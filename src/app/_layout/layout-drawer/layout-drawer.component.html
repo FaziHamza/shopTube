@@ -1,6 +1,7 @@
 <nz-space>
     <button *nzSpaceItem nz-button (click)="open()" nzType="primary" class="upload-btn">
-        <i class="fa-light fa-gear"></i>
+        <i class="fa-light fa-gear !relative !text-lg "></i>
+        <i class="fa-light fa-gear !absolute !top-[4px] !right-[4.5px] !text-[10px] "></i>
     </button>
 </nz-space>
 <!-- <button nz-button nzType="primary" [nzSize]="'large'" nzShape="circle" (click)="open()" class="fixed bottom-4 right-4"
@@ -37,7 +38,7 @@
                                         <div class="box">
                                             <input [(ngModel)]="selectedTheme['backGroundColor']" type="color"
                                                 class="input-color">
-                                            <span><input nz-input [(ngModel)]="selectedTheme['backGroundColor']"></span>
+                                            <span>{{selectedTheme['backGroundColor']}}</span>
                                         </div>
                                     </div>
 

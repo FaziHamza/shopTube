@@ -15,8 +15,8 @@
             <!-- Carousel_indicator -->
 
 
-             <nz-carousel nzEffect="scrollx" nzAutoPlay>
-                <div nz-carousel-content class="w-full" >
+            <nz-carousel nzEffect="scrollx" nzAutoPlay>
+                <div nz-carousel-content class="w-full">
                     <div class="!pt-[50px] !flex !justify-center !items-center img-div !px-[70px]">
                         <div
                             class="w-[75%] h-4/5 !flex !justify-center !items-center !rounded-full !bg-gradient-to-b from-[#306BEC] to-[#2563EB]">
@@ -27,9 +27,10 @@
                             </div>
                         </div>
                     </div>
-            
+
                     <div class="!h-fit bottom-div !relative !bottom-8 !flex !flex-col !items-center !text-center">
-                        <p class="!text-[24px] !mb-3 !text-white !not-italic !font-bold !leading-[30px] !tracking-[0.2px]">
+                        <p
+                            class="!text-[24px] !mb-3 !text-white !not-italic !font-bold !leading-[30px] !tracking-[0.2px]">
                             Customizable Multipurpose Dashboard
                         </p>
                         <p class="!text-[14px] !text-[#F8FAFC] !opacity-60 !not-italic !font-normal !leading-[22px]">
@@ -48,9 +49,10 @@
                             </div>
                         </div>
                     </div>
-            
+
                     <div class="!h-fit bottom-div !relative !bottom-8 !flex !flex-col !items-center !text-center">
-                        <p class="!text-[24px] !mb-3 !text-white !not-italic !font-bold !leading-[30px] !tracking-[0.2px]">
+                        <p
+                            class="!text-[24px] !mb-3 !text-white !not-italic !font-bold !leading-[30px] !tracking-[0.2px]">
                             Customizable Multipurpose Dashboard
                         </p>
                         <p class="!text-[14px] !text-[#F8FAFC] !opacity-60 !not-italic !font-normal !leading-[22px]">
@@ -69,9 +71,10 @@
                             </div>
                         </div>
                     </div>
-            
+
                     <div class="!h-fit bottom-div !relative !bottom-8 !flex !flex-col !items-center !text-center">
-                        <p class="!text-[24px] !mb-3 !text-white !not-italic !font-bold !leading-[30px] !tracking-[0.2px]">
+                        <p
+                            class="!text-[24px] !mb-3 !text-white !not-italic !font-bold !leading-[30px] !tracking-[0.2px]">
                             Customizable Multipurpose Dashboard
                         </p>
                         <p class="!text-[14px] !text-[#F8FAFC] !opacity-60 !not-italic !font-normal !leading-[22px]">
@@ -79,10 +82,10 @@
                         </p>
                     </div>
                 </div>
-            
-            </nz-carousel> 
-            
-            
+
+            </nz-carousel>
+
+
             <!-- Carousel_indicator -->
         </div>
         <!-- poster -->
@@ -95,6 +98,10 @@
                         class="text-[24px] ml-[20px] !text-left mb-4 not-italic font-bold leading-[30px] tracking-[0.2px] text-[#0F172A]">
                         Sign In To Your Account
                     </p>
+                </div>
+                <div class="w-full flex justify-center items-center">
+                    <nz-alert nzType="warning" nzMessage="Warning" nzDescription="You are not human" nzShowIcon
+                        class="w-[350px] rechateAlert" *ngIf="showRecaptcha"></nz-alert>
                 </div>
 
                 <form action="" [formGroup]="form" (ngSubmit)="submitForm()">
@@ -169,7 +176,7 @@
                         </p>
                     </div>
                 </div>
-                <div class="my-4" >
+                <div class="my-4">
                     <p class="text-[14px] not-italic font-normal leading-[22.4px]">
                         Don't have account?<a href="#" class="font-bold text-[#2563EB] ml-1">Sign Up</a>
                     </p>

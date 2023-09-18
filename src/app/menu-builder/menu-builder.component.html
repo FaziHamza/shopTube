@@ -61,8 +61,8 @@
           (change)="selectedJsonUpload($event)"> <nz-space>
           <st-layout-drawer *ngIf="selectedTheme" [selectedTheme]="selectedTheme"
             [applicationType]="selectApplicationType" (notify)="changeLayout($event)"></st-layout-drawer>
-          <button *ngIf="!selectedTheme" nz-button (click)="undefinedSelectedTheme()" nzType="primary"
-            class="upload-btn">
+          <button *ngIf="!selectedTheme" nz-button (click)="undefinedSelectedTheme()" nzType="primary" 
+            class="upload-btn ">
             <i class="fa-light fa-gear !relative !text-lg "></i>
             <i class="fa-light fa-gear !absolute !top-[4px] !right-[4.5px] !text-[10px] "></i>
           </button>
@@ -172,9 +172,9 @@
     </ng-container>
   </nz-drawer>
   <ng-template #config>
-    <button nz-button nzType="default" class="btn-no" (click)="closeConfigurationList()">Cancel</button>
+    <button nz-button nzType="default" class="btn-no" (click)="closeConfigurationList()"><i class="fa-regular fa-circle-xmark mr-2"></i> Cancel</button>
     &nbsp;
-    <button nz-button nzType="primary" class="btn" (click)="closeConfigurationList()">OK</button>
+    <button nz-button nzType="primary" class="btn" (click)="closeConfigurationList()"> <i class="fa-regular fa-thumbs-up mr-2"></i> OK</button>
   </ng-template>
   <nz-drawer [nzSize]="'large'" [nzWidth]="'80%'" *ngIf="controlListvisible" [nzVisible]="controlListvisible"
     nzPlacement="right" [nzTitle]="'Control List'" [nzExtra]="extra" (nzOnClose)="controlListClose()">
@@ -208,8 +208,8 @@
     </ng-container>
   </nz-drawer>
   <ng-template #extra>
-    <button nz-button nzType="default" (click)="controlListClose()">Cancel</button>
+    <button nz-button nzType="default" class="btn-no" (click)="controlListClose()"> <i class="fa-regular fa-circle-xmark mr-2"></i> Cancel</button>
     &nbsp;
-    <button nz-button nzType="primary" (click)="controlListClose()">OK</button>
+    <button nz-button nzType="primary" class="btn" (click)="controlListClose()"> <i class="fa-regular fa-thumbs-up mr-2"></i> OK</button>
   </ng-template>
 </div>
