@@ -6,7 +6,7 @@
       [(ngModel)]="columnName">
   </ng-container>
 </nz-modal> -->
-  <div *ngIf="data?.isAddRow == undefined ? true: data?.isAddRow">
+  <div *ngIf="data?.isAddRow == undefined ? true: data?.isAddRow" class="my-2">
     <button nz-button (click)="addRow()" *ngIf="!checkType" nzType="primary"> <i class="fa-regular fa-plus mr-2"></i>
       Add</button>
     <button nz-button (click)="addColumn()" *ngIf="checkType" nzType="primary"> <i class="fa-regular fa-plus mr-2"></i>
@@ -55,9 +55,9 @@
               </span> <span *ngIf="header?.gridHeaderSum">({{header?.gridHeaderSum}})</span>
             </th>
           </ng-container>
-          <th *ngIf="isAllowEdit(tableHeaders)" class="!text-gray-500">Edit</th>
+          <th *ngIf="isAllowEdit(tableHeaders)" class="!text-gray-500 !text-center !uppercase">Edit</th>
           <th *ngIf="tableHeaders.length > 0 && (data?.isDeleteAllow || data?.isDeleteAllow == undefined)"
-            class="!text-gray-500 !text-center">Delete</th>
+            class="!text-gray-500 !text-center !uppercase">Delete</th>
         </tr>
       </thead>
       <tbody class="dynamic-responsive-table-body w-full" style="width: 100%;">
@@ -142,13 +142,13 @@
                 </td>
                 <td *ngIf="header.key == 'headerButton'">
                   <button (click)="showModal('Header')" type="button"
-                    class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded">
+                    class="bg-blue-600 hover:bg-blue-500 text-white font-bold py-2 px-4 rounded">
                     Button
                   </button>
                 </td>
                 <td *ngIf="header.key == 'footerButton'">
                   <button type="button" (click)="showModal('Footer')"
-                    class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded">
+                    class="bg-blue-600 hover:bg-blue-500 text-white font-bold py-2 px-4 rounded">
                     Button
                   </button>
                 </td>

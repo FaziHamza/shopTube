@@ -24,6 +24,7 @@ export class SelectComponent extends FieldType<FieldTypeConfig> implements OnCha
       .find((i: any) => i.value === value)?.icon;
   }
   get list(): any {
+    debugger
     return this.to.options;
   }
   ngOnInit(): void {
