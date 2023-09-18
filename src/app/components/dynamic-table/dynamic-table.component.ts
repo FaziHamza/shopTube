@@ -62,6 +62,7 @@ export class DynamicTableComponent implements OnInit {
   groupingArray: any = [];
   groupingData: any = [];
   showChild: boolean = false;
+  searchValue: any = '';
   constructor(public _dataSharedService: DataSharedService, private builderService: BuilderService,
     private applicationService: ApplicationService,
     private dataService: DataService,
@@ -708,7 +709,7 @@ export class DynamicTableComponent implements OnInit {
       this.displayData = [...this.tableData, row];
     }
     else {
-      if(this.tableData.length == 0){
+      if (this.tableData.length == 0) {
         this.tableData = [...this.displayData]
       }
       const newRow = JSON.parse(JSON.stringify(this.tableData[0]));
@@ -1640,10 +1641,9 @@ export class DynamicTableComponent implements OnInit {
           getData.data.forEach((elem: any) => {
             let findData = this.tableHeaders.find((item: any) => item.key == elem);
             if (findData) {
-              updateTableData = this.groupedFunc(elem, 'add', findData, false);
+              this.groupedFunc(elem, 'add', findData, false);
             }
           })
-          this.tableData = updateTableData;
           this.displayData = this.tableData.length > this.data.end ? this.tableData.slice(0, this.data.end) : this.tableData;
           tableData.tableHeaders.unshift({
             name: 'expand',
@@ -1685,7 +1685,7 @@ export class DynamicTableComponent implements OnInit {
             delete newDataModel[key];
           }
         }
-        
+
         delete newDataModel.children
         const model = {
           screenId: this.screenName,
@@ -1785,4 +1785,83 @@ export class DynamicTableComponent implements OnInit {
       }
     });
   }
+
+  async search() {
+    try {
+      debugger;
+      this.saveLoader = true;
+
+      // Step 1: Remove the 'expand' header from tableHeaders
+      this.tableHeaders = this.tableHeaders.filter((head: any) => head.key != 'expand');
+
+      if (this.searchValue) {
+        const searchValue = this.searchValue.toLowerCase();
+
+        // Step 2: Use a more efficient approach for filtering the Excel report data
+        this.tableData = this.excelReportData.filter((item) => {
+          return this.tableHeaders.some((header: any) => {
+            const key = header.key;
+            const itemValue = item[key]?.toString().toLowerCase();
+
+            return itemValue && itemValue.includes(searchValue);
+          });
+        });
+
+        this.groupingData = [];
+      } else {
+        this.tableData = this.excelReportData;
+        this.displayData = this.tableData;
+        this.groupingData = [];
+
+      }
+
+      const applicationId = localStorage.getItem('applicationId') || '';
+      let savedGroupData: any = [];
+
+      if (applicationId) {
+        savedGroupData = await this.dataService.getNodes(JSON.parse(applicationId), this.screenName, "Table");
+      }
+
+      if (savedGroupData.length > 0) {
+        let getData = savedGroupData[savedGroupData.length - 1];
+
+        if (getData.data.length > 0) {
+          let updateTableData: any = [];
+          this.groupingArray = [];
+          getData.data.forEach((elem: any) => {
+            let findData = this.tableHeaders.find((item: any) => item.key == elem);
+
+            if (findData) {
+              this.groupedFunc(elem, 'add', findData, false);
+            }
+          });
+
+          this.displayData = this.tableData.length > this.data.end ? this.tableData.slice(0, this.data.end) : this.tableData;
+          this.data.tableHeaders.unshift({
+            name: 'expand',
+            key: 'expand',
+            title: 'Expand',
+          });
+
+          this.data.totalCount = this.tableData;
+        } else {
+          this.tableHeaders = this.tableHeaders.filter((head: any) => head.key != 'expand');
+          this.displayData = this.tableData;
+          this.pageChange(1);
+        }
+      } else {
+        this.tableHeaders = this.tableHeaders.filter((head: any) => head.key != 'expand');
+        this.displayData = this.tableData;
+        this.pageChange(1);
+      }
+
+      this.saveLoader = false;
+    } catch (error) {
+      console.error("An error occurred in search:", error);
+      // Handle the error appropriately, e.g., show an error message to the user.
+      this.saveLoader = false;
+    }
+  }
+
+
 }
