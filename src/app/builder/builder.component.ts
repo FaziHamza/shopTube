@@ -128,6 +128,9 @@ export class BuilderComponent implements OnInit {
     // }));
     this.dataSharedService.change.subscribe(({ event, field }) => {
       if (event && field && this.router.url == '/builder') {
+        if(this.formModalData[field.key]){
+          this.formModalData[field.key] = event;
+        }
         this.checkConditionUIRule(field, event);
       }
     });
@@ -3507,7 +3510,11 @@ export class BuilderComponent implements OnInit {
 
           if (event.type == 'div') {
             this.selectedNode['rowClass'] = event.form.rowClass;
-            this.selectedNode.imageSrc = event.form.imageSrc;
+            if (event.form.imageSrc) {
+              this.selectedNode.imageSrc = event.form.imageSrc;
+            } else {
+              this.selectedNode.imageSrc = event.form.image;
+            }
             if (event.form.divRepeat > 0) {
               this.addDynamic(event.form.nodes, 'step', 'mainStep');
             }
