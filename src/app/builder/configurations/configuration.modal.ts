@@ -11329,7 +11329,15 @@ export class formFeildData {
             label: 'Excel Report'
           }
         },
-
+        {
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          key: 'isAllowSearch',
+          type: 'checkbox',
+          wrappers: ["formly-vertical-theme-wrapper"],
+          props: {
+            label: 'Allow Search Data'
+          }
+        },
         {
           key: 'options',
           type: 'repeatSection',
@@ -11452,8 +11460,6 @@ export class formFeildData {
                   label: 'Header Button'
                 }
               },
-
-
               // {
               //   key: 'sortOrder',
               //   type: 'input',

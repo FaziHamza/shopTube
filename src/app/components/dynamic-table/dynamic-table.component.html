@@ -12,11 +12,11 @@
     <button nz-button (click)="addColumn()" *ngIf="checkType" nzType="primary"> <i class="fa-regular fa-plus mr-2"></i>
       Add</button>
   </div>
-  <div *ngIf="data?.isAllowExcelReport && !childTable" class="text-right mb-2 flex justify-between items-center">
-    <button nz-button (click)="exportToExcel()" nzType="primary"
+  <div  class="text-right mb-2 flex justify-between items-center">
+    <button *ngIf="data?.isAllowExcelReport && !childTable" nz-button (click)="exportToExcel()" nzType="primary"
       class="!rounded-md !bg-green-500 !text-white hover:!bg-green-600 !h-[32px] hover:text-white !border !border-transparent !hover:border-transparent font-md text-lg">Download
       Excel<i class="fa-regular fa-download ml-2"></i></button>
-      <div *ngIf="!childTable">
+      <div *ngIf="data?.isAllowSearch && !childTable">
         <nz-input-group nzSearch [nzAddOnAfter]="suffixIconButton">
           <input type="text" class="!h-[32px] !rounded-tl-md !rounded-bl-md" nz-input id="searchControll"
             [(ngModel)]="searchValue" placeholder="Search..." />

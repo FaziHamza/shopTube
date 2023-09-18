@@ -4232,6 +4232,7 @@ export class BuilderComponent implements OnInit {
           this.selectedNode['isDeleteAllow'] = event.form?.isDeleteAllow;
           this.selectedNode['isAllowGrouping'] = event.form?.isAllowGrouping;
           this.selectedNode['isAllowExcelReport'] = event.form?.isAllowExcelReport;
+          this.selectedNode['isAllowSearch'] = event.form?.isAllowSearch;
           let tableData: any = '';
           if (event.tableDta) {
             tableData = event.tableDta;

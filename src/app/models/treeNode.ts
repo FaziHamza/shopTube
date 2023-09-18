@@ -551,4 +551,5 @@ export interface TreeNode {
   isDeleteAllow?: boolean,
   isAllowGrouping?: boolean,
   isAllowExcelReport?: boolean,
+  isAllowSearch?: boolean,
 }
