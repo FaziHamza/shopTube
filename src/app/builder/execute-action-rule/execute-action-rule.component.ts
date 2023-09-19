@@ -297,26 +297,23 @@ export class ExecuteActionRuleComponent implements OnInit, AfterViewInit {
       );
       if (getAction) {
         if (!existingAction) {
+          const obj = [
+            {
+              "if": {
+                "actionRule": getAction.quryType,
+                "key": "0",
+                "compare": "==",
+                "value": "0"
+              }
+            }
+          ]
           const newItem = this.fb.group({
             componentFrom: buttonData.key, // Initialize this with your select value
             targetId: (action.type === 'query' && action.actionLink === 'get') ? tableData.key : '', // Initialize this with your select value
             action: 'click', // Initialize this with your select value
-            monacoEditorControl: []
+            monacoEditorControl: [JSON.stringify(obj)]
           });
           this.multiSelectArray.push(newItem);
-          // const editorControl = this.multiSelectArray.at(this.multiSelectArray.length -1).get('monacoEditorControl');
-          // if (editorControl) {
-          //   editorControl.setValue([
-          //     {
-          //       "if": {
-          //         "actionRule": getAction.quryType,
-          //         "key": "0",
-          //         "compare": "==",
-          //         "value": "0"
-          //       }
-          //     }
-          //   ]);
-          // }
         }
       }
     });
