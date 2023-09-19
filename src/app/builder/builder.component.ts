@@ -770,7 +770,7 @@ export class BuilderComponent implements OnInit {
           this.makeFakerData(node);
       });
     }
-    this.formlyModel = dataModelFaker;
+    // this.formlyModel = dataModelFaker;
   }
   makeFakerData(V2: any) {
     if (V2.formly[0].fieldGroup[0].props) {
