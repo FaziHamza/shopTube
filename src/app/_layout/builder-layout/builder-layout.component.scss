@@ -1,0 +1,23 @@
+/* Element | http://taskmanager.com:5600/ */
+
+nz-layout.ant-layout:nth-child(2) {
+    position: relative !important;
+    overflow: hidden;
+}
+
+/* Element | http://taskmanager.com:5600/ */
+
+.ant-layout-sider {
+    position: absolute;
+    left: 0;
+    top: 0;
+    z-index: 1000;
+    box-shadow: 0px 4px 25px 0px rgba(0, 0, 0, 0.05);
+}
+
+/* Element | http://taskmanager.com:5600/ */
+
+.ant-layout-content {
+    padding-left: 60px;
+}
+

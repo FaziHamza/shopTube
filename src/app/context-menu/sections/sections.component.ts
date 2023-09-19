@@ -289,9 +289,55 @@ export class SectionsComponent implements OnInit {
                 this.toastr.error(res[0]?.error, { nzDuration: 3000 });
               else {
                 this.toastr.success("Save Successfully", { nzDuration: 3000 });
+                const tableName = res[0].tableName.split('.')[1].split('_')[0];
                 this.setInternalValuesEmpty(this.dataModel);
                 this.setInternalValuesEmpty(this.formlyModel);
                 this.form.patchValue(this.formlyModel);
+
+                this.recursiveUpdate(this.formlyModel , tableName , res)
+                // let obj: any = JSON.stringify(JSON.parse(this.formlyModel))
+                // for (const key in obj) {
+                //   if (Object.prototype.hasOwnProperty.call(obj, key)) {
+                //     if (key.includes(tableName + '_' + 'id')) {
+                //       obj[tableName + '_' + 'id'] = res[0].id;
+                //     } else {
+                //       obj[key] = obj[key];
+                //     }
+                //     for (const obj of [this.formlyModel, /* other objects here */]) {
+                //       if (Object.prototype.hasOwnProperty.call(obj, key)) {
+                //         obj[key] = newData[key];
+                //       }
+                //     }
+                //   }
+                // }
+
+
+                // let obj: any = {}
+                // for (const key in this.formlyModel) {
+                //   if (key.includes(tableName + '_' + 'id')) {
+                //     this.formlyModel[key] = res[0].id;
+                //     obj[key] = res[0].id;
+                //   }
+                // }
+                // if(Object.keys(obj).length > 0){
+                //   let obj2 : any = {};
+                //   this.form.patchValue(obj);
+                // }
+
+                // for (const key in this.formlyModel) {
+                //   if (Object.prototype.hasOwnProperty.call(this.formlyModel, key)) {
+                //     this.formlyModel[tableName + '_' + 'id'] = res[0].id;
+                //     // for (const obj of [this.formlyModel, /* other objects here */]) {
+                //     //   if (Object.prototype.hasOwnProperty.call(obj, key)) {
+                //     //     obj[key] = newData[key];
+                //     //   }
+                //     // }
+                //   }
+                // }
+                // if (tableName) {
+                //   this.formlyModel[tableName]['id'] = res[0].id;
+                //   this.formlyModel[tableName + '.' + 'id'] = res[0].id;
+                // }
                 // this.setInternalValuesEmpty(this.dataModel)
                 // this.employeeService.getSQLDatabaseTable(`knex-query?tables=${tables}&relationIds=id,${relationIds.toString()}`).subscribe({
                 this.getFromQuery(data);
@@ -1438,4 +1484,18 @@ export class SectionsComponent implements OnInit {
   // ngOnDestroy() {
   //   this.requestSubscription.unsubscribe();
   // }
+
+  recursiveUpdate(obj: any, tableName: any, res: any) {
+    for (const key in obj) {
+      if (obj.hasOwnProperty(key)) {
+        if (typeof obj[key] === 'object') {
+          // If the property is an object, recurse into it
+          this.recursiveUpdate(obj[key], tableName, res);
+        } else if (key === tableName + 'id') {
+          // Check if the property key matches the condition
+          obj[key] = res[0].id; // Update the property value
+        }
+      }
+    }
+  }
 }
