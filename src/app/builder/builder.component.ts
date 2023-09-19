@@ -465,14 +465,14 @@ export class BuilderComponent implements OnInit {
       next: (res: any) => {
         if (res.isSuccess) {
           this.builderScreenData = res.data;
-          this.form = new FormGroup({});
+          // this.form = new FormGroup({});
           if (res.data.length > 0) {
             // this.navigation = '';
             this.showActionRule = true;
             const objScreenData = JSON.parse(res.data[0].screenData);
             this.isSavedDb = true;
             // this.moduleId = res[0].moduleId;
-            this.formlyModel = {};
+            // this.formlyModel = {};
 
             let nodesData = this.jsonParseWithObject(this.jsonStringifyWithObject(objScreenData));
 
@@ -3513,8 +3513,9 @@ export class BuilderComponent implements OnInit {
             if (event.form.imageSrc) {
               this.selectedNode.imageSrc = event.form.imageSrc;
             } else {
-              this.selectedNode.imageSrc = event.form.image;
+              this.selectedNode.imageSrc = this.dataSharedService.imageUrl;
             }
+            this.dataSharedService.imageUrl = '';
             if (event.form.divRepeat > 0) {
               this.addDynamic(event.form.nodes, 'step', 'mainStep');
             }
@@ -4166,16 +4167,16 @@ export class BuilderComponent implements OnInit {
           this.selectedNode.src = event.form.src;
         } else if (this.dataSharedService.imageUrl) {
           this.selectedNode.src = this.dataSharedService.imageUrl;
-          this.dataSharedService.imageUrl = '';
         }
+        this.dataSharedService.imageUrl = '';
         break;
       case 'imageUpload':
         if (event.form.source) {
-          this.dataSharedService.imageUrl = '';
-          this.selectedNode.base64Image = '';
+          this.selectedNode.base64Image = event.form.source;
         } else if (this.dataSharedService.imageUrl) {
           this.selectedNode.base64Image = this.dataSharedService.imageUrl;
         }
+        this.dataSharedService.imageUrl = '';
         break;
       case 'calender':
         if (this.selectedNode.id) {
@@ -4540,6 +4541,7 @@ export class BuilderComponent implements OnInit {
         } else if (this.dataSharedService.imageUrl) {
           this.selectedNode.imageSrc = this.dataSharedService.imageUrl;
         }
+        this.dataSharedService.imageUrl = '';
         break;
       case 'barChart':
         if (this.selectedNode) {
@@ -5576,6 +5578,7 @@ export class BuilderComponent implements OnInit {
         }
       }
     }
+    return;
     this.builderService.getSQLDatabaseTable('knex-crud/tables').subscribe({
       next: (objTRes) => {
         if (objTRes) {

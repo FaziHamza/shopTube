@@ -44,7 +44,7 @@
             [(nzChecked)]="allChecked" [nzIndeterminate]="indeterminate" (nzCheckedChange)="checkAll($event)"></th>
           <ng-container *ngFor="let header of tableHeaders">
             <th class="!font-semibold !text-gray-500 !uppercase !text-xs !text-center"
-              *ngIf="header.key !== 'defaultValue' && (header?.show === 'yes' || header?.show === undefined || header?.show === '')"
+              *ngIf="header.key !== 'defaultValue' && (header?.show == 'yes' || header?.show === undefined || header?.show === '' || header?.show == 'Yes')"
               [nzSortOrder]="header?.sortOrder" [nzSortFn]="header?.sortFn" [nzSortDirections]="header?.sortDirections"
               [nzFilterMultiple]="header?.filterMultiple" [nzFilters]="header?.listOfFilter"
               [nzFilterFn]="header?.filterFn"
@@ -86,10 +86,10 @@
               <td *ngIf="data.showCheckbox" [(nzChecked)]="item.checked" (nzCheckedChange)="refreshStatus()"></td>
               <ng-container *ngFor="let header of data['tableKey']; let index = index">
                 <td (click)="checkTypeData(item , header)" (click)="startEdit(item.id)" [nzEllipsis]="true" class="5"
-                  *ngIf="header?.dataType !='objectType' && header.key != 'headerButton' && header.key != 'footerButton' && header.key != 'expandable' && header.key != 'checked'
-                && header.key != 'expand' && header.key !='children' && header.key != 'defaultValue' ">
+                  *ngIf="(header?.show == 'yes' || header?.show === undefined || header?.show === '' || header?.show == 'Yes') && header?.dataType !='objectType' && header.key != 'headerButton' && header.key != 'footerButton' && header.key != 'expandable' && header.key != 'checked'
+                  && header.key != 'expand' && header.key !='children' && header.key != 'defaultValue' ">
                   <div class="1" *ngIf="(header?.dataType !='select' || !configurationTable) && header?.dataType !='audioVideoRecorder' && header?.dataType !='image-upload' && header?.dataType != 'repeatSection' && header?.dataType != 'dateTime' && !isMyDataArray(item[header.key]
-                )
+                  )
                    && header?.subDataType != 'datetime-local' && header?.dataType != 'rangePicker' ">
                     <div class="editable-cell"
                       [hidden]="editId === item.id && (configurationTable || header?.editMode == 'yes')">
@@ -173,7 +173,6 @@
                   <i class="fa-regular fa-trash !text-sm text-red-500"></i>
                 </a>
               </td>
-
             </tr>
             <tr *ngIf="item.expand != undefined" [nzExpand]="item.expand">
               <ng-container *ngIf="item?.children && item.expand">

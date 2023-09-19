@@ -281,6 +281,7 @@ export class SectionsComponent implements OnInit {
           apiUrl = 'knex-query';
         }
         if (apiUrl) {
+          this.dataSharedService.imageUrl = '';
           this.applicationServices.addNestCommonAPI(apiUrl, empData).subscribe({
             next: (res) => {
               this.saveLoader = false;
