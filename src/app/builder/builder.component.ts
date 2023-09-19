@@ -5409,6 +5409,7 @@ export class BuilderComponent implements OnInit {
           this.toastr.success('File uploaded successfully!', {
             nzDuration: 3000,
           });
+          this.updateNodes();
         };
         reader.readAsText(event.target.files[0]);
       }
