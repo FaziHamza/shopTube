@@ -272,7 +272,8 @@ export class SectionsComponent implements OnInit {
           this.applicationServices.addNestCommonAPI('knex-query/execute-rules/'+findClickApi[0]?._id, empData).subscribe({
             next: (res) => {
               this.saveLoader = false;
-              if (res[0]?.error)
+              if(res){
+                if (res[0]?.error)
                 this.toastr.error(res[0]?.error, { nzDuration: 3000 });
               else {
                 this.toastr.success("Save Successfully", { nzDuration: 3000 });
@@ -283,6 +284,8 @@ export class SectionsComponent implements OnInit {
                 // this.employeeService.getSQLDatabaseTable(`knex-query?tables=${tables}&relationIds=id,${relationIds.toString()}`).subscribe({
                 this.getFromQuery(data);
               }
+              }
+           
 
             },
             error: (err) => {
