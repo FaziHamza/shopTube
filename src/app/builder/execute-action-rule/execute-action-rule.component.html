@@ -7,35 +7,35 @@
     <div *ngFor="let multiSelect of multiSelectArray.controls; let i = index" class="flex flex-wrap mt-4 border">
       <div [formGroupName]="i" class="w-full h-500">
         <div class="p-2 flex justify-start items-center flex-auto">
-          <div class="box" >
+          <div class="box">
             <label>Action Type</label>
             <nz-select class="form-select execute-form-select " nzShowSearch nzAllowClear
-            aria-label="Default Select Example" formControlName="action">
-            <nz-option nzValue="select" nzLabel="Select" selected></nz-option>
-            <nz-option nzValue="load" nzLabel="On Load"></nz-option>
-            <nz-option nzValue="click" nzLabel="On Click"></nz-option>
-            <nz-option nzValue="change" nzLabel="Change"></nz-option>
-            <nz-option nzValue="dblclick" nzLabel="Double Click"></nz-option>
-            <nz-option nzValue="mouseover" nzLabel="Mouse Over"></nz-option>
-            <nz-option nzValue="mouseleave" nzLabel="Mouse Leave"></nz-option>
-            <nz-option nzValue="mouseenter" nzLabel="Mouse Enter"></nz-option>
-          </nz-select>
+              aria-label="Default Select Example" formControlName="action">
+              <nz-option nzValue="select" nzLabel="Select" selected></nz-option>
+              <nz-option nzValue="load" nzLabel="On Load"></nz-option>
+              <nz-option nzValue="click" nzLabel="On Click"></nz-option>
+              <nz-option nzValue="change" nzLabel="Change"></nz-option>
+              <nz-option nzValue="dblclick" nzLabel="Double Click"></nz-option>
+              <nz-option nzValue="mouseover" nzLabel="Mouse Over"></nz-option>
+              <nz-option nzValue="mouseleave" nzLabel="Mouse Leave"></nz-option>
+              <nz-option nzValue="mouseenter" nzLabel="Mouse Enter"></nz-option>
+            </nz-select>
+          </div>
+          <div class="box !mx-4">
+            <label>Component ID</label>
+            <nz-select class="form-select execute-form-select " nzShowSearch nzAllowClear
+              aria-label="Default Select Example" formControlName="componentFrom">
+              <nz-option [nzLabel]="item.title" [nzValue]="item.key" *ngFor="let item of nodeList"></nz-option>
+            </nz-select>
+          </div>
+          <div class="box">
+            <label>Target ID</label>
+            <nz-select class="form-select execute-form-select" nzShowSearch nzAllowClear
+              aria-label="Default Select Example" formControlName="targetId">
+              <nz-option [nzLabel]="item.title" [nzValue]="item.key" *ngFor="let item of nodeList"></nz-option>
+            </nz-select>
+          </div>
         </div>
-        <div class="box !mx-4">
-          <label >Component ID</label>
-          <nz-select class="form-select execute-form-select " nzShowSearch nzAllowClear
-          aria-label="Default Select Example" formControlName="componentFrom">
-          <nz-option [nzLabel]="item.title" [nzValue]="item.key" *ngFor="let item of nodeList"></nz-option>
-        </nz-select>
-      </div>
-      <div class="box">
-        <label >Target ID</label>
-        <nz-select class="form-select execute-form-select" nzShowSearch nzAllowClear
-        aria-label="Default Select Example" formControlName="targetId">
-        <nz-option [nzLabel]="item.title" [nzValue]="item.key" *ngFor="let item of nodeList"></nz-option>
-      </nz-select>
-    </div>
-  </div>
 
         <div class="w-full flex justify-end items-center p-2 pt-0">
 
@@ -65,6 +65,8 @@
     <div class="w-full">
       <button nz-button nzType="primary" class="!bg-green-500 hover:!bg-green-400 !border-none !mr-2"
         (click)="addMultiSelect()"> <i class="fa-regular fa-plus mr-2"></i> Add</button>
+      <button nz-button nzType="primary" class="!bg-green-500 hover:!bg-green-400 !border-none !mr-2"
+        (click)="addAllActions()"> <i class="fa-regular fa-plus mr-2"></i> Add All</button>
       <button nz-button nzType="primary" class="my-2 btn" title="Save" (click)="saveMultiSelects()"
         ngbTooltip="Save Table"> <i class="fa-regular fa-floppy-disk mr-2"></i> Save </button>
 

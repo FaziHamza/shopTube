@@ -54,9 +54,9 @@ export class ExecuteActionRuleComponent implements OnInit, AfterViewInit {
             });
             res.data.forEach((element: any) => {
               let newItem = this.fb.group({
-                componentFrom: [element.componentFrom], // Initialize this with your select value
-                targetId: [element.targetId], // Initialize this with your select value
-                action: [element.action], // Initialize this with your select value
+                componentFrom: element.componentFrom, // Initialize this with your select value
+                targetId: element.targetId, // Initialize this with your select value
+                action: element.action, // Initialize this with your select value
                 monacoEditorControl: [element.rule], // Initialize this with your Monaco editor value
               });
               this.multiSelectArray.push(newItem);
@@ -73,12 +73,14 @@ export class ExecuteActionRuleComponent implements OnInit, AfterViewInit {
       })
     }
   }
+  actionsList: any[] = [];
   getActionData() {
     const selectedScreen = this.screens.filter((a: any) => a.name == this.screenName)
     if (selectedScreen[0].navigation != null && selectedScreen[0].navigation != undefined) { // selectedScreen[0].navigation
       this.requestSubscription = this.applicationService.getNestCommonAPIById("cp/actionbyscreenname", selectedScreen[0]._id).subscribe({
         next: (res: any) => {
           if (res.data && res.data.length > 0) {
+            this.actionsList = res.data;
             const schema = res.data.map((x: any) => { return x.quryType });
             // Update the enum values in jsonSchema
             this.jsonSchema.items.properties.if.properties.actionRule.enum = schema;
@@ -274,8 +276,71 @@ export class ExecuteActionRuleComponent implements OnInit, AfterViewInit {
     });
     this.multiSelectArray.push(newItem);
   }
+  addAllActions() {
+    const buttonData = this.findObjectByTypeBase(this.nodes[0], "button");
+    const tableData = this.findObjectByTypeBase(this.nodes[0], "gridList");
 
+    const actions = [
+      { actionLink: 'get', type: 'query' },
+      { actionLink: 'post', type: 'query' },
+      { actionLink: 'put', type: 'query' },
+      { actionLink: 'delete', type: 'query' },
+      { actionLink: 'post', type: 'api' },
+      { actionLink: 'put', type: 'api' },
+      { actionLink: 'get', type: 'api' },
+      // { actionLink: 'delete', type: 'api' },
+    ];
+    actions.forEach((action: any) => {
+      const getAction = this.actionsList.find(a => a.actionLink === action.actionLink && a.actionType === action.type);
+      const existingAction = this.multiSelectArray.value?.find((a: any) =>
+        a.action === action.actionLink
+      );
+      if (getAction) {
+        if (!existingAction) {
+          const newItem = this.fb.group({
+            componentFrom: buttonData.key, // Initialize this with your select value
+            targetId: (action.type === 'query' && action.actionLink === 'get') ? tableData.key : '', // Initialize this with your select value
+            action: 'click', // Initialize this with your select value
+            monacoEditorControl: []
+          });
+          this.multiSelectArray.push(newItem);
+          // const editorControl = this.multiSelectArray.at(this.multiSelectArray.length -1).get('monacoEditorControl');
+          // if (editorControl) {
+          //   editorControl.setValue([
+          //     {
+          //       "if": {
+          //         "actionRule": getAction.quryType,
+          //         "key": "0",
+          //         "compare": "==",
+          //         "value": "0"
+          //       }
+          //     }
+          //   ]);
+          // }
+        }
+      }
+    });
 
+  }
+
+  findObjectByTypeBase(data: any, type: any) {
+    if (data) {
+      if (data.type && type) {
+        if (data.type === type) {
+          return data;
+        }
+        if (data.children.length > 0) {
+          for (let child of data.children) {
+            let result: any = this.findObjectByTypeBase(child, type);
+            if (result !== null) {
+              return result;
+            }
+          }
+        }
+        return null;
+      }
+    }
+  }
   removeMultiSelect(index: number) {
     this.multiSelectArray.removeAt(index);
   }
@@ -285,7 +350,6 @@ export class ExecuteActionRuleComponent implements OnInit, AfterViewInit {
       editorControl.setValue(content);
     }
   }
-  EventsList = [{ "title": "onclik", "key": "onclik" }, { "title": "load", "key": "onload" }];
   saveMultiSelects() {
     const mainModuleId = this.screens.filter((a: any) => a.name == this.screenName)
     this.applicationService.deleteNestCommonAPI('cp/ActionRule/deleteActionRule', mainModuleId[0]._id).subscribe(res => {
