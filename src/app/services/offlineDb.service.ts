@@ -66,7 +66,7 @@ class MyDatabase extends Dexie {
 
   constructor() {
     super('MyDatabase');
-    this.version(1).stores({
+    this.version(2).stores({
       myTable: '++id,screenName,applicationId,type,data', // Include applicationId as an indexed field
     }).upgrade(async (trans) => {
       // Ensure the applicationId field is indexed
@@ -78,3 +78,4 @@ class MyDatabase extends Dexie {
     this.myTable = this.table('myTable');
   }
 }
+

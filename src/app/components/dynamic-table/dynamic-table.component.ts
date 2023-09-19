@@ -1571,14 +1571,15 @@ export class DynamicTableComponent implements OnInit {
 
   processData(data: any[]) {
     this.saveLoader = false;
-    if (data.length > 0) {
-      let res: any = {};
-      res['data'] = [];
-      res['data'] = data;
-      this.getFromQueryOnlyTable(this.data, res)
+    if (data) {
+      if (data.length > 0) {
+        let res: any = {};
+        res['data'] = [];
+        res['data'] = data;
+        this.getFromQueryOnlyTable(this.data, res)
+      }
     }
     return data
-
   }
   async getFromQueryOnlyTable(tableData: any, res: any) {
     debugger

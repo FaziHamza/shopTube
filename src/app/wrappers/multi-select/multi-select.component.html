@@ -7,7 +7,6 @@
         <nz-select [class]="to['additionalProperties']?.innerInputClass" [nzStatus]="to['additionalProperties']?.status" [formControl]="formControl"
             (ngModelChange)="onModelChange($event, field)" [ngClass]="to['additionalProperties']?.wrapper=='floating_filled' || to['additionalProperties']?.wrapper=='floating_standard'
       || to['additionalProperties']?.wrapper=='floating_outlined' ? to['additionalProperties']?.floatFieldClass : ''"
-            [style.border-radius]="to['additionalProperties']?.borderRadius"
             [nzMaxTagCount]="to['additionalProperties']?.maxCount || 2" [nzMaxTagPlaceholder]="tagPlaceHolder"
             [nzMode]="to['additionalProperties']?.selectType || 'multiple'" [nzPlaceHolder]="to.placeholder || ''"
             [nzSize]="to['additionalProperties']?.size" [formlyAttributes]="field"
@@ -60,3 +59,8 @@
         {{to['additionalProperties']?.addonRight}}
     </ng-template>
 </ng-template>
+<style>
+    :host ::ng-deep .ant-select-show-search.ant-select:not(.ant-select-customize-input) .ant-select-selector {
+    border-radius: var(--radius) !important;
+}
+</style>
