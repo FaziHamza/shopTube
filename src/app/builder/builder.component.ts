@@ -770,7 +770,7 @@ export class BuilderComponent implements OnInit {
           this.makeFakerData(node);
       });
     }
-    // this.formlyModel = dataModelFaker;
+    this.formlyModel = dataModelFaker;
   }
   makeFakerData(V2: any) {
     if (V2.formly[0].fieldGroup[0].props) {
@@ -2152,7 +2152,7 @@ export class BuilderComponent implements OnInit {
         this.toastr.success('Control Added', { nzDuration: 3000 });
       }
     }
-    this.makeFaker();
+    // this.makeFaker();  
   }
   gotoNextConfig() {
     let parent: any;
@@ -5409,6 +5409,7 @@ export class BuilderComponent implements OnInit {
           this.toastr.success('File uploaded successfully!', {
             nzDuration: 3000,
           });
+          this.updateNodes();
         };
         reader.readAsText(event.target.files[0]);
       }
@@ -5578,7 +5579,6 @@ export class BuilderComponent implements OnInit {
         }
       }
     }
-    return;
     this.builderService.getSQLDatabaseTable('knex-crud/tables').subscribe({
       next: (objTRes) => {
         if (objTRes) {

@@ -75,7 +75,7 @@
       <tbody class="dynamic-responsive-table-body w-full" style="width: 100%;">
         <ng-template #recursiveList let-data1>
           <ng-container *ngFor="let item of data1; let i = index">
-            <tr [ngStyle]="{'background': item?.color}" (click)="rowselected(item)" class="desktop-toggle"
+            <tr  (click)="rowselected(item)" class="desktop-toggle"
               (dblclick)="updateModel(item)" (click)="data?.rowClickApi!='' ? onClickRow(data.rowClickApi,item): ''"
               [ngClass]="{'bg-gray-100' : item === index }">
               <td *ngIf="item.expand != undefined" [(nzExpand)]="item.expand">
@@ -85,7 +85,7 @@
               </td>
               <td *ngIf="data.showCheckbox" [(nzChecked)]="item.checked" (nzCheckedChange)="refreshStatus()"></td>
               <ng-container *ngFor="let header of data['tableKey']; let index = index">
-                <td (click)="checkTypeData(item , header)" (click)="startEdit(item.id)" [nzEllipsis]="true" class="5"
+                <td (click)="checkTypeData(item , header)" (click)="startEdit(item.id)" [nzEllipsis]="true" class="5" [style.background]="item[header.key]== item?.colorDataType ?  item?.columnColor : ''" 
                   *ngIf="(header?.show == 'yes' || header?.show === undefined || header?.show === '' || header?.show == 'Yes') && header?.dataType !='objectType' && header.key != 'headerButton' && header.key != 'footerButton' && header.key != 'expandable' && header.key != 'checked'
                   && header.key != 'expand' && header.key !='children' && header.key != 'defaultValue' ">
                   <div class="1" *ngIf="(header?.dataType !='select' || !configurationTable) && header?.dataType !='audioVideoRecorder' && header?.dataType !='image-upload' && header?.dataType != 'repeatSection' && header?.dataType != 'dateTime' && !isMyDataArray(item[header.key]
@@ -147,10 +147,6 @@
                       <source [src]="item[header.key] ? serverPath + '/' + item[header.key] : ''" type="audio/mp3">
                     </audio>
                   </div>
-                </td>
-                <td class="5" *ngIf="header?.dataType =='objectType'"
-                  [class]="item[header.key] == 'open' ? 'bg-red-500' : (item[header.key] == 'inProgress' ? 'bg-orange-500' : (item[header.key] == 'completed' ? 'bg-green-500' : 'bg-gray-500')) + ' text-white'">
-                  {{item[header.key]}}
                 </td>
                 <td *ngIf="header.key == 'headerButton'">
                   <button (click)="showModal('Header')" type="button"
