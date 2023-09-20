@@ -38,7 +38,7 @@
                                         <div class="box">
                                             <input [(ngModel)]="selectedTheme['backGroundColor']" type="color"
                                                 class="input-color">
-                                                <span><input nz-input [(ngModel)]="selectedTheme['backGroundColor']"></span>
+                                                <span class="input-hex "><input nz-input [(ngModel)]="selectedTheme['backGroundColor']"></span>
                                         </div>
                                     </div>
 
@@ -516,7 +516,7 @@
                                         <div class="box">
                                             <input type="color" class="input-color"
                                                 [(ngModel)]="selectedTheme['inPageMenu']['backGroundColor']">
-                                            <span class="input-hex w-[130px]" >{{selectedTheme['inPageMenu']['backGroundColor'] || '#000000'}}
+                                            <span class="input-hex " >{{selectedTheme['inPageMenu']['backGroundColor'] || '#000000'}}
                                             </span>
                                         </div>
                                     </div>
@@ -698,7 +698,7 @@
                                         <div class="box">
                                             <input type="color" class="input-color"
                                                 [(ngModel)]="selectedTheme['inPageMenu']['child']['backGroundColor']">
-                                            <span>{{selectedTheme['inPageMenu']['child']['backGroundColor'] ||
+                                            <span class="input-hex ">{{selectedTheme['inPageMenu']['child']['backGroundColor'] ||
                                                 '#000000'}}
                                             </span>
                                         </div>

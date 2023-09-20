@@ -389,6 +389,7 @@ export class BuilderComponent implements OnInit {
     this.modalService.confirm({
       nzTitle: 'Are you sure you want to switch your screen?',
       nzClassName: 'custom-modal-class',
+      nzCentered: true,
       nzOnOk: () => {
         new Promise((resolve, reject) => {
           setTimeout(Math.random() > 0.5 ? resolve : reject, 100);
@@ -4258,6 +4259,7 @@ export class BuilderComponent implements OnInit {
           this.selectedNode['isDeleteAllow'] = event.form?.isDeleteAllow;
           this.selectedNode['isAllowGrouping'] = event.form?.isAllowGrouping;
           this.selectedNode['isAllowExcelReport'] = event.form?.isAllowExcelReport;
+          this.selectedNode['isAllowUploadExcel'] = event.form?.isAllowUploadExcel;
           this.selectedNode['isAllowSearch'] = event.form?.isAllowSearch;
           this.selectedNode['tableName'] = event.form?.tableName;
           this.selectedNode['buttonPositions'] = event.form?.buttonPositions;
