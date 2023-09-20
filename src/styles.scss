@@ -7125,3 +7125,8 @@ tr:hover {
 .ant-collapse {
   margin-bottom: 10px !important;
 }
+.disabled-link {
+  pointer-events: none;
+  opacity: 0.5;
+  cursor: not-allowed;
+}

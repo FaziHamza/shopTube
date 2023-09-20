@@ -85,7 +85,7 @@
               </td>
               <td *ngIf="data.showCheckbox" [(nzChecked)]="item.checked" (nzCheckedChange)="refreshStatus()"></td>
               <ng-container *ngFor="let header of data['tableKey']; let index = index">
-                <td (click)="checkTypeData(item , header)" (click)="startEdit(item.id)" [nzEllipsis]="true" class="5" [style.background]="item[header.key]== item?.colorDataType ?  item?.columnColor : ''" 
+                <td (click)="checkTypeData(item , header)" (click)="startEdit(item.id)" [ngClass]="{'disabled-link' : header.key  == 'key'}" [nzEllipsis]="true" class="5" [style.background]="item[header.key]== item?.colorDataType ?  item?.columnColor : ''" 
                   *ngIf="(header?.show == 'yes' || header?.show === undefined || header?.show === '' || header?.show == 'Yes') && header?.dataType !='objectType' && header.key != 'headerButton' && header.key != 'footerButton' && header.key != 'expandable' && header.key != 'checked'
                   && header.key != 'expand' && header.key !='children' && header.key != 'defaultValue' ">
                   <div class="1" *ngIf="(header?.dataType !='select' || !configurationTable) && header?.dataType !='audioVideoRecorder' && header?.dataType !='image-upload' && header?.dataType != 'repeatSection' && header?.dataType != 'dateTime' && !isMyDataArray(item[header.key]
