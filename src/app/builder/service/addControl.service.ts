@@ -822,6 +822,7 @@ export class AddControlService {
       noResult: false,
       nzSimple: false,
       nzSize: 'default',
+      position: 'left',
       isNextChild: true,
       nzShowSizeChanger: false,
       api: "",
