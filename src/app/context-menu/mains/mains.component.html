@@ -173,7 +173,7 @@
         </div>
     </ng-template>
     <ng-template #twentyseven>
-        <st-tabs [screenName]="screenName" [tabs]="item" [form]="form" [formlyModel]="formlyModel"
+        <st-tabs [screenName]="screenName" [tabs]="item" [form]="form" [formlyModel]="formlyModel" [screenName]="screenName" [screenId]="screenId"
             *ngIf="item.type == 'mainTab' else twentyeight"></st-tabs>
     </ng-template>
     <ng-template #twentyeight>
@@ -200,7 +200,7 @@
 
     </ng-template>
     <ng-template #thirtyOne>
-        <st-stepper [screenName]="screenName" [step]="item" [form]="form" [formlyModel]="formlyModel"
+        <st-stepper [screenName]="screenName" [step]="item" [form]="form" [formlyModel]="formlyModel" [screenName]="screenName" [screenId]="screenId"
             *ngIf="item.type == 'mainStep'; else thirtyTwo">
         </st-stepper>
     </ng-template>

@@ -10,6 +10,7 @@ export class StepperComponent implements OnInit {
   @Input() formlyModel: any;
   @Input() form: any;
   @Input() screenName: any;
+  @Input() screenId: any;
   current = 0;
   ngOnInt(){
 

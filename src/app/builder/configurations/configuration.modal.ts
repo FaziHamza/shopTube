@@ -11096,6 +11096,26 @@ export class formFeildData {
             },
           },
         },
+        {
+          key: 'position',
+          type: 'select',
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          wrappers: ["formly-vertical-theme-wrapper"],
+          props: {
+            label: 'Position',
+            options: [
+              { value: 'left', label: 'Left' },
+              { value: 'center', label: 'Center' },
+              { value: 'right', label: 'right' }
+            ],
+            additionalProperties: {
+              allowClear: true,
+              serveSearch: false,
+              showArrow: true,
+              showSearch: true,
+            },
+          },
+        },
         // {
         //   key: 'api',
         //   type: 'select',
@@ -11894,13 +11914,14 @@ export class formFeildData {
           }
         },
         {
-          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2 disabled-link",
           key: 'id',
           type: 'input',
           wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             label: 'ID',
             pattern: '^\\S*$',
+            "readonly": true,
           }
         },
         {
