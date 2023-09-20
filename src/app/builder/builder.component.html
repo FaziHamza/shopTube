@@ -42,6 +42,10 @@
             Add New Page'" nz-tooltip nz-button nzType="link" (click)="clearChildNode()">
           <i class="fa-regular fa-file-circle-plus"></i>
         </button>
+        <button [ngClass]="iconActive == 'clearChildNode' ? 'active' : ''" [nzTooltipTitle]="'
+            Add New Page'" nz-tooltip nz-button nzType="link" (click)="makeFaker(true)">
+          <i class="fa-regular fa-file-circle-plus"></i>
+        </button>
       </div>
 
       <!-- <div class="screen-sizing">

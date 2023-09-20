@@ -1888,6 +1888,31 @@ export class DynamicTableComponent implements OnInit {
       this.saveLoader = false;
     }
   }
+  onFileSelected(event: any): void {
+    const file: File = event.target.files[0];
+
+    if (file) {
+      const formData: FormData = new FormData();
+      formData.append('file', file);
+      if (this.data.tableName) {
+        this.applicationService.addNestCommonAPI('knex-query/savecsv/' + this.data?.tableName, formData).subscribe({
+          next: (res: any) => {
+            if (res.isSuccess) {
+              console.log(res);
+              // Handle success
+            }
+          },
+          error: (err) => {
+            // Handle error
+            this.toastr.error('Some error occurred', { nzDuration: 2000 });
+          },
+        });
+      }else{
+        this.toastr.warning("Please prvide table name!", { nzDuration: 3000 });
+      }
+
+    }
+  }
 
 
 }

@@ -36,6 +36,8 @@ import { TemplatePopupComponent } from './template-popup/template-popup.componen
 import { MarketPlaceComponent } from './market-place/market-place.component';
 import { FormGroup } from '@angular/forms';
 import { EmployeeService } from '../services/employee.service';
+// import * as faker from 'faker';
+
 @Component({
   selector: 'st-builder',
   templateUrl: './builder.component.html',
@@ -762,61 +764,64 @@ export class BuilderComponent implements OnInit {
   businessRuleData: any;
   formlyModel: any;
   faker: boolean = false;
-  makeFaker() {
+  makeFaker(check?: boolean) {
     let dataModelFaker: any = [];
     if (this.nodes.length > 0) {
       const filteredNodes = this.filterInputElements(this.nodes);
       filteredNodes.forEach((node) => {
         dataModelFaker[node.formly[0].fieldGroup[0].key] =
-          this.makeFakerData(node);
+          this.makeFakerData(node,check);
       });
     }
     this.formlyModel = dataModelFaker;
   }
-  makeFakerData(V2: any) {
+  makeFakerData(V2: any,check?:any) {
     if (V2.formly[0].fieldGroup[0].props) {
       let modelFaker: any;
-      if (V2.formly[0].fieldGroup[0].props.type) {
-        if (V2.formly[0].fieldGroup[0].type == 'input') {
-          // modelFaker = faker.name.firstName()
-        } else if (V2.formly[0].fieldGroup[0].type == 'textarea') {
-          // modelFaker = faker.lorem.paragraph()
-        } else if (V2.formly[0].fieldGroup[0].type == 'inputGroupGrid') {
-          // modelFaker = faker.name.firstName()
-        } else if (V2.formly[0].fieldGroup[0].props.type == 'password') {
-          // modelFaker = faker.name.firstName()
-        } else if (V2.formly[0].fieldGroup[0].props.type == 'tel') {
-          // modelFaker = faker.phone.number()
-        } else if (V2.formly[0].fieldGroup[0].props.type == 'date') {
-          // modelFaker = faker.date.between('01/01/2001', '01/01/2001');
-        } else if (V2.formly[0].fieldGroup[0].props.type == 'email') {
-          // modelFaker = faker.internet.email()
-        } else if (V2.formly[0].fieldGroup[0].props.type == 'checkbox') {
-          // modelFaker = faker.datatype.boolean()
-        } else if (V2.formly[0].fieldGroup[0].props.type == 'radio') {
-          // modelFaker = faker.datatype.boolean()
-        } else if (V2.formly[0].fieldGroup[0].props.type == 'number') {
-          // modelFaker = 1
-          // modelFaker = faker.datatype.number(10)
-        } else if (V2.formly[0].fieldGroup[0].props.type == 'decimal') {
-          // modelFaker = 0.0
-          // modelFaker = faker.datatype.float({ min: 10, max: 100, precision: 0.001 })
-        } else if (V2.formly[0].fieldGroup[0].props.type == 'month') {
-          // modelFaker = faker.date.month({ abbr: true, context: true })
-        } else if (V2.formly[0].fieldGroup[0].props.type == 'datetime-local') {
-          // modelFaker = faker.datatype.datetime(1893456000000)
-        } else if (V2.formly[0].fieldGroup[0].props.type == 'color') {
-          // modelFaker = faker.color.colorByCSSColorSpace()
-        }
-      } else if (V2.formly[0].fieldGroup[0].type) {
-        if (V2.formly[0].fieldGroup[0].type == 'input') {
-          // modelFaker = faker.name.firstName()
-        } else if (V2.formly[0].fieldGroup[0].type == 'textarea') {
-          // modelFaker = faker.lorem.paragraph()
-        } else if (V2.formly[0].fieldGroup[0].type == 'inputGroupGrid') {
-          // modelFaker = faker.name.firstName()
+      if(check){
+        if (V2.formly[0].fieldGroup[0].props.type) {
+          if (V2.formly[0].fieldGroup[0].type == 'input') {
+            // modelFaker = faker.name.firstName()
+          } else if (V2.formly[0].fieldGroup[0].type == 'textarea') {
+            // modelFaker = faker.lorem.paragraph()
+          } else if (V2.formly[0].fieldGroup[0].type == 'inputGroupGrid') {
+            // modelFaker = faker.name.firstName()
+          } else if (V2.formly[0].fieldGroup[0].props.type == 'password') {
+            // modelFaker = faker.name.firstName()
+          } else if (V2.formly[0].fieldGroup[0].props.type == 'tel') {
+            // modelFaker = faker.phone.number()
+          } else if (V2.formly[0].fieldGroup[0].props.type == 'date') {
+            // modelFaker = faker.date.between('01/01/2001', '01/01/2001');
+          } else if (V2.formly[0].fieldGroup[0].props.type == 'email') {
+            // modelFaker = faker.internet.email()
+          } else if (V2.formly[0].fieldGroup[0].props.type == 'checkbox') {
+            // modelFaker = faker.datatype.boolean()
+          } else if (V2.formly[0].fieldGroup[0].props.type == 'radio') {
+            // modelFaker = faker.datatype.boolean()
+          } else if (V2.formly[0].fieldGroup[0].props.type == 'number') {
+            // modelFaker = 1
+            // modelFaker = faker.datatype.number(10)
+          } else if (V2.formly[0].fieldGroup[0].props.type == 'decimal') {
+            // modelFaker = 0.0
+            // modelFaker = faker.datatype.float({ min: 10, max: 100, precision: 0.001 })
+          } else if (V2.formly[0].fieldGroup[0].props.type == 'month') {
+            // modelFaker = faker.date.month({ abbr: true, context: true })
+          } else if (V2.formly[0].fieldGroup[0].props.type == 'datetime-local') {
+            // modelFaker = faker.datatype.datetime(1893456000000)
+          } else if (V2.formly[0].fieldGroup[0].props.type == 'color') {
+            // modelFaker = faker.color.colorByCSSColorSpace()
+          }
+        } else if (V2.formly[0].fieldGroup[0].type) {
+          if (V2.formly[0].fieldGroup[0].type == 'input') {
+            // modelFaker = faker.name.firstName()
+          } else if (V2.formly[0].fieldGroup[0].type == 'textarea') {
+            // modelFaker = faker.lorem.paragraph()
+          } else if (V2.formly[0].fieldGroup[0].type == 'inputGroupGrid') {
+            // modelFaker = faker.name.firstName()
+          }
         }
       }
+     
       return modelFaker;
     }
   }
@@ -2153,7 +2158,7 @@ export class BuilderComponent implements OnInit {
         this.toastr.success('Control Added', { nzDuration: 3000 });
       }
     }
-    // this.makeFaker();  
+    // this.makeFaker();
   }
   gotoNextConfig() {
     let parent: any;
@@ -4218,6 +4223,7 @@ export class BuilderComponent implements OnInit {
           this.selectedNode['nzPaginationPosition'] = event.form?.nzPaginationPosition;
           this.selectedNode['nzPaginationType'] = event.form?.nzPaginationType;
           this.selectedNode['nzSize'] = event.form?.nzSize;
+          this.selectedNode['position'] = event.form?.position;
           this.selectedNode['filterMultiple'] = event.form?.filterMultiple;
           this.selectedNode['nzBordered'] = event.form?.nzBordered;
           this.selectedNode['showColumnHeader'] = event.form?.showColumnHeader;
@@ -4234,7 +4240,9 @@ export class BuilderComponent implements OnInit {
           this.selectedNode['isDeleteAllow'] = event.form?.isDeleteAllow;
           this.selectedNode['isAllowGrouping'] = event.form?.isAllowGrouping;
           this.selectedNode['isAllowExcelReport'] = event.form?.isAllowExcelReport;
+          this.selectedNode['isAllowUploadExcel'] = event.form?.isAllowUploadExcel;
           this.selectedNode['isAllowSearch'] = event.form?.isAllowSearch;
+          this.selectedNode['tableName'] = event.form?.tableName;
           let tableData: any = '';
           if (event.tableDta) {
             tableData = event.tableDta;

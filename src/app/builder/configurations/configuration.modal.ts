@@ -11096,6 +11096,26 @@ export class formFeildData {
             },
           },
         },
+        {
+          key: 'position',
+          type: 'select',
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          wrappers: ["formly-vertical-theme-wrapper"],
+          props: {
+            label: 'Position',
+            options: [
+              { value: 'left', label: 'Left' },
+              { value: 'center', label: 'Center' },
+              { value: 'right', label: 'right' }
+            ],
+            additionalProperties: {
+              allowClear: true,
+              serveSearch: false,
+              showArrow: true,
+              showSearch: true,
+            },
+          },
+        },
         // {
         //   key: 'api',
         //   type: 'select',
@@ -11182,6 +11202,15 @@ export class formFeildData {
               showSearch: true,
             },
           },
+        },
+        {
+          key: 'tableName',
+          type: 'input',
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          wrappers: ["formly-vertical-theme-wrapper"],
+          props: {
+            label: 'Table Name'
+          }
         },
         {
           key: 'filterMultiple',
@@ -11327,6 +11356,15 @@ export class formFeildData {
           wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             label: 'Excel Report'
+          }
+        },
+        {
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          key: 'isAllowUploadExcel',
+          type: 'checkbox',
+          wrappers: ["formly-vertical-theme-wrapper"],
+          props: {
+            label: 'Upload Excel File'
           }
         },
         {
