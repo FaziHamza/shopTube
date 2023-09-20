@@ -262,12 +262,14 @@ export class PagesComponent implements OnInit {
     });
   }
   actionsBindWithPage(res: any) {
+    debugger
     this.screenId = res.data[0].screenBuilderId;
     this.screenName = res.data[0].screenName;
     this.navigation = res.data[0].navigation;
     this.getBusinessRule(res.data[0].screenBuilderId);
     this.getUIRuleData(res.data[0].screenBuilderId);
     const data = JSON.parse(res.data[0].screenData);
+
     let nodesData = this.jsonParseWithObject(this.jsonStringifyWithObject(data));
     // this.resData = this.jsonParseWithObject(this.jsonStringifyWithObject(data));
     this.dataSharedService.checkContentForFixFooter = this.jsonParseWithObject(this.jsonStringifyWithObject(data));
@@ -392,6 +394,24 @@ export class PagesComponent implements OnInit {
         this.toastr.error("An error occurred", { nzDuration: 3000 });
       }
     })
+    if (this.tableRowID) {
+      let query: any = this.actionListData.find(a => a.quries.includes('WHERE id ='));
+      if (query) {
+        this.applicationService.callApi('knex-query/getAction/' + query._id, 'get', '', '', this.tableRowID).subscribe({
+          next: (res) => {
+            if (res.data > 0) {
+              // res.data.forEach((element: any) => {
+              //   this.assignIssue(this.resData[0], element);
+              // });
+            }
+          },
+          error: (error: any) => {
+            console.error(error);
+            this.toastr.error("An error occurred", { nzDuration: 3000 });
+          }
+        })
+      }
+    }
 
   }
   saveData(data: any) {

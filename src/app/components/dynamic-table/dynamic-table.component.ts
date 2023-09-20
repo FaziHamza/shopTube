@@ -1902,22 +1902,18 @@ export class DynamicTableComponent implements OnInit {
     if (file) {
       const formData: FormData = new FormData();
       formData.append('file', file);
-      if (this.data.tableName) {
-        this.applicationService.addNestCommonAPI('knex-query/savecsv/' + this.data?.tableName, formData).subscribe({
-          next: (res: any) => {
-            if (res.isSuccess) {
-              console.log(res);
-              // Handle success
-            }
-          },
-          error: (err) => {
-            // Handle error
-            this.toastr.error('Some error occurred', { nzDuration: 2000 });
-          },
-        });
-      } else {
-        this.toastr.warning("Please prvide table name!", { nzDuration: 3000 });
-      }
+      this.applicationService.addNestCommonAPI('knex-query/savecsv', formData).subscribe({
+        next: (res: any) => {
+          if (res.isSuccess) {
+            console.log(res);
+            // Handle success
+          }
+        },
+        error: (err) => {
+          // Handle error
+          this.toastr.error('Some error occurred', { nzDuration: 2000 });
+        },
+      });
 
     }
   }
