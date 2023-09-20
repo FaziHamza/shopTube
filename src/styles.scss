@@ -23,6 +23,7 @@
 @import "output.css";
 
 $primary-color : #2563EB;
+$primary-hover-color : #3b82f6;
 
 body {
   font-family: Roboto, "Helvetica Neue", sans-serif, Rubik, sans-serif;
@@ -46,7 +47,7 @@ i {
 }
 
 $bg-light: #f5f5f5;
-$main: #3b82f6;
+$main: $primary-hover-color;
 $white: #f0f2f5;
 
 nz-input-number {
@@ -250,10 +251,14 @@ object {
   .ant-input-group-sm>.ant-input-group-addon {
     padding: 0 7px;
     height: 40px !important;
+    font-size: 12px !important;
+    font-weight: 500 !important;
   }
 
   .ant-input-group .ant-input {
     height: 40px !important;
+    font-size: 12px !important;
+    font-weight: 500 !important;
   }
 
   .ant-picker-large {
@@ -270,6 +275,8 @@ object {
     display: flex;
     justify-content: start;
     align-items: center;
+    font-size: 12px !important;
+    font-weight: 500 !important;
   }
 
   .ant-select-show-search {
@@ -315,9 +322,7 @@ object {
   .imageUpoload {
     border: 1px solid lightgray;
     height: 40px !important;
-    padding-left: 2%;
-    padding-right: 2%;
-    padding-top: 7px !important;
+    padding: 2px;
 
     .ant-input {
       border: none !important;
@@ -325,13 +330,17 @@ object {
 
     .ant-input-group .ant-input {
       height: 32px !important;
+      font-size: 12px !important;
+      font-weight: 500 !important;
     }
 
 
   }
 
-  textarea{
+  textarea {
     height: 40px !important;
+    font-size: 12px !important;
+    font-weight: 500 !important;
   }
 
   .ant-radio-group {
@@ -346,6 +355,8 @@ object {
 
   .ant-select-selection-item .align-items-center {
     margin-top: 4px !important;
+    font-size: 12px !important;
+    font-weight: 500 !important;
   }
 
   .ant-select-show-search {
@@ -1279,7 +1290,7 @@ a.fc-event:hover {
     display: flex;
     flex-direction: column;
     align-items: baseline;
-    background-color: #3b82f6;
+    background-color: $primary-hover-color;
 
     h5 {
       font-size: 14px;
@@ -4051,7 +4062,7 @@ object {
           span {
             color: #73757A;
             text-align: center;
-            
+
             font-size: 13px;
             padding-left: 10px;
             font-style: normal;
@@ -5915,7 +5926,7 @@ li.ant-cascader-menu-item:nth-child(1):hover {
   border-radius: 6px;
   height: 40px;
   text-align: center;
-  background: #3b82f6;
+  background: $primary-hover-color;
 }
 
 
@@ -6086,7 +6097,7 @@ li.ant-cascader-menu-item:nth-child(1):hover {
     }
 
     .ant-avatar-icon {
-      font-size: 14px !important;
+      font-size: 8px !important;
     }
   }
 
@@ -6147,7 +6158,7 @@ li.ant-cascader-menu-item:nth-child(1):hover {
     letter-spacing: 0.2px;
 
     &:hover {
-      background-color: #3b82f6;
+      background-color: $primary-hover-color;
     }
   }
 }
@@ -6204,7 +6215,7 @@ tr:hover {
     position: relative;
 
     input {
-      padding-right: 22px !important;
+      padding: 4px 7px !important;
     }
 
     small {
@@ -6276,7 +6287,7 @@ tr:hover {
     min-width: 125px !important;
     width: auto !important;
     font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-    max-width: 350px !important;
+    max-width: 210px !important;
     overflow: hidden;
     white-space: nowrap !important;
     text-overflow: ellipsis !important;
@@ -6293,7 +6304,7 @@ tr:hover {
     font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
     text-align: center !important;
     min-width: 125px !important;
-    max-width: 350px !important;
+    max-width: 210px !important;
     width: auto !important;
     overflow: hidden !important;
     white-space: nowrap !important;
@@ -6304,6 +6315,9 @@ tr:hover {
     color: #23303d !important;
     border-bottom: 1px solid #d6dce1 !important;
     font-size: 12px !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    white-space: nowrap !important;
   }
 
   // .ant-table-wrapper {
@@ -6441,7 +6455,7 @@ tr:hover {
   border: none !important;
 
   &:hover {
-    background-color: #3b82f6 !important;
+    background-color: $primary-hover-color !important;
   }
 }
 
@@ -6480,7 +6494,7 @@ tr:hover {
     width: fit-content;
 
     &:hover {
-      background-color: #3b82f6;
+      background-color: $primary-hover-color;
     }
   }
 
@@ -6527,7 +6541,7 @@ tr:hover {
     width: 40px !important;
 
     &:hover {
-      background-color: #3b82f6 !important;
+      background-color: $primary-hover-color !important;
     }
   }
 }
@@ -6856,7 +6870,7 @@ tr:hover {
   width: fit-content;
 
   &:hover {
-    background-color: #3b82f6;
+    background-color: $primary-hover-color;
   }
 }
 
@@ -6966,7 +6980,7 @@ tr:hover {
     width: fit-content !important;
 
     &:hover {
-      background-color: #3b82f6 !important;
+      background-color: $primary-hover-color !important;
     }
   }
 }
@@ -7031,7 +7045,7 @@ tr:hover {
     margin-right: 4px !important;
 
     &:hover {
-      background-color: #3b82f6 !important;
+      background-color: $primary-hover-color !important;
       color: #FFF !important;
     }
 
@@ -7061,7 +7075,7 @@ tr:hover {
     color: #fff !important;
 
     &:hover {
-      background: #3b82f6 !important;
+      background: $primary-hover-color !important;
       color: #fff !important;
     }
 
@@ -7104,7 +7118,7 @@ tr:hover {
   }
 
   .ant-tabs-nav {
-    margin-bottom: 6px !important;
+    margin-bottom: 12px !important;
   }
 
   .dynamic-table-form br {
@@ -7120,13 +7134,40 @@ tr:hover {
 
 .ant-collapse>.ant-collapse-item>.ant-collapse-header {
   padding: 6px !important;
+  font-size: 12px !important; ;
+  font-weight: 500 !important; ;
 }
 
 .ant-collapse {
   margin-bottom: 10px !important;
 }
+
 .disabled-link {
   pointer-events: none;
   opacity: 0.5;
   cursor: not-allowed;
+}
+
+
+input[type=file] {
+  color: #444 !important;
+  padding: 5px !important;
+  background: #fff !important;
+  border-radius: 6px !important;
+  border: 1px solid #555 !important;
+}
+
+input[type=file]::file-selector-button {
+  margin-right: 10px !important;
+  border: none !important;
+  background: $primary-color !important;
+  padding: 5px 10px !important;
+  border-radius: 6px !important;
+  color: #fff !important;
+  cursor: pointer !important;
+  transition: background .2s ease-in-out !important;
+}
+
+input[type=file]::file-selector-button:hover {
+  background: #2563EB;
 }

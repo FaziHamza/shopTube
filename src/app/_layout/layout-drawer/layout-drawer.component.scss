@@ -146,3 +146,17 @@ nz-footer {
 .unselected:hover {
   cursor: pointer;
 }
+
+
+.input-hex {
+  width: 120px !important;
+  padding-left: 0 !important;
+}
+
+
+.input-hex > input:nth-child(1) {
+  border: none !important;
+  &:active ,&:focus{
+    outline: 1px solid transparent !important;
+  }
+}
