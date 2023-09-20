@@ -57,6 +57,7 @@ export class PagesComponent implements OnInit {
   actionListData: any[] = [];
   getTaskManagementIssues: any[] = [];
   isVisible: boolean = false;
+  tableRowID: any = '';
   ngOnInit(): void {
     // console.log("pages")
     // debugger
@@ -194,6 +195,10 @@ export class PagesComponent implements OnInit {
         // ------------------
 
         if (params["schema"]) {
+          debugger
+          if (params["id"]) {
+            this.tableRowID = params["id"];
+          }
           this.dataSharedService.defaultPageNodes = '';
           this.isPageContextShow = true;
           // this.dataSharedService.urlModule.next({ aplication: '', module: '' });
@@ -1971,7 +1976,7 @@ export class PagesComponent implements OnInit {
                         ele.formly[0].fieldGroup[0].props.options = finalObj;
                       }
                     }
-                  } 
+                  }
                   else {
                     for (let j = 0; j < filteredNodes.length; j++) {
                       const ele = filteredNodes[j];

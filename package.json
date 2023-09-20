@@ -79,6 +79,7 @@
     "@angular/cli": "~15.2.6",
     "@angular/compiler-cli": "^15.2.0",
     "@types/crypto-js": "^4.1.1",
+    "@faker-js/faker": "^7.3.0",
     "@types/jasmine": "~4.3.0",
     "@types/node": "^20.5.8",
     "@types/recordrtc": "^5.6.11",
