@@ -2152,7 +2152,7 @@ export class BuilderComponent implements OnInit {
         this.toastr.success('Control Added', { nzDuration: 3000 });
       }
     }
-    this.makeFaker();
+    // this.makeFaker();  
   }
   gotoNextConfig() {
     let parent: any;
