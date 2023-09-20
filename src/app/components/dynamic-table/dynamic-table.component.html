@@ -12,21 +12,24 @@
     <button nz-button (click)="addColumn()" *ngIf="checkType" nzType="primary"> <i class="fa-regular fa-plus mr-2"></i>
       Add</button>
   </div>
-  <div  class="text-right mb-2 flex justify-between items-center">
+  <input type="file" (change)="onFileSelected($event)" accept=".xlsx">
+  <div class="text-right mb-2 flex justify-between items-center">
     <button *ngIf="data?.isAllowExcelReport && !childTable" nz-button (click)="exportToExcel()" nzType="primary"
       class="!rounded-md !bg-green-500 !text-white hover:!bg-green-600 !h-[32px] hover:text-white !border !border-transparent !hover:border-transparent font-md text-lg">Download
       Excel<i class="fa-regular fa-download ml-2"></i></button>
-      <div *ngIf="data?.isAllowSearch && !childTable">
-        <nz-input-group nzSearch [nzAddOnAfter]="suffixIconButton">
-          <input type="text" class="!h-[32px] !rounded-tl-md !rounded-bl-md" nz-input id="searchControll"
-            [(ngModel)]="searchValue" placeholder="Search..." />
-        </nz-input-group>
-        <ng-template #suffixIconButton>
-          <button nz-button nzType="primary" class="!rounded-tr-md !rounded-br-md !w-10 !h-[32px] !bg-blue-600 hover:!bg-blue-500" nzSearch nz-tooltip nzTooltipTitle="Click Here To Filter">
-            <i class="fa-solid fa-magnifying-glass" (click)="search()"></i>
-          </button>
-        </ng-template>
-      </div>
+    <div *ngIf="data?.isAllowSearch && !childTable">
+      <nz-input-group nzSearch [nzAddOnAfter]="suffixIconButton">
+        <input type="text" class="!h-[32px] !rounded-tl-md !rounded-bl-md" nz-input id="searchControll"
+          [(ngModel)]="searchValue" placeholder="Search..." />
+      </nz-input-group>
+      <ng-template #suffixIconButton>
+        <button nz-button nzType="primary"
+          class="!rounded-tr-md !rounded-br-md !w-10 !h-[32px] !bg-blue-600 hover:!bg-blue-500" nzSearch nz-tooltip
+          nzTooltipTitle="Click Here To Filter">
+          <i class="fa-solid fa-magnifying-glass" (click)="search()"></i>
+        </button>
+      </ng-template>
+    </div>
   </div>
 
 
@@ -34,8 +37,8 @@
   <div class="dynamic-table" [processData]="processData"
     [appConfigurableSelect]="childTable == false ? (data?.appConfigurableEvent ? data?.appConfigurableEvent : []) : []"
     [loadAction]="childTable == false ? ( data?.eventActionconfig ? data?.eventActionconfig : {}) : false">
-    <nz-table #editRowTable [nzPageSize]="10" [nzData]="displayData"
-      *ngIf="data && displayData" [nzLoading]="data?.nzLoading" [nzPaginationPosition]='data?.nzPaginationPosition'
+    <nz-table #editRowTable [nzPageSize]="10" [nzData]="displayData" *ngIf="data && displayData"
+      [nzLoading]="data?.nzLoading" [nzPaginationPosition]='data?.nzPaginationPosition'
       [nzPaginationType]='data?.nzPaginationType' [nzFrontPagination]='false' [nzTitle]='data?.nzTitle'
       [nzSize]="data.nzSize" [nzSimple]="data.nzSimple" [nzShowSizeChanger]="data.nzShowSizeChanger">
       <thead class="desktop-toggle">

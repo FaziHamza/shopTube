@@ -2152,7 +2152,7 @@ export class BuilderComponent implements OnInit {
         this.toastr.success('Control Added', { nzDuration: 3000 });
       }
     }
-    this.makeFaker();
+    // this.makeFaker();
   }
   gotoNextConfig() {
     let parent: any;
@@ -4234,6 +4234,7 @@ export class BuilderComponent implements OnInit {
           this.selectedNode['isAllowGrouping'] = event.form?.isAllowGrouping;
           this.selectedNode['isAllowExcelReport'] = event.form?.isAllowExcelReport;
           this.selectedNode['isAllowSearch'] = event.form?.isAllowSearch;
+          this.selectedNode['tableName'] = event.form?.tableName;
           let tableData: any = '';
           if (event.tableDta) {
             tableData = event.tableDta;

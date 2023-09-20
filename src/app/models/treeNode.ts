@@ -552,4 +552,5 @@ export interface TreeNode {
   isAllowGrouping?: boolean,
   isAllowExcelReport?: boolean,
   isAllowSearch?: boolean,
+  tableName?: string,
 }

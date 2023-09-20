@@ -11184,6 +11184,15 @@ export class formFeildData {
           },
         },
         {
+          key: 'tableName',
+          type: 'input',
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          wrappers: ["formly-vertical-theme-wrapper"],
+          props: {
+            label: 'Table Name'
+          }
+        },
+        {
           key: 'filterMultiple',
           type: 'checkbox',
           wrappers: ["formly-vertical-theme-wrapper"],

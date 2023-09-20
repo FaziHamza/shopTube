@@ -4,23 +4,15 @@ import { Guid } from '../models/guid';
 @Component({
   selector: 'nz-demo-table-edit-cell',
   template: `
- <dynamic-table *ngIf='this.formData.length' [tableId]='tableId' [checkType]='true' [tableData]='this.formData' [tableHeaders]='tableHeader' [data]="data" [displayData]="this.formData" [configurationTable]="true"></dynamic-table>
-  `,
-  styles: [
-    `
-      .editable-cell {
-        position: relative;
-        padding: 5px 12px;
-        cursor: pointer;
-      }
+    <!-- <nz-collapse >
+    <nz-collapse-panel [nzHeader]="'Common  Attribute value'" [nzActive]="true">
+    <dynamic-table *ngIf='this.formData.length' [tableId]='tableId' [checkType]='true' [tableData]='this.formData' [tableHeaders]='tableHeader' [data]="data" [displayData]="this.formData" [configurationTable]="true"></dynamic-table>
+    </nz-collapse-panel>
+  </nz-collapse> -->
 
-      .editable-row:hover .editable-cell {
-        border: 1px solid #d9d9d9;
-        border-radius: 4px;
-        padding: 4px 11px;
-      }
-    `
-  ]
+  <dynamic-table *ngIf='this.formData.length' [tableId]='tableId' [checkType]='true' [tableData]='this.formData' [tableHeaders]='tableHeader' [data]="data" [displayData]="this.formData" [configurationTable]="true"></dynamic-table>
+
+  `,
 })
 export class formlyRepeatSectionComponent extends FieldArrayType {
   tableId: any = "";
