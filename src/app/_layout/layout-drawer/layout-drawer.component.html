@@ -1,7 +1,7 @@
 <nz-space>
     <button *nzSpaceItem nz-button (click)="open()" nzType="primary" class="upload-btn">
         <i class="fa-light fa-gear !relative !text-lg "></i>
-        <i class="fa-light fa-gear !absolute !top-[4px] !right-[4.5px] !text-[10px] "></i>
+        <i class="fa-light fa-gear !absolute !top-[7px] !right-[7.5px]" style="font-size: 8px !important;"></i>
     </button>
 </nz-space>
 <!-- <button nz-button nzType="primary" [nzSize]="'large'" nzShape="circle" (click)="open()" class="fixed bottom-4 right-4"
@@ -458,9 +458,12 @@
                 </div>
                 <div class="drawer-bottom">
                     <!-- <button nz-button nzType="primary">Save</button> -->
-                    <button nz-button nzType="default" class="btn-secondary" nz-popconfirm
+                    <button nz-button nzType="default" class="btn-secondary" class="btn !mr-1.5" (click)="close()"> <i class="fa-regular fa-floppy-disk mr-1.5"></i> Save</button>
+
+                    <button nz-button nzType="default" class="btn-secondary" class="btn-no" nz-popconfirm
                         nzPopconfirmTitle="Are you sure to reset menu design"
-                        (nzOnConfirm)="reset('mainMenu')">Reset</button>
+                        (nzOnConfirm)="reset('mainMenu')"> <i class="fa-regular fa-arrows-spin mr-1.5"></i> Reset</button>
+                        
                 </div>
             </nz-tab>
             <nz-tab nzTitle="In Page Menu">
@@ -513,7 +516,7 @@
                                         <div class="box">
                                             <input type="color" class="input-color"
                                                 [(ngModel)]="selectedTheme['inPageMenu']['backGroundColor']">
-                                            <span>{{selectedTheme['inPageMenu']['backGroundColor'] || '#000000'}}
+                                            <span class="input-hex w-[130px]" >{{selectedTheme['inPageMenu']['backGroundColor'] || '#000000'}}
                                             </span>
                                         </div>
                                     </div>
