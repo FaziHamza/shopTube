@@ -399,10 +399,24 @@ export class PagesComponent implements OnInit {
       if (query) {
         this.applicationService.callApi('knex-query/getAction/' + query._id, 'get', '', '', this.tableRowID).subscribe({
           next: (res) => {
-            if (res.data > 0) {
-              // res.data.forEach((element: any) => {
-              //   this.assignIssue(this.resData[0], element);
-              // });
+            if (res.data.length > 0) {
+              this.formlyModel;
+              if (this.formlyModel) {
+                for (const key in this.formlyModel) {
+                  if (this.formlyModel.hasOwnProperty(key)) {
+                    if (typeof this.formlyModel[key] === 'object') {
+                      for (const key1 in this.formlyModel[key]) {
+                        this.formlyModel[key][key1] = res.data[0][key + '.' + key1]
+                      }
+                    }
+                    else {
+                      this.formlyModel[key] = res.data[0][key];
+                    }
+                  }
+                }
+              }
+              // this.assignValues(res.data[0]);
+              this.form.patchValue(this.formlyModel);
             }
           },
           error: (error: any) => {
@@ -2208,5 +2222,8 @@ export class PagesComponent implements OnInit {
     for (const child of data.children || []) {
       this.removeHighlightRecursive(child);
     }
+  }
+  assignValues(source: any) {
+
   }
 }
