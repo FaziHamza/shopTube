@@ -3386,6 +3386,7 @@ object {
   nz-header {
     background: #fff;
     padding: 0;
+    margin-bottom: 10px;
   }
 
   nz-content {
@@ -3604,8 +3605,6 @@ object {
 
 
   .main-layout2 {
-    padding: 10px 0;
-
     height: calc(100vh - 65px);
 
     .menu-sidebar {
