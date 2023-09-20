@@ -14,11 +14,12 @@
   </div>
   {{data?.buttonAlignments | json}}
   <div class="mt-2 mb-2 flex items-center {{data?.buttonPositions || ' justify-end'}}">
-    <button [style.order]="split(0 , data?.buttonAlignments) || 1" 
-      *ngIf="data?.isAllowExcelReport && !childTable" nz-button (click)="exportToExcel()" nzType="primary"
+    <button [style.order]="split(0 , data?.buttonAlignments) || 1" *ngIf="data?.isAllowExcelReport && !childTable"
+      nz-button (click)="exportToExcel()" nzType="primary"
       class="!rounded-md !bg-green-500 !text-white hover:!bg-green-600 !h-[32px] hover:text-white !border !border-transparent !hover:border-transparent font-md text-lg">Download
       Excel<i class="fa-regular fa-download ml-2 mr-2"></i></button>
-    <div [style.order]="split(1 , data?.buttonAlignments) || 2" class="!w-1/5 ml-2 mr-2">
+    <div *ngIf="data?.isAllowUploadExcel" [style.order]="split(1 , data?.buttonAlignments) || 2"
+      class="!w-1/5 ml-2 mr-2">
       <input type="file" nz-input class="!rounded-md" (change)="onFileSelected($event)" accept=".xlsx">
     </div>
     <div [style.order]="split(2 , data?.buttonAlignments) || 3" class="ml-2 mr-2"

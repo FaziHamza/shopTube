@@ -121,7 +121,7 @@ export class DynamicTableComponent implements OnInit {
       if (this.data?.routeUrl.includes('pages')) {
         this.router.navigate([this.data?.routeUrl + '/' + data.id]);
       } else {
-        this.router.navigate(['/pages/' +this.data?.routeUrl + '/' + data.id]);
+        this.router.navigate(['/pages/' + this.data?.routeUrl + '/' + data.id]);
       }
     }
     if (this.data.doubleClick != false) {
@@ -1905,8 +1905,7 @@ export class DynamicTableComponent implements OnInit {
       this.applicationService.addNestCommonAPI('knex-query/savecsv', formData).subscribe({
         next: (res: any) => {
           if (res.isSuccess) {
-            console.log(res);
-            // Handle success
+            this.toastr.success("Import successfully", { nzDuration: 3000 });
           }
         },
         error: (err) => {
