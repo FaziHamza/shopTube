@@ -41,7 +41,6 @@ export class BuilderLayoutComponent implements OnInit {
     this.router.navigate(['/login'])
   }
   getUsers() {
-    debugger
     this.requestSubscription = this.applicationService.getNestCommonAPI('cp/user').subscribe({
       next: (res: any) => {
         if (res.data.length > 0) {
