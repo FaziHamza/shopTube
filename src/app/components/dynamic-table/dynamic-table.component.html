@@ -1,5 +1,5 @@
 <nz-spin [nzSpinning]="saveLoader" [nzSize]="'large'">
-  <div *ngIf="showProgressBar" class="progress-container">
+  <div *ngIf="showProgressBar" class="progress-container pr-2">
     <nz-progress [nzPercent]="progress" nzStatus="active"></nz-progress>
   </div>
 
@@ -19,21 +19,20 @@
   <div *ngIf="!childTable" class="mt-2 mb-2 flex items-center {{data?.buttonPositions || ' justify-end'}}">
     <button [style.order]="split(0 , data?.buttonAlignments) || 1" *ngIf="data?.isAllowExcelReport" nz-button
       (click)="exportToExcel()" nzType="primary"
-      class="!rounded-md !bg-green-500 !text-white hover:!bg-green-600 !h-[32px] hover:text-white !border !border-transparent !hover:border-transparent font-md text-lg">Download
-      Excel<i class="fa-regular fa-download ml-2 mr-2"></i></button>
+      class="!rounded-md !bg-green-500 !text-white hover:!bg-green-600 !h-[35px] hover:text-white !border !border-transparent !hover:border-transparent font-md text-lg">Download Excel<i class="fa-regular fa-download ml-2 mr-2"></i></button>
     <div *ngIf="data?.isAllowUploadExcel" [style.order]="split(1 , data?.buttonAlignments) || 2"
-      class="!w-1/5 ml-2 mr-2">
-      <input [(ngModel)]="fileUpload" type="file" nz-input class="!rounded-md" (change)="onFileSelected($event)"
+      class="!w-1/5 ml-2 mr-2 !h-[35px]">
+      <input [(ngModel)]="fileUpload" type="file" nz-input class="!rounded-md !w-full !h-full" (change)="onFileSelected($event)"
         accept=".xlsx">
     </div>
-    <div [style.order]="split(2 , data?.buttonAlignments) || 3" class="ml-2 mr-2" *ngIf="data?.isAllowSearch">
+    <div [style.order]="split(2 , data?.buttonAlignments) || 3" class="!h-[35px]" *ngIf="data?.isAllowSearch">
       <nz-input-group nzSearch [nzAddOnAfter]="suffixIconButton">
-        <input type="text" class="!h-[32px] !rounded-tl-md !rounded-bl-md" nz-input id="searchControll"
+        <input type="text" class="!h-[35px] !rounded-tl-md !rounded-bl-md" nz-input id="searchControll"
           [(ngModel)]="searchValue" placeholder="Search..." />
       </nz-input-group>
       <ng-template #suffixIconButton>
         <button nz-button nzType="primary"
-          class="!rounded-tr-md !rounded-br-md !w-10 !h-[32px] !bg-blue-600 hover:!bg-blue-500" nzSearch nz-tooltip
+          class="!rounded-tr-md !rounded-br-md !w-10 !h-[35px] !bg-blue-600 hover:!bg-blue-500" nzSearch nz-tooltip
           nzTooltipTitle="Click Here To Filter">
           <i class="fa-solid fa-magnifying-glass" (click)="search()"></i>
         </button>
@@ -80,9 +79,9 @@
               </span> <span *ngIf="header?.gridHeaderSum">({{header?.gridHeaderSum}})</span>
             </th>
           </ng-container>
-          <th *ngIf="isAllowEdit(tableHeaders)" class="!text-gray-500 !uppercase">Edit</th>
+          <th *ngIf="isAllowEdit(tableHeaders)" class="!text-gray-500 !text-center !uppercase">Edit</th>
           <th *ngIf="tableHeaders.length > 0 && (data?.isDeleteAllow || data?.isDeleteAllow == undefined)"
-            class="!text-gray-500 !uppercase">Delete
+            class="!text-gray-500 !uppercase !text-center">Delete
           </th>
         </tr>
       </thead>
@@ -189,10 +188,10 @@
                   </button>
                 </td>
               </ng-container>
-              <td *ngIf="isAllowEdit(tableHeaders)" (click)="saveEdit(item)">
+              <td *ngIf="isAllowEdit(tableHeaders)" (click)="saveEdit(item)" class="!text-center">
                 <i class="fa-regular !text-sm fa-save text-blue-500"></i>
               </td>
-              <td *ngIf="data?.isDeleteAllow || data?.isDeleteAllow == undefined">
+              <td *ngIf="data?.isDeleteAllow || data?.isDeleteAllow == undefined" class="!text-center">
                 <a nz-popconfirm nzPopconfirmTitle="Sure to delete?" (nzOnConfirm)="deleteRow(item)">
                   <i class="fa-regular fa-trash !text-sm text-red-500"></i>
                 </a>

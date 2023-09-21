@@ -83,7 +83,7 @@
     <div class="w-3/4 pl-2">
       <div class="h-[46px] mb-[10px] flex items-center px-[15px] rounded-md bg-white text-black text-2xl font-semibold">
         DATABASE</div>
-      <nz-card class="w-fit !mb-[10px] !rounded-md">
+      <nz-card class="w-full !mb-[10px] !rounded-md">
         <form [formGroup]="myForm">
           <div class="flex flex-wrap">
             <div class="w-1/2 theme-body" *ngFor="let item of fields">
@@ -110,7 +110,7 @@
           </div>
         </form>
       </nz-card>
-      <nz-card class="w-fit !rounded-md">
+      <nz-card class="w-full !rounded-md">
         <nz-table #editRowTable nzBordered [nzData]="listOfData" nzTableLayout="fixed" [nzPageSize]="10">
           <thead>
             <tr>

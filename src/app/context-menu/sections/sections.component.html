@@ -99,7 +99,7 @@
               [class]="sections.children[0].headingSize ? sections.children[0].headingSize + '' + sections.children[0].className : 'collapse-title ' + sections.children[0].className">
               {{sections.children[0].title}}</p>
           </div>
-          <div class="flex flex-wrap">
+          <div class="flex items-center !pr-6">
             <div *ngFor="let item of sections.children[0].children">
               <st-block-buttons-card
                 *ngIf="item.type == 'button' || item.type == 'buttonGroup' || item.type == 'linkbutton'"

@@ -149,11 +149,10 @@
 </nz-drawer>
 <ng-template #footerTpl>
     <div class="flex justify-end">
-        <button class="mr-2 btn" nz-button nzDanger (click)="handleCancel()"><span nz-icon
-                nzType="close" nzTheme="outline"></span>Close</button>
-        <button nz-button [ngClass]="{ 'btn-no' : !form.valid , 'btn' : form.valid }" *ngIf="isSubmit" 
-            (click)="submit()" [disabled]="!form.valid"><span nz-icon nzType="database"
-                nzTheme="outline"></span>Submit</button>
+        <button class="mr-2 !btn-no !bg-red-600 hover:!bg-red-500 !border-none" nz-button nzDanger
+            (click)="handleCancel()"><i class="fa-regular fa-x mr-1.5"></i>Close</button>
+        <button nz-button [ngClass]="{ 'btn-no' : !form.valid , 'btn' : form.valid }" *ngIf="isSubmit"
+            (click)="submit()" [disabled]="!form.valid"><i class="fa-regular fa-database mr-1.5"></i>Submit</button>
         <button nz-button [ngClass]="{ 'btn-no' : !form.valid , 'btn' : form.valid }" *ngIf="!isSubmit" nzType="primary"
             (click)="submit()" [disabled]="!form.valid"><span><i
                     class="fa-regular fa-arrows-rotate mr-2"></i></span>Update</button>
