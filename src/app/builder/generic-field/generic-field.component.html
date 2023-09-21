@@ -1,6 +1,6 @@
 <form [formGroup]="actionform" class="dynamic-table-form">
   <nz-collapse *ngIf="itemData.commonData">
-    <nz-collapse-panel [nzHeader]="'Common  Attribute value'" [nzActive]="true">
+    <nz-collapse-panel [nzHeader]="'Common  Configuration'" [nzActive]="true">
       <div class="theme-body">
         <formly-form [form]="actionform" [model]="modal" [fields]="itemData.commonData"></formly-form>
       </div>

@@ -19,6 +19,7 @@ export class formlyRepeatSectionComponent extends FieldArrayType {
   formData: any = "";
   tableHeader: any = [];
   data: any = {};
+  tableKey: any = {};
   ngOnInit(): void {
     debugger
 
@@ -39,7 +40,34 @@ export class formlyRepeatSectionComponent extends FieldArrayType {
         });
       }
       const firstObjectKeys = Object.keys(this.formData[0]);
-      this.tableHeader = firstObjectKeys.map(key => ({ name: key }));
+      // this.tableHeader = firstObjectKeys.map(key => ({ name: key }));
+      let newFieldGroup: any = this.field?.fieldArray;
+      if (newFieldGroup?.fieldGroup) {
+        const headerDataArray: any[] = [];
+
+        newFieldGroup?.fieldGroup.forEach((head: any) => {
+          const headerData: any = {};
+          headerData['dataType'] = head.type;
+          headerData['title'] = head.props.label;
+          headerData['name'] = head.key;
+          headerData['key'] = head.key;
+          if(!headerData.key.includes('_list')){
+            headerDataArray.push(headerData);
+          }
+        });
+        this.tableHeader = headerDataArray;
+        let keyObj = {
+          'dataType' : 'input', 
+          'title' : 'Id', 
+          'name' : 'id', 
+          'key' : 'id', 
+        }
+        this.tableHeader.unshift(keyObj);
+        this.data['tableKey'] = this.tableHeader
+        // this.tableKey = headerDataArray;
+        // headerDataArray now contains data for each head in fieldGroup
+      }
+
     }
   }
 }

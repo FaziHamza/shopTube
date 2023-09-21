@@ -2853,6 +2853,7 @@ export class BuilderComponent implements OnInit {
       case 'url':
       case 'customMasking':
       case 'multiFileUploader':
+      case 'audioVideoRecorder':
         configObj = {
           ...configObj,
           ...this.clickButtonService.getFormlyConfig(selectedNode),
@@ -3906,6 +3907,7 @@ export class BuilderComponent implements OnInit {
       case 'customMasking':
       case 'url':
       case 'multiFileUploader':
+        case 'audioVideoRecorder':
         if (this.selectedNode) {
           needToUpdate = false;
 

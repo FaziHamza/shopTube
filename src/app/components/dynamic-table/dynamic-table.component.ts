@@ -1,4 +1,5 @@
 import { DatePipe } from '@angular/common';
+import { HttpClient, HttpEvent, HttpEventType } from '@angular/common/http';
 import {
   ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output,
 } from '@angular/core';
@@ -64,13 +65,16 @@ export class DynamicTableComponent implements OnInit {
   groupingData: any = [];
   showChild: boolean = false;
   searchValue: any = '';
+  progress = 0;
+  showProgressBar = false;
+  fileUpload: any = '';
   constructor(public _dataSharedService: DataSharedService, private builderService: BuilderService,
     private applicationService: ApplicationService,
     private dataService: DataService,
     private employeeService: EmployeeService, private toastr: NzMessageService, private cdr: ChangeDetectorRef,
     public dataSharedService: DataSharedService,
     private applicationServices: ApplicationService,
-    private sanitizer: DomSanitizer, private router: Router
+    private sanitizer: DomSanitizer, private router: Router, private http: HttpClient
   ) {
     this.processData = this.processData.bind(this);
   }
@@ -207,24 +211,19 @@ export class DynamicTableComponent implements OnInit {
       ]
     };
     // this.applyBusinessRule(getRes, this.data);
-    this.loadTableData();
-    if (this.screenId == 'taskmanager') {
-
-    }
-    else {
-      if (this.screenId)
-        this.applicationService.getNestCommonAPIById('cp/GridBusinessRule', this.screenId).subscribe(((getRes: any) => {
-          if (getRes.isSuccess) {
-            if (getRes.data.length > 0) {
-              // this.formlyModel['input34d5985f']='1313'
-              this.applyBusinessRule(getRes, this.data);
-            }
-            this.pageChange(1);
-            // this.loadTableData();
-          } else
-            this.toastr.error(getRes.message, { nzDuration: 3000 });
-        }));
-    }
+    // this.loadTableData();
+    if (this.screenId)
+      this.applicationService.getNestCommonAPIById('cp/GridBusinessRule', this.screenId).subscribe(((getRes: any) => {
+        if (getRes.isSuccess) {
+          if (getRes.data.length > 0) {
+            // this.formlyModel['input34d5985f']='1313'
+            this.applyBusinessRule(getRes, this.data);
+          }
+          this.pageChange(1);
+          // this.loadTableData();
+        } else
+          this.toastr.error(getRes.message, { nzDuration: 3000 });
+      }));
 
   }
   applyBusinessRule(getRes: any, data: any) {
@@ -1602,104 +1601,111 @@ export class DynamicTableComponent implements OnInit {
   }
 
   processData(data: any[]) {
-    this.saveLoader = false;
     if (data) {
       if (data.length > 0) {
         let res: any = {};
         res['data'] = [];
         res['data'] = data;
         this.getFromQueryOnlyTable(this.data, res)
+      } else {
+        this.saveLoader = false;
       }
+    } else {
+      this.saveLoader = false;
     }
     return data
   }
   async getFromQueryOnlyTable(tableData: any, res: any) {
-    debugger
-    if (tableData && res?.data.length > 0) {
-      const applicationId = localStorage.getItem('applicationId') || '';
-      let savedGroupData: any = [];
-      if (applicationId) {
-        savedGroupData = await this.dataService.getNodes(JSON.parse(applicationId), this.screenName, "Table");
-      }
-      this.saveLoader = false;
-      this.tableData = res.data.map((element: any) => ({ ...element, id: element.id?.toString() }));
-      this.excelReportData = [...this.tableData];
-      if (!this.data.end) {
-        tableData.end = 10;
-      }
-      this.data.pageIndex = 1;
-      this.data.totalCount = res.data.length;
-      if (tableData.eventActionconfig) {
-        if (tableData.eventActionconfig.actionType == 'query') {
-          tableData.serverApi = `knex-query/getAction/${tableData.eventActionconfig._id}`;
-        } else if (tableData.eventActionconfig.actionType == 'api') {
-          tableData.serverApi = tableData.eventActionconfig.httpAddress;
+    try {
+      debugger;
+      if (tableData && res?.data.length > 0) {
+        const applicationId = localStorage.getItem('applicationId') || '';
+        let savedGroupData: any = [];
+        if (applicationId) {
+          savedGroupData = await this.dataService.getNodes(JSON.parse(applicationId), this.screenName, "Table");
         }
-      }
-      this.data.targetId = '';
-
-
-      this.displayData = this.tableData.length > this.data.end ? this.tableData.slice(0, this.data.end) : this.tableData;
-      if (this.tableHeaders.length === 0) {
-        this.tableHeaders = Object.keys(this.tableData[0] || {}).map(key => ({ name: key, key: key }));
-        this.data['tableKey'] = this.tableHeaders;
-      }
-      else {
-        const tableKey = Object.keys(this.tableData[0] || {}).map(key => ({ name: key }));
-        if (JSON.stringify(this.data['tableKey']) !== JSON.stringify(tableKey)) {
-          const updatedData = tableKey.filter(updatedItem =>
-            !this.tableHeaders.some((headerItem: any) => headerItem.key === updatedItem.name)
-          );
-          if (updatedData.length > 0) {
-            updatedData.forEach(updatedItem => {
-              this.tableHeaders.push({ id: tableData.tableHeaders.length + 1, key: updatedItem.name, name: updatedItem.name, });
-            });
-            this.data.tableHeaders = this.tableHeaders;
+        this.tableData = res.data.map((element: any) => ({ ...element, id: element.id?.toString() }));
+        this.excelReportData = [...this.tableData];
+        if (!this.data.end) {
+          tableData.end = 10;
+        }
+        this.data.pageIndex = 1;
+        this.data.totalCount = res.data.length;
+        if (tableData.eventActionconfig) {
+          if (tableData.eventActionconfig.actionType == 'query') {
+            tableData.serverApi = `knex-query/getAction/${tableData.eventActionconfig._id}`;
+          } else if (tableData.eventActionconfig.actionType == 'api') {
+            tableData.serverApi = tableData.eventActionconfig.httpAddress;
           }
         }
+        this.data.targetId = '';
 
-      }
-      let CheckKey = this.tableHeaders.find((head: any) => !head.key)
-      if (CheckKey) {
-        for (let i = 0; i < this.tableHeaders.length; i++) {
-          if (!this.tableHeaders[i].hasOwnProperty('key')) {
-            this.tableHeaders[i].key = tableData.tableHeaders[i].name;
-          }
-        }
-      }
-      if (savedGroupData.length > 0) {
-        let getData = savedGroupData[savedGroupData.length - 1];
-        if (getData.data.length > 0) {
-          let updateTableData: any = [];
-          getData.data.forEach((elem: any) => {
-            let findData = this.tableHeaders.find((item: any) => item.key == elem);
-            if (findData) {
-              this.groupedFunc(elem, 'add', findData, false);
+        this.displayData = this.tableData.length > this.data.end ? this.tableData.slice(0, this.data.end) : this.tableData;
+        if (this.tableHeaders.length === 0) {
+          this.tableHeaders = Object.keys(this.tableData[0] || {}).map(key => ({ name: key, key: key }));
+          this.data['tableKey'] = this.tableHeaders;
+        } else {
+          const tableKey = Object.keys(this.tableData[0] || {}).map(key => ({ name: key }));
+          if (JSON.stringify(this.data['tableKey']) !== JSON.stringify(tableKey)) {
+            const updatedData = tableKey.filter(updatedItem =>
+              !this.tableHeaders.some((headerItem: any) => headerItem.key === updatedItem.name)
+            );
+            if (updatedData.length > 0) {
+              updatedData.forEach(updatedItem => {
+                this.tableHeaders.push({ id: tableData.tableHeaders.length + 1, key: updatedItem.name, name: updatedItem.name, });
+              });
+              this.data.tableHeaders = this.tableHeaders;
             }
-          })
-          this.displayData = this.tableData.length > this.data.end ? this.tableData.slice(0, this.data.end) : this.tableData;
-          tableData.tableHeaders.unshift({
-            name: 'expand',
-            key: 'expand',
-            title: 'Expand',
-          });
-          this.data.totalCount = this.tableData
+          }
         }
-        else {
-          this.tableHeaders = this.tableHeaders.filter((head: any) => head.key != 'expand')
+        let CheckKey = this.tableHeaders.find((head: any) => !head.key)
+        if (CheckKey) {
+          for (let i = 0; i < this.tableHeaders.length; i++) {
+            if (!this.tableHeaders[i].hasOwnProperty('key')) {
+              this.tableHeaders[i].key = tableData.tableHeaders[i].name;
+            }
+          }
         }
+        if (savedGroupData.length > 0) {
+          let getData = savedGroupData[savedGroupData.length - 1];
+          if (getData.data.length > 0) {
+            let updateTableData: any = [];
+            getData.data.forEach((elem: any) => {
+              let findData = this.tableHeaders.find((item: any) => item.key == elem);
+              if (findData) {
+                this.groupedFunc(elem, 'add', findData, false);
+              }
+            })
+            this.displayData = this.tableData.length > this.data.end ? this.tableData.slice(0, this.data.end) : this.tableData;
+            tableData.tableHeaders.unshift({
+              name: 'expand',
+              key: 'expand',
+              title: 'Expand',
+            });
+            this.data.totalCount = this.tableData
+          } else {
+            this.tableHeaders = this.tableHeaders.filter((head: any) => head.key != 'expand');
+            this.pageChange(1);
+          }
+        } else {
+          this.tableHeaders = this.tableHeaders.filter((head: any) => head.key != 'expand');
+          this.pageChange(1);
+        }
+        this.data['tableKey'] = this.tableHeaders;
+        this.data['tableHeaders'] = this.tableHeaders;
+        if (window.location.href.includes('taskmanager.com')) {
+          // Handle any additional logic here
+        }
+        this.saveLoader = false;
       }
-      else {
-        this.tableHeaders = this.tableHeaders.filter((head: any) => head.key != 'expand')
-      }
-      this.data['tableKey'] = this.tableHeaders;
-      this.data['tableHeaders'] = this.tableHeaders;
-      if (window.location.href.includes('taskmanager.com')) {
-
-      }
+      this.gridInitilize();
+    } catch (error) {
+      console.error("An error occurred in getFromQueryOnlyTable:", error);
+      // Handle the error appropriately, e.g., show an error message to the user.
+      this.saveLoader = false;
     }
-    this.gridInitilize();
   }
+
   isAllowEdit(header: any): boolean {
     let check = header.some((head: any) => head?.editMode != '' && head?.editMode != null);
     return check;
@@ -1900,22 +1906,57 @@ export class DynamicTableComponent implements OnInit {
     const file: File = event.target.files[0];
 
     if (file) {
+      this.showProgressBar = true;
+      this.progress = 0; // Initialize progress to 0
+
       const formData: FormData = new FormData();
       formData.append('file', file);
-      this.applicationService.addNestCommonAPI('knex-query/savecsv', formData).subscribe({
-        next: (res: any) => {
-          if (res.isSuccess) {
-            this.toastr.success("Import successfully", { nzDuration: 3000 });
-          }
-        },
-        error: (err) => {
-          // Handle error
-          this.toastr.error('Some error occurred', { nzDuration: 2000 });
-        },
-      });
 
+      this.http
+        .post(this.serverPath + '/knex-query/savecsv', formData, {
+          reportProgress: true, // Enable progress reporting
+          observe: 'events', // Observe Http events
+        })
+        .subscribe({
+          next: (event: HttpEvent<any>) => {
+            if (event.type === HttpEventType.UploadProgress) {
+              if (event.total !== undefined && event.total > 0) {
+                // Ensure 'event.total' is defined and positive before using it
+                this.progress = Math.round((100 * event.loaded) / event.total);
+              }
+            } else if (event.type === HttpEventType.Response) {
+              // Upload complete
+              this.progress = 100;
+              this.showProgressBar = false;
+              this.toastr.success('Import successfully', { nzDuration: 3000 });
+              // Clear the file input value to remove the selected file
+              this.fileUpload = ''; // This clears the file input
+              if (this.data.appConfigurableEvent) {
+                let url = 'knex-query/getAction/' + this.data.eventActionconfig._id;
+                this.saveLoader = true;
+                this.applicationService.callApi(url, 'get', '', '', '').subscribe({
+                  next: (res) => {
+                    this.getFromQueryOnlyTable(this.data, res);
+                  },
+                  error: (error: any) => {
+                    console.error(error);
+                    this.saveLoader = false;
+                    this.toastr.error("An error occurred", { nzDuration: 3000 });
+                  }
+                })
+              }
+            }
+          },
+          error: (err) => {
+            // Handle error
+            this.showProgressBar = false;
+            this.toastr.error('Some error occurred', { nzDuration: 2000 });
+          },
+        });
     }
   }
+
+
   split(index: any, data: any) {
     if (data && data) {
       if (typeof data == 'string') {

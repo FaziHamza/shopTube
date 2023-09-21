@@ -11277,15 +11277,15 @@ export class formFeildData {
             },
           },
         },
-        {
-          key: 'tableName',
-          type: 'input',
-          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
-          wrappers: ["formly-vertical-theme-wrapper"],
-          props: {
-            label: 'Table Name'
-          }
-        },
+        // {
+        //   key: 'tableName',
+        //   type: 'input',
+        //   className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+        //   wrappers: ["formly-vertical-theme-wrapper"],
+        //   props: {
+        //     label: 'Table Name'
+        //   }
+        // },
         {
           key: 'filterMultiple',
           type: 'checkbox',
@@ -11521,12 +11521,67 @@ export class formFeildData {
               {
                 className: "ml-2",
                 key: 'callApi',
-                type: 'checkbox',
+                type: 'input',
                 wrappers: ["formly-vertical-theme-wrapper"],
                 props: {
                   label: 'Call Api'
                 }
               },
+              {
+                key: 'position',
+                type: 'select',
+                className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+                wrappers: ["formly-vertical-theme-wrapper"],
+                props: {
+                  label: 'Position',
+                  options: [
+                  ],
+                  additionalProperties: {
+                    allowClear: true,
+                    serveSearch: false,
+                    showArrow: true,
+                    showSearch: true,
+                  },
+                },
+              },
+              {
+                key: 'position_list',
+                type: 'select',
+                className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+                wrappers: ["formly-vertical-theme-wrapper"],
+                props: {
+                  label: 'Open Component',
+                  options: [
+                    {
+                      label: 'Left',
+                      value: 'left'
+                    },
+                    {
+                      label: 'Center',
+                      value: 'center'
+                    },
+                    {
+                      label: 'Right',
+                      value: 'right'
+                    }
+                  ],
+                  additionalProperties: {
+                    allowClear: true,
+                    serveSearch: false,
+                    showArrow: true,
+                    showSearch: true,
+                  },
+                },
+              },
+              // {
+              //   className: "ml-2",
+              //   key: 'apiName',
+              //   type: 'input',
+              //   wrappers: ["formly-vertical-theme-wrapper"],
+              //   props: {
+              //     label: 'Api Name'
+              //   }
+              // },
               {
                 className: "ml-2",
                 key: 'sum',
