@@ -38,6 +38,7 @@ import { TableRowComponent } from './menu-builder/table-row/table-row.component'
 import { AuthGuard } from './auth/auth.Guard';
 import { CommonService } from '../common/common-services/common.service';
 // import { MultiFileUploadWrapperComponent } from './wrappers/multi-file-upload-wrapper/multi-file-upload-wrapper.component';
+
 const antDesignIcons = AllIcons as {
   [key: string]: IconDefinition;
 };
@@ -81,6 +82,7 @@ import { VideoRecordingService } from './services/video-recording.service';
     GoogleChartsModule,
     RecaptchaFormsModule,
     RecaptchaModule,
+    NgJsonEditorModule,
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,

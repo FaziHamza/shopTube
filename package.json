@@ -49,7 +49,7 @@
     "@ngx-translate/http-loader": "^8.0.0",
     "@perfectmemory/ngx-contextmenu": "^8.1.0",
     "ajv": "^8.12.0",
-    "ang-jsoneditor": "^2.0.0",
+    "ang-jsoneditor": "^1.10.5",
     "angular-google-charts": "^2.2.3",
     "angular-split": "^15.0.0",
     "codex-notifier": "^1.1.2",

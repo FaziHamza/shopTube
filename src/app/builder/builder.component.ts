@@ -47,7 +47,6 @@ import { faker } from '@faker-js/faker';
 })
 export class BuilderComponent implements OnInit {
   showRules: any = '';
-  @ViewChild('editor') editor: JsonEditorComponent;
   showActionRule: any = true;
   public editorOptions: JsonEditorOptions = new JsonEditorOptions();
   isSavedDb = false;
@@ -130,6 +129,8 @@ export class BuilderComponent implements OnInit {
 
     //   this.nodes = res[0].menuData;
     // }));
+        this.editorOptions = new JsonEditorOptions();
+    this.editorOptions.modes = ['code', 'text', 'tree', 'view'];
     this.dataSharedService.change.subscribe(({ event, field }) => {
       if (event && field && this.router.url == '/builder') {
         if (this.formModalData[field.key]) {
@@ -147,8 +148,7 @@ export class BuilderComponent implements OnInit {
   }
   ngOnInit(): void {
     // this.getUsers();
-    // this.editorOptions = new JsonEditorOptions();
-    // this.editorOptions.modes = ['code', 'text', 'tree', 'view'];
+
     this.currentUser = JSON.parse(localStorage.getItem('user')!);
     this.loadDepartmentData();
     document
