@@ -1,4 +1,4 @@
-<nz-timeline [nzPending]="timelineData.pendingText" [nzPendingDot]="pendingIcon" [nzReverse]="timelineData.reverse"
+<nz-timeline [nzPending]="timelineData.pendingText" [nzPendingDot]="pendingIcon" [nzReverse]="timelineData.reverse" class="timelineDiv"
     [nzMode]="timelineData.mode">
     <ng-container *ngIf="timelineData.children.length > 0">
         <ng-container *ngFor="let item of timelineData.children">
