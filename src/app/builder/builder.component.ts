@@ -3,8 +3,9 @@ import {
   OnInit,
   ChangeDetectorRef,
   ViewContainerRef,
+  ViewChild,
 } from '@angular/core';
-import { JsonEditorOptions } from 'ang-jsoneditor';
+import { JsonEditorComponent, JsonEditorOptions } from 'ang-jsoneditor';
 import { NzButtonSize } from 'ng-zorro-antd/button';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { NzFormatEmitEvent } from 'ng-zorro-antd/tree';
@@ -46,8 +47,9 @@ import { faker } from '@faker-js/faker';
 })
 export class BuilderComponent implements OnInit {
   showRules: any = '';
+  @ViewChild('editor') editor: JsonEditorComponent;
   showActionRule: any = true;
-  public editorOptions: JsonEditorOptions;
+  public editorOptions: JsonEditorOptions = new JsonEditorOptions();
   isSavedDb = false;
   makeOptions = () => new JsonEditorOptions();
   addControl = false;
@@ -121,8 +123,7 @@ export class BuilderComponent implements OnInit {
     private colorPickerService: ColorPickerService,
     private router: Router
   ) {
-    this.editorOptions = new JsonEditorOptions();
-    this.editorOptions.modes = ['code', 'text', 'tree', 'view'];
+
     // document.getElementsByTagName("body")[0].setAttribute("data-sidebar-size", "sm");
     // this.clearChildNode();
     // this.jsonBuilderMain().subscribe((res => {
@@ -146,6 +147,8 @@ export class BuilderComponent implements OnInit {
   }
   ngOnInit(): void {
     // this.getUsers();
+    // this.editorOptions = new JsonEditorOptions();
+    // this.editorOptions.modes = ['code', 'text', 'tree', 'view'];
     this.currentUser = JSON.parse(localStorage.getItem('user')!);
     this.loadDepartmentData();
     document
