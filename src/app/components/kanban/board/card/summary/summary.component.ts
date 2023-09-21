@@ -10,6 +10,7 @@ export class SummaryComponent implements OnInit {
   @Input() formlyModel: any;
   @Input() form: any;
   @Input() screenName: any;
+  @Input() screenId: any;
   @Input() card: Card;
   @Input() listIndex: number;
   @Input() cardIndex: number;

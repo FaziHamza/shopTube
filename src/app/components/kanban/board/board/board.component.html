@@ -15,7 +15,8 @@
     </div> -->
   <div class="flex flex-nowrap flex-row ">
     <div class="p-1" *ngFor="let list of kanbanData.children;let i = index">
-      <st-lists [list]="list" [listIndex]="i" (moveCardAcrossList)="moveCardAcrossList($event)"
+      <st-lists [list]="list" [listIndex]="i" (moveCardAcrossList)="moveCardAcrossList($event)" [form]="form" [formlyModel]="formlyModel" [screenId]="screenId"
+      [screenName]="screenName" 
         (deleteList)="deleteList($event)" attr.listIndex="{{i}}"></st-lists>
     </div>
   </div>
