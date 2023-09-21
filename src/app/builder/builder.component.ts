@@ -6275,7 +6275,6 @@ export class BuilderComponent implements OnInit {
     }
   }
   async getFromQuery(name: string, type?: any) {
-    debugger
     let tableData = this.findObjectByTypeBase(this.nodes[0], "gridList");
     if (tableData) {
       let findClickApi = tableData?.appConfigurableEvent?.filter((item: any) =>

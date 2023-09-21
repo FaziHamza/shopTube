@@ -26,15 +26,17 @@ export class PagesComponent implements OnInit {
     private toastr: NzMessageService,
     public dataSharedService: DataSharedService, private router: Router) {
     this.dataSharedService.change.subscribe(({ event, field }) => {
-      if (field && event)
-        this.getEnumList(field, event);
-      if (event && field && this.router.url.includes('/pages')) {
+      if (field && event) {
         if (this.formlyModel) {
           this.formlyModel[field.key] = event;
-          // console.log("key value : " + event);
-          this.checkConditionUIRule(field, event);
         }
+        this.getEnumList(field, event);
       }
+      if (event && field && this.router.url.includes('/pages')) {
+        // console.log("key value : " + event);
+        this.checkConditionUIRule(field, event);
+      }
+
     });
     this.dataSharedService.gridData.subscribe(res => {
       if (res)

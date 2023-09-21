@@ -213,7 +213,8 @@
         <st-switch [switchData]="item" *ngIf="item.type == 'switch'; else thirtyforth"></st-switch>
     </ng-template>
     <ng-template #thirtyforth>
-        <st-board [kanbanData]="item" *ngIf="item.type == 'kanban' ; else thirtyfifth"></st-board>
+        <st-board [kanbanData]="item" *ngIf="item.type == 'kanban' ; else thirtyfifth" [form]="form"
+        [screenId]="screenId" [screenName]="screenName" [formlyModel]="formlyModel"></st-board>
         <!-- <st-kanban-boards [kanbanData]="item"></st-kanban-boards> -->
     </ng-template>
     <ng-template #thirtyfifth>

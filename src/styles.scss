@@ -315,8 +315,8 @@ object {
   .checkBox {
     border: 1px solid lightgray !important;
     height: 40px;
-    padding-left: 2%;
-    padding-right: 2%;
+    padding-left: 11px;
+    padding-right: 11px;
   }
 
   .imageUpoload {
@@ -368,7 +368,9 @@ object {
       }
     }
   }
-
+  .column-form-input{
+  
+  }
   .ng-select-container {
     height: 40px !important;
 
@@ -378,6 +380,11 @@ object {
       }
     }
   }
+
+#my-app {
+  margin-top: 2.5px;
+  margin-left: 11px;
+}
 
   // st-formly-field-ng-search{
   //   border: 1px solid lightgray;
@@ -5373,9 +5380,9 @@ ul.ant-cascader-menu:nth-child(2)>li:nth-child(1)>div:nth-child(2)>i:nth-child(1
 .ant-select-dropdown {
   margin: 10px 0px !important;
   border-radius: 6px !important;
-  overflow: hidden;
+  overflow: hidden !important;
   padding: 0px !important;
-
+  height: 250px !important;
   .ant-cascader-menus {
     margin: 0px !important;
   }
@@ -5383,8 +5390,9 @@ ul.ant-cascader-menu:nth-child(2)>li:nth-child(1)>div:nth-child(2)>i:nth-child(1
   .ant-cascader-menu {
     padding: 0px !important;
     border-radius: 0px !important;
-
+    border: none !important;
     margin: 0px !important;
+    height: 250px !important;
 
     li:first-child {
       border-radius: 0px !important;
@@ -7150,10 +7158,10 @@ tr:hover {
 
 input[type=file] {
   color: #444 !important;
-  padding: 5px !important;
+  padding: 4px !important;
   background: #fff !important;
-  border-radius: 6px !important;
-  border: 1px solid #555 !important;
+  border-radius: 4px !important;
+  border: 1px solid #b0b0b0 !important;
 }
 
 input[type=file]::file-selector-button {
@@ -7161,7 +7169,7 @@ input[type=file]::file-selector-button {
   border: none !important;
   background: $primary-color !important;
   padding: 5px 10px !important;
-  border-radius: 6px !important;
+  border-radius: 2px !important;
   color: #fff !important;
   cursor: pointer !important;
   transition: background .2s ease-in-out !important;
@@ -7169,4 +7177,14 @@ input[type=file]::file-selector-button {
 
 input[type=file]::file-selector-button:hover {
   background: #2563EB;
+}
+
+
+// .ant-drawer-open > div:nth-child(2) > div:nth-child(1) > div:nth-child(1) > div:nth-child(2) {
+//   padding: 0px 16px;
+// }
+
+
+.start-button {
+  width: 35px !important;
 }

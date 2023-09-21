@@ -2,7 +2,7 @@
     <div>
         <!-- <div>Audio</div> -->
         <div>
-            <button class="start-button !bg-green-500 hover:!bg-green-400 audio-btn" *ngIf="!isAudioRecording && !audioBlobUrl"
+            <button class="start-button !bg-green-500 hover:!bg-green-400 audio-btn "  *ngIf="!isAudioRecording && !audioBlobUrl"
                 (click)="startAudioRecording()"> <i class="fa-solid fa-microphone "></i></button>
 
             <button id="audioTimer" class="stop-button bg-blue-600 hover:!bg-blue-500 audio-btn" *ngIf="isAudioRecording && !audioBlobUrl" (click)="stopAudioRecording()"  > <i class=" fa-solid fa-stop mr-1.5"   ></i> {{ audioRecordedTime }}</button>

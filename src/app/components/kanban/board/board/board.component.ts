@@ -12,6 +12,10 @@ import { NzMessageService } from 'ng-zorro-antd/message';
 export class BoardComponent implements OnInit {
   @Input() kanbanData: any;
   lists: ListInterface[];
+  @Input() formlyModel: any;
+  @Input() form: any;
+  @Input() screenName: any;
+  @Input() screenId: any;
 
   constructor(private toastr: NzMessageService,) {
     this.processData = this.processData.bind(this);
