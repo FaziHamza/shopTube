@@ -19,6 +19,7 @@ export class ListsComponent implements OnInit {
   @Input() formlyModel: any;
   @Input() form: any;
   @Input() screenName: any;
+  @Input() screenId: any;
 
   private cardCount = 0;
 

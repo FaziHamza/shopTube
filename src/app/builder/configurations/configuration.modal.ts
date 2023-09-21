@@ -11116,6 +11116,80 @@ export class formFeildData {
             },
           },
         },
+        {
+          key: 'buttonPositions',
+          type: 'select',
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          wrappers: ["formly-vertical-theme-wrapper"],
+          props: {
+            label: 'Buttons Positions',
+            options: [
+              { value: ' justify-start', label: 'Left' },
+              { value: ' justify-between', label: 'Center' },
+              { value: ' justify-end', label: 'right' }
+            ],
+            additionalProperties: {
+              allowClear: true,
+              serveSearch: false,
+              showArrow: true,
+              showSearch: true,
+            },
+          },
+        },
+        {
+          key: 'buttonAlignments',
+          type: 'select',
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          wrappers: ["formly-vertical-theme-wrapper"],
+          props: {
+            label: 'Buttons Alignments',
+            options: [
+              { value: '1,2,3', label: 'Start Button' },
+              { value: '2,1,3', label: 'Center Button' },
+              { value: '3,1,2', label: 'End Button' },
+              { value: '2,3,1', label: 'Start Search' },
+              // { value: '1,2,3', label: 'Center Search' },
+              // { value: '2,1,3', label: 'End Search' },
+              { value: '3,2,1', label: 'Start Import' },
+              // { value: '3,1,2', label: 'Center Import' },
+              // { value: '1,2,3', label: 'End Import' },
+            ],
+            additionalProperties: {
+              allowClear: true,
+              serveSearch: false,
+              showArrow: true,
+              showSearch: true,
+            },
+          },
+        },
+        {
+          key: 'formType',
+          type: 'select',
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          wrappers: ["formly-vertical-theme-wrapper"],
+          props: {
+            label: 'Form Type',
+            options: [
+              { value: 'inPage', label: 'In page' },
+              { value: 'newTab', label: 'New Tab' },
+            ],
+            additionalProperties: {
+              allowClear: true,
+              serveSearch: false,
+              showArrow: true,
+              showSearch: true,
+            },
+          },
+        },
+        {
+          key: 'routeUrl',
+          type: 'input',
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          wrappers: ["formly-vertical-theme-wrapper"],
+          props: {
+            label: 'Route Url'
+          }
+        },
         // {
         //   key: 'api',
         //   type: 'select',

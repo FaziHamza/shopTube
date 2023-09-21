@@ -554,4 +554,8 @@ export interface TreeNode {
   isAllowUploadExcel?: boolean,
   isAllowSearch?: boolean,
   tableName?: string,
+  buttonPositions?: string,
+  formType?: string,
+  routeUrl?: string,
+  buttonAlignments?: any[],
 }

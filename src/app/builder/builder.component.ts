@@ -37,6 +37,7 @@ import { MarketPlaceComponent } from './market-place/market-place.component';
 import { FormGroup } from '@angular/forms';
 import { EmployeeService } from '../services/employee.service';
 // import * as faker from 'faker';
+import { faker } from '@faker-js/faker';
 
 @Component({
   selector: 'st-builder',
@@ -130,7 +131,7 @@ export class BuilderComponent implements OnInit {
     // }));
     this.dataSharedService.change.subscribe(({ event, field }) => {
       if (event && field && this.router.url == '/builder') {
-        if(this.formModalData[field.key]){
+        if (this.formModalData[field.key]) {
           this.formModalData[field.key] = event;
         }
         this.checkConditionUIRule(field, event);
@@ -765,68 +766,80 @@ export class BuilderComponent implements OnInit {
   formlyModel: any;
   faker: boolean = false;
   makeFaker(check?: boolean) {
+    this.iconActive = 'faker';
     let dataModelFaker: any = [];
     if (this.nodes.length > 0) {
       const filteredNodes = this.filterInputElements(this.nodes);
       filteredNodes.forEach((node) => {
         dataModelFaker[node.formly[0].fieldGroup[0].key] =
-          this.makeFakerData(node,check);
+          this.makeFakerData(node, check);
       });
     }
-    this.formlyModel = dataModelFaker;
+    // this.formlyModel = dataModelFaker;
+    this.assignValues(dataModelFaker);
+    console.log(this.formlyModel);
+    this.form.patchValue(this.formlyModel);
   }
-  makeFakerData(V2: any,check?:any) {
+  makeFakerData(V2: any, check?: any) {
     if (V2.formly[0].fieldGroup[0].props) {
       let modelFaker: any;
-      if(check){
+      if (check) {
         if (V2.formly[0].fieldGroup[0].props.type) {
           if (V2.formly[0].fieldGroup[0].type == 'input') {
-            // modelFaker = faker.name.firstName()
+            modelFaker = faker.name.firstName()
           } else if (V2.formly[0].fieldGroup[0].type == 'textarea') {
-            // modelFaker = faker.lorem.paragraph()
+            modelFaker = faker.lorem.paragraph()
           } else if (V2.formly[0].fieldGroup[0].type == 'inputGroupGrid') {
-            // modelFaker = faker.name.firstName()
+            modelFaker = faker.name.firstName()
           } else if (V2.formly[0].fieldGroup[0].props.type == 'password') {
-            // modelFaker = faker.name.firstName()
+            modelFaker = faker.name.firstName()
           } else if (V2.formly[0].fieldGroup[0].props.type == 'tel') {
-            // modelFaker = faker.phone.number()
+            modelFaker = faker.phone.number()
           } else if (V2.formly[0].fieldGroup[0].props.type == 'date') {
-            // modelFaker = faker.date.between('01/01/2001', '01/01/2001');
+            modelFaker = faker.date.between('01/01/2001', '01/01/2001');
           } else if (V2.formly[0].fieldGroup[0].props.type == 'email') {
-            // modelFaker = faker.internet.email()
+            modelFaker = faker.internet.email()
           } else if (V2.formly[0].fieldGroup[0].props.type == 'checkbox') {
-            // modelFaker = faker.datatype.boolean()
+            modelFaker = faker.datatype.boolean()
           } else if (V2.formly[0].fieldGroup[0].props.type == 'radio') {
-            // modelFaker = faker.datatype.boolean()
+            modelFaker = faker.datatype.boolean()
           } else if (V2.formly[0].fieldGroup[0].props.type == 'number') {
-            // modelFaker = 1
+            modelFaker = 1
             // modelFaker = faker.datatype.number(10)
           } else if (V2.formly[0].fieldGroup[0].props.type == 'decimal') {
-            // modelFaker = 0.0
+            modelFaker = 0.0
             // modelFaker = faker.datatype.float({ min: 10, max: 100, precision: 0.001 })
           } else if (V2.formly[0].fieldGroup[0].props.type == 'month') {
-            // modelFaker = faker.date.month({ abbr: true, context: true })
+            modelFaker = faker.date.month({ abbr: true, context: true })
           } else if (V2.formly[0].fieldGroup[0].props.type == 'datetime-local') {
-            // modelFaker = faker.datatype.datetime(1893456000000)
+            modelFaker = faker.datatype.datetime(1893456000000)
           } else if (V2.formly[0].fieldGroup[0].props.type == 'color') {
-            // modelFaker = faker.color.colorByCSSColorSpace()
+            modelFaker = faker.color.colorByCSSColorSpace()
           }
         } else if (V2.formly[0].fieldGroup[0].type) {
           if (V2.formly[0].fieldGroup[0].type == 'input') {
-            // modelFaker = faker.name.firstName()
+            modelFaker = faker.name.firstName()
           } else if (V2.formly[0].fieldGroup[0].type == 'textarea') {
-            // modelFaker = faker.lorem.paragraph()
+            modelFaker = faker.lorem.paragraph()
           } else if (V2.formly[0].fieldGroup[0].type == 'inputGroupGrid') {
-            // modelFaker = faker.name.firstName()
+            modelFaker = faker.name.firstName()
           }
         }
       }
-     
+
       return modelFaker;
     }
   }
   uiRuleGetData(screenId: any) {
-    this.makeFaker();
+    let dataModelFaker: any = [];
+    if (this.nodes.length > 0) {
+      const filteredNodes = this.filterInputElements(this.nodes);
+      filteredNodes.forEach((node) => {
+        dataModelFaker[node.formly[0].fieldGroup[0].key] =
+          this.makeFakerData(node, true);
+      });
+    }
+    this.formlyModel = dataModelFaker;
     this.checkConditionUIRule(
       { key: 'text_f53ed35b', id: 'formly_86_input_text_f53ed35b_0' },
       ''
@@ -3583,7 +3596,7 @@ export class BuilderComponent implements OnInit {
             this.selectedNode['tooltipIcon'] = event.form.tooltipIcon;
             this.selectedNode['rowClass'] = event.form.rowClass;
             this.selectedNode['borderLessInputs'] = event.form.borderLessInputs;
-            this.selectedNode['inputLabelClassName']  = event.form.inputLabelClassName;
+            this.selectedNode['inputLabelClassName'] = event.form.inputLabelClassName;
             if (this.selectedNode.children) {
               this.selectedNode.children[1]['rowClass'] = event.form.rowClass;
             }
@@ -4203,6 +4216,12 @@ export class BuilderComponent implements OnInit {
         break;
       case 'gridList':
         if (this.selectedNode.id) {
+          if (event.form.formType) {
+            if (event.form.formType == 'newTab' && (event.form.routeUrl == '' || event.form.routeUrl == undefined)) {
+              alert('plase proide url')
+            } 
+          }
+
           this.selectedNode.sortDirections = event.form.sortDirections
             ? JSON.parse(event.form.sortDirections)
             : event.form?.sortDirections;
@@ -4243,6 +4262,10 @@ export class BuilderComponent implements OnInit {
           this.selectedNode['isAllowUploadExcel'] = event.form?.isAllowUploadExcel;
           this.selectedNode['isAllowSearch'] = event.form?.isAllowSearch;
           this.selectedNode['tableName'] = event.form?.tableName;
+          this.selectedNode['buttonPositions'] = event.form?.buttonPositions;
+          this.selectedNode['buttonAlignments'] = event.form?.buttonAlignments;
+          this.selectedNode['formType'] = event.form?.formType;
+          this.selectedNode['routeUrl'] = event.form?.routeUrl;
           let tableData: any = '';
           if (event.tableDta) {
             tableData = event.tableDta;
@@ -6252,7 +6275,6 @@ export class BuilderComponent implements OnInit {
     }
   }
   async getFromQuery(name: string, type?: any) {
-    debugger
     let tableData = this.findObjectByTypeBase(this.nodes[0], "gridList");
     if (tableData) {
       let findClickApi = tableData?.appConfigurableEvent?.filter((item: any) =>
@@ -6735,5 +6757,22 @@ export class BuilderComponent implements OnInit {
     }).flat(); // Flatten the nested arrays
 
     return result;
+  }
+
+  assignValues(source: any) {
+    if (this.formlyModel) {
+      for (const key in this.formlyModel) {
+        if (this.formlyModel.hasOwnProperty(key)) {
+          if (typeof this.formlyModel[key] === 'object') {
+            for (const key1 in this.formlyModel[key]) {
+              this.formlyModel[key][key1] = source[key + '.' + key1]
+            }
+          }
+          else {
+            this.formlyModel[key] = source[key];
+          }
+        }
+      }
+    }
   }
 }

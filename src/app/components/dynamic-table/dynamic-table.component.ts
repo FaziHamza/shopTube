@@ -3,6 +3,7 @@ import {
   ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output,
 } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
+import { Router } from '@angular/router';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { Subscription } from 'rxjs';
 import { ApplicationService } from 'src/app/services/application.service';
@@ -69,7 +70,7 @@ export class DynamicTableComponent implements OnInit {
     private employeeService: EmployeeService, private toastr: NzMessageService, private cdr: ChangeDetectorRef,
     public dataSharedService: DataSharedService,
     private applicationServices: ApplicationService,
-    private sanitizer: DomSanitizer
+    private sanitizer: DomSanitizer, private router: Router
   ) {
     this.processData = this.processData.bind(this);
   }
@@ -116,12 +117,19 @@ export class DynamicTableComponent implements OnInit {
     }
   }
   updateModel(data: any) {
+    if (this.data?.formType == 'newTab' && this.data?.routeUrl) {
+      if (this.data?.routeUrl.includes('pages')) {
+        this.router.navigate([this.data?.routeUrl + '/' + data.id]);
+      } else {
+        this.router.navigate(['/pages/' + this.data?.routeUrl + '/' + data.id]);
+      }
+    }
     if (this.data.doubleClick != false) {
       const dynamicPropertyName = Object.keys(this.form.value)[0]; // Assuming the dynamic property name is the first property in this.form.value
       if (this.form.get(dynamicPropertyName)) {
         let newData: any = JSON.parse(JSON.stringify(data));
         for (const key in data) {
-          const filteredData = this.tableHeaders.find((header: any) => header.key === key);
+          const filteredData = this.tableHeaders.fbind((header: any) => header.key === key);
 
           if (filteredData && filteredData?.dataType === "multiselect") {
             newData[key] = newData[key]?.includes(',') ? newData[key].split(',') : ((newData[key] == undefined || newData[key] == '') ? [] : [newData[key]]);
@@ -1130,7 +1138,7 @@ export class DynamicTableComponent implements OnInit {
     // Perform any additional updates to 'listOfData' if needed
   }
   checkTypeData(item: any, header: any) {
-    debugger
+
     let checkAllowClick = this.tableHeaders.find((head: any) => head.key == header.key)
     if (checkAllowClick && (header?.dataType != 'repeatSection' || header?.dataType == '' || header?.dataType == undefined)) {
       if (checkAllowClick?.callApi != '' && checkAllowClick?.callApi != null) {
@@ -1894,25 +1902,31 @@ export class DynamicTableComponent implements OnInit {
     if (file) {
       const formData: FormData = new FormData();
       formData.append('file', file);
-      if (this.data.tableName) {
-        this.applicationService.addNestCommonAPI('knex-query/savecsv/' + this.data?.tableName, formData).subscribe({
-          next: (res: any) => {
-            if (res.isSuccess) {
-              console.log(res);
-              // Handle success
-            }
-          },
-          error: (err) => {
-            // Handle error
-            this.toastr.error('Some error occurred', { nzDuration: 2000 });
-          },
-        });
-      }else{
-        this.toastr.warning("Please prvide table name!", { nzDuration: 3000 });
-      }
+      this.applicationService.addNestCommonAPI('knex-query/savecsv', formData).subscribe({
+        next: (res: any) => {
+          if (res.isSuccess) {
+            this.toastr.success("Import successfully", { nzDuration: 3000 });
+          }
+        },
+        error: (err) => {
+          // Handle error
+          this.toastr.error('Some error occurred', { nzDuration: 2000 });
+        },
+      });
 
     }
   }
+  split(index: any, data: any) {
+    if (data && data) {
+      if (typeof data == 'string') {
+        return data.split(',')[index];
+      } else {
+        return ''
+      }
+    } else {
+      return ''
+    }
 
+  }
 
 }

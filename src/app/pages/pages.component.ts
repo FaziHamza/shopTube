@@ -26,15 +26,17 @@ export class PagesComponent implements OnInit {
     private toastr: NzMessageService,
     public dataSharedService: DataSharedService, private router: Router) {
     this.dataSharedService.change.subscribe(({ event, field }) => {
-      if (field && event)
-        this.getEnumList(field, event);
-      if (event && field && this.router.url.includes('/pages')) {
+      if (field && event) {
         if (this.formlyModel) {
           this.formlyModel[field.key] = event;
-          // console.log("key value : " + event);
-          this.checkConditionUIRule(field, event);
         }
+        this.getEnumList(field, event);
       }
+      if (event && field && this.router.url.includes('/pages')) {
+        // console.log("key value : " + event);
+        this.checkConditionUIRule(field, event);
+      }
+
     });
     this.dataSharedService.gridData.subscribe(res => {
       if (res)
@@ -57,6 +59,7 @@ export class PagesComponent implements OnInit {
   actionListData: any[] = [];
   getTaskManagementIssues: any[] = [];
   isVisible: boolean = false;
+  tableRowID: any = '';
   ngOnInit(): void {
     // console.log("pages")
     // debugger
@@ -194,6 +197,10 @@ export class PagesComponent implements OnInit {
         // ------------------
 
         if (params["schema"]) {
+          debugger
+          if (params["id"]) {
+            this.tableRowID = params["id"];
+          }
           this.dataSharedService.defaultPageNodes = '';
           this.isPageContextShow = true;
           // this.dataSharedService.urlModule.next({ aplication: '', module: '' });
@@ -257,12 +264,14 @@ export class PagesComponent implements OnInit {
     });
   }
   actionsBindWithPage(res: any) {
+    debugger
     this.screenId = res.data[0].screenBuilderId;
     this.screenName = res.data[0].screenName;
     this.navigation = res.data[0].navigation;
     this.getBusinessRule(res.data[0].screenBuilderId);
     this.getUIRuleData(res.data[0].screenBuilderId);
     const data = JSON.parse(res.data[0].screenData);
+
     let nodesData = this.jsonParseWithObject(this.jsonStringifyWithObject(data));
     // this.resData = this.jsonParseWithObject(this.jsonStringifyWithObject(data));
     this.dataSharedService.checkContentForFixFooter = this.jsonParseWithObject(this.jsonStringifyWithObject(data));
@@ -387,6 +396,38 @@ export class PagesComponent implements OnInit {
         this.toastr.error("An error occurred", { nzDuration: 3000 });
       }
     })
+    if (this.tableRowID) {
+      let query: any = this.actionListData.find(a => a.quries.includes('WHERE id ='));
+      if (query) {
+        this.applicationService.callApi('knex-query/getAction/' + query._id, 'get', '', '', this.tableRowID).subscribe({
+          next: (res) => {
+            if (res.data.length > 0) {
+              this.formlyModel;
+              if (this.formlyModel) {
+                for (const key in this.formlyModel) {
+                  if (this.formlyModel.hasOwnProperty(key)) {
+                    if (typeof this.formlyModel[key] === 'object') {
+                      for (const key1 in this.formlyModel[key]) {
+                        this.formlyModel[key][key1] = res.data[0][key + '.' + key1]
+                      }
+                    }
+                    else {
+                      this.formlyModel[key] = res.data[0][key];
+                    }
+                  }
+                }
+              }
+              // this.assignValues(res.data[0]);
+              this.form.patchValue(this.formlyModel);
+            }
+          },
+          error: (error: any) => {
+            console.error(error);
+            this.toastr.error("An error occurred", { nzDuration: 3000 });
+          }
+        })
+      }
+    }
 
   }
   saveData(data: any) {
@@ -1971,7 +2012,7 @@ export class PagesComponent implements OnInit {
                         ele.formly[0].fieldGroup[0].props.options = finalObj;
                       }
                     }
-                  } 
+                  }
                   else {
                     for (let j = 0; j < filteredNodes.length; j++) {
                       const ele = filteredNodes[j];
@@ -2183,5 +2224,8 @@ export class PagesComponent implements OnInit {
     for (const child of data.children || []) {
       this.removeHighlightRecursive(child);
     }
+  }
+  assignValues(source: any) {
+
   }
 }
