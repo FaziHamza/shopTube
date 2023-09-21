@@ -7188,3 +7188,9 @@ input[type=file]::file-selector-button:hover {
 .start-button {
   width: 35px !important;
 }
+
+.timelineDiv{
+  .ant-timeline-item {
+    padding-bottom: 0px;
+  }
+}
