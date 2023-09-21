@@ -14,22 +14,39 @@ export class BuilderClickButtonService {
       rowClickApi: node.rowClickApi,
       doubleClick: node.doubleClick,
       sortDirections: node.sortDirections ? JSON.stringify(node.sortDirections) : node.sortDirections,
-      options: node?.tableHeaders.map((obj: any) => {
+      options: (node?.tableHeaders || []).map((obj: any) => {
         return {
           name: obj.name,
           key: obj.key,
-          show: obj.show,
+          show: ['yes', '', undefined, 'Yes', true].includes(obj.show) ? true : false,
           dataType: obj.dataType,
-          editMode: obj.editMode ? obj.editMode : '',
-          callApi: obj.callApi ? obj.callApi : '',
-          sum: obj.sum,
-          isAllowGrouping: obj?.isAllowGrouping,
+          editMode: ['yes', 'Yes', true].includes(obj.editMode) ? true : false,
+          callApi: obj?.callApi ? obj?.callApi : '',
+          sum: obj.sum === true,
+          isAllowGrouping: ['yes', true].includes(obj.isAllowGrouping) ? true : false,
           headerButton: '',
           footerButton: '',
           listOfFilter: obj.listOfFilter ? JSON.stringify(obj.listOfFilter) : obj.listOfFilter,
-          columnClickApi: obj?.columnClickApi
+          columnClickApi: obj.columnClickApi,
+          position: obj.position,
+          position_list: [
+            {
+              label: 'Left',
+              value: 'left'
+            },
+            {
+              label: 'Center',
+              value: 'center'
+            },
+            {
+              label: 'Right',
+              value: 'right'
+            }
+          ],
+          // apiName: obj.apiName ? obj.apiName : '',
         };
       })
+
     };
   }
   getRateFieldsConfig(node: any) {
@@ -69,7 +86,7 @@ export class BuilderClickButtonService {
   getFormlyConfig(node: any) {
 
     return {
-      apiUrl:node.apiUrl,
+      apiUrl: node.apiUrl,
       key: node.formly[0].fieldGroup[0].key,
       placeholder: node.formly[0].fieldGroup[0].props?.placeholder,
       maxLength: node.formly[0].fieldGroup[0].props?.maxLength,
@@ -419,7 +436,7 @@ export class BuilderClickButtonService {
       backGroundColor: node.backGroundColor,
       textColor: node.textColor,
       header: node.header,
-      title:node.title,
+      title: node.title,
     }
   }
 }

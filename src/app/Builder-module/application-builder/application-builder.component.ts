@@ -114,16 +114,22 @@ export class ApplicationBuilderComponent implements OnInit {
       if (field.key === 'application_Type' && event) {
         const moduleFieldIndex = this.fields.findIndex((fieldGroup: any) => {
           const field = fieldGroup.fieldGroup[0];
-          return field.key === 'layout';
+          return field.key === 'defaultApplication';
         });
         if (moduleFieldIndex !== -1) {
-          let optionArray = [
-            { label: event == 'website' ? 'Layout 1' : 'Admin Panel 1', value: event == 'website' ? 'layout1' : 'Admin Panel 1' },
-            { label: event == 'website' ? 'Layout 2' : 'Admin Panel 2', value: event == 'website' ? 'layout2' : 'Admin Panel 2' },
-            { label: event == 'website' ? 'Layout 3' : 'Admin Panel 3', value: event == 'website' ? 'layout3' : 'Admin Panel 3' },
-            { label: event == 'website' ? 'Layout 4' : 'Admin Panel 4', value: event == 'website' ? 'layout4' : 'Admin Panel 4' },
-            { label: event == 'website' ? 'Layout 5' : 'Admin Panel 5', value: event == 'website' ? 'layout5' : 'Admin Panel 5' },
-          ];
+          // let optionArray = [
+          //   { label: event == 'website' ? 'Layout 1' : 'Admin Panel 1', value: event == 'website' ? 'layout1' : 'Admin Panel 1' },
+          //   { label: event == 'website' ? 'Layout 2' : 'Admin Panel 2', value: event == 'website' ? 'layout2' : 'Admin Panel 2' },
+          //   { label: event == 'website' ? 'Layout 3' : 'Admin Panel 3', value: event == 'website' ? 'layout3' : 'Admin Panel 3' },
+          //   { label: event == 'website' ? 'Layout 4' : 'Admin Panel 4', value: event == 'website' ? 'layout4' : 'Admin Panel 4' },
+          //   { label: event == 'website' ? 'Layout 5' : 'Admin Panel 5', value: event == 'website' ? 'layout5' : 'Admin Panel 5' },
+          // ];
+          let optionArray = this.designStudio
+            .filter((app: any) => app.application_Type == event)
+            .map((item: any) => ({
+              label: item.name,
+              value: item._id,
+            }));
           this.fields[moduleFieldIndex].fieldGroup[0].props.options = event != 'mobile' ? optionArray : [];
         }
       }
@@ -506,7 +512,7 @@ export class ApplicationBuilderComponent implements OnInit {
         objDataModel = {
           "Application": this.myForm.value
         }
-      } 
+      }
       else {
         objDataModel = {
           "Department": this.myForm.value
@@ -829,7 +835,7 @@ export class ApplicationBuilderComponent implements OnInit {
                 showArrow: true,
                 showSearch: true,
               },
-              options: this.designStudio,
+              options: [],
             }
           }
         ]
@@ -864,10 +870,7 @@ export class ApplicationBuilderComponent implements OnInit {
   callDesignStudio() {
     this.applicationService.getNestCommonAPI('applications/cloneApplicationData').subscribe(((res: any) => {
       if (res.isSuccess) {
-        this.designStudio = res.data.map((item: any) => ({
-          label: item.name,
-          value: item._id
-        }));
+        this.designStudio = res.data;
       } else
         this.toastr.warning(res.message, { nzDuration: 2000 });
     }));

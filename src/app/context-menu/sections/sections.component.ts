@@ -40,57 +40,58 @@ export class SectionsComponent implements OnInit {
   ngOnInit(): void {
     this.screenName;
     this.getJoiValidation();
-    let btnData = this.findObjectByTypeBase(this.sections, "button");
-    if (btnData) {
-      this.getFromQuery(btnData);
-      this.requestSubscription = this.dataSharedService.sectionSubmit.subscribe({
-        next: (res) => {
-          debugger
-          const checkButtonExist = this.findObjectById(this.sections, res.id);
-          // const checkButtonExist = this.isButtonIdExist(this.sections.children[1].children, res.id);
-          if (checkButtonExist?.appConfigurableEvent) {
-            let makeModel: any = {};
-            const filteredNodes = this.filterInputElements(this.sections.children[1].children);
-            for (let item in this.formlyModel) {
-              filteredNodes.forEach((element) => {
-                if (item == element.formly[0].fieldGroup[0].key) {
-                  makeModel[item] = this.formlyModel[item]
-                }
-              });
-            }
-            this.dataModel = makeModel;
-            if (Object.keys(makeModel).length > 0) {
-              for (const key in this.dataModel) {
-                if (this.dataModel.hasOwnProperty(key)) {
-                  const value = this.getValueFromNestedObject(key, this.formlyModel);
-                  if (value !== undefined) {
-                    this.dataModel[key] = this.dataModel[key] ? this.dataModel[key] : value;
-                  }
-                }
-              }
-            }
-            // this.submit();
-            if (Object.keys(makeModel).length > 0) {
-              this.dataModel = this.convertModel(this.formlyModel);
-              const allUndefined = Object.values(this.formlyModel).every((value) => value === undefined);
-              if (!allUndefined) {
-                this.saveData(res)
-              }
+    // let btnData = this.findObjectByTypeBase(this.sections, "button");
+    // if (btnData) {
+    //   this.getFromQuery(btnData);
 
+    // }
+    // else {
+    //   let gridListData = this.findObjectByTypeBase(this.sections, "gridList");
+    //   if (gridListData) {
+    //     // this.getFromQueryOnlyTable(gridListData);
+    //   }
+    // }
+    this.requestSubscription = this.dataSharedService.sectionSubmit.subscribe({
+      next: (res) => {
+        debugger
+        const checkButtonExist = this.findObjectById(this.sections, res.id);
+        // const checkButtonExist = this.isButtonIdExist(this.sections.children[1].children, res.id);
+        if (checkButtonExist?.appConfigurableEvent) {
+          let makeModel: any = {};
+          const filteredNodes = this.filterInputElements(this.sections.children[1].children);
+          for (let item in this.formlyModel) {
+            filteredNodes.forEach((element) => {
+              if (item == element.formly[0].fieldGroup[0].key) {
+                makeModel[item] = this.formlyModel[item]
+              }
+            });
+          }
+          this.dataModel = makeModel;
+          if (Object.keys(makeModel).length > 0) {
+            for (const key in this.dataModel) {
+              if (this.dataModel.hasOwnProperty(key)) {
+                const value = this.getValueFromNestedObject(key, this.formlyModel);
+                if (value !== undefined) {
+                  this.dataModel[key] = this.dataModel[key] ? this.dataModel[key] : value;
+                }
+              }
             }
           }
-        },
-        error: (err) => {
-          console.error(err);
+          // this.submit();
+          if (Object.keys(makeModel).length > 0) {
+            this.dataModel = this.convertModel(this.formlyModel);
+            const allUndefined = Object.values(this.formlyModel).every((value) => value === undefined);
+            if (!allUndefined) {
+              this.saveData(res)
+            }
+
+          }
         }
-      })
-    }
-    else {
-      let gridListData = this.findObjectByTypeBase(this.sections, "gridList");
-      if (gridListData) {
-        // this.getFromQueryOnlyTable(gridListData);
+      },
+      error: (err) => {
+        console.error(err);
       }
-    }
+    })
     // this.requestSubscription = this.dataSharedService.taskmanager.subscribe({
     //   next: (res) => {
     //     debugger;
@@ -294,7 +295,7 @@ export class SectionsComponent implements OnInit {
                 this.setInternalValuesEmpty(this.formlyModel);
                 this.form.patchValue(this.formlyModel);
 
-                this.recursiveUpdate(this.formlyModel , tableName , res)
+                this.recursiveUpdate(this.formlyModel, tableName, res)
                 // let obj: any = JSON.stringify(JSON.parse(this.formlyModel))
                 // for (const key in obj) {
                 //   if (Object.prototype.hasOwnProperty.call(obj, key)) {
