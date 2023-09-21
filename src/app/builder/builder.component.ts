@@ -3,8 +3,9 @@ import {
   OnInit,
   ChangeDetectorRef,
   ViewContainerRef,
+  ViewChild,
 } from '@angular/core';
-import { JsonEditorOptions } from 'ang-jsoneditor';
+import { JsonEditorComponent, JsonEditorOptions } from 'ang-jsoneditor';
 import { NzButtonSize } from 'ng-zorro-antd/button';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { NzFormatEmitEvent } from 'ng-zorro-antd/tree';
@@ -47,7 +48,7 @@ import { faker } from '@faker-js/faker';
 export class BuilderComponent implements OnInit {
   showRules: any = '';
   showActionRule: any = true;
-  public editorOptions: JsonEditorOptions;
+  public editorOptions: JsonEditorOptions = new JsonEditorOptions();
   isSavedDb = false;
   makeOptions = () => new JsonEditorOptions();
   addControl = false;
@@ -121,14 +122,15 @@ export class BuilderComponent implements OnInit {
     private colorPickerService: ColorPickerService,
     private router: Router
   ) {
-    this.editorOptions = new JsonEditorOptions();
-    this.editorOptions.modes = ['code', 'text', 'tree', 'view'];
+
     // document.getElementsByTagName("body")[0].setAttribute("data-sidebar-size", "sm");
     // this.clearChildNode();
     // this.jsonBuilderMain().subscribe((res => {
 
     //   this.nodes = res[0].menuData;
     // }));
+        this.editorOptions = new JsonEditorOptions();
+    this.editorOptions.modes = ['code', 'text', 'tree', 'view'];
     this.dataSharedService.change.subscribe(({ event, field }) => {
       if (event && field && this.router.url == '/builder') {
         if (this.formModalData[field.key]) {
@@ -146,6 +148,7 @@ export class BuilderComponent implements OnInit {
   }
   ngOnInit(): void {
     // this.getUsers();
+
     this.currentUser = JSON.parse(localStorage.getItem('user')!);
     this.loadDepartmentData();
     document
@@ -2850,6 +2853,7 @@ export class BuilderComponent implements OnInit {
       case 'url':
       case 'customMasking':
       case 'multiFileUploader':
+      case 'audioVideoRecorder':
         configObj = {
           ...configObj,
           ...this.clickButtonService.getFormlyConfig(selectedNode),
@@ -3903,6 +3907,7 @@ export class BuilderComponent implements OnInit {
       case 'customMasking':
       case 'url':
       case 'multiFileUploader':
+        case 'audioVideoRecorder':
         if (this.selectedNode) {
           needToUpdate = false;
 

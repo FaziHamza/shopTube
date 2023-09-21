@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
-import { JsonEditorComponent, JsonEditorOptions } from 'ang-jsoneditor';
+import { JsonEditorOptions } from 'ang-jsoneditor';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { ApplicationService } from 'src/app/services/application.service';
 import { BuilderService } from 'src/app/services/builder.service';
@@ -20,7 +20,6 @@ export class UIRuleComponent implements OnInit {
   @Input() nodes: any;
   public editorOptions: JsonEditorOptions;
   makeOptions = () => new JsonEditorOptions();
-  @ViewChild(JsonEditorComponent, { static: false }) editor: JsonEditorComponent;
   constructor(private formBuilder: FormBuilder, private builderService: BuilderService,
     private applicationService: ApplicationService, private toastr: NzMessageService,) {
     this.editorOptions = new JsonEditorOptions();

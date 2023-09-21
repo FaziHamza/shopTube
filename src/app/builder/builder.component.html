@@ -192,7 +192,7 @@
           </div>
         </div>
         <div class="builder-tree b-card" *ngIf="IsjsonEditorVisible">
-          <json-editor id="inputJsonDataa085f" [options]="editorOptions" [(ngModel)]="this.nodes"
+          <json-editor id="inputJsonDataa085f" [(ngModel)]="this.nodes"
             [options]="editorOptions"></json-editor>
         </div>
 
@@ -403,7 +403,7 @@
             <button nz-button nzType="primary" (click)="selectedDownloadJson()" class="mx-1"
               nz-tooltip="download Json"><span nz-icon nzType="download"></span>Dwonload</button>
           </div>
-          <json-editor class="selectedJsonModal" id="jsonPreview121" [(ngModel)]="selectedNode"></json-editor>
+          <json-editor class="selectedJsonModal" id="jsonPreview121" [options]="editorOptions" [(ngModel)]="selectedNode"></json-editor>
         </div>
         <div class="image-wrapper" *ngIf="modalType == 'webCode'">
           <img *ngIf="htmlBlockimagePreview.content" nz-image [nzSrc]="htmlBlockimagePreview.content" alt />

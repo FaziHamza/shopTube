@@ -95,7 +95,7 @@
     </ng-container>
 </nz-drawer>
 <ng-template #footerTpl>
-    <div class="src-btn">
+    <div class="src-btn flex justify-end">
         <button class="mr-2 btn-dangerous" nz-button nzType="primary" nzDanger (click)="handleCancel()">
             <i class="fa-regular fa-xmark mr-1.5"></i>Close</button>
         <button nz-button *ngIf="isSubmit" [ngClass]="{'btn-no' : !form.valid,'btn': form.valid}" nzType="primary"
