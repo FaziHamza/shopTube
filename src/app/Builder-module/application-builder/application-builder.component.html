@@ -150,11 +150,14 @@
     </ng-container>
 </nz-drawer>
 <ng-template #footerTpl>
-    <button class="mr-2 btn !bg-red-600 hover:!bg-red-500" nz-button nzType="primary" nzDanger (click)="handleCancel()"><span nz-icon nzType="close"
-            nzTheme="outline"></span>Close</button>
-    <button nz-button [ngClass]="{'btn-no' : !myForm.valid ,'btn' : myForm.valid }" *ngIf="isSubmit" nzType="primary"
-        (click)="onSubmit()" [disabled]="!myForm.valid"><span nz-icon nzType="database"
-            nzTheme="outline"></span>Submit</button>
-    <button nz-button [ngClass]="{'btn-no' : !myForm.valid ,'btn' : myForm.valid }" *ngIf="!isSubmit" nzType="primary"
-        [disabled]="!myForm.valid" (click)="onSubmit()"><i class="fa-regular fa-arrows-rotate mr-2"></i>Update</button>
+    <div class="flex justify-end">
+        <button class="mr-2 btn !bg-red-600 hover:!bg-red-500" nz-button nzType="primary" nzDanger
+            (click)="handleCancel()"><span nz-icon nzType="close" nzTheme="outline"></span>Close</button>
+        <button nz-button [ngClass]="{'btn-no' : !myForm.valid ,'btn' : myForm.valid }" *ngIf="isSubmit"
+            nzType="primary" (click)="onSubmit()" [disabled]="!myForm.valid"><span nz-icon nzType="database"
+                nzTheme="outline"></span>Submit</button>
+        <button nz-button [ngClass]="{'btn-no' : !myForm.valid ,'btn' : myForm.valid }" *ngIf="!isSubmit"
+            nzType="primary" [disabled]="!myForm.valid" (click)="onSubmit()"><i
+                class="fa-regular fa-arrows-rotate mr-2"></i>Update</button>
+    </div>
 </ng-template>

@@ -60,7 +60,7 @@ export class PagesComponent implements OnInit {
   tableRowID: any = '';
   ngOnInit(): void {
     // console.log("pages")
-    // debugger
+    // 
     // if (this.navigation) {
     //   this.requestSubscription = this.applicationService.getNestCommonAPI("cp/getuserCommentsByApp/UserComment/pages/" + this.navigation).subscribe((res: any) => {
     //     if (res.isSuccess) {
@@ -87,7 +87,7 @@ export class PagesComponent implements OnInit {
     });
     this.requestSubscription = this.dataSharedService.pageSubmit.subscribe({
       next: (res) => {
-        debugger
+        
         let makeModel: any = {};
         const filteredNodes = this.filterInputElements(this.resData[0].children[1].children[0].children[1].children);
         for (let item in this.formlyModel) {
@@ -195,7 +195,7 @@ export class PagesComponent implements OnInit {
         // ------------------
 
         if (params["schema"]) {
-          debugger
+          
           if (params["id"]) {
             this.tableRowID = params["id"];
           }
@@ -262,7 +262,7 @@ export class PagesComponent implements OnInit {
     });
   }
   actionsBindWithPage(res: any) {
-    debugger
+    
     this.screenId = res.data[0].screenBuilderId;
     this.screenName = res.data[0].screenName;
     this.navigation = res.data[0].navigation;
@@ -437,7 +437,6 @@ export class PagesComponent implements OnInit {
     this.dataModel = this.formlyModel;
   }
   saveData1(data: any) {
-    debugger
     this.dataModel = this.formlyModel;
     let oneModelData = this.convertModel(this.dataModel);
     // const objModel: any = this.dataModel;

@@ -83,11 +83,13 @@
                 <td>{{ data.companyName ? data.companyName :
                     data.organizationName}}</td>
                 <td>
-                    <i class="fa-regular fa-pen-to-square !text-blue-600 hover:cursor-pointer" nzTooltipTitle="Edit" nz-tooltip (click)="[openModal('department'),editItem(data)]"></i>
-                   
-                    <i class="fa-regular fa-trash !text-[#fd3636] pl-2 hover:cursor-pointer" nz-tooltip nzTooltipTitle="delete" nz-popconfirm nzPopconfirmTitle="Sure to delete?"
-                    (nzOnConfirm)="deleteRow(data._id , 'department')" ></i>
-                
+                    <i class="fa-regular fa-pen-to-square !text-blue-600 hover:cursor-pointer" nzTooltipTitle="Edit"
+                        nz-tooltip (click)="[openModal('department'),editItem(data)]"></i>
+
+                    <i class="fa-regular fa-trash !text-[#fd3636] pl-2 hover:cursor-pointer" nz-tooltip
+                        nzTooltipTitle="delete" nz-popconfirm nzPopconfirmTitle="Sure to delete?"
+                        (nzOnConfirm)="deleteRow(data._id , 'department')"></i>
+
                 </td>
             </tr>
         </tbody>
@@ -135,7 +137,7 @@
             <div class="flex flex-wrap">
                 <div class="w-1/2" *ngFor="let item of fields">
                     <div class="theme-body">
-                        <div *ngIf="item" >
+                        <div *ngIf="item">
                             <formly-form [model]="model" [fields]="item.fieldGroup" [options]="options"
                                 [form]="form"></formly-form>
                         </div>
@@ -146,12 +148,14 @@
     </ng-container>
 </nz-drawer>
 <ng-template #footerTpl>
-    <button class="mr-2 btn" nz-button nzType="primary" nzDanger (click)="handleCancel()"><span nz-icon nzType="close"
-            nzTheme="outline"></span>Close</button>
-    <button nz-button [ngClass]="{ 'btn-no' : !form.valid , 'btn' : form.valid }" *ngIf="isSubmit" nzType="primary"
-        (click)="submit()" [disabled]="!form.valid"><span nz-icon nzType="database"
-            nzTheme="outline"></span>Submit</button>
-    <button nz-button [ngClass]="{ 'btn-no' : !form.valid , 'btn' : form.valid }" *ngIf="!isSubmit" nzType="primary"
-        (click)="submit()" [disabled]="!form.valid"><span><i
-                class="fa-regular fa-arrows-rotate mr-2"></i></span>Update</button>
+    <div class="flex justify-end">
+        <button class="mr-2 btn" nz-button nzDanger (click)="handleCancel()"><span nz-icon
+                nzType="close" nzTheme="outline"></span>Close</button>
+        <button nz-button [ngClass]="{ 'btn-no' : !form.valid , 'btn' : form.valid }" *ngIf="isSubmit" 
+            (click)="submit()" [disabled]="!form.valid"><span nz-icon nzType="database"
+                nzTheme="outline"></span>Submit</button>
+        <button nz-button [ngClass]="{ 'btn-no' : !form.valid , 'btn' : form.valid }" *ngIf="!isSubmit" nzType="primary"
+            (click)="submit()" [disabled]="!form.valid"><span><i
+                    class="fa-regular fa-arrows-rotate mr-2"></i></span>Update</button>
+    </div>
 </ng-template>
