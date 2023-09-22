@@ -286,11 +286,15 @@ object {
 
     .ant-select-selection-item {
       height: 40px !important;
+      display: flex !important;
+      align-items: center !important;
     }
   }
 
   .ant-select-selection-item {
     height: 40px !important;
+    display: flex !important;
+    align-items: center !important;
   }
 
   .ant-input-affix-wrapper-sm {
@@ -6337,7 +6341,8 @@ tr:hover {
       text-overflow: ellipsis;
 
     }
-    &:hover .editable-cell{
+
+    &:hover .editable-cell {
       white-space: normal !important;
     }
 
