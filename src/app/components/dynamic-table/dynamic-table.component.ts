@@ -51,6 +51,7 @@ export class DynamicTableComponent implements OnInit {
   storeColums: any = [];
   responsiveTable: boolean = false;
   requestSubscription: Subscription;
+  drawerChild: any[] = [];
   selectList = [
     { key: "Faizan", value: "Faizan" },
     { key: "Arfan", value: "Arfan" },
@@ -1145,6 +1146,10 @@ export class DynamicTableComponent implements OnInit {
         this.showChild = false;
         if (this.data?.openComponent == 'drawer') {
           const drawer = this.findObjectByTypeBase(this.data, "drawer");
+          if (this.drawerChild.length == 0 && drawer.children.length > 0) {
+            this.drawerChild = JSON.parse(JSON.stringify(drawer.children))
+          }
+          drawer.children = this.drawerChild;
           drawer['visible'] = true;
           if (drawer?.eventActionconfig) {
             let newData: any = JSON.parse(JSON.stringify(item));
@@ -1173,7 +1178,9 @@ export class DynamicTableComponent implements OnInit {
             }
             drawer.eventActionconfig['parentId'] = item.id;
           }
-          // this.data = JSON.parse(JSON.stringify(this.data));
+          if (this.router.url.includes('/pages')) {
+            this.data = JSON.parse(JSON.stringify(this.data));
+          }
           this.showChild = true;
         }
       }
@@ -1874,9 +1881,14 @@ export class DynamicTableComponent implements OnInit {
       const applicationId = localStorage.getItem('applicationId') || '';
       let savedGroupData: any = [];
 
-      if (applicationId) {
-        savedGroupData = await this.dataService.getNodes(JSON.parse(applicationId), this.screenName, "Table");
+      try {
+        if (applicationId) {
+          savedGroupData = await this.dataService.getNodes(JSON.parse(applicationId), this.screenName, "Table");
+        }
+      } catch (error) {
+        this.pageChange(1);
       }
+
 
       if (savedGroupData.length > 0) {
         let getData = savedGroupData[savedGroupData.length - 1];
