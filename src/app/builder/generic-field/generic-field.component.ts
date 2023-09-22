@@ -37,7 +37,7 @@ export class GenericFieldComponent implements OnInit {
   constructor(private toastr: NzMessageService, private _dataSharedService: DataSharedService, public builderService: BuilderService,
     private applicationService: ApplicationService,) { }
   ngOnInit(): void {
-
+    debugger
     this.itemData;
     this._dataSharedService.data = '';
     if (this.itemData?.mappingNode) {
@@ -48,9 +48,9 @@ export class GenericFieldComponent implements OnInit {
           delete item.id;
         });
       }
-      this.itemData.mappingNode['tableHeader'] = this.itemData?.mappingNode?.tableHeader == undefined ? [
-        { name: 'Id' , key :'id' }, { name: 'File Header' , key : 'fileHeader' }, { name: 'Select QBO Field' , key : 'SelectQBOField'}, { name: 'Default Value' , key: 'defaultValue' },] : this.itemData?.mappingNode?.tableHeader;
-        this.itemData.mappingNode['tableKey'] = this.itemData.mappingNode['tableHeader'];
+      this.itemData.mappingNode['tableHeader'] = [
+        { name: 'Id', key: 'id' }, { name: 'File Header', key: 'fileHeader' }, { name: 'Select QBO Field', key: 'SelectQBOField' }, { name: 'Default Value', key: 'defaultValue' }];
+      this.itemData.mappingNode['tableKey'] = this.itemData.mappingNode['tableHeader'];
       let checkId = this.itemData.mappingNode['tableHeader'].find((a: any) => a.name == 'Id');
       if (!checkId) {
         let obj = { name: 'Id' }
