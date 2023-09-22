@@ -299,9 +299,10 @@ object {
 
   .ant-select-selector {
     height: 40px !important;
-    display: flex;
+    display: flex !important;
     justify-content: start;
     align-items: center;
+    font-size: 12px !important;
   }
 
   .ant-select-single .ant-select-selector .ant-select-selection-placeholder {
@@ -358,7 +359,7 @@ object {
   }
 
   .ant-select-selection-item .align-items-center {
-    margin-top: 4px !important;
+    margin-top: 5px !important;
     font-size: 12px !important;
     font-weight: 500 !important;
   }
@@ -5384,10 +5385,12 @@ ul.ant-cascader-menu:nth-child(2)>li:nth-child(1)>div:nth-child(2)>i:nth-child(1
   border-radius: 6px !important;
   overflow: hidden !important;
   padding: 0px !important;
-  height: 180px !important;
+  height: auto !important;
+  max-height: 250px !important;
 
   .ant-cascader-menus {
     margin: 0px !important;
+    height: 250px !important;
   }
 
   .ant-cascader-menu {
@@ -5395,7 +5398,8 @@ ul.ant-cascader-menu:nth-child(2)>li:nth-child(1)>div:nth-child(2)>i:nth-child(1
     border-radius: 0px !important;
     border: none !important;
     margin: 0px !important;
-    height: 180px !important;
+    height: auto !important;
+    max-height: 250px !important;
 
     li:first-child {
       border-radius: 0px !important;
@@ -6295,7 +6299,7 @@ tr:hover {
   /* Styling for header cells */
   thead tr th {
     min-width: 125px !important;
-    width: 180px !important;
+    width: auto !important;
     font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
     max-width: 210px !important;
     overflow: hidden;
@@ -6325,15 +6329,18 @@ tr:hover {
     color: #23303d !important;
     border-bottom: 1px solid #d6dce1 !important;
     font-size: 12px !important;
-    .editable-cell{
+
+    .editable-cell {
       width: 100%;
       overflow: hidden;
       white-space: nowrap !important;
       text-overflow: ellipsis;
-      &:hover{
-        white-space: normal !important;
-      }
+
     }
+    &:hover .editable-cell{
+      white-space: normal !important;
+    }
+
 
   }
 
