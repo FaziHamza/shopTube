@@ -558,4 +558,5 @@ export interface TreeNode {
   formType?: string,
   routeUrl?: string,
   buttonAlignments?: any[],
+  componentMapping?: boolean,
 }

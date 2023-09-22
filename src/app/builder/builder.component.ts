@@ -3534,6 +3534,7 @@ export class BuilderComponent implements OnInit {
 
           if (event.type == 'div') {
             this.selectedNode['rowClass'] = event.form.rowClass;
+            this.selectedNode['componentMapping'] = event.form.componentMapping;
             if (event.form.imageSrc) {
               this.selectedNode.imageSrc = event.form.imageSrc;
             } else {

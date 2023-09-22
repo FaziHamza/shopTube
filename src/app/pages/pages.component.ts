@@ -1567,7 +1567,7 @@ export class PagesComponent implements OnInit {
 
     let checkFirstTime = true;
     let tabsAndStepper: any = [];
-    if (api)
+    if (api && (selectedNode.componentMapping == undefined || selectedNode.componentMapping == '' || selectedNode.componentMapping == false))
       this.requestSubscription = this.applicationService.getNestCommonAPI(api).subscribe({
         next: (res) => {
           if (res.data.length > 0) {
