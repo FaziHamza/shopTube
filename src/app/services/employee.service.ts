@@ -105,8 +105,8 @@ export class EmployeeService {
     const url = api.includes('http') ? api : this.nestUrl + api
     return this.http.delete<any>(url  + '/'  + id);
   }
-  getSQLDatabaseTable(api: string): Observable<ApiResponse> {
-    return this.http.get<ApiResponse>(
+  getSQLDatabaseTable(api: string): Observable<any> {
+    return this.http.get<any>(
       api.includes('http') ? api : this.nestUrl + api
     );
   }

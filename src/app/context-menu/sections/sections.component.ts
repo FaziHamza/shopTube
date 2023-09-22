@@ -442,8 +442,9 @@ export class SectionsComponent implements OnInit {
         const applicationId = localStorage.getItem('applicationId') || '';
         let savedGroupData = await this.dataService.getNodes(JSON.parse(applicationId), this.screenName, "Table");
         this.employeeService.getSQLDatabaseTable(url).subscribe({
-          next: async (res) => {
+          next: async (res1) => {
             this.saveLoader = false;
+            let res = res1[0];
             if (tableData && res?.isSuccess) {
               if (res.data.length > 0) {
 
