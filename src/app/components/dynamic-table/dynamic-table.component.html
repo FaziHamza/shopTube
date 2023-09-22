@@ -16,16 +16,37 @@
     <button nz-button (click)="addColumn()" *ngIf="checkType" nzType="primary"> <i class="fa-regular fa-plus mr-2"></i>
       Add</button>
   </div>
+
+
+
+
   <div *ngIf="!childTable" class="mt-2 mb-2 flex items-center {{data?.buttonPositions || ' justify-end'}}">
-    <button [style.order]="split(0 , data?.buttonAlignments) || 1" *ngIf="data?.isAllowExcelReport" nz-button
+    <!-- <button [style.order]="split(0 , data?.buttonAlignments) || 1" *ngIf="data?.isAllowExcelReport" nz-button
       (click)="exportToExcel()" nzType="primary"
-      class="!rounded-md !bg-green-500 !text-white hover:!bg-green-600 !h-[35px] hover:text-white !border !border-transparent !hover:border-transparent font-md text-lg">Download Excel<i class="fa-regular fa-download ml-2 mr-2"></i></button>
+      class="!rounded-md !bg-green-500 !text-white hover:!bg-green-600 !h-[35px] hover:text-white !border !border-transparent !hover:border-transparent font-md text-lg">Download
+      Excel<i class="fa-regular fa-download ml-2 mr-2"></i></button>
     <div *ngIf="data?.isAllowUploadExcel" [style.order]="split(1 , data?.buttonAlignments) || 2"
       class="!w-1/5 ml-2 mr-2 !h-[35px]">
-      <input [(ngModel)]="fileUpload" type="file" nz-input class="!rounded-md !w-full !h-full" (change)="onFileSelected($event)"
-        accept=".xlsx">
+    </div> -->
+    <div class="mr-2 ml-2" [style.order]="split(0 , data?.buttonAlignments) || 1" *ngIf="!childTable && (data?.isAllowExcelReport || data?.isAllowUploadExcel)" class="action-drop-down">
+      <button nz-button nzType="primary" class="actions-btn" nz-dropdown [nzDropdownMenu]="menu4">
+        Actions
+        <span nz-icon nzType="down"></span>
+      </button>
+      <nz-dropdown-menu #menu4="nzDropdownMenu" class="action-drop-down-list">
+        <ul nz-menu class="!p-2">
+          <li nz-menu-item>
+            <a (click)="exportToExcel()" class="!text-black">Excel Report Download</a>
+          </li>
+          <li nz-menu-item>
+            <a onclick="document.getElementById('selectedFileInput').click()" class="!text-black">Import</a>
+          </li>
+        </ul>
+      </nz-dropdown-menu>
+      <input [(ngModel)]="fileUpload" type="file" class="form-control" id="selectedFileInput" style="display:none"
+        (change)="onFileSelected($event)" accept=".xlsx">
     </div>
-    <div [style.order]="split(2 , data?.buttonAlignments) || 3" class="!h-[35px]" *ngIf="data?.isAllowSearch">
+    <div [style.order]="split(1 , data?.buttonAlignments) || 2" class="!h-[35px]" *ngIf="data?.isAllowSearch">
       <nz-input-group nzSearch [nzAddOnAfter]="suffixIconButton">
         <input type="text" class="!h-[35px] !rounded-tl-md !rounded-bl-md" nz-input id="searchControll"
           [(ngModel)]="searchValue" placeholder="Search..." />

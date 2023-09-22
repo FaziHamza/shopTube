@@ -274,8 +274,8 @@
                 (click)="imagePreview(item)">Preview</button>
             <img *ngIf="item.source" nz-image [class]='item.imageClass' [nzSrc]='item.source' [alt]='item.alt'
                 [nzDisablePreview]="false" [nzFallback]="item.fallback" />
-            <img *ngIf="item.base64Image" nz-image [class]='item.imageClass' [nzSrc]='item.base64Image' [alt]='item.alt'
-                [nzFallback]="item.fallback" />
+            <!-- <img *ngIf="item.base64Image" nz-image [class]='item.imageClass' [nzSrc]='item.base64Image' [alt]='item.alt'
+                [nzFallback]="item.fallback" /> -->
         </div>
     </ng-template>
     <ng-template #fourtyFour>

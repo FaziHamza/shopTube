@@ -1,6 +1,6 @@
 <div #monacoComponent></div>
 <div *ngIf="showActionRuleForm" class="general_faq mt-3">
-  <form [formGroup]="actionForm" >
+  <form [formGroup]="actionForm">
     <div class="grid lg:grid-cols-5 sm:grid-cols-2 gap-2">
       <div>
         <nz-select class="form-select" formControlName="submissionType" aria-label="Default Select Example">
@@ -58,7 +58,7 @@
 
     <div class="mb-3" formArrayName="Actions">
       <ng-container *ngFor="let ActionForm of ActionsForms.controls; let i = index">
-        <div  class="flex flex-wrap mt-1" style="border: 1px solid rgb(197 187 187); border-radius: 5px;"
+        <div class="flex flex-wrap mt-1" style="border: 1px solid rgb(197 187 187); border-radius: 5px;"
           [formGroupName]="i">
           <div class="w-10/12 p-1">
             <div *ngIf="ActionsForms.value[i].type == 'email'">
@@ -74,8 +74,8 @@
               <!-- <ngx-monaco-editor class="textEditorContainer" [options]="editorOptions" formControlName="email"
                 (init)="editorInit($event)"></ngx-monaco-editor> -->
             </div>
-            <div *ngIf="ActionsForms.value[i].type == 'query'">
-              <nz-form-label [nzSm]="6" [nzXs]="24">Query</nz-form-label>
+            <!-- <div *ngIf="ActionsForms.value[i].type == 'query'"> -->
+            <!-- <nz-form-label [nzSm]="6" [nzXs]="24">Query</nz-form-label>
               <input nz-input type="text" formControlName="referenceId" class="form-control"
                 style="width: 18%;margin-bottom: 1%;">
               <nz-radio-group class="ml-2" formControlName="sqlType" nzButtonStyle="solid"
@@ -84,11 +84,11 @@
                 <label nz-radio-button nzValue="mySql">MySql</label>
                 <label nz-radio-button nzValue="postgress">Postgress</label>
               </nz-radio-group>
-              <textarea class="form-control" formControlName="query" cols="30" rows="5"></textarea>
-              <!-- <ngx-monaco-editor class="textEditorContainer" [options]="editorOptions" [id]="'query' + i"
+              <textarea class="form-control" formControlName="query" cols="30" rows="5"></textarea> -->
+            <!-- <ngx-monaco-editor class="textEditorContainer" [options]="editorOptions" [id]="'query' + i"
                 formControlName="query" (init)="editorInit($event)"></ngx-monaco-editor> -->
-            </div>
-            <div *ngIf="ActionsForms.value[i].type == 'api'">
+            <!-- </div> -->
+            <div>
               <div class="w-full pl-2">
                 <div class="flex flex-wrap">
                   <div class="w-1/2 theme-body">
@@ -143,13 +143,13 @@
                         Action Type
                       </label>
                       <div class="w-2/3 column-form-input form-control-style v-body-border" style="padding: 0px">
-                        <input nz-input type="text" placeholder="Enter value" id="actionLink{{i}}" [disabled]="true"
-                          [readOnly]="true" formControlName="actionLink" required class="form-control"
+                        <input nzDisabled nz-input type="text" placeholder="Enter value" id="actionLink{{i}}"
+                          [disabled]="true" formControlName="actionLink" required class="form-control"
                           name="actionLink{{i}}" />
                       </div>
                     </div>
                   </div>
-                  <div class="w-1/2 theme-body">
+                  <div *ngIf="ActionsForms.value[i].type == 'api'" class="w-1/2 theme-body">
                     <div class=" flex flex-wrap">
                       <label class="w-1/3 py-2 col-form-label column-form-label">
                         Http Address
@@ -157,6 +157,17 @@
                       <div class="w-2/3 column-form-input form-control-style v-body-border" style="padding: 0px">
                         <input nz-input type="text" placeholder="Enter value" id="httpAddress{{i}}"
                           formControlName="httpAddress" required class="form-control" name="httpAddress{{i}}" />
+                      </div>
+                    </div>
+                  </div>
+                  <div *ngIf="ActionsForms.value[i].type == 'query'" class="w-1/2 theme-body">
+                    <div class=" flex flex-wrap">
+                      <label class="w-1/3 py-2 col-form-label column-form-label">
+                        Query
+                      </label>
+                      <div class="w-2/3 column-form-input form-control-style v-body-border" style="padding: 0px">
+                        <input nz-input type="text" placeholder="Enter value" id="httpAddress{{i}}"
+                          formControlName="query" required class="form-control" name="httpAddress{{i}}" />
                       </div>
                     </div>
                   </div>

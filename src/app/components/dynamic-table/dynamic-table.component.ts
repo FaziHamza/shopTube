@@ -1928,22 +1928,25 @@ export class DynamicTableComponent implements OnInit {
               // Upload complete
               this.progress = 100;
               this.showProgressBar = false;
-              this.toastr.success('Import successfully', { nzDuration: 3000 });
-              // Clear the file input value to remove the selected file
               this.fileUpload = ''; // This clears the file input
-              if (this.data.appConfigurableEvent) {
-                let url = 'knex-query/getAction/' + this.data.eventActionconfig._id;
-                this.saveLoader = true;
-                this.applicationService.callApi(url, 'get', '', '', '').subscribe({
-                  next: (res) => {
-                    this.getFromQueryOnlyTable(this.data, res);
-                  },
-                  error: (error: any) => {
-                    console.error(error);
-                    this.saveLoader = false;
-                    this.toastr.error("An error occurred", { nzDuration: 3000 });
-                  }
-                })
+              if (event.body.isSuccess) {
+                if (this.data.appConfigurableEvent) {
+                  let url = 'knex-query/getAction/' + this.data.eventActionconfig._id;
+                  this.saveLoader = true;
+                  this.applicationService.callApi(url, 'get', '', '', '').subscribe({
+                    next: (res) => {
+                      this.getFromQueryOnlyTable(this.data, res);
+                    },
+                    error: (error: any) => {
+                      console.error(error);
+                      this.saveLoader = false;
+                      this.toastr.error("An error occurred", { nzDuration: 3000 });
+                    }
+                  })
+                }
+                this.toastr.success('Import successfully', { nzDuration: 3000 });
+              } else {
+                this.toastr.error(event.body.error, { nzDuration: 2000 });
               }
             }
           },

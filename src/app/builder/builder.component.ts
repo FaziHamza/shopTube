@@ -104,6 +104,7 @@ export class BuilderComponent implements OnInit {
   currentUser: any;
   iconActive: string = '';
   form: any = new FormGroup({});
+  formlyLength: any = 0;
   getTaskManagementIssues: any[] = [];
   constructor(
     public builderService: BuilderService,
@@ -129,7 +130,7 @@ export class BuilderComponent implements OnInit {
 
     //   this.nodes = res[0].menuData;
     // }));
-        this.editorOptions = new JsonEditorOptions();
+    this.editorOptions = new JsonEditorOptions();
     this.editorOptions.modes = ['code', 'text', 'tree', 'view'];
     this.dataSharedService.change.subscribe(({ event, field }) => {
       if (event && field && this.router.url == '/builder') {
@@ -3907,7 +3908,7 @@ export class BuilderComponent implements OnInit {
       case 'customMasking':
       case 'url':
       case 'multiFileUploader':
-        case 'audioVideoRecorder':
+      case 'audioVideoRecorder':
         if (this.selectedNode) {
           needToUpdate = false;
 
@@ -4196,9 +4197,9 @@ export class BuilderComponent implements OnInit {
         break;
       case 'imageUpload':
         if (event.form.source) {
-          this.selectedNode.base64Image = event.form.source;
+          this.selectedNode.source = event.form.source;
         } else if (this.dataSharedService.imageUrl) {
-          this.selectedNode.base64Image = this.dataSharedService.imageUrl;
+          this.selectedNode.source = this.dataSharedService.imageUrl;
         }
         this.dataSharedService.imageUrl = '';
         break;
@@ -4224,7 +4225,7 @@ export class BuilderComponent implements OnInit {
           if (event.form.formType) {
             if (event.form.formType == 'newTab' && (event.form.routeUrl == '' || event.form.routeUrl == undefined)) {
               alert('plase proide url')
-            } 
+            }
           }
 
           this.selectedNode.sortDirections = event.form.sortDirections
@@ -6568,6 +6569,8 @@ export class BuilderComponent implements OnInit {
   }
   showRulesFunc(ruleType: any) {
     this.showRules = ruleType;
+    let getInputs: any[] = this.filterInputElements(this.nodes);
+    this.showActionRule = getInputs.length > 0 ? false : true;
   }
   applyHighlightSearch(data: any, allow: any) {
     if (this.searchValue && allow) {
