@@ -3512,6 +3512,15 @@ export class formFeildData {
             type: 'number',
           }
         },
+        {
+          key: 'componentMapping',
+          type: 'checkbox',
+          wrappers: ["formly-vertical-theme-wrapper"],
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          props: {
+            label: 'Component Mapping'
+          },
+        },
       ]
     },
   ]

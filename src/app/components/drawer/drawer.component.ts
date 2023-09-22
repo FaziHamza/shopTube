@@ -31,6 +31,7 @@ export class DrawerComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    debugger
     if (this.drawerData?.eventActionconfig) {
       this.showChild = false;
       this.loader = true
@@ -148,130 +149,131 @@ export class DrawerComponent implements OnInit {
         this.res.data = data;
         this.checkDynamicSection();
       }
-      else {
-        if (this.drawerData.children[0].type == 'timeline') {
-          this.drawerData.children[0].hideExpression = true;
-        }
-        this.showChild = true;
-        this.res = {};
-        this.res['data'] = [];
-      }
+      // else {
+      //   if (this.drawerData.children[0].type == 'timeline') {
+      //     this.drawerData.children[0].hideExpression = true;
+      //   }
+      //   this.showChild = true;
+      //   this.res = {};
+      //   this.res['data'] = [];
+      // }
     }
-    else {
-      if (this.drawerData.children[0].type == 'timeline') {
-        this.drawerData.children[0].hideExpression = true;
-      }
-      this.showChild = true;
-      this.res = {};
-      this.res['data'] = [];
-    }
+    // else {
+    //   if (this.drawerData.children[0].type == 'timeline') {
+    //     this.drawerData.children[0].hideExpression = true;
+    //   }
+    //   this.showChild = true;
+    //   this.res = {};
+    //   this.res['data'] = [];
+    // }
     this.loader = false
     return data
   }
 
   makeDynamicSections(api: any, selectedNode: any) {
-
-    let checkFirstTime = true;
-    let tabsAndStepper: any = [];
-    for (let index = 0; index < this.res.data.length; index++) {
-      const item = this.res.data[index];
-      let newNode: any = {};
-      if (selectedNode.type == 'tabs' || selectedNode.type == 'step' || selectedNode.type == 'div' || selectedNode.type == 'listWithComponentsChild' || selectedNode.type == 'cardWithComponents' || selectedNode.type === 'timelineChild') {
-        newNode = JSON.parse(JSON.stringify(selectedNode?.children));
-      }
-      else {
-        newNode = JSON.parse(JSON.stringify(selectedNode?.children?.[1]?.children?.[0]));
-      }
-      if (selectedNode.type == 'tabs' || selectedNode.type == 'step' || selectedNode.type == 'div' || selectedNode.type === 'timelineChild' || selectedNode.type == 'listWithComponentsChild' || selectedNode.type == 'cardWithComponents') {
-        if (selectedNode.tableBody) {
-          selectedNode.tableBody.forEach((element: any) => {
-            if (newNode.length) {
-              newNode.forEach((j: any) => {
-                const keyObj = this.findObjectByKey(j, element.fileHeader);
-                if (keyObj && element.defaultValue) {
-                  const updatedObj = this.dataReplace(keyObj, item, element);
-                  j = this.replaceObjectByKey(j, keyObj.key, updatedObj);
-                  if (selectedNode.type == 'tabs' || selectedNode.type == 'step' || selectedNode.type == 'listWithComponentsChild') {
-                    j['mapping'] = true;
+    if (selectedNode.componentMapping) {
+      let checkFirstTime = true;
+      let tabsAndStepper: any = [];
+      for (let index = 0; index < this.res.data.length; index++) {
+        const item = this.res.data[index];
+        let newNode: any = {};
+        if (selectedNode.type == 'tabs' || selectedNode.type == 'step' || selectedNode.type == 'div' || selectedNode.type == 'listWithComponentsChild' || selectedNode.type == 'cardWithComponents' || selectedNode.type === 'timelineChild') {
+          newNode = JSON.parse(JSON.stringify(selectedNode?.children));
+        }
+        else {
+          newNode = JSON.parse(JSON.stringify(selectedNode?.children?.[1]?.children?.[0]));
+        }
+        if (selectedNode.type == 'tabs' || selectedNode.type == 'step' || selectedNode.type == 'div' || selectedNode.type === 'timelineChild' || selectedNode.type == 'listWithComponentsChild' || selectedNode.type == 'cardWithComponents') {
+          if (selectedNode.tableBody) {
+            selectedNode.tableBody.forEach((element: any) => {
+              if (newNode.length) {
+                newNode.forEach((j: any) => {
+                  const keyObj = this.findObjectByKey(j, element.fileHeader);
+                  if (keyObj && element.defaultValue) {
+                    const updatedObj = this.dataReplace(keyObj, item, element);
+                    j = this.replaceObjectByKey(j, keyObj.key, updatedObj);
+                    if (selectedNode.type == 'tabs' || selectedNode.type == 'step' || selectedNode.type == 'listWithComponentsChild') {
+                      j['mapping'] = true;
+                    }
                   }
+                });
+              }
+            });
+          }
+        }
+        else if (selectedNode.type != 'tabs' && selectedNode.type != 'step' && selectedNode.type != 'div' && selectedNode.type != 'listWithComponentsChild' && selectedNode.type != 'listWithComponentsChild' && selectedNode.type != 'cardWithComponents') {
+          if (selectedNode.tableBody) {
+            selectedNode.tableBody.forEach((element: any) => {
+              const keyObj = this.findObjectByKey(newNode, element.fileHeader);
+              if (keyObj && element.defaultValue) {
+                const updatedObj = this.dataReplace(keyObj, item, element);
+                newNode = this.replaceObjectByKey(newNode, keyObj.key, updatedObj);
+              }
+            });
+          }
+        }
+        if (checkFirstTime) {
+          if (selectedNode.type == 'tabs' || selectedNode.type == 'step' || selectedNode.type == 'div' || selectedNode.type == 'listWithComponentsChild' || selectedNode.type == 'cardWithComponents' || selectedNode.type == 'timelineChild') {
+            selectedNode.children = newNode;
+          }
+          else if (selectedNode.children[1]) {
+            selectedNode.children[1].children = [];
+            selectedNode?.children[1]?.children?.push(newNode);
+          }
+          selectedNode = JSON.parse(JSON.stringify(selectedNode))
+          // this.updateNodes();
+          checkFirstTime = false
+        }
+        else {
+          if (selectedNode.type == 'tabs' || selectedNode.type == 'step' || selectedNode.type == 'listWithComponentsChild') {
+            if (newNode.length) {
+              newNode.forEach((k: any) => {
+                if (k.mapping) {
+                  tabsAndStepper.push(k);
                 }
               });
             }
-          });
-        }
-      }
-      else if (selectedNode.type != 'tabs' && selectedNode.type != 'step' && selectedNode.type != 'div' && selectedNode.type != 'listWithComponentsChild' && selectedNode.type != 'listWithComponentsChild' && selectedNode.type != 'cardWithComponents') {
-        if (selectedNode.tableBody) {
-          selectedNode.tableBody.forEach((element: any) => {
-            const keyObj = this.findObjectByKey(newNode, element.fileHeader);
-            if (keyObj && element.defaultValue) {
-              const updatedObj = this.dataReplace(keyObj, item, element);
-              newNode = this.replaceObjectByKey(newNode, keyObj.key, updatedObj);
-            }
-          });
-        }
-      }
-      if (checkFirstTime) {
-        if (selectedNode.type == 'tabs' || selectedNode.type == 'step' || selectedNode.type == 'div' || selectedNode.type == 'listWithComponentsChild' || selectedNode.type == 'cardWithComponents' || selectedNode.type == 'timelineChild') {
-          selectedNode.children = newNode;
-        }
-        else if (selectedNode.children[1]) {
-          selectedNode.children[1].children = [];
-          selectedNode?.children[1]?.children?.push(newNode);
-        }
-        selectedNode = JSON.parse(JSON.stringify(selectedNode))
-        // this.updateNodes();
-        checkFirstTime = false
-      }
-      else {
-        if (selectedNode.type == 'tabs' || selectedNode.type == 'step' || selectedNode.type == 'listWithComponentsChild') {
-          if (newNode.length) {
-            newNode.forEach((k: any) => {
-              if (k.mapping) {
-                tabsAndStepper.push(k);
+            if (index == this.res.data.length - 1) {
+              if (tabsAndStepper.length) {
+                tabsAndStepper.forEach((j: any) => {
+                  selectedNode?.children?.push(j);
+                });
               }
-            });
-          }
-          if (index == this.res.data.length - 1) {
-            if (tabsAndStepper.length) {
-              tabsAndStepper.forEach((j: any) => {
-                selectedNode?.children?.push(j);
+              let unMapped = selectedNode?.children.filter((child: any) => child.mapping == undefined);
+              let mapped = selectedNode?.children.filter((child: any) => child.mapping);
+              selectedNode.children = mapped;
+              if (unMapped.length) {
+                unMapped.forEach((element: any) => {
+                  selectedNode.children.push(element);
+                });
+              }
+              selectedNode.children.forEach((k: any) => {
+                delete k.mapping
               });
             }
-            let unMapped = selectedNode?.children.filter((child: any) => child.mapping == undefined);
-            let mapped = selectedNode?.children.filter((child: any) => child.mapping);
-            selectedNode.children = mapped;
-            if (unMapped.length) {
-              unMapped.forEach((element: any) => {
-                selectedNode.children.push(element);
-              });
-            }
-            selectedNode.children.forEach((k: any) => {
-              delete k.mapping
-            });
           }
-        }
-        else if (selectedNode.type == 'div' || selectedNode.type == 'timelineChild' || selectedNode.type == 'cardWithComponents') {
-          let newSelected = JSON.parse(JSON.stringify(selectedNode));
-          newSelected.children = newNode;
-          let data = JSON.parse(JSON.stringify(newSelected));
-          tabsAndStepper.push(data);
-          if (index == this.res.data.length - 1) {
-            let checkPushOrNot = true
-            if ((selectedNode.type == 'div' || selectedNode.type == 'cardWithComponents' || selectedNode.type == 'timelineChild') && checkPushOrNot) {
-              if (tabsAndStepper) {
-                this.pushObjectsById(this.drawerData, tabsAndStepper, selectedNode.id);
-                checkPushOrNot = false;
+          else if (selectedNode.type == 'div' || selectedNode.type == 'timelineChild' || selectedNode.type == 'cardWithComponents') {
+            let newSelected = JSON.parse(JSON.stringify(selectedNode));
+            newSelected.children = newNode;
+            let data = JSON.parse(JSON.stringify(newSelected));
+            tabsAndStepper.push(data);
+            if (index == this.res.data.length - 1) {
+              let checkPushOrNot = true
+              if ((selectedNode.type == 'div' || selectedNode.type == 'cardWithComponents' || selectedNode.type == 'timelineChild') && checkPushOrNot) {
+                if (tabsAndStepper) {
+                  this.pushObjectsById(this.drawerData, tabsAndStepper, selectedNode.id);
+                  checkPushOrNot = false;
+                }
               }
             }
           }
-        }
-        else if (selectedNode.children[1]) {
-          selectedNode?.children[1]?.children?.push(newNode);
+          else if (selectedNode.children[1]) {
+            selectedNode?.children[1]?.children?.push(newNode);
+          }
         }
       }
+      selectedNode = JSON.parse(JSON.stringify(selectedNode))
     }
-    selectedNode = JSON.parse(JSON.stringify(selectedNode))
   }
   pushObjectsById(targetObject: any, sourceArray: any[], idToMatch: string): void {
     // Variable to keep track of the parent object
