@@ -288,9 +288,11 @@ object {
       height: 40px !important;
     }
   }
+
   .ant-select-selection-item {
     height: 40px !important;
   }
+
   .ant-input-affix-wrapper-sm {
     height: 40px !important;
   }
@@ -370,6 +372,7 @@ object {
       }
     }
   }
+
   .ng-select-container {
     height: 40px !important;
 
@@ -380,10 +383,10 @@ object {
     }
   }
 
-#my-app {
-  margin-top: 2.5px;
-  margin-left: 11px;
-}
+  #my-app {
+    margin-top: 2.5px;
+    margin-left: 11px;
+  }
 
   // st-formly-field-ng-search{
   //   border: 1px solid lightgray;
@@ -5382,6 +5385,7 @@ ul.ant-cascader-menu:nth-child(2)>li:nth-child(1)>div:nth-child(2)>i:nth-child(1
   overflow: hidden !important;
   padding: 0px !important;
   height: 180px !important;
+
   .ant-cascader-menus {
     margin: 0px !important;
   }
@@ -6291,7 +6295,7 @@ tr:hover {
   /* Styling for header cells */
   thead tr th {
     min-width: 125px !important;
-    width: auto !important;
+    width: 180px !important;
     font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
     max-width: 210px !important;
     overflow: hidden;
@@ -6321,9 +6325,16 @@ tr:hover {
     color: #23303d !important;
     border-bottom: 1px solid #d6dce1 !important;
     font-size: 12px !important;
-    overflow: hidden !important;
-    text-overflow: ellipsis !important;
-    white-space: nowrap !important;
+    .editable-cell{
+      width: 100%;
+      overflow: hidden;
+      white-space: nowrap !important;
+      text-overflow: ellipsis;
+      &:hover{
+        white-space: normal !important;
+      }
+    }
+
   }
 
   // .ant-table-wrapper {
@@ -7141,8 +7152,10 @@ tr:hover {
 
 .ant-collapse>.ant-collapse-item>.ant-collapse-header {
   padding: 6px !important;
-  font-size: 12px !important; ;
-  font-weight: 500 !important; ;
+  font-size: 12px !important;
+  ;
+  font-weight: 500 !important;
+  ;
 }
 
 .ant-collapse {
@@ -7189,7 +7202,7 @@ input[type=file]::file-selector-button:hover {
   width: 35px !important;
 }
 
-.timelineDiv{
+.timelineDiv {
   .ant-timeline-item {
     padding-bottom: 0px;
   }
