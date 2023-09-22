@@ -132,7 +132,7 @@ export class DynamicTableComponent implements OnInit {
       if (this.form.get(dynamicPropertyName)) {
         let newData: any = JSON.parse(JSON.stringify(data));
         for (const key in data) {
-          const filteredData = this.tableHeaders.fbind((header: any) => header.key === key);
+          const filteredData = this.tableHeaders.find((header: any) => header.key === key);
 
           if (filteredData && filteredData?.dataType === "multiselect") {
             newData[key] = newData[key]?.includes(',') ? newData[key].split(',') : ((newData[key] == undefined || newData[key] == '') ? [] : [newData[key]]);
@@ -781,7 +781,9 @@ export class DynamicTableComponent implements OnInit {
               next: (res) => {
                 this.saveLoader = false;
                 if (res) {
-
+                  this.tableData = this.tableData.filter((d: any) => d.id !== data.id);
+                  this.displayData = this.displayData.filter((d: any) => d.id !== data.id);
+                  this.excelReportData = this.excelReportData.filter((d: any) => d.id !== data.id);
                   this.pageChange(1);
                   this.toastr.success("Delete Successfully", { nzDuration: 3000 });
                 }
@@ -1623,6 +1625,21 @@ export class DynamicTableComponent implements OnInit {
         if (applicationId) {
           savedGroupData = await this.dataService.getNodes(JSON.parse(applicationId), this.screenName, "Table");
         }
+        if (this.data?.eventActionconfig && !this.childTable && Object.keys(this.data.eventActionconfig).length > 0) {
+          if (this.data?.eventActionconfig?.httpAddress.includes('market-place')) {
+            res.data = res.data.map((item: any) => ({
+              id: item._id, // Rename _id to id
+              name: item.name,
+              categoryId: item.categoryId,
+              categoryName: item.categoryDetails?.[0]?.name, // Access the name property from categoryDetails
+              subcategoryId: item.subcategoryId,
+              subcategoryName: item.subcategoryDetails?.[0]?.name, // Access the name property from subcategoryDetails
+              thumbnailimage: item.thumbnailimage,
+              // ...rest
+            }));
+          }
+        }
+
         this.tableData = res.data.map((element: any) => ({ ...element, id: element.id?.toString() }));
         this.excelReportData = [...this.tableData];
         if (!this.data.end) {

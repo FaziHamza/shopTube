@@ -149,7 +149,6 @@ export class SiteLayoutComponent implements OnInit {
     });
   }
   getMenuByDomainName(domainName: any, allowStoreId: boolean) {
-    debugger
     try {
       this.loader = true;
       this.requestSubscription = this.builderService.getApplicationByDomainName(domainName).subscribe({

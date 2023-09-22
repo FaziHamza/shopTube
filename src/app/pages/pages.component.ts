@@ -28,7 +28,21 @@ export class PagesComponent implements OnInit {
     this.dataSharedService.change.subscribe(({ event, field }) => {
       if (field && event) {
         if (this.formlyModel) {
-          this.formlyModel[field.key] = event;
+          // this.formlyModel[field.key] = event;
+          if (this.formlyModel) {
+            for (const key in this.formlyModel) {
+              if (this.formlyModel.hasOwnProperty(key)) {
+                if (typeof this.formlyModel[key] === 'object') {
+                  for (const key1 in this.formlyModel[key]) {
+                    this.formlyModel[key][field.key] = event;
+                  }
+                }
+                else {
+                  this.formlyModel[field.key] = event;
+                }
+              }
+            }
+          }
         }
         this.getEnumList(field, event);
       }
@@ -89,7 +103,7 @@ export class PagesComponent implements OnInit {
     });
     this.requestSubscription = this.dataSharedService.pageSubmit.subscribe({
       next: (res) => {
-        
+
         let makeModel: any = {};
         const filteredNodes = this.filterInputElements(this.resData[0].children[1].children[0].children[1].children);
         for (let item in this.formlyModel) {
@@ -197,7 +211,7 @@ export class PagesComponent implements OnInit {
         // ------------------
 
         if (params["schema"]) {
-          
+
           if (params["id"]) {
             this.tableRowID = params["id"];
           }
@@ -264,7 +278,7 @@ export class PagesComponent implements OnInit {
     });
   }
   actionsBindWithPage(res: any) {
-    
+    debugger
     this.screenId = res.data[0].screenBuilderId;
     this.screenName = res.data[0].screenName;
     this.navigation = res.data[0].navigation;
