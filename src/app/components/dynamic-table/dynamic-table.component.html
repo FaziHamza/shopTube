@@ -52,10 +52,10 @@
           [(ngModel)]="searchValue" placeholder="Search..." />
       </nz-input-group>
       <ng-template #suffixIconButton>
-        <button nz-button nzType="primary"
+        <button (click)="search()" nz-button nzType="primary"
           class="!rounded-tr-md !rounded-br-md !w-10 !h-[35px] !bg-blue-600 hover:!bg-blue-500" nzSearch nz-tooltip
           nzTooltipTitle="Click Here To Filter">
-          <i class="fa-solid fa-magnifying-glass" (click)="search()"></i>
+          <i class="fa-solid fa-magnifying-glass" ></i>
         </button>
       </ng-template>
     </div>

@@ -470,15 +470,15 @@ export class DrawerComponent implements OnInit {
 
   checkDynamicSection() {
     if (this.drawerData && this.drawerData.children && this.drawerData.children.length > 0) {
-      if (this.drawerData.children[0].type == 'div') {
-        this.drawerData.children[0].hideExpression = false;
-        const firstChild = this.drawerData.children[0].children[0];
-        this.drawerData.children[0].children = [firstChild];
-      }
-      else {
-        const firstChild = this.drawerData.children[0];
-        this.drawerData.children[0] = [firstChild];
-      }
+      // if (this.drawerData.children[0].type == 'div') {
+      //   this.drawerData.children[0].hideExpression = false;
+      //   const firstChild = this.drawerData.children[0].children[0];
+      //   this.drawerData.children[0].children = [firstChild];
+      // }
+      // else {
+      //   const firstChild = this.drawerData.children[0];
+      //   this.drawerData.children[0] = [firstChild];
+      // }
       this.recursiveCheck(this.drawerData.children);
     }
   }

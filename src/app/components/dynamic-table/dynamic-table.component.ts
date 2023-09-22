@@ -1149,6 +1149,7 @@ export class DynamicTableComponent implements OnInit {
           if (this.drawerChild.length == 0 && drawer.children.length > 0) {
             this.drawerChild = JSON.parse(JSON.stringify(drawer.children))
           }
+          drawer.children = this.drawerChild;
           drawer['visible'] = true;
           if (drawer?.eventActionconfig) {
             let newData: any = JSON.parse(JSON.stringify(item));
@@ -1852,7 +1853,11 @@ export class DynamicTableComponent implements OnInit {
     try {
       debugger;
       this.saveLoader = true;
-
+      const applicationId = localStorage.getItem('applicationId') || '';
+      let savedGroupData: any = [];
+      if (applicationId) {
+        savedGroupData = await this.dataService.getNodes(JSON.parse(applicationId), this.screenName, "Table");
+      }
       // Step 1: Remove the 'expand' header from tableHeaders
       this.tableHeaders = this.tableHeaders.filter((head: any) => head.key != 'expand');
 
@@ -1870,25 +1875,13 @@ export class DynamicTableComponent implements OnInit {
         });
 
         this.groupingData = [];
-      } else {
+      }
+      else {
         this.tableData = this.excelReportData;
         this.displayData = this.tableData;
         this.groupingData = [];
 
       }
-
-      const applicationId = localStorage.getItem('applicationId') || '';
-      let savedGroupData: any = [];
-
-      try {
-        if (applicationId) {
-          savedGroupData = await this.dataService.getNodes(JSON.parse(applicationId), this.screenName, "Table");
-        }
-      } catch (error) {
-        this.pageChange(1);
-      }
-
-
       if (savedGroupData.length > 0) {
         let getData = savedGroupData[savedGroupData.length - 1];
 
