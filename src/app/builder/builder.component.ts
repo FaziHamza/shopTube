@@ -5174,7 +5174,6 @@ export class BuilderComponent implements OnInit {
 
       // this.updateNodes();
     }
-
     // this.showSuccess();
     this.updateNodes();
     this.closeConfigurationList();
@@ -6569,8 +6568,8 @@ export class BuilderComponent implements OnInit {
   }
   showRulesFunc(ruleType: any) {
     this.showRules = ruleType;
-    let getInputs: any[] = this.filterInputElements(this.nodes);
-    this.showActionRule = getInputs.length > 0 ? false : true;
+    // let getInputs: any[] = this.filterInputElements(this.nodes);
+    // this.showActionRule = getInputs.length > 0 ? false : true;
   }
   applyHighlightSearch(data: any, allow: any) {
     if (this.searchValue && allow) {
@@ -6783,4 +6782,5 @@ export class BuilderComponent implements OnInit {
       }
     }
   }
+
 }

@@ -84,7 +84,6 @@ export class DynamicTableComponent implements OnInit {
       // The object is not empty, do something here
       this.saveLoader = true;
     }
-
     this.loadTableData();
     // this.gridInitilize();
     this.getSaveGroupNodes();
@@ -1172,7 +1171,7 @@ export class DynamicTableComponent implements OnInit {
             }
             drawer.eventActionconfig['parentId'] = item.id;
           }
-          this.data = JSON.parse(JSON.stringify(this.data));
+          // this.data = JSON.parse(JSON.stringify(this.data));
           this.showChild = true;
         }
       }
