@@ -29,7 +29,7 @@
       class="!w-1/5 ml-2 mr-2 !h-[35px]">
     </div> -->
     <div class="mr-2 ml-2" [style.order]="split(0 , data?.buttonAlignments) || 1" *ngIf="!childTable && (data?.isAllowExcelReport || data?.isAllowUploadExcel)" class="action-drop-down">
-      <button nz-button nzType="primary" class="actions-btn" nz-dropdown [nzDropdownMenu]="menu4">
+      <button nz-button nzType="primary" class="actions-btn btn" nz-dropdown [nzDropdownMenu]="menu4">
         Actions
         <span nz-icon nzType="down"></span>
       </button>
