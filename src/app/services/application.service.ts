@@ -91,4 +91,7 @@ export class ApplicationService {
         return this.http.get(url.includes('http') ? url : this.nestUrl + url, { headers });
     }
   }
+  forkApiUrl( url: any){
+    return this.http.get(url);
+  }
 }

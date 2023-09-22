@@ -1,7 +1,7 @@
 import { Component, OnInit, Input, EventEmitter, Output, ChangeDetectorRef } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { NzMessageService } from 'ng-zorro-antd/message';
-import { Subscription, elementAt } from 'rxjs';
+import { Subscription, catchError, elementAt, forkJoin, map, of } from 'rxjs';
 import { TreeNode } from 'src/app/models/treeNode';
 import { ApplicationService } from 'src/app/services/application.service';
 import { DataSharedService } from 'src/app/services/data-shared.service';
@@ -268,24 +268,72 @@ export class SectionsComponent implements OnInit {
         // } else if (findClickApi[0]?.actionType === 'query') {
         //   apiUrl = 'knex-query';
         // }
-        if (empData) {
-          this.applicationServices.addNestCommonAPI('knex-query/execute-rules/'+findClickApi[0]?._id, empData).subscribe({
+        // Create an array of observables for API requests
+        const observables = data.appConfigurableEvent.map((element: any) => {
+          return this.applicationServices.addNestCommonAPI('knex-query/execute-rules/'+element?._id, data).pipe(
+            catchError((error:any) => of(error)) // Handle error and continue the forkJoin
+          );
+        });
+
+        forkJoin(observables).subscribe({
+          next: (results: any) => {
+            this.saveLoader = false;
+            console.log("result : " + JSON.stringify(results));
+            data.appConfigurableEvent.forEach((element:any,index:number) => {
+              if(element.targetId){
+                const data = results[index]?.[0]?.data;
+                const getdetails = this.findObjectByKey(this.sections , element.targetId);
+                if (data?.length > 0 && getdetails) {
+                  let propertyNames = Object.keys(data[0]);
+                  let result = data.map((item: any) => {
+                    let newObj: any = {};
+                    let propertiesToGet: string[];
+                    if ('id' in item && 'name' in item) {
+                      propertiesToGet = ['id', 'name'];
+                    } else {
+                      propertiesToGet = Object.keys(item).slice(0, 2);
+                    }
+                    propertiesToGet.forEach((prop) => {
+                      newObj[prop] = item[prop];
+                    });
+                    return newObj;
+                  });
+            
+                  let finalObj = result.map((item: any) => {
+                    return {
+                      label: item.name || item[propertyNames[1]],
+                      value: item.id || item[propertyNames[0]],
+                    };
+                  });
+                  getdetails.formly[0].fieldGroup[0].props.options = finalObj;
+                }
+              }
+            });
+
+          },
+          error: (err) => {
+            console.error(err);
+            this.toastr.error("Actions not saved", { nzDuration: 3000 });
+          }
+        });
+        if (empData && findClickApi[0]?._id) {
+          this.applicationServices.addNestCommonAPI('knex-query/execute-rules/' + findClickApi[0]?._id, empData).subscribe({
             next: (res) => {
               this.saveLoader = false;
-              if(res){
+              if (res) {
                 if (res[0]?.error)
-                this.toastr.error(res[0]?.error, { nzDuration: 3000 });
-              else {
-                this.toastr.success("Save Successfully", { nzDuration: 3000 });
-                this.setInternalValuesEmpty(this.dataModel);
-                this.setInternalValuesEmpty(this.formlyModel);
-                this.form.patchValue(this.formlyModel);
-                // this.setInternalValuesEmpty(this.dataModel)
-                // this.employeeService.getSQLDatabaseTable(`knex-query?tables=${tables}&relationIds=id,${relationIds.toString()}`).subscribe({
-                this.getFromQuery(data);
+                  this.toastr.error(res[0]?.error, { nzDuration: 3000 });
+                else {
+                  this.toastr.success("Save Successfully", { nzDuration: 3000 });
+                  this.setInternalValuesEmpty(this.dataModel);
+                  this.setInternalValuesEmpty(this.formlyModel);
+                  this.form.patchValue(this.formlyModel);
+                  // this.setInternalValuesEmpty(this.dataModel)
+                  // this.employeeService.getSQLDatabaseTable(`knex-query?tables=${tables}&relationIds=id,${relationIds.toString()}`).subscribe({
+                  this.getFromQuery(data);
+                }
               }
-              }
-           
+
 
             },
             error: (err) => {
@@ -323,7 +371,7 @@ export class SectionsComponent implements OnInit {
           };
           console.log(result);
           this.saveLoader = true;
-          this.applicationServices.addNestCommonAPI('knex-query/executeDelete-rules/'+findClickApi[0]._id, result).subscribe({
+          this.applicationServices.addNestCommonAPI('knex-query/executeDelete-rules/' + findClickApi[0]._id, result).subscribe({
             next: (res) => {
               this.saveLoader = false;
               this.toastr.success("Update Successfully", { nzDuration: 3000 });
@@ -375,153 +423,153 @@ export class SectionsComponent implements OnInit {
     if (findClickApi) {
       let url = `knex-query/getexecute-rules/${findClickApi._id}`;
 
-        // for (let index = 0; index < findClickApi.length; index++) {
-        //   let element = findClickApi[index].actionType;
-        //   if (element == 'query') {
-        //     url = `knex-query/getAction/${findClickApi[index]._id}`;
-        //     break;
-        //   } else {
-        //     url = `knex-query/getAction/${findClickApi[index]._id}`;
-        //   }
+      // for (let index = 0; index < findClickApi.length; index++) {
+      //   let element = findClickApi[index].actionType;
+      //   if (element == 'query') {
+      //     url = `knex-query/getAction/${findClickApi[index]._id}`;
+      //     break;
+      //   } else {
+      //     url = `knex-query/getAction/${findClickApi[index]._id}`;
+      //   }
+      // }
+      let tableData = this.findObjectByKey(this.sections, findClickApi.targetId);
+      if (tableData) {
+        // let pagination = '';
+        // if (tableData.serverSidePagination) {
+        //   pagination = '?page=' + 1 + '&pageSize=' + tableData?.end;
         // }
-        let tableData = this.findObjectByKey(this.sections, findClickApi.targetId);
-        if (tableData) {
-          // let pagination = '';
-          // if (tableData.serverSidePagination) {
-          //   pagination = '?page=' + 1 + '&pageSize=' + tableData?.end;
-          // }
-          this.saveLoader = true;
-          const applicationId = localStorage.getItem('applicationId') || '';
-          let savedGroupData = await this.dataService.getNodes(JSON.parse(applicationId), this.screenName, "Table");
-          this.employeeService.getSQLDatabaseTable(url).subscribe({
-            next: async (res) => {
-              this.saveLoader = false;
-              if (tableData && res?.isSuccess) {
-                if (res.data.length > 0) {
+        this.saveLoader = true;
+        const applicationId = localStorage.getItem('applicationId') || '';
+        let savedGroupData = await this.dataService.getNodes(JSON.parse(applicationId), this.screenName, "Table");
+        this.employeeService.getSQLDatabaseTable(url).subscribe({
+          next: async (res) => {
+            this.saveLoader = false;
+            if (tableData && res?.isSuccess) {
+              if (res.data.length > 0) {
 
-                  const parts = url.split('/'); // Split the URL by '/'
-                  // const searchId = parts[parts.length - 1]; // Get the last part of the URL
+                const parts = url.split('/'); // Split the URL by '/'
+                // const searchId = parts[parts.length - 1]; // Get the last part of the URL
 
-                  const foundObject = findClickApi.rule.includes('market-place');
-                  // const foundObject = findClickApi.find((item: any) => item.id === searchId);
-                  if (foundObject) {
-                    if (foundObject?.url.includes('market-place')) {
-                      res.data = res.data.map((item: any) => ({
-                        id: item._id, // Rename _id to id
-                        name: item.name,
-                        categoryId: item.categoryId,
-                        categoryName: item.categoryDetails?.[0]?.name, // Access the name property from categoryDetails
-                        subcategoryId: item.subcategoryId,
-                        subcategoryName: item.subcategoryDetails?.[0]?.name, // Access the name property from subcategoryDetails
-                        thumbnailimage: item.thumbnailimage,
-                        // ...rest
-                      }));
-                    }
-                  }
-
-                  let saveForm = JSON.parse(JSON.stringify(res.data[0]));
-                  const firstObjectKeys = Object.keys(saveForm);
-                  let tableKey = firstObjectKeys.map(key => ({ name: key }));
-                  let obj = firstObjectKeys.map(key => ({ name: key, key: key }));
-                  tableData.tableData = [];
-                  saveForm.id = tableData.tableData.length + 1;
-                  res.data.forEach((element: any) => {
-                    element.id = (element?.id)?.toString();
-                    tableData.tableData?.push(element);
-                  });
-                  // pagniation work start
-                  if (!tableData.end) {
-                    tableData.end = 10;
-                  }
-                  tableData.pageIndex = 1;
-                  tableData.totalCount = res.count;
-                  tableData.serverApi = url;
-                  tableData.targetId = '';
-                  tableData.displayData = tableData.tableData.length > tableData.end ? tableData.tableData.slice(0, tableData.end) : tableData.tableData;
-                  // pagniation work end
-                  if (!tableData?.tableHeaders || tableData?.tableHeaders?.length == 0) {
-                    tableData.tableHeaders = obj;
-                    tableData['tableKey'] = tableKey
-                  }
-                  else {
-                    if (JSON.stringify(tableData['tableKey']) !== JSON.stringify(tableKey)) {
-                      const updatedData = tableKey.filter(updatedItem =>
-                        !tableData.tableHeaders.some((headerItem: any) => headerItem.name === updatedItem.name)
-                      );
-                      if (updatedData.length > 0) {
-                        updatedData.forEach(updatedItem => {
-                          tableData.tableHeaders.push({ id: tableData.tableHeaders.length + 1, key: updatedItem.name, name: updatedItem.name, });
-                        });
-                        tableData['tableKey'] = tableData.tableHeaders;
-                      }
-                    }
-                  }
-
-                  // Make DataType
-                  let propertiesWithoutDataType = tableData.tableHeaders.filter((check: any) => !check.hasOwnProperty('dataType'));
-                  if (propertiesWithoutDataType.length > 0) {
-                    let formlyInputs = this.filterInputElements(this.sections.children[1].children);
-
-                    if (formlyInputs && formlyInputs.length > 0) {
-                      propertiesWithoutDataType.forEach((head: any) => {
-                        let input = formlyInputs.find(a => a.formly[0].fieldGroup[0].key.includes('.') ? a.formly[0].fieldGroup[0].key.split('.')[1] == head.key : a.formly[0].fieldGroup[0].key == head.key);
-
-                        if (input) {
-                          head['dataType'] = input.formly[0].fieldGroup[0].type;
-                          head['subDataType'] = input.formly[0].fieldGroup[0].props.type;
-                          head['title'] = input.title;
-                        }
-                      });
-
-                      tableData.tableHeaders = tableData.tableHeaders.concat(propertiesWithoutDataType.filter((item: any) => !tableData.tableHeaders.some((objItem: any) => objItem.key === item.key)));
-                      // tableData.tableHeaders = obj;
-                    }
-                  }
-                  let CheckKey = tableData.tableHeaders.find((head: any) => !head.key)
-                  if (CheckKey) {
-                    for (let i = 0; i < tableData.tableHeaders.length; i++) {
-                      if (!tableData.tableHeaders[i].hasOwnProperty('key')) {
-                        tableData.tableHeaders[i].key = tableData.tableHeaders[i].name;
-                      }
-                    }
-                  }
-                  let getData = savedGroupData[savedGroupData.length - 1];
-                  if (getData?.data) {
-                    if (getData.data.length > 0) {
-                      let groupingArray: any = [];
-                      let updateTableData: any = [];
-                      getData.data.forEach((elem: any) => {
-                        let findData = tableData.tableHeaders.find((item: any) => item.key == elem);
-                        if (findData) {
-                          updateTableData = this.groupedFunc(elem, 'add', findData, groupingArray, tableData.displayData, tableData.tableData, tableData.tableHeaders);
-                        }
-                      })
-                      tableData.tableData = updateTableData;
-                      tableData.displayData = tableData.tableData.length > tableData.end ? tableData.tableData.slice(0, tableData.end) : tableData.tableData;
-                      tableData.tableHeaders.unshift({
-                        name: 'expand',
-                        key: 'expand',
-                        title: 'Expand',
-                      });
-                      tableData.totalCount = tableData.tableData
-                    }
-                    tableData.tableHeaders = tableData.tableHeaders.filter((head: any) => head.key != 'expand')
-
-                  } else {
-                    tableData.tableHeaders = tableData.tableHeaders.filter((head: any) => head.key != 'expand')
-
+                const foundObject = findClickApi.rule.includes('market-place');
+                // const foundObject = findClickApi.find((item: any) => item.id === searchId);
+                if (foundObject) {
+                  if (foundObject?.url.includes('market-place')) {
+                    res.data = res.data.map((item: any) => ({
+                      id: item._id, // Rename _id to id
+                      name: item.name,
+                      categoryId: item.categoryId,
+                      categoryName: item.categoryDetails?.[0]?.name, // Access the name property from categoryDetails
+                      subcategoryId: item.subcategoryId,
+                      subcategoryName: item.subcategoryDetails?.[0]?.name, // Access the name property from subcategoryDetails
+                      thumbnailimage: item.thumbnailimage,
+                      // ...rest
+                    }));
                   }
                 }
-                // this.assignGridRules(tableData);
+
+                let saveForm = JSON.parse(JSON.stringify(res.data[0]));
+                const firstObjectKeys = Object.keys(saveForm);
+                let tableKey = firstObjectKeys.map(key => ({ name: key }));
+                let obj = firstObjectKeys.map(key => ({ name: key, key: key }));
+                tableData.tableData = [];
+                saveForm.id = tableData.tableData.length + 1;
+                res.data.forEach((element: any) => {
+                  element.id = (element?.id)?.toString();
+                  tableData.tableData?.push(element);
+                });
+                // pagniation work start
+                if (!tableData.end) {
+                  tableData.end = 10;
+                }
+                tableData.pageIndex = 1;
+                tableData.totalCount = res.count;
+                tableData.serverApi = url;
+                tableData.targetId = '';
+                tableData.displayData = tableData.tableData.length > tableData.end ? tableData.tableData.slice(0, tableData.end) : tableData.tableData;
+                // pagniation work end
+                if (!tableData?.tableHeaders || tableData?.tableHeaders?.length == 0) {
+                  tableData.tableHeaders = obj;
+                  tableData['tableKey'] = tableKey
+                }
+                else {
+                  if (JSON.stringify(tableData['tableKey']) !== JSON.stringify(tableKey)) {
+                    const updatedData = tableKey.filter(updatedItem =>
+                      !tableData.tableHeaders.some((headerItem: any) => headerItem.name === updatedItem.name)
+                    );
+                    if (updatedData.length > 0) {
+                      updatedData.forEach(updatedItem => {
+                        tableData.tableHeaders.push({ id: tableData.tableHeaders.length + 1, key: updatedItem.name, name: updatedItem.name, });
+                      });
+                      tableData['tableKey'] = tableData.tableHeaders;
+                    }
+                  }
+                }
+
+                // Make DataType
+                let propertiesWithoutDataType = tableData.tableHeaders.filter((check: any) => !check.hasOwnProperty('dataType'));
+                if (propertiesWithoutDataType.length > 0) {
+                  let formlyInputs = this.filterInputElements(this.sections.children[1].children);
+
+                  if (formlyInputs && formlyInputs.length > 0) {
+                    propertiesWithoutDataType.forEach((head: any) => {
+                      let input = formlyInputs.find(a => a.formly[0].fieldGroup[0].key.includes('.') ? a.formly[0].fieldGroup[0].key.split('.')[1] == head.key : a.formly[0].fieldGroup[0].key == head.key);
+
+                      if (input) {
+                        head['dataType'] = input.formly[0].fieldGroup[0].type;
+                        head['subDataType'] = input.formly[0].fieldGroup[0].props.type;
+                        head['title'] = input.title;
+                      }
+                    });
+
+                    tableData.tableHeaders = tableData.tableHeaders.concat(propertiesWithoutDataType.filter((item: any) => !tableData.tableHeaders.some((objItem: any) => objItem.key === item.key)));
+                    // tableData.tableHeaders = obj;
+                  }
+                }
+                let CheckKey = tableData.tableHeaders.find((head: any) => !head.key)
+                if (CheckKey) {
+                  for (let i = 0; i < tableData.tableHeaders.length; i++) {
+                    if (!tableData.tableHeaders[i].hasOwnProperty('key')) {
+                      tableData.tableHeaders[i].key = tableData.tableHeaders[i].name;
+                    }
+                  }
+                }
+                let getData = savedGroupData[savedGroupData.length - 1];
+                if (getData?.data) {
+                  if (getData.data.length > 0) {
+                    let groupingArray: any = [];
+                    let updateTableData: any = [];
+                    getData.data.forEach((elem: any) => {
+                      let findData = tableData.tableHeaders.find((item: any) => item.key == elem);
+                      if (findData) {
+                        updateTableData = this.groupedFunc(elem, 'add', findData, groupingArray, tableData.displayData, tableData.tableData, tableData.tableHeaders);
+                      }
+                    })
+                    tableData.tableData = updateTableData;
+                    tableData.displayData = tableData.tableData.length > tableData.end ? tableData.tableData.slice(0, tableData.end) : tableData.tableData;
+                    tableData.tableHeaders.unshift({
+                      name: 'expand',
+                      key: 'expand',
+                      title: 'Expand',
+                    });
+                    tableData.totalCount = tableData.tableData
+                  }
+                  tableData.tableHeaders = tableData.tableHeaders.filter((head: any) => head.key != 'expand')
+
+                } else {
+                  tableData.tableHeaders = tableData.tableHeaders.filter((head: any) => head.key != 'expand')
+
+                }
               }
-              this.saveLoader = false;
-            }, error: (error: any) => {
-              console.error(error);
-              this.toastr.error("An error occurred", { nzDuration: 3000 });
-              this.saveLoader = false;
+              // this.assignGridRules(tableData);
             }
-          });
-        }
+            this.saveLoader = false;
+          }, error: (error: any) => {
+            console.error(error);
+            this.toastr.error("An error occurred", { nzDuration: 3000 });
+            this.saveLoader = false;
+          }
+        });
+      }
     }
   }
   groupedFunc(data: any, type: any, header: any, groupingArray: any, displayData: any, tableData: any, tableHeaders: any) {
