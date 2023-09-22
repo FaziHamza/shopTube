@@ -147,25 +147,22 @@ export class DrawerComponent implements OnInit {
         this.res = {};
         this.res['data'] = [];
         this.res.data = data;
+        this.drawerData.children[0].hideExpression = false;
         this.checkDynamicSection();
       }
-      // else {
-      //   if (this.drawerData.children[0].type == 'timeline') {
-      //     this.drawerData.children[0].hideExpression = true;
-      //   }
-      //   this.showChild = true;
-      //   this.res = {};
-      //   this.res['data'] = [];
-      // }
+      else {
+        this.drawerData.children[0].hideExpression = true;
+        this.showChild = true;
+        this.res = {};
+        this.res['data'] = [];
+      }
     }
-    // else {
-    //   if (this.drawerData.children[0].type == 'timeline') {
-    //     this.drawerData.children[0].hideExpression = true;
-    //   }
-    //   this.showChild = true;
-    //   this.res = {};
-    //   this.res['data'] = [];
-    // }
+    else {
+      this.drawerData.children[0].hideExpression = true;
+      this.showChild = true;
+      this.res = {};
+      this.res['data'] = [];
+    }
     this.loader = false
     return data
   }
@@ -470,9 +467,10 @@ export class DrawerComponent implements OnInit {
     }
     return null;
   }
+
   checkDynamicSection() {
     if (this.drawerData && this.drawerData.children && this.drawerData.children.length > 0) {
-      if (this.drawerData.children[0].type == 'timeline') {
+      if (this.drawerData.children[0].type == 'div') {
         this.drawerData.children[0].hideExpression = false;
         const firstChild = this.drawerData.children[0].children[0];
         this.drawerData.children[0].children = [firstChild];
@@ -484,8 +482,6 @@ export class DrawerComponent implements OnInit {
       this.recursiveCheck(this.drawerData.children);
     }
   }
-
-
 
   recursiveCheck(data: any): void {
     if (Array.isArray(data)) {

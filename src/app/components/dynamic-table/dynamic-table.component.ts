@@ -1149,7 +1149,6 @@ export class DynamicTableComponent implements OnInit {
           if (this.drawerChild.length == 0 && drawer.children.length > 0) {
             this.drawerChild = JSON.parse(JSON.stringify(drawer.children))
           }
-          drawer.children = this.drawerChild;
           drawer['visible'] = true;
           if (drawer?.eventActionconfig) {
             let newData: any = JSON.parse(JSON.stringify(item));
