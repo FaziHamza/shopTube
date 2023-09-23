@@ -20,7 +20,7 @@
 
 
 
-  <div *ngIf="!childTable" class="mt-2 mb-2 flex items-center {{data?.buttonPositions || ' justify-end'}}">
+  <div *ngIf="!childTable" class="flex p-1 items-center {{data?.buttonPositions || ' justify-end'}}">
     <!-- <button [style.order]="split(0 , data?.buttonAlignments) || 1" *ngIf="data?.isAllowExcelReport" nz-button
       (click)="exportToExcel()" nzType="primary"
       class="!rounded-md !bg-green-500 !text-white hover:!bg-green-600 !h-[35px] hover:text-white !border !border-transparent !hover:border-transparent font-md text-lg">Download
@@ -28,8 +28,8 @@
     <div *ngIf="data?.isAllowUploadExcel" [style.order]="split(1 , data?.buttonAlignments) || 2"
       class="!w-1/5 ml-2 mr-2 !h-[35px]">
     </div> -->
-    <div class="mr-2 ml-2" [style.order]="split(0 , data?.buttonAlignments) || 1" *ngIf="!childTable && (data?.isAllowExcelReport || data?.isAllowUploadExcel)" class="action-drop-down">
-      <button nz-button nzType="primary" class="actions-btn btn-no !border-none !bg-blue-600 hover:!bg-blue-500 my-2 !h-[35px]" nz-dropdown [nzDropdownMenu]="menu4">
+    <div [style.order]="split(0 , data?.buttonAlignments) || 1" *ngIf="!childTable && (data?.isAllowExcelReport || data?.isAllowUploadExcel)" class="action-drop-down ">
+      <button nz-button nzType="primary" class="actions-btn btn-no !border-none !bg-blue-600 hover:!bg-blue-500 !h-[35px] !mx-1" nz-dropdown [nzDropdownMenu]="menu4">
         Actions
         <span nz-icon nzType="down"></span>
       </button>
@@ -46,7 +46,7 @@
       <input [(ngModel)]="fileUpload" type="file" class="form-control !mx-2" id="selectedFileInput" style="display:none"
         (change)="onFileSelected($event)" accept=".xlsx">
     </div>
-    <div [style.order]="split(1 , data?.buttonAlignments) || 2" class="!h-[35px] !mx-2" *ngIf="data?.isAllowSearch">
+    <div [style.order]="split(1 , data?.buttonAlignments) || 2" class="!h-[35px] !mx-1" *ngIf="data?.isAllowSearch">
       <nz-input-group nzSearch [nzAddOnAfter]="suffixIconButton">
         <input type="text" class="!h-[35px] !rounded-tl-md !rounded-bl-md" nz-input id="searchControll"
           [(ngModel)]="searchValue" placeholder="Search..." />
@@ -65,7 +65,7 @@
   <div class="dynamic-table" [processData]="processData"
     [appConfigurableSelect]="childTable == false ? (data?.appConfigurableEvent ? data?.appConfigurableEvent : []) : []"
     [loadAction]="childTable == false ? ( data?.eventActionconfig ? data?.eventActionconfig : {}) : false">
-    <nz-table #editRowTable [nzPageSize]="10" [nzData]="displayData" *ngIf="data && displayData"
+    <nz-table class="!w-fit" #editRowTable [nzPageSize]="10" [nzData]="displayData" *ngIf="data && displayData"
       [nzLoading]="data?.nzLoading" [nzPaginationPosition]='data?.nzPaginationPosition'
       [nzPaginationType]='data?.nzPaginationType' [nzFrontPagination]='false' [nzTitle]='data?.nzTitle'
       [nzSimple]="data.nzSimple" [nzShowSizeChanger]="data.nzShowSizeChanger">
