@@ -11286,6 +11286,31 @@ export class formFeildData {
             },
           },
         },
+        {
+          key: 'searchType',
+          type: 'select',
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          wrappers: ["formly-vertical-theme-wrapper"],
+          props: {
+            label: 'Search type',
+            options: [
+              {
+                label: 'onClick',
+                value: 'onClick'
+              },
+              {
+                label: 'keyup',
+                value: 'keyup'
+              }
+            ],
+            additionalProperties: {
+              allowClear: true,
+              serveSearch: false,
+              showArrow: true,
+              showSearch: true,
+            },
+          },
+        },
         // {
         //   key: 'tableName',
         //   type: 'input',

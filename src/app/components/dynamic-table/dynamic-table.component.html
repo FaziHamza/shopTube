@@ -28,8 +28,11 @@
     <div *ngIf="data?.isAllowUploadExcel" [style.order]="split(1 , data?.buttonAlignments) || 2"
       class="!w-1/5 ml-2 mr-2 !h-[35px]">
     </div> -->
-    <div class="mr-2 ml-2" [style.order]="split(0 , data?.buttonAlignments) || 1" *ngIf="!childTable && (data?.isAllowExcelReport || data?.isAllowUploadExcel)" class="action-drop-down">
-      <button nz-button nzType="primary" class="actions-btn btn-no !border-none !bg-blue-600 hover:!bg-blue-500 my-2 !h-[35px]" nz-dropdown [nzDropdownMenu]="menu4">
+    <div class="mr-2 ml-2" [style.order]="split(0 , data?.buttonAlignments) || 1"
+      *ngIf="!childTable && (data?.isAllowExcelReport || data?.isAllowUploadExcel)" class="action-drop-down">
+      <button nz-button nzType="primary"
+        class="actions-btn btn-no !border-none !bg-blue-600 hover:!bg-blue-500 my-2 !h-[35px]" nz-dropdown
+        [nzDropdownMenu]="menu4">
         Actions
         <span nz-icon nzType="down"></span>
       </button>
@@ -39,23 +42,24 @@
             <a (click)="exportToExcel()" class="!text-black">Excel Report Download</a>
           </li>
           <li nz-menu-item>
-            <a onclick="document.getElementById('selectedFileInput').click()" class="!text-black">Import</a>
+            <a onclick="document.getElementById('selectedDynamicTableFile').click()" class="!text-black">Import</a>
           </li>
         </ul>
       </nz-dropdown-menu>
-      <input [(ngModel)]="fileUpload" type="file" class="form-control !mx-2" id="selectedFileInput" style="display:none"
-        (change)="onFileSelected($event)" accept=".xlsx">
+      <input [(ngModel)]="fileUpload" type="file" class="form-control !mx-2" id="selectedDynamicTableFile"
+        style="display:none" (change)="onFileSelected($event)" accept=".xlsx">
     </div>
     <div [style.order]="split(1 , data?.buttonAlignments) || 2" class="!h-[35px] !mx-2" *ngIf="data?.isAllowSearch">
-      <nz-input-group nzSearch [nzAddOnAfter]="suffixIconButton">
+      <nz-input-group  (input)="search(data?.searchType ? 'keyup' : 'keyup')" nzSearch
+        [nzAddOnAfter]="suffixIconButton">
         <input type="text" class="!h-[35px] !rounded-tl-md !rounded-bl-md" nz-input id="searchControll"
-          [(ngModel)]="searchValue" placeholder="Search..." />
+          [(ngModel)]="data['searchValue']" placeholder="Search..." />
       </nz-input-group>
       <ng-template #suffixIconButton>
-        <button (click)="search()" nz-button nzType="primary"
+        <button (click)="search('onClick')" nz-button nzType="primary"
           class="!rounded-tr-md !rounded-br-md !w-10 !h-[35px] !bg-blue-600 hover:!bg-blue-500" nzSearch nz-tooltip
           nzTooltipTitle="Click Here To Filter">
-          <i class="fa-solid fa-magnifying-glass" ></i>
+          <i class="fa-solid fa-magnifying-glass"></i>
         </button>
       </ng-template>
     </div>
@@ -123,7 +127,7 @@
               <ng-container *ngFor="let header of data['tableKey']; let index = index">
                 <td (click)="checkTypeData(item , header)" (click)="startEdit(item.id)"
                   [ngClass]="{'disabled-link' : header.key  == 'key'}" [nzEllipsis]="true" class="5"
-                  [style.background]="item[header.key]== item?.colorDataType ?  item?.columnColor : ''" *ngIf="(header?.show == true || header?.show === undefined || header?.show === '' || header?.show == 'Yes') && header?.dataType !='objectType' && header.key != 'headerButton' && header.key != 'footerButton' && header.key != 'expandable' && header.key != 'checked'
+                  [style.background]="item[header.key]== item?.colorDataType && editId !== item.id  ?  item?.columnColor : ''" *ngIf="(header?.show == true || header?.show === undefined || header?.show === '' || header?.show == 'Yes') && header?.dataType !='objectType' && header.key != 'headerButton' && header.key != 'footerButton' && header.key != 'expandable' && header.key != 'checked'
                   && header.key != 'expand'  && header.key !='children' && header.key != 'defaultValue' ">
                   <div [ngStyle]="{'text-align': header?.position ? header?.position : 'left'}"
                     *ngIf="(header?.dataType !='select' || !configurationTable) && header?.dataType !='audioVideoRecorder' && header?.dataType !='image-upload' && header?.dataType != 'repeatSection' && header?.dataType != 'dateTime' && !isMyDataArray(item[header.key]

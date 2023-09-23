@@ -81,6 +81,9 @@ export class DynamicTableComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    if (!this.childTable) {
+      // this.search(this.data?.searchType ? 'keyup' : 'keyup')
+    }
     if (this.data?.eventActionconfig && !this.childTable && Object.keys(this.data.eventActionconfig).length > 0) {
       // The object is not empty, do something here
       this.saveLoader = true;
@@ -121,7 +124,7 @@ export class DynamicTableComponent implements OnInit {
     }
   }
   updateModel(data: any) {
-    if (this.data?.formType == 'newTab' && this.data?.routeUrl) {
+    if (this.data?.formType == 'newTab' && this.data?.routeUrl && data.id) {
       if (this.data?.routeUrl.includes('pages')) {
         this.router.navigate([this.data?.routeUrl + '/' + data.id]);
       } else {
@@ -1614,6 +1617,7 @@ export class DynamicTableComponent implements OnInit {
         let res: any = {};
         res['data'] = [];
         res['data'] = data;
+
         this.getFromQueryOnlyTable(this.data, res)
       } else {
         this.saveLoader = false;
@@ -1627,6 +1631,7 @@ export class DynamicTableComponent implements OnInit {
     try {
       debugger;
       if (tableData && res?.data.length > 0) {
+        this.data['searchValue'] = '';
         const applicationId = localStorage.getItem('applicationId') || '';
         let savedGroupData: any = [];
         if (applicationId) {
@@ -1849,77 +1854,80 @@ export class DynamicTableComponent implements OnInit {
     });
   }
 
-  async search() {
-    try {
-      debugger;
-      this.saveLoader = true;
-      const applicationId = localStorage.getItem('applicationId') || '';
-      let savedGroupData: any = [];
-      if (applicationId) {
-        savedGroupData = await this.dataService.getNodes(JSON.parse(applicationId), this.screenName, "Table");
-      }
-      // Step 1: Remove the 'expand' header from tableHeaders
-      this.tableHeaders = this.tableHeaders.filter((head: any) => head.key != 'expand');
+  async search(searchType: any) {
+    if (this.data?.searchType ? searchType == this.data?.searchType : 'keyup' == searchType) {
+      try {
+        debugger
+        this.saveLoader = true;
+        const applicationId = localStorage.getItem('applicationId') || '';
+        let savedGroupData: any = [];
+        if (applicationId) {
+          savedGroupData = await this.dataService.getNodes(JSON.parse(applicationId), this.screenName, "Table");
+        }
+        // Step 1: Remove the 'expand' header from tableHeaders
+        this.tableHeaders = this.tableHeaders.filter((head: any) => head.key != 'expand');
 
-      if (this.searchValue) {
-        const searchValue = this.searchValue.toLowerCase();
+        if (this.data?.searchValue) {
+          const searchValue = this.data?.searchValue.toLowerCase();
 
-        // Step 2: Use a more efficient approach for filtering the Excel report data
-        this.tableData = this.excelReportData.filter((item) => {
-          return this.tableHeaders.some((header: any) => {
-            const key = header.key;
-            const itemValue = item[key]?.toString().toLowerCase();
+          // Step 2: Use a more efficient approach for filtering the Excel report data
+          this.tableData = this.excelReportData.filter((item) => {
+            return this.tableHeaders.some((header: any) => {
+              const key = header.key;
+              const itemValue = item[key]?.toString().toLowerCase();
 
-            return itemValue && itemValue.includes(searchValue);
-          });
-        });
-
-        this.groupingData = [];
-      }
-      else {
-        this.tableData = this.excelReportData;
-        this.displayData = this.tableData;
-        this.groupingData = [];
-
-      }
-      if (savedGroupData.length > 0) {
-        let getData = savedGroupData[savedGroupData.length - 1];
-
-        if (getData.data.length > 0) {
-          let updateTableData: any = [];
-          this.groupingArray = [];
-          getData.data.forEach((elem: any) => {
-            let findData = this.tableHeaders.find((item: any) => item.key == elem);
-
-            if (findData) {
-              this.groupedFunc(elem, 'add', findData, false);
-            }
+              return itemValue && itemValue.includes(searchValue);
+            });
           });
 
-          this.displayData = this.tableData.length > this.data.end ? this.tableData.slice(0, this.data.end) : this.tableData;
-          this.data.tableHeaders.unshift({
-            name: 'expand',
-            key: 'expand',
-            title: 'Expand',
-          });
+          this.groupingData = [];
+        }
+        else {
+          this.tableData = this.excelReportData;
+          this.displayData = this.tableData;
+          this.groupingData = [];
 
-          this.data.totalCount = this.tableData;
+        }
+        if (savedGroupData.length > 0) {
+          let getData = savedGroupData[savedGroupData.length - 1];
+
+          if (getData.data.length > 0) {
+            let updateTableData: any = [];
+            this.groupingArray = [];
+            getData.data.forEach((elem: any) => {
+              let findData = this.tableHeaders.find((item: any) => item.key == elem);
+
+              if (findData) {
+                this.groupedFunc(elem, 'add', findData, false);
+              }
+            });
+
+            this.displayData = this.tableData.length > this.data.end ? this.tableData.slice(0, this.data.end) : this.tableData;
+            this.data.tableHeaders.unshift({
+              name: 'expand',
+              key: 'expand',
+              title: 'Expand',
+            });
+
+            this.data.totalCount = this.tableData;
+          } else {
+            this.tableHeaders = this.tableHeaders.filter((head: any) => head.key != 'expand');
+            this.displayData = this.tableData;
+            this.pageChange(1);
+          }
         } else {
           this.tableHeaders = this.tableHeaders.filter((head: any) => head.key != 'expand');
           this.displayData = this.tableData;
           this.pageChange(1);
         }
-      } else {
-        this.tableHeaders = this.tableHeaders.filter((head: any) => head.key != 'expand');
-        this.displayData = this.tableData;
-        this.pageChange(1);
-      }
 
-      this.saveLoader = false;
-    } catch (error) {
-      console.error("An error occurred in search:", error);
-      // Handle the error appropriately, e.g., show an error message to the user.
-      this.saveLoader = false;
+        this.saveLoader = false;
+      }
+      catch (error) {
+        console.error("An error occurred in search:", error);
+        // Handle the error appropriately, e.g., show an error message to the user.
+        this.saveLoader = false;
+      }
     }
   }
   onFileSelected(event: any): void {
