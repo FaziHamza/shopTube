@@ -6290,7 +6290,7 @@ tr:hover {
   width: 100%;
   // padding: 1px 0px;
   position: relative;
-  top: -33px;
+  // top: -33px;
 
   .showing {
     font-size: 14px;
@@ -7226,3 +7226,29 @@ input[type=file]::file-selector-button:hover {
     padding-bottom: 0px;
   }
 }
+
+
+
+
+  .ant-cascader-menu-item-content {
+    margin-top: 0px !important;
+}
+
+.ant-empty-small {
+   margin: 0px 0 !important;  
+}
+
+.ant-empty-image {
+  margin-bottom: 0px !important; 
+}
+
+.ant-empty-small .ant-empty-image {
+  height: 23px !important;
+}
+
+
+.ant-empty-description {
+  font-size: 12px !important;
+}
+
+

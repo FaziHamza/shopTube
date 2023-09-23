@@ -28,3 +28,11 @@
 .responsive-checkBox{
   text-align: start !important;
 }
+
+.table-image{
+  height: 50px !important;
+  width: auto !important;
+  min-width: 100px;
+  max-width: 100px;
+  object-fit: cover;
+}

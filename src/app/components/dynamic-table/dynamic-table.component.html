@@ -164,7 +164,7 @@
                   </div>
                   <div [ngStyle]="{'text-align': header?.position ? header?.position : 'left'}"
                     *ngIf="header?.dataType =='image-upload'" class="4">
-                    <img nz-image width="80px" height="80px" *ngIf="item[header.key]"
+                    <img nz-image class="table-image" *ngIf="item[header.key]"
                       [nzSrc]="serverPath +item[header.key]" alt />
                   </div>
                   <ng-container [ngStyle]="{'text-align': header?.position ? header?.position : 'left'}"
