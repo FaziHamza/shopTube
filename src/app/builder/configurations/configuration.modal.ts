@@ -11133,9 +11133,9 @@ export class formFeildData {
           props: {
             label: 'Buttons Positions',
             options: [
-              { value: ' justify-start', label: 'Left' },
-              { value: ' justify-between', label: 'Center' },
-              { value: ' justify-end', label: 'right' }
+              { value: ' justify-start', label: 'Start' },
+              { value: ' justify-between', label: 'Space-Between' },
+              { value: ' justify-end', label: 'End' }
             ],
             additionalProperties: {
               allowClear: true,
@@ -11153,9 +11153,9 @@ export class formFeildData {
           props: {
             label: 'Buttons Alignments',
             options: [
-              { value: '1,2', label: 'Start Button' },
+              { value: '1,2', label: 'Before' },
               // { value: '2,1,3', label: 'Center Button' },
-              { value: '2,1', label: 'End Button' },
+              { value: '2,1', label: 'After' },
               // { value: '2,3,1', label: 'Start Search' },
               // // { value: '1,2,3', label: 'Center Search' },
               // // { value: '2,1,3', label: 'End Search' },

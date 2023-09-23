@@ -173,10 +173,14 @@ object {
   margin-left: 0px !important;
 }
 
+textarea{
+  padding: 7px 7px 0px 7px !important;
+}
+
 .theme-body {
   padding-top: 0px !important;
   // box-shadow: rgba(0, 0, 0, 0.15) 2.4px 2.4px 3.2px;
-
+  
   .ant-select-selection-search {
     display: flex !important;
     align-items: center !important;
@@ -363,7 +367,6 @@ object {
   }
 
   .ant-select-selection-item .align-items-center {
-    margin-top: 5px !important;
     font-size: 12px !important;
     font-weight: 500 !important;
   }
@@ -6286,6 +6289,8 @@ tr:hover {
   justify-content: space-between;
   width: 100%;
   // padding: 1px 0px;
+  position: relative;
+  top: -33px;
 
   .showing {
     font-size: 14px;
@@ -6311,6 +6316,8 @@ tr:hover {
     text-overflow: ellipsis !important;
     font-size: 13px !important;
     padding: 12px;
+    // min-height: 43px !important;
+    // height: auto;
     // background: #f7fafc !important;
     // text-align: center !important;
     color: #515568 !important;
@@ -7148,7 +7155,7 @@ tr:hover {
   }
 
   .ant-tabs-nav {
-    margin-bottom: 12px !important;
+    margin-bottom: 5px !important;
   }
 
   .dynamic-table-form br {
@@ -7163,7 +7170,7 @@ tr:hover {
 }
 
 .ant-collapse>.ant-collapse-item>.ant-collapse-header {
-  padding: 6px !important;
+  padding: 11px 8px !important;
   font-size: 12px !important;
   ;
   font-weight: 500 !important;
