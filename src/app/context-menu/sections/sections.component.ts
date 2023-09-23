@@ -290,11 +290,16 @@ export class SectionsComponent implements OnInit {
                 this.toastr.error(res[0]?.error, { nzDuration: 3000 });
               else {
                 this.toastr.success("Save Successfully", { nzDuration: 3000 });
-                const tableName = res[0].tableName.split('.')[1].split('_')[0];
+                let tableName : any = '';
+                if (res[0]) {
+                  tableName = res[0].tableName ? res[0].tableName.split('.')[1].split('_')[0] : '';
+                }
                 this.setInternalValuesEmpty(this.dataModel);
                 this.setInternalValuesEmpty(this.formlyModel);
                 this.form.patchValue(this.formlyModel);
-                this.recursiveUpdate(this.formlyModel, tableName, res)
+                if (tableName) {
+                  this.recursiveUpdate(this.formlyModel, tableName, res)
+                }
                 this.getFromQuery(data);
                 if (window.location.href.includes('taskmanager.com')) {
                   this.dataSharedService.taskmanagerDrawer.next(true);
@@ -399,7 +404,7 @@ export class SectionsComponent implements OnInit {
             url = `knex-query/getAction/${findClickApi[index]._id}`;
           }
         }
-        let tableData = this.findObjectByKey(this.sections, findClickApi?.[0].elementName);
+        let tableData = this.findObjectByKey(this.sections, findClickApi?.[0].elementNameTo);
         if (tableData) {
           let pagination = '';
           if (tableData.serverSidePagination) {
@@ -413,7 +418,7 @@ export class SectionsComponent implements OnInit {
               this.saveLoader = false;
               if (tableData && res?.isSuccess) {
                 if (res.data.length > 0) {
-            
+
                   const parts = url.split('/'); // Split the URL by '/'
                   const searchId = parts[parts.length - 1]; // Get the last part of the URL
 
@@ -453,7 +458,7 @@ export class SectionsComponent implements OnInit {
                   tableData.targetId = '';
                   tableData.displayData = tableData.tableData.length > tableData.end ? tableData.tableData.slice(0, tableData.end) : tableData.tableData;
                   // pagniation work end
-                  if (tableData?.tableHeaders) {
+                  if (!tableData?.tableHeaders) {
                     tableData.tableHeaders = obj;
                     tableData['tableKey'] = tableKey
                   }

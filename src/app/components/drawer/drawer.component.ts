@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { Subscription } from 'rxjs';
 import { TreeNode } from 'src/app/models/treeNode';
@@ -26,7 +27,8 @@ export class DrawerComponent implements OnInit {
   requestSubscription: Subscription;
   res: any = {};
   showChild: boolean = true;
-  constructor(private applicationService: ApplicationService, public dataSharedService: DataSharedService, private toastr: NzMessageService,) {
+  constructor(private applicationService: ApplicationService, public dataSharedService: DataSharedService, private toastr: NzMessageService,
+    private router: Router) {
     this.processData = this.processData.bind(this);
   }
 
@@ -141,14 +143,22 @@ export class DrawerComponent implements OnInit {
   }
   processData(data: any[]) {
     debugger
-    if (data) {
-      if (data.length > 0) {
-        this.showChild = true;
-        this.res = {};
-        this.res['data'] = [];
-        this.res.data = data;
-        this.drawerData.children[0].hideExpression = false;
-        this.checkDynamicSection();
+    if (this.router.url.includes('/pages')) {
+      if (data) {
+        if (data.length > 0) {
+          this.showChild = true;
+          this.res = {};
+          this.res['data'] = [];
+          this.res.data = data;
+          this.drawerData.children[0].hideExpression = false;
+          this.checkDynamicSection();
+        }
+        else {
+          this.drawerData.children[0].hideExpression = true;
+          this.showChild = true;
+          this.res = {};
+          this.res['data'] = [];
+        }
       }
       else {
         this.drawerData.children[0].hideExpression = true;
@@ -157,12 +167,7 @@ export class DrawerComponent implements OnInit {
         this.res['data'] = [];
       }
     }
-    else {
-      this.drawerData.children[0].hideExpression = true;
-      this.showChild = true;
-      this.res = {};
-      this.res['data'] = [];
-    }
+    this.showChild = true;
     this.loader = false
     return data
   }

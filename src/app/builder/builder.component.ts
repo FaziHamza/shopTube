@@ -336,7 +336,7 @@ export class BuilderComponent implements OnInit {
   saveJson() {
     debugger
     if (this.screenPage) {
-      this.saveLoader = true;
+      // this.saveLoader = true;
       if (this.selectedNode) {
         this.highlightSelect(this.selectedNode.id, false);
       }
@@ -360,6 +360,7 @@ export class BuilderComponent implements OnInit {
       const builderModel = {
         "Builder": data
       }
+      // this.saveLoader =  false;
       const checkBuilderAndProcess = this.builderScreenData.length > 0
         ? this.applicationService.updateNestCommonAPI('cp/Builder', this.builderScreenData[0]._id, builderModel)
         : this.applicationService.addNestCommonAPI('cp', builderModel);
@@ -370,12 +371,16 @@ export class BuilderComponent implements OnInit {
             this.toastr.success(res.message, { nzDuration: 3000 });
             this.showActionRule = true;
             // this.getBuilderScreen();
-            this.getFromQuery(this.navigation, 'load');
+            if(gridData){
+              this.getFromQuery(this.navigation, 'load');
+            }else{
+              this.saveLoader = false;
+            }
           }
-          else
+          else{
             this.toastr.error(res.message, { nzDuration: 3000 });
-
-          this.saveLoader = false;
+            this.saveLoader = false;
+          }
         },
         error: (err) => {
           this.saveLoader = false;
@@ -4273,6 +4278,7 @@ export class BuilderComponent implements OnInit {
           this.selectedNode['buttonAlignments'] = event.form?.buttonAlignments;
           this.selectedNode['formType'] = event.form?.formType;
           this.selectedNode['routeUrl'] = event.form?.routeUrl;
+          this.selectedNode['searchType'] = event.form?.searchType;
           let tableData: any = '';
           if (event.tableDta) {
             tableData = event.tableDta;
@@ -5431,23 +5437,31 @@ export class BuilderComponent implements OnInit {
       ) {
         const reader = new FileReader();
         reader.onloadend = () => {
-          contents = reader.result as string;
-          var makeData = JSON.parse(contents);
-          var currentData = JSON.parse(
-            JSON.stringify(makeData.screenData, function (key, value) {
-              if (typeof value == 'function') {
-                return value.toString();
-              } else {
-                return value;
-              }
-            }) || '{}'
-          );
-          event.target.value = '';
-          this.nodes = currentData;
-          this.toastr.success('File uploaded successfully!', {
-            nzDuration: 3000,
-          });
-          this.updateNodes();
+          try {
+            contents = reader.result as string;
+            var makeData = JSON.parse(contents);
+            var currentData = JSON.parse(
+              JSON.stringify(makeData.screenData, function (key, value) {
+                if (typeof value == 'function') {
+                  return value.toString();
+                } else {
+                  return value;
+                }
+              }) || '{}'
+            );
+            event.target.value = '';
+            this.nodes = currentData;
+            this.toastr.success('File uploaded successfully!', {
+              nzDuration: 3000,
+            });
+            this.updateNodes();
+          } catch (error) {
+            console.error('Error parsing JSON:', error);
+            // Handle the error or show an error message to the user
+            this.toastr.error('Error parsing JSON. Please check the file format.', {
+              nzDuration: 3000,
+            });
+          }
         };
         reader.readAsText(event.target.files[0]);
       }
@@ -5455,6 +5469,7 @@ export class BuilderComponent implements OnInit {
       alert('Please Select Screen');
     }
   }
+
 
   ngOnDestroy() {
     this.requestSubscription.unsubscribe();
@@ -5506,30 +5521,39 @@ export class BuilderComponent implements OnInit {
     ) {
       const reader = new FileReader();
       reader.onloadend = () => {
-        contents = reader.result as string;
-        var makeData = JSON.parse(contents);
-        var currentData = JSON.parse(
-          JSON.stringify(makeData, function (key, value) {
-            if (typeof value == 'function') {
-              return value.toString();
-            } else {
-              return value;
-            }
-          }) || '{}'
-        );
-        if (this.selectedNode.children) {
-          this.selectedNode.children.push(currentData);
-          this.updateNodes();
+        try {
+          contents = reader.result as string;
+          var makeData = JSON.parse(contents);
+          var currentData = JSON.parse(
+            JSON.stringify(makeData, function (key, value) {
+              if (typeof value == 'function') {
+                return value.toString();
+              } else {
+                return value;
+              }
+            }) || '{}'
+          );
+          if (this.selectedNode.children) {
+            this.selectedNode.children.push(currentData);
+            this.updateNodes();
+          }
+          this.toastr.success('File uploaded successfully!', {
+            nzDuration: 3000,
+          });
+          // Reset the file input value to allow uploading the same file again
+          event.target.value = '';
+        } catch (error) {
+          console.error('Error parsing JSON:', error);
+          // Handle the error or show an error message to the user
+          this.toastr.error('Error parsing JSON. Please check the file format.', {
+            nzDuration: 3000,
+          });
         }
-        this.toastr.success('File uploaded successfully!', {
-          nzDuration: 3000,
-        });
-        // Reset the file input value to allow uploading the same file again
-        event.target.value = '';
       };
       reader.readAsText(event.target.files[0]);
     }
   }
+
 
   handleCancel(): void {
     this.showModal = false;
@@ -5758,7 +5782,8 @@ export class BuilderComponent implements OnInit {
 
     if (this.modalType === 'webCode') {
       this.dashonicTemplates(this.htmlBlockimagePreview.parameter);
-    } else if (this.modalType === 'saveAsTemplate') {
+    }
+    else if (this.modalType === 'saveAsTemplate') {
       try {
         this.saveLoader = true;
         if (
@@ -5830,10 +5855,11 @@ export class BuilderComponent implements OnInit {
           }
           setTimeout(() => {
             this.saveJson();
-            this.saveLoader = false;
+            // this.saveLoader = false;
             this.showModal = false;
           }, 500);
-        } else {
+        }
+        else {
           if (!this.saveAsTemplate && this.templateName) {
             alert("Please check the checkbox for 'Save as Template'.");
           } else if (this.saveAsTemplate && !this.templateName) {
@@ -5865,7 +5891,7 @@ export class BuilderComponent implements OnInit {
 
         if (isTemplateNameValid && isWebsiteBlockValid) {
           this.saveJson();
-          this.saveLoader = false;
+          // this.saveLoader = false;
           this.showModal = false;
         }
       } catch (error) {
@@ -6281,149 +6307,165 @@ export class BuilderComponent implements OnInit {
     }
   }
   async getFromQuery(name: string, type?: any) {
-    let tableData = this.findObjectByTypeBase(this.nodes[0], "gridList");
-    if (tableData) {
-      let findClickApi = tableData?.appConfigurableEvent?.filter((item: any) =>
-        (item.actionLink === 'get' && (item.actionType === 'api' || item.actionType === 'query'))
-      );
-      if (type == 'load' && Object.keys(tableData.eventActionconfig).length > 0) {
-        findClickApi = [tableData.eventActionconfig]
-      }
-      if (findClickApi) {
-        if (findClickApi.length > 0) {
-          let pagination = '';
-          let url = '';
-          for (let index = 0; index < findClickApi.length; index++) {
-            let element = findClickApi[index].actionType;
-            if (element == 'query') {
-              url = `knex-query/getAction/${findClickApi[index]._id}`;
-              break;
-            } else {
-              url = `knex-query/getAction/${findClickApi[index]._id}`;
+    try {
+      let tableData = this.findObjectByTypeBase(this.nodes[0], "gridList");
+      if (tableData) {
+        // this.saveLoader = true;
+        tableData['searchValue'] = '';
+        let findClickApi = tableData?.appConfigurableEvent?.filter((item: any) =>
+          (item.actionLink === 'get' && (item.actionType === 'api' || item.actionType === 'query'))
+        );
+        if (type == 'load' && Object.keys(tableData.eventActionconfig).length > 0) {
+          findClickApi = [tableData.eventActionconfig];
+        }
+        if (findClickApi) {
+          if (findClickApi.length > 0) {
+            let pagination = '';
+            let url = '';
+            for (let index = 0; index < findClickApi.length; index++) {
+              let element = findClickApi[index].actionType;
+              if (element == 'query') {
+                url = `knex-query/getAction/${findClickApi[index]._id}`;
+                break;
+              } else {
+                url = `knex-query/getAction/${findClickApi[index]._id}`;
+              }
             }
-          }
-          if (tableData.serverSidePagination) {
-            pagination = '?page=' + 1 + '&pageSize=' + tableData?.end;
-          }
-          if (url) {
-            this.saveLoader = true;
-            const applicationId = localStorage.getItem('applicationId') || '';
-            let savedGroupData: any = [];
-            if (applicationId) {
-              savedGroupData = await this.dataService.getNodes(JSON.parse(applicationId), this.screenName, "Table");
+            if (tableData.serverSidePagination) {
+              pagination = '?page=' + 1 + '&pageSize=' + tableData?.end;
             }
-            this.employeeService.getSQLDatabaseTable(url + pagination).subscribe({
-              next: (res) => {
-                this.saveLoader = false;
-                if (tableData && res?.isSuccess) {
-                  this.saveLoader = false;
-                  if (res.data.length > 0) {
-                    this.saveLoader = false;
-                    let saveForm = JSON.parse(JSON.stringify(res.data[0]));
-                    const firstObjectKeys = Object.keys(saveForm);
-                    let tableKey = firstObjectKeys.map(key => ({ name: key }));
-                    let obj = firstObjectKeys.map(key => ({ name: key, key: key }));
-                    tableData.tableData = [];
-                    saveForm.id = tableData.tableData.length + 1;
-                    res.data.forEach((element: any) => {
-                      element.id = (element?.id)?.toString();
-                      tableData.tableData?.push(element);
-                    });
-                    // pagniation work start
-                    if (!tableData.end) {
-                      tableData.end = 10;
-                    }
-                    tableData.pageIndex = 1;
-                    tableData.totalCount = res.count;
-                    tableData.serverApi = url;
-                    tableData.targetId = '';
-                    tableData.displayData = tableData.tableData.length > tableData.end ? tableData.tableData.slice(0, tableData.end) : tableData.tableData;
-                    // pagniation work end
-                    if (tableData.tableHeaders.length == 0) {
-                      tableData.tableHeaders = obj;
-                      tableData['tableKey'] = tableKey
-                    }
-                    else {
-                      if (JSON.stringify(tableData['tableKey']) !== JSON.stringify(tableKey)) {
-                        const updatedData = tableKey.filter(updatedItem =>
-                          !tableData.tableHeaders.some((headerItem: any) => headerItem.key === updatedItem.name)
-                        );
-                        if (updatedData.length > 0) {
-                          updatedData.forEach(updatedItem => {
-                            tableData.tableHeaders.push({ id: tableData.tableHeaders.length + 1, key: updatedItem.name, name: updatedItem.name, });
-                          });
-                          tableData['tableKey'] = tableData.tableHeaders;
+            if (url) {
+              const applicationId = localStorage.getItem('applicationId') || '';
+              let savedGroupData: any = [];
+              if (applicationId) {
+                savedGroupData = await this.dataService.getNodes(JSON.parse(applicationId), this.screenName, "Table");
+              }
+              // this.saveLoader = true;
+              this.employeeService.getSQLDatabaseTable(url + pagination).subscribe({
+                next: (res) => {
+                  try {
+                    if (tableData && res?.isSuccess) {
+                      if (res.data.length > 0) {
+                        // this.saveLoader = false;
+                        let saveForm = JSON.parse(JSON.stringify(res.data[0]));
+                        const firstObjectKeys = Object.keys(saveForm);
+                        let tableKey = firstObjectKeys.map(key => ({ name: key }));
+                        let obj = firstObjectKeys.map(key => ({ name: key, key: key }));
+                        tableData.tableData = [];
+                        saveForm.id = tableData.tableData.length + 1;
+                        res.data.forEach((element: any) => {
+                          element.id = (element?.id)?.toString();
+                          tableData.tableData?.push(element);
+                        });
+                        // pagniation work start
+                        if (!tableData.end) {
+                          tableData.end = 10;
                         }
-                      }
-                    }
-
-                    // Make DataType
-                    let propertiesWithoutDataType = tableData.tableHeaders.filter((check: any) => !check.hasOwnProperty('dataType'));
-                    if (propertiesWithoutDataType.length > 0) {
-                      let formlyInputs = this.filterInputElements(this.nodes[0].children[1].children);
-
-                      if (formlyInputs && formlyInputs.length > 0) {
-                        propertiesWithoutDataType.forEach((head: any) => {
-                          let input = formlyInputs.find(a => a.formly[0].fieldGroup[0].key.includes('.') ? a.formly[0].fieldGroup[0].key.split('.')[1] == head.key : a.formly[0].fieldGroup[0].key == head.key);
-
-                          if (input) {
-                            head['dataType'] = input.formly[0].fieldGroup[0].type;
-                            head['subDataType'] = input.formly[0].fieldGroup[0].props.type;
-                            head['title'] = input.title;
-                          }
-                        });
-
-                        tableData.tableHeaders = tableData.tableHeaders.concat(propertiesWithoutDataType.filter((item: any) => !tableData.tableHeaders.some((objItem: any) => objItem.key === item.key)));
-                        // tableData.tableHeaders = obj;
-                      }
-                    }
-                    tableData['tableKey'] = tableData.tableHeaders;
-                    let getData = savedGroupData[savedGroupData.length - 1];
-                    if (getData?.data) {
-                      if (getData.data.length > 0) {
-                        let groupingArray: any = [];
-                        let updateTableData: any = [];
-                        getData.data.forEach((elem: any) => {
-                          let findData = tableData.tableHeaders.find((item: any) => item.key == elem);
-                          if (findData) {
-                            updateTableData = this.groupedFunc(elem, 'add', findData, groupingArray, tableData.displayData, tableData.tableData, tableData.tableHeaders);
-                          }
-                        })
-                        tableData.tableData = updateTableData;
+                        tableData.pageIndex = 1;
+                        tableData.totalCount = res.count;
+                        tableData.serverApi = url;
+                        tableData.targetId = '';
                         tableData.displayData = tableData.tableData.length > tableData.end ? tableData.tableData.slice(0, tableData.end) : tableData.tableData;
-                        tableData.tableHeaders.unshift({
-                          name: 'expand',
-                          key: 'expand',
-                          title: 'Expand',
-                        });
-                        tableData.totalCount = tableData.tableData
+                        // pagniation work end
+                        if (tableData.tableHeaders.length == 0) {
+                          tableData.tableHeaders = obj;
+                          tableData['tableKey'] = tableKey;
+                        }
+                        else {
+                          if (JSON.stringify(tableData['tableKey']) !== JSON.stringify(tableKey)) {
+                            const updatedData = tableKey.filter(updatedItem =>
+                              !tableData.tableHeaders.some((headerItem: any) => headerItem.key === updatedItem.name)
+                            );
+                            if (updatedData.length > 0) {
+                              updatedData.forEach(updatedItem => {
+                                tableData.tableHeaders.push({ id: tableData.tableHeaders.length + 1, key: updatedItem.name, name: updatedItem.name });
+                              });
+                              tableData['tableKey'] = tableData.tableHeaders;
+                            }
+                          }
+                        }
+
+                        // Make DataType
+                        let propertiesWithoutDataType = tableData.tableHeaders.filter((check: any) => !check.hasOwnProperty('dataType'));
+                        if (propertiesWithoutDataType.length > 0) {
+                          let formlyInputs = this.filterInputElements(this.nodes[0].children[1].children);
+
+                          if (formlyInputs && formlyInputs.length > 0) {
+                            propertiesWithoutDataType.forEach((head: any) => {
+                              let input = formlyInputs.find(a => a.formly[0].fieldGroup[0].key.includes('.') ? a.formly[0].fieldGroup[0].key.split('.')[1] == head.key : a.formly[0].fieldGroup[0].key == head.key);
+
+                              if (input) {
+                                head['dataType'] = input.formly[0].fieldGroup[0].type;
+                                head['subDataType'] = input.formly[0].fieldGroup[0].props.type;
+                                head['title'] = input.title;
+                              }
+                            });
+
+                            tableData.tableHeaders = tableData.tableHeaders.concat(propertiesWithoutDataType.filter((item: any) => !tableData.tableHeaders.some((objItem: any) => objItem.key === item.key)));
+                          }
+                        }
+                        tableData['tableKey'] = tableData.tableHeaders;
+                        let getData = savedGroupData[savedGroupData.length - 1];
+                        if (getData?.data) {
+                          if (getData.data.length > 0) {
+                            let groupingArray: any = [];
+                            let updateTableData: any = [];
+                            getData.data.forEach((elem: any) => {
+                              let findData = tableData.tableHeaders.find((item: any) => item.key == elem);
+                              if (findData) {
+                                updateTableData = this.groupedFunc(elem, 'add', findData, groupingArray, tableData.displayData, tableData.tableData, tableData.tableHeaders);
+                              }
+                            });
+                            tableData.tableData = updateTableData;
+                            tableData.displayData = tableData.tableData.length > tableData.end ? tableData.tableData.slice(0, tableData.end) : tableData.tableData;
+                            tableData.tableHeaders.unshift({
+                              name: 'expand',
+                              key: 'expand',
+                              title: 'Expand',
+                            });
+                            tableData.totalCount = tableData.tableData;
+                          } else {
+                            tableData.tableHeaders = tableData.tableHeaders.filter((head: any) => head.key != 'expand');
+                          }
+
+                        } else {
+                          tableData.tableHeaders = tableData.tableHeaders.filter((head: any) => head.key != 'expand');
+                        }
+                        this.saveLoader = false;
                       } else {
-                        tableData.tableHeaders = tableData.tableHeaders.filter((head: any) => head.key != 'expand')
+                        this.saveLoader = false;
                       }
-
+                      // this.assignGridRules(tableData);
+                      this.updateNodes();
+                      this.cdr.detectChanges();
                     } else {
-                      tableData.tableHeaders = tableData.tableHeaders.filter((head: any) => head.key != 'expand')
-
+                      this.saveLoader = false;
                     }
+                  } catch (error) {
+                    console.error(error);
+                    this.toastr.error("An error occurred", { nzDuration: 3000 });
                     this.saveLoader = false;
                   }
-                  // this.assignGridRules(tableData);
-                  this.updateNodes();
-                  this.cdr.detectChanges();
+                },
+                error: (error: any) => {
+                  console.error(error);
+                  this.toastr.error("An error occurred", { nzDuration: 3000 });
+                  this.saveLoader = false;
                 }
-              },
-              error: (error: any) => {
-                console.error(error);
-                this.toastr.error("An error occurred", { nzDuration: 3000 });
-                this.saveLoader = false;
-              }
-            });
+              });
+            }
           }
+        }else{
+          this.saveLoader = false;
         }
       }
+    } catch (error) {
+      console.error(error);
+      this.toastr.error("An error occurred", { nzDuration: 3000 });
+      this.saveLoader = false;
     }
-
   }
+
 
   //Fazi code
   nzEvent(event: NzFormatEmitEvent): void {
