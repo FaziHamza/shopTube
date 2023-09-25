@@ -1,8 +1,8 @@
-<nz-spin [nzSpinning]="saveLoader" [nzSize]="'large'" class="builder-design" >
+<nz-spin [nzSpinning]="saveLoader" [nzSize]="'large'" class="builder-design">
   <div class="b-card top-action-bar p-3">
     <div class="page-selector">
       <nz-form-control nzErrorTip="Please Select Page">
-        <nz-cascader nzChangeOnSelect [nzAllowClear]="true" class="home-cascader"  style="padding-left: 4px; width: 100%"
+        <nz-cascader nzChangeOnSelect [nzAllowClear]="true" class="home-cascader" style="padding-left: 4px; width: 100%"
           [(ngModel)]="selectDepartmentName" [nzOptions]="departmentData" (ngModelChange)="onDepartmentChange($event)"
           [nzLoadData]="loadData.bind(this)" placeholder="Select Screen" [nzShowSearch]="true">
         </nz-cascader>
@@ -109,12 +109,12 @@
     </div>
   </div>
   <as-split class="builder-body-layout" [gutterSize]="3">
-    <as-split-area [size]="sizes[0]"  >
+    <as-split-area [size]="sizes[0]">
       <div class="builder-main-body ">
         <div class="builder-tree b-card" *ngIf="IslayerVisible">
           <nz-input-group class="input-group-icon">
-            <input type="text" nz-input id="mySearch" (keyup)="applyHighlightSearch(nodes[0], true)" [(ngModel)]="searchValue"
-              placeholder="Search..">
+            <input type="text" nz-input id="mySearch" (keyup)="applyHighlightSearch(nodes[0], true)"
+              [(ngModel)]="searchValue" placeholder="Search..">
             <i class="fa-regular fa-magnifying-glass"></i>
           </nz-input-group>
           <ul id="search-menu" *ngIf="filterMenuData.length > 0  ">
@@ -192,8 +192,7 @@
           </div>
         </div>
         <div class="builder-tree b-card" *ngIf="IsjsonEditorVisible">
-          <json-editor id="inputJsonDataa085f" [(ngModel)]="this.nodes"
-            [options]="editorOptions"></json-editor>
+          <json-editor id="inputJsonDataa085f" [(ngModel)]="this.nodes" [options]="editorOptions"></json-editor>
         </div>
 
       </div>
@@ -246,18 +245,18 @@
                   [screens]="screens" [nodes]="nodes" [formlyModel]="this.formlyModel"></st-business-rule>
               </nz-tab>
               <nz-tab nzTitle="Actions" (nzClick)="showRulesFunc('actionRule')">
-                <st-action-rule [selectedNode]="selectedNode"
-                   [screenName]="screenName"
-                  [formlyModel]="this.formlyModel" [applicationId]="selectApplicationName" [nodes]="nodes"
-                  [screens]="screens" [screeenBuilderId]="_id"></st-action-rule>
-                <nz-alert *ngIf="!showActionRule" nzType="warning" nzMessage="Please save screen and contact your DBA to approve fields"
-                  nzShowIcon></nz-alert>
+                <st-action-rule *ngIf="selectedNode && showActionRule && showRules == 'actionRule'"
+                  [selectedNode]="selectedNode" [screenName]="screenName" [formlyModel]="this.formlyModel"
+                  [applicationId]="selectApplicationName" [nodes]="nodes" [screens]="screens"
+                  [screeenBuilderId]="_id"></st-action-rule>
+                <nz-alert *ngIf="!showActionRule" nzType="warning"
+                  nzMessage="Please save screen and contact your DBA to approve fields" nzShowIcon></nz-alert>
               </nz-tab>
               <nz-tab nzTitle="Action Rules" (nzClick)="showRulesFunc('testActionRule')">
-                <st-execute-action-rule  [selectedNode]="selectedNode"
-                *ngIf="selectedNode && showRules == 'testActionRule'" [screenName]="screenName"
-                [formlyModel]="this.formlyModel" [applicationId]="selectApplicationName" [nodes]="nodes"
-                [screens]="screens" [screeenBuilderId]="_id" ></st-execute-action-rule>
+                <st-execute-action-rule [selectedNode]="selectedNode"
+                  *ngIf="selectedNode && showRules == 'testActionRule'" [screenName]="screenName"
+                  [formlyModel]="this.formlyModel" [applicationId]="selectApplicationName" [nodes]="nodes"
+                  [screens]="screens" [screeenBuilderId]="_id"></st-execute-action-rule>
 
                 <!-- <nz-alert *ngIf="!showActionRule" nzType="warning" nzMessage="Please contact your DBA to approve fields"
                   nzShowIcon></nz-alert> -->
@@ -387,8 +386,8 @@
         [(ngModel)]="searchControlValue" (ngModelChange)="searchControll()" placeholder="Search..." />
     </nz-input-group>
     <ng-template #suffixIconButton>
-      <button nz-button nzType="primary" class="!rounded-tr-md !rounded-br-md " style="width: 40px !important;" nzSearch><span nz-icon nzType="search"
-          (click)="searchControll()"></span></button>
+      <button nz-button nzType="primary" class="!rounded-tr-md !rounded-br-md " style="width: 40px !important;"
+        nzSearch><span nz-icon nzType="search" (click)="searchControll()"></span></button>
     </ng-template>
   </ng-template>
 
@@ -403,7 +402,8 @@
             <button nz-button nzType="primary" (click)="selectedDownloadJson()" class="mx-1"
               nz-tooltip="download Json"><span nz-icon nzType="download"></span>Dwonload</button>
           </div>
-          <json-editor class="selectedJsonModal" id="jsonPreview121" [options]="editorOptions" [(ngModel)]="selectedNode"></json-editor>
+          <json-editor class="selectedJsonModal" id="jsonPreview121" [options]="editorOptions"
+            [(ngModel)]="selectedNode"></json-editor>
         </div>
         <div class="image-wrapper" *ngIf="modalType == 'webCode'">
           <img *ngIf="htmlBlockimagePreview.content" nz-image [nzSrc]="htmlBlockimagePreview.content" alt />
