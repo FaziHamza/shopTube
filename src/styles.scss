@@ -173,14 +173,14 @@ object {
   margin-left: 0px !important;
 }
 
-textarea{
+textarea {
   padding: 7px 7px 0px 7px !important;
 }
 
 .theme-body {
   padding-top: 0px !important;
   // box-shadow: rgba(0, 0, 0, 0.15) 2.4px 2.4px 3.2px;
-  
+
   .ant-select-selection-search {
     display: flex !important;
     align-items: center !important;
@@ -683,7 +683,7 @@ textarea{
 .fc .fc-toolbar .fc-button-group .fc-listMonth-button,
 .fc .fc-toolbar .fc-button-group .fc-timeGridDay-button,
 .fc .fc-toolbar .fc-button-group .fc-timeGridWeek-button {
-  padding: 0.55rem 1.5rem;
+  padding: 0 1.5rem;
 }
 
 .fc-h-event .fc-event-title {
@@ -7068,7 +7068,7 @@ tr:hover {
   .fc-listMonth-button,
   .fc-today-button {
     text-transform: capitalize !important;
-    height: 40px !important;
+    height: 35px !important;
     flex-shrink: 0 !important;
     border-radius: 6px !important;
     background: #2563EB !important;
@@ -7104,7 +7104,7 @@ tr:hover {
   .fc-toolbar-chunk .fc-button-group .fc-prev-button,
   .fc-next-button {
     background: #2563EB !important;
-    height: 40px !important;
+    height: 35px !important;
     border-radius: 6px !important;
     width: fit-content !important;
     border: none !important;
@@ -7230,16 +7230,16 @@ input[type=file]::file-selector-button:hover {
 
 
 
-  .ant-cascader-menu-item-content {
-    margin-top: 0px !important;
+.ant-cascader-menu-item-content {
+  margin-top: 0px !important;
 }
 
 .ant-empty-small {
-   margin: 0px 0 !important;  
+  margin: 0px 0 !important;
 }
 
 .ant-empty-image {
-  margin-bottom: 0px !important; 
+  margin-bottom: 0px !important;
 }
 
 .ant-empty-small .ant-empty-image {
@@ -7252,3 +7252,41 @@ input[type=file]::file-selector-button:hover {
 }
 
 
+.fc-daygrid-day-events {
+  width: 125px !important;
+  white-space: nowrap !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+  display: inline-block !important;
+}
+
+
+.fc-event-today {
+  line-height: 15px;
+
+  i {
+    width: 118px !important;
+    display: inline-block !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    white-space: nowrap !important;
+    padding-top: 5px;
+    padding-left: 5px;
+    padding-right: 5px;
+  }
+}
+
+.fc-scrollgrid-sync-table {
+  line-height: 15px;
+
+  i {
+    width: 118px !important;
+    display: inline-block !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    white-space: nowrap !important;
+    padding-top: 5px;
+    padding-left: 5px;
+    padding-right: 5px;
+  }
+}
