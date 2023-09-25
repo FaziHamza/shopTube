@@ -180,34 +180,36 @@ export class ActionRuleComponent implements OnInit {
       joinTables.push(element.name);
       let fields = [];
       let values: any[] = [];
-
-      for (let j = 0; j < Object.keys(this.formlyModel).length; j++) {
-        const key = Object.keys(this.formlyModel)[j];
-        const keys = key.split('.')
-        if (keys[0] == element.name) {
-          const item = this.formlyModel[key] ? this.formlyModel[key] : `value${j}`;
-          if (item) {
-            const keyvalue = key.replace(`${element.name}.`, '');
-            fields.push(keyvalue.toLocaleLowerCase());
-            if (keyvalue.includes('_id')) {
-              let s = (keyvalue).toLowerCase()
-              s = s.replace('_id', '');
-              s = (`${s}.${keyvalue}`);
-              values.push(`$${s.toLocaleLowerCase()}`);
-            } else {
+      let j = 0;
+      for (const key in this.formlyModel) {
+        j++;
+        if (typeof this.formlyModel[key] != 'object') {
+          const keys = key.split('.')
+          if (keys[0] == element.name) {
+            const item = this.formlyModel[key] ? this.formlyModel[key] : `value${j}`;
+            if (item) {
+              const keyvalue = key.replace(`${element.name}.`, '');
+              fields.push(keyvalue.toLocaleLowerCase());
+              if (keyvalue.includes('_id')) {
+                let s = (keyvalue).toLowerCase()
+                s = s.replace('_id', '');
+                s = (`${s}.${keyvalue}`);
+                values.push(`$${s.toLocaleLowerCase()}`);
+              } else {
+                if (this.actionForm.value.actionLink == 'put') {
+                  const valueMatched = key.split('.')[1];
+                  values.push(`$${valueMatched ? valueMatched.toLocaleLowerCase() : key.toLocaleLowerCase()}`);
+                }
+                else
+                  values.push(`$${key.toLocaleLowerCase()}`);
+              }
               if (this.actionForm.value.actionLink == 'put') {
                 const valueMatched = key.split('.')[1];
-                values.push(`$${valueMatched ? valueMatched.toLocaleLowerCase() : key.toLocaleLowerCase()}`);
-              }
-              else
-                values.push(`$${key.toLocaleLowerCase()}`);
-            }
-            if (this.actionForm.value.actionLink == 'put') {
-              const valueMatched = key.split('.')[1];
-              joinFields.push(`${valueMatched ? valueMatched.toLocaleLowerCase() : key.toLocaleLowerCase()}`);
+                joinFields.push(`${valueMatched ? valueMatched.toLocaleLowerCase() : key.toLocaleLowerCase()}`);
 
-            } else {
-              joinFields.push(`${key.toLocaleLowerCase()}`);
+              } else {
+                joinFields.push(`${key.toLocaleLowerCase()}`);
+              }
             }
           }
         }
@@ -527,7 +529,7 @@ export class ActionRuleComponent implements OnInit {
         this.ActionsForms.at(index).patchValue({ confirmEmail: value });
       }
   }
-  
+
   getFromQuery() {
     let tableData = this.findObjectByTypeBase(this.nodes[0], "gridList");
     if (tableData) {
@@ -604,7 +606,7 @@ export class ActionRuleComponent implements OnInit {
       }
     }
   }
-  
+
   getPendingTableFileds() {
     this.requestSubscription = this.builderService.getPendingTableFields('knex-crud/getPending/table_schema/' + this.screeenBuilderId).subscribe({
       next: (res: any) => {

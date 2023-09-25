@@ -134,9 +134,9 @@ export class BuilderComponent implements OnInit {
     this.editorOptions.modes = ['code', 'text', 'tree', 'view'];
     this.dataSharedService.change.subscribe(({ event, field }) => {
       if (event && field && this.router.url == '/builder') {
-        if (this.formModalData[field.key]) {
-          this.formModalData[field.key] = event;
-        }
+        // if (this.formModalData[field.key]) {
+        //   this.formModalData[field.key] = event;
+        // }
         this.checkConditionUIRule(field, event);
       }
     });
@@ -843,12 +843,17 @@ export class BuilderComponent implements OnInit {
     let dataModelFaker: any = [];
     if (this.nodes.length > 0) {
       const filteredNodes = this.filterInputElements(this.nodes);
+      // filteredNodes.forEach((node) => {
+      //   dataModelFaker[node.formly[0].fieldGroup[0].key] =
+      //     this.makeFakerData(node, true);
+      // });
       filteredNodes.forEach((node) => {
         dataModelFaker[node.formly[0].fieldGroup[0].key] =
-          this.makeFakerData(node, true);
+          '';
       });
     }
     this.formlyModel = dataModelFaker;
+    this.updateFormlyModel();
     this.checkConditionUIRule(
       { key: 'text_f53ed35b', id: 'formly_86_input_text_f53ed35b_0' },
       ''
@@ -1115,7 +1120,7 @@ export class BuilderComponent implements OnInit {
           }
         }
       } else {
-        this.updateFormlyModel();
+        // this.updateFormlyModel();
         // Object.assign([],this.formlyModel)
         // this.updateNodes();
         // this.nodes = this.jsonParseWithObject(this.jsonStringifyWithObject(this.nodes));
@@ -1132,7 +1137,7 @@ export class BuilderComponent implements OnInit {
     }
   }
   getSetVariableRule(model: any, value: any) {
-    //for grid amount assign to other input field
+    // for grid amount assign to other input field
     const filteredNodes = this.filterInputElements(this.nodes);
     filteredNodes.forEach((node) => {
       const formlyConfig =
