@@ -131,7 +131,7 @@ export class DynamicTableComponent implements OnInit {
         this.router.navigate(['/pages/' + this.data?.routeUrl + '/' + data.id]);
       }
     }
-    if (this.data.doubleClick != false) {
+    else if (this.data.doubleClick != false) {
       const dynamicPropertyName = Object.keys(this.form.value)[0]; // Assuming the dynamic property name is the first property in this.form.value
       if (this.form.get(dynamicPropertyName)) {
         let newData: any = JSON.parse(JSON.stringify(data));
@@ -148,8 +148,29 @@ export class DynamicTableComponent implements OnInit {
             newData[key] = newData[key] ? new Date(newData[key]) : ((newData[key] == undefined || newData[key] == '') ? [] : [newData[key]]);
           }
         }
+        let makeModel = JSON.parse(JSON.stringify(this.formlyModel));
 
-        this.form.get(dynamicPropertyName)?.patchValue(newData);
+        if (this.formlyModel) {
+          for (const key in this.formlyModel) {
+            if (this.formlyModel.hasOwnProperty(key)) {
+              if (typeof this.formlyModel[key] === 'object') {
+                for (const key1 in this.formlyModel[key]) {
+                  if (newData[key1])
+                    makeModel[key][key1] = newData[key1]
+                }
+              }
+              else {
+                if (newData[key.split('.')[1]])
+                  makeModel[key] = newData[key.split('.')[1]];
+              }
+            }
+          }
+        }
+        this.formlyModel = makeModel;
+        this.form.patchValue(this.formlyModel);
+        this.form.get(dynamicPropertyName)?.patchValue(this.formlyModel );
+        this.cdr.detach;
+        this.cdr.detectChanges;
       }
     }
   }

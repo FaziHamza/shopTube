@@ -371,13 +371,13 @@ export class BuilderComponent implements OnInit {
             this.toastr.success(res.message, { nzDuration: 3000 });
             this.showActionRule = true;
             // this.getBuilderScreen();
-            if(gridData){
+            if (gridData) {
               this.getFromQuery(this.navigation, 'load');
-            }else{
+            } else {
               this.saveLoader = false;
             }
           }
-          else{
+          else {
             this.toastr.error(res.message, { nzDuration: 3000 });
             this.saveLoader = false;
           }
@@ -6455,7 +6455,7 @@ export class BuilderComponent implements OnInit {
               });
             }
           }
-        }else{
+        } else {
           this.saveLoader = false;
         }
       }
@@ -6634,19 +6634,21 @@ export class BuilderComponent implements OnInit {
     }
   }
   getTaskManagementIssuesFunc(screenId: string, applicationId: string) {
-    this.requestSubscription = this.builderService.getUserAssignTask(screenId, applicationId).subscribe({
-      next: (res: any) => {
-        if (res.isSuccess) {
-          if (res.data.length > 0) {
-            this.getTaskManagementIssues = res.data;
+    if (applicationId) {
+      this.requestSubscription = this.builderService.getUserAssignTask(screenId, applicationId).subscribe({
+        next: (res: any) => {
+          if (res.isSuccess) {
+            if (res.data.length > 0) {
+              this.getTaskManagementIssues = res.data;
+            }
           }
+        },
+        error: (err) => {
+          console.error(err);
+          this.toastr.error("An error occurred", { nzDuration: 3000 });
         }
-      },
-      error: (err) => {
-        console.error(err);
-        this.toastr.error("An error occurred", { nzDuration: 3000 });
-      }
-    })
+      })
+    }
   }
   assignIssue(node: any, issue: any) {
     if (issue['componentId']) {
