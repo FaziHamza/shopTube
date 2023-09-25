@@ -1169,7 +1169,7 @@ export class DynamicTableComponent implements OnInit {
     // Perform any additional updates to 'listOfData' if needed
   }
   checkTypeData(item: any, header: any) {
-
+    debugger
     let checkAllowClick = this.tableHeaders.find((head: any) => head.key == header.key)
     if (checkAllowClick && (header?.dataType != 'repeatSection' || header?.dataType == '' || header?.dataType == undefined)) {
       if (checkAllowClick?.callApi != '' && checkAllowClick?.callApi != null) {
@@ -1177,10 +1177,9 @@ export class DynamicTableComponent implements OnInit {
         if (this.data?.openComponent == 'drawer') {
           const drawer = this.findObjectByTypeBase(this.data, "drawer");
           if (this.drawerChild.length == 0 && drawer.children.length > 0) {
-            this.drawerChild = drawer.children
+            this.drawerChild = JSON.parse(JSON.stringify(drawer.children)) 
           }
           drawer.children = this.drawerChild;
-          drawer['visible'] = true;
           if (drawer?.eventActionconfig) {
             let newData: any = JSON.parse(JSON.stringify(item));
             const dataTitle = this.data.title ? this.data.title + '.' : '';
@@ -1220,6 +1219,7 @@ export class DynamicTableComponent implements OnInit {
             this.data = JSON.parse(JSON.stringify(this.data));
           }
           this.showChild = true;
+          drawer['visible'] = true;
         }
       }
     }

@@ -290,7 +290,7 @@ export class SectionsComponent implements OnInit {
                 this.toastr.error(res[0]?.error, { nzDuration: 3000 });
               else {
                 this.toastr.success("Save Successfully", { nzDuration: 3000 });
-                let tableName : any = '';
+                let tableName: any = '';
                 if (res[0]) {
                   tableName = res[0].tableName ? res[0].tableName.split('.')[1].split('_')[0] : '';
                 }
@@ -1458,5 +1458,8 @@ export class SectionsComponent implements OnInit {
         }
       }
     }
+  }
+  ngOnDestroy(): void {
+    this.requestSubscription.unsubscribe();
   }
 }

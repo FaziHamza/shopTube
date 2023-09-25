@@ -397,7 +397,7 @@ export class PagesComponent implements OnInit {
     // }
     // let commentsData = this.transformComments(this.dataSharedService.screenCommentList);
     // console.log(commentsData);
-    this.applicationService.callApi('knex-query/getAction/65001460e9856e9578bcb63f', 'get', '', '', "'" + res.data[0].navigation + "'").subscribe({
+    this.applicationService.callApi('knex-query/getAction/65001460e9856e9578bcb63f', 'get', '', '', res.data[0].navigation).subscribe({
       next: (res) => {
         if (res.data > 0) {
           res.data.forEach((element: any) => {

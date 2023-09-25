@@ -27,20 +27,26 @@ export class DrawerComponent implements OnInit {
   requestSubscription: Subscription;
   res: any = {};
   showChild: boolean = true;
+  shouldExecuteSubscription = true;
   constructor(private applicationService: ApplicationService, public dataSharedService: DataSharedService, private toastr: NzMessageService,
     private router: Router) {
     this.processData = this.processData.bind(this);
+
+
   }
 
   ngOnInit(): void {
     debugger
     if (this.drawerData?.eventActionconfig) {
+      if (this.drawerData?.eventActionconfig['parentId']) {
+        this.drawerData['visible'] = true;
+      }
+      this.drawerData?.eventActionconfig
       this.showChild = false;
       this.loader = true
     } else {
       this.showChild = true;
     }
-
     this.requestSubscription = this.dataSharedService.taskmanagerDrawer.subscribe({
       next: (res) => {
         if (res) {
@@ -48,11 +54,65 @@ export class DrawerComponent implements OnInit {
             if (this.drawerData.eventActionconfig) {
               if (window.location.href.includes('taskmanager.com') && window.location.href.includes('/pages')) {
                 let url = 'knex-query/getAction/' + this.drawerData.eventActionconfig._id;
+                // if (url) {
+                //   this.drawerData['visible'] = false;
+                // }
                 this.loader = true;
+                debugger
                 this.applicationService.callApi(url, 'get', '', '', this.drawerData.eventActionconfig.parentId).subscribe({
                   next: (res) => {
                     this.res = res;
                     this.loader = false;
+                    let newModel = this.formlyModel;
+                    const userData = JSON.parse(localStorage.getItem('user')!);
+                    if (newModel) {
+                      for (const key in newModel) {
+                        if (newModel.hasOwnProperty(key)) {
+                          if (typeof newModel[key] === 'object') {
+                            for (const key1 in newModel[key]) {
+                              if (key1.includes('parentid')) {
+                                newModel[key][key1] = this.drawerData.eventActionconfig.parentId;
+                              }
+                              else if (key1.includes('applicationid')) {
+                                newModel[key][key1] = JSON.parse(localStorage.getItem('applicationId')!) || '';
+                              }
+                              else if (key1.includes('organizationid')) {
+                                newModel[key][key1] = JSON.parse(localStorage.getItem('organizationId')!) || '';
+                              }
+                              else if (key1.includes('createdby')) {
+                                newModel[key][key1] = userData.username;
+                              }
+                            }
+                          }
+                          else {
+                            if (key.includes('parentid')) {
+                              newModel[key] = this.drawerData.eventActionconfig.parentId;
+                            }
+                            else if (key.includes('applicationid')) {
+                              newModel[key] = JSON.parse(localStorage.getItem('applicationId')!) || '';
+                            }
+                            else if (key.includes('organizationid')) {
+                              newModel[key] = JSON.parse(localStorage.getItem('organizationId')!) || '';
+                            }
+                            else if (key.includes('createdby')) {
+                              newModel[key] = userData.username;
+                            }
+                          }
+                        }
+                      }
+                    }
+                    // this.assignValues(res.data[0]);
+                    this.formlyModel = newModel;
+                    this.form.patchValue(this.formlyModel);
+                    if (this.drawerData.children[0].type == 'div') {
+                      this.drawerData.children[0].hideExpression = false;
+                      const firstChild = this.drawerData.children[0].children[0];
+                      this.drawerData.children[0].children = [firstChild];
+                    }
+                    else {
+                      const firstChild = this.drawerData.children[0];
+                      this.drawerData.children[0] = [firstChild];
+                    }
                     this.checkDynamicSection();
                   },
                   error: (error: any) => {
@@ -71,9 +131,6 @@ export class DrawerComponent implements OnInit {
         console.error(err);
       }
     });
-
-
-
   }
 
 
@@ -165,6 +222,7 @@ export class DrawerComponent implements OnInit {
         this.res['data'] = [];
       }
     }
+    this.drawerData['visible'] = true;
     this.showChild = true;
     this.loader = false
     return data
@@ -272,7 +330,8 @@ export class DrawerComponent implements OnInit {
           }
         }
       }
-      selectedNode = JSON.parse(JSON.stringify(selectedNode))
+      selectedNode = JSON.parse(JSON.stringify(selectedNode));
+      this.dataSharedService.taskmanagerDrawer.next(false);
     }
   }
   pushObjectsById(targetObject: any, sourceArray: any[], idToMatch: string): void {
