@@ -58,9 +58,9 @@
 
     <div class="mb-3" formArrayName="Actions">
       <ng-container *ngFor="let ActionForm of ActionsForms.controls; let i = index">
-        <div class="flex flex-wrap mt-1" style="border: 1px solid rgb(197 187 187); border-radius: 5px;"
+        <div class="flex flex-wrap !items-center my-2.5" style="border: 1px solid rgb(197 187 187); border-radius: 5px;"
           [formGroupName]="i">
-          <div class="w-10/12 p-1">
+          <div class=" p-1" style="width: calc(100% - 80px);" >
             <div *ngIf="ActionsForms.value[i].type == 'email'">
               <nz-form-label [nzSm]="6" [nzXs]="24">Email</nz-form-label>
               <nz-radio-group class="ml-2" formControlName="sqlType" nzButtonStyle="solid"
@@ -89,7 +89,7 @@
                 formControlName="query" (init)="editorInit($event)"></ngx-monaco-editor> -->
             <!-- </div> -->
             <div>
-              <div class="w-full pl-2">
+              <div class="w-full">
                 <div class="flex flex-wrap">
                   <div class="w-1/2 theme-body">
                     <div class=" flex flex-wrap">
@@ -213,7 +213,7 @@
                 formControlName="confirmEmail" (init)="editorInit($event)"></ngx-monaco-editor> -->
             </div>
           </div>
-          <div class="w-2/12 business-rule-form" style="margin-top: 7%;">
+          <div class="w-[80px] py-1 px-1.5 business-rule-form">
             <button nz-button nzType="primary" nzDanger (click)="removeActionFormGroup(i,ActionsForms.value[i])">
               <i class="fa-regular fa-trash text-[10px] "></i>
             </button>

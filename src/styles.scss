@@ -322,9 +322,9 @@ textarea {
     font-size: 12px !important;
   }
 
-  .ant-select-single .ant-select-selector .ant-select-selection-placeholder {
-    padding-top: 10px !important;
-  }
+  // .ant-select-single .ant-select-selector .ant-select-selection-placeholder {
+  //   padding-top: 10px !important;
+  // }
 
   .ant-row {
     flex-flow: row wrap;
@@ -6860,8 +6860,8 @@ tr:hover {
   color: red;
   z-index: 1;
   border-radius: 12px;
-  top: -23px;
-  right: -5px;
+  top: -3px;
+  right: -2px;
   padding: 4px;
   font-size: 19px;
 }
