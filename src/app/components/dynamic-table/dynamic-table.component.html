@@ -49,16 +49,16 @@
       <input [(ngModel)]="fileUpload" type="file" class="form-control !mx-2" id="selectedDynamicTableFile"
         style="display:none" (change)="onFileSelected($event)" accept=".xlsx">
     </div>
-    <div [style.order]="split(1 , data?.buttonAlignments) || 2" class="!h-[35px] !mx-2" *ngIf="data?.isAllowSearch">
-      <nz-input-group  (input)="search(data?.searchType ? 'keyup' : 'keyup')" nzSearch
-        [nzAddOnAfter]="suffixIconButton">
+    <div [nzTooltipTitle]="
+    data?.searchType ? data?.searchType : 'keyup' " nz-tooltip [style.order]="split(1 , data?.buttonAlignments) || 2"
+      class="!h-[35px] !mx-2" *ngIf="data?.isAllowSearch">
+      <nz-input-group (input)="search(data?.searchType ? 'keyup' : 'keyup')" nzSearch [nzAddOnAfter]="suffixIconButton">
         <input type="text" class="!h-[35px] !rounded-tl-md !rounded-bl-md" nz-input id="searchControll"
           [(ngModel)]="data['searchValue']" placeholder="Search..." />
       </nz-input-group>
       <ng-template #suffixIconButton>
         <button (click)="search('onClick')" nz-button nzType="primary"
-          class="!rounded-tr-md !rounded-br-md !w-10 !h-[35px] !bg-blue-600 hover:!bg-blue-500" nzSearch nz-tooltip
-          nzTooltipTitle="Click Here To Filter">
+          class="!rounded-tr-md !rounded-br-md !w-10 !h-[35px] !bg-blue-600 hover:!bg-blue-500" nzSearch>
           <i class="fa-solid fa-magnifying-glass"></i>
         </button>
       </ng-template>
@@ -127,7 +127,8 @@
               <ng-container *ngFor="let header of data['tableKey']; let index = index">
                 <td (click)="checkTypeData(item , header)" (click)="startEdit(item.id)"
                   [ngClass]="{'disabled-link' : header.key  == 'key'}" [nzEllipsis]="true" class="5"
-                  [style.background]="item[header.key]== item?.colorDataType && editId !== item.id  ?  item?.columnColor : ''" *ngIf="(header?.show == true || header?.show === undefined || header?.show === '' || header?.show == 'Yes') && header?.dataType !='objectType' && header.key != 'headerButton' && header.key != 'footerButton' && header.key != 'expandable' && header.key != 'checked'
+                  [style.background]="item[header.key]== item?.colorDataType && editId !== item.id  ?  item?.columnColor : ''"
+                  *ngIf="(header?.show == true || header?.show === undefined || header?.show === '' || header?.show == 'Yes') && header?.dataType !='objectType' && header.key != 'headerButton' && header.key != 'footerButton' && header.key != 'expandable' && header.key != 'checked'
                   && header.key != 'expand'  && header.key !='children' && header.key != 'defaultValue' ">
                   <div [ngStyle]="{'text-align': header?.position ? header?.position : 'left'}"
                     *ngIf="(header?.dataType !='select' || !configurationTable) && header?.dataType !='audioVideoRecorder' && header?.dataType !='image-upload' && header?.dataType != 'repeatSection' && header?.dataType != 'dateTime' && !isMyDataArray(item[header.key]
@@ -164,8 +165,8 @@
                   </div>
                   <div [ngStyle]="{'text-align': header?.position ? header?.position : 'left'}"
                     *ngIf="header?.dataType =='image-upload'" class="4">
-                    <img nz-image class="table-image" *ngIf="item[header.key]"
-                      [nzSrc]="serverPath +item[header.key]" alt />
+                    <img nz-image class="table-image" *ngIf="item[header.key]" [nzSrc]="serverPath +item[header.key]"
+                      alt />
                   </div>
                   <ng-container [ngStyle]="{'text-align': header?.position ? header?.position : 'left'}"
                     *ngIf="header?.dataType =='input' && tableHeaders[index]?.subDataType == 'datetime-local'">

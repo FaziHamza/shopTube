@@ -168,7 +168,7 @@ export class DynamicTableComponent implements OnInit {
         }
         this.formlyModel = makeModel;
         this.form.patchValue(this.formlyModel);
-        this.form.get(dynamicPropertyName)?.patchValue(this.formlyModel );
+        this.form.get(dynamicPropertyName)?.patchValue(this.formlyModel);
         this.cdr.detach;
         this.cdr.detectChanges;
       }
@@ -824,8 +824,10 @@ export class DynamicTableComponent implements OnInit {
         else if (findClickApi[0]?.actionType == 'query') {
           url = 'knex-query/executeQuery/' + findClickApi[0]._id;
           if (url) {
+            this.saveLoader = true;
             this.requestSubscription = this.employeeService.saveSQLDatabaseTable(url, model).subscribe({
               next: (res) => {
+                this.saveLoader = false;
                 if (res) {
                   this.tableData = this.tableData.filter((d: any) => d.id !== data.id);
                   this.displayData = this.displayData.filter((d: any) => d.id !== data.id);
@@ -835,6 +837,7 @@ export class DynamicTableComponent implements OnInit {
                 }
               },
               error: (err) => {
+                this.saveLoader = false;
                 console.error(err);
               }
             })
@@ -843,14 +846,17 @@ export class DynamicTableComponent implements OnInit {
 
       }
       else {
+        this.saveLoader = true;
         this.requestSubscription = this.employeeService.saveSQLDatabaseTable('knex-query/executeQuery', model).subscribe({
           next: (res) => {
+            this.saveLoader = false;
             this.tableData = this.tableData.filter((d: any) => d.id !== data.id);
             this.displayData = this.displayData.filter((d: any) => d.id !== data.id);
             this.pageChange(1);
             this.toastr.success("Delete Successfully", { nzDuration: 3000 });
           },
           error: (err) => {
+            this.saveLoader = false;
             console.error(err);
             this.toastr.error("An error occurred", { nzDuration: 3000 });
           }
@@ -1171,7 +1177,7 @@ export class DynamicTableComponent implements OnInit {
         if (this.data?.openComponent == 'drawer') {
           const drawer = this.findObjectByTypeBase(this.data, "drawer");
           if (this.drawerChild.length == 0 && drawer.children.length > 0) {
-            this.drawerChild = JSON.parse(JSON.stringify(drawer.children))
+            this.drawerChild = drawer.children
           }
           drawer.children = this.drawerChild;
           drawer['visible'] = true;
@@ -1184,7 +1190,15 @@ export class DynamicTableComponent implements OnInit {
             newData['organizationid'] = JSON.parse(localStorage.getItem('organizationId')!) || '';
             newData['applicationid'] = JSON.parse(localStorage.getItem('applicationId')!) || '';
             newData['createdby'] = userData.username;
-            // newData.datetime = new Date();
+            // Get the current date and time
+            const currentDate = new Date();
+
+            // Format the date and time as "YYYY-MM-DD HH:mm:ss.sss"
+            const formattedDate = `${currentDate.getFullYear()}-${(currentDate.getMonth() + 1).toString().padStart(2, '0')}-${currentDate.getDate().toString().padStart(2, '0')} ${currentDate.getHours().toString().padStart(2, '0')}:${currentDate.getMinutes().toString().padStart(2, '0')}:${currentDate.getSeconds().toString().padStart(2, '0')}.${currentDate.getMilliseconds().toString().padStart(3, '0')}`;
+
+            // Now, you can save 'formattedDate' in your SQL database
+            newData.datetime = formattedDate;
+
 
             for (const key in newData) {
               if (Object.prototype.hasOwnProperty.call(newData, key)) {
