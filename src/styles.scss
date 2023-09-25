@@ -181,6 +181,10 @@ textarea {
   padding-top: 0px !important;
   // box-shadow: rgba(0, 0, 0, 0.15) 2.4px 2.4px 3.2px;
 
+  .errorClass .ant-input{
+    border: 1px solid red !important;
+  }
+
   .ant-select-selection-search {
     display: flex !important;
     align-items: center !important;
@@ -6788,6 +6792,12 @@ tr:hover {
 }
 
 .dynamic-table-form {
+
+  .ant-table-content > table:nth-child(1) {
+    table-layout: fixed !important;
+  }
+  
+
   dynamic-table.ng-star-inserted>div:nth-child(1) {
     margin: 5px 0 !important;
     background: #fff !important;
@@ -7290,3 +7300,4 @@ input[type=file]::file-selector-button:hover {
     padding-right: 5px;
   }
 }
+
