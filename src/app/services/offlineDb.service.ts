@@ -45,18 +45,15 @@ export class DataService {
   }
 }
 
+
+
 class MyDatabase extends Dexie {
   myTable: Dexie.Table<dbModel, number>;
 
   constructor() {
     super('MyDatabase');
-    this.version(2).stores({
-      myTable: '++id,screenName,applicationId,type,data', // Include applicationId as an indexed field
-    });
-
-    // Create a compound index for screenName and type (if needed)
-    this.version(2).stores({
-      myTable: '++id,screenName,applicationId,type,data,screenName,type', // Add compound index (if needed)
+    this.version(1).stores({
+      myTable: '++id,screenName,applicationId,type,data',
     });
 
     this.myTable = this.table('myTable');

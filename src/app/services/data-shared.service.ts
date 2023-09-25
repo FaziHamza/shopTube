@@ -47,6 +47,8 @@ export class DataSharedService {
   applicationDefaultScreen : any = '';
   usersData:any = [];
   rightClickMenuData : any = '';
+  public taskmanager = new BehaviorSubject<boolean>(false);
+  public taskmanagerDrawer = new BehaviorSubject<boolean>(false);
   constructor() { }
 
   setData(data: any) {

@@ -1,7 +1,10 @@
 import { DatePipe } from '@angular/common';
+import { HttpClient, HttpEvent, HttpEventType } from '@angular/common/http';
 import {
   ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output,
 } from '@angular/core';
+import { DomSanitizer } from '@angular/platform-browser';
+import { Router } from '@angular/router';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { Subscription } from 'rxjs';
 import { ApplicationService } from 'src/app/services/application.service';
@@ -10,7 +13,7 @@ import { DataSharedService } from 'src/app/services/data-shared.service';
 import { EmployeeService } from 'src/app/services/employee.service';
 import { DataService } from 'src/app/services/offlineDb.service';
 import { environment } from 'src/environments/environment';
-
+import * as XLSX from 'xlsx';
 @Component({
   selector: 'dynamic-table',
   templateUrl: './dynamic-table.component.html',
@@ -23,13 +26,16 @@ export class DynamicTableComponent implements OnInit {
   @Input() checkType: boolean;
   @Input() configurationTable: boolean = false;
   @Input() tableData: any[] = [];
+  @Input() excelReportData: any[] = [];
   @Input() displayData: any[] = [];
   @Input() tableHeaders: any = [];
   @Input() data: any;
   editId: string | null = null;
   @Input() screenName: any;
   @Input() showPagination: any = true;
+  @Input() childTable: any = false;
   GridType: string = '';
+  index: number;
   serverPath = environment.nestImageUrl
   screenNameaa: any;
   footerData: any[] = [];
@@ -45,6 +51,7 @@ export class DynamicTableComponent implements OnInit {
   storeColums: any = [];
   responsiveTable: boolean = false;
   requestSubscription: Subscription;
+  drawerChild: any[] = [];
   selectList = [
     { key: "Faizan", value: "Faizan" },
     { key: "Arfan", value: "Arfan" },
@@ -58,22 +65,52 @@ export class DynamicTableComponent implements OnInit {
   groupingArray: any = [];
   groupingData: any = [];
   showChild: boolean = false;
+  searchValue: any = '';
+  progress = 0;
+  showProgressBar = false;
+  fileUpload: any = '';
   constructor(public _dataSharedService: DataSharedService, private builderService: BuilderService,
     private applicationService: ApplicationService,
     private dataService: DataService,
     private employeeService: EmployeeService, private toastr: NzMessageService, private cdr: ChangeDetectorRef,
+    public dataSharedService: DataSharedService,
+    private applicationServices: ApplicationService,
+    private sanitizer: DomSanitizer, private router: Router, private http: HttpClient
   ) {
     this.processData = this.processData.bind(this);
   }
 
   ngOnInit(): void {
-    if (this.data?.eventActionconfig) {
-      // this.showChild = false;
-      // this.saveLoader = true
+    if (this.data?.eventActionconfig && !this.childTable && Object.keys(this.data.eventActionconfig).length > 0) {
+      // The object is not empty, do something here
+      this.saveLoader = true;
     }
     this.loadTableData();
-    this.gridInitilize();
+    // this.gridInitilize();
     this.getSaveGroupNodes();
+    this.requestSubscription = this.dataSharedService.taskmanager.subscribe({
+      next: (res) => {
+        if (this.data.appConfigurableEvent && res) {
+          let url = 'knex-query/getAction/' + this.data.eventActionconfig._id;
+          this.saveLoader = true;
+          this.applicationService.callApi(url, 'get', '', '', '').subscribe({
+            next: (res) => {
+              this.saveLoader = false;
+              this.getFromQueryOnlyTable(this.data, res);
+            },
+            error: (error: any) => {
+              console.error(error);
+              this.saveLoader = false;
+              this.toastr.error("An error occurred", { nzDuration: 3000 });
+            }
+          })
+        }
+      },
+      error: (err) => {
+        console.error(err);
+        this.saveLoader = false;
+      }
+    });
 
   }
   async getSaveGroupNodes() {
@@ -84,6 +121,13 @@ export class DynamicTableComponent implements OnInit {
     }
   }
   updateModel(data: any) {
+    if (this.data?.formType == 'newTab' && this.data?.routeUrl) {
+      if (this.data?.routeUrl.includes('pages')) {
+        this.router.navigate([this.data?.routeUrl + '/' + data.id]);
+      } else {
+        this.router.navigate(['/pages/' + this.data?.routeUrl + '/' + data.id]);
+      }
+    }
     if (this.data.doubleClick != false) {
       const dynamicPropertyName = Object.keys(this.form.value)[0]; // Assuming the dynamic property name is the first property in this.form.value
       if (this.form.get(dynamicPropertyName)) {
@@ -166,40 +210,37 @@ export class DynamicTableComponent implements OnInit {
         }
       ]
     };
-    this.applyBusinessRule(getRes, this.data);
-    this.loadTableData();
-    if (this.screenId == 'taskmanager') {
-
-    } else {
-      if (this.screenId)
-        this.applicationService.getNestCommonAPIById('cp/GridBusinessRule', this.screenId).subscribe(((getRes: any) => {
-          if (getRes.isSuccess) {
-            if (getRes.data.length > 0) {
-              // this.formlyModel['input34d5985f']='1313'
-              this.applyBusinessRule(getRes, this.data);
-            }
-            this.loadTableData();
-          } else
-            this.toastr.error(getRes.message, { nzDuration: 3000 });
-        }));
-    }
+    // this.applyBusinessRule(getRes, this.data);
+    // this.loadTableData();
+    if (this.screenId)
+      this.applicationService.getNestCommonAPIById('cp/GridBusinessRule', this.screenId).subscribe(((getRes: any) => {
+        if (getRes.isSuccess) {
+          if (getRes.data.length > 0) {
+            // this.formlyModel['input34d5985f']='1313'
+            this.applyBusinessRule(getRes, this.data);
+          }
+          this.pageChange(1);
+          // this.loadTableData();
+        } else
+          this.toastr.error(getRes.message, { nzDuration: 3000 });
+      }));
 
   }
   applyBusinessRule(getRes: any, data: any) {
     let gridFilter = getRes.data.filter((a: any) => a.gridType == 'Body');
     for (let m = 0; m < gridFilter.length; m++) {
-      if (gridFilter[m].gridKey == data.key && data.tableData) {
+      if (gridFilter[m].gridKey == data.key && this.tableData) {
         const objRuleData = JSON.parse(gridFilter[m].businessRuleData);
         for (let index = 0; index < objRuleData.length; index++) {
-          if (data.tableData.length > 0) {
+          if (this.tableData.length > 0) {
             // const elementv1 = objRuleData[index].ifRuleMain;
             const elementv1 = objRuleData[index];
-            let checkType = Object.keys(data.tableData[0]).filter(a => a == elementv1.target);
+            let checkType = Object.keys(this.tableData[0]).filter(a => a == elementv1.target);
             if (checkType.length == 0) {
               console.log("No obj Found!")
             }
             else {
-              for (let j = 0; j < data.tableData.length; j++) {
+              for (let j = 0; j < this.tableData.length; j++) {
                 //query
                 let query: any = '';
                 objRuleData[index].ifRuleMain.forEach((element: any, ruleIndex: number) => {
@@ -212,7 +253,7 @@ export class DynamicTableComponent implements OnInit {
                       }
                     }
                     else {
-                      let firstValue = data.tableData[j][element.ifCondition] ? data.tableData[j][element.ifCondition] : "0";
+                      let firstValue = this.tableData[j][element.ifCondition] ? this.tableData[j][element.ifCondition] : "0";
                       let appendString = element.conditional.length > 0 ? " ( " : ' ';
                       if (ruleIndex == 0) {
                         query = appendString + firstValue + element.oprator + element.getValue
@@ -222,7 +263,7 @@ export class DynamicTableComponent implements OnInit {
                     }
                     for (let k = 0; k < element.conditional.length; k++) {
                       const conditionElement = element.conditional[k];
-                      let check = data.tableData[j][conditionElement.condifCodition] ? data.tableData[j][conditionElement.condifCodition] : '0';
+                      let check = this.tableData[j][conditionElement.condifCodition] ? this.tableData[j][conditionElement.condifCodition] : '0';
                       query += ' ' + conditionElement.condType + ' ' + check + conditionElement.condOperator + conditionElement.condValue;
                       if (k + 1 == element.conditional.length)
                         query += " ) " + element.condType
@@ -232,12 +273,12 @@ export class DynamicTableComponent implements OnInit {
                     if (element.oprator == 'NotNull')
                       query = "1==1"
                     else {
-                      let firstValue = data.tableData[j][element.ifCondition] ? data.tableData[j][element.ifCondition] : "0";
+                      let firstValue = this.tableData[j][element.ifCondition] ? this.tableData[j][element.ifCondition] : "0";
                       query = firstValue + element.oprator + element.getValue
                     }
                     for (let k = 0; k < element.conditional.length; k++) {
                       const conditionElement = element.conditional[k];
-                      let check = data.tableData[j][conditionElement.condifCodition] ? data.tableData[j][conditionElement.condifCodition] : '0';
+                      let check = this.tableData[j][conditionElement.condifCodition] ? this.tableData[j][conditionElement.condifCodition] : '0';
                       query += ' ' + conditionElement.condType + ' ' + check + conditionElement.condOperator + conditionElement.condValue;
                     }
                   }
@@ -252,36 +293,55 @@ export class DynamicTableComponent implements OnInit {
                   for (let k = 0; k < elementv1.getRuleCondition.length; k++) {
                     const elementv2 = elementv1.getRuleCondition[k];
                     if (elementv1.getRuleCondition[k].referenceOperator != '') {
-                      data.tableData[j][elementv1.target] = this.evaluateGridConditionOperator(`${data.tableData[j][elementv2.ifCondition]} ${elementv1.getRuleCondition[k].oprator} ${data.tableData[j][elementv2.target]}`);
-                      data.tableData[j]['color'] = elementv1.getRuleCondition[k].referenceColor;
-                      data.tableData[j]['columnColor'] = elementv1.getRuleCondition[k].referenceColumnColor;
+                      if (this.tableData[j][elementv2.ifCondition])
+                        this.tableData[j][elementv1.target] = this.evaluateGridConditionOperator(`${this.tableData[j][elementv2.ifCondition]} ${elementv1.getRuleCondition[k].oprator} ${this.tableData[j][elementv2.target]}`);
+                      // if (elementv1.getRuleCondition[k].referenceColor)
+                      this.tableData[j]['color'] = elementv1.getRuleCondition[k].referenceColor;
+                      // if (elementv1.getRuleCondition[k].referenceColumnColor) {
+                      this.tableData[j]['columnColor'] = elementv1.getRuleCondition[k].referenceColor;
+                      this.tableData[j]['colorDataType'] = this.tableData[j][elementv1.target];
+                      // }
                     }
                     else {
                       if (k > 0) {
-                        data.tableData[j][elementv1.target] = this.evaluateGridConditionOperator(`${data.tableData[j][elementv1.target]} ${elementv1.getRuleCondition[k - 1].referenceOperator} ${data.tableData[j][elementv2.ifCondition]} ${elementv1.getRuleCondition[k].oprator} ${data.tableData[j][elementv2.target]}`);
-                        data.tableData[j]['color'] = elementv1.getRuleCondition[k].referenceColor;
-                        data.tableData[j]['columnColor'] = elementv1.getRuleCondition[k].referenceColor;
+                        if (this.tableData[j][elementv2.ifCondition])
+                          this.tableData[j][elementv1.target] = this.evaluateGridConditionOperator(`${this.tableData[j][elementv1.target]} ${elementv1.getRuleCondition[k - 1].referenceOperator} ${this.tableData[j][elementv2.ifCondition]} ${elementv1.getRuleCondition[k].oprator} ${this.tableData[j][elementv2.target]}`);
+                        // if (elementv1.getRuleCondition[k].referenceColor)
+                        this.tableData[j]['color'] = elementv1.getRuleCondition[k].referenceColor;
+                        // if (elementv1.getRuleCondition[k].referenceColor) {
+                        this.tableData[j]['columnColor'] = elementv1.getRuleCondition[k].referenceColor;
+                        this.tableData[j]['colorDataType'] = this.tableData[j][elementv1.target];
+                        // }
                       }
                       else
-                        data.tableData[j]['color'] = elementv1.getRuleCondition[k].referenceColor;
+                        // if (elementv1.getRuleCondition[k].referenceColor)
+                        this.tableData[j]['color'] = elementv1.getRuleCondition[k].referenceColor;
+                      this.tableData[j]['columnColor'] = elementv1.getRuleCondition[k].referenceColor;
+                      this.tableData[j]['colorDataType'] = this.tableData[j][elementv1.target];
                       if (elementv1.getRuleCondition[k].referenceColumnColor) {
                         // data.tableHeaders.filter((check: any) => !check.hasOwnProperty('dataType'));
                         let head = data.tableHeaders.find((a: any) => a.name == elementv1.target)
                         if (head) {
+                          this.tableData[j]['colorDataType'] = this.tableData[j][elementv1.target];
                           head['dataType'] = 'objectType';
-                          head['columnColor'] = elementv1.getRuleCondition[k].referenceColumnColor;
+                          head['columnColor'] = elementv1.getRuleCondition[k].referenceColor;
                         }
-                      } else {
-                        data.tableData[j][elementv1.target] = this.evaluateGridConditionOperator(`${data.tableData[j][elementv2.ifCondition]} ${elementv1.getRuleCondition[k].oprator} ${data.tableData[j][elementv2.target]}`);
+                      }
+                      else {
+                        if (this.tableData[j][elementv2.ifCondition])
+                          this.tableData[j][elementv1.target] = this.evaluateGridConditionOperator(`${this.tableData[j][elementv2.ifCondition]} ${elementv1.getRuleCondition[k].oprator} ${this.tableData[j][elementv2.target]}`);
 
                       }
                     }
                     if (elementv2.multiConditionList.length > 0) {
                       for (let l = 0; l < elementv2.multiConditionList.length; l++) {
                         const elementv3 = elementv2.multiConditionList[l];
-                        const value = data.tableData[j][elementv1.target];
-                        data.tableData[j][elementv1.target] = this.evaluateGridConditionOperator(`${value} ${elementv3.oprator} ${data.tableData[j][elementv3.target]}`);
-                        this.data.tableData[j]['columnColor'] = elementv1.getRuleCondition[k].referenceColumnColor;
+                        const value = this.tableData[j][elementv1.target];
+                        this.tableData[j][elementv1.target] = this.evaluateGridConditionOperator(`${value} ${elementv3.oprator} ${this.tableData[j][elementv3.target]}`);
+                        // if (elementv1.getRuleCondition[k].referenceColumnColor) {
+                        this.tableData[j]['columnColor'] = elementv1.getRuleCondition[k].referenceColor;
+                        this.tableData[j]['colorDataType'] = this.tableData[j][elementv1.target];
+                        // }
                       }
                     }
                   }
@@ -289,13 +349,16 @@ export class DynamicTableComponent implements OnInit {
                     const elementv2 = elementv1.thenCondition[k];
                     for (let l = 0; l < elementv2.getRuleCondition.length; l++) {
                       const elementv3 = elementv2.getRuleCondition[l];
-                      data.tableData[j][elementv2.thenTarget] = this.evaluateGridConditionOperator(`${data.tableData[j][elementv3.ifCondition]} ${elementv3.oprator} ${data.tableData[j][elementv3.target]}`);
+                      this.tableData[j][elementv2.thenTarget] = this.evaluateGridConditionOperator(`${this.tableData[j][elementv3.ifCondition]} ${elementv3.oprator} ${this.tableData[j][elementv3.target]}`);
                       if (elementv3.multiConditionList.length > 0) {
                         for (let m = 0; m < elementv3.multiConditionList.length; m++) {
                           const elementv4 = elementv3.multiConditionList[m];
-                          const value = data.tableData[j][elementv2.thenTarget];
-                          data.tableData[j][elementv2.thenTarget] = this.evaluateGridConditionOperator(`${value} ${elementv4.oprator} ${data.tableData[j][elementv4.target]}`);
-                          this.data.tableData[j]['columnColor'] = elementv1.getRuleCondition[k].referenceColumnColor;
+                          const value = this.tableData[j][elementv2.thenTarget];
+                          this.tableData[j][elementv2.thenTarget] = this.evaluateGridConditionOperator(`${value} ${elementv4.oprator} ${this.tableData[j][elementv4.target]}`);
+                          // if (elementv1.getRuleCondition[k].referenceColumnColor) {
+                          this.tableData[j]['columnColor'] = elementv1.getRuleCondition[k].referenceColor;
+                          this.tableData[j]['colorDataType'] = this.tableData[j][elementv1.target];
+                          // }
                         }
                       }
                     }
@@ -310,10 +373,10 @@ export class DynamicTableComponent implements OnInit {
     }
     let headerFilter = getRes.data.filter((a: any) => a.gridType == 'Header');
     for (let m = 0; m < headerFilter.length; m++) {
-      if (headerFilter[m].gridKey == data.key && data.tableData) {
+      if (headerFilter[m].gridKey == data.key && this.tableData) {
         for (let index = 0; index < headerFilter[m].businessRuleData.length; index++) {
           const elementv1 = headerFilter[m].businessRuleData[index];
-          let checkType = Object.keys(data.tableData[0]).filter(a => a == elementv1.target);
+          let checkType = Object.keys(this.tableData[0]).filter(a => a == elementv1.target);
           if (checkType.length == 0) {
             // const filteredData = this.filterTableData(elementv1)
             // const result = this.makeAggregateFunctions(filteredData, elementv1.target);
@@ -334,7 +397,7 @@ export class DynamicTableComponent implements OnInit {
                   const elementv2 = elementv1.thenCondition[k];
                   for (let l = 0; l < elementv2.getRuleCondition.length; l++) {
                     const elementv3 = elementv2.getRuleCondition[l];
-                    let checkType = Object.keys(data.tableData[0]).filter(a => a == elementv3.ifCondition);
+                    let checkType = Object.keys(this.tableData[0]).filter(a => a == elementv3.ifCondition);
                     if (checkType.length == 0) {
                       console.log("No obj Found!")
                     }
@@ -360,10 +423,10 @@ export class DynamicTableComponent implements OnInit {
     }
     let footerFilter = getRes.data.filter((a: any) => a.gridType == 'Footer');
     for (let m = 0; m < footerFilter.length; m++) {
-      if (footerFilter[m].gridKey == data.key && data.tableData) {
+      if (footerFilter[m].gridKey == data.key && this.tableData) {
         for (let index = 0; index < footerFilter[m].businessRuleData.length; index++) {
           const elementv1 = footerFilter[m].businessRuleData[index];
-          let checkType = Object.keys(data.tableData[0]).filter(a => a == elementv1.target);
+          let checkType = Object.keys(this.tableData[0]).filter(a => a == elementv1.target);
           if (checkType.length == 0) {
             console.log("No obj Found!")
           }
@@ -380,7 +443,7 @@ export class DynamicTableComponent implements OnInit {
                   const elementv2 = elementv1.thenCondition[k];
                   for (let l = 0; l < elementv2.getRuleCondition.length; l++) {
                     const elementv3 = elementv2.getRuleCondition[l];
-                    let checkType = Object.keys(data.tableData[0]).filter(a => a == elementv3.ifCondition);
+                    let checkType = Object.keys(this.tableData[0]).filter(a => a == elementv3.ifCondition);
                     if (checkType.length == 0) {
                       console.log("No obj Found!")
                     }
@@ -677,6 +740,9 @@ export class DynamicTableComponent implements OnInit {
       this.displayData = [...this.tableData, row];
     }
     else {
+      if (this.tableData.length == 0) {
+        this.tableData = [...this.displayData]
+      }
       const newRow = JSON.parse(JSON.stringify(this.tableData[0]));
       newRow["id"] = this.tableData[id].id + 1;
       delete newRow?._id;
@@ -689,7 +755,8 @@ export class DynamicTableComponent implements OnInit {
     }
   };
   deleteRow(data: any): void {
-
+    delete data.children;
+    delete data.expand;
     const model = {
       screenId: this.screenName,
       postType: 'delete',
@@ -708,31 +775,37 @@ export class DynamicTableComponent implements OnInit {
           id = data?.id
         let url = '';
         if (findClickApi[0]?.actionType == 'api') {
-          url = findClickApi[0]?.httpAddress;
+          url = findClickApi[0]?.rule;
           if (url) {
+            this.saveLoader = true;
             this.requestSubscription = this.employeeService.deleteCommonApi(url, id).subscribe({
               next: (res) => {
+                this.saveLoader = false;
                 if (res) {
                   this.tableData = this.tableData.filter((d: any) => d.id !== data.id);
                   this.displayData = this.displayData.filter((d: any) => d.id !== data.id);
+                  this.excelReportData = this.excelReportData.filter((d: any) => d.id !== data.id);
                   this.pageChange(1);
                   this.toastr.success("Delete Successfully", { nzDuration: 3000 });
                 }
               },
               error: (err) => {
+                this.saveLoader = false;
                 console.error(err);
               }
             })
           }
 
-        } else {
-          url = `knex-query/executeDelete-rules/${findClickApi[0]._id}`;
+        }
+        else
+      { url = `knex-query/executeDelete-rules/${findClickApi[0]._id}`;
           if (url) {
             this.requestSubscription = this.employeeService.saveSQLDatabaseTable(url, model).subscribe({
               next: (res) => {
                 if (res) {
                   this.tableData = this.tableData.filter((d: any) => d.id !== data.id);
                   this.displayData = this.displayData.filter((d: any) => d.id !== data.id);
+                  this.excelReportData = this.excelReportData.filter((d: any) => d.id !== data.id);
                   this.pageChange(1);
                   this.toastr.success("Delete Successfully", { nzDuration: 3000 });
                 }
@@ -776,9 +849,46 @@ export class DynamicTableComponent implements OnInit {
     }
   };
 
-  startEdit(id: string): void {
+  async startEdit(id: string): Promise<void> {
     this.editId = id;
+    try {
+      const filteredHeaders = this.tableHeaders.filter((item: any) => item.dataType === 'repeatSection' && item.callApi);
+      if (filteredHeaders && filteredHeaders.length > 0) {
+        for (const header of filteredHeaders) {
+          if (!this.displayData.some(item => item.hasOwnProperty(header.key + '_list'))) {
+            try {
+              const res = await this.applicationService.getNestCommonAPI(header?.callApi).toPromise();
+              if (res.data?.length > 0) {
+                const propertyNames = Object.keys(res.data[0]);
+                const result = res.data.map((item: any) => {
+                  const newObj: any = {};
+                  const propertiesToGet: string[] = ('id' in item && 'name' in item) ? ['id', 'name'] : Object.keys(item).slice(0, 2);
+                  propertiesToGet.forEach((prop) => {
+                    newObj[prop] = item[prop];
+                  });
+                  return newObj;
+                });
+
+                const finalObj = result.map((item: any) => ({
+                  label: item.name || item[propertyNames[1]],
+                  value: item.name || item[propertyNames[1]],
+                }));
+
+                this.makeOptions(this.displayData, header.key + '_list', finalObj);
+              }
+            } catch (err) {
+              console.error(err); // Log the error to the console
+              this.toastr.error("An error occurred", { nzDuration: 3000 }); // Show an error message to the user
+            }
+          }
+        }
+      }
+    } catch (error) {
+      console.error("An error occurred in try-catch:", error);
+      // Handle the error appropriately, e.g., show an error message to the user.
+    }
   }
+
   stopEdit(): void {
     this.editId = null;
   }
@@ -804,10 +914,10 @@ export class DynamicTableComponent implements OnInit {
           };
         });
       }
-
-      const firstObjectKeys = Object.keys(this.tableData[0]);
-      this.data['tableKey'] = firstObjectKeys.map(key => ({ name: key }));
-
+      if (!this.data['tableKey'] || this.data['tableKey']?.length == 0) {
+        const firstObjectKeys = Object.keys(this.tableData[0]);
+        this.data['tableKey'] = firstObjectKeys.map(key => ({ key: key }));
+      }
       this.data['tableKey'] = this.data['tableKey'].filter((header: any) => header.name !== 'color');
       this.data['tableKey'] = this.data['tableKey'].filter((header: any) => header.name !== 'children');
       this.footerData = this.tableHeaders;
@@ -1028,42 +1138,54 @@ export class DynamicTableComponent implements OnInit {
     // this.tableData[rowIndex].defaultValue = value.type;
     // Perform any additional updates to 'listOfData' if needed
   }
-  checkTypeData(item: any) {
-    debugger
-    this.showChild = false;
-    if (this.data?.openComponent == 'drawer') {
-      const drawer = this.findObjectByTypeBase(this.data, "drawer");
-      drawer['visible'] = true;
-      if (drawer?.eventActionconfig) { 
-        let newData : any= JSON.parse(JSON.stringify(item));
-        const dataTitle = this.data.title ? this.data.title + '.' : '';
-        newData['parentid'] = newData.id;
-        const userData = JSON.parse(localStorage.getItem('user')!);
-        newData.id = '';
-        newData['organizationid'] = JSON.parse(localStorage.getItem('organizationId')!) || '';
-        newData['applicationid'] = JSON.parse(localStorage.getItem('applicationId')! ) || '';
-        newData['createdby'] = userData.username;
-        // newData.datetime = new Date();
+  checkTypeData(item: any, header: any) {
 
-        for (const key in newData) {
-          if (Object.prototype.hasOwnProperty.call(newData, key)) {
-            if (newData[key] == null) {
-              this.formlyModel[dataTitle + key] = '';
-            } else {
-              this.formlyModel[dataTitle + key] = newData[key];
-            }
-            for (const obj of [this.formlyModel, /* other objects here */]) {
-              if (Object.prototype.hasOwnProperty.call(obj, key)) {
-                obj[key] = newData[key];
+    let checkAllowClick = this.tableHeaders.find((head: any) => head.key == header.key)
+    if (checkAllowClick && (header?.dataType != 'repeatSection' || header?.dataType == '' || header?.dataType == undefined)) {
+      if (checkAllowClick?.callApi != '' && checkAllowClick?.callApi != null) {
+        this.showChild = false;
+        if (this.data?.openComponent == 'drawer') {
+          const drawer = this.findObjectByTypeBase(this.data, "drawer");
+          if (this.drawerChild.length == 0 && drawer.children.length > 0) {
+            this.drawerChild = JSON.parse(JSON.stringify(drawer.children))
+          }
+          drawer.children = this.drawerChild;
+          drawer['visible'] = true;
+          if (drawer?.eventActionconfig) {
+            let newData: any = JSON.parse(JSON.stringify(item));
+            const dataTitle = this.data.title ? this.data.title + '.' : '';
+            newData['parentid'] = newData.id;
+            const userData = JSON.parse(localStorage.getItem('user')!);
+            newData.id = '';
+            newData['organizationid'] = JSON.parse(localStorage.getItem('organizationId')!) || '';
+            newData['applicationid'] = JSON.parse(localStorage.getItem('applicationId')!) || '';
+            newData['createdby'] = userData.username;
+            // newData.datetime = new Date();
+
+            for (const key in newData) {
+              if (Object.prototype.hasOwnProperty.call(newData, key)) {
+                if (newData[key] == null) {
+                  this.formlyModel[dataTitle + key] = '';
+                } else {
+                  this.formlyModel[dataTitle + key] = newData[key];
+                }
+                for (const obj of [this.formlyModel, /* other objects here */]) {
+                  if (Object.prototype.hasOwnProperty.call(obj, key)) {
+                    obj[key] = newData[key];
+                  }
+                }
               }
             }
+            drawer.eventActionconfig['parentId'] = item.id;
           }
+          if (this.router.url.includes('/pages')) {
+            this.data = JSON.parse(JSON.stringify(this.data));
+          }
+          this.showChild = true;
         }
-        drawer.eventActionconfig['parentId'] = item.id;
       }
-      this.data = JSON.parse(JSON.stringify(this.data));
-      this.showChild = true;
     }
+
   }
   transform(dateRange: string): any {
     if (dateRange) {
@@ -1104,6 +1226,7 @@ export class DynamicTableComponent implements OnInit {
   userTaskManagement: any = '';
   getTimelIne: any;
   showIssue(data: any): void {
+    debugger
     this.saveLoader = true;
     if (this.data?.appConfigurableEvent) {
       if (this.data?.appConfigurableEvent.length > 0) {
@@ -1353,7 +1476,7 @@ export class DynamicTableComponent implements OnInit {
     searchForType(data);
     return foundObjects;
   }
-  groupedFunc(data: any, type: any, header: any) {
+  groupedFunc(data: any, type: any, header: any, allowSaveInLocal?: any) {
     header['grouping'] = type === 'add' ? data : '';
 
 
@@ -1378,17 +1501,26 @@ export class DynamicTableComponent implements OnInit {
 
     if (this.groupingArray.length === 0) {
       this.displayData = this.groupingData;
+      this.tableData = JSON.parse(JSON.stringify(this.groupingData));
+      this.groupingData = [];
       this.tableHeaders = this.tableHeaders.filter((a: any) => a.name !== 'expand');
+      this.data.tableHeaders = this.data.tableHeaders.filter((a: any) => a.name !== 'expand');
+      this.pageChange(1);
     } else {
       // Reset displayData and tableHeaders before re-grouping
       this.displayData = [];
       this.tableHeaders = this.tableHeaders.filter((a: any) => a.name !== 'expand');
+      this.data.tableHeaders = this.data.tableHeaders.filter((a: any) => a.name !== 'expand');
+
       // Apply grouping for each column in the groupingArray
       this.tableData = this.groupData(this.groupingData, 0);
       this.pageChange(1);
     }
-    const applicationId = localStorage.getItem('applicationId') || '';
-    this.dataService.addData(this.screenName, JSON.parse(applicationId), "Table", this.groupingArray);
+    if (allowSaveInLocal) {
+      const applicationId = localStorage.getItem('applicationId') || '';
+      this.dataService.addData(this.screenName, JSON.parse(applicationId), "Table", this.groupingArray);
+    }
+
   }
 
   groupData(data: any[], index: number): any {
@@ -1406,7 +1538,11 @@ export class DynamicTableComponent implements OnInit {
           key: 'expand',
           title: 'Expand',
         });
-
+        this.data.tableHeaders.unshift({
+          name: 'expand',
+          key: 'expand',
+          title: 'Expand',
+        });
         // Continue grouping for the next column
         return this.groupData(groupedData, index + 1);
       }
@@ -1474,99 +1610,386 @@ export class DynamicTableComponent implements OnInit {
   }
 
   processData(data: any[]) {
-    debugger
-    this.saveLoader = false;
-    if (data.length > 0) {
-      let res: any = {};
-      res['data'] = [];
-      res['data'] = data;
-      this.getFromQueryOnlyTable(this.data, res)
+    if (data) {
+      if (data.length > 0) {
+        let res: any = {};
+        res['data'] = [];
+        res['data'] = data;
+        this.getFromQueryOnlyTable(this.data, res)
+      } else {
+        this.saveLoader = false;
+      }
+    } else {
+      this.saveLoader = false;
     }
     return data
-
   }
   async getFromQueryOnlyTable(tableData: any, res: any) {
-    debugger
-    if (tableData && res?.data.length > 0) {
-      const applicationId = localStorage.getItem('applicationId') || '';
-      let savedGroupData = await this.dataService.getNodes(JSON.parse(applicationId), this.screenName, "Table");
-      this.saveLoader = false;
-      // if (apiUrl.includes('/userComment')) {
+    try {
+      debugger;
+      if (tableData && res?.data.length > 0) {
+        const applicationId = localStorage.getItem('applicationId') || '';
+        let savedGroupData: any = [];
+        if (applicationId) {
+          savedGroupData = await this.dataService.getNodes(JSON.parse(applicationId), this.screenName, "Table");
+        }
+        if (this.data?.eventActionconfig && !this.childTable && Object.keys(this.data.eventActionconfig).length > 0) {
+          if (this.data?.eventActionconfig?.rule.includes('market-place')) {
+            res.data = res.data.map((item: any) => ({
+              id: item._id, // Rename _id to id
+              name: item.name,
+              categoryId: item.categoryId,
+              categoryName: item.categoryDetails?.[0]?.name, // Access the name property from categoryDetails
+              subcategoryId: item.subcategoryId,
+              subcategoryName: item.subcategoryDetails?.[0]?.name, // Access the name property from subcategoryDetails
+              thumbnailimage: item.thumbnailimage,
+              // ...rest
+            }));
+          }
+        }
 
-      //   const requiredData = res.data.map(({ __v, _id, ...rest }: any) => ({
-      //     expand: false,
-      //     id: _id,
-      //     ...rest,
-      //   }));
-      //   res.data = JSON.parse(JSON.stringify(requiredData));
-      // }
+        this.tableData = res.data.map((element: any) => ({ ...element, id: element.id?.toString() }));
+        this.excelReportData = [...this.tableData];
+        if (!this.data.end) {
+          tableData.end = 10;
+        }
+        this.data.pageIndex = 1;
+        this.data.totalCount = res.data.length;
+        if (tableData.eventActionconfig) {
+          if (tableData.eventActionconfig.rule) {
+            tableData.serverApi = `knex-query/getexecute-rules/${tableData.eventActionconfig._id}`;
+          } 
+        }
+        this.data.targetId = '';
 
-      this.tableData = res.data.map((element: any) => ({ ...element, id: element.id?.toString() }));
-      if (!this.data.end) {
-        tableData.end = 10;
-      }
-      this.data.pageIndex = 1;
-      this.data.totalCount = res.data.length;
-      // tableData.serverApi = apiUrl;
-      this.data.targetId = '';
-      this.displayData = this.tableData.length > this.data.end ? this.tableData.slice(0, this.data.end) : this.tableData;
-      if (this.tableHeaders.length === 0) {
-        this.tableHeaders = Object.keys(this.tableData[0] || {}).map(key => ({ name: key, key: key }));
+        this.displayData = this.tableData.length > this.data.end ? this.tableData.slice(0, this.data.end) : this.tableData;
+        if (this.tableHeaders.length === 0) {
+          this.tableHeaders = Object.keys(this.tableData[0] || {}).map(key => ({ name: key, key: key }));
+          this.data['tableKey'] = this.tableHeaders;
+        } else {
+          const tableKey = Object.keys(this.tableData[0] || {}).map(key => ({ name: key }));
+          if (JSON.stringify(this.data['tableKey']) !== JSON.stringify(tableKey)) {
+            const updatedData = tableKey.filter(updatedItem =>
+              !this.tableHeaders.some((headerItem: any) => headerItem.key === updatedItem.name)
+            );
+            if (updatedData.length > 0) {
+              updatedData.forEach(updatedItem => {
+                this.tableHeaders.push({ id: tableData.tableHeaders.length + 1, key: updatedItem.name, name: updatedItem.name, });
+              });
+              this.data.tableHeaders = this.tableHeaders;
+            }
+          }
+        }
+        let CheckKey = this.tableHeaders.find((head: any) => !head.key)
+        if (CheckKey) {
+          for (let i = 0; i < this.tableHeaders.length; i++) {
+            if (!this.tableHeaders[i].hasOwnProperty('key')) {
+              this.tableHeaders[i].key = tableData.tableHeaders[i].name;
+            }
+          }
+        }
+        if (savedGroupData.length > 0) {
+          let getData = savedGroupData[savedGroupData.length - 1];
+          if (getData.data.length > 0) {
+            let updateTableData: any = [];
+            getData.data.forEach((elem: any) => {
+              let findData = this.tableHeaders.find((item: any) => item.key == elem);
+              if (findData) {
+                this.groupedFunc(elem, 'add', findData, false);
+              }
+            })
+            this.displayData = this.tableData.length > this.data.end ? this.tableData.slice(0, this.data.end) : this.tableData;
+            tableData.tableHeaders.unshift({
+              name: 'expand',
+              key: 'expand',
+              title: 'Expand',
+            });
+            this.data.totalCount = this.tableData
+          } else {
+            this.tableHeaders = this.tableHeaders.filter((head: any) => head.key != 'expand');
+            this.pageChange(1);
+          }
+        } else {
+          this.tableHeaders = this.tableHeaders.filter((head: any) => head.key != 'expand');
+          this.pageChange(1);
+        }
         this.data['tableKey'] = this.tableHeaders;
+        this.data['tableHeaders'] = this.tableHeaders;
+        if (window.location.href.includes('taskmanager.com')) {
+          // Handle any additional logic here
+        }
+        this.saveLoader = false;
+      }
+      this.gridInitilize();
+    } catch (error) {
+      console.error("An error occurred in getFromQueryOnlyTable:", error);
+      // Handle the error appropriately, e.g., show an error message to the user.
+      this.saveLoader = false;
+    }
+  }
+
+  isAllowEdit(header: any): boolean {
+    let check = header.some((head: any) => head?.editMode != '' && head?.editMode != null);
+    return check;
+  }
+  saveEdit(dataModel: any) {
+    let newDataModel = JSON.parse(JSON.stringify(dataModel))
+    const findClickApi = this.data.appConfigurableEvent.find((item: any) =>
+      item.actionLink === 'put' && (item.actionType === 'api' || item.actionType === 'query')
+    );
+
+    if (findClickApi) {
+      const { actionType, rule, _id } = findClickApi;
+
+      if (newDataModel) {
+        for (let key in newDataModel) {
+          if (newDataModel[key] && Array.isArray(newDataModel[key])) {
+            delete newDataModel[key];
+          }
+        }
+
+        delete newDataModel.children
+        const model = {
+          screenId: this.screenName,
+          postType: 'put',
+          modalData: newDataModel
+        };
+
+        let url = actionType === 'api' ? rule : actionType === 'query' ? `knex-query/executeQuery/${_id}` : '';
+        if (url) {
+          this.saveLoader = true;
+          this.applicationServices.addNestCommonAPI(url, model).subscribe({
+            next: (res) => {
+              if (res) {
+                this.toastr.success('Update Successfully', { nzDuration: 3000 });
+                this.editId = null;
+                // let callget = this.data?.appConfigurableEvent?.filter((item: any) =>
+                //   (item.actionLink === 'get' && (item.actionType === 'api' || item.actionType === 'query'))
+                // );
+                // if (callget) {
+                //   if (callget.length > 0) {
+                //     let getUrl = '';
+                //     for (let index = 0; index < callget.length; index++) {
+                //       let element = callget[index].actionType;
+                //       if (element == 'query') {
+                //         getUrl = `knex-query/getAction/${callget[index]._id}`;
+                //         break;
+                //       } else {
+                //         getUrl = `knex-query/getAction/${callget[index]._id}`;
+                //       }
+                //     }
+                //     let pagination = '';
+                //     if (this.data.serverSidePagination) {
+                //       pagination = '?page=' + 1 + '&pageSize=' + this.data?.end;
+                //     }
+                //     this.employeeService.getSQLDatabaseTable(getUrl + pagination).subscribe({
+                //       next: async (res) => {
+                //         if (res) {
+                //           this.getFromQueryOnlyTable(this.data, res)
+                //         }
+                //       }, error: (error: any) => {
+                //         console.error(error);
+                //         this.toastr.error("An error occurred", { nzDuration: 3000 });
+                //         this.saveLoader = false;
+                //       }
+                //     });
+                //   }
+                // }
+              }
+              // this.getFromQueryOnlyTable(data);
+              this.saveLoader = false;
+            },
+            error: (err) => {
+              console.error(err);
+              this.toastr.error('An error occurred', { nzDuration: 3000 });
+              this.saveLoader = false;
+            }
+          });
+        }
+      }
+    }
+  }
+  exportToExcel() {
+    debugger
+    let header = this.tableHeaders.filter((head: any) => head.key != 'expand')
+    const dataToExport = [header
+      .map((header: any) => header.name)
+    ];
+
+    // Add data rows
+    this.excelReportData.forEach(item => {
+      const rowData = header.map((data: any) => item[data.key]);
+      dataToExport.push(rowData);
+    });
+
+    // Create a worksheet
+    const ws: XLSX.WorkSheet = XLSX.utils.aoa_to_sheet(dataToExport);
+
+    // Create a workbook
+    const wb: XLSX.WorkBook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
+
+    // Save the workbook as an Excel file
+    XLSX.writeFile(wb, 'grid-data.xlsx');
+  }
+
+  rowselected(i: number) {
+    this.index = i;
+  }
+
+  makeOptions(data: any, key: any, value: any) {
+    data.forEach((element: any) => {
+      element[key] = value;
+      if (data.children) {
+        if (data.children.length > 0) {
+          this.makeOptions(data.children, key, value)
+        }
+      }
+    });
+  }
+
+  async search() {
+    try {
+      debugger;
+      this.saveLoader = true;
+      const applicationId = localStorage.getItem('applicationId') || '';
+      let savedGroupData: any = [];
+      if (applicationId) {
+        savedGroupData = await this.dataService.getNodes(JSON.parse(applicationId), this.screenName, "Table");
+      }
+      // Step 1: Remove the 'expand' header from tableHeaders
+      this.tableHeaders = this.tableHeaders.filter((head: any) => head.key != 'expand');
+
+      if (this.searchValue) {
+        const searchValue = this.searchValue.toLowerCase();
+
+        // Step 2: Use a more efficient approach for filtering the Excel report data
+        this.tableData = this.excelReportData.filter((item) => {
+          return this.tableHeaders.some((header: any) => {
+            const key = header.key;
+            const itemValue = item[key]?.toString().toLowerCase();
+
+            return itemValue && itemValue.includes(searchValue);
+          });
+        });
+
+        this.groupingData = [];
       }
       else {
-        const tableKey = Object.keys(this.tableData[0] || {}).map(key => ({ name: key }));
-        if (JSON.stringify(this.data['tableKey']) !== JSON.stringify(tableKey)) {
-          const updatedData = tableKey.filter(updatedItem =>
-            !this.tableHeaders.some((headerItem: any) => headerItem.name === updatedItem.name)
-          );
-          if (updatedData.length > 0) {
-            updatedData.forEach(updatedItem => {
-              this.tableHeaders.push({ id: tableData.tableHeaders.length + 1, key: updatedItem.name, name: updatedItem.name, });
-            });
-            this.data['tableKey'] = this.tableHeaders;
-          }
-        }
+        this.tableData = this.excelReportData;
+        this.displayData = this.tableData;
+        this.groupingData = [];
 
-      }
-      let CheckKey = this.tableHeaders.find((head: any) => !head.key)
-      if (CheckKey) {
-        for (let i = 0; i < this.tableHeaders.length; i++) {
-          if (!this.tableHeaders[i].hasOwnProperty('key')) {
-            this.tableHeaders[i].key = tableData.tableHeaders[i].name;
-          }
-        }
       }
       if (savedGroupData.length > 0) {
         let getData = savedGroupData[savedGroupData.length - 1];
+
         if (getData.data.length > 0) {
-          let groupingArray: any = [];
           let updateTableData: any = [];
+          this.groupingArray = [];
           getData.data.forEach((elem: any) => {
             let findData = this.tableHeaders.find((item: any) => item.key == elem);
+
             if (findData) {
-              updateTableData = this.groupedFunc(elem, 'add', findData);
+              this.groupedFunc(elem, 'add', findData, false);
             }
-          })
-          // this.tableData = updateTableData;
-          // this.displayData = this.tableData.length > this.data.end ? this.tableData.slice(0, this.data.end) : this.tableData;
-          // tableData.tableHeaders.unshift({
-          //   name: 'expand',
-          //   key: 'expand',
-          //   title: 'Expand',
-          // });
-          // this.data.totalCount = this.tableData
+          });
+
+          this.displayData = this.tableData.length > this.data.end ? this.tableData.slice(0, this.data.end) : this.tableData;
+          this.data.tableHeaders.unshift({
+            name: 'expand',
+            key: 'expand',
+            title: 'Expand',
+          });
+
+          this.data.totalCount = this.tableData;
+        } else {
+          this.tableHeaders = this.tableHeaders.filter((head: any) => head.key != 'expand');
+          this.displayData = this.tableData;
+          this.pageChange(1);
         }
-        else {
-          this.tableHeaders = this.tableHeaders.filter((head: any) => head.key != 'expand')
-        }
+      } else {
+        this.tableHeaders = this.tableHeaders.filter((head: any) => head.key != 'expand');
+        this.displayData = this.tableData;
+        this.pageChange(1);
       }
-      else {
-        //if data is not stored in index db then remove expand column
-        this.tableHeaders = this.tableHeaders.filter((head: any) => head.key != 'expand')
-      }
+
+      this.saveLoader = false;
+    } catch (error) {
+      console.error("An error occurred in search:", error);
+      // Handle the error appropriately, e.g., show an error message to the user.
+      this.saveLoader = false;
     }
-    // this.loadTableData();
+  }
+  onFileSelected(event: any): void {
+    const file: File = event.target.files[0];
+
+    if (file) {
+      this.showProgressBar = true;
+      this.progress = 0; // Initialize progress to 0
+
+      const formData: FormData = new FormData();
+      formData.append('file', file);
+
+      this.http
+        .post(this.serverPath + '/knex-query/savecsv', formData, {
+          reportProgress: true, // Enable progress reporting
+          observe: 'events', // Observe Http events
+        })
+        .subscribe({
+          next: (event: HttpEvent<any>) => {
+            if (event.type === HttpEventType.UploadProgress) {
+              if (event.total !== undefined && event.total > 0) {
+                // Ensure 'event.total' is defined and positive before using it
+                this.progress = Math.round((100 * event.loaded) / event.total);
+              }
+            } else if (event.type === HttpEventType.Response) {
+              // Upload complete
+              this.progress = 100;
+              this.showProgressBar = false;
+              this.fileUpload = ''; // This clears the file input
+              if (event.body.isSuccess) {
+                if (this.data.appConfigurableEvent) {
+                  let url = 'knex-query/getAction/' + this.data.eventActionconfig._id;
+                  this.saveLoader = true;
+                  this.applicationService.callApi(url, 'get', '', '', '').subscribe({
+                    next: (res) => {
+                      this.getFromQueryOnlyTable(this.data, res);
+                    },
+                    error: (error: any) => {
+                      console.error(error);
+                      this.saveLoader = false;
+                      this.toastr.error("An error occurred", { nzDuration: 3000 });
+                    }
+                  })
+                }
+                this.toastr.success('Import successfully', { nzDuration: 3000 });
+              } else {
+                this.toastr.error(event.body.error, { nzDuration: 2000 });
+              }
+            }
+          },
+          error: (err) => {
+            // Handle error
+            this.showProgressBar = false;
+            this.toastr.error('Some error occurred', { nzDuration: 2000 });
+          },
+        });
+    }
+  }
+
+
+  split(index: any, data: any) {
+    if (data && data) {
+      if (typeof data == 'string') {
+        return data.split(',')[index];
+      } else {
+        return ''
+      }
+    } else {
+      return ''
+    }
+
   }
 
 }

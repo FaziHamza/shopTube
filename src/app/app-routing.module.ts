@@ -18,15 +18,11 @@ const routes: Routes = [
         component: PagesComponent
       },
       {
-        path: 'pages/:schema/:commentId',
+        path: 'pages/:schema/:id',
         component: PagesComponent
       },
       {
         path: 'pages',
-        component: PagesComponent
-      },
-      {
-        path: 'pages/:application/:module',
         component: PagesComponent
       },
       {

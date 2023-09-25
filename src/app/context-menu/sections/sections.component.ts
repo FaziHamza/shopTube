@@ -202,7 +202,7 @@ export class SectionsComponent implements OnInit {
       let findClickApi = data.appConfigurableEvent.filter((item: any) => item.rule.includes('post_'));
 
       let empData: any = {};
-      if (findClickApi[0]?.httpAddress?.includes('/cp') || findClickApi[0]?.httpAddress?.includes('/market-place')) {
+      if (findClickApi[0]?.rule?.includes('/cp') || findClickApi[0]?.rule?.includes('/market-place')) {
         let mainTableName = "";
         const removePrefix = (data: Record<string, any>): Record<string, any> => {
           const newData: Record<string, any> = {};
@@ -220,7 +220,7 @@ export class SectionsComponent implements OnInit {
 
         let result = removePrefix(oneModelData);
         // result['id'] = '';
-        if (findClickApi[0]?.httpAddress?.includes('/market-place')) {
+        if (findClickApi[0]?.rule?.includes('/market-place')) {
           empData = result;
         } else {
           empData[mainTableName] = result;
@@ -258,64 +258,64 @@ export class SectionsComponent implements OnInit {
         relationIds = relationIds.toString();
         // if (Object.keys(empData.modalData).length > 0)
         this.saveLoader = true;
-        if (!findClickApi[0]?.httpAddress?.includes('/market-place')) {
+        if (!findClickApi[0]?.rule?.includes('/market-place')) {
           empData['id'] = findClickApi[0]?._id;
         }
         // empData.screenId = findClickApi[0].actions?.[0]?.url
         let apiUrl = '';
         // if (findClickApi[0].actionType === 'api') {
-        //   apiUrl = findClickApi[0]?.httpAddress;
+        //   apiUrl = findClickApi[0]?.rule;
         // } else if (findClickApi[0]?.actionType === 'query') {
         //   apiUrl = 'knex-query';
         // }
         // Create an array of observables for API requests
-        const observables = data.appConfigurableEvent.map((element: any) => {
-          return this.applicationServices.addNestCommonAPI('knex-query/execute-rules/'+element?._id, data).pipe(
-            catchError((error:any) => of(error)) // Handle error and continue the forkJoin
-          );
-        });
+        // const observables = data.appConfigurableEvent.map((element: any) => {
+        //   return this.applicationServices.addNestCommonAPI('knex-query/execute-rules/'+element?._id, data).pipe(
+        //     catchError((error:any) => of(error)) // Handle error and continue the forkJoin
+        //   );
+        // });
 
-        forkJoin(observables).subscribe({
-          next: (results: any) => {
-            this.saveLoader = false;
-            console.log("result : " + JSON.stringify(results));
-            data.appConfigurableEvent.forEach((element:any,index:number) => {
-              if(element.targetId){
-                const data = results[index]?.[0]?.data;
-                const getdetails = this.findObjectByKey(this.sections , element.targetId);
-                if (data?.length > 0 && getdetails) {
-                  let propertyNames = Object.keys(data[0]);
-                  let result = data.map((item: any) => {
-                    let newObj: any = {};
-                    let propertiesToGet: string[];
-                    if ('id' in item && 'name' in item) {
-                      propertiesToGet = ['id', 'name'];
-                    } else {
-                      propertiesToGet = Object.keys(item).slice(0, 2);
-                    }
-                    propertiesToGet.forEach((prop) => {
-                      newObj[prop] = item[prop];
-                    });
-                    return newObj;
-                  });
+        // forkJoin(observables).subscribe({
+        //   next: (results: any) => {
+        //     this.saveLoader = false;
+        //     console.log("result : " + JSON.stringify(results));
+        //     data.appConfigurableEvent.forEach((element:any,index:number) => {
+        //       if(element.targetId){
+        //         const data = results[index]?.[0]?.data;
+        //         const getdetails = this.findObjectByKey(this.sections , element.targetId);
+        //         if (data?.length > 0 && getdetails) {
+        //           let propertyNames = Object.keys(data[0]);
+        //           let result = data.map((item: any) => {
+        //             let newObj: any = {};
+        //             let propertiesToGet: string[];
+        //             if ('id' in item && 'name' in item) {
+        //               propertiesToGet = ['id', 'name'];
+        //             } else {
+        //               propertiesToGet = Object.keys(item).slice(0, 2);
+        //             }
+        //             propertiesToGet.forEach((prop) => {
+        //               newObj[prop] = item[prop];
+        //             });
+        //             return newObj;
+        //           });
             
-                  let finalObj = result.map((item: any) => {
-                    return {
-                      label: item.name || item[propertyNames[1]],
-                      value: item.id || item[propertyNames[0]],
-                    };
-                  });
-                  getdetails.formly[0].fieldGroup[0].props.options = finalObj;
-                }
-              }
-            });
+        //           let finalObj = result.map((item: any) => {
+        //             return {
+        //               label: item.name || item[propertyNames[1]],
+        //               value: item.id || item[propertyNames[0]],
+        //             };
+        //           });
+        //           getdetails.formly[0].fieldGroup[0].props.options = finalObj;
+        //         }
+        //       }
+        //     });
 
-          },
-          error: (err) => {
-            console.error(err);
-            this.toastr.error("Actions not saved", { nzDuration: 3000 });
-          }
-        });
+        //   },
+        //   error: (err) => {
+        //     console.error(err);
+        //     this.toastr.error("Actions not saved", { nzDuration: 3000 });
+        //   }
+        // });
         if (empData && findClickApi[0]?._id) {
           this.applicationServices.addNestCommonAPI('knex-query/execute-rules/' + findClickApi[0]?._id, empData).subscribe({
             next: (res) => {
@@ -367,11 +367,12 @@ export class SectionsComponent implements OnInit {
 
           const result = {
             ...model,
-            modalData: removePrefix(model.modalData)
+            modalData: model.modalData
+            // modalData: removePrefix(model.modalData)
           };
           console.log(result);
           this.saveLoader = true;
-          this.applicationServices.addNestCommonAPI('knex-query/executeDelete-rules/' + findClickApi[0]._id, result).subscribe({
+          this.applicationServices.addNestCommonAPI('knex-query/execute-rules/' + findClickApi[0]._id, result).subscribe({
             next: (res) => {
               this.saveLoader = false;
               this.toastr.success("Update Successfully", { nzDuration: 3000 });
@@ -444,7 +445,7 @@ export class SectionsComponent implements OnInit {
         this.employeeService.getSQLDatabaseTable(url).subscribe({
           next: async (res1) => {
             this.saveLoader = false;
-            let res = res1[0];
+            let res = res1;
             if (tableData && res?.isSuccess) {
               if (res.data.length > 0) {
 

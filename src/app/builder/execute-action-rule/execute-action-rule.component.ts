@@ -309,7 +309,7 @@ export class ExecuteActionRuleComponent implements OnInit, AfterViewInit {
           ]
           const newItem = this.fb.group({
             componentFrom: buttonData.key, // Initialize this with your select value
-            targetId: (action.type === 'query' && action.actionLink === 'get') ? tableData.key : '', // Initialize this with your select value
+            targetId: (action.type === 'query' && action.actionLink === 'get') ? tableData?.key : '', // Initialize this with your select value
             action: 'click', // Initialize this with your select value
             monacoEditorControl: [JSON.stringify(obj)]
           });
