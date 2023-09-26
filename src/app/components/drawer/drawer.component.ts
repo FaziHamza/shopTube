@@ -66,6 +66,13 @@ export class DrawerComponent implements OnInit {
                     this.loader = false;
                     let newModel = this.formlyModel;
                     const userData = JSON.parse(localStorage.getItem('user')!);
+                    // Get the current date and time
+                    const currentDate = new Date();
+
+                    // Format the date and time as "YYYY-MM-DD HH:mm:ss.sss"
+                    const formattedDate = `${currentDate.getFullYear()}-${(currentDate.getMonth() + 1).toString().padStart(2, '0')}-${currentDate.getDate().toString().padStart(2, '0')} ${currentDate.getHours().toString().padStart(2, '0')}:${currentDate.getMinutes().toString().padStart(2, '0')}:${currentDate.getSeconds().toString().padStart(2, '0')}.${currentDate.getMilliseconds().toString().padStart(3, '0')}`;
+
+                    // Now, you can save 'formattedDate' in your SQL database
                     if (newModel) {
                       for (const key in newModel) {
                         if (newModel.hasOwnProperty(key)) {
@@ -83,6 +90,9 @@ export class DrawerComponent implements OnInit {
                               else if (key1.includes('createdby')) {
                                 newModel[key][key1] = userData.username;
                               }
+                              else if (key1.includes('datetime')) {
+                                newModel[key][key1] = formattedDate;
+                              }
                             }
                           }
                           else {
@@ -97,6 +107,9 @@ export class DrawerComponent implements OnInit {
                             }
                             else if (key.includes('createdby')) {
                               newModel[key] = userData.username;
+                            }
+                            else if (key.includes('datetime')) {
+                              newModel[key] = formattedDate;
                             }
                           }
                         }
