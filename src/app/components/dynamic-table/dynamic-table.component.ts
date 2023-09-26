@@ -1788,6 +1788,11 @@ export class DynamicTableComponent implements OnInit {
         for (let key in newDataModel) {
           if (newDataModel[key] && Array.isArray(newDataModel[key])) {
             delete newDataModel[key];
+          }else if(newDataModel[key] == null){
+            newDataModel[key] = ''
+          }
+          else if(newDataModel[key] == 'null'){
+            newDataModel[key] = ''
           }
         }
 

@@ -17,12 +17,12 @@ export class BoardComponent implements OnInit {
   @Input() screenName: any;
   @Input() screenId: any;
 
-  constructor(private toastr: NzMessageService,) {
+  constructor(private toastr: NzMessageService) {
     this.processData = this.processData.bind(this);
   }
 
   ngOnInit() {
-
+    debugger
     this.lists = this.kanbanData.kanbanSave;
   }
 
@@ -58,6 +58,55 @@ export class BoardComponent implements OnInit {
   }
 
   processData(data: any[]) {
+    let status = [
+      "open", "closed", "inprogress", "backlog"
+    ]
+    data = [
+      {
+        "id": 545,
+        "screenid": "",
+        "datetime": "2023-09-27T16:11",
+        "message": "rtyg4",
+        "status": "open"
+      },
+      {
+        "id": 544,
+        "screenid": "",
+        "datetime": "1970-05-03T09:15",
+        "message": "This is message",
+        "status": "closed"
+      },
+      {
+        "id": 544,
+        "screenid": "",
+        "datetime": "1970-05-03T09:15",
+        "message": "This is message",
+        "status": "inprogress"
+      },
+    ]
+
+
+    let statusObject: any = {};
+
+    // Initialize the object with empty arrays for each status
+    status.forEach(statusValue => {
+      statusObject[statusValue] = [];
+    });
+
+    // Populate the arrays based on the status
+    data.forEach(item => {
+      const itemStatus = item.status;
+      if (statusObject.hasOwnProperty(itemStatus)) {
+        statusObject[itemStatus].push(item);
+      }
+    });
+
+    // Access the arrays based on status
+    console.log(statusObject["open"]); // Array of objects with status "open"
+    console.log(statusObject["closed"]); // Array of objects with status "closed"
+    console.log(statusObject["inprogress"]); // Array of objects with status "inprogress"
+    console.log(statusObject["backlog"]); // Array of objects with status "backlog"
+
     console.log("kanban Work")
     return data
   }
