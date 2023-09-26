@@ -1182,7 +1182,7 @@ export class DynamicTableComponent implements OnInit {
           if (this.drawerChild.length == 0 && drawer.children.length > 0) {
             this.drawerChild = JSON.parse(JSON.stringify(drawer.children))
           }
-          drawer.children = this.drawerChild;
+          drawer.children = JSON.parse(JSON.stringify(this.drawerChild));
           if (drawer?.eventActionconfig) {
             let newData: any = JSON.parse(JSON.stringify(item));
             const dataTitle = this.data.title ? this.data.title + '.' : '';

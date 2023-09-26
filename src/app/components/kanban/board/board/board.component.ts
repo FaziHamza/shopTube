@@ -101,12 +101,13 @@ export class BoardComponent implements OnInit {
       }
     });
 
-    // Access the arrays based on status
-    console.log(statusObject["open"]); // Array of objects with status "open"
-    console.log(statusObject["closed"]); // Array of objects with status "closed"
-    console.log(statusObject["inprogress"]); // Array of objects with status "inprogress"
-    console.log(statusObject["backlog"]); // Array of objects with status "backlog"
-
+    // // Access the arrays based on status
+    // console.log(statusObject["open"]); // Array of objects with status "open"
+    // console.log(statusObject["closed"]); // Array of objects with status "closed"
+    // console.log(statusObject["inprogress"]); // Array of objects with status "inprogress"
+    // console.log(statusObject["backlog"]); // Array of objects with status "backlog"
+    this.kanbanData.children = [this.kanbanData.children[0]];
+    this.kanbanData.children
     console.log("kanban Work")
     return data
   }
