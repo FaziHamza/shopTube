@@ -570,7 +570,7 @@ export class BuilderComponent implements OnInit {
             this.applyDefaultValue();
             this.getJoiValidation(this._id);
             this.saveLoader = false;
-            this.getFromQuery(res.data[0].navigation, 'get');
+            // this.getFromQuery(res.data[0].navigation, 'get');
             // if (res[0].menuData[0].children[1]) {
 
             //   // this.uiRuleGetData(res[0].moduleId);
@@ -6290,141 +6290,139 @@ export class BuilderComponent implements OnInit {
         tableData['searchValue'] = '';
         let findClickApi = tableData?.eventActionconfig;
         if (findClickApi) {
-          if (findClickApi.length > 0) {
-            // let pagination = '';
-            let url = `knex-query/getexecute-rules/${findClickApi._id}`;
-            // for (let index = 0; index < findClickApi.length; index++) {
-            //   let element = findClickApi[index].actionType;
-            //   if (element == 'query') {
-            //     url = `knex-query/getAction/${findClickApi[index]._id}`;
-            //     break;
-            //   } else {
-            //     url = `knex-query/getAction/${findClickApi[index]._id}`;
-            //   }
-            // }
-            // if (tableData.serverSidePagination) {
-            //   pagination = '?page=' + 1 + '&pageSize=' + tableData?.end;
-            // }
-            if (url) {
-              const applicationId = localStorage.getItem('applicationId') || '';
-              let savedGroupData: any = [];
-              if (applicationId) {
-                savedGroupData = await this.dataService.getNodes(JSON.parse(applicationId), this.screenName, "Table");
-              }
-              this.saveLoader = true;
-              this.employeeService.getSQLDatabaseTable(url).subscribe({
-                next: (res) => {
-                  try {
-                    if (tableData && res?.isSuccess) {
-                      if (res.data.length > 0) {
-                        // this.saveLoader = false;
-                        let saveForm = JSON.parse(JSON.stringify(res.data[0]));
-                        const firstObjectKeys = Object.keys(saveForm);
-                        let tableKey = firstObjectKeys.map(key => ({ name: key }));
-                        let obj = firstObjectKeys.map(key => ({ name: key, key: key }));
-                        tableData.tableData = [];
-                        saveForm.id = tableData.tableData.length + 1;
-                        res.data.forEach((element: any) => {
-                          element.id = (element?.id)?.toString();
-                          tableData.tableData?.push(element);
-                        });
-                        // pagniation work start
-                        if (!tableData.end) {
-                          tableData.end = 10;
+          // let pagination = '';
+          let url = `knex-query/getexecute-rules/${findClickApi._id}`;
+          // for (let index = 0; index < findClickApi.length; index++) {
+          //   let element = findClickApi[index].actionType;
+          //   if (element == 'query') {
+          //     url = `knex-query/getAction/${findClickApi[index]._id}`;
+          //     break;
+          //   } else {
+          //     url = `knex-query/getAction/${findClickApi[index]._id}`;
+          //   }
+          // }
+          // if (tableData.serverSidePagination) {
+          //   pagination = '?page=' + 1 + '&pageSize=' + tableData?.end;
+          // }
+          if (url) {
+            const applicationId = localStorage.getItem('applicationId') || '';
+            let savedGroupData: any = [];
+            if (applicationId) {
+              savedGroupData = await this.dataService.getNodes(JSON.parse(applicationId), this.screenName, "Table");
+            }
+            this.saveLoader = true;
+            this.employeeService.getSQLDatabaseTable(url).subscribe({
+              next: (res) => {
+                try {
+                  if (tableData && res?.isSuccess) {
+                    if (res.data.length > 0) {
+                      // this.saveLoader = false;
+                      let saveForm = JSON.parse(JSON.stringify(res.data[0]));
+                      const firstObjectKeys = Object.keys(saveForm);
+                      let tableKey = firstObjectKeys.map(key => ({ name: key }));
+                      let obj = firstObjectKeys.map(key => ({ name: key, key: key }));
+                      tableData.tableData = [];
+                      saveForm.id = tableData.tableData.length + 1;
+                      res.data.forEach((element: any) => {
+                        element.id = (element?.id)?.toString();
+                        tableData.tableData?.push(element);
+                      });
+                      // pagniation work start
+                      if (!tableData.end) {
+                        tableData.end = 10;
+                      }
+                      tableData.pageIndex = 1;
+                      tableData.totalCount = res.count;
+                      tableData.serverApi = url;
+                      tableData.targetId = '';
+                      tableData.displayData = tableData.tableData.length > tableData.end ? tableData.tableData.slice(0, tableData.end) : tableData.tableData;
+                      // pagniation work end
+                      if (tableData.tableHeaders.length == 0) {
+                        tableData.tableHeaders = obj;
+                        tableData['tableKey'] = tableKey;
+                      }
+                      else {
+                        if (JSON.stringify(tableData['tableKey']) !== JSON.stringify(tableKey)) {
+                          const updatedData = tableKey.filter(updatedItem =>
+                            !tableData.tableHeaders.some((headerItem: any) => headerItem.key === updatedItem.name)
+                          );
+                          if (updatedData.length > 0) {
+                            updatedData.forEach(updatedItem => {
+                              tableData.tableHeaders.push({ id: tableData.tableHeaders.length + 1, key: updatedItem.name, name: updatedItem.name });
+                            });
+                            tableData['tableKey'] = tableData.tableHeaders;
+                          }
                         }
-                        tableData.pageIndex = 1;
-                        tableData.totalCount = res.count;
-                        tableData.serverApi = url;
-                        tableData.targetId = '';
-                        tableData.displayData = tableData.tableData.length > tableData.end ? tableData.tableData.slice(0, tableData.end) : tableData.tableData;
-                        // pagniation work end
-                        if (tableData.tableHeaders.length == 0) {
-                          tableData.tableHeaders = obj;
-                          tableData['tableKey'] = tableKey;
-                        }
-                        else {
-                          if (JSON.stringify(tableData['tableKey']) !== JSON.stringify(tableKey)) {
-                            const updatedData = tableKey.filter(updatedItem =>
-                              !tableData.tableHeaders.some((headerItem: any) => headerItem.key === updatedItem.name)
-                            );
-                            if (updatedData.length > 0) {
-                              updatedData.forEach(updatedItem => {
-                                tableData.tableHeaders.push({ id: tableData.tableHeaders.length + 1, key: updatedItem.name, name: updatedItem.name });
-                              });
-                              tableData['tableKey'] = tableData.tableHeaders;
+                      }
+
+                      // Make DataType
+                      let propertiesWithoutDataType = tableData.tableHeaders.filter((check: any) => !check.hasOwnProperty('dataType'));
+                      if (propertiesWithoutDataType.length > 0) {
+                        let formlyInputs = this.filterInputElements(this.nodes[0].children[1].children);
+
+                        if (formlyInputs && formlyInputs.length > 0) {
+                          propertiesWithoutDataType.forEach((head: any) => {
+                            let input = formlyInputs.find(a => a.formly[0].fieldGroup[0].key.includes('.') ? a.formly[0].fieldGroup[0].key.split('.')[1] == head.key : a.formly[0].fieldGroup[0].key == head.key);
+
+                            if (input) {
+                              head['dataType'] = input.formly[0].fieldGroup[0].type;
+                              head['subDataType'] = input.formly[0].fieldGroup[0].props.type;
+                              head['title'] = input.title;
                             }
-                          }
+                          });
+
+                          tableData.tableHeaders = tableData.tableHeaders.concat(propertiesWithoutDataType.filter((item: any) => !tableData.tableHeaders.some((objItem: any) => objItem.key === item.key)));
                         }
-
-                        // Make DataType
-                        let propertiesWithoutDataType = tableData.tableHeaders.filter((check: any) => !check.hasOwnProperty('dataType'));
-                        if (propertiesWithoutDataType.length > 0) {
-                          let formlyInputs = this.filterInputElements(this.nodes[0].children[1].children);
-
-                          if (formlyInputs && formlyInputs.length > 0) {
-                            propertiesWithoutDataType.forEach((head: any) => {
-                              let input = formlyInputs.find(a => a.formly[0].fieldGroup[0].key.includes('.') ? a.formly[0].fieldGroup[0].key.split('.')[1] == head.key : a.formly[0].fieldGroup[0].key == head.key);
-
-                              if (input) {
-                                head['dataType'] = input.formly[0].fieldGroup[0].type;
-                                head['subDataType'] = input.formly[0].fieldGroup[0].props.type;
-                                head['title'] = input.title;
-                              }
-                            });
-
-                            tableData.tableHeaders = tableData.tableHeaders.concat(propertiesWithoutDataType.filter((item: any) => !tableData.tableHeaders.some((objItem: any) => objItem.key === item.key)));
-                          }
-                        }
-                        tableData['tableKey'] = tableData.tableHeaders;
-                        let getData = savedGroupData[savedGroupData.length - 1];
-                        if (getData?.data) {
-                          if (getData.data.length > 0) {
-                            let groupingArray: any = [];
-                            let updateTableData: any = [];
-                            getData.data.forEach((elem: any) => {
-                              let findData = tableData.tableHeaders.find((item: any) => item.key == elem);
-                              if (findData) {
-                                updateTableData = this.groupedFunc(elem, 'add', findData, groupingArray, tableData.displayData, tableData.tableData, tableData.tableHeaders);
-                              }
-                            });
-                            tableData.tableData = updateTableData;
-                            tableData.displayData = tableData.tableData.length > tableData.end ? tableData.tableData.slice(0, tableData.end) : tableData.tableData;
-                            tableData.tableHeaders.unshift({
-                              name: 'expand',
-                              key: 'expand',
-                              title: 'Expand',
-                            });
-                            tableData.totalCount = tableData.tableData;
-                          } else {
-                            tableData.tableHeaders = tableData.tableHeaders.filter((head: any) => head.key != 'expand');
-                          }
-
+                      }
+                      tableData['tableKey'] = tableData.tableHeaders;
+                      let getData = savedGroupData[savedGroupData.length - 1];
+                      if (getData?.data) {
+                        if (getData.data.length > 0) {
+                          let groupingArray: any = [];
+                          let updateTableData: any = [];
+                          getData.data.forEach((elem: any) => {
+                            let findData = tableData.tableHeaders.find((item: any) => item.key == elem);
+                            if (findData) {
+                              updateTableData = this.groupedFunc(elem, 'add', findData, groupingArray, tableData.displayData, tableData.tableData, tableData.tableHeaders);
+                            }
+                          });
+                          tableData.tableData = updateTableData;
+                          tableData.displayData = tableData.tableData.length > tableData.end ? tableData.tableData.slice(0, tableData.end) : tableData.tableData;
+                          tableData.tableHeaders.unshift({
+                            name: 'expand',
+                            key: 'expand',
+                            title: 'Expand',
+                          });
+                          tableData.totalCount = tableData.tableData;
                         } else {
                           tableData.tableHeaders = tableData.tableHeaders.filter((head: any) => head.key != 'expand');
                         }
-                        this.saveLoader = false;
+
                       } else {
-                        this.saveLoader = false;
+                        tableData.tableHeaders = tableData.tableHeaders.filter((head: any) => head.key != 'expand');
                       }
-                      // this.assignGridRules(tableData);
-                      this.updateNodes();
-                      this.cdr.detectChanges();
+                      this.saveLoader = false;
                     } else {
                       this.saveLoader = false;
                     }
-                  } catch (error) {
-                    console.error(error);
-                    this.toastr.error("An error occurred", { nzDuration: 3000 });
+                    // this.assignGridRules(tableData);
+                    this.updateNodes();
+                    this.cdr.detectChanges();
+                  } else {
                     this.saveLoader = false;
                   }
-                },
-                error: (error: any) => {
+                } catch (error) {
                   console.error(error);
                   this.toastr.error("An error occurred", { nzDuration: 3000 });
                   this.saveLoader = false;
                 }
-              });
-            }
+              },
+              error: (error: any) => {
+                console.error(error);
+                this.toastr.error("An error occurred", { nzDuration: 3000 });
+                this.saveLoader = false;
+              }
+            });
           }
         } else {
           this.saveLoader = false;
