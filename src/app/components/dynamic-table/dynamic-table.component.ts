@@ -821,7 +821,7 @@ export class DynamicTableComponent implements OnInit {
           }
 
         }
-        else{
+        else {
           url = `knex-query/executeDelete-rules/${findClickApi[0]._id}`;
           if (findClickApi?.[0]._id) {
             this.saveLoader = true;
@@ -1176,47 +1176,50 @@ export class DynamicTableComponent implements OnInit {
         this.showChild = false;
         if (this.data?.openComponent == 'drawer') {
           const drawer = this.findObjectByTypeBase(this.data, "drawer");
-          if (this.drawerChild.length == 0 && drawer.children.length > 0) {
-            this.drawerChild = JSON.parse(JSON.stringify(drawer.children)) 
-          }
-          drawer.children = this.drawerChild;
-          if (drawer?.eventActionconfig) {
-            let newData: any = JSON.parse(JSON.stringify(item));
-            const dataTitle = this.data.title ? this.data.title + '.' : '';
-            newData['parentid'] = newData.id;
-            const userData = JSON.parse(localStorage.getItem('user')!);
-            newData.id = '';
-            newData['organizationid'] = JSON.parse(localStorage.getItem('organizationId')!) || '';
-            newData['applicationid'] = JSON.parse(localStorage.getItem('applicationId')!) || '';
-            newData['createdby'] = userData.username;
-            // Get the current date and time
-            const currentDate = new Date();
+          this.dataSharedService.taskmanagerDrawer.next(false);
+          if (window.location.href.includes('/pages')) {
+            if (this.drawerChild.length == 0 && drawer.children.length > 0) {
+              this.drawerChild = JSON.parse(JSON.stringify(drawer.children))
+            }
+            drawer.children = this.drawerChild;
+            if (drawer?.eventActionconfig) {
+              let newData: any = JSON.parse(JSON.stringify(item));
+              const dataTitle = this.data.title ? this.data.title + '.' : '';
+              newData['parentid'] = newData.id;
+              const userData = JSON.parse(localStorage.getItem('user')!);
+              newData.id = '';
+              newData['organizationid'] = JSON.parse(localStorage.getItem('organizationId')!) || '';
+              newData['applicationid'] = JSON.parse(localStorage.getItem('applicationId')!) || '';
+              newData['createdby'] = userData.username;
+              // Get the current date and time
+              const currentDate = new Date();
 
-            // Format the date and time as "YYYY-MM-DD HH:mm:ss.sss"
-            const formattedDate = `${currentDate.getFullYear()}-${(currentDate.getMonth() + 1).toString().padStart(2, '0')}-${currentDate.getDate().toString().padStart(2, '0')} ${currentDate.getHours().toString().padStart(2, '0')}:${currentDate.getMinutes().toString().padStart(2, '0')}:${currentDate.getSeconds().toString().padStart(2, '0')}.${currentDate.getMilliseconds().toString().padStart(3, '0')}`;
+              // Format the date and time as "YYYY-MM-DD HH:mm:ss.sss"
+              const formattedDate = `${currentDate.getFullYear()}-${(currentDate.getMonth() + 1).toString().padStart(2, '0')}-${currentDate.getDate().toString().padStart(2, '0')} ${currentDate.getHours().toString().padStart(2, '0')}:${currentDate.getMinutes().toString().padStart(2, '0')}:${currentDate.getSeconds().toString().padStart(2, '0')}.${currentDate.getMilliseconds().toString().padStart(3, '0')}`;
 
-            // Now, you can save 'formattedDate' in your SQL database
-            newData.datetime = formattedDate;
+              // Now, you can save 'formattedDate' in your SQL database
+              newData.datetime = formattedDate;
 
 
-            for (const key in newData) {
-              if (Object.prototype.hasOwnProperty.call(newData, key)) {
-                if (newData[key] == null) {
-                  this.formlyModel[dataTitle + key] = '';
-                } else {
-                  this.formlyModel[dataTitle + key] = newData[key];
-                }
-                for (const obj of [this.formlyModel, /* other objects here */]) {
-                  if (Object.prototype.hasOwnProperty.call(obj, key)) {
-                    obj[key] = newData[key];
+              for (const key in newData) {
+                if (Object.prototype.hasOwnProperty.call(newData, key)) {
+                  if (newData[key] == null) {
+                    this.formlyModel[dataTitle + key] = '';
+                  } else {
+                    this.formlyModel[dataTitle + key] = newData[key];
+                  }
+                  for (const obj of [this.formlyModel, /* other objects here */]) {
+                    if (Object.prototype.hasOwnProperty.call(obj, key)) {
+                      obj[key] = newData[key];
+                    }
                   }
                 }
               }
+              drawer.eventActionconfig['parentId'] = item.id;
             }
-            drawer.eventActionconfig['parentId'] = item.id;
-          }
-          if (this.router.url.includes('/pages')) {
-            this.data = JSON.parse(JSON.stringify(this.data));
+            if (window.location.href.includes('/pages')) {
+              this.data = JSON.parse(JSON.stringify(this.data));
+            }
           }
           this.showChild = true;
           drawer['visible'] = true;
@@ -1775,12 +1778,9 @@ export class DynamicTableComponent implements OnInit {
   }
   saveEdit(dataModel: any) {
     let newDataModel = JSON.parse(JSON.stringify(dataModel))
-    const findClickApi = this.data.appConfigurableEvent.find((item: any) =>
-      item.actionLink === 'put' && (item.actionType === 'api' || item.actionType === 'query')
-    );
+    let findClickApi = this.data?.appConfigurableEvent?.filter((item: any) => item.rule.includes('put'));
 
     if (findClickApi) {
-      const { actionType, httpAddress, _id } = findClickApi;
 
       if (newDataModel) {
         for (let key in newDataModel) {
@@ -1796,7 +1796,7 @@ export class DynamicTableComponent implements OnInit {
           modalData: newDataModel
         };
 
-        let url = actionType === 'api' ? httpAddress : actionType === 'query' ? `knex-query/executeQuery/${_id}` : '';
+        let url = findClickApi[0]?._id ? `knex-query/executeDelete-rules/${findClickApi[0]?._id}` : '';
         if (url) {
           this.saveLoader = true;
           this.applicationServices.addNestCommonAPI(url, model).subscribe({

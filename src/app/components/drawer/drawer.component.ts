@@ -53,7 +53,8 @@ export class DrawerComponent implements OnInit {
           if (this.drawerData) {
             if (this.drawerData.eventActionconfig) {
               if (window.location.href.includes('taskmanager.com') && window.location.href.includes('/pages')) {
-                let url = 'knex-query/getAction/' + this.drawerData.eventActionconfig._id;
+                let url = this.drawerData.eventActionconfig._id ? `knex-query/getexecute-rules/${this.drawerData.eventActionconfig._id}` : '';
+                // let url = 'knex-query/getAction/' + this.drawerData.eventActionconfig._id;
                 // if (url) {
                 //   this.drawerData['visible'] = false;
                 // }
@@ -331,7 +332,6 @@ export class DrawerComponent implements OnInit {
         }
       }
       selectedNode = JSON.parse(JSON.stringify(selectedNode));
-      this.dataSharedService.taskmanagerDrawer.next(false);
     }
   }
   pushObjectsById(targetObject: any, sourceArray: any[], idToMatch: string): void {

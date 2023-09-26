@@ -64,7 +64,7 @@ export class PagesComponent implements OnInit {
   isVisible: boolean = false;
   tableRowID: any = '';
   pageRuleList: any[] = [];
-  saveLoader:boolean = false;
+  saveLoader: boolean = false;
   ngOnInit(): void {
     // console.log("pages")
     // 
@@ -316,7 +316,7 @@ export class PagesComponent implements OnInit {
         const element = this.actionRuleList[index];
         let findObj = this.findObjectByKey(nodesData[0], element.componentFrom);
         if (findObj) {
-          if (findObj?.key == element.componentFrom ) {
+          if (findObj?.key == element.componentFrom) {
             if (!checkFirst[findObj?.key]) {
               findObj['appConfigurableEvent'] = [];
               findObj['eventActionconfig'] = {};
@@ -370,7 +370,7 @@ export class PagesComponent implements OnInit {
         this.toastr.error("An error occurred", { nzDuration: 3000 });
       }
     })
-    
+
     this.pageRuleList = this.actionRuleList.filter(a => a.componentFrom === this.resData?.[0]?.key && a.action == 'load');
     if (this.tableRowID) {
       if (this.pageRuleList.length > 0) {
@@ -1550,10 +1550,12 @@ export class PagesComponent implements OnInit {
     }
   }
   makeDynamicSections(api: any, selectedNode: any) {
-
     let checkFirstTime = true;
     let tabsAndStepper: any = [];
     if (api && (selectedNode.componentMapping == undefined || selectedNode.componentMapping == '' || selectedNode.componentMapping == false))
+      this.saveLoader = true;
+
+    try {
       this.requestSubscription = this.applicationService.getNestCommonAPI(api).subscribe({
         next: (res) => {
           if (res.data.length > 0) {
@@ -1562,8 +1564,7 @@ export class PagesComponent implements OnInit {
               let newNode: any = {};
               if (selectedNode.type == 'tabs' || selectedNode.type == 'step' || selectedNode.type == 'div' || selectedNode.type == 'listWithComponentsChild' || selectedNode.type == 'cardWithComponents' || selectedNode.type === 'timelineChild') {
                 newNode = JSON.parse(JSON.stringify(selectedNode?.children));
-              }
-              else {
+              } else {
                 newNode = JSON.parse(JSON.stringify(selectedNode?.children?.[1]?.children?.[0]));
               }
               if (selectedNode.type == 'tabs' || selectedNode.type == 'step' || selectedNode.type == 'div' || selectedNode.type === 'timelineChild' || selectedNode.type == 'listWithComponentsChild' || selectedNode.type == 'cardWithComponents') {
@@ -1583,8 +1584,7 @@ export class PagesComponent implements OnInit {
                     }
                   });
                 }
-              }
-              else if (selectedNode.type != 'tabs' && selectedNode.type != 'step' && selectedNode.type != 'div' && selectedNode.type != 'listWithComponentsChild' && selectedNode.type != 'listWithComponentsChild' && selectedNode.type != 'cardWithComponents') {
+              } else if (selectedNode.type != 'tabs' && selectedNode.type != 'step' && selectedNode.type != 'div' && selectedNode.type != 'listWithComponentsChild' && selectedNode.type != 'listWithComponentsChild' && selectedNode.type != 'cardWithComponents') {
                 if (selectedNode.tableBody) {
                   selectedNode.tableBody.forEach((element: any) => {
                     const keyObj = this.findObjectByKey(newNode, element.fileHeader);
@@ -1598,15 +1598,13 @@ export class PagesComponent implements OnInit {
               if (checkFirstTime) {
                 if (selectedNode.type == 'tabs' || selectedNode.type == 'step' || selectedNode.type == 'div' || selectedNode.type == 'listWithComponentsChild' || selectedNode.type == 'cardWithComponents' || selectedNode.type == 'timelineChild') {
                   selectedNode.children = newNode;
-                }
-                else if (selectedNode.children[1]) {
+                } else if (selectedNode.children[1]) {
                   selectedNode.children[1].children = [];
                   selectedNode?.children[1]?.children?.push(newNode);
                 }
                 this.updateNodes();
                 checkFirstTime = false
-              }
-              else {
+              } else {
                 if (selectedNode.type == 'tabs' || selectedNode.type == 'step' || selectedNode.type == 'listWithComponentsChild') {
                   if (newNode.length) {
                     newNode.forEach((k: any) => {
@@ -1633,8 +1631,7 @@ export class PagesComponent implements OnInit {
                       delete k.mapping
                     });
                   }
-                }
-                else if (selectedNode.type == 'div' || selectedNode.type == 'timelineChild' || selectedNode.type == 'cardWithComponents') {
+                } else if (selectedNode.type == 'div' || selectedNode.type == 'timelineChild' || selectedNode.type == 'cardWithComponents') {
                   let newSelected = JSON.parse(JSON.stringify(selectedNode));
                   newSelected.children = newNode;
                   let data = JSON.parse(JSON.stringify(newSelected));
@@ -1648,21 +1645,32 @@ export class PagesComponent implements OnInit {
                       }
                     }
                   }
-                }
-                else if (selectedNode.children[1]) {
+                } else if (selectedNode.children[1]) {
                   selectedNode?.children[1]?.children?.push(newNode);
                 }
               }
             }
+            this.saveLoader = false;
             this.updateNodes();
           }
         },
         error: (err) => {
           console.error(err);
+          this.saveLoader = false;
           this.toastr.error("An error occurred in mapping", { nzDuration: 3000 });
         }
       })
+    } catch (error) {
+      // Handle the error, log it, or perform any necessary actions
+      this.saveLoader = false;
+      this.toastr.error('An error occurred in mapping:' + error, {
+        nzDuration: 3000,
+      });
+      console.error('An error occurred in mapping:', error);
+      // Optionally, you can rethrow the error to propagate it further
+    }
   }
+
   findObjectByType(data: any, type: any, key?: any) {
     if (data.type === type && data.key === key) {
       return data;

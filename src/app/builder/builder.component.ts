@@ -5493,34 +5493,31 @@ export class BuilderComponent implements OnInit {
     a.click();
   }
   selectedJsonUpload(event: any) {
-    let contents;
-    if (
-      event.target instanceof HTMLInputElement &&
-      event.target.files.length > 0
-    ) {
+    debugger
+    if (event.target instanceof HTMLInputElement && event.target.files.length > 0) {
       const reader = new FileReader();
       reader.onloadend = () => {
         try {
-          contents = reader.result as string;
-          var makeData = JSON.parse(contents);
-          var currentData = JSON.parse(
-            JSON.stringify(makeData, function (key, value) {
-              if (typeof value == 'function') {
-                return value.toString();
-              } else {
-                return value;
-              }
-            }) || '{}'
-          );
+          const contents = reader.result as string;
+          const makeData = JSON.parse(contents);
+
           if (this.selectedNode.children) {
-            this.selectedNode.children.push(currentData);
+            // this.selectedNode.children.push(makeData); // Push the parsed data directly
+            this.selectedNode.children.push(makeData);
+            this.toastr.success('File uploaded successfully!', {
+              nzDuration: 3000,
+            });
+
+            // Ensure Angular's Change Detection is triggered by creating a new array reference
+            let nodesData: any = [...this.nodes]; // Or any other change detection technique
+            this.nodes = [];
             this.updateNodes();
+            this.nodes = nodesData;
+            this.updateNodes();
+            // this.nodes = JSON.parse(JSON.stringify(this.nodes));
+            // Reset the file input value to allow uploading the same file again
+            event.target.value = '';
           }
-          this.toastr.success('File uploaded successfully!', {
-            nzDuration: 3000,
-          });
-          // Reset the file input value to allow uploading the same file again
-          event.target.value = '';
         } catch (error) {
           console.error('Error parsing JSON:', error);
           // Handle the error or show an error message to the user

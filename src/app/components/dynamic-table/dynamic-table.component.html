@@ -104,7 +104,7 @@
               </span> <span *ngIf="header?.gridHeaderSum">({{header?.gridHeaderSum}})</span>
             </th>
           </ng-container>
-          <th *ngIf="isAllowEdit(tableHeaders)" class="!text-gray-500 !text-center !uppercase">Edit</th>
+          <th *ngIf="isAllowEdit(tableHeaders)"  class="!text-gray-500 !text-center !uppercase">Edit</th>
           <th *ngIf="tableHeaders.length > 0 && (data?.isDeleteAllow || data?.isDeleteAllow == undefined)"
             class="!text-gray-500 !uppercase !text-center">Delete
           </th>

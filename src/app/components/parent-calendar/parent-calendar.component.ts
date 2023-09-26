@@ -1,4 +1,5 @@
 import { ChangeDetectorRef, Component, Input } from '@angular/core';
+import { NzMessageService } from 'ng-zorro-antd/message';
 
 @Component({
   selector: 'st-parent-calendar',
@@ -8,38 +9,60 @@ import { ChangeDetectorRef, Component, Input } from '@angular/core';
 export class ParentCalendarComponent {
   @Input() item: any;
   dataGet = false
-  constructor(private changeDetector: ChangeDetectorRef) {
+  loader = false;
+  constructor(private changeDetector: ChangeDetectorRef,
+    private toastr: NzMessageService
+  ) {
     this.processData = this.processData.bind(this);
   }
   ngOnInit() {
-    this.dataGet =  false;
+    this.dataGet = false;
+    if (this.item?.eventActionconfig) {
+      this.item?.eventActionconfig
+      this.loader = true;
+    } else {
+      this.loader = false;
+    }
   }
   processData(data: any[]) {
-    
-    this.dataGet = false;
-    if (data.length > 0) {
-      this.item.options = [];
-      data.forEach((element, index) => {
-        let event = {
-          "id": index + 1, // Increment the index to start from 1
-          "title": element.message,
-          "start": this.extractDate(element.datetime),
-          "backgroundColor": "#fbe0e0",
-          "textColor": "#ea5455",
-          "color": "#EF6C00",
-          "borderColor": "#ea5455"
-        };
-        this.item.options.push(event);
+    try {
+      this.dataGet = false;
+      if (data?.length > 0) {
+        this.item.options = [];
+        data.forEach((element, index) => {
+          let event = {
+            "id": index + 1, // Increment the index to start from 1
+            "title": element.message,
+            "start": this.extractDate(element.datetime),
+            "backgroundColor": "#fbe0e0",
+            "textColor": "#ea5455",
+            "color": "#EF6C00",
+            "borderColor": "#ea5455"
+          };
+          this.item.options.push(event);
+        });
+        let newData = JSON.parse(JSON.stringify(this.item.options));
+        this.item.options = JSON.parse(JSON.stringify(newData));
+        let newItem = JSON.parse(JSON.stringify(this.item));
+        this.item = JSON.parse(JSON.stringify(newItem));
+        this.loader = false;
+      } else {
+        this.loader = false;
+      }
+      this.dataGet = true;
+      this.changeDetector.detectChanges();
+      return data;
+    } catch (error) {
+      this.loader = false;
+      // Handle the error, log it, or perform any necessary actions
+      console.error('An error occurred in processData:', error);
+      this.toastr.error('Error' + error, {
+        nzDuration: 3000,
       });
-      let newData = JSON.parse(JSON.stringify(this.item.options));
-      this.item.options = JSON.parse(JSON.stringify(newData));
-      let newItem = JSON.parse(JSON.stringify(this.item));
-      this.item = JSON.parse(JSON.stringify(newItem));
+      return data;
     }
-    this.dataGet = true;
-    this.changeDetector.detectChanges();
-    return data
   }
+
   extractDate(date: any) {
     const dateObject = new Date(date);
     const year = dateObject.getFullYear();
