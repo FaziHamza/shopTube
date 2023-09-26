@@ -180,36 +180,34 @@ export class ActionRuleComponent implements OnInit {
       joinTables.push(element.name);
       let fields = [];
       let values: any[] = [];
-      let j = 0;
-      for (const key in this.formlyModel) {
-        j++;
-        if (typeof this.formlyModel[key] != 'object') {
-          const keys = key.split('.')
-          if (keys[0] == element.name) {
-            const item = this.formlyModel[key] ? this.formlyModel[key] : `value${j}`;
-            if (item) {
-              const keyvalue = key.replace(`${element.name}.`, '');
-              fields.push(keyvalue.toLocaleLowerCase());
-              if (keyvalue.includes('_id')) {
-                let s = (keyvalue).toLowerCase()
-                s = s.replace('_id', '');
-                s = (`${s}.${keyvalue}`);
-                values.push(`$${s.toLocaleLowerCase()}`);
-              } else {
-                if (this.actionForm.value.actionLink == 'put') {
-                  const valueMatched = key.split('.')[1];
-                  values.push(`$${valueMatched ? valueMatched.toLocaleLowerCase() : key.toLocaleLowerCase()}`);
-                }
-                else
-                  values.push(`$${key.toLocaleLowerCase()}`);
-              }
+
+      for (let j = 0; j < Object.keys(this.formlyModel).length; j++) {
+        const key = Object.keys(this.formlyModel)[j];
+        const keys = key.split('.')
+        if (keys[0] == element.name) {
+          const item = this.formlyModel[key] ? this.formlyModel[key] : `value${j}`;
+          if (item) {
+            const keyvalue = key.replace(`${element.name}.`, '');
+            fields.push(keyvalue.toLocaleLowerCase());
+            if (keyvalue.includes('_id')) {
+              let s = (keyvalue).toLowerCase()
+              s = s.replace('_id', '');
+              s = (`${s}.${keyvalue}`);
+              values.push(`$${s.toLocaleLowerCase()}`);
+            } else {
               if (this.actionForm.value.actionLink == 'put') {
                 const valueMatched = key.split('.')[1];
-                joinFields.push(`${valueMatched ? valueMatched.toLocaleLowerCase() : key.toLocaleLowerCase()}`);
-
-              } else {
-                joinFields.push(`${key.toLocaleLowerCase()}`);
+                values.push(`$${valueMatched ? valueMatched.toLocaleLowerCase() : key.toLocaleLowerCase()}`);
               }
+              else
+                values.push(`$${key.toLocaleLowerCase()}`);
+            }
+            if (this.actionForm.value.actionLink == 'put') {
+              const valueMatched = key.split('.')[1];
+              joinFields.push(`${valueMatched ? valueMatched.toLocaleLowerCase() : key.toLocaleLowerCase()}`);
+
+            } else {
+              joinFields.push(`${key.toLocaleLowerCase()}`);
             }
           }
         }
@@ -246,7 +244,7 @@ export class ActionRuleComponent implements OnInit {
       } else if (this.actionForm.value.actionLink == 'post') {
         const columnName = fields.filter(item => item !== 'id');
         const columnValues = values.filter(item => !item.includes('.id'));
-        dataForQuery += `insert into ${element.name.toLocaleLowerCase()} ( ${columnName.join(', ')} ) OUTPUT INSERTED.ID VALUES ( ${columnValues.join(', ')});`;
+        dataForQuery += `insert into ${element.name.toLocaleLowerCase()} ( ${columnName.join(', ')} ) OUTPUT INSERTED.* VALUES ( ${columnValues.join(', ')});`;
         // dataForQuery += `insert into ${element.name.toLocaleLowerCase()} ( ${columnName.join(', ')} ) VALUES ( ${columnValues.join(', ')}) RETURNING id;`;
       } else if (this.actionForm.value.actionLink == 'put') {
         const columnName = fields.filter(item => item !== 'id');
@@ -406,7 +404,11 @@ export class ActionRuleComponent implements OnInit {
     const mainModuleId = this.screens.filter((a: any) => a.name == this.screenName)
     this.applicationService.deleteNestCommonAPI('cp/Action/DeleteAction', mainModuleId[0]._id).subscribe(res => {
       const observables = this.actionForm.value.Actions.map((element: any) => {
-
+        let queryType = '';
+        if(!element.referenceId.includes(element.referenceId + '_'))
+          queryType  = element.actionLink + '_' + element.referenceId;
+        else
+            queryType = element.referenceId;
         let actionData: any = {
           "moduleName": this.screenName,
           "moduleId": mainModuleId.length > 0 ? mainModuleId[0].navigation : "",
@@ -416,7 +418,7 @@ export class ActionRuleComponent implements OnInit {
           "elementNameTo": element.elementNameTo,
           "actionType": element.actionType,
           "actionLink": element.actionLink,
-          "quryType": element.referenceId,
+          "quryType": queryType,
           "quries": element.query,
           "submit": element.submit,
           "type": element.type,
@@ -529,7 +531,7 @@ export class ActionRuleComponent implements OnInit {
         this.ActionsForms.at(index).patchValue({ confirmEmail: value });
       }
   }
-
+  
   getFromQuery() {
     let tableData = this.findObjectByTypeBase(this.nodes[0], "gridList");
     if (tableData) {
@@ -606,7 +608,7 @@ export class ActionRuleComponent implements OnInit {
       }
     }
   }
-
+  
   getPendingTableFileds() {
     this.requestSubscription = this.builderService.getPendingTableFields('knex-crud/getPending/table_schema/' + this.screeenBuilderId).subscribe({
       next: (res: any) => {

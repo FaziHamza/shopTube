@@ -788,10 +788,10 @@ export class DynamicTableComponent implements OnInit {
     };
     if (this.screenName != undefined) {
       if (this.data?.appConfigurableEvent) {
-        let findClickApi = this.data?.appConfigurableEvent?.filter((item: any) => item.actionLink === 'delete' && (item.actionType == 'api' || item.actionType == 'query'));
+        let findClickApi = this.data?.appConfigurableEvent?.filter((item: any) => item.rule.includes('delete'));
         let id = '';
         if (findClickApi?.length > 0) {
-          if (findClickApi[0]?.httpAddress.includes('EnumList')) {
+          if (findClickApi[0]?.rule.includes('EnumList')) {
             id = data?._id
           } else
             id = data?.id
@@ -799,7 +799,7 @@ export class DynamicTableComponent implements OnInit {
           id = data?.id
         let url = '';
         if (findClickApi[0]?.actionType == 'api') {
-          url = findClickApi[0]?.httpAddress;
+          url = findClickApi[0]?.rule;
           if (url) {
             this.saveLoader = true;
             this.requestSubscription = this.employeeService.deleteCommonApi(url, id).subscribe({
@@ -821,9 +821,9 @@ export class DynamicTableComponent implements OnInit {
           }
 
         }
-        else if (findClickApi[0]?.actionType == 'query') {
-          url = 'knex-query/executeQuery/' + findClickApi[0]._id;
-          if (url) {
+        else{
+          url = `knex-query/executeDelete-rules/${findClickApi[0]._id}`;
+          if (findClickApi?.[0]._id) {
             this.saveLoader = true;
             this.requestSubscription = this.employeeService.saveSQLDatabaseTable(url, model).subscribe({
               next: (res) => {
@@ -1673,7 +1673,7 @@ export class DynamicTableComponent implements OnInit {
           savedGroupData = await this.dataService.getNodes(JSON.parse(applicationId), this.screenName, "Table");
         }
         if (this.data?.eventActionconfig && !this.childTable && Object.keys(this.data.eventActionconfig).length > 0) {
-          if (this.data?.eventActionconfig?.httpAddress.includes('market-place')) {
+          if (this.data?.eventActionconfig?.rule.includes('market-place')) {
             res.data = res.data.map((item: any) => ({
               id: item._id, // Rename _id to id
               name: item.name,
@@ -1698,7 +1698,7 @@ export class DynamicTableComponent implements OnInit {
           if (tableData.eventActionconfig.actionType == 'query') {
             tableData.serverApi = `knex-query/getAction/${tableData.eventActionconfig._id}`;
           } else if (tableData.eventActionconfig.actionType == 'api') {
-            tableData.serverApi = tableData.eventActionconfig.httpAddress;
+            tableData.serverApi = tableData.eventActionconfig.rule;
           }
         }
         this.data.targetId = '';

@@ -83,7 +83,7 @@ export class ConfigurableSelectDirective implements OnInit, OnDestroy {
 
   private executeAction(action: Action): Observable<any> {
     const { _id, actionLink, data, headers, parentId } = action;
-    return this.applicationService.callApi(`knex-query/getAction/${_id}`, actionLink, data, headers, parentId)
+    return this.applicationService.callApi(`knex-query/getexecute-rules/${_id}`, 'get', data, headers, parentId)
       .pipe(takeUntil(this.unsubscribe$));
   }
 }
@@ -98,4 +98,5 @@ type Action = {
   headers?: any;
   _id?: any;
   parentId?: any;
+  screenBuilderId?: any;
 };
