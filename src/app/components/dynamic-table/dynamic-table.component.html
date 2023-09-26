@@ -143,7 +143,7 @@
                   </div>
                   <div [ngStyle]="{'text-align': header?.position ? header?.position : 'left'}"
                     *ngIf=" isMyDataArray(item[header.key]) ">
-                    <nz-select nzAllowClear nzShowSearch style="width: 100px" nzPlaceHolder="Select Value"
+                    <nz-select nzAllowClear  nzShowSearch style="width: 100px" nzPlaceHolder="Select Value"
                       [(ngModel)]="item.defaultValue" (ngModelChange)="select(i, $event)">
                       <nz-option *ngFor="let option of item[header.key]"
                         [nzLabel]="option.type ? option.type : option.key"
@@ -157,7 +157,7 @@
                       {{item[header.key] | translate}}
                     </div>
                     <nz-select *ngIf="editId == item.id && (configurationTable || header?.editMode)" nzAllowClear
-                      nzShowSearch style="width: 100px" nzPlaceHolder="Select Value" [(ngModel)]="item[header.key]">
+                      nzShowSearch class="dynamic-selector" style="width: 100px" nzPlaceHolder="Select Value" [(ngModel)]="item[header.key]">
                       <nz-option *ngFor="let option of item[header.key+'_list']" [nzLabel]="option.label "
                         [nzValue]="option.value ">
                       </nz-option>
