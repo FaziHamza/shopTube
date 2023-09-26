@@ -6,6 +6,7 @@ import {
 import { DomSanitizer } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import { NzMessageService } from 'ng-zorro-antd/message';
+import { NzModalService } from 'ng-zorro-antd/modal';
 import { Subscription } from 'rxjs';
 import { ApplicationService } from 'src/app/services/application.service';
 import { BuilderService } from 'src/app/services/builder.service';
@@ -75,7 +76,8 @@ export class DynamicTableComponent implements OnInit {
     private employeeService: EmployeeService, private toastr: NzMessageService, private cdr: ChangeDetectorRef,
     public dataSharedService: DataSharedService,
     private applicationServices: ApplicationService,
-    private sanitizer: DomSanitizer, private router: Router, private http: HttpClient
+    private sanitizer: DomSanitizer, private router: Router, private http: HttpClient,
+    private modal: NzModalService
   ) {
     this.processData = this.processData.bind(this);
   }
@@ -821,7 +823,7 @@ export class DynamicTableComponent implements OnInit {
           }
 
         }
-        else{
+        else {
           url = `knex-query/executeDelete-rules/${findClickApi[0]._id}`;
           if (findClickApi?.[0]._id) {
             this.saveLoader = true;
@@ -1170,14 +1172,15 @@ export class DynamicTableComponent implements OnInit {
   }
   checkTypeData(item: any, header: any) {
     debugger
-    let checkAllowClick = this.tableHeaders.find((head: any) => head.key == header.key)
-    if (checkAllowClick && (header?.dataType != 'repeatSection' || header?.dataType == '' || header?.dataType == undefined)) {
-      if (checkAllowClick?.callApi != '' && checkAllowClick?.callApi != null) {
-        this.showChild = false;
-        if (this.data?.openComponent == 'drawer') {
-          const drawer = this.findObjectByTypeBase(this.data, "drawer");
+    if (header?.callApi != '' && header?.callApi != null && (header?.dataType != 'repeatSection' || header?.dataType == '' || header?.dataType == undefined)) {
+      this.showChild = false;
+      if (this.data?.openComponent == 'drawer') {
+        this.editId = null;
+        this.dataSharedService.taskmanagerDrawer.next(false);
+        const drawer = this.findObjectByTypeBase(this.data, "drawer");
+        if (window.location.href.includes('/pages')) {
           if (this.drawerChild.length == 0 && drawer.children.length > 0) {
-            this.drawerChild = JSON.parse(JSON.stringify(drawer.children)) 
+            this.drawerChild = JSON.parse(JSON.stringify(drawer.children))
           }
           drawer.children = this.drawerChild;
           if (drawer?.eventActionconfig) {
@@ -1215,13 +1218,15 @@ export class DynamicTableComponent implements OnInit {
             }
             drawer.eventActionconfig['parentId'] = item.id;
           }
-          if (this.router.url.includes('/pages')) {
+          if (window.location.href.includes('/pages')) {
             this.data = JSON.parse(JSON.stringify(this.data));
           }
-          this.showChild = true;
-          drawer['visible'] = true;
         }
+        this.showChild = true;
+        drawer['visible'] = true;
       }
+    } else {
+      this.startEdit(item.id)
     }
 
   }
@@ -1775,12 +1780,9 @@ export class DynamicTableComponent implements OnInit {
   }
   saveEdit(dataModel: any) {
     let newDataModel = JSON.parse(JSON.stringify(dataModel))
-    const findClickApi = this.data.appConfigurableEvent.find((item: any) =>
-      item.actionLink === 'put' && (item.actionType === 'api' || item.actionType === 'query')
-    );
+    let findClickApi = this.data?.appConfigurableEvent?.filter((item: any) => item.rule.includes('put'));
 
     if (findClickApi) {
-      const { actionType, httpAddress, _id } = findClickApi;
 
       if (newDataModel) {
         for (let key in newDataModel) {
@@ -1796,7 +1798,7 @@ export class DynamicTableComponent implements OnInit {
           modalData: newDataModel
         };
 
-        let url = actionType === 'api' ? httpAddress : actionType === 'query' ? `knex-query/executeQuery/${_id}` : '';
+        let url = findClickApi[0]?._id ? `knex-query/executeDelete-rules/${findClickApi[0]?._id}` : '';
         if (url) {
           this.saveLoader = true;
           this.applicationServices.addNestCommonAPI(url, model).subscribe({
@@ -1966,6 +1968,10 @@ export class DynamicTableComponent implements OnInit {
     }
   }
   onFileSelected(event: any): void {
+    if (!this.data?.tableName) {
+      this.toastr.error('Required Impot table name', { nzDuration: 2000 });
+      return
+    }
     const file: File = event.target.files[0];
 
     if (file) {
@@ -1974,9 +1980,8 @@ export class DynamicTableComponent implements OnInit {
 
       const formData: FormData = new FormData();
       formData.append('file', file);
-
       this.http
-        .post(this.serverPath + '/knex-query/savecsv', formData, {
+        .post(this.serverPath + '/knex-query/savecsv/'+this.data?.tableName, formData, {
           reportProgress: true, // Enable progress reporting
           observe: 'events', // Observe Http events
         })
@@ -1994,7 +1999,7 @@ export class DynamicTableComponent implements OnInit {
               this.fileUpload = ''; // This clears the file input
               if (event.body.isSuccess) {
                 if (this.data.appConfigurableEvent) {
-                  let url = 'knex-query/getAction/' + this.data.eventActionconfig._id;
+                  let url = 'knex-query/getexecute-rules/' + this.data.eventActionconfig._id;
                   this.saveLoader = true;
                   this.applicationService.callApi(url, 'get', '', '', '').subscribe({
                     next: (res) => {
@@ -2034,6 +2039,19 @@ export class DynamicTableComponent implements OnInit {
       return ''
     }
 
+  }
+
+  showDeleteConfirm(rowData: any): void {
+    this.modal.confirm({
+      nzTitle: 'Are you sure delete this Row?',
+      // nzContent: '<b style="color: red;">Some descriptions</b>',
+      nzOkText: 'Yes',
+      nzOkType: 'primary',
+      nzOkDanger: true,
+      nzOnOk: () => this.deleteRow(rowData),
+      nzCancelText: 'No',
+      nzOnCancel: () => console.log('Cancel')
+    });
   }
 
 }

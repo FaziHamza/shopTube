@@ -104,7 +104,7 @@
               </span> <span *ngIf="header?.gridHeaderSum">({{header?.gridHeaderSum}})</span>
             </th>
           </ng-container>
-          <th *ngIf="isAllowEdit(tableHeaders)" class="!text-gray-500 !text-center !uppercase">Edit</th>
+          <th *ngIf="isAllowEdit(tableHeaders)"  class="!text-gray-500 !text-center !uppercase">Edit</th>
           <th *ngIf="tableHeaders.length > 0 && (data?.isDeleteAllow || data?.isDeleteAllow == undefined)"
             class="!text-gray-500 !uppercase !text-center">Delete
           </th>
@@ -125,7 +125,7 @@
               <td *ngIf="data.showCheckbox" [(nzChecked)]="item.checked" (nzCheckedChange)="refreshStatus()"
                 [ngStyle]="{'text-align': data.position ? data.position : 'left'}"></td>
               <ng-container *ngFor="let header of data['tableKey']; let index = index">
-                <td (click)="checkTypeData(item , header)" (click)="startEdit(item.id)"
+                <td (click)="checkTypeData(item , header)" 
                   [ngClass]="{'disabled-link' : header.key  == 'key'}" [nzEllipsis]="true" class="5"
                   [style.background]="item[header.key]== item?.colorDataType && editId !== item.id  ?  item?.columnColor : ''"
                   *ngIf="(header?.show == true || header?.show === undefined || header?.show === '' || header?.show == 'Yes') && header?.dataType !='objectType' && header.key != 'headerButton' && header.key != 'footerButton' && header.key != 'expandable' && header.key != 'checked'
@@ -143,7 +143,7 @@
                   </div>
                   <div [ngStyle]="{'text-align': header?.position ? header?.position : 'left'}"
                     *ngIf=" isMyDataArray(item[header.key]) ">
-                    <nz-select nzAllowClear nzShowSearch style="width: 100px" nzPlaceHolder="Select Value"
+                    <nz-select nzAllowClear  nzShowSearch style="width: 100px" nzPlaceHolder="Select Value"
                       [(ngModel)]="item.defaultValue" (ngModelChange)="select(i, $event)">
                       <nz-option *ngFor="let option of item[header.key]"
                         [nzLabel]="option.type ? option.type : option.key"
@@ -157,7 +157,7 @@
                       {{item[header.key] | translate}}
                     </div>
                     <nz-select *ngIf="editId == item.id && (configurationTable || header?.editMode)" nzAllowClear
-                      nzShowSearch style="width: 100px" nzPlaceHolder="Select Value" [(ngModel)]="item[header.key]">
+                      nzShowSearch class="dynamic-selector" style="width: 100px" nzPlaceHolder="Select Value" [(ngModel)]="item[header.key]">
                       <nz-option *ngFor="let option of item[header.key+'_list']" [nzLabel]="option.label "
                         [nzValue]="option.value ">
                       </nz-option>
@@ -218,7 +218,7 @@
                 <i class="fa-regular !text-sm fa-save text-blue-500"></i>
               </td>
               <td *ngIf="data?.isDeleteAllow || data?.isDeleteAllow == undefined" class="!text-center">
-                <a nz-popconfirm nzPopconfirmTitle="Sure to delete?" (nzOnConfirm)="deleteRow(item)">
+                <a (click)="showDeleteConfirm(item)">
                   <i class="fa-regular fa-trash !text-sm text-red-500"></i>
                 </a>
               </td>

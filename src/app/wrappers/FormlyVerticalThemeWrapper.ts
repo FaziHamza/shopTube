@@ -24,14 +24,14 @@ import { Subscription } from 'rxjs';
         <span nz-icon [nzType]="to['additionalProperties']['tooltipIcon'] ?  to['additionalProperties']['tooltipIcon'] : 'question-circle'" [class]="to['additionalProperties']['toolTipClass']" nzTheme="outline"></span>
       </span>
     </label>
-    <div class="w-2/3 column-form-input form-control-style v-body-border" style="padding: 0px">
+    <div [nzTooltipTitle]="hasError && to['additionalProperties']?.requiredMessage ? to['additionalProperties']?.requiredMessage : ''" nz-tooltip class="w-2/3 column-form-input form-control-style v-body-border" style="padding: 0px">
       <ng-template #fieldComponent></ng-template>
     </div>
-    <div *ngIf="hasError && to.label && to['additionalProperties']?.requiredMessage" class="w-1/3 {{to['additionalProperties']?.labelPosition}}"></div>
+    <!-- <div *ngIf="hasError && to.label && to['additionalProperties']?.requiredMessage" class="w-1/3 {{to['additionalProperties']?.labelPosition}}"></div>
     <div *ngIf="hasError && to['additionalProperties']?.requiredMessage" class="w-2/3 text-red-500 font-semibold text-sm block p-1.5 border border-gray-300 bg-white">
-      <span>{{to['additionalProperties']?.requiredMessage}}</span>
+      <span>{{to['additionalProperties']?.requiredMessage}}</span> -->
       <!-- <formly-validation-message [field]="field"></formly-validation-message> -->
-    </div>
+    <!-- </div> -->
   </div>
   `,
 })

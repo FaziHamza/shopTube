@@ -46,10 +46,10 @@
       </div>
       <div>
         <div class="basic-button-save">
-          <button nz-button nzType="primary" class="save-btn ml-3" (click)="addActionFormGroup()">
+          <button nz-button nzType="primary" class="save-btn !h-[35px] " (click)="addActionFormGroup()">
             <span nz-icon nzType="plus" nzTheme="outline"></span>
             Add Action</button>
-          <button nz-button nzType="primary" class="save-btn ml-3" (click)="makeActionRules()">
+          <button nz-button nzType="primary" class="save-btn ml-2 !h-[35px]" (click)="makeActionRules()">
             <span nz-icon nzType="plus" nzTheme="outline"></span>
             Add All Action</button>
         </div>
@@ -58,38 +58,52 @@
 
     <div class="mb-3" formArrayName="Actions">
       <ng-container *ngFor="let ActionForm of ActionsForms.controls; let i = index">
-        <div class="flex flex-wrap mt-1" style="border: 1px solid rgb(197 187 187); border-radius: 5px;"
+        <div class="flex flex-wrap my-2" style="border: 1px solid rgb(197 187 187); border-radius: 5px;"
           [formGroupName]="i">
-          <div class="w-10/12 p-1">
+          <div class="w-full p-1">
             <div *ngIf="ActionsForms.value[i].type == 'email'">
-              <nz-form-label [nzSm]="6" [nzXs]="24">Email</nz-form-label>
-              <nz-radio-group class="ml-2" formControlName="sqlType" nzButtonStyle="solid"
+
+              <!-- <div class="flex items-center w-full" >
+
+                <div class="w-4/5 flex justify-normal items-center p-1" >
+                  <nz-form-label [nzSm]="6" [nzXs]="24">Email</nz-form-label>
+                  <input nz-input type="text" formControlName="referenceId" style="width: calc(100% - 40px) !important;">
+                </div>
+              <nz-radio-group class="w-1/5 flex justify-center items-center p-1" formControlName="sqlType" nzButtonStyle="solid"
                 (ngModelChange)="changePostgress(ActionsForms.value[i].type, i)">
                 <label nz-radio-button nzValue="sql">Sql</label>
                 <label nz-radio-button nzValue="mySql">MySql</label>
                 <label nz-radio-button nzValue="postgress">Postgress</label>
               </nz-radio-group>
-              <input nz-input type="text" formControlName="referenceId" style="width: 18%;margin-bottom: 1%;">
-              <textarea class="form-control" formControlName="email" cols="30" rows="5"></textarea>
+              
+            </div> -->
+            <div class="!w-full" >
+              <textarea class="form-control" formControlName="email" class="!w-full rounded border border-gray-400 p-1 !mb-2" rows="5"></textarea>
+            </div>
               <!-- <ngx-monaco-editor class="textEditorContainer" [options]="editorOptions" formControlName="email"
                 (init)="editorInit($event)"></ngx-monaco-editor> -->
             </div>
-            <div *ngIf="ActionsForms.value[i].type == 'query'">
-              <nz-form-label [nzSm]="6" [nzXs]="24">Query</nz-form-label>
-              <input nz-input type="text" formControlName="referenceId" class="form-control"
-                style="width: 18%;margin-bottom: 1%;">
-              <nz-radio-group class="ml-2" formControlName="sqlType" nzButtonStyle="solid"
+            <div *ngIf="ActionsForms.value[i].type == 'query'" >
+              <!-- <div class="flex items-center w-full" >
+                <div class="w-4/5 flex justify-normal items-center p-1" >
+                  <nz-form-label class="!w-10" [nzSm]="6" [nzXs]="24">Query</nz-form-label>
+                  <input nz-input type="text" formControlName="referenceId" class="form-control " style="width: calc(100% - 40px) !important;">
+                </div>
+              <nz-radio-group class="w-1/5 flex justify-center items-center p-1" formControlName="sqlType" nzButtonStyle="solid"
                 (ngModelChange)="changePostgress(ActionsForms.value[i].type, i)">
                 <label nz-radio-button nzValue="sql">Sql</label>
                 <label nz-radio-button nzValue="mySql">MySql</label>
                 <label nz-radio-button nzValue="postgress">Postgress</label>
               </nz-radio-group>
-              <textarea class="form-control" formControlName="query" cols="30" rows="5"></textarea>
+            </div> -->
+            <div class="!w-full" >
+              <textarea class="form-control !w-full border border-gray-400 rounded p-1 !mb-2" formControlName="query"  rows="5"></textarea>
+            </div>
               <!-- <ngx-monaco-editor class="textEditorContainer" [options]="editorOptions" [id]="'query' + i"
                 formControlName="query" (init)="editorInit($event)"></ngx-monaco-editor> -->
             </div>
             <div >
-              <div class="w-full pl-2">
+              <div class="w-full">
                 <div class="flex flex-wrap">
                   <div class="w-1/2 theme-body">
                     <div class=" flex flex-wrap">
@@ -144,7 +158,7 @@
                       </label>
                       <div class="w-2/3 column-form-input form-control-style v-body-border" style="padding: 0px">
                         <input nz-input type="text" placeholder="Enter value" id="actionLink{{i}}" [disabled]="true"
-                          [readOnly]="true" formControlName="actionLink" required class="form-control"
+                          class="!bg-[#f5f5f5] !cursor-not-allowed" formControlName="actionLink" readonly required class="form-control"
                           name="actionLink{{i}}" />
                       </div>
                     </div>
@@ -202,11 +216,11 @@
                 formControlName="confirmEmail" (init)="editorInit($event)"></ngx-monaco-editor> -->
             </div>
           </div>
-          <div class="w-2/12 business-rule-form" style="margin-top: 7%;">
+          <div class="!w-full p-1 !flex !justify-end items-start business-rule-form">
             <button nz-button nzType="primary" nzDanger (click)="removeActionFormGroup(i,ActionsForms.value[i])">
               <i class="fa-regular fa-trash text-[10px] "></i>
             </button>
-            <button nz-button nzType="primary" nzDanger class="ml-2"
+            <button nz-button nzType="primary" class="ml-2"
               (click)="duplicateActionFormGroup(i,ActionsForms.value[i].type)">
               <i class="fa-regular fa-copy text-[10px] "></i> </button>
 

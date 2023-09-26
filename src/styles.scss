@@ -184,8 +184,8 @@ object {
   .errorClass .ant-input {
     border: 1px solid red !important;
   }
-  
-  .errorClass .ant-select-selector{
+
+  .errorClass .ant-select-selector {
     border: 1px solid red !important;
   }
 
@@ -388,6 +388,10 @@ object {
         top: 30px !important;
       }
     }
+  }
+
+  .ant-select .ant-select-selector {
+    height: 30px;
   }
 
   .ng-select-container {
@@ -3637,7 +3641,7 @@ object {
       background: #FFF;
       overflow: hidden;
       box-shadow: 7px 0px 15px -5px rgba(0, 0, 0, 0.05) !important;
-
+      border-top-right-radius: 8px !important;
     }
 
     .ant-menu.ant-menu-root {
@@ -6798,10 +6802,10 @@ tr:hover {
 
 .dynamic-table-form {
 
-  .ant-table-content > table:nth-child(1) {
+  .ant-table-content>table:nth-child(1) {
     table-layout: fixed !important;
   }
-  
+
 
   dynamic-table.ng-star-inserted>div:nth-child(1) {
     margin: 5px 0 !important;
@@ -7306,3 +7310,9 @@ input[type=file]::file-selector-button:hover {
   }
 }
 
+.dynamic-selector .ant-select-selector {
+  height: 31px !important;
+  border-radius: 4px !important;
+  padding-left: 5px !important;
+  padding-right: 5px !important;
+}
