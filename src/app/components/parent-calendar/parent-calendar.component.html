@@ -3,7 +3,7 @@
     <div [processData]="processData" [appConfigurableSelect]="item['appConfigurableEvent']"
         [loadAction]="item['eventActionconfig']">
         <div *ngIf="dataGet">
-            <st-calendar [calenderData]="item"></st-calendar>
+            <st-calendar [calenderData]="item" [screenName]="screenName"></st-calendar>
         </div>
     </div>
 </nz-spin>

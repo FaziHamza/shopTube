@@ -27,6 +27,7 @@ export class GenericFieldComponent implements OnInit {
   @Output() deleteValidation: EventEmitter<any> = new EventEmitter<any>();
   requestSubscription: Subscription;
   resData: any;
+  saveLoader: boolean = false;
   publicList: object[] = [
     { productName: "Samsung", quantity: 2 },
     { productName: "Apple", quantity: 1 }
@@ -109,9 +110,11 @@ export class GenericFieldComponent implements OnInit {
     let obj: { mapApi?: any } = this.actionform.value;
     if (obj.mapApi) {
       try {
+        this.saveLoader = true;
         this.requestSubscription = this.applicationService.getNestCommonAPI(obj.mapApi).subscribe({
           next: (res) => {
             if (res.data.length > 0) {
+              this.saveLoader = false;
               this.resData = res.data;
               this.itemData.mappingNode.tableBody = [];
               let firstObjectKeys = Object.keys(res.data[0]);
@@ -142,10 +145,12 @@ export class GenericFieldComponent implements OnInit {
           }
         });
       } catch (error) {
+        this.saveLoader = false;
         console.error("An error occurred in try-catch:", error);
         // Handle the error appropriately, e.g., show an error message to the user.
       }
     } else {
+      this.saveLoader = false;
       this.itemData.mappingNode.tableBody = [];
     }
   }
