@@ -34,13 +34,13 @@
       </div>
     </div>
     <div class='demo-app-main' [ngClass]="calenderData.details ? 'w-10/12 pl-1' : 'w-full'">
-      <nz-spin [nzSpinning]="loader" >
+      <!-- <nz-spin [nzSpinning]="loader" > -->
         <full-calendar *ngIf='calendarVisible' [options]='calendarOptions'>
           <ng-template #eventContent let-arg>
             <b>{{ arg.timeText }}</b>
             <i>{{ arg.event.title }}</i>
           </ng-template>
         </full-calendar>
-      </nz-spin>
+      <!-- </nz-spin> -->
     </div>
   </div>
