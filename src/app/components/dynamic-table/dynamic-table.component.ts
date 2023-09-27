@@ -2051,6 +2051,7 @@ export class DynamicTableComponent implements OnInit {
       nzTitle: 'Are you sure delete this Row?',
       // nzContent: '<b style="color: red;">Some descriptions</b>',
       nzOkText: 'Yes',
+      nzClassName : 'deleteRow',
       nzOkType: 'primary',
       nzOkDanger: true,
       nzOnOk: () => this.deleteRow(rowData),

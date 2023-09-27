@@ -286,26 +286,26 @@ export class SectionsComponent implements OnInit {
           this.applicationServices.addNestCommonAPI('knex-query/execute-rules/' + findClickApi[0]?._id, empData).subscribe({
             next: (res) => {
               this.saveLoader = false;
-              if(res){
+              if (res) {
                 if (res[0]?.error)
-                this.toastr.error(res[0]?.error, { nzDuration: 3000 });
-              else {
-                this.toastr.success("Save Successfully", { nzDuration: 3000 });
-                let tableName: any = '';
-                if (res[0]) {
-                  tableName = res[0].tableName ? res[0].tableName.split('.')[1].split('_')[0] : '';
+                  this.toastr.error(res[0]?.error, { nzDuration: 3000 });
+                else {
+                  this.toastr.success("Save Successfully", { nzDuration: 3000 });
+                  let tableName: any = '';
+                  if (res[0]) {
+                    tableName = res[0].tableName ? res[0].tableName.split('.')[1].split('_')[0] : '';
+                  }
+                  this.setInternalValuesEmpty(this.dataModel);
+                  this.setInternalValuesEmpty(this.formlyModel);
+                  this.form.patchValue(this.formlyModel);
+                  if (tableName) {
+                    this.recursiveUpdate(this.formlyModel, tableName, res)
+                  }
+                  this.getFromQuery(data);
+                  if (window.location.href.includes('taskmanager.com')) {
+                    this.dataSharedService.taskmanagerDrawer.next(true);
+                  }
                 }
-                this.setInternalValuesEmpty(this.dataModel);
-                this.setInternalValuesEmpty(this.formlyModel);
-                this.form.patchValue(this.formlyModel);
-                if (tableName) {
-                  this.recursiveUpdate(this.formlyModel, tableName, res)
-                }
-                this.getFromQuery(data);
-                if (window.location.href.includes('taskmanager.com')) {
-                  this.dataSharedService.taskmanagerDrawer.next(true);
-                }
-              }
               }
 
             },
@@ -352,6 +352,9 @@ export class SectionsComponent implements OnInit {
               this.setInternalValuesEmpty(this.formlyModel);
               this.form.patchValue(this.formlyModel);
               this.getFromQuery(data);
+              if (window.location.href.includes('taskmanager.com')) {
+                this.dataSharedService.taskmanagerDrawer.next(true);
+              }
             },
             error: (err) => {
               this.saveLoader = false;

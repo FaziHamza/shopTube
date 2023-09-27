@@ -8,7 +8,9 @@ import { Router } from '@angular/router';
 })
 export class HeadingComponent implements OnInit {
   @Input() headingData: any;
-  constructor(private router: Router) { }
+  constructor(private router: Router) {
+    this.processData = this.processData.bind(this);
+  }
 
   ngOnInit(): void {
 
@@ -18,5 +20,13 @@ export class HeadingComponent implements OnInit {
     if (link) {
       this.router.navigate(['/pages/' + link]);
     }
+  }
+  processData(data: any[]) {
+    debugger  
+    console.log('heading');
+    for(const key in data[0]){
+      this.headingData.text = data[0][key];
+    }
+    return data
   }
 }

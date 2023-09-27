@@ -1,4 +1,4 @@
-<div  nz-tooltip [nzTooltipTitle]="item?.tooltipWithoutIcon ? item.tooltip : ''">
+<div nz-tooltip [nzTooltipTitle]="item?.tooltipWithoutIcon ? item.tooltip : ''">
     <!-- <span class="tooltip-icon" *ngIf="item?.tooltipPosition == 'left'">
         <span *ngIf="item.type != 'progressBar' && item.type != 'alert'
     && item.type != 'switch' && item.type != 'rangeSlider' && item.type != 'editor_js' && item?.formlyType != 'input' && item.tooltip
@@ -120,8 +120,9 @@
     </ng-template>
     <ng-template #sixteen>
         <dynamic-table [tableId]='item.tableId' *ngIf="item.type =='gridList';else seventeen" [checkType]="false"
-            [tableData]='item.tableData' [excelReportData]='item.tableData' [tableHeaders]='item.tableHeaders' [formlyModel]="formlyModel" [form]="form"
-            [screenId]="screenId" [data]="item" [displayData]="item.displayData" [screenName]="screenName"
+            [tableData]='item.tableData' [excelReportData]='item.tableData' [tableHeaders]='item.tableHeaders'
+            [formlyModel]="formlyModel" [form]="form" [screenId]="screenId" [data]="item"
+            [displayData]="item.displayData" [screenName]="screenName"
             [configurationTable]="item?.showEditInput ? item?.showEditInput : false"></dynamic-table>
     </ng-template>
     <ng-template #seventeen>
@@ -148,7 +149,7 @@
     </ng-template>
     <ng-template #twentythree>
         <nz-card *ngIf="item.type == 'calender' ;else twentyfour">
-            <st-parent-calendar [item]="item"></st-parent-calendar>
+            <st-parent-calendar [item]="item" [screenName]="screenName"></st-parent-calendar>
         </nz-card>
         <!-- <st-tui-calendar [calendarData]="item"></st-tui-calendar> -->
     </ng-template>
@@ -173,8 +174,8 @@
         </div>
     </ng-template>
     <ng-template #twentyseven>
-        <st-tabs [screenName]="screenName" [tabs]="item" [form]="form" [formlyModel]="formlyModel" [screenName]="screenName" [screenId]="screenId"
-            *ngIf="item.type == 'mainTab' else twentyeight"></st-tabs>
+        <st-tabs [screenName]="screenName" [tabs]="item" [form]="form" [formlyModel]="formlyModel"
+            [screenName]="screenName" [screenId]="screenId" *ngIf="item.type == 'mainTab' else twentyeight"></st-tabs>
     </ng-template>
     <ng-template #twentyeight>
         <st-timeline-builder [timelineData]="item"
@@ -200,8 +201,8 @@
 
     </ng-template>
     <ng-template #thirtyOne>
-        <st-stepper [screenName]="screenName" [step]="item" [form]="form" [formlyModel]="formlyModel" [screenName]="screenName" [screenId]="screenId"
-            *ngIf="item.type == 'mainStep'; else thirtyTwo">
+        <st-stepper [screenName]="screenName" [step]="item" [form]="form" [formlyModel]="formlyModel"
+            [screenName]="screenName" [screenId]="screenId" *ngIf="item.type == 'mainStep'; else thirtyTwo">
         </st-stepper>
     </ng-template>
     <ng-template #thirtyTwo>
@@ -214,7 +215,7 @@
     </ng-template>
     <ng-template #thirtyforth>
         <st-board [kanbanData]="item" *ngIf="item.type == 'kanban' ; else thirtyfifth" [form]="form"
-        [screenId]="screenId" [screenName]="screenName" [formlyModel]="formlyModel"></st-board>
+            [screenId]="screenId" [screenName]="screenName" [formlyModel]="formlyModel"></st-board>
         <!-- <st-kanban-boards [kanbanData]="item"></st-kanban-boards> -->
     </ng-template>
     <ng-template #thirtyfifth>
@@ -443,7 +444,7 @@
         </div>
     </ng-template>
     <ng-template #eightyFive>
-        <div *ngIf="item.type == 'div'; else eightySix" [style.border-radius.px]="item['radius']"
+        <div *ngIf="item.type == 'div';  else eightySix" (dblclick)="patchValue(item)" [style.border-radius.px]="item['radius']"
             [class]="item.divClass" [ngStyle]="{
             'height': item.height && item.height !== 0 ? item.height + 'px' : 'auto',
             'width': item.width && item.width !== 0 && item.imageSrc ? item.width + 'px' : 'auto',

@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Router } from '@angular/router';
+import { AnyARecord } from 'dns';
 import { NzImageService } from 'ng-zorro-antd/image';
 import { DataSharedService } from 'src/app/services/data-shared.service';
 import { environment } from 'src/environments/environment';
@@ -61,5 +62,39 @@ export class MainsComponent implements OnInit {
   accordingList(event: any) {
     this.notify.emit(event);
   }
-
+  patchValue(data: any) {
+    debugger
+    if (data?.dataObj) {
+      let makeModel: any = JSON.parse(JSON.stringify(this.formlyModel));
+      if (this.formlyModel) {
+        this.form.value = {};
+        for (const key in this.formlyModel) {
+          if (typeof this.formlyModel[key] === 'object') {
+            for (const key1 in this.formlyModel[key]) {
+              if (data?.dataObj[key1]) {
+                makeModel[key][key1] = data?.dataObj[key1]
+              }
+            }
+            makeModel[key]['id'] = data?.dataObj['id'];
+          }
+          else {
+            if (data?.dataObj[key.split('.')[1]]) {
+              makeModel[key] = data?.dataObj[key.split('.')[1]];
+              // if (this.form.value) {
+              //   if(this.form.value[key.split('.')[0]]){
+              //     this.form.value[key.split('.')[0]][key.split('.')[1]] = data?.dataObj[key.split('.')[1]];
+              //   }
+              //   else{
+              //     this.form.value[key.split('.')[0]] = {};
+              //     this.form.value[key.split('.')[0]][key.split('.')[1]] = data?.dataObj[key.split('.')[1]];
+              //   }
+              // }
+            }
+          }
+        }
+      }
+      this.formlyModel = makeModel;
+      this.form.patchValue(this.formlyModel);
+    }
+  }
 }
