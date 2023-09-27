@@ -8,8 +8,21 @@
 <button class="ml-2" nz-button nzType="primary" (click)="saveBoard()">
   <i class="fa-regular fa-plus"></i>
   Save</button> -->
-<nz-card [processData]="processData" [appConfigurableSelect]="kanbanData?.appConfigurableEvent " [loadAction]="kanbanData?.eventActionconfig "
-  class="overflow-x-auto mt-2 card">
+<button nz-button nzType="primary"
+  class="actions-btn btn-no !border-none !bg-blue-600 hover:!bg-blue-500 my-2 !h-[35px]" nz-dropdown
+  [nzDropdownMenu]="menu4">
+  Actions
+  <span nz-icon nzType="down"></span>
+</button>
+<nz-dropdown-menu #menu4="nzDropdownMenu" class="action-drop-down-list">
+  <ul nz-menu class="!p-2">
+    <li nz-menu-item *ngFor="let item of kanlistArray">
+      <a (click)="dataDisplay(item)" class="!text-black">{{item}}</a>
+    </li>
+  </ul>
+</nz-dropdown-menu>
+<nz-card [processData]="processData" [appConfigurableSelect]="kanbanData?.appConfigurableEvent "
+  [loadAction]="kanbanData?.eventActionconfig " class="overflow-x-auto mt-2 card">
   <!-- <div class="row">
       <div class="col-11"></div>
       <div class="col"><button (click)="saveBoard()">Save</button></div>
