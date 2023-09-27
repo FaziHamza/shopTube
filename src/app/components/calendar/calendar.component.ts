@@ -5,6 +5,10 @@ import dayGridPlugin from '@fullcalendar/daygrid';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import listPlugin from '@fullcalendar/list';
 import { createEventId, INITIAL_EVENTS } from 'src/app/shared/event-utils/event-utils';
+import { EventDropArg } from '@fullcalendar/core';
+import { ApplicationService } from 'src/app/services/application.service';
+import { NzMessageService } from 'ng-zorro-antd/message';
+
 
 @Component({
   selector: 'st-calendar',
@@ -13,8 +17,10 @@ import { createEventId, INITIAL_EVENTS } from 'src/app/shared/event-utils/event-
 })
 export class CalendarComponent {
   @Input() calenderData: any;
+  @Input() screenName: any;
   calendarOptions: CalendarOptions;
   calendarVisible = true;
+  loader : boolean = false;
   eventData: any[] = [
     {
       "id": 1, // Increment the index to start from 1
@@ -54,8 +60,9 @@ export class CalendarComponent {
     }
   ]
   ngOnInit() {
-    
+
     this.eventData = this.calenderData.options;
+    this.loader = false;
     this.calendarOptions = {
       plugins: [
         interactionPlugin,
@@ -77,7 +84,8 @@ export class CalendarComponent {
       dayMaxEvents: this.calenderData?.dayMaxEvents,
       // select: this.handleDateSelect.bind(this),
       eventClick: this.handleEventClick.bind(this),
-      eventsSet: this.calenderData?.details ? this.handleEvents.bind(this) : undefined
+      eventsSet: this.calenderData?.details ? this.handleEvents.bind(this) : undefined,
+      eventDrop: this.handleEventDrop.bind(this),
       /* you can update a remote database when these fire:
       eventAdd:
       eventChange:
@@ -88,7 +96,7 @@ export class CalendarComponent {
 
   currentEvents: EventApi[] = [];
 
-  constructor(private changeDetector: ChangeDetectorRef) {
+  constructor(private changeDetector: ChangeDetectorRef, private applicationServices: ApplicationService, private toastr: NzMessageService) {
     this.handleEvents.bind(this)
 
   }
@@ -141,4 +149,57 @@ export class CalendarComponent {
     const day = String(dateObject.getDate()).padStart(2, "0");
     return `${year}-${month}-${day}`;
   }
+  handleEventDrop(arg: EventDropArg) {
+    const findClickApi = this.calenderData?.appConfigurableEvent?.find(
+      (item: any) => item.rule.includes('put') && item.action == 'change'
+    );
+
+    if (!findClickApi) {
+      return;
+    }
+
+    const url = findClickApi._id ? `knex-query/executeDelete-rules/${findClickApi._id}` : '';
+
+    if (!url) {
+      return;
+    }
+    const newStart: any = arg.event.start;
+    const date = new Date(newStart.toString());
+    const formattedDate = date.toISOString();
+
+    // Get the individual components of the date
+    const year = date.getUTCFullYear();
+    const month = (date.getUTCMonth() + 1).toString().padStart(2, '0'); // Months are 0-based, so add 1
+    const day = date.getUTCDate().toString().padStart(2, '0')+1;
+    
+    // Format the date components as 'YYYY-MM-DD'
+    // const formattedDate = `${year}-${month}-${day}`;
+
+
+    const model = {
+      screenId: this.screenName,
+      postType: 'put',
+      modalData: {
+        'id': arg.event.id,
+        'datetime': `'${formattedDate}'`,
+      }
+    };
+    this.loader = true;
+
+    this.applicationServices.addNestCommonAPI(url, model).subscribe({
+      next: (res) => {
+        if (res) {
+          this.toastr.success('Update Successfully', { nzDuration: 3000 });
+        }
+        this.loader = false;
+      },
+      error: (err) => {
+        console.error(err);
+        this.toastr.error('An error occurred', { nzDuration: 3000 });
+        this.loader = false;
+      }
+    });
+  }
+
+
 }

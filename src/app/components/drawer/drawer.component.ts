@@ -287,13 +287,14 @@ export class DrawerComponent implements OnInit {
         }
         if (checkFirstTime) {
           if (selectedNode.type == 'tabs' || selectedNode.type == 'step' || selectedNode.type == 'div' || selectedNode.type == 'listWithComponentsChild' || selectedNode.type == 'cardWithComponents' || selectedNode.type == 'timelineChild') {
+            selectedNode['dataObj'] = item;
             selectedNode.children = newNode;
           }
           else if (selectedNode.children[1]) {
             selectedNode.children[1].children = [];
             selectedNode?.children[1]?.children?.push(newNode);
           }
-          selectedNode = JSON.parse(JSON.stringify(selectedNode))
+          // selectedNode = JSON.parse(JSON.stringify(selectedNode))
           // this.updateNodes();
           checkFirstTime = false
         }
@@ -327,8 +328,9 @@ export class DrawerComponent implements OnInit {
           }
           else if (selectedNode.type == 'div' || selectedNode.type == 'timelineChild' || selectedNode.type == 'cardWithComponents') {
             let newSelected = JSON.parse(JSON.stringify(selectedNode));
+            newSelected['dataObj'] = item;
             newSelected.children = newNode;
-            let data = JSON.parse(JSON.stringify(newSelected));
+            let data = newSelected;
             tabsAndStepper.push(data);
             if (index == this.res.data.length - 1) {
               let checkPushOrNot = true

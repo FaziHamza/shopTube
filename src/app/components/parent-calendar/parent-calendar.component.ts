@@ -8,6 +8,7 @@ import { NzMessageService } from 'ng-zorro-antd/message';
 })
 export class ParentCalendarComponent {
   @Input() item: any;
+  @Input() screenName: any;
   dataGet = false
   loader = false;
   constructor(private changeDetector: ChangeDetectorRef,
@@ -31,7 +32,7 @@ export class ParentCalendarComponent {
         this.item.options = [];
         data.forEach((element, index) => {
           let event = {
-            "id": index + 1, // Increment the index to start from 1
+            "id": element.id, // Increment the index to start from 1
             "title": element.message,
             "start": this.extractDate(element.datetime),
             "backgroundColor": "#fbe0e0",
