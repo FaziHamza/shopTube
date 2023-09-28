@@ -60,7 +60,7 @@ export class DrawerComponent implements OnInit {
                 // }
                 this.loader = true;
                 debugger
-                this.applicationService.callApi(url, 'get', '', '', `'${this.drawerData.eventActionconfig.parentId}'` ).subscribe({
+                this.applicationService.callApi(url, 'get', '', '', `'${this.drawerData.eventActionconfig.parentId}'`).subscribe({
                   next: (res) => {
                     this.res = res;
                     this.loader = false;
@@ -118,16 +118,17 @@ export class DrawerComponent implements OnInit {
                     // this.assignValues(res.data[0]);
                     this.formlyModel = newModel;
                     this.form.patchValue(this.formlyModel);
-                    if (this.drawerData.children[0].type == 'div') {
-                      this.drawerData.children[0].hideExpression = false;
-                      const firstChild = this.drawerData.children[0].children[0];
-                      this.drawerData.children[0].children = [firstChild];
-                    }
-                    else {
-                      const firstChild = this.drawerData.children[0];
-                      this.drawerData.children[0] = [firstChild];
-                    }
-                    this.checkDynamicSection();
+                    this.filterDuplicateChildren(this.drawerData)
+                    // if (this.drawerData.children[0].type == 'div') {
+                    //   this.drawerData.children[0].hideExpression = false;
+                    //   const firstChild = this.drawerData.children[0].children[0];
+                    //   this.drawerData.children[0].children = [firstChild];
+                    // }
+                    // else {
+                    //   const firstChild = this.drawerData.children[0];
+                    //   this.drawerData.children[0] = [firstChild];
+                    // }
+                    this.checkDynamicSection(false);
                   },
                   error: (error: any) => {
                     this.loader = false;
@@ -220,10 +221,11 @@ export class DrawerComponent implements OnInit {
           this.res['data'] = [];
           this.res.data = data;
           this.drawerData.children[0].hideExpression = false;
-          this.checkDynamicSection();
+          this.checkDynamicSection(false);
         }
         else {
-          this.drawerData.children[0].hideExpression = true;
+          this.checkDynamicSection(true);
+          // this.drawerData.children[0].hideExpression = true;
           this.showChild = true;
           this.res = {};
           this.res['data'] = [];
@@ -231,7 +233,8 @@ export class DrawerComponent implements OnInit {
       }
       else {
         this.toastr.error("Need not reload", { nzDuration: 3000 });
-        this.drawerData.children[0].hideExpression = true;
+        this.checkDynamicSection(true);
+        // this.drawerData.children[0].hideExpression = true;
         this.showChild = true;
         this.res = {};
         this.res['data'] = [];
@@ -546,7 +549,7 @@ export class DrawerComponent implements OnInit {
     return null;
   }
 
-  checkDynamicSection() {
+  checkDynamicSection(isShow: boolean) {
     if (this.drawerData && this.drawerData.children && this.drawerData.children.length > 0) {
       // if (this.drawerData.children[0].type == 'div') {
       //   this.drawerData.children[0].hideExpression = false;
@@ -557,21 +560,26 @@ export class DrawerComponent implements OnInit {
       //   const firstChild = this.drawerData.children[0];
       //   this.drawerData.children[0] = [firstChild];
       // }
-      this.recursiveCheck(this.drawerData.children);
+      this.recursiveCheck(this.drawerData.children, isShow);
     }
   }
 
-  recursiveCheck(data: any): void {
+  recursiveCheck(data: any, isShow: boolean): void {
     if (Array.isArray(data)) {
       data.forEach((element: any) => {
-        this.recursiveCheck(element);
+        this.recursiveCheck(element, isShow);
       });
     }
     else if (typeof data === 'object' && data !== null) {
       if (data.type) {
         if (data.type === 'sections' || data.type === 'div' || data.type === 'cardWithComponents' || data.type === 'timelineChild') {
           if (data.mapApi) {
-            this.makeDynamicSections(data.mapApi, data);
+            if(!isShow){
+              data['hideExpression'] = isShow
+              this.makeDynamicSections(data.mapApi, data);
+            }else{
+              data['hideExpression'] = isShow
+            }
           }
         } else if (data.type === 'listWithComponents' || data.type === 'mainTab' || data.type === 'mainStep') {
           if (data.children) {
@@ -584,8 +592,30 @@ export class DrawerComponent implements OnInit {
         }
       }
       if (data.children) {
-        this.recursiveCheck(data.children);
+        this.recursiveCheck(data.children, isShow);
       }
     }
   }
+  filterDuplicateChildren(data: any) {
+    // Maintain a set of unique keys
+    const uniqueKeys = new Set();
+
+    // Filter and keep unique children
+    data.children = data.children.filter((child: any) => {
+      if (!uniqueKeys.has(child.key)) {
+        uniqueKeys.add(child.key);
+        if (child.children && child.children.length > 0) {
+          // Recursively process children of this child
+          this.filterDuplicateChildren(child);
+        }
+        return true; // Keep this child
+      }
+      return false; // Discard this child
+    });
+
+    return data;
+  }
+
+
+
 }
