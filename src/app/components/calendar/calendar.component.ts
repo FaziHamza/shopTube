@@ -20,7 +20,7 @@ export class CalendarComponent {
   @Input() screenName: any;
   calendarOptions: CalendarOptions;
   calendarVisible = true;
-  loader : boolean = false;
+  loader: boolean = false;
   eventData: any[] = [
     {
       "id": 1, // Increment the index to start from 1
@@ -168,14 +168,14 @@ export class CalendarComponent {
     const newdateData = date.toISOString();
     const formattedDate = newdateData.split('T')[0];
 
+    // Parse the formatted date
+    const currentDate = new Date(formattedDate);
 
-    // Get the individual components of the date
-    const year = date.getUTCFullYear();
-    const month = (date.getUTCMonth() + 1).toString().padStart(2, '0'); // Months are 0-based, so add 1
-    const day = date.getUTCDate().toString().padStart(2, '0')+1;
-    
-    // Format the date components as 'YYYY-MM-DD'
-    // const formattedDate = `${year}-${month}-${day}`;
+    // Add 1 day
+    currentDate.setDate(currentDate.getDate() + 1);
+
+    // Format the date back to 'YYYY-MM-DD'
+    const formattedDatePlus1Day = currentDate.toISOString().split('T')[0];
 
 
     const model = {
@@ -183,12 +183,11 @@ export class CalendarComponent {
       postType: 'put',
       modalData: {
         'id': arg.event.id,
-        'datetime': `'${formattedDate}'`,
+        'datetime': `'${formattedDatePlus1Day}'`,
       }
     };
     this.loader = true;
     console.log(model)
-    return
     this.applicationServices.addNestCommonAPI(url, model).subscribe({
       next: (res) => {
         if (res) {
