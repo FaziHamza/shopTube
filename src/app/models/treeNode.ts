@@ -560,4 +560,5 @@ export interface TreeNode {
   buttonAlignments?: any[],
   componentMapping?: boolean,
   searchType?: string,
+  kanlistArray?: any,
 }

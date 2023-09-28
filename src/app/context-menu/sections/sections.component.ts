@@ -215,36 +215,40 @@ export class SectionsComponent implements OnInit {
       let findClickApi = data.appConfigurableEvent.filter((item: any) => item.rule.includes('post_'));
 
       let empData: any = {};
-      if (findClickApi[0]?.rule?.includes('/cp') || findClickApi[0]?.rule?.includes('/market-place')) {
-        let mainTableName = "";
-        const removePrefix = (data: Record<string, any>): Record<string, any> => {
-          const newData: Record<string, any> = {};
-          for (const key in data) {
-            const lastDotIndex = key.lastIndexOf('.');
-            const newKey = lastDotIndex !== -1 ? key.substring(lastDotIndex + 1) : key;
-            newData[newKey] = data[key];
+      // if (window.location.href.includes('marketplace.com')) {
+      //   let mainTableName = "";
+      //   const removePrefix = (data: Record<string, any>): Record<string, any> => {
+      //     const newData: Record<string, any> = {};
+      //     for (const key in data) {
+      //       const lastDotIndex = key.lastIndexOf('.');
+      //       const newKey = lastDotIndex !== -1 ? key.substring(lastDotIndex + 1) : key;
+      //       newData[newKey] = data[key];
 
-            if (lastDotIndex !== -1 && mainTableName === "") {
-              mainTableName = key.substring(0, lastDotIndex);
-            }
-          }
-          return newData;
-        };
+      //       if (lastDotIndex !== -1 && mainTableName === "") {
+      //         mainTableName = key.substring(0, lastDotIndex);
+      //       }
+      //     }
+      //     return newData;
+      //   };
 
-        let result = removePrefix(oneModelData);
-        // result['id'] = '';
-        if (findClickApi[0]?.rule?.includes('/market-place')) {
-          empData = result;
-        } else {
-          empData[mainTableName] = result;
-        }
-      }
-      else {
-        empData = {
-          screenId: this.screenName,
-          modalData: oneModelData
-        };
-      }
+      //   let result = removePrefix(oneModelData);
+      //   // result['id'] = '';
+      //   if (window.location.href.includes('marketplace.com')) {
+      //     empData = result;
+      //   } else {
+      //     empData[mainTableName] = result;
+      //   }
+      // }
+      // else {
+      //   empData = {
+      //     screenId: this.screenName,
+      //     modalData: oneModelData
+      //   };
+      // }
+      empData = {
+        screenId: this.screenName,
+        modalData: oneModelData
+      };
 
 
       console.log(empData);

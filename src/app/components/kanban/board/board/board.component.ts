@@ -17,17 +17,24 @@ export class BoardComponent implements OnInit {
   @Input() form: any;
   @Input() screenName: any;
   @Input() screenId: any;
-  status :any = [];
-  originalKanbanData :any;
+  status: any = [];
+  originalKanbanData: any;
+  loader: boolean = false;
   constructor(private toastr: NzMessageService, private applicationServices: ApplicationService) {
     this.processData = this.processData.bind(this);
   }
 
   ngOnInit() {
+    if (this.kanbanData?.eventActionconfig) {
+      this.loader = true
+    } else {
+      this.loader = false
+
+    }
     this.originalKanbanData = JSON.parse(JSON.stringify(this.kanbanData))
     this.lists = this.kanbanData.kanbanSave;
-    this.status = JSON.parse(localStorage.getItem(this.kanbanData?.id+'_status') || this.status);
-    this.selectedGroupBy = localStorage.getItem(this.kanbanData?.id+'_groupBy') || 'status';
+    this.status = JSON.parse(localStorage.getItem(this.kanbanData?.id + '_status') || this.status);
+    this.selectedGroupBy = localStorage.getItem(this.kanbanData?.id + '_groupBy') || 'status';
   }
 
   addList() {
@@ -97,34 +104,68 @@ export class BoardComponent implements OnInit {
 
   }
   kandanListData: any[] = [];
-  selectedGroupBy : string = 'status';
-  kanlistArray: any[] = [];
+  selectedGroupBy: string = 'status';
+  // kanlistArray: any[] = [];
   processData(data: any[]) {
-    debugger
-    this.kandanListData = data;
-    this.kanlistArray = Object.keys(data[0]);
-    const uniqueStatus = [...new Set(this.kandanListData.map(item => item[this.selectedGroupBy]))];
-    this.status = uniqueStatus;
-    if (data.length > 0)
-      this.checkDynamicSection(data);
-    console.log(this.kanbanData);
-    console.log("kanban Work")
-    return data
+    try {
+      debugger;
+      if (data.length > 0) {
+        this.kandanListData = data;
+        let firstObjectKeys = Object.keys(data[0]);
+        let tableKey = firstObjectKeys.map(key => ({ key, isShow: true }));
+
+        if (this.kanbanData['kanlistArray']) {
+          if (this.kanbanData['kanlistArray'].length > 0) {
+            if (JSON.stringify(this.kanbanData['kanlistArray']) !== JSON.stringify(tableKey)) {
+              const updatedData = tableKey.filter(updatedItem =>
+                !this.kanbanData['kanlistArray'].some((headerItem: any) => headerItem.key === updatedItem.key)
+              );
+              updatedData.forEach(updatedItem => {
+                this.kanbanData['kanlistArray'].push({ id: this.kanbanData['kanlistArray'].length + 1, key: updatedItem.key });
+              });
+            }
+          }
+        } else {
+          this.kanbanData['kanlistArray'] = tableKey;
+        }
+
+        if (window.location.href.includes('/pages')) {
+          const uniqueStatus = [...new Set(this.kandanListData.map(item => item[this.selectedGroupBy]))];
+          this.status = uniqueStatus;
+
+          if (data.length > 0)
+            this.checkDynamicSection(data);
+        }
+
+        this.loader = false;
+      } else {
+        this.toastr.error("Need not reload", { nzDuration: 3000 });
+        this.loader = false;
+      }
+
+      return data;
+    } catch (error) {
+      console.error("An error occurred in processData:", error);
+      this.toastr.error("An error occurred in kanban", { nzDuration: 3000 });
+      this.loader = false;
+      return data;
+    }
   }
-  dataDisplay(ite:any) {
+
+  dataDisplay(ite: any) {
     this.kanbanData = this.originalKanbanData;
     this.selectedGroupBy = ite;
     const uniqueStatus = [...new Set(this.kandanListData.map(item => item[ite]))];
     this.status = uniqueStatus;
-    localStorage.setItem(this.kanbanData?.id+'_status',JSON.stringify(this.status));
-    localStorage.setItem(this.kanbanData?.id+'_groupBy',this.selectedGroupBy);
+    localStorage.setItem(this.kanbanData?.id + '_status', JSON.stringify(this.status));
+    localStorage.setItem(this.kanbanData?.id + '_groupBy', this.selectedGroupBy);
     this.checkDynamicSection(this.kandanListData);
   }
   checkDynamicSection(dataList: any[]) {
     let kanbanS = JSON.parse(JSON.stringify(this.kanbanData));
     let kanbdanD = JSON.parse(JSON.stringify(this.kanbanData));
     if (this.kanbanData) {
-      this.status.forEach((res:any, index:number) => {
+      this.status.forEach((res: any, index: number) => {
         let filterData = dataList.filter(a => a[this.selectedGroupBy] == res);
         let latestKanbanData: any = [];
         if (filterData.length > 0)

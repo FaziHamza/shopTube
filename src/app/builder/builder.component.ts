@@ -2752,6 +2752,10 @@ export class BuilderComponent implements OnInit {
         this.fieldData.formData = _formFieldData.tabsFields;
         break;
       case 'kanban':
+        // configObj = {
+        //   ...configObj,
+        //   ...this.clickButtonService.getGridConfig(selectedNode),
+        // };
         this.fieldData.formData = _formFieldData.kanbanFeilds;
         break;
       case 'kanbanTask':
@@ -3780,6 +3784,9 @@ export class BuilderComponent implements OnInit {
         this.addDynamic(event.form.nodes, 'tabs', 'mainTab');
         break;
       case 'kanban':
+        if (event.tableDta) {
+          this.selectedNode['kanlistArray'] = event.tableDta;
+        }
         this.addDynamic(event.form.nodes, 'kanbanChild', 'kanban');
         break;
       case 'mainStep':

@@ -165,7 +165,9 @@ export class CalendarComponent {
     }
     const newStart: any = arg.event.start;
     const date = new Date(newStart.toString());
-    const formattedDate = date.toISOString();
+    const newdateData = date.toISOString();
+    const formattedDate = newdateData.split('T')[0];
+
 
     // Get the individual components of the date
     const year = date.getUTCFullYear();
@@ -185,7 +187,8 @@ export class CalendarComponent {
       }
     };
     this.loader = true;
-
+    console.log(model)
+    return
     this.applicationServices.addNestCommonAPI(url, model).subscribe({
       next: (res) => {
         if (res) {

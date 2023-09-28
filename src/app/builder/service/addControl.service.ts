@@ -1856,6 +1856,7 @@ export class AddControlService {
       iconType: 'outline',
       iconSize: 15,
       iconColor: '',
+      closeIconPlacement: 'left',
     }
   }
   skeletonControl() {

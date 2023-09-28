@@ -8154,6 +8154,35 @@ export class formFeildData {
         //     label: 'Show Button',
         //   },
         // },
+        {
+          key: 'kanlistArray',
+          type: 'repeatSection',
+          className: "w-full px-1",
+          props: {
+          },
+          fieldArray: {
+            className: 'ml-3 me-2',
+            fieldGroup: [
+              {
+                key: 'key',
+                type: 'input',
+                wrappers: ["formly-vertical-theme-wrapper"],
+                props: {
+                  label: 'key'
+                }
+              },
+              {
+                className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+                key: 'isShow',
+                type: 'checkbox',
+                wrappers: ["formly-vertical-theme-wrapper"],
+                props: {
+                  label: 'Allow Grouping'
+                }
+              },
+            ]
+          }
+        }
       ]
     },
   ]
@@ -8967,6 +8996,31 @@ export class formFeildData {
               {
                 label: 'Bottom',
                 value: 'bottom'
+              }
+            ],
+            additionalProperties: {
+              allowClear: true,
+              serveSearch: false,
+              showArrow: true,
+              showSearch: true,
+            },
+          }
+        },
+        {
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          key: 'closeIconPlacement',
+          type: 'select',
+          wrappers: ["formly-vertical-theme-wrapper"],
+          props: {
+            label: 'Close Icon placement',
+            options: [
+              {
+                label: 'Right',
+                value: 'right'
+              },
+              {
+                label: 'Left',
+                value: 'left'
               }
             ],
             additionalProperties: {

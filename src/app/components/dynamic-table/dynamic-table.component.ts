@@ -1678,7 +1678,7 @@ export class DynamicTableComponent implements OnInit {
           savedGroupData = await this.dataService.getNodes(JSON.parse(applicationId), this.screenName, "Table");
         }
         if (this.data?.eventActionconfig && !this.childTable && Object.keys(this.data.eventActionconfig).length > 0) {
-          if (this.data?.eventActionconfig?.rule.includes('market-place')) {
+          if (window.location.href.includes('marketplace.com')) {
             res.data = res.data.map((item: any) => ({
               id: item._id, // Rename _id to id
               name: item.name,

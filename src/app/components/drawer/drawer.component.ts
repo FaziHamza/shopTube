@@ -60,7 +60,7 @@ export class DrawerComponent implements OnInit {
                 // }
                 this.loader = true;
                 debugger
-                this.applicationService.callApi(url, 'get', '', '', this.drawerData.eventActionconfig.parentId).subscribe({
+                this.applicationService.callApi(url, 'get', '', '', `'${this.drawerData.eventActionconfig.parentId}'` ).subscribe({
                   next: (res) => {
                     this.res = res;
                     this.loader = false;
