@@ -3,6 +3,7 @@ import { List, ListInterface } from '../../model/list/list.model';
 import { MovementIntf } from '../../model/card/movement';
 import { BoardModel } from '../../model/board/board.model';
 import { NzMessageService } from 'ng-zorro-antd/message';
+import { ApplicationService } from 'src/app/services/application.service';
 
 @Component({
   selector: 'st-board',
@@ -16,14 +17,24 @@ export class BoardComponent implements OnInit {
   @Input() form: any;
   @Input() screenName: any;
   @Input() screenId: any;
-
-  constructor(private toastr: NzMessageService) {
+  status: any = [];
+  originalKanbanData: any;
+  loader: boolean = false;
+  constructor(private toastr: NzMessageService, private applicationServices: ApplicationService) {
     this.processData = this.processData.bind(this);
   }
 
   ngOnInit() {
-    debugger
+    if (this.kanbanData?.eventActionconfig) {
+      this.loader = true
+    } else {
+      this.loader = false
+
+    }
+    this.originalKanbanData = JSON.parse(JSON.stringify(this.kanbanData))
     this.lists = this.kanbanData.kanbanSave;
+    this.status = JSON.parse(localStorage.getItem(this.kanbanData?.id + '_status') || this.status);
+    this.selectedGroupBy = localStorage.getItem(this.kanbanData?.id + '_groupBy') || 'status';
   }
 
   addList() {
@@ -42,8 +53,44 @@ export class BoardComponent implements OnInit {
   moveCardAcrossList(movementInformation: MovementIntf) {
     const cardMoved = this.kanbanData.children[movementInformation.fromListIdx].children.splice(movementInformation.fromCardIdx ?? 0, 1);
     this.kanbanData.children[movementInformation.toListIdx].children.splice(movementInformation?.toCardIdx ?? 0, 0, ...cardMoved);
+    cardMoved[0].dataObj[this.selectedGroupBy] = this.status[movementInformation.toListIdx];
+    this.handleEventDrop(cardMoved[0].dataObj);
   }
+  handleEventDrop(obj: any) {
+    const findClickApi = this.kanbanData?.appConfigurableEvent?.find(
+      (item: any) => item.rule.includes('put') && item.action == 'change'
+    );
 
+    if (!findClickApi) {
+      return;
+    }
+
+    const url = findClickApi._id ? `knex-query/executeDelete-rules/${findClickApi._id}` : '';
+
+    if (!url) {
+      return;
+    }
+    const model = {
+      screenId: this.screenName,
+      postType: 'put',
+      modalData: obj
+    };
+    // this.loader = true;
+
+    this.applicationServices.addNestCommonAPI(url, model).subscribe({
+      next: (res) => {
+        if (res) {
+          this.toastr.success('Update Successfully', { nzDuration: 3000 });
+        }
+        // this.loader = false;
+      },
+      error: (err) => {
+        console.error(err);
+        this.toastr.error('An error occurred', { nzDuration: 3000 });
+        // this.loader = false;
+      }
+    });
+  }
   saveBoard() {
     // const boardModel = new BoardModel();
     this.kanbanData.kanbanSave = this.lists;
@@ -56,60 +103,400 @@ export class BoardComponent implements OnInit {
     this.toastr.error('Delete !', { nzDuration: 3000 });
 
   }
-
+  kandanListData: any[] = [];
+  selectedGroupBy: string = 'status';
+  // kanlistArray: any[] = [];
   processData(data: any[]) {
-    let status = [
-      "open", "closed", "inprogress", "backlog"
-    ]
-    data = [
-      {
-        "id": 545,
-        "screenid": "",
-        "datetime": "2023-09-27T16:11",
-        "message": "rtyg4",
-        "status": "open"
-      },
-      {
-        "id": 544,
-        "screenid": "",
-        "datetime": "1970-05-03T09:15",
-        "message": "This is message",
-        "status": "closed"
-      },
-      {
-        "id": 544,
-        "screenid": "",
-        "datetime": "1970-05-03T09:15",
-        "message": "This is message",
-        "status": "inprogress"
-      },
-    ]
+    try {
+      debugger;
+      if (data.length > 0) {
+        this.kandanListData = data;
+        let firstObjectKeys = Object.keys(data[0]);
+        let tableKey = firstObjectKeys.map(key => ({ key, isShow: true }));
 
+        if (this.kanbanData['kanlistArray']) {
+          if (this.kanbanData['kanlistArray'].length > 0) {
+            if (JSON.stringify(this.kanbanData['kanlistArray']) !== JSON.stringify(tableKey)) {
+              const updatedData = tableKey.filter(updatedItem =>
+                !this.kanbanData['kanlistArray'].some((headerItem: any) => headerItem.key === updatedItem.key)
+              );
+              updatedData.forEach(updatedItem => {
+                this.kanbanData['kanlistArray'].push({ id: this.kanbanData['kanlistArray'].length + 1, key: updatedItem.key });
+              });
+            }
+          }
+        } else {
+          this.kanbanData['kanlistArray'] = tableKey;
+        }
 
-    let statusObject: any = {};
+        if (window.location.href.includes('/pages')) {
+          const uniqueStatus = [...new Set(this.kandanListData.map(item => item[this.selectedGroupBy]))];
+          this.status = uniqueStatus;
 
-    // Initialize the object with empty arrays for each status
-    status.forEach(statusValue => {
-      statusObject[statusValue] = [];
-    });
+          if (data.length > 0)
+            this.checkDynamicSection(data);
+        }
 
-    // Populate the arrays based on the status
-    data.forEach(item => {
-      const itemStatus = item.status;
-      if (statusObject.hasOwnProperty(itemStatus)) {
-        statusObject[itemStatus].push(item);
+        this.loader = false;
+      } else {
+        this.toastr.error("Need not reload", { nzDuration: 3000 });
+        this.loader = false;
       }
-    });
 
-    // // Access the arrays based on status
-    // console.log(statusObject["open"]); // Array of objects with status "open"
-    // console.log(statusObject["closed"]); // Array of objects with status "closed"
-    // console.log(statusObject["inprogress"]); // Array of objects with status "inprogress"
-    // console.log(statusObject["backlog"]); // Array of objects with status "backlog"
-    this.kanbanData.children = [this.kanbanData.children[0]];
-    this.kanbanData.children
-    console.log("kanban Work")
-    return data
+      return data;
+    } catch (error) {
+      console.error("An error occurred in processData:", error);
+      this.toastr.error("An error occurred in kanban", { nzDuration: 3000 });
+      this.loader = false;
+      return data;
+    }
   }
 
+  dataDisplay(ite: any) {
+    this.kanbanData = this.originalKanbanData;
+    this.selectedGroupBy = ite;
+    const uniqueStatus = [...new Set(this.kandanListData.map(item => item[ite]))];
+    this.status = uniqueStatus;
+    localStorage.setItem(this.kanbanData?.id + '_status', JSON.stringify(this.status));
+    localStorage.setItem(this.kanbanData?.id + '_groupBy', this.selectedGroupBy);
+    this.checkDynamicSection(this.kandanListData);
+  }
+  checkDynamicSection(dataList: any[]) {
+    let kanbanS = JSON.parse(JSON.stringify(this.kanbanData));
+    let kanbdanD = JSON.parse(JSON.stringify(this.kanbanData));
+    if (this.kanbanData) {
+      this.status.forEach((res: any, index: number) => {
+        let filterData = dataList.filter(a => a[this.selectedGroupBy] == res);
+        let latestKanbanData: any = [];
+        if (filterData.length > 0)
+          latestKanbanData = this.recursiveCheck(kanbdanD, filterData);
+        let updateRecord = JSON.parse(JSON.stringify(kanbanS));
+        if (index == 0) {
+          this.kanbanData.children = [];
+          updateRecord.children[0].title = res;
+          updateRecord.children[0].children = latestKanbanData
+          this.kanbanData.children = [updateRecord.children[0]]
+        }
+        else {
+          updateRecord.children[0].title = res;
+          updateRecord.children[0].children = latestKanbanData
+          this.kanbanData.children.push(updateRecord.children[0])
+
+        }
+      })
+      this.updateNodes1();
+    }
+  }
+  recursiveCheck(data: any, dataList: any) {
+    let result: any;
+    if (Array.isArray(data)) {
+      data.forEach((element: any) => {
+        result = this.recursiveCheck(element, dataList);
+      });
+    }
+    else if (typeof data === 'object' && data !== null) {
+      if (data.type) {
+        if (data.type === 'sections' || data.type === 'div' || data.type === 'cardWithComponents' || data.type === 'timelineChild') {
+          if (data.mapApi) {
+            return this.makeDynamicSections(dataList, data);
+          }
+        } else if (data.type === 'listWithComponents' || data.type === 'mainTab' || data.type === 'mainStep') {
+          if (data.children) {
+            data.children.forEach((item: any) => {
+              if (item.mapApi) {
+                return this.makeDynamicSections(dataList, item);
+              }
+            });
+          }
+        }
+      }
+      if (data.children) {
+        result = this.recursiveCheck(data.children, dataList);
+      }
+    }
+    return result;
+  }
+  makeDynamicSections(data: any, selectedNode: any) {
+    let checkFirstTime = true;
+    let tabsAndStepper: any = [];
+    if (data.length > 0) {
+      for (let index = 0; index < data.length; index++) {
+        const item = data[index];
+        let newNode: any = {};
+        if (selectedNode.type == 'tabs' || selectedNode.type == 'step' || selectedNode.type == 'div' || selectedNode.type == 'listWithComponentsChild' || selectedNode.type == 'cardWithComponents' || selectedNode.type === 'timelineChild') {
+          newNode = JSON.parse(JSON.stringify(selectedNode?.children));
+        } else {
+          newNode = JSON.parse(JSON.stringify(selectedNode?.children?.[1]?.children?.[0]));
+        }
+        if (selectedNode.type == 'tabs' || selectedNode.type == 'step' || selectedNode.type == 'div' || selectedNode.type === 'timelineChild' || selectedNode.type == 'listWithComponentsChild' || selectedNode.type == 'cardWithComponents') {
+          if (selectedNode.tableBody) {
+            selectedNode.tableBody.forEach((element: any) => {
+              if (newNode.length) {
+                newNode.forEach((j: any) => {
+                  const keyObj = this.findObjectByKey(j, element.fileHeader);
+                  if (keyObj && element.defaultValue) {
+                    const updatedObj = this.dataReplace(keyObj, item, element);
+                    j = this.replaceObjectByKey(j, keyObj.key, updatedObj);
+                    if (selectedNode.type == 'tabs' || selectedNode.type == 'step' || selectedNode.type == 'listWithComponentsChild') {
+                      j['mapping'] = true;
+                    }
+                  }
+                });
+              }
+            });
+          }
+        } else if (selectedNode.type != 'tabs' && selectedNode.type != 'step' && selectedNode.type != 'div' && selectedNode.type != 'listWithComponentsChild' && selectedNode.type != 'listWithComponentsChild' && selectedNode.type != 'cardWithComponents') {
+          if (selectedNode.tableBody) {
+            selectedNode.tableBody.forEach((element: any) => {
+              const keyObj = this.findObjectByKey(newNode, element.fileHeader);
+              if (keyObj && element.defaultValue) {
+                const updatedObj = this.dataReplace(keyObj, item, element);
+                newNode = this.replaceObjectByKey(newNode, keyObj.key, updatedObj);
+              }
+            });
+          }
+        }
+        if (checkFirstTime) {
+          if (selectedNode.type == 'tabs' || selectedNode.type == 'step' || selectedNode.type == 'div' || selectedNode.type == 'listWithComponentsChild' || selectedNode.type == 'cardWithComponents' || selectedNode.type == 'timelineChild') {
+            {
+              newNode['dataObj'] = data[index];
+              selectedNode.children = newNode;
+            }
+          } else if (selectedNode.children[1]) {
+            selectedNode.children[1].children = [];
+            selectedNode?.children[1]?.children?.push(newNode);
+          }
+          this.updateNodes();
+          checkFirstTime = false
+        } else {
+          if (selectedNode.type == 'tabs' || selectedNode.type == 'step' || selectedNode.type == 'listWithComponentsChild') {
+            if (newNode.length) {
+              newNode.forEach((k: any) => {
+                if (k.mapping) {
+                  tabsAndStepper.push(k);
+                }
+              });
+            }
+            if (index == data.length - 1) {
+              if (tabsAndStepper.length) {
+                tabsAndStepper.forEach((j: any) => {
+                  selectedNode?.children?.push(j);
+                });
+              }
+              let unMapped = selectedNode?.children.filter((child: any) => child.mapping == undefined);
+              let mapped = selectedNode?.children.filter((child: any) => child.mapping);
+              selectedNode.children = mapped;
+              if (unMapped.length) {
+                unMapped.forEach((element: any) => {
+                  selectedNode.children.push(element);
+                });
+              }
+              selectedNode.children.forEach((k: any) => {
+                delete k.mapping
+              });
+            }
+          } else if (selectedNode.type == 'div' || selectedNode.type == 'timelineChild' || selectedNode.type == 'cardWithComponents') {
+            let newSelected = JSON.parse(JSON.stringify(selectedNode));
+            newSelected.children = newNode;
+            newSelected['dataObj'] = item;
+            let data = JSON.parse(JSON.stringify(newSelected));
+            tabsAndStepper.push(data);
+            if (index == data.length - 1) {
+              let checkPushOrNot = true
+              if ((selectedNode.type == 'div' || selectedNode.type == 'cardWithComponents' || selectedNode.type == 'timelineChild') && checkPushOrNot) {
+                if (tabsAndStepper) {
+                  this.pushObjectsById(this.kanbanData, tabsAndStepper, selectedNode.id);
+                  checkPushOrNot = false;
+                }
+              }
+            }
+          } else if (selectedNode.children[1]) {
+            selectedNode?.children[1]?.children?.push(newNode);
+          }
+        }
+      }
+      this.updateNodes();
+    }
+    // if (tabsAndStepper.length > 0)
+    tabsAndStepper.push(selectedNode);
+    return tabsAndStepper;
+  }
+  updateNodes() {
+    // this.kanbanData.children[0].children = [...this.kanbanData.children[0].children];
+  }
+  updateNodes1() {
+    this.kanbanData = JSON.parse(JSON.stringify(this.kanbanData))
+  }
+  pushObjectsById(targetArray: any[], sourceArray: any[], idToMatch: string): void {
+    for (let i = 0; i < targetArray.length; i++) {
+      const item = targetArray[i];
+
+      // Check if the current item's id matches the id to match
+      if (item.id === idToMatch) {
+        // Find the index of the matched item in the target array
+        const index = targetArray.indexOf(item);
+
+        // Check if the item was found in the target array
+        if (index !== -1) {
+          // Splice the source array into the target array at the next index
+          targetArray.splice(index + 1, 0, ...sourceArray);
+          return; // Stop processing as the operation is complete
+        }
+      }
+
+      // If the current item has children, recursively search within them
+      if (item.children && item.children.length > 0) {
+        this.pushObjectsById(item.children, sourceArray, idToMatch);
+      }
+    }
+  }
+  findObjectByKey(data: any, key: any) {
+    if (data) {
+      if (data.key && key) {
+        if (data.key === key) {
+          return data;
+        }
+        if (data.children && data.children.length > 0) {
+          for (let child of data.children) {
+            let result: any = this.findObjectByKey(child, key);
+            if (result !== null) {
+              return result;
+            }
+          }
+        }
+      }
+    }
+    return null;
+  }
+  dataReplace(node: any, replaceData: any, value: any): any {
+    let typeMap: any = {
+      cardWithComponents: 'title',
+      buttonGroup: 'title',
+      button: 'title',
+      breakTag: 'title',
+      switch: 'title',
+      imageUpload: 'source',
+      heading: 'text',
+      paragraph: 'text',
+      alert: 'text',
+      progressBar: 'percent',
+      video: 'videoSrc',
+      audio: 'audioSrc',
+      carouselCrossfade: 'carousalConfig',
+      tabs: 'title',
+      mainTab: 'title',
+      mainStep: 'title',
+      listWithComponents: 'title',
+      listWithComponentsChild: 'title',
+      step: 'title',
+      kanban: 'title',
+      simplecard: 'title',
+      div: 'title',
+      textEditor: 'title',
+      multiFileUpload: 'uploadBtnLabel',
+      accordionButton: 'title',
+      divider: 'dividerText',
+      toastr: 'toasterTitle',
+      rate: 'icon',
+      editor_js: 'title',
+      rangeSlider: 'title',
+      affix: 'title',
+      statistic: 'title',
+      anchor: 'title',
+      modal: 'btnLabel',
+      popConfirm: 'btnLabel',
+      avatar: 'src',
+      badge: 'nzText',
+      comment: 'avatar',
+      description: 'btnText',
+      descriptionChild: 'content',
+      segmented: 'title',
+      result: 'resultTitle',
+      tree: 'title',
+      transfer: 'title',
+      spin: 'loaderText',
+      cascader: 'title',
+      drawer: 'btnText',
+      skeleton: 'title',
+      empty: 'text',
+      list: 'title',
+      treeView: 'title',
+      message: 'content',
+      mentions: 'title',
+      icon: 'title'
+    };
+
+    const type = node.type;
+    const key = typeMap[type];
+    if (node.type == 'avatar') {
+      if (Array.isArray(replaceData[value.defaultValue])) {
+        let nodesArray: any = [];
+        replaceData[value.defaultValue].forEach((i: any) => {
+          let newNode = JSON.parse(JSON.stringify(node));
+          newNode.src = i;
+          nodesArray.push(newNode);
+        });
+        return nodesArray;
+      }
+    }
+    else if (node.type == "tag") {
+      if (Array.isArray(replaceData[value.defaultValue])) {
+        node.options = replaceData[value.defaultValue];
+        return node;
+      }
+    }
+    else {
+      if (key) {
+        node[key] = replaceData[value.defaultValue];
+      }
+      return node;
+    }
+  }
+  replaceObjectByKey(data: any, key: any, updatedObj: any) {
+    if (data.key === key) {
+      return updatedObj;
+    }
+    for (let i = 0; i < data.children.length; i++) {
+      const child = data.children[i];
+      if (child.key === key) {
+        if (Array.isArray(updatedObj) && child.type == 'avatar') {
+          let check = data.children.filter((a: any) => a.type == "avatar");
+          if (check.length != 1) {
+            // let getFirstAvatar = JSON.parse(JSON.stringify(check[0]));
+            let deleteAvatar = check.length - 1;
+            for (let index = 0; index < deleteAvatar; index++) {
+              const element = data.children.filter((a: any) => a.type == "avatar");;
+              const idx = data.children.indexOf(element[0]);
+              data.children.splice(idx as number, 1);
+            }
+            let lastAvatarIndex = data.children.filter((a: any) => a.type == "avatar");
+            let idx = data.children.indexOf(lastAvatarIndex[0]);
+            data.children.splice(idx, 1);
+            updatedObj.forEach((i: any) => {
+              data.children.splice(idx + 1, 0, i);
+              idx = idx + 1;
+            });
+          }
+          else {
+            let lastAvatarIndex = data.children.filter((a: any) => a.type == "avatar");
+            let idx = data.children.indexOf(lastAvatarIndex[0]);
+            data.children.splice(idx, 1);
+            updatedObj.forEach((i: any) => {
+              data.children.splice(idx + 1, 0, i);
+              idx = idx + 1;
+            });
+          }
+        }
+        else {
+          data.children[i] = updatedObj;
+        }
+        return data;
+      }
+      const result = this.replaceObjectByKey(child, key, updatedObj);
+      if (result !== null) {
+        return data;
+      }
+    }
+    return null;
+  }
 }

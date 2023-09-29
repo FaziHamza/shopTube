@@ -840,6 +840,7 @@ export class AddControlService {
       showEditInput: false,
       isDeleteAllow: true,
       isAllowGrouping: false,
+      drawerButtonLabel:'Open Drawer',
       tableHeaders: [
         // {
         //   name: 'Id',
@@ -1856,6 +1857,7 @@ export class AddControlService {
       iconType: 'outline',
       iconSize: 15,
       iconColor: '',
+      closeIconPlacement: 'left',
     }
   }
   skeletonControl() {

@@ -53,6 +53,7 @@ export class DynamicTableComponent implements OnInit {
   responsiveTable: boolean = false;
   requestSubscription: Subscription;
   drawerChild: any[] = [];
+  nodes: any = [];
   selectList = [
     { key: "Faizan", value: "Faizan" },
     { key: "Arfan", value: "Arfan" },
@@ -70,6 +71,12 @@ export class DynamicTableComponent implements OnInit {
   progress = 0;
   showProgressBar = false;
   fileUpload: any = '';
+  visible: boolean = false;
+  checklink: any = '';
+  filterGender = [
+    { text: 'male', value: 'male' },
+    { text: 'female', value: 'female' }
+  ];
   constructor(public _dataSharedService: DataSharedService, private builderService: BuilderService,
     private applicationService: ApplicationService,
     private dataService: DataService,
@@ -1178,57 +1185,58 @@ export class DynamicTableComponent implements OnInit {
         this.editId = null;
         this.dataSharedService.taskmanagerDrawer.next(false);
         const drawer = this.findObjectByTypeBase(this.data, "drawer");
+        if (drawer?.eventActionconfig) {
+          let newData: any = JSON.parse(JSON.stringify(item));
+          const dataTitle = this.data.title ? this.data.title + '.' : '';
+          newData['parentid'] = newData.id;
+          const userData = JSON.parse(localStorage.getItem('user')!);
+          newData.id = '';
+          newData['organizationid'] = JSON.parse(localStorage.getItem('organizationId')!) || '';
+          newData['applicationid'] = JSON.parse(localStorage.getItem('applicationId')!) || '';
+          newData['createdby'] = userData.username;
+          // Get the current date and time
+          const currentDate = new Date();
+
+          // Format the date and time as "YYYY-MM-DD HH:mm:ss.sss"
+          const formattedDate = `${currentDate.getFullYear()}-${(currentDate.getMonth() + 1).toString().padStart(2, '0')}-${currentDate.getDate().toString().padStart(2, '0')} ${currentDate.getHours().toString().padStart(2, '0')}:${currentDate.getMinutes().toString().padStart(2, '0')}:${currentDate.getSeconds().toString().padStart(2, '0')}.${currentDate.getMilliseconds().toString().padStart(3, '0')}`;
+
+          // Now, you can save 'formattedDate' in your SQL database
+          newData.datetime = formattedDate;
+
+
+          for (const key in newData) {
+            if (Object.prototype.hasOwnProperty.call(newData, key)) {
+              if (newData[key] == null) {
+                this.formlyModel[dataTitle + key] = '';
+              } else {
+                this.formlyModel[dataTitle + key] = newData[key];
+              }
+              for (const obj of [this.formlyModel, /* other objects here */]) {
+                if (Object.prototype.hasOwnProperty.call(obj, key)) {
+                  obj[key] = newData[key];
+                }
+              }
+            }
+          }
+          drawer.eventActionconfig['parentId'] = item.id;
+        }
         if (window.location.href.includes('/pages')) {
           if (this.drawerChild.length == 0 && drawer.children.length > 0) {
             this.drawerChild = JSON.parse(JSON.stringify(drawer.children))
           }
           drawer.children = JSON.parse(JSON.stringify(this.drawerChild));
-          if (drawer?.eventActionconfig) {
-            let newData: any = JSON.parse(JSON.stringify(item));
-            const dataTitle = this.data.title ? this.data.title + '.' : '';
-            newData['parentid'] = newData.id;
-            const userData = JSON.parse(localStorage.getItem('user')!);
-            newData.id = '';
-            newData['organizationid'] = JSON.parse(localStorage.getItem('organizationId')!) || '';
-            newData['applicationid'] = JSON.parse(localStorage.getItem('applicationId')!) || '';
-            newData['createdby'] = userData.username;
-            // Get the current date and time
-            const currentDate = new Date();
 
-            // Format the date and time as "YYYY-MM-DD HH:mm:ss.sss"
-            const formattedDate = `${currentDate.getFullYear()}-${(currentDate.getMonth() + 1).toString().padStart(2, '0')}-${currentDate.getDate().toString().padStart(2, '0')} ${currentDate.getHours().toString().padStart(2, '0')}:${currentDate.getMinutes().toString().padStart(2, '0')}:${currentDate.getSeconds().toString().padStart(2, '0')}.${currentDate.getMilliseconds().toString().padStart(3, '0')}`;
-
-            // Now, you can save 'formattedDate' in your SQL database
-            newData.datetime = formattedDate;
-
-
-            for (const key in newData) {
-              if (Object.prototype.hasOwnProperty.call(newData, key)) {
-                if (newData[key] == null) {
-                  this.formlyModel[dataTitle + key] = '';
-                } else {
-                  this.formlyModel[dataTitle + key] = newData[key];
-                }
-                for (const obj of [this.formlyModel, /* other objects here */]) {
-                  if (Object.prototype.hasOwnProperty.call(obj, key)) {
-                    obj[key] = newData[key];
-                  }
-                }
-              }
-            }
-            drawer.eventActionconfig['parentId'] = item.id;
-          }
           if (window.location.href.includes('/pages')) {
             this.data = JSON.parse(JSON.stringify(this.data));
           }
         }
+
         this.showChild = true;
         drawer['visible'] = true;
       }
     } else {
       this.startEdit(item.id)
     }
-
   }
   transform(dateRange: string): any {
     if (dateRange) {
@@ -1678,7 +1686,7 @@ export class DynamicTableComponent implements OnInit {
           savedGroupData = await this.dataService.getNodes(JSON.parse(applicationId), this.screenName, "Table");
         }
         if (this.data?.eventActionconfig && !this.childTable && Object.keys(this.data.eventActionconfig).length > 0) {
-          if (this.data?.eventActionconfig?.rule.includes('market-place')) {
+          if (window.location.href.includes('marketplace.com')) {
             res.data = res.data.map((item: any) => ({
               id: item._id, // Rename _id to id
               name: item.name,
@@ -1788,10 +1796,10 @@ export class DynamicTableComponent implements OnInit {
         for (let key in newDataModel) {
           if (newDataModel[key] && Array.isArray(newDataModel[key])) {
             delete newDataModel[key];
-          }else if(newDataModel[key] == null){
+          } else if (newDataModel[key] == null) {
             newDataModel[key] = ''
           }
-          else if(newDataModel[key] == 'null'){
+          else if (newDataModel[key] == 'null') {
             newDataModel[key] = ''
           }
         }
@@ -1878,7 +1886,8 @@ export class DynamicTableComponent implements OnInit {
     XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
 
     // Save the workbook as an Excel file
-    XLSX.writeFile(wb, 'grid-data.xlsx');
+    const customFilename = this.data.title + '.xlsx';
+    XLSX.writeFile(wb, customFilename);
   }
 
   rowselected(i: number) {
@@ -1986,7 +1995,7 @@ export class DynamicTableComponent implements OnInit {
       const formData: FormData = new FormData();
       formData.append('file', file);
       this.http
-        .post(this.serverPath + '/knex-query/savecsv/'+this.data?.tableName, formData, {
+        .post(this.serverPath + '/knex-query/savecsv/' + this.data?.tableName, formData, {
           reportProgress: true, // Enable progress reporting
           observe: 'events', // Observe Http events
         })
@@ -2051,7 +2060,7 @@ export class DynamicTableComponent implements OnInit {
       nzTitle: 'Are you sure delete this Row?',
       // nzContent: '<b style="color: red;">Some descriptions</b>',
       nzOkText: 'Yes',
-      nzClassName : 'deleteRow',
+      nzClassName: 'deleteRow',
       nzOkType: 'primary',
       nzOkDanger: true,
       nzOnOk: () => this.deleteRow(rowData),
@@ -2059,5 +2068,39 @@ export class DynamicTableComponent implements OnInit {
       nzOnCancel: () => console.log('Cancel')
     });
   }
+  open(): void {
+    this.visible = true;
+    if (this.data?.drawerScreenLink) {
+      this.saveLoader = true;
+      if (this.checklink) {
+        if (this.checklink == this.data?.drawerScreenLink) {
+          this.saveLoader = false;
+          return
+        }
+      }
+      this.checklink = this.data?.drawerScreenLink;
+      this.requestSubscription = this.applicationService.getNestCommonAPIById('cp/Builder', this.data?.drawerScreenLink).subscribe({
+        next: (res: any) => {
+          if (res.isSuccess) {
+            if (res.data.length > 0) {
+              this.screenId = res.data[0].screenBuilderId;
+              this.nodes.push(res);
+            }
+          }
+          this.saveLoader = false;
+        },
+        error: (err) => {
+          console.error(err); // Log the error to the console
+          this.saveLoader = false;
+        }
+      });
+    }
+  }
 
+  close(): void {
+    this.visible = false;
+  }
+  makeFilterData(header : any){
+    
+  }
 }

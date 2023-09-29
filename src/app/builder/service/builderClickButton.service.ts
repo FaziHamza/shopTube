@@ -49,6 +49,17 @@ export class BuilderClickButtonService {
 
     };
   }
+  // kanbanFields(node: any) {
+  //   return {
+  //     options: (node?.kanlistArray || []).map((obj: any) => {
+  //       return {
+  //         key: obj,
+  //         isShow: true,
+  //       };
+  //     })
+
+  //   };
+  // }
   getRateFieldsConfig(node: any) {
     // const mappedOptions = node.options.map((option: any) => ({ label: option }));
     // return {

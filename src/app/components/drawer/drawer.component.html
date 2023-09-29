@@ -15,10 +15,12 @@
     [appConfigurableSelect]="drawerData?.appConfigurableEvent ? drawerData?.appConfigurableEvent : []"
     [loadAction]="drawerData?.eventActionconfig ? drawerData?.eventActionconfig : {}"
     [nzClosable]="drawerData.isClosable" [nzVisible]="drawerData?.visible || false" [nzPlacement]="drawerData.placement"
-    [nzTitle]="drawerData.title | translate" (nzOnClose)="close()" [nzClosable]="true" [nzCloseIcon]="iconTemplate"
-    [nzExtra]="extra" [nzKeyboard]="drawerData.isKeyboard" [nzFooter]="drawerData.footerText" [nzSize]="drawerData.size"
-    [nzSize]="drawerData.size" [nzWidth]="drawerData.width" [nzHeight]="drawerData.height"
-    [nzOffsetX]="drawerData.offsetX" [nzOffsetY]="drawerData.offsetY">
+    [nzTitle]="drawerData.title | translate" (nzOnClose)="close()"
+    [nzClosable]="drawerData?.closeIconPlacement == 'left' || drawerData?.closeIconPlacement == '' || drawerData?.closeIconPlacement == undefined ? true : false "
+    [nzCloseIcon]="iconTemplate" [nzExtra]="extra" [nzKeyboard]="drawerData.isKeyboard"
+    [nzFooter]="drawerData.footerText" [nzSize]="drawerData.size" [nzSize]="drawerData.size"
+    [nzWidth]="drawerData.width" [nzHeight]="drawerData.height" [nzOffsetX]="drawerData.offsetX"
+    [nzOffsetY]="drawerData.offsetY">
     <ng-container *nzDrawerContent>
         <nz-spin [nzSpinning]="loader" [nzSize]="'large'">
             <div *ngIf="drawerData.link == undefined || drawerData.link == '' ; else screen">
@@ -38,6 +40,11 @@
 </nz-drawer>
 
 <ng-template #extra>
+    <span *ngIf="drawerData.icon && drawerData?.closeIconPlacement == 'right'" class="ant-scroll-number-custom-component">
+        <st-icon class="cursor-pointer" (click)="close()" [type]="drawerData.iconType || 'outline'"
+            [icon]="drawerData.icon" [hoverIconColor]="drawerData?.hoverIconColor || ''" [size]="drawerData.iconSize"
+            [color]="drawerData.iconColor || 'red'"></st-icon>
+    </span>
     <button *ngIf="drawerData.closevisible" nz-button nzType="default" (click)="close()">Cancel</button>
     &nbsp;
     <button *ngIf="drawerData.okvisible" nz-button nzType="primary" (click)="close()">OK</button>

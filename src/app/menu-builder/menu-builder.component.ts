@@ -391,12 +391,13 @@ export class MenuBuilderComponent implements OnInit {
     debugger
     // this.actionType = type;
     let _formFieldData = new formFeildData();
+
+    const selectedNode = this.selectedNode;
     this.fieldData = new GenaricFeild({
       type: type,
-      title: "Change Attribute Values",
+      title: selectedNode.title ? selectedNode.title : selectedNode.id,
       commonData: _formFieldData.commonMenuBuilderConfigurationFields,
     });
-    const selectedNode = this.selectedNode;
     let configObj: any = {
       id: selectedNode.id as string,
       key: selectedNode.key.toLowerCase(),

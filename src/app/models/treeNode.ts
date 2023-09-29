@@ -560,4 +560,9 @@ export interface TreeNode {
   buttonAlignments?: any[],
   componentMapping?: boolean,
   searchType?: string,
+  kanlistArray?: any,
+  drawerButtonLabel?: any,
+  drawerWidth?: any,
+  isShowDrawerButton?: any,
+  drawerScreenLink?: any,
 }

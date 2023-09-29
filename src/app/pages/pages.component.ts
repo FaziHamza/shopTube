@@ -26,6 +26,7 @@ export class PagesComponent implements OnInit {
     private toastr: NzMessageService,
     public dataSharedService: DataSharedService, private router: Router) {
     this.dataSharedService.change.subscribe(({ event, field }) => {
+      debugger
       if (field && event)
         if (this.formlyModel) {
           // this.formlyModel[field.key] = event;
@@ -378,7 +379,7 @@ export class PagesComponent implements OnInit {
     // }
     // let commentsData = this.transformComments(this.dataSharedService.screenCommentList);
     // console.log(commentsData);
-    this.applicationService.callApi('knex-query/getAction/65001460e9856e9578bcb63f', 'get', '', '', res.data[0].navigation).subscribe({
+    this.applicationService.callApi('knex-query/getAction/65001460e9856e9578bcb63f', 'get', '', '', `'${res.data[0].navigation}'`).subscribe({
       next: (res) => {
         if (res.data > 0) {
           res.data.forEach((element: any) => {
@@ -396,7 +397,7 @@ export class PagesComponent implements OnInit {
     if (this.tableRowID) {
       if (this.pageRuleList.length > 0) {
         const observables = this.pageRuleList.map((element: any) => {
-          return this.applicationService.callApi('knex-query/getexecute-rules/' + element._id, 'get', '', '', this.tableRowID).pipe(
+          return this.applicationService.callApi('knex-query/getexecute-rules/' + element._id, 'get', '', '', `'${this.tableRowID}'` ).pipe(
             catchError((error: any) => of(error)) // Handle error and continue the forkJoin
           );
         });
@@ -1904,7 +1905,7 @@ export class PagesComponent implements OnInit {
   }
   getEnumList(data: any, targetId: any) {
     let tableData = this.findObjectByTypeBase(this.resData[0], "gridList");
-    if (data?.props?.apiUrl && tableData) {
+    if (data.props?.apiUrl && tableData) {
       if (typeof targetId == "string") {
         let obj = [{ name: 'id', }, { name: 'name', }]
         tableData['tableKey'] = obj;
@@ -1990,76 +1991,82 @@ export class PagesComponent implements OnInit {
           })
         }
       }
-      const filteredNodes = this.filterInputElements(this.resData[0].children[1].children[0].children[1].children);
-      if (filteredNodes.length > 0) {
-        for (let index = 0; index < filteredNodes.length; index++) {
-          const element = filteredNodes[index];
-          if (element.formly[0].fieldGroup[0].props['appConfigurableEvent']) {
-            for (let j = 0; j < element.formly[0].fieldGroup[0].props['appConfigurableEvent'].length; j++) {
-              const getActions = element.formly[0].fieldGroup[0].props['appConfigurableEvent'][j];
-              if (getActions.actions?.[0]?.submit == 'change' || getActions.actions?.[0]?.submit == 'onchange') {
-                // let subParamId = '';
-                // if(element.formly[0].fieldGroup[0].key.includes('.')){
-                //   const check =   element.formly[0].fieldGroup[0].key.split('.')
-                //   subParamId = this.formlyModel[check[0]][check[1]];
-                // }
-                let url = '';
-                if (getActions.actions?.[0]?.url.endsWith('/'))
-                  url = getActions.actions?.[0]?.url.endsWith('/')
-                else url = getActions.actions?.[0]?.url + '/'
-
-                this.applicationService.getBackendCommonAPI(url + targetId).subscribe(res => {
-                  if (res) {
-                    if (res.data.length > 0) {
-                      let data = res.data;
-                      let propertyNames = Object.keys(data[0]);
-                      let result = data.map((item: any) => {
-                        let newObj: any = {};
-                        let propertiesToGet: string[];
-                        if ('id' in item && 'name' in item) {
-                          propertiesToGet = ['id', 'name'];
-                        } else {
-                          propertiesToGet = Object.keys(item).slice(0, 2);
+    } else {
+      const findClickApi = data.props.appConfigurableEvent.find((item: any) => item?.action == 'change');
+      if (findClickApi) {
+        const filteredNodes = this.filterInputElements(this.resData[0].children[1].children[0].children[1].children);
+        if (filteredNodes.length > 0) {
+          for (let index = 0; index < filteredNodes.length; index++) {
+            const element = filteredNodes[index];
+            if (element.formly[0].fieldGroup[0].props['appConfigurableEvent']) {
+              for (let j = 0; j < element.formly[0].fieldGroup[0].props['appConfigurableEvent'].length; j++) {
+                const getActions = element.formly[0].fieldGroup[0].props['appConfigurableEvent'][j];
+                if (getActions?.action == 'change' || getActions?.action == 'onchange') {
+                  // let subParamId = '';
+                  // if(element.formly[0].fieldGroup[0].key.includes('.')){
+                  //   const check =   element.formly[0].fieldGroup[0].key.split('.')
+                  //   subParamId = this.formlyModel[check[0]][check[1]];
+                  // }
+                  // let url = '';
+                  // if (getActions.actions?.[0]?.url.endsWith('/'))
+                  //   url = getActions.actions?.[0]?.url.endsWith('/')
+                  // else url = getActions.actions?.[0]?.url + '/'
+                  if(getActions._id){
+                    this.applicationService.callApi('knex-query/getexecute-rules/' + getActions._id, 'get', '', '', targetId ? targetId : '').subscribe(res => {
+                      if (res) {
+                        if (res.data.length > 0) {
+                          let data = res.data;
+                          let propertyNames = Object.keys(data[0]);
+                          let result = data.map((item: any) => {
+                            let newObj: any = {};
+                            let propertiesToGet: string[];
+                            if ('id' in item && 'name' in item) {
+                              propertiesToGet = ['id', 'name'];
+                            } else {
+                              propertiesToGet = Object.keys(item).slice(0, 2);
+                            }
+                            propertiesToGet.forEach((prop) => {
+                              newObj[prop] = item[prop];
+                            });
+                            return newObj;
+                          });
+  
+                          let finalObj = result.map((item: any) => {
+                            return {
+                              label: item.name || item[propertyNames[1]],
+                              value: item.id || item[propertyNames[0]],
+                            };
+                          });
+                          for (let j = 0; j < filteredNodes.length; j++) {
+                            const ele = filteredNodes[j];
+                            if (ele.formly[0].fieldGroup[0].key == getActions?.targetId) {
+                              ele.formly[0].fieldGroup[0].props.options = finalObj;
+                            }
+                          }
+                        } 
+                        else {
+                          for (let j = 0; j < filteredNodes.length; j++) {
+                            const ele = filteredNodes[j];
+                            if (ele.formly[0].fieldGroup[0].key == getActions?.targetId) {
+                              ele.formly[0].fieldGroup[0].props.options = [];
+                            }
+                          }
                         }
-                        propertiesToGet.forEach((prop) => {
-                          newObj[prop] = item[prop];
-                        });
-                        return newObj;
-                      });
-
-                      let finalObj = result.map((item: any) => {
-                        return {
-                          label: item.name || item[propertyNames[1]],
-                          value: item.id || item[propertyNames[0]],
-                        };
-                      });
-                      for (let j = 0; j < filteredNodes.length; j++) {
-                        const ele = filteredNodes[j];
-                        if (ele.formly[0].fieldGroup[0].key == getActions.actions?.[0]?.componentFrom) {
-                          ele.formly[0].fieldGroup[0].props.options = finalObj;
-                        }
+  
+                        this.updateNodes();
                       }
-                    } else {
-                      for (let j = 0; j < filteredNodes.length; j++) {
-                        const ele = filteredNodes[j];
-                        if (ele.formly[0].fieldGroup[0].key == getActions.actions?.[0]?.componentFrom) {
-                          ele.formly[0].fieldGroup[0].props.options = [];
-                        }
-                      }
-                    }
-
-                    this.updateNodes();
+                    })
                   }
-                })
+                }
               }
             }
           }
         }
       }
     }
-
   }
   getEnumApi(data: any, targetId: any, findObj: any) {
+    debugger
     if (!targetId)
       this.requestSubscription = this.applicationService.getNestCommonAPI(data.props.apiUrl).subscribe({
         next: (res) => {

@@ -8154,6 +8154,35 @@ export class formFeildData {
         //     label: 'Show Button',
         //   },
         // },
+        {
+          key: 'kanlistArray',
+          type: 'repeatSection',
+          className: "w-full px-1",
+          props: {
+          },
+          fieldArray: {
+            className: 'ml-3 me-2',
+            fieldGroup: [
+              {
+                key: 'key',
+                type: 'input',
+                wrappers: ["formly-vertical-theme-wrapper"],
+                props: {
+                  label: 'key'
+                }
+              },
+              {
+                className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+                key: 'isShow',
+                type: 'checkbox',
+                wrappers: ["formly-vertical-theme-wrapper"],
+                props: {
+                  label: 'Allow Grouping'
+                }
+              },
+            ]
+          }
+        }
       ]
     },
   ]
@@ -8967,6 +8996,31 @@ export class formFeildData {
               {
                 label: 'Bottom',
                 value: 'bottom'
+              }
+            ],
+            additionalProperties: {
+              allowClear: true,
+              serveSearch: false,
+              showArrow: true,
+              showSearch: true,
+            },
+          }
+        },
+        {
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          key: 'closeIconPlacement',
+          type: 'select',
+          wrappers: ["formly-vertical-theme-wrapper"],
+          props: {
+            label: 'Close Icon placement',
+            options: [
+              {
+                label: 'Right',
+                value: 'right'
+              },
+              {
+                label: 'Left',
+                value: 'left'
               }
             ],
             additionalProperties: {
@@ -11153,9 +11207,10 @@ export class formFeildData {
           props: {
             label: 'Buttons Alignments',
             options: [
-              { value: '1,2', label: 'Before' },
+              { value: '1,2,3', label: 'Before' },
               // { value: '2,1,3', label: 'Center Button' },
-              { value: '2,1', label: 'After' },
+              { value: '3,2,1', label: 'After' },
+              { value: '2,3,1', label: 'Center' },
               // { value: '2,3,1', label: 'Start Search' },
               // // { value: '1,2,3', label: 'Center Search' },
               // // { value: '2,1,3', label: 'End Search' },
@@ -11321,6 +11376,34 @@ export class formFeildData {
           }
         },
         {
+          key: 'drawerScreenLink',
+          type: 'input',
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          wrappers: ["formly-vertical-theme-wrapper"],
+          props: {
+            label: 'Drawer Screen Link'
+          }
+        },
+        {
+          key: 'drawerWidth',
+          type: 'input',
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          wrappers: ["formly-vertical-theme-wrapper"],
+          props: {
+            type: 'number',
+            label: 'Drawer Width'
+          }
+        },
+        {
+          key: 'drawerButtonLabel',
+          type: 'input',
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          wrappers: ["formly-vertical-theme-wrapper"],
+          props: {
+            label: 'Drawer Button Label'
+          }
+        },
+        {
           key: 'filterMultiple',
           type: 'checkbox',
           wrappers: ["formly-vertical-theme-wrapper"],
@@ -11482,6 +11565,15 @@ export class formFeildData {
           wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             label: 'Allow Search Data'
+          }
+        },
+        {
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          key: 'isShowDrawerButton',
+          type: 'checkbox',
+          wrappers: ["formly-vertical-theme-wrapper"],
+          props: {
+            label: 'Show Drawer Button'
           }
         },
         {
