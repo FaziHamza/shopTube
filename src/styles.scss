@@ -7159,6 +7159,7 @@ tr:hover {
 
   .ant-drawer-body {
     padding: 10px 20px !important;
+    position: relative;
   }
 
   .ant-tabs-tab {
@@ -7350,3 +7351,11 @@ input[type=file]::file-selector-button:hover {
   
 }
   
+
+.general_faq .ant-select .ant-select-selector{
+  border-radius: 4px !important;
+}
+
+.execute-form-select .ant-select-selector{
+  border-radius: 4px !important;
+}

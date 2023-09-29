@@ -142,15 +142,18 @@
             </div>
           </nz-collapse-panel>
         </nz-collapse>
-        <button nz-button nzType="primary" nzPrimary class="btn btn-primary mb-3 mt-2 border-x-green-500 !bg-green-500 hover:!bg-green-400" (click)="addUIRule()">
-          <!-- <span nz-icon nzType="plus-square" nzTheme="twotone" class="-mt-4"></span> -->
-          <i class="fa-regular fa-plus mr-2"></i> Add Rule</button>
-        <button nz-button nzType="primary" nzPrimary class=" mb-3 ml-2 mt-2" (click)="saveUIRule()">
+
+        <div class="flex justify-end items-center" >
+          <button nz-button nzType="primary" nzPrimary class="btn btn-primary mb-3 mt-2 border-x-green-500 !bg-green-500 hover:!bg-green-400" (click)="addUIRule()">
+            <!-- <span nz-icon nzType="plus-square" nzTheme="twotone" class="-mt-4"></span> -->
+            <i class="fa-regular fa-plus mr-2"></i> Add Rule</button>
+            <button nz-button nzType="primary" nzPrimary class=" mb-3 ml-2 mt-2" (click)="saveUIRule()">
           <!-- <span nz-icon nzType="database" nzTheme="twotone" class="-mt-4"></span> -->
           <i class="fa-regular fa-floppy-disk mr-2"></i> Save </button>
-        <button nzDanger nz-button nzType="primary" class="mb-3 ml-2 mt-1" (click)="deleteUiRule()">
-          <i class="fa-regular fa-trash mr-2"></i> Delete</button>
-      </div>
-    </form>
+          <button nzDanger nz-button nzType="primary" class="mb-3 ml-2 mt-1" (click)="deleteUiRule()">
+            <i class="fa-regular fa-trash mr-2"></i> Delete</button>
+          </div>
+        </div>
+        </form>
   </div>
 </div>

@@ -171,8 +171,11 @@
         </div>
       </div>
     </form>
-    <button nz-button nzType="primary" class="!bg-green-500 hover:!bg-green-400 !border-none" (click)="addBuisnessRule()">
-      <span nz-icon nzType="plus"></span>
+
+    <div class="!w-full !flex !justify-end !items-center">
+
+      <button nz-button nzType="primary" class="!bg-green-500 hover:!bg-green-400 !border-none" (click)="addBuisnessRule()">
+        <span nz-icon nzType="plus"></span>
       Add Rule
     </button>
 
@@ -182,5 +185,6 @@
     <button nzDanger nz-button nzType="primary" class="mb-3 ml-2 mt-1" (click)="deleteBuisnessRule()">
       <span nz-icon nzType="delete" nzTheme="outline"></span>Delete</button>
 
-  </div>
+    </div>
+    </div>
 </div>
