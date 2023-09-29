@@ -2375,7 +2375,7 @@ export class BuilderComponent implements OnInit {
     let _formFieldData = new formFeildData();
     this.validationFieldData = new GenaricFeild({
       type: 'inputValidationRule',
-      title: 'Change Attribute Values',
+      title: this.selectedNode.title ? this.selectedNode.title : this.selectedNode.id,
       formData: _formFieldData.inputValidationRuleFields,
     });
     if (this.joiValidationData.length > 0) {
@@ -2563,12 +2563,6 @@ export class BuilderComponent implements OnInit {
         index + 1
       ].props!.options = veriableOptions;
     }
-
-    this.fieldData = new GenaricFeild({
-      type: type,
-      title: 'Change Attribute Values',
-      commonData: _formFieldData.commonOtherConfigurationFields,
-    });
     const selectedNode = this.selectedNode;
     let configObj: any;
     if (Array.isArray(selectedNode.className)) {
@@ -2580,6 +2574,11 @@ export class BuilderComponent implements OnInit {
     // this.selectedNode.className = newClass;
     // selectedNode.className = newClass;
     // configObj = JSON.parse(JSON.stringify(selectedNode));
+    this.fieldData = new GenaricFeild({
+      type: type,
+      title: selectedNode.title ? selectedNode.title : selectedNode.id,
+      commonData: _formFieldData.commonOtherConfigurationFields,
+    });
     switch (type) {
       case 'drawer':
         this.addIconCommonConfiguration(_formFieldData.drawerFields, false);
@@ -4265,6 +4264,10 @@ export class BuilderComponent implements OnInit {
           this.selectedNode['formType'] = event.form?.formType;
           this.selectedNode['routeUrl'] = event.form?.routeUrl;
           this.selectedNode['searchType'] = event.form?.searchType;
+          this.selectedNode['drawerButtonLabel'] = event.form?.drawerButtonLabel;
+          this.selectedNode['drawerWidth'] = event.form?.drawerWidth;
+          this.selectedNode['isShowDrawerButton'] = event.form?.isShowDrawerButton;
+          this.selectedNode['drawerScreenLink'] = event.form?.drawerScreenLink;
           let tableData: any = '';
           if (event.tableDta) {
             tableData = event.tableDta;
@@ -4293,26 +4296,26 @@ export class BuilderComponent implements OnInit {
             // this.selectedNode.tableHeaders = event.form.options;
           }
 
-          if (this.selectedNode.tableHeaders.length > 0) {
-            let newHeaders = this.selectedNode.tableHeaders.map((obj: any) => {
-              let newObj = { ...obj };
-              let key = newObj.key;
-              if (event.form.sortOrder) {
-                newObj.sortOrder = event.form.sortOrder;
-              }
-              if (event.form.sortDirections) {
-                newObj.sortDirections = event.form.sortDirections;
-              }
-              if (event.form.filterMultiple) {
-                newObj.filterMultiple = event.form.filterMultiple;
-              }
-              if (newObj.listOfFilter) {
-                newObj.listOfFilter = JSON.parse(newObj.listOfFilter);
-              }
-              return newObj;
-            });
-            this.selectedNode.tableHeaders = newHeaders;
-          }
+          // if (this.selectedNode.tableHeaders.length > 0) {
+          //   let newHeaders = this.selectedNode.tableHeaders.map((obj: any) => {
+          //     let newObj = { ...obj };
+          //     let key = newObj.key;
+          //     if (event.form.sortOrder) {
+          //       newObj.sortOrder = event.form.sortOrder;
+          //     }
+          //     if (event.form.sortDirections) {
+          //       newObj.sortDirections = event.form.sortDirections;
+          //     }
+          //     if (event.form.filterMultiple) {
+          //       newObj.filterMultiple = event.form.filterMultiple;
+          //     }
+          //     if (newObj.listOfFilter) {
+          //       newObj.listOfFilter = JSON.parse(newObj.listOfFilter);
+          //     }
+          //     return newObj;
+          //   });
+          //   this.selectedNode.tableHeaders = newHeaders;
+          // }
           this.selectedNode.tableKey = this.selectedNode.tableHeaders.map((key: any) => ({ name: key.key }));
           if (event.tableDta) {
             this.selectedNode.columnData = this.updateTableData(

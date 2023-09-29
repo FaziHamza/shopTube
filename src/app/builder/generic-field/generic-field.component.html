@@ -1,21 +1,21 @@
 <nz-spin [nzSpinning]="saveLoader" [nzSize]="'large'">
   <form [formGroup]="actionform" class="dynamic-table-form">
     <nz-collapse nzActive="active" *ngIf="itemData.commonData">
-      <nz-collapse-panel [nzHeader]="'Common  Configuration'" nzActive="false">
+      <nz-collapse-panel [nzHeader]="itemData.title + ' Common Configuration' | uppercase" nzActive="false">
         <div class="theme-body">
           <formly-form [form]="actionform" [model]="modal" [fields]="itemData.commonData"></formly-form>
         </div>
       </nz-collapse-panel>
     </nz-collapse>
     <nz-collapse *ngIf="itemData.formData" class="mt-4 2nd">
-      <nz-collapse-panel [nzHeader]="itemData.title" nzActive="false">
+      <nz-collapse-panel [nzHeader]="itemData.title | uppercase" nzActive="false">
         <div class="theme-body">
           <formly-form [form]="actionform" [model]="modal" [fields]="itemData.formData"></formly-form>
         </div>
       </nz-collapse-panel>
     </nz-collapse>
     <nz-collapse *ngIf="itemData.mappingConfig" nzActive="false" class="mt-4 3rd">
-      <nz-collapse-panel [nzHeader]="'Data Mapping'" nzActive="false">
+      <nz-collapse-panel [nzHeader]="itemData.title + ' Data Mapping' | uppercase" nzActive="false">
         <div class="theme-body">
           <span>
             <formly-form [form]="actionform" [model]="modal" [fields]="itemData.mappingConfig"></formly-form>

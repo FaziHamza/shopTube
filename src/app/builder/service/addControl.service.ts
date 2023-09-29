@@ -840,6 +840,7 @@ export class AddControlService {
       showEditInput: false,
       isDeleteAllow: true,
       isAllowGrouping: false,
+      drawerButtonLabel:'Open Drawer',
       tableHeaders: [
         // {
         //   name: 'Id',

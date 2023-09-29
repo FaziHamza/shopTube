@@ -53,6 +53,7 @@ export class DynamicTableComponent implements OnInit {
   responsiveTable: boolean = false;
   requestSubscription: Subscription;
   drawerChild: any[] = [];
+  nodes: any = [];
   selectList = [
     { key: "Faizan", value: "Faizan" },
     { key: "Arfan", value: "Arfan" },
@@ -70,6 +71,12 @@ export class DynamicTableComponent implements OnInit {
   progress = 0;
   showProgressBar = false;
   fileUpload: any = '';
+  visible: boolean = false;
+  checklink: any = '';
+  filterGender = [
+    { text: 'male', value: 'male' },
+    { text: 'female', value: 'female' }
+  ];
   constructor(public _dataSharedService: DataSharedService, private builderService: BuilderService,
     private applicationService: ApplicationService,
     private dataService: DataService,
@@ -1879,7 +1886,8 @@ export class DynamicTableComponent implements OnInit {
     XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
 
     // Save the workbook as an Excel file
-    XLSX.writeFile(wb, 'grid-data.xlsx');
+    const customFilename = this.data.title + '.xlsx';
+    XLSX.writeFile(wb, customFilename);
   }
 
   rowselected(i: number) {
@@ -2060,5 +2068,39 @@ export class DynamicTableComponent implements OnInit {
       nzOnCancel: () => console.log('Cancel')
     });
   }
+  open(): void {
+    this.visible = true;
+    if (this.data?.drawerScreenLink) {
+      this.saveLoader = true;
+      if (this.checklink) {
+        if (this.checklink == this.data?.drawerScreenLink) {
+          this.saveLoader = false;
+          return
+        }
+      }
+      this.checklink = this.data?.drawerScreenLink;
+      this.requestSubscription = this.applicationService.getNestCommonAPIById('cp/Builder', this.data?.drawerScreenLink).subscribe({
+        next: (res: any) => {
+          if (res.isSuccess) {
+            if (res.data.length > 0) {
+              this.screenId = res.data[0].screenBuilderId;
+              this.nodes.push(res);
+            }
+          }
+          this.saveLoader = false;
+        },
+        error: (err) => {
+          console.error(err); // Log the error to the console
+          this.saveLoader = false;
+        }
+      });
+    }
+  }
 
+  close(): void {
+    this.visible = false;
+  }
+  makeFilterData(header : any){
+    
+  }
 }
