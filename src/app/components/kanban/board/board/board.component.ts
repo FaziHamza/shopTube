@@ -112,7 +112,7 @@ export class BoardComponent implements OnInit {
       if (data.length > 0) {
         this.kandanListData = data;
         let firstObjectKeys = Object.keys(data[0]);
-        let tableKey = firstObjectKeys.map(key => ({ key, isShow: true }));
+        let tableKey = firstObjectKeys.map(key => ({ key, isShow: true, allowDragnDrop: false }));
 
         if (this.kanbanData['kanlistArray']) {
           if (this.kanbanData['kanlistArray'].length > 0) {

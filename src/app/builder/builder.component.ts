@@ -4269,6 +4269,8 @@ export class BuilderComponent implements OnInit {
           this.selectedNode['isShowDrawerButton'] = event.form?.isShowDrawerButton;
           this.selectedNode['drawerScreenLink'] = event.form?.drawerScreenLink;
           this.selectedNode['drawerPlacement'] = event.form?.drawerPlacement;
+          this.selectedNode['startFreezingNumber'] = event.form?.startFreezingNumber;
+          this.selectedNode['endFreezingNumber'] = event.form?.endFreezingNumber;
           let tableData: any = '';
           if (event.tableDta) {
             tableData = event.tableDta;
@@ -4350,6 +4352,31 @@ export class BuilderComponent implements OnInit {
               this.selectedNode.tableData =
                 this.selectedNode['tableNoResultArray'];
           }
+          if (this.selectedNode.tableHeaders.length > 0) {
+            this.selectedNode.tableHeaders.forEach((a: any) => {
+              if(a){
+                a['headerFreeze'] = false;
+              }
+            });
+          }
+
+          // if (this.selectedNode['startFreezingNumber'] || this.selectedNode['endFreezingNumber']) {
+          //   let selected: any = this.selectedNode;
+          //   for (let index = 0; index < this.selectedNode.tableHeaders.length; index++) {
+          //     let header: any = this.selectedNode.tableHeaders[index];
+          //     if (selected['startFreezingNumber'] < index) {
+          //       header['headerFreeze'] = true;
+          //     }
+          //   }
+          //   if (selected['endFreezingNumber'].length > 2) {
+          //     for (let index = 0; index < this.selectedNode.tableHeaders.length; index++) {
+          //       let header: any = this.selectedNode.tableHeaders[index];
+          //       if (selected['startFreezingNumber'] < index) {
+          //         header['headerFreeze'] = true;
+          //       }
+          //     }
+          //   }
+          // }
           this.selectedNode.tableKey = this.selectedNode.tableHeaders;
         }
         break;

@@ -6363,9 +6363,9 @@ tr:hover {
 
     }
 
-    &:hover .editable-cell {
-      white-space: normal !important;
-    }
+    // &:hover .editable-cell {
+    //   white-space: normal !important;
+    // }
 
 
   }
@@ -6803,9 +6803,9 @@ tr:hover {
 
 .dynamic-table-form {
 
-  .ant-table-content>table:nth-child(1) {
-    table-layout: fixed !important;
-  }
+  // .ant-table-content>table:nth-child(1) {
+  //   table-layout: fixed !important;
+  // }
 
 
   dynamic-table.ng-star-inserted>div:nth-child(1) {
@@ -7432,4 +7432,12 @@ display: none !important ;
   display: flex !important;
   justify-content: center  !important ;
   align-items: center !important;
+}
+
+.dyname{
+  li{
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important ;
+  }
 }

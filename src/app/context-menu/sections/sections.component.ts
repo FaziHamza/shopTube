@@ -39,7 +39,7 @@ export class SectionsComponent implements OnInit {
 
   ngOnInit(): void {
     this.screenName;
-    // let btnData = this.findObjectByTypeBase(this.sections, "button");
+    // let btnData = this.findObjectByTypeBase(this.sections, "butto  n");
     // if (btnData) {
     //   this.getFromQuery(btnData);
 
