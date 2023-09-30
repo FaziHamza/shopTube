@@ -84,7 +84,7 @@
   <div class="dynamic-table" [processData]="processData"
     [appConfigurableSelect]="childTable == false ? (data?.appConfigurableEvent ? data?.appConfigurableEvent : []) : []"
     [loadAction]="childTable == false ? ( data?.eventActionconfig ? data?.eventActionconfig : {}) : false">
-    <nz-table [ngClass]="tableHeaders.length > 5 ? 'table-auto' : 'table-fixed' " #columnTable [nzScroll]="{ x: '1400px' }" #editRowTable [nzPageSize]="10"
+    <nz-table [ngClass]="tableHeaders.length > 5 ? 'table-auto' : 'table-fixed' " #columnTable  #editRowTable [nzPageSize]="10"
       [nzData]="displayData" *ngIf="data && displayData" [nzLoading]="data?.nzLoading"
       [nzPaginationPosition]='data?.nzPaginationPosition' [nzPaginationType]='data?.nzPaginationType'
       [nzFrontPagination]='false' [nzTitle]='data?.nzTitle' [nzSimple]="data.nzSimple"
@@ -95,7 +95,7 @@
             [(nzChecked)]="allChecked" [nzIndeterminate]="indeterminate" (nzCheckedChange)="checkAll($event)"
             [ngStyle]="{'text-align': data.position ? data.position : 'left'}"></th>
           <ng-container *ngFor="let header of tableHeaders ; let i = index">
-            <th [nzLeft]="allowFreeze(header , i , 'left')" [nzRight]="allowFreeze(header , i , 'right')"
+            <th 
               class="!font-semibold !text-gray-500 !uppercase !text-xs"
               *ngIf="header.key !== 'defaultValue' && ( header?.show == true || header?.show === undefined || header?.show === '' || header?.show == 'Yes')"
               [ngStyle]="{'text-align': header?.position ? header?.position : 'left'}">
