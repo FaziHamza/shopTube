@@ -1,13 +1,14 @@
 import { DatePipe } from '@angular/common';
 import { HttpClient, HttpEvent, HttpEventType } from '@angular/common/http';
 import {
-  ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output,
+  ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output, HostListener
 } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { NzModalService } from 'ng-zorro-antd/modal';
 import { Subscription } from 'rxjs';
+import { AnyCatcher } from 'rxjs/internal/AnyCatcher';
 import { ApplicationService } from 'src/app/services/application.service';
 import { BuilderService } from 'src/app/services/builder.service';
 import { DataSharedService } from 'src/app/services/data-shared.service';
@@ -76,6 +77,13 @@ export class DynamicTableComponent implements OnInit {
   filteringArrayData: any[] = [];
   localStorageGrouping: any[] = [];
   filteringHeadArray: any = [];
+  nzScrollConfig: { x: string } = { x: '1100px' };
+
+  @HostListener('window:resize', ['$event'])
+  onResize(event: Event): void {
+    // Update the nzScroll configuration based on screen size
+    this.updateScrollConfig();
+  }
   constructor(public _dataSharedService: DataSharedService, private builderService: BuilderService,
     private applicationService: ApplicationService,
     private dataService: DataService,
@@ -89,6 +97,7 @@ export class DynamicTableComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.updateScrollConfig();
     if (!this.childTable) {
       // this.search(this.data?.searchType ? 'keyup' : 'keyup')
     }
@@ -2106,6 +2115,7 @@ export class DynamicTableComponent implements OnInit {
     this.visible = false;
   }
   makeFilterData(header: any, allowPrevious: boolean) {
+    header['searchValue'] = '';
     const filterData: any = {};
     if (this.filteringArrayData.length == 0) {
       this.filteringArrayData = this.excelReportData;
@@ -2137,9 +2147,11 @@ export class DynamicTableComponent implements OnInit {
 
       });
       header['filterArray'] = [...result]
+      header['filterSearch'] = [...result]
 
     } else {
       header['filterArray'] = filterData[header?.key];
+      header['filterSearch'] = filterData[header?.key];
     }
   }
   async filter(item: any, add: boolean) {
@@ -2234,41 +2246,6 @@ export class DynamicTableComponent implements OnInit {
     }
   }
 
-
-
-  // reset(item: any) {
-  //   item['visible'] = false;
-  //   // this.makeFilterData(item, false);
-
-  //   // if (this.filteringHeadArray.length === 0) {
-  //   //   this.resetFilterData();
-  //   // } else {
-  //   //   this.filteringHeadArray = this.filteringHeadArray.filter((head: any) => head.key !== item.key);
-
-  //   //   if (this.filteringHeadArray.length === 0) {
-  //   //     this.resetFilterData();
-  //   //   } else {
-  //   //     this.filteringArrayData = this.excelReportData;
-  //   //     this.filteringHeadArray.forEach((head: any) => {
-  //   //       this.filter(head);
-  //   //     });
-  //   //   }
-  //   // }
-
-  //   // this.pageChange(1);
-  // }
-
-  // resetFilterData() {
-  //   this.displayData = this.excelReportData;
-  //   this.tableData = this.excelReportData;
-  //   this.filteringArrayData = this.excelReportData;
-
-  //   this.tableHeaders.forEach((element: any) => {
-  //     if (element?.filterArray) {
-  //       delete element?.filterArray;
-  //     }
-  //   });
-  // }
   simpleFiltering(value: any, header: any) {
     header.filterArray.forEach((element: any) => {
       if (element.value == value) {
@@ -2284,14 +2261,15 @@ export class DynamicTableComponent implements OnInit {
     return !header?.filterArray?.some((item: any) => item.filter);
   }
   sortedArray: any[] = [];
-  sortingData(header: any) {
+  sortingData(header: any, sortingOrder: any) {
     // Check if the column header is already in the sortedArray
     const index = this.sortedArray.findIndex(item => item.key === header);
 
     if (index !== -1) {
       // Column is already in the sortedArray, toggle the sort order
-      this.sortedArray[index].order = this.sortedArray[index].order === 'asc' ? 'desc' : 'asc';
-    } else {
+      this.sortedArray[index].order = sortingOrder;
+    }
+    else {
       // Column is not in the sortedArray, add it with 'asc' order
       this.sortedArray.push({ key: header, order: 'asc' });
     }
@@ -2325,6 +2303,44 @@ export class DynamicTableComponent implements OnInit {
     }
     return 0;
   }
+  searchFilter(header: any) {
+    header['filterArray'] = header['filterSearch']
+    if (header?.searchValue) {
+      const searchValue = header?.searchValue.toLowerCase();
+      header['filterArray'] = header['filterSearch'].filter((item: any) =>
+        item.value.toLowerCase().includes(searchValue)
+      );
+    }
+  }
+  selectClearAll(header: any, allow: boolean) {
+    header?.filterArray.forEach((element: any) => {
+      element.filter = allow;
+    });
+  }
 
+  updateScrollConfig(): void {
+    // Adjust the nzScroll configuration based on your desired logic
+    const screenWidth = window.innerWidth;
+
+    if (screenWidth >= 1200) {
+      this.nzScrollConfig = { x: '1100px' };
+    } else {
+      this.nzScrollConfig = { x: '100%' }; // Adjust this value for smaller screens
+    }
+  }
+  allowFreeze(header: any, index: number, alignment: any) {
+    if (this.data?.startFreezingNumber < index && alignment == 'left') {
+      header['headerFreeze'] = true;
+      return header['headerFreeze'];
+    } else if (this.data?.endFreezingNumber > index && alignment == 'right' ) {
+      header['headerFreeze'] = true;
+      return header['headerFreeze'];
+    } 
+    else {
+      return header['headerFreeze']  ? true :  false;
+    }
+    // If none of the conditions are met, return undefined
+  }
 
 }
+

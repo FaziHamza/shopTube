@@ -84,20 +84,20 @@
   <div class="dynamic-table" [processData]="processData"
     [appConfigurableSelect]="childTable == false ? (data?.appConfigurableEvent ? data?.appConfigurableEvent : []) : []"
     [loadAction]="childTable == false ? ( data?.eventActionconfig ? data?.eventActionconfig : {}) : false">
-    <nz-table class="!w-fit" #editRowTable [nzPageSize]="10" [nzData]="displayData" *ngIf="data && displayData"
-      [nzLoading]="data?.nzLoading" [nzPaginationPosition]='data?.nzPaginationPosition'
-      [nzPaginationType]='data?.nzPaginationType' [nzFrontPagination]='false' [nzTitle]='data?.nzTitle'
-      [nzSimple]="data.nzSimple" [nzShowSizeChanger]="data.nzShowSizeChanger">
+    <nz-table #columnTable [nzScroll]="{ x: '1100px' }" class="!w-fit" #editRowTable [nzPageSize]="10"
+      [nzData]="displayData" *ngIf="data && displayData" [nzLoading]="data?.nzLoading"
+      [nzPaginationPosition]='data?.nzPaginationPosition' [nzPaginationType]='data?.nzPaginationType'
+      [nzFrontPagination]='false' [nzTitle]='data?.nzTitle' [nzSimple]="data.nzSimple"
+      [nzShowSizeChanger]="data.nzShowSizeChanger">
       <thead class="desktop-toggle">
         <tr class="desktop-toggle " *ngIf="data?.showColumnHeader == undefined ? true : data?.showColumnHeader">
           <th class="!font-semibold !text-gray-500 !uppercase !text-xs" *ngIf="data.showCheckbox"
             [(nzChecked)]="allChecked" [nzIndeterminate]="indeterminate" (nzCheckedChange)="checkAll($event)"
             [ngStyle]="{'text-align': data.position ? data.position : 'left'}"></th>
-          <ng-container *ngFor="let header of tableHeaders">
-            <th class="!font-semibold !text-gray-500 !uppercase !text-xs" [nzShowSort]="true"
+          <ng-container *ngFor="let header of tableHeaders ; let i = index">
+            <th [nzLeft]="allowFreeze(header , i , 'left')" [nzRight]="allowFreeze(header , i , 'right')"
+              class="!font-semibold !text-gray-500 !uppercase !text-xs"
               *ngIf="header.key !== 'defaultValue' && ( header?.show == true || header?.show === undefined || header?.show === '' || header?.show == 'Yes')"
-              [nzSortOrder]="header?.sortOrder" [nzSortFn]="header?.sortFn" [nzSortDirections]="header?.sortDirections"
-              (click)="sortingData(header.key)"
               [ngStyle]="{'text-align': header?.position ? header?.position : 'left'}">
               <!-- (click)="header?.columnClickApi ? onClickColumn(header.columnClickApi,header): ''" -->
               {{header['title'] ? header['title'] : header['name']| translate}}<span>
@@ -123,6 +123,22 @@
                 <nz-dropdown-menu #filterMenu="nzDropdownMenu">
                   <ng-container *ngIf="header?.filterArray">
                     <ul *ngIf="header?.filterArray.length > 0" nz-menu nzSelectable class="!p-1.5">
+                      <p (click)="sortingData(header.key , 'asc')">Sort A to Z</p>
+                      <p (click)="sortingData(header.key , 'desc')">Sort Z to A</p>
+                      <hr>
+                      <br />
+                      <nz-input-group [nzSuffix]="suffixIconSearch">
+                        <input nz-input placeholder="Search here..." [(ngModel)]="header['searchValue']"
+                          (input)="searchFilter(header)" />
+                      </nz-input-group>
+                      <ng-template #suffixIconSearch>
+                        <span nz-icon nzType="search"></span>
+                      </ng-template>
+                      <br />
+                      <ng-container class="flex" *ngIf="header?.multipleFiltering == true">
+                        <p (click)="selectClearAll(header , true)">Select all - </p>
+                        <p (click)="selectClearAll(header , false)">Clear</p>
+                      </ng-container>
                       <ng-container *ngFor="let item of header?.filterArray ">
                         <li *ngIf="header?.multipleFiltering == true ; else single" nz-menu-item>
                           {{item.text}} <label class="ml-2" nz-checkbox [(ngModel)]="item.filter"></label>
@@ -140,7 +156,6 @@
                     </ul>
                   </ng-container>
                 </nz-dropdown-menu>
-
               </span> <span *ngIf=" header?.gridHeaderSum">({{header?.gridHeaderSum}})</span>
             </th>
           </ng-container>
@@ -165,8 +180,9 @@
               <td *ngIf="data.showCheckbox" [(nzChecked)]="item.checked" (nzCheckedChange)="refreshStatus()"
                 [ngStyle]="{'text-align': data.position ? data.position : 'left'}"></td>
               <ng-container *ngFor="let header of data['tableKey']; let index = index">
-                <td (click)="checkTypeData(item , header)" [ngClass]="{'disabled-link' : header.key  == 'key'}"
-                  [nzEllipsis]="true" class="5"
+                <td [nzLeft]="header?.headerFreeze == true ? true : false"
+                  [nzRight]="header?.headerFreeze == true ? true : false" (click)="checkTypeData(item , header)"
+                  [ngClass]="{'disabled-link' : header.key  == 'key'}" [nzEllipsis]="true" class="5"
                   [style.border-left]="item[header.key]== item?.colorDataType && editId !== item.id  ?  '4px solid ' + item?.columnColor : ''"
                   *ngIf="(header?.show == true || header?.show === undefined || header?.show === '' || header?.show == 'Yes') && header?.dataType !='objectType' && header.key != 'headerButton' && header.key != 'footerButton' && header.key != 'expandable' && header.key != 'checked'
                   && header.key != 'expand'  && header.key !='children' && header.key != 'defaultValue' ">

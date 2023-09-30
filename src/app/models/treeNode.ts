@@ -566,4 +566,6 @@ export interface TreeNode {
   isShowDrawerButton?: any,
   drawerScreenLink?: any,
   drawerPlacement?: any,
+  startFreezingNumber?: number,
+  endFreezingNumber?: number,
 }

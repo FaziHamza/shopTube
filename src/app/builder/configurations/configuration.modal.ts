@@ -8180,6 +8180,15 @@ export class formFeildData {
                   label: 'Allow Grouping'
                 }
               },
+              {
+                className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+                key: 'allowDragnDrop',
+                type: 'checkbox',
+                wrappers: ["formly-vertical-theme-wrapper"],
+                props: {
+                  label: 'Allow Drag n Drop'
+                }
+              },
             ]
           }
         }
@@ -11436,6 +11445,26 @@ export class formFeildData {
             },
           }
         },
+        {
+          key: 'startFreezingNumber',
+          type: 'input',
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          wrappers: ["formly-vertical-theme-wrapper"],
+          props: {
+            type: 'number',
+            label: 'Start Freezing Number'
+          }
+        },
+        {
+          key: 'endFreezingNumber',
+          type: 'input',
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          wrappers: ["formly-vertical-theme-wrapper"],
+          props: {
+            type: 'number',
+            label: 'End Freezing Number'
+          }
+        },
         // {
         //   key: 'filterMultiple',
         //   type: 'checkbox',
@@ -11795,7 +11824,7 @@ export class formFeildData {
                   label: 'Footer Button'
                 }
               },
-            
+
               {
                 className: "ml-2",
                 key: 'footerButton',
