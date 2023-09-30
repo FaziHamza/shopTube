@@ -1,6 +1,7 @@
 <div #monacoComponent></div>
-<div *ngIf="showActionRuleForm" class="general_faq mt-3">
+<div *ngIf="showActionRuleForm" class="general_faq">
   <form [formGroup]="actionForm">
+    <div class="drawer-height">
     <div class="grid lg:grid-cols-5 sm:grid-cols-2 gap-2">
       <div>
         <nz-select class="form-select" formControlName="submissionType" aria-label="Default Select Example">
@@ -228,9 +229,10 @@
         </div>
       </ng-container>
     </div>
+    </div>
 
-    <div class="!flex !justify-end !items-center" >
-      <button nz-button nzType="primary" (click)="SaveAction()" class="mt-2 grid justify-self-end save_Action"><span nz-icon nzType="save"
+    <div class="drawer-height-btn" >
+      <button nz-button nzType="primary" (click)="SaveAction()" class="grid justify-self-end save_Action"><span nz-icon nzType="save"
         nzTheme="outline"></span>
         Save Action</button>
       </div>

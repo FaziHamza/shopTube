@@ -1,5 +1,6 @@
 <nz-spin [nzSpinning]="saveLoader" [nzSize]="'large'" class="!relative" >
   <form [formGroup]="actionform" class="dynamic-table-form">
+    <div class="drawer-height" >
     <nz-collapse nzActive="active" *ngIf="itemData.commonData">
       <nz-collapse-panel [nzHeader]="itemData.title + ' Common Configuration' | uppercase" nzActive="false">
         <div class="theme-body">
@@ -37,10 +38,12 @@
       [checkType]='true' [tableHeaders]="itemData.mappingNode.tableHeader" [tableData]='itemData.mappingNode.tableBody'
       [displayData]="itemData.mappingNode.tableBody" [data]="itemData.mappingNode"></dynamic-table>
     <br>
-    <div class="flex  justify-end items-center" >
-      <button nz-button nzType="primary" (click)="onSubmit()"> <i class="fa-light fa-floppy-disk mr-2"></i> Save</button>
-      <button class="mx-2" nz-button nzType="primary" *ngIf="componentType == 'builder' || !componentType" nzDanger
-      (click)="onDelete(this.itemData)"> <i class="fa-light fa-trash mr-2"></i> Delete</button>
+  </div>
+
+    <div class="drawer-height-btn" >
+      <button nz-button nzType="primary" (click)="onSubmit()"> <i class="fa-light fa-floppy-disk mr-1.5"></i> Save</button>
+      <button class="ml-2" nz-button nzType="primary" *ngIf="componentType == 'builder' || !componentType" nzDanger
+      (click)="onDelete(this.itemData)"> <i class="fa-light fa-trash mr-1.5"></i> Delete</button>
       <!-- <button nz-button nzType="primary" type="submit">Primary Button</button> -->
     </div>
   </form>

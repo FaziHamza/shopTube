@@ -1,7 +1,10 @@
-<div class=" general_faq mt-3">
+<div class=" general_faq ">
   <div style="position:relative ;">
     <form action="javascript:void(0);" [formGroup]="uiRuleForm">
       <div formArrayName="uiRules">
+        <div class="drawer-height" >
+
+        
         <nz-collapse class="business-rule-form" >
           <nz-collapse-panel *ngFor="let uiRuleObj of getUiRule().controls; let uiIndex=index"
             [nzHeader]="(uiIndex+1).toString()">
@@ -142,15 +145,15 @@
             </div>
           </nz-collapse-panel>
         </nz-collapse>
-
-        <div class="flex justify-end items-center" >
-          <button nz-button nzType="primary" nzPrimary class="btn btn-primary mb-3 mt-2 border-x-green-500 !bg-green-500 hover:!bg-green-400" (click)="addUIRule()">
+      </div>
+        <div class="drawer-height-btn" >
+          <button nz-button nzType="primary" nzPrimary class="btn btn-primary border-x-green-500 !bg-green-500 hover:!bg-green-400" (click)="addUIRule()">
             <!-- <span nz-icon nzType="plus-square" nzTheme="twotone" class="-mt-4"></span> -->
             <i class="fa-regular fa-plus mr-2"></i> Add Rule</button>
-            <button nz-button nzType="primary" nzPrimary class=" mb-3 ml-2 mt-2" (click)="saveUIRule()">
+            <button nz-button nzType="primary" nzPrimary class=" mx-2 " (click)="saveUIRule()">
           <!-- <span nz-icon nzType="database" nzTheme="twotone" class="-mt-4"></span> -->
           <i class="fa-regular fa-floppy-disk mr-2"></i> Save </button>
-          <button nzDanger nz-button nzType="primary" class="mb-3 ml-2 mt-1" (click)="deleteUiRule()">
+          <button nzDanger nz-button nzType="primary" class="" (click)="deleteUiRule()">
             <i class="fa-regular fa-trash mr-2"></i> Delete</button>
           </div>
         </div>
