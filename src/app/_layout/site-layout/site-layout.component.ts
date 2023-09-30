@@ -89,8 +89,8 @@ export class SiteLayoutComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.getUsers();
-    this.getTaskManagementIssuesFunc(JSON.parse(localStorage.getItem('applicationId')!));
+    // this.getUsers();
+    // this.getTaskManagementIssuesFunc(JSON.parse(localStorage.getItem('applicationId')!));
     this.currentUser = JSON.parse(localStorage.getItem('user')!);
     this.requestSubscription = this.dataSharedService.collapseMenu.subscribe({
       next: (res) => {

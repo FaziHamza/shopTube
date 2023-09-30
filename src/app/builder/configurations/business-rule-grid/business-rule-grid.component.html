@@ -1,7 +1,7 @@
 <nz-modal [(nzVisible)]="isVisible" nzWidth=700px nzTitle="The first Modal" (nzOnCancel)="handleCancel()"
   (nzOnOk)="handleOk()">
   <ng-container *nzModalContent>
-    <form [formGroup]="conditionForm" class="business-rule-form">
+    <form [formGroup]="conditionForm" class="business-rule-form drawer-height">
       <div formArrayName="getRuleCondition">
         <div *ngFor="let condition of getRuleCondition().controls; let i=index">
           <div [formGroupName]="i">
@@ -148,7 +148,7 @@
   </div>
 </nz-modal>
 <div *ngIf="dynmaicRule && UIRule == false" style="position:relative ;">
-  <form [formGroup]="buisnessForm" class="business-rule-form" >
+  <form [formGroup]="buisnessForm" class="business-rule-form drawer-height" >
     <div formArrayName="buisnessRule">
       <div *ngFor="let employee of buisnessRule().controls; let i=index">
         <div class="flex flex-wrap mb-2" [formGroupName]="i"
@@ -347,10 +347,13 @@
       </div>
     </div>
   </form>
-  <button nz-button nzType="primary" class=" mb-3 btn-no !bg-green-500 hover:!bg-green-400 !border-green-500" (click)="addGridBuisnessRule()"> <i class="fa-regular fa-plus mr-2"></i>  Add Rule</button>
-  <button nz-button nzType="primary" class="btn-no !bg-blue-600 hover:!bg-blue-500 mb-3 ml-2" (click)="saveGridBusinessRule()">
-    <i class="fa-regular fa-save mr-2"></i>
+
+  <div class="drawer-height-btn " >
+    <button nz-button nzType="primary" class=" btn-no !bg-green-500 hover:!bg-green-400 !border-green-500" (click)="addGridBuisnessRule()"> <i class="fa-regular fa-plus mr-2"></i>  Add Rule</button>
+    <button nz-button nzType="primary" class="btn-no !bg-blue-600 hover:!bg-blue-500 mx-2" (click)="saveGridBusinessRule()">
+      <i class="fa-regular fa-save mr-2"></i>
     Save Grid Rule</button>
-  <button nzDanger nz-button nzType="primary" class="mb-3 ml-2 mt-1 btn-no" (click)="deleteGridBuisnessRule()">
-    <i class="fa-regular fa-trash mr-2"></i> Delete</button>
+    <button nzDanger nz-button nzType="primary" class="btn-no" (click)="deleteGridBuisnessRule()">
+      <i class="fa-regular fa-trash mr-2"></i> Delete</button>
+    </div>
 </div>

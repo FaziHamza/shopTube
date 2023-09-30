@@ -28,7 +28,7 @@ export class SectionsComponent implements OnInit {
   dataModel: any = {};
   validationCheckStatus: any = [];
   setErrorToInput: any = [];
-  joiValidationData: TreeNode[] = [];
+  @Input() joiValidationData: TreeNode[] = [];
   schemaValidation: any;
   ruleObj: any = {};
   ruleValidation: any = {};
@@ -39,7 +39,6 @@ export class SectionsComponent implements OnInit {
 
   ngOnInit(): void {
     this.screenName;
-    this.getJoiValidation();
     // let btnData = this.findObjectByTypeBase(this.sections, "button");
     // if (btnData) {
     //   this.getFromQuery(btnData);
@@ -1402,12 +1401,6 @@ export class SectionsComponent implements OnInit {
       }
     }
     return null;
-  }
-  getJoiValidation() {
-    if (this.screenId)
-      this.applicationServices.getNestCommonAPIById('cp/ValidationRule', this.screenId).subscribe((getRes => {
-        this.joiValidationData = getRes.data;
-      }))
   }
   findObjectById(data: any, key: any) {
     if (data) {
