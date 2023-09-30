@@ -139,9 +139,10 @@
                         <p (click)="selectClearAll(header , true)">Select all - </p>
                         <p (click)="selectClearAll(header , false)">Clear</p>
                       </ng-container>
-                      <ng-container *ngFor="let item of header?.filterArray ">
-                        <li *ngIf="header?.multipleFiltering == true ; else single" nz-menu-item>
-                          {{item.text}} <label class="ml-2" nz-checkbox [(ngModel)]="item.filter"></label>
+                      <div class="h-[100px] overflow-y-auto" >
+                        <ng-container *ngFor="let item of header?.filterArray ">
+                          <li *ngIf="header?.multipleFiltering == true ; else single" nz-menu-item>
+                            {{item.text}} <label class="ml-2" nz-checkbox [(ngModel)]="item.filter"></label>
                         </li>
                         <ng-template #single>
                           <li (click)="simpleFiltering(item.value , header)" nz-menu-item>
@@ -149,6 +150,7 @@
                           </li>
                         </ng-template>
                       </ng-container>
+                    </div>
                       <div class="w-full flex justify-between items-center" >
                         <button nz-button [ngClass]="checkResetFiltering(header) ? '!text-black' : '!bg-red-600 hover:!bg-red-500 !text-white'" class="btn-no !w-[49%]  border-none !h-[30px]" [disabled]="checkResetFiltering(header)"
                         (click)="filter(header , false)"> <i class="fa-regular fa-arrow-rotate-left mr-1.5"></i>Reset</button>
