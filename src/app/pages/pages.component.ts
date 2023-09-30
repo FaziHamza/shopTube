@@ -1246,7 +1246,7 @@ export class PagesComponent implements OnInit {
   }
   getBusinessRule(screenId: string) {
     if (screenId) {
-      this.requestSubscription = this.applicationService.getNestCommonAPIById('cp/AllRules', screenId).subscribe({
+      this.requestSubscription = this.applicationService.getNestCommonAPIById('cp/CacheRule', screenId).subscribe({
         next: (getRes: any) => {
           if (getRes.isSuccess) {
             getRes.data.forEach((res: any) => {
