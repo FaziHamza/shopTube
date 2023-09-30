@@ -19,6 +19,7 @@ import { FormGroup } from '@angular/forms';
   styleUrls: ['./pages.component.scss']
 })
 export class PagesComponent implements OnInit {
+  joiValidationData: TreeNode[] = [];
   constructor(public employeeService: EmployeeService, private activatedRoute: ActivatedRoute,
     private clipboard: Clipboard, private applicationService: ApplicationService,
     public builderService: BuilderService,
@@ -254,7 +255,6 @@ export class PagesComponent implements OnInit {
           this.actionsBindWithPage(this.data[0]);
         },
         error: (err) => {
-          // this.getBuilderScreen(params);
           this.actionsBindWithPage(this.data[0]);
           console.error(err);
           // this.toastr.error("An error occurred", { nzDuration: 3000 });
@@ -274,7 +274,6 @@ export class PagesComponent implements OnInit {
                 this.actionsBindWithPage(res);
               },
               error: (err) => {
-                // this.getBuilderScreen(params);
                 this.actionsBindWithPage(res);
                 console.error(err);
                 // this.toastr.error("An error occurred", { nzDuration: 3000 });
@@ -291,12 +290,10 @@ export class PagesComponent implements OnInit {
     });
   }
   actionsBindWithPage(res: any) {
-    debugger
     this.screenId = res.data[0].screenBuilderId;
     this.screenName = res.data[0].screenName;
     this.navigation = res.data[0].navigation;
     this.getBusinessRule(res.data[0].screenBuilderId);
-    this.getUIRuleData(res.data[0].screenBuilderId);
     const data = JSON.parse(res.data[0].screenData);
 
     let nodesData = this.jsonParseWithObject(this.jsonStringifyWithObject(data));
@@ -397,7 +394,7 @@ export class PagesComponent implements OnInit {
     if (this.tableRowID) {
       if (this.pageRuleList.length > 0) {
         const observables = this.pageRuleList.map((element: any) => {
-          return this.applicationService.callApi('knex-query/getexecute-rules/' + element._id, 'get', '', '', `'${this.tableRowID}'` ).pipe(
+          return this.applicationService.callApi('knex-query/getexecute-rules/' + element._id, 'get', '', '', `'${this.tableRowID}'`).pipe(
             catchError((error: any) => of(error)) // Handle error and continue the forkJoin
           );
         });
@@ -625,18 +622,6 @@ export class PagesComponent implements OnInit {
     if (this.gridRulesData.length > 0) {
       this.gridRules(this.gridRulesData, data);
     }
-    else {
-      this.applicationService.getNestCommonAPIById('cp/GridBusinessRule', this.screenId).subscribe(((getRes: any) => {
-        if (getRes.isSuccess) {
-          if (getRes.data.length > 0) {
-            this.gridRulesData = getRes;
-            this.gridRules(getRes, data);
-          }
-        } else
-          this.toastr.error(getRes.message, { nzDuration: 3000 });
-      }));
-    }
-
   }
   gridRules(getRes: any, data: any) {
     let gridFilter = getRes.data.filter((a: any) => a.gridType == 'Body');
@@ -1041,29 +1026,6 @@ export class PagesComponent implements OnInit {
       }
     }) || '{}'
   }
-  getUIRuleData(screenId: string) {
-    this.requestSubscription = this.applicationService.getNestCommonAPIById('cp/UiRule', screenId).subscribe({
-      next: (getRes: any) => {
-        if (getRes.isSuccess) {
-          if (getRes.data.length > 0) {
-            this.screenData = [];
-            const jsonUIResult = {
-              "key": getRes.data[0].key,
-              "title": getRes.data[0].title,
-              "screenName": getRes.data[0].screenName,
-              "screenId": getRes.data[0].screenId,
-              "uiData": JSON.parse(getRes.data[0].uiData)
-            }
-            this.screenData = jsonUIResult;
-          } else { }
-        } else
-          this.toastr.error(getRes.message, { nzDuration: 3000 });
-      },
-      error: (err) => {
-        console.error(err); // Log the error to the console
-      }
-    });
-  }
 
   ngOnDestroy() {
     this.requestSubscription.unsubscribe();
@@ -1284,14 +1246,43 @@ export class PagesComponent implements OnInit {
   }
   getBusinessRule(screenId: string) {
     if (screenId) {
-      this.requestSubscription = this.applicationService.getNestCommonAPIById('cp/BusinessRule', screenId).subscribe({
+      this.requestSubscription = this.applicationService.getNestCommonAPIById('cp/AllRules', screenId).subscribe({
         next: (getRes: any) => {
           if (getRes.isSuccess) {
-            if (getRes.data.length > 0) {
-              this.businessRuleData = [];
-              if (getRes.data[0].businessRule)
-                this.businessRuleData = JSON.parse(getRes.data[0].businessRule)
-            }
+            getRes.data.forEach((res: any) => {
+              if (res.name == 'BusinessRule') {
+                if (res.data.length > 0) {
+                  this.businessRuleData = [];
+                  if (res.data[0].businessRule)
+                    this.businessRuleData = JSON.parse(res.data[0].businessRule)
+                }
+              } 
+              else if (res.name == 'GridBusinessRule') {
+                if (res.data.length > 0) {
+                  this.gridRulesData = res;
+                }
+              }
+              else if (res.name == 'ValidationRule') {
+                if (res.data.length > 0) {
+                  this.joiValidationData = res.data;
+                }
+              }
+              else if (res.name == 'UiRule') {
+                if (res.data.length > 0) {
+                  if (res.data.length > 0) {
+                    this.screenData = [];
+                    const jsonUIResult = {
+                      "key": res.data[0].key,
+                      "title": res.data[0].title,
+                      "screenName": res.data[0].screenName,
+                      "screenId": res.data[0].screenId,
+                      "uiData": JSON.parse(res.data[0].uiData)
+                    }
+                    this.screenData = jsonUIResult;
+                  } else { }
+                }
+              }
+            });
           } else
             this.toastr.error(getRes.message, { nzDuration: 3000 });
         },
@@ -1905,7 +1896,8 @@ export class PagesComponent implements OnInit {
   }
   getEnumList(data: any, targetId: any) {
     let tableData = this.findObjectByTypeBase(this.resData[0], "gridList");
-    if (data.props?.apiUrl && tableData) {
+    const findClickApi = data.props.appConfigurableEvent.find((item: any) => item?.action == 'change' && item.targetId.includes('gridlist'));
+    if (tableData && findClickApi) {
       if (typeof targetId == "string") {
         let obj = [{ name: 'id', }, { name: 'name', }]
         tableData['tableKey'] = obj;
@@ -1930,13 +1922,14 @@ export class PagesComponent implements OnInit {
       else {
         let findObj = this.findObjectById(this.resData[0], data?.id.toLowerCase());
         if (findObj && tableData) {
-          this.requestSubscription = this.applicationService.getNestCommonAPIById(data.props.apiUrl, targetId).subscribe(response => {
+          this.requestSubscription = this.applicationService.callApi('knex-query/getexecute-rules/' + findClickApi._id, 'get', '', '', targetId ? targetId : '').subscribe(response => {
             if (tableData && response?.data.length > 0) {
               let saveForm = JSON.parse(JSON.stringify(response.data[0]));
               const firstObjectKeys = Object.keys(saveForm);
-              let obj = firstObjectKeys.map(key => ({ name: key }));
+              let tableKey = firstObjectKeys.map(key => ({ name: key }));
+              let obj = firstObjectKeys.map(key => ({ name: key, key: key }));
               tableData.tableData = [];
-              saveForm.id = tableData.tableData.length + 1
+              saveForm.id = tableData.tableData.length + 1;
               response.data.forEach((element: any) => {
                 element.id = (element?.id)?.toString();
                 tableData.tableData?.push(element);
@@ -1945,25 +1938,31 @@ export class PagesComponent implements OnInit {
               if (!tableData.end) {
                 tableData.end = 10;
               }
-              tableData.serverApi = data.props.apiUrl;
               tableData.pageIndex = 1;
               tableData.totalCount = response.count;
-              tableData.targetId = targetId;
+              tableData.serverApi = 'knex-query/getexecute-rules/' + findClickApi._id, 'get', '', '', targetId ? targetId : '';
+              tableData.targetId = '';
               tableData.displayData = tableData.tableData.length > tableData.end ? tableData.tableData.slice(0, tableData.end) : tableData.tableData;
               // pagniation work end
-              if (JSON.stringify(tableData['tableKey']) != JSON.stringify(obj)) {
-                const updatedData = tableData.tableHeaders.filter((updatedItem: any) => {
-                  const name = updatedItem.name;
-                  return !obj.some((headerItem: any) => headerItem.name === name);
-                });
-                if (updatedData.length > 0) {
-                  tableData.tableData = tableData.tableData.map((item: any) => {
-                    const newItem = { ...item };
-                    for (let i = 0; i < updatedData.length; i++) {
-                      newItem[updatedData[i].key] = "";
-                    }
-                    return newItem;
-                  });
+              if (!tableData?.tableHeaders) {
+                tableData.tableHeaders = obj;
+                tableData['tableKey'] = tableKey
+              }
+              if (tableData?.tableHeaders.length == 0) {
+                tableData.tableHeaders = obj;
+                tableData['tableKey'] = tableKey
+              }
+              else {
+                if (JSON.stringify(tableData['tableKey']) !== JSON.stringify(tableKey)) {
+                  const updatedData = tableKey.filter(updatedItem =>
+                    !tableData.tableHeaders.some((headerItem: any) => headerItem.key === updatedItem.name)
+                  );
+                  if (updatedData.length > 0) {
+                    updatedData.forEach(updatedItem => {
+                      tableData.tableHeaders.push({ id: tableData.tableHeaders.length + 1, key: updatedItem.name, name: updatedItem.name, });
+                    });
+                    tableData['tableKey'] = tableData.tableHeaders;
+                  }
                 }
               }
               this.getEnumApi(data, targetId, findObj);
@@ -2011,7 +2010,7 @@ export class PagesComponent implements OnInit {
                   // if (getActions.actions?.[0]?.url.endsWith('/'))
                   //   url = getActions.actions?.[0]?.url.endsWith('/')
                   // else url = getActions.actions?.[0]?.url + '/'
-                  if(getActions._id){
+                  if (getActions._id) {
                     this.applicationService.callApi('knex-query/getexecute-rules/' + getActions._id, 'get', '', '', targetId ? targetId : '').subscribe(res => {
                       if (res) {
                         if (res.data.length > 0) {
@@ -2030,7 +2029,7 @@ export class PagesComponent implements OnInit {
                             });
                             return newObj;
                           });
-  
+
                           let finalObj = result.map((item: any) => {
                             return {
                               label: item.name || item[propertyNames[1]],
@@ -2043,7 +2042,7 @@ export class PagesComponent implements OnInit {
                               ele.formly[0].fieldGroup[0].props.options = finalObj;
                             }
                           }
-                        } 
+                        }
                         else {
                           for (let j = 0; j < filteredNodes.length; j++) {
                             const ele = filteredNodes[j];
@@ -2052,7 +2051,7 @@ export class PagesComponent implements OnInit {
                             }
                           }
                         }
-  
+
                         this.updateNodes();
                       }
                     })
@@ -2066,7 +2065,6 @@ export class PagesComponent implements OnInit {
     }
   }
   getEnumApi(data: any, targetId: any, findObj: any) {
-    debugger
     if (!targetId)
       this.requestSubscription = this.applicationService.getNestCommonAPI(data.props.apiUrl).subscribe({
         next: (res) => {
