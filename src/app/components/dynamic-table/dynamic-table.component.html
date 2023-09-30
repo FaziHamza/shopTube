@@ -29,9 +29,9 @@
     <button [style.order]="split(0 , data?.buttonAlignments) || 3" *ngIf="data?.isShowDrawerButton" nz-button
       nzType="primary" class="my-2 !mx-2" (click)="open()">
       {{data?.drawerButtonLabel ? data?.drawerButtonLabel : 'Open Drawer'}}</button>
-    <nz-drawer [nzExtra]="extra" [nzWidth]="data?.drawerWidth" [nzClosable]="false" [nzVisible]="visible"
-      nzPlacement="right" [nzTitle]="data?.drawerButtonLabel ?  data?.drawerButtonLabel : 'Open Drawer'"
-      (nzOnClose)="close()">
+    <nz-drawer [nzPlacement]="data?.drawerPlacement || 'right'" [nzExtra]="extra" [nzWidth]="data?.drawerWidth"
+      [nzClosable]="false" [nzVisible]="visible" nzPlacement="right"
+      [nzTitle]="data?.drawerButtonLabel ?  data?.drawerButtonLabel : 'Open Drawer'" (nzOnClose)="close()">
       <ng-container *nzDrawerContent>
         <nz-spin [nzSpinning]="saveLoader" [nzSize]="'large'">
           <p *ngIf="!data?.drawerScreenLink">No Link Against this screen</p>
@@ -94,13 +94,14 @@
             [(nzChecked)]="allChecked" [nzIndeterminate]="indeterminate" (nzCheckedChange)="checkAll($event)"
             [ngStyle]="{'text-align': data.position ? data.position : 'left'}"></th>
           <ng-container *ngFor="let header of tableHeaders">
-            <th class="!font-semibold !text-gray-500 !uppercase !text-xs"
+            <th class="!font-semibold !text-gray-500 !uppercase !text-xs" [nzShowSort]="true"
               *ngIf="header.key !== 'defaultValue' && ( header?.show == true || header?.show === undefined || header?.show === '' || header?.show == 'Yes')"
               [nzSortOrder]="header?.sortOrder" [nzSortFn]="header?.sortFn" [nzSortDirections]="header?.sortDirections"
-              (click)="header?.columnClickApi ? onClickColumn(header.columnClickApi,header): ''"
+              (click)="sortingData(header.key)"
               [ngStyle]="{'text-align': header?.position ? header?.position : 'left'}">
+              <!-- (click)="header?.columnClickApi ? onClickColumn(header.columnClickApi,header): ''" -->
               {{header['title'] ? header['title'] : header['name']| translate}}<span>
-                <a nz-dropdown [nzDropdownMenu]="menu" *ngIf="header?.isAllowGrouping">
+                <a nz-dropdown [nzDropdownMenu]="menu" *ngIf="header?.isAllowGrouping && !childTable">
                   <i class="fa-regular fa-ellipsis-v ml-4"></i>
                 </a>
                 <nz-dropdown-menu #menu="nzDropdownMenu">
@@ -113,23 +114,34 @@
                     </li>
                   </ul>
                 </nz-dropdown-menu>
-                <a (click)="makeFilterData(header)" nz-dropdown [nzDropdownMenu]="filterMenu">
-                  <i class="fa-regular fa-filter ml-4"></i>
-                </a>
+                <nz-filter-trigger *ngIf="header?.filtering && !childTable" [(nzVisible)]="header['visible']"
+                  [nzDropdownMenu]="filterMenu">
+                  <a (click)="makeFilterData(header , true)">
+                    <i class="fa-regular fa-filter ml-4"></i>
+                  </a>
+                </nz-filter-trigger>
                 <nz-dropdown-menu #filterMenu="nzDropdownMenu">
-                  <ng-container *ngIf="header?.filterData">
-                    <ul *ngIf="header?.filterData.length > 0" nz-menu nzSelectable class="!p-1.5">
-                      <li nz-menu-item (click)="groupedFunc(header['key'] , 'add' , header , true)">
-                        Grouped By {{ header['title'] ? header['title'] : header['name'] | translate }}
-                      </li>
-                      <li nz-menu-item (click)="groupedFunc(header['key'], 'remove' , header , true)">
-                        Stopped Grouped By {{ header['title'] ? header['title'] : header['name'] | translate }}
-                      </li>
+                  <ng-container *ngIf="header?.filterArray">
+                    <ul *ngIf="header?.filterArray.length > 0" nz-menu nzSelectable class="!p-1.5">
+                      <ng-container *ngFor="let item of header?.filterArray ">
+                        <li *ngIf="header?.multipleFiltering == true ; else single" nz-menu-item>
+                          {{item.text}} <label class="ml-2" nz-checkbox [(ngModel)]="item.filter"></label>
+                        </li>
+                        <ng-template #single>
+                          <li (click)="simpleFiltering(item.value , header)" nz-menu-item>
+                            {{item.text}}
+                          </li>
+                        </ng-template>
+                      </ng-container>
+                      <button nz-button nzType="primary" [disabled]="checkResetFiltering(header)"
+                        (click)="filter(header , false)">Reset</button>
+                      <button nz-button nzType="primary" (click)="filter(header , true)"
+                        *ngIf="header?.multipleFiltering == true">Save</button>
                     </ul>
                   </ng-container>
                 </nz-dropdown-menu>
 
-              </span> <span *ngIf="header?.gridHeaderSum">({{header?.gridHeaderSum}})</span>
+              </span> <span *ngIf=" header?.gridHeaderSum">({{header?.gridHeaderSum}})</span>
             </th>
           </ng-container>
           <th *ngIf="isAllowEdit(tableHeaders)" class="!text-gray-500 !text-center !uppercase">Edit</th>
@@ -155,7 +167,7 @@
               <ng-container *ngFor="let header of data['tableKey']; let index = index">
                 <td (click)="checkTypeData(item , header)" [ngClass]="{'disabled-link' : header.key  == 'key'}"
                   [nzEllipsis]="true" class="5"
-                  [style.background]="item[header.key]== item?.colorDataType && editId !== item.id  ?  item?.columnColor : ''"
+                  [style.border-left]="item[header.key]== item?.colorDataType && editId !== item.id  ?  '4px solid ' + item?.columnColor : ''"
                   *ngIf="(header?.show == true || header?.show === undefined || header?.show === '' || header?.show == 'Yes') && header?.dataType !='objectType' && header.key != 'headerButton' && header.key != 'footerButton' && header.key != 'expandable' && header.key != 'checked'
                   && header.key != 'expand'  && header.key !='children' && header.key != 'defaultValue' ">
                   <div [ngStyle]="{'text-align': header?.position ? header?.position : 'left'}"
@@ -311,7 +323,7 @@
                     </td>
                     <td class="5" *ngIf="header?.dataType =='objectType'"
                       [ngStyle]="{'text-align': data.position ? data.position : 'left'}"
-                      [ngStyle]="{'background':tableHeaders[index]?.columnColor}">
+                      [ngStyle]="{'border-left':'4px solid ' + tableHeaders[index]?.columnColor}">
                       {{tableHeaders[index]?.columnColor}}
                       {{item[header.key]}}
                     </td>

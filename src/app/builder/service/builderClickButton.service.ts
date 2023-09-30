@@ -29,6 +29,8 @@ export class BuilderClickButtonService {
           listOfFilter: obj.listOfFilter ? JSON.stringify(obj.listOfFilter) : obj.listOfFilter,
           columnClickApi: obj.columnClickApi,
           position: obj.position,
+          filtering: obj.filtering ? obj.filtering : false,
+          multipleFiltering: obj.multipleFiltering ? obj.multipleFiltering : false,
           position_list: [
             {
               label: 'Left',

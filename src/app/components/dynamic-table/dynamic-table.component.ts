@@ -73,10 +73,9 @@ export class DynamicTableComponent implements OnInit {
   fileUpload: any = '';
   visible: boolean = false;
   checklink: any = '';
-  filterGender = [
-    { text: 'male', value: 'male' },
-    { text: 'female', value: 'female' }
-  ];
+  filteringArrayData: any[] = [];
+  localStorageGrouping: any[] = [];
+  filteringHeadArray: any = [];
   constructor(public _dataSharedService: DataSharedService, private builderService: BuilderService,
     private applicationService: ApplicationService,
     private dataService: DataService,
@@ -1922,20 +1921,25 @@ export class DynamicTableComponent implements OnInit {
           const searchValue = this.data?.searchValue.toLowerCase();
 
           // Step 2: Use a more efficient approach for filtering the Excel report data
-          this.tableData = this.excelReportData.filter((item) => {
-            return this.tableHeaders.some((header: any) => {
+          if (!this.filteringArrayData || this.filteringArrayData.length === 0) {
+            this.filteringArrayData = this.excelReportData;
+          }
+
+          this.tableData = this.filteringArrayData.filter((item) =>
+            this.tableHeaders.some((header: any) => {
               const key = header.key;
               const itemValue = item[key]?.toString().toLowerCase();
-
               return itemValue && itemValue.includes(searchValue);
-            });
-          });
+            })
+          );
+
+
 
           this.groupingData = [];
         }
         else {
-          this.tableData = this.excelReportData;
-          this.displayData = this.tableData;
+          this.tableData = !this.filteringArrayData || this.filteringArrayData.length === 0 ? this.excelReportData : this.filteringArrayData;
+          this.displayData = !this.filteringArrayData || this.filteringArrayData.length === 0 ? this.excelReportData : this.filteringArrayData;;
           this.groupingData = [];
 
         }
@@ -1966,7 +1970,8 @@ export class DynamicTableComponent implements OnInit {
             this.displayData = this.tableData;
             this.pageChange(1);
           }
-        } else {
+        }
+        else {
           this.tableHeaders = this.tableHeaders.filter((head: any) => head.key != 'expand');
           this.displayData = this.tableData;
           this.pageChange(1);
@@ -2100,7 +2105,226 @@ export class DynamicTableComponent implements OnInit {
   close(): void {
     this.visible = false;
   }
-  makeFilterData(header : any){
-    
+  makeFilterData(header: any, allowPrevious: boolean) {
+    const filterData: any = {};
+    if (this.filteringArrayData.length == 0) {
+      this.filteringArrayData = this.excelReportData;
+    }
+    // Loop through the input array to collect unique status values
+    for (const item of this.excelReportData) {
+      const key = header?.key; // The key to filter by
+      const text = item[key]; // The text/value of the filter
+      if (!filterData[key]) {
+        filterData[key] = [];
+      }
+      // Check if the text/value is not already in the filter data
+      if (!filterData[key].some((filterItem: any) => filterItem.text === text)) {
+        filterData[key].push({ key, text, value: text, filter: false });
+      }
+    }
+
+    // Now filterData['status'] contains the unique filter data for 'status'
+    if (header['filterArray'] && header?.filterArray?.length > 0 && allowPrevious) {
+      let result: any[] = [];
+      filterData[header?.key].forEach((element: any) => {
+        let fonudObj: any = ''
+        fonudObj = header['filterArray'].find((item: any) => item.value == element.value);
+        if (fonudObj) {
+          result.push(fonudObj);
+        } else {
+          result.push(element)
+        }
+
+      });
+      header['filterArray'] = [...result]
+
+    } else {
+      header['filterArray'] = filterData[header?.key];
+    }
   }
+  async filter(item: any, add: boolean) {
+    item['visible'] = false;
+    this.filteringArrayData = this.excelReportData;
+
+
+    // Update the filteringHeadArray
+    this.filteringHeadArray = this.filteringHeadArray.filter((filterHead: any) => filterHead.key !== item.key);
+    if (add) {
+      let checkFilter = item?.filterArray.find((a: any) => a.filter);
+      if (checkFilter) {
+        this.filteringHeadArray.push(item);
+      }
+    } else {
+      if (item?.filterArray) {
+        delete item?.filterArray;
+      }
+    }
+
+    if (this.filteringHeadArray.length > 0) {
+      // Create an array of filtered values for each filter header
+      const filteredValuesMap = new Map<string, Set<string>>();
+
+      this.filteringHeadArray.forEach((element1: any) => {
+        const filteredValues = new Set<string>(
+          element1?.filterArray.filter((filterItem: any) => filterItem.filter).map((filterItem: any) => filterItem.value)
+        );
+        filteredValuesMap.set(element1.key, filteredValues);
+      });
+
+      // Filter the data based on all filter headers
+      const filteredData = this.filteringArrayData.filter((dataItem: any) => {
+        return this.filteringHeadArray.every((filterHead: any) => {
+          const filteredValues = filteredValuesMap.get(filterHead.key) ?? new Set<string>();
+          return filteredValues.has(dataItem[filterHead.key]);
+        });
+      });
+
+      // Assign the filtered data to this.displayData and this.tableData
+      this.filteringArrayData = filteredData;
+      this.displayData = filteredData;
+      this.tableData = filteredData;
+    }
+    else {
+      this.displayData = this.excelReportData;
+      this.tableData = this.excelReportData;
+      this.filteringArrayData = [];
+    }
+    this.groupingData = [];
+    if (this.data?.searchValue) {
+      this.search(this.data?.searchType ? this.data?.searchType : 'keyup')
+    }
+    else {
+      const applicationId = localStorage.getItem('applicationId') || '';
+      let savedGroupData: any = [];
+      if (applicationId) {
+        this.saveLoader = true;
+        savedGroupData = await this.dataService.getNodes(JSON.parse(applicationId), this.screenName, "Table");
+        this.saveLoader = false;
+      }
+      if (savedGroupData.length > 0) {
+        let getData = savedGroupData[savedGroupData.length - 1];
+
+        if (getData.data.length > 0) {
+          let updateTableData: any = [];
+          this.groupingArray = [];
+          getData.data.forEach((elem: any) => {
+            let findData = this.tableHeaders.find((item: any) => item.key == elem);
+
+            if (findData) {
+              this.groupedFunc(elem, 'add', findData, false);
+            }
+          });
+
+          this.displayData = this.tableData.length > this.data.end ? this.tableData.slice(0, this.data.end) : this.tableData;
+          this.data.tableHeaders.unshift({
+            name: 'expand',
+            key: 'expand',
+            title: 'Expand',
+          });
+
+          this.data.totalCount = this.tableData;
+        } else {
+          this.tableHeaders = this.tableHeaders.filter((head: any) => head.key != 'expand');
+          this.displayData = this.tableData;
+          this.pageChange(1);
+        }
+      } else {
+        this.pageChange(1);
+      }
+    }
+  }
+
+
+
+  // reset(item: any) {
+  //   item['visible'] = false;
+  //   // this.makeFilterData(item, false);
+
+  //   // if (this.filteringHeadArray.length === 0) {
+  //   //   this.resetFilterData();
+  //   // } else {
+  //   //   this.filteringHeadArray = this.filteringHeadArray.filter((head: any) => head.key !== item.key);
+
+  //   //   if (this.filteringHeadArray.length === 0) {
+  //   //     this.resetFilterData();
+  //   //   } else {
+  //   //     this.filteringArrayData = this.excelReportData;
+  //   //     this.filteringHeadArray.forEach((head: any) => {
+  //   //       this.filter(head);
+  //   //     });
+  //   //   }
+  //   // }
+
+  //   // this.pageChange(1);
+  // }
+
+  // resetFilterData() {
+  //   this.displayData = this.excelReportData;
+  //   this.tableData = this.excelReportData;
+  //   this.filteringArrayData = this.excelReportData;
+
+  //   this.tableHeaders.forEach((element: any) => {
+  //     if (element?.filterArray) {
+  //       delete element?.filterArray;
+  //     }
+  //   });
+  // }
+  simpleFiltering(value: any, header: any) {
+    header.filterArray.forEach((element: any) => {
+      if (element.value == value) {
+        element.filter = true;
+      } else {
+        element.filter = false;
+      }
+    });
+    this.filter(header, true);
+  }
+
+  checkResetFiltering(header: any): boolean {
+    return !header?.filterArray?.some((item: any) => item.filter);
+  }
+  sortedArray: any[] = [];
+  sortingData(header: any) {
+    // Check if the column header is already in the sortedArray
+    const index = this.sortedArray.findIndex(item => item.key === header);
+
+    if (index !== -1) {
+      // Column is already in the sortedArray, toggle the sort order
+      this.sortedArray[index].order = this.sortedArray[index].order === 'asc' ? 'desc' : 'asc';
+    } else {
+      // Column is not in the sortedArray, add it with 'asc' order
+      this.sortedArray.push({ key: header, order: 'asc' });
+    }
+
+    // Sort the dataArray based on the keys and order in sortedArray
+    this.tableData.sort((a, b) => {
+      for (const sortItem of this.sortedArray) {
+        const order = sortItem.order;
+        const key = sortItem.key;
+        const result = this.customSort(a, b, key, order);
+        if (result !== 0) {
+          return result;
+        }
+      }
+      return 0;
+    });
+
+    this.pageChange(1);
+  }
+
+  // Define a custom sorting function
+  customSort(a: any, b: any, key: string, order: "asc" | "desc"): number {
+    const valueA = a[key];
+    const valueB = b[key];
+
+    if (valueA < valueB) {
+      return order === "asc" ? -1 : 1; // Ascending or Descending
+    }
+    if (valueA > valueB) {
+      return order === "asc" ? 1 : -1; // Ascending or Descending
+    }
+    return 0;
+  }
+
+
 }

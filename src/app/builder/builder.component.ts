@@ -4268,6 +4268,7 @@ export class BuilderComponent implements OnInit {
           this.selectedNode['drawerWidth'] = event.form?.drawerWidth;
           this.selectedNode['isShowDrawerButton'] = event.form?.isShowDrawerButton;
           this.selectedNode['drawerScreenLink'] = event.form?.drawerScreenLink;
+          this.selectedNode['drawerPlacement'] = event.form?.drawerPlacement;
           let tableData: any = '';
           if (event.tableDta) {
             tableData = event.tableDta;

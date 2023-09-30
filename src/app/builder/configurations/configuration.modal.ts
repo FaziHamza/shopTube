@@ -8979,7 +8979,7 @@ export class formFeildData {
           type: 'select',
           wrappers: ["formly-vertical-theme-wrapper"],
           props: {
-            label: 'Select Placement',
+            label: 'Drawer Placement',
             options: [
               {
                 label: 'Right',
@@ -11404,15 +11404,48 @@ export class formFeildData {
           }
         },
         {
-          key: 'filterMultiple',
-          type: 'checkbox',
-          wrappers: ["formly-vertical-theme-wrapper"],
           className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          key: 'drawerPlacement',
+          type: 'select',
+          wrappers: ["formly-vertical-theme-wrapper"],
           props: {
-            label: 'Filter Multiple',
-          },
-          defaultValue: false
+            label: 'Drawer Placement',
+            options: [
+              {
+                label: 'Right',
+                value: 'right'
+              },
+              {
+                label: 'Left',
+                value: 'left'
+              },
+              {
+                label: 'Top',
+                value: 'top'
+              },
+              {
+                label: 'Bottom',
+                value: 'bottom'
+              }
+            ],
+            additionalProperties: {
+              allowClear: true,
+              serveSearch: false,
+              showArrow: true,
+              showSearch: true,
+            },
+          }
         },
+        // {
+        //   key: 'filterMultiple',
+        //   type: 'checkbox',
+        //   wrappers: ["formly-vertical-theme-wrapper"],
+        //   className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+        //   props: {
+        //     label: 'Filter Multiple',
+        //   },
+        //   defaultValue: false
+        // },
 
         {
           key: 'nzLoading',
@@ -11719,6 +11752,24 @@ export class formFeildData {
               },
               {
                 className: "ml-2",
+                key: 'filtering',
+                type: 'checkbox',
+                wrappers: ["formly-vertical-theme-wrapper"],
+                props: {
+                  label: 'Filtering'
+                }
+              },
+              {
+                className: "ml-2",
+                key: 'multipleFiltering',
+                type: 'checkbox',
+                wrappers: ["formly-vertical-theme-wrapper"],
+                props: {
+                  label: 'multipleFiltering'
+                }
+              },
+              {
+                className: "ml-2",
                 key: 'columnClickApi',
                 type: 'input',
                 wrappers: ["formly-vertical-theme-wrapper"],
@@ -11726,15 +11777,15 @@ export class formFeildData {
                   label: 'Is Column Click'
                 }
               },
-              {
-                className: "ml-2",
-                key: 'listOfFilter',
-                type: 'input',
-                wrappers: ["formly-vertical-theme-wrapper"],
-                props: {
-                  label: 'Filter List'
-                }
-              },
+              // {
+              //   className: "ml-2",
+              //   key: 'listOfFilter',
+              //   type: 'input',
+              //   wrappers: ["formly-vertical-theme-wrapper"],
+              //   props: {
+              //     label: 'Filter List'
+              //   }
+              // },
               {
                 className: "ml-2",
                 key: 'headerButton',
@@ -11744,6 +11795,7 @@ export class formFeildData {
                   label: 'Footer Button'
                 }
               },
+            
               {
                 className: "ml-2",
                 key: 'footerButton',

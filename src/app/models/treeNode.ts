@@ -565,4 +565,5 @@ export interface TreeNode {
   drawerWidth?: any,
   isShowDrawerButton?: any,
   drawerScreenLink?: any,
+  drawerPlacement?: any,
 }
