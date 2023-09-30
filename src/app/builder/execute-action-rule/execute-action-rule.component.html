@@ -3,7 +3,7 @@
     <!-- Add a button to add a new multi-select -->
 
   </div>
-  <div formArrayName="multiSelects" class="execute-form">
+  <div formArrayName="multiSelects" class="execute-form drawer-height">
     <div *ngFor="let multiSelect of multiSelectArray.controls; let i = index" class="flex flex-wrap mt-4 border">
       <div [formGroupName]="i" class="w-full h-500">
         <div class="p-2 w-full box-border flex justify-start items-center flex-auto">
@@ -62,10 +62,10 @@
   </div>
 
   
-    <div class="!flex !w-full !justify-end !items-center !mt-4">
-      <button nz-button nzType="primary" class="!bg-green-500 hover:!bg-green-400 !border-none !mr-2"
+    <div class="drawer-height-btn">
+      <button nz-button nzType="primary" class="!bg-green-500 hover:!bg-green-400 !border-none "
         (click)="addMultiSelect()"> <i class="fa-regular fa-plus mr-2"></i> Add</button>
-      <button nz-button nzType="primary" class="!bg-green-500 hover:!bg-green-400 !border-none !mr-2"
+      <button nz-button nzType="primary" class="!bg-green-500 hover:!bg-green-400 !border-none !mx-2"
         (click)="addAllActions()"> <i class="fa-regular fa-plus mr-2"></i> Add All</button>
       <button nz-button nzType="primary" class="btn" title="Save" (click)="saveMultiSelects()"
         ngbTooltip="Save Table"> <i class="fa-regular fa-floppy-disk mr-2"></i> Save </button>
