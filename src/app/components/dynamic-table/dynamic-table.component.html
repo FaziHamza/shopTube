@@ -79,20 +79,22 @@
       </ng-template>
     </div>
   </div>
-  <div *ngIf="groupingArray.length > 0" class="flex">
+  <div *ngIf="groupingArray.length > 0" class="!flex !justify-start !items-center">
+    <label class="mr-2 !font-semibold !text-sm text-blue-500" >GROUPED BY :</label>
     <ng-container *ngFor="let group of groupingArray; let last = last ; let i = index">
       <div (click)="removeGrouping(i , false)">
-        {{ group }}
+        <!-- <i class="fa-light text-xs text-blue-600 fa-badge-check mr-0.5"></i> -->
+         {{ group }}
       </div>
-      <i *ngIf="!last" class="fas fa-chevron-right ml-2"></i>
+      <i *ngIf="!last" class="fa-solid fa-square-ampersand mx-1.5"></i>
     </ng-container>
-    <i (click)="removeGrouping(0 , true)" class="fas fa-times ml-2"></i>
+    <i (click)="removeGrouping(0 , true)" class="fa-solid fa-square-xmark text-red-500 mx-2"></i>
   </div>
 
   <div class="dynamic-table" [processData]="processData"
     [appConfigurableSelect]="childTable == false ? (data?.appConfigurableEvent ? data?.appConfigurableEvent : []) : []"
     [loadAction]="childTable == false ? ( data?.eventActionconfig ? data?.eventActionconfig : {}) : false">
-    <nz-table [nzScroll]="{ x: '1150px', y: '240px' }"
+    <nz-table [nzScroll]="{ x: '2500px', y: '240px' }"
       [ngClass]="tableHeaders.length > 5 ? 'table-auto' : 'table-fixed' " #columnTable #editRowTable [nzPageSize]="10"
       [nzData]="displayData" *ngIf="data && displayData" [nzLoading]="data?.nzLoading"
       [nzPaginationPosition]='data?.nzPaginationPosition' [nzPaginationType]='data?.nzPaginationType'

@@ -8,9 +8,15 @@
       <span [contextMenu]="oneContextMenu">
         <context-menu #oneContextMenu>
           <!-- <ng-template contextMenuItem (execute)="copyJson(item)">Copy</ng-template> -->
-          <ng-template contextMenuItem (execute)="issueReportFun(item)">Issue
-            Report</ng-template>
-          <ng-template contextMenuItem (execute)="OpenConfig(item )" *ngIf="url.includes('/builder')">Open Config</ng-template>
+          <ng-template contextMenuItem (execute)="issueReportFun(item)"><div class="bag-report" >
+            <i class="fa-regular text-red-500 fa-bug  mr-1.5"></i> Issue Report
+          </div></ng-template>
+          <ng-template contextMenuItem (execute)="OpenConfig(item )" *ngIf="url.includes('/builder')">
+            <div class="bag-report">
+              <i class="fa-regular text-green-500 fa-arrow-up-right-from-square mr-1.5"></i>
+              Open Config
+            </div>  
+          </ng-template>
         </context-menu>
         <st-mains (click)="applyHighlightInsideLayer(mainData , item.id , $event)" [item]="item" [formlyModel]="formlyModel"
           (notify)="updatedData($event)" [screenName]="screenName" [screenId]="screenId" [isLast]='isLast' [form]="form"
