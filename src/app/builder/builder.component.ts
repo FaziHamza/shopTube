@@ -142,7 +142,7 @@ export class BuilderComponent implements OnInit {
     });
     this.requestSubscription = this.dataSharedService.configuration.subscribe({
       next: (res) => {
-        if (res &&  this.router.url == '/builder') {
+        if (res && this.router.url == '/builder') {
           this.openConfig(res, res)
         }
       },
@@ -2584,69 +2584,74 @@ export class BuilderComponent implements OnInit {
     // this.selectedNode.className = newClass;
     // selectedNode.className = newClass;
     // configObj = JSON.parse(JSON.stringify(selectedNode));
+    const obj = {
+      title: selectedNode.title ? selectedNode.title : selectedNode.id,
+      data: _formFieldData.commonOtherConfigurationFields
+    }
     this.fieldData = new GenaricFeild({
       type: type,
-      title: selectedNode.title ? selectedNode.title : selectedNode.id,
-      commonData: _formFieldData.commonOtherConfigurationFields,
+      commonData: [obj]
     });
+
     switch (type) {
       case 'drawer':
         this.addIconCommonConfiguration(_formFieldData.drawerFields, false);
         this.fieldData.formData = _formFieldData.drawerFields;
         break;
       case 'cardWithComponents':
-        this.fieldData.formData = _formFieldData.cardWithComponentsFields;
+        this.fieldData.commonData?.push({ title: 'Card Fields', data: _formFieldData.cardWithComponentsFields });
         this.fieldData.mappingConfig = _formFieldData.mappingFields;
         this.fieldData.mappingNode = this.selectedNode;
         break;
       case 'icon':
-        this.fieldData.formData = _formFieldData.commonIconFields;
+        this.fieldData.commonData?.push({ title: 'commonIconFields', data: _formFieldData.commonIconFields });
         break;
       case 'anchor':
-        this.fieldData.formData = _formFieldData.anchorFields;
-
+        this.fieldData.commonData?.push({ title: 'anchorFields', data: _formFieldData.anchorFields });
         break;
       case 'treeSelect':
-        this.fieldData.formData = _formFieldData.treeSelectFields;
+        this.fieldData.commonData?.push({ title: 'treeSelectFields', data: _formFieldData.treeSelectFields });
         break;
       case 'headerLogo':
-        this.fieldData.formData = _formFieldData.headerLogoFields;
+        this.fieldData.commonData?.push({ title: 'headerLogoFields', data: _formFieldData.headerLogoFields });
         break;
       case 'treeView':
-        this.fieldData.formData = _formFieldData.treeviewFields;
+        this.fieldData.commonData?.push({ title: 'treeviewFields', data: _formFieldData.treeviewFields });
         break;
       case 'cascader':
         this.addIconCommonConfiguration(_formFieldData.cascaderFields, false);
-        this.fieldData.formData = _formFieldData.cascaderFields;
+        this.fieldData.commonData?.push({ title: 'cascaderFields', data: _formFieldData.cascaderFields });
         delete configObj.options;
         break;
       case 'tree':
         this.addIconCommonConfiguration(_formFieldData.treeFields, false);
-        this.fieldData.formData = _formFieldData.treeFields;
+        this.fieldData.commonData?.push({ title: 'treeFields', data: _formFieldData.treeFields });
         break;
       case 'htmlBlock':
-        this.fieldData.formData = _formFieldData.htmlBlockFields;
+        this.fieldData.commonData?.push({ title: 'htmlBlockFields', data: _formFieldData.htmlBlockFields });
         break;
       case 'modal':
         this.addIconCommonConfiguration(_formFieldData.modalFields, false);
-        this.fieldData.formData = _formFieldData.modalFields;
+        this.fieldData.commonData?.push({ title: 'modalFields', data: _formFieldData.modalFields });
         break;
       case 'transfer':
         configObj = {
           ...configObj,
           ...this.clickButtonService.getTransferConfig(selectedNode),
         };
-        this.fieldData.formData = _formFieldData.transferFields;
+        this.fieldData.commonData?.push({ title: 'transferFields', data: _formFieldData.transferFields });
         break;
       case 'gridList':
         configObj = {
           ...configObj,
           ...this.clickButtonService.getGridConfig(selectedNode),
         };
-        this.fieldData.formData = _formFieldData.gridFields;
+        this.fieldData.commonData?.push({ title: 'gridFields', data: _formFieldData.gridFields }, { title: 'Table', data: _formFieldData.gridFields_Table },
+          { title: 'th', data: _formFieldData.gridFields_th }, { title: 'StyleProperty', data: _formFieldData.gridFields_StyleProperty }, { title: 'Drawer', data: _formFieldData.gridFields_Drawer }, { title: 'Options', data: _formFieldData.gridFieldsOptions }
+        );
         break;
       case 'comment':
-        this.fieldData.formData = _formFieldData.commentFields;
+        this.fieldData.commonData?.push({ title: 'commentFields', data: _formFieldData.commentFields });
         break;
       case 'rate':
         if (!configObj.options[0].label) {
@@ -2655,23 +2660,23 @@ export class BuilderComponent implements OnInit {
           }));
         }
         this.addIconCommonConfiguration(_formFieldData.rateFields, true);
-        this.fieldData.formData = _formFieldData.rateFields;
+        this.fieldData.commonData?.push({ title: 'rateFields', data: _formFieldData.rateFields });
         break;
       case 'skeleton':
-        this.fieldData.formData = _formFieldData.skeletonFields;
+        this.fieldData.commonData?.push({ title: 'skeletonFields', data: _formFieldData.skeletonFields });
         break;
       case 'badge':
         this.addIconCommonConfiguration(_formFieldData.badgeFields, false);
-        this.fieldData.formData = _formFieldData.badgeFields;
+        this.fieldData.commonData?.push({ title: 'badgeFields', data: _formFieldData.badgeFields });
         break;
       case 'mentions':
-        this.fieldData.formData = _formFieldData.mentionsFields;
+        this.fieldData.commonData?.push({ title: 'mentionsFields', data: _formFieldData.mentionsFields });
         break;
       case 'empty':
-        this.fieldData.formData = _formFieldData.emptyFields;
+        this.fieldData.commonData?.push({ title: 'emptyFields', data: _formFieldData.emptyFields });
         break;
       case 'segmented':
-        this.fieldData.formData = _formFieldData.segmentedFields;
+        this.fieldData.commonData?.push({ title: 'segmentedFields', data: _formFieldData.segmentedFields });
         break;
       case 'statistic':
         configObj = {
@@ -2679,119 +2684,119 @@ export class BuilderComponent implements OnInit {
           ...this.clickButtonService.getStatisticConfig(selectedNode),
         };
         this.addIconCommonConfiguration(_formFieldData.statisticFields, true);
-        this.fieldData.formData = _formFieldData.statisticFields;
+        this.fieldData.commonData?.push({ title: 'statisticFields', data: _formFieldData.statisticFields });
         break;
       case 'tag':
         this.addIconCommonConfiguration(_formFieldData.nzTagFields, false);
-        this.fieldData.formData = _formFieldData.nzTagFields;
+        this.fieldData.commonData?.push({ title: 'nzTagFields', data: _formFieldData.nzTagFields });
         break;
       case 'message':
-        this.fieldData.formData = _formFieldData.messageFields;
+        this.fieldData.commonData?.push({ title: 'messageFields', data: _formFieldData.messageFields });
         break;
       case 'notification':
         this.addIconCommonConfiguration(
           _formFieldData.notificationFields,
           true
         );
-        this.fieldData.formData = _formFieldData.notificationFields;
+        this.fieldData.commonData?.push({ title: 'notificationFields', data: _formFieldData.notificationFields });
         break;
       case 'list':
-        this.fieldData.formData = _formFieldData.listFields;
+        this.fieldData.commonData?.push({ title: 'listFields', data: _formFieldData.listFields });
         break;
       case 'description':
-        this.fieldData.formData = _formFieldData.descriptionFields;
+        this.fieldData.commonData?.push({ title: 'descriptionFields', data: _formFieldData.descriptionFields });
         break;
       case 'descriptionChild':
-        this.fieldData.formData = _formFieldData.descriptionChildFields;
+        this.fieldData.commonData?.push({ title: 'descriptionChildFields', data: _formFieldData.descriptionChildFields });
         break;
       case 'affix':
-        this.fieldData.formData = _formFieldData.affixFields;
+        this.fieldData.commonData?.push({ title: 'affixFields', data: _formFieldData.affixFields });
         break;
       case 'backTop':
-        this.fieldData.formData = _formFieldData.backtopFields;
+        this.fieldData.commonData?.push({ title: 'backtopFields', data: _formFieldData.backtopFields });
         break;
       case 'avatar':
-        this.fieldData.formData = _formFieldData.avatarFields;
+        this.fieldData.commonData?.push({ title: 'avatarFields', data: _formFieldData.avatarFields });
         break;
       case 'popOver':
-        this.fieldData.formData = _formFieldData.popOverFields;
+        this.fieldData.commonData?.push({ title: 'popOverFields', data: _formFieldData.popOverFields });
         break;
       case 'popConfirm':
-        this.fieldData.formData = _formFieldData.popOverFields;
+        this.fieldData.commonData?.push({ title: 'popOverFields', data: _formFieldData.popOverFields });
         break;
       case 'result':
-        this.fieldData.formData = _formFieldData.resultFields;
+        this.fieldData.commonData?.push({ title: 'resultFields', data: _formFieldData.resultFields });
         break;
       case 'spin':
-        this.fieldData.formData = _formFieldData.spinFields;
+        this.fieldData.commonData?.push({ title: 'spinFields', data: _formFieldData.spinFields });
         break;
       case 'imageUpload':
-        this.fieldData.formData = _formFieldData.imageUploadFeilds;
+        this.fieldData.commonData?.push({ title: 'imageUploadFeilds', data: _formFieldData.imageUploadFeilds });
         break;
       case 'toastr':
-        this.fieldData.formData = _formFieldData.toastrFeilds;
+        this.fieldData.commonData?.push({ title: 'toastrFeilds', data: _formFieldData.toastrFeilds });
         break;
       case 'invoice':
         // configObj = { ...configObj, ...this.clickButtonService.getinvoiceConfig(selectedNode) };
-        this.fieldData.formData = _formFieldData.invoiceFeilds;
+        this.fieldData.commonData?.push({ title: 'invoiceFeilds', data: _formFieldData.invoiceFeilds });
         break;
       case 'rangeSlider':
         this.addIconCommonConfiguration(_formFieldData.rangeSliderFeilds, true);
-        this.fieldData.formData = _formFieldData.rangeSliderFeilds;
+        this.fieldData.commonData?.push({ title: 'rangeSliderFeilds', data: _formFieldData.rangeSliderFeilds });
         break;
       case 'inputGroupGrid':
-        this.fieldData.formData = _formFieldData.inputGroupGridFeilds;
+        this.fieldData.commonData?.push({ title: 'inputGroupGridFeilds', data: _formFieldData.inputGroupGridFeilds });
         break;
       case 'card':
-        this.fieldData.formData = _formFieldData.cardFields;
+        this.fieldData.commonData?.push({ title: 'cardFields', data: _formFieldData.cardFields });
         break;
       case 'calender':
-        this.fieldData.formData = _formFieldData.tuiCalendarFeilds;
+        this.fieldData.commonData?.push({ title: 'tuiCalendarFeilds', data: _formFieldData.tuiCalendarFeilds });
         break;
       // case 'multiFileUpload':
       //   this.fieldData.formData = _formFieldData.multiFileUploadFeilds;
       //   break;
       case 'switch':
-        this.fieldData.formData = _formFieldData.switchFeilds;
+        this.fieldData.commonData?.push({ title: 'switchFeilds', data: _formFieldData.switchFeilds });
         break;
       case 'tabs':
         this.addIconCommonConfiguration(_formFieldData.tabsFields, true);
+        this.fieldData.commonData?.push({ title: 'tabsFields', data: _formFieldData.tabsFields });
         this.fieldData.mappingConfig = _formFieldData.mappingFields;
         this.fieldData.mappingNode = this.selectedNode;
-        this.fieldData.formData = _formFieldData.tabsFields;
         break;
       case 'kanban':
         // configObj = {
         //   ...configObj,
         //   ...this.clickButtonService.getGridConfig(selectedNode),
         // };
-        this.fieldData.formData = _formFieldData.kanbanFeilds;
+        this.fieldData.commonData?.push({ title: 'kanbanFeilds', data: _formFieldData.kanbanFeilds });
         break;
       case 'kanbanTask':
-        this.fieldData.formData = _formFieldData.kanbanTaskFeilds;
+        this.fieldData.commonData?.push({ title: 'kanbanTaskFeilds', data: _formFieldData.kanbanTaskFeilds });
         break;
       case 'mainTab':
-        this.fieldData.formData = _formFieldData.mainTabFields;
+        this.fieldData.commonData?.push({ title: 'mainTabFields', data: _formFieldData.mainTabFields });
         break;
       case 'progressBar':
-        this.fieldData.formData = _formFieldData.progressBarFields;
+        this.fieldData.commonData?.push({ title: 'progressBarFields', data: _formFieldData.progressBarFields });
         break;
       case 'divider':
         this.addIconCommonConfiguration(_formFieldData.dividerFeilds, true);
-        this.fieldData.formData = _formFieldData.dividerFeilds;
+        this.fieldData.commonData?.push({ title: 'dividerFeilds', data: _formFieldData.dividerFeilds });
         break;
       case 'video':
-        this.fieldData.formData = _formFieldData.videosFeilds;
+        this.fieldData.commonData?.push({ title: 'videosFeilds', data: _formFieldData.videosFeilds });
         break;
       case 'audio':
-        this.fieldData.formData = _formFieldData.audioFeilds;
+        this.fieldData.commonData?.push({ title: 'audioFeilds', data: _formFieldData.audioFeilds });
         break;
       case 'carouselCrossfade':
-        this.fieldData.formData = _formFieldData.carouselCrossfadeFeilds;
+        this.fieldData.commonData?.push({ title: 'carouselCrossfadeFeilds', data: _formFieldData.carouselCrossfadeFeilds });
         break;
       case 'alert':
         this.addIconCommonConfiguration(_formFieldData.alertFeilds, true);
-        this.fieldData.formData = _formFieldData.alertFeilds;
+        this.fieldData.commonData?.push({ title: 'alertFeilds', data: _formFieldData.alertFeilds });
         break;
       case 'timeline':
         debugger
@@ -2799,31 +2804,31 @@ export class BuilderComponent implements OnInit {
         if (_formFieldData.timelineFeilds[0].fieldGroup) {
           _formFieldData.timelineFeilds[0].fieldGroup = _formFieldData.timelineFeilds[0].fieldGroup.filter(item => item.key !== 'iconClass');
         }
-        this.fieldData.formData = _formFieldData.timelineFeilds;
+        this.fieldData.commonData?.push({ title: 'timelineFeilds', data: _formFieldData.timelineFeilds });
         break;
       case 'simpleCardWithHeaderBodyFooter':
-        this.fieldData.formData =
-          _formFieldData.simpleCardWithHeaderBodyFooterFeilds;
+        this.fieldData.commonData?.push({ title: 'simpleCardWithHeaderBodyFooterFeilds', data: _formFieldData.simpleCardWithHeaderBodyFooterFeilds });
+
         break;
       case 'div':
         this.fieldData.mappingConfig = _formFieldData.mappingFields;
+        this.fieldData.commonData?.push({ title: 'divFields', data: _formFieldData.divFields });
         this.fieldData.mappingNode = this.selectedNode;
-        this.fieldData.formData = _formFieldData.divFields;
         break;
       case 'timelineChild':
         this.fieldData.mappingConfig = _formFieldData.mappingFields;
+        this.fieldData.commonData?.push({ title: 'divFields', data: _formFieldData.divFields });
         this.fieldData.mappingNode = this.selectedNode;
-        this.fieldData.formData = _formFieldData.divFields;
         break;
       case 'mainDiv':
-        this.fieldData.formData = _formFieldData.mainDivFields;
+        this.fieldData.commonData?.push({ title: 'mainDivFields', data: _formFieldData.mainDivFields });
         break;
       case 'heading':
-        this.fieldData.formData = _formFieldData.headingFields;
+        this.fieldData.commonData?.push({ title: 'headingFields', data: _formFieldData.headingFields });
         break;
       case 'paragraph':
         this.addIconCommonConfiguration(_formFieldData.paragraphFields, false);
-        this.fieldData.formData = _formFieldData.paragraphFields;
+        this.fieldData.commonData?.push({ title: 'paragraphFields', data: _formFieldData.paragraphFields });
         break;
       case 'tags':
       case 'repeatSection':
@@ -2863,40 +2868,44 @@ export class BuilderComponent implements OnInit {
             }
           }
         );
-        this.fieldData.commonData =
-          _formFieldData.commonFormlyConfigurationFields;
+        this.fieldData.commonData = [];
+        const obj = {
+          title: 'test',
+          data: _formFieldData.commonFormlyConfigurationFields
+        }
+        this.fieldData.commonData?.push(obj);
         switch (type) {
           case 'search':
-            this.fieldData.formData = _formFieldData.selectFields;
+            this.fieldData.commonData?.push({ title: 'selectFields', data: _formFieldData.selectFields });
             break;
           case 'radiobutton':
           case 'checkbox':
-            this.fieldData.formData = _formFieldData.radioFields;
+            this.fieldData.commonData?.push({ title: 'radioFields', data: _formFieldData.radioFields });
             break;
           case 'color':
-            this.fieldData.formData = _formFieldData.colorFields;
+            this.fieldData.commonData?.push({ title: 'colorFields', data: _formFieldData.colorFields });
             break;
           case 'autoComplete':
-            this.fieldData.formData = _formFieldData.autoCompleteFields;
+            this.fieldData.commonData?.push({ title: 'autoCompleteFields', data: _formFieldData.autoCompleteFields });
             break;
           case 'date':
-            this.fieldData.formData = _formFieldData.zorroDateFields;
+            this.fieldData.commonData?.push({ title: 'zorroDateFields', data: _formFieldData.zorroDateFields });
             break;
           case 'number':
-            this.fieldData.formData = _formFieldData.numberFields;
+            this.fieldData.commonData?.push({ title: 'numberFields', data: _formFieldData.numberFields });
             break;
           case 'repeatSection':
           case 'multiselect':
-            this.fieldData.formData = _formFieldData.zorroSelectFields;
+            this.fieldData.commonData?.push({ title: 'zorroSelectFields', data: _formFieldData.zorroSelectFields });
             break;
           case 'timepicker':
-            this.fieldData.formData = _formFieldData.zorroTimeFields;
+            this.fieldData.commonData?.push({ title: 'zorroTimeFields', data: _formFieldData.zorroTimeFields });
             break;
           case 'customMasking':
-            this.fieldData.formData = _formFieldData.customMaskingFields;
+            this.fieldData.commonData?.push({ title: 'customMaskingFields', data: _formFieldData.customMaskingFields });
             break;
           case 'multiFileUploader':
-            this.fieldData.formData = _formFieldData.multiFileUploadFeilds;
+            this.fieldData.commonData?.push({ title: 'multiFileUploadFeilds', data: _formFieldData.multiFileUploadFeilds });
             break;
         }
         break;
@@ -2908,7 +2917,7 @@ export class BuilderComponent implements OnInit {
         // }
         configObj.icon = selectedNode.btnIcon;
         this.addIconCommonConfiguration(_formFieldData.buttonFields, true);
-        this.fieldData.formData = _formFieldData.buttonFields;
+        this.fieldData.commonData?.push({ title: 'buttonFields', data: _formFieldData.buttonFields });
         break;
       case 'dropdownButton':
         // if (typeof selectedNode.buttonClass === "string") {
@@ -2922,14 +2931,14 @@ export class BuilderComponent implements OnInit {
           _formFieldData.dropdownButtonFields,
           true
         );
-        this.fieldData.formData = _formFieldData.dropdownButtonFields;
+        this.fieldData.commonData?.push({ title: 'dropdownButtonFields', data: _formFieldData.dropdownButtonFields });
         break;
       case 'accordionButton':
         this.addIconCommonConfiguration(
           _formFieldData.accordionButtonFields,
           true
         );
-        this.fieldData.formData = _formFieldData.accordionButtonFields;
+        this.fieldData.commonData?.push({ title: 'accordionButtonFields', data: _formFieldData.accordionButtonFields });
         break;
       case 'linkbutton':
         // if (typeof selectedNode.buttonClass === "string") {
@@ -2942,59 +2951,61 @@ export class BuilderComponent implements OnInit {
             _formFieldData.linkButtonFields,
             true
           );
-        this.fieldData.formData = _formFieldData.linkButtonFields;
+        this.fieldData.commonData?.push({ title: 'linkButtonFields', data: _formFieldData.linkButtonFields });
         break;
       case 'buttonGroup':
-        this.fieldData.formData = _formFieldData.buttonGroupFields;
+        this.fieldData.commonData?.push({ title: 'buttonGroupFields', data: _formFieldData.buttonGroupFields });
         break;
       case 'page':
-        this.fieldData.formData = _formFieldData.pageFields;
+        this.fieldData.commonData?.push({ title: 'pageFields', data: _formFieldData.pageFields });
         break;
       case 'pageHeader':
-        this.fieldData.formData = _formFieldData.pageHeaderFields;
+        this.fieldData.commonData?.push({ title: 'pageHeaderFields', data: _formFieldData.pageHeaderFields });
         break;
       case 'pageBody':
         break;
       case 'pageFooter':
-        this.fieldData.formData = _formFieldData.pageFooterFields;
+        this.fieldData.commonData?.push({ title: 'pageFooterFields', data: _formFieldData.pageFooterFields });
         break;
       case 'sections':
         configObj = {
           ...configObj,
           ...this.clickButtonService.getSectionConfig(selectedNode),
         };
-        this.fieldData.formData = _formFieldData.sectionsFields;
+        this.fieldData.commonData?.push({ title: 'sectionsFields', data: _formFieldData.sectionsFields });
         this.fieldData.mappingConfig = _formFieldData.mappingFields;
         this.fieldData.mappingNode = this.selectedNode;
+
         break;
       case 'header':
         configObj = {
           ...configObj,
           ...this.clickButtonService.headerConfig(selectedNode),
         };
-        this.fieldData.formData = _formFieldData.headerFields;
+        this.fieldData.commonData?.push({ title: 'headerFields', data: _formFieldData.headerFields });
         break;
       case 'footer':
-        this.fieldData.formData = _formFieldData.footerFields;
+        this.fieldData.commonData?.push({ title: 'footerFields', data: _formFieldData.footerFields });
         break;
       case 'body':
-        this.fieldData.formData = _formFieldData.bodyFields;
+        this.fieldData.commonData?.push({ title: 'bodyFields', data: _formFieldData.bodyFields });
         break;
       case 'step':
         this.addIconCommonConfiguration(_formFieldData.stepperFields, true);
+        this.fieldData.commonData?.push({ title: 'stepperFields', data: _formFieldData.stepperFields });
         this.fieldData.mappingConfig = _formFieldData.mappingFields;
-        this.fieldData.mappingNode = this.selectedNode;
-        this.fieldData.formData = _formFieldData.stepperFields;
+        this.fieldData.commonData?.push({ title: 'selectedNode', data: this.selectedNode });
+
         break;
       case 'mainStep':
-        this.fieldData.formData = _formFieldData.mainStepperFields;
+        this.fieldData.commonData?.push({ title: 'mainStepperFields', data: _formFieldData.mainStepperFields });
 
         break;
       case 'listWithComponents':
-        this.fieldData.formData = _formFieldData.listWithComponentsFields;
+        this.fieldData.commonData?.push({ title: 'listWithComponentsFields', data: _formFieldData.listWithComponentsFields });
         break;
       case 'listWithComponentsChild':
-        this.fieldData.formData = _formFieldData.listWithComponentsChildFields;
+        this.fieldData.commonData?.push({ title: 'listWithComponentsChildFields', data: _formFieldData.listWithComponentsChildFields });
         this.fieldData.mappingConfig = _formFieldData.mappingFields;
         this.fieldData.mappingNode = this.selectedNode;
         break;
@@ -3003,110 +3014,110 @@ export class BuilderComponent implements OnInit {
           ...configObj,
           ...this.clickButtonService.getMainTabsConfig(selectedNode),
         };
-        this.fieldData.formData = _formFieldData.mainTabFields;
+        this.fieldData.commonData?.push({ title: 'mainTabFields', data: _formFieldData.mainTabFields });
         break;
       case 'barChart':
         configObj = {
           ...configObj,
           ...this.clickButtonService.getBarChartConfig(selectedNode),
         };
-        this.fieldData.formData = _formFieldData.barChartFields;
+        this.fieldData.commonData?.push({ title: 'barChartFields', data: _formFieldData.barChartFields });
         break;
       case 'pieChart':
         configObj = {
           ...configObj,
           ...this.clickButtonService.getPieChartConfig(selectedNode),
         };
-        this.fieldData.formData = _formFieldData.pieChartFields;
+        this.fieldData.commonData?.push({ title: 'pieChartFields', data: _formFieldData.pieChartFields });
         break;
       case 'bubbleChart':
         configObj = {
           ...configObj,
           ...this.clickButtonService.getBubbleChartConfig(selectedNode),
         };
-        this.fieldData.formData = _formFieldData.bubbleChartFields;
+        this.fieldData.commonData?.push({ title: 'bubbleChartFields', data: _formFieldData.bubbleChartFields });
         break;
       case 'candlestickChart':
-        this.fieldData.formData = _formFieldData.candlestickChartFields;
+        this.fieldData.commonData?.push({ title: 'candlestickChartFields', data: _formFieldData.candlestickChartFields });
         break;
       case 'columnChart':
-        this.fieldData.formData = _formFieldData.columnChartFields;
+        this.fieldData.commonData?.push({ title: 'columnChartFields', data: _formFieldData.columnChartFields });
         break;
       case 'ganttChart':
         configObj = {
           ...configObj,
           ...this.clickButtonService.getGanttChartConfig(selectedNode),
         };
-        this.fieldData.formData = _formFieldData.ganttChartFields;
+        this.fieldData.commonData?.push({ title: 'ganttChartFields', data: _formFieldData.ganttChartFields });
         break;
       case 'geoChart':
         configObj = {
           ...configObj,
           ...this.clickButtonService.getGeoChartConfig(selectedNode),
         };
-        this.fieldData.formData = _formFieldData.geoChartFields;
+        this.fieldData.commonData?.push({ title: 'geoChartFields', data: _formFieldData.geoChartFields });
         break;
       case 'histogramChart':
         configObj = {
           ...configObj,
           ...this.clickButtonService.getHistogramChartConfig(selectedNode),
         };
-        this.fieldData.formData = _formFieldData.histogramChartFields;
+        this.fieldData.commonData?.push({ title: 'histogramChartFields', data: _formFieldData.histogramChartFields });
         break;
       case 'treeMapChart':
         configObj = {
           ...configObj,
           ...this.clickButtonService.gettreeMapChartConfig(selectedNode),
         };
-        this.fieldData.formData = _formFieldData.treeMapChartFields;
+        this.fieldData.commonData?.push({ title: 'treeMapChartFields', data: _formFieldData.treeMapChartFields });
         break;
       case 'tableChart':
-        this.fieldData.formData = _formFieldData.tableChartFields;
+        this.fieldData.commonData?.push({ title: 'tableChartFields', data: _formFieldData.tableChartFields });
         break;
       case 'lineChart':
         configObj = {
           ...configObj,
           ...this.clickButtonService.getLineChartConfig(selectedNode),
         };
-        this.fieldData.formData = _formFieldData.lineChartFields;
+        this.fieldData.commonData?.push({ title: 'lineChartFields', data: _formFieldData.lineChartFields });
         break;
       case 'sankeyChart':
-        this.fieldData.formData = _formFieldData.sankeyChartFields;
+        this.fieldData.commonData?.push({ title: 'sankeyChartFields', data: _formFieldData.sankeyChartFields });
         break;
       case 'scatterChart':
         configObj = {
           ...configObj,
           ...this.clickButtonService.getScatterChartConfig(selectedNode),
         };
-        this.fieldData.formData = _formFieldData.scatterChartFields;
+        this.fieldData.commonData?.push({ title: 'scatterChartFields', data: _formFieldData.scatterChartFields });
         break;
       case 'areaChart':
         configObj = {
           ...configObj,
           ...this.clickButtonService.getAreaChartConfig(selectedNode),
         };
-        this.fieldData.formData = _formFieldData.areaChartFields;
+        this.fieldData.commonData?.push({ title: 'areaChartFields', data: _formFieldData.areaChartFields });
         break;
       case 'comboChart':
         configObj = {
           ...configObj,
           ...this.clickButtonService.getComboChartConfig(selectedNode),
         };
-        this.fieldData.formData = _formFieldData.comboChartFields;
+        this.fieldData.commonData?.push({ title: 'comboChartFields', data: _formFieldData.comboChartFields });
         break;
       case 'steppedAreaChart':
         configObj = {
           ...configObj,
           ...this.clickButtonService.getSteppedAreaChartConfig(selectedNode),
         };
-        this.fieldData.formData = _formFieldData.steppedAreaChartFields;
+        this.fieldData.commonData?.push({ title: 'steppedAreaChartFields', data: _formFieldData.steppedAreaChartFields });
         break;
       case 'timelineChart':
         configObj = {
           ...configObj,
           ...this.clickButtonService.getTimelineChartConfig(selectedNode),
         };
-        this.fieldData.formData = _formFieldData.steppedAreaChartFields;
+        this.fieldData.commonData?.push({ title: 'steppedAreaChartFields', data: _formFieldData.steppedAreaChartFields });
         break;
       default:
         break;
@@ -4362,13 +4373,13 @@ export class BuilderComponent implements OnInit {
               this.selectedNode.tableData =
                 this.selectedNode['tableNoResultArray'];
           }
-          // if (this.selectedNode.tableHeaders.length > 0) {
-          //   this.selectedNode.tableHeaders.forEach((a: any) => {
-          //     if(a){
-          //       a['headerFreeze'] = false;
-          //     }
-          //   });
-          // }
+          if (this.selectedNode.tableHeaders.length > 0) {
+            this.selectedNode.tableHeaders.forEach((a: any) => {
+              if (a) {
+                a['headerFreeze'] = false;
+              }
+            });
+          }
 
           // if (this.selectedNode['startFreezingNumber'] || this.selectedNode['endFreezingNumber']) {
           //   let selected: any = this.selectedNode;

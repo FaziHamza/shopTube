@@ -11059,47 +11059,11 @@ export class formFeildData {
     },
   ]
 
-  gridFields: FormlyFieldConfig[] = [
+  gridFields_Table: FormlyFieldConfig[] = [
     {
       fieldGroupClassName: "flex flex-wrap",
       fieldGroup: [
-        {
-          key: 'nzFooter',
-          type: 'input',
-          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
-          wrappers: ["formly-vertical-theme-wrapper"],
-          props: {
-            label: 'Footer Text'
-          }
-        },
-        {
-          key: 'nzTitle',
-          type: 'input',
-          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
-          wrappers: ["formly-vertical-theme-wrapper"],
-          props: {
-            label: 'Header Text'
-          }
-        },
-        {
-          key: 'end',
-          type: 'number',
-          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
-          wrappers: ["formly-vertical-theme-wrapper"],
-          props: {
-            label: 'Total Records Show'
-          }
-        },
-        {
-          key: 'serverSidePagination',
-          type: 'checkbox',
-          wrappers: ["formly-vertical-theme-wrapper"],
-          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
-          props: {
-            label: 'Server Pagination',
-          },
-          defaultValue: false
-        },
+
         {
           key: 'nzPaginationPosition',
           type: 'select',
@@ -11169,6 +11133,327 @@ export class formFeildData {
           },
         },
         {
+          key: 'nzTitle',
+          type: 'input',
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          wrappers: ["formly-vertical-theme-wrapper"],
+          props: {
+            label: 'Header Text'
+          }
+        },
+        {
+          key: 'nzFooter',
+          type: 'input',
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          wrappers: ["formly-vertical-theme-wrapper"],
+          props: {
+            label: 'Footer Text'
+          }
+        },
+        {
+          key: 'end',
+          type: 'number',
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          wrappers: ["formly-vertical-theme-wrapper"],
+          props: {
+            label: 'Total Records Show'
+          }
+        },
+        {
+          key: 'serverSidePagination',
+          type: 'checkbox',
+          wrappers: ["formly-vertical-theme-wrapper"],
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          props: {
+            label: 'Server Pagination',
+          },
+          defaultValue: false
+        },
+        {
+          key: 'nzShowPagination',
+          type: 'checkbox',
+          wrappers: ["formly-vertical-theme-wrapper"],
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          props: {
+            label: 'Show Pagination',
+          },
+          defaultValue: false
+        },
+        {
+          key: 'nzSimple',
+          type: 'checkbox',
+          wrappers: ["formly-vertical-theme-wrapper"],
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          props: {
+            label: 'Simple Pagination',
+          },
+          defaultValue: false
+        },
+        {
+          key: 'nzBordered',
+          type: 'checkbox',
+          wrappers: ["formly-vertical-theme-wrapper"],
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          props: {
+            label: 'Show Border',
+          },
+          defaultValue: false
+        },
+        {
+          key: 'nzLoading',
+          type: 'checkbox',
+          wrappers: ["formly-vertical-theme-wrapper"],
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          props: {
+            label: 'Loading',
+          },
+          defaultValue: false
+        },
+        {
+          key: 'noResult',
+          type: 'checkbox',
+          wrappers: ["formly-vertical-theme-wrapper"],
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          props: {
+            label: 'No Result',
+          },
+          defaultValue: false
+        },
+      ]
+    }
+  ]
+  gridFields_th: FormlyFieldConfig[] = [
+    {
+      fieldGroupClassName: "flex flex-wrap",
+      fieldGroup: [
+        {
+          key: 'showCheckbox',
+          type: 'checkbox',
+          wrappers: ["formly-vertical-theme-wrapper"],
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          props: {
+            label: 'Show checkbox',
+          },
+          defaultValue: false
+        },
+      ]
+    }
+  ]
+  gridFields_StyleProperty: FormlyFieldConfig[] = [
+    {
+      fieldGroupClassName: "flex flex-wrap",
+      fieldGroup: [
+        {
+          key: 'startFreezingNumber',
+          type: 'input',
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          wrappers: ["formly-vertical-theme-wrapper"],
+          props: {
+            type: 'number',
+            label: 'Start Freezing Number'
+          }
+        },
+        {
+          key: 'endFreezingNumber',
+          type: 'input',
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          wrappers: ["formly-vertical-theme-wrapper"],
+          props: {
+            type: 'number',
+            label: 'End Freezing Number'
+          }
+        },
+      ]
+    }
+  ]
+  gridFields_Drawer: FormlyFieldConfig[] = [
+    {
+      fieldGroupClassName: "flex flex-wrap",
+      fieldGroup: [
+        {
+          key: 'drawerScreenLink',
+          type: 'input',
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          wrappers: ["formly-vertical-theme-wrapper"],
+          props: {
+            label: 'Drawer Screen Link'
+          }
+        },
+        {
+          key: 'drawerWidth',
+          type: 'input',
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          wrappers: ["formly-vertical-theme-wrapper"],
+          props: {
+            type: 'number',
+            label: 'Drawer Width'
+          }
+        },
+        {
+          key: 'drawerButtonLabel',
+          type: 'input',
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          wrappers: ["formly-vertical-theme-wrapper"],
+          props: {
+            label: 'Drawer Button Label'
+          }
+        },
+        {
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          key: 'drawerPlacement',
+          type: 'select',
+          wrappers: ["formly-vertical-theme-wrapper"],
+          props: {
+            label: 'Drawer Placement',
+            options: [
+              {
+                label: 'Right',
+                value: 'right'
+              },
+              {
+                label: 'Left',
+                value: 'left'
+              },
+              {
+                label: 'Top',
+                value: 'top'
+              },
+              {
+                label: 'Bottom',
+                value: 'bottom'
+              }
+            ],
+            additionalProperties: {
+              allowClear: true,
+              serveSearch: false,
+              showArrow: true,
+              showSearch: true,
+            },
+          }
+        },
+        {
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          key: 'isShowDrawerButton',
+          type: 'checkbox',
+          wrappers: ["formly-vertical-theme-wrapper"],
+          props: {
+            label: 'Show Drawer Button'
+          }
+        },
+
+      ]
+    }
+  ]
+  gridFields: FormlyFieldConfig[] = [
+    {
+      fieldGroupClassName: "flex flex-wrap",
+      fieldGroup: [
+        // {
+        //   key: 'nzFooter',
+        //   type: 'input',
+        //   className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+        //   wrappers: ["formly-vertical-theme-wrapper"],
+        //   props: {
+        //     label: 'Footer Text'
+        //   }
+        // },
+        // {
+        //   key: 'nzTitle',
+        //   type: 'input',
+        //   className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+        //   wrappers: ["formly-vertical-theme-wrapper"],
+        //   props: {
+        //     label: 'Header Text'
+        //   }
+        // },
+        // {
+        //   key: 'end',
+        //   type: 'number',
+        //   className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+        //   wrappers: ["formly-vertical-theme-wrapper"],
+        //   props: {
+        //     label: 'Total Records Show'
+        //   }
+        // },
+        // {
+        //   key: 'serverSidePagination',
+        //   type: 'checkbox',
+        //   wrappers: ["formly-vertical-theme-wrapper"],
+        //   className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+        //   props: {
+        //     label: 'Server Pagination',
+        //   },
+        //   defaultValue: false
+        // },
+        // {
+        //   key: 'nzPaginationPosition',
+        //   type: 'select',
+        //   className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+        //   wrappers: ["formly-vertical-theme-wrapper"],
+        //   props: {
+        //     label: 'Pagination Position',
+        //     options: [
+        //       {
+        //         label: 'Top',
+        //         value: 'top'
+        //       },
+        //       {
+        //         label: 'Bottom',
+        //         value: 'bottom'
+        //       },
+        //       {
+        //         label: 'Both',
+        //         value: 'both'
+        //       },
+        //     ],
+        //     additionalProperties: {
+        //       allowClear: true,
+        //       serveSearch: false,
+        //       showArrow: true,
+        //       showSearch: true,
+        //     },
+        //   },
+        // },
+        // {
+        //   key: 'nzPaginationType',
+        //   type: 'select',
+        //   className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+        //   wrappers: ["formly-vertical-theme-wrapper"],
+        //   props: {
+        //     label: 'Pagination Type',
+        //     options: [
+        //       { value: 'default', label: 'Default' },
+        //       { value: 'small', label: 'Small' }
+        //     ],
+        //     additionalProperties: {
+        //       allowClear: true,
+        //       serveSearch: false,
+        //       showArrow: true,
+        //       showSearch: true,
+        //     },
+        //   },
+        // },
+        // {
+        //   key: 'nzSize',
+        //   type: 'select',
+        //   className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+        //   wrappers: ["formly-vertical-theme-wrapper"],
+        //   props: {
+        //     label: 'Size',
+        //     options: [
+        //       { value: 'default', label: 'Default' },
+        //       { value: 'middle', label: 'Middle' },
+        //       { value: 'small', label: 'Small' }
+        //     ],
+        //     additionalProperties: {
+        //       allowClear: true,
+        //       serveSearch: false,
+        //       showArrow: true,
+        //       showSearch: true,
+        //     },
+        //   },
+        // },
+        {
           key: 'position',
           type: 'select',
           className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
@@ -11219,7 +11504,7 @@ export class formFeildData {
               { value: '1,2,3', label: 'Before' },
               // { value: '2,1,3', label: 'Center Button' },
               { value: '3,2,1', label: 'After' },
-              { value: '2,3,1', label: 'Center' },
+              // { value: '2,3,1', label: 'Center' },
               // { value: '2,3,1', label: 'Start Search' },
               // // { value: '1,2,3', label: 'Center Search' },
               // // { value: '2,1,3', label: 'End Search' },
@@ -11281,27 +11566,27 @@ export class formFeildData {
         //     },
         //   },
         // },
-        {
-          key: 'sortOrder',
-          type: 'select',
-          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
-          wrappers: ["formly-vertical-theme-wrapper"],
-          props: {
-            label: 'Sort Order',
-            options: [
-              { value: 'descend', label: 'Descend' },
-              { value: 'ascend', label: 'Ascend' },
-              { value: null, label: 'No Need' },
+        // {
+        //   key: 'sortOrder',
+        //   type: 'select',
+        //   className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+        //   wrappers: ["formly-vertical-theme-wrapper"],
+        //   props: {
+        //     label: 'Sort Order',
+        //     options: [
+        //       { value: 'descend', label: 'Descend' },
+        //       { value: 'ascend', label: 'Ascend' },
+        //       { value: null, label: 'No Need' },
 
-            ],
-            additionalProperties: {
-              allowClear: true,
-              serveSearch: false,
-              showArrow: true,
-              showSearch: true,
-            },
-          },
-        },
+        //     ],
+        //     additionalProperties: {
+        //       allowClear: true,
+        //       serveSearch: false,
+        //       showArrow: true,
+        //       showSearch: true,
+        //     },
+        //   },
+        // },
         // {
         //   key: 'sortDirections',
         //   type: 'select',
@@ -11384,87 +11669,87 @@ export class formFeildData {
             label: 'Import Table Name'
           }
         },
-        {
-          key: 'drawerScreenLink',
-          type: 'input',
-          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
-          wrappers: ["formly-vertical-theme-wrapper"],
-          props: {
-            label: 'Drawer Screen Link'
-          }
-        },
-        {
-          key: 'drawerWidth',
-          type: 'input',
-          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
-          wrappers: ["formly-vertical-theme-wrapper"],
-          props: {
-            type: 'number',
-            label: 'Drawer Width'
-          }
-        },
-        {
-          key: 'drawerButtonLabel',
-          type: 'input',
-          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
-          wrappers: ["formly-vertical-theme-wrapper"],
-          props: {
-            label: 'Drawer Button Label'
-          }
-        },
-        {
-          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
-          key: 'drawerPlacement',
-          type: 'select',
-          wrappers: ["formly-vertical-theme-wrapper"],
-          props: {
-            label: 'Drawer Placement',
-            options: [
-              {
-                label: 'Right',
-                value: 'right'
-              },
-              {
-                label: 'Left',
-                value: 'left'
-              },
-              {
-                label: 'Top',
-                value: 'top'
-              },
-              {
-                label: 'Bottom',
-                value: 'bottom'
-              }
-            ],
-            additionalProperties: {
-              allowClear: true,
-              serveSearch: false,
-              showArrow: true,
-              showSearch: true,
-            },
-          }
-        },
-        {
-          key: 'startFreezingNumber',
-          type: 'input',
-          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
-          wrappers: ["formly-vertical-theme-wrapper"],
-          props: {
-            type: 'number',
-            label: 'Start Freezing Number'
-          }
-        },
-        {
-          key: 'endFreezingNumber',
-          type: 'input',
-          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
-          wrappers: ["formly-vertical-theme-wrapper"],
-          props: {
-            type: 'number',
-            label: 'End Freezing Number'
-          }
-        },
+        // {
+        //   key: 'drawerScreenLink',
+        //   type: 'input',
+        //   className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+        //   wrappers: ["formly-vertical-theme-wrapper"],
+        //   props: {
+        //     label: 'Drawer Screen Link'
+        //   }
+        // },
+        // {
+        //   key: 'drawerWidth',
+        //   type: 'input',
+        //   className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+        //   wrappers: ["formly-vertical-theme-wrapper"],
+        //   props: {
+        //     type: 'number',
+        //     label: 'Drawer Width'
+        //   }
+        // },
+        // {
+        //   key: 'drawerButtonLabel',
+        //   type: 'input',
+        //   className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+        //   wrappers: ["formly-vertical-theme-wrapper"],
+        //   props: {
+        //     label: 'Drawer Button Label'
+        //   }
+        // },
+        // {
+        //   className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+        //   key: 'drawerPlacement',
+        //   type: 'select',
+        //   wrappers: ["formly-vertical-theme-wrapper"],
+        //   props: {
+        //     label: 'Drawer Placement',
+        //     options: [
+        //       {
+        //         label: 'Right',
+        //         value: 'right'
+        //       },
+        //       {
+        //         label: 'Left',
+        //         value: 'left'
+        //       },
+        //       {
+        //         label: 'Top',
+        //         value: 'top'
+        //       },
+        //       {
+        //         label: 'Bottom',
+        //         value: 'bottom'
+        //       }
+        //     ],
+        //     additionalProperties: {
+        //       allowClear: true,
+        //       serveSearch: false,
+        //       showArrow: true,
+        //       showSearch: true,
+        //     },
+        //   }
+        // },
+        // {
+        //   key: 'startFreezingNumber',
+        //   type: 'input',
+        //   className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+        //   wrappers: ["formly-vertical-theme-wrapper"],
+        //   props: {
+        //     type: 'number',
+        //     label: 'Start Freezing Number'
+        //   }
+        // },
+        // {
+        //   key: 'endFreezingNumber',
+        //   type: 'input',
+        //   className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+        //   wrappers: ["formly-vertical-theme-wrapper"],
+        //   props: {
+        //     type: 'number',
+        //     label: 'End Freezing Number'
+        //   }
+        // },
         // {
         //   key: 'filterMultiple',
         //   type: 'checkbox',
@@ -11476,26 +11761,26 @@ export class formFeildData {
         //   defaultValue: false
         // },
 
-        {
-          key: 'nzLoading',
-          type: 'checkbox',
-          wrappers: ["formly-vertical-theme-wrapper"],
-          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
-          props: {
-            label: 'Loading',
-          },
-          defaultValue: false
-        },
-        {
-          key: 'nzShowPagination',
-          type: 'checkbox',
-          wrappers: ["formly-vertical-theme-wrapper"],
-          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
-          props: {
-            label: 'Show Pagination',
-          },
-          defaultValue: false
-        },
+        // {
+        //   key: 'nzLoading',
+        //   type: 'checkbox',
+        //   wrappers: ["formly-vertical-theme-wrapper"],
+        //   className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+        //   props: {
+        //     label: 'Loading',
+        //   },
+        //   defaultValue: false
+        // },
+        // {
+        //   key: 'nzShowPagination',
+        //   type: 'checkbox',
+        //   wrappers: ["formly-vertical-theme-wrapper"],
+        //   className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+        //   props: {
+        //     label: 'Show Pagination',
+        //   },
+        //   defaultValue: false
+        // },
         {
           key: 'doubleClick',
           type: 'checkbox',
@@ -11506,16 +11791,16 @@ export class formFeildData {
           },
           defaultValue: false
         },
-        {
-          key: 'nzBordered',
-          type: 'checkbox',
-          wrappers: ["formly-vertical-theme-wrapper"],
-          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
-          props: {
-            label: 'Show Border',
-          },
-          defaultValue: false
-        },
+        // {
+        //   key: 'nzBordered',
+        //   type: 'checkbox',
+        //   wrappers: ["formly-vertical-theme-wrapper"],
+        //   className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+        //   props: {
+        //     label: 'Show Border',
+        //   },
+        //   defaultValue: false
+        // },
         {
           key: 'showColumnHeader',
           type: 'checkbox',
@@ -11525,46 +11810,46 @@ export class formFeildData {
             label: 'Column Header',
           },
         },
-        {
-          key: 'noResult',
-          type: 'checkbox',
-          wrappers: ["formly-vertical-theme-wrapper"],
-          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
-          props: {
-            label: 'No Result',
-          },
-          defaultValue: false
-        },
-        {
-          key: 'nzShowSizeChanger',
-          type: 'checkbox',
-          wrappers: ["formly-vertical-theme-wrapper"],
-          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
-          props: {
-            label: 'PageSizeChanger',
-          },
-          defaultValue: false
-        },
-        {
-          key: 'nzSimple',
-          type: 'checkbox',
-          wrappers: ["formly-vertical-theme-wrapper"],
-          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
-          props: {
-            label: 'Simple Pagination',
-          },
-          defaultValue: false
-        },
-        {
-          key: 'showCheckbox',
-          type: 'checkbox',
-          wrappers: ["formly-vertical-theme-wrapper"],
-          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
-          props: {
-            label: 'Show checkbox',
-          },
-          defaultValue: false
-        },
+        // {
+        //   key: 'noResult',
+        //   type: 'checkbox',
+        //   wrappers: ["formly-vertical-theme-wrapper"],
+        //   className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+        //   props: {
+        //     label: 'No Result',
+        //   },
+        //   defaultValue: false
+        // },
+        // {
+        //   key: 'nzShowSizeChanger',
+        //   type: 'checkbox',
+        //   wrappers: ["formly-vertical-theme-wrapper"],
+        //   className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+        //   props: {
+        //     label: 'PageSizeChanger',
+        //   },
+        //   defaultValue: false
+        // },
+        // {
+        //   key: 'nzSimple',
+        //   type: 'checkbox',
+        //   wrappers: ["formly-vertical-theme-wrapper"],
+        //   className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+        //   props: {
+        //     label: 'Simple Pagination',
+        //   },
+        //   defaultValue: false
+        // },
+        // {
+        //   key: 'showCheckbox',
+        //   type: 'checkbox',
+        //   wrappers: ["formly-vertical-theme-wrapper"],
+        //   className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+        //   props: {
+        //     label: 'Show checkbox',
+        //   },
+        //   defaultValue: false
+        // },
         {
           key: 'isAddRow',
           type: 'checkbox',
@@ -11629,15 +11914,23 @@ export class formFeildData {
             label: 'Allow Search Data'
           }
         },
-        {
-          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
-          key: 'isShowDrawerButton',
-          type: 'checkbox',
-          wrappers: ["formly-vertical-theme-wrapper"],
-          props: {
-            label: 'Show Drawer Button'
-          }
-        },
+        // {
+        //   className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+        //   key: 'isShowDrawerButton',
+        //   type: 'checkbox',
+        //   wrappers: ["formly-vertical-theme-wrapper"],
+        //   props: {
+        //     label: 'Show Drawer Button'
+        //   }
+        // },
+
+      ]
+    }
+  ]
+  gridFieldsOptions: FormlyFieldConfig[] = [
+    {
+      fieldGroupClassName: "flex flex-wrap",
+      fieldGroup: [
         {
           key: 'options',
           type: 'repeatSection',

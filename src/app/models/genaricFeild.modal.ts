@@ -3,7 +3,7 @@ import { FormlyFieldConfig } from "@ngx-formly/core";
 export class GenaricFeild {
   title?: string;
   formData?: FormlyFieldConfig[]
-  commonData?: FormlyFieldConfig[]
+  commonData?: any
   mappingConfig?: FormlyFieldConfig[]
   type: string;
   modelData: any;
