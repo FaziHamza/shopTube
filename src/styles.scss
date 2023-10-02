@@ -6370,6 +6370,10 @@ tr:hover {
 
   }
 
+  tbody tr:hover td{
+    background: white !important;
+  }
+
   // .ant-table-wrapper {
   //   max-height: 680px !important;
   //   }
@@ -7440,4 +7444,17 @@ display: none !important ;
     justify-content: space-between !important;
     align-items: center !important ;
   }
+}
+
+.bag-report{
+  .ngx-contextmenu--item-content {
+    display: flex !important;
+    justify-content: start !important;
+    align-items: center !important;
+  }
+    
+  .fa-bug {
+    margin-right: 5px !important;
+  }
+  
 }
