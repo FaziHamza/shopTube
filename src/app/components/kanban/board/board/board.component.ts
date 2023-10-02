@@ -51,6 +51,10 @@ export class BoardComponent implements OnInit {
   }
 
   moveCardAcrossList(movementInformation: MovementIntf) {
+    if (this.kanbanData.kanlistArray.some((item: any) => item.key == this.selectedGroupBy && !item?.allowDragnDrop)) {
+      this.toastr.warning('not allow drag n drop on this grouping', { nzDuration: 3000 });
+      return;
+    }
     const cardMoved = this.kanbanData.children[movementInformation.fromListIdx].children.splice(movementInformation.fromCardIdx ?? 0, 1);
     this.kanbanData.children[movementInformation.toListIdx].children.splice(movementInformation?.toCardIdx ?? 0, 0, ...cardMoved);
     cardMoved[0].dataObj[this.selectedGroupBy] = this.status[movementInformation.toListIdx];

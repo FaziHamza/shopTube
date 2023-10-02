@@ -977,6 +977,9 @@ export class DynamicTableComponent implements OnInit {
       }
 
       this.displayData = this.tableData;
+
+
+
     }
     if (!this.data) {
       const newNode = {
@@ -1780,7 +1783,24 @@ export class DynamicTableComponent implements OnInit {
         if (window.location.href.includes('taskmanager.com')) {
           // Handle any additional logic here
         }
+        console.log(this.tableHeaders);
         this.saveLoader = false;
+
+        // this.tableHeaders.forEach((header: any, index: number) => {
+        //   if (header) {
+        //     if (this.data?.endFreezingNumber || this.data.startFreezingNumber) {
+        //       if (index < this.data?.endFreezingNumber - 2 && this.data?.endFreezingNumber > 2) {
+        //         let freezeIndex = this.tableHeaders.length - (index + 1)
+        //         this.tableHeaders[freezeIndex]['headerFreeze'] = true;
+        //         // return header['headerFreeze'];
+        //       }
+        //       if (index < this.data.startFreezingNumber) {
+        //         header['headerFreeze'] = true;
+        //       }
+
+        //     }
+        //   }
+        // });
       }
       this.gridInitilize();
     } catch (error) {
@@ -2328,18 +2348,34 @@ export class DynamicTableComponent implements OnInit {
       this.nzScrollConfig = { x: '100%' }; // Adjust this value for smaller screens
     }
   }
-  allowFreeze(header: any, index: number, alignment: any) {
-    if (this.data?.startFreezingNumber < index && alignment == 'left') {
-      header['headerFreeze'] = true;
-      return header['headerFreeze'];
-    } else if (this.data?.endFreezingNumber > index && alignment == 'right' ) {
-      header['headerFreeze'] = true;
-      return header['headerFreeze'];
-    } 
-    else {
-      return header['headerFreeze']  ? true :  false;
+  allowFreeze(header: any, index: number): boolean {
+    if (header) {
+      if (this.data?.endFreezingNumber || this.data.startFreezingNumber) {
+        let checkFreezingNumber = 0;
+        if (['', undefined, true].includes(this.data.isDeleteAllow)) {
+          checkFreezingNumber = checkFreezingNumber + 1
+        }
+        if (this.tableHeaders.some((item: any) => item?.editMode === true)) {
+          checkFreezingNumber = checkFreezingNumber + 1;
+        }
+        if (index < this.data?.endFreezingNumber - checkFreezingNumber && this.data?.endFreezingNumber > checkFreezingNumber) {
+          let freezeIndex = this.tableHeaders.length - (index + 1)
+          this.tableHeaders[freezeIndex]['headerFreeze'] = true;
+        }
+        if (index < this.data.startFreezingNumber) {
+          header['headerFreeze'] = true;
+          return header['headerFreeze'];
+        }
+        else {
+          return header['headerFreeze'] ? header['headerFreeze'] : false;
+        }
+      } else {
+        return header['headerFreeze'] ? header['headerFreeze'] : false;
+      }
     }
-    // If none of the conditions are met, return undefined
+    else {
+      return false
+    }
   }
 
 }

@@ -4352,13 +4352,13 @@ export class BuilderComponent implements OnInit {
               this.selectedNode.tableData =
                 this.selectedNode['tableNoResultArray'];
           }
-          if (this.selectedNode.tableHeaders.length > 0) {
-            this.selectedNode.tableHeaders.forEach((a: any) => {
-              if(a){
-                a['headerFreeze'] = false;
-              }
-            });
-          }
+          // if (this.selectedNode.tableHeaders.length > 0) {
+          //   this.selectedNode.tableHeaders.forEach((a: any) => {
+          //     if(a){
+          //       a['headerFreeze'] = false;
+          //     }
+          //   });
+          // }
 
           // if (this.selectedNode['startFreezingNumber'] || this.selectedNode['endFreezingNumber']) {
           //   let selected: any = this.selectedNode;

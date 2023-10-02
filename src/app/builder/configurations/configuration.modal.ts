@@ -11302,29 +11302,29 @@ export class formFeildData {
             },
           },
         },
-        {
-          key: 'sortDirections',
-          type: 'select',
-          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
-          wrappers: ["formly-vertical-theme-wrapper"],
-          props: {
-            label: 'Sort Direction',
-            options: [
-              { value: '["ascend"]', label: "Ascend" },
-              { value: '["descend"]', label: "Descend" },
-              { value: "[\"ascend\",\"descend\"]", label: "Ascend And Descend" },
-              { value: "[\"ascend\", \"descend\", null]", label: "All" },
-              { value: '[null]', label: "No Need" },
+        // {
+        //   key: 'sortDirections',
+        //   type: 'select',
+        //   className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+        //   wrappers: ["formly-vertical-theme-wrapper"],
+        //   props: {
+        //     label: 'Sort Direction',
+        //     options: [
+        //       { value: '["ascend"]', label: "Ascend" },
+        //       { value: '["descend"]', label: "Descend" },
+        //       { value: "[\"ascend\",\"descend\"]", label: "Ascend And Descend" },
+        //       { value: "[\"ascend\", \"descend\", null]", label: "All" },
+        //       { value: '[null]', label: "No Need" },
 
-            ],
-            additionalProperties: {
-              allowClear: true,
-              serveSearch: false,
-              showArrow: true,
-              showSearch: true,
-            },
-          },
-        },
+        //     ],
+        //     additionalProperties: {
+        //       allowClear: true,
+        //       serveSearch: false,
+        //       showArrow: true,
+        //       showSearch: true,
+        //     },
+        //   },
+        // },
         {
           key: 'openComponent',
           type: 'select',
@@ -11777,6 +11777,15 @@ export class formFeildData {
                 wrappers: ["formly-vertical-theme-wrapper"],
                 props: {
                   label: 'Sum'
+                }
+              },
+              {
+                className: "ml-2",
+                key: 'sorting',
+                type: 'checkbox',
+                wrappers: ["formly-vertical-theme-wrapper"],
+                props: {
+                  label: 'Sorting'
                 }
               },
               {

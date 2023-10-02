@@ -30,6 +30,7 @@ export class BuilderClickButtonService {
           columnClickApi: obj.columnClickApi,
           position: obj.position,
           filtering: obj.filtering ? obj.filtering : false,
+          sorting: obj.sorting ? obj.sorting : false,
           multipleFiltering: obj.multipleFiltering ? obj.multipleFiltering : false,
           position_list: [
             {
