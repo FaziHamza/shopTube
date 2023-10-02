@@ -135,14 +135,14 @@
                   <ul nz-menu nzSelectable class="!rounded-md !text-sm !font-medium dyname">
                     <div *ngIf="header?.sorting">
                       <p (click)="sortingData(header.key , 'asc')"
-                        class="p-1.5 px-5 hover:bg-gray-100 tracking-[0.2px] leading-5"> Sort A to Z</p>
-                      <p class="p-1.5 px-5 hover:bg-gray-100" (click)="sortingData(header.key , 'desc')" class="mb-1.5">
+                        class="p-1.5 !px-5 hover:bg-gray-100 tracking-[0.2px] leading-5"> Sort A to Z</p>
+                      <p class="p-1.5 !px-5 hover:bg-gray-100 tracking-[0.2px] leading-5" (click)="sortingData(header.key , 'desc')" class="mb-1.5">
                         Sort Z to A</p>
                       <hr class="mb-3 mt-2 mx-5">
                     </div>
                     <ng-container *ngIf="header?.filterArray">
                       <ng-container *ngIf="header?.filterArray.length > 0">
-                        <nz-input-group class="py-1.5 mx-5 !w-[200px]" [nzSuffix]="suffixIconSearch">
+                        <nz-input-group class="py-1.5 mt-2 mx-5 !min-w-[210px] !w-auto" [nzSuffix]="suffixIconSearch">
                           <input nz-input placeholder="Search here..." class="!rounded-md"
                             [(ngModel)]="header['searchValue']" (input)="searchFilter(header)" />
                         </nz-input-group>
@@ -153,7 +153,7 @@
                         <div *ngIf="header?.multipleFiltering == true"
                           class="!flex !justify-start !px-5 my-2 !items-center !font-semibold !text-xs">
                           <p class="text-blue-600 underline cursor-pointer" (click)="selectClearAll(header , true)">
-                            Select all - </p>
+                            Select all</p>
                           <p class="!mx-1">-</p>
                           <p class="text-blue-600 underline cursor-pointer" (click)="selectClearAll(header , false)">
                             Clear</p>
@@ -161,7 +161,7 @@
                         <div class="h-[150px] !mx-5 !my-3 overflow-y-auto">
                           <ng-container *ngFor="let item of header?.filterArray ">
                             <li class="!p-1 px-0" *ngIf="header?.multipleFiltering == true ; else single" nz-menu-item>
-                              <p class="!w-48 truncate">
+                              <p class="!w-48  !truncate">
                                 {{item.text}}
                               </p>
                               <label class="ml-2" nz-checkbox [(ngModel)]="item.filter"></label>
