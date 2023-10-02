@@ -1,49 +1,55 @@
-<nz-spin [nzSpinning]="saveLoader" [nzSize]="'large'" class="!relative" >
+<nz-spin [nzSpinning]="saveLoader" [nzSize]="'large'" class="!relative">
   <form [formGroup]="actionform" class="dynamic-table-form">
-    <div class="drawer-height" >
-    <nz-collapse nzActive="active" *ngIf="itemData.commonData">
-      <nz-collapse-panel [nzHeader]="itemData.title + ' Common Configuration' | uppercase" nzActive="false">
-        <div class="theme-body">
-          <formly-form [form]="actionform" [model]="modal" [fields]="itemData.commonData"></formly-form>
-        </div>
-      </nz-collapse-panel>
-    </nz-collapse>
-    <nz-collapse *ngIf="itemData.formData" class="mt-4 2nd">
-      <nz-collapse-panel [nzHeader]="itemData.title | uppercase" nzActive="false">
-        <div class="theme-body">
-          <formly-form [form]="actionform" [model]="modal" [fields]="itemData.formData"></formly-form>
-        </div>
-      </nz-collapse-panel>
-    </nz-collapse>
-    <nz-collapse *ngIf="itemData.mappingConfig" nzActive="false" class="mt-4 3rd">
-      <nz-collapse-panel [nzHeader]="itemData.title + ' Data Mapping' | uppercase" nzActive="false">
-        <div class="theme-body">
-          <span>
-            <formly-form [form]="actionform" [model]="modal" [fields]="itemData.mappingConfig"></formly-form>
+    <div class="drawer-height">
+      <ng-container *ngIf="itemData.commonData">
+        <ng-container *ngIf="itemData.commonData.length > 0">
+          <nz-collapse *ngFor="let config of itemData.commonData" nzActive="active">
+            <nz-collapse-panel [nzHeader]="config.title| uppercase" nzActive="false">
+              <div class="theme-body">
+                <formly-form [form]="actionform" [model]="modal" [fields]="config.data"></formly-form>
+              </div>
+            </nz-collapse-panel>
+          </nz-collapse>
+        </ng-container>
+      </ng-container>
+      <!-- <nz-collapse *ngIf="itemData.formData" class="mt-4 2nd">
+        <nz-collapse-panel [nzHeader]="itemData.title | uppercase" nzActive="false">
+          <div class="theme-body">
+            <formly-form [form]="actionform" [model]="modal" [fields]="itemData.formData"></formly-form>
+          </div>
+        </nz-collapse-panel>
+      </nz-collapse> -->
+      <nz-collapse *ngIf="itemData.mappingConfig" nzActive="false" class="mt-4 3rd">
+        <nz-collapse-panel [nzHeader]="'Data Mapping' | uppercase" nzActive="false">
+          <div class="theme-body">
             <span>
-              <button class="mt-2" *ngIf='this.itemData.mappingNode' nz-button nzType="primary"
-                (click)="dynamicSectionOption()"> <i class="fa-solid fa-folder-arrow-down text-base mr-2"></i> Get
-                Mapping</button>
+              <formly-form [form]="actionform" [model]="modal" [fields]="itemData.mappingConfig"></formly-form>
+              <span>
+                <button class="mt-2" *ngIf='this.itemData.mappingNode' nz-button nzType="primary"
+                  (click)="dynamicSectionOption()"> <i class="fa-solid fa-folder-arrow-down text-base mr-2"></i> Get
+                  Mapping</button>
+              </span>
             </span>
-          </span>
-        </div>
-      </nz-collapse-panel>
-    </nz-collapse>
-    <!-- <dynamic-table *ngIf='this.itemData?.mappingNode && this.itemData?.mappingNode?.tableBody.length == 0'
+          </div>
+        </nz-collapse-panel>
+      </nz-collapse>
+      <!-- <dynamic-table *ngIf='this.itemData?.mappingNode && this.itemData?.mappingNode?.tableBody.length == 0'
       [tableId]='tableId' [checkType]='true' [tableHeaders]="itemData.mappingNode.tableHeader"
       [data]="itemData.mappingNode" [configurationTable]="true"
       [displayData]="itemData.mappingNode.displayData"></dynamic-table> -->
-    <dynamic-table [configurationTable]="true"
-      *ngIf='this.itemData?.mappingNode && this.itemData?.mappingNode?.tableBody?.length > 0' [tableId]='tableId'
-      [checkType]='true' [tableHeaders]="itemData.mappingNode.tableHeader" [tableData]='itemData.mappingNode.tableBody'
-      [displayData]="itemData.mappingNode.tableBody" [data]="itemData.mappingNode"></dynamic-table>
-    <br>
-  </div>
+      <dynamic-table [configurationTable]="true"
+        *ngIf='this.itemData?.mappingNode && this.itemData?.mappingNode?.tableBody?.length > 0' [tableId]='tableId'
+        [checkType]='true' [tableHeaders]="itemData.mappingNode.tableHeader"
+        [tableData]='itemData.mappingNode.tableBody' [displayData]="itemData.mappingNode.tableBody"
+        [data]="itemData.mappingNode"></dynamic-table>
+      <br>
+    </div>
 
-    <div class="drawer-height-btn" >
-      <button nz-button nzType="primary" (click)="onSubmit()"> <i class="fa-light fa-floppy-disk mr-1.5"></i> Save</button>
+    <div class="drawer-height-btn">
+      <button nz-button nzType="primary" (click)="onSubmit()"> <i class="fa-light fa-floppy-disk mr-1.5"></i>
+        Save</button>
       <button class="ml-2" nz-button nzType="primary" *ngIf="componentType == 'builder' || !componentType" nzDanger
-      (click)="onDelete(this.itemData)"> <i class="fa-light fa-trash mr-1.5"></i> Delete</button>
+        (click)="onDelete(this.itemData)"> <i class="fa-light fa-trash mr-1.5"></i> Delete</button>
       <!-- <button nz-button nzType="primary" type="submit">Primary Button</button> -->
     </div>
   </form>
