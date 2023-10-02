@@ -52,7 +52,7 @@ export class BoardComponent implements OnInit {
 
   moveCardAcrossList(movementInformation: MovementIntf) {
     if (this.kanbanData.kanlistArray.some((item: any) => item.key == this.selectedGroupBy && !item?.allowDragnDrop)) {
-      this.toastr.warning('Not allow drag n drop on this grouping', { nzDuration: 3000 });
+      this.toastr.warning('Not allow drag n drop on this ' + this.selectedGroupBy, { nzDuration: 3000 });
       return;
     }
     const cardMoved = this.kanbanData.children[movementInformation.fromListIdx].children.splice(movementInformation.fromCardIdx ?? 0, 1);

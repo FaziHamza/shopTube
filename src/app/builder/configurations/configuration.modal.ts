@@ -11914,6 +11914,15 @@ export class formFeildData {
             label: 'Allow Search Data'
           }
         },
+        {
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          key: 'stickyHeaders',
+          type: 'checkbox',
+          wrappers: ["formly-vertical-theme-wrapper"],
+          props: {
+            label: 'Sticky Headers'
+          }
+        },
         // {
         //   className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
         //   key: 'isShowDrawerButton',

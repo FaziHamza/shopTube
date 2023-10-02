@@ -2387,36 +2387,35 @@ export class DynamicTableComponent implements OnInit {
   }
   removeGrouping(index: number, remove: boolean) {
     try {
-      if (this.groupingArray.length != index + 1 || remove) {
-        this.saveLoader = true;
-        let newGroupedArray: any[] = [];
-        if (!remove) {
-          if (index < 0 || index >= this.groupingArray.length) {
-            // this.saveLoader = false;
-            return; // Invalid index, nothing to remove
-          }
-          for (let i = 0; i <= index; i++) {
-            newGroupedArray.push(this.groupingArray[i])
-          }
+      this.saveLoader = true;
+      let newGroupedArray: any[] = [];
+      if (!remove) {
+        if (index < 0 || index >= this.groupingArray.length) {
+          // this.saveLoader = false;
+          return; // Invalid index, nothing to remove
         }
-        else {
-          newGroupedArray = [...this.groupingArray]
-        }
-
-        this.groupingArray = [];
-        if (newGroupedArray.length > 0) {
-          newGroupedArray.forEach((elem: any) => {
-            let findData = this.tableHeaders.find((item: any) => item.key == elem);
-            if (findData && !remove) {
-              this.groupedFunc(elem, 'add', findData, true);
-            }
-            else if (findData && remove) {
-              this.groupedFunc(elem, 'remove', findData, true);
-            }
-          });
-        }
-        this.saveLoader = false;
+        newGroupedArray.push(this.groupingArray[index])
+        // for (let i = 0; i <= index; i++) {
+        //   newGroupedArray.push(this.groupingArray[i])
+        // }
       }
+      else {
+        newGroupedArray = [...this.groupingArray]
+        this.groupingArray = [];
+      }
+
+      if (newGroupedArray.length > 0) {
+        newGroupedArray.forEach((elem: any) => {
+          let findData = this.tableHeaders.find((item: any) => item.key == elem);
+          if (findData && !remove) {
+            this.groupedFunc(elem, 'remove', findData, true);
+          }
+          else if (findData && remove) {
+            this.groupedFunc(elem, 'remove', findData, true);
+          }
+        });
+      }
+      this.saveLoader = false;
     } catch (error) {
       // Handle the error, log it, or perform any necessary actions
       this.saveLoader = false;

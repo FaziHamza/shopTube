@@ -4292,6 +4292,7 @@ export class BuilderComponent implements OnInit {
           this.selectedNode['drawerPlacement'] = event.form?.drawerPlacement;
           this.selectedNode['startFreezingNumber'] = event.form?.startFreezingNumber;
           this.selectedNode['endFreezingNumber'] = event.form?.endFreezingNumber;
+          this.selectedNode['stickyHeaders'] = event.form?.stickyHeaders;
           let tableData: any = '';
           if (event.tableDta) {
             tableData = event.tableDta;

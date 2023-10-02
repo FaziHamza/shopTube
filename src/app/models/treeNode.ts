@@ -568,4 +568,5 @@ export interface TreeNode {
   drawerPlacement?: any,
   startFreezingNumber?: number,
   endFreezingNumber?: number,
+  stickyHeaders?: boolean,
 }
