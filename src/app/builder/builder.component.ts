@@ -2924,9 +2924,9 @@ export class BuilderComponent implements OnInit {
         //   const classObj = JSON.parse(JSON.stringify(selectedNode.buttonClass.split(" ")));
         //   configObj.buttonClass = classObj
         // }
-        (configObj.icon = selectedNode.btnIcon),
-          (configObj.options = selectedNode.dropdownOptions);
-        // configObj = { ...configObj, ...this.clickButtonService.getDropdownButtonConfig(selectedNode) };
+        // (configObj.icon = selectedNode.btnIcon),
+        //   (configObj.options = selectedNode.dropdownOptions);
+        configObj = { ...configObj, ...this.clickButtonService.getDropdownButtonConfig(selectedNode) };
         this.addIconCommonConfiguration(
           _formFieldData.dropdownButtonFields,
           true
@@ -4405,10 +4405,10 @@ export class BuilderComponent implements OnInit {
 
       case 'dropdownButton':
         this.selectedNode.btnIcon = event.form?.icon;
-        // if (event.tableDta) {
-        //   this.selectedNode.dropdownOptions = event.tableDta;
-        // }
-        this.selectedNode.dropdownOptions = event?.form?.dropdownOptions;
+        if (event.tableDta) {
+          this.selectedNode.dropdownOptions = event.tableDta;
+        }
+        // this.selectedNode.dropdownOptions = event?.form?.dropdownOptions;
         break;
       case 'fixedDiv':
         if (event.form.api) {
