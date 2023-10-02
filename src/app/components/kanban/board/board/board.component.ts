@@ -79,19 +79,19 @@ export class BoardComponent implements OnInit {
       postType: 'put',
       modalData: obj
     };
-    // this.loader = true;
-
+    this.loader = true;
     this.applicationServices.addNestCommonAPI(url, model).subscribe({
       next: (res) => {
         if (res) {
+          this.loader = false;
           this.toastr.success('Update Successfully', { nzDuration: 3000 });
         }
-        // this.loader = false;
+        this.loader = false;
       },
       error: (err) => {
         console.error(err);
         this.toastr.error('An error occurred', { nzDuration: 3000 });
-        // this.loader = false;
+        this.loader = false;
       }
     });
   }

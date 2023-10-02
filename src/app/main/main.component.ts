@@ -51,6 +51,7 @@ export class MainComponent implements OnInit {
   assignToresponse: any = '';
   commentForm: FormGroup;
   selectedHighLight: any = '';
+  url: any = '';
   constructor(private cd: ChangeDetectorRef, private nzImageService: NzImageService, private employeeService: EmployeeService,
     private builderService: BuilderService, private applicationServices: ApplicationService,
     private toastr: NzMessageService, private router: Router, public dataSharedService: DataSharedService,
@@ -58,11 +59,12 @@ export class MainComponent implements OnInit {
     private applicationService: ApplicationService, private formBuilder: FormBuilder) { }
 
   ngOnInit(): void {
+    this.url = window.location.href;
     this.commentForm = this.formBuilder.group({
       message: ['', Validators.required],
     });
-    if (this.router.url.includes('/pages'))
-      this.isShowContextMenu = true;
+    // if (window.location.href.includes('/pages'))
+    //   this.isShowContextMenu = true;
   }
 
 
@@ -340,14 +342,25 @@ export class MainComponent implements OnInit {
     }
   }
 
-  applyHighlight(data: any, id: any, event: any) {
-    event.stopPropagation();
+  applyHighlight(data: any, id: any, event?: any) {
+    if(event){
+      event.stopPropagation();
+    }
     const isMatch = data.id === id;
     data['searchHighlight'] = isMatch;
 
     for (const child of data.children || []) {
       this.applyHighlight(child, id, event);
     }
+  }
+  OpenConfig(item: any) {
+    if (item.id && !this.router.url.includes('/pages')) {
+      this.dataSharedService.highlightFalse.next(true);
+      this.applyHighlight(item, item.id);
+    }
+    let obj: any = {};
+    obj['origin'] = item;
+    this.dataSharedService.configuration.next(item);
   }
 
 }

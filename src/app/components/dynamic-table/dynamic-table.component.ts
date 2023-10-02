@@ -1538,51 +1538,60 @@ export class DynamicTableComponent implements OnInit {
     return foundObjects;
   }
   groupedFunc(data: any, type: any, header: any, allowSaveInLocal?: any) {
+    this.saveLoader = true;
     header['grouping'] = type === 'add' ? data : '';
 
-
-    if (this.groupingData.length == 0) {
-      this.groupingData = this.tableData
-    }
-    if (type === 'add') {
-      if (this.groupingArray.some((group: any) => group === data)) {
-        return; // Data is already grouped, no need to proceed
+    try {
+      if (this.groupingData.length == 0) {
+        this.groupingData = this.tableData
       }
-    }
 
-    if (type === 'add') {
-      this.groupingArray.push(data);
-    }
-    else if (type === 'remove') {
-      const indexToRemove = this.groupingArray.indexOf(data);
-      if (indexToRemove !== -1) {
-        this.groupingArray.splice(indexToRemove, 1); // Remove 1 element at the specified index
+      if (type === 'add') {
+        if (this.groupingArray.some((group: any) => group === data)) {
+          return; // Data is already grouped, no need to proceed
+        }
       }
-    }
 
-    if (this.groupingArray.length === 0) {
-      this.displayData = this.groupingData;
-      this.tableData = JSON.parse(JSON.stringify(this.groupingData));
-      this.groupingData = [];
-      this.tableHeaders = this.tableHeaders.filter((a: any) => a.name !== 'expand');
-      this.data.tableHeaders = this.data.tableHeaders.filter((a: any) => a.name !== 'expand');
-      this.pageChange(1);
-    } else {
-      // Reset displayData and tableHeaders before re-grouping
-      this.displayData = [];
-      this.tableHeaders = this.tableHeaders.filter((a: any) => a.name !== 'expand');
-      this.data.tableHeaders = this.data.tableHeaders.filter((a: any) => a.name !== 'expand');
+      if (type === 'add') {
+        this.groupingArray.push(data);
+      }
+      else if (type === 'remove') {
+        const indexToRemove = this.groupingArray.indexOf(data);
+        if (indexToRemove !== -1) {
+          this.groupingArray.splice(indexToRemove, 1); // Remove 1 element at the specified index
+        }
+      }
 
-      // Apply grouping for each column in the groupingArray
-      this.tableData = this.groupData(this.groupingData, 0);
-      this.pageChange(1);
-    }
-    if (allowSaveInLocal) {
-      const applicationId = localStorage.getItem('applicationId') || '';
-      this.dataService.addData(this.screenName, JSON.parse(applicationId), "Table", this.groupingArray);
-    }
+      if (this.groupingArray.length === 0) {
+        this.displayData = this.groupingData;
+        this.tableData = JSON.parse(JSON.stringify(this.groupingData));
+        this.groupingData = [];
+        this.tableHeaders = this.tableHeaders.filter((a: any) => a.name !== 'expand');
+        this.data.tableHeaders = this.data.tableHeaders.filter((a: any) => a.name !== 'expand');
+        this.pageChange(1);
+      } else {
+        // Reset displayData and tableHeaders before re-grouping
+        this.displayData = [];
+        this.tableHeaders = this.tableHeaders.filter((a: any) => a.name !== 'expand');
+        this.data.tableHeaders = this.data.tableHeaders.filter((a: any) => a.name !== 'expand');
 
+        // Apply grouping for each column in the groupingArray
+        this.tableData = this.groupData(this.groupingData, 0);
+        this.pageChange(1);
+      }
+      if (allowSaveInLocal) {
+        const applicationId = localStorage.getItem('applicationId') || '';
+        this.dataService.addData(this.screenName, JSON.parse(applicationId), "Table", this.groupingArray);
+      }
+      this.saveLoader = false;
+    } catch (error) {
+      // Handle the error here, you can log it or display an error message
+      console.error('An error occurred in groupedFunc:', error);
+    } finally {
+      this.saveLoader = false;
+    }
   }
+
 
   groupData(data: any[], index: number): any {
     if (index < this.groupingArray.length) {
@@ -1783,7 +1792,6 @@ export class DynamicTableComponent implements OnInit {
         if (window.location.href.includes('taskmanager.com')) {
           // Handle any additional logic here
         }
-        console.log(this.tableHeaders);
         this.saveLoader = false;
 
         // this.tableHeaders.forEach((header: any, index: number) => {
@@ -2377,6 +2385,48 @@ export class DynamicTableComponent implements OnInit {
       return false
     }
   }
+  removeGrouping(index: number, remove: boolean) {
+    try {
+      if (this.groupingArray.length != index + 1 || remove) {
+        this.saveLoader = true;
+        let newGroupedArray: any[] = [];
+        if (!remove) {
+          if (index < 0 || index >= this.groupingArray.length) {
+            // this.saveLoader = false;
+            return; // Invalid index, nothing to remove
+          }
+          for (let i = 0; i <= index; i++) {
+            newGroupedArray.push(this.groupingArray[i])
+          }
+        }
+        else {
+          newGroupedArray = [...this.groupingArray]
+        }
 
+        this.groupingArray = [];
+        if (newGroupedArray.length > 0) {
+          newGroupedArray.forEach((elem: any) => {
+            let findData = this.tableHeaders.find((item: any) => item.key == elem);
+            if (findData && !remove) {
+              this.groupedFunc(elem, 'add', findData, true);
+            }
+            else if (findData && remove) {
+              this.groupedFunc(elem, 'remove', findData, true);
+            }
+          });
+        }
+        this.saveLoader = false;
+      }
+    } catch (error) {
+      // Handle the error, log it, or perform any necessary actions
+      this.saveLoader = false;
+      this.toastr.error('An error occurred in mapping:' + error, {
+        nzDuration: 3000,
+      });
+      console.error('An error occurred in mapping:', error);
+      // Optionally, you can rethrow the error to propagate it further
+
+    }
+  }
 }
 

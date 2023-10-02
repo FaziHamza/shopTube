@@ -10,6 +10,7 @@
           <!-- <ng-template contextMenuItem (execute)="copyJson(item)">Copy</ng-template> -->
           <ng-template contextMenuItem (execute)="issueReportFun(item)">Issue
             Report</ng-template>
+          <ng-template contextMenuItem (execute)="OpenConfig(item )" *ngIf="url.includes('/builder')">Open Config</ng-template>
         </context-menu>
         <st-mains (click)="applyHighlightInsideLayer(mainData , item.id , $event)" [item]="item" [formlyModel]="formlyModel"
           (notify)="updatedData($event)" [screenName]="screenName" [screenId]="screenId" [isLast]='isLast' [form]="form"
