@@ -140,6 +140,16 @@ export class BuilderComponent implements OnInit {
         this.checkConditionUIRule(field, event);
       }
     });
+    this.requestSubscription = this.dataSharedService.configuration.subscribe({
+      next: (res) => {
+        if (res &&  this.router.url == '/builder') {
+          this.openConfig(res, res)
+        }
+      },
+      error: (err) => {
+        console.error(err);
+      }
+    })
   }
   controlListClose(): void {
     this.controlListvisible = false;

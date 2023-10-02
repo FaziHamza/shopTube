@@ -79,7 +79,15 @@
       </ng-template>
     </div>
   </div>
-
+  <div *ngIf="groupingArray.length > 0" class="flex">
+    <ng-container *ngFor="let group of groupingArray; let last = last ; let i = index">
+      <div (click)="removeGrouping(i , false)">
+        {{ group }}
+      </div>
+      <i *ngIf="!last" class="fas fa-chevron-right ml-2"></i>
+    </ng-container>
+    <i (click)="removeGrouping(0 , true)" class="fas fa-times ml-2"></i>
+  </div>
 
   <div class="dynamic-table" [processData]="processData"
     [appConfigurableSelect]="childTable == false ? (data?.appConfigurableEvent ? data?.appConfigurableEvent : []) : []"
@@ -165,8 +173,8 @@
                         </div>
                         <div class="w-full flex justify-between items-center my-2 px-5">
                           <button nz-button
-                          [ngClass]="checkResetFiltering(header) ? '!text-black' : '!bg-red-600 hover:!bg-red-500 !text-white'"
-                          class="btn-no !w-[49%]  border-none !h-[30px]" [disabled]="checkResetFiltering(header)"
+                            [ngClass]="checkResetFiltering(header) ? '!text-black' : '!bg-red-600 hover:!bg-red-500 !text-white'"
+                            class="btn-no !w-[49%]  border-none !h-[30px]" [disabled]="checkResetFiltering(header)"
                             (click)="filter(header , false)"> <i
                               class="fa-regular fa-arrow-rotate-left mr-1.5"></i>Reset</button>
                           <button nz-button nzType="primary" class="btn !w-[49%] !h-[30px]"
@@ -194,8 +202,8 @@
             <tr (click)="rowselected(item)" class="desktop-toggle" (dblclick)="updateModel(item)"
               (click)="data?.rowClickApi!='' ? onClickRow(data.rowClickApi,item): ''"
               [ngClass]="{'bg-gray-100' : item === index }">
-              <td *ngIf="item.expand != undefined" [(nzExpand)]="item.expand"
-                [ngStyle]="{'text-align': data.position ? data.position : 'left'}">
+              <td [nzLeft]="data?.endFreezingNumber >= 1" *ngIf="item.expand != undefined"
+                [(nzExpand)]="item.expand" [ngStyle]="{'text-align': data.position ? data.position : 'left'}">
                 <p class="pb-1 ">
                   ({{item.children.length}})
                 </p>
