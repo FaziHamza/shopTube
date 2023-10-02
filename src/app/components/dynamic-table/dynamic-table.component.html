@@ -122,31 +122,39 @@
                   </a>
                 </nz-filter-trigger>
                 <nz-dropdown-menu #filterMenu="nzDropdownMenu">
-                  <ul nz-menu nzSelectable class="!p-5 dyname">
+                  <ul nz-menu nzSelectable class="!rounded-md !text-sm !font-medium dyname">
                     <div *ngIf="header?.sorting">
-                      <p (click)="sortingData(header.key , 'asc')" class="mb-1.5"> Sort A to Z</p>
-                      <p (click)="sortingData(header.key , 'desc')" class="mb-1.5">Sort Z to A</p>
-                      <hr>
-                      <br />
+                      <p (click)="sortingData(header.key , 'asc')"
+                        class="p-1.5 px-5 hover:bg-gray-100 tracking-[0.2px] leading-5"> Sort A to Z</p>
+                      <p class="p-1.5 px-5 hover:bg-gray-100" (click)="sortingData(header.key , 'desc')" class="mb-1.5">
+                        Sort Z to A</p>
+                      <hr class="mb-3 mt-2 mx-5">
                     </div>
                     <ng-container *ngIf="header?.filterArray">
                       <ng-container *ngIf="header?.filterArray.length > 0">
-                        <nz-input-group [nzSuffix]="suffixIconSearch">
-                          <input nz-input placeholder="Search here..." [(ngModel)]="header['searchValue']"
-                            (input)="searchFilter(header)" />
+                        <nz-input-group class="py-1.5 mx-5 !w-[200px]" [nzSuffix]="suffixIconSearch">
+                          <input nz-input placeholder="Search here..." class="!rounded-md"
+                            [(ngModel)]="header['searchValue']" (input)="searchFilter(header)" />
                         </nz-input-group>
                         <ng-template #suffixIconSearch>
                           <span nz-icon nzType="search"></span>
                         </ng-template>
                         <br />
-                        <ng-container class="flex" *ngIf="header?.multipleFiltering == true">
-                          <p (click)="selectClearAll(header , true)">Select all - </p>
-                          <p (click)="selectClearAll(header , false)">Clear</p>
-                        </ng-container>
-                        <div class="h-[100px] overflow-y-auto">
+                        <div *ngIf="header?.multipleFiltering == true"
+                          class="!flex !justify-start !px-5 my-2 !items-center !font-semibold !text-xs">
+                          <p class="text-blue-600 underline cursor-pointer" (click)="selectClearAll(header , true)">
+                            Select all - </p>
+                          <p class="!mx-1">-</p>
+                          <p class="text-blue-600 underline cursor-pointer" (click)="selectClearAll(header , false)">
+                            Clear</p>
+                        </div>
+                        <div class="h-[150px] !mx-5 !my-3 overflow-y-auto">
                           <ng-container *ngFor="let item of header?.filterArray ">
-                            <li *ngIf="header?.multipleFiltering == true ; else single" nz-menu-item>
-                              {{item.text}} <label class="ml-2" nz-checkbox [(ngModel)]="item.filter"></label>
+                            <li class="!p-1 px-0" *ngIf="header?.multipleFiltering == true ; else single" nz-menu-item>
+                              <p class="!w-48 truncate">
+                                {{item.text}}
+                              </p>
+                              <label class="ml-2" nz-checkbox [(ngModel)]="item.filter"></label>
                             </li>
                             <ng-template #single>
                               <li (click)="simpleFiltering(item.value , header)" nz-menu-item>
@@ -155,10 +163,10 @@
                             </ng-template>
                           </ng-container>
                         </div>
-                        <div class="w-full flex justify-between items-center">
+                        <div class="w-full flex justify-between items-center my-2 px-5">
                           <button nz-button
-                            [ngClass]="checkResetFiltering(header) ? '!text-black' : '!bg-red-600 hover:!bg-red-500 !text-white'"
-                            class="btn-no !w-[49%]  border-none !h-[30px]" [disabled]="checkResetFiltering(header)"
+                          [ngClass]="checkResetFiltering(header) ? '!text-black' : '!bg-red-600 hover:!bg-red-500 !text-white'"
+                          class="btn-no !w-[49%]  border-none !h-[30px]" [disabled]="checkResetFiltering(header)"
                             (click)="filter(header , false)"> <i
                               class="fa-regular fa-arrow-rotate-left mr-1.5"></i>Reset</button>
                           <button nz-button nzType="primary" class="btn !w-[49%] !h-[30px]"
