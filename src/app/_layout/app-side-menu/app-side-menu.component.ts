@@ -173,7 +173,11 @@ export class AppSideMenuComponent implements OnInit {
       this.notify.emit(data);
       let checkTabs: any = data.children.find((child: any) => child.type == 'mainTab');
       if (data.link && !checkTabs && !window.location.href.includes('/menu-builder')) {
-        this.router.navigate([data.link]);
+        if (data.link.includes('#')) {
+          this.dataSharedService.moveLink.next(data.link)
+        }else{
+          this.router.navigate([data.link]);
+        }
       }
       else if (this.selectedTheme.layout == 'twoColumn') {
         let menus = data.children.filter((child: any) => child.type == 'input')
