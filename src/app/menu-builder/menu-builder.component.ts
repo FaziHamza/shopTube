@@ -391,12 +391,14 @@ export class MenuBuilderComponent implements OnInit {
     debugger
     // this.actionType = type;
     let _formFieldData = new formFeildData();
-
+    const obj = {
+      title: this.selectedNode.title ? this.selectedNode.title : this.selectedNode.id,
+      data: _formFieldData.commonOtherConfigurationFields
+    }
     const selectedNode = this.selectedNode;
     this.fieldData = new GenaricFeild({
       type: type,
-      title: selectedNode.title ? selectedNode.title : selectedNode.id,
-      commonData: _formFieldData.commonMenuBuilderConfigurationFields,
+      commonData: [obj],
     });
     let configObj: any = {
       id: selectedNode.id as string,
@@ -415,27 +417,28 @@ export class MenuBuilderComponent implements OnInit {
           }
 
         }
-        this.fieldData.formData = _formFieldData.menufield;
+        this.fieldData.commonData?.push({ title: 'Menu Fields', data: _formFieldData.menufield });
         break;
       case "tabs":
         configObj = { ...configObj, ...this.clickButtonService.getMenutab(selectedNode) };
-        this.fieldData.formData = _formFieldData.menuBuilderTabFields;
+        this.fieldData.commonData?.push({ title: 'Menu Builder Tab Fields', data: _formFieldData.menuBuilderTabFields });
+
         break;
       case "mainTab":
         configObj = { ...configObj, ...this.clickButtonService.getMainDashonicTabsConfig(selectedNode) };
-        this.fieldData.formData = _formFieldData.mainTabFields;
+        this.fieldData.commonData?.push({ title: 'Main Tab Fields', data: _formFieldData.mainTabFields });
         break;
       case "dropdown":
         configObj = { ...configObj, ...this.clickButtonService.getDropDownAttributeConfig(selectedNode) };
-        this.fieldData.formData = _formFieldData.menuBuilderDropdownFeilds;
+        this.fieldData.commonData?.push({ title: 'Menu Builder Dropdown Feilds', data: _formFieldData.menuBuilderDropdownFeilds });
         break;
       case "pages":
         configObj = { ...configObj, ...this.clickButtonService.getPagesAttributeConfig(selectedNode) };
-        this.fieldData.formData = _formFieldData.menuBuilderPagesFeilds;
+        this.fieldData.commonData?.push({ title: 'Menu Builder Pages Feilds', data: _formFieldData.menuBuilderPagesFeilds });
         break;
       case "buttons":
         configObj = { ...configObj, ...this.clickButtonService.getButtonAttributeConfig(selectedNode) };
-        this.fieldData.formData = _formFieldData.menuBuilderButtonFeilds;
+        this.fieldData.commonData?.push({ title: 'Menu Builder Button Feilds', data: _formFieldData.menuBuilderButtonFeilds });
         break;
     }
 
