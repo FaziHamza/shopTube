@@ -6355,6 +6355,7 @@ tr:hover {
     color: #23303d !important;
     border-bottom: 1px solid #d6dce1 !important;
     font-size: 12px !important;
+    // z-index: 100;
 
     .editable-cell {
       width: 100%;
@@ -6405,9 +6406,9 @@ tr:hover {
 
   }
 
-.ant-table-measure-now {
-  display: none !important;
-}
+// .ant-table-measure-now {
+//   display: none !important;
+// }
 
 }
 
