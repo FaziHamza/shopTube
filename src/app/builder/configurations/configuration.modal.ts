@@ -11923,6 +11923,39 @@ export class formFeildData {
             label: 'Sticky Headers'
           }
         },
+        {
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          key: 'rowSelected',
+          type: 'checkbox',
+          wrappers: ["formly-vertical-theme-wrapper"],
+          props: {
+            label: 'Row Selected'
+          }
+        },
+        {
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          key: 'outerBordered',
+          type: 'checkbox',
+          wrappers: ["formly-vertical-theme-wrapper"],
+          props: {
+            label: 'Outer Bordered',
+            additionalProperties: {
+              tooltip: "Its only work when header text or footer text add",
+            }
+          }
+        },
+        {
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          key: 'showTotal',
+          type: 'checkbox',
+          wrappers: ["formly-vertical-theme-wrapper"],
+          props: {
+            label: 'Show Total',
+            additionalProperties: {
+              tooltip: "This is for show or not total number of data",
+            }
+          }
+        },
         // {
         //   className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
         //   key: 'isShowDrawerButton',
@@ -11979,6 +12012,15 @@ export class formFeildData {
                 wrappers: ["formly-vertical-theme-wrapper"],
                 props: {
                   label: 'Data Type'
+                }
+              },
+              {
+                key: 'width',
+                type: 'input',
+                wrappers: ["formly-vertical-theme-wrapper"],
+                props: {
+                  type: 'number',
+                  label: 'width'
                 }
               },
               {
@@ -13202,7 +13244,7 @@ export class formFeildData {
           }
         },
         {
-          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2 disabled-link",
           key: 'id',
           type: 'input',
           wrappers: ["formly-vertical-theme-wrapper"],

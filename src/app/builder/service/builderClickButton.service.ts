@@ -29,6 +29,7 @@ export class BuilderClickButtonService {
           listOfFilter: obj.listOfFilter ? JSON.stringify(obj.listOfFilter) : obj.listOfFilter,
           columnClickApi: obj.columnClickApi,
           position: obj.position,
+          width: obj.width,
           filtering: obj.filtering ? obj.filtering : false,
           sorting: obj.sorting ? obj.sorting : false,
           multipleFiltering: obj.multipleFiltering ? obj.multipleFiltering : false,

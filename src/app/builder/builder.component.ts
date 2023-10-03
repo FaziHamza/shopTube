@@ -2596,7 +2596,8 @@ export class BuilderComponent implements OnInit {
     switch (type) {
       case 'drawer':
         this.addIconCommonConfiguration(_formFieldData.drawerFields, false);
-        this.fieldData.formData = _formFieldData.drawerFields;
+        // this.fieldData.formData = _formFieldData.drawerFields;
+        this.fieldData.commonData?.push({ title: 'Drawer', data: _formFieldData.drawerFields });
         break;
       case 'cardWithComponents':
         this.fieldData.commonData?.push({ title: 'Card Fields', data: _formFieldData.cardWithComponentsFields });
@@ -2604,7 +2605,7 @@ export class BuilderComponent implements OnInit {
         this.fieldData.mappingNode = this.selectedNode;
         break;
       case 'icon':
-        this.fieldData.commonData?.push({ title: 'commonIconFields', data: _formFieldData.commonIconFields });
+        this.fieldData.commonData?.push({ title: 'Icon Fields', data: _formFieldData.commonIconFields });
         break;
       case 'anchor':
         this.fieldData.commonData?.push({ title: 'anchorFields', data: _formFieldData.anchorFields });
@@ -4293,6 +4294,9 @@ export class BuilderComponent implements OnInit {
           this.selectedNode['startFreezingNumber'] = event.form?.startFreezingNumber;
           this.selectedNode['endFreezingNumber'] = event.form?.endFreezingNumber;
           this.selectedNode['stickyHeaders'] = event.form?.stickyHeaders;
+          this.selectedNode['rowSelected'] = event.form?.rowSelected;
+          this.selectedNode['outerBordered'] = event.form?.outerBordered;
+          this.selectedNode['showTotal'] = event.form?.showTotal;
           let tableData: any = '';
           if (event.tableDta) {
             tableData = event.tableDta;
@@ -4306,20 +4310,18 @@ export class BuilderComponent implements OnInit {
               const key = updatedItem.key;
               return !this.selectedNode.tableHeaders.some((headerItem: any) => headerItem.key === key);
             });
+
             if (updatedData.length > 0) {
-              this.selectedNode.tableHeaders.map((item: any) => {
-                const newItem = { ...item };
-                for (let i = 0; i < updatedData.length; i++) {
-                  newItem[updatedData[i].key] = "";
-                }
-                return newItem;
+              this.selectedNode.tableHeaders.forEach((item: any) => {
+                updatedData.forEach((updatedItem: any) => {
+                  item[updatedItem.key] = "";
+                });
               });
             }
-            this.selectedNode.tableHeaders = event.tableDta
-              ? event.tableDta
-              : event.form.options;
-            // this.selectedNode.tableHeaders = event.form.options;
+
+            this.selectedNode.tableHeaders = event.tableDta ? event.tableDta : event.form.options;
           }
+
 
           // if (this.selectedNode.tableHeaders.length > 0) {
           //   let newHeaders = this.selectedNode.tableHeaders.map((obj: any) => {
@@ -4341,14 +4343,14 @@ export class BuilderComponent implements OnInit {
           //   });
           //   this.selectedNode.tableHeaders = newHeaders;
           // }
-          this.selectedNode.tableKey = this.selectedNode.tableHeaders.map((key: any) => ({ name: key.key }));
-          if (event.tableDta) {
-            this.selectedNode.columnData = this.updateTableData(
-              event.tableDta ? event.tableDta : event.form.options,
-              event.tableDta ? event.tableDta : event.form.options
-              // event.form.options, event.form.options
-            );
-          }
+          // this.selectedNode.tableKey = this.selectedNode.tableHeaders.map((key: any) => ({ name: key.key }));
+          // if (event.tableDta) {
+          //   this.selectedNode.columnData = this.updateTableData(
+          //     event.tableDta ? event.tableDta : event.form.options,
+          //     event.tableDta ? event.tableDta : event.form.options
+          //     // event.form.options, event.form.options
+          //   );
+          // }
           if (event.form.api) {
             this.requestSubscription = this.builderService
               .genericApis(event.form.api)
@@ -4369,36 +4371,19 @@ export class BuilderComponent implements OnInit {
                 this.selectedNode.tableData;
               this.selectedNode.tableData = [];
             }
-          } else {
+          }
+          else {
             if (this.selectedNode['tableNoResultArray'])
               this.selectedNode.tableData =
                 this.selectedNode['tableNoResultArray'];
           }
           if (this.selectedNode.tableHeaders.length > 0) {
-            this.selectedNode.tableHeaders.forEach((a: any) => {
-              if (a) {
-                a['headerFreeze'] = false;
+            this.selectedNode.tableHeaders.forEach((header: any) => {
+              if (header) {
+                header.headerFreeze = false;
               }
             });
           }
-
-          // if (this.selectedNode['startFreezingNumber'] || this.selectedNode['endFreezingNumber']) {
-          //   let selected: any = this.selectedNode;
-          //   for (let index = 0; index < this.selectedNode.tableHeaders.length; index++) {
-          //     let header: any = this.selectedNode.tableHeaders[index];
-          //     if (selected['startFreezingNumber'] < index) {
-          //       header['headerFreeze'] = true;
-          //     }
-          //   }
-          //   if (selected['endFreezingNumber'].length > 2) {
-          //     for (let index = 0; index < this.selectedNode.tableHeaders.length; index++) {
-          //       let header: any = this.selectedNode.tableHeaders[index];
-          //       if (selected['startFreezingNumber'] < index) {
-          //         header['headerFreeze'] = true;
-          //       }
-          //     }
-          //   }
-          // }
           this.selectedNode.tableKey = this.selectedNode.tableHeaders;
         }
         break;

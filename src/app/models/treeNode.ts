@@ -569,4 +569,7 @@ export interface TreeNode {
   startFreezingNumber?: number,
   endFreezingNumber?: number,
   stickyHeaders?: boolean,
+  rowSelected?: boolean,
+  outerBordered?: boolean,
+  showTotal?: boolean,
 }

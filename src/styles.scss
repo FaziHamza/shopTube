@@ -5379,7 +5379,7 @@ ul.ant-cascader-menu:nth-child(2)>li:nth-child(1)>div:nth-child(2)>i:nth-child(1
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    min-width: 100px;
+    // min-width: 100px;
     // padding: 16px 4px 16px 4px !important;
   }
 
@@ -6321,7 +6321,7 @@ tr:hover {
 
   /* Styling for header cells */
   thead tr th {
-    min-width: 125px !important;
+    // min-width: 125px !important;
     width: auto !important;
     font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
     max-width: 210px !important;
@@ -6342,8 +6342,8 @@ tr:hover {
   tbody tr td {
     font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
     // text-align: center !important;
-    min-width: 125px !important;
-    max-width: 210px !important;
+    // min-width: 125px !important;
+    // max-width: 210px !important;
     width: auto !important;
     overflow: hidden !important;
     white-space: nowrap !important;

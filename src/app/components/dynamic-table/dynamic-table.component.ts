@@ -37,7 +37,7 @@ export class DynamicTableComponent implements OnInit {
   @Input() showPagination: any = true;
   @Input() childTable: any = false;
   GridType: string = '';
-  index: number;
+  index: any;
   serverPath = environment.nestImageUrl
   screenNameaa: any;
   footerData: any[] = [];
@@ -1927,7 +1927,11 @@ export class DynamicTableComponent implements OnInit {
   }
 
   rowselected(i: number) {
-    this.index = i;
+    if (this.data?.rowSelected != false){
+      this.index = i;
+    }else{
+      this.index = null;
+    }
   }
 
   makeOptions(data: any, key: any, value: any) {

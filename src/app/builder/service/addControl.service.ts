@@ -840,6 +840,13 @@ export class AddControlService {
       showEditInput: false,
       isDeleteAllow: true,
       isAllowGrouping: false,
+      showTotal: true,
+      outerBordered: false,
+      rowSelected: false,
+      stickyHeaders: false,
+      isAllowSearch: false,
+      isAllowUploadExcel: false,
+      isAllowExcelReport: false,
       drawerButtonLabel:'Open Drawer',
       tableHeaders: [
         // {
