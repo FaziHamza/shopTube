@@ -3386,7 +3386,8 @@ object {
   p,
   body,
   a {
-    font-family: 'Inter', sans-serif;
+    font-family: 'Roboto';
+    // font-family: 'Inter', sans-serif;
   }
 
   .jameel-font {
@@ -6354,6 +6355,7 @@ tr:hover {
     color: #23303d !important;
     border-bottom: 1px solid #d6dce1 !important;
     font-size: 12px !important;
+    z-index: 100;
 
     .editable-cell {
       width: 100%;
@@ -6403,6 +6405,11 @@ tr:hover {
     }
 
   }
+
+.ant-table-measure-now {
+  display: none !important;
+}
+
 }
 
 .status-color {
@@ -7458,3 +7465,11 @@ display: none !important ;
   }
   
 }
+
+.selectedRow td{
+  background: rgb(243 244 246);
+}
+
+// .TDZINDEX{
+//   z-index: 500 !important;
+// }

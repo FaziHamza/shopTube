@@ -46,7 +46,7 @@ export class ExecuteActionRuleComponent implements OnInit, AfterViewInit {
   getActionRuleData() {
     const selectedScreen = this.screens.filter((a: any) => a.name == this.screenName)
     if (selectedScreen[0].navigation != null && selectedScreen[0].navigation != undefined) { // selectedScreen[0].navigation
-      this.requestSubscription = this.applicationService.getNestCommonAPIById("cp/actionRulebyscreenname", selectedScreen[0]._id).subscribe({
+      this.requestSubscription = this.applicationService.getNestCommonAPIById("cp/ActionRule", selectedScreen[0]._id).subscribe({
         next: (res: any) => {
           if (res.data && res.data.length > 0) {
             this.multiSelectForm = this.fb.group({
