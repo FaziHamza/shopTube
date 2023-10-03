@@ -1174,7 +1174,11 @@ export class MenuBuilderComponent implements OnInit {
           this.selectedNode.icon = event.form.icon;
           if (!event.form.link.includes("pages") && event.form.link != '') {
             // this.selectedNode.link = event.form.link != "/pages/tabsanddropdown" ? "/pages/" + event.form.link : event.form.menuLink;
-            this.selectedNode.link = "/pages/" + event.form.link;
+            if(event.form.link.includes("#")){
+              this.selectedNode.link = event.form.link;
+            }else{
+              this.selectedNode.link = "/pages/" + event.form.link;
+            }
           } else {
             this.selectedNode.link = event.form.link;
           }
