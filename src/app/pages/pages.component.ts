@@ -69,7 +69,7 @@ export class PagesComponent implements OnInit {
       if (res)
         this.saveDataGrid(res);
     });
-    this.dataSharedService.moveLink.subscribe(res=>{
+    this.dataSharedService.moveLink.subscribe(res => {
       this.scrollToElement(res);
     })
   }
@@ -273,9 +273,10 @@ export class PagesComponent implements OnInit {
       next: (res: any) => {
         if (res.isSuccess) {
           if (res.data.length > 0) {
-            this.requestSubscription = this.applicationService.getNestCommonAPIById("cp/ActionRule", res.data[0].screenBuilderId).subscribe({
-              next: (actions: any) => {
-                this.actionRuleList = actions?.data;
+            this.requestSubscription = this.applicationService.getNestCommonAPIById("cp/CacheRule", res.data[0].screenBuilderId).subscribe({
+              next: (rule: any) => {
+                // if(rule.isSuccess)
+                  this.getCacheRule(rule);
                 this.actionsBindWithPage(res);
               },
               error: (err) => {
@@ -298,7 +299,6 @@ export class PagesComponent implements OnInit {
     this.screenId = res.data[0].screenBuilderId;
     this.screenName = res.data[0].screenName;
     this.navigation = res.data[0].navigation;
-    this.getBusinessRule(res.data[0].screenBuilderId);
     const data = JSON.parse(res.data[0].screenData);
 
     let nodesData = this.jsonParseWithObject(this.jsonStringifyWithObject(data));
@@ -1250,53 +1250,44 @@ export class PagesComponent implements OnInit {
     traverse(data);
     return inputElements;
   }
-  getBusinessRule(screenId: string) {
-    if (screenId) {
-      this.requestSubscription = this.applicationService.getNestCommonAPIById('cp/CacheRule', screenId).subscribe({
-        next: (getRes: any) => {
-          if (getRes.isSuccess) {
-            getRes.data.forEach((res: any) => {
-              if (res.name == 'BusinessRule') {
-                if (res.data.length > 0) {
-                  this.businessRuleData = [];
-                  if (res.data[0].businessRule)
-                    this.businessRuleData = JSON.parse(res.data[0].businessRule)
-                }
-              } 
-              else if (res.name == 'GridBusinessRule') {
-                if (res.data.length > 0) {
-                  this.gridRulesData = res;
-                }
-              }
-              else if (res.name == 'ValidationRule') {
-                if (res.data.length > 0) {
-                  this.joiValidationData = res.data;
-                }
-              }
-              else if (res.name == 'UiRule') {
-                if (res.data.length > 0) {
-                  if (res.data.length > 0) {
-                    this.screenData = [];
-                    const jsonUIResult = {
-                      "key": res.data[0].key,
-                      "title": res.data[0].title,
-                      "screenName": res.data[0].screenName,
-                      "screenId": res.data[0].screenId,
-                      "uiData": JSON.parse(res.data[0].uiData)
-                    }
-                    this.screenData = jsonUIResult;
-                  } else { }
-                }
-              }
-            });
-          } else
-            this.toastr.error(getRes.message, { nzDuration: 3000 });
-        },
-        error: (err) => {
-          console.error(err); // Log the error to the console
+  getCacheRule(getRes: any) {
+    getRes.data.forEach((res: any) => {
+      if (res.name == 'BusinessRule') {
+        if (res.data.length > 0) {
+          this.businessRuleData = [];
+          if (res.data[0].businessRule)
+            this.businessRuleData = JSON.parse(res.data[0].businessRule)
         }
-      })
-    }
+      }
+      else if (res.name == 'GridBusinessRule') {
+        if (res.data.length > 0) {
+          this.gridRulesData = res;
+        }
+      }
+      else if (res.name == 'ValidationRule') {
+        if (res.data.length > 0) {
+          this.joiValidationData = res.data;
+        }
+      }
+      else if (res.name == 'ActionRule') {
+        this.actionRuleList.push(res.data);
+      }
+      else if (res.name == 'UiRule') {
+        if (res.data.length > 0) {
+          if (res.data.length > 0) {
+            this.screenData = [];
+            const jsonUIResult = {
+              "key": res.data[0].key,
+              "title": res.data[0].title,
+              "screenName": res.data[0].screenName,
+              "screenId": res.data[0].screenId,
+              "uiData": JSON.parse(res.data[0].uiData)
+            }
+            this.screenData = jsonUIResult;
+          } else { }
+        }
+      }
+    });
   }
   makeFaker() {
     let dataModelFaker: any = [];
@@ -1902,8 +1893,8 @@ export class PagesComponent implements OnInit {
   }
   getEnumList(data: any, targetId: any) {
     let tableData = this.findObjectByTypeBase(this.resData[0], "gridList");
-    let findClickApi : any;
-    if(data?.props?.appConfigurableEvent){
+    let findClickApi: any;
+    if (data?.props?.appConfigurableEvent) {
       findClickApi = data?.props?.appConfigurableEvent?.find((item: any) => item?.action == 'change' && item.targetId.includes('gridlist'));
     }
     if (tableData && findClickApi) {
@@ -2000,7 +1991,7 @@ export class PagesComponent implements OnInit {
         }
       }
     } else {
-      const findClickApi = data.props.appConfigurableEvent.find((item: any) => item?.action == 'change');
+      const findClickApi = data?.props?.appConfigurableEvent?.find((item: any) => item?.action == 'change');
       if (findClickApi) {
         const filteredNodes = this.filterInputElements(this.resData[0].children[1].children[0].children[1].children);
         if (filteredNodes.length > 0) {
