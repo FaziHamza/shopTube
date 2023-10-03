@@ -420,10 +420,12 @@
       <div>
         <p class="showing">Showing <span>{{start}} - {{end ? end : data?.end}}</span>
           <span *ngIf="data.showTotal || data.showTotal == undefined">
-            <span class="text-black">
+            <span class="!text-black">
               from
             </span>
-            <span>{{data.totalCount}}</span> data
+            <span>{{data.totalCount}}</span> <span class="!text-black">
+              data
+            </span> 
           </span>
         </p>
       </div>
