@@ -469,7 +469,7 @@ export class BuilderComponent implements OnInit {
   actionRuleList: any[] = [];
   getActions() {
     this.saveLoader = true;
-    this.requestSubscription = this.applicationService.getNestCommonAPIById("cp/actionRulebyscreenname", this._id).subscribe({
+    this.requestSubscription = this.applicationService.getNestCommonAPIById("cp/ActionRule", this._id).subscribe({
       next: (res: any) => {
         this.actionRuleList = res?.data;
         this.getBuilderScreen();

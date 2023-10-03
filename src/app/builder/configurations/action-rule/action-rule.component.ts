@@ -401,7 +401,13 @@ export class ActionRuleComponent implements OnInit {
 
 
   SaveAction() {
-    const mainModuleId = this.screens.filter((a: any) => a.name == this.screenName)
+    const mainModuleId = this.screens.filter((a: any) => a.name == this.screenName);
+    const checkQuery = this.actionForm.value.filter((a: any) => /SELECT\s+\*\s+FROM/i.test(a.query));
+    if (checkQuery.length > 0) {
+       this.toastr.error("In the query, do not use 'SELECT * FROM'. Please enter a proper query", { nzDuration: 3000 });
+       return;
+    }
+    
     this.applicationService.deleteNestCommonAPI('cp/Action/DeleteAction', mainModuleId[0]._id).subscribe(res => {
       const observables = this.actionForm.value.Actions.map((element: any) => {
         let queryType = '';

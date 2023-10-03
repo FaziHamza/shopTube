@@ -41,7 +41,9 @@ export class MenuBulkUpdateComponent implements OnInit {
     data.forEach((element: any) => {
       if (element.link) {
         if (!element.link.includes("/pages/") && element.link !== '') {
-          element.link = "/pages/" + element.link;
+          if (!element.link.includes("#")) {
+            element.link = "/pages/" + element.link;
+          }
         }
       }
       if (element.children && element.children.length > 0) {

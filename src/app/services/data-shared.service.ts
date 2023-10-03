@@ -28,6 +28,7 @@ export class DataSharedService {
   public taskmanagerDrawer = new BehaviorSubject<boolean>(false);
   public voiceRecord: Subject<any> = new Subject();
   public configuration: Subject<any> = new Subject();
+  public moveLink: Subject<any> = new Subject();
   // public menus: Subject<any> = new Subject();
   // public currentApplication: Subject<any> = new Subject();
   // public defaultPage: Subject<any> = new Subject();

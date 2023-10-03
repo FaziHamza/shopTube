@@ -4,7 +4,7 @@
   [nzCopyIcons]="[beforecopiedIcon, 'step-backward']" [nzCopyTooltips]="data.copyTooltips" [nzEllipsis]="data.ellipsis"
   [nzSuffix]="data.suffix" [nzDisabled]="data.disabled" [nzExpandable]="data.expandable"
   [nzEllipsisRows]="data.ellipsisRows" [nzType]="data.nztype"
-  [class]=" data.textSize + ' ' +data.fontstyle + ' ' + data.fontweight + ' ' +data.textAlign" [style.color]="data.color || undefined"></p>
+  [class]="  data.textSize + ' ' +data.fontstyle + ' !' + data.fontweight + ' !' +data.textAlign" [style.color]="data.color || undefined"></p>
 <ng-template #beforecopiedIcon>
   <span>
     <st-icon *ngIf="data?.beforecopyIcon" [type]="data?.iconType || 'outline'" [icon]="data?.beforecopyIcon"
