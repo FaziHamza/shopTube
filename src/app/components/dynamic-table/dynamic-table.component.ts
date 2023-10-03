@@ -1927,9 +1927,9 @@ export class DynamicTableComponent implements OnInit {
   }
 
   rowselected(i: number) {
-    if (this.data?.rowSelected != false){
+    if (this.data?.rowSelected != false) {
       this.index = i;
-    }else{
+    } else {
       this.index = null;
     }
   }
@@ -2374,7 +2374,11 @@ export class DynamicTableComponent implements OnInit {
           let freezeIndex = this.tableHeaders.length - (index + 1)
           this.tableHeaders[freezeIndex]['headerFreeze'] = true;
         }
-        if (index < this.data.startFreezingNumber) {
+        let checkFreezingStartNUmber = 0;
+        if (this.data.showCheckbox) {
+          checkFreezingStartNUmber = checkFreezingStartNUmber + 1;
+        }
+        if (index < this.data.startFreezingNumber - checkFreezingStartNUmber) {
           header['headerFreeze'] = true;
           return header['headerFreeze'];
         }

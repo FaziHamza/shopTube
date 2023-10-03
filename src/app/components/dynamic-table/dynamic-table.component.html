@@ -94,7 +94,8 @@
   <div class="dynamic-table" [processData]="processData"
     [appConfigurableSelect]="childTable == false ? (data?.appConfigurableEvent ? data?.appConfigurableEvent : []) : []"
     [loadAction]="childTable == false ? ( data?.eventActionconfig ? data?.eventActionconfig : {}) : false">
-    <nz-table [nzVirtualItemSize]="54" [nzSimple]="true" [nzOuterBordered]="data?.outerBordered || false" [nzScroll]="data?.stickyHeaders
+    <nz-table  [nzVirtualItemSize]="54" [nzSimple]="true"
+      [nzOuterBordered]="data?.outerBordered || false" [nzScroll]="data?.stickyHeaders
     ? { x: '2500px', y: '240px' }
     : (data?.endFreezingNumber !== undefined || data?.startFreezingNumber !== undefined
       ? { x: '2500px' }
@@ -105,9 +106,9 @@
       [nzShowSizeChanger]="data.nzShowSizeChanger">
       <thead *ngIf="tableHeaders.length > 0" class="desktop-toggle">
         <tr class="desktop-toggle " *ngIf="data?.showColumnHeader == undefined ? true : data?.showColumnHeader">
-          <th class="!font-semibold !text-gray-500 !uppercase !text-xs" *ngIf="data.showCheckbox"
-            [(nzChecked)]="allChecked" [nzIndeterminate]="indeterminate" (nzCheckedChange)="checkAll($event)"
-            [ngStyle]="{'text-align': data?.position || 'left'}"></th>
+          <th [nzLeft]="data?.startFreezingNumber >= 1" class="!font-semibold !text-gray-500 !uppercase !text-xs"
+            *ngIf="data.showCheckbox" [(nzChecked)]="allChecked" [nzIndeterminate]="indeterminate"
+            (nzCheckedChange)="checkAll($event)" [ngStyle]="{'text-align': data?.position || 'left'}"></th>
           <ng-container *ngFor="let header of tableHeaders ; let i = index">
             <th [nzWidth]="header?.width ? header.width + 'px' : 'auto'" [nzLeft]="allowFreeze(header , i)"
               [nzRight]="header?.headerFreeze == true ? true : false"
@@ -220,10 +221,11 @@
                   ({{item.children.length}})
                 </p>
               </td>
-              <td *ngIf="data.showCheckbox" [(nzChecked)]="item.checked" (nzCheckedChange)="refreshStatus()"
-                [ngStyle]="{'text-align': data?.position || 'left'}"></td>
+              <td [nzLeft]="data?.startFreezingNumber >= 1" *ngIf="data.showCheckbox"
+                [ngStyle]="{'text-align': data?.position || 'left'}">
+                <label nz-checkbox [(ngModel)]="item['checked']"></label>
+              </td>
               <ng-container *ngFor="let header of data['tableKey']; let index = index">
-
                 <td [ngStyle]="{'text-align': header?.position || 'left'}"
                   [class]="header?.headerFreeze == true ? 'TDZINDEX' : ''"
                   [nzLeft]="header?.headerFreeze == true ? true : false"
