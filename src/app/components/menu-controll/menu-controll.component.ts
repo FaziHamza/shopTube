@@ -1,4 +1,4 @@
-import { Component, ElementRef, Input, OnInit, Renderer2 } from '@angular/core';
+import { Component, Input, OnInit} from '@angular/core';
 import { Router } from '@angular/router';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { Subscription } from 'rxjs';
@@ -14,8 +14,7 @@ export class MenuControllComponent implements OnInit {
   isActiveShow: any;
   hoverActiveShow: any;
   requestSubscription: Subscription;
-  constructor(public _dataShared: DataSharedService, private toastr: NzMessageService, private router: Router, public dataSharedService: DataSharedService,
-    private el: ElementRef, private renderer: Renderer2) {
+  constructor(public _dataShared: DataSharedService, private toastr: NzMessageService, private router: Router, public dataSharedService: DataSharedService) {
   }
 
   ngOnInit(): void {
