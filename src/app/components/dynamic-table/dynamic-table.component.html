@@ -123,7 +123,7 @@
               [ngStyle]="{'text-align': header?.position || 'left'}">
               <!-- (click)="header?.columnClickApi ? onClickColumn(header.columnClickApi,header): ''" -->
               <div class="head-divider w-auto flex justify-center items-center"
-                [style.transform]="'rotate(-' + data?.rotationDegree + 'deg)'">
+                [style.transform]="'rotate(' + data?.rotationDegree + 'deg)'">
                 <p class='head-title'>
                   {{header['title'] ? header['title'] : header['name']| translate}}
                 </p>
@@ -217,14 +217,14 @@
           </ng-container>
           <th *ngIf="isAllowEdit(tableHeaders)" [nzRight]="data?.endFreezingNumber >= 2">
             <div class="head-divider w-auto flex justify-center items-center"
-              [style.transform]="'rotate(-' + data?.rotationDegree + 'deg)'">
+              [style.transform]="'rotate(' + data?.rotationDegree + 'deg)'">
               Edit
             </div>
           </th>
           <th [nzRight]="data?.endFreezingNumber >= 1"
             *ngIf="tableHeaders.length > 0 && (data?.isDeleteAllow || data?.isDeleteAllow == undefined)">
             <div class="head-divider w-auto flex justify-center items-center"
-              [style.transform]="'rotate(-' + data?.rotationDegree + 'deg)'">
+              [style.transform]="'rotate(' + data?.rotationDegree + 'deg)'">
               Delete
             </div>
           </th>
