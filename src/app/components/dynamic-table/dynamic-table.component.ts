@@ -2092,7 +2092,8 @@ export class DynamicTableComponent implements OnInit {
 
 
   split(index: any, data: any) {
-    if (data && data) {
+
+    if (data) {
       if (typeof data == 'string') {
         return data.split(',')[index];
       } else {

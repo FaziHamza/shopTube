@@ -573,4 +573,6 @@ export interface TreeNode {
   outerBordered?: boolean,
   showTotal?: boolean,
   changePageSize?: boolean,
+  rotationDegree?: number,
+  headingClass?: string,
 }
