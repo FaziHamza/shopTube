@@ -110,13 +110,15 @@
             *ngIf="data.showCheckbox" [(nzChecked)]="allChecked" [nzIndeterminate]="indeterminate"
             (nzCheckedChange)="checkAll($event)" [ngStyle]="{'text-align': data?.position || 'left'}"></th>
           <ng-container *ngFor="let header of tableHeaders ; let i = index">
-            <th [nzWidth]="header?.width ? header.width + 'px' : 'auto'" [nzLeft]="allowFreeze(header , i)"
+            <th 
+              [style.transform]="'rotate(' + rotationDegree + 'deg)'"
+              [nzWidth]="header?.width ? header.width + 'px' : 'auto'" [nzLeft]="allowFreeze(header , i)"
               [nzRight]="header?.headerFreeze == true ? true : false"
               class="!font-semibold !text-gray-500 !uppercase !text-xs"
               *ngIf="header.key !== 'defaultValue' && ( header?.show == true || header?.show === undefined || header?.show === '' || header?.show == 'Yes')"
               [ngStyle]="{'text-align': header?.position || 'left'}">
               <!-- (click)="header?.columnClickApi ? onClickColumn(header.columnClickApi,header): ''" -->
-              <span class="header-title">
+              <div>
                 {{header['title'] ? header['title'] : header['name']| translate}}<span>
                   <a nz-dropdown [nzDropdownMenu]="menu" *ngIf="header?.isAllowGrouping && !childTable">
                     <i class="fa-regular fa-ellipsis-v mx-1"></i>
@@ -202,7 +204,7 @@
                   </nz-dropdown-menu>
                 </span> <span *ngIf=" header?.gridHeaderSum">({{header?.gridHeaderSum}})</span>
                 <div class="resizer" (mousedown)="onResizeStart($event, header)"></div>
-              </span>
+              </div>
             </th>
           </ng-container>
           <th *ngIf="isAllowEdit(tableHeaders)" [nzRight]="data?.endFreezingNumber >= 2"
@@ -231,7 +233,7 @@
               </td>
               <ng-container *ngFor="let header of data['tableKey']; let index = index">
                 <td [ngStyle]="{'text-align': header?.position || 'left'}"
-                [style.width.px]="header.width ? header.width : 'auto'"
+                  [style.width.px]="header.width ? header.width : 'auto'"
                   [class]="header?.headerFreeze == true ? 'TDZINDEX' : ''"
                   [nzLeft]="header?.headerFreeze == true ? true : false"
                   [nzRight]="header?.headerFreeze == true ? true : false" (click)="checkTypeData(item , header)"

@@ -5406,33 +5406,33 @@ ul.ant-cascader-menu:nth-child(2)>li:nth-child(1)>div:nth-child(2)>i:nth-child(1
     height: 100px;
   }
 
-  th:before {
-    content: '';
-    display: block;
-    position: absolute;
-    top: 0;
-    right: -50px;
-    height: 100px;
-    width: 60px;
-    border: solid 1px #000;
-    border-right: none;
-    border-top: none;
-    transform: skew(-45deg) !important;
-    border-bottom: none;
-  }
+  // th:before {
+  //   content: '';
+  //   display: block;
+  //   position: absolute;
+  //   top: 0;
+  //   right: -50px;
+  //   height: 100px;
+  //   width: 60px;
+  //   border: solid 1px #000;
+  //   border-right: none;
+  //   border-top: none;
+  //   transform: skew(-45deg) !important;
+  //   border-bottom: none;
+  // }
 
-  th .header-title {
-    transform: rotate(-45deg);
-    display: inline-block;
-    vertical-align: middle;
-    position: absolute;
-    right: -70px;
-    bottom: 29px;
-    height: 0;
-    padding: 0.75em 0 1.85em;
-    width: 100px;
-    z-index: 2;
-  }
+  // th .header-title {
+  //   transform: rotate(-45deg);
+  //   display: inline-block;
+  //   vertical-align: middle;
+  //   position: absolute;
+  //   right: -70px;
+  //   bottom: 29px;
+  //   height: 0;
+  //   padding: 0.75em 0 1.85em;
+  //   width: 100px;
+  //   z-index: 2;
+  // }
 
 }
 

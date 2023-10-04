@@ -25,11 +25,11 @@
 //   border: 1px solid black !important;
 //   padding: 10px !important;
 // }
-.responsive-checkBox{
+.responsive-checkBox {
   text-align: start !important;
 }
 
-.table-image{
+.table-image {
   height: 50px !important;
   width: auto !important;
   min-width: 100px;
@@ -37,7 +37,7 @@
   object-fit: cover;
 }
 
-.ant-table-row:hover td{
+.ant-table-row:hover td {
   background-color: rgb(243 244 246) !important;
 }
 
@@ -48,12 +48,14 @@
 .btn-no {
   padding: 0px 10px !important;
 }
+
 .table-container {
   overflow: auto;
   max-width: 100%;
 }
 
-th, td {
+th,
+td {
   position: relative;
 }
 
@@ -66,3 +68,48 @@ th, td {
   cursor: col-resize;
   background: #f4f4f4;
 }
+
+/* CSS for rotating the headers */
+.rotated-header-container {
+  transform-origin: top left;
+  white-space: nowrap;
+  width: 100px;
+  /* Adjust the width as needed */
+  position: relative;
+  transform: rotate(-45deg);
+  /* Default rotation degree */
+  // border-left: 1px solid #000;
+  /* Add left border for rotated headers */
+}
+
+.rotated-header {
+  position: relative;
+  z-index: 1;
+}
+
+// .rotated-header-container::after {
+//   content: "";
+//   position: absolute;
+//   top: 0;
+//   right: 0;
+//   width: 1px;
+//   /* Adjust the border width as needed */
+//   height: 100%;
+//   background-color: #000;
+//   /* Border color */
+//   transform-origin: top right;
+//   transform: scaleY(1.5);
+//   /* Adjust scaleY to control border thickness */
+//   z-index: 0;
+// }
+
+/* CSS for headers at zero degrees rotation */
+// .rotated-header-container--zero {
+//   /* Add styles for headers at zero degrees rotation */
+//   border-left: 1px solid #000;
+//   /* Add left border for non-rotated headers */
+// }
+
+// .rotated-header--zero {
+//   /* Add styles for headers at zero degrees rotation */
+// }

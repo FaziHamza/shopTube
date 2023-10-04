@@ -78,7 +78,7 @@ export class DynamicTableComponent implements OnInit {
   localStorageGrouping: any[] = [];
   filteringHeadArray: any = [];
   nzScrollConfig: { x: string } = { x: '1100px' };
-
+  rotationDegree: number = -45;
   @HostListener('window:resize', ['$event'])
   onResize(event: Event): void {
     // Update the nzScroll configuration based on screen size
@@ -97,6 +97,8 @@ export class DynamicTableComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.updateRotationDegree(50); // Rotate to -60 degrees
+
     this.updateScrollConfig();
     if (!this.childTable) {
       // this.search(this.data?.searchType ? 'keyup' : 'keyup')
@@ -2465,6 +2467,9 @@ export class DynamicTableComponent implements OnInit {
       document.addEventListener('mouseup', onMouseUp);
     }
 
+  }
+  updateRotationDegree(degree: number) {
+    this.rotationDegree = degree;
   }
 }
 
