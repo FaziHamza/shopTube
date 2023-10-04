@@ -112,23 +112,21 @@
       [nzShowSizeChanger]="data.nzShowSizeChanger">
       <thead *ngIf="tableHeaders.length > 0" class="desktop-toggle">
         <tr class="desktop-toggle " *ngIf="data?.showColumnHeader == undefined ? true : data?.showColumnHeader">
-          <th [nzLeft]="data?.startFreezingNumber >= 1" class="!font-semibold !text-gray-500 !uppercase !text-xs relative before:!inline-block before:!content-[''] before:!absolute before:!h-[2px] before:!w-[150px] before:!bg-black before:!left-[-27px] before:!transform before:!rotate-[{{-rotationDegree+'deg'}}] after:!inline-block after:!content-[''] after:!absolute after:!h-[2px] after:!w-[150px] after:!bg-black after:!right-[-20px] after:!transform after:!rotate-[{{-rotationDegree+'deg'}}] "
-            *ngIf="data.showCheckbox" [(nzChecked)]="allChecked" [nzIndeterminate]="indeterminate"
-            (nzCheckedChange)="checkAll($event)" [ngStyle]="{'text-align': data?.position || 'left'}"></th>
+          <th [nzLeft]="data?.startFreezingNumber >= 1" *ngIf="data.showCheckbox" [(nzChecked)]="allChecked"
+            [nzIndeterminate]="indeterminate" (nzCheckedChange)="checkAll($event)"
+            [ngStyle]="{'text-align': data?.position || 'left'}"></th>
           <ng-container *ngFor="let header of tableHeaders ; let i = index">
             <!-- !border-r-4 !border-gray-200 -->
-            <th  (mousedown)="onResizeStart($event, header)"
-              [nzWidth]="header?.width ? header.width + 'px' : 'auto'" [nzLeft]="allowFreeze(header , i)"
-              [nzRight]="header?.headerFreeze == true ? true : false"
-              class="font-semibold text-gray-500 uppercase text-xs relative before:!inline-block before:!content-[''] before:!absolute before:!h-[2px] before:!w-[150px] before:!bg-black before:!left-[-27px] before:!transform before:!rotate-[{{-rotationDegree+'deg'}}] after:!inline-block after:!content-[''] after:!absolute after:!h-[2px] after:!w-[150px] after:!bg-black after:!right-[-20px] after:!transform after:!rotate-[{{-rotationDegree+'deg'}}] "
-              
+            <th (mousedown)="onResizeStart($event, header)" [nzWidth]="header?.width ? header.width + 'px' : 'auto'"
+              [nzLeft]="allowFreeze(header , i)" [nzRight]="header?.headerFreeze == true ? true : false"
               *ngIf="header.key !== 'defaultValue' && ( header?.show == true || header?.show === undefined || header?.show === '' || header?.show == 'Yes')"
               [ngStyle]="{'text-align': header?.position || 'left'}">
               <!-- (click)="header?.columnClickApi ? onClickColumn(header.columnClickApi,header): ''" -->
-              <div class="head-divider w-auto flex justify-center items-center" [style.transform]="'rotate(-' + rotationDegree + 'deg)'">
-                <p class='head-title' >
+              <div class="head-divider w-auto flex justify-center items-center"
+                [style.transform]="'rotate(-' + data?.rotationDegree + 'deg)'">
+                <p class='head-title'>
                   {{header['title'] ? header['title'] : header['name']| translate}}
-                </p> 
+                </p>
                 <span>
                   <a nz-dropdown [nzDropdownMenu]="menu" *ngIf="header?.isAllowGrouping && !childTable">
                     <i class="fa-regular fa-ellipsis-v mx-1"></i>
@@ -217,19 +215,18 @@
               </div>
             </th>
           </ng-container>
-          <th *ngIf="isAllowEdit(tableHeaders)"  [nzRight]="data?.endFreezingNumber >= 2"
-        
-            class="!text-gray-500 relative before:!inline-block before:!content-[''] before:!absolute before:!h-[2px] before:!w-[150px] before:!bg-black before:!left-[-27px] before:!transform before:!rotate-[{{-rotationDegree+'deg'}}] after:!inline-block after:!content-[''] after:!absolute after:!h-[2px] after:!w-[150px] after:!bg-black after:!right-[-20px] after:!transform after:!rotate-[{{-rotationDegree+'deg'}}] !text-center !uppercase">
-            <p [style.transform]="'rotate(-' + rotationDegree + 'deg)'" class="">
-              Edit 
-            </p>
+          <th *ngIf="isAllowEdit(tableHeaders)" [nzRight]="data?.endFreezingNumber >= 2">
+            <div class="head-divider w-auto flex justify-center items-center"
+              [style.transform]="'rotate(-' + data?.rotationDegree + 'deg)'">
+              Edit
+            </div>
           </th>
           <th [nzRight]="data?.endFreezingNumber >= 1"
-            *ngIf="tableHeaders.length > 0 && (data?.isDeleteAllow || data?.isDeleteAllow == undefined)"
-            class="!text-gray-500 relative before:!inline-block before:!content-[''] before:!absolute before:!h-[2px] before:!w-[150px] before:!bg-black before:!left-[-25px] before:!transform before:!rotate-[{{-rotationDegree+'deg'}}]  after:!inline-block after:!content-[''] after:!absolute after:!h-[2px] after:!w-[150px] after:!bg-black after:!right-[-20px] after:!transform after:!rotate-[{{-rotationDegree+'deg'}}] !uppercase !text-center">
-            <p [style.transform]="'rotate(-' + rotationDegree + 'deg)'" >
+            *ngIf="tableHeaders.length > 0 && (data?.isDeleteAllow || data?.isDeleteAllow == undefined)">
+            <div class="head-divider w-auto flex justify-center items-center"
+              [style.transform]="'rotate(-' + data?.rotationDegree + 'deg)'">
               Delete
-            </p>
+            </div>
           </th>
         </tr>
       </thead>
@@ -461,9 +458,10 @@
         </nz-pagination>
       </div>
       <div *ngIf="data?.changePageSize">
-        <a class="flex justify-start items-center !border btn-no p-1.5 !text-sm border-gray-200 w-auto text-black hover:text-blue-600 hover:border-blue-600" nz-dropdown [nzDropdownMenu]="menu11">
-          <p class="whitespace-nowrap pr-1" >
-            Paginator
+        <a class="flex justify-start items-center border border-gray-100 text-black hover:text-blue-600 hover:border-blue-600"
+          nz-dropdown [nzDropdownMenu]="menu11">
+          <p class="white" sty>
+            Row Per Table
           </p>
           <span nz-icon nzType="down"></span>
         </a>
