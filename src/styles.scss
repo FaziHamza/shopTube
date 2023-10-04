@@ -6373,7 +6373,30 @@ tr:hover {
     // text-align: center !important;
     color: #515568 !important;
     font-weight: 600 !important;
+    position : relative ;
   }
+
+  thead tr .gridRotate::after ,.gridRotate::before{
+    content: "" ;
+    position: absolute !important;
+    height: 2px !important;
+    width: 100% !important;
+    background-color: black !important;
+    display: block !important;
+    transform: rotate(-50deg) !important;
+    // top: 35% !important;
+  }
+
+  thead tr .gridRotate::before{
+    left: -20px !important;
+    width: 150px !important;
+  }
+  thead tr .gridRotate::after{
+    right: -20px !important; 
+    width: 150px !important;
+  }
+
+
 
   /* Styling for regular cells */
   tbody tr td {

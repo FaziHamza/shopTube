@@ -18,65 +18,71 @@
   </div>
 
 
-  <div *ngIf="!childTable" class="flex p-1 items-center {{data?.buttonPositions || ' justify-end'}}">
-    <!-- <button [style.order]="split(0 , data?.buttonAlignments) || 1" *ngIf="data?.isAllowExcelReport" nz-button
-      (click)="exportToExcel()" nzType="primary"
-      class="!rounded-md !bg-green-500 !text-white hover:!bg-green-600 !h-[35px] hover:text-white !border !border-transparent !hover:border-transparent font-md text-lg">Download
-      Excel<i class="fa-regular fa-download ml-2 mr-2"></i></button>
-    <div *ngIf="data?.isAllowUploadExcel" [style.order]="split(1 , data?.buttonAlignments) || 2"
-      class="!w-1/5 ml-2 mr-2 !h-[35px]">
-    </div> -->
-    <button class="btn !mx-2 !h-[35px]" [style.order]="split(0 , data?.buttonAlignments) || 3"
-      *ngIf="data?.isShowDrawerButton" nz-button nzType="primary" (click)="open()">
-      {{data?.drawerButtonLabel ? data?.drawerButtonLabel : 'Open Drawer'}}</button>
-    <nz-drawer [nzPlacement]="data?.drawerPlacement || 'right'" [nzExtra]="extra" [nzWidth]="data?.drawerWidth"
-      [nzClosable]="false" [nzVisible]="visible" nzPlacement="right"
-      [nzTitle]="data?.drawerButtonLabel ?  data?.drawerButtonLabel : 'Open Drawer'" (nzOnClose)="close()">
-      <ng-container *nzDrawerContent>
-        <nz-spin [nzSpinning]="saveLoader" [nzSize]="'large'">
-          <p *ngIf="!data?.drawerScreenLink">No Link Against this screen</p>
-          <st-pages [data]="nodes" [screenName]="screenName" [navigation]="screenId" [form]="form"
-            [formlyModel]="formlyModel" *ngIf="nodes.length  > 0 && screenId"></st-pages>
-        </nz-spin>
-      </ng-container>
-    </nz-drawer>
-    <ng-template #extra>
-      <i class="fas fa-times text-lg text-red-500 cursor-pointer" (click)="close()"></i>
-    </ng-template>
-    <div class="mr-2 ml-2" [style.order]="split(1 , data?.buttonAlignments) || 2"
-      *ngIf="!childTable && (data?.isAllowExcelReport || data?.isAllowUploadExcel)" class="action-drop-down">
-      <button nz-button nzType="primary"
-        class="actions-btn btn-no !border-none !bg-blue-600 hover:!bg-blue-500 my-2 !h-[35px]" nz-dropdown
-        [nzDropdownMenu]="menu4">
-        Actions
-        <span nz-icon nzType="down"></span>
-      </button>
-      <nz-dropdown-menu #menu4="nzDropdownMenu" class="action-drop-down-list">
-        <ul nz-menu class="!p-2">
-          <li nz-menu-item>
-            <a (click)="exportToExcel()" class="!text-black">Excel Report Download</a>
-          </li>
-          <li nz-menu-item>
-            <a onclick="document.getElementById('selectedDynamicTableFile').click()" class="!text-black">Import</a>
-          </li>
-        </ul>
-      </nz-dropdown-menu>
-      <input [(ngModel)]="fileUpload" type="file" class="form-control !mx-2" id="selectedDynamicTableFile"
-        style="display:none" (change)="onFileSelected($event)" accept=".xlsx">
+  <div [ngClass]="{'flex justify-between': data?.heading}">
+    <div *ngIf="data?.heading">
+      <p [class]="data?.headingClass || 'text-md'">{{data?.heading}}</p>
     </div>
-    <div [nzTooltipTitle]="
-    data?.searchType ? data?.searchType : 'keyup' " nz-tooltip [style.order]="split(2 , data?.buttonAlignments) || 1"
-      class="!h-[35px] !mx-2" *ngIf="data?.isAllowSearch">
-      <nz-input-group (input)="search(data?.searchType ? 'keyup' : 'keyup')" nzSearch [nzAddOnAfter]="suffixIconButton">
-        <input type="text" class="!h-[35px] !rounded-tl-md !rounded-bl-md" nz-input id="searchControll"
-          [(ngModel)]="data['searchValue']" placeholder="Search..." />
-      </nz-input-group>
-      <ng-template #suffixIconButton>
-        <button (click)="search('onClick')" nz-button nzType="primary"
-          class="!rounded-tr-md !rounded-br-md !w-10 !h-[35px] !bg-blue-600 hover:!bg-blue-500" nzSearch>
-          <i class="fa-solid fa-magnifying-glass"></i>
-        </button>
+    <div *ngIf="!childTable" class="flex p-1 items-center {{data?.buttonPositions || ' justify-end'}}">
+      <!-- <button [style.order]="split(0 , data?.buttonAlignments) || 1" *ngIf="data?.isAllowExcelReport" nz-button
+        (click)="exportToExcel()" nzType="primary"
+        class="!rounded-md !bg-green-500 !text-white hover:!bg-green-600 !h-[35px] hover:text-white !border !border-transparent !hover:border-transparent font-md text-lg">Download
+        Excel<i class="fa-regular fa-download ml-2 mr-2"></i></button>
+      <div *ngIf="data?.isAllowUploadExcel" [style.order]="split(1 , data?.buttonAlignments) || 2"
+        class="!w-1/5 ml-2 mr-2 !h-[35px]">
+      </div> -->
+      <button class="btn !mx-2 !h-[35px]" [style.order]="split(0 , data?.buttonAlignments) || 3"
+        *ngIf="data?.isShowDrawerButton" nz-button nzType="primary" (click)="open()">
+        {{data?.drawerButtonLabel ? data?.drawerButtonLabel : 'Open Drawer'}}</button>
+      <nz-drawer [nzPlacement]="data?.drawerPlacement || 'right'" [nzExtra]="extra" [nzWidth]="data?.drawerWidth"
+        [nzClosable]="false" [nzVisible]="visible" nzPlacement="right"
+        [nzTitle]="data?.drawerButtonLabel ?  data?.drawerButtonLabel : 'Open Drawer'" (nzOnClose)="close()">
+        <ng-container *nzDrawerContent>
+          <nz-spin [nzSpinning]="saveLoader" [nzSize]="'large'">
+            <p *ngIf="!data?.drawerScreenLink">No Link Against this screen</p>
+            <st-pages [data]="nodes" [screenName]="screenName" [navigation]="screenId" [form]="form"
+              [formlyModel]="formlyModel" *ngIf="nodes.length  > 0 && screenId"></st-pages>
+          </nz-spin>
+        </ng-container>
+      </nz-drawer>
+      <ng-template #extra>
+        <i class="fas fa-times text-lg text-red-500 cursor-pointer" (click)="close()"></i>
       </ng-template>
+      <div class="mr-2 ml-2" [style.order]="split(1 , data?.buttonAlignments) || 2"
+        *ngIf="!childTable && (data?.isAllowExcelReport || data?.isAllowUploadExcel)" class="action-drop-down">
+        <button nz-button nzType="primary"
+          class="actions-btn btn-no !border-none !bg-blue-600 hover:!bg-blue-500 my-2 !h-[35px]" nz-dropdown
+          [nzDropdownMenu]="menu4">
+          Actions
+          <span nz-icon nzType="down"></span>
+        </button>
+        <nz-dropdown-menu #menu4="nzDropdownMenu" class="action-drop-down-list">
+          <ul nz-menu class="!p-2">
+            <li nz-menu-item>
+              <a (click)="exportToExcel()" class="!text-black">Excel Report Download</a>
+            </li>
+            <li nz-menu-item>
+              <a onclick="document.getElementById('selectedDynamicTableFile').click()" class="!text-black">Import</a>
+            </li>
+          </ul>
+        </nz-dropdown-menu>
+        <input [(ngModel)]="fileUpload" type="file" class="form-control !mx-2" id="selectedDynamicTableFile"
+          style="display:none" (change)="onFileSelected($event)" accept=".xlsx">
+      </div>
+      <div [nzTooltipTitle]="
+      data?.searchType ? data?.searchType : 'keyup' " nz-tooltip [style.order]="split(2 , data?.buttonAlignments) || 1"
+        class="!h-[35px] !mx-2" *ngIf="data?.isAllowSearch">
+        <nz-input-group (input)="search(data?.searchType ? 'keyup' : 'keyup')" nzSearch
+          [nzAddOnAfter]="suffixIconButton">
+          <input type="text" class="!h-[35px] !rounded-tl-md !rounded-bl-md" nz-input id="searchControll"
+            [(ngModel)]="data['searchValue']" placeholder="Search..." />
+        </nz-input-group>
+        <ng-template #suffixIconButton>
+          <button (click)="search('onClick')" nz-button nzType="primary"
+            class="!rounded-tr-md !rounded-br-md !w-10 !h-[35px] !bg-blue-600 hover:!bg-blue-500" nzSearch>
+            <i class="fa-solid fa-magnifying-glass"></i>
+          </button>
+        </ng-template>
+      </div>
     </div>
   </div>
   <div *ngIf="groupingArray.length > 0" class="!flex !justify-start !items-center">
@@ -96,30 +102,34 @@
     [loadAction]="childTable == false ? ( data?.eventActionconfig ? data?.eventActionconfig : {}) : false">
     <nz-table nzShowPagination [nzVirtualItemSize]="54" [nzSimple]="true"
       [nzOuterBordered]="data?.outerBordered || false" [nzScroll]="data?.stickyHeaders
-    ? { x: '2500px', y: '240px' }
+    ? {  y: '240px' }
     : (data?.endFreezingNumber !== undefined || data?.startFreezingNumber !== undefined
       ? { x: '2500px' }
-      : { x: '100%' })" [class]="tableHeaders.length > 5 ? 'table-auto' : 'table-fixed' " #columnTable #editRowTable
+      : { x: '' })" [class]="tableHeaders.length > 5 ? 'table-auto' : 'table-fixed' " #columnTable #editRowTable
       #outBordered [nzPageSize]="10" [nzData]="displayData" *ngIf="data && displayData" [nzLoading]="data?.nzLoading"
       [nzPaginationPosition]='data?.nzPaginationPosition' [nzPaginationType]='data?.nzPaginationType'
       [nzFrontPagination]='false' [nzTitle]='data?.nzTitle' [nzSimple]="data.nzSimple"
       [nzShowSizeChanger]="data.nzShowSizeChanger">
       <thead *ngIf="tableHeaders.length > 0" class="desktop-toggle">
         <tr class="desktop-toggle " *ngIf="data?.showColumnHeader == undefined ? true : data?.showColumnHeader">
-          <th [nzLeft]="data?.startFreezingNumber >= 1" class="!font-semibold !text-gray-500 !uppercase !text-xs"
+          <th [nzLeft]="data?.startFreezingNumber >= 1" class="!font-semibold !text-gray-500 !uppercase !text-xs relative before:!inline-block before:!content-[''] before:!absolute before:!h-[2px] before:!w-[150px] before:!bg-black before:!left-[-27px] before:!transform before:!rotate-[{{-rotationDegree+'deg'}}] after:!inline-block after:!content-[''] after:!absolute after:!h-[2px] after:!w-[150px] after:!bg-black after:!right-[-20px] after:!transform after:!rotate-[{{-rotationDegree+'deg'}}] "
             *ngIf="data.showCheckbox" [(nzChecked)]="allChecked" [nzIndeterminate]="indeterminate"
             (nzCheckedChange)="checkAll($event)" [ngStyle]="{'text-align': data?.position || 'left'}"></th>
           <ng-container *ngFor="let header of tableHeaders ; let i = index">
-            <th 
-              [style.transform]="'rotate(' + rotationDegree + 'deg)'"
+            <!-- !border-r-4 !border-gray-200 -->
+            <th  (mousedown)="onResizeStart($event, header)"
               [nzWidth]="header?.width ? header.width + 'px' : 'auto'" [nzLeft]="allowFreeze(header , i)"
               [nzRight]="header?.headerFreeze == true ? true : false"
-              class="!font-semibold !text-gray-500 !uppercase !text-xs"
+              class="font-semibold text-gray-500 uppercase text-xs relative before:!inline-block before:!content-[''] before:!absolute before:!h-[2px] before:!w-[150px] before:!bg-black before:!left-[-27px] before:!transform before:!rotate-[{{-rotationDegree+'deg'}}] after:!inline-block after:!content-[''] after:!absolute after:!h-[2px] after:!w-[150px] after:!bg-black after:!right-[-20px] after:!transform after:!rotate-[{{-rotationDegree+'deg'}}] "
+              
               *ngIf="header.key !== 'defaultValue' && ( header?.show == true || header?.show === undefined || header?.show === '' || header?.show == 'Yes')"
               [ngStyle]="{'text-align': header?.position || 'left'}">
               <!-- (click)="header?.columnClickApi ? onClickColumn(header.columnClickApi,header): ''" -->
-              <div>
-                {{header['title'] ? header['title'] : header['name']| translate}}<span>
+              <div class="head-divider w-auto flex justify-center items-center" [style.transform]="'rotate(-' + rotationDegree + 'deg)'">
+                <p class='head-title' >
+                  {{header['title'] ? header['title'] : header['name']| translate}}
+                </p> 
+                <span>
                   <a nz-dropdown [nzDropdownMenu]="menu" *ngIf="header?.isAllowGrouping && !childTable">
                     <i class="fa-regular fa-ellipsis-v mx-1"></i>
                   </a>
@@ -203,15 +213,23 @@
                     </ul>
                   </nz-dropdown-menu>
                 </span> <span *ngIf=" header?.gridHeaderSum">({{header?.gridHeaderSum}})</span>
-                <div class="resizer" (mousedown)="onResizeStart($event, header)"></div>
+                <!-- <div class="resizer" (mousedown)="onResizeStart($event, header)"></div> -->
               </div>
             </th>
           </ng-container>
-          <th *ngIf="isAllowEdit(tableHeaders)" [nzRight]="data?.endFreezingNumber >= 2"
-            class="!text-gray-500 !text-center !uppercase">Edit</th>
+          <th *ngIf="isAllowEdit(tableHeaders)"  [nzRight]="data?.endFreezingNumber >= 2"
+        
+            class="!text-gray-500 relative before:!inline-block before:!content-[''] before:!absolute before:!h-[2px] before:!w-[150px] before:!bg-black before:!left-[-27px] before:!transform before:!rotate-[{{-rotationDegree+'deg'}}] after:!inline-block after:!content-[''] after:!absolute after:!h-[2px] after:!w-[150px] after:!bg-black after:!right-[-20px] after:!transform after:!rotate-[{{-rotationDegree+'deg'}}] !text-center !uppercase">
+            <p [style.transform]="'rotate(-' + rotationDegree + 'deg)'" class="">
+              Edit 
+            </p>
+          </th>
           <th [nzRight]="data?.endFreezingNumber >= 1"
             *ngIf="tableHeaders.length > 0 && (data?.isDeleteAllow || data?.isDeleteAllow == undefined)"
-            class="!text-gray-500 !uppercase !text-center">Delete
+            class="!text-gray-500 relative before:!inline-block before:!content-[''] before:!absolute before:!h-[2px] before:!w-[150px] before:!bg-black before:!left-[-25px] before:!transform before:!rotate-[{{-rotationDegree+'deg'}}]  after:!inline-block after:!content-[''] after:!absolute after:!h-[2px] after:!w-[150px] after:!bg-black after:!right-[-20px] after:!transform after:!rotate-[{{-rotationDegree+'deg'}}] !uppercase !text-center">
+            <p [style.transform]="'rotate(-' + rotationDegree + 'deg)'" >
+              Delete
+            </p>
           </th>
         </tr>
       </thead>
@@ -443,8 +461,10 @@
         </nz-pagination>
       </div>
       <div *ngIf="data?.changePageSize">
-        <a nz-dropdown [nzDropdownMenu]="menu11">
-          Hover me
+        <a class="flex justify-start items-center border border-gray-100 text-black hover:text-blue-600 hover:border-blue-600" nz-dropdown [nzDropdownMenu]="menu11">
+          <p class="white" sty >
+            Row Per Table 
+          </p>
           <span nz-icon nzType="down"></span>
         </a>
         <nz-dropdown-menu #menu11="nzDropdownMenu">

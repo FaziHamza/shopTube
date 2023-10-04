@@ -59,15 +59,36 @@ td {
   position: relative;
 }
 
-.resizer {
-  position: absolute;
-  width: 6px;
-  height: 100%;
-  right: 0;
-  top: 0;
-  cursor: col-resize;
-  background: #f4f4f4;
+.gridRotate {
+  // border-right : 4px solid gray !important;
+  position: relative;
+//   position: absolute;
+//   width: 6px;
+//   height: 100%;
+//   right: 0;
+//   top: 0;
+//   cursor: col-resize;
+//   background: #f4f4f4;
 }
+
+// .gridRotate::before,
+// .gridRotate::after {
+//   content: "";
+//   display: block;
+//   width: 100%;
+//   height: 1px; /* Adjust the height as needed */
+//   background: #000;
+//   position: absolute;
+// }
+
+// .gridRotate::before {
+//   top: 0;
+// }
+
+// .gridRotate::after {
+//   bottom: 0;
+// }
+
 
 /* CSS for rotating the headers */
 .rotated-header-container {
