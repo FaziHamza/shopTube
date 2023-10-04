@@ -3,7 +3,7 @@ import { Component, EventEmitter, OnInit, Output, ViewChild } from '@angular/cor
 import { FieldType, FieldTypeConfig } from '@ngx-formly/core';
 import { NzDatePickerComponent } from 'ng-zorro-antd/date-picker';
 import { DataSharedService } from 'src/app/services/data-shared.service';
-
+import { DatePipe } from '@angular/common'; // Import DatePipe
 
 @Component({
   selector: 'st-date-picker',
@@ -13,7 +13,7 @@ import { DataSharedService } from 'src/app/services/data-shared.service';
 export class DatePickerComponent extends FieldType<FieldTypeConfig> {
   @ViewChild('endDatePicker') endDatePicker!: NzDatePickerComponent;
   @Output() change = new EventEmitter<any>();
-  constructor(private sharedService: DataSharedService) {
+  constructor(private sharedService: DataSharedService , private datePipe: DatePipe) {
     super();
   }
   startValue: Date | null = null;
@@ -48,8 +48,18 @@ export class DatePickerComponent extends FieldType<FieldTypeConfig> {
   // }
 
   onModelChange(event: any, model: any) {
-    if(typeof event !== 'string'){
-      const formattedDate = event.toLocaleDateString();
+    debugger
+    console.log(event);
+    console.log(this.to['additionalProperties']?.format);
+    if (typeof event !== 'string') {
+      let formattedDate = event.toLocaleDateString();
+      if (this.to['additionalProperties']?.format) {
+        // Format the date using DatePipe
+        formattedDate = this.datePipe.transform(
+          event,
+          this.to['additionalProperties']?.format
+        );
+      }
       this.formControl.patchValue(formattedDate);
       this.sharedService.onChange(formattedDate, this.field);
     }

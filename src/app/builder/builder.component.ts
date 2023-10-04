@@ -4297,6 +4297,7 @@ export class BuilderComponent implements OnInit {
           this.selectedNode['rowSelected'] = event.form?.rowSelected;
           this.selectedNode['outerBordered'] = event.form?.outerBordered;
           this.selectedNode['showTotal'] = event.form?.showTotal;
+          this.selectedNode['changePageSize'] = event.form?.changePageSize;
           let tableData: any = '';
           if (event.tableDta) {
             tableData = event.tableDta;

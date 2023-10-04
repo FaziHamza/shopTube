@@ -94,7 +94,7 @@
   <div class="dynamic-table" [processData]="processData"
     [appConfigurableSelect]="childTable == false ? (data?.appConfigurableEvent ? data?.appConfigurableEvent : []) : []"
     [loadAction]="childTable == false ? ( data?.eventActionconfig ? data?.eventActionconfig : {}) : false">
-    <nz-table  [nzVirtualItemSize]="54" [nzSimple]="true"
+    <nz-table nzShowPagination [nzVirtualItemSize]="54" [nzSimple]="true"
       [nzOuterBordered]="data?.outerBordered || false" [nzScroll]="data?.stickyHeaders
     ? { x: '2500px', y: '240px' }
     : (data?.endFreezingNumber !== undefined || data?.startFreezingNumber !== undefined
@@ -116,89 +116,93 @@
               *ngIf="header.key !== 'defaultValue' && ( header?.show == true || header?.show === undefined || header?.show === '' || header?.show == 'Yes')"
               [ngStyle]="{'text-align': header?.position || 'left'}">
               <!-- (click)="header?.columnClickApi ? onClickColumn(header.columnClickApi,header): ''" -->
-              {{header['title'] ? header['title'] : header['name']| translate}}<span>
-                <a nz-dropdown [nzDropdownMenu]="menu" *ngIf="header?.isAllowGrouping && !childTable">
-                  <i class="fa-regular fa-ellipsis-v mx-1"></i>
-                </a>
-                <nz-dropdown-menu #menu="nzDropdownMenu">
-                  <ul nz-menu nzSelectable class="!p-1.5">
-                    <li nz-menu-item (click)="groupedFunc(header['key'] , 'add' , header , true)">
-                      Grouped By {{ header['title'] ? header['title'] : header['name'] | translate }}
-                    </li>
-                    <li nz-menu-item (click)="groupedFunc(header['key'], 'remove' , header , true)">
-                      Stopped Grouped By {{ header['title'] ? header['title'] : header['name'] | translate }}
-                    </li>
-                  </ul>
-                </nz-dropdown-menu>
-                <nz-filter-trigger *ngIf="(header?.filtering || header?.sorting ) && !childTable"
-                  [(nzVisible)]="header['visible']" [nzDropdownMenu]="filterMenu">
-                  <a (click)="makeFilterData(header , true)">
-                    <i class="fa-regular fa-filter mx-1"></i>
+              <span class="header-title">
+                {{header['title'] ? header['title'] : header['name']| translate}}<span>
+                  <a nz-dropdown [nzDropdownMenu]="menu" *ngIf="header?.isAllowGrouping && !childTable">
+                    <i class="fa-regular fa-ellipsis-v mx-1"></i>
                   </a>
-                </nz-filter-trigger>
-                <nz-dropdown-menu #filterMenu="nzDropdownMenu">
-                  <ul nz-menu nzSelectable class="!rounded-md !text-sm !font-medium dyname">
-                    <div *ngIf="header?.sorting">
-                      <p (click)="sortingData(header.key , 'asc')"
-                        class="p-1.5 !px-5 hover:bg-gray-100 tracking-[0.2px] leading-5">
-                        <i class="fa-regular fa-arrow-down-a-z mr-1"></i>
-                        Sort A to Z
-                      </p>
-                      <p class="p-1.5 !px-5 hover:bg-gray-100 tracking-[0.2px] leading-5"
-                        (click)="sortingData(header.key , 'desc')">
-                        <i class="fa-solid fa-arrow-up-z-a mr-1"></i>
-                        Sort Z to A
-                      </p>
-                      <hr class="mt-2 mx-5">
-                    </div>
-                    <ng-container *ngIf="header?.filterArray">
-                      <ng-container *ngIf="header?.filterArray.length > 0">
-                        <nz-input-group class="py-1.5 mt-2 mx-5 !min-w-[210px] !w-auto" [nzSuffix]="suffixIconSearch">
-                          <input nz-input placeholder="Search here..." class="!rounded-md"
-                            [(ngModel)]="header['searchValue']" (input)="searchFilter(header)" />
-                        </nz-input-group>
-                        <ng-template #suffixIconSearch>
-                          <span nz-icon nzType="search"></span>
-                        </ng-template>
-                        <br />
-                        <div *ngIf="header?.multipleFiltering == true"
-                          class="!flex !justify-start !px-5 mt-2 !items-center !font-semibold !text-xs">
-                          <p class="text-blue-600 underline cursor-pointer" (click)="selectClearAll(header , true)">
-                            Select all</p>
-                          <p class="!mx-1 text-blue-600">-</p>
-                          <p class="text-blue-600 underline cursor-pointer" (click)="selectClearAll(header , false)">
-                            Clear</p>
-                        </div>
-                        <div class="h-[150px] !mx-5 !mt-2 overflow-y-auto">
-                          <ng-container *ngFor="let item of header?.filterArray ">
-                            <li class="!p-1 px-0" *ngIf="header?.multipleFiltering == true ; else single" nz-menu-item>
-                              <p class="!w-48  !truncate">
-                                {{item.text}}
-                              </p>
-                              <label class="!ml-2" nz-checkbox [(ngModel)]="item.filter"></label>
-                            </li>
-                            <ng-template #single>
-                              <li (click)="simpleFiltering(item.value , header)" nz-menu-item>
-                                {{item.text}}
+                  <nz-dropdown-menu #menu="nzDropdownMenu">
+                    <ul nz-menu nzSelectable class="!p-1.5">
+                      <li nz-menu-item (click)="groupedFunc(header['key'] , 'add' , header , true)">
+                        Grouped By {{ header['title'] ? header['title'] : header['name'] | translate }}
+                      </li>
+                      <li nz-menu-item (click)="groupedFunc(header['key'], 'remove' , header , true)">
+                        Stopped Grouped By {{ header['title'] ? header['title'] : header['name'] | translate }}
+                      </li>
+                    </ul>
+                  </nz-dropdown-menu>
+                  <nz-filter-trigger *ngIf="(header?.filtering || header?.sorting ) && !childTable"
+                    [(nzVisible)]="header['visible']" [nzDropdownMenu]="filterMenu">
+                    <a (click)="makeFilterData(header , true)">
+                      <i class="fa-regular fa-filter mx-1"></i>
+                    </a>
+                  </nz-filter-trigger>
+                  <nz-dropdown-menu #filterMenu="nzDropdownMenu">
+                    <ul nz-menu nzSelectable class="!rounded-md !text-sm !font-medium dyname">
+                      <div *ngIf="header?.sorting">
+                        <p (click)="sortingData(header.key , 'asc')"
+                          class="p-1.5 !px-5 hover:bg-gray-100 tracking-[0.2px] leading-5">
+                          <i class="fa-regular fa-arrow-down-a-z mr-1"></i>
+                          Sort A to Z
+                        </p>
+                        <p class="p-1.5 !px-5 hover:bg-gray-100 tracking-[0.2px] leading-5"
+                          (click)="sortingData(header.key , 'desc')">
+                          <i class="fa-solid fa-arrow-up-z-a mr-1"></i>
+                          Sort Z to A
+                        </p>
+                        <hr class="mt-2 mx-5">
+                      </div>
+                      <ng-container *ngIf="header?.filterArray">
+                        <ng-container *ngIf="header?.filterArray.length > 0">
+                          <nz-input-group class="py-1.5 mt-2 mx-5 !min-w-[210px] !w-auto" [nzSuffix]="suffixIconSearch">
+                            <input nz-input placeholder="Search here..." class="!rounded-md"
+                              [(ngModel)]="header['searchValue']" (input)="searchFilter(header)" />
+                          </nz-input-group>
+                          <ng-template #suffixIconSearch>
+                            <span nz-icon nzType="search"></span>
+                          </ng-template>
+                          <br />
+                          <div *ngIf="header?.multipleFiltering == true"
+                            class="!flex !justify-start !px-5 mt-2 !items-center !font-semibold !text-xs">
+                            <p class="text-blue-600 underline cursor-pointer" (click)="selectClearAll(header , true)">
+                              Select all</p>
+                            <p class="!mx-1 text-blue-600">-</p>
+                            <p class="text-blue-600 underline cursor-pointer" (click)="selectClearAll(header , false)">
+                              Clear</p>
+                          </div>
+                          <div class="h-[150px] !mx-5 !mt-2 overflow-y-auto">
+                            <ng-container *ngFor="let item of header?.filterArray ">
+                              <li class="!p-1 px-0" *ngIf="header?.multipleFiltering == true ; else single"
+                                nz-menu-item>
+                                <p class="!w-48  !truncate">
+                                  {{item.text}}
+                                </p>
+                                <label class="!ml-2" nz-checkbox [(ngModel)]="item.filter"></label>
                               </li>
-                            </ng-template>
-                          </ng-container>
-                        </div>
-                        <div class="w-full flex justify-between items-center mt-2.5 mb-2 px-5">
-                          <button nz-button [class]="header?.multipleFiltering == false? '!w-full' : '!w-[49%]'"
-                            [ngClass]="checkResetFiltering(header) ? '!text-black' : '!bg-red-600 hover:!bg-red-500 !text-white'"
-                            class="btn-no  border-none !h-[30px]" [disabled]="checkResetFiltering(header)"
-                            (click)="filter(header , false)"> <i
-                              class="fa-regular fa-arrow-rotate-left mr-1.5"></i>Reset</button>
-                          <button nz-button nzType="primary" class="btn !w-[49%] !h-[30px]"
-                            (click)="filter(header , true)" *ngIf="header?.multipleFiltering == true"><i
-                              class="fa-regular fa-floppy-disk mr-1.5"></i>Save</button>
-                        </div>
+                              <ng-template #single>
+                                <li (click)="simpleFiltering(item.value , header)" nz-menu-item>
+                                  {{item.text}}
+                                </li>
+                              </ng-template>
+                            </ng-container>
+                          </div>
+                          <div class="w-full flex justify-between items-center mt-2.5 mb-2 px-5">
+                            <button nz-button [class]="header?.multipleFiltering == false? '!w-full' : '!w-[49%]'"
+                              [ngClass]="checkResetFiltering(header) ? '!text-black' : '!bg-red-600 hover:!bg-red-500 !text-white'"
+                              class="btn-no  border-none !h-[30px]" [disabled]="checkResetFiltering(header)"
+                              (click)="filter(header , false)"> <i
+                                class="fa-regular fa-arrow-rotate-left mr-1.5"></i>Reset</button>
+                            <button nz-button nzType="primary" class="btn !w-[49%] !h-[30px]"
+                              (click)="filter(header , true)" *ngIf="header?.multipleFiltering == true"><i
+                                class="fa-regular fa-floppy-disk mr-1.5"></i>Save</button>
+                          </div>
+                        </ng-container>
                       </ng-container>
-                    </ng-container>
-                  </ul>
-                </nz-dropdown-menu>
-              </span> <span *ngIf=" header?.gridHeaderSum">({{header?.gridHeaderSum}})</span>
+                    </ul>
+                  </nz-dropdown-menu>
+                </span> <span *ngIf=" header?.gridHeaderSum">({{header?.gridHeaderSum}})</span>
+                <div class="resizer" (mousedown)="onResizeStart($event, header)"></div>
+              </span>
             </th>
           </ng-container>
           <th *ngIf="isAllowEdit(tableHeaders)" [nzRight]="data?.endFreezingNumber >= 2"
@@ -227,6 +231,7 @@
               </td>
               <ng-container *ngFor="let header of data['tableKey']; let index = index">
                 <td [ngStyle]="{'text-align': header?.position || 'left'}"
+                [style.width.px]="header.width ? header.width : 'auto'"
                   [class]="header?.headerFreeze == true ? 'TDZINDEX' : ''"
                   [nzLeft]="header?.headerFreeze == true ? true : false"
                   [nzRight]="header?.headerFreeze == true ? true : false" (click)="checkTypeData(item , header)"
@@ -415,24 +420,45 @@
         </tr>
       </tfoot>
     </nz-table>
-    <div class="paginatio-bottom !mt-1.5"
-      *ngIf="data?.nzShowPagination && data.totalCount > data?.end && showPagination">
-      <div>
-        <p class="showing">Showing <span>{{start}} - {{end ? end : data?.end}}</span>
-          <span *ngIf="data.showTotal || data.showTotal == undefined">
-            <span class="!text-black">
-              from
+    <div [ngClass]="{'flex': data?.changePageSize && data.totalCount > data?.end}">
+      <div class="paginatio-bottom !mt-1.5"
+        *ngIf="data?.nzShowPagination && data.totalCount > data?.end && showPagination">
+        <div>
+          <p class="showing">Showing <span>{{start}} - {{end ? end : data?.end}}</span>
+            <span *ngIf="data.showTotal || data.showTotal == undefined">
+              <span class="!text-black">
+                from
+              </span>
+              <span>{{data.totalCount}}</span> <span class="!text-black">
+                data
+              </span>
             </span>
-            <span>{{data.totalCount}}</span> <span class="!text-black">
-              data
-            </span> 
-          </span>
-        </p>
-      </div>
-      <div>
+          </p>
+        </div>
         <nz-pagination [nzTotal]="data.totalCount" [(nzPageIndex)]="data.pageIndex"
-          [(nzPageSize)]="pageSize ? pageSize : data.end" (nzPageIndexChange)="onPageIndexChange($event)">
+          [(nzPageSize)]="pageSize ? pageSize : data.end" (nzPageSizeChange)="check($event)"
+          (nzPageIndexChange)="onPageIndexChange($event)">
         </nz-pagination>
+      </div>
+      <div *ngIf="data?.changePageSize">
+        <a nz-dropdown [nzDropdownMenu]="menu11">
+          Hover me
+          <span nz-icon nzType="down"></span>
+        </a>
+        <nz-dropdown-menu #menu11="nzDropdownMenu">
+          <ul nz-menu nzSelectable>
+            <li nz-menu-item (click)="changePageSize(10)">10/page</li>
+            <li nz-menu-item (click)="changePageSize(20)">20/Page</li>
+            <li nz-menu-item (click)="changePageSize(30)">30/Page</li>
+            <li nz-menu-item (click)="changePageSize(40)">40/Page</li>
+            <li nz-menu-item (click)="changePageSize(50)">50/Page</li>
+            <li nz-menu-item (click)="changePageSize(60)">60/Page</li>
+            <li nz-menu-item (click)="changePageSize(70)">70/Page</li>
+            <li nz-menu-item (click)="changePageSize(80)">80/Page</li>
+            <li nz-menu-item (click)="changePageSize(90)">90/Page</li>
+            <li nz-menu-item (click)="changePageSize(100)">100/Page</li>
+          </ul>
+        </nz-dropdown-menu>
       </div>
     </div>
   </div>

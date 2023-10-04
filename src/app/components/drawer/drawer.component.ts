@@ -69,8 +69,12 @@ export class DrawerComponent implements OnInit {
                     // Get the current date and time
                     const currentDate = new Date();
 
-                    // Format the date and time as "YYYY-MM-DD HH:mm:ss.sss"
-                    const formattedDate = `${currentDate.getFullYear()}-${(currentDate.getMonth() + 1).toString().padStart(2, '0')}-${currentDate.getDate().toString().padStart(2, '0')} ${currentDate.getHours().toString().padStart(2, '0')}:${currentDate.getMinutes().toString().padStart(2, '0')}:${currentDate.getSeconds().toString().padStart(2, '0')}.${currentDate.getMilliseconds().toString().padStart(3, '0')}`;
+                    const year = currentDate.getFullYear();
+                    const month = (currentDate.getMonth() + 1).toString().padStart(2, '0');
+                    const day = currentDate.getDate().toString().padStart(2, '0');
+
+                    const formattedDate = `${year}-${month}-${day}`;
+
 
                     // Now, you can save 'formattedDate' in your SQL database
                     if (newModel) {
@@ -574,10 +578,10 @@ export class DrawerComponent implements OnInit {
       if (data.type) {
         if (data.type === 'sections' || data.type === 'div' || data.type === 'cardWithComponents' || data.type === 'timelineChild') {
           if (data.mapApi) {
-            if(!isShow){
+            if (!isShow) {
               data['hideExpression'] = isShow
               this.makeDynamicSections(data.mapApi, data);
-            }else{
+            } else {
               data['hideExpression'] = isShow
             }
           }

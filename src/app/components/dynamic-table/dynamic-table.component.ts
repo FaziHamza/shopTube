@@ -1909,7 +1909,8 @@ export class DynamicTableComponent implements OnInit {
     ];
 
     // Add data rows
-    this.excelReportData.forEach(item => {
+    let newData = this.filteringArrayData.length > 0 ? [...this.filteringArrayData] : [...this.excelReportData]
+    newData.forEach(item => {
       const rowData = header.map((data: any) => item[data.key]);
       dataToExport.push(rowData);
     });
@@ -2432,8 +2433,38 @@ export class DynamicTableComponent implements OnInit {
       });
       console.error('An error occurred in mapping:', error);
       // Optionally, you can rethrow the error to propagate it further
-
     }
+  }
+  changePageSize(pageSize: number) {
+    this.data['end'] = pageSize;
+    this.pageSize = '';
+    this.pageChange(1);
+  }
+  check(event: any) {
+    debugger
+    console.log(event)
+  }
+  onResizeStart(event: MouseEvent, column: any) {
+    if (!this.saveLoader) {
+      const startX = event.clientX;
+      const initialWidth = parseInt(column.width) || 100;
+
+      const onMouseMove = (e: MouseEvent) => {
+        const width = initialWidth + e.clientX - startX;
+        if (width > 0) {
+          column.width = width;
+        }
+      };
+
+      const onMouseUp = () => {
+        document.removeEventListener('mousemove', onMouseMove);
+        document.removeEventListener('mouseup', onMouseUp);
+      };
+
+      document.addEventListener('mousemove', onMouseMove);
+      document.addEventListener('mouseup', onMouseUp);
+    }
+
   }
 }
 

@@ -38,7 +38,7 @@
 }
 
 .ant-table-row:hover td{
-background-color: transparent !important;
+  background-color: rgb(243 244 246) !important;
 }
 
 .ant-dropdown-trigger {
@@ -47,4 +47,22 @@ background-color: transparent !important;
 
 .btn-no {
   padding: 0px 10px !important;
+}
+.table-container {
+  overflow: auto;
+  max-width: 100%;
+}
+
+th, td {
+  position: relative;
+}
+
+.resizer {
+  position: absolute;
+  width: 6px;
+  height: 100%;
+  right: 0;
+  top: 0;
+  cursor: col-resize;
+  background: #f4f4f4;
 }

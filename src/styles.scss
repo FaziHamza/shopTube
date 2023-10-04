@@ -5399,6 +5399,41 @@ ul.ant-cascader-menu:nth-child(2)>li:nth-child(1)>div:nth-child(2)>i:nth-child(1
     }
   }
 
+  th {
+    min-width: 60px;
+    max-width: 60px;
+    position: relative;
+    height: 100px;
+  }
+
+  th:before {
+    content: '';
+    display: block;
+    position: absolute;
+    top: 0;
+    right: -50px;
+    height: 100px;
+    width: 60px;
+    border: solid 1px #000;
+    border-right: none;
+    border-top: none;
+    transform: skew(-45deg) !important;
+    border-bottom: none;
+  }
+
+  th .header-title {
+    transform: rotate(-45deg);
+    display: inline-block;
+    vertical-align: middle;
+    position: absolute;
+    right: -70px;
+    bottom: 29px;
+    height: 0;
+    padding: 0.75em 0 1.85em;
+    width: 100px;
+    z-index: 2;
+  }
+
 }
 
 .ant-select-dropdown {
@@ -6372,7 +6407,7 @@ tr:hover {
 
   }
 
-  tbody tr:hover td{
+  tbody tr:hover td {
     background: white !important;
   }
 
@@ -6406,9 +6441,9 @@ tr:hover {
 
   }
 
-// .ant-table-measure-now {
-//   display: none !important;
-// }
+  // .ant-table-measure-now {
+  //   display: none !important;
+  // }
 
 }
 
@@ -7408,65 +7443,70 @@ input[type=file]::file-selector-button:hover {
   }
 
 
-/* Element | http://taskmanager.com:5600/ */
+  /* Element | http://taskmanager.com:5600/ */
 
-div.fc-button-group:nth-child(3) {
-  margin: 0px;
-}
+  div.fc-button-group:nth-child(3) {
+    margin: 0px;
+  }
 
-/* Element | http://taskmanager.com:5600/ */
+  /* Element | http://taskmanager.com:5600/ */
 
-.fc-icon-chevron-left,.fc-icon-chevron-right {
-  font-size: 20px;
-  width: 20px;
-  height: 20px;
-}
+  .fc-icon-chevron-left,
+  .fc-icon-chevron-right {
+    font-size: 20px;
+    width: 20px;
+    height: 20px;
+  }
 
-/* Element | http://taskmanager.com:5600/ */
+  /* Element | http://taskmanager.com:5600/ */
 
-.fc-prev-button , .fc-next-button {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-}
-
-.fc-timegrid-slot-minor{
-display: none !important ;
-}
-
-.fc-timegrid-axis , .fc-daygrid-day , .fc-timegrid-slot-label , .fc-timegrid-slot-lane {
-  padding: 10px 20px !important;
-}
-
-.fc-timegrid-axis-frame{
-  display: flex !important;
-  justify-content: center  !important ;
-  align-items: center !important;
-}
-
-.dyname{
-  li{
-    display: flex !important;
-    justify-content: space-between !important;
-    align-items: center !important ;
+  .fc-prev-button,
+  .fc-next-button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
 }
 
-.bag-report{
+.fc-timegrid-slot-minor {
+  display: none !important;
+}
+
+.fc-timegrid-axis,
+.fc-daygrid-day,
+.fc-timegrid-slot-label,
+.fc-timegrid-slot-lane {
+  padding: 10px 20px !important;
+}
+
+.fc-timegrid-axis-frame {
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+}
+
+.dyname {
+  li {
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+  }
+}
+
+.bag-report {
   .ngx-contextmenu--item-content {
     display: flex !important;
     justify-content: start !important;
     align-items: center !important;
   }
-    
+
   .fa-bug {
     margin-right: 5px !important;
   }
-  
+
 }
 
-.selectedRow td{
+.selectedRow td {
   background: rgb(243 244 246);
 }
 

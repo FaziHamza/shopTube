@@ -37,6 +37,7 @@ import { AuthModule } from './auth/auth.module';
 import { TableRowComponent } from './menu-builder/table-row/table-row.component';
 import { AuthGuard } from './auth/auth.Guard';
 import { CommonService } from '../common/common-services/common.service';
+import { DatePipe } from '@angular/common';
 // import { MultiFileUploadWrapperComponent } from './wrappers/multi-file-upload-wrapper/multi-file-upload-wrapper.component';
 
 const antDesignIcons = AllIcons as {
@@ -105,6 +106,7 @@ import { VideoRecordingService } from './services/video-recording.service';
     DataService,
     AudioRecordingService, 
     VideoRecordingService,
+    DatePipe,
     {
       provide: HTTP_INTERCEPTORS,
       useFactory: function (router: Router, env: EnvService) {

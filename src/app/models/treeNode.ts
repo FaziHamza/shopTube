@@ -572,4 +572,5 @@ export interface TreeNode {
   rowSelected?: boolean,
   outerBordered?: boolean,
   showTotal?: boolean,
+  changePageSize?: boolean,
 }
