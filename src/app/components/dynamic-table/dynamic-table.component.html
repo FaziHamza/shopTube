@@ -117,7 +117,8 @@
             [ngStyle]="{'text-align': data?.position || 'left'}"></th>
           <ng-container *ngFor="let header of tableHeaders ; let i = index">
             <!-- !border-r-4 !border-gray-200 -->
-            <th (mousedown)="onResizeStart($event, header)" [nzWidth]="header?.width ? header.width + 'px' : 'auto'"
+            <th style="border-right: 2px solid gray !important;"
+            (mousedown)="onResizeStart($event, header)" [nzWidth]="header?.width ? header.width + 'px' : 'auto'"
               [nzLeft]="allowFreeze(header , i)" [nzRight]="header?.headerFreeze == true ? true : false"
               *ngIf="header.key !== 'defaultValue' && ( header?.show == true || header?.show === undefined || header?.show === '' || header?.show == 'Yes')"
               [ngStyle]="{'text-align': header?.position || 'left'}">
@@ -211,7 +212,7 @@
                     </ul>
                   </nz-dropdown-menu>
                 </span> <span *ngIf=" header?.gridHeaderSum">({{header?.gridHeaderSum}})</span>
-                <!-- <div class="resizer" (mousedown)="onResizeStart($event, header)"></div> -->
+                <div class="resizer" (mousedown)="onResizeStart($event, header)"></div>
               </div>
             </th>
           </ng-container>
