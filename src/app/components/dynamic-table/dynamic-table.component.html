@@ -440,8 +440,8 @@
         </tr>
       </tfoot>
     </nz-table>
-    <div [ngClass]="{'flex': data?.changePageSize && data.totalCount > data?.end}">
-      <div class="paginatio-bottom !mt-1.5"
+    <div [ngClass]="{'flex !mt-1.5 justify-normal items-center': data?.changePageSize && data.totalCount > data?.end}">
+      <div class="paginatio-bottom "
         *ngIf="data?.nzShowPagination && data.totalCount > data?.end && showPagination">
         <div>
           <p class="showing">Showing <span>{{start}} - {{end ? end : data?.end}}</span>
@@ -461,8 +461,8 @@
         </nz-pagination>
       </div>
       <div *ngIf="data?.changePageSize">
-        <a class="flex justify-start items-center border border-gray-100 text-black hover:text-blue-600 hover:border-blue-600" nz-dropdown [nzDropdownMenu]="menu11">
-          <p class="white" sty >
+        <a class="flex justify-start items-center !border btn-no p-1.5 !text-sm border-gray-200 w-auto text-black hover:text-blue-600 hover:border-blue-600" nz-dropdown [nzDropdownMenu]="menu11">
+          <p class="whitespace-nowrap pr-1" >
             Row Per Table 
           </p>
           <span nz-icon nzType="down"></span>
