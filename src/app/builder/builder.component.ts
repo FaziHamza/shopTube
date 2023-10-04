@@ -2648,7 +2648,9 @@ export class BuilderComponent implements OnInit {
           ...this.clickButtonService.getGridConfig(selectedNode),
         };
         this.fieldData.commonData?.push({ title: 'gridFields', data: _formFieldData.gridFields }, { title: 'Table', data: _formFieldData.gridFields_Table },
-          { title: 'th', data: _formFieldData.gridFields_th }, { title: 'StyleProperty', data: _formFieldData.gridFields_StyleProperty }, { title: 'Drawer', data: _formFieldData.gridFields_Drawer }, { title: 'Options', data: _formFieldData.gridFieldsOptions }
+          { title: 'th', data: _formFieldData.gridFields_th }, { title: 'StyleProperty', data: _formFieldData.gridFields_StyleProperty }, { title: 'Drawer', data: _formFieldData.gridFields_Drawer }
+          , { title: 'Heading', data: _formFieldData.gridFields_Heading } , { title: 'Options', data: _formFieldData.gridFieldsOptions }
+
         );
         break;
       case 'comment':
@@ -4298,6 +4300,9 @@ export class BuilderComponent implements OnInit {
           this.selectedNode['outerBordered'] = event.form?.outerBordered;
           this.selectedNode['showTotal'] = event.form?.showTotal;
           this.selectedNode['changePageSize'] = event.form?.changePageSize;
+          this.selectedNode['rotationDegree'] = event.form?.rotationDegree;
+          this.selectedNode['headingClass'] = event.form?.headingClass;
+          this.selectedNode['heading'] = event.form?.heading;
           let tableData: any = '';
           if (event.tableDta) {
             tableData = event.tableDta;

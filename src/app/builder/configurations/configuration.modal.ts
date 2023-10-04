@@ -11354,6 +11354,32 @@ export class formFeildData {
       ]
     }
   ]
+  gridFields_Heading: FormlyFieldConfig[] = [
+    {
+      fieldGroupClassName: "flex flex-wrap",
+      fieldGroup: [
+        {
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          key: 'headingClass',
+          type: 'input',
+          wrappers: ["formly-vertical-theme-wrapper"],
+          props: {
+            label: 'Heading Class',
+          }
+        },
+        {
+          className: "w-full",
+          key: 'heading',
+          type: 'textarea',
+          wrappers: ["formly-vertical-theme-wrapper"],
+          props: {
+            label: 'Heading',
+            rows: 3
+          }
+        },
+      ]
+    }
+  ]
   gridFields: FormlyFieldConfig[] = [
     {
       fieldGroupClassName: "flex flex-wrap",
@@ -11500,6 +11526,7 @@ export class formFeildData {
               serveSearch: false,
               showArrow: true,
               showSearch: true,
+              tooltip: "Its not when heading is enable",
             },
           },
         },
@@ -11512,7 +11539,9 @@ export class formFeildData {
             label: 'Buttons Alignments',
             options: [
               { value: '1,2,3', label: 'Before' },
-              // { value: '2,1,3', label: 'Center Button' },
+              // { value: '2,3,1', label: 'Center Search 1' },
+              { value: '1,3,2', label: 'Center Search ' },
+              { value: '3,1,2', label: 'Center Search 1' },
               { value: '3,2,1', label: 'After' },
               // { value: '2,3,1', label: 'Center' },
               // { value: '2,3,1', label: 'Start Search' },
@@ -11680,13 +11709,16 @@ export class formFeildData {
           }
         },
         {
-          key: 'rotationNumber',
+          key: 'rotationDegree',
           type: 'input',
           className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
           wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             type: 'number',
-            label: 'Rotation Number'
+            label: 'Rotation Degree',
+            additionalProperties: {
+              tooltip: "This is give in postiove like that -45 or +45",
+            }
           }
         },
         // {
@@ -11985,6 +12017,7 @@ export class formFeildData {
         //     label: 'Show Drawer Button'
         //   }
         // },
+
 
       ]
     }
