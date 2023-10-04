@@ -6243,11 +6243,12 @@ li.ant-cascader-menu-item:nth-child(1):hover {
 }
 
 tr:hover {
-  background-color: #2563EB05;
-
-  td {
+  background-color: #2563EB05 !important;
+  
+  td{
     background-color: #2563EB05 !important;
   }
+
 }
 
 .ant-table-content {
@@ -6390,7 +6391,8 @@ tr:hover {
     color: #23303d !important;
     border-bottom: 1px solid #d6dce1 !important;
     font-size: 12px !important;
-    // z-index: 100;
+    z-index: 0 ;
+    background: white !important;
 
     .editable-cell {
       width: 100%;
@@ -7510,6 +7512,7 @@ input[type=file]::file-selector-button:hover {
   background: rgb(243 244 246);
 }
 
-// .TDZINDEX{
-//   z-index: 500 !important;
-// }
+.TDZINDEX{
+  z-index: 500 !important;
+  background: white !important ;
+}
