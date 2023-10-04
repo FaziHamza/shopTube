@@ -437,8 +437,8 @@
         </tr>
       </tfoot>
     </nz-table>
-    <div [ngClass]="{'flex': data?.changePageSize && data.totalCount > data?.end}">
-      <div class="paginatio-bottom !mt-1.5"
+    <div [ngClass]="{'flex !mt-1.5 justify-normal items-center': data?.changePageSize && data.totalCount > data?.end}">
+      <div class="paginatio-bottom "
         *ngIf="data?.nzShowPagination && data.totalCount > data?.end && showPagination">
         <div>
           <p class="showing">Showing <span>{{start}} - {{end ? end : data?.end}}</span>
