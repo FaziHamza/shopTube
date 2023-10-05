@@ -87,19 +87,20 @@
   </div>
   <div *ngIf="groupingArray.length > 0" class="!flex !justify-start !items-center">
     <label class="mr-2 !font-semibold !text-sm text-blue-500">GROUPED BY :</label>
-    <div class="flex items-center border relative px-2 py-0.5 rounded rounded-tr-[0px] border-gray-500">
+    <div class="flex items-center border relative px-2 py-0.5 rounded  group border-gray-500">
       <ng-container *ngFor="let group of groupingArray; let last = last ; let i = index">
-        <div (click)="removeGrouping(i , false)">
+        <div >
           <!-- <i class="fa-light text-xs text-blue-600 fa-badge-check mr-0.5"></i> -->
-          {{ group }}
+         <p class="flex justify-normal items-center" >
+           {{ group }}<i (click)="removeGrouping(i , false)" nz-tooltip nzTooltipTitle="Click Here To Remove {{ group }} Grouping" class="fa-regular fa-minus mr-1 ml-0.5"></i>
+         </p> 
         </div>
         <i *ngIf="!last" class="fa-solid fa-square-ampersand mx-1.5"></i>
       </ng-container>
-      <i (click)="removeGrouping(0 , true)"
-        class="fa-solid fa-square-xmark absolute right-[-10px] top-[-14px] text-xs text-red-500 mx-2"></i>
+      <i (click)="removeGrouping(0 , true)" nz-tooltip nzTooltipTitle="Click Here To Remove All Grouping"
+        class="fa-solid fa-square-xmark absolute right-[-10px] top-[-14px] hidden text-xs group-hover:block text-red-500 mx-2"></i>
     </div>
   </div>
-
   <div class="dynamic-table" [processData]="processData"
     [appConfigurableSelect]="childTable == false ? (data?.appConfigurableEvent ? data?.appConfigurableEvent : []) : []"
     [loadAction]="childTable == false ? ( data?.eventActionconfig ? data?.eventActionconfig : {}) : false">
@@ -113,26 +114,26 @@
       [nzPaginationPosition]='data?.nzPaginationPosition' [nzPaginationType]='data?.nzPaginationType'
       [nzFrontPagination]='false' [nzTitle]='data?.nzTitle' [nzSimple]="data.nzSimple"
       [nzShowSizeChanger]="data.nzShowSizeChanger">
-      <thead *ngIf="tableHeaders.length > 0" class="desktop-toggle">
+      <thead [class]="data.tRowClass"
+      116 *ngIf="tableHeaders.length > 0" class="desktop-toggle">
         <tr class="desktop-toggle " *ngIf="data?.showColumnHeader == undefined ? true : data?.showColumnHeader">
-          <th class='resize' [nzLeft]="data?.startFreezingNumber >= 1" *ngIf="data.showCheckbox" [(nzChecked)]="allChecked"
+          <th [class]="data?.thClass" class='resize' [nzLeft]="data?.startFreezingNumber >= 1" *ngIf="data.showCheckbox" [(nzChecked)]="allChecked"
             [nzIndeterminate]="indeterminate" (nzCheckedChange)="checkAll($event)"
             [ngStyle]="{'text-align': data?.position || 'left'}"></th>
           <ng-container *ngFor="let header of tableHeaders ; let i = index">
             <!-- !border-r-4 !border-gray-200 -->
-            <th (mousedown)="onResizeStart($event, header)" [nzWidth]="header?.width ? header.width + 'px' : 'auto'"
+            <th [class]="data?.thClass" (mousedown)="onResizeStart($event, header)" [nzWidth]="header?.width ? header.width + 'px' : 'auto'"
               [nzLeft]="allowFreeze(header , i)" [nzRight]="header?.headerFreeze == true ? true : false"
               *ngIf="header.key !== 'defaultValue' && ( header?.show == true || header?.show === undefined || header?.show === '' || header?.show == 'Yes')"
               [ngStyle]="{'text-align': header?.position || 'left'}">
               <!-- (click)="header?.columnClickApi ? onClickColumn(header.columnClickApi,header): ''" -->
-              <div
-                class="!text-gray-500 relative before:!inline-block before:!content-[''] before:!absolute before:!h-[2px] before:!w-[150px] before:!bg-black before:!left-[-25px] before:!transform before:!rotate-[{{data?.rotationDegree+'deg'}}]  after:!inline-block after:!content-[''] after:!absolute after:!h-[2px] after:!w-[150px] after:!bg-black after:!right-[-20px] after:!transform after:!rotate-[{{data?.rotationDegree+'deg'}}] !uppercase !text-center"
-                class="head-divider w-auto flex justify-center items-center"
+              
+              <div class="!text-gray-500 !relative w-auto flex justify-center items-center"
                 [style.transform]="data?.rotationDegree && 'rotate(' + data?.rotationDegree + 'deg)'"
                 [style.height]="data?.rotationDegree && '100px' || 'auto'">
-                <p class='head-title'>
+                <div class="head-title relative  !uppercase !text-center">
                   {{header['title'] ? header['title'] : header['name']| translate}}
-                </p>
+                </div>
                 <span>
                   <a nz-dropdown [nzDropdownMenu]="menu" *ngIf="header?.isAllowGrouping && !childTable">
                     <i class="fa-regular fa-ellipsis-v mx-1"></i>
@@ -221,20 +222,20 @@
               </div>
             </th>
           </ng-container>
-          <th *ngIf="isAllowEdit(tableHeaders)" [nzRight]="data?.endFreezingNumber >= 2">
+          <th [class]="data?.thClass" *ngIf="isAllowEdit(tableHeaders)" [nzRight]="data?.endFreezingNumber >= 2">
             <div
-              class="!text-gray-500 relative before:!inline-block before:!content-[''] before:!absolute before:!h-[2px] before:!w-[150px] before:!bg-black before:!left-[-25px] before:!transform before:!rotate-[{{data?.rotationDegree+'deg'}}]  after:!inline-block after:!content-[''] after:!absolute after:!h-[2px] after:!w-[150px] after:!bg-black after:!right-[-20px] after:!transform after:!rotate-[{{data?.rotationDegree+'deg'}}] !uppercase !text-center"
-              class="head-divider w-auto flex justify-center items-center"
+              class="!text-gray-500 relative !uppercase !text-center"
+              class="w-auto flex justify-center items-center"
               [style.transform]="data?.rotationDegree &&  'rotate(' + data?.rotationDegree + 'deg)'"
               [style.height]="data?.rotationDegree && '100px'">
               Edit
             </div>
           </th>
-          <th [nzRight]="data?.endFreezingNumber >= 1"
+          <th [class]="data?.thClass" [nzRight]="data?.endFreezingNumber >= 1"
             *ngIf="tableHeaders.length > 0 && (data?.isDeleteAllow || data?.isDeleteAllow == undefined)">
             <div
-              class="!text-gray-500 relative before:!inline-block before:!content-[''] before:!absolute before:!h-[2px] before:!w-[150px] before:!bg-black before:!left-[-25px] before:!transform before:!rotate-[{{data?.rotationDegree+'deg'}}]  after:!inline-block after:!content-[''] after:!absolute after:!h-[2px] after:!w-[150px] after:!bg-black after:!right-[-20px] after:!transform after:!rotate-[{{data?.rotationDegree+'deg'}}] !uppercase !text-center"
-              class="head-divider w-auto flex justify-center items-center"
+              class="!text-gray-500 relative !uppercase !text-center"
+              class="w-auto flex justify-center items-center"
               [style.transform]="data?.rotationDegree && 'rotate(' + data?.rotationDegree + 'deg)'"
               [style.height]="data?.rotationDegree && '100px'">
               Delete
@@ -242,7 +243,7 @@
           </th>
         </tr>
       </thead>
-      <tbody class="dynamic-responsive-table-body w-full" style="width: 100%;">
+      <tbody [class]="data?.tbodyClass"  class="dynamic-responsive-table-body w-full" style="width: 100%;">
         <ng-template #recursiveList let-data1>
           <ng-container *ngFor="let item of data1; let i = index">
             <tr (click)="rowselected(item)" class="desktop-toggle" (dblclick)="updateModel(item)"
@@ -466,8 +467,8 @@
         </tr>
       </tfoot>
     </nz-table>
-    <div [ngClass]="{'flex !mt-1.5 justify-normal items-center': data?.changePageSize && data.totalCount > data?.end}">
-      <div class="paginatio-bottom " *ngIf="data?.nzShowPagination && data.totalCount > data?.end && showPagination">
+    <div [ngClass]="{'flex  justify-end items-center': data?.changePageSize && data.totalCount > data?.end}">
+      <div class="paginatio-bottom !mt-1.5" *ngIf="data?.nzShowPagination && data.totalCount > data?.end && showPagination">
         <div>
           <p class="showing">Showing <span>{{start}} - {{end ? end : data?.end}}</span>
             <span *ngIf="data.showTotal || data.showTotal == undefined">
@@ -485,7 +486,7 @@
           (nzPageIndexChange)="onPageIndexChange($event)">
         </nz-pagination>
       </div>
-      <div class="perpage" *ngIf="data?.changePageSize">
+      <div class="perpage !mt-1.5" *ngIf="data?.changePageSize">
         <a class="flex justify-start items-center border-2 paginator !p-1.5 rounded-md text-xs  border-[#a8a9ab] text-black hover:bg-[#3b82f6] hover:text-white hover:border-[#3b82f6]"
           nz-dropdown [nzDropdownMenu]="menu11">
           <p class="whitespace-nowrap pr-2" sty>
