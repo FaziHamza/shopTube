@@ -1,24 +1,25 @@
-<nz-cascader [nzOptions]="cascaderData.options" [(ngModel)]="values"
+<!-- <nz-cascader [nzOptions]="cascaderData.options" [(ngModel)]="values"
+    [appConfigurableSelect]="cascaderData['appConfigurableEvent']" [loadAction]="cascaderData['eventActionconfig']"
+    [processData]="processData" [nzDisabled]="cascaderData.disabled" [nzExpandIcon]="expandIcon"
+    [nzExpandTrigger]="cascaderData.expandTrigger" [nzPlaceHolder]="cascaderData.placeHolder"
+    [nzShowInput]="cascaderData.showInput" [nzSize]="cascaderData.size" [nzStatus]="cascaderData.status"
+    (ngModelChange)="onChanges($event)">
 
-
-
-[nzDisabled]="cascaderData.disabled"
-[nzExpandIcon]="expandIcon"
-[nzExpandTrigger]="cascaderData.expandTrigger"
-[nzPlaceHolder]="cascaderData.placeHolder"
-[nzShowInput]="cascaderData.showInput"
-[nzSize]="cascaderData.size"
-[nzStatus]="cascaderData.status"
-
- (ngModelChange)="onChanges($event)">
-
+</nz-cascader> -->
+<nz-cascader nzChangeOnSelect [nzAllowClear]="true" 
+[appConfigurableSelect]="cascaderData['appConfigurableEvent']" [loadAction]="cascaderData['eventActionconfig']"
+[processData]="processData"
+    [(ngModel)]="values" [nzOptions]="cascaderData.options" (ngModelChange)="onChanges($event)"
+    [nzLoadData]="loadData.bind(this)" placeholder="Select Screen" [nzShowSearch]="true">
 </nz-cascader>
+
 &nbsp;
 <ng-template #expandIcon>
     <span *ngIf="cascaderData?.expandIcon">
-        <st-icon  [type]="cascaderData?.iconType || 'outline'" [icon]="cascaderData?.expandIcon" [hoverIconColor]="cascaderData?.hoverIconColor || ''"
-          [size]="cascaderData?.iconSize" [color]="cascaderData?.iconColor"></st-icon>
-      </span>
+        <st-icon [type]="cascaderData?.iconType || 'outline'" [icon]="cascaderData?.expandIcon"
+            [hoverIconColor]="cascaderData?.hoverIconColor || ''" [size]="cascaderData?.iconSize"
+            [color]="cascaderData?.iconColor"></st-icon>
+    </span>
 </ng-template>
 
 <!-- <a href="javascript:;" (click)="changeNzOptions()" class="change-options">Change Options</a> -->

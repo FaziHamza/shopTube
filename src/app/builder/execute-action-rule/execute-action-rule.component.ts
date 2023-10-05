@@ -23,6 +23,28 @@ export class ExecuteActionRuleComponent implements OnInit, AfterViewInit {
   requestSubscription: Subscription;
   languageId = 'json';
   nodeList: { title: string, key: string }[] = [];
+  levelList :any[] =  [
+    {
+      title:'level 1',
+      key: '0',
+    },
+    {
+      title:'level 2',
+      key: '1',
+    },
+    {
+      title:'level 3',
+      key: '2',
+    },
+    {
+      title:'level 4',
+      key: '3',
+    },
+    {
+      title:'level 5',
+      key: '4',
+    },
+  ]
   constructor(private employeeService: EmployeeService, private cdRef: ChangeDetectorRef,
     private applicationService: ApplicationService, private fb: FormBuilder,
     private toastr: NzMessageService,) {
