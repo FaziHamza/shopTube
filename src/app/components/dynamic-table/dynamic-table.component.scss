@@ -37,15 +37,18 @@
   object-fit: cover;
 }
 
+
 .ant-table-row:hover td {
   background-color: rgb(243 244 246) !important;
 }
 .perpage{
-
+  display: flex;
+  justify-content: end;
   .paginator {
     box-sizing: border-box;
-    height: 31.5px;
+    height: 32px;
     border-radius: 8px;
+    width: 85px !important;
   }
     .ant-dropdown-trigger {
       padding: 5px !important;
