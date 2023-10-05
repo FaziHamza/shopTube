@@ -79,6 +79,7 @@ export class DynamicTableComponent implements OnInit {
   filteringHeadArray: any = [];
   nzScrollConfig: { x: string } = { x: '1100px' };
   rotationDegree: number = -45;
+  editData: any;
   @HostListener('window:resize', ['$event'])
   onResize(event: Event): void {
     // Update the nzScroll configuration based on screen size
@@ -898,8 +899,10 @@ export class DynamicTableComponent implements OnInit {
     }
   };
 
-  async startEdit(id: string): Promise<void> {
-    this.editId = id;
+  async startEdit(data: any): Promise<void> {
+    this.editId = data.id;
+    let newData = JSON.parse(JSON.stringify(data))
+    this.editData = newData;
     try {
       const filteredHeaders = this.tableHeaders.filter((item: any) => item.dataType === 'repeatSection' && item.callApi);
       if (filteredHeaders && filteredHeaders.length > 0) {
@@ -1247,9 +1250,10 @@ export class DynamicTableComponent implements OnInit {
         this.showChild = true;
         drawer['visible'] = true;
       }
-    } else {
-      this.startEdit(item.id)
     }
+    // else {
+    //   this.startEdit(item.id)
+    // }
   }
   transform(dateRange: string): any {
     if (dateRange) {
@@ -1857,6 +1861,7 @@ export class DynamicTableComponent implements OnInit {
               if (res) {
                 this.toastr.success('Update Successfully', { nzDuration: 3000 });
                 this.editId = null;
+                this.editData = null;
                 // let callget = this.data?.appConfigurableEvent?.filter((item: any) =>
                 //   (item.actionLink === 'get' && (item.actionType === 'api' || item.actionType === 'query'))
                 // );
@@ -2471,6 +2476,19 @@ export class DynamicTableComponent implements OnInit {
   }
   updateRotationDegree(degree: number) {
     this.rotationDegree = degree;
+  }
+  allowChild(child: any): boolean {
+    if (this.tableHeaders.length > 0 && child) {
+      return this.tableHeaders.some((head: any) => head.key === child.key);
+    } else {
+      return false;
+    }
+  }
+  cancelEdit(item: any) {
+    for (const key in this.editData) {
+      item[key] = this.editData[key]
+    }
+    this.editId = null;
   }
 }
 

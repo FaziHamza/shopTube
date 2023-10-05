@@ -12077,6 +12077,14 @@ export class formFeildData {
                 }
               },
               {
+                key: 'icon',
+                type: 'input',
+                wrappers: ["formly-vertical-theme-wrapper"],
+                props: {
+                  label: 'Icon'
+                }
+              },
+              {
                 className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
                 key: 'isAllowGrouping',
                 type: 'checkbox',
