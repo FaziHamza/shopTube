@@ -107,7 +107,7 @@
     [loadAction]="childTable == false ? ( data?.eventActionconfig ? data?.eventActionconfig : {}) : false">
     <nz-table nzShowPagination [nzVirtualItemSize]="54" [nzSimple]="true"
       [nzOuterBordered]="data?.outerBordered || false" [nzScroll]="data?.stickyHeaders
-    ? {  y: '240px' }
+    ? {  y: '240px' , x: '2500px' }
     : (data?.endFreezingNumber !== undefined || data?.startFreezingNumber !== undefined
       ? { x: '2500px' }
       : { x: '' })" [class]="tableHeaders.length > 5 ? 'table-auto' : 'table-fixed' " #columnTable #editRowTable
@@ -487,8 +487,8 @@
       <div class="perpage !mt-1.5" *ngIf="data?.changePageSize">
         <a class="flex justify-start items-center border-2 paginator !p-1.5 rounded-md text-xs  border-[#a8a9ab] text-black hover:bg-[#3b82f6] hover:text-white hover:border-[#3b82f6]"
           nz-dropdown [nzDropdownMenu]="menu11">
-          <p class="whitespace-nowrap pr-2" sty>
-            Paginator
+          <p class="whitespace-nowrap pr-2">
+           {{(this.data?.end ? this.data?.end : 10) + ' / page'}}
           </p>
           <span nz-icon nzType="down"></span>
         </a>
