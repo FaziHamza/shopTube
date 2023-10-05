@@ -5403,7 +5403,7 @@ ul.ant-cascader-menu:nth-child(2)>li:nth-child(1)>div:nth-child(2)>i:nth-child(1
     min-width: 60px;
     max-width: 60px;
     position: relative;
-    // height: 100px;
+    height: auto !important;
   }
 
   // th:before {
@@ -6374,6 +6374,7 @@ tr:hover {
     color: #515568 !important;
     font-weight: 600 !important;
     position : relative ;
+    height: auto !important;
   }
 
   thead tr .gridRotate::after ,.gridRotate::before{
@@ -7538,4 +7539,27 @@ input[type=file]::file-selector-button:hover {
 .TDZINDEX{
   z-index: 500 !important;
   background: white !important ;
+}
+
+// table tr .resize{
+//   position: relative !important;
+// }
+
+// table tr .resizet::after {
+//   content: "" !important;
+//   position: absolute !important;
+//   right: 0px !important;
+//   width: 5px !important;
+//   background-color: gray !important;
+//   height: 100% !important;
+//   cursor: col-resize !important;
+// }
+
+.ant-table-thead > tr > th:not(:last-child):not(.ant-table-selection-column):not(.ant-table-row-expand-icon-cell):not([colspan])::before{
+  width: 3px !important;
+  background-color: rgb(84, 84, 84);
+  cursor: col-resize !important;
+  // content: '\f142' !important;
+  // font-family: "Font Awesome 6 Free";
+  // font-weight: 900;
 }

@@ -40,6 +40,19 @@
 .ant-table-row:hover td {
   background-color: rgb(243 244 246) !important;
 }
+.perpage{
+
+  .paginator {
+    box-sizing: border-box;
+    height: 31.5px;
+    border-radius: 8px;
+  }
+    .ant-dropdown-trigger {
+      padding: 5px !important;
+    }
+  
+}
+
 
 .ant-dropdown-trigger {
   padding: 2px !important;
@@ -62,13 +75,13 @@ td {
 .gridRotate {
   // border-right : 4px solid gray !important;
   position: relative;
-//   position: absolute;
-//   width: 6px;
-//   height: 100%;
-//   right: 0;
-//   top: 0;
-//   cursor: col-resize;
-//   background: #f4f4f4;
+  //   position: absolute;
+  //   width: 6px;
+  //   height: 100%;
+  //   right: 0;
+  //   top: 0;
+  //   cursor: col-resize;
+  //   background: #f4f4f4;
 }
 
 // .gridRotate::before,
