@@ -35,6 +35,13 @@
               <nz-option [nzLabel]="item.title" [nzValue]="item.key" *ngFor="let item of nodeList"></nz-option>
             </nz-select>
           </div>
+          <div class="box w-1/3 box-border">
+            <label>Level</label>
+            <nz-select class="form-select execute-form-select w-full rounded-[4px]" nzShowSearch nzAllowClear
+              aria-label="Default Select Example" formControlName="level">
+              <nz-option [nzLabel]="item.title" [nzValue]="item.key" *ngFor="let item of nodeList"></nz-option>
+            </nz-select>
+          </div>
         </div>
 
         <div class="w-full flex justify-end items-center p-2 pt-0">

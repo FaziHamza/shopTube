@@ -56,6 +56,7 @@ export class ExecuteActionRuleComponent implements OnInit, AfterViewInit {
               let newItem = this.fb.group({
                 componentFrom: element.componentFrom, // Initialize this with your select value
                 targetId: element.targetId, // Initialize this with your select value
+                level: element.level, // Initialize this with your select value
                 action: element.action, // Initialize this with your select value
                 monacoEditorControl: [element.rule], // Initialize this with your Monaco editor value
               });
@@ -272,6 +273,7 @@ export class ExecuteActionRuleComponent implements OnInit, AfterViewInit {
       action: [''], // Initialize this with your select value
       componentFrom: [''], // Initialize this with your select value
       targetId: [''], // Initialize this with your select value
+      level: [''], // Initialize this with your select value
       monacoEditorControl: [this.codeEditorRuleInstance], // Initialize this with your Monaco editor value
     });
     this.multiSelectArray.push(newItem);
@@ -311,6 +313,7 @@ export class ExecuteActionRuleComponent implements OnInit, AfterViewInit {
             componentFrom: buttonData?.key, // Initialize this with your select value
             targetId: (action.type === 'query' && action.actionLink === 'get') ? tableData?.key : '', // Initialize this with your select value
             action: 'click', // Initialize this with your select value
+            level: '', // Initialize this with your select value
             monacoEditorControl: [JSON.stringify(obj)]
           });
           this.multiSelectArray.push(newItem);
@@ -356,6 +359,7 @@ export class ExecuteActionRuleComponent implements OnInit, AfterViewInit {
           "screenBuilderId": mainModuleId.length > 0 ? mainModuleId[0]._id : "",
           "componentFrom": element.componentFrom,
           "targetId": element.targetId,
+          "level": element.level,
           "action": element.action,
           "rule": element.monacoEditorControl,
           "applicationId": this.applicationId,
