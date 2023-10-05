@@ -2627,7 +2627,7 @@ export class BuilderComponent implements OnInit {
       case 'cascader':
         this.addIconCommonConfiguration(_formFieldData.cascaderFields, false);
         this.fieldData.commonData?.push({ title: 'cascaderFields', data: _formFieldData.cascaderFields });
-        delete configObj.options;
+        // delete configObj.options;
         break;
       case 'tree':
         this.addIconCommonConfiguration(_formFieldData.treeFields, false);

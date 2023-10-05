@@ -15023,7 +15023,40 @@ export class formFeildData {
           },
           defaultValue: true
         },
-
+        {
+          key: 'options',
+          type: 'repeatSection',
+          className: "w-full px-1",
+          // wrappers:["form-field-horizontal"],
+          props: {
+            style: "margin-top: 6%;",
+            canAdd: true,
+            canRemove: true
+          },
+          fieldArray: {
+            className: 'ml-3 me-2',
+            fieldGroup: [
+              {
+                key: 'value',
+                type: 'input',
+                className: "ml-2",
+                wrappers: ["formly-vertical-theme-wrapper"],
+                props: {
+                  label: 'value'
+                }
+              },
+              {
+                key: 'label',
+                type: 'input',
+                className: "ml-2",
+                wrappers: ["formly-vertical-theme-wrapper"],
+                props: {
+                  label: 'Label'
+                }
+              }
+            ]
+          }
+        }
       ]
     },
   ];
