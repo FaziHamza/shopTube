@@ -2125,6 +2125,7 @@ export class BuilderComponent implements OnInit {
                         this.checkConditionUIRule(model, currentVal);
                       },
                     },
+                    hide:true,
                   },
                 ],
               },
@@ -3949,7 +3950,7 @@ export class BuilderComponent implements OnInit {
                   this.formlyModel[fieldGroup[0]['key'] as string];
             }
             fieldGroup[0]['key'] = event.form.key;
-            // fieldGroup[0].hideExpression = event.form.hideExpression;
+            fieldGroup[0]['hide'] = event.form.hideExpression;
             const props = fieldGroup[0]?.props ?? {};
             if (event.form.formlyTypes && event.form.formlyTypes != props['additionalProperties']['formlyTypes']) {
               let formlyData = this.findFormlyTypeObj(this.htmlTabsData[0], event.form.formlyTypes)

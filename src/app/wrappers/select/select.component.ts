@@ -27,21 +27,25 @@ export class SelectComponent extends FieldType<FieldTypeConfig> implements OnCha
     return this.to.options;
   }
   ngOnInit(): void {
-    // if (this.to['additionalProperties']?.borderRadius !== undefined) {
-    //   document.documentElement.style.setProperty('--radius', this.to['additionalProperties']?.borderRadius);
-    //   this.cdr.detectChanges();
-    // }
+    if (this.to['additionalProperties']?.borderRadius !== undefined) {
+      document.documentElement.style.setProperty('--radius', this.to['additionalProperties']?.borderRadius);
+      this.cdr.detectChanges();
+    }
   }
   ngOnChanges(changes: any) {
-    // if (this.to['additionalProperties']?.borderRadius) {
-    //   document.documentElement.style.setProperty('--radius', this.to['additionalProperties']?.borderRadius);
-    //   this.cdr.detectChanges();
-    // }
+    if (this.to['additionalProperties']?.borderRadius) {
+      document.documentElement.style.setProperty('--radius', this.to['additionalProperties']?.borderRadius);
+      this.cdr.detectChanges();
+    }
   }
   log(value: any): void {
     this.formControl.patchValue(value);
   }
   onModelChange(event: any, model: any) {
+    if (this.to['additionalProperties']?.borderRadius !== undefined) {
+      document.documentElement.style.setProperty('--radius', this.to['additionalProperties']?.borderRadius);
+      this.cdr.detectChanges();
+    }
     this.sharedService.onChange(event, this.field,);
     // console.log(event, model, 'radio');
   }
