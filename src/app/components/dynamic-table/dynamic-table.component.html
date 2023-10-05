@@ -87,16 +87,20 @@
   </div>
   <div *ngIf="groupingArray.length > 0" class="!flex !justify-start !items-center">
     <label class="mr-2 !font-semibold !text-sm text-blue-500">GROUPED BY :</label>
-    <ng-container *ngFor="let group of groupingArray; let last = last ; let i = index">
-      <div (click)="removeGrouping(i , false)">
-        <!-- <i class="fa-light text-xs text-blue-600 fa-badge-check mr-0.5"></i> -->
-        {{ group }}
-      </div>
-      <i *ngIf="!last" class="fa-solid fa-square-ampersand mx-1.5"></i>
-    </ng-container>
-    <i (click)="removeGrouping(0 , true)" class="fa-solid fa-square-xmark text-red-500 mx-2"></i>
+    <div class="flex items-center border relative px-2 py-0.5 rounded  group border-gray-500">
+      <ng-container *ngFor="let group of groupingArray; let last = last ; let i = index">
+        <div >
+          <!-- <i class="fa-light text-xs text-blue-600 fa-badge-check mr-0.5"></i> -->
+         <p class="flex justify-normal items-center" >
+           {{ group }}<i (click)="removeGrouping(i , false)" nz-tooltip nzTooltipTitle="Click Here To Remove {{ group }} Grouping" class="fa-regular fa-minus mr-1 ml-0.5"></i>
+         </p> 
+        </div>
+        <i *ngIf="!last" class="fa-solid fa-square-ampersand mx-1.5"></i>
+      </ng-container>
+      <i (click)="removeGrouping(0 , true)" nz-tooltip nzTooltipTitle="Click Here To Remove All Grouping"
+        class="fa-solid fa-square-xmark absolute right-[-10px] top-[-14px] hidden text-xs group-hover:block text-red-500 mx-2"></i>
+    </div>
   </div>
-
   <div class="dynamic-table" [processData]="processData"
     [appConfigurableSelect]="childTable == false ? (data?.appConfigurableEvent ? data?.appConfigurableEvent : []) : []"
     [loadAction]="childTable == false ? ( data?.eventActionconfig ? data?.eventActionconfig : {}) : false">
@@ -110,24 +114,26 @@
       [nzPaginationPosition]='data?.nzPaginationPosition' [nzPaginationType]='data?.nzPaginationType'
       [nzFrontPagination]='false' [nzTitle]='data?.nzTitle' [nzSimple]="data.nzSimple"
       [nzShowSizeChanger]="data.nzShowSizeChanger">
-      <thead *ngIf="tableHeaders.length > 0" class="desktop-toggle">
+      <thead [class]="data.tRowClass"
+      116 *ngIf="tableHeaders.length > 0" class="desktop-toggle">
         <tr class="desktop-toggle " *ngIf="data?.showColumnHeader == undefined ? true : data?.showColumnHeader">
-          <th [nzLeft]="data?.startFreezingNumber >= 1" *ngIf="data.showCheckbox" [(nzChecked)]="allChecked"
+          <th [class]="data?.thClass" class='resize' [nzLeft]="data?.startFreezingNumber >= 1" *ngIf="data.showCheckbox" [(nzChecked)]="allChecked"
             [nzIndeterminate]="indeterminate" (nzCheckedChange)="checkAll($event)"
             [ngStyle]="{'text-align': data?.position || 'left'}"></th>
           <ng-container *ngFor="let header of tableHeaders ; let i = index">
             <!-- !border-r-4 !border-gray-200 -->
-            <th style="border-right: 2px solid gray !important;"
-            (mousedown)="onResizeStart($event, header)" [nzWidth]="header?.width ? header.width + 'px' : 'auto'"
+            <th [class]="data?.thClass" (mousedown)="onResizeStart($event, header)" [nzWidth]="header?.width ? header.width + 'px' : 'auto'"
               [nzLeft]="allowFreeze(header , i)" [nzRight]="header?.headerFreeze == true ? true : false"
               *ngIf="header.key !== 'defaultValue' && ( header?.show == true || header?.show === undefined || header?.show === '' || header?.show == 'Yes')"
               [ngStyle]="{'text-align': header?.position || 'left'}">
               <!-- (click)="header?.columnClickApi ? onClickColumn(header.columnClickApi,header): ''" -->
-              <div class="head-divider w-auto flex justify-center items-center"
-                [style.transform]="data?.rotationDegree && 'rotate(' + data?.rotationDegree + 'deg)'" [style.height]="data?.rotationDegree && '100px'">
-                <p class='head-title'>
+              
+              <div class="!text-gray-500 !relative w-auto flex justify-center items-center"
+                [style.transform]="data?.rotationDegree && 'rotate(' + data?.rotationDegree + 'deg)'"
+                [style.height]="data?.rotationDegree && '100px' || 'auto'">
+                <div class="head-title relative  !uppercase !text-center">
                   {{header['title'] ? header['title'] : header['name']| translate}}
-                </p>
+                </div>
                 <span>
                   <a nz-dropdown [nzDropdownMenu]="menu" *ngIf="header?.isAllowGrouping && !childTable">
                     <i class="fa-regular fa-ellipsis-v mx-1"></i>
@@ -212,26 +218,32 @@
                     </ul>
                   </nz-dropdown-menu>
                 </span> <span *ngIf=" header?.gridHeaderSum">({{header?.gridHeaderSum}})</span>
-                <div class="resizer" (mousedown)="onResizeStart($event, header)"></div>
+                <!-- <div class="resizer" (mousedown)="onResizeStart($event, header)"></div> -->
               </div>
             </th>
           </ng-container>
-          <th *ngIf="isAllowEdit(tableHeaders)" [nzRight]="data?.endFreezingNumber >= 2">
-            <div class="head-divider w-auto flex justify-center items-center"
-              [style.transform]="data?.rotationDegree &&  'rotate(' + data?.rotationDegree + 'deg)'" [style.height]="data?.rotationDegree && '100px'">
+          <th [class]="data?.thClass" *ngIf="isAllowEdit(tableHeaders)" [nzRight]="data?.endFreezingNumber >= 2">
+            <div
+              class="!text-gray-500 relative !uppercase !text-center"
+              class="w-auto flex justify-center items-center"
+              [style.transform]="data?.rotationDegree &&  'rotate(' + data?.rotationDegree + 'deg)'"
+              [style.height]="data?.rotationDegree && '100px'">
               Edit
             </div>
           </th>
-          <th [nzRight]="data?.endFreezingNumber >= 1"
+          <th [class]="data?.thClass" [nzRight]="data?.endFreezingNumber >= 1"
             *ngIf="tableHeaders.length > 0 && (data?.isDeleteAllow || data?.isDeleteAllow == undefined)">
-            <div class="head-divider w-auto flex justify-center items-center"
-              [style.transform]="data?.rotationDegree && 'rotate(' + data?.rotationDegree + 'deg)'" [style.height]="data?.rotationDegree && '100px'">
+            <div
+              class="!text-gray-500 relative !uppercase !text-center"
+              class="w-auto flex justify-center items-center"
+              [style.transform]="data?.rotationDegree && 'rotate(' + data?.rotationDegree + 'deg)'"
+              [style.height]="data?.rotationDegree && '100px'">
               Delete
             </div>
           </th>
         </tr>
       </thead>
-      <tbody class="dynamic-responsive-table-body w-full" style="width: 100%;">
+      <tbody [class]="data?.tbodyClass"  class="dynamic-responsive-table-body w-full" style="width: 100%;">
         <ng-template #recursiveList let-data1>
           <ng-container *ngFor="let item of data1; let i = index">
             <tr (click)="rowselected(item)" class="desktop-toggle" (dblclick)="updateModel(item)"
@@ -259,8 +271,8 @@
                   && header.key != 'expand'  && header.key !='children' && header.key != 'defaultValue' ">
                   <div
                     *ngIf="(header?.dataType !='select' || !configurationTable) && header?.dataType !='audioVideoRecorder' && header?.dataType !='image-upload' && header?.dataType != 'repeatSection' && header?.dataType != 'dateTime' && !isMyDataArray(item[header.key]
-                  )
-                   && header?.subDataType != 'datetime-local' && header?.dataType != 'rangePicker' && header?.dataType !='checkbox'">
+                    )
+                    && header?.subDataType != 'datetime-local' && header?.dataType != 'rangePicker' && header?.dataType !='checkbox' && header?.dataType !='icon'">
                     <div class="editable-cell"
                       [hidden]="editId === item.id && (configurationTable || header?.editMode == 'yes'|| header?.editMode == true)">
                       {{item[header.key] | translate}}
@@ -318,6 +330,19 @@
                       <source [src]="item[header.key] ? serverPath + '/' + item[header.key] : ''" type="audio/mp3">
                     </audio>
                   </div>
+                  <div *ngIf="header?.dataType =='icon'">
+                    <st-icon *ngIf="header?.icon" [type]="'outline'" [icon]="header?.icon" [size]="15"
+                      [hoverIconColor]="''" [color]="''"></st-icon>
+                  </div>
+                  <ng-container *ngIf="data && data?.children">
+                    <ng-container *ngIf="data.children.length > 0">
+                      <div *ngFor="let childData of data.children">
+                        <st-block-buttons-card *ngIf="childData.type =='button' && childData?.key == header?.key"
+                          [softIconList]="childData">
+                        </st-block-buttons-card>
+                      </div>
+                    </ng-container>
+                  </ng-container>
                   <div *ngIf="header?.dataType =='checkbox'" class="4">
                     <label nz-checkbox [(ngModel)]="item[header.key]"></label>
                   </div>
@@ -335,9 +360,13 @@
                   </button>
                 </td>
               </ng-container>
-              <td [nzRight]="data?.endFreezingNumber >= 2" *ngIf="isAllowEdit(tableHeaders)" (click)="saveEdit(item)"
-                class="!text-center">
-                <i class="fa-regular !text-sm fa-save text-blue-500"></i>
+              <td [nzRight]="data?.endFreezingNumber >= 2" *ngIf="isAllowEdit(tableHeaders)" class="!text-center">
+                <i (click)="startEdit(item)" *ngIf="editId !== item.id"
+                  class="fa-regular !text-sm fa-pencil text-blue-500"></i>
+                <div class="flex" *ngIf="editId == item.id">
+                  <i (click)="saveEdit(item)" class="fa-regular !text-sm fa-save text-blue-500"></i>
+                  <i (click)="cancelEdit(item)" class="fa-regular !text-sm fa-times text-red-500 ml-3"></i>
+                </div>
               </td>
               <td [nzRight]="data?.endFreezingNumber >= 1"
                 *ngIf="data?.isDeleteAllow || data?.isDeleteAllow == undefined" class="!text-center">
@@ -438,9 +467,8 @@
         </tr>
       </tfoot>
     </nz-table>
-    <div [ngClass]="{'flex !mt-1.5 justify-normal items-center': data?.changePageSize && data.totalCount > data?.end}">
-      <div class="paginatio-bottom "
-        *ngIf="data?.nzShowPagination && data.totalCount > data?.end && showPagination">
+    <div [ngClass]="{'flex  justify-end items-center': data?.changePageSize && data.totalCount > data?.end}">
+      <div class="paginatio-bottom !mt-1.5" *ngIf="data?.nzShowPagination && data.totalCount > data?.end && showPagination">
         <div>
           <p class="showing">Showing <span>{{start}} - {{end ? end : data?.end}}</span>
             <span *ngIf="data.showTotal || data.showTotal == undefined">
@@ -458,11 +486,11 @@
           (nzPageIndexChange)="onPageIndexChange($event)">
         </nz-pagination>
       </div>
-      <div *ngIf="data?.changePageSize">
-        <a class="flex justify-start items-center border border-gray-100 text-black hover:text-blue-600 hover:border-blue-600"
+      <div class="perpage !mt-1.5" *ngIf="data?.changePageSize">
+        <a class="flex justify-start items-center border-2 paginator !p-1.5 rounded-md text-xs  border-[#a8a9ab] text-black hover:bg-[#3b82f6] hover:text-white hover:border-[#3b82f6]"
           nz-dropdown [nzDropdownMenu]="menu11">
-          <p class="white" sty>
-            Row Per Table
+          <p class="whitespace-nowrap pr-2" sty>
+            Paginator
           </p>
           <span nz-icon nzType="down"></span>
         </a>

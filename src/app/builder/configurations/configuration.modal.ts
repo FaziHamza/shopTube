@@ -11237,6 +11237,15 @@ export class formFeildData {
       fieldGroupClassName: "flex flex-wrap",
       fieldGroup: [
         {
+          key: 'thClass',
+          type: 'input',
+          wrappers: ["formly-vertical-theme-wrapper"],
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          props: {
+            label: 'th Class',
+          },
+        },
+        {
           key: 'showCheckbox',
           type: 'checkbox',
           wrappers: ["formly-vertical-theme-wrapper"],
@@ -11721,6 +11730,33 @@ export class formFeildData {
             }
           }
         },
+        {
+          key: 'tRowClass',
+          type: 'input',
+          wrappers: ["formly-vertical-theme-wrapper"],
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          props: {
+            label: 'T Head-Row Class',
+          },
+        },
+        {
+          key: 'thLabelClass',
+          type: 'input',
+          wrappers: ["formly-vertical-theme-wrapper"],
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          props: {
+            label: 'th Label Class',
+          },
+        },
+        {
+          key: 'tbodyClass',
+          type: 'input',
+          wrappers: ["formly-vertical-theme-wrapper"],
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          props: {
+            label: 't body Class',
+          },
+        },
         // {
         //   key: 'drawerScreenLink',
         //   type: 'input',
@@ -12074,6 +12110,14 @@ export class formFeildData {
                 props: {
                   type: 'number',
                   label: 'width'
+                }
+              },
+              {
+                key: 'icon',
+                type: 'input',
+                wrappers: ["formly-vertical-theme-wrapper"],
+                props: {
+                  label: 'Icon'
                 }
               },
               {
