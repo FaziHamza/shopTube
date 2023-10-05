@@ -1251,6 +1251,7 @@ export class PagesComponent implements OnInit {
     return inputElements;
   }
   getCacheRule(getRes: any) {
+    debugger
     getRes.data.forEach((res: any) => {
       if (res.name == 'BusinessRule') {
         if (res.data.length > 0) {

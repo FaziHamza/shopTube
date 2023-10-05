@@ -2125,7 +2125,7 @@ export class BuilderComponent implements OnInit {
                         this.checkConditionUIRule(model, currentVal);
                       },
                     },
-                    hide:true,
+                    hide: true,
                   },
                 ],
               },
@@ -2384,10 +2384,14 @@ export class BuilderComponent implements OnInit {
   clickButton(type: any) {
     debugger
     let _formFieldData = new formFeildData();
+    const validationObj = {
+      title: this.selectedNode.title ? this.selectedNode.title : this.selectedNode.id,
+      data: _formFieldData.inputValidationRuleFields
+    }
     this.validationFieldData = new GenaricFeild({
       type: 'inputValidationRule',
       title: this.selectedNode.title ? this.selectedNode.title : this.selectedNode.id,
-      formData: _formFieldData.inputValidationRuleFields,
+      commonData: [validationObj]
     });
     if (this.joiValidationData.length > 0) {
       let getJoiRule = this.joiValidationData.find(
@@ -2650,7 +2654,7 @@ export class BuilderComponent implements OnInit {
         };
         this.fieldData.commonData?.push({ title: 'gridFields', data: _formFieldData.gridFields }, { title: 'Table', data: _formFieldData.gridFields_Table },
           { title: 'th', data: _formFieldData.gridFields_th }, { title: 'StyleProperty', data: _formFieldData.gridFields_StyleProperty }, { title: 'Drawer', data: _formFieldData.gridFields_Drawer }
-          , { title: 'Heading', data: _formFieldData.gridFields_Heading } , { title: 'Options', data: _formFieldData.gridFieldsOptions }
+          , { title: 'Heading', data: _formFieldData.gridFields_Heading }, { title: 'Options', data: _formFieldData.gridFieldsOptions }
 
         );
         break;
@@ -3950,7 +3954,7 @@ export class BuilderComponent implements OnInit {
                   this.formlyModel[fieldGroup[0]['key'] as string];
             }
             fieldGroup[0]['key'] = event.form.key;
-            fieldGroup[0]['hide'] = event.form.hideExpression;
+            fieldGroup[0]['hide'] = false;
             const props = fieldGroup[0]?.props ?? {};
             if (event.form.formlyTypes && event.form.formlyTypes != props['additionalProperties']['formlyTypes']) {
               let formlyData = this.findFormlyTypeObj(this.htmlTabsData[0], event.form.formlyTypes)
@@ -4304,6 +4308,10 @@ export class BuilderComponent implements OnInit {
           this.selectedNode['rotationDegree'] = event.form?.rotationDegree;
           this.selectedNode['headingClass'] = event.form?.headingClass;
           this.selectedNode['heading'] = event.form?.heading;
+          this.selectedNode['tRowClass'] = event.form?.tRowClass;
+          this.selectedNode['thLabelClass'] = event.form?.thLabelClass;
+          this.selectedNode['thClass'] = event.form?.thClass;
+          this.selectedNode['tbodyClass'] = event.form?.tbodyClass;
           let tableData: any = '';
           if (event.tableDta) {
             tableData = event.tableDta;

@@ -1251,9 +1251,9 @@ export class DynamicTableComponent implements OnInit {
         drawer['visible'] = true;
       }
     }
-    // else {
-    //   this.startEdit(item.id)
-    // }
+    else if(this.configurationTable){
+      this.startEdit(item)
+    }
   }
   transform(dateRange: string): any {
     if (dateRange) {
@@ -2489,6 +2489,9 @@ export class DynamicTableComponent implements OnInit {
       item[key] = this.editData[key]
     }
     this.editId = null;
+  }
+  configurationEdit(item : any){
+   
   }
 }
 

@@ -52,7 +52,6 @@ export class SectionsComponent implements OnInit {
     // }
     this.requestSubscription = this.dataSharedService.sectionSubmit.subscribe({
       next: (res) => {
-        debugger
         const checkButtonExist = this.findObjectById(this.sections, res.id);
         // const checkButtonExist = this.isButtonIdExist(this.sections.children[1].children, res.id);
         if (checkButtonExist?.appConfigurableEvent) {
@@ -260,11 +259,16 @@ export class SectionsComponent implements OnInit {
 
       const Arraytables = Array.from(tableNames)
       const remainingTables = Arraytables.slice(1);
-      let id; findClickApi[0]
+      let id; findClickApi[0];
+      // for(const key in empData?.modalData){
+      //   if(empData?.modalData[key] == undefined){
+      //     empData.modalData[key] = '';
+      //   }
+      // }
       for (const key in empData?.modalData) {
         if (empData.modalData.hasOwnProperty(key) &&
           key.endsWith('.id') &&
-          empData.modalData[key] !== "") {
+          empData.modalData[key]) {
           id = key;
         }
       }
