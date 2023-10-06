@@ -2125,7 +2125,6 @@ export class BuilderComponent implements OnInit {
                         this.checkConditionUIRule(model, currentVal);
                       },
                     },
-                    hide: true,
                   },
                 ],
               },
@@ -2653,7 +2652,7 @@ export class BuilderComponent implements OnInit {
           ...this.clickButtonService.getGridConfig(selectedNode),
         };
         this.fieldData.commonData?.push({ title: 'gridFields', data: _formFieldData.gridFields }, { title: 'Table', data: _formFieldData.gridFields_Table },
-          { title: 'th', data: _formFieldData.gridFields_th }, { title: 'StyleProperty', data: _formFieldData.gridFields_StyleProperty }, { title: 'Drawer', data: _formFieldData.gridFields_Drawer }
+          { title: 'th', data: _formFieldData.gridFields_th },{ title: 'td', data: _formFieldData.gridFields_td }, { title: 'StyleProperty', data: _formFieldData.gridFields_StyleProperty }, { title: 'Drawer', data: _formFieldData.gridFields_Drawer }
           , { title: 'Heading', data: _formFieldData.gridFields_Heading }, { title: 'Options', data: _formFieldData.gridFieldsOptions }
 
         );
@@ -2927,20 +2926,22 @@ export class BuilderComponent implements OnInit {
         this.addIconCommonConfiguration(_formFieldData.buttonFields, true);
         this.fieldData.commonData?.push({ title: 'buttonFields', data: _formFieldData.buttonFields });
         break;
-      case 'dropdownButton':
-        // if (typeof selectedNode.buttonClass === "string") {
-        //   const classObj = JSON.parse(JSON.stringify(selectedNode.buttonClass.split(" ")));
-        //   configObj.buttonClass = classObj
-        // }
-        // (configObj.icon = selectedNode.btnIcon),
-        //   (configObj.options = selectedNode.dropdownOptions);
-        configObj = { ...configObj, ...this.clickButtonService.getDropdownButtonConfig(selectedNode) };
-        this.addIconCommonConfiguration(
-          _formFieldData.dropdownButtonFields,
-          true
-        );
-        this.fieldData.commonData?.push({ title: 'dropdownButtonFields', data: _formFieldData.dropdownButtonFields });
-        break;
+        case 'dropdownButton':
+          // if (typeof selectedNode.buttonClass === "string") {
+          //   const classObj = JSON.parse(JSON.stringify(selectedNode.buttonClass.split(" ")));
+          //   configObj.buttonClass = classObj
+          // }
+          // (configObj.icon = selectedNode.btnIcon),
+          //   (configObj.options = selectedNode.dropdownOptions);
+          // configObj = { ...configObj, ...this.clickButtonService.getDropdownButtonConfig(selectedNode) };
+          this.addIconCommonConfiguration(
+            _formFieldData.dropdownButtonFields,
+            true
+          );
+          configObj.icon = selectedNode.btnIcon;
+          configObj.options = selectedNode.dropdownOptions;
+          this.fieldData.commonData?.push({ title: 'dropdownButtonFields', data: _formFieldData.dropdownButtonFields });
+          break;
       case 'accordionButton':
         this.addIconCommonConfiguration(
           _formFieldData.accordionButtonFields,
@@ -4312,6 +4313,11 @@ export class BuilderComponent implements OnInit {
           this.selectedNode['thLabelClass'] = event.form?.thLabelClass;
           this.selectedNode['thClass'] = event.form?.thClass;
           this.selectedNode['tbodyClass'] = event.form?.tbodyClass;
+          this.selectedNode['tdClass'] = event.form?.tdClass;
+          this.selectedNode['hieght'] = event.form?.hieght;
+          if (event.form?.hieght) {
+            this.selectedNode['stickyHeaders'] = true;
+          }
           let tableData: any = '';
           if (event.tableDta) {
             tableData = event.tableDta;
@@ -4403,13 +4409,13 @@ export class BuilderComponent implements OnInit {
         }
         break;
 
-      case 'dropdownButton':
-        this.selectedNode.btnIcon = event.form?.icon;
-        if (event.tableDta) {
-          this.selectedNode.dropdownOptions = event.tableDta;
-        }
-        // this.selectedNode.dropdownOptions = event?.form?.dropdownOptions;
-        break;
+        case 'dropdownButton':
+          this.selectedNode.btnIcon = event.form?.icon;
+          if (event.tableDta) {
+            this.selectedNode.dropdownOptions = event.tableDta;
+          }
+          // this.selectedNode.dropdownOptions = event?.form?.dropdownOptions;
+          break;
       case 'fixedDiv':
         if (event.form.api) {
           this.requestSubscription = this.builderService

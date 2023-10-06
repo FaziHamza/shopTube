@@ -579,4 +579,6 @@ export interface TreeNode {
   thLabelClass?: string,
   thClass?: string,
   tbodyClass?: string,
+  tdClass?: string,
+  hieght?: string,
 }

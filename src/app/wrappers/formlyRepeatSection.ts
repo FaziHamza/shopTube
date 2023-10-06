@@ -10,7 +10,7 @@ import { Guid } from '../models/guid';
     </nz-collapse-panel>
   </nz-collapse> -->
 
-  <dynamic-table *ngIf='this.formData.length' [tableId]='tableId' [checkType]='true' [tableData]='this.formData' [tableHeaders]='tableHeader' [data]="data" [displayData]="this.formData" [configurationTable]="true"></dynamic-table>
+  <dynamic-table class="config-table" *ngIf='this.formData.length' [tableId]='tableId' [checkType]='true' [tableData]='this.formData' [tableHeaders]='tableHeader' [data]="data" [displayData]="this.formData" [configurationTable]="true"></dynamic-table>
 
   `,
 })
