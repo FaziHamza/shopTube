@@ -276,7 +276,7 @@ export class PagesComponent implements OnInit {
             this.requestSubscription = this.applicationService.getNestCommonAPIById("cp/CacheRule", res.data[0].screenBuilderId).subscribe({
               next: (rule: any) => {
                 // if(rule.isSuccess)
-                  this.getCacheRule(rule);
+                this.getCacheRule(rule);
                 this.actionsBindWithPage(res);
               },
               error: (err) => {
@@ -1070,23 +1070,14 @@ export class PagesComponent implements OnInit {
     finally {
       if (this.screenData != undefined) {
         var inputType = this.resData[0].children[1].children;
-        for (let index = 0; index < this.screenData?.uiData?.length; index++) {
-          if (model.key == this.screenData.uiData[index].ifMenuName) {
-            let query: any;
-            let getModelValue = this.formlyModel[this.screenData.uiData[index].ifMenuName] == "" ? false : this.formlyModel[this.screenData.uiData[index].ifMenuName];
-            if (this.screenData.uiData[index].condationName == 'contains') {
-              if (this.formlyModel[this.screenData.uiData[index].ifMenuName] != undefined &&
-                this.formlyModel[this.screenData.uiData[index].ifMenuName].includes(this.screenData.uiData[index].targetValue)) {
-                query = '1 == 1';
-                query = this.evalConditionRule(query, this.screenData.uiData[index].targetIfValue);
-              }
-              else {
-                query = '1 == 2';
-                query = this.evalConditionRule(query, this.screenData.uiData[index].targetIfValue);
-              }
-            } else if (this.screenData.uiData[index].condationName == 'null') {
-              if (typeof (this.formlyModel[this.screenData.uiData[index].ifMenuName]) != "number") {
-                if (this.formlyModel[this.screenData.uiData[index].ifMenuName] == '' || this.formlyModel[this.screenData.uiData[index].ifMenuName] == null) {
+        if(inputType){
+          for (let index = 0; index < this.screenData?.uiData?.length; index++) {
+            if (model.key == this.screenData.uiData[index].ifMenuName) {
+              let query: any;
+              let getModelValue = this.formlyModel[this.screenData.uiData[index].ifMenuName] == "" ? false : this.formlyModel[this.screenData.uiData[index].ifMenuName];
+              if (this.screenData.uiData[index].condationName == 'contains') {
+                if (this.formlyModel[this.screenData.uiData[index].ifMenuName] != undefined &&
+                  this.formlyModel[this.screenData.uiData[index].ifMenuName].includes(this.screenData.uiData[index].targetValue)) {
                   query = '1 == 1';
                   query = this.evalConditionRule(query, this.screenData.uiData[index].targetIfValue);
                 }
@@ -1094,36 +1085,48 @@ export class PagesComponent implements OnInit {
                   query = '1 == 2';
                   query = this.evalConditionRule(query, this.screenData.uiData[index].targetIfValue);
                 }
+              } else if (this.screenData.uiData[index].condationName == 'null') {
+                if (typeof (this.formlyModel[this.screenData.uiData[index].ifMenuName]) != "number") {
+                  if (this.formlyModel[this.screenData.uiData[index].ifMenuName] == '' || this.formlyModel[this.screenData.uiData[index].ifMenuName] == null) {
+                    query = '1 == 1';
+                    query = this.evalConditionRule(query, this.screenData.uiData[index].targetIfValue);
+                  }
+                  else {
+                    query = '1 == 2';
+                    query = this.evalConditionRule(query, this.screenData.uiData[index].targetIfValue);
+                  }
+                } else {
+                  query = '1 == 2';
+                  query = this.evalConditionRule(query, this.screenData.uiData[index].targetIfValue);
+                }
+  
               } else {
-                query = '1 == 2';
-                query = this.evalConditionRule(query, this.screenData.uiData[index].targetIfValue);
+                if (this.screenData.uiData[index].ifMenuName.includes('number') || this.screenData.uiData[index].ifMenuName.includes('decimal')) {
+                  query = Number(getModelValue) + " " + this.screenData.uiData[index].condationName + " " + this.screenData.uiData[index].targetValue;
+  
+                  query = this.evalConditionRule(query, this.screenData.uiData[index].targetIfValue);
+                } else {
+                  query = "'" + getModelValue + "' " + this.screenData.uiData[index].condationName + " '" + this.screenData.uiData[index].targetValue + "'";
+  
+                  query = this.evalConditionRule(query, this.screenData.uiData[index].targetIfValue);
+                }
               }
-
-            } else {
-              if (this.screenData.uiData[index].ifMenuName.includes('number') || this.screenData.uiData[index].ifMenuName.includes('decimal')) {
-                query = Number(getModelValue) + " " + this.screenData.uiData[index].condationName + " " + this.screenData.uiData[index].targetValue;
-
-                query = this.evalConditionRule(query, this.screenData.uiData[index].targetIfValue);
-              } else {
-                query = "'" + getModelValue + "' " + this.screenData.uiData[index].condationName + " '" + this.screenData.uiData[index].targetValue + "'";
-
-                query = this.evalConditionRule(query, this.screenData.uiData[index].targetIfValue);
+              if (this.UiRuleCondition(query)) {
+                const check = this.makeUIJSONForSave(this.screenData, index, inputType, true);
+                this.resData[0].children[1].children = check;
+                this.updateNodes();
+                this.updateFormlyModel();
               }
-            }
-            if (this.UiRuleCondition(query)) {
-              const check = this.makeUIJSONForSave(this.screenData, index, inputType, true);
-              this.resData[0].children[1].children = check;
-              this.updateNodes();
-              this.updateFormlyModel();
-            }
-            else {
-              const check = this.makeUIJSONForSave(this.screenData, index, inputType, false);
-              this.resData[0].children[1].children = check;
-              this.updateNodes();
-              this.updateFormlyModel();
+              else {
+                const check = this.makeUIJSONForSave(this.screenData, index, inputType, false);
+                this.resData[0].children[1].children = check;
+                this.updateNodes();
+                this.updateFormlyModel();
+              }
             }
           }
         }
+       
       }
       else {
         // this.updateFormlyModel();
@@ -1274,18 +1277,15 @@ export class PagesComponent implements OnInit {
         this.actionRuleList.push(res.data);
       }
       else if (res.name == 'UiRule') {
-        if (res.data.length > 0) {
-          if (res.data.length > 0) {
-            this.screenData = [];
-            const jsonUIResult = {
-              "key": res.data[0].key,
-              "title": res.data[0].title,
-              "screenName": res.data[0].screenName,
-              "screenId": res.data[0].screenId,
-              "uiData": JSON.parse(res.data[0].uiData)
-            }
-            this.screenData = jsonUIResult;
-          } else { }
+        if (res.data) {
+          const jsonUIResult = {
+            "key": res.data.key,
+            "title": res.data.title,
+            "screenName": res.data.screenName,
+            "screenId": res.data.screenBuilderId,
+            "uiData": JSON.parse(res.data.uiData)
+          }
+          this.screenData = jsonUIResult;
         }
       }
     });
@@ -1400,84 +1400,108 @@ export class PagesComponent implements OnInit {
       return modelFaker;
     }
   }
-  makeUIJSONForSave(screenData: any, index: number, inputType: any, currentValue: boolean) {
-    for (let k = 0; k < screenData.uiData[index].targetCondition.length; k++) {
-      for (let j = 0; j < inputType.length; j++) {
-        let element = inputType[j];
-        if (this.screenData.uiData[index].targetCondition[k].targetName == element.key && currentValue) {
-          inputType[j] = this.screenData.uiData[index].targetCondition[k].inputJsonData;
-        }
-        else if (this.screenData.uiData[index].targetCondition[k].targetName == inputType[j].key && !currentValue)
-          inputType[j] = this.screenData.uiData[index].targetCondition[k].inputOldJsonData;
-        else {
-          for (let l = 0; l < inputType[j].children[1].children.length; l++) {
-            if (inputType[j].children[1].children[l].type == "button" || inputType[j].children[1].children[l].type == "linkButton" || inputType[j].children[1].children[l].type == "dropdownButton") {
-              if (this.screenData.uiData[index].targetCondition[k].targetName == inputType[j].children[1].children[l].key && currentValue) {
-                inputType[j].children[1].children[l] = this.screenData.uiData[index].targetCondition[k].inputJsonData;
-              } else if (this.screenData.uiData[index].targetCondition[k].targetName == inputType[j].children[1].children[l].key && !currentValue)
-                inputType[j].children[1].children[l] = this.screenData.uiData[index].targetCondition[k].inputOldJsonData;
-            } else if (inputType[j].children[1].children[l].type == "buttonGroup") {
-              if (this.screenData.uiData[index].targetCondition[k].targetName == inputType[j].children[1].children[l].key && currentValue)
-                inputType[j].children[1].children[l].children = this.screenData.uiData[index].targetCondition[k].inputJsonData;
-              else if (this.screenData.uiData[index].targetCondition[k].targetName == inputType[j].children[1].children[l].key && !currentValue)
-                inputType[j].children[1].children[l].children = this.screenData.uiData[index].targetCondition[k].inputOldJsonData;
-            }
-            else if (inputType[j].children[1].children[l].type == "input" || inputType[j].children[1].children[l].type == "inputGroup" || inputType[j].children[1].children[l].type == "checkbox" ||
-              inputType[j].children[1].children[l].type == "color" || inputType[j].children[1].children[l].type == "decimal" || inputType[j].children[1].children[l].type == "image" ||
-              inputType[j].children[1].children[l].type == "multiselect" || inputType[j].children[1].children[l].type == "radiobutton" || inputType[j].children[1].children[l].type == "search" ||
-              inputType[j].children[1].children[l].type == "repeatSection" || inputType[j].children[1].children[l].type == "tags" || inputType[j].children[1].children[l].type == "telephone" ||
-              inputType[j].children[1].children[l].type == "textarea" || inputType[j].children[1].children[l].type == "date" || inputType[j].children[1].children[l].type == "datetime" ||
-              inputType[j].children[1].children[l].type == "month" || inputType[j].children[1].children[l].type == "time" || inputType[j].children[1].children[l].type == "week") {
-              if (this.screenData.uiData[index].targetCondition[k].targetName == inputType[j].children[1].children[l].formly[0].fieldGroup[0].key && currentValue) {
-                inputType[j].children[1].children[l] = this.screenData.uiData[index].targetCondition[k].inputJsonData;
-              } else if (this.screenData.uiData[index].targetCondition[k].targetName == inputType[j].children[1].children[l].formly[0].fieldGroup[0].key && !currentValue) {
-                inputType[j].children[1].children[l] = this.screenData.uiData[index].targetCondition[k].inputOldJsonData;
-              }
-            } else if (inputType[j].children[1].children[l].type == "alert" || inputType[j].children[1].children[l].type == "heading" || inputType[j].children[1].children[l].type == "paragraph" ||
-              inputType[j].children[1].children[l].type == "tag" || inputType[j].children[1].children[l].type == "card" || inputType[j].children[1].children[l].type == "simpleCardWithHeaderBodyFooter" ||
-              inputType[j].children[1].children[l].type == "cascader" || inputType[j].children[1].children[l].type == "mentions" || inputType[j].children[1].children[l].type == "transfer" ||
-              inputType[j].children[1].children[l].type == "treeSelect" || inputType[j].children[1].children[l].type == "switch" || inputType[j].children[1].children[l].type == "avatar" ||
-              inputType[j].children[1].children[l].type == "badge" || inputType[j].children[1].children[l].type == "treeView" || inputType[j].children[1].children[l].type == "carouselCrossfade" ||
-              inputType[j].children[1].children[l].type == "comment" || inputType[j].children[1].children[l].type == "description" || inputType[j].children[1].children[l].type == "statistic" ||
-              inputType[j].children[1].children[l].type == "empty" || inputType[j].children[1].children[l].type == "list" || inputType[j].children[1].children[l].type == "popConfirm" ||
-              inputType[j].children[1].children[l].type == "timeline" || inputType[j].children[1].children[l].type == "popOver" || inputType[j].children[1].children[l].type == "imageUpload" ||
-              inputType[j].children[1].children[l].type == "invoice" || inputType[j].children[1].children[l].type == "segmented" || inputType[j].children[1].children[l].type == "drawer" ||
-              inputType[j].children[1].children[l].type == "message" || inputType[j].children[1].children[l].type == "notification" || inputType[j].children[1].children[l].type == "modal" ||
-              inputType[j].children[1].children[l].type == "progressBar" || inputType[j].children[1].children[l].type == "result" || inputType[j].children[1].children[l].type == "skeleton" ||
-              inputType[j].children[1].children[l].type == "spin" || inputType[j].children[1].children[l].type == "accordionButton" || inputType[j].children[1].children[l].type == "audio" ||
-              inputType[j].children[1].children[l].type == "multiFileUpload" || inputType[j].children[1].children[l].type == "rate" || inputType[j].children[1].children[l].type == "toastr" ||
-              inputType[j].children[1].children[l].type == "video") {
-              if (this.screenData.uiData[index].targetCondition[k].targetName == inputType[j].children[1].children[l].key && currentValue)
-                inputType[j].children[1].children[l] = this.screenData.uiData[index].targetCondition[k].inputJsonData;
-              else if (this.screenData.uiData[index].targetCondition[k].targetName == inputType[j].children[1].children[l].key && !currentValue)
-                inputType[j].children[1].children[l] = this.screenData.uiData[index].targetCondition[k].inputOldJsonData;
-            } else if (inputType[j].children[1].children[l].type == "mainDashonicTabs") {
-              for (let m = 0; m < inputType[j].children[1].children[l].children.length; m++) {
-                if (this.screenData.uiData[index].targetCondition[k].targetName == inputType[j].children[1].children[l].children[m].key && currentValue)
-                  inputType[j].children[1].children[l].children[m] = this.screenData.uiData[index].targetCondition[k].inputJsonData;
-                else if (this.screenData.uiData[index].targetCondition[k].targetName == inputType[j].children[1].children[l].children[m].key && !currentValue)
-                  inputType[j].children[1].children[l].children[m] = this.screenData.uiData[index].targetCondition[k].inputOldJsonData;
-              }
-            } else if (inputType[j].children[1].children[l].type == "stepperMain") {
-              for (let m = 0; m < inputType[j].children[1].children[l].children.length; m++) {
-                if (this.screenData.uiData[index].targetCondition[k].targetName == inputType[j].children[1].children[l].children[m].formly[0].fieldGroup[0].key && currentValue)
-                  inputType[j].children[1].children[l].children[m] = this.screenData.uiData[index].targetCondition[k].inputJsonData;
-                else if (this.screenData.uiData[index].targetCondition[k].targetName == inputType[j].children[1].children[l].children[m].formly[0].fieldGroup[0].key && !currentValue)
-                  inputType[j].children[1].children[l].children[m] = this.screenData.uiData[index].targetCondition[k].inputOldJsonData;
-              }
-            }
-            else if (inputType[j].children[1].children[l].type == "gridList" || inputType[j].children[1].children[l].type == "gridListEditDelete") {
-              if (this.screenData.uiData[index].targetCondition[k].targetName == inputType[j].children[1].children[l].key && currentValue)
-                inputType[j].children[1].children[l] = this.screenData.uiData[index].targetCondition[k].inputJsonData;
-              else if (this.screenData.uiData[index].targetCondition[k].targetName == inputType[j].children[1].children[l].key && !currentValue)
-                inputType[j].children[1].children[l] = this.screenData.uiData[index].targetCondition[k].inputOldJsonData;
-            }
+  getAllObjects(data: any): any[] {
+    const foundObjects: any[] = [];
+
+    function recursiveFind(currentData: any) {
+      if (currentData) {
+        foundObjects.push(currentData);
+
+        if (currentData.children && currentData.children.length > 0) {
+          for (const child of currentData.children) {
+            recursiveFind(child);
           }
         }
       }
-
     }
-    return inputType;
+
+    recursiveFind(data);
+    return foundObjects;
+  }
+  makeUIJSONForSave(screenData: any, index: number, inputType: any, currentValue: boolean) {
+    let comingData = inputType[0];
+    for (let k = 0; k < screenData.uiData[index].targetCondition.length; k++) {
+      if (currentValue) 
+        comingData =  this.updateObjectById(comingData,this.screenData.uiData[index].targetCondition[k].inputOldJsonData.id,this.screenData.uiData[index].targetCondition[k].inputJsonData)
+      else if (!currentValue) 
+        comingData =  this.updateObjectById(comingData,this.screenData.uiData[index].targetCondition[k].inputOldJsonData,this.screenData.uiData[index].targetCondition[k].inputJsonData)
+    }
+    return [comingData];
+      // for (let j = 0; j < inputType.length; j++) {
+      //   let element = inputType[j];
+      //   if (this.screenData.uiData[index].targetCondition[k].targetName == element.key && currentValue) {
+      //     inputType[j] = this.screenData.uiData[index].targetCondition[k].inputJsonData;
+      //   }
+      //   else if (this.screenData.uiData[index].targetCondition[k].targetName == inputType[j].key && !currentValue)
+      //     inputType[j] = this.screenData.uiData[index].targetCondition[k].inputOldJsonData;
+      //   else {
+      //     for (let l = 0; l < inputType[j].children[1].children.length; l++) {
+      //       if (inputType[j].children[1].children[l].type == "button" || inputType[j].children[1].children[l].type == "linkButton" || inputType[j].children[1].children[l].type == "dropdownButton") {
+      //         if (this.screenData.uiData[index].targetCondition[k].targetName == inputType[j].children[1].children[l].key && currentValue) {
+      //           inputType[j].children[1].children[l] = this.screenData.uiData[index].targetCondition[k].inputJsonData;
+      //         } else if (this.screenData.uiData[index].targetCondition[k].targetName == inputType[j].children[1].children[l].key && !currentValue)
+      //           inputType[j].children[1].children[l] = this.screenData.uiData[index].targetCondition[k].inputOldJsonData;
+      //       } else if (inputType[j].children[1].children[l].type == "buttonGroup") {
+      //         if (this.screenData.uiData[index].targetCondition[k].targetName == inputType[j].children[1].children[l].key && currentValue)
+      //           inputType[j].children[1].children[l].children = this.screenData.uiData[index].targetCondition[k].inputJsonData;
+      //         else if (this.screenData.uiData[index].targetCondition[k].targetName == inputType[j].children[1].children[l].key && !currentValue)
+      //           inputType[j].children[1].children[l].children = this.screenData.uiData[index].targetCondition[k].inputOldJsonData;
+      //       }
+      //       else if (inputType[j].children[1].children[l].type == "input" || inputType[j].children[1].children[l].type == "inputGroup" || inputType[j].children[1].children[l].type == "checkbox" ||
+      //         inputType[j].children[1].children[l].type == "color" || inputType[j].children[1].children[l].type == "decimal" || inputType[j].children[1].children[l].type == "image" ||
+      //         inputType[j].children[1].children[l].type == "multiselect" || inputType[j].children[1].children[l].type == "radiobutton" || inputType[j].children[1].children[l].type == "search" ||
+      //         inputType[j].children[1].children[l].type == "repeatSection" || inputType[j].children[1].children[l].type == "tags" || inputType[j].children[1].children[l].type == "telephone" ||
+      //         inputType[j].children[1].children[l].type == "textarea" || inputType[j].children[1].children[l].type == "date" || inputType[j].children[1].children[l].type == "datetime" ||
+      //         inputType[j].children[1].children[l].type == "month" || inputType[j].children[1].children[l].type == "time" || inputType[j].children[1].children[l].type == "week") {
+      //         if (this.screenData.uiData[index].targetCondition[k].targetName == inputType[j].children[1].children[l].formly[0].fieldGroup[0].key && currentValue) {
+      //           inputType[j].children[1].children[l] = this.screenData.uiData[index].targetCondition[k].inputJsonData;
+      //         } else if (this.screenData.uiData[index].targetCondition[k].targetName == inputType[j].children[1].children[l].formly[0].fieldGroup[0].key && !currentValue) {
+      //           inputType[j].children[1].children[l] = this.screenData.uiData[index].targetCondition[k].inputOldJsonData;
+      //         }
+      //       } else if (inputType[j].children[1].children[l].type == "alert" || inputType[j].children[1].children[l].type == "heading" || inputType[j].children[1].children[l].type == "paragraph" ||
+      //         inputType[j].children[1].children[l].type == "tag" || inputType[j].children[1].children[l].type == "card" || inputType[j].children[1].children[l].type == "simpleCardWithHeaderBodyFooter" ||
+      //         inputType[j].children[1].children[l].type == "cascader" || inputType[j].children[1].children[l].type == "mentions" || inputType[j].children[1].children[l].type == "transfer" ||
+      //         inputType[j].children[1].children[l].type == "treeSelect" || inputType[j].children[1].children[l].type == "switch" || inputType[j].children[1].children[l].type == "avatar" ||
+      //         inputType[j].children[1].children[l].type == "badge" || inputType[j].children[1].children[l].type == "treeView" || inputType[j].children[1].children[l].type == "carouselCrossfade" ||
+      //         inputType[j].children[1].children[l].type == "comment" || inputType[j].children[1].children[l].type == "description" || inputType[j].children[1].children[l].type == "statistic" ||
+      //         inputType[j].children[1].children[l].type == "empty" || inputType[j].children[1].children[l].type == "list" || inputType[j].children[1].children[l].type == "popConfirm" ||
+      //         inputType[j].children[1].children[l].type == "timeline" || inputType[j].children[1].children[l].type == "popOver" || inputType[j].children[1].children[l].type == "imageUpload" ||
+      //         inputType[j].children[1].children[l].type == "invoice" || inputType[j].children[1].children[l].type == "segmented" || inputType[j].children[1].children[l].type == "drawer" ||
+      //         inputType[j].children[1].children[l].type == "message" || inputType[j].children[1].children[l].type == "notification" || inputType[j].children[1].children[l].type == "modal" ||
+      //         inputType[j].children[1].children[l].type == "progressBar" || inputType[j].children[1].children[l].type == "result" || inputType[j].children[1].children[l].type == "skeleton" ||
+      //         inputType[j].children[1].children[l].type == "spin" || inputType[j].children[1].children[l].type == "accordionButton" || inputType[j].children[1].children[l].type == "audio" ||
+      //         inputType[j].children[1].children[l].type == "multiFileUpload" || inputType[j].children[1].children[l].type == "rate" || inputType[j].children[1].children[l].type == "toastr" ||
+      //         inputType[j].children[1].children[l].type == "video") {
+      //         if (this.screenData.uiData[index].targetCondition[k].targetName == inputType[j].children[1].children[l].key && currentValue)
+      //           inputType[j].children[1].children[l] = this.screenData.uiData[index].targetCondition[k].inputJsonData;
+      //         else if (this.screenData.uiData[index].targetCondition[k].targetName == inputType[j].children[1].children[l].key && !currentValue)
+      //           inputType[j].children[1].children[l] = this.screenData.uiData[index].targetCondition[k].inputOldJsonData;
+      //       } else if (inputType[j].children[1].children[l].type == "mainDashonicTabs") {
+      //         for (let m = 0; m < inputType[j].children[1].children[l].children.length; m++) {
+      //           if (this.screenData.uiData[index].targetCondition[k].targetName == inputType[j].children[1].children[l].children[m].key && currentValue)
+      //             inputType[j].children[1].children[l].children[m] = this.screenData.uiData[index].targetCondition[k].inputJsonData;
+      //           else if (this.screenData.uiData[index].targetCondition[k].targetName == inputType[j].children[1].children[l].children[m].key && !currentValue)
+      //             inputType[j].children[1].children[l].children[m] = this.screenData.uiData[index].targetCondition[k].inputOldJsonData;
+      //         }
+      //       } else if (inputType[j].children[1].children[l].type == "stepperMain") {
+      //         for (let m = 0; m < inputType[j].children[1].children[l].children.length; m++) {
+      //           if (this.screenData.uiData[index].targetCondition[k].targetName == inputType[j].children[1].children[l].children[m].formly[0].fieldGroup[0].key && currentValue)
+      //             inputType[j].children[1].children[l].children[m] = this.screenData.uiData[index].targetCondition[k].inputJsonData;
+      //           else if (this.screenData.uiData[index].targetCondition[k].targetName == inputType[j].children[1].children[l].children[m].formly[0].fieldGroup[0].key && !currentValue)
+      //             inputType[j].children[1].children[l].children[m] = this.screenData.uiData[index].targetCondition[k].inputOldJsonData;
+      //         }
+      //       }
+      //       else if (inputType[j].children[1].children[l].type == "gridList" || inputType[j].children[1].children[l].type == "gridListEditDelete") {
+      //         if (this.screenData.uiData[index].targetCondition[k].targetName == inputType[j].children[1].children[l].key && currentValue)
+      //           inputType[j].children[1].children[l] = this.screenData.uiData[index].targetCondition[k].inputJsonData;
+      //         else if (this.screenData.uiData[index].targetCondition[k].targetName == inputType[j].children[1].children[l].key && !currentValue)
+      //           inputType[j].children[1].children[l] = this.screenData.uiData[index].targetCondition[k].inputOldJsonData;
+      //       }
+      //     }
+      //   }
+      // }
+
+    // return inputType;
   }
 
   sectionRepeat(section: any) {
@@ -1878,6 +1902,26 @@ export class PagesComponent implements OnInit {
         return null;
       }
     }
+  }
+  updateObjectById(data: any, id: any, updatedObj: any) {
+    if (!data) {
+      return null; // If data is not provided, return null
+    }
+  
+    // Check if the current node matches the ID
+    if (data.id === id) {
+      // Replace the current node with the updated object
+      return updatedObj;
+    }
+  
+    if (data.children && data.children.length > 0) {
+      // Recursively search and update in children
+      data.children = data.children.map((child: any) =>
+        this.updateObjectById(child, id, updatedObj)
+      );
+    }
+  
+    return data;
   }
   isButtonIdExist(data: any[], targetId: string): boolean {
     for (const item of data) {

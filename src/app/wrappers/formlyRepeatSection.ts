@@ -10,7 +10,7 @@ import { Guid } from '../models/guid';
     </nz-collapse-panel>
   </nz-collapse> -->
 
-  <dynamic-table *ngIf='this.formData.length' [tableId]='tableId' [checkType]='true' [tableData]='this.formData' [tableHeaders]='tableHeader' [data]="data" [displayData]="this.formData" [configurationTable]="true"></dynamic-table>
+  <dynamic-table class="config-table" *ngIf='this.formData.length' [tableId]='tableId' [checkType]='true' [tableData]='this.formData' [tableHeaders]='tableHeader' [data]="data" [displayData]="this.formData" [configurationTable]="true"></dynamic-table>
 
   `,
 })
@@ -21,8 +21,6 @@ export class formlyRepeatSectionComponent extends FieldArrayType {
   data: any = {};
   tableKey: any = {};
   ngOnInit(): void {
-    debugger
-
     this.tableId = this.field.key + Guid.newGuid();
     const key = Array.isArray(this.field.key) ? this.field.key[0] : this.field.key;
     if (key) {
