@@ -131,13 +131,12 @@
             [nzIndeterminate]="indeterminate" (nzCheckedChange)="checkAll($event)"></th>
           <ng-container *ngFor="let header of tableHeaders ; let i = index">
             <!-- !border-r-4 !border-gray-200 -->
-            <th [class]="data?.thClass" (mousedown)="onResizeStart($event, header)"
-              [nzWidth]="header?.width ? header.width + 'px' : 'auto'" [nzLeft]="allowFreeze(header , i)"
-              [nzRight]="header?.headerFreeze == true ? true : false"
+            <th (mousedown)="onResizeStart($event, header)" [nzWidth]="header?.width ? header.width + 'px' : 'auto'"
+              [nzLeft]="allowFreeze(header , i)" [nzRight]="header?.headerFreeze == true ? true : false"
               *ngIf="header.key !== 'defaultValue' && ( header?.show == true || header?.show === undefined || header?.show === '' || header?.show == 'Yes')">
               <!-- (click)="header?.columnClickApi ? onClickColumn(header.columnClickApi,header): ''" -->
-
-              <div class="!text-gray-500 !relative w-auto flex justify-center items-center myTEXT"
+              <div [class]="data?.thClass"
+                class="!text-gray-500 !relative w-auto flex justify-center items-center myTEXT"
                 [style.transform]="data?.rotationDegree && 'rotate(' + data?.rotationDegree + 'deg)'"
                 [style.height]="data?.rotationDegree && '100px' || 'auto'">
                 <div class="head-title relative  !uppercase !text-center">
@@ -236,19 +235,19 @@
             </th>
           </ng-container>
           <th [nzWidth]="deleteditWidth[0]?.width ? deleteditWidth[0].width + 'px' : 'auto'"
-            (mousedown)="onResizeStart($event, deleteditWidth[0])" [class]="data?.thClass"
+            (mousedown)="onResizeStart($event, deleteditWidth[0])" 
             *ngIf="isAllowEdit(tableHeaders)" [nzRight]="data?.endFreezingNumber >= 2">
-            <div class="!text-gray-500 relative !uppercase !text-center" class="w-auto flex justify-center items-center"
+            <div [class]="data?.thClass" class="!text-gray-500 relative !uppercase !text-center" class="w-auto flex justify-center items-center"
               [style.transform]="data?.rotationDegree &&  'rotate(' + data?.rotationDegree + 'deg)'"
               [style.height]="data?.rotationDegree && '100px'">
               Edit
             </div>
           </th>
           <th [nzWidth]="deleteditWidth[1]?.width ? deleteditWidth[1].width + 'px' : 'auto'"
-            (mousedown)="onResizeStart($event, deleteditWidth[1])" [class]="data?.thClass"
+            (mousedown)="onResizeStart($event, deleteditWidth[1])" 
             [nzRight]="data?.endFreezingNumber >= 1"
             *ngIf="tableHeaders.length > 0 && (data?.isDeleteAllow || data?.isDeleteAllow == undefined)">
-            <div class="!text-gray-500 relative !uppercase !text-center" class="w-auto flex justify-center items-center"
+            <div [class]="data?.thClass" class="!text-gray-500 relative !uppercase !text-center" class="w-auto flex justify-center items-center"
               [style.transform]="data?.rotationDegree && 'rotate(' + data?.rotationDegree + 'deg)'"
               [style.height]="data?.rotationDegree && '100px'">
               Delete

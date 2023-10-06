@@ -11242,7 +11242,7 @@ export class formFeildData {
           wrappers: ["formly-vertical-theme-wrapper"],
           className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
           props: {
-            label: 'td Class',
+            label: 'Font Class',
           },
         },
       ]
@@ -11258,7 +11258,7 @@ export class formFeildData {
           wrappers: ["formly-vertical-theme-wrapper"],
           className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
           props: {
-            label: 'th Class',
+            label: 'Head Label Class',
           },
         },
         {
@@ -11746,33 +11746,33 @@ export class formFeildData {
             }
           }
         },
-        {
-          key: 'tRowClass',
-          type: 'input',
-          wrappers: ["formly-vertical-theme-wrapper"],
-          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
-          props: {
-            label: 'T Head-Row Class',
-          },
-        },
-        {
-          key: 'thLabelClass',
-          type: 'input',
-          wrappers: ["formly-vertical-theme-wrapper"],
-          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
-          props: {
-            label: 'th Label Class',
-          },
-        },
-        {
-          key: 'tbodyClass',
-          type: 'input',
-          wrappers: ["formly-vertical-theme-wrapper"],
-          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
-          props: {
-            label: 't body Class',
-          },
-        },
+        // {
+        //   key: 'tRowClass',
+        //   type: 'input',
+        //   wrappers: ["formly-vertical-theme-wrapper"],
+        //   className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+        //   props: {
+        //     label: 'T Head-Row Class',
+        //   },
+        // },
+        // {
+        //   key: 'thLabelClass',
+        //   type: 'input',
+        //   wrappers: ["formly-vertical-theme-wrapper"],
+        //   className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+        //   props: {
+        //     label: 'th Label Class',
+        //   },
+        // },
+        // {
+        //   key: 'tbodyClass',
+        //   type: 'input',
+        //   wrappers: ["formly-vertical-theme-wrapper"],
+        //   className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+        //   props: {
+        //     label: 't body Class',
+        //   },
+        // },
         {
           key: 'hieght',
           type: 'input',
