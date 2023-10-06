@@ -107,28 +107,26 @@
     [loadAction]="childTable == false ? ( data?.eventActionconfig ? data?.eventActionconfig : {}) : false">
     <nz-table nzShowPagination [nzVirtualItemSize]="54" [nzSimple]="true"
       [nzOuterBordered]="data?.outerBordered || false" [nzScroll]="data?.stickyHeaders
-    ? {  y: '240px' , x: '2500px' }
-    : (data?.endFreezingNumber !== undefined || data?.startFreezingNumber !== undefined
-      ? { x: '2500px' }
-      : { x: '' })" [class]="tableHeaders.length > 5 ? 'table-auto' : 'table-fixed' " #columnTable #editRowTable
+      ? {  y: data?.hieght ?  data?.hieght + 'px':'240px' , x: '2500px' }
+      : (data?.endFreezingNumber !== undefined || data?.startFreezingNumber !== undefined
+        ? { x: '2500px' }
+        : { x: '' })" [class]="tableHeaders.length > 5 ? 'table-auto' : 'table-fixed' " #columnTable #editRowTable
       #outBordered [nzPageSize]="10" [nzData]="displayData" *ngIf="data && displayData" [nzLoading]="data?.nzLoading"
       [nzPaginationPosition]='data?.nzPaginationPosition' [nzPaginationType]='data?.nzPaginationType'
       [nzFrontPagination]='false' [nzTitle]='data?.nzTitle' [nzSimple]="data.nzSimple"
       [nzShowSizeChanger]="data.nzShowSizeChanger">
       <thead [class]="data.tRowClass" *ngIf="tableHeaders.length > 0" class="desktop-toggle">
         <tr class="desktop-toggle " *ngIf="data?.showColumnHeader == undefined ? true : data?.showColumnHeader">
-          <th [class]="data?.thClass" class='resize' [nzLeft]="data?.startFreezingNumber >= 1" *ngIf="data.showCheckbox"
-            [(nzChecked)]="allChecked" [nzIndeterminate]="indeterminate" (nzCheckedChange)="checkAll($event)"
-            [ngStyle]="{'text-align': data?.position || 'left'}"></th>
+          <th style="text-align:center !important" [class]="data?.thClass" class='resize'
+            [nzLeft]="data?.startFreezingNumber >= 1" *ngIf="data.showCheckbox" [(nzChecked)]="allChecked"
+            [nzIndeterminate]="indeterminate" (nzCheckedChange)="checkAll($event)"></th>
           <ng-container *ngFor="let header of tableHeaders ; let i = index">
             <!-- !border-r-4 !border-gray-200 -->
             <th [class]="data?.thClass" (mousedown)="onResizeStart($event, header)"
               [nzWidth]="header?.width ? header.width + 'px' : 'auto'" [nzLeft]="allowFreeze(header , i)"
               [nzRight]="header?.headerFreeze == true ? true : false"
-              *ngIf="header.key !== 'defaultValue' && ( header?.show == true || header?.show === undefined || header?.show === '' || header?.show == 'Yes')"
-              [ngStyle]="{'text-align': header?.position || 'left'}">
+              *ngIf="header.key !== 'defaultValue' && ( header?.show == true || header?.show === undefined || header?.show === '' || header?.show == 'Yes')">
               <!-- (click)="header?.columnClickApi ? onClickColumn(header.columnClickApi,header): ''" -->
-
               <div class="!text-gray-500 !relative w-auto flex justify-center items-center"
                 [style.transform]="data?.rotationDegree && 'rotate(' + data?.rotationDegree + 'deg)'"
                 [style.height]="data?.rotationDegree && '100px' || 'auto'">
@@ -247,17 +245,21 @@
               (click)="data?.rowClickApi!='' ? onClickRow(data.rowClickApi,item): ''"
               [ngClass]="{'selectedRow' : item === index }">
               <td [nzLeft]="data?.endFreezingNumber >= 1" *ngIf="item.expand != undefined" [(nzExpand)]="item.expand"
-                [ngStyle]="{'text-align': data?.position || 'left'}">
+                [ngStyle]="{'text-align': data?.position || 'center'}">
                 <p class="pb-1 ">
                   ({{item.children.length}})
                 </p>
               </td>
               <td [nzLeft]="data?.startFreezingNumber >= 1" *ngIf="data.showCheckbox"
-                [ngStyle]="{'text-align': data?.position || 'left'}">
+                [ngStyle]="{'text-align': data?.position || 'center'}">
                 <label nz-checkbox [(ngModel)]="item['checked']"></label>
               </td>
               <ng-container *ngFor="let header of data['tableKey']; let index = index">
-                <td [ngStyle]="{'text-align': header?.position || 'left'}"
+                <td
+                  [ngStyle]="{'text-align':  configurationTable ?  header?.key == 'id' ? 'center' : 'left' :  
+                  (header?.position  ? 
+                  header?.position : 
+                  (header?.key == 'id' || header?.dataType == 'icon' || header?.dataType == 'number' ? 'center' : 'left'))}"
                   [style.width.px]="header.width ? header.width : 'auto'"
                   [class]="header?.headerFreeze == true ? 'TDZINDEX' : ''"
                   [nzLeft]="header?.headerFreeze == true ? true : false"
@@ -266,82 +268,84 @@
                   [style.border-left]="item[header.key]== item?.colorDataType && editId !== item.id  ?  '4px solid ' + item?.columnColor : ''"
                   *ngIf="(header?.show == true || header?.show === undefined || header?.show === '' || header?.show == 'Yes') && header?.dataType !='objectType' && header.key != 'headerButton' && header.key != 'footerButton' && header.key != 'expandable' && header.key != 'checked'
                   && header.key != 'expand'  && header.key !='children' && header.key != 'defaultValue' ">
-                  <div
-                    *ngIf="(header?.dataType !='select' || !configurationTable) && header?.dataType !='audioVideoRecorder' && header?.dataType !='image-upload' && header?.dataType != 'repeatSection' && header?.dataType != 'dateTime' && !isMyDataArray(item[header.key]
+                  <div [class]="data?.tdClass">
+                    <div
+                      *ngIf="(header?.dataType !='select' || !configurationTable) && header?.dataType !='audioVideoRecorder' && header?.dataType !='image-upload' && header?.dataType != 'repeatSection' && header?.dataType != 'dateTime' && !isMyDataArray(item[header.key]
                     )
                     && header?.subDataType != 'datetime-local' && header?.dataType != 'rangePicker' && header?.dataType !='checkbox' && header?.dataType !='icon'">
-                    <div class="editable-cell"
-                      [hidden]="editId === item.id && (configurationTable || header?.editMode == 'yes'|| header?.editMode == true)">
-                      {{item[header.key] | translate}}
-                    </div>
-                    <input *ngIf="configurationTable || header?.editMode == 'yes'|| header?.editMode == true"
-                      [hidden]="editId !== item.id" type="text" nz-input [(ngModel)]="item[header.key]" />
-                  </div>
-                  <div *ngIf=" isMyDataArray(item[header.key]) ">
-                    <nz-select nzAllowClear nzShowSearch style="width: 100px" nzPlaceHolder="Select Value"
-                      [(ngModel)]="item.defaultValue" (ngModelChange)="select(i, $event)">
-                      <nz-option *ngFor="let option of item[header.key]"
-                        [nzLabel]="option.type ? option.type : option.key"
-                        [nzValue]="option.value ? option.value : option">
-                      </nz-option>
-                    </nz-select>
-                  </div>
-                  <div *ngIf="header?.dataType == 'repeatSection' || header?.dataType =='select'">
-                    <div class="editable-cell" *ngIf="editId != item.id">
-                      {{item[header.key] | translate}}
-                    </div>
-                    <nz-select *ngIf="editId == item.id && (configurationTable || header?.editMode)" nzAllowClear
-                      nzShowSearch class="dynamic-selector" style="width: 100px" nzPlaceHolder="Select Value"
-                      [(ngModel)]="item[header.key]">
-                      <nz-option *ngFor="let option of item[header.key+'_list']" [nzLabel]="option.label "
-                        [nzValue]="option.value ">
-                      </nz-option>
-                    </nz-select>
-                  </div>
-                  <div *ngIf="header?.dataType =='image-upload'" class="4">
-                    <img nz-image class="table-image" *ngIf="item[header.key]" [nzSrc]="serverPath +item[header.key]"
-                      alt />
-                  </div>
-                  <ng-container
-                    *ngIf="header?.dataType =='input' && tableHeaders[index]?.subDataType == 'datetime-local'">
-                    <ng-container *ngIf="item[header.key]">
-                      {{ item[header.key] | date:'dd-MM-yyyy HH:mm:ss'}}
-                    </ng-container>
-                  </ng-container>
-                  <ng-container *ngIf="header?.dataType =='dateTime'">
-                    <ng-container *ngIf="item[header.key] && editId != item.id">
-                      {{ item[header.key] | date:'dd-MM-yyyy'}}
-                    </ng-container>
-                    <ng-container *ngIf="editId == item.id && (configurationTable || header?.editMode)">
-                      <input [(ngModel)]="item[header.key]" type="date">
-                    </ng-container>
-                  </ng-container>
-                  <ng-container *ngIf="header?.dataType =='objectType'">
-                    {{item[header.key]}}
-                  </ng-container>
-                  <div *ngIf="header?.dataType =='rangePicker'" class="date">
-                    {{ transform(item[header.key]) }}
-                  </div>
-                  <div *ngIf="header?.dataType =='audioVideoRecorder'" class="!h-fit">
-                    <audio *ngIf="item[header.key]" class="!w-[224px] !h-[30px]" controls>
-                      <source [src]="item[header.key] ? serverPath + '/' + item[header.key] : ''" type="audio/mp3">
-                    </audio>
-                  </div>
-                  <div *ngIf="header?.dataType =='icon'">
-                    <st-icon *ngIf="header?.icon" [type]="'outline'" [icon]="header?.icon" [size]="15"
-                      [hoverIconColor]="''" [color]="''"></st-icon>
-                  </div>
-                  <ng-container *ngIf="data && data?.children">
-                    <ng-container *ngIf="data.children.length > 0">
-                      <div *ngFor="let childData of data.children">
-                        <st-block-buttons-card *ngIf="childData.type =='button' && childData?.key == header?.key"
-                          [softIconList]="childData">
-                        </st-block-buttons-card>
+                      <div class="editable-cell"
+                        [hidden]="editId === item.id && (configurationTable || header?.editMode == 'yes'|| header?.editMode == true)">
+                        {{item[header.key] | translate}}
                       </div>
+                      <input *ngIf="configurationTable || header?.editMode == 'yes'|| header?.editMode == true"
+                        [hidden]="editId !== item.id" type="text" nz-input [(ngModel)]="item[header.key]" />
+                    </div>
+                    <div *ngIf=" isMyDataArray(item[header.key]) ">
+                      <nz-select nzAllowClear nzShowSearch style="width: 100px" nzPlaceHolder="Select Value"
+                        [(ngModel)]="item.defaultValue" (ngModelChange)="select(i, $event)">
+                        <nz-option *ngFor="let option of item[header.key]"
+                          [nzLabel]="option.type ? option.type : option.key"
+                          [nzValue]="option.value ? option.value : option">
+                        </nz-option>
+                      </nz-select>
+                    </div>
+                    <div *ngIf="header?.dataType == 'repeatSection' || header?.dataType =='select'">
+                      <div class="editable-cell" *ngIf="editId != item.id">
+                        {{item[header.key] | translate}}
+                      </div>
+                      <nz-select *ngIf="editId == item.id && (configurationTable || header?.editMode)" nzAllowClear
+                        nzShowSearch class="dynamic-selector" style="width: 100px" nzPlaceHolder="Select Value"
+                        [(ngModel)]="item[header.key]">
+                        <nz-option *ngFor="let option of item[header.key+'_list']" [nzLabel]="option.label "
+                          [nzValue]="option.value ">
+                        </nz-option>
+                      </nz-select>
+                    </div>
+                    <div *ngIf="header?.dataType =='image-upload'" class="4">
+                      <img nz-image class="table-image" *ngIf="item[header.key]" [nzSrc]="serverPath +item[header.key]"
+                        alt />
+                    </div>
+                    <ng-container
+                      *ngIf="header?.dataType =='input' && tableHeaders[index]?.subDataType == 'datetime-local'">
+                      <ng-container *ngIf="item[header.key]">
+                        {{ item[header.key] | date:'dd-MM-yyyy HH:mm:ss'}}
+                      </ng-container>
                     </ng-container>
-                  </ng-container>
-                  <div *ngIf="header?.dataType =='checkbox'" class="4">
-                    <label nz-checkbox [(ngModel)]="item[header.key]"></label>
+                    <ng-container *ngIf="header?.dataType =='dateTime'">
+                      <ng-container *ngIf="item[header.key] && editId != item.id">
+                        {{ item[header.key] | date:'dd-MM-yyyy'}}
+                      </ng-container>
+                      <ng-container *ngIf="editId == item.id && (configurationTable || header?.editMode)">
+                        <input [(ngModel)]="item[header.key]" type="date">
+                      </ng-container>
+                    </ng-container>
+                    <ng-container *ngIf="header?.dataType =='objectType'">
+                      {{item[header.key]}}
+                    </ng-container>
+                    <div *ngIf="header?.dataType =='rangePicker'" class="date">
+                      {{ transform(item[header.key]) }}
+                    </div>
+                    <div *ngIf="header?.dataType =='audioVideoRecorder'" class="!h-fit">
+                      <audio *ngIf="item[header.key]" class="!w-[224px] !h-[30px]" controls>
+                        <source [src]="item[header.key] ? serverPath + '/' + item[header.key] : ''" type="audio/mp3">
+                      </audio>
+                    </div>
+                    <div *ngIf="header?.dataType =='icon'">
+                      <st-icon *ngIf="header?.icon" [type]="'outline'" [icon]="header?.icon" [size]="15"
+                        [hoverIconColor]="''" [color]="''"></st-icon>
+                    </div>
+                    <ng-container *ngIf="data && data?.children">
+                      <ng-container *ngIf="data.children.length > 0">
+                        <div *ngFor="let childData of data.children">
+                          <st-block-buttons-card *ngIf="childData.type =='button' && childData?.key == header?.key"
+                            [softIconList]="childData">
+                          </st-block-buttons-card>
+                        </div>
+                      </ng-container>
+                    </ng-container>
+                    <div *ngIf="header?.dataType =='checkbox'" class="4">
+                      <label nz-checkbox [(ngModel)]="item[header.key]"></label>
+                    </div>
                   </div>
                 </td>
                 <td *ngIf="header.key == 'headerButton'">
@@ -488,7 +492,7 @@
         <a class="flex justify-start items-center border-2 paginator !p-1.5 rounded-md text-xs  border-[#a8a9ab] text-black hover:bg-[#3b82f6] hover:text-white hover:border-[#3b82f6]"
           nz-dropdown [nzDropdownMenu]="menu11">
           <p class="whitespace-nowrap pr-2">
-           {{(this.data?.end ? this.data?.end : 10) + ' / page'}}
+            {{(this.data?.end ? this.data?.end : 10) + ' / page'}}
           </p>
           <span nz-icon nzType="down"></span>
         </a>

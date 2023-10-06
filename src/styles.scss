@@ -6421,10 +6421,9 @@ tr:hover {
     border-left: 1px solid #e5e7eb;
     .editable-cell {
       width: 100%;
-      overflow: hidden;
-      white-space: nowrap !important;
-      text-overflow: ellipsis;
-
+      // overflow: hidden;
+      // white-space: nowrap !important;
+      // text-overflow: ellipsis;
     }
 
     // &:hover .editable-cell {
@@ -7588,3 +7587,6 @@ input[type=file]::file-selector-button:hover {
   transition: background-color .3s !important;
   content: '' !important;
 }
+// .ant-menu-item:hover {
+//   color: none !important;
+// }

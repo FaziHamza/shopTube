@@ -1251,7 +1251,7 @@ export class DynamicTableComponent implements OnInit {
         drawer['visible'] = true;
       }
     }
-    else if(this.configurationTable){
+    else if (this.configurationTable) {
       this.startEdit(item)
     }
   }
@@ -1797,6 +1797,17 @@ export class DynamicTableComponent implements OnInit {
         this.data['tableHeaders'] = this.tableHeaders;
         if (window.location.href.includes('taskmanager.com')) {
           // Handle any additional logic here
+        }
+
+        const resizingData = localStorage.getItem(this.screenId);
+        if (resizingData) {
+          const parseResizingData = JSON.parse(resizingData);
+          this.tableHeaders.forEach((element1: any) => {
+            const matchingElement = parseResizingData.find((element: any) => element.key === element1.key);
+            if (matchingElement) {
+              element1.width = matchingElement.width;
+            }
+          });
         }
         this.saveLoader = false;
 
@@ -2461,6 +2472,7 @@ export class DynamicTableComponent implements OnInit {
         const width = initialWidth + e.clientX - startX;
         if (width > 0) {
           column.width = width;
+          this.resizingLocalStorage();
         }
       };
 
@@ -2490,8 +2502,19 @@ export class DynamicTableComponent implements OnInit {
     }
     this.editId = null;
   }
-  configurationEdit(item : any){
-   
+
+  resizingLocalStorage() {
+    debugger
+    let storeData = this.tableHeaders.map((item: any) => {
+      let obj = {
+        key: item.key,
+        width: item.width
+      };
+      return obj;
+    });
+    if (this.screenId) {
+      localStorage.setItem(this.screenId, JSON.stringify(storeData));
+    }
   }
 }
 

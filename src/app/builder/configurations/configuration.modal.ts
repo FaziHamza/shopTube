@@ -11232,6 +11232,22 @@ export class formFeildData {
       ]
     }
   ]
+  gridFields_td: FormlyFieldConfig[] = [
+    {
+      fieldGroupClassName: "flex flex-wrap",
+      fieldGroup: [
+        {
+          key: 'tdClass',
+          type: 'input',
+          wrappers: ["formly-vertical-theme-wrapper"],
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          props: {
+            label: 'td Class',
+          },
+        },
+      ]
+    }
+  ]
   gridFields_th: FormlyFieldConfig[] = [
     {
       fieldGroupClassName: "flex flex-wrap",
@@ -11377,7 +11393,7 @@ export class formFeildData {
           }
         },
         {
-          className: "w-full",
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
           key: 'heading',
           type: 'textarea',
           wrappers: ["formly-vertical-theme-wrapper"],
@@ -11755,6 +11771,19 @@ export class formFeildData {
           className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
           props: {
             label: 't body Class',
+          },
+        },
+        {
+          key: 'hieght',
+          type: 'input',
+          wrappers: ["formly-vertical-theme-wrapper"],
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          props: {
+            type: 'number',
+            label: 'Hieght',
+            additionalProperties: {
+              tooltip: "If set height of grid without true sticky header then automatically sticky header become true becuase sticky header must true for hieght of grid",
+            }
           },
         },
         // {
