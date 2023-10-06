@@ -80,6 +80,8 @@ export class DynamicTableComponent implements OnInit {
   nzScrollConfig: { x: string } = { x: '1100px' };
   rotationDegree: number = -45;
   editData: any;
+  deleteditWidth : any = [{label: 'Edit',Width : ''},{label: 'Delete',Width : ''},{label: 'Checkbox',Width : ''}
+]
   @HostListener('window:resize', ['$event'])
   onResize(event: Event): void {
     // Update the nzScroll configuration based on screen size
