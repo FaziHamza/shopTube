@@ -7599,30 +7599,30 @@ input[type=file]::file-selector-button:hover {
 //   content: '' !important;
 // }
 
-// .config-table thead {
-//   height: 100px !important;
+.config-table thead {
+  height: 100px !important;
 
-//   tr th {
-//     border: none !important;
+  tr th {
+    border: none !important;
 
-//     .myTEXT {
-//       // height: 100px !important;
-//       position: relative !important;
-//       transform: rotate(-75deg);
-//       transform-origin: center left;
-//       white-space: nowrap;
+    .myTEXT {
+      // height: 100px !important;
+      position: relative !important;
+      transform: rotate(-50deg);
+      transform-origin: center left;
+      white-space: nowrap;
 
-//       // .head-title {
-//       //   bottom: 5px;
-//       //   left: 50%;
-//       //   position: absolute;
-//       //   transform: rotate(-45deg);
-//       //   transform-origin: center left;
-//       //   white-space: nowrap;
-//       // }
-//     }
-//   }
-// }
-// .ant-menu-item:hover {
-//   color: none !important;
-// }
+      // .head-title {
+      //   bottom: 5px;
+      //   left: 50%;
+      //   position: absolute;
+      //   transform: rotate(-45deg);
+      //   transform-origin: center left;
+      //   white-space: nowrap;
+      // }
+    }
+  }
+}
+.ant-menu-item:hover {
+  color: none !important;
+}
