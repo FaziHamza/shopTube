@@ -24,7 +24,7 @@ export class UIRuleComponent implements OnInit {
     private applicationService: ApplicationService, private toastr: NzMessageService,) {
     this.editorOptions = new JsonEditorOptions();
   }
-
+  nodesData : any[] = [];
   uiRuleForm: FormGroup;
   screenData: any;
   targetList: any = [];
@@ -199,6 +199,13 @@ export class UIRuleComponent implements OnInit {
       .get('targetCondition') as FormArray;
   }
   onChangeTargetNameChild(event: any, uiIndex: number, index: number) {
+
+    const findObj = this.nodesData.find(a=>a.key == event);
+    this.addTargetCondition(uiIndex).at(index).patchValue({
+      inputJsonData: findObj,
+      inputOldJsonData: findObj
+    });
+    return;
     let sectionData = this.nodes[0].children[1].children;
     for (let k = 0; k < sectionData.length; k++) {
       let section = sectionData[k];
@@ -399,26 +406,49 @@ export class UIRuleComponent implements OnInit {
     // this.cd.detectChanges();
     // this.clickBack();
   }
+  getAllObjects(data: any): any[] {
+    const foundObjects: any[] = [];
+  
+    function recursiveFind(currentData: any) {
+      if (currentData) {
+        foundObjects.push(currentData);
+  
+        if (currentData.children && currentData.children.length > 0) {
+          for (const child of currentData.children) {
+            recursiveFind(child);
+          }
+        }
+      }
+    }
+  
+    recursiveFind(data);
+    return foundObjects;
+  }
+  
   uiRule() {
     // debugger
     //UIRule Form Declare
     this.uiRuleFormInitilize();
     this.ifMenuName = [];
     this.ifMenuList = [];
-    let sectionData = this.nodes[0].children[1].children;
-    for (let j = 0; j < sectionData.length; j++) {
-      for (let index = 0; index < sectionData[j].children[1].children.length; index++) {
-        if (sectionData[j].children[1].children[index].formlyType != undefined) {
-          sectionData[j].children[1].children[index]['key'] = sectionData[j].children[1].children[index].formly[0].fieldGroup[0].key
-          this.ifMenuList.push(sectionData[j].children[1].children[index]);
-        }
-        else
-          this.ifMenuList.push(sectionData[j].children[1].children[index]);
-      }
+    // let sectionData = this.nodes[0].children[1].children;
+    // for (let j = 0; j < sectionData.length; j++) {
+    //   for (let index = 0; index < sectionData[j].children[1].children.length; index++) {
+    //     if (sectionData[j].children[1].children[index].formlyType != undefined) {
+    //       sectionData[j].children[1].children[index]['key'] = sectionData[j].children[1].children[index].formly[0].fieldGroup[0].key
+    //       this.ifMenuList.push(sectionData[j].children[1].children[index]);
+    //     }
+    //     else
+    //       this.ifMenuList.push(sectionData[j].children[1].children[index]);
+    //   }
 
-    }
+    // }
+    let sectionData = this.getAllObjects(this.nodes[0].children[1]);
+    this.nodesData = sectionData;
+    this.ifMenuList = sectionData;
     this.ifMenuName = this.ifMenuList;
-    this.changeIf();
+    this.targetList = sectionData;
+    // this.changeIf();
 
     this.applicationService.getNestCommonAPIById('cp/UiRule', this.screenId).subscribe((getRes: any) => {
       if (getRes.isSuccess) {
