@@ -38,7 +38,6 @@ export class GenericFieldComponent implements OnInit {
   constructor(private toastr: NzMessageService, private _dataSharedService: DataSharedService, public builderService: BuilderService,
     private applicationService: ApplicationService,) { }
   ngOnInit(): void {
-    debugger
     this.itemData;
     this._dataSharedService.data = '';
     if (this.itemData?.mappingNode) {

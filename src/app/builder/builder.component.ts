@@ -2927,20 +2927,22 @@ export class BuilderComponent implements OnInit {
         this.addIconCommonConfiguration(_formFieldData.buttonFields, true);
         this.fieldData.commonData?.push({ title: 'buttonFields', data: _formFieldData.buttonFields });
         break;
-      case 'dropdownButton':
-        // if (typeof selectedNode.buttonClass === "string") {
-        //   const classObj = JSON.parse(JSON.stringify(selectedNode.buttonClass.split(" ")));
-        //   configObj.buttonClass = classObj
-        // }
-        // (configObj.icon = selectedNode.btnIcon),
-        //   (configObj.options = selectedNode.dropdownOptions);
-        configObj = { ...configObj, ...this.clickButtonService.getDropdownButtonConfig(selectedNode) };
-        this.addIconCommonConfiguration(
-          _formFieldData.dropdownButtonFields,
-          true
-        );
-        this.fieldData.commonData?.push({ title: 'dropdownButtonFields', data: _formFieldData.dropdownButtonFields });
-        break;
+        case 'dropdownButton':
+          // if (typeof selectedNode.buttonClass === "string") {
+          //   const classObj = JSON.parse(JSON.stringify(selectedNode.buttonClass.split(" ")));
+          //   configObj.buttonClass = classObj
+          // }
+          // (configObj.icon = selectedNode.btnIcon),
+          //   (configObj.options = selectedNode.dropdownOptions);
+          // configObj = { ...configObj, ...this.clickButtonService.getDropdownButtonConfig(selectedNode) };
+          this.addIconCommonConfiguration(
+            _formFieldData.dropdownButtonFields,
+            true
+          );
+          configObj.icon = selectedNode.btnIcon;
+          configObj.options = selectedNode.dropdownOptions;
+          this.fieldData.commonData?.push({ title: 'dropdownButtonFields', data: _formFieldData.dropdownButtonFields });
+          break;
       case 'accordionButton':
         this.addIconCommonConfiguration(
           _formFieldData.accordionButtonFields,
@@ -4403,13 +4405,13 @@ export class BuilderComponent implements OnInit {
         }
         break;
 
-      case 'dropdownButton':
-        this.selectedNode.btnIcon = event.form?.icon;
-        if (event.tableDta) {
-          this.selectedNode.dropdownOptions = event.tableDta;
-        }
-        // this.selectedNode.dropdownOptions = event?.form?.dropdownOptions;
-        break;
+        case 'dropdownButton':
+          this.selectedNode.btnIcon = event.form?.icon;
+          if (event.tableDta) {
+            this.selectedNode.dropdownOptions = event.tableDta;
+          }
+          // this.selectedNode.dropdownOptions = event?.form?.dropdownOptions;
+          break;
       case 'fixedDiv':
         if (event.form.api) {
           this.requestSubscription = this.builderService
