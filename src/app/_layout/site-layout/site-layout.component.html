@@ -52,7 +52,7 @@
               (notify)="loadTabsAndButtons($event)"></st-app-side-menu>
           </div>
         </nz-sider>
-        <nz-content>
+        <nz-content class="relative" >
           <ng-container *ngIf="tabs.length">
             <ng-container *ngFor="let item of tabs">
               <st-layout-tabs-dropdown *ngIf="item.type == 'mainTab'" [layoutTabsDropdownData]="item"
