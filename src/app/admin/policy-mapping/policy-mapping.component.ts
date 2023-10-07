@@ -1,0 +1,260 @@
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
+import { FormlyFormOptions } from '@ngx-formly/core';
+import { NzCascaderOption } from 'ng-zorro-antd/cascader';
+import { NzMessageService } from 'ng-zorro-antd/message';
+import { ApplicationService } from 'src/app/services/application.service';
+import { BuilderService } from 'src/app/services/builder.service';
+import { DataSharedService } from 'src/app/services/data-shared.service';
+
+@Component({
+  selector: 'st-policy-mapping',
+  templateUrl: './policy-mapping.component.html',
+  styleUrls: ['./policy-mapping.component.scss']
+})
+export class PolicyMappingComponent implements OnInit {
+  paginatedData: any[] = [];
+  model: any;
+  jsonPolicyModule: any = [];
+  isSubmit: boolean = true;
+  breadCrumbItems!: Array<{}>;
+  isVisible: boolean = false;
+  listOfData: any[] = [];
+  listOfDisplayData: any[] = [];
+  loading = false;
+  searchValue = '';
+  pageSize = 10;
+  searchIcon = "search";
+  pageIndex: any = 1;
+  totalItems: number = 0; // Total number of items
+  startIndex = 1;
+  endIndex: any = 10;
+
+  //detail
+  menuList: any[] = [];
+  currentUser: any;
+  applications: any;
+  applicationName: any;
+  selectedAppId: any = "";
+  applicationId: string = '';
+  selectDepartmentName: any = [];
+  departmentData: any = [];
+  departments: any[] = [];
+  listOfColumns = [
+    {
+      name: 'Menu Name',
+    },
+    {
+      name: 'Create',
+    },
+    {
+      name: 'Read',
+    },
+    {
+      name: 'Update',
+    },
+    {
+      name: 'Delete',
+    },
+  ];
+  constructor(
+    public builderService: BuilderService,
+    private applicationService: ApplicationService,
+    public dataSharedService: DataSharedService,
+    private toastr: NzMessageService,
+  ) {
+  }
+  ngOnInit(): void {
+    this.totalItems = this.listOfDisplayData.length;
+    this.breadCrumbItems = [
+      { label: 'Formly' },
+      { label: 'Pages', active: true }
+    ];
+    this.jsonPolicyModuleList();
+    this.getDepartments();
+    this.currentUser = JSON.parse(localStorage.getItem('user')!);
+  }
+  policyName = '';
+  policyList: any = [];
+  jsonPolicyModuleList() {
+    this.applicationService.getNestCommonAPI('cp/Policy').subscribe({
+      next: (res: any) => {
+        if (res.isSuccess) {
+          if (res?.data.length > 0) {
+            this.policyList = res.data;
+          }
+        }
+      },
+      error: (err) => {
+        this.toastr.error(`Policy : An error occured`, { nzDuration: 3000 });
+      },
+    });
+  }
+
+  onSubmit() {
+    debugger
+    if (!this.policyName) {
+      this.toastr.warning(
+        'Please Select Policy Name',
+        { nzDuration: 2000 }
+      );
+      this.loading = false;
+      return;
+    } else {
+
+      const newData = this.menuList.map(item => ({
+        ...item,
+        policyId: this.policyName,
+        applicationId: this.applicationId,
+      }));
+      const filteredObjects = newData.filter(item => item.create || item.update || item.delete || item.read);
+
+      const checkPolicyAndProceed = this.isSubmit
+        ? this.applicationService.addNestCommonAPI('policy-mapping', filteredObjects)
+        : this.applicationService.updateNestCommonAPI('policy-mapping', this.model._id, filteredObjects);
+      checkPolicyAndProceed.subscribe({
+        next: (objTRes: any) => {
+          if (objTRes.isSuccess) {
+
+            this.isVisible = false;
+            const message = this.isSubmit ? 'Save' : 'Update';
+            this.toastr.success(objTRes.message, { nzDuration: 3000 });
+            if (!this.isSubmit) {
+              this.isSubmit = true;
+            }
+          } else {
+            this.toastr.error(objTRes.message, { nzDuration: 3000 });
+          }
+        },
+        error: (err) => {
+          this.toastr.error(`${err.error.message}`, { nzDuration: 3000 });
+        },
+      });
+    }
+  }
+
+
+  downloadJson() {
+    let obj = Object.assign({}, this.jsonPolicyModule);
+    const blob = new Blob([JSON.stringify(obj)], { type: 'application/json' });
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = 'file.';
+    document.body.appendChild(a);
+    a.click();
+  }
+
+  handlePageChange(event: number): void {
+    this.pageSize = !this.pageSize || this.pageSize < 1 ? 1 : this.pageSize
+    this.pageIndex = event;
+    const start = (this.pageIndex - 1) * this.pageSize;
+    const end = start + this.pageSize;
+    this.startIndex = start == 0 ? 1 : ((this.pageIndex * this.pageSize) - this.pageSize) + 1;
+    this.listOfDisplayData = this.listOfData.slice(start, end);
+    this.endIndex = this.listOfDisplayData.length != this.pageSize ? this.listOfData.length : this.pageIndex * this.pageSize;
+  }
+
+
+  onDepartmentChange(departmentId: any) {
+    if (departmentId.length === 2) {
+      if (departmentId[1] != 'selectApplication') {
+        this.selectedAppId = departmentId[1];
+        this.getMenus(departmentId[1])
+      }
+    }
+    else if (departmentId.length === 1) {
+      const selectedNode = this.departmentData.find((a: any) => a.value == departmentId[0]);
+      if (selectedNode.children && selectedNode?.children?.length > 0) {
+        selectedNode.children = [];
+        this.loadData(selectedNode, 0);
+      }
+    }
+  }
+  async loadData(node: NzCascaderOption, index: number): Promise<void> {
+    if (index === 0 && node.value != 'selectDepartment') {
+      try {
+        const res = await this.applicationService.getNestCommonAPIById('cp/Application', node.value).toPromise();
+        if (res.isSuccess) {
+          this.applications = res.data;
+          const applications = res.data.map((appData: any) => {
+            return {
+              label: appData.name,
+              value: appData._id,
+              isLeaf: true
+            };
+          });
+          let header = {
+            label: 'Select Application',
+            value: 'selectApplication'
+          }
+          applications.unshift(header)
+          node.children = applications;
+        } else {
+          this.toastr.error(res.message, { nzDuration: 3000 });
+        }
+      } catch (err) {
+        console.error('Error loading screen data:', err);
+        this.toastr.error('An error occurred while loading screen data', { nzDuration: 3000 });
+      }
+    }
+  }
+  getDepartments() {
+    this.applicationService.getNestCommonAPI('cp/Department').subscribe({
+      next: (res: any) => {
+        if (res.isSuccess) {
+          if (res.data.length > 0) {
+            this.departments = res.data;
+            this.departmentData = res.data?.map((data: any) => {
+              return {
+                label: data.name,
+                value: data._id
+              };
+            });
+            let header = {
+              label: 'Select Department',
+              value: 'selectDepartment'
+            }
+            this.departmentData.unshift(header)
+          } else {
+            this.departments = [];
+            this.departmentData = [];
+          }
+        }
+        else
+          this.toastr.error(res.message, { nzDuration: 3000 }); // Show an error message to the user
+      },
+      error: (err) => {
+        console.error(err); // Log the error to the console
+        this.toastr.error("An error occurred", { nzDuration: 3000 }); // Show an error message to the user
+      }
+    });
+  };
+
+
+  getMenus(id: any) {
+    this.applicationService.getNestCommonAPIById('cp/Menu', id).subscribe(((res: any) => {
+      if (res.isSuccess) {
+        if (res.data.length > 0) {
+          this.applicationId = res.data[0]._id
+          this.menuList = JSON.parse(res.data[0].menuData);
+          const booleanObject = {
+            create: false,
+            read: false,
+            update: false,
+            delete: false,
+          };
+          const newData = this.menuList.map(item => ({
+            ...item,
+            ...booleanObject,
+            menuId: item.id,
+          }));
+          this.menuList = newData;
+        } else {
+          this.toastr.warning('No menu againts this', { nzDuration: 3000 });
+        }
+      } else
+        this.toastr.error(res.message, { nzDuration: 3000 });
+    }));
+  }
+}

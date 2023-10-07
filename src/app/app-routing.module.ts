@@ -6,6 +6,7 @@ import { BarChartComponent,  FileManagerComponent, googleMapComponent } from './
 import { DemoComponent } from './builder/demo/demo.component';
 import { Screenv1Component } from './Builder-module/screenv1/screenv1.component';
 import { AuthGuard } from './auth/auth.Guard';
+import { PolicyComponent } from './admin/policy/policy.component';
 
 const routes: Routes = [
   {

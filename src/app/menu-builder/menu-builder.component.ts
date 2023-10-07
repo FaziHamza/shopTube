@@ -203,7 +203,7 @@ export class MenuBuilderComponent implements OnInit {
     }));
   }
   getlocalMenu(id: any) {
-    this.applicationService.getNestCommonAPIById('cp/Menu', id).subscribe(((res: any) => {
+    this.applicationService.getNestCommonAPIById('cp/PolicyMapping', id).subscribe(((res: any) => {
       if (res.isSuccess) {
         if (res.data.length > 0) {
           this.applicationId = res.data[0]._id

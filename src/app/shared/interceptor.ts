@@ -51,12 +51,14 @@ export class AuthInterceptor implements HttpInterceptor {
     let applicationId = JSON.parse(localStorage.getItem('applicationId')!);
     let organizationId = JSON.parse(localStorage.getItem('organizationId')!);
     let user = JSON.parse(localStorage.getItem('user')!).username;
+    let id = JSON.parse(localStorage.getItem('user')!).userId;
     this.authReq = req.clone({
       setHeaders: {
         Authorization: `Bearer ${token}`,
-        'applicationId':applicationId,
+        'applicationId': applicationId,
         'organizationId': organizationId,
-        'user': user
+        'user': user,
+        'userId': id
       },
     });
     return next

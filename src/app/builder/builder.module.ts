@@ -22,6 +22,9 @@ import { TemplatePopupComponent } from './template-popup/template-popup.componen
 import { MarketPlaceComponent } from './market-place/market-place.component';
 import { ExecuteActionRuleComponent } from './execute-action-rule/execute-action-rule.component';
 import { MonacoEditorComponent } from './execute-action-rule/monaco-editor/monaco-editor.component';
+import { PolicyComponent } from "../admin/policy/policy.component";
+import { PolicyMappingComponent } from "../admin/policy-mapping/policy-mapping.component";
+import { UserMappingComponent } from "../admin/user-mapping/user-mapping.component";
 
 @NgModule({
   declarations: [
@@ -31,6 +34,9 @@ import { MonacoEditorComponent } from './execute-action-rule/monaco-editor/monac
     MarketPlaceComponent,
     ExecuteActionRuleComponent,
     MonacoEditorComponent,
+    PolicyComponent,
+    PolicyMappingComponent,
+    UserMappingComponent,
   ],
   imports: [
     CommonModule,
@@ -58,5 +64,6 @@ import { MonacoEditorComponent } from './execute-action-rule/monaco-editor/monac
     }),
   ],
 })
+
 
 export class BuilderModule { }

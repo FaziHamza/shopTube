@@ -1,0 +1,89 @@
+<div class="b-card top-action-bar p-3">
+    <div class="page-selector">
+        <nz-form-control nzErrorTip="Please Select Page">
+            <nz-cascader nzChangeOnSelect [nzAllowClear]="true" style="padding-left: 4px; width: 100%"
+                [(ngModel)]="selectDepartmentName" [nzLoadData]="loadData.bind(this)" [nzOptions]="departmentData"
+                placeholder="Select Application" (ngModelChange)="onDepartmentChange($event)">
+            </nz-cascader>
+        </nz-form-control>
+    </div>
+    <div class="page-selector">
+        <nz-select nzShowSearch nzAllowClear class="temp-modal-select" [(ngModel)]="policyName">
+            <nz-option [nzValue]="item._id" placeholder="Select Block Type..." [nzLabel]="item.name"
+                *ngFor="let item of policyList"></nz-option>
+        </nz-select>
+    </div>
+    <div class="page-selector">
+        <button nz-button nzType="primary"
+            class="ml-2 btn-no !bg-green-600 !border-none hover:!bg-green-500">Search</button>
+    </div>
+</div>
+
+<nz-card nzTitle="Policy List" [nzExtra]="extraTemplate">
+    <nz-table class="Policy-builder-table" [nzShowPagination]="false" [nzScroll]="{ x: '1200px', y: null }" #filterTable
+        [nzLoading]="loading" [nzData]="menuList" [nzPageSize]="pageSize" class="border">
+        <thead>
+            <tr>
+                <!-- <th>#</th> -->
+                <ng-container *ngFor="let column of listOfColumns">
+                    <th nzWidth="120px" class="w-1/12">
+                        {{column.name}}
+                    </th>
+                </ng-container>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let data of filterTable.data; index as i">
+                <td>{{ data.title }}</td>
+                <td>
+                    <label nz-checkbox [(ngModel)]="data.create"></label>
+                </td>
+                <td>
+                    <label nz-checkbox [(ngModel)]="data.read"></label>
+                </td>
+                <td>
+                    <label nz-checkbox [(ngModel)]="data.update"></label>
+                </td>
+                <td>
+                    <label nz-checkbox [(ngModel)]="data.delete"></label>
+                </td>
+            </tr>
+        </tbody>
+    </nz-table>
+
+
+    <div class="paginatio-bottom flex justify-between items-center my-3">
+        <div>
+            <p class="showing">Showing <span>{{startIndex}} - {{endIndex}}</span> from
+                <span>{{listOfData.length}}</span> data
+            </p>
+        </div>
+
+        <div class="flex items-center justify-end">
+            <div class="pagination mr-4">
+                <label class="label">Pagination</label>
+                <div class="input-container">
+                    <nz-input-number [(ngModel)]="pageSize" (ngModelChange)="handlePageChange(1)" [nzStep]="1"
+                        [nzMin]="1"></nz-input-number>
+                </div>
+            </div>
+            <div>
+                <nz-pagination [nzPageIndex]="pageIndex" [nzTotal]="listOfData.length" [nzPageSize]="pageSize"
+                    (nzPageIndexChange)="handlePageChange($event)"></nz-pagination>
+            </div>
+        </div>
+    </div>
+
+</nz-card>
+<ng-template #extraTemplate>
+    <div class="src-btn flex justify-end">
+        <button nz-button *ngIf="isSubmit" nzType="primary" (click)="onSubmit()">
+            <i class="fa-regular fa-database mr-1.5"></i>
+            Submit</button>
+        <button nz-button *ngIf="!isSubmit" class="btn" nzType="primary" (click)="onSubmit()"><span nz-icon
+                nzType="redo" nzTheme="outline"></span>Update</button>
+        <button nz-button nzType="primary" class="ml-2 btn-no !bg-green-600 !border-none hover:!bg-green-500"
+            (click)="downloadJson()"><i class="fa-regular fa-down-to-bracket mr-1.5"></i>Download Json</button>
+    </div>
+
+</ng-template>
