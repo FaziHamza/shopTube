@@ -577,7 +577,6 @@ export class BuilderComponent implements OnInit {
             //   this.addOrRemoveisLeaf(this.nodes[0]);
             // }
             // this.updateNodes();
-            this.applyDefaultValue();
             this.getJoiValidation(this._id);
             this.saveLoader = false;
             // this.getFromQuery(res.data[0].navigation, 'get');
@@ -607,7 +606,7 @@ export class BuilderComponent implements OnInit {
                   if (res.data.length > 0) {
                     const objScreenData = JSON.parse(res.data[0].screenData);
                     this.isSavedDb = true;
-                    this.formlyModel = [];
+                    // this.formlyModel = [];
                     this.nodes = this.jsonParseWithObject(this.jsonStringifyWithObject(objScreenData));
                     this.updateNodes();
                     this.applyDefaultValue();
@@ -627,12 +626,13 @@ export class BuilderComponent implements OnInit {
             });
           }
           this.isSavedDb = true;
-          this.formModalData = {};
+          // this.formModalData = {};
           this.getUIRuleData(true);
           this.getBusinessRule();
           this.expandedKeys = this.nodes.map((node: any) => node.key);
           this.uiRuleGetData(this.screenName);
           this.updateNodes();
+          this.applyDefaultValue();
         } else {
           this.toastr.error(res.message, { nzDuration: 3000 }); // Show an error message to the user
           this.saveLoader = false;
@@ -650,13 +650,11 @@ export class BuilderComponent implements OnInit {
     const filteredNodes = this.filterInputElements(this.nodes);
     filteredNodes.forEach((node) => {
       const formlyConfig = node.formly?.[0]?.fieldGroup?.[0]?.defaultValue;
-      if (formlyConfig) {
-        newMode[node?.formly?.[0]?.fieldGroup?.[0]?.key] =
-          formlyConfig;
-      };
-      this.formlyModel = newMode;
-      this.form.patchValue(this.formlyModel);
+      newMode[node?.formly?.[0]?.fieldGroup?.[0]?.key] =
+      formlyConfig;
     });
+    this.formlyModel = newMode;
+    this.form.patchValue(this.formlyModel);
   }
   clearChildNode() {
     this.iconActive = 'clearChildNode';
@@ -2879,31 +2877,37 @@ export class BuilderComponent implements OnInit {
             }
           }
         );
-        let disabledFields = [
-          {
-            key: 'disabledBeforeCurrent',
-            type: 'checkbox',
-            wrappers: ["formly-vertical-theme-wrapper"],
-            className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
-            props: {
-              label: 'Disabled before current'
-            },
-          },
-          {
-            key: 'disabledAfterCurrent',
-            type: 'checkbox',
-            wrappers: ["formly-vertical-theme-wrapper"],
-            className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
-            props: {
-              label: 'Disabled After Current'
-            },
-          },
-        ]
         if (type == 'year' || type == 'month') {
           let formlyData: any = _formFieldData?.commonFormlyConfigurationFields[0]?.fieldGroup;
-          disabledFields.forEach((element: any) => {
-            formlyData.push(element)
-          });
+          formlyData.push({
+            key: 'disabledCalenderProperties',
+            type: 'select',
+            className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+            wrappers: ["formly-vertical-theme-wrapper"],
+            props: {
+              label: 'Disabled',
+              options: [
+                {
+                  label: "Disabled before current",
+                  value: "disabledBeforeCurrent"
+                },
+                {
+                  label: "Disabled After Current",
+                  value: "disabledAfterCurrent"
+                },
+                {
+                  label: "Disabled both",
+                  value: "disabledBoth"
+                },
+              ],
+              additionalProperties: {
+                allowClear: true,
+                serveSearch: false,
+                showArrow: true,
+                showSearch: true,
+              },
+            },
+          })
         }
         this.fieldData.commonData = [];
         const obj = {
@@ -4140,8 +4144,8 @@ export class BuilderComponent implements OnInit {
             props['additionalProperties']['multiFileUploadTypes'] = event.form?.multiFileUploadTypes;
             props['additionalProperties']['innerInputClass'] = event.form?.innerInputClass;
             props['additionalProperties']['dataClassification'] = event.form?.dataClassification;
-            props['additionalProperties']['disabledBeforeCurrent'] = event.form?.disabledBeforeCurrent;
-            props['additionalProperties']['disabledAfterCurrent'] = event.form?.disabledAfterCurrent;
+            // props['additionalProperties']['disabledBeforeCurrent'] = event.form?.disabledBeforeCurrent;
+            props['additionalProperties']['disabledCalenderProperties'] = event.form?.disabledCalenderProperties;
             props['readonly'] = event.form.readonly;
             // props['options'] = event.form.options;
             // if (event.tableDta) {
@@ -5529,6 +5533,7 @@ export class BuilderComponent implements OnInit {
             );
             event.target.value = '';
             this.nodes = currentData;
+            this.applyDefaultValue();
             this.toastr.success('File uploaded successfully!', {
               nzDuration: 3000,
             });
@@ -5610,9 +5615,9 @@ export class BuilderComponent implements OnInit {
             // Ensure Angular's Change Detection is triggered by creating a new array reference
             let nodesData: any = [...this.nodes]; // Or any other change detection technique
             this.nodes = [];
-            this.updateNodes();
             this.nodes = nodesData;
             this.updateNodes();
+            this.applyDefaultValue();
             // this.nodes = JSON.parse(JSON.stringify(this.nodes));
             // Reset the file input value to allow uploading the same file again
             event.target.value = '';

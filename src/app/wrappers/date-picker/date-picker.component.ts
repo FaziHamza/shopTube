@@ -60,43 +60,49 @@ export class DatePickerComponent extends FieldType<FieldTypeConfig> {
       //     this.to['additionalProperties']?.format
       //   );
       // }
-      this.formControl.patchValue(event);
+      // this.formControl.patchValue(event);
       this.sharedService.onChange(event, this.field);
     }
   }
   disabledDate = (current: Date): boolean => {
-    const currentDate = new Date();
-    const currentYear = currentDate.getFullYear();
-    const currentMonth = currentDate.getMonth();
-    const currentMonthStart = new Date(currentYear, currentMonth, 1);
+    if (this.to['additionalProperties']?.disabledCalenderProperties) {
+      const currentDate = new Date();
+      const currentYear = currentDate.getFullYear();
+      const currentMonth = currentDate.getMonth();
+      const currentMonthStart = new Date(currentYear, currentMonth, 1);
 
-    if (this.to.type === 'date') {
-      if (this.to['additionalProperties']?.disabledBeforeCurrent && this.to['additionalProperties']?.disabledAfterCurrent) {
-
+      if (this.to.type === 'date') {
+        if (this.to['additionalProperties']?.disabledCalenderProperties == 'disabledBoth') {
+          return current < new Date(currentDate.setHours(0, 0, 0, 0)) || current > currentDate;
+        }
+        else if (this.to['additionalProperties']?.disabledCalenderProperties == 'disabledBeforeCurrent') {
+          return current < new Date(currentDate.setHours(0, 0, 0, 0));
+        } else if (this.to['additionalProperties']?.disabledCalenderProperties == 'disabledAfterCurrent') {
+          return current > currentDate;
+        }
       }
-      else if (this.to['additionalProperties']?.disabledBeforeCurrent) {
-        return current < new Date(currentDate.setHours(0, 0, 0, 0));
-      } else if (this.to['additionalProperties']?.disabledAfterCurrent) {
-        return current > currentDate;
+      else if (this.to.type === 'month') {
+        if (this.to['additionalProperties']?.disabledCalenderProperties == 'disabledBoth') {
+          return current.getFullYear() < currentYear || (current.getFullYear() === currentYear && current.getMonth() < currentMonth) || 
+          current.getFullYear() > currentYear || (current.getFullYear() === currentYear && current.getMonth() > currentMonth);
+        }
+        else if (this.to['additionalProperties']?.disabledCalenderProperties == 'disabledBeforeCurrent') {
+          return current.getFullYear() < currentYear || (current.getFullYear() === currentYear && current.getMonth() < currentMonth);
+        } else if (this.to['additionalProperties']?.disabledCalenderProperties == 'disabledAfterCurrent') {
+          return current.getFullYear() > currentYear || (current.getFullYear() === currentYear && current.getMonth() > currentMonth);
+        }
       }
-    } else if (this.to.type === 'month') {
-      if (this.to['additionalProperties']?.disabledBeforeCurrent && this.to['additionalProperties']?.disabledAfterCurrent) {
-
+      else if (this.to.type === 'year') {
+        if (this.to['additionalProperties']?.disabledCalenderProperties == 'disabledBoth') {
+          return current.getFullYear() < currentYear || current.getFullYear() > currentYear;
+        }
+        else if (this.to['additionalProperties']?.disabledCalenderProperties == 'disabledBeforeCurrent') {
+          return current.getFullYear() < currentYear;
+        } else if (this.to['additionalProperties']?.disabledCalenderProperties == 'disabledAfterCurrent') {
+          return current.getFullYear() > currentYear;
+        }
       }
-      else if (this.to['additionalProperties']?.disabledBeforeCurrent) {
-        return current.getFullYear() < currentYear || (current.getFullYear() === currentYear && current.getMonth() < currentMonth);
-      } else if (this.to['additionalProperties']?.disabledAfterCurrent) {
-        return current > currentMonthStart;
-      }
-    } else if (this.to.type === 'year') {
-      if (this.to['additionalProperties']?.disabledBeforeCurrent && this.to['additionalProperties']?.disabledAfterCurrent) {
-
-      }
-      else if (this.to['additionalProperties']?.disabledBeforeCurrent) {
-        return current.getFullYear() < currentYear;
-      } else if (this.to['additionalProperties']?.disabledAfterCurrent) {
-        return current.getFullYear() > currentYear;
-      }
+      return false;
     }
     return false;
   };

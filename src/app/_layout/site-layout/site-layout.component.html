@@ -60,7 +60,7 @@
             </ng-container>
           </ng-container>
           <router-outlet></router-outlet>
-          <div [ngClass]="{'dynamic-footer':!dataSharedService.checkContentForFixFooter}"
+          <div [class]="dataSharedService.checkContentForFixFooter ? (dataSharedService.checkContentForFixFooter[0].fixedFooter ? 'dynamic-footer' : '') : 'dynamic-footer'"
             *ngIf="currentFooter && !fullCurrentUrl.includes('/menu-builder')">
             <st-pages [resData]="currentFooter" [screenName]="domainData?.footer?.navigation"
               [screenId]="domainData?.footer?.screenBuilderId"></st-pages>
