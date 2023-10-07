@@ -16,6 +16,7 @@ import { Subscription } from 'rxjs';
 })
 export class ButtonsComponent implements OnInit {
   @Input() buttonData: any;
+  @Input() title: any;
   @Output() notify: EventEmitter<any> = new EventEmitter();
   bgColor: any;
   hoverTextColor: any;

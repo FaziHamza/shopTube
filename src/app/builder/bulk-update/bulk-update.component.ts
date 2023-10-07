@@ -14,7 +14,7 @@ export class BulkUpdateComponent implements OnInit {
   @Input() screenName: any;
   tabelNodes: any[] = [];
   keyValidation: any[] = [];
-  optionData : any[] = dataClassification;
+  optionData: any[] = dataClassification;
   constructor(private drawerRef: NzDrawerRef<any>) { }
 
   ngOnInit(): void {
@@ -35,13 +35,14 @@ export class BulkUpdateComponent implements OnInit {
       findInputs.forEach((forms: any) => {
         let obj = {
           id: forms.id,
-          key: forms.formly[0].fieldGroup[0].key,
-          title: forms.formly[0].fieldGroup[0].props.label,
+          key: forms?.formly[0]?.fieldGroup[0]?.key,
+          title: forms?.formly[0]?.fieldGroup[0]?.props?.label,
           formlyType: 'input',
-          defaultValue: forms.formly[0].fieldGroup[0].defaultValue,
-          placeholder: forms.formly[0].fieldGroup[0].props.placeholder,
-          type: this.types,
-          dataClassification: forms.formly[0].fieldGroup[0].props.additionalProperties['dataClassification'],
+          defaultValue: forms?.formly[0]?.fieldGroup[0]?.defaultValue,
+          placeholder: forms?.formly[0]?.fieldGroup[0]?.props?.placeholder,
+          className: forms?.className,
+          // type: this.types,
+          dataClassification: forms?.formly[0]?.fieldGroup[0]?.props?.additionalProperties['dataClassification'],
         }
         this.tabelNodes[index].children.push(obj);
       });
@@ -75,11 +76,13 @@ export class BulkUpdateComponent implements OnInit {
                 //   delete this.formlyModel[input.formly[0].fieldGroup[0].key];
                 // }
                 input.title = check.title;
+                input.className = check.className;
                 input.key = check.key;
                 input.formly[0].fieldGroup[0].key = check.key
                 input.formly[0].fieldGroup[0].props.label = check.title;
                 input.formly[0].fieldGroup[0].defaultValue = check.defaultValue;
                 input.formly[0].fieldGroup[0].props.placeholder = check.placeholder;
+                input.formly[0].fieldGroup[0].props.className = check.className;
                 input.formly[0].fieldGroup[0].props.additionalProperties['dataClassification'] = check.dataClassification;
                 // this.formlyModel[input.formly[0].fieldGroup[0].key] = check.defaultValue;
                 break;
@@ -110,16 +113,16 @@ export class BulkUpdateComponent implements OnInit {
       key = key.toLowerCase();
       let findInputs = this.filterInputElements(data.children);
       findInputs.forEach(res => {
-        if (!res.key.includes('.')){
+        if (!res.key.includes('.')) {
           res.key = key + '.' + res.key;
         }
-        else if (res.key.includes('.')){
+        else if (res.key.includes('.')) {
           debugger
-          let new_key  = res.key.split(".")
+          let new_key = res.key.split(".")
           if (new_key.length > 1) {
             let result = new_key[1];
             res.key = key + '.' + result;
-        }
+          }
         }
       })
     }

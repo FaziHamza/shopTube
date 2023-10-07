@@ -1662,6 +1662,7 @@ export class formFeildData {
         {
           key: 'dropdownOptions',
           type: 'repeatSection',
+          className: "w-full",
           fieldArray: {
             fieldGroup: [
               {
@@ -2285,6 +2286,53 @@ export class formFeildData {
             },
           },
         },
+        {
+          key: 'disabledCalenderProperties',
+          type: 'select',
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          wrappers: ["formly-vertical-theme-wrapper"],
+          props: {
+            label: 'Calender Disabled',
+            options: [
+              {
+                label: "Disabled before current",
+                value: "disabledBeforeCurrent"
+              },
+              {
+                label: "Disabled After Current",
+                value: "disabledAfterCurrent"
+              },
+              {
+                label: "Disabled both",
+                value: "disabledBoth"
+              },
+            ],
+            additionalProperties: {
+              allowClear: true,
+              serveSearch: false,
+              showArrow: true,
+              showSearch: true,
+            },
+          },
+        },
+        // {
+        //   key: 'disabledBeforeCurrent',
+        //   type: 'checkbox',
+        //   wrappers: ["formly-vertical-theme-wrapper"],
+        //   className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+        //   props: {
+        //     label: 'Disabled before current'
+        //   },
+        // },
+        // {
+        //   key: 'disabledAfterCurrent',
+        //   type: 'checkbox',
+        //   wrappers: ["formly-vertical-theme-wrapper"],
+        //   className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+        //   props: {
+        //     label: 'Disabled After Current'
+        //   },
+        // },
       ]
     },
   ];
@@ -5683,6 +5731,16 @@ export class formFeildData {
           props: {
             label: 'Tooltip Icon',
           }
+        },
+        {
+          key: 'fixedFooter',
+          type: 'checkbox',
+          wrappers: ["formly-vertical-theme-wrapper"],
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          props: {
+            label: 'Fixed Footer'
+          },
+          defaultValue: false
         },
       ]
     },
