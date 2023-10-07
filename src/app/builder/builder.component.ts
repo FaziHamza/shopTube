@@ -4192,7 +4192,7 @@ export class BuilderComponent implements OnInit {
             //     });
             // }
           });
-          this.updateNodes();
+          // this.updateNodes();
         }
         break;
       case 'inputValidationRule':
@@ -4282,9 +4282,9 @@ export class BuilderComponent implements OnInit {
             }
           }
 
-          this.selectedNode.sortDirections = event.form.sortDirections
-            ? JSON.parse(event.form.sortDirections)
-            : event.form?.sortDirections;
+          // this.selectedNode.sortDirections = event.form.sortDirections
+          //   ? JSON.parse(event.form.sortDirections)
+          //   : event.form?.sortDirections;
           this.selectedNode.className = event.form?.className;
           this.selectedNode.doubleClick = event.form?.doubleClick;
           this.selectedNode.filterMultiple = event.form?.filterMultiple;
@@ -5259,8 +5259,8 @@ export class BuilderComponent implements OnInit {
 
       // this.updateNodes();
     }
-    // this.showSuccess();
-    this.updateNodes();
+    this.showSuccess();
+    // this.updateNodes();
     this.closeConfigurationList();
   }
 
