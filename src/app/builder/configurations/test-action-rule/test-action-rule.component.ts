@@ -2,7 +2,7 @@ import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import * as monaco from 'monaco-editor';
 import Ajv, { ErrorObject } from 'ajv';
 @Component({
-  selector: 'k-test-action-rule',
+  selector: 'st-test-action-rule',
   templateUrl: './test-action-rule.component.html',
   styleUrls: ['./test-action-rule.component.scss']
 })

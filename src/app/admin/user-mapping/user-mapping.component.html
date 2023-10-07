@@ -1,0 +1,18 @@
+<div class="b-card top-action-bar p-3">
+    <div class="page-selector">
+        <nz-select nzShowSearch nzAllowClear class="temp-modal-select" [(ngModel)]="userName">
+            <nz-option [nzValue]="item._id" placeholder="Select Block Type..." [nzLabel]="item.username"
+                *ngFor="let item of userList"></nz-option>
+        </nz-select>
+    </div>
+    <div class="page-selector">
+        <nz-select nzShowSearch nzAllowClear class="temp-modal-select" [(ngModel)]="policyName">
+            <nz-option [nzValue]="item._id" placeholder="Select Block Type..." [nzLabel]="item.name"
+                *ngFor="let item of policyList"></nz-option>
+        </nz-select>
+    </div>
+    <div class="page-selector">
+        <button nz-button nzType="primary" (click)="onSubmit()"
+            class="ml-2 btn-no !bg-green-600 !border-none hover:!bg-green-500">Save</button>
+    </div>
+</div>

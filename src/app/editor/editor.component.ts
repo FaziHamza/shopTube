@@ -7,7 +7,7 @@ import Ajv, { ErrorObject } from 'ajv';
 import 'monaco-editor';
 
 @Component({
-  selector: 'k-editor',
+  selector: 'st-editor',
   templateUrl: './editor.component.html',
   styleUrls: ['./editor.component.scss']
 })

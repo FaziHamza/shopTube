@@ -12,7 +12,7 @@
       },
       "root": "",
       "sourceRoot": "src",
-      "prefix": "k",
+      "prefix": "st",
       "architect": {
         "build": {
           "builder": "@angular-builders/custom-webpack:browser",

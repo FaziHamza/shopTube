@@ -17,6 +17,9 @@ import { ReleaseManagementComponent } from '../admin/release-management/release-
 import { ExecuteActionRuleComponent } from './execute-action-rule/execute-action-rule.component';
 import { TaskManagementListComponent } from '../Builder-module/task-management-list/task-management-list.component';
 import { BacklogComponent } from '../Builder-module/backlog/backlog.component';
+import { PolicyComponent } from '../admin/policy/policy.component';
+import { PolicyMappingComponent } from '../admin/policy-mapping/policy-mapping.component';
+import { UserMappingComponent } from '../admin/user-mapping/user-mapping.component';
 
 const routes: Routes = [
   {
@@ -86,6 +89,18 @@ const routes: Routes = [
       {
         path: 'backlog',
         component: BacklogComponent
+      },
+      {
+        path: 'policy',
+        component: PolicyComponent
+      },
+      {
+        path: 'policy-mapping',
+        component: PolicyMappingComponent
+      },
+      {
+        path: 'user-mapping',
+        component: UserMappingComponent
       },
     ]
   },
