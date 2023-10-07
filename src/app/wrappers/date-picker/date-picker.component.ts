@@ -13,7 +13,7 @@ import { DatePipe } from '@angular/common'; // Import DatePipe
 export class DatePickerComponent extends FieldType<FieldTypeConfig> {
   @ViewChild('endDatePicker') endDatePicker!: NzDatePickerComponent;
   @Output() change = new EventEmitter<any>();
-  constructor(private sharedService: DataSharedService , private datePipe: DatePipe) {
+  constructor(private sharedService: DataSharedService, private datePipe: DatePipe) {
     super();
   }
   startValue: Date | null = null;
@@ -52,19 +52,54 @@ export class DatePickerComponent extends FieldType<FieldTypeConfig> {
     console.log(event);
     console.log(this.to['additionalProperties']?.format);
     if (typeof event !== 'string') {
-      let formattedDate = event.toLocaleDateString();
-      if (this.to['additionalProperties']?.format) {
-        // Format the date using DatePipe
-        formattedDate = this.datePipe.transform(
-          event,
-          this.to['additionalProperties']?.format
-        );
-      }
-      this.formControl.patchValue(formattedDate);
-      this.sharedService.onChange(formattedDate, this.field);
+      // let formattedDate = event.toLocaleDateString();
+      // if (this.to['additionalProperties']?.format) {
+      //   // Format the date using DatePipe
+      //   formattedDate = this.datePipe.transform(
+      //     event,
+      //     this.to['additionalProperties']?.format
+      //   );
+      // }
+      this.formControl.patchValue(event);
+      this.sharedService.onChange(event, this.field);
     }
   }
+  disabledDate = (current: Date): boolean => {
+    const currentDate = new Date();
+    const currentYear = currentDate.getFullYear();
+    const currentMonth = currentDate.getMonth();
+    const currentMonthStart = new Date(currentYear, currentMonth, 1);
 
+    if (this.to.type === 'date') {
+      if (this.to['additionalProperties']?.disabledBeforeCurrent && this.to['additionalProperties']?.disabledAfterCurrent) {
+
+      }
+      else if (this.to['additionalProperties']?.disabledBeforeCurrent) {
+        return current < new Date(currentDate.setHours(0, 0, 0, 0));
+      } else if (this.to['additionalProperties']?.disabledAfterCurrent) {
+        return current > currentDate;
+      }
+    } else if (this.to.type === 'month') {
+      if (this.to['additionalProperties']?.disabledBeforeCurrent && this.to['additionalProperties']?.disabledAfterCurrent) {
+
+      }
+      else if (this.to['additionalProperties']?.disabledBeforeCurrent) {
+        return current.getFullYear() < currentYear || (current.getFullYear() === currentYear && current.getMonth() < currentMonth);
+      } else if (this.to['additionalProperties']?.disabledAfterCurrent) {
+        return current > currentMonthStart;
+      }
+    } else if (this.to.type === 'year') {
+      if (this.to['additionalProperties']?.disabledBeforeCurrent && this.to['additionalProperties']?.disabledAfterCurrent) {
+
+      }
+      else if (this.to['additionalProperties']?.disabledBeforeCurrent) {
+        return current.getFullYear() < currentYear;
+      } else if (this.to['additionalProperties']?.disabledAfterCurrent) {
+        return current.getFullYear() > currentYear;
+      }
+    }
+    return false;
+  };
 }
 
 

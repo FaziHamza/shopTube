@@ -260,8 +260,8 @@ export class SectionsComponent implements OnInit {
       const Arraytables = Array.from(tableNames)
       const remainingTables = Arraytables.slice(1);
       let id; findClickApi[0];
-      for(const key in empData?.modalData){
-        if(empData?.modalData[key] == undefined){
+      for (const key in empData?.modalData) {
+        if (empData?.modalData[key] == undefined) {
           empData.modalData[key] = '';
         }
       }
@@ -1282,7 +1282,8 @@ export class SectionsComponent implements OnInit {
   joiValidation() {
     let modelObj: any = [];
     this.ruleValidation = {};
-    let filteredInputNodes = this.filterInputElements(this.sections.children[1].children);
+    let filterdFormly: any = this.filterInputElements(this.sections.children[1].children);
+    let filteredInputNodes = filterdFormly.filter((item: any) => !item.hideExpression);
     if (this.joiValidationData.length > 0) {
       for (let j = 0; j < filteredInputNodes.length; j++) {
         if (filteredInputNodes[j].formlyType != undefined) {
@@ -1363,7 +1364,8 @@ export class SectionsComponent implements OnInit {
     return true;
   }
   validationChecker(object: any) {
-    let filteredNodes = this.filterInputElements(this.sections.children[1].children);
+    let filterdFormly: any = this.filterInputElements(this.sections.children[1].children);
+    let filteredNodes : any = filterdFormly.filter((item: any) => !item.hideExpression);
     filteredNodes.forEach((item: any) => {
       if (item.formly) {
         // item.formly[0].fieldGroup[0].props.error = null;
@@ -1377,7 +1379,7 @@ export class SectionsComponent implements OnInit {
     const cc = this.schemaValidation.validate(Object.assign({}, object), { abortEarly: false });
     if (cc?.error) {
       this.setErrorToInput = JSON.parse(JSON.stringify(cc.error.details));
-      filteredNodes.forEach((V2: any, index) => {
+      filteredNodes.forEach((V2: any, index : number) => {
         const key = V2.formly[0].fieldGroup[0].key;
         const matchingError = this.setErrorToInput.find((error: any) => error.context.key === key);
 

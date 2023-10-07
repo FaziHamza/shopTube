@@ -1662,6 +1662,7 @@ export class formFeildData {
         {
           key: 'dropdownOptions',
           type: 'repeatSection',
+          className: "w-full",
           fieldArray: {
             fieldGroup: [
               {
@@ -2283,6 +2284,24 @@ export class formFeildData {
               showArrow: true,
               showSearch: true,
             },
+          },
+        },
+        {
+          key: 'disabledBeforeCurrent',
+          type: 'checkbox',
+          wrappers: ["formly-vertical-theme-wrapper"],
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          props: {
+            label: 'Disabled before current'
+          },
+        },
+        {
+          key: 'disabledAfterCurrent',
+          type: 'checkbox',
+          wrappers: ["formly-vertical-theme-wrapper"],
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          props: {
+            label: 'Disabled After Current'
           },
         },
       ]

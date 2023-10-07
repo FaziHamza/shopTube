@@ -646,12 +646,16 @@ export class BuilderComponent implements OnInit {
     });
   }
   applyDefaultValue() {
+    let newMode: any = {};
     const filteredNodes = this.filterInputElements(this.nodes);
     filteredNodes.forEach((node) => {
       const formlyConfig = node.formly?.[0]?.fieldGroup?.[0]?.defaultValue;
-      if (formlyConfig)
-        this.formlyModel[node?.formly?.[0]?.fieldGroup?.[0]?.key] =
+      if (formlyConfig) {
+        newMode[node?.formly?.[0]?.fieldGroup?.[0]?.key] =
           formlyConfig;
+      };
+      this.formlyModel = newMode;
+      this.form.patchValue(this.formlyModel);
     });
   }
   clearChildNode() {
@@ -2089,7 +2093,7 @@ export class BuilderComponent implements OnInit {
                         requiredMessage: '',
                         tooltipPosition: 'right',
                         toolTipClass: '',
-                        formlyTypes: data?.parameter,
+                        formlyTypes: data?.type + '_' + data?.configType + '_' + data?.fieldType,
                         uploadBtnLabel: "Click here to upload",
                         multiple: false,
                         disabled: false,
@@ -2652,7 +2656,7 @@ export class BuilderComponent implements OnInit {
           ...this.clickButtonService.getGridConfig(selectedNode),
         };
         this.fieldData.commonData?.push({ title: 'gridFields', data: _formFieldData.gridFields }, { title: 'Table', data: _formFieldData.gridFields_Table },
-          { title: 'th', data: _formFieldData.gridFields_th },{ title: 'td', data: _formFieldData.gridFields_td }, { title: 'StyleProperty', data: _formFieldData.gridFields_StyleProperty }, { title: 'Drawer', data: _formFieldData.gridFields_Drawer }
+          { title: 'th', data: _formFieldData.gridFields_th }, { title: 'td', data: _formFieldData.gridFields_td }, { title: 'StyleProperty', data: _formFieldData.gridFields_StyleProperty }, { title: 'Drawer', data: _formFieldData.gridFields_Drawer }
           , { title: 'Heading', data: _formFieldData.gridFields_Heading }, { title: 'Options', data: _formFieldData.gridFieldsOptions }
 
         );
@@ -2875,11 +2879,38 @@ export class BuilderComponent implements OnInit {
             }
           }
         );
+        let disabledFields = [
+          {
+            key: 'disabledBeforeCurrent',
+            type: 'checkbox',
+            wrappers: ["formly-vertical-theme-wrapper"],
+            className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+            props: {
+              label: 'Disabled before current'
+            },
+          },
+          {
+            key: 'disabledAfterCurrent',
+            type: 'checkbox',
+            wrappers: ["formly-vertical-theme-wrapper"],
+            className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+            props: {
+              label: 'Disabled After Current'
+            },
+          },
+        ]
+        if (type == 'year' || type == 'month') {
+          let formlyData: any = _formFieldData?.commonFormlyConfigurationFields[0]?.fieldGroup;
+          disabledFields.forEach((element: any) => {
+            formlyData.push(element)
+          });
+        }
         this.fieldData.commonData = [];
         const obj = {
           title: 'test',
           data: _formFieldData.commonFormlyConfigurationFields
         }
+
         this.fieldData.commonData?.push(obj);
         switch (type) {
           case 'search':
@@ -2926,22 +2957,22 @@ export class BuilderComponent implements OnInit {
         this.addIconCommonConfiguration(_formFieldData.buttonFields, true);
         this.fieldData.commonData?.push({ title: 'buttonFields', data: _formFieldData.buttonFields });
         break;
-        case 'dropdownButton':
-          // if (typeof selectedNode.buttonClass === "string") {
-          //   const classObj = JSON.parse(JSON.stringify(selectedNode.buttonClass.split(" ")));
-          //   configObj.buttonClass = classObj
-          // }
-          // (configObj.icon = selectedNode.btnIcon),
-          //   (configObj.options = selectedNode.dropdownOptions);
-          // configObj = { ...configObj, ...this.clickButtonService.getDropdownButtonConfig(selectedNode) };
-          this.addIconCommonConfiguration(
-            _formFieldData.dropdownButtonFields,
-            true
-          );
-          configObj.icon = selectedNode.btnIcon;
-          configObj.options = selectedNode.dropdownOptions;
-          this.fieldData.commonData?.push({ title: 'dropdownButtonFields', data: _formFieldData.dropdownButtonFields });
-          break;
+      case 'dropdownButton':
+        // if (typeof selectedNode.buttonClass === "string") {
+        //   const classObj = JSON.parse(JSON.stringify(selectedNode.buttonClass.split(" ")));
+        //   configObj.buttonClass = classObj
+        // }
+        // (configObj.icon = selectedNode.btnIcon),
+        //   (configObj.options = selectedNode.dropdownOptions);
+        // configObj = { ...configObj, ...this.clickButtonService.getDropdownButtonConfig(selectedNode) };
+        this.addIconCommonConfiguration(
+          _formFieldData.dropdownButtonFields,
+          true
+        );
+        configObj.icon = selectedNode.btnIcon;
+        configObj.options = selectedNode.dropdownOptions;
+        this.fieldData.commonData?.push({ title: 'dropdownButtonFields', data: _formFieldData.dropdownButtonFields });
+        break;
       case 'accordionButton':
         this.addIconCommonConfiguration(
           _formFieldData.accordionButtonFields,
@@ -4109,6 +4140,8 @@ export class BuilderComponent implements OnInit {
             props['additionalProperties']['multiFileUploadTypes'] = event.form?.multiFileUploadTypes;
             props['additionalProperties']['innerInputClass'] = event.form?.innerInputClass;
             props['additionalProperties']['dataClassification'] = event.form?.dataClassification;
+            props['additionalProperties']['disabledBeforeCurrent'] = event.form?.disabledBeforeCurrent;
+            props['additionalProperties']['disabledAfterCurrent'] = event.form?.disabledAfterCurrent;
             props['readonly'] = event.form.readonly;
             // props['options'] = event.form.options;
             // if (event.tableDta) {
@@ -4409,13 +4442,13 @@ export class BuilderComponent implements OnInit {
         }
         break;
 
-        case 'dropdownButton':
-          this.selectedNode.btnIcon = event.form?.icon;
-          if (event.tableDta) {
-            this.selectedNode.dropdownOptions = event.tableDta;
-          }
-          // this.selectedNode.dropdownOptions = event?.form?.dropdownOptions;
-          break;
+      case 'dropdownButton':
+        this.selectedNode.btnIcon = event.form?.icon;
+        if (event.tableDta) {
+          this.selectedNode.dropdownOptions = event.tableDta;
+        }
+        // this.selectedNode.dropdownOptions = event?.form?.dropdownOptions;
+        break;
       case 'fixedDiv':
         if (event.form.api) {
           this.requestSubscription = this.builderService
@@ -6274,9 +6307,14 @@ export class BuilderComponent implements OnInit {
       if (node?.parameter == 'input') {
         let obj = {
           label: node.label,
-          value: node.fieldType,
+          value: node.type + '_' + node.configType + '_' + node.fieldType,
         };
-        this.formlyTypes.push(obj);
+        if (this.formlyTypes.length == 0) {
+          this.formlyTypes.push(obj);
+        }
+        else if (!this.formlyTypes.some((item: any) => item.value.split('_')[0] == 'custom')) {
+          this.formlyTypes.push(obj);
+        }
       }
       if (node?.children) {
         if (node?.children.length > 0) {
@@ -6289,7 +6327,7 @@ export class BuilderComponent implements OnInit {
   }
   findFormlyTypeObj(node: any, type: any) {
     if (node) {
-      if (node.parameter == 'input' && node.fieldType == type) {
+      if (node.parameter == 'input' && node.type == type.split('_')[0] && node.configType == type.split('_')[1] && node.fieldType == type.split('_')[2]) {
         return node;
       }
       if (node.children && node.children.length > 0) {

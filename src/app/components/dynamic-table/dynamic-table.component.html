@@ -289,7 +289,7 @@
                     <div
                       *ngIf="(header?.dataType !='select' || !configurationTable) && header?.dataType !='audioVideoRecorder' && header?.dataType !='image-upload' && header?.dataType != 'repeatSection' && header?.dataType != 'dateTime' && !isMyDataArray(item[header.key]
                     )
-                    && header?.subDataType != 'datetime-local' && header?.dataType != 'rangePicker' && header?.dataType !='checkbox' && header?.dataType !='icon'">
+                    && header?.subDataType != 'datetime-local' && header?.dataType != 'rangePicker' && header?.dataType !='checkbox' && header?.dataType !='icon' && header?.dataType !='button'">
                       <div class="editable-cell"
                         [hidden]="editId === item.id && (configurationTable || header?.editMode == 'yes'|| header?.editMode == true)">
                         {{item[header.key] | translate}}
@@ -358,7 +358,7 @@
                         <div *ngFor="let childData of data.children">
                           <div *ngIf="childData.type =='button' && childData?.id == header?.key"
                             class="{{childData?.className}}">
-                            <st-block-buttons-card [softIconList]="childData">
+                            <st-block-buttons-card [title]="item[header.key]" [softIconList]="childData">
                             </st-block-buttons-card>
                           </div>
                         </div>

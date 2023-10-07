@@ -40,7 +40,7 @@ export class BulkUpdateComponent implements OnInit {
           formlyType: 'input',
           defaultValue: forms.formly[0].fieldGroup[0].defaultValue,
           placeholder: forms.formly[0].fieldGroup[0].props.placeholder,
-          type: this.types,
+          // type: this.types,
           dataClassification: forms.formly[0].fieldGroup[0].props.additionalProperties['dataClassification'],
         }
         this.tabelNodes[index].children.push(obj);

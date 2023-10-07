@@ -15,7 +15,7 @@
       [hoverIconColor]="buttonData?.hoverIconColor || ''" [size]="buttonData.iconSize"
       [type]="buttonData.iconType"></st-icon>
     <span [class]="buttonData.btnLabelPaddingClass" *ngIf="buttonData.title">
-      {{ buttonData.title | translate}}
+      {{ title ? title : buttonData.title | translate}}
     </span>
     <st-icon *ngIf="buttonData.rightbtnIcon" [icon]="buttonData.rightbtnIcon" [color]="buttonData.iconColor"
       [size]="buttonData.iconSize" [hoverIconColor]="buttonData?.hoverIconColor || ''"
@@ -39,7 +39,7 @@
         [hoverIconColor]="buttonData?.hoverIconColor || ''" [size]="buttonData.iconSize"
         [type]="buttonData.iconType"></st-icon>
       <span [class]="buttonData.btnLabelPaddingClass" *ngIf="buttonData.title">
-        {{ buttonData.title | translate}}
+        {{ title ? title : buttonData.title | translate}}
       </span>
       <st-icon *ngIf="buttonData.rightbtnIcon" [icon]="buttonData.rightbtnIcon" [color]="buttonData.iconColor"
         [size]="buttonData.iconSize" [hoverIconColor]="buttonData?.hoverIconColor || ''"
@@ -64,7 +64,7 @@
       [hoverIconColor]="buttonData?.hoverIconColor || ''" [size]="buttonData.iconSize"
       [type]="buttonData.iconType"></st-icon>
     <span [class]="buttonData.btnLabelPaddingClass" *ngIf="buttonData.title">
-      {{ buttonData.title | translate}}
+      {{ title ? title : buttonData.title | translate}}
     </span>
     <st-icon *ngIf="buttonData.rightbtnIcon" [icon]="buttonData.rightbtnIcon" [color]="buttonData.iconColor"
       [size]="buttonData.iconSize" [hoverIconColor]="buttonData?.hoverIconColor || ''"
