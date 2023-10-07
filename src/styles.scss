@@ -206,7 +206,7 @@ object {
   }
 
   // .v-body-border {
-  //   // border: 1px solid lightgray;
+  //   border: 1px solid lightgray;
   //   // border: 1px 1px 0px 1px solid lightgray;
   // }
 
@@ -276,6 +276,8 @@ object {
 
   .ant-input-group textarea.ant-input {
     height: auto !important;
+    min-height: 46px !important;
+    padding: 12px 11px !important;
   }
 
   .ant-picker-large {
@@ -409,8 +411,8 @@ object {
   }
 
   #my-app {
-    margin-top: 5.5px;
-    margin-left: 11px;
+    padding: 5px 11px;
+    border: 1px solid #d9d9d9 !important;
   }
 
   // st-formly-field-ng-search{
