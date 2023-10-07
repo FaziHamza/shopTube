@@ -1257,20 +1257,20 @@ export class PagesComponent implements OnInit {
     debugger
     getRes.data.forEach((res: any) => {
       if (res.name == 'BusinessRule') {
-        if (res.data.length > 0) {
+        if (res.data) {
           this.businessRuleData = [];
           if (res.data[0].businessRule)
             this.businessRuleData = JSON.parse(res.data[0].businessRule)
         }
       }
       else if (res.name == 'GridBusinessRule') {
-        if (res.data.length > 0) {
+        if (res.data) {
           this.gridRulesData = res;
         }
       }
       else if (res.name == 'ValidationRule') {
-        if (res.data.length > 0) {
-          this.joiValidationData = res.data;
+        if (res.data) {
+          this.joiValidationData.push(res.data);
         }
       }
       else if (res.name == 'ActionRule') {

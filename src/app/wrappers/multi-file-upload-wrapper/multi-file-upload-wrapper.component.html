@@ -1,37 +1,45 @@
 <nz-upload
-    *ngIf="to['additionalProperties']?.multiFileUploadTypes == 'dragNDrop' || !to['additionalProperties']?.multiFileUploadTypes"
-    nzType="drag" [nzMultiple]="to['additionalProperties']?.multiple"
-    [nzDisabled]="to['additionalProperties']?.disabled"
-    [nzOpenFileDialogOnClick]="to['additionalProperties']?.showDialogueBox"
-    [nzShowUploadList]="to['additionalProperties']?.showUploadlist"
-    [nzDirectory]="to['additionalProperties']?.onlyDirectoriesAllow" [nzLimit]="to['additionalProperties']?.uploadLimit"
-    [nzSize]="to['additionalProperties']?.fileUploadSize" (nzChange)="handleChange($event)">
-    <p class="ant-upload-drag-icon">
-        <span nz-icon nzType="inbox"></span>
-    </p>
-    <p class="ant-upload-text">{{to['additionalProperties']?.uploadBtnLabel}}</p>
+  *ngIf="to['additionalProperties']?.multiFileUploadTypes == 'dragNDrop' || !to['additionalProperties']?.multiFileUploadTypes"
+  nzType="drag" nzAction="{{ nestBaseUrl }}market-place/upload" 
+  [nzMultiple]="to['additionalProperties']?.multiple"
+  [nzDisabled]="to['additionalProperties']?.disabled"
+  [nzOpenFileDialogOnClick]="to['additionalProperties']?.showDialogueBox"
+  [nzShowUploadList]="to['additionalProperties']?.showUploadlist"
+  [nzDirectory]="to['additionalProperties']?.onlyDirectoriesAllow"
+  [nzLimit]="to['additionalProperties']?.uploadLimit"
+  (nzChange)="handleUploadChange($event)"
+  (nzRemove)="handleFileRemove($event)"
+>
+  <p class="ant-upload-drag-icon">
+    <span nz-icon nzType="inbox"></span>
+  </p>
+  <p class="ant-upload-text">{{ to['additionalProperties']?.uploadBtnLabel }}</p>
 </nz-upload>
 
-<nz-upload *ngIf="to['additionalProperties']?.multiFileUploadTypes == 'button'"
+
+
+<nz-upload *ngIf="to['additionalProperties']?.multiFileUploadTypes == 'button'" nzAction="{{ nestBaseUrl }}market-place/upload" 
     [nzHeaders]="{ authorization: 'authorization-text' }" [nzMultiple]="to['additionalProperties']?.multiple"
     [nzDisabled]="to['additionalProperties']?.disabled"
     [nzOpenFileDialogOnClick]="to['additionalProperties']?.showDialogueBox"
     [nzShowUploadList]="to['additionalProperties']?.showUploadlist"
     [nzDirectory]="to['additionalProperties']?.onlyDirectoriesAllow" [nzLimit]="to['additionalProperties']?.uploadLimit"
-    [nzSize]="to['additionalProperties']?.fileUploadSize" (nzChange)="handleChange($event)">
+    [nzSize]="to['additionalProperties']?.fileUploadSize"   (nzChange)="handleUploadChange($event)"
+    (nzRemove)="handleFileRemove($event)">
     <button nz-button>
         <span nz-icon nzType="upload"></span>
         {{to['additionalProperties']?.uploadBtnLabel}}
     </button>
 </nz-upload>
 
-<nz-upload *ngIf="to['additionalProperties']?.multiFileUploadTypes == 'jpg'" class="avatar-uploader" nzName="avatar"
+<nz-upload *ngIf="to['additionalProperties']?.multiFileUploadTypes == 'jpg'" class="avatar-uploader" nzName="avatar"  nzAction="{{ nestBaseUrl }}market-place/upload" 
     nzListType="picture-card" [nzMultiple]="to['additionalProperties']?.multiple" [nzBeforeUpload]="beforeUpload"
     [nzDisabled]="to['additionalProperties']?.disabled"
     [nzOpenFileDialogOnClick]="to['additionalProperties']?.showDialogueBox"
     [nzShowUploadList]="to['additionalProperties']?.showUploadlist"
     [nzDirectory]="to['additionalProperties']?.onlyDirectoriesAllow" [nzLimit]="to['additionalProperties']?.uploadLimit"
-    [nzSize]="to['additionalProperties']?.fileUploadSize" (nzChange)="handleChange($event)">
+    [nzSize]="to['additionalProperties']?.fileUploadSize"   (nzChange)="handleUploadChange($event)"
+    (nzRemove)="handleFileRemove($event)">
     <ng-container *ngIf="!avatarUrl">
         <div class="ant-upload-text"><span class="upload-icon mr-1" nz-icon
                 [nzType]="loading ? 'loading' : 'plus'"></span>{{to['additionalProperties']?.uploadBtnLabel}}</div>
@@ -40,13 +48,14 @@
 </nz-upload>
 
 <div class="clearfix" *ngIf="to['additionalProperties']?.multiFileUploadTypes == 'png'">
-    <nz-upload nzListType="picture" [nzMultiple]="to['additionalProperties']?.multiple" [(nzFileList)]="fileList1"
+    <nz-upload nzListType="picture" [nzMultiple]="to['additionalProperties']?.multiple" [(nzFileList)]="files"  nzAction="{{ nestBaseUrl }}market-place/upload" 
         [nzDisabled]="to['additionalProperties']?.disabled"
         [nzOpenFileDialogOnClick]="to['additionalProperties']?.showDialogueBox"
         [nzShowUploadList]="to['additionalProperties']?.showUploadlist"
         [nzDirectory]="to['additionalProperties']?.onlyDirectoriesAllow"
         [nzLimit]="to['additionalProperties']?.uploadLimit" [nzSize]="to['additionalProperties']?.fileUploadSize"
-        (nzChange)="handleChange($event)">
+        (nzChange)="handleUploadChange($event)"
+        (nzRemove)="handleFileRemove($event)">
         <button nz-button>
             <span nz-icon nzType="upload"></span>
             {{to['additionalProperties']?.uploadBtnLabel}}
