@@ -5264,7 +5264,7 @@ export class BuilderComponent implements OnInit {
       // this.updateNodes();
     }
     this.showSuccess();
-    // this.updateNodes();
+    this.updateNodes();
     this.closeConfigurationList();
   }
 
