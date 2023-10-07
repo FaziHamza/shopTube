@@ -10,7 +10,7 @@
             nzTheme="outline"></span></span>
       </span> -->
 
-      <st-buttons (notify)="saveData($event)" [buttonData]="softIconList"></st-buttons>
+      <st-buttons (notify)="saveData($event)" [buttonData]="softIconList" [title]="title"></st-buttons>
 
       <!-- <span
         *ngIf="softIconList?.tooltipPosition == 'right' || softIconList?.tooltipPosition == undefined">
@@ -40,7 +40,7 @@
 
       <nz-button-group>
         <div *ngFor="let item of softIconList.children">
-          <st-buttons (notify)="saveData($event)" [buttonData]="item"></st-buttons>
+          <st-buttons (notify)="saveData($event)" [buttonData]="item" [title]="title"></st-buttons>
         </div>
       </nz-button-group>
 
