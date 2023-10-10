@@ -2286,7 +2286,10 @@ export class BuilderComponent implements OnInit {
       if (this.showNotification) {
         this.toastr.success('Control Added', { nzDuration: 3000 });
       }
-      this.dataSharedService.repeatableControll.next(node);
+      let repeatable = this.findObjectByType(this.nodes[0], 'repeatableControll')
+      if(repeatable){
+        this.dataSharedService.repeatableControll.next(node);
+      }
     }
     // this.makeFaker();
   }
@@ -3420,7 +3423,12 @@ export class BuilderComponent implements OnInit {
       this.searchControllData = [];
       this.isActiveShow = id;
       this.selectedNode = node;
-      this.controlListvisible = true;
+      if (this.selectedNode.isNextChild || this.selectedNode.type == 'repeatableControll') {
+        // this.IsShowConfig = true;
+        this.controlListvisible = true;
+      } else {
+        this.toastr.warning("Not allowed to add control in this")
+      }
       if (this.selectedNode.type == 'pageBody') {
         this.showSectionOnly = true;
       } else {
