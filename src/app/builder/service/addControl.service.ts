@@ -252,7 +252,7 @@ export class AddControlService {
       iconPlacement: 'left',
       hoverIconColor: '',
       captureData: 'sectionLevel',
-      buttonClass:'!rounded-md !bg-blue-500 !text-white hover:!bg-blue-600 hover:text-white !border !border-transparent !hover:border-transparent font-md text-lg',
+      buttonClass: '!rounded-md !bg-blue-500 !text-white hover:!bg-blue-600 hover:text-white !border !border-transparent !hover:border-transparent font-md text-lg',
     }
   }
   getDropdownButtonControl() {
@@ -279,7 +279,7 @@ export class AddControlService {
       nztype: "default",
       textColor: "",
       hoverIconColor: '',
-      buttonClass:'!rounded-md !bg-blue-500 !text-white hover:!bg-blue-600 hover:text-white !border !border-transparent !hover:border-transparent font-md text-lg',
+      buttonClass: '!rounded-md !bg-blue-500 !text-white hover:!bg-blue-600 hover:text-white !border !border-transparent !hover:border-transparent font-md text-lg',
       iconSize: 15,
       hoverTextColor: '',
       dataTable: '',
@@ -499,6 +499,21 @@ export class AddControlService {
       iconType: 'outline',
       iconSize: 15,
       iconColor: '',
+    }
+  }
+  getrepeatableControll() {
+    return {
+      props: {
+        addText: 'Add Task',
+        label: 'TODO LIST',
+      },
+      fieldArray: {
+        type: 'input',
+        props: {
+          placeholder: 'Task name',
+          required: true,
+        },
+      },
     }
   }
   getSimpleCardWithHeaderBodyFooterControl() {
@@ -847,7 +862,7 @@ export class AddControlService {
       isAllowSearch: false,
       isAllowUploadExcel: false,
       isAllowExcelReport: false,
-      drawerButtonLabel:'Open Drawer',
+      drawerButtonLabel: 'Open Drawer',
       tableHeaders: [
         // {
         //   name: 'Id',

@@ -233,7 +233,8 @@
         <div *ngIf="item.formlyType == 'input'; else thirtySeven">
             <div
                 [ngClass]="item.formly[0].fieldGroup[0].wrappers[0] == 'formly-vertical-theme-wrapper' ? 'theme-body' : item.formly[0].fieldGroup[0].wrappers[0]">
-                <formly-form [fields]="item.formly" [model]="formlyModel" [form]="form">
+                <formly-form [fields]="item.formly" [model]="formlyModel" [form]="form"
+                    [options]="item.type == 'repeatableControll' ? item : ''">
                 </formly-form>
             </div>
             <!-- <button *ngIf="isLast" type="submit" class="bg-blue-500 mt-2">Submit</button>
@@ -444,8 +445,8 @@
         </div>
     </ng-template>
     <ng-template #eightyFive>
-        <div *ngIf="item.type == 'div';  else eightySix" (dblclick)="patchValue(item)" [style.border-radius.px]="item['radius']"
-            [class]="item.divClass" [ngStyle]="{
+        <div *ngIf="item.type == 'div';  else eightySix" (dblclick)="patchValue(item)"
+            [style.border-radius.px]="item['radius']" [class]="item.divClass" [ngStyle]="{
             'height': item.height && item.height !== 0 ? item.height + 'px' : 'auto',
             'width': item.width && item.width !== 0 && item.imageSrc ? item.width + 'px' : 'auto',
             'background-image': item.imageSrc ? 'url(' + item.imageSrc + ')' : 'none',

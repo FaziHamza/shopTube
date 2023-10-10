@@ -1506,11 +1506,12 @@ export class PagesComponent implements OnInit {
 
   sectionRepeat(section: any) {
     try {
+      debugger
       const idx = this.resData[0].children[1].children.indexOf(section as TreeNode);
-      let newNode = JSON.parse(JSON.stringify(section));
-      let obj = { node: newNode, type: 'copy' };
-      this.traverseAndChange(obj);
-      this.resData[0].children[1].children.splice(idx as number + 1, 0, newNode);
+      // let newNode = JSON.parse(JSON.stringify(section));
+      // let obj = { node: newNode, type: 'copy' };
+      // this.traverseAndChange(obj);
+      this.resData[0].children[1].children.splice(idx as number + 1, 0, section);
       this.resData = [...this.resData];
     } catch (error: any) {
       console.error('An error occurred:', error);
@@ -1532,7 +1533,8 @@ export class PagesComponent implements OnInit {
     if (event.node) {
       if (event.type == 'copy') {
         event.node = this.changeIdAndkey(event.node);
-      } else if (event.type == 'disabled') {
+      } 
+      else if (event.type == 'disabled') {
         event.node = this.disabledAndEditableSection(event.node);
       }
       if (event.node.children) {

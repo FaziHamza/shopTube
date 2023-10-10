@@ -651,7 +651,7 @@ export class BuilderComponent implements OnInit {
     filteredNodes.forEach((node) => {
       const formlyConfig = node.formly?.[0]?.fieldGroup?.[0]?.defaultValue;
       newMode[node?.formly?.[0]?.fieldGroup?.[0]?.key] =
-      formlyConfig;
+        formlyConfig;
     });
     this.formlyModel = newMode;
     this.form.patchValue(this.formlyModel);
@@ -1676,6 +1676,121 @@ export class BuilderComponent implements OnInit {
       case 'alert':
         newNode = { ...newNode, ...this.addControlService.getAlertControl() };
         break;
+      case 'repeatableControll':
+        let formlyObj = {
+          isNextChild: true,
+          type: data?.configType,
+          formlyType: 'input',
+          hideExpression: false,
+          title: res?.title ? res.title : obj.title,
+          formly: [
+            {
+              fieldGroup: [
+                {
+                  key: res?.key ? res.key : obj.key,
+                  type: data?.type,
+                  defaultValue: '',
+                  focus: false,
+                  id: formlyId.toLowerCase(),
+                  wrappers: this.getLastNodeWrapper('wrappers'),
+                  props: {
+                    multiple: true,
+                    className: 'sm:w-1/2 md:w-1/2 lg:w-1/2 xl:w-1/2',
+                    attributes: {
+                      autocomplete: 'off',
+                    },
+                    additionalProperties: {
+                      getVariable: '',
+                      setVariable: '',
+                      addonLeft: '',
+                      addonRight: '',
+                      // addonLeftIcon: '',
+                      // addonrightIcon: '',
+                      status: '',
+                      size: 'default',
+                      border: false,
+                      firstBtnText: 'Now',
+                      secondBtnText: 'ok',
+                      minuteStep: 1,
+                      secondStep: 1,
+                      hoursStep: 1,
+                      use12Hours: false,
+                      icon: 'close',
+                      allowClear: false,
+                      step: 1,
+                      serveSearch: false,
+                      showArrow: false,
+                      showSearch: false,
+                      format: 'dd-MM-yyyy',
+                      optionHieght: 30,
+                      optionHoverSize: 10,
+                      suffixicon: '',
+                      prefixicon: '',
+                      wrapper: this.getLastNodeWrapper('configWrapper'),
+                      floatFieldClass: '',
+                      floatLabelClass: '',
+                      formatAlignment: 'ltr',
+                      iconType: 'outline',
+                      iconSize: 15,
+                      iconColor: '',
+                      labelPosition: 'text-left',
+                      titleIcon: '',
+                      tooltip: '',
+                      default: '',
+                      hoverIconColor: '',
+                      requiredMessage: '',
+                      tooltipPosition: 'right',
+                      toolTipClass: '',
+                      formlyTypes: data?.type + '_' + data?.configType + '_' + data?.fieldType,
+                      uploadBtnLabel: "Click here to upload",
+                      multiple: false,
+                      disabled: false,
+                      showDialogueBox: true,
+                      showUploadlist: true,
+                      onlyDirectoriesAllow: false,
+                      isNextChild: false,
+                      uploadLimit: 10,
+                      fileUploadSize: 30,
+                      selectType: 'multiple',
+                      multiFileUploadTypes: 'dragNDrop',
+                      innerInputClass: '',
+                      dataClassification: '',
+                    },
+                    apiUrl: '',
+                    rows: 1,
+                    maxLength: null,
+                    minLength: 1,
+                    type: data?.fieldType,
+                    label: res?.title ? res.title : obj.title,
+                    placeholder: data?.label,
+                    maskString: data?.maskString,
+                    // sufix: 'INV ',
+                    maskLabel: data?.maskLabel,
+                    // disabled: this.getLastNodeWrapper("disabled"),
+                    readonly: false,
+                    hidden: false,
+                    options: this.makeFormlyOptions(data?.options, data.type),
+                    keyup: (model: any) => {
+                      debugger
+                      let currentVal = model.formControl.value;
+                      this.formlyModel[model.key] = model.formControl.value;
+                      this.checkConditionUIRule(model, currentVal);
+                    },
+                  },
+                  // fieldArray: {
+                  //   type: 'input',
+                  //   props: {
+                  //     placeholder: 'Task name',
+                  //     required: true,
+                  //   },
+                  // },
+                },
+              ],
+            },
+          ],
+        };
+        newNode = { ...newNode, ...formlyObj };
+        break;
       case 'simpleCardWithHeaderBodyFooter':
         newNode = {
           ...newNode,
@@ -2164,12 +2279,14 @@ export class BuilderComponent implements OnInit {
   addNode(node: TreeNode, newNode: TreeNode) {
     if (node?.children) {
       node.children.push(newNode);
+
       if (node.children.length > 0) {
         delete node.isLeaf
       }
       if (this.showNotification) {
         this.toastr.success('Control Added', { nzDuration: 3000 });
       }
+      this.dataSharedService.repeatableControll.next(node);
     }
     // this.makeFaker();
   }
@@ -3303,12 +3420,7 @@ export class BuilderComponent implements OnInit {
       this.searchControllData = [];
       this.isActiveShow = id;
       this.selectedNode = node;
-      if (this.selectedNode.isNextChild) {
-        // this.IsShowConfig = true;
-        this.controlListvisible = true;
-      } else {
-        this.toastr.warning("Not allowed to add control in this")
-      }
+      this.controlListvisible = true;
       if (this.selectedNode.type == 'pageBody') {
         this.showSectionOnly = true;
       } else {
