@@ -233,7 +233,7 @@
         <div *ngIf="item.formlyType == 'input'; else thirtySeven">
             <div
                 [ngClass]="item.formly[0].fieldGroup[0].wrappers[0] == 'formly-vertical-theme-wrapper' ? 'theme-body' : item.formly[0].fieldGroup[0].wrappers[0]">
-                <formly-form [fields]="item.formly" [options]="item" [form]="form"
+                <formly-form [fields]="item.formly" [form]="form"
                     >
                 </formly-form>
             </div>
