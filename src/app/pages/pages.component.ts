@@ -28,7 +28,6 @@ export class PagesComponent implements OnInit {
     private el: ElementRef,
     public dataSharedService: DataSharedService, private router: Router) {
     this.dataSharedService.change.subscribe(({ event, field }) => {
-      debugger
       if (field && event)
         if (this.formlyModel) {
           // this.formlyModel[field.key] = event;
@@ -296,6 +295,7 @@ export class PagesComponent implements OnInit {
     });
   }
   actionsBindWithPage(res: any) {
+    debugger
     this.screenId = res.data[0].screenBuilderId;
     this.screenName = res.data[0].screenName;
     this.navigation = res.data[0].navigation;
