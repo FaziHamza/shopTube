@@ -266,9 +266,9 @@ export class PolicyMappingComponent implements OnInit {
       this.toastr.error("Please select policy name", { nzDuration: 3000 });
       return;
     }
-    this.applicationService.getNestCommonAPI('policy-mapping?id=' + this.policyName).subscribe(((res: any) => {
+    this.applicationService.getNestCommonAPIById('policy-mapping/policy' , this.policyName).subscribe(((res: any) => {
       if (res)
-        this.policyMenuList = res;
+        this.policyMenuList = res.data || [];
 
       this.updatedMenuList();
     }));
@@ -306,10 +306,11 @@ export class PolicyMappingComponent implements OnInit {
       nzOnOk: () => {
         new Promise((resolve, reject) => {
           setTimeout(Math.random() > 0.5 ? resolve : reject, 100);
-          this.applicationService.deleteNestApi(`policy-mapping/${this.policyName}/.${this.applicationId}`).subscribe(
+          this.applicationService.deleteNestApi(`policy-mapping/${this.policyName}/${this.applicationId}`).subscribe(
             {
               next: (objTRes: any) => {
                 if (objTRes.isSuccess) {
+                  this.getPolicyMenu();
                   this.toastr.success(objTRes.message, { nzDuration: 3000 });
                 } else {
                   this.toastr.error(objTRes.message, { nzDuration: 3000 });

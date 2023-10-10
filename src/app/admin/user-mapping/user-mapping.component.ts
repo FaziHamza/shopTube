@@ -13,7 +13,7 @@ export class UserMappingComponent {
   policyName = '';
   policyList: any = [];
   listOfDisplayData: any = [];
-  listOfData: any = [];
+  listOfData: any[] = [];
   userName = '';
   userList: any = [];
   isSubmit: boolean = true;
@@ -115,7 +115,13 @@ export class UserMappingComponent {
         return;
       }
     } else {
-
+      let findPreviousUser = this.listOfData.find(a=>a.policyId == this.policyName && a.userId == this.userName);
+      if(findPreviousUser)
+        {
+          this.toastr.warning('This user already assign this policy please select another.', { nzDuration: 2000 });
+          this.loading = false;
+          return;
+        }
 
       let obj = {
         UserMapping: {
@@ -131,8 +137,9 @@ export class UserMappingComponent {
       checkPolicyAndProceed.subscribe({
         next: (objTRes: any) => {
           if (objTRes.isSuccess) {
-
-            const message = this.isSubmit ? 'Save' : 'Update';
+            this.loadUserData();
+            this.policyName = "";
+            this.userName = "";
             this.toastr.success(objTRes.message, { nzDuration: 3000 });
             if (!this.isSubmit) {
               this.isSubmit = true;
