@@ -14,14 +14,15 @@
         </nz-select>
     </div>
     <div class="page-selector">
-        <button nz-button nzType="primary"
+        <button nz-button nzType="primary" (click)="getPolicyMenu()"
             class="ml-2 btn-no !bg-green-600 !border-none hover:!bg-green-500">Search</button>
     </div>
 </div>
 
+
 <nz-card nzTitle="Policy List" [nzExtra]="extraTemplate">
     <nz-table class="Policy-builder-table" [nzShowPagination]="false" [nzScroll]="{ x: '1200px', y: null }" #filterTable
-        [nzLoading]="loading" [nzData]="menuList" [nzPageSize]="pageSize" class="border">
+        [nzLoading]="loading" [nzData]="menuOfDisplayData" [nzPageSize]="pageSize" class="border">
         <thead>
             <tr>
                 <!-- <th>#</th> -->
@@ -50,25 +51,23 @@
             </tr>
         </tbody>
     </nz-table>
-
-
     <div class="paginatio-bottom flex justify-between items-center my-3">
         <div>
             <p class="showing">Showing <span>{{startIndex}} - {{endIndex}}</span> from
-                <span>{{listOfData.length}}</span> data
+                <span>{{menuList.length}}</span> data
             </p>
         </div>
 
         <div class="flex items-center justify-end">
-            <div class="pagination mr-4">
-                <label class="label">Pagination</label>
-                <div class="input-container">
-                    <nz-input-number [(ngModel)]="pageSize" (ngModelChange)="handlePageChange(1)" [nzStep]="1"
-                        [nzMin]="1"></nz-input-number>
-                </div>
-            </div>
+            <!-- <div class="pagination mr-4">
+                    <label class="label">Pagination</label>
+                    <div class="input-container">
+                        <nz-input-number [(ngModel)]="pageSize" (ngModelChange)="handlePageChange(1)" [nzStep]="1"
+                            [nzMin]="1"></nz-input-number>
+                    </div>
+                </div> -->
             <div>
-                <nz-pagination [nzPageIndex]="pageIndex" [nzTotal]="listOfData.length" [nzPageSize]="pageSize"
+                <nz-pagination [nzPageIndex]="pageIndex" [nzTotal]="menuList.length" [nzPageSize]="pageSize"
                     (nzPageIndexChange)="handlePageChange($event)"></nz-pagination>
             </div>
         </div>
@@ -80,6 +79,9 @@
         <button nz-button *ngIf="isSubmit" nzType="primary" (click)="onSubmit()">
             <i class="fa-regular fa-database mr-1.5"></i>
             Submit</button>
+        <button nz-button *ngIf="isSubmit" nzType="primary" (click)="deleteAllPolicy()">
+            <i class="fa-regular fa-database mr-1.5"></i>
+            Delete All</button>
         <button nz-button *ngIf="!isSubmit" class="btn" nzType="primary" (click)="onSubmit()"><span nz-icon
                 nzType="redo" nzTheme="outline"></span>Update</button>
         <button nz-button nzType="primary" class="ml-2 btn-no !bg-green-600 !border-none hover:!bg-green-500"

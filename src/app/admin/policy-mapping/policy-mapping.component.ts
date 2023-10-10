@@ -1,9 +1,7 @@
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
-import { FormlyFormOptions } from '@ngx-formly/core';
+import { Component, OnInit } from '@angular/core';
 import { NzCascaderOption } from 'ng-zorro-antd/cascader';
 import { NzMessageService } from 'ng-zorro-antd/message';
+import { NzModalService } from 'ng-zorro-antd/modal';
 import { ApplicationService } from 'src/app/services/application.service';
 import { BuilderService } from 'src/app/services/builder.service';
 import { DataSharedService } from 'src/app/services/data-shared.service';
@@ -16,12 +14,9 @@ import { DataSharedService } from 'src/app/services/data-shared.service';
 export class PolicyMappingComponent implements OnInit {
   paginatedData: any[] = [];
   model: any;
-  jsonPolicyModule: any = [];
   isSubmit: boolean = true;
   breadCrumbItems!: Array<{}>;
-  isVisible: boolean = false;
-  listOfData: any[] = [];
-  listOfDisplayData: any[] = [];
+  menuOfDisplayData: any[] = [];
   loading = false;
   searchValue = '';
   pageSize = 10;
@@ -33,6 +28,8 @@ export class PolicyMappingComponent implements OnInit {
 
   //detail
   menuList: any[] = [];
+  policyMenuList: any[] = [];
+  applicationMenuList: any[] = [];
   currentUser: any;
   applications: any;
   applicationName: any;
@@ -63,10 +60,11 @@ export class PolicyMappingComponent implements OnInit {
     private applicationService: ApplicationService,
     public dataSharedService: DataSharedService,
     private toastr: NzMessageService,
+    private modalService: NzModalService,
   ) {
   }
   ngOnInit(): void {
-    this.totalItems = this.listOfDisplayData.length;
+    this.totalItems = this.menuOfDisplayData.length;
     this.breadCrumbItems = [
       { label: 'Formly' },
       { label: 'Pages', active: true }
@@ -93,7 +91,6 @@ export class PolicyMappingComponent implements OnInit {
   }
 
   onSubmit() {
-    debugger
     if (!this.policyName) {
       this.toastr.warning(
         'Please Select Policy Name',
@@ -102,23 +99,29 @@ export class PolicyMappingComponent implements OnInit {
       this.loading = false;
       return;
     } else {
-
+      if (this.menuList.length == 0) {
+        this.toastr.warning(
+          'Please Select Menu',
+          { nzDuration: 2000 }
+        );
+        return;
+      }
       const newData = this.menuList.map(item => ({
         ...item,
         policyId: this.policyName,
         applicationId: this.applicationId,
       }));
-      const filteredObjects = newData.filter(item => item.create || item.update || item.delete || item.read);
+      const filteredObjects = newData.filter(item => item.create || item.update || item.delete || item.read || item._id);
+      this.loading = true;
 
       const checkPolicyAndProceed = this.isSubmit
         ? this.applicationService.addNestCommonAPI('policy-mapping', filteredObjects)
         : this.applicationService.updateNestCommonAPI('policy-mapping', this.model._id, filteredObjects);
       checkPolicyAndProceed.subscribe({
         next: (objTRes: any) => {
+          this.loading = false;
           if (objTRes.isSuccess) {
-
-            this.isVisible = false;
-            const message = this.isSubmit ? 'Save' : 'Update';
+            this.getPolicyMenu();
             this.toastr.success(objTRes.message, { nzDuration: 3000 });
             if (!this.isSubmit) {
               this.isSubmit = true;
@@ -128,6 +131,7 @@ export class PolicyMappingComponent implements OnInit {
           }
         },
         error: (err) => {
+          this.loading = false;
           this.toastr.error(`${err.error.message}`, { nzDuration: 3000 });
         },
       });
@@ -136,7 +140,7 @@ export class PolicyMappingComponent implements OnInit {
 
 
   downloadJson() {
-    let obj = Object.assign({}, this.jsonPolicyModule);
+    let obj = Object.assign({}, this.menuList);
     const blob = new Blob([JSON.stringify(obj)], { type: 'application/json' });
     const a = document.createElement('a');
     a.href = URL.createObjectURL(blob);
@@ -151,8 +155,8 @@ export class PolicyMappingComponent implements OnInit {
     const start = (this.pageIndex - 1) * this.pageSize;
     const end = start + this.pageSize;
     this.startIndex = start == 0 ? 1 : ((this.pageIndex * this.pageSize) - this.pageSize) + 1;
-    this.listOfDisplayData = this.listOfData.slice(start, end);
-    this.endIndex = this.listOfDisplayData.length != this.pageSize ? this.listOfData.length : this.pageIndex * this.pageSize;
+    this.menuOfDisplayData = this.menuList.slice(start, end);
+    this.endIndex = this.menuOfDisplayData.length != this.pageSize ? this.menuList.length : this.pageIndex * this.pageSize;
   }
 
 
@@ -237,24 +241,93 @@ export class PolicyMappingComponent implements OnInit {
       if (res.isSuccess) {
         if (res.data.length > 0) {
           this.applicationId = res.data[0]._id
-          this.menuList = JSON.parse(res.data[0].menuData);
+          const menuList = JSON.parse(res.data[0].menuData);
           const booleanObject = {
             create: false,
             read: false,
             update: false,
             delete: false,
           };
-          const newData = this.menuList.map(item => ({
+          const newData = menuList.map((item: any) => ({
             ...item,
             ...booleanObject,
             menuId: item.id,
           }));
-          this.menuList = newData;
+          this.applicationMenuList = newData;
         } else {
           this.toastr.warning('No menu againts this', { nzDuration: 3000 });
         }
       } else
         this.toastr.error(res.message, { nzDuration: 3000 });
     }));
+  }
+  getPolicyMenu() {
+    if (!this.policyName) {
+      this.toastr.error("Please select policy name", { nzDuration: 3000 });
+      return;
+    }
+    this.applicationService.getNestCommonAPIById('policy-mapping/policy' , this.policyName).subscribe(((res: any) => {
+      if (res)
+        this.policyMenuList = res.data || [];
+
+      this.updatedMenuList();
+    }));
+  }
+  updatedMenuList() {
+    let updatedData = this.applicationMenuList;
+    if (this.policyMenuList && this.policyMenuList?.length > 0) {
+      const obj2Map = new Map(this.policyMenuList.map(item => [item.menuId, item]));
+
+      updatedData = this.applicationMenuList.map(item => {
+        const obj2Item = obj2Map.get(item.id);
+        return obj2Item ? { ...item, ...obj2Item } : item;
+      });
+    }
+
+    this.menuList = JSON.parse(JSON.stringify(updatedData));
+    this.handlePageChange(1);
+    // console.log(updatedData);
+
+  }
+
+  deleteAllPolicy() {
+    if (!this.policyName) {
+      this.toastr.warning('Please Select Policy Name', { nzDuration: 2000 });
+      return;
+    }
+    if (this.menuList.length == 0) {
+      this.toastr.warning('Please Select Menu', { nzDuration: 2000 });
+      return;
+    }
+    this.modalService.confirm({
+      nzTitle: 'Are you sure you want to delete all records?',
+      nzClassName: 'custom-modal-class',
+      nzCentered: true,
+      nzOnOk: () => {
+        new Promise((resolve, reject) => {
+          setTimeout(Math.random() > 0.5 ? resolve : reject, 100);
+          this.applicationService.deleteNestApi(`policy-mapping/${this.policyName}/${this.applicationId}`).subscribe(
+            {
+              next: (objTRes: any) => {
+                if (objTRes.isSuccess) {
+                  this.getPolicyMenu();
+                  this.toastr.success(objTRes.message, { nzDuration: 3000 });
+                } else {
+                  this.toastr.error(objTRes.message, { nzDuration: 3000 });
+                }
+              },
+              error: (err) => {
+                this.toastr.error(`${err.error.message}`, { nzDuration: 3000 });
+              },
+            }
+          )
+        })
+          .catch(() => false)
+      },
+      nzOnCancel: () => {
+        // this.navigation = this.previousScreenId ? this.previousScreenId : this.navigation;
+        console.log('User clicked Cancel');
+      }
+    });
   }
 }

@@ -12,7 +12,62 @@
         </nz-select>
     </div>
     <div class="page-selector">
-        <button nz-button nzType="primary" (click)="onSubmit()"
+        <button nz-button nzType="primary" *ngIf="isSubmit" (click)="onSubmit()"
             class="ml-2 btn-no !bg-green-600 !border-none hover:!bg-green-500">Save</button>
+            <button nz-button *ngIf="!isSubmit" class="btn" nzType="primary" 
+            (click)="onSubmit()"><span nz-icon nzType="redo" nzTheme="outline"></span>Update</button>
     </div>
 </div>
+
+
+<nz-card nzTitle="User Policy List">
+    <nz-table class="Policy-builder-table" [nzShowPagination]="false" [nzScroll]="{ x: '1200px', y: null }" #filterTable
+        [nzLoading]="loading" [nzData]="listOfDisplayData" [nzPageSize]="pageSize" class="border">
+        <thead>
+            <tr>
+                <!-- <th>#</th> -->
+                <ng-container *ngFor="let column of listOfColumns">
+                    <th nzCustomFilter *ngIf="column.name != 'Action'">{{column.name}}</th>
+                </ng-container>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let data of filterTable.data; index as i">
+                <td>{{ i+1 }}</td>
+                <td>{{ data.userName }}</td>
+                <td>{{ data.policyName }}</td>
+                <td>
+                    <i class="fa-regular fa-pen-to-square !text-blue-600 hover:cursor-pointer" nzTooltipTitle="Edit"
+                        nz-tooltip (click)="[editItem(data)]"></i>
+
+                    <i class="fa-regular fa-trash !text-[#fd3636] pl-2 hover:cursor-pointer" nzTooltipTitle="Delete"
+                        nz-tooltip nz-popconfirm nzPopconfirmTitle="Sure to delete?"
+                        (nzOnConfirm)="deleteRow(data._id)"></i>
+                </td>
+            </tr>
+        </tbody>
+    </nz-table>
+
+    <div class="paginatio-bottom flex justify-between items-center my-3">
+        <div>
+            <p class="showing">Showing <span>{{startIndex}} - {{endIndex}}</span> from
+                <span>{{listOfData.length}}</span> data
+            </p>
+        </div>
+
+        <div class="flex items-center justify-end">
+            <!-- <div class="pagination mr-4">
+                <label class="label">Pagination</label>
+                <div class="input-container">
+                    <nz-input-number [(ngModel)]="pageSize" (ngModelChange)="handlePageChange(1)" [nzStep]="1"
+                        [nzMin]="1"></nz-input-number>
+                </div>
+            </div> -->
+            <div>
+                <nz-pagination [nzPageIndex]="pageIndex" [nzTotal]="listOfData.length" [nzPageSize]="pageSize"
+                    (nzPageIndexChange)="handlePageChange($event)"></nz-pagination>
+            </div>
+        </div>
+    </div>
+
+</nz-card>

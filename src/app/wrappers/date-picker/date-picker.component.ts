@@ -48,9 +48,6 @@ export class DatePickerComponent extends FieldType<FieldTypeConfig> {
   // }
 
   onModelChange(event: any, model: any) {
-    debugger
-    console.log(event);
-    console.log(this.to['additionalProperties']?.format);
     if (typeof event !== 'string') {
       // let formattedDate = event.toLocaleDateString();
       // if (this.to['additionalProperties']?.format) {
