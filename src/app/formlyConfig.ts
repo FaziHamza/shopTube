@@ -102,7 +102,7 @@ export const formlyCustomeConfig: ConfigOption = {
     { name: 'repeat', component: RepeatInputComponent },
     { name: 'multiFileUploader', component: MultiFileUploadWrapperComponent },
     { name: 'audioVideoRecorder', component: AudioVideoRecorderComponent },
-    { name: 'repeatableControll', component: RepeatableControllComponent },
+    { name: 'customeClearence', component: RepeatableControllComponent },
 
     //   {
     //     name: 'select', component: FormlyFieldSelect,

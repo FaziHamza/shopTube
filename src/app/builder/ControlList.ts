@@ -1491,9 +1491,9 @@ export const htmlTabsData = [
               {
                 parameter: "input",
                 icon: "uil uil-images",
-                label: "Repeatable Controll",
-                type: 'repeatableControll',
-                configType: 'repeatableControll', fieldType: 'repeatableControll',
+                label: "Custome Clearence",
+                type: 'customeClearence',
+                configType: 'input', fieldType: 'input',
               },
               {
                 parameter: "input",

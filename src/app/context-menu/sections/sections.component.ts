@@ -277,6 +277,7 @@ export class SectionsComponent implements OnInit {
         // let relationIds: any = remainingTables.map(table => `${Arraytables[0]}_id`);
         // relationIds = relationIds.toString();
         // // if (Object.keys(empData.modalData).length > 0)
+        return
         this.saveLoader = true;
         // if (!findClickApi[0]?.rule?.includes('/market-place')) {
         //   empData['id'] = findClickApi[0]?._id;
@@ -382,8 +383,11 @@ export class SectionsComponent implements OnInit {
       if (model.hasOwnProperty(key)) {
         const value = model[key];
         const newKey = parentKey ? `${parentKey}.${key}` : key;
+        // if (Array.isArray(value)) {
+        //   convertedModel[newKey] = value.join(',');
+        // }
         if (Array.isArray(value)) {
-          convertedModel[newKey] = value.join(',');
+          convertedModel[newKey] = value;
         }
         else if (typeof value === 'object' && value !== null) {
           Object.assign(convertedModel, this.convertModel(value, newKey));
