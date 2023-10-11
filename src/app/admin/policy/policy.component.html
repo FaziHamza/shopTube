@@ -49,9 +49,9 @@
         </div>
 
         <div class="flex items-center justify-end">
-            <div class="pagination mr-4">
-                <label class="label">Pagination</label>
-                <div class="input-container">
+            <div class="pagination " nz-tooltip nzTooltipTitle="Row Per Page">
+                <!-- <label class="label">Pagination</label> -->
+                <div class="input-container input-container min-w-[40px] !w-[50px] hover:!w-16 max-w-[80px] transition-all duration-100 ease-in">
                     <nz-input-number [(ngModel)]="pageSize" (ngModelChange)="handlePageChange(1)" [nzStep]="1"
                         [nzMin]="1"></nz-input-number>
                 </div>

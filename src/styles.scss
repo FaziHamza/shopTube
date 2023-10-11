@@ -7271,12 +7271,15 @@ tr:hover {
   border-radius: 8px !important;
 }
 
+.bulk_update{
+  .ant-select-selector{
+    height: 31px !important;
+    border-radius: 4px !important;
+  }
+}
+
 .builder-design {
 
-.ant-select-selector{
-  height: 31px !important;
-  border-radius: 4px !important;
-}
 
 
   .ant-drawer-header {

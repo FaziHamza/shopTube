@@ -6,13 +6,13 @@
     'horizental-fluid': selectedTheme?.layoutWidth == 'fluid' &&  selectedTheme?.layout == 'horizental'
   }">
     <nz-layout class="app-layout">
-      <nz-header *ngIf="!currentHeader">
+      <nz-header class="head2" *ngIf="!currentHeader">
         <st-menu [selectedTheme]="selectedTheme"></st-menu>
       </nz-header>
-      <st-pages *ngIf="currentHeader" [resData]="currentHeader" [screenName]="domainData?.header?.navigation"
+      <st-pages class="head2" *ngIf="currentHeader" [resData]="currentHeader" [screenName]="domainData?.header?.navigation"
         [screenId]="domainData?.header?.screenBuilderId"></st-pages>
-      <nz-layout
-        [class]="'main-layout2' + (selectedTheme?.layout === 'horizental' ? ' b-horizontal-menu' : '') + (selectedTheme.layout == 'rtl' ? ' rtl-layout2' : '')">
+      <nz-layout class=""
+        [class]="'content-container' + (selectedTheme?.layout === 'horizental' ? ' b-horizontal-menu' : '') + (selectedTheme.layout == 'rtl' ? ' rtl-layout2' : '')">
         <div *ngIf="!selectedTheme.isCollapsed" class="backdrop"></div>
         <nz-sider *ngIf="currentWebsiteLayout != 'website' || fullCurrentUrl.includes('/menu-builder')" [class]="'menu-sidebar' + (selectedTheme.layout === 'twoColumn' && selectedTheme['menuChildArrayTwoColumn'].length == 0 ? ' two-column-sider' : '')+
           (selectedTheme.sideBarSize == 'smallIconView' && (selectedTheme.layout == 'vertical' || selectedTheme.layout == 'rtl') ? ' small-icon-view-menu' : '') + (selectedTheme.layout == 'rtl' ? ' mobile-side-menu-rtl' : '')
