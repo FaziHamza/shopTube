@@ -1,4 +1,4 @@
-<div class="site-page-header-ghost-wrapper"
+<div class="site-page-header-ghost-wrapper" [class]="resData[0].children[0].className"
   [ngStyle]="{'border-bottom': resData[0].children[0].isBordered ? '1px solid #e5e7eb' : 'none'}"
   *ngIf="resData[0].children[0].header">
   <div *ngFor="let item of resData[0]?.children[0].children">
@@ -6,12 +6,11 @@
       <st-new-alerts [alertData]="item"></st-new-alerts>
     </ng-container>
   </div>
-  <nz-page-header [style.color]="resData[0].children[0].textColor + ' !important'"
-    [class]="resData[0].children[0].textClass" class=" ng-heading"
-    [ngStyle]="{'background-color':resData[0].children[0].backGroundColor }"
-    class="site-page-header font-semibold !px-5 !py-1 {{resData[0].children[0].highLight ? 'highLight' : ''}}"
+  <nz-page-header [class]="'ng-heading'" [ngStyle]="{'background-color':resData[0].children[0].backGroundColor }"
+    class="site-page-header font-semibold !px-5 !py-1 {{resData[0].children[0].highLight ? ' highLight ' : ' '}} {{resData[0].children[0].className}}"
     [nzGhost]="false">
-    <nz-page-header-title>
+    <nz-page-header-title
+      [style.color]="resData[0].children[0].textColor ? resData[0].children[0].textColor + ' !important' : ''">
       {{resData[0].children[0].title}}
     </nz-page-header-title>
     <nz-page-header-extra>

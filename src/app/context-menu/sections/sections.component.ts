@@ -8,6 +8,7 @@ import { DataSharedService } from 'src/app/services/data-shared.service';
 import { EmployeeService } from 'src/app/services/employee.service';
 import * as Joi from 'joi';
 import { DataService } from 'src/app/services/offlineDb.service';
+import { ActivatedRoute, Params } from '@angular/router';
 
 @Component({
   selector: 'st-sections',
@@ -35,7 +36,7 @@ export class SectionsComponent implements OnInit {
   saveLoader: boolean = false;
   constructor(public dataSharedService: DataSharedService, private toastr: NzMessageService, private employeeService: EmployeeService,
     private dataService: DataService,
-    private applicationServices: ApplicationService, private cd: ChangeDetectorRef) { }
+    private applicationServices: ApplicationService, private cd: ChangeDetectorRef, private activatedRoute: ActivatedRoute) { }
 
   ngOnInit(): void {
     this.screenName;
@@ -277,8 +278,6 @@ export class SectionsComponent implements OnInit {
         // let relationIds: any = remainingTables.map(table => `${Arraytables[0]}_id`);
         // relationIds = relationIds.toString();
         // // if (Object.keys(empData.modalData).length > 0)
-        return
-        this.saveLoader = true;
         // if (!findClickApi[0]?.rule?.includes('/market-place')) {
         //   empData['id'] = findClickApi[0]?._id;
         // }
@@ -291,6 +290,16 @@ export class SectionsComponent implements OnInit {
         // }
         if (findClickApi?.[0]?._id) {
           this.dataSharedService.imageUrl = '';
+          this.requestSubscription = this.activatedRoute.params.subscribe((params: Params) => {
+            if (params["id"]) {
+              for (const key in empData.modalData) {
+                if (key.includes('id') && key != 'id') {
+                  empData.modalData[key] = params["id"];
+                }
+              }
+            }
+          });
+          this.saveLoader = true;
           this.applicationServices.addNestCommonAPI('knex-query/execute-rules/' + findClickApi[0]?._id, empData).subscribe({
             next: (res) => {
               this.saveLoader = false;
@@ -1369,7 +1378,7 @@ export class SectionsComponent implements OnInit {
   }
   validationChecker(object: any) {
     let filterdFormly: any = this.filterInputElements(this.sections.children[1].children);
-    let filteredNodes : any = filterdFormly.filter((item: any) => !item.hideExpression);
+    let filteredNodes: any = filterdFormly.filter((item: any) => !item.hideExpression);
     filteredNodes.forEach((item: any) => {
       if (item.formly) {
         // item.formly[0].fieldGroup[0].props.error = null;
@@ -1383,7 +1392,7 @@ export class SectionsComponent implements OnInit {
     const cc = this.schemaValidation.validate(Object.assign({}, object), { abortEarly: false });
     if (cc?.error) {
       this.setErrorToInput = JSON.parse(JSON.stringify(cc.error.details));
-      filteredNodes.forEach((V2: any, index : number) => {
+      filteredNodes.forEach((V2: any, index: number) => {
         const key = V2.formly[0].fieldGroup[0].key;
         const matchingError = this.setErrorToInput.find((error: any) => error.context.key === key);
 
