@@ -1183,6 +1183,7 @@ export class MenuBuilderComponent implements OnInit {
             this.selectedNode.link = event.form.link;
           }
           this.selectedNode.isTitle = event.form.isTitle;
+          this.selectedNode.tooltip = event.form.tooltip;
           this.selectedNode.textColor = event.form.textColor;
           this.selectedNode['iconType'] = event.form.iconType;
           this.selectedNode['iconSize'] = event.form.iconSize;

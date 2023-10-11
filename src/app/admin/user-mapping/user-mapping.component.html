@@ -1,21 +1,19 @@
-<div class="b-card top-action-bar p-3">
-    <div class="page-selector">
+<div class="b-card user_mapping top-action-bar p-3">
+    <div class="page-selector !m-0 !p-0" >
         <nz-select nzShowSearch nzAllowClear class="temp-modal-select" [(ngModel)]="userName">
             <nz-option [nzValue]="item._id" placeholder="Select Block Type..." [nzLabel]="item.username"
                 *ngFor="let item of userList"></nz-option>
         </nz-select>
     </div>
-    <div class="page-selector">
+    <div class="page-selector !mx-2 !p-0">
         <nz-select nzShowSearch nzAllowClear class="temp-modal-select" [(ngModel)]="policyName">
             <nz-option [nzValue]="item._id" placeholder="Select Block Type..." [nzLabel]="item.name"
                 *ngFor="let item of policyList"></nz-option>
         </nz-select>
     </div>
-    <div class="page-selector">
-        <button nz-button nzType="primary" *ngIf="isSubmit" (click)="onSubmit()"
-            class="ml-2 btn-no !bg-green-600 !border-none hover:!bg-green-500">Save</button>
-            <button nz-button *ngIf="!isSubmit" class="btn" nzType="primary" 
-            (click)="onSubmit()"><span nz-icon nzType="redo" nzTheme="outline"></span>Update</button>
+    <div class="page-selector mr-0 !p-0">
+        <button nz-button nzType="primary" (click)="onSubmit()"
+            class="btn"><i class="fa-regular fa-floppy-disk mr-1.5"></i> Save</button>
     </div>
 </div>
 

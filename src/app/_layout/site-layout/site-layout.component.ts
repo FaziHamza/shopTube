@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, Input, OnInit, ViewContainerRef } from '@angular/core';
+import { ChangeDetectorRef, Component, Input, OnInit, ViewContainerRef ,Renderer2, ElementRef, ViewChild} from '@angular/core';
 import { ActivatedRoute, NavigationEnd, Params, Router } from '@angular/router';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { NzModalService } from 'ng-zorro-antd/modal';
@@ -18,6 +18,8 @@ import { EmployeeService } from 'src/app/services/employee.service';
 export class SiteLayoutComponent implements OnInit {
   @Input() menuItems: any = [];
   @Input() selectedTheme: any;
+  @ViewChild('head2') header: ElementRef;
+  headerHeight: number ;
 
   currentHeader: any = undefined;
   logo: any;
@@ -67,7 +69,7 @@ export class SiteLayoutComponent implements OnInit {
     hoverBgColor: '#3b82f6'
   }
 
-  constructor(private applicationService: ApplicationService, public dataSharedService: DataSharedService, public builderService: BuilderService,
+  constructor(private applicationService: ApplicationService,private renderer: Renderer2,private el: ElementRef, public dataSharedService: DataSharedService, public builderService: BuilderService,
     private toastr: NzMessageService, private router: Router, private activatedRoute: ActivatedRoute, private cd: ChangeDetectorRef, private modalService: NzModalService,
     private viewContainerRef: ViewContainerRef) {
     this.requestSubscription = this.dataSharedService.localhostHeaderFooter.subscribe({
@@ -147,7 +149,40 @@ export class SiteLayoutComponent implements OnInit {
       }
       this.tabs = [];
     });
+    // debugger
+    // this.updateHeaderHeight();
   }
+  
+  ngAfterViewInit() {
+    // Wait for the view to be initialized
+    setTimeout(() => {
+      this.updateHeaderHeight();
+    },5000);
+  }
+  
+  private updateHeaderHeight() {
+    debugger
+    // Get the actual header height dynamically
+    const headerElement = this.el.nativeElement.querySelector('.head2');
+    this.headerHeight = headerElement.clientHeight;
+    console.log(this.headerHeight);
+
+    // Adjust the layout width based on the header height
+    const layoutElement = this.el.nativeElement.querySelector('.content-container');
+    this.renderer.setStyle(layoutElement, 'height', `calc(100vh - ${this.headerHeight}px)`);
+  }
+
+  // private updateHeaderHeight() {
+  //   debugger
+  //   // Get the actual header height dynamically
+  //   const headerElement = this.el.nativeElement.querySelector('.head2');
+  //   if (headerElement) {
+  //     this.headerHeight = headerElement.clientHeight;
+  //     console.log('Header Height:', this.headerHeight);
+  //   }
+  // }
+
+
   getMenuByDomainName(domainName: any, allowStoreId: boolean) {
     try {
       this.loader = true;

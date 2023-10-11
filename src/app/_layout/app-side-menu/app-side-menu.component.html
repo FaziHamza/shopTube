@@ -20,7 +20,7 @@
       </div>
       <ng-container *ngFor="let item of selectedTheme.allMenuItems">
         <li (contextmenu)="handleContextMenu($event,item)" nz-tooltip nzTooltipPlacement="right"
-          [nzTooltipTitle]="selectedTheme.isCollapsed ? item.title : ''"
+          [nzTooltipTitle]="selectedTheme.isCollapsed ? (item.tooltip ?  item.tooltip : item.title) : ''"
           [style.background]="selectedTheme.backGroundColor"
           [ngStyle]="{'background': isActiveShow == item.id ? (selectedTheme['activeBackgroundColor'] + ' !important' ? selectedTheme['activeBackgroundColor'] + ' !important' : '' ) : '' }"
           class="menu-title" *ngIf="item.isTitle  && item.type != 'mainTab' && selectedTheme?.layout != 'horizental'">
@@ -36,7 +36,7 @@
           [ngStyle]="{ 'background': isActiveShow == item.id ? (selectedTheme['activeBackgroundColor'] + ' !important' ? selectedTheme['activeBackgroundColor'] + ' !important' : '' ) : '' }"
           [nzTitle]="itemTemplate2" nz-submenu (contextmenu)="handleContextMenu($event,item)"
           (click)="loadTabsAndButtons($event,item,true,false)" (mouseenter)="hoverActiveShow = item.id"
-          (mouseleave)="hoverActiveShow = null" nz-tooltip nzTooltipPlacement="right">
+          (mouseleave)="hoverActiveShow = null" >
           <ng-template #itemTemplate2>
             <span class="menu-item-icon">
               <st-icon *ngIf="item.icon" [type]="item.iconType || 'outline'" [icon]="item.icon"
@@ -60,7 +60,8 @@
                   [ngStyle]="{ 'background': isActiveShow == sub.id ? (selectedTheme['activeBackgroundColor'] + ' !important' ? selectedTheme['activeBackgroundColor'] + ' !important' : '' ) : '' }"
                   nz-submenu (contextmenu)="handleContextMenu($event,sub)"
                   (click)="loadTabsAndButtons($event, sub,false,false)" (mouseenter)="hoverActiveShow = sub.id"
-                  (mouseleave)="hoverActiveShow = null">
+                  (mouseleave)="hoverActiveShow = null" nz-tooltip nzTooltipPlacement="left"
+                  [nzTooltipTitle]="selectedTheme.isCollapsed ? (sub.tooltip ?  sub.tooltip : sub.title) : ''">
                   <ng-template #subTemplate>
                     <span class="menu-item-icon">
                       <st-icon *ngIf="sub.icon" [type]="sub.iconType || 'outline'" [icon]="sub.icon"
@@ -121,7 +122,7 @@
             (contextmenu)="handleContextMenu($event,item)" (mouseenter)="hoverActiveShow = item.id"
             (mouseleave)="hoverActiveShow = null" class="nav-item" *ngIf="item.type != 'mainTab' && !item.isTitle"
             nz-menu-item nz-tooltip nzTooltipPlacement="right"
-            [nzTooltipTitle]="selectedTheme.isCollapsed ? item.title : ''"
+            [nzTooltipTitle]="selectedTheme.isCollapsed ? (item.tooltip ?  item.tooltip : item.title) : ''"
             (click)="loadTabsAndButtons($event, item,true,true)">
             <span class="menu-item-icon">
               <st-icon *ngIf="item.icon" [type]="item.iconType || 'outline'" [icon]="item.icon"
@@ -170,7 +171,8 @@
                   [ngStyle]="{ 'background': isActiveShow == item.id ? (selectedTheme['activeBackgroundColor'] + ' !important' ? selectedTheme['activeBackgroundColor'] + ' !important' : '' ) : '' }"
                   (click)="loadTabsAndButtons($event, item,false,false)" nz-tooltip nzTooltipPlacement="right"
                   (mouseenter)="hoverActiveShow = item.id" (mouseleave)="hoverActiveShow = null" nz-tooltip
-                  nzTooltipPlacement="right" [nzTooltipTitle]="selectedTheme.isCollapsed ? item.title : ''">
+                  nzTooltipPlacement="right"
+                  [nzTooltipTitle]="selectedTheme.isCollapsed ? (item.tooltip ?  item.tooltip : item.title) : ''">
                   <span class="menu-item-icon">
                     <st-icon *ngIf="item.icon" [type]="item.iconType || 'outline'" [icon]="item.icon"
                       [size]="selectedTheme['iconSize'] || 15"
@@ -190,7 +192,7 @@
                       (contextmenu)="handleContextMenu($event,item)"
                       (click)="loadTabsAndButtons($event, item,true,false)" (mouseenter)="hoverActiveShow = item.id"
                       (mouseleave)="hoverActiveShow = null" nz-tooltip nzTooltipPlacement="right"
-                      [nzTooltipTitle]="selectedTheme.isCollapsed ? item.title : ''">
+                      [nzTooltipTitle]="selectedTheme.isCollapsed ? (item.tooltip ?  item.tooltip : item.title) : ''">
                       <ng-template #itemTemplate3>
                         <st-icon *ngIf="item.icon" [type]="item.iconType || 'outline'" [icon]="item.icon"
                           [size]="selectedTheme['iconSize'] || 15"
@@ -207,7 +209,7 @@
                             nz-submenu [nzTitle]="subitemTemplate" (contextmenu)="handleContextMenu($event,sub)"
                             (click)="loadTabsAndButtons($event,sub,false,false)" (mouseenter)="hoverActiveShow = sub.id"
                             (mouseleave)="hoverActiveShow = null" nz-tooltip nzTooltipPlacement="right"
-                            [nzTooltipTitle]="selectedTheme.isCollapsed ? sub.title : ''">
+                            [nzTooltipTitle]="selectedTheme.isCollapsed ? (sub.tooltip ?  sub.tooltip : sub.title) : ''">
                             <ul>
                               <ng-container *ngFor="let subChild of sub.children">
                                 <li nz-menu-item (contextmenu)="handleContextMenu($event,subChild)"
@@ -245,7 +247,7 @@
                               [ngStyle]="{ 'background': isActiveShow == sub.id ? (selectedTheme['activeBackgroundColor'] + ' !important' ? selectedTheme['activeBackgroundColor'] + ' !important' : '' ) : '' }"
                               (contextmenu)="handleContextMenu($event,sub)"
                               (click)="loadTabsAndButtons($event,sub,false,false)" nz-tooltip nzTooltipPlacement="right"
-                              [nzTooltipTitle]="selectedTheme.isCollapsed ? sub.title : ''">
+                              [nzTooltipTitle]="selectedTheme.isCollapsed ? (sub.tooltip ?  sub.tooltip : sub.title) : ''">
                               <span class="menu-item-icon">
                                 <st-icon *ngIf="sub.icon" [type]="sub.iconType || 'outline'" [icon]="sub.icon"
                                   [size]="selectedTheme['iconSize'] || 15"
@@ -284,7 +286,8 @@
           [ngStyle]="{ 'background': isActiveShow == item.id ? (selectedTheme['activeBackgroundColor'] + ' !important' ? selectedTheme['activeBackgroundColor'] + ' !important' : '' ) : '' }"
           [nzTitle]="itemTemplate" nz-submenu (click)="loadTabsAndButtons($event,item,false,false,true)"
           (mouseenter)="hoverActiveShow = item.id" (mouseleave)="hoverActiveShow = null" nz-tooltip
-          nzTooltipPlacement="right" [nzTooltipTitle]="selectedTheme.isCollapsed ? item.title : ''">
+          nzTooltipPlacement="right"
+          [nzTooltipTitle]="selectedTheme.isCollapsed ? (item.tooltip ?  item.tooltip : item.title) : ''">
           <ng-template #itemTemplate>
             <!-- <span style="font-size: 5px;"
           [style.color]="(hoverActiveShow === item.id) ? selectedTheme['hoverTextColor'] + ' !important' :
@@ -299,7 +302,8 @@
                 [ngStyle]="{ 'background': isActiveShow == sub.id ? (selectedTheme['activeBackgroundColor'] + ' !important' ? selectedTheme['activeBackgroundColor'] + ' !important' : '' ) : '' }"
                 nz-menu-item (click)="loadTabsAndButtons($event, sub,false,true,true)"
                 (mouseenter)="hoverActiveShow = sub.id" (mouseleave)="hoverActiveShow = null" nz-tooltip
-                nzTooltipPlacement="right" [nzTooltipTitle]="selectedTheme.isCollapsed ? sub.title : ''">
+                nzTooltipPlacement="right"
+                [nzTooltipTitle]="selectedTheme.isCollapsed ? (sub.tooltip ?  sub.tooltip : sub.title) : ''">
                 <!-- <span class="menu-item-icon">
                 <st-icon *ngIf="sub.icon"
                   [type]="sub.iconType || 'outline'" [icon]="sub.icon"
@@ -318,7 +322,8 @@
           <li [ngStyle]="{
       'background': isActiveShow === item.id ? (selectedTheme['activeBackgroundColor'] + ' !important' || '') : ''
     }" (mouseenter)="hoverActiveShow = item.id" (mouseleave)="hoverActiveShow = null" nz-menu-item nz-tooltip
-            nzTooltipPlacement="right" [nzTooltipTitle]="selectedTheme.isCollapsed ? item.title : ''"
+            nzTooltipPlacement="right"
+            [nzTooltipTitle]="selectedTheme.isCollapsed ? (item.tooltip ?  item.tooltip : item.title) : ''"
             *ngIf="item.type != 'mainTab'" (contextmenu)="handleContextMenu($event,item)"
             (click)="loadTabsAndButtons($event,item,false,true,true)">
             <!-- <span style="font-size: 5px;"

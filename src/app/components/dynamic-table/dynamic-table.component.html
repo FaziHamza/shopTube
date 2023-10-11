@@ -218,7 +218,7 @@
                           <div class="w-full flex justify-between items-center mt-2.5 mb-2 px-5">
                             <button nz-button [class]="header?.multipleFiltering == false? '!w-full' : '!w-[49%]'"
                               [ngClass]="checkResetFiltering(header) ? '!text-black' : '!bg-red-600 hover:!bg-red-500 !text-white'"
-                              class="btn-no  border-none !h-[30px]" [disabled]="checkResetFiltering(header)"
+                              class="btn-no  !border-none !h-[30px]" [disabled]="checkResetFiltering(header)"
                               (click)="filter(header , false)"> <i
                                 class="fa-regular fa-arrow-rotate-left mr-1.5"></i>Reset</button>
                             <button nz-button nzType="primary" class="btn !w-[49%] !h-[30px]"

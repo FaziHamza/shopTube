@@ -35,6 +35,7 @@ export class BulkUpdateComponent implements OnInit {
       findInputs.forEach((forms: any) => {
         let obj = {
           id: forms.id,
+          hideExpression: forms.hideExpression,
           key: forms?.formly[0]?.fieldGroup[0]?.key,
           title: forms?.formly[0]?.fieldGroup[0]?.props?.label,
           formlyType: 'input',
@@ -75,6 +76,7 @@ export class BulkUpdateComponent implements OnInit {
                 // if(input.formly[0].fieldGroup[0].key != check.key){
                 //   delete this.formlyModel[input.formly[0].fieldGroup[0].key];
                 // }
+                input.hideExpression = check.hideExpression;
                 input.title = check.title;
                 input.className = check.className;
                 input.key = check.key;

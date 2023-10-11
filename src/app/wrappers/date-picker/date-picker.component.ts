@@ -48,6 +48,8 @@ export class DatePickerComponent extends FieldType<FieldTypeConfig> {
   // }
 
   onModelChange(event: any, model: any) {
+    this.sharedService.onChange(event, this.field);
+
     if (typeof event !== 'string') {
       // let formattedDate = event.toLocaleDateString();
       // if (this.to['additionalProperties']?.format) {
@@ -58,7 +60,6 @@ export class DatePickerComponent extends FieldType<FieldTypeConfig> {
       //   );
       // }
       // this.formControl.patchValue(event);
-      this.sharedService.onChange(event, this.field);
     }
   }
   disabledDate = (current: Date): boolean => {

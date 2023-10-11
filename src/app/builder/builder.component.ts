@@ -1777,13 +1777,13 @@ export class BuilderComponent implements OnInit {
                       this.checkConditionUIRule(model, currentVal);
                     },
                   },
-                  // fieldArray: {
-                  //   type: 'input',
-                  //   props: {
-                  //     placeholder: 'Task name',
-                  //     required: true,
-                  //   },
-                  // },
+                  fieldArray: {
+                    // type: 'input',
+                    // props: {
+                    //   placeholder: 'Task name',
+                    //   required: true,
+                    // },
+                  },
                 },
               ],
             },
@@ -2276,7 +2276,7 @@ export class BuilderComponent implements OnInit {
     return baseData;
   }
 
-  addNode(node: TreeNode, newNode: TreeNode) {
+  addNode(node: any, newNode: TreeNode) {
     if (node?.children) {
       node.children.push(newNode);
 
@@ -2286,10 +2286,14 @@ export class BuilderComponent implements OnInit {
       if (this.showNotification) {
         this.toastr.success('Control Added', { nzDuration: 3000 });
       }
-      let repeatable = this.findObjectByType(this.nodes[0], 'repeatableControll')
-      if(repeatable){
-        this.dataSharedService.repeatableControll.next(node);
+      if (node.type == 'repeatableControll') {
+        node.formly[0].fieldGroup[0].fieldArray = newNode
       }
+
+      // let repeatable = this.findObjectByType(this.nodes[0], 'repeatableControll')
+      // if(repeatable){
+      //   this.dataSharedService.repeatableControll.next(node);
+      // }
     }
     // this.makeFaker();
   }

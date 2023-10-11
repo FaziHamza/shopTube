@@ -1,12 +1,33 @@
-{{this.field | json}}
-<!-- {{options | json}} -->
-<!-- <div class="mb-3">
-    <legend *ngIf="props.label">{{ props.label }}</legend>
-    <p *ngIf="props.description">{{ props.description }}</p>
-    <ng-container *ngIf="child">
-        <st-main [mainData]="child" [formlyModel]="null" [screenId]="null" [screenName]="null" [form]="form"></st-main>
-    </ng-container>
-    <div style="margin:30px 0;">
-        <button class="btn btn-primary" type="button" (click)="addChild()">Add</button>
+<form [formGroup]="myForm">
+  <div formArrayName="fieldGroups">
+    <div *ngFor="let fieldGroup of fieldGroups.controls; let i = index">
+      <div [formGroupName]="i">
+        <div class="flex flex-wrap">
+          <div class="w-1/3">
+            <label>Manufacture</label>
+            <input (ngModelChange)="onModelChange($event, field)" nz-input [formControlName]="'field1'"
+              placeholder="Field 1" />
+          </div>
+          <div class="w-1/3">
+            <label>Model</label>
+            <input (ngModelChange)="onModelChange($event, field)" nz-input [formControlName]="'field2'"
+              placeholder="Field 2" />
+          </div>
+          <div class="w-1/3">
+            <label>Quantity</label>
+            <input (ngModelChange)="onModelChange($event, field)" nz-input [formControlName]="'field3'"
+              placeholder="Field 3" />
+          </div>
+          <div class="w-1/3">
+            <label>Serial Numbers/s</label>
+            <input (ngModelChange)="onModelChange($event, field)" nz-input [formControlName]="'field4'"
+              placeholder="Field 4" />
+          </div>
+        </div>
+        <button (ngModelChange)="onModelChange($event, field)" (click)="removeFieldGroup(i)">Remove Div</button>
+      </div>
     </div>
-</div> -->
+  </div>
+</form>
+
+<button (click)="addFieldGroup()">Add Div</button>
