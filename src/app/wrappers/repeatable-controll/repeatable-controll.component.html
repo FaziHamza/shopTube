@@ -2,30 +2,30 @@
   <div formArrayName="fieldGroups">
     <div *ngFor="let fieldGroup of fieldGroups.controls; let i = index">
       <div [formGroupName]="i">
-        <div class="grid grid-cols-4 gap-4">
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
           <div>
             <label>Manufacture</label>
-            <input [nzStatus]="to['additionalProperties']?.status" [nzSize]="to['additionalProperties']?.size"
+            <input class="h-10" [nzStatus]="to['additionalProperties']?.status" [nzSize]="to['additionalProperties']?.size"
               [style.border-radius]="to['additionalProperties']?.borderRadius"
               (ngModelChange)="onModelChange($event, field)" nz-input [formControlName]="'manufacture'" />
           </div>
           <div>
             <label>Model</label>
-            <input [nzStatus]="to['additionalProperties']?.status" [nzSize]="to['additionalProperties']?.size"
+            <input class="h-10" [nzStatus]="to['additionalProperties']?.status" [nzSize]="to['additionalProperties']?.size"
               [class]="to['additionalProperties']?.innerInputClass"
               [style.border-radius]="to['additionalProperties']?.borderRadius" (input)="onModelChange($event, field)"
               nz-input [formControlName]="'model'" />
           </div>
           <div>
             <label>Quantity</label>
-            <input [nzStatus]="to['additionalProperties']?.status" [nzSize]="to['additionalProperties']?.size"
+            <input class="h-10" [nzStatus]="to['additionalProperties']?.status" [nzSize]="to['additionalProperties']?.size"
               [class]="to['additionalProperties']?.innerInputClass"
               [style.border-radius]="to['additionalProperties']?.borderRadius" (input)="onModelChange($event, field)"
               nz-input [formControlName]="'quantity'" />
           </div>
           <div>
             <label>Serial Numbers/s</label>
-            <input [nzStatus]="to['additionalProperties']?.status" [nzSize]="to['additionalProperties']?.size"
+            <input class="h-10" [nzStatus]="to['additionalProperties']?.status" [nzSize]="to['additionalProperties']?.size"
               [class]="to['additionalProperties']?.innerInputClass"
               [style.border-radius]="to['additionalProperties']?.borderRadius" (input)="onModelChange($event, field)"
               nz-input [formControlName]="'serialNumber'" />
@@ -45,10 +45,11 @@
               [formControlName]="'equipmentBroucher_base64'" (change)="onFileSelected($event, i)" />
           </div>
         </div>
-        <button (click)="removeFieldGroup(i)">Remove Div</button>
+        <div class="flex items-center justify-start my-2" >
+          <button class="bg-[#fbc231] hover:bg-[#ffc83e] px-2 py-1 text-white font-medium text-xs rounded-md mr-1.5" (click)="removeFieldGroup(i)">Remove Div</button>
+          <button class="bg-[#fbc231] hover:bg-[#ffc83e] px-2 py-1 text-white font-medium text-xs rounded-md" (click)="addFieldGroup()">Add Div</button>
+        </div>
       </div>
     </div>
   </div>
 </form>
-
-<button (click)="addFieldGroup()">Add Div</button>

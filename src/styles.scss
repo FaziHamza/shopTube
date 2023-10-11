@@ -245,7 +245,7 @@ object {
   }
 
   .form-control {
-    height: 40px !important;
+    height: 46px !important;
     border-radius: 0px !important;
   }
 
@@ -4524,12 +4524,12 @@ object {
     position: relative;
     overflow-y: auto;
 
-    .dynamic-footer {
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      right: 0;
-    }
+    // .dynamic-footer {
+    //   position: absolute;
+    //   bottom: 0;
+    //   left: 0;
+    //   right: 0;
+    // }
   }
 }
 
