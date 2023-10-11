@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, } from '@angular/core';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { Subscription } from 'rxjs';
 import { EmployeeService } from 'src/app/services/employee.service';
@@ -12,6 +12,7 @@ import { DataSharedService } from 'src/app/services/data-shared.service';
   styleUrls: ['./builder-layout.component.scss']
 })
 export class BuilderLayoutComponent implements OnInit {
+
   menus: any = [];
   selectedTheme: any = {};
   //menu path 
@@ -35,6 +36,8 @@ export class BuilderLayoutComponent implements OnInit {
     this.getUsers();
     this.menus = JSON.parse(this.menuStringify.menuData);
     this.selectedTheme = JSON.parse(this.menuStringify.menuData);
+
+
   }
 
 
