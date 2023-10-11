@@ -1,18 +1,71 @@
-<div class="b-card top-action-bar p-3">
-    <div class="page-selector">
+<div class="b-card user_mapping top-action-bar p-3">
+    <div class="page-selector !m-0 !p-0" >
         <nz-select nzShowSearch nzAllowClear class="temp-modal-select" [(ngModel)]="userName">
             <nz-option [nzValue]="item._id" placeholder="Select Block Type..." [nzLabel]="item.username"
                 *ngFor="let item of userList"></nz-option>
         </nz-select>
     </div>
-    <div class="page-selector">
+    <div class="page-selector !mx-2 !p-0">
         <nz-select nzShowSearch nzAllowClear class="temp-modal-select" [(ngModel)]="policyName">
             <nz-option [nzValue]="item._id" placeholder="Select Block Type..." [nzLabel]="item.name"
                 *ngFor="let item of policyList"></nz-option>
         </nz-select>
     </div>
-    <div class="page-selector">
+    <div class="page-selector mr-0 !p-0">
         <button nz-button nzType="primary" (click)="onSubmit()"
-            class="ml-2 btn-no !bg-blue-600 !border-none hover:!bg-blue-500"><i class="fa-regular fa-floppy-disk mr-1.5"></i> Save</button>
+            class="btn"><i class="fa-regular fa-floppy-disk mr-1.5"></i> Save</button>
     </div>
 </div>
+
+
+<nz-card nzTitle="User Policy List">
+    <nz-table class="Policy-builder-table" [nzShowPagination]="false" [nzScroll]="{ x: '1200px', y: null }" #filterTable
+        [nzLoading]="loading" [nzData]="listOfDisplayData" [nzPageSize]="pageSize" class="border">
+        <thead>
+            <tr>
+                <!-- <th>#</th> -->
+                <ng-container *ngFor="let column of listOfColumns">
+                    <th nzCustomFilter *ngIf="column.name != 'Action'">{{column.name}}</th>
+                </ng-container>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let data of filterTable.data; index as i">
+                <td>{{ i+1 }}</td>
+                <td>{{ data.userName }}</td>
+                <td>{{ data.policyName }}</td>
+                <td>
+                    <i class="fa-regular fa-pen-to-square !text-blue-600 hover:cursor-pointer" nzTooltipTitle="Edit"
+                        nz-tooltip (click)="[editItem(data)]"></i>
+
+                    <i class="fa-regular fa-trash !text-[#fd3636] pl-2 hover:cursor-pointer" nzTooltipTitle="Delete"
+                        nz-tooltip nz-popconfirm nzPopconfirmTitle="Sure to delete?"
+                        (nzOnConfirm)="deleteRow(data._id)"></i>
+                </td>
+            </tr>
+        </tbody>
+    </nz-table>
+
+    <div class="paginatio-bottom flex justify-between items-center my-3">
+        <div>
+            <p class="showing">Showing <span>{{startIndex}} - {{endIndex}}</span> from
+                <span>{{listOfData.length}}</span> data
+            </p>
+        </div>
+
+        <div class="flex items-center justify-end">
+            <!-- <div class="pagination mr-4">
+                <label class="label">Pagination</label>
+                <div class="input-container">
+                    <nz-input-number [(ngModel)]="pageSize" (ngModelChange)="handlePageChange(1)" [nzStep]="1"
+                        [nzMin]="1"></nz-input-number>
+                </div>
+            </div> -->
+            <div>
+                <nz-pagination [nzPageIndex]="pageIndex" [nzTotal]="listOfData.length" [nzPageSize]="pageSize"
+                    (nzPageIndexChange)="handlePageChange($event)"></nz-pagination>
+            </div>
+        </div>
+    </div>
+
+</nz-card>

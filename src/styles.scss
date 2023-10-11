@@ -275,19 +275,21 @@ object {
   }
 
   @media screen and (min-width: 1400px) {
-    .ant-input-group .ant-input{
+    .ant-input-group .ant-input {
       height: 47px !important;
     }
-    .checkBox{
+
+    .checkBox {
       height: 47px !important;
     }
-    .ant-input-number-input-wrap
-    {
+
+    .ant-input-number-input-wrap {
       height: 46px !important;
-      .ant-input-number-input{
+
+      .ant-input-number-input {
         height: 46px !important;
       }
-      }
+    }
   }
 
   .ant-input-group textarea.ant-input {
@@ -6309,7 +6311,8 @@ tr:hover {
     input {
       border-radius: 4px !important;
     }
-    input[type="date"]{
+
+    input[type="date"] {
       border: 1px solid #d9d9d9 !important;
     }
   }
@@ -6420,9 +6423,9 @@ tr:hover {
     width: 0px !important;
   }
 
-  .dynamic-responsive-table-body .ant-table-measure-now .nz-disable-td{
+  .dynamic-responsive-table-body .ant-table-measure-now .nz-disable-td {
     padding: 0px !important;
-  } 
+  }
 
   // thead tr .gridRotate::after ,.gridRotate::before{
   //   content: "" ;
@@ -6612,7 +6615,7 @@ tr:hover {
   font-style: normal !important;
   line-height: 140% !important;
   letter-spacing: 0.2px !important;
-  border: none !important;
+  // border-color: none !important;
 }
 
 .btn {
@@ -7271,9 +7274,9 @@ tr:hover {
   border-radius: 8px !important;
 }
 
-.bulk_update{
-  .ant-select-selector{
-    height: 31px !important;
+.bulk_update {
+  .ant-select-selector {
+    height: 31px;
     border-radius: 4px !important;
   }
 }
@@ -7673,4 +7676,40 @@ input[type=file]::file-selector-button:hover {
 // }
 .ant-menu-item:hover {
   color: none !important;
+}
+
+
+.policy-cascader {
+
+  span.ant-select-arrow {
+    margin-top: -4px;
+  }
+
+  .ant-select-selector {
+    height: 40px !important;
+    border-radius: 6px !important;
+    display: flex;
+    justify-content: start;
+    align-items: center;
+  }
+}
+
+.policy_mapping {
+
+  .ant-card-extra {
+    padding: 0px !important;
+  }
+
+  .ant-card-head {
+    padding: 0 16px !important; 
+    .ant-card-head-title {
+      font-weight: bold !important;
+    }
+  }
+}
+
+.ant-card-head {
+  .ant-card-head-title {
+    font-weight: bold !important;
+  }
 }

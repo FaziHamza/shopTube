@@ -59,6 +59,11 @@ export class ApplicationService {
       this.nestUrl + api + `/${id}`
     );
   }
+  deleteNestApi(api: string): Observable<any[]> {
+    return this.http.delete<any[]>(
+      this.nestUrl + api
+    );
+  }
   callApi(url: string, method: string, data?: any, headers?: any, parentId?: any): Observable<any> {
     let apiUrl = url.includes('http') ? url : this.nestUrl + url;
 

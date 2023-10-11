@@ -28,7 +28,6 @@ export class PagesComponent implements OnInit {
     private el: ElementRef,
     public dataSharedService: DataSharedService, private router: Router) {
     this.dataSharedService.change.subscribe(({ event, field }) => {
-      debugger
       if (field && event)
         if (this.formlyModel) {
           // this.formlyModel[field.key] = event;
@@ -296,6 +295,7 @@ export class PagesComponent implements OnInit {
     });
   }
   actionsBindWithPage(res: any) {
+    debugger
     this.screenId = res.data[0].screenBuilderId;
     this.screenName = res.data[0].screenName;
     this.navigation = res.data[0].navigation;
@@ -1506,11 +1506,12 @@ export class PagesComponent implements OnInit {
 
   sectionRepeat(section: any) {
     try {
+      debugger
       const idx = this.resData[0].children[1].children.indexOf(section as TreeNode);
-      let newNode = JSON.parse(JSON.stringify(section));
-      let obj = { node: newNode, type: 'copy' };
-      this.traverseAndChange(obj);
-      this.resData[0].children[1].children.splice(idx as number + 1, 0, newNode);
+      // let newNode = JSON.parse(JSON.stringify(section));
+      // let obj = { node: newNode, type: 'copy' };
+      // this.traverseAndChange(obj);
+      this.resData[0].children[1].children.splice(idx as number + 1, 0, section);
       this.resData = [...this.resData];
     } catch (error: any) {
       console.error('An error occurred:', error);
@@ -1532,7 +1533,8 @@ export class PagesComponent implements OnInit {
     if (event.node) {
       if (event.type == 'copy') {
         event.node = this.changeIdAndkey(event.node);
-      } else if (event.type == 'disabled') {
+      }
+      else if (event.type == 'disabled') {
         event.node = this.disabledAndEditableSection(event.node);
       }
       if (event.node.children) {
@@ -2042,7 +2044,7 @@ export class PagesComponent implements OnInit {
         if (filteredNodes.length > 0) {
           for (let index = 0; index < filteredNodes.length; index++) {
             const element = filteredNodes[index];
-            if (element.formly[0].fieldGroup[0].props['appConfigurableEvent']) {
+            if (element.formly[0].fieldGroup[0].props['appConfigurableEvent'] && !element.hideExpression) {
               for (let j = 0; j < element.formly[0].fieldGroup[0].props['appConfigurableEvent'].length; j++) {
                 const getActions = element.formly[0].fieldGroup[0].props['appConfigurableEvent'][j];
                 if (getActions?.action == 'change' || getActions?.action == 'onchange') {
@@ -2056,50 +2058,52 @@ export class PagesComponent implements OnInit {
                   //   url = getActions.actions?.[0]?.url.endsWith('/')
                   // else url = getActions.actions?.[0]?.url + '/'
                   if (getActions._id) {
-                    this.applicationService.callApi('knex-query/getexecute-rules/' + getActions._id, 'get', '', '', targetId ? targetId : '').subscribe(res => {
-                      if (res) {
-                        if (res.data.length > 0) {
-                          let data = res.data;
-                          let propertyNames = Object.keys(data[0]);
-                          let result = data.map((item: any) => {
-                            let newObj: any = {};
-                            let propertiesToGet: string[];
-                            if ('id' in item && 'name' in item) {
-                              propertiesToGet = ['id', 'name'];
-                            } else {
-                              propertiesToGet = Object.keys(item).slice(0, 2);
-                            }
-                            propertiesToGet.forEach((prop) => {
-                              newObj[prop] = item[prop];
+                    let parentId =
+                      this.applicationService.callApi('knex-query/getexecute-rules/' + getActions._id, 'get', '', '', typeof targetId === 'string' ? "'" + targetId + "'" : targetId
+                      ).subscribe(res => {
+                        if (res) {
+                          if (res.data.length > 0) {
+                            let data = res.data;
+                            let propertyNames = Object.keys(data[0]);
+                            let result = data.map((item: any) => {
+                              let newObj: any = {};
+                              let propertiesToGet: string[];
+                              if ('id' in item && 'name' in item) {
+                                propertiesToGet = ['id', 'name'];
+                              } else {
+                                propertiesToGet = Object.keys(item).slice(0, 2);
+                              }
+                              propertiesToGet.forEach((prop) => {
+                                newObj[prop] = item[prop];
+                              });
+                              return newObj;
                             });
-                            return newObj;
-                          });
 
-                          let finalObj = result.map((item: any) => {
-                            return {
-                              label: item.name || item[propertyNames[1]],
-                              value: item.id || item[propertyNames[0]],
-                            };
-                          });
-                          for (let j = 0; j < filteredNodes.length; j++) {
-                            const ele = filteredNodes[j];
-                            if (ele.formly[0].fieldGroup[0].key == getActions?.targetId) {
-                              ele.formly[0].fieldGroup[0].props.options = finalObj;
+                            let finalObj = result.map((item: any) => {
+                              return {
+                                label: item.name || item[propertyNames[1]],
+                                value: item.id || item[propertyNames[0]],
+                              };
+                            });
+                            for (let j = 0; j < filteredNodes.length; j++) {
+                              const ele = filteredNodes[j];
+                              if (ele.formly[0].fieldGroup[0].key == getActions?.targetId) {
+                                ele.formly[0].fieldGroup[0].props.options = finalObj;
+                              }
                             }
                           }
-                        }
-                        else {
-                          for (let j = 0; j < filteredNodes.length; j++) {
-                            const ele = filteredNodes[j];
-                            if (ele.formly[0].fieldGroup[0].key == getActions?.targetId) {
-                              ele.formly[0].fieldGroup[0].props.options = [];
+                          else {
+                            for (let j = 0; j < filteredNodes.length; j++) {
+                              const ele = filteredNodes[j];
+                              if (ele.formly[0].fieldGroup[0].key == getActions?.targetId) {
+                                ele.formly[0].fieldGroup[0].props.options = [];
+                              }
                             }
                           }
-                        }
 
-                        this.updateNodes();
-                      }
-                    })
+                          this.updateNodes();
+                        }
+                      })
                   }
                 }
               }

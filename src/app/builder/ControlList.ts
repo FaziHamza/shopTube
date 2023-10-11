@@ -1491,6 +1491,13 @@ export const htmlTabsData = [
               {
                 parameter: "input",
                 icon: "uil uil-images",
+                label: "Repeatable Controll",
+                type: 'repeatableControll',
+                configType: 'repeatableControll', fieldType: 'repeatableControll',
+              },
+              {
+                parameter: "input",
+                icon: "uil uil-images",
                 label: "Repeat Input",
                 type: 'repeat',
                 configType: 'input', fieldType: 'input',
