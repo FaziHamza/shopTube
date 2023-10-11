@@ -2286,9 +2286,9 @@ export class BuilderComponent implements OnInit {
       if (this.showNotification) {
         this.toastr.success('Control Added', { nzDuration: 3000 });
       }
-      if (node.type == 'repeatableControll') {
-        node.formly[0].fieldGroup[0].fieldArray = newNode
-      }
+      // if (node.type == 'repeatableControll') {
+      //   node.formly[0].fieldGroup[0].fieldArray = newNode
+      // }
 
       // let repeatable = this.findObjectByType(this.nodes[0], 'repeatableControll')
       // if(repeatable){
@@ -3427,7 +3427,7 @@ export class BuilderComponent implements OnInit {
       this.searchControllData = [];
       this.isActiveShow = id;
       this.selectedNode = node;
-      if (this.selectedNode.isNextChild || this.selectedNode.type == 'repeatableControll') {
+      if (this.selectedNode.isNextChild) {
         // this.IsShowConfig = true;
         this.controlListvisible = true;
       } else {

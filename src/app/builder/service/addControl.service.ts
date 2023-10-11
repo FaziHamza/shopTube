@@ -34,6 +34,7 @@ export class AddControlService {
       isBordered: true,
       labelPosition: 'text-left',
       alertPosition: 'topHeader',
+      textClass: '',
       isNextChild: true,
     }
   }

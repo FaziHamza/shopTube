@@ -5800,46 +5800,55 @@ export class formFeildData {
     {
       fieldGroupClassName: "flex flex-wrap",
       fieldGroup: [
+        // {
+        //   key: 'headingSize',
+        //   type: 'select',
+        //   className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+        //   wrappers: ["formly-vertical-theme-wrapper"],
+        //   props: {
+        //     label: 'Heading Size',
+        //     options: [
+        //       {
+        //         label: 'h1',
+        //         value: 'text-5xl font-extrabold dark:text-white'
+        //       },
+        //       {
+        //         label: 'h2',
+        //         value: 'text-4xl font-bold dark:text-white'
+        //       },
+        //       {
+        //         label: 'h3',
+        //         value: 'text-3xl font-bold dark:text-white'
+        //       },
+        //       {
+        //         label: 'h4',
+        //         value: 'text-2xl font-bold dark:text-white'
+        //       },
+        //       {
+        //         label: 'h5',
+        //         value: 'text-xl font-bold dark:text-white'
+        //       },
+        //       {
+        //         label: 'h6',
+        //         value: 'text-lg font-bold dark:text-white'
+        //       },
+        //     ],
+        //     additionalProperties: {
+        //       allowClear: true,
+        //       serveSearch: false,
+        //       showArrow: true,
+        //       showSearch: true,
+        //     },
+        //   },
+        // },
         {
-          key: 'headingSize',
-          type: 'select',
           className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          key: 'textClass',
+          type: 'input',
           wrappers: ["formly-vertical-theme-wrapper"],
           props: {
-            label: 'Heading Size',
-            options: [
-              {
-                label: 'h1',
-                value: 'text-5xl font-extrabold dark:text-white'
-              },
-              {
-                label: 'h2',
-                value: 'text-4xl font-bold dark:text-white'
-              },
-              {
-                label: 'h3',
-                value: 'text-3xl font-bold dark:text-white'
-              },
-              {
-                label: 'h4',
-                value: 'text-2xl font-bold dark:text-white'
-              },
-              {
-                label: 'h5',
-                value: 'text-xl font-bold dark:text-white'
-              },
-              {
-                label: 'h6',
-                value: 'text-lg font-bold dark:text-white'
-              },
-            ],
-            additionalProperties: {
-              allowClear: true,
-              serveSearch: false,
-              showArrow: true,
-              showSearch: true,
-            },
-          },
+            label: 'Text Class',
+          }
         },
         {
           key: 'alertPosition',
