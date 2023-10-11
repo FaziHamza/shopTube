@@ -2,11 +2,12 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { PagesComponent } from './pages/pages.component';
 import { SiteLayoutComponent } from './_layout/site-layout/site-layout.component';
-import { BarChartComponent,  FileManagerComponent, googleMapComponent } from './components';
+import { BarChartComponent, FileManagerComponent, googleMapComponent } from './components';
 import { DemoComponent } from './builder/demo/demo.component';
 import { Screenv1Component } from './Builder-module/screenv1/screenv1.component';
 import { AuthGuard } from './auth/auth.Guard';
 import { PolicyComponent } from './admin/policy/policy.component';
+import { NotFoundComponent } from './auth/not-found/not-found.component';
 
 const routes: Routes = [
   {
@@ -37,7 +38,7 @@ const routes: Routes = [
         path: 'home/pages/:schema',
         component: PagesComponent
       },
-
+      { path: '**', redirectTo: 'not-found' }
     ]
   },
   {
@@ -74,6 +75,8 @@ const routes: Routes = [
     path: 'screenv1',
     component: Screenv1Component
   },
+  { path: 'not-found', component: NotFoundComponent },
+  { path: '**', redirectTo: 'not-found' }
 ];
 
 @NgModule({
