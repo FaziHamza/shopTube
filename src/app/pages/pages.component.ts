@@ -31,24 +31,26 @@ export class PagesComponent implements OnInit {
       if (field && event)
         if (this.formlyModel) {
           // this.formlyModel[field.key] = event;
-          if (this.formlyModel) {
-            for (const key in this.formlyModel) {
-              if (this.formlyModel.hasOwnProperty(key)) {
-                if (typeof this.formlyModel[key] === 'object') {
-                  for (const key1 in this.formlyModel[key]) {
+          let newModel = JSON.parse(JSON.stringify(this.formlyModel));
+          if (newModel) {
+            for (const key in newModel) {
+              if (newModel.hasOwnProperty(key)) {
+                if (typeof newModel[key] === 'object') {
+                  for (const key1 in newModel[key]) {
                     if (key1 == field.key.split('.')[1]) {
-                      this.formlyModel[key][field.key] = event;
+                      newModel[key][field.key] = event;
                     }
                   }
                 }
                 else {
                   if (key == field.key) {
-                    this.formlyModel[field.key] = event;
+                    newModel[field.key] = event;
                   }
                 }
               }
             }
           }
+          this.formlyModel = newModel;
         }
       this.getEnumList(field, event);
       if (event && field && this.router.url.includes('/pages')) {
