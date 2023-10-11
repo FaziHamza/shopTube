@@ -1,102 +1,52 @@
 import { Component, Input } from '@angular/core';
-import { FieldArrayType } from '@ngx-formly/core';
+import { FieldArrayType, FieldType, FieldTypeConfig } from '@ngx-formly/core';
 import { DataSharedService } from 'src/app/services/data-shared.service';
+import { FormArray, FormBuilder, FormGroup, UntypedFormControl, Validators } from '@angular/forms';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'st-repeatable-controll',
   templateUrl: './repeatable-controll.component.html',
   styleUrls: ['./repeatable-controll.component.scss']
 })
-export class RepeatableControllComponent extends FieldArrayType {
-  child: any = {};
-  fildArray: any = this.field.fieldArray;
-  constructor(public dataSharedService: DataSharedService) {
+export class RepeatableControllComponent extends FieldType<FieldTypeConfig> {
+  subscription: Subscription;
+  listOfControl: Array<{ id: number; controlInstance: string }> = [];
+  myForm: FormGroup;
+  constructor(public dataSharedService: DataSharedService, private formBuilder: FormBuilder) {
     super();
-
   }
   ngOnInit(): void {
-    this.child = this.field;
-    // this.child = this.child ? this.child : this.options
-
-    // this.child = this.options;
-
-    this.dataSharedService.repeatableControll.subscribe(res => {
-      debugger
-      if (res) {
-        this.child = res;
-        let findObj = this.findObjectByKey(res, this.field.key);
-        if (findObj) {
-          this.child = JSON.parse(JSON.stringify(findObj));
-        }
-      }
+    this.myForm = this.formBuilder.group({
+      fieldGroups: this.formBuilder.array([]),
     });
-  }
-  addChild() {
-    let inputs = this.filterInputElements(this.child.children);
-    if (!this.fildArray) {
-      this.fildArray = this.field.fieldGroup;
-      if (inputs.length > 0) {
-        inputs.forEach((element: any) => {
-          if (element) {
-            this.fildArray.push(element);
-          }
-        });
-      }
-      // this.fildArray.push(this.child.children[0]);
-      this.child.children.push(this.child.children[0]);
-    }
-    else {
-      if (inputs.length > 0) {
-        inputs.forEach((element: any) => {
-          if (element) {
-            this.fildArray.push(element);
-          }
-        });
-      }
-      // this.fildArray.push(this.child.children[0]);
-      this.child.children.push(this.child.children[0]);
-    }
-    this.field.fieldGroup = this.fildArray;
-    // this.fildArray.push(this.child.children[0])
+    this.addFieldGroup(); // Add an initial field group
   }
 
-  filterInputElements(data: any): any[] {
-    const inputElements: any[] = [];
+  addFieldGroup() {
+    const fieldGroup = this.formBuilder.group({
+      field1: ['', Validators.required],
+      field2: ['', Validators.required],
+      field3: ['', Validators.required],
+      field4: ['', Validators.required],
+      field5: ['', Validators.required],
+    });
 
-    function traverse(obj: any): void {
-      if (Array.isArray(obj)) {
-        obj.forEach((item) => {
-          traverse(item);
-        });
-      } else if (typeof obj === 'object' && obj !== null) {
-        if (obj.formlyType === 'input') {
-          inputElements.push(obj);
-        }
-        Object.values(obj).forEach((value) => {
-          traverse(value);
-        });
-      }
-    }
+    this.fieldGroups.push(fieldGroup);
+    this.dataSharedService.onChange(this.myForm.value.fieldGroups, this.field);
+  }
 
-    traverse(data);
-    return inputElements;
+  removeFieldGroup(index: number) {
+    this.fieldGroups.removeAt(index);
+    this.formControl.patchValue(this.myForm.value.fieldGroups);
   }
-  findObjectByKey(data: any, key: any) {
-    if (data) {
-      if (data.key && key) {
-        if (data.key === key) {
-          return data;
-        }
-        if (data.children && data.children.length > 0) {
-          for (let child of data.children) {
-            let result: any = this.findObjectByKey(child, key);
-            if (result !== null) {
-              return result;
-            }
-          }
-        }
-      }
-    }
-    return null;
+
+  get fieldGroups(): FormArray {
+    return this.myForm.get('fieldGroups') as FormArray;
   }
+
+  onModelChange(event: any, model: any) {
+    this.dataSharedService.onChange(this.myForm.value.fieldGroups, this.field);
+  }
+
 }
