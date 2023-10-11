@@ -102,7 +102,7 @@
                 ngbTooltip="Save Table" *ngIf="tableId == 0"> <i class="fa-regular fa-floppy-disk mr-2"></i> Save </button>
               <button nz-button nzType="primary" class="my-2 btn border-green-500 !bg-green-500 hover:!bg-green-400" title="Update" (click)="updateFormv1()"
                 ngbTooltip="Update Table" *ngIf="tableId !=0"> <i class="fa-regular fa-arrows-rotate mr-2"></i> Update </button>
-              <button nz-button  class="my-2 mx-2 btn-no !bg-white hover:!bg-gray-50 !text-gray-700 !border-gray-600 hover:!border-blue-500 hover:!text-blue-500" title="Cancel" (click)="cancelEditTable()"
+              <button nz-button  class="my-2 mx-2 btn-no !border-none !bg-white hover:!bg-gray-50 !text-gray-700 !border-gray-600 hover:!border-blue-500 hover:!text-blue-500" title="Cancel" (click)="cancelEditTable()"
                 ngbTooltip="Cancel" *ngIf="tableId !=0"> <i class="fa-regular fa-circle-xmark !bg-white mr-2"></i> Cancel </button>
               <button nz-button nzType="primary" class="my-2 mx-2 btn-no border-red-500 !border-none !bg-red-500 hover:!bg-red-400" title="Clear" (click)="cancelEditTable()"
                 ngbTooltip="Clear" *ngIf="tableId ==0"> <i class="fa-regular fa-broom-wide mr-2"></i> Clear </button>

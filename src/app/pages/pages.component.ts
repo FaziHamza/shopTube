@@ -73,6 +73,11 @@ export class PagesComponent implements OnInit {
     this.dataSharedService.moveLink.subscribe(res => {
       this.scrollToElement(res);
     })
+    // this.dataSharedService.repeatableControll.subscribe(res => {
+    //   if(res)
+    //   this.formlyModel[res.key] = res.event;
+    // })
+
   }
   @Input() data: any = [];
   @Input() resData: any = [];
@@ -270,17 +275,20 @@ export class PagesComponent implements OnInit {
 
   }
   getBuilderScreen(params: any) {
+    this.saveLoader = true;
     this.requestSubscription = this.applicationService.getNestCommonAPIById('cp/Builder', params["schema"]).subscribe({
       next: (res: any) => {
         if (res.isSuccess) {
           if (res.data.length > 0) {
             this.requestSubscription = this.applicationService.getNestCommonAPIById("cp/CacheRule", res.data[0].screenBuilderId).subscribe({
               next: (rule: any) => {
+                this.saveLoader = false;
                 // if(rule.isSuccess)
                 this.getCacheRule(rule);
                 this.actionsBindWithPage(res);
               },
               error: (err) => {
+                this.saveLoader = false;
                 this.actionsBindWithPage(res);
                 console.error(err);
                 // this.toastr.error("An error occurred", { nzDuration: 3000 });
@@ -288,11 +296,15 @@ export class PagesComponent implements OnInit {
             })
 
           }
-        } else
+        } 
+        else{
           this.toastr.error(res.message, { nzDuration: 3000 });
+          this.saveLoader = false;
+        }
       },
       error: (err) => {
         console.error(err); // Log the error to the console
+        this.saveLoader = false;
       }
     });
   }
@@ -2330,6 +2342,6 @@ export class PagesComponent implements OnInit {
         formlyConfig;
     });
     this.formlyModel = newMode;
-    this.form.patchValue(this.formlyModel);
+    // this.form.patchValue(this.formlyModel);
   }
 }

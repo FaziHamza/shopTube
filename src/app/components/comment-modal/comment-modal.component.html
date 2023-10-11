@@ -7,11 +7,11 @@
             </div>
         <div class="mt-2">
             <button (click)="onSubmit()" class="comment-save-button btn" *ngIf="!update" nz-button nzType="primary">
-                <i class="fa-regular fa-floppy-disk mr-2"></i>
+                <i class="fa-regular fa-floppy-disk mr-1.5"></i>
                 Save</button>
-            <button (click)="onSubmit()" class="comment-save-button btn-no !bg-green-500 hover:!bg-green-400" *ngIf="update" nz-button
+            <button (click)="onSubmit()" class="comment-save-button btn-no !border-none !bg-green-500 hover:!bg-green-400" *ngIf="update" nz-button
                 nzType="primary">
-                <i class="fa-regular fa-arrows-rotate mr-2"></i>
+                <i class="fa-regular fa-arrows-rotate mr-1.5"></i>
                 Update</button>
         </div>
     </form>

@@ -60,7 +60,7 @@
       <td><input nz-input type="text" class="form-control" [(ngModel)]="data.defaultValue"></td>
       <td><input nz-input type="text" class="form-control" [(ngModel)]="data.placeholder"></td>
       <td><input nz-input type="text" class="form-control" [(ngModel)]="data.className"></td>
-      <td> <nz-select nzShowSearch nzAllowClear [(ngModel)]="data['dataClassification']">
+      <td class="bulk_update" > <nz-select nzShowSearch nzAllowClear [(ngModel)]="data['dataClassification']">
           <nz-option [nzLabel]="option.label" [nzValue]="option.value" *ngFor="let option of optionData"></nz-option>
         </nz-select></td>
         <label nz-checkbox [(ngModel)]="data.hideExpression"></label>

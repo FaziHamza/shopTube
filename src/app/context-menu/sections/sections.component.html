@@ -6,9 +6,9 @@
       [style]="{'border-color': sections.borderColor + '!important'}">
       <div class="site-page-header-ghost-wrapper {{sections.isBordered?'border-b': ''}}"
         *ngIf="sections.children[0].header" [style]="{'border-color': sections.borderColor + '!important'}">
-        <nz-page-header [style]="{'background-color': sections.children[0].backGroundColor}"
+        <nz-page-header [style.background]="sections.children[0].backGroundColor + ' !important'"
           class="py-1 font-semibold {{sections.children[0].highLight ? 'highLight' : ''}}" [nzGhost]="false">
-          <nz-page-header-title [style]="{'color': sections.children[0].textColor}"
+          <nz-page-header-title [style.color]="sections.children[0].textColor + ' !importnat'"
             [class]="sections.children[0].headingSize ? sections.children[0].headingSize + '' + sections.children[0].className : 'collapse-title ' + sections.children[0].className">{{sections.children[0].title}}
           </nz-page-header-title>
           <nz-page-header-extra>
