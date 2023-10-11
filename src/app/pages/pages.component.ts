@@ -28,7 +28,7 @@ export class PagesComponent implements OnInit {
     private el: ElementRef,
     public dataSharedService: DataSharedService, private router: Router) {
     this.dataSharedService.change.subscribe(({ event, field }) => {
-      if (field && event)
+      if (field && event && this.navigation)
         if (this.formlyModel) {
           // this.formlyModel[field.key] = event;
           if (this.formlyModel) {
@@ -52,16 +52,17 @@ export class PagesComponent implements OnInit {
         }
       this.getEnumList(field, event);
       if (event && field && this.router.url.includes('/pages')) {
-        if (this.formlyModel) {
+        if (this.formlyModel && this.navigation) {
           this.formlyModel[field.key] = event;
           console.log("key value : " + event);
           this.checkConditionUIRule(field, event);
+          this.formlyModel[field.key] = event;
+        } else {
+          if (this.navigation)
+            this.checkConditionUIRule(field, event);
         }
       }
-      if (event && field && this.router.url.includes('/pages')) {
-        // console.log("key value : " + event);
-        this.checkConditionUIRule(field, event);
-      }
+
 
     });
     this.dataSharedService.gridData.subscribe(res => {
@@ -74,6 +75,7 @@ export class PagesComponent implements OnInit {
   }
   @Input() data: any = [];
   @Input() resData: any = [];
+  @Input() resDataMaster: any = [];
   @Input() formlyModel: any;
   fields: any = [];
   dataModel: any = {};
@@ -362,6 +364,9 @@ export class PagesComponent implements OnInit {
       this.resData = nodesData;
     } else
       this.resData = nodesData;
+
+    const screenData = JSON.parse(this.jsonStringifyWithObject(this.resData));
+    this.resDataMaster = screenData
     this.checkDynamicSection();
     this.uiRuleGetData({ key: 'text_f53ed35b', id: 'formly_86_input_text_f53ed35b_0' });
     // this.getFromQuery();
@@ -1071,54 +1076,59 @@ export class PagesComponent implements OnInit {
       if (this.screenData != undefined) {
         var inputType = this.resData[0].children[1].children;
         if (inputType) {
-          for (let index = 0; index < this.screenData?.uiData?.length; index++) {
-            if (model.key == this.screenData.uiData[index].ifMenuName) {
+          let screenData = this.screenData;
+          // const screenData = JSON.parse(this.jsonStringifyWithObject(this.screenData));
+          // const sectionData = JSON.parse(this.jsonStringifyWithObject(this.resDataMaster[0].children[1].children));
+
+          // inputType = sectionData;
+          for (let index = 0; index < screenData?.uiData?.length; index++) {
+            if (model.key == screenData.uiData[index].ifMenuName) {
               let query: any;
-              let getModelValue = this.formlyModel[this.screenData.uiData[index].ifMenuName] == "" ? false : this.formlyModel[this.screenData.uiData[index].ifMenuName];
-              if (this.screenData.uiData[index].condationName == 'contains') {
-                if (this.formlyModel[this.screenData.uiData[index].ifMenuName] != undefined &&
-                  this.formlyModel[this.screenData.uiData[index].ifMenuName].includes(this.screenData.uiData[index].targetValue)) {
+              let getModelValue = this.formlyModel[screenData.uiData[index].ifMenuName] == "" ? false : this.formlyModel[screenData.uiData[index].ifMenuName];
+              if (screenData.uiData[index].condationName == 'contains') {
+                if (this.formlyModel[screenData.uiData[index].ifMenuName] != undefined &&
+                  this.formlyModel[screenData.uiData[index].ifMenuName].includes(screenData.uiData[index].targetValue)) {
                   query = '1 == 1';
-                  query = this.evalConditionRule(query, this.screenData.uiData[index].targetIfValue);
+                  query = this.evalConditionRule(query, screenData.uiData[index].targetIfValue);
                 }
                 else {
                   query = '1 == 2';
-                  query = this.evalConditionRule(query, this.screenData.uiData[index].targetIfValue);
+                  query = this.evalConditionRule(query, screenData.uiData[index].targetIfValue);
                 }
-              } else if (this.screenData.uiData[index].condationName == 'null') {
-                if (typeof (this.formlyModel[this.screenData.uiData[index].ifMenuName]) != "number") {
-                  if (this.formlyModel[this.screenData.uiData[index].ifMenuName] == '' || this.formlyModel[this.screenData.uiData[index].ifMenuName] == null) {
+              } else if (screenData.uiData[index].condationName == 'null') {
+                if (typeof (this.formlyModel[screenData.uiData[index].ifMenuName]) != "number") {
+                  if (this.formlyModel[screenData.uiData[index].ifMenuName] == '' || this.formlyModel[screenData.uiData[index].ifMenuName] == null) {
                     query = '1 == 1';
-                    query = this.evalConditionRule(query, this.screenData.uiData[index].targetIfValue);
+                    query = this.evalConditionRule(query, screenData.uiData[index].targetIfValue);
                   }
                   else {
                     query = '1 == 2';
-                    query = this.evalConditionRule(query, this.screenData.uiData[index].targetIfValue);
+                    query = this.evalConditionRule(query, screenData.uiData[index].targetIfValue);
                   }
                 } else {
                   query = '1 == 2';
-                  query = this.evalConditionRule(query, this.screenData.uiData[index].targetIfValue);
+                  query = this.evalConditionRule(query, screenData.uiData[index].targetIfValue);
                 }
 
               } else {
-                if (this.screenData.uiData[index].ifMenuName.includes('number') || this.screenData.uiData[index].ifMenuName.includes('decimal')) {
-                  query = Number(getModelValue) + " " + this.screenData.uiData[index].condationName + " " + this.screenData.uiData[index].targetValue;
+                if (screenData.uiData[index].ifMenuName.includes('number') || screenData.uiData[index].ifMenuName.includes('decimal')) {
+                  query = Number(getModelValue) + " " + screenData.uiData[index].condationName + " " + screenData.uiData[index].targetValue;
 
-                  query = this.evalConditionRule(query, this.screenData.uiData[index].targetIfValue);
+                  query = this.evalConditionRule(query, screenData.uiData[index].targetIfValue);
                 } else {
-                  query = "'" + getModelValue + "' " + this.screenData.uiData[index].condationName + " '" + this.screenData.uiData[index].targetValue + "'";
+                  query = "'" + getModelValue + "' " + screenData.uiData[index].condationName + " '" + screenData.uiData[index].targetValue + "'";
 
-                  query = this.evalConditionRule(query, this.screenData.uiData[index].targetIfValue);
+                  query = this.evalConditionRule(query, screenData.uiData[index].targetIfValue);
                 }
               }
               if (this.UiRuleCondition(query)) {
-                const check = this.makeUIJSONForSave(this.screenData, index, inputType, true);
+                const check = this.makeUIJSONForSave(screenData.uiData[index],inputType, true);
                 this.resData[0].children[1].children = check;
                 this.updateNodes();
                 this.updateFormlyModel();
               }
               else {
-                const check = this.makeUIJSONForSave(this.screenData, index, inputType, false);
+                const check = this.makeUIJSONForSave(screenData.uiData[index],inputType, false);
                 this.resData[0].children[1].children = check;
                 this.updateNodes();
                 this.updateFormlyModel();
@@ -1131,6 +1141,7 @@ export class PagesComponent implements OnInit {
       else {
         // this.updateFormlyModel();
       }
+
       this.getSetVariableRule(model, currentValue);
       this.cdr.detectChanges();
 
@@ -1418,15 +1429,19 @@ export class PagesComponent implements OnInit {
     recursiveFind(data);
     return foundObjects;
   }
-  makeUIJSONForSave(screenData: any, index: number, inputType: any, currentValue: boolean) {
-    let comingData = inputType[0];
-    for (let k = 0; k < screenData.uiData[index].targetCondition.length; k++) {
-      if (currentValue)
-        comingData = this.updateObjectById(comingData, this.screenData.uiData[index].targetCondition[k].inputOldJsonData.id, this.screenData.uiData[index].targetCondition[k].inputJsonData)
-      else if (!currentValue)
-        comingData = this.updateObjectById(comingData, this.screenData.uiData[index].targetCondition[k].inputOldJsonData, this.screenData.uiData[index].targetCondition[k].inputJsonData)
+  makeUIJSONForSave(uiData: any,inputType:any, currentValue: boolean) {
+    let comingData = inputType;
+    for (let index = 0; index < comingData.length; index++) {
+      let element = comingData[index];
+      for (let k = 0; k < uiData.targetCondition.length; k++) {
+        if (currentValue)
+        element = this.updateObjectById(element, uiData.targetCondition[k].inputOldJsonData.id, uiData.targetCondition[k].inputJsonData)
+        else if (!currentValue)
+        element = this.updateObjectById(element, uiData.targetCondition[k].inputOldJsonData.id, uiData.targetCondition[k].inputOldJsonData)
+      }
     }
-    return [comingData];
+    return comingData;
+
     // for (let j = 0; j < inputType.length; j++) {
     //   let element = inputType[j];
     //   if (this.screenData.uiData[index].targetCondition[k].targetName == element.key && currentValue) {

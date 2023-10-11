@@ -49,6 +49,7 @@ import { environment } from 'src/environments/environment';
 import { DataService } from './services/offlineDb.service';
 import { AudioRecordingService } from './services/audio-recording.service';
 import { VideoRecordingService } from './services/video-recording.service';
+import { NotFoundComponent } from './auth/not-found/not-found.component';
 
 @NgModule({
   declarations: [
@@ -61,6 +62,7 @@ import { VideoRecordingService } from './services/video-recording.service';
     MenuBulkUpdateComponent,
     Screenv1Component,
     TableRowComponent,
+    NotFoundComponent,
     // MultiFileUploadWrapperComponent,
   ],
   imports: [
