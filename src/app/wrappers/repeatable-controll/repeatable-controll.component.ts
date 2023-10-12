@@ -22,6 +22,11 @@ export class RepeatableControllComponent extends FieldType<FieldTypeConfig> {
       fieldGroups: this.formBuilder.array([]),
     });
     this.addFieldGroup(); // Add an initial field group
+    this.dataSharedService.spectrumControlNull.subscribe(res => {
+      if (res){
+        this.clearAllFieldGroups();
+      }
+    });
   }
 
   addFieldGroup() {
@@ -29,9 +34,10 @@ export class RepeatableControllComponent extends FieldType<FieldTypeConfig> {
       manufacture: ['', Validators.required],
       model: ['', Validators.required],
       quantity: ['', Validators.required],
-      serialNumber: ['', Validators.required],
-      equipmentBroucher: ['', Validators.required],
-      equipmentBroucher_base64: ['', Validators.required],
+      serialnumber: ['', Validators.required],
+      equipmentbroucher: ['', Validators.required],
+      equipmentbroucher_base64: ['', Validators.required],
+      customeclearenceid: ['', Validators.required],
     });
 
     this.fieldGroups.push(fieldGroup);
@@ -50,10 +56,10 @@ export class RepeatableControllComponent extends FieldType<FieldTypeConfig> {
   onModelChange(event: any, model: any) {
     if (this.myForm.value.fieldGroups.length > 0) {
       for (let index = 0; index < this.myForm.value.fieldGroups.length; index++) {
-        if(this.myForm.value.fieldGroups[index]){
+        if (this.myForm.value.fieldGroups[index]) {
           for (const key in this.myForm.value.fieldGroups[index]) {
             if (key.includes('_base64')) {
-              if(this.myForm.value.fieldGroups[index][key]){
+              if (this.myForm.value.fieldGroups[index][key]) {
                 this.myForm.value.fieldGroups[index][key.split('_')[0]] = this.myForm.value.fieldGroups[index][key];
               }
             }
@@ -94,7 +100,7 @@ export class RepeatableControllComponent extends FieldType<FieldTypeConfig> {
           this.myForm.value.fieldGroups[index]['equipmentBroucher_base64'] = currentData;
           this.fieldGroups.at(index).get('equipmentBroucher_base64')?.setValue(currentData);
           this.fieldGroups.at(index).get('equipmentBroucher')?.setValue('');
-          this.onModelChange(null , null)
+          this.onModelChange(null, null)
         };
 
         reader.readAsText(file); // Read the JSON file as text
@@ -108,7 +114,7 @@ export class RepeatableControllComponent extends FieldType<FieldTypeConfig> {
           this.myForm.value.fieldGroups[index]['equipmentBroucher_base64'] = base64Data;
           this.fieldGroups.at(index).get('equipmentBroucher_base64')?.setValue(base64Data);
           this.fieldGroups.at(index).get('equipmentBroucher')?.setValue('');
-          this.onModelChange(null , null)
+          this.onModelChange(null, null)
           // this.formControl.setValue(base64Data);
           // this.dataSharedService.onChange(base64Data, this.field);
         };
@@ -121,9 +127,15 @@ export class RepeatableControllComponent extends FieldType<FieldTypeConfig> {
 
   }
   // Function to clear the selected file and reset the form control value
-  clearFile() {
-    this.imageUrl = null;
-    this.fileInput.nativeElement.value = '';
-    this.formControl.setValue(null);
+  clearAllFieldGroups() {
+    // Reset all form controls in the formArray
+    this.fieldGroups.controls.forEach(control => {
+      control.reset();
+    });
+  }
+
+  clearFieldGroup(index: number) {
+    // Reset the form control at the specified index
+    this.fieldGroups.at(index).reset();
   }
 }
