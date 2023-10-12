@@ -18,6 +18,7 @@ export class UIRuleComponent implements OnInit {
   @Input() applicationId: string;
   @Input() selectedNode: any;
   @Input() nodes: any;
+  saveLoader: any = false;
   public editorOptions: JsonEditorOptions;
   makeOptions = () => new JsonEditorOptions();
   constructor(private formBuilder: FormBuilder, private builderService: BuilderService,
@@ -340,6 +341,7 @@ export class UIRuleComponent implements OnInit {
     });
   }
   saveUIRule() {
+    this.saveLoader = true;
     const selectedScreen = this.screens.filter((a: any) => a._id == this.screenId)
     const jsonUIResult = {
       // "key": this.selectedNode.chartCardConfig?.at(0)?.buttonGroup == undefined ? this.selectedNode.chartCardConfig?.at(0)?.formly?.at(0)?.fieldGroup?.at(0)?.key : this.selectedNode.chartCardConfig?.at(0)?.buttonGroup?.at(0)?.btnConfig[0].key,
@@ -359,6 +361,7 @@ export class UIRuleComponent implements OnInit {
         : this.applicationService.updateNestCommonAPI('cp/UiRule', this.uiRuleId, uiModel);
       checkAndProcess.subscribe({
         next: (res: any) => {
+    this.saveLoader = false;
           if (res.isSuccess) {
             this.toastr.success(res.message, { nzDuration: 3000 }); // Show an error message to the user
             this.uiRule();
@@ -370,6 +373,7 @@ export class UIRuleComponent implements OnInit {
             this.toastr.error(res.message, { nzDuration: 3000 }); // Show an error message to the user
         },
         error: (err) => {
+    this.saveLoader = false;
           this.toastr.error("An error occurred", { nzDuration: 3000 }); // Show an error message to the user
         }
       });
@@ -426,6 +430,7 @@ export class UIRuleComponent implements OnInit {
   }
   
   uiRule() {
+    this.saveLoader = true;
     // debugger
     //UIRule Form Declare
     this.uiRuleFormInitilize();
@@ -451,6 +456,7 @@ export class UIRuleComponent implements OnInit {
     // this.changeIf();
 
     this.applicationService.getNestCommonAPIById('cp/UiRule', this.screenId).subscribe((getRes: any) => {
+      this.saveLoader = false;
       if (getRes.isSuccess) {
         if (getRes.data.length > 0) {
           this.uiRuleId = getRes.data[0]._id;
