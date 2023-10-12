@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, Input, OnInit, ViewContainerRef ,Renderer2, ElementRef, ViewChild} from '@angular/core';
+import { ChangeDetectorRef, Component, Input, OnInit, ViewContainerRef, Renderer2, ElementRef, ViewChild } from '@angular/core';
 import { ActivatedRoute, NavigationEnd, Params, Router } from '@angular/router';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { NzModalService } from 'ng-zorro-antd/modal';
@@ -19,7 +19,7 @@ export class SiteLayoutComponent implements OnInit {
   @Input() menuItems: any = [];
   @Input() selectedTheme: any;
   @ViewChild('head2') header: ElementRef;
-  headerHeight: number ;
+  headerHeight: number;
 
   currentHeader: any = undefined;
   logo: any;
@@ -69,7 +69,7 @@ export class SiteLayoutComponent implements OnInit {
     hoverBgColor: '#3b82f6'
   }
 
-  constructor(private applicationService: ApplicationService,private renderer: Renderer2,private el: ElementRef, public dataSharedService: DataSharedService, public builderService: BuilderService,
+  constructor(private applicationService: ApplicationService, private renderer: Renderer2, private el: ElementRef, public dataSharedService: DataSharedService, public builderService: BuilderService,
     private toastr: NzMessageService, private router: Router, private activatedRoute: ActivatedRoute, private cd: ChangeDetectorRef, private modalService: NzModalService,
     private viewContainerRef: ViewContainerRef) {
     this.requestSubscription = this.dataSharedService.localhostHeaderFooter.subscribe({
@@ -152,14 +152,14 @@ export class SiteLayoutComponent implements OnInit {
     // debugger
     // this.updateHeaderHeight();
   }
-  
+
   ngAfterViewInit() {
     // Wait for the view to be initialized
     setTimeout(() => {
       this.updateHeaderHeight();
-    },5000);
+    }, 5000);
   }
-  
+
   private updateHeaderHeight() {
     debugger
     // Get the actual header height dynamically
@@ -233,6 +233,7 @@ export class SiteLayoutComponent implements OnInit {
               ]);
             }
             this.loader = false;
+            this.getUserPolicyMenu();
           }
         },
         error: (err) => {
@@ -545,6 +546,24 @@ export class SiteLayoutComponent implements OnInit {
         }
         else {
           this.toastr.error(`userAssignTask:` + res.message, { nzDuration: 3000 });
+        }
+      },
+      error: (err) => {
+        console.error(err);
+        this.toastr.error("An error occurred", { nzDuration: 3000 });
+      }
+    })
+  }
+  getUserPolicyMenu() {
+    this.requestSubscription = this.applicationService.getNestCommonAPI('cp/userpolicy/getUserPolicyMenu/1').subscribe({
+      next: (res: any) => {
+        if (res.isSuccess) {
+          if (res.data.length > 0) {
+            this.dataSharedService.getUserPolicyMenuList = res.data;
+          }
+        }
+        else {
+          this.toastr.error(`getUserPolicyMenu:` + res.message, { nzDuration: 3000 });
         }
       },
       error: (err) => {

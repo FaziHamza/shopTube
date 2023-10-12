@@ -176,6 +176,8 @@ export class AppSideMenuComponent implements OnInit {
         if (data.link.includes('#')) {
           this.dataSharedService.moveLink.next(data.link)
         }else{
+          debugger
+          this.dataSharedService.currentMenuId = data.id
           this.router.navigate([data.link]);
         }
       }

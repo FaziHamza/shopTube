@@ -50,6 +50,7 @@ import { DataService } from './services/offlineDb.service';
 import { AudioRecordingService } from './services/audio-recording.service';
 import { VideoRecordingService } from './services/video-recording.service';
 import { NotFoundComponent } from './auth/not-found/not-found.component';
+import { PermissionDeniedComponent } from './auth/permission-denied/permission-denied.component';
 
 @NgModule({
   declarations: [
@@ -63,6 +64,7 @@ import { NotFoundComponent } from './auth/not-found/not-found.component';
     Screenv1Component,
     TableRowComponent,
     NotFoundComponent,
+    PermissionDeniedComponent,
     // MultiFileUploadWrapperComponent,
   ],
   imports: [
