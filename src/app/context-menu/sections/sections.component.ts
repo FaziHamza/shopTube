@@ -327,6 +327,9 @@ export class SectionsComponent implements OnInit {
                   if (window.location.href.includes('taskmanager.com')) {
                     this.dataSharedService.taskmanagerDrawer.next(true);
                   }
+                  if (window.location.href.includes('spectrum.com')) {
+                    this.dataSharedService.spectrumControlNull.next(true);
+                  }
                 }
               }
 
@@ -409,7 +412,8 @@ export class SectionsComponent implements OnInit {
         }
         else if (typeof value === 'object' && value !== null) {
           Object.assign(convertedModel, this.convertModel(value, newKey));
-        } else {
+        }
+        else {
           convertedModel[newKey] = value;
         }
       }
@@ -1275,9 +1279,15 @@ export class SectionsComponent implements OnInit {
       if (typeof obj[key] === 'object' && obj[key] !== null) {
         this.setInternalValuesEmpty(obj[key]);
       }
-      // else if (Array.isArray(obj)) {
-      //   obj = [];
-      // }
+      else if (Array.isArray(obj[key])) {
+        obj[key].forEach((element: any) => {
+          if (element) {
+            for (const key1 in element) {
+              element[key1] = '';
+            }
+          }
+        });
+      }
       else {
         obj[key] = '';
       }

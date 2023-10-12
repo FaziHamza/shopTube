@@ -28,21 +28,28 @@
             <input class="h-10" [nzStatus]="to['additionalProperties']?.status" [nzSize]="to['additionalProperties']?.size"
               [class]="to['additionalProperties']?.innerInputClass"
               [style.border-radius]="to['additionalProperties']?.borderRadius" (input)="onModelChange($event, field)"
-              nz-input [formControlName]="'serialNumber'" />
+              nz-input [formControlName]="'serialnumber'" />
           </div>
           <div>
             <label>Equipment Broucher/Datesheet</label>
             <input [nzStatus]="to['additionalProperties']?.status" [nzSize]="to['additionalProperties']?.size"
               [class]="to['additionalProperties']?.innerInputClass"
               [style.border-radius]="to['additionalProperties']?.borderRadius" nz-input
-              [formControlName]="'equipmentBroucher'" #fileInput type="file" (change)="onFileSelected($event, i)" />
+              [formControlName]="'equipmentbroucher'" #fileInput type="file" (change)="onFileSelected($event, i)" />
           </div>
           <div [hidden]="true">
             <label>Equipment Broucher/Datesheet</label>
             <input [nzStatus]="to['additionalProperties']?.status" [nzSize]="to['additionalProperties']?.size"
               [class]="to['additionalProperties']?.innerInputClass"
               [style.border-radius]="to['additionalProperties']?.borderRadius" nz-input
-              [formControlName]="'equipmentBroucher_base64'" (change)="onFileSelected($event, i)" />
+              [formControlName]="'equipmentbroucher_base64'" (change)="onFileSelected($event, i)" />
+          </div>
+          <div [hidden]="true">
+            <label></label>
+            <input [nzStatus]="to['additionalProperties']?.status" [nzSize]="to['additionalProperties']?.size"
+              [class]="to['additionalProperties']?.innerInputClass"
+              [style.border-radius]="to['additionalProperties']?.borderRadius" nz-input
+              [formControlName]="'customeclearenceid'"  />
           </div>
         </div>
         <div class="flex items-center justify-start my-2" >
