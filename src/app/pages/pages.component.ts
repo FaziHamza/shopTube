@@ -195,8 +195,27 @@ export class PagesComponent implements OnInit {
         console.error(err);
       }
     })
+    this.routeSubscriber();
     // if (this.router.url.includes('/pages'))
     //   this.isPageContextShow = true;
+
+
+  }
+  routeSubscriber() {
+    this.requestSubscription = this.activatedRoute.data.subscribe(
+      ({ resolvedData }) => {
+        if (resolvedData) {
+          if (resolvedData?.[0]?.data)
+            this.initiliaze();
+          else{
+            this.router.navigateByUrl('permission-denied')
+          }
+        }
+
+      }
+    );
+  };
+  initiliaze() {
     if (this.data.length == 0) {
       this.requestSubscription = this.activatedRoute.params.subscribe((params: Params) => {
         // // This is used in SiteLayoutComponent.component to show active route and show data on base of active route
@@ -245,7 +264,6 @@ export class PagesComponent implements OnInit {
           this.isPageContextShow = true;
           // this.dataSharedService.urlModule.next({ aplication: '', module: '' });
           this.navigation = params["schema"];
-
           this.getBuilderScreen(params);
           this.getTaskManagementIssuesFunc(params["schema"], JSON.parse(localStorage.getItem('applicationId')!));
 
@@ -274,7 +292,6 @@ export class PagesComponent implements OnInit {
         }
       })
     }
-
   }
   getBuilderScreen(params: any) {
     this.saveLoader = true;
@@ -298,8 +315,8 @@ export class PagesComponent implements OnInit {
             })
 
           }
-        } 
-        else{
+        }
+        else {
           this.toastr.error(res.message, { nzDuration: 3000 });
           this.saveLoader = false;
         }
@@ -1095,8 +1112,8 @@ export class PagesComponent implements OnInit {
           // const sectionData = JSON.parse(this.jsonStringifyWithObject(this.resDataMaster[0].children[1].children));
 
           // inputType = sectionData;
-          let updatedKeyData :any[] = [];
-          let checkFirst  = false;
+          let updatedKeyData: any[] = [];
+          let checkFirst = false;
           for (let index = 0; index < screenData?.uiData?.length; index++) {
             if (model.key == screenData.uiData[index].ifMenuName) {
               checkFirst = true;
@@ -1139,13 +1156,13 @@ export class PagesComponent implements OnInit {
                 }
               }
               if (this.UiRuleCondition(query)) {
-                const check = this.makeUIJSONForSave(screenData.uiData[index],inputType,updatedKeyData, true);
+                const check = this.makeUIJSONForSave(screenData.uiData[index], inputType, updatedKeyData, true);
                 this.resData[0].children[1].children = check;
                 this.updateNodes();
                 this.updateFormlyModel();
               }
               else {
-                const check = this.makeUIJSONForSave(screenData.uiData[index],inputType, updatedKeyData,false);
+                const check = this.makeUIJSONForSave(screenData.uiData[index], inputType, updatedKeyData, false);
                 this.resData[0].children[1].children = check;
                 this.updateNodes();
                 this.updateFormlyModel();
@@ -1446,19 +1463,19 @@ export class PagesComponent implements OnInit {
     recursiveFind(data);
     return foundObjects;
   }
-  makeUIJSONForSave(uiData: any,inputType:any,updatedKeyData:any, currentValue: boolean) {
+  makeUIJSONForSave(uiData: any, inputType: any, updatedKeyData: any, currentValue: boolean) {
     let comingData = inputType;
     for (let index = 0; index < comingData.length; index++) {
       let element = comingData[index];
       for (let k = 0; k < uiData.targetCondition.length; k++) {
-        if (currentValue){
+        if (currentValue) {
           updatedKeyData.push(uiData.targetCondition[k].inputJsonData.id)
           element = this.updateObjectById(element, uiData.targetCondition[k].inputJsonData.id, uiData.targetCondition[k].inputJsonData)
         }
-        else if (!currentValue){
-          let checkAlready = updatedKeyData.find((a:any)=>a == uiData.targetCondition[k].inputOldJsonData.id)
-          if(!checkAlready)
-              element = this.updateObjectById(element, uiData.targetCondition[k].inputOldJsonData.id, uiData.targetCondition[k].inputOldJsonData)
+        else if (!currentValue) {
+          let checkAlready = updatedKeyData.find((a: any) => a == uiData.targetCondition[k].inputOldJsonData.id)
+          if (!checkAlready)
+            element = this.updateObjectById(element, uiData.targetCondition[k].inputOldJsonData.id, uiData.targetCondition[k].inputOldJsonData)
         }
       }
     }

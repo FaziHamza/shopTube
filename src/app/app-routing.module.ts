@@ -9,6 +9,7 @@ import { AuthGuard } from './auth/auth.Guard';
 import { PolicyComponent } from './admin/policy/policy.component';
 import { NotFoundComponent } from './auth/not-found/not-found.component';
 import { AuthResolverService } from './resolver/auth-resolver.service';
+import { PermissionDeniedComponent } from './auth/permission-denied/permission-denied.component';
 
 const routes: Routes = [
   {
@@ -18,9 +19,9 @@ const routes: Routes = [
       {
         path: 'pages/:schema',
         component: PagesComponent,
-        // resolve: {
-        //   resolvedData: AuthResolverService
-        // }
+        resolve: {
+          resolvedData: AuthResolverService
+        }
       },
       // {
       //   path: 'pages/:schema/:commentId',
@@ -42,7 +43,8 @@ const routes: Routes = [
         path: 'home/pages/:schema',
         component: PagesComponent
       },
-      { path: '**', redirectTo: 'not-found' }
+      { path: '**', redirectTo: 'not-found' },
+      { path: 'permission-denied', component: PermissionDeniedComponent },
     ]
   },
   {

@@ -12,16 +12,13 @@ export class AuthResolverService {
     constructor(private applicationService: ApplicationService) { }
 
     resolve(route: ActivatedRouteSnapshot): Observable<any> {
-        debugger
         let screenId: string | null = route.paramMap.get('schema');
         return forkJoin(
-            this.applicationService.getNestCommonAPI('cp/pageAuth/'+screenId),
+            this.applicationService.getNestCommonAPI('cp/auth/pageAuth/' + screenId),
         )
             .pipe(
                 map((response: any) => {
-                    return {
-                        pageAuth: response || []
-                    };
+                    return response || [];
                 },
                     catchError(error => this.handleError(error))
                 ));
