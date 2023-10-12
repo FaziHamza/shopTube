@@ -8,6 +8,7 @@ import { Screenv1Component } from './Builder-module/screenv1/screenv1.component'
 import { AuthGuard } from './auth/auth.Guard';
 import { PolicyComponent } from './admin/policy/policy.component';
 import { NotFoundComponent } from './auth/not-found/not-found.component';
+import { AuthResolverService } from './resolver/auth-resolver.service';
 
 const routes: Routes = [
   {
@@ -16,7 +17,10 @@ const routes: Routes = [
     children: [
       {
         path: 'pages/:schema',
-        component: PagesComponent
+        component: PagesComponent,
+        // resolve: {
+        //   resolvedData: AuthResolverService
+        // }
       },
       // {
       //   path: 'pages/:schema/:commentId',
