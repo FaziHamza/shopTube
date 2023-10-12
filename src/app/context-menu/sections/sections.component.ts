@@ -209,6 +209,7 @@ export class SectionsComponent implements OnInit {
   saveData1(data: any) {
     debugger
     // this.submit();
+    const checkPermission  = this.dataSharedService.getUserPolicyMenuList.find(a=>a.menuId ==  this.dataSharedService.currentMenuId);
     let oneModelData = this.convertModel(this.dataModel);
     if (Object.keys(oneModelData).length > 0) {
       let findClickApi = data.appConfigurableEvent.filter((item: any) => item.rule.includes('post_'));
@@ -274,6 +275,10 @@ export class SectionsComponent implements OnInit {
         }
       }
       if (id == undefined) {
+        if(!checkPermission.create){
+          alert("You did not have permission");
+          return;
+        }
         findClickApi = data.appConfigurableEvent.filter((item: any) => item.rule.includes('post_'));
         // let relationIds: any = remainingTables.map(table => `${Arraytables[0]}_id`);
         // relationIds = relationIds.toString();
@@ -339,6 +344,10 @@ export class SectionsComponent implements OnInit {
 
       }
       else {
+        if(!checkPermission.update){
+          alert("You did not have permission");
+          return;
+        }
         findClickApi = data.appConfigurableEvent.filter((item: any) => item.rule.includes('put_'));
         if (this.dataModel) {
           // this.form.get(dynamicPropertyName);

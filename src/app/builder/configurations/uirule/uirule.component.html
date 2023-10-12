@@ -1,164 +1,170 @@
-<div class=" general_faq ">
-  <div style="position:relative ;">
-    <form action="javascript:void(0);" [formGroup]="uiRuleForm">
-      <div formArrayName="uiRules">
-        <div class="drawer-height" >
+<nz-spin [nzSpinning]="saveLoader" [nzSize]="'large'">
+  <div class=" general_faq ">
+    <div style="position:relative ;">
+      <form action="javascript:void(0);" [formGroup]="uiRuleForm">
+        <div formArrayName="uiRules">
+          <div class="drawer-height">
 
-        
-        <nz-collapse class="business-rule-form" >
-          <nz-collapse-panel *ngFor="let uiRuleObj of getUiRule().controls; let uiIndex=index"
-            [nzHeader]="(uiIndex+1).toString()">
-            <div [formGroupName]="uiIndex">
-              <div class="p-3">
-                <div class="flex flex-wrap -mb-4 -mx-2">
-                  <div class="w-1/4  mb-4 px-2">
-                    <label class="pt-1">If</label>
-                    <div>
-                      <nz-select nzShowSearch nzAllowClear formControlName="ifMenuName"
-                        (ngModelChange)="[getConditionList(uiIndex)]">
-                        <!-- (ngModelChange)="[changeIf(),getConditionList(uiIndex)]"> -->
-                        <nz-option [nzLabel]="uiData.title ? uiData.title : uiData.key" [nzValue]="uiData.key"
-                          *ngFor="let uiData of ifMenuName"></nz-option>
-                      </nz-select>
-                    </div>
-                  </div>
-                  <div class="w-1/4 mb-4 px-2">
-                    <label class="mx-2 mt-2 mb-1">Equal</label>
-                    <div>
-                      <nz-select nzShowSearch nzAllowClear formControlName="condationName">
-                        <nz-option [nzLabel]="uiData.name" [nzValue]="uiData.key"
-                          *ngFor="let uiData of this.getUiRule()?.at(uiIndex)?.get('condationList')?.value"></nz-option>
-                      </nz-select>
-                    </div>
-                  </div>
-                  <div class="w-1/4  mb-4 px-2">
-                    <label class="mx-2 mt-2 mb-1">Value</label>
-                    <div>
-                      <input nz-input type="text" placeholder="Enter value" id="targetValue{{uiIndex}}"
-                        formControlName="targetValue" required class="form-control" name="targetValue{{uiIndex}}" />
-                    </div>
-                  </div>
-                  <div class="w-1/4   px-2 h-fit my-5">
-                    <button nz-button nzType="primary" class="mt-[2px]" nzDanger (click)="removeUIRule(uiIndex)" type="button">
-                      <i class="fa-regular fa-trash text-[10px]"></i></button>
-                  </div>
-                </div>
 
-                <div class="row ">
-                  <div class="col-md-12">
-                    <div formArrayName="targetIfValue">
-                      <div *ngFor="let ifRule of addUIRuleIfCondition(uiIndex).controls; let ifIndex=index">
-                        <div [formGroupName]="ifIndex" class="row">
-                          <div class="col-md-12 mt-1 mb-1">
-                            <button nz-button nzType="primary" nzPrimary class="btn btn-sm w-100 btn-success"
-                              id="btn{{uiIndex}}{{ifIndex}}" (click)="buttonUITextCahnge(uiIndex,ifIndex)">
-                              {{this.addUIRuleIfCondition(uiIndex).at(ifIndex).get("conditonType")?.value}}
-                            </button>
-                          </div>
-                          <div class="flex flex-wrap -mb-4 -mx-2">
-                            <div class="w-1/4  mb-4 px-2">
-                              <label class="pt-1">If</label>
-                              <div>
-                                <nz-select nzShowSearch nzAllowClear formControlName="ifMenuName"
-                                  (ngModelChange)="[changeIf(), getConditionList(uiIndex,ifIndex)]">
-                                  <nz-option [nzLabel]="uiData.title ? uiData.title : uiData.key" [nzValue]="uiData.key"
-                                    *ngFor="let uiData of ifMenuName"></nz-option>
-                                </nz-select>
-                              </div>
-                            </div>
-                            <div class="w-1/4  mb-4 px-2">
-                              <label class="mx-2 mt-2 mb-1">Equal</label>
-                              <div>
-
-                                <nz-select nzShowSearch nzAllowClear formControlName="condationName">
-                                  <nz-option [nzLabel]="uiData.name" [nzValue]="uiData.key"
-                                    *ngFor="let uiData of this.getUiRule().at(uiIndex).get('targetIfValue')?.value[ifIndex].condationList"></nz-option>
-                                </nz-select>
-                              </div>
-                            </div>
-                            <div class="w-1/4  mb-4 px-2">
-                              <label class="mx-2 mt-2 mb-1">Value</label>
-                              <div>
-                                <input nz-input type="text" placeholder="Enter value"
-                                  id="targetValue{{uiIndex}}{{ifIndex}}" formControlName="targetValue" required
-                                  class="form-control" name="targetValue{{uiIndex}}{{ifIndex}}" />
-                              </div>
-                            </div>
-                            <div class="w-1/4 h-fit my-5 px-2">
-                              <button nz-button nzType="primary" nzDanger class="btn btn-danger w-100 mt-[2px]"
-                                (click)="removeIfUIRule(uiIndex,ifIndex)" type="button">
-                                <i class="fa-regular fa-trash text-[10px]"></i>
-                              </button>
-                            </div>
-                          </div>
+            <nz-collapse class="business-rule-form">
+              <nz-collapse-panel *ngFor="let uiRuleObj of getUiRule().controls; let uiIndex=index"
+                [nzHeader]="(uiIndex+1).toString()">
+                <div [formGroupName]="uiIndex">
+                  <div class="p-3">
+                    <div class="flex flex-wrap -mb-4 -mx-2">
+                      <div class="w-1/4  mb-4 px-2">
+                        <label class="pt-1">If</label>
+                        <div>
+                          <nz-select nzShowSearch nzAllowClear formControlName="ifMenuName"
+                            (ngModelChange)="[getConditionList(uiIndex)]">
+                            <!-- (ngModelChange)="[changeIf(),getConditionList(uiIndex)]"> -->
+                            <nz-option [nzLabel]="uiData.title ? uiData.title : uiData.key" [nzValue]="uiData.key"
+                              *ngFor="let uiData of ifMenuName"></nz-option>
+                          </nz-select>
                         </div>
+                      </div>
+                      <div class="w-1/4 mb-4 px-2">
+                        <label class="mx-2 mt-2 mb-1">Equal</label>
+                        <div>
+                          <nz-select nzShowSearch nzAllowClear formControlName="condationName">
+                            <nz-option [nzLabel]="uiData.name" [nzValue]="uiData.key"
+                              *ngFor="let uiData of this.getUiRule()?.at(uiIndex)?.get('condationList')?.value"></nz-option>
+                          </nz-select>
+                        </div>
+                      </div>
+                      <div class="w-1/4  mb-4 px-2">
+                        <label class="mx-2 mt-2 mb-1">Value</label>
+                        <div>
+                          <input nz-input type="text" placeholder="Enter value" id="targetValue{{uiIndex}}"
+                            formControlName="targetValue" required class="form-control" name="targetValue{{uiIndex}}" />
+                        </div>
+                      </div>
+                      <div class="w-1/4   px-2 h-fit my-5">
+                        <button nz-button nzType="primary" class="mt-[2px]" nzDanger (click)="removeUIRule(uiIndex)"
+                          type="button">
+                          <i class="fa-regular fa-trash text-[10px]"></i></button>
                       </div>
                     </div>
 
-                    <div class="py-2">
-                      <button nz-button nzType="primary" nzPrimary class="btn btn-primary btn-sm w-100"
-                        (click)="addUITargetIfRule(uiIndex)">
-                        <i class="fa-regular fa-plus text-[10px] mr-0.5"></i> If</button>
-                    </div>
-                  </div>
-                  <div class="col-md-12">
-                    <div formArrayName="targetCondition">
-                      <nz-collapse>
-                        <nz-collapse-panel *ngFor="let skill of addTargetCondition(uiIndex).controls; let index=index"
-                          [nzHeader]="(uiIndex+1).toString()+'-'+(index+1).toString()">
-                          <div class="row">
-                            <div class="col-md-11">
-                              <div [formGroupName]="index" class="row">
-                                <div class="d-flex col-md-12 p-1">
-                                  <label style="width:20%" class="mx-2 mt-2 mb-1">Target</label>
-                                  <nz-select nzShowSearch nzAllowClear
-                                    (ngModelChange)="onChangeTargetNameChild($event, uiIndex, index)"
-                                    formControlName="targetName">
-                                    <!-- <nz-option [nzLabel]="uiData.value ? uiData.value : uiData.key" [nzValue]="uiData.key" -->
-                                    <nz-option [nzLabel]="uiData.title ? uiData.title : uiData.id" [nzValue]="uiData.key"
-                                      *ngFor="let uiData of targetList"></nz-option>
-                                  </nz-select>
-
+                    <div class="row ">
+                      <div class="col-md-12">
+                        <div formArrayName="targetIfValue">
+                          <div *ngFor="let ifRule of addUIRuleIfCondition(uiIndex).controls; let ifIndex=index">
+                            <div [formGroupName]="ifIndex" class="row">
+                              <div class="col-md-12 mt-1 mb-1">
+                                <button nz-button nzType="primary" nzPrimary class="btn btn-sm w-100 btn-success"
+                                  id="btn{{uiIndex}}{{ifIndex}}" (click)="buttonUITextCahnge(uiIndex,ifIndex)">
+                                  {{this.addUIRuleIfCondition(uiIndex).at(ifIndex).get("conditonType")?.value}}
+                                </button>
+                              </div>
+                              <div class="flex flex-wrap -mb-4 -mx-2">
+                                <div class="w-1/4  mb-4 px-2">
+                                  <label class="pt-1">If</label>
+                                  <div>
+                                    <nz-select nzShowSearch nzAllowClear formControlName="ifMenuName"
+                                      (ngModelChange)="[changeIf(), getConditionList(uiIndex,ifIndex)]">
+                                      <nz-option [nzLabel]="uiData.title ? uiData.title : uiData.key"
+                                        [nzValue]="uiData.key" *ngFor="let uiData of ifMenuName"></nz-option>
+                                    </nz-select>
+                                  </div>
                                 </div>
-                                <div class="col-md-12">
-                                  <json-editor formControlName="inputJsonData" id="inputJsonDataa{{uiIndex}}"
-                                    [options]="editorOptions" style="max-height: 150px !important;"
-                                    [options]="makeOptions()" (jsonChange)="saveJsonStringify(uiIndex,index)">
-                                  </json-editor>
+                                <div class="w-1/4  mb-4 px-2">
+                                  <label class="mx-2 mt-2 mb-1">Equal</label>
+                                  <div>
+
+                                    <nz-select nzShowSearch nzAllowClear formControlName="condationName">
+                                      <nz-option [nzLabel]="uiData.name" [nzValue]="uiData.key"
+                                        *ngFor="let uiData of this.getUiRule().at(uiIndex).get('targetIfValue')?.value[ifIndex].condationList"></nz-option>
+                                    </nz-select>
+                                  </div>
+                                </div>
+                                <div class="w-1/4  mb-4 px-2">
+                                  <label class="mx-2 mt-2 mb-1">Value</label>
+                                  <div>
+                                    <input nz-input type="text" placeholder="Enter value"
+                                      id="targetValue{{uiIndex}}{{ifIndex}}" formControlName="targetValue" required
+                                      class="form-control" name="targetValue{{uiIndex}}{{ifIndex}}" />
+                                  </div>
+                                </div>
+                                <div class="w-1/4 h-fit my-5 px-2">
+                                  <button nz-button nzType="primary" nzDanger class="btn btn-danger w-100 mt-[2px]"
+                                    (click)="removeIfUIRule(uiIndex,ifIndex)" type="button">
+                                    <i class="fa-regular fa-trash text-[10px]"></i>
+                                  </button>
                                 </div>
                               </div>
                             </div>
-                            <div class="col-md-1 mt-4">
-                              <button nz-button nzType="primary" nzDanger class="btn btn-danger mx-1 mt-3"
-                                (click)="removeTargetUIRule(uiIndex,index)" type="button"><i class="fa-regular fa-trash text-[10px]"></i></button>
-                            </div>
                           </div>
-                        </nz-collapse-panel>
-                      </nz-collapse>
+                        </div>
 
-                    </div>
-                    <div class=" py-2">
-                      <button nz-button nzType="primary" nzPrimary (click)="addUITargetRule(uiIndex)">
-                        <i class="fa-regular fa-plus text-[10px] mr-0.5"></i> Target</button>
+                        <div class="py-2">
+                          <button nz-button nzType="primary" nzPrimary class="btn btn-primary btn-sm w-100"
+                            (click)="addUITargetIfRule(uiIndex)">
+                            <i class="fa-regular fa-plus text-[10px] mr-0.5"></i> If</button>
+                        </div>
+                      </div>
+                      <div class="col-md-12">
+                        <div formArrayName="targetCondition">
+                          <nz-collapse>
+                            <nz-collapse-panel
+                              *ngFor="let skill of addTargetCondition(uiIndex).controls; let index=index"
+                              [nzHeader]="(uiIndex+1).toString()+'-'+(index+1).toString()">
+                              <div class="row">
+                                <div class="col-md-11">
+                                  <div [formGroupName]="index" class="row">
+                                    <div class="d-flex col-md-12 p-1">
+                                      <label style="width:20%" class="mx-2 mt-2 mb-1">Target</label>
+                                      <nz-select nzShowSearch nzAllowClear
+                                        (ngModelChange)="onChangeTargetNameChild($event, uiIndex, index)"
+                                        formControlName="targetName">
+                                        <!-- <nz-option [nzLabel]="uiData.value ? uiData.value : uiData.key" [nzValue]="uiData.key" -->
+                                        <nz-option [nzLabel]="uiData.title ? uiData.title : uiData.id"
+                                          [nzValue]="uiData.key" *ngFor="let uiData of targetList"></nz-option>
+                                      </nz-select>
+
+                                    </div>
+                                    <div class="col-md-12">
+                                      <json-editor formControlName="inputJsonData" id="inputJsonDataa{{uiIndex}}"
+                                        [options]="editorOptions" style="max-height: 150px !important;"
+                                        [options]="makeOptions()" (jsonChange)="saveJsonStringify(uiIndex,index)">
+                                      </json-editor>
+                                    </div>
+                                  </div>
+                                </div>
+                                <div class="col-md-1 mt-4">
+                                  <button nz-button nzType="primary" nzDanger class="btn btn-danger mx-1 mt-3"
+                                    (click)="removeTargetUIRule(uiIndex,index)" type="button"><i
+                                      class="fa-regular fa-trash text-[10px]"></i></button>
+                                </div>
+                              </div>
+                            </nz-collapse-panel>
+                          </nz-collapse>
+
+                        </div>
+                        <div class=" py-2">
+                          <button nz-button nzType="primary" nzPrimary (click)="addUITargetRule(uiIndex)">
+                            <i class="fa-regular fa-plus text-[10px] mr-0.5"></i> Target</button>
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
-            </div>
-          </nz-collapse-panel>
-        </nz-collapse>
-      </div>
-        <div class="drawer-height-btn" >
-          <button nz-button nzType="primary" nzPrimary class="btn btn-primary border-x-green-500 !bg-green-500 hover:!bg-green-400" (click)="addUIRule()">
-            <!-- <span nz-icon nzType="plus-square" nzTheme="twotone" class="-mt-4"></span> -->
-            <i class="fa-regular fa-plus mr-2"></i> Add Rule</button>
+              </nz-collapse-panel>
+            </nz-collapse>
+          </div>
+          <div class="drawer-height-btn">
+            <button nz-button nzType="primary" nzPrimary
+              class="btn btn-primary border-x-green-500 !bg-green-500 hover:!bg-green-400" (click)="addUIRule()">
+              <!-- <span nz-icon nzType="plus-square" nzTheme="twotone" class="-mt-4"></span> -->
+              <i class="fa-regular fa-plus mr-2"></i> Add Rule</button>
             <button nz-button nzType="primary" nzPrimary class=" mx-2 " (click)="saveUIRule()">
-          <!-- <span nz-icon nzType="database" nzTheme="twotone" class="-mt-4"></span> -->
-          <i class="fa-regular fa-floppy-disk mr-2"></i> Save </button>
-          <button nzDanger nz-button nzType="primary" class="" (click)="deleteUiRule()">
-            <i class="fa-regular fa-trash mr-2"></i> Delete</button>
+              <!-- <span nz-icon nzType="database" nzTheme="twotone" class="-mt-4"></span> -->
+              <i class="fa-regular fa-floppy-disk mr-2"></i> Save </button>
+            <button nzDanger nz-button nzType="primary" class="" (click)="deleteUiRule()">
+              <i class="fa-regular fa-trash mr-2"></i> Delete</button>
           </div>
         </div>
-        </form>
+      </form>
+    </div>
   </div>
-</div>
+</nz-spin>

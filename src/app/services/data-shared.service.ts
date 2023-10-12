@@ -34,8 +34,10 @@ export class DataSharedService {
   // public menus: Subject<any> = new Subject();
   // public currentApplication: Subject<any> = new Subject();
   // public defaultPage: Subject<any> = new Subject();
+  getUserPolicyMenuList:any[] = [];
+  currentMenuId:string = '';
   defaultPageNodes:any;
-  screenCommentList : any[] = []
+  screenCommentList : any[] = [];
   menuCommentList : any[] = []
   checkContentForFixFooter : any;
   commentId : any;

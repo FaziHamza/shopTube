@@ -8,6 +8,8 @@ import { Screenv1Component } from './Builder-module/screenv1/screenv1.component'
 import { AuthGuard } from './auth/auth.Guard';
 import { PolicyComponent } from './admin/policy/policy.component';
 import { NotFoundComponent } from './auth/not-found/not-found.component';
+import { AuthResolverService } from './resolver/auth-resolver.service';
+import { PermissionDeniedComponent } from './auth/permission-denied/permission-denied.component';
 
 const routes: Routes = [
   {
@@ -16,7 +18,10 @@ const routes: Routes = [
     children: [
       {
         path: 'pages/:schema',
-        component: PagesComponent
+        component: PagesComponent,
+        resolve: {
+          resolvedData: AuthResolverService
+        }
       },
       // {
       //   path: 'pages/:schema/:commentId',
@@ -38,7 +43,8 @@ const routes: Routes = [
         path: 'home/pages/:schema',
         component: PagesComponent
       },
-      { path: '**', redirectTo: 'not-found' }
+      { path: '**', redirectTo: 'not-found' },
+      { path: 'permission-denied', component: PermissionDeniedComponent },
     ]
   },
   {
