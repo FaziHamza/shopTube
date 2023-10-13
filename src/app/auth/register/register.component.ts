@@ -26,7 +26,7 @@ export class RegisterComponent implements OnInit {
 
   ngOnInit(): void {
     this.create();
-    this.organizationBuilder();
+    // this.organizationBuilder();
   }
   get f() {
     return this.form.controls;
@@ -149,20 +149,21 @@ export class RegisterComponent implements OnInit {
   submitForm(): void {
     debugger
     this.isFormSubmit = true;
-    if (this.form.invalid) {
-      this.toastr.warning('Fill all fields', { nzDuration: 3000 }); // Show an error message to the user
-      return;
-    }
-    if ( this.cascaderValue.length < 3) {
-      this.toastr.warning('Application required', { nzDuration: 3000 }); // Show an error message to the user
-      return;
-    }
+    // if (this.form.invalid) {
+    //   this.toastr.warning('Fill all fields', { nzDuration: 3000 }); // Show an error message to the user
+    //   return;
+    // }
+    // if ( this.cascaderValue.length < 3) {
+    //   this.toastr.warning('Application required', { nzDuration: 3000 }); // Show an error message to the user
+    //   return;
+    // }
     this.loader = true;
     let obj = {
       "username": this.form.value.email,
       "password": this.form.value.password,
-      "organizationId": this.cascaderValue[0],
-      "applicationId": this.cascaderValue[2],
+      "domain":window.location.host.split(':')[0],
+      "organizationId": localStorage.getItem('organizationId'!),
+      "applicationId": localStorage.getItem('applicationId'!),
     }
     console.log(obj);
     this.applicationService.addNestCommonAPI('auth/signup', obj).subscribe({
