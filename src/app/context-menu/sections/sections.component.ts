@@ -8,7 +8,7 @@ import { DataSharedService } from 'src/app/services/data-shared.service';
 import { EmployeeService } from 'src/app/services/employee.service';
 import * as Joi from 'joi';
 import { DataService } from 'src/app/services/offlineDb.service';
-import { ActivatedRoute, Params } from '@angular/router';
+import { ActivatedRoute, Params, Router } from '@angular/router';
 
 @Component({
   selector: 'st-sections',
@@ -36,7 +36,7 @@ export class SectionsComponent implements OnInit {
   saveLoader: boolean = false;
   constructor(public dataSharedService: DataSharedService, private toastr: NzMessageService, private employeeService: EmployeeService,
     private dataService: DataService,
-    private applicationServices: ApplicationService, private cd: ChangeDetectorRef, private activatedRoute: ActivatedRoute) { }
+    private applicationServices: ApplicationService, private cd: ChangeDetectorRef, private activatedRoute: ActivatedRoute , private router: Router) { }
 
   ngOnInit(): void {
     this.screenName;
@@ -275,10 +275,10 @@ export class SectionsComponent implements OnInit {
         }
       }
       if (id == undefined) {
-        if(!checkPermission.create){
-          alert("You did not have permission");
-          return;
-        }
+        // if(!checkPermission.create){
+        //   alert("You did not have permission");
+        //   return;
+        // }
         findClickApi = data.appConfigurableEvent.filter((item: any) => item.rule.includes('post_'));
         // let relationIds: any = remainingTables.map(table => `${Arraytables[0]}_id`);
         // relationIds = relationIds.toString();
@@ -313,6 +313,9 @@ export class SectionsComponent implements OnInit {
                   this.toastr.error(res[0]?.error, { nzDuration: 3000 });
                 else {
                   this.toastr.success("Save Successfully", { nzDuration: 3000 });
+                  if(data.saveRouteLink){
+                    this.router.navigate(['/pages/' + data.saveRouteLink]);
+                  }
                   let tableName: any = '';
                   if (res[0]) {
                     tableName = res[0].tableName ? res[0].tableName.split('.')[1].split('_')[0] : '';
@@ -323,6 +326,7 @@ export class SectionsComponent implements OnInit {
                   if (tableName) {
                     this.recursiveUpdate(this.formlyModel, tableName, res)
                   }
+                
                   this.getFromQuery(data);
                   if (window.location.href.includes('taskmanager.com')) {
                     this.dataSharedService.taskmanagerDrawer.next(true);
@@ -332,7 +336,6 @@ export class SectionsComponent implements OnInit {
                   }
                 }
               }
-
             },
             error: (err) => {
               console.error(err);
@@ -344,10 +347,10 @@ export class SectionsComponent implements OnInit {
 
       }
       else {
-        if(!checkPermission.update){
-          alert("You did not have permission");
-          return;
-        }
+        // if(!checkPermission.update){
+        //   alert("You did not have permission");
+        //   return;
+        // }
         findClickApi = data.appConfigurableEvent.filter((item: any) => item.rule.includes('put_'));
         if (this.dataModel) {
           // this.form.get(dynamicPropertyName);

@@ -4,7 +4,7 @@ import { EmployeeService } from 'src/app/services/employee.service';
 // import { CommonchartService } from 'src/app/servics/commonchart.service';
 import { NzModalService } from 'ng-zorro-antd/modal';
 import { NzMessageService } from 'ng-zorro-antd/message';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Params, Router } from '@angular/router';
 import { DataSharedService } from 'src/app/services/data-shared.service';
 import { ApplicationService } from 'src/app/services/application.service';
 import { Subscription } from 'rxjs';
@@ -30,15 +30,11 @@ export class ButtonsComponent implements OnInit {
   nodes: TreeNode[];
   requestSubscription: Subscription;
   constructor(private modalService: NzModalService, public employeeService: EmployeeService, private toastr: NzMessageService, private router: Router,
-    public dataSharedService: DataSharedService, private applicationService: ApplicationService) { }
+    public dataSharedService: DataSharedService, private applicationService: ApplicationService, private activatedRoute: ActivatedRoute) { }
 
   ngOnInit(): void {
-
-    // this.hoverTextColor = this.buttonData?.textColor ? this.buttonData?.textColor : '#000000';
     this.hoverTextColor = this.buttonData?.textColor ? this.buttonData?.textColor : '';
     this.bgColor = this.buttonData?.color ? this.buttonData?.color : '';
-    // this.borderColor = this.buttonData?.borderColor ? this.buttonData?.borderColor : '';
-    // this.buttonData['textColor'] = this.buttonData?.textColor ? this.buttonData?.textColor :'#000000';
   }
 
   pagesRoute(data: any): void {
@@ -47,7 +43,6 @@ export class ButtonsComponent implements OnInit {
     }
 
     if (!data.href) {
-      // this.toastr.error('Link is required', { nzDuration: 3000 });
       return;
     }
 
@@ -82,10 +77,22 @@ export class ButtonsComponent implements OnInit {
         });
         break;
       case '_blank':
-        window.open('/pages/' + data.href);
+        this.requestSubscription = this.activatedRoute.params.subscribe((params: Params) => {
+          if (params["id"]) {
+            window.open('/pages/' + data.href + '/' + params["id"]);
+          } else {
+            window.open('/pages/' + data.href);
+          }
+        });
         break;
       case '':
-        this.router.navigate(['/pages/' + data.href]);
+        this.requestSubscription = this.activatedRoute.params.subscribe((params: Params) => {
+          if (params["id"]) {
+            this.router.navigate(['/pages/' + data.href + '/' + params["id"]])
+          } else {
+            this.router.navigate(['/pages/' + data.href]);
+          }
+        });
         break;
     }
   }
