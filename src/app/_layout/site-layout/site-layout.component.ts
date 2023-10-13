@@ -153,24 +153,24 @@ export class SiteLayoutComponent implements OnInit {
     // this.updateHeaderHeight();
   }
 
-  ngAfterViewInit() {
-    // Wait for the view to be initialized
-    setTimeout(() => {
-      this.updateHeaderHeight();
-    }, 5000);
-  }
+  // ngAfterViewInit() {
+  //   // Wait for the view to be initialized
+  //   setTimeout(() => {
+  //     this.updateHeaderHeight();
+  //   }, 5000);
+  // }
 
-  private updateHeaderHeight() {
-    debugger
-    // Get the actual header height dynamically
-    const headerElement = this.el.nativeElement.querySelector('.head2');
-    this.headerHeight = headerElement.clientHeight;
-    console.log(this.headerHeight);
+  // private updateHeaderHeight() {
+  //   debugger
+  //   // Get the actual header height dynamically
+  //   const headerElement = this.el.nativeElement.querySelector('.head2');
+  //   this.headerHeight = headerElement.clientHeight;
+  //   console.log(this.headerHeight);
 
-    // Adjust the layout width based on the header height
-    const layoutElement = this.el.nativeElement.querySelector('.content-container');
-    this.renderer.setStyle(layoutElement, 'height', `calc(100vh - ${this.headerHeight}px)`);
-  }
+  //   // Adjust the layout width based on the header height
+  //   const layoutElement = this.el.nativeElement.querySelector('.content-container');
+  //   this.renderer.setStyle(layoutElement, 'height', `calc(100vh - ${this.headerHeight}px)`);
+  // }
 
   // private updateHeaderHeight() {
   //   debugger

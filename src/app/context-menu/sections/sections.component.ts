@@ -36,7 +36,7 @@ export class SectionsComponent implements OnInit {
   saveLoader: boolean = false;
   constructor(public dataSharedService: DataSharedService, private toastr: NzMessageService, private employeeService: EmployeeService,
     private dataService: DataService,
-    private applicationServices: ApplicationService, private cd: ChangeDetectorRef, private activatedRoute: ActivatedRoute , private router: Router) { }
+    private applicationServices: ApplicationService, private cd: ChangeDetectorRef, private activatedRoute: ActivatedRoute, private router: Router) { }
 
   ngOnInit(): void {
     this.screenName;
@@ -209,48 +209,15 @@ export class SectionsComponent implements OnInit {
   saveData1(data: any) {
     debugger
     // this.submit();
-    const checkPermission  = this.dataSharedService.getUserPolicyMenuList.find(a=>a.menuId ==  this.dataSharedService.currentMenuId);
+    const checkPermission = this.dataSharedService.getUserPolicyMenuList.find(a => a.menuId == this.dataSharedService.currentMenuId);
     let oneModelData = this.convertModel(this.dataModel);
     if (Object.keys(oneModelData).length > 0) {
       let findClickApi = data.appConfigurableEvent.filter((item: any) => item.rule.includes('post_'));
-
       let empData: any = {};
-      // if (window.location.href.includes('marketplace.com')) {
-      //   let mainTableName = "";
-      //   const removePrefix = (data: Record<string, any>): Record<string, any> => {
-      //     const newData: Record<string, any> = {};
-      //     for (const key in data) {
-      //       const lastDotIndex = key.lastIndexOf('.');
-      //       const newKey = lastDotIndex !== -1 ? key.substring(lastDotIndex + 1) : key;
-      //       newData[newKey] = data[key];
-
-      //       if (lastDotIndex !== -1 && mainTableName === "") {
-      //         mainTableName = key.substring(0, lastDotIndex);
-      //       }
-      //     }
-      //     return newData;
-      //   };
-
-      //   let result = removePrefix(oneModelData);
-      //   // result['id'] = '';
-      //   if (window.location.href.includes('marketplace.com')) {
-      //     empData = result;
-      //   } else {
-      //     empData[mainTableName] = result;
-      //   }
-      // }
-      // else {
-      //   empData = {
-      //     screenId: this.screenName,
-      //     modalData: oneModelData
-      //   };
-      // }
       empData = {
         screenId: this.screenName,
         modalData: oneModelData
       };
-
-
       console.log(empData);
       const tableNames = new Set();
 
@@ -279,20 +246,8 @@ export class SectionsComponent implements OnInit {
         //   alert("You did not have permission");
         //   return;
         // }
+        this.dataSharedService.sectionSubmit.next(false);
         findClickApi = data.appConfigurableEvent.filter((item: any) => item.rule.includes('post_'));
-        // let relationIds: any = remainingTables.map(table => `${Arraytables[0]}_id`);
-        // relationIds = relationIds.toString();
-        // // if (Object.keys(empData.modalData).length > 0)
-        // if (!findClickApi[0]?.rule?.includes('/market-place')) {
-        //   empData['id'] = findClickApi[0]?._id;
-        // }
-        // // empData.screenId = findClickApi[0].actions?.[0]?.url
-        // let apiUrl = '';
-        // if (findClickApi[0].actionType === 'api') {
-        //   apiUrl = findClickApi[0]?.rule;
-        // } else if (findClickApi[0]?.actionType === 'query') {
-        //   apiUrl = 'knex-query';
-        // }
         if (findClickApi?.[0]?._id) {
           this.dataSharedService.imageUrl = '';
           this.requestSubscription = this.activatedRoute.params.subscribe((params: Params) => {
@@ -309,30 +264,32 @@ export class SectionsComponent implements OnInit {
             next: (res) => {
               this.saveLoader = false;
               if (res) {
-                if (res[0]?.error)
-                  this.toastr.error(res[0]?.error, { nzDuration: 3000 });
+                if (data.saveRouteLink) {
+                  this.router.navigate(['/pages/' + data.saveRouteLink]);
+                }
                 else {
-                  this.toastr.success("Save Successfully", { nzDuration: 3000 });
-                  if(data.saveRouteLink){
-                    this.router.navigate(['/pages/' + data.saveRouteLink]);
-                  }
-                  let tableName: any = '';
-                  if (res[0]) {
-                    tableName = res[0].tableName ? res[0].tableName.split('.')[1].split('_')[0] : '';
-                  }
-                  this.setInternalValuesEmpty(this.dataModel);
-                  this.setInternalValuesEmpty(this.formlyModel);
-                  this.form.patchValue(this.formlyModel);
-                  if (tableName) {
-                    this.recursiveUpdate(this.formlyModel, tableName, res)
-                  }
-                
-                  this.getFromQuery(data);
-                  if (window.location.href.includes('taskmanager.com')) {
-                    this.dataSharedService.taskmanagerDrawer.next(true);
-                  }
-                  if (window.location.href.includes('spectrum.com')) {
-                    this.dataSharedService.spectrumControlNull.next(true);
+                  if (res[0]?.error)
+                    this.toastr.error(res[0]?.error, { nzDuration: 3000 });
+                  else {
+                    this.toastr.success("Save Successfully", { nzDuration: 3000 });
+                    let tableName: any = '';
+                    if (res[0]) {
+                      tableName = res[0].tableName ? res[0].tableName.split('.')[1].split('_')[0] : '';
+                    }
+                    this.setInternalValuesEmpty(this.dataModel);
+                    this.setInternalValuesEmpty(this.formlyModel);
+                    this.form.patchValue(this.formlyModel);
+                    if (tableName) {
+                      this.recursiveUpdate(this.formlyModel, tableName, res)
+                    }
+
+                    this.getFromQuery(data);
+                    if (window.location.href.includes('taskmanager.com')) {
+                      this.dataSharedService.taskmanagerDrawer.next(true);
+                    }
+                    if (window.location.href.includes('spectrum.com')) {
+                      this.dataSharedService.spectrumControlNull.next(true);
+                    }
                   }
                 }
               }
@@ -374,8 +331,9 @@ export class SectionsComponent implements OnInit {
             modalData: model.modalData
             // modalData: removePrefix(model.modalData)
           };
-          console.log(result);
+          // console.log(result);
           this.saveLoader = true;
+          this.dataSharedService.sectionSubmit.next(false);
           this.applicationServices.addNestCommonAPI('knex-query/execute-rules/' + findClickApi[0]._id, result).subscribe({
             next: (res) => {
               this.saveLoader = false;

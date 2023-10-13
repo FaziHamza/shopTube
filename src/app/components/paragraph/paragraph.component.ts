@@ -18,7 +18,11 @@ export class ParagraphComponent implements OnInit {
   }
   pageRoute(link: any) {
     if (link) {
-      this.router.navigate(['/pages/' + link]);
+      if (link.includes('https:')) {
+        window.open(link);
+      }else{
+        this.router.navigate(['/pages/' + link]);
+      }
     }
     if(this.data['appConfigurableEvent'] && this.data['appConfigurableEvent']?.length > 0) {
       let findClickApi = this.data?.appConfigurableEvent?.filter((item: any) => item.actions.some((action: any) => action.method === 'get' && action.actionType == 'api'));
@@ -31,7 +35,7 @@ export class ParagraphComponent implements OnInit {
     if(this.data.link){
       if(allow){
         this.currentColor = this.data.color;
-        this.data.color = 'blue';
+        this.data.color = this.data?.linkHoverColor || 'blue';
       }else{
         this.data.color = this.currentColor;
       }
