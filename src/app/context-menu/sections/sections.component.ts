@@ -53,37 +53,39 @@ export class SectionsComponent implements OnInit {
     // }
     this.requestSubscription = this.dataSharedService.sectionSubmit.subscribe({
       next: (res) => {
-        const checkButtonExist = this.findObjectById(this.sections, res.id);
-        // const checkButtonExist = this.isButtonIdExist(this.sections.children[1].children, res.id);
-        if (checkButtonExist?.appConfigurableEvent) {
-          let makeModel: any = {};
-          const filteredNodes = this.filterInputElements(this.sections.children[1].children);
-          for (let item in this.formlyModel) {
-            filteredNodes.forEach((element) => {
-              if (item == element.formly[0].fieldGroup[0].key) {
-                makeModel[item] = this.formlyModel[item]
-              }
-            });
-          }
-          this.dataModel = makeModel;
-          if (Object.keys(makeModel).length > 0) {
-            for (const key in this.dataModel) {
-              if (this.dataModel.hasOwnProperty(key)) {
-                const value = this.getValueFromNestedObject(key, this.formlyModel);
-                if (value !== undefined) {
-                  this.dataModel[key] = this.dataModel[key] ? this.dataModel[key] : value;
+        if (res) {
+          const checkButtonExist = this.findObjectById(this.sections, res.id);
+          // const checkButtonExist = this.isButtonIdExist(this.sections.children[1].children, res.id);
+          if (checkButtonExist?.appConfigurableEvent) {
+            let makeModel: any = {};
+            const filteredNodes = this.filterInputElements(this.sections.children[1].children);
+            for (let item in this.formlyModel) {
+              filteredNodes.forEach((element) => {
+                if (item == element.formly[0].fieldGroup[0].key) {
+                  makeModel[item] = this.formlyModel[item]
+                }
+              });
+            }
+            this.dataModel = makeModel;
+            if (Object.keys(makeModel).length > 0) {
+              for (const key in this.dataModel) {
+                if (this.dataModel.hasOwnProperty(key)) {
+                  const value = this.getValueFromNestedObject(key, this.formlyModel);
+                  if (value !== undefined) {
+                    this.dataModel[key] = this.dataModel[key] ? this.dataModel[key] : value;
+                  }
                 }
               }
             }
-          }
-          // this.submit();
-          if (Object.keys(makeModel).length > 0) {
-            this.dataModel = this.convertModel(this.formlyModel);
-            const allUndefined = Object.values(this.formlyModel).every((value) => value === undefined);
-            if (!allUndefined) {
-              this.saveData(res)
-            }
+            // this.submit();
+            if (Object.keys(makeModel).length > 0) {
+              this.dataModel = this.convertModel(this.formlyModel);
+              const allUndefined = Object.values(this.formlyModel).every((value) => value === undefined);
+              if (!allUndefined) {
+                this.saveData(res)
+              }
 
+            }
           }
         }
       },
@@ -250,15 +252,16 @@ export class SectionsComponent implements OnInit {
         findClickApi = data.appConfigurableEvent.filter((item: any) => item.rule.includes('post_'));
         if (findClickApi?.[0]?._id) {
           this.dataSharedService.imageUrl = '';
-          this.requestSubscription = this.activatedRoute.params.subscribe((params: Params) => {
-            if (params["id"]) {
-              for (const key in empData.modalData) {
-                if (key.includes('id') && key != 'id') {
-                  empData.modalData[key] = params["id"];
-                }
-              }
-            }
-          });
+          // this.requestSubscription = this.activatedRoute.params.subscribe((params: Params) => {
+          //   if (params["id"]) {
+          //     for (const key in empData.modalData) {
+          //       if (key.includes('id') && key != 'id') {
+          //         empData.modalData[key] = params["id"];
+          //       }
+          //     }
+          //   }
+          // });
+          this.dataSharedService.sectionSubmit.next(false);
           this.saveLoader = true;
           this.applicationServices.addNestCommonAPI('knex-query/execute-rules/' + findClickApi[0]?._id, empData).subscribe({
             next: (res) => {
@@ -308,6 +311,7 @@ export class SectionsComponent implements OnInit {
         //   alert("You did not have permission");
         //   return;
         // }
+        this.dataSharedService.sectionSubmit.next(false);
         findClickApi = data.appConfigurableEvent.filter((item: any) => item.rule.includes('put_'));
         if (this.dataModel) {
           // this.form.get(dynamicPropertyName);
@@ -1289,7 +1293,8 @@ export class SectionsComponent implements OnInit {
               // this.ruleObj = {
               //   [jsonScreenRes[0].key]: Joi.string().min(parseInt(minLimit, 10)).max(parseInt(maxLimit, 10)),
               // };
-              modelObj[jsonScreenRes[0].key] = this.formlyModel[jsonScreenRes[0].key];
+              modelObj[jsonScreenRes[0].key] = jsonScreenRes[0].key.includes('.') ? this.formlyModel[jsonScreenRes[0].key.split('.')[0]][jsonScreenRes[0].key.split('.')[1]] : this.formlyModel[jsonScreenRes[0].key];
+
               if (!minLimit && !maxLimit) {
                 if (modelObj[jsonScreenRes[0].key] instanceof Date) {
                   this.ruleObj = {
@@ -1321,20 +1326,23 @@ export class SectionsComponent implements OnInit {
               };
             }
             else if (jsonScreenRes[0].type == "pattern") {
-              modelObj[jsonScreenRes[0].key] = this.formlyModel[jsonScreenRes[0].key];
+              modelObj[jsonScreenRes[0].key] = jsonScreenRes[0].key.includes('.') ? this.formlyModel[jsonScreenRes[0].key.split('.')[0]][jsonScreenRes[0].key.split('.')[1]] : this.formlyModel[jsonScreenRes[0].key];
+
               this.ruleObj = {
                 [jsonScreenRes[0].key]: Joi.string().pattern(new RegExp(jsonScreenRes[0].pattern)),
               }
             }
             else if (jsonScreenRes[0].type == "reference") {
-              modelObj[jsonScreenRes[0].key] = this.formlyModel[jsonScreenRes[0].key];
+              modelObj[jsonScreenRes[0].key] = jsonScreenRes[0].key.includes('.') ? this.formlyModel[jsonScreenRes[0].key.split('.')[0]][jsonScreenRes[0].key.split('.')[1]] : this.formlyModel[jsonScreenRes[0].key];
+
               modelObj[jsonScreenRes[0].reference] = this.formlyModel[jsonScreenRes[0].reference];
               this.ruleObj = {
                 [jsonScreenRes[0].key]: Joi.ref(typeof jsonScreenRes[0].reference !== 'undefined' ? jsonScreenRes[0].reference : ''),
               }
             }
             else if (jsonScreenRes[0].type == "email") {
-              modelObj[jsonScreenRes[0].key] = this.formlyModel[jsonScreenRes[0].key];
+              modelObj[jsonScreenRes[0].key] = jsonScreenRes[0].key.includes('.') ? this.formlyModel[jsonScreenRes[0].key.split('.')[0]][jsonScreenRes[0].key.split('.')[1]] : this.formlyModel[jsonScreenRes[0].key];
+
               // this.ruleObj = {
               //   [jsonScreenRes[0].key]: Joi.string().email({ minDomainSegments: jsonScreenRes[0].emailTypeAllow.length, tlds: { allow: jsonScreenRes[0].emailTypeAllow } }),
               // }
