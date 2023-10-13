@@ -9,7 +9,7 @@
       <nz-header class="head2" *ngIf="!currentHeader">
         <st-menu [selectedTheme]="selectedTheme"></st-menu>
       </nz-header>
-      <st-pages class="head2" *ngIf="currentHeader" [resData]="currentHeader" [screenName]="domainData?.header?.navigation"
+      <st-pages class="head2 mb-2.5" *ngIf="currentHeader" [resData]="currentHeader" [screenName]="domainData?.header?.navigation"
         [screenId]="domainData?.header?.screenBuilderId"></st-pages>
       <nz-layout class=""
         [class]="'content-container' + (selectedTheme?.layout === 'horizental' ? ' b-horizontal-menu' : '') + (selectedTheme.layout == 'rtl' ? ' rtl-layout2' : '')">
