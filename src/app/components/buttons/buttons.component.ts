@@ -17,6 +17,7 @@ import { Subscription } from 'rxjs';
 export class ButtonsComponent implements OnInit {
   @Input() buttonData: any;
   @Input() title: any;
+  @Input() tableRowId: any;
   @Output() notify: EventEmitter<any> = new EventEmitter();
   bgColor: any;
   hoverTextColor: any;
@@ -68,7 +69,7 @@ export class ButtonsComponent implements OnInit {
         });
 
 
-        this.employeeService.jsonBuilderSetting(data.href).subscribe((res: any) => {
+        this.requestSubscription =   this.employeeService.jsonBuilderSetting(data.href).subscribe((res: any) => {
           if (res.length > 0) {
             const data = JSON.parse(res.data[0].screenData);
             this.nodes = this.jsonParseWithObject(this.jsonStringifyWithObject(data));
@@ -77,26 +78,39 @@ export class ButtonsComponent implements OnInit {
         });
         break;
       case '_blank':
-        this.requestSubscription = this.activatedRoute.params.subscribe((params: Params) => {
-          if (params["id"]) {
-            window.open('/pages/' + data.href + '/' + params["id"]);
-          } else {
-            window.open('/pages/' + data.href);
-          }
-        });
+        if (this.tableRowId) {
+          window.open('/pages/' + data.href + '/' + this.tableRowId);
+        } else {
+          this.requestSubscription = this.activatedRoute.params.subscribe((params: Params) => {
+            if (params["id"]) {
+              window.open('/pages/' + data.href + '/' + params["id"]);
+            } else {
+              window.open('/pages/' + data.href);
+            }
+          });
+        }
+
         break;
       case '':
-        this.requestSubscription = this.activatedRoute.params.subscribe((params: Params) => {
-          if (params["id"]) {
-            this.router.navigate(['/pages/' + data.href + '/' + params["id"]])
-          } else {
-            this.router.navigate(['/pages/' + data.href]);
-          }
-        });
+        if (this.tableRowId) {
+          this.router.navigate(['/pages/' + data.href + '/' + this.tableRowId]);
+        } else {
+          this.requestSubscription = this.activatedRoute.params.subscribe((params: Params) => {
+            if (params["id"]) {
+              this.router.navigate(['/pages/' + data.href + '/' + params["id"]])
+            } else {
+              this.router.navigate(['/pages/' + data.href]);
+            }
+          });
+        }
         break;
     }
   }
 
+  ngOnDestroy(){
+    if(this.requestSubscription)
+    this.requestSubscription.unsubscribe();
+  }
   getButtonType(type: any) {
     console.log(type);
     // if(type == 'insert')

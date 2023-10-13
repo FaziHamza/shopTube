@@ -19,9 +19,9 @@ const routes: Routes = [
       {
         path: 'pages/:schema',
         component: PagesComponent,
-        resolve: {
-          resolvedData: AuthResolverService
-        }
+        // resolve: {
+        //   resolvedData: AuthResolverService
+        // }
       },
       // {
       //   path: 'pages/:schema/:commentId',
@@ -30,9 +30,9 @@ const routes: Routes = [
       {
         path: 'pages/:schema/:id',
         component: PagesComponent,
-        resolve: {
-          resolvedData: AuthResolverService
-        }
+        // resolve: {
+        //   resolvedData: AuthResolverService
+        // }
       },
       {
         path: 'pages',

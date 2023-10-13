@@ -118,7 +118,7 @@ export class DynamicTableComponent implements OnInit {
         if (this.data.appConfigurableEvent && res) {
           let url = 'knex-query/getAction/' + this.data.eventActionconfig._id;
           this.saveLoader = true;
-          this.applicationService.callApi(url, 'get', '', '', '').subscribe({
+          this.requestSubscription =   this.applicationService.callApi(url, 'get', '', '', '').subscribe({
             next: (res) => {
               this.saveLoader = false;
               this.getFromQueryOnlyTable(this.data, res);
@@ -198,11 +198,11 @@ export class DynamicTableComponent implements OnInit {
   }
   onClickRow(api: string, item: any) {
     if (api) {
-      this.builderService.genericApis(api).subscribe({
+      this.requestSubscription =    this.builderService.genericApis(api).subscribe({
         next: (res: any) => {
-          this.builderService.genericApisDeleteWithId(api, item.id).subscribe({
+          this.requestSubscription =   this.builderService.genericApisDeleteWithId(api, item.id).subscribe({
             next: (res: any) => {
-              this.builderService.genericApisPost(api, item).subscribe({
+              this.requestSubscription =    this.builderService.genericApisPost(api, item).subscribe({
                 next: (res: any) => {
                   res;
                 }
@@ -215,11 +215,11 @@ export class DynamicTableComponent implements OnInit {
     }
   }
   onClickColumn(api: string, item: any) {
-    this.builderService.genericApisWithId(api, item.key).subscribe({
+    this.requestSubscription =  this.builderService.genericApisWithId(api, item.key).subscribe({
       next: (res: any) => {
-        this.builderService.genericApisDeleteWithId(api, res[0].id).subscribe({
+        this.requestSubscription =    this.builderService.genericApisDeleteWithId(api, res[0].id).subscribe({
           next: (res: any) => {
-            this.builderService.genericApisPost(api, item).subscribe({
+            this.requestSubscription =   this.builderService.genericApisPost(api, item).subscribe({
               next: (res: any) => {
                 res;
               }
@@ -259,7 +259,7 @@ export class DynamicTableComponent implements OnInit {
     // this.applyBusinessRule(getRes, this.data);
     // this.loadTableData();
     if (this.screenId)
-      this.applicationService.getNestCommonAPIById('cp/GridBusinessRule', this.screenId).subscribe(((getRes: any) => {
+    this.requestSubscription =  this.applicationService.getNestCommonAPIById('cp/GridBusinessRule', this.screenId).subscribe(((getRes: any) => {
         if (getRes.isSuccess) {
           if (getRes.data.length > 0) {
             // this.formlyModel['input34d5985f']='1313'
@@ -1136,7 +1136,7 @@ export class DynamicTableComponent implements OnInit {
       if (this.data?.targetId) {
         const pagination = '?page=' + index + '&pageSize=' + this.data?.end;
         this.pageSize = this.data.end
-        this.applicationService.getNestCommonAPIById(this.data?.serverApi + pagination, this.data?.targetId).subscribe(response => {
+        this.requestSubscription =  this.applicationService.getNestCommonAPIById(this.data?.serverApi + pagination, this.data?.targetId).subscribe(response => {
           if (response.isSuccess) {
             this.tableData = [];
             this.displayData = [];
@@ -1151,7 +1151,7 @@ export class DynamicTableComponent implements OnInit {
       else {
         const pagination = '?page=' + index + '&pageSize=' + this.data?.end;
         this.pageSize = this.data.end
-        this.employeeService.getSQLDatabaseTable(this.data?.serverApi + pagination).subscribe(response => {
+        this.requestSubscription = this.employeeService.getSQLDatabaseTable(this.data?.serverApi + pagination).subscribe(response => {
           if (response.isSuccess) {
             this.tableData = [];
             this.displayData = [];
@@ -1869,7 +1869,7 @@ export class DynamicTableComponent implements OnInit {
         let url = findClickApi[0]?._id ? `knex-query/executeDelete-rules/${findClickApi[0]?._id}` : '';
         if (url) {
           this.saveLoader = true;
-          this.applicationServices.addNestCommonAPI(url, model).subscribe({
+          this.requestSubscription =  this.applicationServices.addNestCommonAPI(url, model).subscribe({
             next: (res) => {
               if (res) {
                 this.toastr.success('Update Successfully', { nzDuration: 3000 });
@@ -2048,6 +2048,10 @@ export class DynamicTableComponent implements OnInit {
       }
     }
   }
+  ngOnDestroy(){
+    if(this.requestSubscription)
+    this.requestSubscription.unsubscribe();
+  }
   onFileSelected(event: any): void {
     if (!this.data?.tableName) {
       this.toastr.error('Required Impot table name', { nzDuration: 2000 });
@@ -2061,7 +2065,7 @@ export class DynamicTableComponent implements OnInit {
 
       const formData: FormData = new FormData();
       formData.append('file', file);
-      this.http
+    this.requestSubscription =    this.http
         .post(this.serverPath + '/knex-query/savecsv/' + this.data?.tableName, formData, {
           reportProgress: true, // Enable progress reporting
           observe: 'events', // Observe Http events
@@ -2082,7 +2086,7 @@ export class DynamicTableComponent implements OnInit {
                 if (this.data.appConfigurableEvent) {
                   let url = 'knex-query/getexecute-rules/' + this.data.eventActionconfig._id;
                   this.saveLoader = true;
-                  this.applicationService.callApi(url, 'get', '', '', '').subscribe({
+                  this.requestSubscription =    this.applicationService.callApi(url, 'get', '', '', '').subscribe({
                     next: (res) => {
                       this.getFromQueryOnlyTable(this.data, res);
                     },

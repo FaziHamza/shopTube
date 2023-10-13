@@ -36,7 +36,7 @@ export class SectionsComponent implements OnInit {
   saveLoader: boolean = false;
   constructor(public dataSharedService: DataSharedService, private toastr: NzMessageService, private employeeService: EmployeeService,
     private dataService: DataService,
-    private applicationServices: ApplicationService, private cd: ChangeDetectorRef, private activatedRoute: ActivatedRoute , private router: Router) { }
+    private applicationServices: ApplicationService, private cd: ChangeDetectorRef, private activatedRoute: ActivatedRoute, private router: Router) { }
 
   ngOnInit(): void {
     this.screenName;
@@ -53,37 +53,39 @@ export class SectionsComponent implements OnInit {
     // }
     this.requestSubscription = this.dataSharedService.sectionSubmit.subscribe({
       next: (res) => {
-        const checkButtonExist = this.findObjectById(this.sections, res.id);
-        // const checkButtonExist = this.isButtonIdExist(this.sections.children[1].children, res.id);
-        if (checkButtonExist?.appConfigurableEvent) {
-          let makeModel: any = {};
-          const filteredNodes = this.filterInputElements(this.sections.children[1].children);
-          for (let item in this.formlyModel) {
-            filteredNodes.forEach((element) => {
-              if (item == element.formly[0].fieldGroup[0].key) {
-                makeModel[item] = this.formlyModel[item]
-              }
-            });
-          }
-          this.dataModel = makeModel;
-          if (Object.keys(makeModel).length > 0) {
-            for (const key in this.dataModel) {
-              if (this.dataModel.hasOwnProperty(key)) {
-                const value = this.getValueFromNestedObject(key, this.formlyModel);
-                if (value !== undefined) {
-                  this.dataModel[key] = this.dataModel[key] ? this.dataModel[key] : value;
+        if (res) {
+          const checkButtonExist = this.findObjectById(this.sections, res.id);
+          // const checkButtonExist = this.isButtonIdExist(this.sections.children[1].children, res.id);
+          if (checkButtonExist?.appConfigurableEvent) {
+            let makeModel: any = {};
+            const filteredNodes = this.filterInputElements(this.sections.children[1].children);
+            for (let item in this.formlyModel) {
+              filteredNodes.forEach((element) => {
+                if (item == element.formly[0].fieldGroup[0].key) {
+                  makeModel[item] = this.formlyModel[item]
+                }
+              });
+            }
+            this.dataModel = makeModel;
+            if (Object.keys(makeModel).length > 0) {
+              for (const key in this.dataModel) {
+                if (this.dataModel.hasOwnProperty(key)) {
+                  const value = this.getValueFromNestedObject(key, this.formlyModel);
+                  if (value !== undefined) {
+                    this.dataModel[key] = this.dataModel[key] ? this.dataModel[key] : value;
+                  }
                 }
               }
             }
-          }
-          // this.submit();
-          if (Object.keys(makeModel).length > 0) {
-            this.dataModel = this.convertModel(this.formlyModel);
-            const allUndefined = Object.values(this.formlyModel).every((value) => value === undefined);
-            if (!allUndefined) {
-              this.saveData(res)
-            }
+            // this.submit();
+            if (Object.keys(makeModel).length > 0) {
+              this.dataModel = this.convertModel(this.formlyModel);
+              const allUndefined = Object.values(this.formlyModel).every((value) => value === undefined);
+              if (!allUndefined) {
+                this.saveData(res)
+              }
 
+            }
           }
         }
       },
@@ -189,7 +191,7 @@ export class SectionsComponent implements OnInit {
     // Note we need to save JSON of Button for api in JSON.stringify
     let apiJSON = JSON.parse(api);
     let findClickApi = apiJSON.filter((item: any) => item.actions.some((action: any) => action.method === 'POST' && action.actionType == 'API'));
-    this.applicationServices.addNestCommonAPI(findClickApi.length > 0 ? findClickApi[0].actions?.[0]?.url : 'knex-query', result).subscribe({
+    this.requestSubscription = this.applicationServices.addNestCommonAPI(findClickApi.length > 0 ? findClickApi[0].actions?.[0]?.url : 'knex-query', result).subscribe({
       next: (res) => {
         if (res[0]?.error)
           this.toastr.error(res[0]?.error, { nzDuration: 3000 });
@@ -209,48 +211,15 @@ export class SectionsComponent implements OnInit {
   saveData1(data: any) {
     debugger
     // this.submit();
-    const checkPermission  = this.dataSharedService.getUserPolicyMenuList.find(a=>a.menuId ==  this.dataSharedService.currentMenuId);
+    const checkPermission = this.dataSharedService.getUserPolicyMenuList.find(a => a.menuId == this.dataSharedService.currentMenuId);
     let oneModelData = this.convertModel(this.dataModel);
     if (Object.keys(oneModelData).length > 0) {
       let findClickApi = data.appConfigurableEvent.filter((item: any) => item.rule.includes('post_'));
-
       let empData: any = {};
-      // if (window.location.href.includes('marketplace.com')) {
-      //   let mainTableName = "";
-      //   const removePrefix = (data: Record<string, any>): Record<string, any> => {
-      //     const newData: Record<string, any> = {};
-      //     for (const key in data) {
-      //       const lastDotIndex = key.lastIndexOf('.');
-      //       const newKey = lastDotIndex !== -1 ? key.substring(lastDotIndex + 1) : key;
-      //       newData[newKey] = data[key];
-
-      //       if (lastDotIndex !== -1 && mainTableName === "") {
-      //         mainTableName = key.substring(0, lastDotIndex);
-      //       }
-      //     }
-      //     return newData;
-      //   };
-
-      //   let result = removePrefix(oneModelData);
-      //   // result['id'] = '';
-      //   if (window.location.href.includes('marketplace.com')) {
-      //     empData = result;
-      //   } else {
-      //     empData[mainTableName] = result;
-      //   }
-      // }
-      // else {
-      //   empData = {
-      //     screenId: this.screenName,
-      //     modalData: oneModelData
-      //   };
-      // }
       empData = {
         screenId: this.screenName,
         modalData: oneModelData
       };
-
-
       console.log(empData);
       const tableNames = new Set();
 
@@ -279,20 +248,8 @@ export class SectionsComponent implements OnInit {
         //   alert("You did not have permission");
         //   return;
         // }
+        this.dataSharedService.sectionSubmit.next(false);
         findClickApi = data.appConfigurableEvent.filter((item: any) => item.rule.includes('post_'));
-        // let relationIds: any = remainingTables.map(table => `${Arraytables[0]}_id`);
-        // relationIds = relationIds.toString();
-        // // if (Object.keys(empData.modalData).length > 0)
-        // if (!findClickApi[0]?.rule?.includes('/market-place')) {
-        //   empData['id'] = findClickApi[0]?._id;
-        // }
-        // // empData.screenId = findClickApi[0].actions?.[0]?.url
-        // let apiUrl = '';
-        // if (findClickApi[0].actionType === 'api') {
-        //   apiUrl = findClickApi[0]?.rule;
-        // } else if (findClickApi[0]?.actionType === 'query') {
-        //   apiUrl = 'knex-query';
-        // }
         if (findClickApi?.[0]?._id) {
           this.dataSharedService.imageUrl = '';
           this.requestSubscription = this.activatedRoute.params.subscribe((params: Params) => {
@@ -305,34 +262,36 @@ export class SectionsComponent implements OnInit {
             }
           });
           this.saveLoader = true;
-          this.applicationServices.addNestCommonAPI('knex-query/execute-rules/' + findClickApi[0]?._id, empData).subscribe({
+          this.requestSubscription =  this.applicationServices.addNestCommonAPI('knex-query/execute-rules/' + findClickApi[0]?._id, empData).subscribe({
             next: (res) => {
               this.saveLoader = false;
               if (res) {
-                if (res[0]?.error)
-                  this.toastr.error(res[0]?.error, { nzDuration: 3000 });
+                if (data.saveRouteLink) {
+                  this.router.navigate(['/pages/' + data.saveRouteLink]);
+                }
                 else {
-                  this.toastr.success("Save Successfully", { nzDuration: 3000 });
-                  if(data.saveRouteLink){
-                    this.router.navigate(['/pages/' + data.saveRouteLink]);
-                  }
-                  let tableName: any = '';
-                  if (res[0]) {
-                    tableName = res[0].tableName ? res[0].tableName.split('.')[1].split('_')[0] : '';
-                  }
-                  this.setInternalValuesEmpty(this.dataModel);
-                  this.setInternalValuesEmpty(this.formlyModel);
-                  this.form.patchValue(this.formlyModel);
-                  if (tableName) {
-                    this.recursiveUpdate(this.formlyModel, tableName, res)
-                  }
-                
-                  this.getFromQuery(data);
-                  if (window.location.href.includes('taskmanager.com')) {
-                    this.dataSharedService.taskmanagerDrawer.next(true);
-                  }
-                  if (window.location.href.includes('spectrum.com')) {
-                    this.dataSharedService.spectrumControlNull.next(true);
+                  if (res[0]?.error)
+                    this.toastr.error(res[0]?.error, { nzDuration: 3000 });
+                  else {
+                    this.toastr.success("Save Successfully", { nzDuration: 3000 });
+                    let tableName: any = '';
+                    if (res[0]) {
+                      tableName = res[0].tableName ? res[0].tableName.split('.')[1].split('_')[0] : '';
+                    }
+                    this.setInternalValuesEmpty(this.dataModel);
+                    this.setInternalValuesEmpty(this.formlyModel);
+                    this.form.patchValue(this.formlyModel);
+                    if (tableName) {
+                      this.recursiveUpdate(this.formlyModel, tableName, res)
+                    }
+
+                    this.getFromQuery(data);
+                    if (window.location.href.includes('taskmanager.com')) {
+                      this.dataSharedService.taskmanagerDrawer.next(true);
+                    }
+                    if (window.location.href.includes('spectrum.com')) {
+                      this.dataSharedService.spectrumControlNull.next(true);
+                    }
                   }
                 }
               }
@@ -351,6 +310,7 @@ export class SectionsComponent implements OnInit {
         //   alert("You did not have permission");
         //   return;
         // }
+        this.dataSharedService.sectionSubmit.next(false);
         findClickApi = data.appConfigurableEvent.filter((item: any) => item.rule.includes('put_'));
         if (this.dataModel) {
           // this.form.get(dynamicPropertyName);
@@ -374,9 +334,10 @@ export class SectionsComponent implements OnInit {
             modalData: model.modalData
             // modalData: removePrefix(model.modalData)
           };
-          console.log(result);
+          // console.log(result);
           this.saveLoader = true;
-          this.applicationServices.addNestCommonAPI('knex-query/execute-rules/' + findClickApi[0]._id, result).subscribe({
+          this.dataSharedService.sectionSubmit.next(false);
+          this.requestSubscription =   this.applicationServices.addNestCommonAPI('knex-query/execute-rules/' + findClickApi[0]._id, result).subscribe({
             next: (res) => {
               this.saveLoader = false;
               this.toastr.success("Update Successfully", { nzDuration: 3000 });
@@ -455,7 +416,7 @@ export class SectionsComponent implements OnInit {
         this.saveLoader = true;
         const applicationId = localStorage.getItem('applicationId') || '';
         let savedGroupData = await this.dataService.getNodes(JSON.parse(applicationId), this.screenName, "Table");
-        this.employeeService.getSQLDatabaseTable(url).subscribe({
+        this.requestSubscription =  this.employeeService.getSQLDatabaseTable(url).subscribe({
           next: async (res) => {
             this.saveLoader = false;
             if (tableData && res?.isSuccess) {
@@ -809,7 +770,7 @@ export class SectionsComponent implements OnInit {
       this.gridRules(this.gridRulesData, data);
     }
     else {
-      this.applicationServices.getNestCommonAPIById('cp/GridBusinessRule', this.screenId).subscribe(((getRes: any) => {
+      this.requestSubscription =  this.applicationServices.getNestCommonAPIById('cp/GridBusinessRule', this.screenId).subscribe(((getRes: any) => {
         if (getRes.isSuccess) {
           if (getRes.data.length > 0) {
             this.gridRulesData = getRes;
@@ -1331,7 +1292,8 @@ export class SectionsComponent implements OnInit {
               // this.ruleObj = {
               //   [jsonScreenRes[0].key]: Joi.string().min(parseInt(minLimit, 10)).max(parseInt(maxLimit, 10)),
               // };
-              modelObj[jsonScreenRes[0].key] = this.formlyModel[jsonScreenRes[0].key];
+              modelObj[jsonScreenRes[0].key] = jsonScreenRes[0].key.includes('.') ? this.formlyModel[jsonScreenRes[0].key.split('.')[0]][jsonScreenRes[0].key.split('.')[1]] : this.formlyModel[jsonScreenRes[0].key];
+
               if (!minLimit && !maxLimit) {
                 if (modelObj[jsonScreenRes[0].key] instanceof Date) {
                   this.ruleObj = {
@@ -1363,20 +1325,23 @@ export class SectionsComponent implements OnInit {
               };
             }
             else if (jsonScreenRes[0].type == "pattern") {
-              modelObj[jsonScreenRes[0].key] = this.formlyModel[jsonScreenRes[0].key];
+              modelObj[jsonScreenRes[0].key] = jsonScreenRes[0].key.includes('.') ? this.formlyModel[jsonScreenRes[0].key.split('.')[0]][jsonScreenRes[0].key.split('.')[1]] : this.formlyModel[jsonScreenRes[0].key];
+
               this.ruleObj = {
                 [jsonScreenRes[0].key]: Joi.string().pattern(new RegExp(jsonScreenRes[0].pattern)),
               }
             }
             else if (jsonScreenRes[0].type == "reference") {
-              modelObj[jsonScreenRes[0].key] = this.formlyModel[jsonScreenRes[0].key];
+              modelObj[jsonScreenRes[0].key] = jsonScreenRes[0].key.includes('.') ? this.formlyModel[jsonScreenRes[0].key.split('.')[0]][jsonScreenRes[0].key.split('.')[1]] : this.formlyModel[jsonScreenRes[0].key];
+
               modelObj[jsonScreenRes[0].reference] = this.formlyModel[jsonScreenRes[0].reference];
               this.ruleObj = {
                 [jsonScreenRes[0].key]: Joi.ref(typeof jsonScreenRes[0].reference !== 'undefined' ? jsonScreenRes[0].reference : ''),
               }
             }
             else if (jsonScreenRes[0].type == "email") {
-              modelObj[jsonScreenRes[0].key] = this.formlyModel[jsonScreenRes[0].key];
+              modelObj[jsonScreenRes[0].key] = jsonScreenRes[0].key.includes('.') ? this.formlyModel[jsonScreenRes[0].key.split('.')[0]][jsonScreenRes[0].key.split('.')[1]] : this.formlyModel[jsonScreenRes[0].key];
+
               // this.ruleObj = {
               //   [jsonScreenRes[0].key]: Joi.string().email({ minDomainSegments: jsonScreenRes[0].emailTypeAllow.length, tlds: { allow: jsonScreenRes[0].emailTypeAllow } }),
               // }
@@ -1479,9 +1444,6 @@ export class SectionsComponent implements OnInit {
     }
     return null;
   }
-  // ngOnDestroy() {
-  //   this.requestSubscription.unsubscribe();
-  // }
 
   recursiveUpdate(obj: any, tableName: any, res: any) {
     for (const key in obj) {
@@ -1497,6 +1459,7 @@ export class SectionsComponent implements OnInit {
     }
   }
   ngOnDestroy(): void {
-    this.requestSubscription.unsubscribe();
+    if(this.requestSubscription)
+      this.requestSubscription.unsubscribe();
   }
 }

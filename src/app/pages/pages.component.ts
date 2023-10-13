@@ -198,88 +198,56 @@ export class PagesComponent implements OnInit {
         console.error(err);
       }
     })
-    this.routeSubscriber();
-    // if (this.router.url.includes('/pages'))
-    //   this.isPageContextShow = true;
+    this.requestSubscription = this.activatedRoute.params.subscribe((params: Params) => {
+      this.applicationService.getNestCommonAPI('cp/auth/pageAuth/' + params["schema"]).subscribe(res => {
+        if (res?.data)
+          this.initiliaze(params);
+        else {
+          this.router.navigateByUrl('permission-denied')
+        }
+      })
+
+    })
+    // this.routeSubscriber();
 
 
   }
-  routeSubscriber() {
-    this.requestSubscription = this.activatedRoute.data.subscribe(
-      ({ resolvedData }) => {
-        if (resolvedData) {
-          if (resolvedData?.[0]?.data)
-            this.initiliaze();
-          else {
-            this.router.navigateByUrl('permission-denied')
-          }
-        }
+  // routeSubscriber() {
+  //   this.requestSubscription = this.activatedRoute.data.subscribe(
+  //     ({ resolvedData }) => {
+  //       if (resolvedData) {
+  //         if (resolvedData?.[0]?.data)
+  //           this.initiliaze();
+  //         else {
+  //           this.router.navigateByUrl('permission-denied')
+  //         }
+  //       }
 
-      }
-    );
-  };
-  initiliaze() {
+  //     }
+  //   );
+  // };
+  initiliaze(params: any) {
     if (this.data.length == 0) {
-      this.requestSubscription = this.activatedRoute.params.subscribe((params: Params) => {
-        // // This is used in SiteLayoutComponent.component to show active route and show data on base of active route
-        // if (params["application"] && params["module"]) {
-        //   let activeModule = params["module"].replace('-', ' ');
-        //   let activeApplication = params["application"].replace('-', ' ');
-        //   if (params["module"] && (this.dataSharedService.checkModule !== params["module"] || this.dataSharedService.checkModule === '')) {
-        //     this.dataSharedService.checkModule = params["module"];
-        //     if (params["module"]) {
-        //       this.requestSubscription = this.employeeService.headerFooter(params["module"]).subscribe({
-        //         next: (res: any) => {
-        //           if (res.length > 0) {
-        //             this.setData(res[0]);
+      if (params["schema"]) {
 
-        //             if (res.length > 1) {
-        //               this.setData(res[1]);
-        //             }
-        //           }
-        //         },
-        //         error: (err) => {
-        //           console.error(err);
-        //         }
-        //       });
-        //     }
-        //     this.dataSharedService.urlModule.next({ aplication: activeApplication, module: activeModule });
-        //   }
-        //   else {
-        //   }
-        // }
-        // else {
-        //   // this.dataSharedService.urlModule.next({ aplication: '', module: '' });
-        // }
-        // ----------------------------------------------------------------//
-
-
-        // ------------------
-        //  Working on Load
-        // ------------------
-
-        if (params["schema"]) {
-
-          if (params["id"]) {
-            this.tableRowID = params["id"];
-          }
-          this.dataSharedService.defaultPageNodes = '';
-          this.isPageContextShow = true;
-          // this.dataSharedService.urlModule.next({ aplication: '', module: '' });
-          this.navigation = params["schema"];
-          this.getBuilderScreen(params);
-          this.getTaskManagementIssuesFunc(params["schema"], JSON.parse(localStorage.getItem('applicationId')!));
-
-          // this.requestSubscription = this.applicationService.getNestCommonAPI("cp/getuserCommentsByApp/UserComment/pages/" + params["schema"]).subscribe((res: any) => {
-          //   if (res.isSuccess) {
-          //     let commentList = res.data
-          //     this.dataSharedService.screenCommentList = commentList;
-
-          //   }
-          // })
+        if (params["id"]) {
+          this.tableRowID = params["id"];
         }
+        this.dataSharedService.defaultPageNodes = '';
+        this.isPageContextShow = true;
+        // this.dataSharedService.urlModule.next({ aplication: '', module: '' });
+        this.navigation = params["schema"];
+        this.getBuilderScreen(params);
+        this.getTaskManagementIssuesFunc(params["schema"], JSON.parse(localStorage.getItem('applicationId')!));
 
-      });
+        // this.requestSubscription = this.applicationService.getNestCommonAPI("cp/getuserCommentsByApp/UserComment/pages/" + params["schema"]).subscribe((res: any) => {
+        //   if (res.isSuccess) {
+        //     let commentList = res.data
+        //     this.dataSharedService.screenCommentList = commentList;
+
+        //   }
+        // })
+      }
     }
     //
     else if (this.data.length > 0) {
@@ -435,7 +403,7 @@ export class PagesComponent implements OnInit {
         this.toastr.error("An error occurred", { nzDuration: 3000 });
       }
     })
-
+    debugger
     this.pageRuleList = this.actionRuleList.filter(a => a.componentFrom === this.resData?.[0]?.key && a.action == 'load');
     if (this.tableRowID) {
       if (this.pageRuleList.length > 0) {
@@ -2168,7 +2136,7 @@ export class PagesComponent implements OnInit {
 
                           this.updateNodes();
                           const key = getActions.targetId
-                          this.form.patchValue({key : parseInt(this.formlyModel[key])});
+                          this.form.patchValue({ key: parseInt(this.formlyModel[key]) });
                           // this.formValueAssign(this.editData);
                         }
                       })

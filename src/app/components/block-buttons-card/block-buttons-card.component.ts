@@ -17,6 +17,7 @@ export class BlockButtonsCardComponent {
   hoverTextColor: any;
   @Input() softIconList: any;
   @Input() title: any;
+  @Input() tableRowId: any;
   @Output() notify: EventEmitter<any> = new EventEmitter();
   dataSrc: any;
   isShow: Boolean = false;
