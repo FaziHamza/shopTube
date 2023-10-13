@@ -358,7 +358,7 @@
                         <div *ngFor="let childData of data.children">
                           <div *ngIf="childData.type =='button' && childData?.id == header?.key"
                             class="{{childData?.className}}">
-                            <st-block-buttons-card [title]="item[header.key]" [softIconList]="childData">
+                            <st-block-buttons-card [tableRowId]="item['id']" [title]="item[header.key]" [softIconList]="childData">
                             </st-block-buttons-card>
                           </div>
                         </div>

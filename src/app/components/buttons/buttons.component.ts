@@ -17,6 +17,7 @@ import { Subscription } from 'rxjs';
 export class ButtonsComponent implements OnInit {
   @Input() buttonData: any;
   @Input() title: any;
+  @Input() tableRowId: any;
   @Output() notify: EventEmitter<any> = new EventEmitter();
   bgColor: any;
   hoverTextColor: any;
@@ -77,22 +78,31 @@ export class ButtonsComponent implements OnInit {
         });
         break;
       case '_blank':
-        this.requestSubscription = this.activatedRoute.params.subscribe((params: Params) => {
-          if (params["id"]) {
-            window.open('/pages/' + data.href + '/' + params["id"]);
-          } else {
-            window.open('/pages/' + data.href);
-          }
-        });
+        if (this.tableRowId) {
+          window.open('/pages/' + data.href + '/' + this.tableRowId);
+        } else {
+          this.requestSubscription = this.activatedRoute.params.subscribe((params: Params) => {
+            if (params["id"]) {
+              window.open('/pages/' + data.href + '/' + params["id"]);
+            } else {
+              window.open('/pages/' + data.href);
+            }
+          });
+        }
+
         break;
       case '':
-        this.requestSubscription = this.activatedRoute.params.subscribe((params: Params) => {
-          if (params["id"]) {
-            this.router.navigate(['/pages/' + data.href + '/' + params["id"]])
-          } else {
-            this.router.navigate(['/pages/' + data.href]);
-          }
-        });
+        if (this.tableRowId) {
+          this.router.navigate(['/pages/' + data.href + '/' + this.tableRowId]);
+        } else {
+          this.requestSubscription = this.activatedRoute.params.subscribe((params: Params) => {
+            if (params["id"]) {
+              this.router.navigate(['/pages/' + data.href + '/' + params["id"]])
+            } else {
+              this.router.navigate(['/pages/' + data.href]);
+            }
+          });
+        }
         break;
     }
   }
