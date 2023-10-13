@@ -5,7 +5,7 @@
     'horizental-boxed': selectedTheme?.layoutWidth == 'boxed' &&  selectedTheme?.layout == 'horizental',
     'horizental-fluid': selectedTheme?.layoutWidth == 'fluid' &&  selectedTheme?.layout == 'horizental'
   }">
-    <nz-layout class="app-layout">
+    <nz-layout class="app-layout !bg-slate-50">
       <nz-header class="head2" *ngIf="!currentHeader">
         <st-menu [selectedTheme]="selectedTheme"></st-menu>
       </nz-header>
@@ -52,7 +52,7 @@
               (notify)="loadTabsAndButtons($event)"></st-app-side-menu>
           </div>
         </nz-sider>
-        <nz-content class="relative" >
+        <nz-content class="relative !bg-slate-50" >
           <ng-container *ngIf="tabs.length">
             <ng-container *ngFor="let item of tabs">
               <st-layout-tabs-dropdown *ngIf="item.type == 'mainTab'" [layoutTabsDropdownData]="item"
