@@ -189,7 +189,7 @@ export class SectionsComponent implements OnInit {
     // Note we need to save JSON of Button for api in JSON.stringify
     let apiJSON = JSON.parse(api);
     let findClickApi = apiJSON.filter((item: any) => item.actions.some((action: any) => action.method === 'POST' && action.actionType == 'API'));
-    this.applicationServices.addNestCommonAPI(findClickApi.length > 0 ? findClickApi[0].actions?.[0]?.url : 'knex-query', result).subscribe({
+    this.requestSubscription = this.applicationServices.addNestCommonAPI(findClickApi.length > 0 ? findClickApi[0].actions?.[0]?.url : 'knex-query', result).subscribe({
       next: (res) => {
         if (res[0]?.error)
           this.toastr.error(res[0]?.error, { nzDuration: 3000 });
@@ -295,7 +295,7 @@ export class SectionsComponent implements OnInit {
         // }
         if (findClickApi?.[0]?._id) {
           this.dataSharedService.imageUrl = '';
-          this.requestSubscription = this.activatedRoute.params.subscribe((params: Params) => {
+          this.requestSubscription =    this.requestSubscription = this.activatedRoute.params.subscribe((params: Params) => {
             if (params["id"]) {
               for (const key in empData.modalData) {
                 if (key.includes('id') && key != 'id') {
@@ -305,7 +305,7 @@ export class SectionsComponent implements OnInit {
             }
           });
           this.saveLoader = true;
-          this.applicationServices.addNestCommonAPI('knex-query/execute-rules/' + findClickApi[0]?._id, empData).subscribe({
+          this.requestSubscription =  this.applicationServices.addNestCommonAPI('knex-query/execute-rules/' + findClickApi[0]?._id, empData).subscribe({
             next: (res) => {
               this.saveLoader = false;
               if (res) {
@@ -376,7 +376,7 @@ export class SectionsComponent implements OnInit {
           };
           console.log(result);
           this.saveLoader = true;
-          this.applicationServices.addNestCommonAPI('knex-query/execute-rules/' + findClickApi[0]._id, result).subscribe({
+          this.requestSubscription =  this.applicationServices.addNestCommonAPI('knex-query/execute-rules/' + findClickApi[0]._id, result).subscribe({
             next: (res) => {
               this.saveLoader = false;
               this.toastr.success("Update Successfully", { nzDuration: 3000 });
@@ -455,7 +455,7 @@ export class SectionsComponent implements OnInit {
         this.saveLoader = true;
         const applicationId = localStorage.getItem('applicationId') || '';
         let savedGroupData = await this.dataService.getNodes(JSON.parse(applicationId), this.screenName, "Table");
-        this.employeeService.getSQLDatabaseTable(url).subscribe({
+        this.requestSubscription =  this.employeeService.getSQLDatabaseTable(url).subscribe({
           next: async (res) => {
             this.saveLoader = false;
             if (tableData && res?.isSuccess) {
@@ -809,7 +809,7 @@ export class SectionsComponent implements OnInit {
       this.gridRules(this.gridRulesData, data);
     }
     else {
-      this.applicationServices.getNestCommonAPIById('cp/GridBusinessRule', this.screenId).subscribe(((getRes: any) => {
+      this.requestSubscription =  this.applicationServices.getNestCommonAPIById('cp/GridBusinessRule', this.screenId).subscribe(((getRes: any) => {
         if (getRes.isSuccess) {
           if (getRes.data.length > 0) {
             this.gridRulesData = getRes;
@@ -1479,9 +1479,6 @@ export class SectionsComponent implements OnInit {
     }
     return null;
   }
-  // ngOnDestroy() {
-  //   this.requestSubscription.unsubscribe();
-  // }
 
   recursiveUpdate(obj: any, tableName: any, res: any) {
     for (const key in obj) {
@@ -1497,6 +1494,7 @@ export class SectionsComponent implements OnInit {
     }
   }
   ngOnDestroy(): void {
-    this.requestSubscription.unsubscribe();
+    if(this.requestSubscription)
+      this.requestSubscription.unsubscribe();
   }
 }

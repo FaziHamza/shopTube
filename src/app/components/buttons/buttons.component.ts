@@ -68,7 +68,7 @@ export class ButtonsComponent implements OnInit {
         });
 
 
-        this.employeeService.jsonBuilderSetting(data.href).subscribe((res: any) => {
+        this.requestSubscription =   this.employeeService.jsonBuilderSetting(data.href).subscribe((res: any) => {
           if (res.length > 0) {
             const data = JSON.parse(res.data[0].screenData);
             this.nodes = this.jsonParseWithObject(this.jsonStringifyWithObject(data));
@@ -97,6 +97,10 @@ export class ButtonsComponent implements OnInit {
     }
   }
 
+  ngOnDestroy(){
+    if(this.requestSubscription)
+    this.requestSubscription.unsubscribe();
+  }
   getButtonType(type: any) {
     console.log(type);
     // if(type == 'insert')
