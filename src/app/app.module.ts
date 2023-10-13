@@ -51,6 +51,7 @@ import { AudioRecordingService } from './services/audio-recording.service';
 import { VideoRecordingService } from './services/video-recording.service';
 import { NotFoundComponent } from './auth/not-found/not-found.component';
 import { PermissionDeniedComponent } from './auth/permission-denied/permission-denied.component';
+import { UserComponent } from './auth/user/user.component';
 
 @NgModule({
   declarations: [
@@ -65,6 +66,7 @@ import { PermissionDeniedComponent } from './auth/permission-denied/permission-d
     TableRowComponent,
     NotFoundComponent,
     PermissionDeniedComponent,
+    UserComponent
     // MultiFileUploadWrapperComponent,
   ],
   imports: [

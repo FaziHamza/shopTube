@@ -20,6 +20,7 @@ import { BacklogComponent } from '../Builder-module/backlog/backlog.component';
 import { PolicyComponent } from '../admin/policy/policy.component';
 import { PolicyMappingComponent } from '../admin/policy-mapping/policy-mapping.component';
 import { UserMappingComponent } from '../admin/user-mapping/user-mapping.component';
+import { UserComponent } from '../auth/user/user.component';
 
 const routes: Routes = [
   {
@@ -101,6 +102,10 @@ const routes: Routes = [
       {
         path: 'user-mapping',
         component: UserMappingComponent
+      },
+      {
+        path: 'user',
+        component: UserComponent
       },
     ]
   },
