@@ -43,7 +43,7 @@
       </div>
     </nz-header>
     <nz-layout class="main-layout2 ">
-      <nz-sider class="menu-sidebar shade" nzTheme="light" nzCollapsible nzWidth="240px" nzBreakpoint="xxl" 
+      <nz-sider class="menu-sidebar" nzTheme="light" nzCollapsible nzWidth="240px" nzBreakpoint="xxl" 
         [(nzCollapsed)]="selectedTheme.isCollapsed" [nzTrigger]="null">
         <ul nz-menu nzMode="inline" [nzInlineCollapsed]="selectedTheme.isCollapsed">
           <li nz-menu-item *ngFor="let menu of menus" [routerLink]="menu.link" routerLinkActive="active" nz-tooltip
