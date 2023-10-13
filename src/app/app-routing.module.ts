@@ -29,7 +29,10 @@ const routes: Routes = [
       // },
       {
         path: 'pages/:schema/:id',
-        component: PagesComponent
+        component: PagesComponent,
+        resolve: {
+          resolvedData: AuthResolverService
+        }
       },
       {
         path: 'pages',

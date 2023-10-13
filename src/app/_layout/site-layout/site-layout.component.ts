@@ -161,7 +161,6 @@ export class SiteLayoutComponent implements OnInit {
   }
 
   private updateHeaderHeight() {
-    debugger
     // Get the actual header height dynamically
     const headerElement = this.el.nativeElement.querySelector('.head2');
     this.headerHeight = headerElement.clientHeight;

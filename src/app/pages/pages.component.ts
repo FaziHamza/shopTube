@@ -27,7 +27,7 @@ export class PagesComponent implements OnInit {
     private toastr: NzMessageService,
     private el: ElementRef,
     public dataSharedService: DataSharedService, private router: Router) {
-    this.dataSharedService.change.subscribe(({ event, field }) => {
+    this.requestSubscription = this.dataSharedService.change.subscribe(({ event, field }) => {
       if (field && event && this.navigation)
         if (this.formlyModel) {
           // this.formlyModel[field.key] = event;
@@ -58,7 +58,9 @@ export class PagesComponent implements OnInit {
           this.formlyModel[field.key] = event;
           console.log("key value : " + event);
           this.checkConditionUIRule(field, event);
-          this.formlyModel[field.key] = event;
+          if (this.countRule < 3)
+            this.formValueAssign(this.editData);
+          // this.formlyModel[field.key] = event;
         } else {
           if (this.navigation)
             this.checkConditionUIRule(field, event);
@@ -67,11 +69,11 @@ export class PagesComponent implements OnInit {
 
 
     });
-    this.dataSharedService.gridData.subscribe(res => {
+    this.requestSubscription = this.dataSharedService.gridData.subscribe(res => {
       if (res)
         this.saveDataGrid(res);
     });
-    this.dataSharedService.moveLink.subscribe(res => {
+    this.requestSubscription = this.dataSharedService.moveLink.subscribe(res => {
       this.scrollToElement(res);
     })
     // this.dataSharedService.repeatableControll.subscribe(res => {
@@ -100,6 +102,7 @@ export class PagesComponent implements OnInit {
   tableRowID: any = '';
   pageRuleList: any[] = [];
   saveLoader: boolean = false;
+  countRule: number = 0;
   ngOnInit(): void {
     // console.log("pages")
     // 
@@ -207,7 +210,7 @@ export class PagesComponent implements OnInit {
         if (resolvedData) {
           if (resolvedData?.[0]?.data)
             this.initiliaze();
-          else{
+          else {
             this.router.navigateByUrl('permission-denied')
           }
         }
@@ -327,6 +330,7 @@ export class PagesComponent implements OnInit {
       }
     });
   }
+  editData: any;
   actionsBindWithPage(res: any) {
     debugger
     this.screenId = res.data[0].screenBuilderId;
@@ -418,7 +422,7 @@ export class PagesComponent implements OnInit {
     // let commentsData = this.transformComments(this.dataSharedService.screenCommentList);
     // console.log(commentsData);
     // Comments Get
-    this.applicationService.callApi('knex-query/getAction/65001460e9856e9578bcb63f', 'get', '', '', `'${res.data[0].navigation}'`).subscribe({
+    this.requestSubscription = this.applicationService.callApi('knex-query/getAction/65001460e9856e9578bcb63f', 'get', '', '', `'${res.data[0].navigation}'`).subscribe({
       next: (res) => {
         if (res.data > 0) {
           res.data.forEach((element: any) => {
@@ -441,33 +445,16 @@ export class PagesComponent implements OnInit {
           );
         });
         this.saveLoader = true;
-        forkJoin(observables).subscribe({
+        this.requestSubscription = forkJoin(observables).subscribe({
           next: (results: any) => {
             this.saveLoader = false;
-            let makeModel: any = JSON.parse(JSON.stringify(this.formlyModel));
             results.forEach((res: any) => {
               if (res.data.length > 0) {
-                if (this.formlyModel) {
-                  for (const key in this.formlyModel) {
-                    if (this.formlyModel.hasOwnProperty(key)) {
-                      if (typeof this.formlyModel[key] === 'object') {
-                        for (const key1 in this.formlyModel[key]) {
-                          if (res.data[0][key + '.' + key1])
-                            makeModel[key][key1] = res.data[0][key + '.' + key1]
-                        }
-                      }
-                      else {
-                        if (res.data[0][key])
-                          makeModel[key] = res.data[0][key];
-                      }
-                    }
-                  }
-                }
-                // this.assignValues(res.data[0]);
+                this.editData = res.data;
+                this.formValueAssign(res.data);
               }
             });
-            this.formlyModel = makeModel;
-            this.form.patchValue(this.formlyModel);
+
           },
           error: (err) => {
             this.saveLoader = false;
@@ -490,6 +477,30 @@ export class PagesComponent implements OnInit {
       }
     }
     this.applyDefaultValue();
+  }
+  formValueAssign(data: any) {
+    if (data && this.screenData) {
+      this.countRule = this.countRule + 1;
+      let makeModel: any = JSON.parse(JSON.stringify(this.formlyModel));
+      if (this.formlyModel) {
+        for (const key in this.formlyModel) {
+          if (this.formlyModel.hasOwnProperty(key)) {
+            if (typeof this.formlyModel[key] === 'object') {
+              for (const key1 in this.formlyModel[key]) {
+                if (data[0][key + '.' + key1])
+                  makeModel[key][key1] = data[0][key + '.' + key1]
+              }
+            }
+            else {
+              if (data[0][key])
+                makeModel[key] = data[0][key];
+            }
+          }
+        }
+      }
+      this.formlyModel = makeModel;
+      this.form.patchValue(this.formlyModel);
+    }
   }
   saveData(data: any) {
     if (data.isSubmit) {
@@ -544,7 +555,7 @@ export class PagesComponent implements OnInit {
       relationIds = relationIds.toString();
       const tables = (Array.from(tableNames)).toString();
       console.log(tables);
-      this.employeeService.saveSQLDatabaseTable('knex-query', empData).subscribe({
+      this.requestSubscription = this.employeeService.saveSQLDatabaseTable('knex-query', empData).subscribe({
         next: (res) => {
           if (res[0]?.error)
             this.toastr.error(res[0]?.error, { nzDuration: 3000 });
@@ -570,7 +581,7 @@ export class PagesComponent implements OnInit {
           modalData: empData.modalData
         };
 
-        this.employeeService.saveSQLDatabaseTable('knex-query/executeQuery', model).subscribe({
+        this.requestSubscription = this.employeeService.saveSQLDatabaseTable('knex-query/executeQuery', model).subscribe({
           next: (res) => {
             this.toastr.success("Update Successfully", { nzDuration: 3000 });
             this.getFromQuery();
@@ -610,7 +621,7 @@ export class PagesComponent implements OnInit {
               //   pagination = '?page=' + 1 + '&pageSize=' + tableData?.end;
               // }
 
-              this.employeeService.getSQLDatabaseTable(url).subscribe({
+              this.requestSubscription = this.employeeService.getSQLDatabaseTable(url).subscribe({
                 next: (res) => {
                   if (tableData && res.isSuccess) {
                     let saveForm = JSON.parse(JSON.stringify(res.data[0]));
@@ -2113,7 +2124,7 @@ export class PagesComponent implements OnInit {
                   // else url = getActions.actions?.[0]?.url + '/'
                   if (getActions._id) {
                     let parentId =
-                      this.applicationService.callApi('knex-query/getexecute-rules/' + getActions._id, 'get', '', '', typeof targetId === 'string' ? "'" + targetId + "'" : targetId
+                      this.requestSubscription = this.applicationService.callApi('knex-query/getexecute-rules/' + getActions._id, 'get', '', '', typeof targetId === 'string' ? "'" + targetId + "'" : targetId
                       ).subscribe(res => {
                         if (res) {
                           if (res.data.length > 0) {
@@ -2156,6 +2167,9 @@ export class PagesComponent implements OnInit {
                           }
 
                           this.updateNodes();
+                          const key = getActions.targetId
+                          this.form.patchValue({key : parseInt(this.formlyModel[key])});
+                          // this.formValueAssign(this.editData);
                         }
                       })
                   }
@@ -2223,7 +2237,7 @@ export class PagesComponent implements OnInit {
             "gridData": res
           }
         }
-        this.applicationService.addNestCommonAPI('cp', obj).subscribe(res => {
+        this.requestSubscription = this.applicationService.addNestCommonAPI('cp', obj).subscribe(res => {
           this.toastr.success("Success Added Record", { nzDuration: 3000 });
           this.getEnumList(findElement, this.formlyModel[model[0]]);
         })
