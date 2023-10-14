@@ -1,4 +1,4 @@
-<nz-spin [nzSpinning]="saveLoader" [nzSize]="'large'">
+<nz-spin class="site-pages" [nzSpinning]="saveLoader" [nzSize]="'large'">
   <div *ngIf="saveLoader" style="height: 100vh;"></div>
   <form [formGroup]="form" (ngSubmit)="submit()">
     <div

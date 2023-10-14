@@ -7701,7 +7701,8 @@ input[type=file]::file-selector-button:hover {
   }
 
   .ant-card-head {
-    padding: 0 16px !important; 
+    padding: 0 16px !important;
+
     .ant-card-head-title {
       font-weight: bold !important;
     }
@@ -7713,3 +7714,27 @@ input[type=file]::file-selector-button:hover {
     font-weight: bold !important;
   }
 }
+
+.head2 , .site-content {
+
+  .boxed-layout {
+    box-shadow: none !important;
+  }
+}
+
+
+.side-bar {
+  .ant-menu-vertical {
+    height: calc(100vh - 75px);
+    border-radius: 0px 4px 4px 0px;
+    width: 61px !important;
+  }
+}
+
+// .site-content {
+//   .site-pages{
+//     height: calc(100vh - 121px);
+//     display: inline-block;
+//     overflow-y: auto;
+//   }
+// }
