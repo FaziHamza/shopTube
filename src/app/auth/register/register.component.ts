@@ -162,8 +162,8 @@ export class RegisterComponent implements OnInit {
       "username": this.form.value.email,
       "password": this.form.value.password,
       "domain":window.location.host.split(':')[0],
-      "organizationId": localStorage.getItem('organizationId'!),
-      "applicationId": localStorage.getItem('applicationId'!),
+      "organizationId": JSON.parse(localStorage.getItem('organizationId'!)!),
+      "applicationId": JSON.parse(localStorage.getItem('applicationId'!)!),
     }
     console.log(obj);
     this.applicationService.addNestCommonAPI('auth/signup', obj).subscribe({

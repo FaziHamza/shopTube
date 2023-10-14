@@ -34,9 +34,7 @@ import { UserMappingComponent } from "../admin/user-mapping/user-mapping.compone
     MarketPlaceComponent,
     ExecuteActionRuleComponent,
     MonacoEditorComponent,
-    PolicyComponent,
-    PolicyMappingComponent,
-    UserMappingComponent,
+
   ],
   imports: [
     CommonModule,

@@ -78,6 +78,7 @@ export class LoginComponent implements OnInit {
     this.showLoader = true;
     this.authService.loginUser(this.form.value).subscribe(
       (response: any) => {
+        this.showLoader = false;
         if (response?.access_token) {
           this.commonService.showSuccess('Login Successfully!', {
             nzDuration: 2000,
@@ -91,6 +92,7 @@ export class LoginComponent implements OnInit {
         }
       },
       (error) => {
+        this.showLoader = false;
         this.commonService.showError('Login Failed: Something went wrong.', {
           nzPauseOnHover: true,
         });

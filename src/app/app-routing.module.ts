@@ -11,6 +11,8 @@ import { NotFoundComponent } from './auth/not-found/not-found.component';
 import { AuthResolverService } from './resolver/auth-resolver.service';
 import { PermissionDeniedComponent } from './auth/permission-denied/permission-denied.component';
 import { UserComponent } from './auth/user/user.component';
+import { PolicyMappingComponent } from './admin/policy-mapping/policy-mapping.component';
+import { UserMappingComponent } from './admin/user-mapping/user-mapping.component';
 
 const routes: Routes = [
   {
@@ -50,10 +52,33 @@ const routes: Routes = [
 
       { path: '**', redirectTo: 'not-found' },
       { path: 'permission-denied', component: PermissionDeniedComponent },
+      {
+        path: 'policy',
+        component: PolicyComponent
+      },
+      {
+        path: 'policy-mapping',
+        component: PolicyMappingComponent
+      },
+      {
+        path: 'user-mapping',
+        component: UserMappingComponent
+      },
+      {
+        path: 'user',
+        component: UserComponent
+      },
     ]
   },
   {
     path: 'builder',
+    loadChildren: () =>
+      import(
+        "src/app/builder/builder.module"
+      ).then((m) => m.BuilderModule),
+  },
+  {
+    path: 'admin',
     loadChildren: () =>
       import(
         "src/app/builder/builder.module"
