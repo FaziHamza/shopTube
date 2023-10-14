@@ -210,70 +210,73 @@ export class SectionsComponent implements OnInit {
   }
   saveData1(data: any) {
     debugger
-    // this.submit();
-    const checkPermission = this.dataSharedService.getUserPolicyMenuList.find(a => a.menuId == this.dataSharedService.currentMenuId);
-    let oneModelData = this.convertModel(this.dataModel);
-    if (Object.keys(oneModelData).length > 0) {
-      let findClickApi = data.appConfigurableEvent.filter((item: any) => item.rule.includes('post_'));
-      let empData: any = {};
-      empData = {
-        screenId: this.screenName,
-        modalData: oneModelData
-      };
-      console.log(empData);
-      const tableNames = new Set();
+    this.sections
+    let checkButtonConfig = this.findObjectByKey(this.sections, data.key);
+    if (checkButtonConfig) {
+      // this.submit();
+      const checkPermission = this.dataSharedService.getUserPolicyMenuList.find(a => a.menuId == this.dataSharedService.currentMenuId);
+      let oneModelData = this.convertModel(this.dataModel);
+      if (Object.keys(oneModelData).length > 0) {
+        let findClickApi = data.appConfigurableEvent.filter((item: any) => item.rule.includes('post_'));
+        let empData: any = {};
+        empData = {
+          screenId: this.screenName,
+          modalData: oneModelData
+        };
+        console.log(empData);
+        const tableNames = new Set();
 
-      for (const key in empData.modalData) {
-        const tableName = key.split('.')[0];
-        tableNames.add(tableName);
-      }
+        for (const key in empData.modalData) {
+          const tableName = key.split('.')[0];
+          tableNames.add(tableName);
+        }
 
-      const Arraytables = Array.from(tableNames)
-      const remainingTables = Arraytables.slice(1);
-      let id; findClickApi[0];
-      for (const key in empData?.modalData) {
-        if (empData?.modalData[key] == undefined) {
-          empData.modalData[key] = '';
+        const Arraytables = Array.from(tableNames)
+        const remainingTables = Arraytables.slice(1);
+        let id; findClickApi[0];
+        for (const key in empData?.modalData) {
+          if (empData?.modalData[key] == undefined) {
+            empData.modalData[key] = '';
+          }
         }
-      }
-      for (const key in empData?.modalData) {
-        if (empData.modalData.hasOwnProperty(key) &&
-          key.endsWith('.id') &&
-          empData.modalData[key]) {
-          id = key;
+        for (const key in empData?.modalData) {
+          if (empData.modalData.hasOwnProperty(key) &&
+            key.endsWith('.id') &&
+            empData.modalData[key]) {
+            id = key;
+          }
         }
-      }
-      if (id == undefined) {
-        // if(!checkPermission.create){
-        //   alert("You did not have permission");
-        //   return;
-        // }
-        this.dataSharedService.sectionSubmit.next(false);
-        findClickApi = data.appConfigurableEvent.filter((item: any) => item.rule.includes('post_'));
-        if (findClickApi?.[0]?._id) {
-          this.dataSharedService.imageUrl = '';
-          this.requestSubscription = this.activatedRoute.params.subscribe((params: Params) => {
-            if (params["id"]) {
-              for (const key in empData.modalData) {
-                if (key.includes('id') && key != 'id') {
-                  empData.modalData[key] = params["id"];
+        if (id == undefined) {
+          // if(!checkPermission.create){
+          //   alert("You did not have permission");
+          //   return;
+          // }
+          this.dataSharedService.sectionSubmit.next(false);
+          findClickApi = data.appConfigurableEvent.filter((item: any) => item.rule.includes('post_'));
+          if (findClickApi?.[0]?._id) {
+            this.dataSharedService.imageUrl = '';
+            this.requestSubscription = this.activatedRoute.params.subscribe((params: Params) => {
+              if (params["id"]) {
+                for (const key in empData.modalData) {
+                  if (key.includes('id') && key != 'id') {
+                    empData.modalData[key] = params["id"];
+                  }
                 }
               }
-            }
-          });
-          this.saveLoader = true;
-          this.requestSubscription =  this.applicationServices.addNestCommonAPI('knex-query/execute-rules/' + findClickApi[0]?._id, empData).subscribe({
-            next: (res) => {
-              this.saveLoader = false;
-              if (res) {
-                if (data.saveRouteLink) {
-                  this.router.navigate(['/pages/' + data.saveRouteLink]);
-                }
-                else {
+            });
+            this.saveLoader = true;
+            this.requestSubscription = this.applicationServices.addNestCommonAPI('knex-query/execute-rules/' + findClickApi[0]?._id, empData).subscribe({
+              next: (res) => {
+                this.saveLoader = false;
+                if (res) {
                   if (res[0]?.error)
                     this.toastr.error(res[0]?.error, { nzDuration: 3000 });
                   else {
                     this.toastr.success("Save Successfully", { nzDuration: 3000 });
+                    if (data.saveRouteLink) {
+                      this.router.navigate(['/pages/' + data.saveRouteLink]);
+                      return;
+                    }
                     let tableName: any = '';
                     if (res[0]) {
                       tableName = res[0].tableName ? res[0].tableName.split('.')[1].split('_')[0] : '';
@@ -294,72 +297,71 @@ export class SectionsComponent implements OnInit {
                     }
                   }
                 }
+              },
+              error: (err) => {
+                console.error(err);
+                this.toastr.error("An error occurred", { nzDuration: 3000 });
+                this.saveLoader = false;
               }
-            },
-            error: (err) => {
-              console.error(err);
-              this.toastr.error("An error occurred", { nzDuration: 3000 });
-              this.saveLoader = false;
-            }
-          });
+            });
+          }
+
         }
-
-      }
-      else {
-        // if(!checkPermission.update){
-        //   alert("You did not have permission");
-        //   return;
-        // }
-        this.dataSharedService.sectionSubmit.next(false);
-        findClickApi = data.appConfigurableEvent.filter((item: any) => item.rule.includes('put_'));
-        if (this.dataModel) {
-          // this.form.get(dynamicPropertyName);
-          const model = {
-            screenId: this.screenName,
-            postType: 'put',
-            modalData: empData.modalData
-          };
-          // const removePrefix = (data: Record<string, any>): Record<string, any> => {
-          //   const newData: Record<string, any> = {};
-          //   for (const key in data) {
-          //     const lastDotIndex = key.lastIndexOf('.');
-          //     const newKey = lastDotIndex !== -1 ? key.substring(lastDotIndex + 1) : key;
-          //     newData[newKey] = data[key];
-          //   }
-          //   return newData;
-          // };
-
-          const result = {
-            ...model,
-            modalData: model.modalData
-            // modalData: removePrefix(model.modalData)
-          };
-          // console.log(result);
-          this.saveLoader = true;
+        else {
+          // if(!checkPermission.update){
+          //   alert("You did not have permission");
+          //   return;
+          // }
           this.dataSharedService.sectionSubmit.next(false);
-          this.requestSubscription =   this.applicationServices.addNestCommonAPI('knex-query/execute-rules/' + findClickApi[0]._id, result).subscribe({
-            next: (res) => {
-              this.saveLoader = false;
-              this.toastr.success("Update Successfully", { nzDuration: 3000 });
-              this.setInternalValuesEmpty(this.dataModel);
-              this.setInternalValuesEmpty(this.formlyModel);
-              this.form.patchValue(this.formlyModel);
-              this.getFromQuery(data);
-              if (window.location.href.includes('taskmanager.com')) {
-                this.dataSharedService.taskmanagerDrawer.next(true);
+          findClickApi = data.appConfigurableEvent.filter((item: any) => item.rule.includes('put_'));
+          if (this.dataModel) {
+            // this.form.get(dynamicPropertyName);
+            const model = {
+              screenId: this.screenName,
+              postType: 'put',
+              modalData: empData.modalData
+            };
+            // const removePrefix = (data: Record<string, any>): Record<string, any> => {
+            //   const newData: Record<string, any> = {};
+            //   for (const key in data) {
+            //     const lastDotIndex = key.lastIndexOf('.');
+            //     const newKey = lastDotIndex !== -1 ? key.substring(lastDotIndex + 1) : key;
+            //     newData[newKey] = data[key];
+            //   }
+            //   return newData;
+            // };
+
+            const result = {
+              ...model,
+              modalData: model.modalData
+              // modalData: removePrefix(model.modalData)
+            };
+            // console.log(result);
+            this.saveLoader = true;
+            this.dataSharedService.sectionSubmit.next(false);
+            this.requestSubscription = this.applicationServices.addNestCommonAPI('knex-query/execute-rules/' + findClickApi[0]._id, result).subscribe({
+              next: (res) => {
+                this.saveLoader = false;
+                this.toastr.success("Update Successfully", { nzDuration: 3000 });
+                this.setInternalValuesEmpty(this.dataModel);
+                this.setInternalValuesEmpty(this.formlyModel);
+                this.form.patchValue(this.formlyModel);
+                this.getFromQuery(data);
+                if (window.location.href.includes('taskmanager.com')) {
+                  this.dataSharedService.taskmanagerDrawer.next(true);
+                }
+              },
+              error: (err) => {
+                this.saveLoader = false;
+                console.error(err);
+                this.toastr.error("An error occurred", { nzDuration: 3000 });
+                this.saveLoader = false;
               }
-            },
-            error: (err) => {
-              this.saveLoader = false;
-              console.error(err);
-              this.toastr.error("An error occurred", { nzDuration: 3000 });
-              this.saveLoader = false;
-            }
-          });
+            });
+          }
         }
       }
     }
-
   }
   convertModel(model: any, parentKey = "") {
     const convertedModel: any = {};
@@ -416,7 +418,7 @@ export class SectionsComponent implements OnInit {
         this.saveLoader = true;
         const applicationId = localStorage.getItem('applicationId') || '';
         let savedGroupData = await this.dataService.getNodes(JSON.parse(applicationId), this.screenName, "Table");
-        this.requestSubscription =  this.employeeService.getSQLDatabaseTable(url).subscribe({
+        this.requestSubscription = this.employeeService.getSQLDatabaseTable(url).subscribe({
           next: async (res) => {
             this.saveLoader = false;
             if (tableData && res?.isSuccess) {
@@ -770,7 +772,7 @@ export class SectionsComponent implements OnInit {
       this.gridRules(this.gridRulesData, data);
     }
     else {
-      this.requestSubscription =  this.applicationServices.getNestCommonAPIById('cp/GridBusinessRule', this.screenId).subscribe(((getRes: any) => {
+      this.requestSubscription = this.applicationServices.getNestCommonAPIById('cp/GridBusinessRule', this.screenId).subscribe(((getRes: any) => {
         if (getRes.isSuccess) {
           if (getRes.data.length > 0) {
             this.gridRulesData = getRes;
@@ -1459,7 +1461,7 @@ export class SectionsComponent implements OnInit {
     }
   }
   ngOnDestroy(): void {
-    if(this.requestSubscription)
+    if (this.requestSubscription)
       this.requestSubscription.unsubscribe();
   }
 }
