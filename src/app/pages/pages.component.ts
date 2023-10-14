@@ -2135,7 +2135,9 @@ export class PagesComponent implements OnInit {
                           }
 
                           this.updateNodes();
-                          const key = getActions.targetId
+                          const key = getActions.targetId;
+                          this.formlyModel[key] = '';
+                          this.formlyModel[key.split('.')[0]][key.split('.')[1]] = '';
                           this.form.patchValue({ key: parseInt(this.formlyModel[key]) });
                           // this.formValueAssign(this.editData);
                         }

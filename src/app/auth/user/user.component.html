@@ -1,0 +1,36 @@
+<nz-spin [nzSpinning]="loading" [nzSize]="'large'">
+    <nz-table #basicTable [nzData]="listOfData">
+        <thead>
+            <tr>
+                <!-- <th>Application Id</th>
+                <th>Organization Id</th>
+                <th>Password</th> -->
+                <th>User Name</th>
+                <th>Status</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let data of basicTable.data">
+                <!-- <td>{{data?.applicationId}}</td>
+                <td>{{data?.organizationId}}</td>
+                <td>{{data?.password}}</td> -->
+                <td>{{data?.username}}</td>
+                <td [hidden]="edit == data._id">{{data?.status ? data?.status : 'Pending' }}</td>
+                <select [hidden]="edit != data._id" [(ngModel)]="data.status">
+                    <option class="text-black" value="Pending">Pending</option>
+                    <option class="text-black" value="Approved">Approve
+                </select>
+                <td class="!text-center">
+                    <i (click)="editFunc(data)" *ngIf="edit !== data._id"
+                        class="fa-regular !text-sm fa-pencil text-blue-500"></i>
+                    <div class="flex justify-center items-center" *ngIf="edit == data._id">
+                        <i (click)="saveEdit(data)" class="fa-regular !text-sm fa-save text-blue-500 mr-2.5"></i>
+                        <!-- <i  class="fa-regular !text-sm fa-times text-red-500 "></i> -->
+                        <i (click)="cancelEdit(data)" class="fa-solid fa-circle-xmark !text-sm text-red-500"></i>
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </nz-table>
+</nz-spin>

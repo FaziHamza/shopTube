@@ -123,13 +123,13 @@
                         <i (click)="showPassword()" [class]="passwordIcon"></i>
                     </ng-template>
 
-                    <nz-form-control nzErrorTip="Please Select Page" class="!w-[350px] mb-4" >
+                    <!-- <nz-form-control nzErrorTip="Please Select Page" class="!w-[350px] mb-4" >
                         <nz-cascader formControlName="application" nzChangeOnSelect [nzAllowClear]="true" style="width: 100%"
                             [(ngModel)]="cascaderValue" [nzLoadData]="loadData.bind(this)"
                             [nzOptions]="cascaderData" placeholder="Select Application"
                             (ngModelChange)="onDepartmentChange($event)">
                         </nz-cascader>
-                    </nz-form-control>
+                    </nz-form-control> -->
 
 
                     <app-error [form_control]="f['application']" [isSubmitted]="isFormSubmit"></app-error>

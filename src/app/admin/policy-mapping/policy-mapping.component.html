@@ -80,6 +80,9 @@
     </nz-card>
     <ng-template #extraTemplate>
         <div class="src-btn flex justify-end">
+            <button nz-button   nzType="primary" class="btn" (click)="selectAll()">
+                <i class="fa-regular fa-database mr-1.5"></i>
+                Select All</button>
             <button nz-button *ngIf="isSubmit" nzType="primary" class="btn" (click)="onSubmit()">
                 <i class="fa-regular fa-database mr-1.5"></i>
                 Submit</button>
