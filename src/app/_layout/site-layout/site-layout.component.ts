@@ -19,7 +19,9 @@ export class SiteLayoutComponent implements OnInit {
   @Input() menuItems: any = [];
   @Input() selectedTheme: any;
   @ViewChild('head2') header: ElementRef;
+  @ViewChild('FOOTER') dynamic_footer: ElementRef;
   headerHeight: number;
+  footerHeight: number;
 
   currentHeader: any = undefined;
   logo: any;
@@ -149,28 +151,37 @@ export class SiteLayoutComponent implements OnInit {
       }
       this.tabs = [];
     });
-    // debugger
     // this.updateHeaderHeight();
   }
 
-  // ngAfterViewInit() {
-  //   // Wait for the view to be initialized
-  //   setTimeout(() => {
-  //     this.updateHeaderHeight();
-  //   }, 5000);
-  // }
+  ngAfterViewInit() {
+    // Wait for the view to be initialized
+    setTimeout(() => {
+      this.updateHeaderHeight();
+      this.updateFooterHeight();
+    }, 3000);
+  }
+
 
   private updateHeaderHeight() {
     // Get the actual header height dynamically
     const headerElement = this.el.nativeElement.querySelector('.head2');
     this.headerHeight = headerElement.clientHeight;
-    console.log(this.headerHeight);
+
 
 
     // Adjust the layout width based on the header height
     const layoutElement = this.el.nativeElement.querySelector('.content-container');
-    this.renderer.setStyle(layoutElement, 'height', `calc(100vh - ${this.headerHeight}px)`);
+    this.renderer.setStyle(layoutElement, 'height', `calc(100vh - ${this.headerHeight + 15}px)`);
   }
+
+  private updateFooterHeight(){
+    debugger
+      const footerElement = this.el.nativeElement.querySelector('FOOTER');
+      this.footerHeight = footerElement.clientHeight;
+      console.log(this.footerHeight);
+  }
+
 
   // private updateHeaderHeight() {
   //   debugger

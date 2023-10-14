@@ -12,7 +12,7 @@
 }
 
 nz-header {
-height: auto !important;
+  height: auto !important;
 }
 
 nz-content {
@@ -138,6 +138,9 @@ nz-footer {
   margin-right: 4px;
 }
 
-
-
-
+.dynamic-footer {
+  position: fixed;
+  width: calc(100% - 60px);
+  display: block;
+  bottom: 0;
+}
