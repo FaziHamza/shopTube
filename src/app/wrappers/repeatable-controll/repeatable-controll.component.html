@@ -19,7 +19,7 @@
           </div>
           <div>
             <label>Quantity</label>
-            <input class="h-10" [nzStatus]="to['additionalProperties']?.status"
+            <input class="h-10" [nzStatus]="to['additionalProperties']?.status" type="number"
               [nzSize]="to['additionalProperties']?.size" [class]="to['additionalProperties']?.innerInputClass"
               [style.border-radius]="to['additionalProperties']?.borderRadius" (input)="onModelChange($event, field)"
               nz-input [formControlName]="'quantity'" />

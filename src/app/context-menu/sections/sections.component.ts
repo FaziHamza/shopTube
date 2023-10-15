@@ -57,6 +57,7 @@ export class SectionsComponent implements OnInit {
           const checkButtonExist = this.findObjectById(this.sections, res.id);
           // const checkButtonExist = this.isButtonIdExist(this.sections.children[1].children, res.id);
           if (checkButtonExist?.appConfigurableEvent) {
+            event?.stopPropagation();
             let makeModel: any = {};
             const filteredNodes = this.filterInputElements(this.sections.children[1].children);
             for (let item in this.formlyModel) {

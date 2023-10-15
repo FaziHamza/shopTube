@@ -33,7 +33,7 @@ export class RepeatableControllComponent extends FieldType<FieldTypeConfig> {
     const fieldGroup = this.formBuilder.group({
       manufacture: ['', Validators.required],
       model: ['', Validators.required],
-      quantity: ['', Validators.required],
+      quantity: [0, Validators.required],
       serialnumber: ['', Validators.required],
       equipmentbroucher: ['', Validators.required],
       equipmentbroucher_base64: ['', Validators.required],

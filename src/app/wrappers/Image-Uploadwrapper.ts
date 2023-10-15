@@ -14,7 +14,7 @@ import { DataSharedService } from '../services/data-shared.service';
    [nzPrefix]="(to['additionalProperties']?.addonLeft || to['additionalProperties']?.prefixicon) ? prefixTemplateUser : undefined"
    [nzSize]="to['additionalProperties']?.size"
    [nzStatus]="to['additionalProperties']?.status">
-   <input [style.border-radius]="to['additionalProperties']?.borderRadius"
+   <input [accept]=" to['additionalProperties']?.filetype == 'excel' ?' application/vnd.ms-excel, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' :to['additionalProperties']?.filetype || '.jpg'"  [style.border-radius]="to['additionalProperties']?.borderRadius"
    [ngClass]=" showError && !to['additionalProperties']?.suffixicon && !to['additionalProperties']?.prefixicon
    && !to['additionalProperties']?.addonLeft && !to['additionalProperties']?.addonRight ? 'input-border' : ''"
    *ngIf=" to.type !='textarea'"
@@ -66,7 +66,7 @@ import { DataSharedService } from '../services/data-shared.service';
 export class FormlyFieldImageUploadComponent extends FieldWrapper<FieldTypeConfig> {
   @ViewChild('fileInput') fileInput!: ElementRef<HTMLInputElement>;
   imageUrl: any;
-  constructor(private sharedService: DataSharedService ) {
+  constructor(private sharedService: DataSharedService) {
     super();
   }
   onFileSelected(event: any) {
