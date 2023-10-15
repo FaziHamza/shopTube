@@ -1,5 +1,6 @@
 import { Component, Input, Output } from '@angular/core';
 import { Subscription } from 'rxjs';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'st-downloadbutton',
@@ -29,7 +30,7 @@ export class DownloadbuttonComponent {
   responseData: any;
   loader: boolean = false;
   requestSubscription: Subscription;
-
+  serverPath = environment.nestImageUrl
 
   ngOnInit(): void {
     this.hoverTextColor = this.buttonData?.textColor ? this.buttonData?.textColor : '';
@@ -66,6 +67,11 @@ export class DownloadbuttonComponent {
   }
 
   downloadReport(buttonData: any) {
-    
+    if (buttonData.path) {
+      alert(this.serverPath + "/" + buttonData.path);
+    } else {
+      alert("Path did not exist");
+    }
+    // console.log('download pdf')
   }
 }

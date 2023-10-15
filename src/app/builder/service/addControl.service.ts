@@ -245,7 +245,7 @@ export class AddControlService {
       href: "",
       dataTable: "",
       btnLabelPaddingClass: '',
-      btnopacity: '',
+      btnopacity: '',                        
       badgeType: 'none',
       badgeCount: '',
       hoverBorderColor: '',
