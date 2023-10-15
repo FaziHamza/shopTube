@@ -56,7 +56,7 @@ export class UserComponent {
   saveEdit(data: any) {
     this.edit = null;
     this.loading = true;
-    this.applicationService.updateNestCommonAPI('auth', data._id, data).subscribe({
+    this.applicationService.updateNestCommonAPI('cp/auth/updateUser', data._id, data).subscribe({
       next: (res: any) => {
         if (res.isSuccess) {
           this.listOfData = res.data;

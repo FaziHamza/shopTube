@@ -388,6 +388,8 @@ export class ExecuteActionRuleComponent implements OnInit, AfterViewInit {
         "rule": element.monacoEditorControl,
         "applicationId": this.applicationId,
       }
+      if (element.id)
+        actionData['_id'] = element.id
       actionRuleList.push(actionData);
     });
     this.applicationService.addNestCommonAPI('cp/ActionRule/deleteActionRule', actionRuleList).subscribe({
