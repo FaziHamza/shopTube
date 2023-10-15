@@ -1014,6 +1014,54 @@ export class formFeildData {
       ]
     },
   ]
+  fileUpload: FormlyFieldConfig[] = [
+    {
+      fieldGroupClassName: "flex flex-wrap",
+      fieldGroup: [
+        {
+          key: 'filetype',
+          type: 'select',
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          wrappers: ["formly-vertical-theme-wrapper"],
+          props: {
+            label: 'File type',
+            options: [
+              {
+                label: 'JPG',
+                value: '.jpg'
+              },
+              {
+                label: 'JPEG',
+                value: '.jpeg'
+              },
+              {
+                label: 'PNG',
+                value: '.png'
+              },
+              {
+                label: 'PDF',
+                value: '.pdf'
+              },
+              {
+                label: 'JSON',
+                value: 'application/json'
+              },
+              {
+                label: 'Excel',
+                value: 'excel'
+              },
+            ],
+            additionalProperties: {
+              allowClear: true,
+              serveSearch: false,
+              showArrow: true,
+              showSearch: true,
+            },
+          },
+        },
+      ]
+    },
+  ]
   buttonGroupFields: FormlyFieldConfig[] = [
     {
       fieldGroupClassName: "flex flex-wrap",
@@ -10989,6 +11037,7 @@ export class formFeildData {
             },
           },
         },
+
         {
           key: 'image',
           type: 'image-upload',

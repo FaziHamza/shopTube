@@ -2990,6 +2990,7 @@ export class BuilderComponent implements OnInit {
       case 'customMasking':
       case 'multiFileUploader':
       case 'audioVideoRecorder':
+      case 'image':
         configObj = {
           ...configObj,
           ...this.clickButtonService.getFormlyConfig(selectedNode),
@@ -3059,6 +3060,9 @@ export class BuilderComponent implements OnInit {
             break;
           case 'number':
             this.fieldData.commonData?.push({ title: 'numberFields', data: _formFieldData.numberFields });
+            break;
+          case 'image':
+            this.fieldData.commonData?.push({ title: 'File Upload', data: _formFieldData.fileUpload });
             break;
           case 'repeatSection':
           case 'multiselect':
@@ -4089,6 +4093,7 @@ export class BuilderComponent implements OnInit {
       case 'url':
       case 'multiFileUploader':
       case 'audioVideoRecorder':
+      case 'image':
         if (this.selectedNode) {
           needToUpdate = false;
 
@@ -4270,6 +4275,7 @@ export class BuilderComponent implements OnInit {
             props['additionalProperties']['dataClassification'] = event.form?.dataClassification;
             // props['additionalProperties']['disabledBeforeCurrent'] = event.form?.disabledBeforeCurrent;
             props['additionalProperties']['disabledCalenderProperties'] = event.form?.disabledCalenderProperties;
+            props['additionalProperties']['filetype'] = event.form?.filetype;
             props['readonly'] = event.form.readonly;
             // props['options'] = event.form.options;
             // if (event.tableDta) {

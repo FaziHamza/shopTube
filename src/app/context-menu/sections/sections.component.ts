@@ -57,6 +57,7 @@ export class SectionsComponent implements OnInit {
           const checkButtonExist = this.findObjectById(this.sections, res.id);
           // const checkButtonExist = this.isButtonIdExist(this.sections.children[1].children, res.id);
           if (checkButtonExist?.appConfigurableEvent) {
+            event?.stopPropagation();
             let makeModel: any = {};
             const filteredNodes = this.filterInputElements(this.sections.children[1].children);
             for (let item in this.formlyModel) {
@@ -262,36 +263,41 @@ export class SectionsComponent implements OnInit {
             }
           });
           this.saveLoader = true;
-          this.requestSubscription =  this.applicationServices.addNestCommonAPI('knex-query/execute-rules/' + findClickApi[0]?._id, empData).subscribe({
+          this.requestSubscription = this.applicationServices.addNestCommonAPI('knex-query/execute-rules/' + findClickApi[0]?._id, empData).subscribe({
             next: (res) => {
               this.saveLoader = false;
               if (res) {
-                if (data.saveRouteLink) {
-                  this.router.navigate(['/pages/' + data.saveRouteLink]);
+
+                if (res[0]?.error) {
+                  this.toastr.error(res[0]?.error, { nzDuration: 3000 });
+                  if (data.saveRouteLink) {
+                    // this.router.navigate(['/pages/' + data.saveRouteLink]);
+                    return
+                  }
                 }
                 else {
-                  if (res[0]?.error)
-                    this.toastr.error(res[0]?.error, { nzDuration: 3000 });
-                  else {
-                    this.toastr.success("Save Successfully", { nzDuration: 3000 });
-                    let tableName: any = '';
-                    if (res[0]) {
-                      tableName = res[0].tableName ? res[0].tableName.split('.')[1].split('_')[0] : '';
-                    }
-                    this.setInternalValuesEmpty(this.dataModel);
-                    this.setInternalValuesEmpty(this.formlyModel);
-                    this.form.patchValue(this.formlyModel);
-                    if (tableName) {
-                      this.recursiveUpdate(this.formlyModel, tableName, res)
-                    }
+                  this.toastr.success("Save Successfully", { nzDuration: 3000 });
+                  if (data.saveRouteLink) {
+                    this.router.navigate(['/pages/' + data.saveRouteLink]);
+                    return
+                  }
+                  let tableName: any = '';
+                  if (res[0]) {
+                    tableName = res[0].tableName ? res[0].tableName.split('.')[1].split('_')[0] : '';
+                  }
+                  this.setInternalValuesEmpty(this.dataModel);
+                  this.setInternalValuesEmpty(this.formlyModel);
+                  this.form.patchValue(this.formlyModel);
+                  if (tableName) {
+                    this.recursiveUpdate(this.formlyModel, tableName, res)
+                  }
 
-                    this.getFromQuery(data);
-                    if (window.location.href.includes('taskmanager.com')) {
-                      this.dataSharedService.taskmanagerDrawer.next(true);
-                    }
-                    if (window.location.href.includes('spectrum.com')) {
-                      this.dataSharedService.spectrumControlNull.next(true);
-                    }
+                  this.getFromQuery(data);
+                  if (window.location.href.includes('taskmanager.com')) {
+                    this.dataSharedService.taskmanagerDrawer.next(true);
+                  }
+                  if (window.location.href.includes('spectrum.com')) {
+                    this.dataSharedService.spectrumControlNull.next(true);
                   }
                 }
               }
@@ -337,7 +343,7 @@ export class SectionsComponent implements OnInit {
           // console.log(result);
           this.saveLoader = true;
           this.dataSharedService.sectionSubmit.next(false);
-          this.requestSubscription =   this.applicationServices.addNestCommonAPI('knex-query/execute-rules/' + findClickApi[0]._id, result).subscribe({
+          this.requestSubscription = this.applicationServices.addNestCommonAPI('knex-query/execute-rules/' + findClickApi[0]._id, result).subscribe({
             next: (res) => {
               this.saveLoader = false;
               this.toastr.success("Update Successfully", { nzDuration: 3000 });
@@ -416,7 +422,7 @@ export class SectionsComponent implements OnInit {
         this.saveLoader = true;
         const applicationId = localStorage.getItem('applicationId') || '';
         let savedGroupData = await this.dataService.getNodes(JSON.parse(applicationId), this.screenName, "Table");
-        this.requestSubscription =  this.employeeService.getSQLDatabaseTable(url).subscribe({
+        this.requestSubscription = this.employeeService.getSQLDatabaseTable(url).subscribe({
           next: async (res) => {
             this.saveLoader = false;
             if (tableData && res?.isSuccess) {
@@ -770,7 +776,7 @@ export class SectionsComponent implements OnInit {
       this.gridRules(this.gridRulesData, data);
     }
     else {
-      this.requestSubscription =  this.applicationServices.getNestCommonAPIById('cp/GridBusinessRule', this.screenId).subscribe(((getRes: any) => {
+      this.requestSubscription = this.applicationServices.getNestCommonAPIById('cp/GridBusinessRule', this.screenId).subscribe(((getRes: any) => {
         if (getRes.isSuccess) {
           if (getRes.data.length > 0) {
             this.gridRulesData = getRes;
@@ -1459,7 +1465,7 @@ export class SectionsComponent implements OnInit {
     }
   }
   ngOnDestroy(): void {
-    if(this.requestSubscription)
+    if (this.requestSubscription)
       this.requestSubscription.unsubscribe();
   }
 }
