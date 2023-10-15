@@ -73,6 +73,7 @@ import { UserMappingComponent } from './admin/user-mapping/user-mapping.componen
     PolicyComponent,
     PolicyMappingComponent,
     UserMappingComponent,
+
     // MultiFileUploadWrapperComponent,
   ],
   imports: [

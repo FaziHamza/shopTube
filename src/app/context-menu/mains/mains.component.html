@@ -71,14 +71,17 @@
         <div
             *ngIf="item.type == 'button' || item.type =='linkbutton' || item.type =='buttonGroup' || item.type =='dropdownButton' ; else thirteenth">
             <nz-badge *ngIf="item?.badgeType == 'count' && item.type != 'buttonGroup'" [nzCount]="item?.badgeCount">
-                <st-block-buttons-card [formlyModel]="formlyModel" [form]="form" [screenName]="screenName" (notify)="saveData($event)" [softIconList]="item">
+                <st-block-buttons-card [formlyModel]="formlyModel" [form]="form" [screenName]="screenName"
+                    (notify)="saveData($event)" [softIconList]="item">
                 </st-block-buttons-card>
             </nz-badge>
             <nz-badge nzDot *ngIf="item?.badgeType == 'dot' && item.type != 'buttonGroup'">
-                <st-block-buttons-card [formlyModel]="formlyModel" [form]="form" [screenName]="screenName" (notify)="saveData($event)" [softIconList]="item">
+                <st-block-buttons-card [formlyModel]="formlyModel" [form]="form" [screenName]="screenName"
+                    (notify)="saveData($event)" [softIconList]="item">
                 </st-block-buttons-card></nz-badge>
             <st-block-buttons-card *ngIf="item?.badgeType == undefined || item?.badgeType == 'none'"
-                (notify)="saveData($event)" [formlyModel]="formlyModel" [form]="form" [screenName]="screenName" [softIconList]="item">
+                (notify)="saveData($event)" [formlyModel]="formlyModel" [form]="form" [screenName]="screenName"
+                [softIconList]="item">
             </st-block-buttons-card>
         </div>
     </ng-template>
@@ -223,7 +226,8 @@
             <div *ngFor="let data of item.children">
                 <div
                     *ngIf="data.type == 'button' || data.type == 'linkButton' || data.type == 'buttonGroup' || item.type =='dropdownButton'">
-                    <st-block-buttons-card [formlyModel]="formlyModel" [form]="form" [screenName]="screenName" (notify)="saveData($event)" [softIconList]="data">
+                    <st-block-buttons-card [formlyModel]="formlyModel" [form]="form" [screenName]="screenName"
+                        (notify)="saveData($event)" [softIconList]="data">
                     </st-block-buttons-card>
                 </div>
             </div>
@@ -507,7 +511,11 @@
         <st-menu-controll class="desktop-toggle" *ngIf="item.type == 'menu' ; else hFour"></st-menu-controll>
     </ng-template>
     <ng-template #hFour>
-        <st-google-map *ngIf="item.type == 'map'"></st-google-map>
+        <st-google-map *ngIf="item.type == 'map' ; else hFive"></st-google-map>
+    </ng-template>
+    <ng-template #hFive>
+        <st-downloadbutton *ngIf="item.type == 'downloadButton'" [screenId]="screenId" [formlyModel]="formlyModel" [form]="form" [screenName]="screenName"
+            [tableRowId]="''" [buttonData]="item" [title]="''"></st-downloadbutton>
     </ng-template>
     <!-- <span class="tooltip-icon" *ngIf="item?.tooltipPosition == 'right'">
         <span

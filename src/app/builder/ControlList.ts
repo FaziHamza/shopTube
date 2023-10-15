@@ -54,6 +54,12 @@ export const htmlTabsData = [
                 label: "Link Button",
                 isLeaf: true
               },
+              {
+                parameter: "downloadButton",
+                icon: "uil uil-bitcoin-sign",
+                label: "Download Button",
+                isLeaf: true
+              },
             ]
           },
           {

@@ -1803,6 +1803,7 @@ export class PagesComponent implements OnInit {
       cardWithComponents: 'title',
       buttonGroup: 'title',
       button: 'title',
+      downloadButton: 'path',
       breakTag: 'title',
       switch: 'title',
       imageUpload: 'source',

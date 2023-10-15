@@ -1502,7 +1502,9 @@ export class BuilderComponent implements OnInit {
     if (
       value == 'insertButton' ||
       value == 'updateButton' ||
-      value == 'deleteButton'
+      value == 'deleteButton' ||
+      value == 'downloadButton' 
+
     ) {
       newNode.isSubmit = res.isSubmit;
     }
@@ -1607,10 +1609,11 @@ export class BuilderComponent implements OnInit {
         break;
       case 'insertButton':
       case 'updateButton':
+      case 'downloadButton':
       case 'deleteButton':
         newNode = {
           ...newNode,
-          ...this.addControlService.getInsertButtonControl(),
+          ...this.addControlService.getInsertButtonControl(value),
         };
         break;
       case 'dropdownButton':
@@ -3080,6 +3083,7 @@ export class BuilderComponent implements OnInit {
         }
         break;
       case 'button':
+      case 'downloadButton':
         // configObj = { ...configObj, ...this.clickButtonService.getButtonConfig(selectedNode) };
         // if (typeof selectedNode.buttonClass === "string") {
         //   const classObj = JSON.parse(JSON.stringify(selectedNode.buttonClass.split(" ")));
@@ -4019,6 +4023,7 @@ export class BuilderComponent implements OnInit {
         this.selectedNode.statisticArray = event.form.statisticArray;
         break;
       case 'button':
+      case 'downloadButton':
       case 'linkbutton':
         // if (Array.isArray(event.form.buttonClass)) {
         //   if (event.form.buttonClass.length > 0) {

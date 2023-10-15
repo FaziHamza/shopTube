@@ -217,9 +217,9 @@ export class AddControlService {
       ]
     }
   }
-  getInsertButtonControl() {
+  getInsertButtonControl(type? : any) {
     return {
-      type: "button",
+      type: type == 'downloadButton' ? 'downloadButton' : "button",
       actionType: "insert",
       isNextChild: false,
       className: "w-1/3",
@@ -254,6 +254,7 @@ export class AddControlService {
       hoverIconColor: '',
       captureData: 'sectionLevel',
       buttonClass: '!rounded-md !bg-blue-500 !text-white hover:!bg-blue-600 hover:text-white !border !border-transparent !hover:border-transparent font-md text-lg',
+      path:''
     }
   }
   getDropdownButtonControl() {
