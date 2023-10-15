@@ -25,7 +25,7 @@ export class UserComponent {
   getUsers() {
     debugger
     this.loading = true;
-    this.applicationService.getNestCommonAPI('auth/allUsers').subscribe({
+    this.applicationService.getNestCommonAPI('cp/user').subscribe({
       next: (res: any) => {
         if (res.isSuccess) {
           this.listOfData = res.data;

@@ -3,6 +3,7 @@ import { AbstractControl, FormBuilder, FormGroup, ValidationErrors, Validators }
 import { NzCascaderOption } from 'ng-zorro-antd/cascader';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { ApplicationService } from 'src/app/services/application.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'st-register',
@@ -162,8 +163,8 @@ export class RegisterComponent implements OnInit {
       "username": this.form.value.email,
       "password": this.form.value.password,
       "domain":window.location.host.split(':')[0],
-      "organizationId": JSON.parse(localStorage.getItem('organizationId'!)!),
-      "applicationId": JSON.parse(localStorage.getItem('applicationId'!)!),
+      "organizationId": environment.organizationId,
+      "applicationId": environment.applicationId,
     }
     console.log(obj);
     this.applicationService.addNestCommonAPI('auth/signup', obj).subscribe({

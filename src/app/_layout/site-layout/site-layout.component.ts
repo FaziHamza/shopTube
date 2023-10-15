@@ -176,10 +176,10 @@ export class SiteLayoutComponent implements OnInit {
   }
 
   private updateFooterHeight(){
-    debugger
-      const footerElement = this.el.nativeElement.querySelector('FOOTER');
-      this.footerHeight = footerElement.clientHeight;
-      console.log(this.footerHeight);
+    // debugger
+    //   const footerElement = this.el.nativeElement.querySelector('FOOTER');
+    //   this.footerHeight = footerElement.clientHeight;
+    //   console.log(this.footerHeight);  
   }
 
 
