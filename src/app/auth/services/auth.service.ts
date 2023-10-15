@@ -63,6 +63,11 @@ export class AuthService {
     return this.http.post(url, model)
   }
 
+  public registerUser(model: any) {
+    let url = environment.nestBaseUrl + "auth/signup";
+    return this.http.post(url, model)
+  }
+
   // Register
   // public userRegister(model: LoginModel) {
     

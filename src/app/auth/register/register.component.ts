@@ -3,7 +3,9 @@ import { AbstractControl, FormBuilder, FormGroup, ValidationErrors, Validators }
 import { NzCascaderOption } from 'ng-zorro-antd/cascader';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { ApplicationService } from 'src/app/services/application.service';
+import { EmployeeService } from 'src/app/services/employee.service';
 import { environment } from 'src/environments/environment';
+import { AuthService } from '../services/auth.service';
 
 @Component({
   selector: 'st-register',
@@ -22,7 +24,7 @@ export class RegisterComponent implements OnInit {
   loader: boolean = false;
   form: FormGroup;
   isFormSubmit: boolean = false;
-  constructor(private applicationService: ApplicationService,
+  constructor(private applicationService: ApplicationService,private authService:AuthService,
     private toastr: NzMessageService, private formBuilder: FormBuilder,) { }
 
   ngOnInit(): void {
@@ -162,12 +164,12 @@ export class RegisterComponent implements OnInit {
     let obj = {
       "username": this.form.value.email,
       "password": this.form.value.password,
-      "domain":window.location.host.split(':')[0],
       "organizationId": environment.organizationId,
       "applicationId": environment.applicationId,
+      "domain":window.location.host.split(':')[0],
     }
     console.log(obj);
-    this.applicationService.addNestCommonAPI('auth/signup', obj).subscribe({
+    this.authService.registerUser(obj).subscribe({
       next: (res: any) => {
         if (res.isSuccess && res?.data) {
           this.toastr.success(res.message, { nzDuration: 2000 });
