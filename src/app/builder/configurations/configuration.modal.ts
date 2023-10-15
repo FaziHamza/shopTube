@@ -450,7 +450,7 @@ export class formFeildData {
           className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
           wrappers: ["formly-vertical-theme-wrapper"],
           props: {
-            label: 'Redirection Type',
+            label: 'Redirect Type',
             options: [
               {
                 label: 'New Page',
@@ -461,8 +461,20 @@ export class formFeildData {
                 value: ''
               },
               {
-                label: 'Modal',
+                label: 'Extra Large Modal',
+                value: '1200px'
+              },
+              {
+                label: 'Large Modal',
                 value: 'modal'
+              },
+              {
+                label: 'Medium Modal',
+                value: '800px'
+              },
+              {
+                label: 'Small Modal',
+                value: '600px'
               },
             ],
             additionalProperties: {
@@ -472,7 +484,6 @@ export class formFeildData {
               showSearch: true,
             },
           },
-          defaultValue: ''
         },
         {
           key: 'badgeType',
@@ -1822,7 +1833,7 @@ export class formFeildData {
           }
         },
         {
-          key: 'btnType',
+          key: 'redirect',
           type: 'select',
           className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
           wrappers: ["formly-vertical-theme-wrapper"],

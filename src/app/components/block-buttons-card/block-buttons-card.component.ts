@@ -16,6 +16,10 @@ export class BlockButtonsCardComponent {
   bgColor: any;
   hoverTextColor: any;
   @Input() softIconList: any;
+  @Input() screenId: any;
+  @Input() formlyModel: any;
+  @Input() form: any;
+  @Input() screenName: any;
   @Input() title: any;
   @Input() tableRowId: any;
   @Output() notify: EventEmitter<any> = new EventEmitter();

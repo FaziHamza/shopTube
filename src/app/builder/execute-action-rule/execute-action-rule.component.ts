@@ -383,7 +383,7 @@ export class ExecuteActionRuleComponent implements OnInit, AfterViewInit {
         "componentFrom": element.componentFrom,
         "targetId": element.targetId,
         "level": element.level,
-        "_id": element.id,
+        // "_id": element.id,
         "action": element.action,
         "rule": element.monacoEditorControl,
         "applicationId": this.applicationId,

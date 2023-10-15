@@ -51,6 +51,7 @@ import { ParentCalendarComponent } from '../components/parent-calendar/parent-ca
 import { AudioRecordingService } from '../services/audio-recording.service';
 import { VideoRecordingService } from '../services/video-recording.service';
 import { VoiceRecorderComponent } from '../components/voice-recorder/voice-recorder.component';
+import { DownloadbuttonComponent } from '../components/downloadbutton/downloadbutton.component';
 // import { CommonService } from './common.service';
 // import { WebsiteModules } from '../Website/website.module';
 
@@ -115,7 +116,8 @@ import { VoiceRecorderComponent } from '../components/voice-recorder/voice-recor
     PrintInvoiceComponent,FileManagerComponent,googleMapComponent,
     ConfigurableDirective,
     ConfigurableSelectDirective,
-    TaskReportComponent,VoiceRecorderComponent
+    TaskReportComponent,VoiceRecorderComponent,
+    DownloadbuttonComponent
     //
     // ErrorComponent
   ],
@@ -172,7 +174,8 @@ import { VoiceRecorderComponent } from '../components/voice-recorder/voice-recor
     ConfigurableSelectDirective,
     TaskReportComponent,
     ParentCalendarComponent,
-    VoiceRecorderComponent
+    VoiceRecorderComponent,
+    DownloadbuttonComponent,
     //
     // ErrorComponent
   ],

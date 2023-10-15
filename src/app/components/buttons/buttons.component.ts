@@ -18,6 +18,11 @@ export class ButtonsComponent implements OnInit {
   @Input() buttonData: any;
   @Input() title: any;
   @Input() tableRowId: any;
+  @Input() softIconList: any;
+  @Input() screenId: any;
+  @Input() formlyModel: any;
+  @Input() form: any;
+  @Input() screenName: any;
   @Output() notify: EventEmitter<any> = new EventEmitter();
   bgColor: any;
   hoverTextColor: any;
@@ -28,7 +33,9 @@ export class ButtonsComponent implements OnInit {
   isVisible = false;
   saveHoverIconColor: any;
   hoverOpacity = '';
-  nodes: TreeNode[];
+  nodes: any[] = [];
+  responseData: any;
+  loader: boolean = false;
   requestSubscription: Subscription;
   constructor(private modalService: NzModalService, public employeeService: EmployeeService, private toastr: NzMessageService, private router: Router,
     public dataSharedService: DataSharedService, private applicationService: ApplicationService, private activatedRoute: ActivatedRoute) { }
@@ -39,6 +46,8 @@ export class ButtonsComponent implements OnInit {
   }
 
   pagesRoute(data: any): void {
+    debugger
+
     if (data.isSubmit) {
       return;
     }
@@ -47,35 +56,61 @@ export class ButtonsComponent implements OnInit {
       return;
     }
 
-    switch (data.btnType) {
+    switch (data.redirect) {
       case 'modal':
       case '1200px':
       case '800px':
       case '600px':
+        if (!data.href) {
+          this.toastr.warning('Required Href', {
+            nzDuration: 3000,
+          });
+          return
+        }
+        this.loader = true;
+        this.isVisible = true;
         this.requestSubscription = this.applicationService.getNestCommonAPIById('cp/Builder', data.href).subscribe({
           next: (res: any) => {
-            if (res.isSuccess) {
-              if (res.data.length > 0) {
-                const data = JSON.parse(res.data[0].screenData);
-                this.nodes = this.jsonParseWithObject(this.jsonStringifyWithObject(data));
-                this.isVisible = true;
+            try {
+              if (res.isSuccess) {
+                if (res.data.length > 0) {
+                  this.screenId = res.data[0].screenBuilderId;
+                  const data = JSON.parse(res.data[0].screenData);
+                  this.responseData = data;
+                  if (this.tableRowId) {
+                    this.findObjectByTypeBase(this.responseData[0].children[1], 'div')
+                  }
+                  res.data[0].screenData = this.jsonParseWithObject(this.jsonStringifyWithObject(this.responseData));
+                  this.nodes = [];
+                  this.nodes.push(res);
+                }
+                this.loader = false;
+              } else {
+                this.toastr.error(res.message, { nzDuration: 3000 });
+                this.loader = false;
               }
-            } else
-              this.toastr.error(res.message, { nzDuration: 3000 });
+            } catch (err) {
+              this.loader = false;
+              this.toastr.warning('An error occurred: ' + err, { nzDuration: 3000 });
+              console.error(err); // Log the error to the console
+            }
           },
           error: (err) => {
+            this.loader = false;
+            this.toastr.warning('Required Href ' + err, { nzDuration: 3000 });
             console.error(err); // Log the error to the console
           }
         });
 
 
-        this.requestSubscription =   this.employeeService.jsonBuilderSetting(data.href).subscribe((res: any) => {
-          if (res.length > 0) {
-            const data = JSON.parse(res.data[0].screenData);
-            this.nodes = this.jsonParseWithObject(this.jsonStringifyWithObject(data));
-            this.isVisible = true;
-          }
-        });
+
+        // this.requestSubscription = this.employeeService.jsonBuilderSetting(data.href).subscribe((res: any) => {
+        //   if (res.length > 0) {
+        //     const data = JSON.parse(res.data[0].screenData);
+        //     this.nodes = this.jsonParseWithObject(this.jsonStringifyWithObject(data));
+        //     this.isVisible = true;
+        //   }
+        // });
         break;
       case '_blank':
         if (this.tableRowId) {
@@ -107,9 +142,9 @@ export class ButtonsComponent implements OnInit {
     }
   }
 
-  ngOnDestroy(){
-    if(this.requestSubscription)
-    this.requestSubscription.unsubscribe();
+  ngOnDestroy() {
+    if (this.requestSubscription)
+      this.requestSubscription.unsubscribe();
   }
   getButtonType(type: any) {
     console.log(type);
@@ -182,5 +217,19 @@ export class ButtonsComponent implements OnInit {
         }
         return value;
       });
+  }
+  findObjectByTypeBase(data: any, type: any) {
+    if (data) {
+      if (data.type && type) {
+        if (data.type === type && data.mapApi && (data.componentMapping == undefined || data.componentMapping == '' || data.componentMapping == false) && this.tableRowId) {
+          data.mapApi += `/${this.tableRowId}`
+        }
+        if (data.children.length > 0) {
+          for (let child of data.children) {
+            this.findObjectByTypeBase(child, type);
+          }
+        }
+      }
+    }
   }
 }

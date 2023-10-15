@@ -201,7 +201,11 @@ export class PagesComponent implements OnInit {
     this.requestSubscription = this.activatedRoute.params.subscribe((params: Params) => {
       this.applicationService.getNestCommonAPI('cp/auth/pageAuth/' + params["schema"]).subscribe(res => {
         if (res?.data)
+        if(this.data.length == 0){
           this.initiliaze(params);
+        }else{
+          this.initiliaze('');
+        }
         else {
           this.router.navigateByUrl('permission-denied')
         }
@@ -251,17 +255,34 @@ export class PagesComponent implements OnInit {
     }
     //
     else if (this.data.length > 0) {
-      this.requestSubscription = this.applicationService.getNestCommonAPIById("cp/ActionRule", this.data[0].data[0].screenBuilderId).subscribe({
-        next: (actions: any) => {
-          this.actionRuleList = actions?.data;
+
+      this.requestSubscription = this.applicationService.getNestCommonAPIById("cp/CacheRule", this.data[0].data[0].screenBuilderId).subscribe({
+        next: (rule: any) => {
+          this.saveLoader = false;
+          // if(rule.isSuccess)
+          this.getCacheRule(rule);
           this.actionsBindWithPage(this.data[0]);
         },
         error: (err) => {
+          this.saveLoader = false;
           this.actionsBindWithPage(this.data[0]);
           console.error(err);
           // this.toastr.error("An error occurred", { nzDuration: 3000 });
         }
       })
+
+
+      // this.requestSubscription = this.applicationService.getNestCommonAPIById("cp/ActionRule", this.data[0].data[0].screenBuilderId).subscribe({
+      //   next: (actions: any) => {
+      //     this.actionRuleList = actions?.data;
+      //     this.actionsBindWithPage(this.data[0]);
+      //   },
+      //   error: (err) => {
+      //     this.actionsBindWithPage(this.data[0]);
+      //     console.error(err);
+      //     // this.toastr.error("An error occurred", { nzDuration: 3000 });
+      //   }
+      // })
     }
   }
   getBuilderScreen(params: any) {
@@ -304,7 +325,13 @@ export class PagesComponent implements OnInit {
     this.screenId = res.data[0].screenBuilderId;
     this.screenName = res.data[0].screenName;
     this.navigation = res.data[0].navigation;
-    const data = JSON.parse(res.data[0].screenData);
+    
+    let data = res.data[0].screenData;
+
+    if (typeof data === 'string') {
+      // It's a JSON string, parse it
+      data = JSON.parse(data);
+    }
 
     let nodesData = this.jsonParseWithObject(this.jsonStringifyWithObject(data));
     // this.resData = this.jsonParseWithObject(this.jsonStringifyWithObject(data));
@@ -1776,6 +1803,7 @@ export class PagesComponent implements OnInit {
       cardWithComponents: 'title',
       buttonGroup: 'title',
       button: 'title',
+      downloadButton: 'path',
       breakTag: 'title',
       switch: 'title',
       imageUpload: 'source',
