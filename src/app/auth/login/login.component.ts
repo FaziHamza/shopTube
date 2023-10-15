@@ -18,7 +18,7 @@ export class LoginComponent implements OnInit {
     // Reinitialize reCAPTCHA after the view has been initialized
     grecaptcha.render('recaptcha', { sitekey: '6LcZ59MnAAAAAEFG5x2mJoJ_ptOFR7O2hSX0HHx3' });
   }
-  
+
 
   recaptchaResponse = '';
   ngOnInit(): void {
@@ -37,7 +37,7 @@ export class LoginComponent implements OnInit {
     private cdr: ChangeDetectorRef,
     private toastr: NzMessageService,
   ) { }
-  showRecaptcha : boolean = false;
+  showRecaptcha: boolean = false;
   isFormSubmit: boolean = false;
   form: FormGroup;
   // form
@@ -79,17 +79,24 @@ export class LoginComponent implements OnInit {
     this.authService.loginUser(this.form.value).subscribe(
       (response: any) => {
         this.showLoader = false;
-        if (response?.access_token) {
-          this.commonService.showSuccess('Login Successfully!', {
-            nzDuration: 2000,
-          });
-          this.showLoader = false;
-          this.authService.setAuth(response);
-          this.router.navigate(['/home/allorder']);
-          this.router.navigate(['/']);
+        if (response.isSuccess) {
+          if (response.data?.access_token) {
+            this.commonService.showSuccess('Login Successfully!', {
+              nzDuration: 2000,
+            });
+            this.showLoader = false;
+            this.authService.setAuth(response.data);
+            this.router.navigate(['/home/allorder']);
+            this.router.navigate(['/']);
+          } else {
+            this.commonService.showError('Something went wrong!');
+          }
         } else {
-          this.commonService.showError('Something went wrong!');
+          this.commonService.showError(response.message, {
+            nzPauseOnHover: true,
+          });
         }
+
       },
       (error) => {
         this.showLoader = false;
