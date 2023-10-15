@@ -11,10 +11,10 @@
       </nz-header>
       <st-pages class="head2 mb-2.5" *ngIf="currentHeader" [resData]="currentHeader" [screenName]="domainData?.header?.navigation"
         [screenId]="domainData?.header?.screenBuilderId"></st-pages>
-      <nz-layout class=""
+      <nz-layout 
         [class]="'content-container' + (selectedTheme?.layout === 'horizental' ? ' b-horizontal-menu' : '') + (selectedTheme.layout == 'rtl' ? ' rtl-layout2' : '')">
         <div *ngIf="!selectedTheme.isCollapsed" class="backdrop"></div>
-        <nz-sider *ngIf="currentWebsiteLayout != 'website' || fullCurrentUrl.includes('/menu-builder')" [class]="'menu-sidebar' + (selectedTheme.layout === 'twoColumn' && selectedTheme['menuChildArrayTwoColumn'].length == 0 ? ' two-column-sider' : '')+
+        <nz-sider class="!rounded-tr-[4px] !rounded-br-[4px] side-bar "  *ngIf="currentWebsiteLayout != 'website' || fullCurrentUrl.includes('/menu-builder')" [class]="'menu-sidebar' + (selectedTheme.layout === 'twoColumn' && selectedTheme['menuChildArrayTwoColumn'].length == 0 ? ' two-column-sider' : '')+
           (selectedTheme.sideBarSize == 'smallIconView' && (selectedTheme.layout == 'vertical' || selectedTheme.layout == 'rtl') ? ' small-icon-view-menu' : '') + (selectedTheme.layout == 'rtl' ? ' mobile-side-menu-rtl' : '')
           " nzTheme="light" nzCollapsible nzWidth="240px" nzBreakpoint="md" [(nzCollapsed)]="selectedTheme.isCollapsed"
           [nzTrigger]="null">
@@ -43,7 +43,7 @@
             </div>
           </ng-template>
         </nz-sider>
-        <nz-sider *ngIf="currentWebsiteLayout == 'website' && !fullCurrentUrl.includes('/menu-builder')" [class]="'menu-sidebar mobile-toggle' + (selectedTheme.layout === 'twoColumn' && selectedTheme['menuChildArrayTwoColumn'].length == 0 ? ' two-column-sider' : '')+
+        <nz-sider class="!rounded-tr-[4px] !rounded-br-[4px] side-bar" *ngIf="currentWebsiteLayout == 'website' && !fullCurrentUrl.includes('/menu-builder')" [class]="'menu-sidebar mobile-toggle' + (selectedTheme.layout === 'twoColumn' && selectedTheme['menuChildArrayTwoColumn'].length == 0 ? ' two-column-sider' : '')+
           (selectedTheme.sideBarSize == 'smallIconView' && (selectedTheme.layout == 'vertical' || selectedTheme.layout == 'rtl') ? ' small-icon-view-menu' : '') + (selectedTheme.layout == 'rtl' ? ' mobile-side-menu-rtl' : '')
           " nzTheme="light" nzCollapsible nzWidth="240px" nzBreakpoint="md" [(nzCollapsed)]="selectedTheme.isCollapsed"
           [nzTrigger]="null">
@@ -52,15 +52,17 @@
               (notify)="loadTabsAndButtons($event)"></st-app-side-menu>
           </div>
         </nz-sider>
-        <nz-content class="relative !bg-slate-50" >
+        <nz-content class="relative site-content !bg-slate-50 " >
           <ng-container *ngIf="tabs.length">
             <ng-container *ngFor="let item of tabs">
-              <st-layout-tabs-dropdown *ngIf="item.type == 'mainTab'" [layoutTabsDropdownData]="item"
+              <st-layout-tabs-dropdown  *ngIf="item.type == 'mainTab'" [layoutTabsDropdownData]="item"
                 [theme]="selectedTheme['inPageMenu']"></st-layout-tabs-dropdown>
             </ng-container>
           </ng-container>
-          <router-outlet></router-outlet>
-          <div [class]="dataSharedService.checkContentForFixFooter ? (dataSharedService.checkContentForFixFooter[0].fixedFooter ? 'dynamic-footer' : '') : 'dynamic-footer'"
+          <div  class="content-part" >
+            <router-outlet></router-outlet>
+          </div>
+          <div class="FOOTER" [class]="dataSharedService.checkContentForFixFooter ? (dataSharedService.checkContentForFixFooter[0].fixedFooter ? 'dynamic-footer' : '') : 'dynamic-footer'"
             *ngIf="currentFooter && !fullCurrentUrl.includes('/menu-builder')">
             <st-pages [resData]="currentFooter" [screenName]="domainData?.footer?.navigation"
               [screenId]="domainData?.footer?.screenBuilderId"></st-pages>

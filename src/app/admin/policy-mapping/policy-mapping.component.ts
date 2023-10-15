@@ -12,6 +12,7 @@ import { DataSharedService } from 'src/app/services/data-shared.service';
   styleUrls: ['./policy-mapping.component.scss']
 })
 export class PolicyMappingComponent implements OnInit {
+  
   paginatedData: any[] = [];
   model: any;
   isSubmit: boolean = true;
@@ -329,5 +330,23 @@ export class PolicyMappingComponent implements OnInit {
         console.log('User clicked Cancel');
       }
     });
+  }
+  selectAll(){
+    const updatedDat = this.menuOfDisplayData.map((item) => ({
+      ...item,
+      create: true,
+      update: true,
+      read: true,
+      delete: true,
+    }));
+    this.menuOfDisplayData = updatedDat
+    const updatedData = this.menuList.map((item) => ({
+      ...item,
+      create: true,
+      update: true,
+      read: true,
+      delete: true,
+    }));
+    this.menuList = updatedData;
   }
 }

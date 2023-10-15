@@ -23,25 +23,25 @@ export class ExecuteActionRuleComponent implements OnInit, AfterViewInit {
   requestSubscription: Subscription;
   languageId = 'json';
   nodeList: { title: string, key: string }[] = [];
-  levelList :any[] =  [
+  levelList: any[] = [
     {
-      title:'level 1',
+      title: 'level 1',
       key: '0',
     },
     {
-      title:'level 2',
+      title: 'level 2',
       key: '1',
     },
     {
-      title:'level 3',
+      title: 'level 3',
       key: '2',
     },
     {
-      title:'level 4',
+      title: 'level 4',
       key: '3',
     },
     {
-      title:'level 5',
+      title: 'level 5',
       key: '4',
     },
   ]
@@ -77,6 +77,7 @@ export class ExecuteActionRuleComponent implements OnInit, AfterViewInit {
             res.data.forEach((element: any) => {
               let newItem = this.fb.group({
                 componentFrom: element.componentFrom, // Initialize this with your select value
+                id: element._id, // Initialize this with your select value
                 targetId: element.targetId, // Initialize this with your select value
                 level: element.level, // Initialize this with your select value
                 action: element.action, // Initialize this with your select value
@@ -293,6 +294,7 @@ export class ExecuteActionRuleComponent implements OnInit, AfterViewInit {
   addMultiSelect() {
     const newItem = this.fb.group({
       action: [''], // Initialize this with your select value
+      id: [''], // Initialize this with your select value
       componentFrom: [''], // Initialize this with your select value
       targetId: [''], // Initialize this with your select value
       level: [''], // Initialize this with your select value
@@ -373,45 +375,78 @@ export class ExecuteActionRuleComponent implements OnInit, AfterViewInit {
     }
   }
   saveMultiSelects() {
+    let actionRuleList: any[] = [];
     const mainModuleId = this.screens.filter((a: any) => a.name == this.screenName)
-    this.applicationService.deleteNestCommonAPI('cp/ActionRule/deleteActionRule', mainModuleId[0]._id).subscribe(res => {
-      const observables = this.multiSelectArray.value.map((element: any) => {
+    const observables = this.multiSelectArray.value.map((element: any) => {
+      let actionData: any = {
+        "screenBuilderId": mainModuleId.length > 0 ? mainModuleId[0]._id : "",
+        "componentFrom": element.componentFrom,
+        "targetId": element.targetId,
+        "level": element.level,
+        "_id": element.id,
+        "action": element.action,
+        "rule": element.monacoEditorControl,
+        "applicationId": this.applicationId,
+      }
+      actionRuleList.push(actionData);
+    });
+    this.applicationService.addNestCommonAPI('cp/ActionRule/deleteActionRule', actionRuleList).subscribe({
+      next: (allResults: any) => {
+        if (allResults) {  //results.every((result: any) => !(result instanceof Error))
+          debugger
+          this.getActionData();
+          this.toastr.success("Action Rules Save Successfully", { nzDuration: 3000 });
+          // }
+        } else {
+          this.toastr.error("Action Rules not saved", { nzDuration: 3000 });
+        }
+      },
+      error: (err) => {
+        console.error(err);
+        this.toastr.error("Action Rules: An error occured", { nzDuration: 3000 });
+      }
 
-        let actionData: any = {
-          "screenBuilderId": mainModuleId.length > 0 ? mainModuleId[0]._id : "",
-          "componentFrom": element.componentFrom,
-          "targetId": element.targetId,
-          "level": element.level,
-          "action": element.action,
-          "rule": element.monacoEditorControl,
-          "applicationId": this.applicationId,
-        }
-
-        const actionModel = {
-          "ActionRule": actionData
-        }
-        return this.applicationService.addNestCommonAPI('cp', actionModel).pipe(
-          catchError(error => of(error)) // Handle error and continue the forkJoin
-        );
-      });
-      forkJoin(observables).subscribe({
-        next: (allResults: any) => {
-          if (allResults.every((result: any) => result.isSuccess === true)) {  //results.every((result: any) => !(result instanceof Error))
-            debugger
-            // if (allResults) {
-            this.getActionData();
-            this.toastr.success("Action Rules Save Successfully", { nzDuration: 3000 });
-            // }
-          } else {
-            this.toastr.error("Action Rules not saved", { nzDuration: 3000 });
-          }
-        },
-        error: (err) => {
-          console.error(err);
-          this.toastr.error("Action Rules: An error occured", { nzDuration: 3000 });
-        }
-      });
     })
+    // const mainModuleId = this.screens.filter((a: any) => a.name == this.screenName)
+    // this.applicationService.deleteNestCommonAPI('cp/ActionRule/deleteActionRule', mainModuleId[0]._id).subscribe(res => {
+    //   const observables = this.multiSelectArray.value.map((element: any) => {
+
+    //     let actionData: any = {
+    //       "screenBuilderId": mainModuleId.length > 0 ? mainModuleId[0]._id : "",
+    //       "componentFrom": element.componentFrom,
+    //       "targetId": element.targetId,
+    //       "level": element.level,
+    //       "_id": element.id,
+    //       "action": element.action,
+    //       "rule": element.monacoEditorControl,
+    //       "applicationId": this.applicationId,
+    //     }
+
+    //     const actionModel = {
+    //       "ActionRule": actionData
+    //     }
+    //     return this.applicationService.addNestCommonAPI('cp', actionModel).pipe(
+    //       catchError(error => of(error)) // Handle error and continue the forkJoin
+    //     );
+    //   });
+    //   forkJoin(observables).subscribe({
+    //     next: (allResults: any) => {
+    //       if (allResults.every((result: any) => result.isSuccess === true)) {  //results.every((result: any) => !(result instanceof Error))
+    //         debugger
+    //         // if (allResults) {
+    //         this.getActionData();
+    //         this.toastr.success("Action Rules Save Successfully", { nzDuration: 3000 });
+    //         // }
+    //       } else {
+    //         this.toastr.error("Action Rules not saved", { nzDuration: 3000 });
+    //       }
+    //     },
+    //     error: (err) => {
+    //       console.error(err);
+    //       this.toastr.error("Action Rules: An error occured", { nzDuration: 3000 });
+    //     }
+    //   });
+    // })
 
   }
 }

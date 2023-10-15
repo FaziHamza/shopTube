@@ -52,6 +52,9 @@ import { VideoRecordingService } from './services/video-recording.service';
 import { NotFoundComponent } from './auth/not-found/not-found.component';
 import { PermissionDeniedComponent } from './auth/permission-denied/permission-denied.component';
 import { UserComponent } from './auth/user/user.component';
+import { PolicyComponent } from './admin/policy/policy.component';
+import { PolicyMappingComponent } from './admin/policy-mapping/policy-mapping.component';
+import { UserMappingComponent } from './admin/user-mapping/user-mapping.component';
 
 @NgModule({
   declarations: [
@@ -66,7 +69,10 @@ import { UserComponent } from './auth/user/user.component';
     TableRowComponent,
     NotFoundComponent,
     PermissionDeniedComponent,
-    UserComponent
+    UserComponent,
+    PolicyComponent,
+    PolicyMappingComponent,
+    UserMappingComponent,
     // MultiFileUploadWrapperComponent,
   ],
   imports: [

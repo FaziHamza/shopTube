@@ -2091,6 +2091,12 @@ export class PagesComponent implements OnInit {
                   //   url = getActions.actions?.[0]?.url.endsWith('/')
                   // else url = getActions.actions?.[0]?.url + '/'
                   if (getActions._id) {
+                    for (let j = 0; j < filteredNodes.length; j++) {
+                      const ele = filteredNodes[j];
+                      if (ele.formly[0].fieldGroup[0].key == getActions?.targetId) {
+                        ele.formly[0].fieldGroup[0].props.options = [];
+                      }
+                    }
                     let parentId =
                       this.requestSubscription = this.applicationService.callApi('knex-query/getexecute-rules/' + getActions._id, 'get', '', '', typeof targetId === 'string' ? "'" + targetId + "'" : targetId
                       ).subscribe(res => {
