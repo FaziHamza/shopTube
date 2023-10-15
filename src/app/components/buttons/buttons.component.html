@@ -89,7 +89,10 @@
 <nz-modal [nzWidth]="buttonData?.redirect == 'modal' ? '1000px' : buttonData.redirect" [(nzVisible)]="isVisible"
   (nzOnCancel)="handleCancel()" (nzOnOk)="handleOk()">
   <ng-container *nzModalContent>
-    <st-pages [data]="nodes" [resData]="nodes" [navigation]="screenId" [form]="form" [formlyModel]="formlyModel"
-      *ngIf="nodes.length"></st-pages>
+    <nz-spin [nzSpinning]="loader" [nzSize]="'large'">
+      <st-pages [data]="nodes" [navigation]="screenId" [form]="form" [formlyModel]="formlyModel"
+        *ngIf="nodes.length > 0"></st-pages>
+    </nz-spin>
+
   </ng-container>
 </nz-modal>
