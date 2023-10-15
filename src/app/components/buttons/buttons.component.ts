@@ -18,6 +18,11 @@ export class ButtonsComponent implements OnInit {
   @Input() buttonData: any;
   @Input() title: any;
   @Input() tableRowId: any;
+  @Input() softIconList: any;
+  @Input() screenId: any;
+  @Input() formlyModel: any;
+  @Input() form: any;
+  @Input() screenName: any;
   @Output() notify: EventEmitter<any> = new EventEmitter();
   bgColor: any;
   hoverTextColor: any;
@@ -39,6 +44,8 @@ export class ButtonsComponent implements OnInit {
   }
 
   pagesRoute(data: any): void {
+    debugger
+
     if (data.isSubmit) {
       return;
     }
@@ -47,7 +54,7 @@ export class ButtonsComponent implements OnInit {
       return;
     }
 
-    switch (data.btnType) {
+    switch (data.redirect) {
       case 'modal':
       case '1200px':
       case '800px':
@@ -58,6 +65,7 @@ export class ButtonsComponent implements OnInit {
               if (res.data.length > 0) {
                 const data = JSON.parse(res.data[0].screenData);
                 this.nodes = this.jsonParseWithObject(this.jsonStringifyWithObject(data));
+                this.findObjectByTypeBase(this.nodes[0], 'div')
                 this.isVisible = true;
               }
             } else
@@ -69,13 +77,13 @@ export class ButtonsComponent implements OnInit {
         });
 
 
-        this.requestSubscription =   this.employeeService.jsonBuilderSetting(data.href).subscribe((res: any) => {
-          if (res.length > 0) {
-            const data = JSON.parse(res.data[0].screenData);
-            this.nodes = this.jsonParseWithObject(this.jsonStringifyWithObject(data));
-            this.isVisible = true;
-          }
-        });
+        // this.requestSubscription = this.employeeService.jsonBuilderSetting(data.href).subscribe((res: any) => {
+        //   if (res.length > 0) {
+        //     const data = JSON.parse(res.data[0].screenData);
+        //     this.nodes = this.jsonParseWithObject(this.jsonStringifyWithObject(data));
+        //     this.isVisible = true;
+        //   }
+        // });
         break;
       case '_blank':
         if (this.tableRowId) {
@@ -107,9 +115,9 @@ export class ButtonsComponent implements OnInit {
     }
   }
 
-  ngOnDestroy(){
-    if(this.requestSubscription)
-    this.requestSubscription.unsubscribe();
+  ngOnDestroy() {
+    if (this.requestSubscription)
+      this.requestSubscription.unsubscribe();
   }
   getButtonType(type: any) {
     console.log(type);
@@ -182,5 +190,22 @@ export class ButtonsComponent implements OnInit {
         }
         return value;
       });
+  }
+  findObjectByTypeBase(data: any, type: any) {
+    if (data) {
+      if (data.type && type) {
+        if (data.type === type && data.mapApi && (data.componentMapping == undefined || data.componentMapping == '' || data.componentMapping == false) && this.tableRowId) {
+          data.mapApi += `/${this.tableRowId}`
+        }
+        if (data.children.length > 0) {
+          for (let child of data.children) {
+            let result: any = this.findObjectByTypeBase(child, type);
+            if (result !== null) {
+              return result;
+            }
+          }
+        }
+      }
+    }
   }
 }
