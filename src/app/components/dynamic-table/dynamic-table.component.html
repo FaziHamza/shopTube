@@ -235,19 +235,20 @@
             </th>
           </ng-container>
           <th [nzWidth]="deleteditWidth[0]?.width ? deleteditWidth[0].width + 'px' : 'auto'"
-            (mousedown)="onResizeStart($event, deleteditWidth[0])" 
-            *ngIf="isAllowEdit(tableHeaders)" [nzRight]="data?.endFreezingNumber >= 2">
-            <div [class]="data?.thClass" class="!text-gray-500 relative !uppercase !text-center" class="w-auto flex justify-center items-center"
+            (mousedown)="onResizeStart($event, deleteditWidth[0])" *ngIf="isAllowEdit(tableHeaders)"
+            [nzRight]="data?.endFreezingNumber >= 2">
+            <div [class]="data?.thClass" class="!text-gray-500 relative !uppercase !text-center"
+              class="w-auto flex justify-center items-center"
               [style.transform]="data?.rotationDegree &&  'rotate(' + data?.rotationDegree + 'deg)'"
               [style.height]="data?.rotationDegree && '100px'">
               Edit
             </div>
           </th>
           <th [nzWidth]="deleteditWidth[1]?.width ? deleteditWidth[1].width + 'px' : 'auto'"
-            (mousedown)="onResizeStart($event, deleteditWidth[1])" 
-            [nzRight]="data?.endFreezingNumber >= 1"
+            (mousedown)="onResizeStart($event, deleteditWidth[1])" [nzRight]="data?.endFreezingNumber >= 1"
             *ngIf="tableHeaders.length > 0 && (data?.isDeleteAllow || data?.isDeleteAllow == undefined)">
-            <div [class]="data?.thClass" class="!text-gray-500 relative !uppercase !text-center" class="w-auto flex justify-center items-center"
+            <div [class]="data?.thClass" class="!text-gray-500 relative !uppercase !text-center"
+              class="w-auto flex justify-center items-center"
               [style.transform]="data?.rotationDegree && 'rotate(' + data?.rotationDegree + 'deg)'"
               [style.height]="data?.rotationDegree && '100px'">
               Delete
@@ -356,10 +357,14 @@
                     <ng-container *ngIf="data.children.length > 0">
                       <div class="'flex flex-wrap'">
                         <div *ngFor="let childData of data.children">
-                          <div *ngIf="childData.type =='button' && childData?.id == header?.key"
-                            class="{{childData?.className}}">
-                            <st-block-buttons-card [tableRowId]="item['id']" [title]="item[header.key]" [softIconList]="childData">
+                          <div *ngIf="childData?.id == header?.key" class="{{childData?.className}}">
+                            <st-block-buttons-card *ngIf="childData.type =='button'" [tableRowId]="item['id']"
+                              [title]="item[header.key]" [softIconList]="childData">
                             </st-block-buttons-card>
+                            <st-downloadbutton *ngIf="childData.type == 'downloadButton'" [screenId]="screenId"
+                              [formlyModel]="formlyModel" [form]="form" [screenName]="screenName"
+                              [tableRowId]="item['id']" [buttonData]="childData" [title]="''"
+                              [path]="item[header.key]"></st-downloadbutton>
                           </div>
                         </div>
                       </div>

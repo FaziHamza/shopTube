@@ -16,6 +16,7 @@ export class DownloadbuttonComponent {
   @Input() formlyModel: any;
   @Input() form: any;
   @Input() screenName: any;
+  @Input() path: any;
   // @Output() notify: EventEmitter<any> = new EventEmitter();
   bgColor: any;
   hoverTextColor: any;
@@ -67,7 +68,22 @@ export class DownloadbuttonComponent {
   }
 
   downloadReport(buttonData: any) {
-    if (buttonData.path) {
+    if (this.path) {
+      const pdfFileUrl = this.serverPath + "/" + this.path;
+      if (pdfFileUrl.includes('.pdf')) {
+        // Create an anchor element
+        const anchor = document.createElement('a');
+        anchor.href = pdfFileUrl;
+        anchor.target = '_blank'; // Open in a new tab/window
+
+        // Set a filename for the downloaded file
+        anchor.download = 'your-pdf-filename.pdf';
+
+        // Trigger a click event on the anchor element
+        anchor.click();
+      }
+    }
+    else if (buttonData.path) {
       alert(this.serverPath + "/" + buttonData.path);
     } else {
       alert("Path did not exist");
