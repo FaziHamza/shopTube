@@ -90,6 +90,7 @@ export interface TreeNode {
   okvisible?: any;
   target?: any;
   buttonClass?: any;
+  searchfieldClass?: any;
   bond?: any;
   alt?: any;
   source?: any;
