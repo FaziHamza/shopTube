@@ -4487,6 +4487,7 @@ export class BuilderComponent implements OnInit {
           this.selectedNode['tbodyClass'] = event.form?.tbodyClass;
           this.selectedNode['tdClass'] = event.form?.tdClass;
           this.selectedNode['hieght'] = event.form?.hieght;
+          this.selectedNode['searchfieldClass'] = event.form?.searchfieldClass;
           if (event.form?.hieght) {
             this.selectedNode['stickyHeaders'] = true;
           }

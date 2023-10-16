@@ -77,12 +77,12 @@
             [(ngModel)]="data['searchValue']" placeholder="Search..." />
         </nz-input-group>
         <ng-template #suffixIconButton>
-          <button (click)="search('onClick')" nz-button nzType="primary"
-            class="!rounded-tr-md !rounded-br-md !w-10 !flex !justify-center !items-center !h-[35px] !bg-blue-600 hover:!bg-blue-500"
-            nzSearch>
-            <i class="fa-solid fa-magnifying-glass"></i>
-          </button>
-        </ng-template>
+          <button (click)="search('onClick')" nz-button
+          [class]="data?.searchfieldClass"
+          nzSearch>
+          <i class="fa-solid fa-magnifying-glass"></i>
+        </button>
+      </ng-template>
       </div>
     </div>
   </div>
