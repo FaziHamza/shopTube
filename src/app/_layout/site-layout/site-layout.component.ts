@@ -18,8 +18,8 @@ import { EmployeeService } from 'src/app/services/employee.service';
 export class SiteLayoutComponent implements OnInit {
   @Input() menuItems: any = [];
   @Input() selectedTheme: any;
-  @ViewChild('head2') header: ElementRef;
-  @ViewChild('FOOTER') dynamic_footer: ElementRef;
+  @ViewChild('head2') Head: ElementRef;
+  @ViewChild('footer-check') dynamic_footer: ElementRef;
   headerHeight: number;
   footerHeight: number;
 
@@ -163,12 +163,21 @@ export class SiteLayoutComponent implements OnInit {
   }
 
 
+  // private updateHeaderHeight() {
+  //   // Get the actual header height dynamically
+  //   const headerElement = this.el.nativeElement.querySelector('.head2');
+  //   this.headerHeight = headerElement.clientHeight;
+
+  //   // Adjust the layout width based on the header height
+  //   const layoutElement = this.el.nativeElement.querySelector('.content-container');
+  //   this.renderer.setStyle(layoutElement, 'height', `calc(100vh - ${this.headerHeight + 15}px)`);
+  // }
+
   private updateHeaderHeight() {
-    // Get the actual header height dynamically
-    const headerElement = this.el.nativeElement.querySelector('.head2');
+    // Use the @ViewChild reference to get the header element
+    const headerElement = this.Head.nativeElement;
     this.headerHeight = headerElement.clientHeight;
-
-
+    console.log(this.headerHeight,'tayyab')
 
     // Adjust the layout width based on the header height
     const layoutElement = this.el.nativeElement.querySelector('.content-container');
@@ -176,10 +185,10 @@ export class SiteLayoutComponent implements OnInit {
   }
 
   private updateFooterHeight(){
-    // debugger
-    //   const footerElement = this.el.nativeElement.querySelector('FOOTER');
-    //   this.footerHeight = footerElement.clientHeight;
-    //   console.log(this.footerHeight);  
+    debugger
+      const footerElement = this.el.nativeElement.querySelector('footer-check');
+      this.footerHeight = footerElement.clientHeight;
+      console.log(this.footerHeight,'the height is ');  
   }
 
 
