@@ -77,12 +77,10 @@
             [(ngModel)]="data['searchValue']" placeholder="Search..." />
         </nz-input-group>
         <ng-template #suffixIconButton>
-          <button (click)="search('onClick')" nz-button
-          [class]="data?.searchfieldClass"
-          nzSearch>
-          <i class="fa-solid fa-magnifying-glass"></i>
-        </button>
-      </ng-template>
+          <button (click)="search('onClick')" nz-button [class]="data?.searchfieldClass" nzSearch>
+            <i class="fa-solid fa-magnifying-glass"></i>
+          </button>
+        </ng-template>
       </div>
     </div>
   </div>
@@ -331,12 +329,13 @@
                     </ng-container>
                   </ng-container>
                   <ng-container *ngIf="header?.dataType =='dateTime'">
-                    <ng-container *ngIf="item[header.key] && editId != item.id">
+                    <div [hidden]="editId === item.id && (configurationTable || header?.editMode == 'yes'|| header?.editMode == true)">
                       {{ item[header.key] | date:'dd-MM-yyyy'}}
-                    </ng-container>
-                    <ng-container *ngIf="editId == item.id && (configurationTable || header?.editMode)">
+                    </div>
+                    <div [hidden]="editId !== item.id"
+                      *ngIf="editId == item.id && (configurationTable || header?.editMode)">
                       <input [(ngModel)]="item[header.key]" type="date">
-                    </ng-container>
+                    </div>
                   </ng-container>
                   <ng-container *ngIf="header?.dataType =='objectType'">
                     {{item[header.key]}}
