@@ -17,10 +17,12 @@
                 <td>{{data?.password}}</td> -->
                 <td>{{data?.username}}</td>
                 <td [hidden]="edit == data._id">{{data?.status ? data?.status : 'Pending' }}</td>
-                <select [hidden]="edit != data._id" [(ngModel)]="data.status">
-                    <option class="text-black" value="Pending">Pending</option>
-                    <option class="text-black" value="Approved">Approve
-                </select>
+                <td [hidden]="edit != data._id">
+                    <select  [(ngModel)]="data.status" class="px-3 py-1.5 rounded-[4px] bg-white border border-gray-300 hover:text-blue-600 hover:border-blue-600" >
+                        <option class="text-black mx-2" value="Pending">Pending</option>
+                        <option class="text-black mx-2" value="Approved">Approve
+                    </select>
+                </td>
                 <td class="!text-center">
                     <i (click)="editFunc(data)" *ngIf="edit !== data._id"
                         class="fa-regular !text-sm fa-pencil text-blue-500"></i>

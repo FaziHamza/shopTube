@@ -77,9 +77,7 @@
             [(ngModel)]="data['searchValue']" placeholder="Search..." />
         </nz-input-group>
         <ng-template #suffixIconButton>
-          <button (click)="search('onClick')" nz-button nzType="primary"
-            class="!rounded-tr-md !rounded-br-md !w-10 !flex !justify-center !items-center !h-[35px] !bg-blue-600 hover:!bg-blue-500"
-            nzSearch>
+          <button (click)="search('onClick')" nz-button [class]="data?.searchfieldClass" nzSearch>
             <i class="fa-solid fa-magnifying-glass"></i>
           </button>
         </ng-template>
@@ -235,19 +233,20 @@
             </th>
           </ng-container>
           <th [nzWidth]="deleteditWidth[0]?.width ? deleteditWidth[0].width + 'px' : 'auto'"
-            (mousedown)="onResizeStart($event, deleteditWidth[0])" 
-            *ngIf="isAllowEdit(tableHeaders)" [nzRight]="data?.endFreezingNumber >= 2">
-            <div [class]="data?.thClass" class="!text-gray-500 relative !uppercase !text-center" class="w-auto flex justify-center items-center"
+            (mousedown)="onResizeStart($event, deleteditWidth[0])" *ngIf="isAllowEdit(tableHeaders)"
+            [nzRight]="data?.endFreezingNumber >= 2">
+            <div [class]="data?.thClass" class="!text-gray-500 relative !uppercase !text-center"
+              class="w-auto flex justify-center items-center"
               [style.transform]="data?.rotationDegree &&  'rotate(' + data?.rotationDegree + 'deg)'"
               [style.height]="data?.rotationDegree && '100px'">
               Edit
             </div>
           </th>
           <th [nzWidth]="deleteditWidth[1]?.width ? deleteditWidth[1].width + 'px' : 'auto'"
-            (mousedown)="onResizeStart($event, deleteditWidth[1])" 
-            [nzRight]="data?.endFreezingNumber >= 1"
+            (mousedown)="onResizeStart($event, deleteditWidth[1])" [nzRight]="data?.endFreezingNumber >= 1"
             *ngIf="tableHeaders.length > 0 && (data?.isDeleteAllow || data?.isDeleteAllow == undefined)">
-            <div [class]="data?.thClass" class="!text-gray-500 relative !uppercase !text-center" class="w-auto flex justify-center items-center"
+            <div [class]="data?.thClass" class="!text-gray-500 relative !uppercase !text-center"
+              class="w-auto flex justify-center items-center"
               [style.transform]="data?.rotationDegree && 'rotate(' + data?.rotationDegree + 'deg)'"
               [style.height]="data?.rotationDegree && '100px'">
               Delete
@@ -330,12 +329,13 @@
                     </ng-container>
                   </ng-container>
                   <ng-container *ngIf="header?.dataType =='dateTime'">
-                    <ng-container *ngIf="item[header.key] && editId != item.id">
+                    <div [hidden]="editId === item.id && (configurationTable || header?.editMode == 'yes'|| header?.editMode == true)">
                       {{ item[header.key] | date:'dd-MM-yyyy'}}
-                    </ng-container>
-                    <ng-container *ngIf="editId == item.id && (configurationTable || header?.editMode)">
+                    </div>
+                    <div [hidden]="editId !== item.id"
+                      *ngIf="editId == item.id && (configurationTable || header?.editMode)">
                       <input [(ngModel)]="item[header.key]" type="date">
-                    </ng-container>
+                    </div>
                   </ng-container>
                   <ng-container *ngIf="header?.dataType =='objectType'">
                     {{item[header.key]}}
@@ -356,10 +356,14 @@
                     <ng-container *ngIf="data.children.length > 0">
                       <div class="'flex flex-wrap'">
                         <div *ngFor="let childData of data.children">
-                          <div *ngIf="childData.type =='button' && childData?.id == header?.key"
-                            class="{{childData?.className}}">
-                            <st-block-buttons-card [tableRowId]="item['id']" [title]="item[header.key]" [softIconList]="childData">
+                          <div *ngIf="childData?.id == header?.key" class="{{childData?.className}}">
+                            <st-block-buttons-card *ngIf="childData.type =='button'" [tableRowId]="item['id']"
+                              [title]="item[header.key]" [softIconList]="childData">
                             </st-block-buttons-card>
+                            <st-downloadbutton *ngIf="childData.type == 'downloadButton'" [screenId]="screenId"
+                              [formlyModel]="formlyModel" [form]="form" [screenName]="screenName"
+                              [tableRowId]="item['id']" [buttonData]="childData" [title]="''"
+                              [path]="item[header.key]"></st-downloadbutton>
                           </div>
                         </div>
                       </div>

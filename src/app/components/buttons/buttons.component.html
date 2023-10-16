@@ -86,7 +86,7 @@
 </nz-dropdown-menu>
 
 <!-- Modal -->
-<nz-modal [nzWidth]="buttonData?.redirect == 'modal' ? '1000px' : buttonData.redirect" [(nzVisible)]="isVisible"
+<nz-modal [nzWidth]="buttonData?.redirect == 'modal' ? '' : buttonData.redirect" [(nzVisible)]="isVisible"
   (nzOnCancel)="handleCancel()" (nzOnOk)="handleOk()">
   <ng-container *nzModalContent>
     <nz-spin [nzSpinning]="loader" [nzSize]="'large'">

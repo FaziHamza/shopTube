@@ -217,12 +217,12 @@ export class AddControlService {
       ]
     }
   }
-  getInsertButtonControl(type? : any) {
+  getInsertButtonControl(type?: any) {
     return {
       type: type == 'downloadButton' ? 'downloadButton' : "button",
       actionType: "insert",
       isNextChild: false,
-      className: "w-1/3",
+      className: "w-auto",
       color: "",
       hoverColor: "",
       btnIcon: "fa-regular fa-floppy-disk",
@@ -245,7 +245,7 @@ export class AddControlService {
       href: "",
       dataTable: "",
       btnLabelPaddingClass: '',
-      btnopacity: '',                        
+      btnopacity: '',
       badgeType: 'none',
       badgeCount: '',
       hoverBorderColor: '',
@@ -253,14 +253,14 @@ export class AddControlService {
       iconPlacement: 'left',
       hoverIconColor: '',
       captureData: 'sectionLevel',
-      buttonClass: '!rounded-md !bg-blue-500 !text-white hover:!bg-blue-600 hover:text-white !border !border-transparent !hover:border-transparent font-md text-lg',
-      path:''
+      buttonClass: '!rounded !bg-blue-500 !text-white hover:!bg-blue-600 hover:text-white !border !border-transparent !hover:border-transparent font-md text-lg',
+      path: ''
     }
   }
   getDropdownButtonControl() {
     return {
       isNextChild: false,
-      className: "w-1/3",
+      className: "w-auto",
       color: "",
       hoverColor: "",
       btnIcon: "",
@@ -281,7 +281,7 @@ export class AddControlService {
       nztype: "default",
       textColor: "",
       hoverIconColor: '',
-      buttonClass: '!rounded-md !bg-blue-500 !text-white hover:!bg-blue-600 hover:text-white !border !border-transparent !hover:border-transparent font-md text-lg',
+      buttonClass: '!rounded !bg-blue-500 !text-white hover:!bg-blue-600 hover:text-white !border !border-transparent !hover:border-transparent font-md text-lg',
       iconSize: 15,
       hoverTextColor: '',
       dataTable: '',
@@ -856,6 +856,7 @@ export class AddControlService {
       displayData: [],
       showEditInput: false,
       isDeleteAllow: true,
+      searchfieldClass: "!rounded-tr-md !rounded-br-md !w-10 !flex !justify-center !items-center !h-[35px] !bg-blue-600 hover:!bg-blue-500 !text-white !border !border-transparent hover:!border-transparent",
       isAllowGrouping: false,
       showTotal: true,
       outerBordered: false,
