@@ -39,9 +39,9 @@ import { environment } from 'src/environments/environment';
    </nz-input-group>
 </div>
 <ng-template #suffixTemplateInfo>
-   <ng-container *ngIf="to['additionalProperties']?.suffixicon ; else addonLeftText">
-      <st-icon [type]="to['additionalProperties']?.iconType || 'outline'"
-      [icon]="to['additionalProperties']?.suffixicon"
+   <ng-container  *ngIf="to['additionalProperties']?.suffixicon ; else addonLeftText">
+      <st-icon  (click)="clearFile(to['additionalProperties']?.suffixicon)" [type]="to['additionalProperties']?.iconType || 'outline'"
+      [icon]="this.formControl.value ? 'delete' : to['additionalProperties']?.suffixicon"
       [size]="to['additionalProperties']?.iconSize"
       [hoverIconColor]="to['additionalProperties']?.hoverIconColor || ''"
       [color]="to['additionalProperties']?.iconColor" ></st-icon>
@@ -52,8 +52,8 @@ import { environment } from 'src/environments/environment';
 </ng-template>
 <ng-template #prefixTemplateUser >
    <ng-container *ngIf="to['additionalProperties']?.prefixicon ; else addonRightText">
-      <st-icon [type]="to['additionalProperties']?.iconType || 'outline'"
-      [icon]="to['additionalProperties']?.prefixicon"
+      <st-icon (click)="imagePreview(to['additionalProperties']?.prefixicon)" [type]="to['additionalProperties']?.iconType || 'outline'"
+      [icon]="this.formControl.value ? 'eye' : to['additionalProperties']?.prefixicon"
       [size]="to['additionalProperties']?.iconSize"
       [hoverIconColor]="to['additionalProperties']?.hoverIconColor || ''"
       [color]="to['additionalProperties']?.iconColor"
@@ -70,8 +70,11 @@ export class FormlyFieldImageUploadComponent extends FieldWrapper<FieldTypeConfi
   imageUrl: any;
   imagePath = environment.nestImageUrl;
 
-  constructor(private sharedService: DataSharedService,private applicationService:ApplicationService) {
+  constructor(private sharedService: DataSharedService, private applicationService: ApplicationService) {
     super();
+  }
+  ngOnInit(): void {
+
   }
   onFileSelected(event: any) {
     const file: File = event.target.files[0];
@@ -86,9 +89,16 @@ export class FormlyFieldImageUploadComponent extends FieldWrapper<FieldTypeConfi
       next: (res) => {
         // this.isLoading = false;
         // this.toastr.success('File uploaded successfully', { nzDuration: 3000 });
+        this.to['additionalProperties'].suffixicon = 'delete';
+        this.to['additionalProperties'].prefixicon = 'eye';
+        if (this.to['additionalProperties']?.wrapper == 'floating_filled' || this.to['additionalProperties']?.wrapper == 'floating_standard'
+          || this.to['additionalProperties']?.wrapper == 'floating_outlined') {
+          this.to['additionalProperties'].suffixicon = '';
+          this.to['additionalProperties'].prefixicon = '';
+        }
         this.formControl.patchValue(this.imagePath + res.path);
         // this.form.patchValue({ url:  })
-        this.model.url = this.imagePath + res.path;
+        // this.model.url = this.imagePath + res.path;
         console.log('File uploaded successfully:', res);
       },
       error: (err) => {
@@ -137,9 +147,18 @@ export class FormlyFieldImageUploadComponent extends FieldWrapper<FieldTypeConfi
 
   }
   // Function to clear the selected file and reset the form control value
-  clearFile() {
-    this.imageUrl = null;
-    this.fileInput.nativeElement.value = '';
-    this.formControl.setValue(null);
+  clearFile(data: any) {
+    if (data == 'delete') {
+      this.imageUrl = null;
+      // this.fileInput.nativeElement.value = '';
+      this.formControl.setValue(null);
+      this.to['additionalProperties'].suffixicon = '';
+      this.to['additionalProperties'].prefixicon = '';
+    }
+  }
+  imagePreview(data: any) {
+    if (data == 'eye') {
+      window.open(this.formControl.value, '_blank');
+    }
   }
 }

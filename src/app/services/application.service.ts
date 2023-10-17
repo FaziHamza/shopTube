@@ -103,4 +103,10 @@ export class ApplicationService {
 
     return this.http.post(url, formData, { headers });
   }
+  deleteS3File(path: string): Observable<any> {
+    const encodedPath = encodeURIComponent(path);
+    const url = `${this.nestUrl}s3-file-manager?path=${encodedPath}`;
+    return this.http.delete(url);
+  }
+
 }
