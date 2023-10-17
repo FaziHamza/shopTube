@@ -9,6 +9,7 @@ import { ShareModule } from '../shared/share.module';
 import { NgZorroAntdModule } from '../zorro/ng-zorro-antd.module';
 import { ErrorComponent } from 'src/common/error/error.component';
 import { EnvService } from '../shared/envoirment.service';
+import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -18,7 +19,8 @@ const routes: Routes = [
   declarations: [
     LoginComponent,
     RegisterComponent, 
-    ErrorComponent
+    ErrorComponent,
+    ForgotPasswordComponent
   ],
   imports: [
     AuthRoutingModule,

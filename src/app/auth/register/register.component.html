@@ -55,7 +55,7 @@
                     </p>
                 </div>
             </div>
-            <div nz-carousel-content class="w-full" >
+            <div nz-carousel-content class="w-full">
                 <div class="pt-[50px] flex justify-center items-center img-div px-[70px]">
                     <div
                         class="w-[75%] h-4/5 flex justify-center items-center rounded-full bg-gradient-to-b from-[#306BEC] to-[#2563EB]">
@@ -91,7 +91,8 @@
                     Sign Up for an Account
                 </p>
             </div>
-
+            <nz-alert nzType="warning" nzMessage="Warning" nzDescription="You are not human" nzShowIcon
+                class="w-[350px] rechateAlert" *ngIf="showRecaptcha"></nz-alert>
             <form action="" [formGroup]="form" (ngSubmit)="submitForm()">
                 <div class="flex flex-col">
                     <!-- <nz-input-group [nzPrefix]="prefixTemplateUser"
@@ -102,8 +103,30 @@
                         <i class="fa-light fa-user mr-3 text-lg"></i>
                     </ng-template> -->
 
-                    <nz-input-group [nzPrefix]="prefixTemplatemail"
+                    <nz-input-group [nzPrefix]="prefixTemplatfirstname"
                         class="!w-[350px] !rounded-md py-2 my-4 px-4 !h-[46px]">
+                        <input type="text" formControlName="firstname" nz-input placeholder="First Name" />
+                    </nz-input-group>
+                    <app-error [form_control]="f['firstname']" [isSubmitted]="isFormSubmit"></app-error>
+                    <ng-template #prefixTemplatfirstname>
+                        <i class="fa-light fa-user mr-3 text-lg"></i>
+                    </ng-template>
+                    <nz-input-group [nzPrefix]="prefixTemplatlastname" class="!w-[350px] !rounded-md px-4 !h-[46px]">
+                        <input type="text" formControlName="lastname" nz-input placeholder="Last Name" />
+                    </nz-input-group>
+                    <app-error [form_control]="f['lastname']" [isSubmitted]="isFormSubmit"></app-error>
+                    <ng-template #prefixTemplatlastname>
+                        <i class="fa-light fa-user mr-3 text-lg"></i>
+                    </ng-template>
+                    <nz-input-group [nzPrefix]="prefixTemplatcompanyname"
+                        class="!w-[350px] !rounded-md px-4 py-2 my-4  !h-[46px]">
+                        <input type="text" formControlName="companyname" nz-input placeholder="Company Name" />
+                    </nz-input-group>
+                    <app-error [form_control]="f['companyname']" [isSubmitted]="isFormSubmit"></app-error>
+                    <ng-template #prefixTemplatcompanyname>
+                        <i class="fa-light fa-user mr-3 text-lg"></i>
+                    </ng-template>
+                    <nz-input-group [nzPrefix]="prefixTemplatemail" class="!w-[350px] !rounded-md px-4  !h-[46px]">
                         <input type="email" formControlName="email" nz-input placeholder="Email" />
                     </nz-input-group>
                     <app-error [form_control]="f['email']" [isSubmitted]="isFormSubmit"></app-error>
@@ -112,15 +135,31 @@
                     </ng-template>
 
                     <nz-input-group [nzPrefix]="prefixTemplatepass" [nzSuffix]="suffixTemplateInfo"
-                        class="!w-[350px] mb-4 !rounded-md py-2 px-4 !h-[46px]">
+                        class="!w-[350px] mb-4 !rounded-md  py-2  my-4   px-4 !h-[46px]">
                         <input [type]="passwordType" formControlName="password" nz-input placeholder="Password" />
                     </nz-input-group>
                     <app-error [form_control]="f['password']" [isSubmitted]="isFormSubmit"></app-error>
-                    <ng-template #prefixTemplatepass> 
+                    <ng-template #prefixTemplatepass>
                         <i class="fa-regular fa-lock-keyhole mr-3 text-lg"></i>
                     </ng-template>
                     <ng-template #suffixTemplateInfo>
                         <i (click)="showPassword()" [class]="passwordIcon"></i>
+                    </ng-template>
+
+                    <nz-input-group [nzPrefix]="prefixTemplateconfirmpass" [nzSuffix]="suffixTemplatecInfo"
+                        class="!w-[350px] mb-4 !rounded-md px-4 py-2   px-4 !h-[46px]">
+                        <input [type]="confirmpasswordType" formControlName="confirmpassword" nz-input
+                            placeholder="Confirm Password" />
+                    </nz-input-group>
+                    <app-error [form_control]="f['confirmpassword']" [isSubmitted]="isFormSubmit"></app-error>
+                    <div *ngIf="form.get('confirmpassword')?.hasError('passwordMatch')" class="text-red-500">
+                        Password and Confirm Password did not match.
+                      </div>
+                    <ng-template #prefixTemplateconfirmpass>
+                        <i class="fa-regular fa-lock-keyhole mr-3 text-lg"></i>
+                    </ng-template>
+                    <ng-template #suffixTemplatecInfo>
+                        <i (click)="showConfirmPassword()" [class]="confirmpasswordIcon"></i>
                     </ng-template>
 
                     <!-- <nz-form-control nzErrorTip="Please Select Page" class="!w-[350px] mb-4" >
@@ -134,22 +173,27 @@
 
                     <app-error [form_control]="f['application']" [isSubmitted]="isFormSubmit"></app-error>
                 </div>
+                <div class="">
+                    <div class="reCaptcha" id="recaptcha" class="g-recaptcha"
+                        data-sitekey="6LcZ59MnAAAAAEFG5x2mJoJ_ptOFR7O2hSX0HHx3"></div>
+                </div>
                 <!-- <p
                     class="text-xs h-fit text-left mb-3 ml-1 inline-block text-[#64748B] not-italic font-normal leading-[19.2px]">
                     Your password must have at least 8 characters
                 </p> -->
 
                 <div class="flex items-start mb-4">
-                    <input type="checkbox" id="vehicle1" name="vehicle1" value="Bike"
+                    <input type="checkbox" id="vehicle1"   formControlName="remember"
                         class="!w-4 border mt-1.5 mr-2 !border-[#E2E8F0] !h-4" />
                     <label for="vehicle1"
                         class="text-xs h-fit inline-block !w-[340px] text-[#64748B] not-italic font-normal leading-[19.2px]">By
                         creating an account means you agree to the
-                        <a   class="font-semibold text-[#0F172A]">Terms & Conditions</a>
+                        <a class="font-semibold text-[#0F172A]">Terms & Conditions</a>
                         and our
                         <span class="font-semibold text-[#0F172A]">Privacy Policy</span>
                     </label>
                 </div>
+                <app-error [form_control]="f['remember']" [isSubmitted]="isFormSubmit"></app-error>
                 <div class="flex">
                     <button class="!w-[350px] bg-[#2563EB] !rounded-md text-white font-bold py-2 px-4 !h-[46px]">
                         Sign Up
@@ -157,7 +201,8 @@
                 </div>
             </form>
 
-            <nz-divider nzText="Or Sign Up with" class="!text-xs not-italic font-normal my-4 leading-[19.2px]"></nz-divider>
+            <nz-divider nzText="Or Sign In with"
+                class="!text-xs not-italic font-normal my-4 leading-[19.2px]"></nz-divider>
 
             <!-- <div class="w-full flex justify-evenly">
                 <div
@@ -175,9 +220,9 @@
                     </p>
                 </div>
             </div> -->
-            <div class="my-4"   >
+            <div class="my-4">
                 <p class="text-[14px] not-italic font-normal leading-[22.4px]">
-                    Already have an account?<a   class="font-bold text-[#2563EB] ml-1" routerLink="/login">Log In</a>
+                    Already have an account?<a class="font-bold text-[#2563EB] ml-1" routerLink="/login">Log In</a>
                 </p>
             </div>
         </div>
