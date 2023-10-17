@@ -27,6 +27,7 @@ export class DataSharedService {
   public taskmanager = new BehaviorSubject<boolean>(false);
   public taskmanagerDrawer = new BehaviorSubject<boolean>(false);
   public spectrumControlNull = new BehaviorSubject<boolean>(false);
+  public gericFieldLoader = new BehaviorSubject<boolean>(false);
   public voiceRecord: Subject<any> = new Subject();
   public configuration: Subject<any> = new Subject();
   public moveLink: Subject<any> = new Subject();

@@ -3719,12 +3719,14 @@ export class BuilderComponent implements OnInit {
           if (event.type == 'div') {
             this.selectedNode['rowClass'] = event.form.rowClass;
             this.selectedNode['componentMapping'] = event.form.componentMapping;
-            if (event.form.imageSrc) {
-              this.selectedNode.imageSrc = event.form.imageSrc;
-            } else {
-              this.selectedNode.imageSrc = this.dataSharedService.imageUrl;
-            }
-            this.dataSharedService.imageUrl = '';
+            this.selectedNode['image'] = event.form.image;
+            this.selectedNode['imageSrc'] = event.form.imageSrc;
+            // if (event.form.imageSrc) {
+            //   this.selectedNode.imageSrc = event.form.imageSrc;
+            // } else {
+            //   this.selectedNode.imageSrc = this.dataSharedService.imageUrl;
+            // }
+            // this.dataSharedService.imageUrl = '';
             if (event.form.divRepeat > 0) {
               this.addDynamic(event.form.nodes, 'step', 'mainStep');
             }
@@ -4389,12 +4391,13 @@ export class BuilderComponent implements OnInit {
         this.dataSharedService.imageUrl = '';
         break;
       case 'imageUpload':
-        if (event.form.source) {
-          this.selectedNode.source = event.form.source;
-        } else if (this.dataSharedService.imageUrl) {
-          this.selectedNode.source = this.dataSharedService.imageUrl;
-        }
-        this.dataSharedService.imageUrl = '';
+          this.selectedNode['image'] = event.form.image;
+        // if (event.form.source) {
+        //   this.selectedNode.source = event.form.source;
+        // } else if (this.dataSharedService.imageUrl) {
+        //   this.selectedNode.source = this.dataSharedService.imageUrl;
+        // }
+        // this.dataSharedService.imageUrl = '';
         break;
       case 'calender':
         if (this.selectedNode.id) {

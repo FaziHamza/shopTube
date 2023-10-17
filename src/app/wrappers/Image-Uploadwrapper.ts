@@ -85,23 +85,30 @@ export class FormlyFieldImageUploadComponent extends FieldWrapper<FieldTypeConfi
     debugger
     const formData = new FormData();
     formData.append('image', file);
+    this.sharedService.gericFieldLoader.next(true);
     this.applicationService.uploadS3File(formData).subscribe({
       next: (res) => {
+        this.sharedService.gericFieldLoader.next(false);
         // this.isLoading = false;
         // this.toastr.success('File uploaded successfully', { nzDuration: 3000 });
-        this.to['additionalProperties'].suffixicon = 'delete';
-        this.to['additionalProperties'].prefixicon = 'eye';
-        if (this.to['additionalProperties']?.wrapper == 'floating_filled' || this.to['additionalProperties']?.wrapper == 'floating_standard'
-          || this.to['additionalProperties']?.wrapper == 'floating_outlined') {
-          this.to['additionalProperties'].suffixicon = '';
-          this.to['additionalProperties'].prefixicon = '';
+        if (this.to['additionalProperties']) {
+          this.to['additionalProperties'].suffixicon = 'delete';
+          this.to['additionalProperties'].prefixicon = 'eye';
+          if (this.to['additionalProperties']?.wrapper == 'floating_filled' || this.to['additionalProperties']?.wrapper == 'floating_standard'
+            || this.to['additionalProperties']?.wrapper == 'floating_outlined') {
+            this.to['additionalProperties'].suffixicon = '';
+            this.to['additionalProperties'].prefixicon = '';
+          }
         }
         this.formControl.patchValue(this.imagePath + res.path);
+        // this.sharedService.onChange(this.imagePath + res.path, this.field);
+
         // this.form.patchValue({ url:  })
         // this.model.url = this.imagePath + res.path;
         console.log('File uploaded successfully:', res);
       },
       error: (err) => {
+        this.sharedService.gericFieldLoader.next(false);
         // this.isLoading = false;
         console.error('Error uploading file:', err);
       }
@@ -136,7 +143,6 @@ export class FormlyFieldImageUploadComponent extends FieldWrapper<FieldTypeConfi
     //       const base64Data = reader.result as string;
     //       this.sharedService.imageUrl = base64Data;
     //       // this.formControl.setValue(base64Data);
-    //       this.sharedService.onChange(base64Data, this.field);
     //     };
     //   }
 

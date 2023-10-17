@@ -13,8 +13,7 @@
                 [style.height]="item.height !== undefined && item.height !== null && item.height !== 0 && item.height !== '' ? item.height + 'px' : 'auto'"
                 [style.width]="item.width !== undefined && item.width !== null && item.width !== 0 && item.width !== '' ? item.width + 'px' : 'auto'"
                 (click)="defaultPageRoute()"
-                [src]="dataSharedService.headerLogo ? serverPath + dataSharedService.headerLogo : 'assets/images/logo.png'"
-                alt>
+                [src]="dataSharedService.headerLogo ? dataSharedService.headerLogo : 'assets/images/logo.png'" alt>
             <div class="mobile-toggle flex">
                 <button nz-button class="rounded-md !border-gray-800 hover:!border-blue-400 mr-2"
                     (click)="menuCollapsed()">
@@ -277,8 +276,13 @@
         <div class="image-preview" *ngIf="item.type == 'imageUpload' ; else fourtyFour">
             <button class="mb-2" nz-button nzType="primary" *ngIf="item.imagePreview"
                 (click)="imagePreview(item)">Preview</button>
-            <img *ngIf="item.source" nz-image [class]='item.imageClass' [nzSrc]='item.source' [alt]='item.alt'
-                [nzDisablePreview]="false" [nzFallback]="item.fallback" />
+            <img *ngIf="item.image ; else secondImage" nz-image [class]='item.imageClass' [nzSrc]='item.image'
+                [alt]='item.alt' [nzDisablePreview]="false" [nzFallback]="item.fallback" />
+            <ng-template #secondImage>
+                {{item.image | json}}
+                <img nz-image [class]='item.imageClass' [nzSrc]='item.source' [alt]='item.alt'
+                    [nzDisablePreview]="false" [nzFallback]="item.fallback" />
+            </ng-template>
             <!-- <img *ngIf="item.base64Image" nz-image [class]='item.imageClass' [nzSrc]='item.base64Image' [alt]='item.alt'
                 [nzFallback]="item.fallback" /> -->
         </div>
@@ -452,7 +456,7 @@
             [style.border-radius.px]="item['radius']" [class]="item.divClass" [ngStyle]="{
             'height': item.height && item.height !== 0 ? item.height + 'px' : 'auto',
             'width': item.width && item.width !== 0 && item.imageSrc ? item.width + 'px' : 'auto',
-            'background-image': item.imageSrc ? 'url(' + item.imageSrc + ')' : 'none',
+            'background-image': (item.imageSrc ||  item.image) ? 'url(' + (item.imageSrc ? item.imageSrc : item.image)+ ')' : 'none',
             'background-repeat': 'no-repeat',
             'background-size': '100% 100%',
             'overflow-y': (item.height && item.height !== 0) ? 'auto' : 'hidden'}">
@@ -514,8 +518,9 @@
         <st-google-map *ngIf="item.type == 'map' ; else hFive"></st-google-map>
     </ng-template>
     <ng-template #hFive>
-        <st-downloadbutton *ngIf="item.type == 'downloadButton'" [screenId]="screenId" [formlyModel]="formlyModel" [form]="form" [screenName]="screenName"
-            [tableRowId]="''" [buttonData]="item" [title]="''"></st-downloadbutton>
+        <st-downloadbutton *ngIf="item.type == 'downloadButton'" [screenId]="screenId" [formlyModel]="formlyModel"
+            [form]="form" [screenName]="screenName" [tableRowId]="''" [buttonData]="item"
+            [title]="''"></st-downloadbutton>
     </ng-template>
     <!-- <span class="tooltip-icon" *ngIf="item?.tooltipPosition == 'right'">
         <span

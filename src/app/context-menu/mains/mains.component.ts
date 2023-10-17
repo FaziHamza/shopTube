@@ -26,15 +26,9 @@ export class MainsComponent implements OnInit {
 
   }
   imagePreview(data: any) {
-    let image = '';
-    if (data.source) {
-      image = data.source
-    } else if (data.base64Image) {
-      image = data.base64Image
-    }
     const images = [
       {
-        src: image,
+        src: data.image ? data.image : data.source,
         width: data.imageWidth + 'px',
         height: data.imagHieght + 'px',
         alt: data.alt,

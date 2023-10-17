@@ -10,7 +10,7 @@ export class PageComponent implements OnInit {
   @Input() form:any;
   constructor() { }
 
-  ngOnInit(): void {
+  ngOnInit(): void {  
   }
 
 }

@@ -318,7 +318,7 @@
                       </nz-select>
                     </div>
                     <div *ngIf="header?.dataType =='image-upload'" class="4">
-                      <img nz-image class="table-image" *ngIf="item[header.key]" [nzSrc]="serverPath +item[header.key]"
+                      <img nz-image class="table-image" *ngIf="item[header.key]" [nzSrc]="item[header.key]"
                         alt />
                     </div>
                   </div>
@@ -444,12 +444,12 @@
                         </nz-option>
                       </nz-select>
                     </td>
-                    <td *ngIf="header?.dataType =='image-upload'" class="4"
+                    <!-- <td *ngIf="header?.dataType =='image-upload'" class="4"
                       [ngStyle]="{'text-align': data?.position || 'left'}">
                       <img nz-image width="80px" height="80px"
                         [nzSrc]="item[header.key] ? item[header.key] :'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png'"
                         alt />
-                    </td>
+                    </td> -->
                     <td *ngIf="header?.dataType =='input' && tableHeaders[index]?.subDataType == 'datetime-local'"
                       [ngStyle]="{'text-align': data?.position || 'left'}">
                       {{ item[header.key] | date:'dd-MM-yyyy HH:mm:ss'}}
