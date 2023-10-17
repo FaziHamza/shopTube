@@ -80,8 +80,8 @@ export class DynamicTableComponent implements OnInit {
   nzScrollConfig: { x: string } = { x: '1100px' };
   rotationDegree: number = -45;
   editData: any;
-  deleteditWidth : any = [{label: 'Edit',Width : ''},{label: 'Delete',Width : ''},{label: 'Checkbox',Width : ''}
-]
+  deleteditWidth: any = [{ label: 'Edit', Width: '' }, { label: 'Delete', Width: '' }, { label: 'Checkbox', Width: '' }
+  ]
   @HostListener('window:resize', ['$event'])
   onResize(event: Event): void {
     // Update the nzScroll configuration based on screen size
@@ -118,7 +118,7 @@ export class DynamicTableComponent implements OnInit {
         if (this.data.appConfigurableEvent && res) {
           let url = 'knex-query/getAction/' + this.data.eventActionconfig._id;
           this.saveLoader = true;
-          this.requestSubscription =   this.applicationService.callApi(url, 'get', '', '', '').subscribe({
+          this.requestSubscription = this.applicationService.callApi(url, 'get', '', '', '').subscribe({
             next: (res) => {
               this.saveLoader = false;
               this.getFromQueryOnlyTable(this.data, res);
@@ -198,11 +198,11 @@ export class DynamicTableComponent implements OnInit {
   }
   onClickRow(api: string, item: any) {
     if (api) {
-      this.requestSubscription =    this.builderService.genericApis(api).subscribe({
+      this.requestSubscription = this.builderService.genericApis(api).subscribe({
         next: (res: any) => {
-          this.requestSubscription =   this.builderService.genericApisDeleteWithId(api, item.id).subscribe({
+          this.requestSubscription = this.builderService.genericApisDeleteWithId(api, item.id).subscribe({
             next: (res: any) => {
-              this.requestSubscription =    this.builderService.genericApisPost(api, item).subscribe({
+              this.requestSubscription = this.builderService.genericApisPost(api, item).subscribe({
                 next: (res: any) => {
                   res;
                 }
@@ -215,11 +215,11 @@ export class DynamicTableComponent implements OnInit {
     }
   }
   onClickColumn(api: string, item: any) {
-    this.requestSubscription =  this.builderService.genericApisWithId(api, item.key).subscribe({
+    this.requestSubscription = this.builderService.genericApisWithId(api, item.key).subscribe({
       next: (res: any) => {
-        this.requestSubscription =    this.builderService.genericApisDeleteWithId(api, res[0].id).subscribe({
+        this.requestSubscription = this.builderService.genericApisDeleteWithId(api, res[0].id).subscribe({
           next: (res: any) => {
-            this.requestSubscription =   this.builderService.genericApisPost(api, item).subscribe({
+            this.requestSubscription = this.builderService.genericApisPost(api, item).subscribe({
               next: (res: any) => {
                 res;
               }
@@ -259,7 +259,7 @@ export class DynamicTableComponent implements OnInit {
     // this.applyBusinessRule(getRes, this.data);
     // this.loadTableData();
     if (this.screenId)
-    this.requestSubscription =  this.applicationService.getNestCommonAPIById('cp/GridBusinessRule', this.screenId).subscribe(((getRes: any) => {
+      this.requestSubscription = this.applicationService.getNestCommonAPIById('cp/GridBusinessRule', this.screenId).subscribe(((getRes: any) => {
         if (getRes.isSuccess) {
           if (getRes.data.length > 0) {
             // this.formlyModel['input34d5985f']='1313'
@@ -801,6 +801,11 @@ export class DynamicTableComponent implements OnInit {
     }
   };
   deleteRow(data: any): void {
+    const checkPermission = this.dataSharedService.getUserPolicyMenuList.find(a => a.screenId == this.dataSharedService.currentMenuLink);
+    if (!checkPermission.delete) {
+      alert("You did not have permission");
+      return;
+    }
     delete data.children;
     delete data.expand;
     const model = {
@@ -1136,7 +1141,7 @@ export class DynamicTableComponent implements OnInit {
       if (this.data?.targetId) {
         const pagination = '?page=' + index + '&pageSize=' + this.data?.end;
         this.pageSize = this.data.end
-        this.requestSubscription =  this.applicationService.getNestCommonAPIById(this.data?.serverApi + pagination, this.data?.targetId).subscribe(response => {
+        this.requestSubscription = this.applicationService.getNestCommonAPIById(this.data?.serverApi + pagination, this.data?.targetId).subscribe(response => {
           if (response.isSuccess) {
             this.tableData = [];
             this.displayData = [];
@@ -1844,7 +1849,12 @@ export class DynamicTableComponent implements OnInit {
   saveEdit(dataModel: any) {
     let newDataModel = JSON.parse(JSON.stringify(dataModel))
     let findClickApi = this.data?.appConfigurableEvent?.filter((item: any) => item.rule.includes('put'));
+    const checkPermission = this.dataSharedService.getUserPolicyMenuList.find(a => a.screenId == this.dataSharedService.currentMenuLink);
 
+    if (!checkPermission.update) {
+      alert("You did not have permission");
+      return;
+    }
     if (findClickApi) {
 
       if (newDataModel) {
@@ -1869,7 +1879,7 @@ export class DynamicTableComponent implements OnInit {
         let url = findClickApi[0]?._id ? `knex-query/executeDelete-rules/${findClickApi[0]?._id}` : '';
         if (url) {
           this.saveLoader = true;
-          this.requestSubscription =  this.applicationServices.addNestCommonAPI(url, model).subscribe({
+          this.requestSubscription = this.applicationServices.addNestCommonAPI(url, model).subscribe({
             next: (res) => {
               if (res) {
                 this.toastr.success('Update Successfully', { nzDuration: 3000 });
@@ -2048,9 +2058,9 @@ export class DynamicTableComponent implements OnInit {
       }
     }
   }
-  ngOnDestroy(){
-    if(this.requestSubscription)
-    this.requestSubscription.unsubscribe();
+  ngOnDestroy() {
+    if (this.requestSubscription)
+      this.requestSubscription.unsubscribe();
   }
   onFileSelected(event: any): void {
     if (!this.data?.tableName) {
@@ -2065,7 +2075,7 @@ export class DynamicTableComponent implements OnInit {
 
       const formData: FormData = new FormData();
       formData.append('file', file);
-    this.requestSubscription =    this.http
+      this.requestSubscription = this.http
         .post(this.serverPath + '/knex-query/savecsv/' + this.data?.tableName, formData, {
           reportProgress: true, // Enable progress reporting
           observe: 'events', // Observe Http events
@@ -2086,7 +2096,7 @@ export class DynamicTableComponent implements OnInit {
                 if (this.data.appConfigurableEvent) {
                   let url = 'knex-query/getexecute-rules/' + this.data.eventActionconfig._id;
                   this.saveLoader = true;
-                  this.requestSubscription =    this.applicationService.callApi(url, 'get', '', '', '').subscribe({
+                  this.requestSubscription = this.applicationService.callApi(url, 'get', '', '', '').subscribe({
                     next: (res) => {
                       this.getFromQueryOnlyTable(this.data, res);
                     },

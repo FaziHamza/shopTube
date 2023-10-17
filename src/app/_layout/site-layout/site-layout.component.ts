@@ -175,20 +175,25 @@ export class SiteLayoutComponent implements OnInit {
 
   private updateHeaderHeight() {
     // Use the @ViewChild reference to get the header element
-    const headerElement = this.Head.nativeElement;
-    this.headerHeight = headerElement.clientHeight;
-    console.log(this.headerHeight,'tayyab')
-
-    // Adjust the layout width based on the header height
-    const layoutElement = this.el.nativeElement.querySelector('.content-container');
-    this.renderer.setStyle(layoutElement, 'height', `calc(100vh - ${this.headerHeight + 15}px)`);
+    if(this.Head){
+      const headerElement = this.Head.nativeElement;
+      this.headerHeight = headerElement.clientHeight;
+      console.log(this.headerHeight,'tayyab')
+  
+      // Adjust the layout width based on the header height
+      const layoutElement = this.el.nativeElement.querySelector('.content-container');
+      this.renderer.setStyle(layoutElement, 'height', `calc(100vh - ${this.headerHeight + 15}px)`);
+    }
+   
   }
 
   private updateFooterHeight(){
     debugger
       const footerElement = this.el.nativeElement.querySelector('footer-check');
-      this.footerHeight = footerElement.clientHeight;
-      console.log(this.footerHeight,'the height is ');  
+      if(footerElement){
+        this.footerHeight = footerElement.clientHeight;
+        console.log(this.footerHeight,'the height is ');  
+      }
   }
 
 

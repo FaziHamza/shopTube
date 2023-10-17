@@ -36,7 +36,7 @@ export class DataSharedService {
   // public currentApplication: Subject<any> = new Subject();
   // public defaultPage: Subject<any> = new Subject();
   getUserPolicyMenuList:any[] = [];
-  currentMenuId:string = '';
+  currentMenuLink:string = '';
   defaultPageNodes:any;
   screenCommentList : any[] = [];
   menuCommentList : any[] = []

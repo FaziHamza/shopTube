@@ -215,7 +215,7 @@ export class SectionsComponent implements OnInit {
     let checkButtonConfig = this.findObjectByKey(this.sections, data.key);
     if (checkButtonConfig) {
       // this.submit();
-      const checkPermission = this.dataSharedService.getUserPolicyMenuList.find(a => a.menuId == this.dataSharedService.currentMenuId);
+      const checkPermission = this.dataSharedService.getUserPolicyMenuList.find(a => a.screenId == this.dataSharedService.currentMenuLink);
       let oneModelData = this.convertModel(this.dataModel);
       if (Object.keys(oneModelData).length > 0) {
         let findClickApi = data.appConfigurableEvent.filter((item: any) => item.rule.includes('post_'));
@@ -248,10 +248,10 @@ export class SectionsComponent implements OnInit {
           }
         }
         if (id == undefined) {
-          // if(!checkPermission.create){
-          //   alert("You did not have permission");
-          //   return;
-          // }
+          if(!checkPermission.create){
+            alert("You did not have permission");
+            return;
+          }
           this.dataSharedService.sectionSubmit.next(false);
           findClickApi = data.appConfigurableEvent.filter((item: any) => item.rule.includes('post_'));
           if (findClickApi?.[0]?._id) {
@@ -309,10 +309,10 @@ export class SectionsComponent implements OnInit {
 
         }
         else {
-          // if(!checkPermission.update){
-          //   alert("You did not have permission");
-          //   return;
-          // }
+          if(!checkPermission.update){
+            alert("You did not have permission");
+            return;
+          }
           this.dataSharedService.sectionSubmit.next(false);
           findClickApi = data.appConfigurableEvent.filter((item: any) => item.rule.includes('put_'));
           if (this.dataModel) {
