@@ -252,6 +252,7 @@ export class PolicyMappingComponent implements OnInit {
           const newData = menuList.map((item: any) => ({
             ...item,
             ...booleanObject,
+            screenId:item.link,
             menuId: item.id,
           }));
           this.applicationMenuList = newData;

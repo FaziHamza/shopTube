@@ -199,6 +199,7 @@ export class PagesComponent implements OnInit {
       }
     })
     this.requestSubscription = this.activatedRoute.params.subscribe((params: Params) => {
+      if(params["schema"])
       this.applicationService.getNestCommonAPI('cp/auth/pageAuth/' + params["schema"]).subscribe(res => {
         if (res?.data)
         if(this.data.length == 0){
@@ -241,6 +242,7 @@ export class PagesComponent implements OnInit {
         this.isPageContextShow = true;
         // this.dataSharedService.urlModule.next({ aplication: '', module: '' });
         this.navigation = params["schema"];
+        this.dataSharedService.currentMenuLink = '/pages/' +this.navigation;
         this.getBuilderScreen(params);
         this.getTaskManagementIssuesFunc(params["schema"], JSON.parse(localStorage.getItem('applicationId')!));
 
