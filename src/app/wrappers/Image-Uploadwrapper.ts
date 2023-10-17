@@ -1,6 +1,8 @@
 import { Component, ViewChild, ElementRef } from '@angular/core';
 import { FieldTypeConfig, FieldWrapper } from '@ngx-formly/core';
 import { DataSharedService } from '../services/data-shared.service';
+import { ApplicationService } from '../services/application.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'formly-field-image-upload',
@@ -66,7 +68,9 @@ import { DataSharedService } from '../services/data-shared.service';
 export class FormlyFieldImageUploadComponent extends FieldWrapper<FieldTypeConfig> {
   @ViewChild('fileInput') fileInput!: ElementRef<HTMLInputElement>;
   imageUrl: any;
-  constructor(private sharedService: DataSharedService) {
+  imagePath = environment.nestImageUrl;
+
+  constructor(private sharedService: DataSharedService,private applicationService:ApplicationService) {
     super();
   }
   onFileSelected(event: any) {
@@ -76,43 +80,60 @@ export class FormlyFieldImageUploadComponent extends FieldWrapper<FieldTypeConfi
 
   uploadFile(file: File) {
     debugger
-    const reader = new FileReader();
-    if (file) {
-      if (file.type === 'application/json') {
-        reader.onload = () => {
-          const base64Data = reader.result as string;
-          const makeData = JSON.parse(base64Data);
-          let data = makeData.screenData ? makeData.screenData : makeData;
-          const currentData = JSON.parse(
-            JSON.stringify(data, function (key, value) {
-              if (typeof value === 'function') {
-                return value.toString();
-              } else {
-                return value;
-              }
-            }) || '{}'
-          );
-          // this.formControl.setValue(JSON.stringify(currentData));
-          this.sharedService.onChange(JSON.stringify(currentData), this.field);
-
-        };
-
-        reader.readAsText(file); // Read the JSON file as text
+    const formData = new FormData();
+    formData.append('image', file);
+    this.applicationService.uploadS3File(formData).subscribe({
+      next: (res) => {
+        // this.isLoading = false;
+        // this.toastr.success('File uploaded successfully', { nzDuration: 3000 });
+        this.formControl.patchValue(this.imagePath + res.path);
+        // this.form.patchValue({ url:  })
+        this.model.url = this.imagePath + res.path;
+        console.log('File uploaded successfully:', res);
+      },
+      error: (err) => {
+        // this.isLoading = false;
+        console.error('Error uploading file:', err);
       }
-      else {
-        reader.readAsDataURL(file); // Read other types of files as data URL (base64)
-        reader.onload = () => {
-          const base64Data = reader.result as string;
-          this.sharedService.imageUrl = base64Data;
-          // this.formControl.setValue(base64Data);
-          this.sharedService.onChange(base64Data, this.field);
-        };
-      }
+    });
+    // const reader = new FileReader();
 
-      reader.onerror = (error) => {
-        console.error('Error converting file to base64:', error);
-      };
-    }
+    // if (file) {
+    //   if (file.type === 'application/json') {
+    //     reader.onload = () => {
+    //       const base64Data = reader.result as string;
+    //       const makeData = JSON.parse(base64Data);
+    //       let data = makeData.screenData ? makeData.screenData : makeData;
+    //       const currentData = JSON.parse(
+    //         JSON.stringify(data, function (key, value) {
+    //           if (typeof value === 'function') {
+    //             return value.toString();
+    //           } else {
+    //             return value;
+    //           }
+    //         }) || '{}'
+    //       );
+    //       // this.formControl.setValue(JSON.stringify(currentData));
+    //       this.sharedService.onChange(JSON.stringify(currentData), this.field);
+
+    //     };
+
+    //     reader.readAsText(file); // Read the JSON file as text
+    //   }
+    //   else {
+    //     reader.readAsDataURL(file); // Read other types of files as data URL (base64)
+    //     reader.onload = () => {
+    //       const base64Data = reader.result as string;
+    //       this.sharedService.imageUrl = base64Data;
+    //       // this.formControl.setValue(base64Data);
+    //       this.sharedService.onChange(base64Data, this.field);
+    //     };
+    //   }
+
+    //   reader.onerror = (error) => {
+    //     console.error('Error converting file to base64:', error);
+    //   };
+    // }
 
   }
   // Function to clear the selected file and reset the form control value

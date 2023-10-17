@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
@@ -96,5 +96,11 @@ export class ApplicationService {
       default:
         return this.http.get(url.includes('http') ? url : this.nestUrl + url, { headers });
     }
+  }
+  uploadS3File(formData: FormData): Observable<any> {
+    const url = this.nestUrl + "s3-file-manager";
+    const headers = new HttpHeaders(); // You may need to set appropriate headers if required
+
+    return this.http.post(url, formData, { headers });
   }
 }
