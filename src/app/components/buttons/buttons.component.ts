@@ -31,6 +31,7 @@ export class ButtonsComponent implements OnInit {
   color: "hover:bg-[#000000]";
   borderColor: any;
   isVisible = false;
+  isVisibleDrawer = false;
   saveHoverIconColor: any;
   hoverOpacity = '';
   nodes: any[] = [];
@@ -112,6 +113,48 @@ export class ButtonsComponent implements OnInit {
         //   }
         // });
         break;
+      case 'drawer':
+        if (!data.href) {
+          this.toastr.warning('Required Href', {
+            nzDuration: 3000,
+          });
+          return;
+        }
+        this.loader = true;
+        this.requestSubscription = this.applicationService.getNestCommonAPIById('cp/Builder', data.href).subscribe({
+          next: (res: any) => {
+            try {
+              this.isVisibleDrawer = true;
+              if (res.isSuccess) {
+                if (res.data.length > 0) {
+                  this.screenId = res.data[0].screenBuilderId;
+                  const data = JSON.parse(res.data[0].screenData);
+                  this.responseData = data;
+                  if (this.tableRowId) {
+                    this.findObjectByTypeBase(this.responseData[0].children[1], 'div')
+                  }
+                  res.data[0].screenData = this.jsonParseWithObject(this.jsonStringifyWithObject(this.responseData));
+                  this.nodes = [];
+                  this.nodes.push(res.data);
+                }
+                this.loader = false;
+              } else {
+                this.toastr.error(res.message, { nzDuration: 3000 });
+                this.loader = false;
+              }
+            } catch (err) {
+              this.loader = false;
+              this.toastr.warning('An error occurred: ' + err, { nzDuration: 3000 });
+              console.error(err); // Log the error to the console
+            }
+          },
+          error: (err) => {
+            this.loader = false;
+            this.toastr.warning('Required Href ' + err, { nzDuration: 3000 });
+            console.error(err); // Log the error to the console
+          }
+        });
+        break;
       case '_blank':
         if (this.tableRowId) {
           window.open('/pages/' + data.href + '/' + this.tableRowId);
@@ -163,6 +206,10 @@ export class ButtonsComponent implements OnInit {
   handleCancel(): void {
     console.log('Button cancel clicked!');
     this.isVisible = false;
+  }
+  handleClose(): void {
+    console.log('Button cancel clicked!');
+    this.isVisibleDrawer = false;
   }
   handleButtonClick(buttonData: any): void {
 

@@ -2781,7 +2781,7 @@ export class BuilderComponent implements OnInit {
           ...this.clickButtonService.getGridConfig(selectedNode),
         };
         this.fieldData.commonData?.push({ title: 'gridFields', data: _formFieldData.gridFields }, { title: 'Table', data: _formFieldData.gridFields_Table },
-          { title: 'th', data: _formFieldData.gridFields_th }, { title: 'td', data: _formFieldData.gridFields_td }, { title: 'StyleProperty', data: _formFieldData.gridFields_StyleProperty }, { title: 'Drawer', data: _formFieldData.gridFields_Drawer }
+          { title: 'table header', data: _formFieldData.gridFields_th }, { title: 'table rows', data: _formFieldData.gridFields_td }, { title: 'StyleProperty', data: _formFieldData.gridFields_StyleProperty }, { title: 'Drawer', data: _formFieldData.gridFields_Drawer }
           , { title: 'Heading', data: _formFieldData.gridFields_Heading }, { title: 'Options', data: _formFieldData.gridFieldsOptions }
 
         );

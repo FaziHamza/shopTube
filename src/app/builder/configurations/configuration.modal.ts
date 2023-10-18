@@ -461,6 +461,10 @@ export class formFeildData {
                 value: ''
               },
               {
+                label: 'Drawer',
+                value: 'drawer'
+              },
+              {
                 label: 'Extra Large Modal',
                 value: '1200px'
               },
