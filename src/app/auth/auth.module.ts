@@ -10,6 +10,7 @@ import { NgZorroAntdModule } from '../zorro/ng-zorro-antd.module';
 import { ErrorComponent } from 'src/common/error/error.component';
 import { EnvService } from '../shared/envoirment.service';
 import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
+import { ResetPasswordComponent } from './reset-password/reset-password.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -20,7 +21,8 @@ const routes: Routes = [
     LoginComponent,
     RegisterComponent, 
     ErrorComponent,
-    ForgotPasswordComponent
+    ForgotPasswordComponent,
+    ResetPasswordComponent
   ],
   imports: [
     AuthRoutingModule,
