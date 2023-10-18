@@ -29,11 +29,9 @@ export class ForgotPasswordComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     public authService: AuthService,
-    private route: ActivatedRoute,
     private router: Router,
     private commonService: CommonService,
     private cdr: ChangeDetectorRef,
-    private toastr: NzMessageService,
   ) { }
   showRecaptcha: boolean = false;
   isFormSubmit: boolean = false;
@@ -42,7 +40,6 @@ export class ForgotPasswordComponent implements OnInit {
   create() {
     this.form = this.formBuilder.group({
       email: [null, [Validators.required, Validators.email]],
-      password: [null, [Validators.required]],
       remember: [true],
       recaptch: [false]
     });
@@ -68,27 +65,16 @@ export class ForgotPasswordComponent implements OnInit {
     }
 
     this.isFormSubmit = false;
-
-    // console.log('submit', this.form.value);
     this.form.value['username'] = this.form.value.email;
-
-    // Show Loader
     this.showLoader = true;
-    this.authService.loginUser(this.form.value).subscribe(
+    this.authService.forgotUser(this.form.value).subscribe(
       (response: any) => {
         this.showLoader = false;
         if (response.isSuccess) {
-          if (response.data?.access_token) {
-            this.commonService.showSuccess('Login Successfully!', {
-              nzDuration: 2000,
-            });
-            this.showLoader = false;
-            this.authService.setAuth(response.data);
-            this.router.navigate(['/home/allorder']);
-            this.router.navigate(['/']);
-          } else {
-            this.commonService.showError('Something went wrong!');
-          }
+          this.commonService.showSuccess(response.message, {
+            nzDuration: 2000,
+          });
+          this.showLoader = false;
         } else {
           this.commonService.showError(response.message, {
             nzPauseOnHover: true,
