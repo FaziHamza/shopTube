@@ -55,6 +55,7 @@ import { UserComponent } from './auth/user/user.component';
 import { PolicyComponent } from './admin/policy/policy.component';
 import { PolicyMappingComponent } from './admin/policy-mapping/policy-mapping.component';
 import { UserMappingComponent } from './admin/user-mapping/user-mapping.component';
+import { PolicyMappingTableComponent } from './admin/policy-mapping/policy-mapping-table/policy-mapping-table.component';
 
 @NgModule({
   declarations: [
@@ -73,6 +74,7 @@ import { UserMappingComponent } from './admin/user-mapping/user-mapping.componen
     PolicyComponent,
     PolicyMappingComponent,
     UserMappingComponent,
+    PolicyMappingTableComponent,
 
     // MultiFileUploadWrapperComponent,
   ],

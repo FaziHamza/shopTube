@@ -357,7 +357,7 @@
                       <div class="'flex flex-wrap'">
                         <div *ngFor="let childData of data.children">
                           <div *ngIf="childData?.id == header?.key" class="{{childData?.className}}">
-                            <st-block-buttons-card *ngIf="childData.type =='button'" [tableRowId]="item['id']"
+                            <st-block-buttons-card *ngIf="childData.type =='button'" [tableRowId]="item['id']" [form]="form" [formlyModel]="formlyModel"
                               [title]="item[header.key]" [softIconList]="childData">
                             </st-block-buttons-card>
                             <st-downloadbutton *ngIf="childData.type == 'downloadButton'" [screenId]="screenId"
