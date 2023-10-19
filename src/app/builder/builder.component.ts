@@ -380,7 +380,11 @@ export class BuilderComponent implements OnInit {
           if (res.isSuccess) {
             this.toastr.success(res.message, { nzDuration: 3000 });
             this.showActionRule = true;
-            // this.getBuilderScreen();
+            if(this.builderScreenData.length > 0){
+
+            }else{
+              this.getBuilderScreen();
+            }
             if (gridData) {
               this.getFromQuery(this.navigation, 'load');
             } else {

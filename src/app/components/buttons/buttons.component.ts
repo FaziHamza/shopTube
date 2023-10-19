@@ -121,10 +121,10 @@ export class ButtonsComponent implements OnInit {
           return;
         }
         this.loader = true;
+        this.isVisibleDrawer = true;
         this.requestSubscription = this.applicationService.getNestCommonAPIById('cp/Builder', data.href).subscribe({
           next: (res: any) => {
             try {
-              this.isVisibleDrawer = true;
               if (res.isSuccess) {
                 if (res.data.length > 0) {
                   this.screenId = res.data[0].screenBuilderId;
@@ -135,7 +135,7 @@ export class ButtonsComponent implements OnInit {
                   }
                   res.data[0].screenData = this.jsonParseWithObject(this.jsonStringifyWithObject(this.responseData));
                   this.nodes = [];
-                  this.nodes.push(res.data);
+                  this.nodes.push(res);
                 }
                 this.loader = false;
               } else {
