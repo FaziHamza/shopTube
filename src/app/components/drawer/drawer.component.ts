@@ -172,16 +172,17 @@ export class DrawerComponent implements OnInit {
     }
   }
   open(event: MouseEvent,): void {
+    debugger
     if (this.drawerData?.link) {
       event.stopPropagation();
       this.loader = true;
-      this.requestSubscription = this.applicationService.getNestCommonAPIById('cp/Builder', this.drawerData?.link).subscribe({
+      this.requestSubscription = this.applicationService.getNestCommonAPIById('cp/auth/pageAuth/', this.drawerData?.link).subscribe({
         next: (res: any) => {
-          if (res.isSuccess) {
-            if (res.data.length > 0) {
-              this.screenId = res.data[0].screenBuilderId;
-              this.nodes.push(res);
-            }
+          if (res.data.length > 0) {
+            this.screenId = res.data[0].screenBuilderId;
+            this.nodes.push(res);
+          } else {
+            this.router.navigateByUrl('permission-denied')
           }
           this.loader = false;
         },

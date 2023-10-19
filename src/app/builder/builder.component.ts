@@ -380,9 +380,9 @@ export class BuilderComponent implements OnInit {
           if (res.isSuccess) {
             this.toastr.success(res.message, { nzDuration: 3000 });
             this.showActionRule = true;
-            if(this.builderScreenData.length > 0){
+            if (this.builderScreenData.length > 0) {
 
-            }else{
+            } else {
               this.getBuilderScreen();
             }
             if (gridData) {
@@ -491,7 +491,7 @@ export class BuilderComponent implements OnInit {
     this.requestSubscription = this.applicationService.getNestCommonAPIById('cp/Builder', this._id).subscribe({
       next: (res: any) => {
         if (res.isSuccess) {
-          this.builderScreenData = res.data;
+          this.builderScreenData = [res.data[0]];
           // this.form = new FormGroup({});
           if (res.data.length > 0) {
             // this.navigation = '';
@@ -3160,7 +3160,7 @@ export class BuilderComponent implements OnInit {
           ...configObj,
           ...this.clickButtonService.getSectionConfig(selectedNode),
         };
-        this.fieldData.commonData?.push({ title: 'sectionsFields', data: _formFieldData.sectionsFields });
+        this.fieldData.commonData?.push({ title: 'Sections Fields', data: _formFieldData.sectionsFields });
         this.fieldData.mappingConfig = _formFieldData.mappingFields;
         this.fieldData.mappingNode = this.selectedNode;
 
@@ -4771,7 +4771,7 @@ export class BuilderComponent implements OnInit {
         }
         break;
       case 'carouselCrossfade':
-        if(event.tableDta){
+        if (event.tableDta) {
           this.selectedNode.carousalConfig = event.tableDta;
         }
         // event.tableDta != undefined
@@ -7064,4 +7064,23 @@ export class BuilderComponent implements OnInit {
     }
   }
 
+  screenClone() {
+    this.iconActive = 'screenClone'
+    if (!this.screenPage) {
+      this.toastr.warning('Please Select Screen', { nzDuration: 3000 });
+      return; 
+    }
+    this.saveLoader = true;
+    this.applicationService.addNestCommonAPI(`applications/${this._id}/screenClone`, this.builderScreenData).subscribe({
+      next: (res: any) => {
+        this.saveLoader = false;
+        this.toastr.success('clone Data SuccessFully', { nzDuration: 3000 });
+      },
+      error: (err) => {
+        this.saveLoader = false;
+        console.log(err)
+        this.toastr.error(err, { nzDuration: 3000 });
+      }
+    });
+  }
 }

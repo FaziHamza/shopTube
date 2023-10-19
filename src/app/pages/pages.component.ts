@@ -218,21 +218,24 @@ export class PagesComponent implements OnInit {
         console.error(err);
       }
     })
-    this.requestSubscription = this.activatedRoute.params.subscribe((params: Params) => {
-      if (params["schema"])
-        this.applicationService.getNestCommonAPI('cp/auth/pageAuth/' + params["schema"]).subscribe(res => {
-          if (res?.data)
-            if (this.data.length == 0) {
+    if (this.data.length == 0) {
+      this.requestSubscription = this.activatedRoute.params.subscribe((params: Params) => {
+        if (params["schema"]) {
+          this.applicationService.getNestCommonAPI('cp/auth/pageAuth/' + params["schema"]).subscribe(res => {
+            if (res?.data) {
               this.initiliaze(params);
-            } else {
-              this.initiliaze('');
             }
-          else {
-            this.router.navigateByUrl('permission-denied')
-          }
-        })
+            else {
+              this.router.navigateByUrl('permission-denied')
+            }
+          })
+        }
 
-    })
+      })
+    } else {
+      this.initiliaze('');
+    }
+
     // this.routeSubscriber();
 
 
@@ -1402,7 +1405,7 @@ export class PagesComponent implements OnInit {
       if (res.name == 'BusinessRule') {
         if (res.data) {
           this.businessRuleData = [];
-          if (res.data[0].businessRule)
+          if (res.data.businessRule)
             this.businessRuleData = JSON.parse(res.data[0].businessRule)
         }
       }

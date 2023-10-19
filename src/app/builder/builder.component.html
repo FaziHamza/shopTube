@@ -1,4 +1,4 @@
-  <nz-spin [nzSpinning]="saveLoader" [nzSize]="'large'" class="builder-design">
+<nz-spin [nzSpinning]="saveLoader" [nzSize]="'large'" class="builder-design">
   <div class="b-card top-action-bar p-3">
     <div class="page-selector ">
       <nz-form-control nzErrorTip="Please Select Page">
@@ -45,6 +45,10 @@
         <button [ngClass]="iconActive == 'faker' ? 'active' : ''" [nzTooltipTitle]="'
             Add Fake Data'" nz-tooltip nz-button nzType="link" (click)="makeFaker(true)">
           <i class="fa-regular fa-random"></i>
+        </button>
+        <button [ngClass]="iconActive == 'screenClone' ? 'active' : ''" [nzTooltipTitle]="'
+            Screen Clone'" nz-tooltip nz-button nzType="link" (click)="screenClone()">
+          <i class="fa-regular fa-clone"></i>
         </button>
       </div>
 
