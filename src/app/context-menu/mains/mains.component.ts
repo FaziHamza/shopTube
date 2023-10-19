@@ -19,7 +19,9 @@ export class MainsComponent implements OnInit {
   @Input() screenId: any;
   @Output() notify: EventEmitter<any> = new EventEmitter();
   menu: boolean = false;
-  serverPath = environment.nestImageUrl
+  serverPath = environment.nestImageUrl;
+  array = [1, 2, 3, 4];
+  effect = 'scrollx';
   constructor(private nzImageService: NzImageService, public dataSharedService: DataSharedService, private router: Router) { }
 
   ngOnInit(): void {

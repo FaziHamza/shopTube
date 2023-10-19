@@ -7738,3 +7738,28 @@ input[type=file]::file-selector-button:hover {
 //     overflow-y: auto;
 //   }
 // }
+[nz-carousel-content] {
+  text-align: center;
+  height: 160px;
+  line-height: 160px;
+  background: #364d79;
+  color: #fff;
+  overflow: hidden;
+}
+
+// h3 {
+// color: #fff;
+// margin-bottom: 0;
+// user-select: none;
+// }
+
+div {
+  width: [desired width];
+  height: [desired height];
+}
+
+div img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}

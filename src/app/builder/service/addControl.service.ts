@@ -406,17 +406,24 @@ export class AddControlService {
       autolPlaySpeed: 3000,
       showDots: true,
       enableSwipe: true,
-      carousalConfig: [
-        {
-          img: "assets/images/small/img-1.jpg",
-        },
-        {
-          img: "assets/images/small/img-2.jpg",
-        },
-        {
-          img: "assets/images/small/img-3.jpg",
-        }
-      ],
+      nodes: "3",
+      // carousalConfig: [
+      //   {
+      //     img: "assets/images/small/img-1.jpg",
+      //   },
+      //   {
+      //     img: "assets/images/small/img-2.jpg",
+      //   },
+      //   {
+      //     img: "assets/images/small/img-3.jpg",
+      //   }
+      // ],
+    }
+  }
+  getsubCarouselCrossfadeControl() {
+    return {
+      isNextChild: true,
+
     }
   }
   getCalenderControl() {

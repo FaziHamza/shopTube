@@ -671,12 +671,17 @@ export const htmlTabsData = [
                 isLeaf: true
               },
               {
-                parameter: "carouselCrossfade",
+                parameter: "carouselCrossfadeMain",
                 icon: "uil-sliders-v-alt",
                 label: "Slider",
                 isLeaf: true
               },
-
+              // {
+              //   parameter: "subCarouselCrossfade",
+              //   icon: "uil-sliders-v-alt",
+              //   label: "Slider",
+              //   isLeaf: true
+              // },
               {
                 parameter: "comment",
                 icon: "uil-arrow-break",

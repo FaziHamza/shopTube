@@ -10,8 +10,9 @@ import { EmployeeService } from 'src/app/services/employee.service';
 })
 
 export class DemoComponent implements OnInit {
-
-  constructor(private fb: FormBuilder,private employeeService:EmployeeService) { }
+  array = [1, 2, 3, 4];
+  effect = 'scrollx';
+  constructor(private fb: FormBuilder, private employeeService: EmployeeService) { }
 
   actionList: any = JSON.stringify([
     {
@@ -156,7 +157,7 @@ export class DemoComponent implements OnInit {
 
   async processActionRules() {
     try {
-      await this.employeeService.saveSQLDatabaseTable('knex-query/execute-actions' ,JSON.parse(this.actionModel)).subscribe(res=>{
+      await this.employeeService.saveSQLDatabaseTable('knex-query/execute-actions', JSON.parse(this.actionModel)).subscribe(res => {
         this.actionResult = JSON.stringify(res, null, 2);
       })
       // const results = await this.processActionRulesV1(this.actionRule, this.actionModel);

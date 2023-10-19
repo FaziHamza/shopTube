@@ -306,7 +306,7 @@
                       </nz-select>
                     </div>
                     <div *ngIf="header?.dataType == 'repeatSection' || header?.dataType =='select'">
-                      <div class="editable-cell" *ngIf="editId != item.id">
+                      <div [class]="data?.tdClass"   class="editable-cell" *ngIf="editId != item.id">
                         {{item[header.key] | translate}}
                       </div>
                       <nz-select *ngIf="editId == item.id && (configurationTable || header?.editMode)" nzAllowClear
@@ -318,8 +318,7 @@
                       </nz-select>
                     </div>
                     <div *ngIf="header?.dataType =='image-upload'" class="4">
-                      <img nz-image class="table-image" *ngIf="item[header.key]" [nzSrc]="item[header.key]"
-                        alt />
+                      <img nz-image class="table-image" *ngIf="item[header.key]" [nzSrc]="item[header.key]" alt />
                     </div>
                   </div>
                   <ng-container
@@ -328,15 +327,16 @@
                       {{ item[header.key] | date:'dd-MM-yyyy HH:mm:ss'}}
                     </ng-container>
                   </ng-container>
-                  <ng-container *ngIf="header?.dataType =='dateTime'">
-                    <div [hidden]="editId === item.id && (configurationTable || header?.editMode == 'yes'|| header?.editMode == true)">
+                  <div *ngIf="header?.dataType =='dateTime'">
+                    <div [class]="data?.tdClass"  
+                      [hidden]="editId === item.id && (configurationTable || header?.editMode == 'yes'|| header?.editMode == true)">
                       {{ item[header.key] | date:'dd-MM-yyyy'}}
                     </div>
                     <div [hidden]="editId !== item.id"
                       *ngIf="editId == item.id && (configurationTable || header?.editMode)">
                       <input [(ngModel)]="item[header.key]" type="date">
                     </div>
-                  </ng-container>
+                  </div>
                   <ng-container *ngIf="header?.dataType =='objectType'">
                     {{item[header.key]}}
                   </ng-container>

@@ -755,7 +755,7 @@ export class BuilderComponent implements OnInit {
   stepperAdd: TreeNode;
   ParentAdd: TreeNode;
   stepperChild: TreeNode;
-  chilAdd: TreeNode;
+  childAdd: TreeNode;
   screenData: any;
   businessRuleData: any;
   formlyModel: any;
@@ -1663,6 +1663,14 @@ export class BuilderComponent implements OnInit {
           ...newNode,
           ...this.addControlService.getCarouselCrossfadeControl(),
         };
+        this.ParentAdd = newNode;
+        break;
+      case 'subCarouselCrossfade':
+        newNode = {
+          ...newNode,
+          ...this.addControlService.getsubCarouselCrossfadeControl(),
+        };
+        this.childAdd = newNode;
         break;
       case 'calender':
         newNode = {
@@ -1802,7 +1810,7 @@ export class BuilderComponent implements OnInit {
         break;
       case 'tabs':
         newNode = { ...newNode, ...this.addControlService.getTabsControl() };
-        this.chilAdd = newNode;
+        this.childAdd = newNode;
         break;
       case 'mainTab':
         newNode = { ...newNode, ...this.addControlService.getMainTabControl() };
@@ -1827,11 +1835,11 @@ export class BuilderComponent implements OnInit {
           ...newNode,
           ...this.addControlService.getlistWithComponentsChildControl(),
         };
-        this.chilAdd = newNode;
+        this.childAdd = newNode;
         break;
       case 'step':
         newNode = { ...newNode, ...this.addControlService.getStepControl() };
-        this.chilAdd = newNode;
+        this.childAdd = newNode;
         break;
       case 'kanban':
         newNode = { ...newNode, ...this.addControlService.getKanbanControl() };
@@ -1842,7 +1850,7 @@ export class BuilderComponent implements OnInit {
           ...newNode,
           ...this.addControlService.getKanbanTaskControl(),
         };
-        this.chilAdd = newNode;
+        this.childAdd = newNode;
         break;
       case 'simplecard':
         newNode = { ...newNode, ...this.addControlService.simplecardControl() };
@@ -1904,12 +1912,12 @@ export class BuilderComponent implements OnInit {
         break;
       case 'timelineChild':
         newNode = { ...newNode, ...this.addControlService.timelineChildControl() };
-        this.chilAdd = newNode;
+        this.childAdd = newNode;
         break;
 
       case 'fixedDiv':
         newNode = { ...newNode, ...this.addControlService.fixedDivControl() };
-        this.chilAdd = newNode;
+        this.childAdd = newNode;
         break;
 
       case 'accordionButton':
@@ -3547,6 +3555,9 @@ export class BuilderComponent implements OnInit {
       case 'dashonictabsAddNew':
         this.addChildControlsWithSubChild('mainTab', 'tabs');
         break;
+      case 'carouselCrossfadeMain':
+        this.addChildControlsWithSubChild('carouselCrossfade', 'subCarouselCrossfade');
+        break;
 
       case 'stepperAddNew':
         this.addChildControlsWithSubChild('mainStep', 'step');
@@ -3602,15 +3613,15 @@ export class BuilderComponent implements OnInit {
     this.addControlToJson(parent);
     this.selectedNode = this.ParentAdd;
     this.addControlToJson(child);
-    this.selectedNode = this.chilAdd;
+    this.selectedNode = this.childAdd;
     this.addControlToJson('text', this.textJsonObj);
     this.selectedNode = this.ParentAdd;
     this.addControlToJson(child);
-    this.selectedNode = this.chilAdd;
+    this.selectedNode = this.childAdd;
     this.addControlToJson('text', this.textJsonObj);
     this.selectedNode = this.ParentAdd;
     this.addControlToJson(child);
-    this.selectedNode = this.chilAdd;
+    this.selectedNode = this.childAdd;
     this.addControlToJson('text', this.textJsonObj);
     this.selectedNode = this.selectForDropdown;
     this.updateNodes();
@@ -5451,7 +5462,7 @@ export class BuilderComponent implements OnInit {
             if (nodesLength < nodesNumber) {
               if (mainType != 'mainDiv') {
                 this.addControlToJson(subType);
-                this.selectedNode = this.chilAdd;
+                this.selectedNode = this.childAdd;
                 this.addControlToJson('input', this.textJsonObj);
                 this.selectedNode = this.ParentAdd;
               } else {
