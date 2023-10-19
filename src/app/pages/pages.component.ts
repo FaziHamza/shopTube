@@ -132,21 +132,42 @@ export class PagesComponent implements OnInit {
     });
     this.requestSubscription = this.dataSharedService.pageSubmit.subscribe({
       next: (res) => {
-
-        let makeModel: any = {};
-        const filteredNodes = this.filterInputElements(this.resData[0].children[1].children[0].children[1].children);
-        for (let item in this.formlyModel) {
-          filteredNodes.forEach((element) => {
-            if (item == element.formly[0].fieldGroup[0].key) {
-              makeModel[item] = this.formlyModel[item]
+        if (res) {
+          const checkButtonExist = this.findObjectById(this.resData[0], res.id);
+          // const checkButtonExist = this.isButtonIdExist(this.sections.children[1].children, res.id);
+          if (checkButtonExist?.appConfigurableEvent) {
+            event?.stopPropagation();
+            let makeModel: any = {};
+            const filteredNodes = this.filterInputElements(this.resData[0].children[1].children);
+            for (let item in this.formlyModel) {
+              filteredNodes.forEach((element) => {
+                if (item == element.formly[0].fieldGroup[0].key) {
+                  makeModel[item] = this.formlyModel[item]
+                }
+              });
             }
-          });
+            this.dataModel = makeModel;
+            if (Object.keys(makeModel).length > 0) {
+              for (const key in this.dataModel) {
+                if (this.dataModel.hasOwnProperty(key)) {
+                  const value = this.getValueFromNestedObject(key, this.formlyModel);
+                  if (value !== undefined) {
+                    this.dataModel[key] = this.dataModel[key] ? this.dataModel[key] : value;
+                  }
+                }
+              }
+            }
+            // this.submit();
+            if (Object.keys(makeModel).length > 0) {
+              this.dataModel = this.convertModel(this.formlyModel);
+              const allUndefined = Object.values(this.formlyModel).every((value) => value === undefined);
+              if (!allUndefined) {
+                this.saveData(res)
+              }
+
+            }
+          }
         }
-        // this.dataModel = makeModel;
-        this.dataModel = this.formlyModel;
-        // this.submit();
-        if (Object.keys(makeModel).length > 0)
-          this.saveData(res)
       },
       error: (err) => {
         console.error(err);
@@ -155,7 +176,6 @@ export class PagesComponent implements OnInit {
     this.requestSubscription = this.dataSharedService.eventChange.subscribe({
       next: (res) => {
         if (res) {
-
           for (let index = 0; index < res.length; index++) {
             const element = res[index].actions?.[0]?.componentFrom;
             let findObj = this.findObjectByKey(this.resData[0], element);
@@ -199,18 +219,18 @@ export class PagesComponent implements OnInit {
       }
     })
     this.requestSubscription = this.activatedRoute.params.subscribe((params: Params) => {
-      if(params["schema"])
-      this.applicationService.getNestCommonAPI('cp/auth/pageAuth/' + params["schema"]).subscribe(res => {
-        if (res?.data)
-        if(this.data.length == 0){
-          this.initiliaze(params);
-        }else{
-          this.initiliaze('');
-        }
-        else {
-          this.router.navigateByUrl('permission-denied')
-        }
-      })
+      if (params["schema"])
+        this.applicationService.getNestCommonAPI('cp/auth/pageAuth/' + params["schema"]).subscribe(res => {
+          if (res?.data)
+            if (this.data.length == 0) {
+              this.initiliaze(params);
+            } else {
+              this.initiliaze('');
+            }
+          else {
+            this.router.navigateByUrl('permission-denied')
+          }
+        })
 
     })
     // this.routeSubscriber();
@@ -242,7 +262,7 @@ export class PagesComponent implements OnInit {
         this.isPageContextShow = true;
         // this.dataSharedService.urlModule.next({ aplication: '', module: '' });
         this.navigation = params["schema"];
-        this.dataSharedService.currentMenuLink = '/pages/' +this.navigation;
+        this.dataSharedService.currentMenuLink = '/pages/' + this.navigation;
         this.getBuilderScreen(params);
         this.getTaskManagementIssuesFunc(params["schema"], JSON.parse(localStorage.getItem('applicationId')!));
 
@@ -327,7 +347,7 @@ export class PagesComponent implements OnInit {
     this.screenId = res.data[0].screenBuilderId;
     this.screenName = res.data[0].screenName;
     this.navigation = res.data[0].navigation;
-    
+
     let data = res.data[0].screenData;
 
     if (typeof data === 'string') {
@@ -508,86 +528,156 @@ export class PagesComponent implements OnInit {
     this.dataModel = this.formlyModel;
   }
   saveData1(data: any) {
-    this.dataModel = this.formlyModel;
-    let oneModelData = this.convertModel(this.dataModel);
-    // const objModel: any = this.dataModel;
-    // var nestedObject = {};
-    // for (var key in objModel) {
-    //   Object.assign(nestedObject, objModel[key]);
-    // }
-
-    // let nestedObject: any = null;
-    // Object.keys(objModel).forEach(key => {
-    //   const value = objModel[key];
-    //   if (typeof value === "object" && value !== null) {
-    //     nestedObject = value;
-    //   }
-    // });
-    const empData = {
-      screenId: this.navigation,
-      modalData: oneModelData
-    };
-
-    console.log(empData);
-    const tableNames = new Set();
-
-    for (const key in empData.modalData) {
-      const tableName = key.split('.')[0];
-      tableNames.add(tableName);
-    }
-
-    const Arraytables = Array.from(tableNames)
-    const remainingTables = Arraytables.slice(1);
-    let id;
-    for (const key in empData.modalData) {
-      if (empData.modalData.hasOwnProperty(key) &&
-        key.endsWith('.id') &&
-        empData.modalData[key] !== "") {
-        id = key;
-      }
-    }
-
-    if (id == undefined) {
-      let relationIds: any = remainingTables.map(table => `${Arraytables[0]}_id`);
-      relationIds = relationIds.toString();
-      const tables = (Array.from(tableNames)).toString();
-      console.log(tables);
-      this.requestSubscription = this.employeeService.saveSQLDatabaseTable('knex-query', empData).subscribe({
-        next: (res) => {
-          if (res[0]?.error)
-            this.toastr.error(res[0]?.error, { nzDuration: 3000 });
-          else {
-            this.toastr.success("Save Successfully", { nzDuration: 3000 });
-            this.setInternalValuesEmpty(this.dataModel)
-            // this.employeeService.getSQLDatabaseTable(`knex-query?tables=${tables}&relationIds=id,${relationIds.toString()}`).subscribe({
-            this.getFromQuery();
-          }
-        },
-        error: (err) => {
-          console.error(err);
-          this.toastr.error("An error occurred", { nzDuration: 3000 });
-        }
-      });
-    } else {
-      // const dynamicPropertyName = Object.keys(this.dataModel)[0]; // Assuming the dynamic property name is the first property in this.dataModel
-      if (this.dataModel) {
-        // this.form.get(dynamicPropertyName);
-        const model = {
-          screenId: this.navigation,
-          postType: 'put',
-          modalData: empData.modalData
+    debugger
+    // let checkButtonConfig = this.findObjectByKey(this.r, data.key);
+    if (data) {
+      // this.submit();
+      const checkPermission = this.dataSharedService.getUserPolicyMenuList.find(a => a.screenId == this.dataSharedService.currentMenuLink);
+      let oneModelData = this.convertModel(this.dataModel);
+      if (Object.keys(oneModelData).length > 0) {
+        let findClickApi = data.appConfigurableEvent.filter((item: any) => item.rule.includes('post_'));
+        let empData: any = {};
+        empData = {
+          screenId: this.screenName,
+          modalData: oneModelData
         };
+        console.log(empData);
+        const tableNames = new Set();
 
-        this.requestSubscription = this.employeeService.saveSQLDatabaseTable('knex-query/executeQuery', model).subscribe({
-          next: (res) => {
-            this.toastr.success("Update Successfully", { nzDuration: 3000 });
-            this.getFromQuery();
-          },
-          error: (err) => {
-            console.error(err);
-            this.toastr.error("An error occurred", { nzDuration: 3000 });
+        for (const key in empData.modalData) {
+          const tableName = key.split('.')[0];
+          tableNames.add(tableName);
+        }
+
+        const Arraytables = Array.from(tableNames)
+        const remainingTables = Arraytables.slice(1);
+        let id; findClickApi[0];
+        for (const key in empData?.modalData) {
+          if (empData?.modalData[key] == undefined) {
+            empData.modalData[key] = '';
           }
-        });
+        }
+        for (const key in empData?.modalData) {
+          if (empData.modalData.hasOwnProperty(key) &&
+            key.endsWith('.id') &&
+            empData.modalData[key]) {
+            id = key;
+          }
+        }
+        if (id == undefined) {
+          if (!checkPermission.create) {
+            alert("You did not have permission");
+            return;
+          }
+          this.dataSharedService.sectionSubmit.next(false);
+          findClickApi = data.appConfigurableEvent.filter((item: any) => item.rule.includes('post_'));
+          if (findClickApi?.[0]?._id) {
+            this.dataSharedService.imageUrl = '';
+            this.requestSubscription = this.activatedRoute.params.subscribe((params: Params) => {
+              if (params["id"]) {
+                for (const key in empData.modalData) {
+                  if (key.includes('id') && key != 'id') {
+                    empData.modalData[key] = params["id"];
+                  }
+                }
+              }
+            });
+            this.saveLoader = true;
+            this.requestSubscription = this.applicationService.addNestCommonAPI('knex-query/execute-rules/' + findClickApi[0]?._id, empData).subscribe({
+              next: (res) => {
+                this.saveLoader = false;
+                if (res) {
+                  if (res[0]?.error)
+                    this.toastr.error(res[0]?.error, { nzDuration: 3000 });
+                  else {
+                    this.toastr.success("Save Successfully", { nzDuration: 3000 });
+                    if (data.saveRouteLink) {
+                      this.router.navigate(['/pages/' + data.saveRouteLink]);
+                      return;
+                    }
+                    let tableName: any = '';
+                    if (res[0]) {
+                      tableName = res[0].tableName ? res[0].tableName.split('.')[1].split('_')[0] : '';
+                    }
+                    this.setInternalValuesEmpty(this.dataModel);
+                    this.setInternalValuesEmpty(this.formlyModel);
+                    this.form.patchValue(this.formlyModel);
+                    // if (tableName) {
+                    //   this.recursiveUpdate(this.formlyModel, tableName, res)
+                    // }
+
+                    // this.getFromQuery(data);
+                    if (window.location.href.includes('taskmanager.com')) {
+                      this.dataSharedService.taskmanagerDrawer.next(true);
+                    }
+                    if (window.location.href.includes('spectrum.com')) {
+                      this.dataSharedService.spectrumControlNull.next(true);
+                    }
+                  }
+                }
+              },
+              error: (err) => {
+                console.error(err);
+                this.toastr.error("An error occurred", { nzDuration: 3000 });
+                this.saveLoader = false;
+              }
+            });
+          }
+
+        }
+        else {
+          if (!checkPermission.update) {
+            alert("You did not have permission");
+            return;
+          }
+          this.dataSharedService.sectionSubmit.next(false);
+          findClickApi = data.appConfigurableEvent.filter((item: any) => item.rule.includes('put_'));
+          if (this.dataModel) {
+            // this.form.get(dynamicPropertyName);
+            const model = {
+              screenId: this.screenName,
+              postType: 'put',
+              modalData: empData.modalData
+            };
+            // const removePrefix = (data: Record<string, any>): Record<string, any> => {
+            //   const newData: Record<string, any> = {};
+            //   for (const key in data) {
+            //     const lastDotIndex = key.lastIndexOf('.');
+            //     const newKey = lastDotIndex !== -1 ? key.substring(lastDotIndex + 1) : key;
+            //     newData[newKey] = data[key];
+            //   }
+            //   return newData;
+            // };
+
+            const result = {
+              ...model,
+              modalData: model.modalData
+              // modalData: removePrefix(model.modalData)
+            };
+            // console.log(result);
+            this.saveLoader = true;
+            this.dataSharedService.sectionSubmit.next(false);
+            this.requestSubscription = this.applicationService.addNestCommonAPI('knex-query/execute-rules/' + findClickApi[0]._id, result).subscribe({
+              next: (res) => {
+                this.saveLoader = false;
+                this.toastr.success("Update Successfully", { nzDuration: 3000 });
+                this.setInternalValuesEmpty(this.dataModel);
+                this.setInternalValuesEmpty(this.formlyModel);
+                this.form.patchValue(this.formlyModel);
+                // this.getFromQuery(data);
+                // if (window.location.href.includes('taskmanager.com')) {
+                //   this.dataSharedService.taskmanagerDrawer.next(true);
+                // }
+              },
+              error: (err) => {
+                this.saveLoader = false;
+                console.error(err);
+                this.toastr.error("An error occurred", { nzDuration: 3000 });
+                this.saveLoader = false;
+              }
+            });
+          }
+        }
       }
     }
   }
@@ -1570,31 +1660,53 @@ export class PagesComponent implements OnInit {
     try {
       debugger
       const idx = this.resData[0].children[1].children.indexOf(section as TreeNode);
-      // let newNode = JSON.parse(JSON.stringify(section));
-      // let obj = { node: newNode, type: 'copy' };
-      // this.traverseAndChange(obj);
-      this.resData[0].children[1].children.splice(idx as number + 1, 0, section);
-      this.resData = [...this.resData];
+      let newNode = JSON.parse(JSON.stringify(section));
+      let obj = { node: newNode, type: 'copy' };
+      let numberOfSections = this.countOccurrences(this.resData[0].children[1].children);
+      if (numberOfSections[newNode.key] == 1) {
+        this.findObjectByKeyAndReplace(this.resData[0], newNode.key);
+        // if (findObj) {
+        //   let newObj = { node: findObj, type: 'copy' };
+        //   this.traverseAndChange(newObj, 0);
+        // }
+      }
+      this.traverseAndChange(obj, numberOfSections[newNode.key]);
+      this.resData[0].children[1].children.splice(idx as number + 1, 0, obj.node);
+      // this.resData = [...this.resData];
     } catch (error: any) {
       console.error('An error occurred:', error);
     }
   }
-  changeIdAndkey(node: any) {
-    node.id = node.id + Guid.newGuid();
+  changeIdAndkey(node: any, key: any) {
     if (node.formly) {
       if (node.formly[0].key) {
-        node.formly[0].key = node.formly[0].key + Guid.newGuid();
+        let formlyKey = node.formly[0].key;
+        const parts = formlyKey.split('_');
+        const lastPart = parts[parts.length - 1];
+        if (/\d/.test(lastPart)) {
+          node.formly[0].key = formlyKey.replace(lastPart, key);
+        } else {
+          node.formly[0].key = formlyKey + '_' + key;
+        }
       } else if (node.formly[0].fieldGroup[0].key) {
-        node.formly[0].fieldGroup[0].key = node.formly[0].fieldGroup[0].key + Guid.newGuid();
+        let formlyKey = node.formly[0].fieldGroup[0].key;
+        const parts = formlyKey.split('_');
+        const lastPart = parts[parts.length - 1];
+        if (/\d/.test(lastPart)) {
+          node.formly[0].fieldGroup[0].key = formlyKey.replace(lastPart, key);
+        } else {
+          node.formly[0].fieldGroup[0].key = formlyKey + '_' + key;
+        }
       }
     }
     return node;
   }
-  traverseAndChange(event: any) {
 
+
+  traverseAndChange(event: any, key: any) {
     if (event.node) {
       if (event.type == 'copy') {
-        event.node = this.changeIdAndkey(event.node);
+        event.node = this.changeIdAndkey(event.node, key);
       }
       else if (event.type == 'disabled') {
         event.node = this.disabledAndEditableSection(event.node);
@@ -1602,7 +1714,7 @@ export class PagesComponent implements OnInit {
       if (event.node.children) {
         event.node.children.forEach((child: any) => {
           let obj = { node: child, type: event.type };
-          this.traverseAndChange(obj);
+          this.traverseAndChange(obj, key);
         });
       }
     }
@@ -1786,6 +1898,26 @@ export class PagesComponent implements OnInit {
     if (data) {
       if (data.key && key) {
         if (data.key === key) {
+          return data;
+        }
+        if (data.children && data.children.length > 0) {
+          for (let child of data.children) {
+            let result: any = this.findObjectByKey(child, key);
+            if (result !== null) {
+              return result;
+            }
+          }
+        }
+      }
+    }
+    return null;
+  }
+  findObjectByKeyAndReplace(data: any, key: any) {
+    if (data) {
+      if (data.key && key) {
+        if (data.key === key) {
+          let obj = { node: data, type: 'copy' };
+          this.traverseAndChange(obj, 0);
           return data;
         }
         if (data.children && data.children.length > 0) {
@@ -2403,5 +2535,29 @@ export class PagesComponent implements OnInit {
     });
     this.formlyModel = newMode;
     // this.form.patchValue(this.formlyModel);
+  }
+
+  countOccurrences(arr: any) {
+    const result: any = {};
+
+    for (const item of arr) {
+      if (result[item.key]) {
+        result[item.key]++;
+      } else {
+        result[item.key] = 1;
+      }
+    }
+    return result;
+  }
+  getValueFromNestedObject(key: string, obj: any): any {
+    const keys = key.split('.');
+    let value = obj;
+    for (const k of keys) {
+      if (!value || !value.hasOwnProperty(k)) {
+        return undefined;
+      }
+      value = value[k];
+    }
+    return value;
   }
 }
