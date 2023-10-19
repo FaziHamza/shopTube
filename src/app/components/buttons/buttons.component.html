@@ -96,3 +96,18 @@
 
   </ng-container>
 </nz-modal>
+
+
+<!-- Drawer -->
+
+<nz-drawer *ngIf="buttonData?.redirect == 'drawer'" [nzSize]="'large'" [nzVisible]="isVisibleDrawer"
+  (nzOnClose)="handleClose()">
+  <!-- <ng-container>
+    <nz-spin [nzSpinning]="loader" >
+      <st-pages [data]="nodes" [navigation]="screenId" [form]="form" [formlyModel]="formlyModel"
+        *ngIf="nodes.length > 0"></st-pages>
+    </nz-spin>
+
+  </ng-container> -->
+  this is a drawer
+</nz-drawer>
