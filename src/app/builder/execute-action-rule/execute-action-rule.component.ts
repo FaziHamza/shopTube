@@ -287,7 +287,6 @@ export class ExecuteActionRuleComponent implements OnInit, AfterViewInit {
 
   codeEditorRuleInstance!: monaco.editor.IStandaloneCodeEditor;
 
-
   get multiSelectArray() {
     return this.multiSelectForm.get('multiSelects') as FormArray;
   }
@@ -392,7 +391,7 @@ export class ExecuteActionRuleComponent implements OnInit, AfterViewInit {
         actionData['_id'] = element.id
       actionRuleList.push(actionData);
     });
-    this.applicationService.addNestCommonAPI('cp/ActionRule/deleteActionRule', actionRuleList).subscribe({
+    this.applicationService.addNestCommonAPI('cp/ActionRule/deleteActionRule/'+mainModuleId[0]._id, actionRuleList).subscribe({
       next: (allResults: any) => {
         if (allResults) {  //results.every((result: any) => !(result instanceof Error))
           debugger

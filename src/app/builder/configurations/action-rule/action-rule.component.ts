@@ -502,7 +502,7 @@ export class ActionRuleComponent implements OnInit {
         actionData['_id'] = element.id
       actionListData.push(actionData)
     });
-    this.applicationService.addNestCommonAPI('cp/Action/DeleteAction', actionListData).subscribe({
+    this.applicationService.addNestCommonAPI('cp/Action/DeleteAction/'+mainModuleId[0]._id, actionListData).subscribe({
       next: (allResults: any) => {
         if (allResults) {
           this.getActionData();
