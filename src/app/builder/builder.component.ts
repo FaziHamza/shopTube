@@ -1507,7 +1507,7 @@ export class BuilderComponent implements OnInit {
       value == 'insertButton' ||
       value == 'updateButton' ||
       value == 'deleteButton' ||
-      value == 'downloadButton' 
+      value == 'downloadButton'
 
     ) {
       newNode.isSubmit = res.isSubmit;
@@ -4395,7 +4395,7 @@ export class BuilderComponent implements OnInit {
         this.dataSharedService.imageUrl = '';
         break;
       case 'imageUpload':
-          this.selectedNode['image'] = event.form.image;
+        this.selectedNode['image'] = event.form.image;
         // if (event.form.source) {
         //   this.selectedNode.source = event.form.source;
         // } else if (this.dataSharedService.imageUrl) {
@@ -4760,25 +4760,28 @@ export class BuilderComponent implements OnInit {
         }
         break;
       case 'carouselCrossfade':
+        if(event.tableDta){
+          this.selectedNode.carousalConfig = event.tableDta;
+        }
         // event.tableDta != undefined
         //   ? (this.selectedNode.carousalConfig = event.tableDta)
         //   : (this.selectedNode.carousalConfig =
         //     this.selectedNode.carousalConfig);
-        this.selectedNode.carousalConfig = event.form.carousalConfig;
-        if (event.form.link != undefined || event.form.link != '') {
-          this.requestSubscription = this.builderService
-            .genericApis(event.form.link)
-            .subscribe({
-              next: (res) => {
-                this.selectedNode.carousalConfig = res;
-                this.updateNodes();
-              },
-              error: (err) => {
-                console.error(err); // Log the error to the console
-                this.toastr.error('An error occurred', { nzDuration: 3000 }); // Show an error message to the user
-              },
-            });
-        }
+        // this.selectedNode.carousalConfig = event.form.carousalConfig;
+        // if (event.form.link != undefined || event.form.link != '') {
+        //   this.requestSubscription = this.builderService
+        //     .genericApis(event.form.link)
+        //     .subscribe({
+        //       next: (res) => {
+        //         this.selectedNode.carousalConfig = res;
+        //         this.updateNodes();
+        //       },
+        //       error: (err) => {
+        //         console.error(err); // Log the error to the console
+        //         this.toastr.error('An error occurred', { nzDuration: 3000 }); // Show an error message to the user
+        //       },
+        //     });
+        // }
         break;
       case 'timeline':
         this.addDynamic(event.form.nodes, 'timelineChild', 'timeline');
