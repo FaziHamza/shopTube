@@ -815,7 +815,7 @@ export class DynamicTableComponent implements OnInit {
   };
   deleteRow(data: any): void {
     const checkPermission = this.dataSharedService.getUserPolicyMenuList.find(a => a.screenId == this.dataSharedService.currentMenuLink);
-    if (!checkPermission.delete) {
+    if (!checkPermission?.delete && this.dataSharedService.currentMenuLink != '/ourbuilder') {
       alert("You did not have permission");
       return;
     }
@@ -2106,6 +2106,7 @@ export class DynamicTableComponent implements OnInit {
                 // Upload complete
                 this.progress = 100;
                 this.showProgressBar = false;
+                this.toastr.success('Import successfully', { nzDuration: 3000 });
                 this.fileUpload = ''; // This clears the file input
                 if (event.body.isSuccess) {
                   if (this.data.appConfigurableEvent) {

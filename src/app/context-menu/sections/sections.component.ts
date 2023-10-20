@@ -248,7 +248,7 @@ export class SectionsComponent implements OnInit {
           }
         }
         if (id == undefined) {
-          if(!checkPermission.create){
+          if(!checkPermission.create && this.dataSharedService.currentMenuLink != '/ourbuilder'){
             alert("You did not have permission");
             return;
           }
@@ -309,7 +309,7 @@ export class SectionsComponent implements OnInit {
 
         }
         else {
-          if(!checkPermission.update){
+          if(!checkPermission.update && this.dataSharedService.currentMenuLink != '/ourbuilder'){
             alert("You did not have permission");
             return;
           }
