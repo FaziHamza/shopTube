@@ -271,15 +271,16 @@ object {
   }
 
   .ant-input-group .ant-input {
-    height: 46px !important;
+    min-height: 46px !important;
+    height: 100% !important;
     font-size: 12px !important;
     font-weight: 500 !important;
   }
 
   @media screen and (min-width: 1400px) {
-    .ant-input-group .ant-input {
-      height: 47px !important;
-    }
+    // .ant-input-group .ant-input {
+    //   height: 47px !important;
+    // }
 
     .checkBox {
       height: 47px !important;
@@ -452,6 +453,8 @@ object {
   // }
   .column-form-input {
     background: white;
+    display: inline-block !important;
+    height: 100% !important;
   }
 
   .col-form-label {
@@ -463,6 +466,12 @@ object {
     font-size: 12px;
     font-weight: bold;
     height: auto !important;
+    span:nth-child(2) {
+      text-overflow: ellipsis !important;
+      overflow: hidden !important;
+      width: 100% !important;
+      white-space: nowrap !important;
+    }
   }
 
   // formly-field{
@@ -7718,7 +7727,8 @@ input[type=file]::file-selector-button:hover {
   }
 }
 
-.head2 , .site-content {
+.head2,
+.site-content {
 
   .boxed-layout {
     box-shadow: none !important;
@@ -7734,35 +7744,7 @@ input[type=file]::file-selector-button:hover {
   }
 }
 
-// .site-content {
-//   .site-pages{
-//     height: calc(100vh - 121px);
-//     display: inline-block;
-//     overflow-y: auto;
-//   }
-// }
-[nz-carousel-content] {
-  text-align: center;
-  height: 160px;
-  line-height: 160px;
-  background: #364d79;
-  color: #fff;
-  overflow: hidden;
-}
 
-// h3 {
-// color: #fff;
-// margin-bottom: 0;
-// user-select: none;
-// }
-
-div {
-  width: [desired width];
-  height: [desired height];
-}
-
-div img {
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
+.side-bar .dynamic-menu ul li {
+  margin-bottom: 5px !important;
 }

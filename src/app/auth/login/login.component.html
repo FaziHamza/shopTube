@@ -92,46 +92,53 @@
 
         <!-- Form -->
         <div class="w-full lg:w-1/2 h-full flex justify-center box-border items-center">
-            <div class="w-[400px] flex items-center flex-col">
-                <div class="w-full">
-                    <p
-                        class="text-[24px] ml-[20px] !text-left mb-4 not-italic font-bold leading-[30px] tracking-[0.2px] text-[#0F172A]">
+            <div class="w-full flex items-center flex-col">
+                <div class="w-full flex justify-center mb-2 md:my-5 items px-5 md:px-7">
+                    <p class="text-3xl sm:text-4xl mb-3 !text-left not-italic font-bold leading-[30px] tracking-[0.2px] text-[#0F172A]">
                         Sign In To Your Account
                     </p>
                 </div>
                 <div class="w-full flex justify-center items-center">
                     <nz-alert nzType="warning" nzMessage="Warning" nzDescription="You are not human" nzShowIcon
-                        class="w-[350px] rechateAlert" *ngIf="showRecaptcha"></nz-alert>
+                        class="w-[360px] rechateAlert" *ngIf="showRecaptcha"></nz-alert>
                 </div>
 
-                <form action="" [formGroup]="form" (ngSubmit)="submitForm()">
+                <form action="" class="flex flex-col px-5 md:px-7 items-center w-full" [formGroup]="form"
+                    (ngSubmit)="submitForm()">
                     <div class="flex items-center w-full flex-col">
-                        <nz-input-group [nzPrefix]="prefixTemplatemail"
-                            class="!w-[350px] !rounded-md py-2 my-4 px-4 !h-[46px]">
-                            <input type="email" formControlName="email" nz-input placeholder="Email" />
-                        </nz-input-group>
-                        <app-error [form_control]="f['email']" [isSubmitted]="isFormSubmit"></app-error>
-                        <ng-template #prefixTemplatemail>
-                            <i class="fa-light fa-envelope mr-3 text-lg"></i>
-                        </ng-template>
 
-                        <nz-input-group [nzPrefix]="prefixTemplatepass" [nzSuffix]="suffixTemplateInfo"
-                            class="!w-[350px] mb-4 !rounded-md py-2 px-4 !h-[46px]">
-                            <input [type]="passwordType" formControlName="password" nz-input placeholder="Password" />
-                        </nz-input-group>
-                        <app-error [form_control]="f['password']" [isSubmitted]="isFormSubmit"></app-error>
-                        <ng-template #prefixTemplatepass>
-                            <i class="fa-regular fa-lock-keyhole mr-3 text-lg"></i>
-                        </ng-template>
-                        <ng-template #suffixTemplateInfo>
-                            <i (click)="showPassword()" [class]="passwordIcon"></i>
-                        </ng-template>
+                        <div class="w-full flex justify-center items-center relative py-4">
+                            <nz-input-group [nzPrefix]="prefixTemplatemail"
+                                class="!w-full  md:!w-[360px] !rounded-md py-2 px-4 !h-[46px]">
+                                <input type="email" formControlName="email" nz-input placeholder="Email" />
+                                <app-error [form_control]="f['email']" class="absolute left-0 bottom-[-25px]"
+                                    [isSubmitted]="isFormSubmit"></app-error>
+                            </nz-input-group>
+                            <ng-template #prefixTemplatemail>
+                                <i class="fa-light fa-envelope mr-3 text-lg"></i>
+                            </ng-template>
+                        </div>
+
+                        <div class="w-full flex justify-center items-center relative py-4" >
+                            <nz-input-group [nzPrefix]="prefixTemplatepass" [nzSuffix]="suffixTemplateInfo"
+                                class="!w-full md:!w-[360px] relative !rounded-md py-2 px-4 !h-[46px]">
+                                <input [type]="passwordType" formControlName="password" nz-input
+                                    placeholder="Password" />
+                                    <app-error class="absolute left-0 bottom-[-25px]" [form_control]="f['password']" [isSubmitted]="isFormSubmit"></app-error>
+                            </nz-input-group>
+                            <ng-template #prefixTemplatepass>
+                                <i class="fa-regular fa-lock-keyhole mr-3 text-lg"></i>
+                            </ng-template>
+                            <ng-template #suffixTemplateInfo>
+                                <i (click)="showPassword()" [class]="passwordIcon"></i>
+                            </ng-template>
+                        </div>
                     </div>
-                    <div class="">
+                    <div class="my-5">
                         <div class="reCaptcha" id="recaptcha" class="g-recaptcha"
                             data-sitekey="6LcZ59MnAAAAAEFG5x2mJoJ_ptOFR7O2hSX0HHx3"></div>
                     </div>
-                    <div class="flex justify-between items-center mt-4">
+                    <div class="flex justify-between items-center">
                         <div class="inline-flex w-fit ">
                             <input type="checkbox" id="vehicle1" name="vehicle1" value="Bike"
                                 class="!w-4 border mt-[1px] mr-2 !border-[#E2E8F0] !h-4" />
@@ -147,9 +154,9 @@
                         </div>
                     </div>
 
-                    <div class="flex justify-center">
+                    <div class="flex w-full justify-center">
                         <button type="submit"
-                            class="!w-[350px] bg-[#2563EB] !rounded-md text-white font-bold py-2 mt-4 px-4 !h-[46px]">
+                            class="w-full md:!w-[350px] bg-[#2563EB] !rounded-md text-white font-bold py-2 mt-4 px-4 !h-[46px]">
                             Sign In
                         </button>
                     </div>
@@ -177,8 +184,8 @@
                     </div>
                 </div> -->
                 <div class="my-4">
-                    <p class="text-[14px] not-italic font-normal leading-[22.4px]"  >
-                        Don't have account?<a    class="font-bold text-[#2563EB] ml-1" routerLink="/register">Sign Up</a>
+                    <p class="text-[14px] not-italic font-normal leading-[22.4px]">
+                        Don't have account?<a class="font-bold text-[#2563EB] ml-1" routerLink="/register">Sign Up</a>
                     </p>
                 </div>
             </div>
