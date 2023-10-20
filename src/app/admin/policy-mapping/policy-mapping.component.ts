@@ -12,7 +12,7 @@ import { DataSharedService } from 'src/app/services/data-shared.service';
   styleUrls: ['./policy-mapping.component.scss']
 })
 export class PolicyMappingComponent implements OnInit {
-  
+
   paginatedData: any[] = [];
   model: any;
   isSubmit: boolean = true;
@@ -107,17 +107,15 @@ export class PolicyMappingComponent implements OnInit {
         );
         return;
       }
-      const newData = this.menuList.map(item => ({
+      const filteredData = this.findObjectsWithPermissions(this.menuList);
+      const newData = filteredData.map(item => ({
         ...item,
         policyId: this.policyName,
         applicationId: this.applicationId,
       }));
-      const filteredObjects = newData.filter(item => item.create || item.update || item.delete || item.read || item._id);
-      this.loading = true;
-
       const checkPolicyAndProceed = this.isSubmit
-        ? this.applicationService.addNestCommonAPI('policy-mapping', filteredObjects)
-        : this.applicationService.updateNestCommonAPI('policy-mapping', this.model._id, filteredObjects);
+        ? this.applicationService.addNestCommonAPI('policy-mapping', newData)
+        : this.applicationService.updateNestCommonAPI('policy-mapping', this.model._id, newData);
       checkPolicyAndProceed.subscribe({
         next: (objTRes: any) => {
           this.loading = false;
@@ -138,6 +136,22 @@ export class PolicyMappingComponent implements OnInit {
       });
     }
   }
+
+  findObjectsWithPermissions(data: any[]): any[] {
+    const result: any[] = [];
+    for (const item of data) {
+      if (item.create || item.update || item.read || item.delete) {
+        result.push(item);
+      }
+
+      if (item.children && item.children.length > 0) {
+        const childResults = this.findObjectsWithPermissions(item.children);
+        result.push(...childResults);
+      }
+    }
+    return result;
+  }
+
 
 
   downloadJson() {
@@ -221,7 +235,7 @@ export class PolicyMappingComponent implements OnInit {
               value: 'selectDepartment'
             }
             this.departmentData.unshift(header)
-          } 
+          }
           else {
             this.departments = [];
             this.departmentData = [];
@@ -250,12 +264,9 @@ export class PolicyMappingComponent implements OnInit {
             update: false,
             delete: false,
           };
-          const newData = menuList.map((item: any) => ({
-            ...item,
-            ...booleanObject,
-            screenId:item.link,
-            menuId: item.id,
-          }));
+          
+          const newData =  this.applyBooleanToArray(menuList,booleanObject);
+          console.log(newData);
           this.applicationMenuList = newData;
         } else {
           this.toastr.warning('No menu againts this', { nzDuration: 3000 });
@@ -264,13 +275,35 @@ export class PolicyMappingComponent implements OnInit {
         this.toastr.error(res.message, { nzDuration: 3000 });
     }));
   }
+  applyBooleanToArray(data: any[], booleanObject: any): any[] {
+    return data.map((item: any) => this.applyBooleanToObject(item, booleanObject));
+  }
+  applyBooleanToObject(data: any, booleanObject: any): any {
+    // Apply the booleanObject to the current object
+    const newData = {
+      ...data,
+      ...booleanObject,
+      screenId: data.link,
+      menuId: data.id,
+      expand: false,
+    };
+
+    if (data.children && data.children.length > 0) {
+      // If the current object has children, apply the booleanObject recursively to each child
+      newData.children = data.children.map((child: any) =>
+        this.applyBooleanToObject(child, booleanObject)
+      );
+    }
+
+    return newData;
+  }
   getPolicyMenu() {
     debugger
     if (!this.policyName) {
       this.toastr.error("Please select policy name", { nzDuration: 3000 });
       return;
     }
-    this.applicationService.getNestCommonAPIById('policy-mapping/policy' , this.policyName).subscribe(((res: any) => {
+    this.applicationService.getNestCommonAPIById('policy-mapping/policy', this.policyName).subscribe(((res: any) => {
       if (res)
         this.policyMenuList = res.data || [];
 
@@ -279,20 +312,47 @@ export class PolicyMappingComponent implements OnInit {
   }
   updatedMenuList() {
     let updatedData = this.applicationMenuList;
-    if (this.policyMenuList && this.policyMenuList?.length > 0) {
-      const obj2Map = new Map(this.policyMenuList.map(item => [item.menuId, item]));
+    // if (this.policyMenuList && this.policyMenuList?.length > 0) {
+    //   const obj2Map = new Map(this.policyMenuList.map(item => [item.menuId, item]));
 
-      updatedData = this.applicationMenuList.map(item => {
-        const obj2Item = obj2Map.get(item.id);
-        return obj2Item ? { ...item, ...obj2Item } : item;
-      });
-    }
+    //   updatedData = this.applicationMenuList.map(item => {
+    //     const obj2Item = obj2Map.get(item.id);
+    //     return obj2Item ? { ...item, ...obj2Item } : item;
+    //   });
+    // }
 
-    this.menuList = JSON.parse(JSON.stringify(updatedData));
-    this.handlePageChange(1);
-    // console.log(updatedData);
+    // this.menuList = JSON.parse(JSON.stringify(updatedData));
+    const updatedMenuData = this.mergePolicyIntoMenu(updatedData, this.policyMenuList);
+    this.menuList = JSON.parse(JSON.stringify(updatedMenuData));
+    console.log(updatedMenuData);
+    
+    // this.handlePageChange(1);
 
   }
+// Define a function to merge policy data into menu data recursively
+  mergePolicyIntoMenu(menuData: any[], policyData: any[]) {
+    return menuData.map(menuItem => {
+      const matchingPolicyItem = policyData.find(policyItem => policyItem.menuId === menuItem.menuId);
+
+      if (matchingPolicyItem) {
+        // Merge policy data into the menu item
+        const mergedItem = { ...menuItem, ...matchingPolicyItem };
+
+        // Check if the menu item has children and merge recursively
+        if (menuItem.children && menuItem.children.length > 0) {
+          mergedItem.children = this.mergePolicyIntoMenu(menuItem.children, policyData);
+        }
+
+        return mergedItem;
+      }
+
+      return menuItem; // No policy data found, return menu item as is
+    });
+  }
+
+// Call the function to merge policy data into menu data
+
+// updatedMenuData now contains the merged data
 
   deleteAllPolicy() {
     if (!this.policyName) {
@@ -334,7 +394,7 @@ export class PolicyMappingComponent implements OnInit {
       }
     });
   }
-  selectAll(){
+  selectAll() {
     const updatedDat = this.menuOfDisplayData.map((item) => ({
       ...item,
       create: true,

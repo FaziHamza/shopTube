@@ -576,11 +576,12 @@ export interface TreeNode {
   changePageSize?: boolean,
   rotationDegree?: number,
   headingClass?: string,
-  tRowClass?: string,
+  tableHeaderClass?: string,
   thLabelClass?: string,
   thClass?: string,
   tbodyClass?: string,
   tdClass?: string,
   hieght?: string,
   image?: string,
+  actionButtonClass?: string,
 }

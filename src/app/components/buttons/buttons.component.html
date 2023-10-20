@@ -59,27 +59,26 @@
   [style.border-color]="(borderColor || buttonData.borderColor) + ' !important'"
   (mouseover)="handleButtonMouseOver(buttonData)" (mouseout)="handleButtonMouseOut(buttonData)">
   <span>
-    <st-icon *ngIf="buttonData.btnIcon" [icon]="buttonData.btnIcon" [color]="buttonData.iconColor"
-      [hoverIconColor]="buttonData?.hoverIconColor || ''" [size]="buttonData.iconSize"
+    <st-icon [class]="buttonData.iconClass" *ngIf="buttonData.btnIcon" [icon]="buttonData.btnIcon"
+      [color]="buttonData.iconColor" [hoverIconColor]="buttonData?.hoverIconColor || ''" [size]="buttonData.iconSize"
       [type]="buttonData.iconType"></st-icon>
     <span [class]="buttonData.btnLabelPaddingClass" *ngIf="buttonData.title">
-      {{ title ? title : buttonData.title | translate}}
+      {{ title ? title : buttonData.title | translate}} 
     </span>
-    <st-icon *ngIf="buttonData.rightbtnIcon" [icon]="buttonData.rightbtnIcon" [color]="buttonData.iconColor"
-      [size]="buttonData.iconSize" [hoverIconColor]="buttonData?.hoverIconColor || ''"
+    <span [class]="buttonData.iconClass">
+      <st-icon  *ngIf="buttonData.rightbtnIcon" [icon]="buttonData.rightbtnIcon"
+      [color]="buttonData.iconColor" [size]="buttonData.iconSize" [hoverIconColor]="buttonData?.hoverIconColor || ''"
       [type]="buttonData.iconType"></st-icon>
+    </span>
   </span>
 </button>
 <nz-dropdown-menu #menu="nzDropdownMenu">
-  <ul nz-menu [style.width.px]="buttonData.optionWidth ? buttonData.optionWidth : ''">
-    <li [class]="buttonData['optionsPlacement'] + ' ' + (buttonData.optionBorder ? 'bottom-border' : '')"
-      [ngStyle]="{'background-color': option?.hover ? buttonData.hoverBgColor : 'transparent'}" nz-menu-item
-      *ngFor="let option of buttonData.dropdownOptions" (mouseover)="hoverStyle(option , true)"
-      (mouseout)="hoverStyle(option , false)">
-      <a *ngIf="option.link" [href]="option.link" [style.color]="option?.hover ? buttonData['hoverTextColor'] : ''">{{
+  <ul [class]="buttonData?.optionMainClass" nz-menu>
+    <li [class]="buttonData?.optionSubClass" nz-menu-item *ngFor="let option of buttonData.dropdownOptions">
+      <a [class]="buttonData?.optionLabelClass" *ngIf="option.link" [href]="option.link">{{
         option.label
         }}</a>
-      <a *ngIf="!option.link" [ngStyle]="{'color': option?.hover ? buttonData['hoverTextColor'] : ''}">{{
+      <a [class]="buttonData?.optionLabelClass" *ngIf="!option.link">{{
         option.label }}</a>
     </li>
   </ul>

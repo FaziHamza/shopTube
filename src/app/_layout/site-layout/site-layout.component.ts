@@ -151,28 +151,27 @@ export class SiteLayoutComponent implements OnInit {
     });
   }
 
-  ngAfterViewInit() {
+  // ngAfterViewInit() {
+  //   setTimeout(() => {
+  //     this.updateHeaderHeight();
+  //     this.updateFooterHeight();
+  //   } ,5000)
 
-    setTimeout(() => {
-      this.updateHeaderHeight();
-      this.updateFooterHeight();
-    } ,3000)
-
-  }
+  // }
 
 
-  updateHeaderHeight() {
-    // Get the actual header height dynamically
-    const headerElement = this.el.nativeElement.querySelector('#HEADER');
-    this.headerHeight = headerElement.clientHeight;
-    console.log('the height is header' , this.headerHeight);
+  // updateHeaderHeight() {
+  //   // Get the actual header height dynamically
+  //   const headerElement = this.el.nativeElement.querySelector('#HEADER');
+  //   this.headerHeight = headerElement.clientHeight;
+  //   console.log('the height is header' , this.headerHeight);
     
-    // Adjust the layout width based on the header height
-    const layoutElement = this.el.nativeElement.querySelector('.content-container');
-    this.renderer.setStyle(layoutElement, 'height', `calc(100vh - ${this.headerHeight + 10}px)`);
-    console.log('nz-layout', `calc(100vh - ${this.headerHeight + 15}px)`)
+  //   // Adjust the layout width based on the header height
+  //   const layoutElement = this.el.nativeElement.querySelector('.content-container');
+  //   this.renderer.setStyle(layoutElement, 'height', `calc(100vh - ${this.headerHeight + 10}px)`);
+  //   console.log('nz-layout', `calc(100vh - ${this.headerHeight + 15}px)`)
     
-  }
+  // }
   
   
   

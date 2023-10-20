@@ -4,8 +4,10 @@
   </div>
   <div>
     <div class="basic-button-save text-end justify-end">
-      <button nz-button nzType="primary" class="save-btn ml-3" (click)="save()"> <i class="fa-regular fa-floppy-disk mr-2"></i> Save</button>
-      <button nz-button (click)="close()" class="cancel-btn !font-normal hover:text-blue-400"> <i class="fa-regular fa-circle-xmark mr-2"></i> Cancel</button>
+      <button nz-button nzType="primary" class="save-btn ml-3" (click)="save()"> <i
+          class="fa-regular fa-floppy-disk mr-2"></i> Save</button>
+      <button nz-button (click)="close()" class="cancel-btn !font-normal hover:text-blue-400"> <i
+          class="fa-regular fa-circle-xmark mr-2"></i> Cancel</button>
     </div>
   </div>
 </div>
@@ -39,7 +41,7 @@
           </div>
         </div>
 
-        <nz-table #innerTable [nzData]="data.children" nzSize="middle" [nzShowPagination]="true">
+        <nz-table #innerTable [nzData]="data.children" nzSize="middle" nzShowSizeChanger >
           <thead>
             <tr>
               <th>Id</th>
@@ -60,13 +62,14 @@
       <td><input nz-input type="text" class="form-control" [(ngModel)]="data.defaultValue"></td>
       <td><input nz-input type="text" class="form-control" [(ngModel)]="data.placeholder"></td>
       <td><input nz-input type="text" class="form-control" [(ngModel)]="data.className"></td>
-      <td class="bulk_update" > <nz-select nzShowSearch nzAllowClear [(ngModel)]="data['dataClassification']">
-          <nz-option [nzLabel]="option.label" [nzValue]="option.value" *ngFor="let option of optionData"></nz-option></nz-select></td>
-        <td>
-          <div class="flex justify-center items-center" >
-            <label nz-checkbox [(ngModel)]="data.hideExpression"></label>
-          </div>
-        </td>
+      <td class="bulk_update"> <nz-select nzShowSearch nzAllowClear [(ngModel)]="data['dataClassification']">
+          <nz-option [nzLabel]="option.label" [nzValue]="option.value"
+            *ngFor="let option of optionData"></nz-option></nz-select></td>
+      <td>
+        <div class="flex justify-center items-center">
+          <label nz-checkbox [(ngModel)]="data.hideExpression"></label>
+        </div>
+      </td>
     </tr>
   </tbody>
 </nz-table>

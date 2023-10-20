@@ -873,6 +873,7 @@ export class AddControlService {
       isAllowUploadExcel: false,
       isAllowExcelReport: false,
       drawerButtonLabel: 'Open Drawer',
+      actionButtonClass: 'actions-btn btn-no !border-none !bg-blue-600 hover:!bg-blue-500 my-2 !h-[35px]',
       tableHeaders: [
         // {
         //   name: 'Id',
