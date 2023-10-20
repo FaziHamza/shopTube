@@ -3,14 +3,16 @@
     <div class="flex justify-start items-center pb-2">
         <div class="page-selector ">
             <nz-form-control nzErrorTip="Please Select Page">
-                <nz-cascader nzChangeOnSelect class="!w-[210px] policy-cascader !h-10 !rounded-md pl-1" [nzAllowClear]="true"
-                    [(ngModel)]="selectDepartmentName" [nzLoadData]="loadData.bind(this)" [nzOptions]="departmentData"
-                    placeholder="Select Application" (ngModelChange)="onDepartmentChange($event)">
+                <nz-cascader nzChangeOnSelect class="!w-[210px] policy-cascader !h-10 !rounded-md pl-1"
+                    [nzAllowClear]="true" [(ngModel)]="selectDepartmentName" [nzLoadData]="loadData.bind(this)"
+                    [nzOptions]="departmentData" placeholder="Select Application"
+                    (ngModelChange)="onDepartmentChange($event)">
                 </nz-cascader>
             </nz-form-control>
         </div>
         <div class="page-selector mx-2">
-            <nz-select nzShowSearch nzAllowClear class="temp-modal-select !h-10 !rounded-md !w-[210px]" [(ngModel)]="policyName">
+            <nz-select nzShowSearch nzAllowClear class="temp-modal-select !h-10 !rounded-md !w-[210px]"
+                [(ngModel)]="policyName">
                 <nz-option [nzValue]="item._id" placeholder="Select Block Type..." [nzLabel]="item.name"
                     *ngFor="let item of policyList"></nz-option>
             </nz-select>
@@ -24,69 +26,18 @@
 
 
     <nz-card nzTitle="Policy List" [nzExtra]="extraTemplate">
-        <nz-table class="Policy-builder-table" [nzShowPagination]="false" [nzScroll]="{ x: '1200px', y: null }"
-            #filterTable [nzLoading]="loading" [nzData]="menuOfDisplayData" [nzPageSize]="pageSize" class="border">
-            <thead>
-                <tr>
-                    <!-- <th>#</th> -->
-                    <ng-container *ngFor="let column of listOfColumns">
-                        <th nzWidth="120px" class="w-1/12">
-                            {{column.name}}
-                        </th>
-                    </ng-container>
-                </tr>
-            </thead>
-            <tbody>
-                <tr *ngFor="let data of filterTable.data; index as i">
-                    <td>{{ data.title }}</td>
-                    <td>
-                        <label nz-checkbox [(ngModel)]="data.create"></label>
-                    </td>
-                    <td>
-                        <label nz-checkbox [(ngModel)]="data.read"></label>
-                    </td>
-                    <td>
-                        <label nz-checkbox [(ngModel)]="data.update"></label>
-                    </td>
-                    <td>
-                        <label nz-checkbox [(ngModel)]="data.delete"></label>
-                    </td>
-                </tr>
-            </tbody>
-        </nz-table>
-        <div class="paginatio-bottom flex justify-between items-center my-3">
-            <div>
-                <p class="showing">Showing <span>{{startIndex}} - {{endIndex}}</span> from
-                    <span>{{menuList.length}}</span> data
-                </p>
-            </div>
-
-            <div class="flex items-center justify-end">
-                <div class="pagination " nz-tooltip nzTooltipTitle="Row Per Page">
-                    <!-- <label class="label mr-2">Pagination</label> -->
-                    <div
-                        class="input-container min-w-[40px] !w-[50px] hover:!w-16 max-w-[80px] transition-all duration-100 ease-in ">
-                        <nz-input-number [(ngModel)]="pageSize" class="!flex !justify-center !items-center"
-                            (ngModelChange)="handlePageChange(1)" [nzStep]="1" [nzMin]="1"></nz-input-number>
-                    </div>
-                </div>
-                <div>
-                    <nz-pagination [nzPageIndex]="pageIndex" [nzTotal]="menuList.length" [nzPageSize]="pageSize"
-                        (nzPageIndexChange)="handlePageChange($event)"></nz-pagination>
-                </div>
-            </div>
-        </div>
-
+        <st-policy-mapping-table [loading]="loading" [data]="menuList" [pageSize]="pageSize" [listOfColumns]="listOfColumns"></st-policy-mapping-table>
     </nz-card>
     <ng-template #extraTemplate>
         <div class="src-btn flex justify-end">
-            <button nz-button   nzType="primary" class="btn" (click)="selectAll()">
+            <button nz-button  class="btn-no !border !border-gray-300 !text-gray-800 hover:!text-blue-600 hover:!border-blue-600 mr-2" (click)="selectAll()">
                 <i class="fa-regular fa-database mr-1.5"></i>
                 Select All</button>
             <button nz-button *ngIf="isSubmit" nzType="primary" class="btn" (click)="onSubmit()">
                 <i class="fa-regular fa-database mr-1.5"></i>
                 Submit</button>
-            <button nz-button *ngIf="isSubmit" nzType="primary" nzDanger class="btn-no  !border-none mx-2 !bg-red-600 hover:!bg-red-500" (click)="deleteAllPolicy()">
+            <button nz-button *ngIf="isSubmit" nzType="primary" nzDanger
+                class="btn-no  !border-none mx-2 !bg-red-600 hover:!bg-red-500" (click)="deleteAllPolicy()">
                 <i class="fa-solid fa-trash-xmark mr-1.5"></i>
                 Delete All</button>
             <button nz-button *ngIf="!isSubmit" class="btn" nzType="primary" (click)="onSubmit()"><span nz-icon
@@ -94,7 +45,6 @@
             <button nz-button nzType="primary" class=" btn-no !bg-green-600 !border-none  hover:!bg-green-500"
                 (click)="downloadJson()"><i class="fa-regular fa-down-to-bracket mr-1.5"></i>Download Json</button>
         </div>
-
     </ng-template>
 
 </div>
