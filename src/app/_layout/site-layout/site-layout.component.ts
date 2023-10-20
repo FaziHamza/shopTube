@@ -18,8 +18,6 @@ import { EmployeeService } from 'src/app/services/employee.service';
 export class SiteLayoutComponent implements OnInit {
   @Input() menuItems: any = [];
   @Input() selectedTheme: any;
-  @ViewChild('head2') Head: ElementRef;
-  @ViewChild('footer-check') dynamic_footer: ElementRef;
   headerHeight: number;
   footerHeight: number;
 
@@ -151,49 +149,46 @@ export class SiteLayoutComponent implements OnInit {
       }
       this.tabs = [];
     });
-    // this.updateHeaderHeight();
   }
 
   ngAfterViewInit() {
-    // Wait for the view to be initialized
+
     setTimeout(() => {
       this.updateHeaderHeight();
       this.updateFooterHeight();
-    }, 3000);
+    } ,3000)
+
   }
 
 
-  // private updateHeaderHeight() {
-  //   // Get the actual header height dynamically
-  //   const headerElement = this.el.nativeElement.querySelector('.head2');
-  //   this.headerHeight = headerElement.clientHeight;
-
-  //   // Adjust the layout width based on the header height
-  //   const layoutElement = this.el.nativeElement.querySelector('.content-container');
-  //   this.renderer.setStyle(layoutElement, 'height', `calc(100vh - ${this.headerHeight + 15}px)`);
-  // }
-
-  private updateHeaderHeight() {
-    // Use the @ViewChild reference to get the header element
-    if(this.Head){
-      const headerElement = this.Head.nativeElement;
-      this.headerHeight = headerElement.clientHeight;
-      console.log(this.headerHeight,'tayyab')
+  updateHeaderHeight() {
+    // Get the actual header height dynamically
+    const headerElement = this.el.nativeElement.querySelector('#HEADER');
+    this.headerHeight = headerElement.clientHeight;
+    console.log('the height is header' , this.headerHeight);
+    
+    // Adjust the layout width based on the header height
+    const layoutElement = this.el.nativeElement.querySelector('.content-container');
+    this.renderer.setStyle(layoutElement, 'height', `calc(100vh - ${this.headerHeight + 10}px)`);
+    console.log('nz-layout', `calc(100vh - ${this.headerHeight + 15}px)`)
+    
+  }
   
-      // Adjust the layout width based on the header height
-      const layoutElement = this.el.nativeElement.querySelector('.content-container');
-      this.renderer.setStyle(layoutElement, 'height', `calc(100vh - ${this.headerHeight + 15}px)`);
-    }
-   
-  }
-
+  
+  
   private updateFooterHeight(){
     debugger
-      const footerElement = this.el.nativeElement.querySelector('footer-check');
-      if(footerElement){
-        this.footerHeight = footerElement.clientHeight;
-        console.log(this.footerHeight,'the height is ');  
-      }
+    const footerElement = this.el.nativeElement.querySelector('#FOOTER');
+    this.footerHeight = footerElement.clientHeight;
+    console.log('the height is footer' , this.footerHeight);
+    
+    const contentElement = this.el.nativeElement.querySelector('.content');
+    // this.renderer.setStyle(contentElement, 'height', `calc(100vh - ${this.footerHeight + 10}px)`);
+    // console.log('the content height' ,`calc(100vh - ${this.footerHeight + 10}px)`)
+
+    this.renderer.setStyle(contentElement, 'marginBottom' ,`${this.footerHeight}px`);
+    console.warn('the content height' ,this.footerHeight);
+
   }
 
 
