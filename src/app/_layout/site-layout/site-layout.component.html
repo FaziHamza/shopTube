@@ -5,14 +5,15 @@
     'horizental-boxed': selectedTheme?.layoutWidth == 'boxed' &&  selectedTheme?.layout == 'horizental',
     'horizental-fluid': selectedTheme?.layoutWidth == 'fluid' &&  selectedTheme?.layout == 'horizental'
   }">
-    <nz-layout class="app-layout !bg-slate-50">
-      <nz-header class="head2" *ngIf="!currentHeader">
-        <st-menu [selectedTheme]="selectedTheme"></st-menu>
-      </nz-header>
-      <st-pages class="head2 mb-2.5" *ngIf="currentHeader" [resData]="currentHeader" [screenName]="domainData?.header?.navigation"
+    <nz-layout class="app-layout  !bg-slate-50">
+      <div class="w-full h-fit mb-2.5" id="HEADER" >
+        <nz-header #header  *ngIf="!currentHeader">
+          <st-menu [selectedTheme]="selectedTheme"></st-menu>
+        </nz-header>
+        <st-pages #header  *ngIf="currentHeader" [resData]="currentHeader" [screenName]="domainData?.header?.navigation"
         [screenId]="domainData?.header?.screenBuilderId"></st-pages>
-      <nz-layout 
-        [class]="'content-container' + (selectedTheme?.layout === 'horizental' ? ' b-horizontal-menu' : '') + (selectedTheme.layout == 'rtl' ? ' rtl-layout2' : '')">
+      </div>
+      <nz-layout #mainContent [class]="'content-container' + (selectedTheme?.layout === 'horizental' ? ' b-horizontal-menu' : '') + (selectedTheme.layout == 'rtl' ? ' rtl-layout2' : '')">
         <div *ngIf="!selectedTheme.isCollapsed" class="backdrop"></div>
         <nz-sider class="!rounded-tr-[4px] !rounded-br-[4px] side-bar "  *ngIf="currentWebsiteLayout != 'website' || fullCurrentUrl.includes('/menu-builder')" [class]="'menu-sidebar' + (selectedTheme.layout === 'twoColumn' && selectedTheme['menuChildArrayTwoColumn'].length == 0 ? ' two-column-sider' : '')+
           (selectedTheme.sideBarSize == 'smallIconView' && (selectedTheme.layout == 'vertical' || selectedTheme.layout == 'rtl') ? ' small-icon-view-menu' : '') + (selectedTheme.layout == 'rtl' ? ' mobile-side-menu-rtl' : '')
@@ -59,10 +60,10 @@
                 [theme]="selectedTheme['inPageMenu']"></st-layout-tabs-dropdown>
             </ng-container>
           </ng-container>
-          <div  class="content-part" >
+          <div  class="content mb-2.5" >
             <router-outlet></router-outlet>
           </div>
-          <div class="footer-check" [class]="dataSharedService.checkContentForFixFooter ? (dataSharedService.checkContentForFixFooter[0].fixedFooter ? 'dynamic-footer' : '') : 'dynamic-footer'"
+          <div id="FOOTER" [class]="dataSharedService.checkContentForFixFooter ? (dataSharedService.checkContentForFixFooter[0].fixedFooter ? 'dynamic-footer' : '') : 'dynamic-footer'"
             *ngIf="currentFooter && !fullCurrentUrl.includes('/menu-builder')">
             <st-pages [resData]="currentFooter" [screenName]="domainData?.footer?.navigation"
               [screenId]="domainData?.footer?.screenBuilderId"></st-pages>
