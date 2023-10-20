@@ -343,6 +343,39 @@ export class BuilderComponent implements OnInit {
     this.controlListvisible = false;
     this.applySize();
   }
+  getAllObjects(data: any): any[] {
+    const foundObjects: any[] = [];
+
+    function recursiveFind(currentData: any) {
+      if (currentData) {
+        foundObjects.push(currentData);
+
+        if (currentData.children && currentData.children.length > 0) {
+          for (const child of currentData.children) {
+            recursiveFind(child);
+          }
+        }
+      }
+    }
+
+    recursiveFind(data);
+    return foundObjects;
+  }
+  updateObjects(data: any) {
+    if (data) {
+      // Set eventActionconfig to an empty object and appConfigurableEvent to an empty array
+      data.eventActionconfig = {};
+      data.appConfigurableEvent = [];
+
+      if (data.children && data.children.length > 0) {
+        for (let child of data.children) {
+          // Recursively update children
+          this.updateObjects(child);
+        }
+      }
+    }
+  }
+
   saveJson() {
     debugger
     if (this.screenPage) {
@@ -358,6 +391,10 @@ export class BuilderComponent implements OnInit {
         gridData.tableData = [];
         gridData.displayData = [];
       }
+      // Assuming data is your array of objects
+      this.nodes.forEach((item: any) => {
+        this.updateObjects(item);
+      });
       const screenData = this.jsonParse(this.jsonStringifyWithObject(this.nodes));
       const data: any = {
         "screenData": JSON.stringify(screenData),
@@ -371,7 +408,7 @@ export class BuilderComponent implements OnInit {
         "Builder": data
       }
       // this.saveLoader =  false;
-      const checkBuilderAndProcess = this.builderScreenData.length > 0
+      const checkBuilderAndProcess = this.builderScreenData.length > 0 && this.builderScreenData[0]
         ? this.applicationService.updateNestCommonAPI('cp/Builder', this.builderScreenData[0]._id, builderModel)
         : this.applicationService.addNestCommonAPI('cp', builderModel);
 
@@ -5690,6 +5727,9 @@ export class BuilderComponent implements OnInit {
               }) || '{}'
             );
             event.target.value = '';
+            currentData.forEach((item: any) => {
+              this.updateObjects(item);
+            });
             this.nodes = currentData;
             this.applyDefaultValue();
             this.toastr.success('File uploaded successfully!', {
@@ -5773,6 +5813,7 @@ export class BuilderComponent implements OnInit {
             // Ensure Angular's Change Detection is triggered by creating a new array reference
             let nodesData: any = [...this.nodes]; // Or any other change detection technique
             this.nodes = [];
+            this.updateObjects(nodesData);
             this.nodes = nodesData;
             this.updateNodes();
             this.applyDefaultValue();
@@ -7069,7 +7110,7 @@ export class BuilderComponent implements OnInit {
     this.iconActive = 'screenClone'
     if (!this.screenPage) {
       this.toastr.warning('Please Select Screen', { nzDuration: 3000 });
-      return; 
+      return;
     }
     this.saveLoader = true;
     this.applicationService.addNestCommonAPI(`applications/${this._id}/screenClone`, this.builderScreenData).subscribe({
