@@ -391,6 +391,14 @@ export class MenuBuilderComponent implements OnInit {
     debugger
     // this.actionType = type;
     let _formFieldData = new formFeildData();
+    const excludedKeys = ['tooltipWithoutIcon', 'className', 'tooltipPosition'];
+
+    if (_formFieldData.commonOtherConfigurationFields[0].fieldGroup) {
+      _formFieldData.commonOtherConfigurationFields[0].fieldGroup = _formFieldData.commonOtherConfigurationFields[0].fieldGroup.filter(
+        (item: any) => !excludedKeys.includes(item.key)
+      );
+    }
+
     const obj = {
       title: this.selectedNode.title ? this.selectedNode.title : this.selectedNode.id,
       data: _formFieldData.commonOtherConfigurationFields
@@ -415,8 +423,8 @@ export class MenuBuilderComponent implements OnInit {
               _formFieldData.menufield[0].fieldGroup = _formFieldData.menufield[0].fieldGroup.filter(item => item.key !== 'isTitle');
             }
           }
-
         }
+
         this.fieldData.commonData?.push({ title: 'Menu Fields', data: _formFieldData.menufield });
         break;
       case "tabs":
@@ -1174,9 +1182,9 @@ export class MenuBuilderComponent implements OnInit {
           this.selectedNode.icon = event.form.icon;
           if (!event.form.link.includes("pages") && event.form.link != '') {
             // this.selectedNode.link = event.form.link != "/pages/tabsanddropdown" ? "/pages/" + event.form.link : event.form.menuLink;
-            if(event.form.link.includes("#")){
+            if (event.form.link.includes("#")) {
               this.selectedNode.link = event.form.link;
-            }else{
+            } else {
               this.selectedNode.link = "/pages/" + event.form.link;
             }
           } else {

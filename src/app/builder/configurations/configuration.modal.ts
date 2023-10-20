@@ -1480,6 +1480,15 @@ export class formFeildData {
           }
         },
         {
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          key: 'iconClass',
+          type: 'input',
+          wrappers: ["formly-vertical-theme-wrapper"],
+          props: {
+            label: 'Icon class',
+          },
+        },
+        {
           key: 'optionsPlacement',
           type: 'select',
           className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
@@ -1508,6 +1517,33 @@ export class formFeildData {
               showSearch: true,
             },
           },
+        },
+        {
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          key: 'optionMainClass',
+          type: 'input',
+          wrappers: ["formly-vertical-theme-wrapper"],
+          props: {
+            label: 'option Main Class',
+          }
+        },
+        {
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          key: 'optionSubClass',
+          type: 'input',
+          wrappers: ["formly-vertical-theme-wrapper"],
+          props: {
+            label: 'Option Sub Class',
+          }
+        },
+        {
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          key: 'optionLabelClass',
+          type: 'input',
+          wrappers: ["formly-vertical-theme-wrapper"],
+          props: {
+            label: 'option Label Class',
+          }
         },
         {
           className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
@@ -15338,15 +15374,15 @@ export class formFeildData {
         //     label: 'Hover Icon Color',
         //   },
         // },
-        {
-          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
-          key: 'iconClass',
-          type: 'input',
-          wrappers: ["formly-vertical-theme-wrapper"],
-          props: {
-            label: 'Icon class',
-          },
-        },
+        // {
+        //   className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+        //   key: 'iconClass',
+        //   type: 'input',
+        //   wrappers: ["formly-vertical-theme-wrapper"],
+        //   props: {
+        //     label: 'Icon class',
+        //   },
+        // },
         {
           key: 'badgeType',
           type: 'select',
