@@ -71,15 +71,12 @@
   </span>
 </button>
 <nz-dropdown-menu #menu="nzDropdownMenu">
-  <ul nz-menu [style.width.px]="buttonData.optionWidth ? buttonData.optionWidth : ''">
-    <li [class]="buttonData['optionsPlacement'] + ' ' + (buttonData.optionBorder ? 'bottom-border' : '')"
-      [ngStyle]="{'background-color': option?.hover ? buttonData.hoverBgColor : 'transparent'}" nz-menu-item
-      *ngFor="let option of buttonData.dropdownOptions" (mouseover)="hoverStyle(option , true)"
-      (mouseout)="hoverStyle(option , false)">
-      <a *ngIf="option.link" [href]="option.link" [style.color]="option?.hover ? buttonData['hoverTextColor'] : ''">{{
+  <ul class="!bg-blue-500 " nz-menu [style.width.px]="buttonData.optionWidth ? buttonData.optionWidth : ''">
+    <li  nz-menu-item *ngFor="let option of buttonData.dropdownOptions">
+      <a  *ngIf="option.link" [href]="option.link">{{
         option.label
         }}</a>
-      <a *ngIf="!option.link" [ngStyle]="{'color': option?.hover ? buttonData['hoverTextColor'] : ''}">{{
+      <a  *ngIf="!option.link">{{
         option.label }}</a>
     </li>
   </ul>

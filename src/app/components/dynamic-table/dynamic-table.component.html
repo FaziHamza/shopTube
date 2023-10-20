@@ -123,15 +123,16 @@
       [nzPaginationPosition]='data?.nzPaginationPosition' [nzPaginationType]='data?.nzPaginationType'
       [nzFrontPagination]='false' [nzTitle]='data?.nzTitle' [nzSimple]="data.nzSimple"
       [nzShowSizeChanger]="data.nzShowSizeChanger">
-      <thead [class]="data.tRowClass" *ngIf="tableHeaders.length > 0" class="desktop-toggle">
-        <tr class="desktop-toggle " *ngIf="data?.showColumnHeader == undefined ? true : data?.showColumnHeader">
-          <th (mousedown)="onResizeStart($event, deleteditWidth[2])" style="text-align:center !important"
+      <thead *ngIf="tableHeaders.length > 0" class="desktop-toggle">
+        <tr  class="desktop-toggle "
+          *ngIf="data?.showColumnHeader == undefined ? true : data?.showColumnHeader">
+          <th [class]="data.tableHeaderClass" (mousedown)="onResizeStart($event, deleteditWidth[2])" style="text-align:center !important"
             [nzWidth]="deleteditWidth[2]?.width ? deleteditWidth[2].width + 'px' : 'auto'" [class]="data?.thClass"
             [nzLeft]="data?.startFreezingNumber >= 1" *ngIf="data.showCheckbox" [(nzChecked)]="allChecked"
             [nzIndeterminate]="indeterminate" (nzCheckedChange)="checkAll($event)"></th>
           <ng-container *ngFor="let header of tableHeaders ; let i = index">
             <!-- !border-r-4 !border-gray-200 -->
-            <th (mousedown)="onResizeStart($event, header)" [nzWidth]="header?.width ? header.width + 'px' : 'auto'"
+            <th [class]="data.tableHeaderClass" (mousedown)="onResizeStart($event, header)" [nzWidth]="header?.width ? header.width + 'px' : 'auto'"
               [nzLeft]="allowFreeze(header , i)" [nzRight]="header?.headerFreeze == true ? true : false"
               *ngIf="header.key !== 'defaultValue' && ( header?.show == true || header?.show === undefined || header?.show === '' || header?.show == 'Yes')">
               <!-- (click)="header?.columnClickApi ? onClickColumn(header.columnClickApi,header): ''" -->
@@ -234,7 +235,7 @@
               </div>
             </th>
           </ng-container>
-          <th [nzWidth]="deleteditWidth[0]?.width ? deleteditWidth[0].width + 'px' : 'auto'"
+          <th [class]="data.tableHeaderClass"  [nzWidth]="deleteditWidth[0]?.width ? deleteditWidth[0].width + 'px' : 'auto'"
             (mousedown)="onResizeStart($event, deleteditWidth[0])" *ngIf="isAllowEdit(tableHeaders)"
             [nzRight]="data?.endFreezingNumber >= 2">
             <div [class]="data?.thClass" class="!text-gray-500 relative !uppercase !text-center"
@@ -244,7 +245,7 @@
               Edit
             </div>
           </th>
-          <th [nzWidth]="deleteditWidth[1]?.width ? deleteditWidth[1].width + 'px' : 'auto'"
+          <th [class]="data.tableHeaderClass"  [nzWidth]="deleteditWidth[1]?.width ? deleteditWidth[1].width + 'px' : 'auto'"
             (mousedown)="onResizeStart($event, deleteditWidth[1])" [nzRight]="data?.endFreezingNumber >= 1"
             *ngIf="tableHeaders.length > 0 && (data?.isDeleteAllow || data?.isDeleteAllow == undefined)">
             <div [class]="data?.thClass" class="!text-gray-500 relative !uppercase !text-center"

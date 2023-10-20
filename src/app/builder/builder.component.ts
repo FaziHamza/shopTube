@@ -4499,7 +4499,7 @@ export class BuilderComponent implements OnInit {
           this.selectedNode['rotationDegree'] = event.form?.rotationDegree;
           this.selectedNode['headingClass'] = event.form?.headingClass;
           this.selectedNode['heading'] = event.form?.heading;
-          this.selectedNode['tRowClass'] = event.form?.tRowClass;
+          this.selectedNode['tableHeaderClass'] = event.form?.tableHeaderClass;
           this.selectedNode['thLabelClass'] = event.form?.thLabelClass;
           this.selectedNode['thClass'] = event.form?.thClass;
           this.selectedNode['tbodyClass'] = event.form?.tbodyClass;

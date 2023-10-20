@@ -576,7 +576,7 @@ export interface TreeNode {
   changePageSize?: boolean,
   rotationDegree?: number,
   headingClass?: string,
-  tRowClass?: string,
+  tableHeaderClass?: string,
   thLabelClass?: string,
   thClass?: string,
   tbodyClass?: string,

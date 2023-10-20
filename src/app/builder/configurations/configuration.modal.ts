@@ -11412,6 +11412,15 @@ export class formFeildData {
           },
         },
         {
+          key: 'tableHeaderClass',
+          type: 'input',
+          wrappers: ["formly-vertical-theme-wrapper"],
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          props: {
+            label: 'Table Header class',
+          },
+        },
+        {
           key: 'showCheckbox',
           type: 'checkbox',
           wrappers: ["formly-vertical-theme-wrapper"],
@@ -11905,15 +11914,7 @@ export class formFeildData {
             label: 'Action Button Class',
           }
         },
-        // {
-        //   key: 'tRowClass',
-        //   type: 'input',
-        //   wrappers: ["formly-vertical-theme-wrapper"],
-        //   className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
-        //   props: {
-        //     label: 'T Head-Row Class',
-        //   },
-        // },
+        
         // {
         //   key: 'thLabelClass',
         //   type: 'input',

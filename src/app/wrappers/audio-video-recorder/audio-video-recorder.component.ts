@@ -11,7 +11,7 @@ import { VideoRecordingService } from 'src/app/services/video-recording.service'
   changeDetection: ChangeDetectionStrategy.Default
 })
 export class AudioVideoRecorderComponent extends FieldType<FieldTypeConfig> {
-  @ViewChild('videoElement') videoElement: any;
+  // @ViewChild('videoElement') videoElement: any;
   @Input() audioBlobUrl: any;
   video: any;
   isPlaying = false;
