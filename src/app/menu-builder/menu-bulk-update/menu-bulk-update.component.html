@@ -1,15 +1,14 @@
-<div class="flex">
-  <div class="text-right">
-    <button class="ml-2" nz-button nzType="default" (click)="addMenu()">
+<div class="flex mb-2.5">
+    <button class="ml-2 btn-no border border-gray-300 text-gray-700 hover:border-blue-600 hover:text-blue-600" nz-button nzType="default" (click)="addMenu()">
       <span nz-icon nzType="plus"></span>
       Add Menu
     </button>
-  </div>
 </div>
-<br />
-<st-table-row class="mt-2" [data]="tabelNodes"></st-table-row>
-<div class="flex justify-end">
-  <button class="upload-btn" nz-button nzType="primary" (click)="save()">
+<div class="h-[calc(100vh-209px)] overflow-auto" >
+  <st-table-row class="mt-2" [data]="tabelNodes"></st-table-row>
+</div>
+<div class="flex justify-end pt-[16px] ">
+  <button class="upload-btn btn" nz-button nzType="primary" (click)="save()">
     <span nz-icon nzType="save"></span>
     Save
   </button>
