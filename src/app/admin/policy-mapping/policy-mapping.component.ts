@@ -221,7 +221,8 @@ export class PolicyMappingComponent implements OnInit {
               value: 'selectDepartment'
             }
             this.departmentData.unshift(header)
-          } else {
+          } 
+          else {
             this.departments = [];
             this.departmentData = [];
           }
@@ -264,6 +265,7 @@ export class PolicyMappingComponent implements OnInit {
     }));
   }
   getPolicyMenu() {
+    debugger
     if (!this.policyName) {
       this.toastr.error("Please select policy name", { nzDuration: 3000 });
       return;

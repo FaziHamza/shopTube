@@ -24,4 +24,36 @@
   }
 }
 
+:host ::ng-deep [nz-carousel-content] {
+  text-align: center !important;
+  height: 160px !important;
+  line-height: 160px !important;
+  background: #364d79 !important;
+  color: #fff !important;
+  overflow: hidden !important;
+}
+:host ::ng-deep .sliderNew {
+  text-align: center !important;
+  height: 160px !important;
+  line-height: 160px !important;
+  background: #364d79 !important;
+  color: #fff !important;
+  overflow: hidden !important;
+}
 
+// h3 {
+// color: #fff;
+// margin-bottom: 0;
+// user-select: none;
+// }
+
+// div {
+//   width: [desired width];
+//   height: [desired height];
+// }
+
+// div img {
+//   width: 100% !important;
+//   height: 100% !important;
+//   object-fit: contain !important;
+// }

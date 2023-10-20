@@ -38,7 +38,7 @@ export class DynamicTableComponent implements OnInit {
   @Input() childTable: any = false;
   GridType: string = '';
   index: any;
-  serverPath = environment.nestImageUrl
+  serverPath = environment.nestBaseUrl
   screenNameaa: any;
   footerData: any[] = [];
   childKey: any;
@@ -2063,63 +2063,71 @@ export class DynamicTableComponent implements OnInit {
       this.requestSubscription.unsubscribe();
   }
   onFileSelected(event: any): void {
-    if (!this.data?.tableName) {
-      this.toastr.error('Required Impot table name', { nzDuration: 2000 });
-      return
-    }
-    const file: File = event.target.files[0];
+    if (this.data.appConfigurableEvent) {
+      let findClickApi = this.data?.appConfigurableEvent?.find((item: any) => item.rule.includes('fileupload'));
+      if (!findClickApi) {
+        this.toastr.error('Action Required for upload data in bulk', { nzDuration: 2000 });
+        return;
+      }
 
-    if (file) {
-      this.showProgressBar = true;
-      this.progress = 0; // Initialize progress to 0
+      const file: File = event.target.files[0];
+      if (file) {
+        this.showProgressBar = true;
+        this.progress = 0; // Initialize progress to 0
 
-      const formData: FormData = new FormData();
-      formData.append('file', file);
-      this.requestSubscription = this.http
-        .post(this.serverPath + '/knex-query/savecsv/' + this.data?.tableName, formData, {
-          reportProgress: true, // Enable progress reporting
-          observe: 'events', // Observe Http events
-        })
-        .subscribe({
-          next: (event: HttpEvent<any>) => {
-            if (event.type === HttpEventType.UploadProgress) {
-              if (event.total !== undefined && event.total > 0) {
-                // Ensure 'event.total' is defined and positive before using it
-                this.progress = Math.round((100 * event.loaded) / event.total);
-              }
-            } else if (event.type === HttpEventType.Response) {
-              // Upload complete
-              this.progress = 100;
-              this.showProgressBar = false;
-              this.fileUpload = ''; // This clears the file input
-              if (event.body.isSuccess) {
-                if (this.data.appConfigurableEvent) {
-                  let url = 'knex-query/getexecute-rules/' + this.data.eventActionconfig._id;
-                  this.saveLoader = true;
-                  this.requestSubscription = this.applicationService.callApi(url, 'get', '', '', '').subscribe({
-                    next: (res) => {
-                      this.getFromQueryOnlyTable(this.data, res);
-                    },
-                    error: (error: any) => {
-                      console.error(error);
-                      this.saveLoader = false;
-                      this.toastr.error("An error occurred", { nzDuration: 3000 });
-                    }
-                  })
+        const formData: FormData = new FormData();
+        formData.append('file', file);
+        this.requestSubscription = this.http
+          .post(this.serverPath + 'knex-query/savecsv/' +findClickApi?._id, formData, {
+            reportProgress: true, // Enable progress reporting
+            observe: 'events', // Observe Http events
+          })
+          .subscribe({
+            next: (event: HttpEvent<any>) => {
+              if (event.type === HttpEventType.UploadProgress) {
+                if (event.total !== undefined && event.total > 0) {
+                  // Ensure 'event.total' is defined and positive before using it
+                  this.progress = Math.round((100 * event.loaded) / event.total);
                 }
-                this.toastr.success('Import successfully', { nzDuration: 3000 });
-              } else {
-                this.toastr.error(event.body.error, { nzDuration: 2000 });
+              } else if (event.type === HttpEventType.Response) {
+                // Upload complete
+                this.progress = 100;
+                this.showProgressBar = false;
+                this.fileUpload = ''; // This clears the file input
+                if (event.body.isSuccess) {
+                  if (this.data.appConfigurableEvent) {
+                    let url = 'knex-query/getexecute-rules/' + this.data.eventActionconfig._id;
+                    this.saveLoader = true;
+                    this.requestSubscription = this.applicationService.callApi(url, 'get', '', '', '').subscribe({
+                      next: (res) => {
+                        this.getFromQueryOnlyTable(this.data, res);
+                      },
+                      error: (error: any) => {
+                        console.error(error);
+                        this.saveLoader = false;
+                        this.toastr.error("An error occurred", { nzDuration: 3000 });
+                      }
+                    })
+                  }
+                  this.toastr.success('Import successfully', { nzDuration: 3000 });
+                } else {
+                  this.toastr.error(event.body.error, { nzDuration: 2000 });
+                }
               }
-            }
-          },
-          error: (err) => {
-            // Handle error
-            this.showProgressBar = false;
-            this.toastr.error('Some error occurred', { nzDuration: 2000 });
-          },
-        });
+            },
+            error: (err) => {
+              // Handle error
+              this.showProgressBar = false;
+              this.toastr.error('Some error occurred', { nzDuration: 2000 });
+            },
+          });
+      }
     }
+    // if (!this.data?.tableName) {
+    //   this.toastr.error('Required Impot table name', { nzDuration: 2000 });
+    //   return
+    // }
+
   }
 
 

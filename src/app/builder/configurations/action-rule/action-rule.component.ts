@@ -54,7 +54,7 @@ export class ActionRuleComponent implements OnInit {
     private applicationService: ApplicationService) { }
 
   ngOnInit(): void {
-    this.getPendingTableFileds();
+    // this.getPendingTableFileds();
     this.actionFormLoad();
     this.getActionData();
     this.extractNodes(this.nodes, this.nodeList);
@@ -502,7 +502,7 @@ export class ActionRuleComponent implements OnInit {
         actionData['_id'] = element.id
       actionListData.push(actionData)
     });
-    this.applicationService.addNestCommonAPI('cp/Action/DeleteAction', actionListData).subscribe({
+    this.applicationService.addNestCommonAPI('cp/Action/DeleteAction/'+mainModuleId[0]._id, actionListData).subscribe({
       next: (allResults: any) => {
         if (allResults) {
           this.getActionData();
@@ -661,18 +661,18 @@ export class ActionRuleComponent implements OnInit {
     }
   }
 
-  getPendingTableFileds() {
-    this.requestSubscription = this.builderService.getPendingTableFields('knex-crud/getPending/table_schema/' + this.screeenBuilderId).subscribe({
-      next: (res: any) => {
-        if (res) {
-          if (res.length > 0) {
-            this.showActionRuleForm = false;
-          }
-        }
-      }, error: (err: any) => {
-        console.error(err); // Log the error to the console
-        this.toastr.error(`UserAssignTask : An error occurred`, { nzDuration: 3000 });
-      }
-    })
-  }
+  // getPendingTableFileds() {
+  //   this.requestSubscription = this.builderService.getPendingTableFields('knex-crud/getPending/table_schema/' + this.screeenBuilderId).subscribe({
+  //     next: (res: any) => {
+  //       if (res) {
+  //         if (res.length > 0) {
+  //           this.showActionRuleForm = false;
+  //         }
+  //       }
+  //     }, error: (err: any) => {
+  //       console.error(err); // Log the error to the console
+  //       this.toastr.error(`UserAssignTask : An error occurred`, { nzDuration: 3000 });
+  //     }
+  //   })
+  // }
 }

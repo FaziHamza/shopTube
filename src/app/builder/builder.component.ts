@@ -380,7 +380,11 @@ export class BuilderComponent implements OnInit {
           if (res.isSuccess) {
             this.toastr.success(res.message, { nzDuration: 3000 });
             this.showActionRule = true;
-            // this.getBuilderScreen();
+            if (this.builderScreenData.length > 0) {
+
+            } else {
+              this.getBuilderScreen();
+            }
             if (gridData) {
               this.getFromQuery(this.navigation, 'load');
             } else {
@@ -487,7 +491,7 @@ export class BuilderComponent implements OnInit {
     this.requestSubscription = this.applicationService.getNestCommonAPIById('cp/Builder', this._id).subscribe({
       next: (res: any) => {
         if (res.isSuccess) {
-          this.builderScreenData = res.data;
+          this.builderScreenData = [res.data[0]];
           // this.form = new FormGroup({});
           if (res.data.length > 0) {
             // this.navigation = '';
@@ -755,7 +759,7 @@ export class BuilderComponent implements OnInit {
   stepperAdd: TreeNode;
   ParentAdd: TreeNode;
   stepperChild: TreeNode;
-  chilAdd: TreeNode;
+  childAdd: TreeNode;
   screenData: any;
   businessRuleData: any;
   formlyModel: any;
@@ -1503,7 +1507,7 @@ export class BuilderComponent implements OnInit {
       value == 'insertButton' ||
       value == 'updateButton' ||
       value == 'deleteButton' ||
-      value == 'downloadButton' 
+      value == 'downloadButton'
 
     ) {
       newNode.isSubmit = res.isSubmit;
@@ -1663,6 +1667,14 @@ export class BuilderComponent implements OnInit {
           ...newNode,
           ...this.addControlService.getCarouselCrossfadeControl(),
         };
+        this.ParentAdd = newNode;
+        break;
+      case 'subCarouselCrossfade':
+        newNode = {
+          ...newNode,
+          ...this.addControlService.getsubCarouselCrossfadeControl(),
+        };
+        this.childAdd = newNode;
         break;
       case 'calender':
         newNode = {
@@ -1802,7 +1814,7 @@ export class BuilderComponent implements OnInit {
         break;
       case 'tabs':
         newNode = { ...newNode, ...this.addControlService.getTabsControl() };
-        this.chilAdd = newNode;
+        this.childAdd = newNode;
         break;
       case 'mainTab':
         newNode = { ...newNode, ...this.addControlService.getMainTabControl() };
@@ -1827,11 +1839,11 @@ export class BuilderComponent implements OnInit {
           ...newNode,
           ...this.addControlService.getlistWithComponentsChildControl(),
         };
-        this.chilAdd = newNode;
+        this.childAdd = newNode;
         break;
       case 'step':
         newNode = { ...newNode, ...this.addControlService.getStepControl() };
-        this.chilAdd = newNode;
+        this.childAdd = newNode;
         break;
       case 'kanban':
         newNode = { ...newNode, ...this.addControlService.getKanbanControl() };
@@ -1842,7 +1854,7 @@ export class BuilderComponent implements OnInit {
           ...newNode,
           ...this.addControlService.getKanbanTaskControl(),
         };
-        this.chilAdd = newNode;
+        this.childAdd = newNode;
         break;
       case 'simplecard':
         newNode = { ...newNode, ...this.addControlService.simplecardControl() };
@@ -1904,12 +1916,12 @@ export class BuilderComponent implements OnInit {
         break;
       case 'timelineChild':
         newNode = { ...newNode, ...this.addControlService.timelineChildControl() };
-        this.chilAdd = newNode;
+        this.childAdd = newNode;
         break;
 
       case 'fixedDiv':
         newNode = { ...newNode, ...this.addControlService.fixedDivControl() };
-        this.chilAdd = newNode;
+        this.childAdd = newNode;
         break;
 
       case 'accordionButton':
@@ -3148,7 +3160,7 @@ export class BuilderComponent implements OnInit {
           ...configObj,
           ...this.clickButtonService.getSectionConfig(selectedNode),
         };
-        this.fieldData.commonData?.push({ title: 'sectionsFields', data: _formFieldData.sectionsFields });
+        this.fieldData.commonData?.push({ title: 'Sections Fields', data: _formFieldData.sectionsFields });
         this.fieldData.mappingConfig = _formFieldData.mappingFields;
         this.fieldData.mappingNode = this.selectedNode;
 
@@ -3547,6 +3559,9 @@ export class BuilderComponent implements OnInit {
       case 'dashonictabsAddNew':
         this.addChildControlsWithSubChild('mainTab', 'tabs');
         break;
+      case 'carouselCrossfadeMain':
+        this.addChildControlsWithSubChild('carouselCrossfade', 'subCarouselCrossfade');
+        break;
 
       case 'stepperAddNew':
         this.addChildControlsWithSubChild('mainStep', 'step');
@@ -3602,15 +3617,15 @@ export class BuilderComponent implements OnInit {
     this.addControlToJson(parent);
     this.selectedNode = this.ParentAdd;
     this.addControlToJson(child);
-    this.selectedNode = this.chilAdd;
+    this.selectedNode = this.childAdd;
     this.addControlToJson('text', this.textJsonObj);
     this.selectedNode = this.ParentAdd;
     this.addControlToJson(child);
-    this.selectedNode = this.chilAdd;
+    this.selectedNode = this.childAdd;
     this.addControlToJson('text', this.textJsonObj);
     this.selectedNode = this.ParentAdd;
     this.addControlToJson(child);
-    this.selectedNode = this.chilAdd;
+    this.selectedNode = this.childAdd;
     this.addControlToJson('text', this.textJsonObj);
     this.selectedNode = this.selectForDropdown;
     this.updateNodes();
@@ -4391,7 +4406,7 @@ export class BuilderComponent implements OnInit {
         this.dataSharedService.imageUrl = '';
         break;
       case 'imageUpload':
-          this.selectedNode['image'] = event.form.image;
+        this.selectedNode['image'] = event.form.image;
         // if (event.form.source) {
         //   this.selectedNode.source = event.form.source;
         // } else if (this.dataSharedService.imageUrl) {
@@ -4756,25 +4771,28 @@ export class BuilderComponent implements OnInit {
         }
         break;
       case 'carouselCrossfade':
+        if (event.tableDta) {
+          this.selectedNode.carousalConfig = event.tableDta;
+        }
         // event.tableDta != undefined
         //   ? (this.selectedNode.carousalConfig = event.tableDta)
         //   : (this.selectedNode.carousalConfig =
         //     this.selectedNode.carousalConfig);
-        this.selectedNode.carousalConfig = event.form.carousalConfig;
-        if (event.form.link != undefined || event.form.link != '') {
-          this.requestSubscription = this.builderService
-            .genericApis(event.form.link)
-            .subscribe({
-              next: (res) => {
-                this.selectedNode.carousalConfig = res;
-                this.updateNodes();
-              },
-              error: (err) => {
-                console.error(err); // Log the error to the console
-                this.toastr.error('An error occurred', { nzDuration: 3000 }); // Show an error message to the user
-              },
-            });
-        }
+        // this.selectedNode.carousalConfig = event.form.carousalConfig;
+        // if (event.form.link != undefined || event.form.link != '') {
+        //   this.requestSubscription = this.builderService
+        //     .genericApis(event.form.link)
+        //     .subscribe({
+        //       next: (res) => {
+        //         this.selectedNode.carousalConfig = res;
+        //         this.updateNodes();
+        //       },
+        //       error: (err) => {
+        //         console.error(err); // Log the error to the console
+        //         this.toastr.error('An error occurred', { nzDuration: 3000 }); // Show an error message to the user
+        //       },
+        //     });
+        // }
         break;
       case 'timeline':
         this.addDynamic(event.form.nodes, 'timelineChild', 'timeline');
@@ -5448,7 +5466,7 @@ export class BuilderComponent implements OnInit {
             if (nodesLength < nodesNumber) {
               if (mainType != 'mainDiv') {
                 this.addControlToJson(subType);
-                this.selectedNode = this.chilAdd;
+                this.selectedNode = this.childAdd;
                 this.addControlToJson('input', this.textJsonObj);
                 this.selectedNode = this.ParentAdd;
               } else {
@@ -7046,4 +7064,23 @@ export class BuilderComponent implements OnInit {
     }
   }
 
+  screenClone() {
+    this.iconActive = 'screenClone'
+    if (!this.screenPage) {
+      this.toastr.warning('Please Select Screen', { nzDuration: 3000 });
+      return; 
+    }
+    this.saveLoader = true;
+    this.applicationService.addNestCommonAPI(`applications/${this._id}/screenClone`, this.builderScreenData).subscribe({
+      next: (res: any) => {
+        this.saveLoader = false;
+        this.toastr.success('clone Data SuccessFully', { nzDuration: 3000 });
+      },
+      error: (err) => {
+        this.saveLoader = false;
+        console.log(err)
+        this.toastr.error(err, { nzDuration: 3000 });
+      }
+    });
+  }
 }

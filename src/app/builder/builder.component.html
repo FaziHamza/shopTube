@@ -1,4 +1,4 @@
-  <nz-spin [nzSpinning]="saveLoader" [nzSize]="'large'" class="builder-design">
+<nz-spin [nzSpinning]="saveLoader" [nzSize]="'large'" class="builder-design">
   <div class="b-card top-action-bar p-3">
     <div class="page-selector ">
       <nz-form-control nzErrorTip="Please Select Page">
@@ -45,6 +45,10 @@
         <button [ngClass]="iconActive == 'faker' ? 'active' : ''" [nzTooltipTitle]="'
             Add Fake Data'" nz-tooltip nz-button nzType="link" (click)="makeFaker(true)">
           <i class="fa-regular fa-random"></i>
+        </button>
+        <button [ngClass]="iconActive == 'screenClone' ? 'active' : ''" [nzTooltipTitle]="'
+            Screen Clone'" nz-tooltip nz-button nzType="link" (click)="screenClone()">
+          <i class="fa-regular fa-clone"></i>
         </button>
       </div>
 
@@ -299,14 +303,14 @@
                 <div class="flex flex-wrap tab-pills z-50">
                   <div class="col-md-3 mb-1 p-1 hover:bg-#1890ff  " *ngFor="let searchItems of searchControllData">
                     <button nz-button class=" rounded w-auto"
-                      *ngIf="searchItems.parameter != 'dashonictabsAddNew' && searchItems.parameter != 'timeline'  && searchItems.parameter != 'stepperAddNew' && searchItems.parameter != 'listWithComponents' && searchItems.parameter != 'kanabnAddNew'  && searchItems.parameter != 'addSection' && searchItems.parameter != 'cvtemplate'  && searchItems.parameter != 'dashnoicPricingTemplate'  && searchItems.parameter != 'login' && searchItems.parameter != 'loremIpsum'  && searchItems.parameter != 'dashnoicPricingTabletemplate' && searchItems.parameter != 'pricingtemplate' && searchItems.parameter != 'registerTemplate' && searchItems.parameter != 'signUpTemplate' && searchItems.parameter != 'profiletemplate' && searchItems.parameter != 'invoiceTemplate'"
+                      *ngIf="searchItems.parameter != 'dashonictabsAddNew' && searchItems.parameter != 'carouselCrossfadeMain' && searchItems.parameter != 'timeline'  && searchItems.parameter != 'stepperAddNew' && searchItems.parameter != 'listWithComponents' && searchItems.parameter != 'kanabnAddNew'  && searchItems.parameter != 'addSection' && searchItems.parameter != 'cvtemplate'  && searchItems.parameter != 'dashnoicPricingTemplate'  && searchItems.parameter != 'login' && searchItems.parameter != 'loremIpsum'  && searchItems.parameter != 'dashnoicPricingTabletemplate' && searchItems.parameter != 'pricingtemplate' && searchItems.parameter != 'registerTemplate' && searchItems.parameter != 'signUpTemplate' && searchItems.parameter != 'profiletemplate' && searchItems.parameter != 'invoiceTemplate'"
                       (click)="addControlToJson(searchItems.parameter,searchItems)"><i
                         class={{searchItems.icon}}></i><span class="text-wrap">{{searchItems.label}}</span>
                     </button>
                     <ng-container
                       *ngIf="searchItems.parameter != 'cvtemplate'  && searchItems.parameter != 'dashnoicPricingTemplate'  && searchItems.parameter != 'login' && searchItems.parameter != 'loremIpsum'  && searchItems.parameter != 'dashnoicPricingTabletemplate' && searchItems.parameter != 'pricingtemplate' && searchItems.parameter != 'registerTemplate' && searchItems.parameter != 'signUpTemplate' && searchItems.parameter != 'profiletemplate' && searchItems.parameter != 'invoiceTemplate'">
                       <button nz-button class="w-auto rounded"
-                        *ngIf="searchItems.parameter == 'dashonictabsAddNew' || searchItems.parameter == 'timeline' || searchItems.parameter == 'listWithComponents' || searchItems.parameter == 'addSection' || searchItems.parameter == 'stepperAddNew' || searchItems.parameter == 'kanabnAddNew' || searchItems.parameter == 'address_form' || searchItems.parameter == 'employee_form' || searchItems.parameter == 'login_Form' || searchItems.parameter == 'signUp_Form'"
+                        *ngIf="searchItems.parameter == 'dashonictabsAddNew' || searchItems.parameter == 'carouselCrossfadeMain' || searchItems.parameter == 'timeline' || searchItems.parameter == 'listWithComponents' || searchItems.parameter == 'addSection' || searchItems.parameter == 'stepperAddNew' || searchItems.parameter == 'kanabnAddNew' || searchItems.parameter == 'address_form' || searchItems.parameter == 'employee_form' || searchItems.parameter == 'login_Form' || searchItems.parameter == 'signUp_Form'"
                         (click)="addFunctionsInHtml(searchItems.parameter)"><i class={{searchItems.icon}}></i>
                         <span class="text-wrap">{{searchItems.label}}</span>
                       </button>
@@ -351,12 +355,12 @@
                   <div class="flex flex-wrap">
                     <div class="p-1 w-1/6" *ngFor="let item3 of item2.children">
                       <button nz-button nzType="default" nzBlock class="rounded"
-                        *ngIf="item1.id != 'template' && item3.parameter != 'dashonictabsAddNew' && item3.parameter != 'listWithComponents' && item3.parameter != 'stepperAddNew' && item3.parameter != 'kanabnAddNew'  && item3.parameter != 'addSection' && item1.id != 'webCode'"
+                        *ngIf="item1.id != 'template' && item3.parameter != 'dashonictabsAddNew'  && item3.parameter != 'carouselCrossfadeMain' && item3.parameter != 'listWithComponents' && item3.parameter != 'stepperAddNew' && item3.parameter != 'kanabnAddNew'  && item3.parameter != 'addSection' && item1.id != 'webCode'"
                         (click)=" addControlToJson(item3.parameter,item3)">
                         <i class={{item3.icon}}></i><span class="text-wrap">{{item3.label}}</span>
                       </button>
                       <button nz-button nzType="default" nzBlock class="rounded"
-                        *ngIf="item3.parameter == 'dashonictabsAddNew' || item3.parameter == 'timeline' || item3.parameter == 'addSection' || item3.parameter == 'stepperAddNew' || item3.parameter == 'kanabnAddNew' || item3.parameter == 'listWithComponents'"
+                        *ngIf="item3.parameter == 'dashonictabsAddNew' || item3.parameter == 'carouselCrossfadeMain' || item3.parameter == 'timeline' || item3.parameter == 'addSection' || item3.parameter == 'stepperAddNew' || item3.parameter == 'kanabnAddNew' || item3.parameter == 'listWithComponents'"
                         (click)="addFunctionsInHtml(item3.parameter)">
                         <i class={{item3.icon}}></i>
                         <span class="text-wrap">{{item3.label}}</span>
