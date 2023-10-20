@@ -152,11 +152,10 @@ export class SiteLayoutComponent implements OnInit {
   }
 
   ngAfterViewInit() {
-
     setTimeout(() => {
       this.updateHeaderHeight();
       this.updateFooterHeight();
-    } ,3000)
+    } ,5000)
 
   }
 
