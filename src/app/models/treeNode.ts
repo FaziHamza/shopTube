@@ -584,4 +584,6 @@ export interface TreeNode {
   hieght?: string,
   image?: string,
   actionButtonClass?: string,
+  primaryColor?: string,
+  secondaryColor?: string,
 }

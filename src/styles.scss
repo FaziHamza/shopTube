@@ -7768,3 +7768,18 @@ div img {
   object-fit: contain;
 }
 
+
+.app-primary-color{
+  background: var(--primaryColor) !important;
+
+}
+.app-secondary-color{
+  color: var(--secondaryColor) !important;
+}
+.page-primary-color{
+  background: var(--pagePrimaryColor) !important;
+
+}
+.page-secondary-color{
+  color: var(--pageSecondaryColor) !important;
+}

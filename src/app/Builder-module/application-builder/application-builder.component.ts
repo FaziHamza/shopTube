@@ -854,6 +854,40 @@ export class ApplicationBuilderComponent implements OnInit {
             }
           },
         ],
+      },
+      {
+        fieldGroup: [
+          {
+            key: 'primaryColor',
+            type: 'input',
+            wrappers: ["formly-vertical-theme-wrapper"],
+            defaultValue: '',
+            props: {
+              type: 'color',
+              label: 'Primary Color',
+              additionalProperties: {
+                tooltip: "This class used for app-primary-color",
+              }
+            }
+          },
+        ],
+      },
+      {
+        fieldGroup: [
+          {
+            key: 'secondaryColor',
+            type: 'input',
+            wrappers: ["formly-vertical-theme-wrapper"],
+            defaultValue: '',
+            props: {
+              type: 'color',
+              label: 'Secondary Color',
+              additionalProperties: {
+                tooltip: "This class used for app-secondary-color",
+              }
+            }
+          },
+        ],
       }
     ];
   }

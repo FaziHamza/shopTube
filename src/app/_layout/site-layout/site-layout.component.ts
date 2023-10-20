@@ -91,7 +91,6 @@ export class SiteLayoutComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    // this.getUsers();
     // this.getTaskManagementIssuesFunc(JSON.parse(localStorage.getItem('applicationId')!));
     this.currentUser = JSON.parse(localStorage.getItem('user')!);
     this.requestSubscription = this.dataSharedService.collapseMenu.subscribe({
@@ -165,28 +164,28 @@ export class SiteLayoutComponent implements OnInit {
   //   const headerElement = this.el.nativeElement.querySelector('#HEADER');
   //   this.headerHeight = headerElement.clientHeight;
   //   console.log('the height is header' , this.headerHeight);
-    
+
   //   // Adjust the layout width based on the header height
   //   const layoutElement = this.el.nativeElement.querySelector('.content-container');
   //   this.renderer.setStyle(layoutElement, 'height', `calc(100vh - ${this.headerHeight + 10}px)`);
   //   console.log('nz-layout', `calc(100vh - ${this.headerHeight + 15}px)`)
-    
+
   // }
-  
-  
-  
-  private updateFooterHeight(){
+
+
+
+  private updateFooterHeight() {
     debugger
     const footerElement = this.el.nativeElement.querySelector('#FOOTER');
     this.footerHeight = footerElement.clientHeight;
-    console.log('the height is footer' , this.footerHeight);
-    
+    console.log('the height is footer', this.footerHeight);
+
     const contentElement = this.el.nativeElement.querySelector('.content');
     // this.renderer.setStyle(contentElement, 'height', `calc(100vh - ${this.footerHeight + 10}px)`);
     // console.log('the content height' ,`calc(100vh - ${this.footerHeight + 10}px)`)
 
-    this.renderer.setStyle(contentElement, 'marginBottom' ,`${this.footerHeight}px`);
-    console.warn('the content height' ,this.footerHeight);
+    this.renderer.setStyle(contentElement, 'marginBottom', `${this.footerHeight}px`);
+    console.warn('the content height', this.footerHeight);
 
   }
 
@@ -207,11 +206,14 @@ export class SiteLayoutComponent implements OnInit {
       this.loader = true;
       this.requestSubscription = this.builderService.getApplicationByDomainName(domainName).subscribe({
         next: (res) => {
+          debugger
           if (res.isSuccess) {
             this.domainData = res.data;
             if (res.data.appication) {
               this.currentWebsiteLayout = res.data.appication.application_Type ? res.data.appication.application_Type : 'backend_application';
             }
+            document.documentElement.style.setProperty('--primaryColor', res.data.appication?.primaryColor);
+            document.documentElement.style.setProperty('--secondaryColor', res.data.appication?.secondaryColor);
             this.dataSharedService.applicationDefaultScreen = res.data['default'] ? res.data['default'].navigation : '';
             this.logo = res.data.appication['image'];
             this.dataSharedService.headerLogo = res.data.appication['image'];
@@ -590,6 +592,10 @@ export class SiteLayoutComponent implements OnInit {
         this.toastr.error("An error occurred", { nzDuration: 3000 });
       }
     })
+  }
+
+  updateStyles() {
+
   }
 
 }

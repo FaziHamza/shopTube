@@ -357,7 +357,8 @@ export class PagesComponent implements OnInit {
       // It's a JSON string, parse it
       data = JSON.parse(data);
     }
-
+    document.documentElement.style.setProperty('--pagePrimaryColor', data[0]?.primaryColor);
+    document.documentElement.style.setProperty('--pageSecondaryColor', data[0]?.secondaryColor);
     let nodesData = this.jsonParseWithObject(this.jsonStringifyWithObject(data));
     // this.resData = this.jsonParseWithObject(this.jsonStringifyWithObject(data));
     this.dataSharedService.checkContentForFixFooter = this.jsonParseWithObject(this.jsonStringifyWithObject(data));

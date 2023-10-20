@@ -4739,6 +4739,10 @@ export class BuilderComponent implements OnInit {
         break;
       case 'page':
         this.selectedNode.options = event.form?.options;
+        this.selectedNode.primaryColor = event.form?.primaryColor;
+        this.selectedNode.secondaryColor = event.form?.secondaryColor;
+        document.documentElement.style.setProperty('--pagePrimaryColor', event.form?.primaryColor);
+        document.documentElement.style.setProperty('--pageSecondaryColor', event.form?.secondaryColor);
         // this.selectedNode.options = event.tableDta
         //   ? event.tableDta
         //   : event.form?.options;
