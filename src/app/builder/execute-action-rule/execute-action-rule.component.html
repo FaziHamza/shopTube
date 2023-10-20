@@ -48,8 +48,8 @@
         <div class="!p-2 !pr-0 !w-full !h-fit !flex flex-col !items-center">
           <st-monaco-editor [selectedNode]="selectedNode" [screenName]="screenName" [formlyModel]="this.formlyModel"
             [applicationId]="applicationId" [nodes]="nodes" [screens]="screens" [jsonSchema]="jsonSchema"
-            formControlName="monacoEditorControl" [screeenBuilderId]="screeenBuilderId" [formControlName]="i"
-            [actionRule]="multiSelect.value.monacoEditorControl" (contentChange)="onEditorContentChange($event, i)"
+            [screeenBuilderId]="screeenBuilderId" [actionRule]="multiSelect.value.monacoEditorControl"
+            (contentChange)="onEditorContentChange($event, i)"
             [codeEditorRuleInstance]="multiSelect.value.monacoEditorControl"
             class="!w-full !rounded-md !inline-block"></st-monaco-editor>
           <div class="!w-full !inline-flex justify-end items-center  !p-1.5 ">

@@ -46,6 +46,7 @@ export class BusinessRuleGridComponent implements OnInit {
           referenceId: '',
           referenceOperator: '',
           referenceColor: '',
+          referenceTextColor: '',
           condition: '',
           multiConditionList: this.formBuilder.array([]),
         })
@@ -153,6 +154,7 @@ export class BusinessRuleGridComponent implements OnInit {
       referenceId: '',
       referenceOperator: '',
       referenceColor: '',
+      referenceTextColor: '',
       condition: '',
       multiConditionList: this.formBuilder.array([]),
     });
@@ -305,6 +307,7 @@ export class BusinessRuleGridComponent implements OnInit {
             referenceId: objGetRuleCondition.referenceId,
             referenceOperator: objGetRuleCondition.referenceOperator,
             referenceColor: objGetRuleCondition.referenceColor,
+            referenceTextColor: objGetRuleCondition?.referenceTextColor,
             condition: objGetRuleCondition.condition,
             multiConditionList: objGetRuleCondition.multiConditionList ? this.formBuilder.array(objGetRuleCondition.multiConditionList.map((objGetRuleMultiCondition: any) =>
               this.formBuilder.group({
@@ -330,6 +333,7 @@ export class BusinessRuleGridComponent implements OnInit {
             referenceId: objGetRuleCondition.referenceId,
             referenceOperator: objGetRuleCondition.referenceOperator,
             referenceColor: objGetRuleCondition.referenceColor,
+            referenceTextColor: objGetRuleCondition?.referenceTextColor,
             condition: objGetRuleCondition.condition,
             multiConditionList: objGetRuleCondition.multiConditionList ? this.formBuilder.array(objGetRuleCondition.multiConditionList.map((objGetRuleMultiCondition: any) =>
               this.formBuilder.group({
@@ -364,6 +368,7 @@ export class BusinessRuleGridComponent implements OnInit {
               referenceId: objGetRuleCondition.referenceId,
               referenceOperator: objGetRuleCondition.referenceOperator,
               referenceColor: objGetRuleCondition.referenceColor,
+              referenceTextColor: objGetRuleCondition.referenceTextColor,
               condition: objGetRuleCondition.condition,
               multiConditionList: (objGetRuleCondition.multiConditionList && objGetRuleCondition.multiConditionList.length > 0) ? this.formBuilder.array(objGetRuleCondition.multiConditionList.map((objGetMultiConditionList: any) =>
                 this.formBuilder.group({
@@ -390,6 +395,7 @@ export class BusinessRuleGridComponent implements OnInit {
               referenceId: objGetRuleCondition.referenceId,
               referenceOperator: objGetRuleCondition.referenceOperator,
               referenceColor: objGetRuleCondition.referenceColor,
+              referenceTextColor: objGetRuleCondition?.referenceTextColor,
               condition: objGetRuleCondition.condition,
               multiConditionList: (objGetRuleCondition.multiConditionList && objGetRuleCondition.multiConditionList.length > 0) ? this.formBuilder.array(objGetRuleCondition.multiConditionList.map((objGetMultiConditionList: any) =>
                 this.formBuilder.group({
@@ -457,6 +463,7 @@ export class BusinessRuleGridComponent implements OnInit {
       referenceId: '',
       referenceOperator: '',
       referenceColor: '',
+      referenceTextColor: '',
       condition: '',
       multiConditionList: this.formBuilder.array([]),
     });
@@ -476,6 +483,7 @@ export class BusinessRuleGridComponent implements OnInit {
       referenceId: '',
       referenceOperator: '',
       referenceColor: '',
+      referenceTextColor: '',
       condition: '',
       // multiConditionList: this.formBuilder.array([]),
     });
@@ -633,6 +641,7 @@ export class BusinessRuleGridComponent implements OnInit {
                                 referenceId: objGetRuleCondition.referenceId,
                                 referenceOperator: objGetRuleCondition.referenceOperator,
                                 referenceColor: objGetRuleCondition.referenceColor,
+                                referenceTextColor: objGetRuleCondition?.referenceTextColor,
                                 condition: objGetRuleCondition.condition,
                                 multiConditionList: this.formBuilder.array(objGetRuleCondition.multiConditionList.map((objGetMultiConditionList: any) =>
                                   this.formBuilder.group({
@@ -652,6 +661,7 @@ export class BusinessRuleGridComponent implements OnInit {
                             referenceId: objGetRuleCondition.referenceId,
                             referenceOperator: objGetRuleCondition.referenceOperator,
                             referenceColor: objGetRuleCondition.referenceColor,
+                            referenceTextColor: objGetRuleCondition?.referenceTextColor,
                             condition: objGetRuleCondition.condition,
                             multiConditionList: this.formBuilder.array(objGetRuleCondition.multiConditionList.map((objGetMultiConditionList: any) =>
                               this.formBuilder.group({
@@ -833,13 +843,15 @@ export class BusinessRuleGridComponent implements OnInit {
       for (let index = 0; index < this.buisnessForm?.value?.buisnessRule.length; index++) {
         let query: any;
         let color = this.buisnessForm?.value?.buisnessRule[index]?.getRuleCondition[0]?.referenceColor;
+        let textColor = this.buisnessForm?.value?.buisnessRule[index]?.getRuleCondition[0]?.referenceTextColor;
         this.buisnessForm?.value?.buisnessRule[index].ifRuleMain.forEach((element: any) => {
           let dataval = element?.getValue.toString();
           var conditionKey: any = element.ifCondition;
           var conditionOperator: any = element.oprator;
           let _attributes = {
             className: {
-              row: [color]
+              row: [color],
+              rowTextColor: [textColor],
             }
           }
           let _attributesRevert = {

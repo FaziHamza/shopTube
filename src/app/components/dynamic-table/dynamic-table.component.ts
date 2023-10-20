@@ -82,6 +82,10 @@ export class DynamicTableComponent implements OnInit {
   editData: any;
   deleteditWidth: any = [{ label: 'Edit', Width: '' }, { label: 'Delete', Width: '' }, { label: 'Checkbox', Width: '' }
   ]
+  borderColor = '#3b82f6';
+  backgroundColor = 'red';
+  boxShadow = '0px 7px 16px rgba(0, 0, 0, 0.14)';
+  borderRadius = '8px';
   @HostListener('window:resize', ['$event'])
   onResize(event: Event): void {
     // Update the nzScroll configuration based on screen size
@@ -343,8 +347,10 @@ export class DynamicTableComponent implements OnInit {
                         this.tableData[j][elementv1.target] = this.evaluateGridConditionOperator(`${this.tableData[j][elementv2.ifCondition]} ${elementv1.getRuleCondition[k].oprator} ${this.tableData[j][elementv2.target]}`);
                       // if (elementv1.getRuleCondition[k].referenceColor)
                       this.tableData[j]['color'] = elementv1.getRuleCondition[k].referenceColor;
+                      this.tableData[j]['textColor'] = elementv1.getRuleCondition[k].referenceTextColor;
                       // if (elementv1.getRuleCondition[k].referenceColumnColor) {
                       this.tableData[j]['columnColor'] = elementv1.getRuleCondition[k].referenceColor;
+                      this.tableData[j]['columnTextColor'] = elementv1.getRuleCondition[k].referenceTextColor;
                       this.tableData[j]['colorDataType'] = this.tableData[j][elementv1.target];
                       // }
                     }
@@ -354,15 +360,19 @@ export class DynamicTableComponent implements OnInit {
                           this.tableData[j][elementv1.target] = this.evaluateGridConditionOperator(`${this.tableData[j][elementv1.target]} ${elementv1.getRuleCondition[k - 1].referenceOperator} ${this.tableData[j][elementv2.ifCondition]} ${elementv1.getRuleCondition[k].oprator} ${this.tableData[j][elementv2.target]}`);
                         // if (elementv1.getRuleCondition[k].referenceColor)
                         this.tableData[j]['color'] = elementv1.getRuleCondition[k].referenceColor;
+                        this.tableData[j]['textColor'] = elementv1.getRuleCondition[k].referenceTextColor;
                         // if (elementv1.getRuleCondition[k].referenceColor) {
                         this.tableData[j]['columnColor'] = elementv1.getRuleCondition[k].referenceColor;
+                        this.tableData[j]['columnTextColor'] = elementv1.getRuleCondition[k].referenceTextColor;
                         this.tableData[j]['colorDataType'] = this.tableData[j][elementv1.target];
                         // }
                       }
                       else
                         // if (elementv1.getRuleCondition[k].referenceColor)
                         this.tableData[j]['color'] = elementv1.getRuleCondition[k].referenceColor;
+                      this.tableData[j]['textColor'] = elementv1.getRuleCondition[k].referenceTextColor;
                       this.tableData[j]['columnColor'] = elementv1.getRuleCondition[k].referenceColor;
+                      this.tableData[j]['columnTextColor'] = elementv1.getRuleCondition[k].referenceTextColor;
                       this.tableData[j]['colorDataType'] = this.tableData[j][elementv1.target];
                       if (elementv1.getRuleCondition[k].referenceColumnColor) {
                         // data.tableHeaders.filter((check: any) => !check.hasOwnProperty('dataType'));
@@ -371,6 +381,7 @@ export class DynamicTableComponent implements OnInit {
                           this.tableData[j]['colorDataType'] = this.tableData[j][elementv1.target];
                           head['dataType'] = 'objectType';
                           head['columnColor'] = elementv1.getRuleCondition[k].referenceColor;
+                          head['columnTextColor'] = elementv1.getRuleCondition[k].referenceTextColor;
                         }
                       }
                       else {
@@ -385,6 +396,7 @@ export class DynamicTableComponent implements OnInit {
                         const value = this.tableData[j][elementv1.target];
                         this.tableData[j][elementv1.target] = this.evaluateGridConditionOperator(`${value} ${elementv3.oprator} ${this.tableData[j][elementv3.target]}`);
                         // if (elementv1.getRuleCondition[k].referenceColumnColor) {
+                        this.tableData[j]['columnTextColor'] = elementv1.getRuleCondition[k].referenceTextColor;
                         this.tableData[j]['columnColor'] = elementv1.getRuleCondition[k].referenceColor;
                         this.tableData[j]['colorDataType'] = this.tableData[j][elementv1.target];
                         // }
@@ -403,6 +415,7 @@ export class DynamicTableComponent implements OnInit {
                           this.tableData[j][elementv2.thenTarget] = this.evaluateGridConditionOperator(`${value} ${elementv4.oprator} ${this.tableData[j][elementv4.target]}`);
                           // if (elementv1.getRuleCondition[k].referenceColumnColor) {
                           this.tableData[j]['columnColor'] = elementv1.getRuleCondition[k].referenceColor;
+                          this.tableData[j]['columnTextColor'] = elementv1.getRuleCondition[k].referenceTextColor;
                           this.tableData[j]['colorDataType'] = this.tableData[j][elementv1.target];
                           // }
                         }
@@ -2078,7 +2091,7 @@ export class DynamicTableComponent implements OnInit {
         const formData: FormData = new FormData();
         formData.append('file', file);
         this.requestSubscription = this.http
-          .post(this.serverPath + 'knex-query/savecsv/' +findClickApi?._id, formData, {
+          .post(this.serverPath + 'knex-query/savecsv/' + findClickApi?._id, formData, {
             reportProgress: true, // Enable progress reporting
             observe: 'events', // Observe Http events
           })

@@ -7715,7 +7715,8 @@ input[type=file]::file-selector-button:hover {
   }
 }
 
-.head2 , .site-content {
+.head2,
+.site-content {
 
   .boxed-layout {
     box-shadow: none !important;
@@ -7763,3 +7764,4 @@ div img {
   height: 100%;
   object-fit: contain;
 }
+

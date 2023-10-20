@@ -583,4 +583,5 @@ export interface TreeNode {
   tdClass?: string,
   hieght?: string,
   image?: string,
+  actionButtonClass?: string,
 }

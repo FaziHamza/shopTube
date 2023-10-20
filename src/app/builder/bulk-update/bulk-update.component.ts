@@ -15,6 +15,7 @@ export class BulkUpdateComponent implements OnInit {
   tabelNodes: any[] = [];
   keyValidation: any[] = [];
   optionData: any[] = dataClassification;
+
   constructor(private drawerRef: NzDrawerRef<any>) { }
 
   ngOnInit(): void {
@@ -28,7 +29,8 @@ export class BulkUpdateComponent implements OnInit {
         key: element.key,
         title: element.title,
         children: [],
-        expand: false
+        expand: false,
+
       }
       this.tabelNodes.push(sectionObj);
       let findInputs = this.filterInputElements(element.children)
@@ -47,6 +49,7 @@ export class BulkUpdateComponent implements OnInit {
         }
         this.tabelNodes[index].children.push(obj);
       });
+
     });
   }
   close() {
@@ -193,5 +196,6 @@ export class BulkUpdateComponent implements OnInit {
       validateNode(node); // Start validation from the root nodes
     }
   }
+
 
 }
