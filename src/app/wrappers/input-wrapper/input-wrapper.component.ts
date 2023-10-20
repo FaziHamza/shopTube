@@ -9,6 +9,7 @@ import { FieldType, FieldTypeConfig } from '@ngx-formly/core';
 export class InputWrapperComponent extends FieldType<FieldTypeConfig>  {
   @Input() value = '';
   @Input() placeholder = '';
+  selectedValue : any = '';
   ngOnInit(): void {
     if (this.to.type == 'password') {
       this.to['additionalProperties'].suffixicon = 'eye-invisible';
@@ -27,7 +28,10 @@ export class InputWrapperComponent extends FieldType<FieldTypeConfig>  {
       this.to.type = 'password';
     }
   }
-
+  onModelChange(event : any , field : any){
+    debugger
+    this.selectedValue = event;
+  }
 
 }
 
