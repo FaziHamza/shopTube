@@ -221,6 +221,7 @@ export class PagesComponent implements OnInit {
     if (this.data.length == 0) {
       this.requestSubscription = this.activatedRoute.params.subscribe((params: Params) => {
         if (params["schema"]) {
+          this.dataSharedService.currentMenuLink = "/pages/"  + params["schema"];
           this.applicationService.getNestCommonAPI('cp/auth/pageAuth/' + params["schema"]).subscribe(res => {
             if (res?.data) {
               this.initiliaze(params);
