@@ -258,16 +258,9 @@
         <br *ngIf="item.type == 'breakTag' ; else thirtyNine">
     </ng-template>
     <ng-template #thirtyNine>
-        <div *ngIf="item.type == 'carouselCrossfade' ; else fourty">
-            <p>fdsdf</p>
-            <nz-carousel [nzEffect]="effect">
-                <div class="sliderNew" nz-carousel-content *ngFor="let index of array">
-                    <h3>{{ index }}</h3>
-                </div>
-            </nz-carousel>
-        </div>
-        <!-- <st-carousel-crossfade-card 
-            *ngIf="item.type == 'carouselCrossfade' ; else fourty"></st-carousel-crossfade-card> -->
+        <st-carousel-crossfade-card 
+            *ngIf="item.type == 'carouselCrossfade' ; else fourty" [screenName]="screenName" [carouselslides]="item" [form]="form" [formlyModel]="formlyModel"
+            [screenName]="screenName" [screenId]="screenId"></st-carousel-crossfade-card>
     </ng-template>
     <ng-template #fourty>
         <st-builder-toater [toastrData]="item" *ngIf="item.type == 'toastr' ; else fourtyOne"></st-builder-toater>

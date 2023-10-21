@@ -166,6 +166,8 @@ export class BuilderClickButtonService {
       dataClassification: node.formly[0].fieldGroup[0].props['additionalProperties']['dataClassification'],
       disabledCalenderProperties: node.formly[0].fieldGroup[0].props['additionalProperties']['disabledCalenderProperties'],
       filetype: node.formly[0].fieldGroup[0].props['additionalProperties']['filetype'],
+      browserButtonColor: node.formly[0].fieldGroup[0].props['additionalProperties']['browserButtonColor'],
+      hoverBrowseButtonColor: node.formly[0].fieldGroup[0].props['additionalProperties']['hoverBrowseButtonColor'],
       disabled: node.formly[0].fieldGroup[0].props?.disabled,
       readonly: node.formly[0].fieldGroup[0].props?.readonly,
       // hideExpression: node.formly[0].fieldGroup[0].props?.hideExpression,

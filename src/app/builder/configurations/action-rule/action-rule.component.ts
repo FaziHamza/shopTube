@@ -528,7 +528,7 @@ export class ActionRuleComponent implements OnInit {
           }
           if (res.data && res.data.length > 0) {
             // console.warn(`Length : ${res.data.length}`)
-            const getRes = res.data.filter((x: any) => x.moduleId == selectedScreen[0].navigation)
+            const getRes = res.data;
             if (getRes.length > 0) {
               // console.warn(`Get Result Length : ${res.data.length}`)
               this.screenActions = getRes;

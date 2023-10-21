@@ -248,10 +248,11 @@ export class SectionsComponent implements OnInit {
           }
         }
         if (id == undefined) {
-          if(!checkPermission.create && this.dataSharedService.currentMenuLink != '/ourbuilder'){
+          if (!checkPermission?.create && this.dataSharedService.currentMenuLink != '/ourbuilder') {
             alert("You did not have permission");
             return;
           }
+
           this.dataSharedService.sectionSubmit.next(false);
           findClickApi = data.appConfigurableEvent.filter((item: any) => item.rule.includes('post_'));
           if (findClickApi?.[0]?._id) {
@@ -309,7 +310,7 @@ export class SectionsComponent implements OnInit {
 
         }
         else {
-          if(!checkPermission.update && this.dataSharedService.currentMenuLink != '/ourbuilder'){
+          if (!checkPermission.update && this.dataSharedService.currentMenuLink != '/ourbuilder') {
             alert("You did not have permission");
             return;
           }

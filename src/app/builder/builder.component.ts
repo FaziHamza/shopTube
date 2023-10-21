@@ -4334,6 +4334,14 @@ export class BuilderComponent implements OnInit {
             props['additionalProperties']['dataClassification'] = event.form?.dataClassification;
             // props['additionalProperties']['disabledBeforeCurrent'] = event.form?.disabledBeforeCurrent;
             props['additionalProperties']['disabledCalenderProperties'] = event.form?.disabledCalenderProperties;
+            props['additionalProperties']['browserButtonColor'] = event.form?.browserButtonColor;
+            props['additionalProperties']['hoverBrowseButtonColor'] = event.form?.hoverBrowseButtonColor;
+            if (event.form?.browserButtonColor) {
+              document.documentElement.style.setProperty('--browseButtonColor', event.form?.browserButtonColor || '#2563EB');
+            }
+            if (event.form?.hoverBrowseButtonColor) {
+              document.documentElement.style.setProperty('--hoverBrowseButtonColor', event.form?.hoverBrowseButtonColor || '#3b82f6');
+            }
             props['additionalProperties']['filetype'] = event.form?.filetype;
             props['readonly'] = event.form.readonly;
             // props['options'] = event.form.options;
@@ -4544,6 +4552,11 @@ export class BuilderComponent implements OnInit {
           this.selectedNode['hieght'] = event.form?.hieght;
           this.selectedNode['searchfieldClass'] = event.form?.searchfieldClass;
           this.selectedNode['actionButtonClass'] = event.form?.actionButtonClass;
+          this.selectedNode['paginationColor'] = event.form?.paginationColor;
+          if (event.form?.paginationColor) {
+            document.documentElement.style.setProperty('--paginationColor', event.form?.paginationColor);
+          }
+
           if (event.form?.hieght) {
             this.selectedNode['stickyHeaders'] = true;
           }
@@ -4739,6 +4752,10 @@ export class BuilderComponent implements OnInit {
         break;
       case 'page':
         this.selectedNode.options = event.form?.options;
+        this.selectedNode.primaryColor = event.form?.primaryColor;
+        this.selectedNode.secondaryColor = event.form?.secondaryColor;
+        document.documentElement.style.setProperty('--pagePrimaryColor', event.form?.primaryColor);
+        document.documentElement.style.setProperty('--pageSecondaryColor', event.form?.secondaryColor);
         // this.selectedNode.options = event.tableDta
         //   ? event.tableDta
         //   : event.form?.options;

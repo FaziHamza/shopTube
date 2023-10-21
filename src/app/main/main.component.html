@@ -1,3 +1,4 @@
+
 <div [class]="'card-content ' + (mainData['rowClass'] ? mainData['rowClass'] : 'flex flex-wrap')">
   <div class="{{!item.hideExpression   ? item.className : ''}} relative "
     *ngFor="let item of mainData.children ; index as i; last as isLast">

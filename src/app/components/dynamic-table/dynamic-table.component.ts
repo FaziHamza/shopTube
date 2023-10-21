@@ -104,6 +104,12 @@ export class DynamicTableComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    if (this.data) {
+      document.documentElement.style.setProperty('--paginationColor', this.data?.paginationColor || '#2563EB');
+
+    }
+
+
     this.updateRotationDegree(50); // Rotate to -60 degrees
 
     this.updateScrollConfig();
@@ -1863,11 +1869,11 @@ export class DynamicTableComponent implements OnInit {
     let newDataModel = JSON.parse(JSON.stringify(dataModel))
     let findClickApi = this.data?.appConfigurableEvent?.filter((item: any) => item.rule.includes('put'));
     const checkPermission = this.dataSharedService.getUserPolicyMenuList.find(a => a.screenId == this.dataSharedService.currentMenuLink);
-
-    if (!checkPermission.update) {
+    if (!checkPermission?.update && this.dataSharedService.currentMenuLink != '/ourbuilder') {
       alert("You did not have permission");
       return;
     }
+
     if (findClickApi) {
 
       if (newDataModel) {

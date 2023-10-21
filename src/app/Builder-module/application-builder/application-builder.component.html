@@ -64,6 +64,8 @@
                                 <th>Layout</th>
                                 <th>Domain Name</th>
                                 <th>Image</th>
+                                <th>Primary Color</th>
+                                <th>Secondary Color</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
@@ -87,7 +89,12 @@
                         <nz-empty class="no-image"></nz-empty>
                     </ng-template>
                 </td>
-
+                <td>
+                    <input nz-input type="color" [(ngModel)]="data.primaryColor" [disabled]="true" />
+                </td>
+                <td>
+                    <input nz-input type="color" [(ngModel)]="data.secondaryColor" [disabled]="true" />
+                </td>
                 <td>
                     <span class="text-blue-600 hover:cursor-pointer" nzTooltipTitle="Edit" nz-tooltip
                         (click)="[openModal('application'),editItem(data)]"><i
@@ -126,9 +133,12 @@
     </div>
 </nz-card>
 <ng-template #extraTemplate>
-    <button nz-button nzType="primary" class="btn" (click)="openModal('application')"><i class="fa-regular fa-plus mr-1.5"></i>Add Application</button>
-    <button nz-button nzType="primary" class="ml-2 btn" (click)="openModal('department')"><i class="fa-regular fa-plus mr-1.5"></i>Add Department</button>
-    <button nz-button nzType="primary" class="ml-2 btn-no !border-none !bg-green-600 hover:!bg-green-500" (click)="downloadJson()"><i class="fa-regular fa-down-to-bracket mr-1.5"></i>Download Json</button>
+    <button nz-button nzType="primary" class="btn" (click)="openModal('application')"><i
+            class="fa-regular fa-plus mr-1.5"></i>Add Application</button>
+    <button nz-button nzType="primary" class="ml-2 btn" (click)="openModal('department')"><i
+            class="fa-regular fa-plus mr-1.5"></i>Add Department</button>
+    <button nz-button nzType="primary" class="ml-2 btn-no !border-none !bg-green-600 hover:!bg-green-500"
+        (click)="downloadJson()"><i class="fa-regular fa-down-to-bracket mr-1.5"></i>Download Json</button>
 </ng-template>
 <!-- Drawer -->
 <nz-drawer nzWidth="80%" [nzClosable]="true" [nzVisible]="isVisible" [nzFooter]="footerTpl" nzPlacement="right"
@@ -149,7 +159,8 @@
         <button class="mr-2 btn !bg-red-600 hover:!bg-red-500" nz-button nzType="primary" nzDanger
             (click)="handleCancel()"><i class="fa-regular fa-x mr-1.5"></i>Close</button>
         <button nz-button [ngClass]="{'btn-no' : !myForm.valid ,'btn' : myForm.valid }" *ngIf="isSubmit"
-            nzType="primary" (click)="onSubmit()" [disabled]="!myForm.valid"><i class="fa-regular fa-database mr-1.5"></i>Submit</button>
+            nzType="primary" (click)="onSubmit()" [disabled]="!myForm.valid"><i
+                class="fa-regular fa-database mr-1.5"></i>Submit</button>
         <button nz-button [ngClass]="{'btn-no' : !myForm.valid ,'btn' : myForm.valid }" *ngIf="!isSubmit"
             nzType="primary" [disabled]="!myForm.valid" (click)="onSubmit()"><i
                 class="fa-regular fa-arrows-rotate mr-2"></i>Update</button>

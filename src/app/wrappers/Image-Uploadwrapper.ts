@@ -7,16 +7,19 @@ import { environment } from 'src/environments/environment';
 @Component({
   selector: 'formly-field-image-upload',
   template: `
-
-<div class="imageUpoload"[class]="to['additionalProperties']?.wrapper=='floating_standard' ? 'relative z-0' : ''"
-   *ngIf="to.type != 'number'">
+  <div [ngClass]="{
+  'imageUpload': true,
+  'dynamic-image-upload': this.to['additionalProperties']?.browserButtonColor
+}">
+<div  [class]="to['additionalProperties']?.wrapper=='floating_standard' ? 'relative z-0' : ''"
+   >
    <nz-input-group [style.border-radius]="to['additionalProperties']?.borderRadius"
    [ngClass]="showError ? 'input-border' : ''"
    [nzSuffix]="(to['additionalProperties']?.addonRight   || to['additionalProperties']?.suffixicon) ? suffixTemplateInfo : undefined"
    [nzPrefix]="(to['additionalProperties']?.addonLeft || to['additionalProperties']?.prefixicon) ? prefixTemplateUser : undefined"
    [nzSize]="to['additionalProperties']?.size"
    [nzStatus]="to['additionalProperties']?.status">
-   <input [accept]=" to['additionalProperties']?.filetype == 'excel' ?' application/vnd.ms-excel, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' :to['additionalProperties']?.filetype || '.jpg'"  [style.border-radius]="to['additionalProperties']?.borderRadius"
+   <input  [accept]=" to['additionalProperties']?.filetype == 'excel' ?' application/vnd.ms-excel, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' :to['additionalProperties']?.filetype || '.jpg'"  [style.border-radius]="to['additionalProperties']?.borderRadius"
    [ngClass]=" showError && !to['additionalProperties']?.suffixicon && !to['additionalProperties']?.prefixicon
    && !to['additionalProperties']?.addonLeft && !to['additionalProperties']?.addonRight ? 'input-border' : ''"
    *ngIf=" to.type !='textarea'"
@@ -37,6 +40,7 @@ import { environment } from 'src/environments/environment';
    [ngClass]="to['additionalProperties']?.floatLabelClass">{{ to.label ?? '' | translate }}
    </label>
    </nz-input-group>
+</div>
 </div>
 <ng-template #suffixTemplateInfo>
    <ng-container  *ngIf="to['additionalProperties']?.suffixicon ; else addonLeftText">
@@ -74,6 +78,8 @@ export class FormlyFieldImageUploadComponent extends FieldWrapper<FieldTypeConfi
     super();
   }
   ngOnInit(): void {
+    document.documentElement.style.setProperty('--browseButtonColor', this.to['additionalProperties']?.browserButtonColor || '#2563EB');
+    document.documentElement.style.setProperty('--hoverBrowseButtonColor', this.to['additionalProperties']?.hoverBrowseButtonColor || '#3b82f6');
 
   }
   onFileSelected(event: any) {
