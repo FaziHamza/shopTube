@@ -343,7 +343,8 @@
                       [hidden]="editId === item.id && (configurationTable || header?.editMode == 'yes'|| header?.editMode == true)">
                       {{ item[header.key] | date:'dd-MM-yyyy'}}
                     </div>
-                    <div [hidden]="editId !== item.id && (configurationTable || header?.editMode)">
+                    <div *ngIf="configurationTable || header?.editMode == 'yes'|| header?.editMode == true"
+                      [hidden]="editId !== item.id">
                       <input [(ngModel)]="item[header.key]" type="date">
                     </div>
                   </div>
