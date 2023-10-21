@@ -1,7 +1,7 @@
 import { Component, OnInit, Input, EventEmitter, Output, ChangeDetectorRef } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { NzMessageService } from 'ng-zorro-antd/message';
-import { Subscription, elementAt, take } from 'rxjs';
+import { Subscription, catchError, elementAt, take } from 'rxjs';
 import { TreeNode } from 'src/app/models/treeNode';
 import { ApplicationService } from 'src/app/services/application.service';
 import { DataSharedService } from 'src/app/services/data-shared.service';
@@ -51,13 +51,24 @@ export class SectionsComponent implements OnInit {
     //     // this.getFromQueryOnlyTable(gridListData);
     //   }  
     // }
+    // this.dataSharedService.sectionSubmit.pipe(
+    //   take(1),
+    //   catchError((error) => {
+       
+    //     this.dataSharedService.sectionSubmit.next('Your custom error message');
+    //     return throwError(error); // Rethrow the error to be handled by the component
+    //   })
+    // ).subscribe((buttonData) => {
+    //   // Your subscription logic here
+    // });
+    // 
     this.requestSubscription = this.dataSharedService.sectionSubmit.pipe(take(1)).subscribe({
       next: (res) => {
         if (res) {
           const checkButtonExist = this.findObjectById(this.sections, res.id);
           // const checkButtonExist = this.isButtonIdExist(this.sections.children[1].children, res.id);
           if (checkButtonExist?.appConfigurableEvent) {
-            event?.stopPropagation();
+            // event?.stopPropagation();
             let makeModel: any = {};
             const filteredNodes = this.filterInputElements(this.sections.children[1].children);
             for (let item in this.formlyModel) {
