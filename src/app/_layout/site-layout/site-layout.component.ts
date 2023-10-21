@@ -154,7 +154,7 @@ export class SiteLayoutComponent implements OnInit {
     setTimeout(() => {
       this.updateHeaderHeight();
       this.updateFooterHeight();
-    }, 5000)
+    } ,5000)
 
   }
 
@@ -166,13 +166,11 @@ export class SiteLayoutComponent implements OnInit {
       this.headerHeight = headerElement.clientHeight;
       console.log('the height is header', this.headerHeight);
 
-      // Adjust the layout width based on the header height
       const layoutElement = this.el.nativeElement.querySelector('.content-container');
       this.renderer.setStyle(layoutElement, 'height', `calc(100vh - ${this.headerHeight + 10}px)`);
       console.log('nz-layout', `calc(100vh - ${this.headerHeight + 15}px)`)
     }
   }
-
 
 
   private updateFooterHeight() {
