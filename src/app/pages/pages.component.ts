@@ -221,12 +221,15 @@ export class PagesComponent implements OnInit {
     if (this.data.length == 0) {
       this.requestSubscription = this.activatedRoute.params.subscribe((params: Params) => {
         if (params["schema"]) {
+          this.saveLoader = true;
           this.dataSharedService.currentMenuLink = "/pages/"  + params["schema"];
+          this.resData = [];
           this.applicationService.getNestCommonAPI('cp/auth/pageAuth/' + params["schema"]).subscribe(res => {
             if (res?.data) {
               this.initiliaze(params);
             }
             else {
+              this.saveLoader = false;
               this.router.navigateByUrl('permission-denied')
             }
           })
@@ -574,7 +577,7 @@ export class PagesComponent implements OnInit {
             alert("You did not have permission");
             return;
           }
-          this.dataSharedService.sectionSubmit.next(false);
+          // this.dataSharedService.sectionSubmit.next(false);
           findClickApi = data.appConfigurableEvent.filter((item: any) => item.rule.includes('post_'));
           if (findClickApi?.[0]?._id) {
             this.dataSharedService.imageUrl = '';
@@ -635,7 +638,7 @@ export class PagesComponent implements OnInit {
             alert("You did not have permission");
             return;
           }
-          this.dataSharedService.sectionSubmit.next(false);
+          // this.dataSharedService.sectionSubmit.next(false);
           findClickApi = data.appConfigurableEvent.filter((item: any) => item.rule.includes('put_'));
           if (this.dataModel) {
             // this.form.get(dynamicPropertyName);
@@ -661,7 +664,7 @@ export class PagesComponent implements OnInit {
             };
             // console.log(result);
             this.saveLoader = true;
-            this.dataSharedService.sectionSubmit.next(false);
+            // this.dataSharedService.sectionSubmit.next(false);
             this.requestSubscription = this.applicationService.addNestCommonAPI('knex-query/execute-rules/' + findClickApi[0]._id, result).subscribe({
               next: (res) => {
                 this.saveLoader = false;
