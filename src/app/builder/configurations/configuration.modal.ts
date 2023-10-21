@@ -8350,10 +8350,11 @@ export class formFeildData {
         },
         {
           key: 'nodes',
-          type: 'checkbox',
+          type: 'input',
           wrappers: ["formly-vertical-theme-wrapper"],
           className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
           props: {
+            type: 'number',
             label: 'Number of slides'
           },
         },
