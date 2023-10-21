@@ -586,4 +586,5 @@ export interface TreeNode {
   actionButtonClass?: string,
   primaryColor?: string,
   secondaryColor?: string,
+  paginationColor?: string,
 }

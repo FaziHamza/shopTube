@@ -104,6 +104,12 @@ export class DynamicTableComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    if (this.data) {
+      document.documentElement.style.setProperty('--paginationColor', this.data?.paginationColor || '#2563EB');
+
+    }
+
+
     this.updateRotationDegree(50); // Rotate to -60 degrees
 
     this.updateScrollConfig();

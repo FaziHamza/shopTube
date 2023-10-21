@@ -63,12 +63,12 @@
       [color]="buttonData.iconColor" [hoverIconColor]="buttonData?.hoverIconColor || ''" [size]="buttonData.iconSize"
       [type]="buttonData.iconType"></st-icon>
     <span [class]="buttonData.btnLabelPaddingClass" *ngIf="buttonData.title">
-      {{ title ? title : buttonData.title | translate}} 
+      {{ title ? title : buttonData.title | translate}}
     </span>
     <span [class]="buttonData.iconClass">
-      <st-icon  *ngIf="buttonData.rightbtnIcon" [icon]="buttonData.rightbtnIcon"
-      [color]="buttonData.iconColor" [size]="buttonData.iconSize" [hoverIconColor]="buttonData?.hoverIconColor || ''"
-      [type]="buttonData.iconType"></st-icon>
+      <st-icon *ngIf="buttonData.rightbtnIcon" [icon]="buttonData.rightbtnIcon" [color]="buttonData.iconColor"
+        [size]="buttonData.iconSize" [hoverIconColor]="buttonData?.hoverIconColor || ''"
+        [type]="buttonData.iconType"></st-icon>
     </span>
   </span>
 </button>
@@ -85,26 +85,32 @@
 </nz-dropdown-menu>
 
 <!-- Modal -->
-<nz-modal [nzWidth]="buttonData?.redirect == 'modal' ? '' : buttonData.redirect" [(nzVisible)]="isVisible"
-  (nzOnCancel)="handleCancel()" (nzOnOk)="handleOk()">
-  <ng-container *nzModalContent>
-    <nz-spin [nzSpinning]="loader" [nzSize]="'large'">
-      <st-pages [data]="nodes" [navigation]="screenId" [form]="form" [formlyModel]="formlyModel"
-        *ngIf="nodes.length > 0"></st-pages>
-    </nz-spin>
+<div *ngIf="buttonData?.redirect == 'modal' || buttonData?.redirect == '1200px' || buttonData?.redirect == '800px'">
+  <nz-modal [nzWidth]="buttonData?.redirect == 'modal' ? '' : buttonData.redirect" [(nzVisible)]="isVisible"
+    (nzOnCancel)="handleCancel()" (nzOnOk)="handleOk()">
+    <ng-container *nzModalContent>
+      <nz-spin [nzSpinning]="loader" [nzSize]="'large'">
+        <st-pages [data]="nodes" [navigation]="screenId" [form]="form" [formlyModel]="formlyModel"
+          *ngIf="nodes.length > 0"></st-pages>
+      </nz-spin>
 
-  </ng-container>
-</nz-modal>
+    </ng-container>
+  </nz-modal>
+</div>
+
 
 
 <!-- Drawer -->
-
-<nz-drawer *ngIf="buttonData?.redirect == 'drawer'" [nzSize]="'large'" [nzVisible]="isVisibleDrawer"
-  (nzOnClose)="handleClose()">
-  <ng-container *nzDrawerContent>
-    <nz-spin [nzSpinning]="loader">
-      <st-pages [data]="nodes" [navigation]="screenId" [form]="form" [formlyModel]="formlyModel"
-        *ngIf="nodes.length > 0"></st-pages>
-    </nz-spin>
-  </ng-container>
-</nz-drawer>
+<div
+  *ngIf="buttonData?.redirect == 'drawer' || buttonData?.redirect == 'largeDrawer'  || buttonData?.redirect == 'extraLargeDrawer'">
+  <nz-drawer
+    [nzWidth]="buttonData?.redirect == 'drawer' ? 800 : (buttonData?.redirect == 'largeDrawer' ? 1000 : 1200) "
+    [nzVisible]="isVisible" (nzOnClose)="handleClose()">
+    <ng-container *nzDrawerContent>
+      <nz-spin [nzSpinning]="loader">
+        <st-pages [data]="nodes" [navigation]="screenId" [form]="form" [formlyModel]="formlyModel"
+          *ngIf="nodes.length > 0"></st-pages>
+      </nz-spin>
+    </ng-container>
+  </nz-drawer>
+</div>
