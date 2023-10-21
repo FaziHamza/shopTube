@@ -199,6 +199,7 @@ export class RegisterComponent implements OnInit {
       "password": this.form.value.password,
       "organizationId": environment.organizationId,
       "applicationId": environment.applicationId,
+      "status": 'Pending',
       "domain": window.location.host.split(':')[0],
     }
     console.log(obj);
