@@ -1,7 +1,7 @@
 import { Component, OnInit, Input, EventEmitter, Output, ChangeDetectorRef } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { NzMessageService } from 'ng-zorro-antd/message';
-import { Subscription, elementAt } from 'rxjs';
+import { Subscription, elementAt, take } from 'rxjs';
 import { TreeNode } from 'src/app/models/treeNode';
 import { ApplicationService } from 'src/app/services/application.service';
 import { DataSharedService } from 'src/app/services/data-shared.service';
@@ -49,9 +49,9 @@ export class SectionsComponent implements OnInit {
     //   let gridListData = this.findObjectByTypeBase(this.sections, "gridList");
     //   if (gridListData) {
     //     // this.getFromQueryOnlyTable(gridListData);
-    //   }
+    //   }  
     // }
-    this.requestSubscription = this.dataSharedService.sectionSubmit.subscribe({
+    this.requestSubscription = this.dataSharedService.sectionSubmit.pipe(take(1)).subscribe({
       next: (res) => {
         if (res) {
           const checkButtonExist = this.findObjectById(this.sections, res.id);
@@ -253,7 +253,7 @@ export class SectionsComponent implements OnInit {
             return;
           }
 
-          this.dataSharedService.sectionSubmit.next(false);
+          // this.dataSharedService.sectionSubmit.next(false);
           findClickApi = data.appConfigurableEvent.filter((item: any) => item.rule.includes('post_'));
           if (findClickApi?.[0]?._id) {
             this.dataSharedService.imageUrl = '';
@@ -314,7 +314,7 @@ export class SectionsComponent implements OnInit {
             alert("You did not have permission");
             return;
           }
-          this.dataSharedService.sectionSubmit.next(false);
+          // this.dataSharedService.sectionSubmit.next(false);
           findClickApi = data.appConfigurableEvent.filter((item: any) => item.rule.includes('put_'));
           if (this.dataModel) {
             // this.form.get(dynamicPropertyName);
@@ -340,7 +340,7 @@ export class SectionsComponent implements OnInit {
             };
             // console.log(result);
             this.saveLoader = true;
-            this.dataSharedService.sectionSubmit.next(false);
+            // this.dataSharedService.sectionSubmit.next(false);
             this.requestSubscription = this.applicationServices.addNestCommonAPI('knex-query/execute-rules/' + findClickApi[0]._id, result).subscribe({
               next: (res) => {
                 this.saveLoader = false;
