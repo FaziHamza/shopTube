@@ -74,29 +74,25 @@ export class ButtonsComponent implements OnInit {
         this.loader = true;
         this.isVisible = true;
 
-        this.requestSubscription = this.applicationService.getNestCommonAPI('cp/auth/pageAuth/' + data.href).subscribe({
+        this.requestSubscription = this.applicationService.getNestCommonAPIById('cp/Builder', data.href).subscribe({
           next: (res: any) => {
             try {
-              if (res.data) {
-                if (res.isSuccess) {
-                  if (res.data.length > 0) {
-                    this.screenId = res.data[0].screenBuilderId;
-                    const data = JSON.parse(res.data[0].screenData);
-                    this.responseData = data;
-                    if (this.tableRowId) {
-                      this.findObjectByTypeBase(this.responseData[0].children[1], 'div')
-                    }
-                    res.data[0].screenData = this.jsonParseWithObject(this.jsonStringifyWithObject(this.responseData));
-                    this.nodes = [];
-                    this.nodes.push(res);
+              if (res.isSuccess) {
+                if (res.data.length > 0) {
+                  this.screenId = res.data[0].screenBuilderId;
+                  const data = JSON.parse(res.data[0].screenData);
+                  this.responseData = data;
+                  if (this.tableRowId) {
+                    this.findObjectByTypeBase(this.responseData[0].children[1], 'div')
                   }
-                  this.loader = false;
-                } else {
-                  this.toastr.error(res.message, { nzDuration: 3000 });
-                  this.loader = false;
+                  res.data[0].screenData = this.jsonParseWithObject(this.jsonStringifyWithObject(this.responseData));
+                  this.nodes = [];
+                  this.nodes.push(res);
                 }
+                this.loader = false;
               } else {
-                this.router.navigateByUrl('permission-denied')
+                this.toastr.error(res.message, { nzDuration: 3000 });
+                this.loader = false;
               }
             } catch (err) {
               this.loader = false;
