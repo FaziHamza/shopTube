@@ -1,29 +1,8 @@
-<nz-carousel [nzEffect]="effect">
-    1
-
-    <div nz-carousel-content *ngFor="let index of array">
-        asdasd
-        <h3>{{ index }}</h3>
+<nz-carousel [nzEffect]="'fade'" [nzDotPosition]="carouselslides.dotPosition" [nzAutoPlay]="carouselslides.autoPlay"
+    [nzAutoPlaySpeed]="carouselslides.autolPlaySpeed" [nzDots]="carouselslides.showDots"
+    [nzEnableSwipe]="carouselslides.enableSwipe">
+    <div nz-carousel-content *ngFor="let item of carouselslides.children">
+        <st-main [screenName]="screenName" [mainData]="item" [formlyModel]="formlyModel" [form]="form"
+            [screenId]="screenId"></st-main>
     </div>
 </nz-carousel>
-<style>
-    [nz-carousel-content] {
-        text-align: center;
-        height: 160px;
-        line-height: 160px;
-        background: #364d79;
-        color: #fff;
-        overflow: hidden;
-    }
-
-    div {
-        width: [desired width];
-        height: [desired height];
-    }
-
-    div img {
-        width: 100%;
-        height: 100%;
-        object-fit: contain;
-    }
-</style>
