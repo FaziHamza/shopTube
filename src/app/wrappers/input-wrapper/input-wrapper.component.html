@@ -5,17 +5,14 @@
     [nzSuffix]="(to['additionalProperties']?.addonRight   || to['additionalProperties']?.suffixicon) ? suffixTemplateInfo : undefined"
     [nzPrefix]="(to['additionalProperties']?.addonLeft || to['additionalProperties']?.prefixicon) ? prefixTemplateUser : undefined"
     [nzSize]="to['additionalProperties']?.size" [nzStatus]="to['additionalProperties']?.status">
-    <div [ngClass]="{'flex flex-wrap colorInput': this.to.type === 'color'}">
-      <input (ngModelChange)="onModelChange($event, field)" [class]="to['additionalProperties']?.innerInputClass"  class="colorPicker"
-        [style.border-radius]="to['additionalProperties']?.borderRadius" [ngClass]=" showError && !to['additionalProperties']?.suffixicon && !to['additionalProperties']?.prefixicon
-    && !to['additionalProperties']?.addonLeft && !to['additionalProperties']?.addonRight ? 'input-border' : ''"
-        *ngIf=" to.type !='textarea'" [ngClass]="to['additionalProperties']?.wrapper=='floating_filled' || to['additionalProperties']?.wrapper=='floating_standard'
-    || to['additionalProperties']?.wrapper=='floating_outlined' ? to['additionalProperties']?.floatFieldClass : ''"
-        [formlyAttributes]="field" nz-input [type]="to.type" [placeholder]="to.placeholder"
-        [nzStatus]="to['additionalProperties']?.status" [nzSize]="to['additionalProperties']?.size"
-        [formControl]="formControl" [nzBorderless]="to['additionalProperties']?.border" />
-      <span *ngIf="to.type == 'color'" class="input-hex flex justify-center items-center " ><input nz-input readonly class="colorText" [(ngModel)]="selectedValue"></span>
-    </div>
+    <input (ngModelChange)="onModelChange($event, field)" [class]="to['additionalProperties']?.innerInputClass"
+      [style.border-radius]="to['additionalProperties']?.borderRadius" [ngClass]=" showError && !to['additionalProperties']?.suffixicon && !to['additionalProperties']?.prefixicon
+&& !to['additionalProperties']?.addonLeft && !to['additionalProperties']?.addonRight ? 'input-border' : ''"
+      *ngIf=" to.type !='textarea'" [ngClass]="to['additionalProperties']?.wrapper=='floating_filled' || to['additionalProperties']?.wrapper=='floating_standard'
+|| to['additionalProperties']?.wrapper=='floating_outlined' ? to['additionalProperties']?.floatFieldClass : ''"
+      [formlyAttributes]="field" nz-input [type]="to.type" [placeholder]="to.placeholder"
+      [nzStatus]="to['additionalProperties']?.status" [nzSize]="to['additionalProperties']?.size"
+      [formControl]="formControl" [nzBorderless]="to['additionalProperties']?.border" />
     <textarea [class]="to['additionalProperties']?.innerInputClass" [ngClass]="to['additionalProperties']?.wrapper=='floating_filled' || to['additionalProperties']?.wrapper=='floating_standard'
     || to['additionalProperties']?.wrapper=='floating_outlined' ? to['additionalProperties']?.floatFieldClass : ''"
       [ngClass]="showError && !to['additionalProperties']?.suffixicon && !to['additionalProperties']?.prefixicon && !to['additionalProperties']?.addonLeft && !to['additionalProperties']?.addonRight ? 'input-border' : ''"
