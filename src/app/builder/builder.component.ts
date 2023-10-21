@@ -4826,9 +4826,10 @@ export class BuilderComponent implements OnInit {
         }
         break;
       case 'carouselCrossfade':
-        if (event.tableDta) {
-          this.selectedNode.carousalConfig = event.tableDta;
-        }
+        // if (event.tableDta) {
+        //   this.selectedNode.carousalConfig = event.tableDta;
+        // }
+        this.addDynamic(event.form.nodes, 'tabs', 'mainTab');
         // event.tableDta != undefined
         //   ? (this.selectedNode.carousalConfig = event.tableDta)
         //   : (this.selectedNode.carousalConfig =

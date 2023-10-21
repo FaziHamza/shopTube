@@ -263,7 +263,7 @@
       <tbody [class]="data?.tbodyClass" class="dynamic-responsive-table-body w-full" style="width: 100%;">
         <ng-template #recursiveList let-data1>
           <ng-container *ngFor="let item of data1; let i = index">
-            <tr (click)="rowselected(item)" class="desktop-toggle" (dblclick)="updateModel(item)"
+            <tr  (click)="rowselected(item)" class="desktop-toggle" (dblclick)="updateModel(item)"
               (click)="data?.rowClickApi!='' ? onClickRow(data.rowClickApi,item): ''"
               [ngClass]="{'selectedRow' : item === index }">
               <td [ngStyle]="{'text-align': data?.position || 'center'}" [nzLeft]="data?.endFreezingNumber >= 1"
@@ -343,7 +343,8 @@
                       [hidden]="editId === item.id && (configurationTable || header?.editMode == 'yes'|| header?.editMode == true)">
                       {{ item[header.key] | date:'dd-MM-yyyy'}}
                     </div>
-                    <div [hidden]="editId !== item.id && (configurationTable || header?.editMode)">
+                    <div *ngIf="configurationTable || header?.editMode == 'yes'|| header?.editMode == true"
+                      [hidden]="editId !== item.id">
                       <input [(ngModel)]="item[header.key]" type="date">
                     </div>
                   </div>
