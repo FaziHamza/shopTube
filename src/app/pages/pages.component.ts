@@ -1,8 +1,8 @@
-import { ChangeDetectorRef, Component, ElementRef, Input, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, ElementRef, Input, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { BuilderService } from '../services/builder.service';
 import { EmployeeService } from '../services/employee.service';
-import { Subscription, catchError, forkJoin, of } from 'rxjs';
+import { Subject, Subscription, catchError, forkJoin, of, takeUntil } from 'rxjs';
 import { ElementData } from '../models/element';
 import { TreeNode } from '../models/treeNode';
 import { Guid } from '../models/guid';
@@ -18,8 +18,32 @@ import { FormGroup } from '@angular/forms';
   templateUrl: './pages.component.html',
   styleUrls: ['./pages.component.scss']
 })
-export class PagesComponent implements OnInit {
+export class PagesComponent implements OnInit , OnDestroy {
   joiValidationData: TreeNode[] = [];
+  @Input() data: any = [];
+  @Input() resData: any = [];
+  @Input() resDataMaster: any = [];
+  @Input() formlyModel: any;
+  fields: any = [];
+  dataModel: any = {};
+  screenData: any;
+  businessRuleData: any;
+  @Input() screenName = '';
+  @Input() screenId: any;
+  @Input() navigation: any = undefined;
+  requestSubscription: Subscription;
+  isPageContextShow = false;
+  @Input() form: any = new FormGroup({});
+  actionRuleList: any[] = [];
+  getTaskManagementIssues: any[] = [];
+  isVisible: boolean = false;
+  tableRowID: any = '';
+  pageRuleList: any[] = [];
+  saveLoader: boolean = false;
+  countRule: number = 0;
+
+  private subscriptions: Subscription = new Subscription();
+  private destroy$: Subject<void> = new Subject<void>();
   constructor(public employeeService: EmployeeService, private activatedRoute: ActivatedRoute,
     private clipboard: Clipboard, private applicationService: ApplicationService,
     public builderService: BuilderService,
@@ -27,7 +51,7 @@ export class PagesComponent implements OnInit {
     private toastr: NzMessageService,
     private el: ElementRef,
     public dataSharedService: DataSharedService, private router: Router) {
-    this.requestSubscription = this.dataSharedService.change.subscribe(({ event, field }) => {
+      const changeSubscription = this.dataSharedService.change.subscribe(({ event, field }) => {
       if (field && event && this.navigation)
         if (this.formlyModel) {
           // this.formlyModel[field.key] = event;
@@ -69,195 +93,157 @@ export class PagesComponent implements OnInit {
 
 
     });
-    this.requestSubscription = this.dataSharedService.gridData.subscribe(res => {
+    const gridDataSubscription  = this.dataSharedService.gridData.subscribe(res => {
       if (res)
         this.saveDataGrid(res);
     });
-    this.requestSubscription = this.dataSharedService.moveLink.subscribe(res => {
+    const moveLinkSubscription = this.dataSharedService.moveLink.subscribe(res => {
       this.scrollToElement(res);
     })
     // this.dataSharedService.repeatableControll.subscribe(res => {
     //   if(res)
     //   this.formlyModel[res.key] = res.event;
     // })
+    this.subscriptions.add(changeSubscription);
+    this.subscriptions.add(gridDataSubscription);
+    this.subscriptions.add(moveLinkSubscription);
 
   }
-  @Input() data: any = [];
-  @Input() resData: any = [];
-  @Input() resDataMaster: any = [];
-  @Input() formlyModel: any;
-  fields: any = [];
-  dataModel: any = {};
-  screenData: any;
-  businessRuleData: any;
-  @Input() screenName = '';
-  @Input() screenId: any;
-  @Input() navigation: any = undefined;
-  requestSubscription: Subscription;
-  isPageContextShow = false;
-  @Input() form: any = new FormGroup({});
-  actionRuleList: any[] = [];
-  getTaskManagementIssues: any[] = [];
-  isVisible: boolean = false;
-  tableRowID: any = '';
-  pageRuleList: any[] = [];
-  saveLoader: boolean = false;
-  countRule: number = 0;
-  ngOnInit(): void {
-    // console.log("pages")
-    // 
-    // if (this.navigation) {
-    //   this.requestSubscription = this.applicationService.getNestCommonAPI("cp/getuserCommentsByApp/UserComment/pages/" + this.navigation).subscribe((res: any) => {
-    //     if (res.isSuccess) {
-    //       let commentList = res.data
-    //       this.dataSharedService.screenCommentList = commentList;
-    //       this.getTaskManagementIssuesFunc(this.navigation, JSON.parse(localStorage.getItem('applicationId')!));
-    //       this.dataSharedService.screenCommentList.forEach(element => {
-    //         this.assignIssue(this.resData[0], element);
-    //       });
-    //       this.cdr.detectChanges();
 
-    //     }
-    //   })
-    // }
-    this.requestSubscription = this.dataSharedService.highlightFalse.subscribe({
-      next: (res) => {
-        if (this.resData.length > 0 && res) {
-          this.removeHighlightRecursive(this.resData[0].children[1].children[0].children[1]);
-        }
-      },
-      error: (err) => {
-        console.error(err);
-      }
-    });
-    this.requestSubscription = this.dataSharedService.pageSubmit.subscribe({
-      next: (res) => {
-        if (res) {
-          const checkButtonExist = this.findObjectById(this.resData[0], res.id);
-          // const checkButtonExist = this.isButtonIdExist(this.sections.children[1].children, res.id);
-          if (checkButtonExist?.appConfigurableEvent) {
-            event?.stopPropagation();
-            let makeModel: any = {};
-            const filteredNodes = this.filterInputElements(this.resData[0].children[1].children);
-            for (let item in this.formlyModel) {
-              filteredNodes.forEach((element) => {
-                if (item == element.formly[0].fieldGroup[0].key) {
-                  makeModel[item] = this.formlyModel[item]
-                }
-              });
-            }
-            this.dataModel = makeModel;
-            if (Object.keys(makeModel).length > 0) {
-              for (const key in this.dataModel) {
-                if (this.dataModel.hasOwnProperty(key)) {
-                  const value = this.getValueFromNestedObject(key, this.formlyModel);
-                  if (value !== undefined) {
-                    this.dataModel[key] = this.dataModel[key] ? this.dataModel[key] : value;
-                  }
-                }
-              }
-            }
-            // this.submit();
-            if (Object.keys(makeModel).length > 0) {
-              this.dataModel = this.convertModel(this.formlyModel);
-              const allUndefined = Object.values(this.formlyModel).every((value) => value === undefined);
-              if (!allUndefined) {
-                this.saveData(res)
-              }
-
-            }
-          }
-        }
-      },
-      error: (err) => {
-        console.error(err);
-      }
-    })
-    this.requestSubscription = this.dataSharedService.eventChange.subscribe({
-      next: (res) => {
-        if (res) {
-          for (let index = 0; index < res.length; index++) {
-            const element = res[index].actions?.[0]?.componentFrom;
-            let findObj = this.findObjectByKey(this.resData[0], element);
-            if (findObj) {
-              if (findObj?.formlyType === 'input') {
-                this.applicationService.getBackendCommonAPI(res[index].actions?.[0]?.url).subscribe(res => {
-                  if (res) {
-                    let data = res.data;
-                    let propertyNames = Object.keys(data[0]);
-                    let result = data.map((item: any) => {
-                      let newObj: any = {};
-                      let propertiesToGet: string[];
-                      if ('id' in item && 'name' in item) {
-                        propertiesToGet = ['id', 'name'];
-                      } else {
-                        propertiesToGet = Object.keys(item).slice(0, 2);
-                      }
-                      propertiesToGet.forEach((prop) => {
-                        newObj[prop] = item[prop];
-                      });
-                      return newObj;
-                    });
-
-                    let finalObj = result.map((item: any) => {
-                      return {
-                        label: item.name || item[propertyNames[1]],
-                        value: item.id || item[propertyNames[0]],
-                      };
-                    });
-                    findObj.formly[0].fieldGroup[0].props.options = finalObj;
-                    this.updateNodes();
-                  }
-                })
-              }
-            }
-          }
-        }
-      },
-      error: (err) => {
-        console.error(err);
-      }
-    })
-    if (this.data.length == 0) {
-      this.requestSubscription = this.activatedRoute.params.subscribe((params: Params) => {
-        if (params["schema"]) {
-          this.saveLoader = true;
-          this.dataSharedService.currentMenuLink = "/pages/"  + params["schema"];
-          this.resData = [];
-          this.applicationService.getNestCommonAPI('cp/auth/pageAuth/' + params["schema"]).subscribe(res => {
-            if (res?.data) {
-              this.initiliaze(params);
-            }
-            else {
-              this.saveLoader = false;
-              this.router.navigateByUrl('permission-denied')
-            }
-          })
+  ngOnDestroy(): void {
+    try {
+        if (this.requestSubscription) {
+            this.requestSubscription.unsubscribe();
         }
 
-      })
-    } else {
-      this.initiliaze('');
+        if (this.subscriptions) {
+            this.subscriptions.unsubscribe();
+        }
+
+        this.destroy$.next();             
+        this.destroy$.complete();
+    } catch (error) {
+        console.error('Error in ngOnDestroy:', error);
     }
+}
 
-    // this.routeSubscriber();
 
+  
+ 
+  ngOnInit(): void {
+    this.initHighlightFalseSubscription();
+    this.initPageSubmitSubscription();
+    this.initEventChangeSubscription();
+    this.initActivatedRouteSubscription();
+}
 
-  }
-  // routeSubscriber() {
-  //   this.requestSubscription = this.activatedRoute.data.subscribe(
-  //     ({ resolvedData }) => {
-  //       if (resolvedData) {
-  //         if (resolvedData?.[0]?.data)
-  //           this.initiliaze();
-  //         else {
-  //           this.router.navigateByUrl('permission-denied')
-  //         }
-  //       }
+private initHighlightFalseSubscription(): void {
+    const subscription = this.dataSharedService.highlightFalse.subscribe({
+        next: (res) => {
+            if (this.resData.length > 0 && res) {
+                this.removeHighlightRecursive(this.resData[0].children[1].children[0].children[1]);
+            }
+        },
+        error: (err) => {
+            console.error(err);
+        }
+    });
+    this.subscriptions.add(subscription);
+}
 
-  //     }
-  //   );
-  // };
+private initPageSubmitSubscription(): void {
+    const subscription = this.dataSharedService.pageSubmit.subscribe({
+        next: (res) => {
+            if (res) {
+                const checkButtonExist = this.findObjectById(this.resData[0], res.id);
+                if (checkButtonExist?.appConfigurableEvent) {
+                    event?.stopPropagation();
+                    let makeModel: any = {};
+                    const filteredNodes = this.filterInputElements(this.resData[0].children[1].children);
+                    for (let item in this.formlyModel) {
+                        filteredNodes.forEach((element) => {
+                            if (item == element.formly[0].fieldGroup[0].key) {
+                                makeModel[item] = this.formlyModel[item]
+                            }
+                        });
+                    }
+                    this.dataModel = makeModel;
+                    if (Object.keys(makeModel).length > 0) {
+                        for (const key in this.dataModel) {
+                            if (this.dataModel.hasOwnProperty(key)) {
+                                const value = this.getValueFromNestedObject(key, this.formlyModel);
+                                if (value !== undefined) {
+                                    this.dataModel[key] = this.dataModel[key] ? this.dataModel[key] : value;
+                                }
+                            }
+                        }
+                    }
+                    if (Object.keys(makeModel).length > 0) {
+                        this.dataModel = this.convertModel(this.formlyModel);
+                        const allUndefined = Object.values(this.formlyModel).every((value) => value === undefined);
+                        if (!allUndefined) {
+                            this.saveData(res)
+                        }
+                    }
+                }
+            }
+        },
+        error: (err) => {
+            console.error(err);
+        }
+    });
+    this.subscriptions.add(subscription);
+}
+
+private initEventChangeSubscription(): void {
+    const subscription = this.dataSharedService.eventChange.subscribe({
+        next: (res) => {
+            if (res) {
+                for (let index = 0; index < res.length; index++) {
+                    const element = res[index].actions?.[0]?.componentFrom;
+                    let findObj = this.findObjectByKey(this.resData[0], element);
+                    if (findObj) {
+                        if (findObj?.formlyType === 'input') {
+                            this.applicationService.getBackendCommonAPI(res[index].actions?.[0]?.url).subscribe(res => {
+                                if (res) {
+                                    //... the rest of your logic ...
+                                }
+                            });
+                        }
+                    }
+                }
+            }
+        },
+        error: (err) => {
+            console.error(err);
+        }
+    });
+    this.subscriptions.add(subscription);
+}
+
+private initActivatedRouteSubscription(): void {
+    if (this.data.length == 0) {
+        const subscription = this.activatedRoute.params.subscribe((params: Params) => {
+            if (params["schema"]) {
+                this.saveLoader = true;
+                this.dataSharedService.currentMenuLink = "/pages/" + params["schema"];
+                this.resData = [];
+                this.applicationService.getNestCommonAPI('cp/auth/pageAuth/' + params["schema"]).subscribe(res => {
+                    if (res?.data) {
+                        this.initiliaze(params);
+                    } else {
+                        this.saveLoader = false;
+                        this.router.navigateByUrl('permission-denied');
+                    }
+                });
+            }
+        });
+        this.subscriptions.add(subscription);
+    } else {
+        this.initiliaze('');
+    }
+}
+
   initiliaze(params: any) {
     if (this.data.length == 0) {
       if (params["schema"]) {
@@ -285,7 +271,10 @@ export class PagesComponent implements OnInit {
     //
     else if (this.data.length > 0) {
 
-      this.requestSubscription = this.applicationService.getNestCommonAPIById("cp/CacheRule", this.data[0].data[0].screenBuilderId).subscribe({
+      this.applicationService.getNestCommonAPIById("cp/CacheRule", this.data[0].data[0].screenBuilderId)
+      .pipe(
+        takeUntil(this.destroy$)
+      ).subscribe({
         next: (rule: any) => {
           this.saveLoader = false;
           // if(rule.isSuccess)
@@ -298,8 +287,8 @@ export class PagesComponent implements OnInit {
           console.error(err);
           // this.toastr.error("An error occurred", { nzDuration: 3000 });
         }
-      })
-
+      });
+      
 
       // this.requestSubscription = this.applicationService.getNestCommonAPIById("cp/ActionRule", this.data[0].data[0].screenBuilderId).subscribe({
       //   next: (actions: any) => {
@@ -316,35 +305,33 @@ export class PagesComponent implements OnInit {
   }
   getBuilderScreen(params: any) {
     this.saveLoader = true;
-    this.requestSubscription = this.applicationService.getNestCommonAPIById('cp/Builder', params["schema"]).subscribe({
+  
+    this.applicationService.getNestCommonAPIById('cp/Builder', params["schema"]).subscribe({
       next: (res: any) => {
-        if (res.isSuccess) {
-          if (res.data.length > 0) {
-            this.requestSubscription = this.applicationService.getNestCommonAPIById("cp/CacheRule", res.data[0].screenBuilderId).subscribe({
-              next: (rule: any) => {
-                this.saveLoader = false;
-                // if(rule.isSuccess)
-                this.getCacheRule(rule);
-                this.actionsBindWithPage(res);
-              },
-              error: (err) => {
-                this.saveLoader = false;
-                this.actionsBindWithPage(res);
-                console.error(err);
-                // this.toastr.error("An error occurred", { nzDuration: 3000 });
-              }
-            })
-
-          }
-        }
-        else {
+        if (res.isSuccess && res.data.length > 0) {
+          this.handleCacheRuleRequest(res.data[0].screenBuilderId, res);
+        } else {
           this.toastr.error(res.message, { nzDuration: 3000 });
           this.saveLoader = false;
         }
       },
       error: (err) => {
-        console.error(err); // Log the error to the console
+        console.error(err);
         this.saveLoader = false;
+      }
+    });
+  }
+  handleCacheRuleRequest(screenBuilderId: any, res: any) {
+    this.applicationService.getNestCommonAPIById("cp/CacheRule", screenBuilderId).subscribe({
+      next: (rule: any) => {
+        this.saveLoader = false;
+        this.getCacheRule(rule);
+        this.actionsBindWithPage(res);
+      },
+      error: (err) => {
+        this.saveLoader = false;
+        console.error(err);
+        this.toastr.error("An error occurred", { nzDuration: 3000 });
       }
     });
   }
@@ -428,29 +415,12 @@ export class PagesComponent implements OnInit {
     const screenData = JSON.parse(this.jsonStringifyWithObject(this.resData));
     this.resDataMaster = screenData
     this.checkDynamicSection();
-    this.uiRuleGetData({ key: 'text_f53ed35b', id: 'formly_86_input_text_f53ed35b_0' });
-    // this.getFromQuery();
-    // if (params["commentId"] != "all") {
-    //   this.builderService.getCommentById(params["commentId"]).subscribe(res => {
-    //     if (res.length > 0) {
-    //       let findObj = this.findObjectById(this.resData[0], res[0].commentId);
-    //       findObj.highLight = true;
-    //     }
-    //   })
-    // }
-    // else {
-    //   this.dataSharedService.screenCommentList.forEach(element => {
-    //     let findObj = this.findObjectById(this.resData[0], element.commentId);
-    //     findObj.highLight = true;
-    //   });
-    // }
-    // let commentsData = this.transformComments(this.dataSharedService.screenCommentList);
-    // console.log(commentsData);
-    // Comments Get
-    this.requestSubscription = this.applicationService.callApi('knex-query/getAction/65001460e9856e9578bcb63f', 'get', '', '', `'${res.data[0].navigation}'`).subscribe({
-      next: (res) => {
-        if (res.data > 0) {
-          res.data.forEach((element: any) => {
+    this.uiRuleGetData({ key: 'text_f53ed35b', id: 'formly_86_input_text_f53ed35b_0' }); 
+
+    this.applicationService.callApi('knex-query/getAction/65001460e9856e9578bcb63f', 'get', '', '', `'${res.data[0].navigation}'`).subscribe({
+      next: (response: any) => {
+        if (response.data > 0) {
+          response.data.forEach((element: any) => {
             this.assignIssue(this.resData[0], element);
           });
         }
@@ -459,7 +429,8 @@ export class PagesComponent implements OnInit {
         console.error(error);
         this.toastr.error("An error occurred", { nzDuration: 3000 });
       }
-    })
+    });
+
     debugger
     this.pageRuleList = this.actionRuleList.filter(a => a.componentFrom === this.resData?.[0]?.key && a.action == 'load');
     if (this.tableRowID) {
@@ -487,17 +458,6 @@ export class PagesComponent implements OnInit {
             this.toastr.error("Actions not saved", { nzDuration: 3000 });
           }
         });
-        // this.pageRuleList.forEach(element => {
-        //   this.applicationService.callApi('knex-query/getexecute-rules/' + element._id, 'get', '', '', this.tableRowID).subscribe({
-        //     next: (res) => {
-
-        //     },
-        //     error: (error: any) => {
-        //       console.error(error);
-        //       this.toastr.error("An error occurred", { nzDuration: 3000 });
-        //     }
-        //   })
-        // });
 
       }
     }
@@ -1175,9 +1135,7 @@ export class PagesComponent implements OnInit {
     }) || '{}'
   }
 
-  ngOnDestroy() {
-    this.requestSubscription.unsubscribe();
-  }
+ 
   uiRuleGetData(moduleId: any) {
     this.makeFaker();
     this.checkConditionUIRule({ key: 'text_f53ed35b', id: 'formly_86_input_text_f53ed35b_0' }, '');
