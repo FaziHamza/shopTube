@@ -7,14 +7,13 @@ import { ChangeDetectorRef, Component, ElementRef, Input, OnInit } from '@angula
 })
 export class CarouselCrossfadeCardComponent implements OnInit {
 
-  // @Input() carouselslides:any;
-  // @Input() formlyModel: any;
-  // @Input() form: any;
-  // @Input() screenName: any;
-  // @Input() screenId: any;
+  @Input() carouselslides:any;
+  @Input() formlyModel: any;
+  @Input() form: any;
+  @Input() screenName: any;
+  @Input() screenId: any;
   constructor() { }
-  array = [1, 2, 3, 4];
-  effect = 'scrollx';
+
   ngOnInit(): void {
 
   }

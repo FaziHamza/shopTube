@@ -124,16 +124,17 @@
       [nzFrontPagination]='false' [nzTitle]='data?.nzTitle' [nzSimple]="data.nzSimple"
       [nzShowSizeChanger]="data.nzShowSizeChanger">
       <thead *ngIf="tableHeaders.length > 0" class="desktop-toggle">
-        <tr  class="desktop-toggle "
-          *ngIf="data?.showColumnHeader == undefined ? true : data?.showColumnHeader">
-          <th [class]="data.tableHeaderClass" (mousedown)="onResizeStart($event, deleteditWidth[2])" style="text-align:center !important"
+        <tr class="desktop-toggle " *ngIf="data?.showColumnHeader == undefined ? true : data?.showColumnHeader">
+          <th [class]="data.tableHeaderClass" (mousedown)="onResizeStart($event, deleteditWidth[2])"
+            style="text-align:center !important"
             [nzWidth]="deleteditWidth[2]?.width ? deleteditWidth[2].width + 'px' : 'auto'" [class]="data?.thClass"
             [nzLeft]="data?.startFreezingNumber >= 1" *ngIf="data.showCheckbox" [(nzChecked)]="allChecked"
             [nzIndeterminate]="indeterminate" (nzCheckedChange)="checkAll($event)"></th>
           <ng-container *ngFor="let header of tableHeaders ; let i = index">
             <!-- !border-r-4 !border-gray-200 -->
-            <th [class]="data.tableHeaderClass" (mousedown)="onResizeStart($event, header)" [nzWidth]="header?.width ? header.width + 'px' : 'auto'"
-              [nzLeft]="allowFreeze(header , i)" [nzRight]="header?.headerFreeze == true ? true : false"
+            <th [class]="data.tableHeaderClass" (mousedown)="onResizeStart($event, header)"
+              [nzWidth]="header?.width ? header.width + 'px' : 'auto'" [nzLeft]="allowFreeze(header , i)"
+              [nzRight]="header?.headerFreeze == true ? true : false"
               *ngIf="header.key !== 'defaultValue' && ( header?.show == true || header?.show === undefined || header?.show === '' || header?.show == 'Yes')">
               <!-- (click)="header?.columnClickApi ? onClickColumn(header.columnClickApi,header): ''" -->
               <div [class]="data?.thClass"
@@ -235,7 +236,8 @@
               </div>
             </th>
           </ng-container>
-          <th [class]="data.tableHeaderClass"  [nzWidth]="deleteditWidth[0]?.width ? deleteditWidth[0].width + 'px' : 'auto'"
+          <th [class]="data.tableHeaderClass"
+            [nzWidth]="deleteditWidth[0]?.width ? deleteditWidth[0].width + 'px' : 'auto'"
             (mousedown)="onResizeStart($event, deleteditWidth[0])" *ngIf="isAllowEdit(tableHeaders)"
             [nzRight]="data?.endFreezingNumber >= 2">
             <div [class]="data?.thClass" class="!text-gray-500 relative !uppercase !text-center"
@@ -245,7 +247,8 @@
               Edit
             </div>
           </th>
-          <th [class]="data.tableHeaderClass"  [nzWidth]="deleteditWidth[1]?.width ? deleteditWidth[1].width + 'px' : 'auto'"
+          <th [class]="data.tableHeaderClass"
+            [nzWidth]="deleteditWidth[1]?.width ? deleteditWidth[1].width + 'px' : 'auto'"
             (mousedown)="onResizeStart($event, deleteditWidth[1])" [nzRight]="data?.endFreezingNumber >= 1"
             *ngIf="tableHeaders.length > 0 && (data?.isDeleteAllow || data?.isDeleteAllow == undefined)">
             <div [class]="data?.thClass" class="!text-gray-500 relative !uppercase !text-center"
@@ -260,7 +263,7 @@
       <tbody [class]="data?.tbodyClass" class="dynamic-responsive-table-body w-full" style="width: 100%;">
         <ng-template #recursiveList let-data1>
           <ng-container *ngFor="let item of data1; let i = index">
-            <tr (click)="rowselected(item)" class="desktop-toggle" (dblclick)="updateModel(item)"
+            <tr  (click)="rowselected(item)" class="desktop-toggle" (dblclick)="updateModel(item)"
               (click)="data?.rowClickApi!='' ? onClickRow(data.rowClickApi,item): ''"
               [ngClass]="{'selectedRow' : item === index }">
               <td [ngStyle]="{'text-align': data?.position || 'center'}" [nzLeft]="data?.endFreezingNumber >= 1"
@@ -340,8 +343,8 @@
                       [hidden]="editId === item.id && (configurationTable || header?.editMode == 'yes'|| header?.editMode == true)">
                       {{ item[header.key] | date:'dd-MM-yyyy'}}
                     </div>
-                    <div [ hidden]="editId !== item.id"
-                      *ngIf="editId == item.id && (configurationTable || header?.editMode)">
+                    <div *ngIf="configurationTable || header?.editMode == 'yes'|| header?.editMode == true"
+                      [hidden]="editId !== item.id">
                       <input [(ngModel)]="item[header.key]" type="date">
                     </div>
                   </div>

@@ -31,10 +31,10 @@
     <ng-template #extraTemplate>
         <div class="src-btn flex justify-end">
             <button nz-button  class="btn-no !border !border-gray-300 !text-gray-800 hover:!text-blue-600 hover:!border-blue-600 mr-2" (click)="selectAll()">
-                <i class="fa-regular fa-database mr-1.5"></i>
+                <i class="fa-regular fa-list mr-1.5"></i>
                 Select All</button>
             <button nz-button *ngIf="isSubmit" nzType="primary" class="btn" (click)="onSubmit()">
-                <i class="fa-regular fa-database mr-1.5"></i>
+                <i class="fa-solid fa-arrow-up-from-bracket mr-1.5"></i>
                 Submit</button>
             <button nz-button *ngIf="isSubmit" nzType="primary" nzDanger
                 class="btn-no  !border-none mx-2 !bg-red-600 hover:!bg-red-500" (click)="deleteAllPolicy()">

@@ -6407,6 +6407,10 @@ tr:hover {
 }
 
 .dynamic-table {
+  col.ng-star-inserted:nth-child(2) {
+    width: auto !important;
+    min-width: auto !important;
+  }
 
   /* Styling for header cells */
   thead tr th {
@@ -6500,9 +6504,9 @@ tr:hover {
 
   }
 
-  tbody tr:hover td {
-    background: white !important;
-  }
+  // tbody tr:hover td {
+  //   background: white !important;
+  // }
 
   // .ant-table-wrapper {
   //   max-height: 680px !important;
@@ -6512,7 +6516,19 @@ tr:hover {
 
 .dynamic-responsive-table-body {
   .dynamic-responsive-table {
+    margin-bottom: 5px !important;
+    margin-top: 5px !important;
+
     .ant-table-row {
+      display: inline-block !important;
+      width: 100% !important;
+
+      .ng-star-inserted {
+        display: flex;
+        justify-content: start !important;
+        align-items: center !important;
+      }
+
       td {
         padding: 5px 10px !important;
         box-sizing: border-box;
@@ -6520,17 +6536,32 @@ tr:hover {
         max-height: 42px !important;
         min-height: fit-content !important;
         vertical-align: middle !important;
+        border: 1px solid #d6dce1 !important;
+        ;
       }
 
       td:first-child {
         background-color: $primary-color !important;
         color: #fff !important;
+        width: 30% !important;
+        display: inline-flex !important;
+        justify-content: start;
+        align-items: center;
+      }
+
+      td:nth-child(2) {
+        display: inline-flex !important;
+        justify-content: start;
+        align-items: center;
+        width: 70% !important;
       }
 
       // td:last-child {
       //   color: #000 !important;
       //   }
     }
+
+
 
   }
 
@@ -7756,6 +7787,7 @@ input[type=file]::file-selector-button:hover {
 
 }
 
+
 .app-secondary-color {
   color: var(--secondaryColor) !important;
 }
@@ -7786,6 +7818,22 @@ input[type=file]::file-selector-button:hover {
 input[type=file]::file-selector-button {
   background: var(--browseButtonColor) !important;
 }
-input[type=file]::file-selector-button:hover {  
+
+input[type=file]::file-selector-button:hover {
   background: var(--hoverBrowseButtonColor) !important;
+}
+.builder-bulk-update {
+  .ant-pagination-options {
+    width: 100px !important;
+  }
+  .ant-select-selector {
+    border-radius: 6px !important;
+  }
+  .ant-select-arrow,
+  .ant-select-clear {
+    top: 52% !important;
+  }
+  .mini {
+    padding-top: 16px;
+  }
 }

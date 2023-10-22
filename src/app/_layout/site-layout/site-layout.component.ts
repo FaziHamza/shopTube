@@ -150,43 +150,42 @@ export class SiteLayoutComponent implements OnInit {
     });
   }
 
-  // ngAfterViewInit() {
-  //   setTimeout(() => {
-  //     this.updateHeaderHeight();
-  //     this.updateFooterHeight();
-  //   } ,5000)
+  ngAfterViewInit() {
+    setTimeout(() => {
+      this.updateHeaderHeight();
+      this.updateFooterHeight();
+    } ,5000)
 
-  // }
+  }
 
 
-  // updateHeaderHeight() {
-  //   // Get the actual header height dynamically
-  //   const headerElement = this.el.nativeElement.querySelector('#HEADER');
-  //   this.headerHeight = headerElement.clientHeight;
-  //   console.log('the height is header' , this.headerHeight);
+  updateHeaderHeight() {
+    // Get the actual header height dynamically
+    if (this.el.nativeElement.querySelector('#HEADER')) {
+      const headerElement = this.el.nativeElement.querySelector('#HEADER');
+      this.headerHeight = headerElement.clientHeight;
+      console.log('the height is header', this.headerHeight);
 
-  //   // Adjust the layout width based on the header height
-  //   const layoutElement = this.el.nativeElement.querySelector('.content-container');
-  //   this.renderer.setStyle(layoutElement, 'height', `calc(100vh - ${this.headerHeight + 10}px)`);
-  //   console.log('nz-layout', `calc(100vh - ${this.headerHeight + 15}px)`)
-
-  // }
-
+      const layoutElement = this.el.nativeElement.querySelector('.content-container');
+      this.renderer.setStyle(layoutElement, 'height', `calc(100vh - ${this.headerHeight + 10}px)`);
+      console.log('nz-layout', `calc(100vh - ${this.headerHeight + 15}px)`)
+    }
+  }
 
 
   private updateFooterHeight() {
-    debugger
-    const footerElement = this.el.nativeElement.querySelector('#FOOTER');
-    this.footerHeight = footerElement.clientHeight;
-    console.log('the height is footer', this.footerHeight);
+    if (this.el.nativeElement.querySelector('#FOOTER')) {
+      const footerElement = this.el.nativeElement.querySelector('#FOOTER');
+      this.footerHeight = footerElement.clientHeight;
+      console.log('the height is footer', this.footerHeight);
 
-    const contentElement = this.el.nativeElement.querySelector('.content');
-    // this.renderer.setStyle(contentElement, 'height', `calc(100vh - ${this.footerHeight + 10}px)`);
-    // console.log('the content height' ,`calc(100vh - ${this.footerHeight + 10}px)`)
+      const contentElement = this.el.nativeElement.querySelector('.content');
+      // this.renderer.setStyle(contentElement, 'height', `calc(100vh - ${this.footerHeight + 10}px)`);
+      // console.log('the content height' ,`calc(100vh - ${this.footerHeight + 10}px)`)
 
-    this.renderer.setStyle(contentElement, 'marginBottom', `${this.footerHeight}px`);
-    console.warn('the content height', this.footerHeight);
-
+      this.renderer.setStyle(contentElement, 'marginBottom', `${this.footerHeight}px`);
+      console.warn('the content height', this.footerHeight);
+    }
   }
 
 

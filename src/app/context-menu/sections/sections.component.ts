@@ -1,7 +1,7 @@
 import { Component, OnInit, Input, EventEmitter, Output, ChangeDetectorRef } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { NzMessageService } from 'ng-zorro-antd/message';
-import { Subscription, elementAt } from 'rxjs';
+import { Subscription, catchError, elementAt, take } from 'rxjs';
 import { TreeNode } from 'src/app/models/treeNode';
 import { ApplicationService } from 'src/app/services/application.service';
 import { DataSharedService } from 'src/app/services/data-shared.service';
@@ -49,15 +49,26 @@ export class SectionsComponent implements OnInit {
     //   let gridListData = this.findObjectByTypeBase(this.sections, "gridList");
     //   if (gridListData) {
     //     // this.getFromQueryOnlyTable(gridListData);
-    //   }
+    //   }  
     // }
-    this.requestSubscription = this.dataSharedService.sectionSubmit.subscribe({
+    // this.dataSharedService.sectionSubmit.pipe(
+    //   take(1),
+    //   catchError((error) => {
+       
+    //     this.dataSharedService.sectionSubmit.next('Your custom error message');
+    //     return throwError(error); // Rethrow the error to be handled by the component
+    //   })
+    // ).subscribe((buttonData) => {
+    //   // Your subscription logic here
+    // });
+    // 
+    this.requestSubscription = this.dataSharedService.sectionSubmit.pipe(take(1)).subscribe({
       next: (res) => {
         if (res) {
           const checkButtonExist = this.findObjectById(this.sections, res.id);
           // const checkButtonExist = this.isButtonIdExist(this.sections.children[1].children, res.id);
           if (checkButtonExist?.appConfigurableEvent) {
-            event?.stopPropagation();
+            // event?.stopPropagation();
             let makeModel: any = {};
             const filteredNodes = this.filterInputElements(this.sections.children[1].children);
             for (let item in this.formlyModel) {
@@ -248,11 +259,12 @@ export class SectionsComponent implements OnInit {
           }
         }
         if (id == undefined) {
-          if(!checkPermission.create && this.dataSharedService.currentMenuLink != '/ourbuilder'){
+          if (!checkPermission?.create && this.dataSharedService.currentMenuLink != '/ourbuilder') {
             alert("You did not have permission");
             return;
           }
-          this.dataSharedService.sectionSubmit.next(false);
+
+          // this.dataSharedService.sectionSubmit.next(false);
           findClickApi = data.appConfigurableEvent.filter((item: any) => item.rule.includes('post_'));
           if (findClickApi?.[0]?._id) {
             this.dataSharedService.imageUrl = '';
@@ -309,11 +321,11 @@ export class SectionsComponent implements OnInit {
 
         }
         else {
-          if(!checkPermission.update && this.dataSharedService.currentMenuLink != '/ourbuilder'){
+          if (!checkPermission.update && this.dataSharedService.currentMenuLink != '/ourbuilder') {
             alert("You did not have permission");
             return;
           }
-          this.dataSharedService.sectionSubmit.next(false);
+          // this.dataSharedService.sectionSubmit.next(false);
           findClickApi = data.appConfigurableEvent.filter((item: any) => item.rule.includes('put_'));
           if (this.dataModel) {
             // this.form.get(dynamicPropertyName);
@@ -339,7 +351,7 @@ export class SectionsComponent implements OnInit {
             };
             // console.log(result);
             this.saveLoader = true;
-            this.dataSharedService.sectionSubmit.next(false);
+            // this.dataSharedService.sectionSubmit.next(false);
             this.requestSubscription = this.applicationServices.addNestCommonAPI('knex-query/execute-rules/' + findClickApi[0]._id, result).subscribe({
               next: (res) => {
                 this.saveLoader = false;

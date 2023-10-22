@@ -72,10 +72,10 @@ export class UserMappingComponent {
           if (res?.data.length > 0) {
             const transformedData = res.data.map((item: any) => ({
               _id: item._id,
-              policyId: item.policyId._id,
-              policyName: item.policyId.name,
-              userId: item.userId._id,
-              userName: item.userId.username,
+              policyId: item?.policyId?._id,
+              policyName: item?.policyId?.name,
+              userId: item?.userId?._id,
+              userName: item?.userId?.username,
               applicationId: item.applicationId,
             }));
             this.listOfData = transformedData;

@@ -52,6 +52,8 @@ export class MainComponent implements OnInit {
   commentForm: FormGroup;
   selectedHighLight: any = '';
   url: any = '';
+  array = [1, 2, 3, 4];
+  effect = 'scrollx';
   constructor(private cd: ChangeDetectorRef, private nzImageService: NzImageService, private employeeService: EmployeeService,
     private builderService: BuilderService, private applicationServices: ApplicationService,
     private toastr: NzMessageService, private router: Router, public dataSharedService: DataSharedService,
@@ -187,6 +189,7 @@ export class MainComponent implements OnInit {
   }
   updatedData(event: any) {
     debugger
+    return;
     let accordingList = event;
     let data = accordingList.data;
     let accordionData = accordingList.screenData;

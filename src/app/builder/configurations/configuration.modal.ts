@@ -8349,27 +8349,37 @@ export class formFeildData {
           },
         },
         {
-          template: '<div class="w-full bold-label mt-3">options</div>',
+          key: 'nodes',
+          type: 'input',
+          wrappers: ["formly-vertical-theme-wrapper"],
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          props: {
+            type: 'number',
+            label: 'Number of slides'
+          },
         },
-        {
-          key: 'carousalConfig',
-          type: 'repeatSection',
-          className: 'w-full',
-          props: {},
-          fieldArray: {
-            fieldGroup: [
-              {
-                className: "ml-2",
-                key: 'img',
-                type: 'input',
-                wrappers: ["formly-vertical-theme-wrapper"],
-                props: {
-                  label: 'Image Source'
-                }
-              }
-            ]
-          }
-        },
+        // {
+        //   template: '<div class="w-full bold-label mt-3">options</div>',
+        // },
+        // {
+        //   key: 'carousalConfig',
+        //   type: 'repeatSection',
+        //   className: 'w-full',
+        //   props: {},
+        //   fieldArray: {
+        //     fieldGroup: [
+        //       {
+        //         className: "ml-2",
+        //         key: 'img',
+        //         type: 'input',
+        //         wrappers: ["formly-vertical-theme-wrapper"],
+        //         props: {
+        //           label: 'Image Source'
+        //         }
+        //       }
+        //     ]
+        //   }
+        // },
       ]
     },
   ]

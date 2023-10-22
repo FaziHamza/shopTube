@@ -335,6 +335,7 @@ export class PolicyMappingComponent implements OnInit {
       const matchingPolicyItem = policyData.find(policyItem => policyItem.menuId === menuItem.menuId);
 
       if (matchingPolicyItem) {
+        matchingPolicyItem.screenId = menuItem.link;
         // Merge policy data into the menu item
         const mergedItem = { ...menuItem, ...matchingPolicyItem };
 
