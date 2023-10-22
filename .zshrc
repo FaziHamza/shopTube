@@ -42,3 +42,5 @@ export PATH=/opt/homebrew/bin:$PATH
 export PATH=/opt/homebrew/bin:$PATH
 # Homebrew
 export PATH=/opt/homebrew/bin:$PATH
+# Homebrew
+export PATH=/opt/homebrew/bin:$PATH
