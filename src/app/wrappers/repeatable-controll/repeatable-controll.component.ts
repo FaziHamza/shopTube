@@ -5,6 +5,7 @@ import { FormArray, FormBuilder, FormGroup, UntypedFormControl, Validators } fro
 import { Subscription } from 'rxjs';
 import { ApplicationService } from 'src/app/services/application.service';
 import { environment } from 'src/environments/environment';
+import { NzMessageService } from 'ng-zorro-antd/message';
 
 @Component({
   selector: 'st-repeatable-controll',
@@ -14,10 +15,15 @@ import { environment } from 'src/environments/environment';
 export class RepeatableControllComponent extends FieldType<FieldTypeConfig> {
   subscription: Subscription;
   myForm: FormGroup;
+  icons: any = {
+
+  }
   @ViewChild('fileInput') fileInput!: ElementRef<HTMLInputElement>;
   imageUrl: any;
   imagePath = environment.nestImageUrl;
-  constructor(public dataSharedService: DataSharedService, private formBuilder: FormBuilder , private applicationService: ApplicationService) {
+  constructor(public dataSharedService: DataSharedService, private formBuilder: FormBuilder, private applicationService: ApplicationService,
+    private toastr: NzMessageService,
+  ) {
     super();
   }
   ngOnInit(): void {
@@ -85,15 +91,19 @@ export class RepeatableControllComponent extends FieldType<FieldTypeConfig> {
     formData.append('image', file);
     this.applicationService.uploadS3File(formData).subscribe({
       next: (res) => {
-        this.formControl.patchValue(this.imagePath + res.path);
-        this.myForm.value.fieldGroups[index]['equipmentBroucher'] = this.imagePath + res.path;
-        this.myForm.value.fieldGroups[index]['equipmentBroucher_base64'] = this.imagePath + res.path;
-        this.fieldGroups.at(index).get('equipmentBroucher_base64')?.setValue(this.imagePath + res.path);
-        this.fieldGroups.at(index).get('equipmentBroucher')?.setValue(this.imagePath + res.path);
+        this.icons['prefixIcon'] = 'eye';
+        this.icons['suffixIcon'] = 'delete';
+        // this.myForm.value.fieldGroups[index]['equipmentbroucher'] = this.imagePath + res.path;
+        this.myForm.value.fieldGroups[index]['equipmentbroucher_base64'] = this.imagePath + res.path;
+        this.fieldGroups.at(index).get('equipmentbroucher_base64')?.setValue(this.imagePath + res.path);
+        // this.fieldGroups.at(index).get('equipmentbroucher')?.setValue(this.imagePath + res.path);
         this.onModelChange(null, null)
         console.log('File uploaded successfully:', res);
       },
       error: (err) => {
+        this.toastr.success('Erro in repeatable controll file upload : ' + err, {
+          nzDuration: 3000,
+        });
         console.error('Error uploading file:', err);
       }
     });
@@ -159,5 +169,14 @@ export class RepeatableControllComponent extends FieldType<FieldTypeConfig> {
   clearFieldGroup(index: number) {
     // Reset the form control at the specified index
     this.fieldGroups.at(index).reset();
+  }
+  clearFile(index: any) {
+    this.icons['suffixIcon'] = '';
+    this.icons['prefixIcon'] = '';
+    this.fieldGroups.at(index).get('equipmentbroucher')?.setValue('');
+    this.fieldGroups.at(index).get('equipmentbroucher_base64')?.setValue('');
+  }
+  imagePreview(index: any) {
+    window.open(this.myForm.value.fieldGroups[index]['equipmentbroucher_base64'], '_blank');
   }
 }

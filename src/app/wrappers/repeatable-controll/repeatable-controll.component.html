@@ -33,10 +33,13 @@
           </div>
           <div>
             <label>Equipment Broucher/Datesheet</label>
-            <input [nzStatus]="to['additionalProperties']?.status" [nzSize]="to['additionalProperties']?.size"
-              [class]="to['additionalProperties']?.innerInputClass"
-              [style.border-radius]="to['additionalProperties']?.borderRadius" nz-input
-              [formControlName]="'equipmentbroucher'" #fileInput type="file" (change)="onFileSelected($event, i)" />
+            <nz-input-group [nzSuffix]="icons?.suffixIcon ? suffixTemplateInfo : undefined"
+              [nzPrefix]="icons?.prefixIcon ?  prefixTemplateUser : undefined">
+              <input [nzStatus]="to['additionalProperties']?.status" [nzSize]="to['additionalProperties']?.size"
+                [class]="to['additionalProperties']?.innerInputClass"
+                [style.border-radius]="to['additionalProperties']?.borderRadius" nz-input
+                [formControlName]="'equipmentbroucher'" #fileInput type="file" (change)="onFileSelected($event, i)" />
+            </nz-input-group>
           </div>
           <div [hidden]="true">
             <label>Equipment Broucher/Datesheet</label>
@@ -45,6 +48,11 @@
               [style.border-radius]="to['additionalProperties']?.borderRadius" nz-input
               [formControlName]="'equipmentbroucher_base64'" (change)="onFileSelected($event, i)" />
           </div>
+          <ng-template #prefixTemplateUser><span nz-icon (click)="imagePreview(i)"
+              [nzType]="icons?.prefixIcon ? 'eye' : ''"></span></ng-template>
+          <ng-template #suffixTemplateInfo>
+            <span (click)="clearFile(i)" nz-icon [nzType]="icons?.suffixIcon ? 'delete' : ''"></span>
+          </ng-template>
           <div [hidden]="true">
             <label></label>
             <input [nzStatus]="to['additionalProperties']?.status" [nzSize]="to['additionalProperties']?.size"
