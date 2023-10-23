@@ -130,12 +130,14 @@ export class PagesComponent implements OnInit, OnDestroy {
       console.error('Error in ngOnDestroy:', error);
     }
   }
+  user:any;
   ngOnInit(): void {
     debugger
     this.initHighlightFalseSubscription();
     this.initPageSubmitSubscription();
     this.initEventChangeSubscription();
     this.initActivatedRouteSubscription();
+    this.user = JSON.parse(localStorage.getItem('user')!);
   }
 
   private initHighlightFalseSubscription(): void {
@@ -1737,6 +1739,7 @@ export class PagesComponent implements OnInit, OnDestroy {
       try {
         this.requestSubscription = this.applicationService.getNestCommonAPI(api).subscribe({
           next: (res) => {
+            this.saveLoader = false;
             if (res) {
               if (res?.data) {
                 if (res?.data.length > 0) {

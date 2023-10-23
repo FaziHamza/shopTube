@@ -5,6 +5,7 @@ import { EmployeeService } from 'src/app/services/employee.service';
 import { AuthService } from '../services/auth.service';
 import { CommonService } from 'src/common/common-services/common.service';
 import { NzMessageService } from 'ng-zorro-antd/message';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'st-login',
@@ -16,7 +17,7 @@ export class LoginComponent implements OnInit {
   passwordIcon: string = "fa-light fa-eye-slash text-lg";
   ngAfterViewInit() {
     // Reinitialize reCAPTCHA after the view has been initialized
-    grecaptcha.render('recaptcha', { sitekey: '6LcZ59MnAAAAAEFG5x2mJoJ_ptOFR7O2hSX0HHx3' });
+    grecaptcha.render('recaptcha', { sitekey: environment.recaptcha.siteKey });
   }
 
 

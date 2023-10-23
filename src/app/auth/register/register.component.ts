@@ -6,6 +6,7 @@ import { ApplicationService } from 'src/app/services/application.service';
 import { EmployeeService } from 'src/app/services/employee.service';
 import { environment } from 'src/environments/environment';
 import { AuthService } from '../services/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'st-register',
@@ -28,7 +29,7 @@ export class RegisterComponent implements OnInit {
   showRecaptcha: boolean = false;
   recaptchaResponse = '';
   isFormSubmit: boolean = false;
-  constructor(private applicationService: ApplicationService, private authService: AuthService,
+  constructor(private applicationService: ApplicationService, private authService: AuthService,private router:Router,
     private toastr: NzMessageService, private formBuilder: FormBuilder,) { }
 
   ngOnInit(): void {
@@ -169,7 +170,7 @@ export class RegisterComponent implements OnInit {
   }
   ngAfterViewInit() {
     // Reinitialize reCAPTCHA after the view has been initialized
-    grecaptcha.render('recaptcha', { sitekey: '6LcZ59MnAAAAAEFG5x2mJoJ_ptOFR7O2hSX0HHx3' });
+    grecaptcha.render('recaptcha', { sitekey: environment.recaptcha.siteKey });
   }
   submitForm(): void {
     debugger
@@ -213,6 +214,7 @@ export class RegisterComponent implements OnInit {
         next: (res: any) => {
           if (res.isSuccess && res?.data) {
             this.toastr.success(res.message, { nzDuration: 2000 });
+            this.router.navigateByUrl('/login')
             this.create();
           } else {
             this.toastr.error(res.message, { nzDuration: 2000 });
