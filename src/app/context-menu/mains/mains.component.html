@@ -15,7 +15,7 @@
                 (click)="defaultPageRoute()"
                 [src]="dataSharedService.headerLogo ? dataSharedService.headerLogo : 'assets/images/logo.png'" alt>
             <div class="mobile-toggle flex">
-                <button nz-button class="rounded-md !border-gray-800 hover:!border-blue-400 mr-2"
+                <button nz-button class="!rounded !bg-transparent !text-amber-300 hover:!bg-transparent hover:!text-amber-300 !border !border-amber-300 !hover:border-amber-300 !font-md !flex !flex-wrap !items-center"
                     (click)="menuCollapsed()">
                     <i class="fa fa-bars"></i>
                 </button>
@@ -71,15 +71,15 @@
             *ngIf="item.type == 'button' || item.type =='linkbutton' || item.type =='buttonGroup' || item.type =='dropdownButton' ; else thirteenth">
             <nz-badge *ngIf="item?.badgeType == 'count' && item.type != 'buttonGroup'" [nzCount]="item?.badgeCount">
                 <st-block-buttons-card [formlyModel]="formlyModel" [form]="form" [screenName]="screenName"
-                    (notify)="saveData($event)" [softIconList]="item">
+                     [softIconList]="item">
                 </st-block-buttons-card>
             </nz-badge>
             <nz-badge nzDot *ngIf="item?.badgeType == 'dot' && item.type != 'buttonGroup'">
                 <st-block-buttons-card [formlyModel]="formlyModel" [form]="form" [screenName]="screenName"
-                    (notify)="saveData($event)" [softIconList]="item">
+                     [softIconList]="item">
                 </st-block-buttons-card></nz-badge>
             <st-block-buttons-card *ngIf="item?.badgeType == undefined || item?.badgeType == 'none'"
-                (notify)="saveData($event)" [formlyModel]="formlyModel" [form]="form" [screenName]="screenName"
+                 [formlyModel]="formlyModel" [form]="form" [screenName]="screenName"
                 [softIconList]="item">
             </st-block-buttons-card>
         </div>
@@ -226,7 +226,7 @@
                 <div
                     *ngIf="data.type == 'button' || data.type == 'linkButton' || data.type == 'buttonGroup' || item.type =='dropdownButton'">
                     <st-block-buttons-card [formlyModel]="formlyModel" [form]="form" [screenName]="screenName"
-                        (notify)="saveData($event)" [softIconList]="data">
+                         [softIconList]="data">
                     </st-block-buttons-card>
                 </div>
             </div>

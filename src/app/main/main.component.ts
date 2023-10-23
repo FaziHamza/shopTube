@@ -189,6 +189,7 @@ export class MainComponent implements OnInit {
   }
   updatedData(event: any) {
     debugger
+    return;
     let accordingList = event;
     let data = accordingList.data;
     let accordionData = accordingList.screenData;

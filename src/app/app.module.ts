@@ -30,7 +30,7 @@ import { GoogleMapsService } from './services/google-maps.service';
 import { Screenv1Component } from './Builder-module/screenv1/screenv1.component';
 import { MenuBulkUpdateComponent } from './menu-builder/menu-bulk-update/menu-bulk-update.component';
 import { EnvService } from './shared/envoirment.service';
-import { Router } from '@angular/router';
+import { RouteReuseStrategy, Router } from '@angular/router';
 import { AuthInterceptor } from './shared/interceptor';
 import { ApiService } from './shared/api.service';
 import { AuthModule } from './auth/auth.module';
@@ -56,6 +56,7 @@ import { PolicyComponent } from './admin/policy/policy.component';
 import { PolicyMappingComponent } from './admin/policy-mapping/policy-mapping.component';
 import { UserMappingComponent } from './admin/user-mapping/user-mapping.component';
 import { PolicyMappingTableComponent } from './admin/policy-mapping/policy-mapping-table/policy-mapping-table.component';
+import { CustomReuseStrategy } from './custom-reuse-strategy';
 
 @NgModule({
   declarations: [
@@ -111,6 +112,7 @@ import { PolicyMappingTableComponent } from './admin/policy-mapping/policy-mappi
     // NzIconModule.forRoot([ SettingOutline  ]),
   ],
   providers: [
+    { provide: RouteReuseStrategy, useClass: CustomReuseStrategy },
     CommonService,
     { provide: NZ_I18N, useValue: en_US },
     { provide: NZ_ICONS, useValue: icons },

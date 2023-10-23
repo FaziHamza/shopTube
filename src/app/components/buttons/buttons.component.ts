@@ -23,7 +23,6 @@ export class ButtonsComponent implements OnInit {
   @Input() formlyModel: any;
   @Input() form: any;
   @Input() screenName: any;
-  @Output() notify: EventEmitter<any> = new EventEmitter();
   bgColor: any;
   hoverTextColor: any;
   dataSrc: any;
@@ -165,8 +164,9 @@ export class ButtonsComponent implements OnInit {
 
     // this.getButtonType(buttonData.type);
     this.pagesRoute(buttonData);
-    // this.notify.emit(buttonData);
     if ((!buttonData.captureData || buttonData.captureData == 'sectionLevel') && buttonData.isSubmit) {
+      this.dataSharedService.buttonData = buttonData;
+      this.dataSharedService.saveModel = this.formlyModel;
       this.dataSharedService.sectionSubmit.next(buttonData);
     } else if (buttonData.captureData == 'pageLevel' && buttonData.isSubmit) {
       this.dataSharedService.pageSubmit.next(buttonData);
@@ -228,5 +228,9 @@ export class ButtonsComponent implements OnInit {
         }
       }
     }
+  }
+  logout(){
+    localStorage.clear();
+    this.router.navigate(['/login']);
   }
 }

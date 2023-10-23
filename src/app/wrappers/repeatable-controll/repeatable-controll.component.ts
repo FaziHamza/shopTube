@@ -3,6 +3,8 @@ import { FieldArrayType, FieldType, FieldTypeConfig } from '@ngx-formly/core';
 import { DataSharedService } from 'src/app/services/data-shared.service';
 import { FormArray, FormBuilder, FormGroup, UntypedFormControl, Validators } from '@angular/forms';
 import { Subscription } from 'rxjs';
+import { ApplicationService } from 'src/app/services/application.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'st-repeatable-controll',
@@ -14,7 +16,8 @@ export class RepeatableControllComponent extends FieldType<FieldTypeConfig> {
   myForm: FormGroup;
   @ViewChild('fileInput') fileInput!: ElementRef<HTMLInputElement>;
   imageUrl: any;
-  constructor(public dataSharedService: DataSharedService, private formBuilder: FormBuilder) {
+  imagePath = environment.nestImageUrl;
+  constructor(public dataSharedService: DataSharedService, private formBuilder: FormBuilder , private applicationService: ApplicationService) {
     super();
   }
   ngOnInit(): void {
@@ -23,7 +26,7 @@ export class RepeatableControllComponent extends FieldType<FieldTypeConfig> {
     });
     this.addFieldGroup(); // Add an initial field group
     this.dataSharedService.spectrumControlNull.subscribe(res => {
-      if (res){
+      if (res) {
         this.clearAllFieldGroups();
       }
     });
@@ -78,52 +81,71 @@ export class RepeatableControllComponent extends FieldType<FieldTypeConfig> {
 
   uploadFile(file: File, index: number) {
     debugger
-    const reader = new FileReader();
-    if (file) {
-      if (file.type === 'application/json') {
-        reader.onload = () => {
-          const base64Data = reader.result as string;
-          const makeData = JSON.parse(base64Data);
-          let data = makeData.screenData ? makeData.screenData : makeData;
-          const currentData = JSON.parse(
-            JSON.stringify(data, function (key, value) {
-              if (typeof value === 'function') {
-                return value.toString();
-              } else {
-                return value;
-              }
-            }) || '{}'
-          );
-          // this.formControl.setValue(JSON.stringify(currentData));
-          // this.dataSharedService.onChange(JSON.stringify(currentData), this.field);
-          this.myForm.value.fieldGroups[index]['equipmentBroucher'] = currentData;
-          this.myForm.value.fieldGroups[index]['equipmentBroucher_base64'] = currentData;
-          this.fieldGroups.at(index).get('equipmentBroucher_base64')?.setValue(currentData);
-          this.fieldGroups.at(index).get('equipmentBroucher')?.setValue('');
-          this.onModelChange(null, null)
-        };
-
-        reader.readAsText(file); // Read the JSON file as text
+    const formData = new FormData();
+    formData.append('image', file);
+    this.applicationService.uploadS3File(formData).subscribe({
+      next: (res) => {
+        this.formControl.patchValue(this.imagePath + res.path);
+        this.myForm.value.fieldGroups[index]['equipmentBroucher'] = this.imagePath + res.path;
+        this.myForm.value.fieldGroups[index]['equipmentBroucher_base64'] = this.imagePath + res.path;
+        this.fieldGroups.at(index).get('equipmentBroucher_base64')?.setValue(this.imagePath + res.path);
+        this.fieldGroups.at(index).get('equipmentBroucher')?.setValue(this.imagePath + res.path);
+        this.onModelChange(null, null)
+        console.log('File uploaded successfully:', res);
+      },
+      error: (err) => {
+        console.error('Error uploading file:', err);
       }
-      else {
-        reader.readAsDataURL(file); // Read other types of files as data URL (base64)
-        reader.onload = () => {
-          const base64Data = reader.result as string;
-          this.dataSharedService.imageUrl = base64Data;
-          this.myForm.value.fieldGroups[index]['equipmentBroucher'] = base64Data;
-          this.myForm.value.fieldGroups[index]['equipmentBroucher_base64'] = base64Data;
-          this.fieldGroups.at(index).get('equipmentBroucher_base64')?.setValue(base64Data);
-          this.fieldGroups.at(index).get('equipmentBroucher')?.setValue('');
-          this.onModelChange(null, null)
-          // this.formControl.setValue(base64Data);
-          // this.dataSharedService.onChange(base64Data, this.field);
-        };
-      }
+    });
 
-      reader.onerror = (error) => {
-        console.error('Error converting file to base64:', error);
-      };
-    }
+
+
+    // const reader = new FileReader();
+    // if (file) {
+    //   if (file.type === 'application/json') {
+    //     reader.onload = () => {
+    //       const base64Data = reader.result as string;
+    //       const makeData = JSON.parse(base64Data);
+    //       let data = makeData.screenData ? makeData.screenData : makeData;
+    //       const currentData = JSON.parse(
+    //         JSON.stringify(data, function (key, value) {
+    //           if (typeof value === 'function') {
+    //             return value.toString();
+    //           } else {
+    //             return value;
+    //           }
+    //         }) || '{}'
+    //       );
+    //       // this.formControl.setValue(JSON.stringify(currentData));
+    //       // this.dataSharedService.onChange(JSON.stringify(currentData), this.field);
+    //       this.myForm.value.fieldGroups[index]['equipmentBroucher'] = currentData;
+    //       this.myForm.value.fieldGroups[index]['equipmentBroucher_base64'] = currentData;
+    //       this.fieldGroups.at(index).get('equipmentBroucher_base64')?.setValue(currentData);
+    //       this.fieldGroups.at(index).get('equipmentBroucher')?.setValue('');
+    //       this.onModelChange(null, null)
+    //     };
+
+    //     reader.readAsText(file); // Read the JSON file as text
+    //   }
+    //   else {
+    //     reader.readAsDataURL(file); // Read other types of files as data URL (base64)
+    //     reader.onload = () => {
+    //       const base64Data = reader.result as string;
+    //       this.dataSharedService.imageUrl = base64Data;
+    //       this.myForm.value.fieldGroups[index]['equipmentBroucher'] = base64Data;
+    //       this.myForm.value.fieldGroups[index]['equipmentBroucher_base64'] = base64Data;
+    //       this.fieldGroups.at(index).get('equipmentBroucher_base64')?.setValue(base64Data);
+    //       this.fieldGroups.at(index).get('equipmentBroucher')?.setValue('');
+    //       this.onModelChange(null, null)
+    //       // this.formControl.setValue(base64Data);
+    //       // this.dataSharedService.onChange(base64Data, this.field);
+    //     };
+    //   }
+
+    //   reader.onerror = (error) => {
+    //     console.error('Error converting file to base64:', error);
+    //   };
+    // }
 
   }
   // Function to clear the selected file and reset the form control value

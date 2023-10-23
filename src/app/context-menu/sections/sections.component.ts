@@ -1,7 +1,7 @@
 import { Component, OnInit, Input, EventEmitter, Output, ChangeDetectorRef } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { NzMessageService } from 'ng-zorro-antd/message';
-import { Subscription, elementAt } from 'rxjs';
+import { Subscription, catchError, elementAt, take } from 'rxjs';
 import { TreeNode } from 'src/app/models/treeNode';
 import { ApplicationService } from 'src/app/services/application.service';
 import { DataSharedService } from 'src/app/services/data-shared.service';
@@ -39,6 +39,7 @@ export class SectionsComponent implements OnInit {
     private applicationServices: ApplicationService, private cd: ChangeDetectorRef, private activatedRoute: ActivatedRoute, private router: Router) { }
 
   ngOnInit(): void {
+    this.clearValues();
     this.screenName;
     // let btnData = this.findObjectByTypeBase(this.sections, "butto  n");
     // if (btnData) {
@@ -49,16 +50,27 @@ export class SectionsComponent implements OnInit {
     //   let gridListData = this.findObjectByTypeBase(this.sections, "gridList");
     //   if (gridListData) {
     //     // this.getFromQueryOnlyTable(gridListData);
-    //   }
+    //   }  
     // }
+    // this.dataSharedService.sectionSubmit.pipe(
+    //   take(1),
+    //   catchError((error) => {
+
+    //     this.dataSharedService.sectionSubmit.next('Your custom error message');
+    //     return throwError(error); // Rethrow the error to be handled by the component
+    //   })
+    // ).subscribe((buttonData) => {
+    //   // Your subscription logic here
+    // });
+    // 
     this.requestSubscription = this.dataSharedService.sectionSubmit.subscribe({
       next: (res) => {
-        if (res) {
+        if (res && this.dataSharedService.buttonData) {
           const checkButtonExist = this.findObjectById(this.sections, res.id);
-          // const checkButtonExist = this.isButtonIdExist(this.sections.children[1].children, res.id);
           if (checkButtonExist?.appConfigurableEvent) {
-            event?.stopPropagation();
+            // event?.stopPropagation();
             let makeModel: any = {};
+            this.formlyModel = this.dataSharedService.saveModel;
             const filteredNodes = this.filterInputElements(this.sections.children[1].children);
             for (let item in this.formlyModel) {
               filteredNodes.forEach((element) => {
@@ -78,7 +90,6 @@ export class SectionsComponent implements OnInit {
                 }
               }
             }
-            // this.submit();
             if (Object.keys(makeModel).length > 0) {
               this.dataModel = this.convertModel(this.formlyModel);
               const allUndefined = Object.values(this.formlyModel).every((value) => value === undefined);
@@ -253,7 +264,7 @@ export class SectionsComponent implements OnInit {
             return;
           }
 
-          this.dataSharedService.sectionSubmit.next(false);
+
           findClickApi = data.appConfigurableEvent.filter((item: any) => item.rule.includes('post_'));
           if (findClickApi?.[0]?._id) {
             this.dataSharedService.imageUrl = '';
@@ -266,6 +277,7 @@ export class SectionsComponent implements OnInit {
                 }
               }
             });
+            this.dataSharedService.buttonData = '';
             this.saveLoader = true;
             this.requestSubscription = this.applicationServices.addNestCommonAPI('knex-query/execute-rules/' + findClickApi[0]?._id, empData).subscribe({
               next: (res) => {
@@ -286,6 +298,7 @@ export class SectionsComponent implements OnInit {
                     this.setInternalValuesEmpty(this.dataModel);
                     this.setInternalValuesEmpty(this.formlyModel);
                     this.form.patchValue(this.formlyModel);
+                    this.dataSharedService.formlyShowError.next(false)
                     if (tableName) {
                       this.recursiveUpdate(this.formlyModel, tableName, res)
                     }
@@ -314,7 +327,7 @@ export class SectionsComponent implements OnInit {
             alert("You did not have permission");
             return;
           }
-          this.dataSharedService.sectionSubmit.next(false);
+          // this.dataSharedService.sectionSubmit.next(false);
           findClickApi = data.appConfigurableEvent.filter((item: any) => item.rule.includes('put_'));
           if (this.dataModel) {
             // this.form.get(dynamicPropertyName);
@@ -323,24 +336,16 @@ export class SectionsComponent implements OnInit {
               postType: 'put',
               modalData: empData.modalData
             };
-            // const removePrefix = (data: Record<string, any>): Record<string, any> => {
-            //   const newData: Record<string, any> = {};
-            //   for (const key in data) {
-            //     const lastDotIndex = key.lastIndexOf('.');
-            //     const newKey = lastDotIndex !== -1 ? key.substring(lastDotIndex + 1) : key;
-            //     newData[newKey] = data[key];
-            //   }
-            //   return newData;
-            // };
+
 
             const result = {
               ...model,
               modalData: model.modalData
-              // modalData: removePrefix(model.modalData)
+              // modalData: removePrefix(model.modalData
             };
             // console.log(result);
             this.saveLoader = true;
-            this.dataSharedService.sectionSubmit.next(false);
+            this.dataSharedService.buttonData = '';
             this.requestSubscription = this.applicationServices.addNestCommonAPI('knex-query/execute-rules/' + findClickApi[0]._id, result).subscribe({
               next: (res) => {
                 this.saveLoader = false;
@@ -348,6 +353,7 @@ export class SectionsComponent implements OnInit {
                 this.setInternalValuesEmpty(this.dataModel);
                 this.setInternalValuesEmpty(this.formlyModel);
                 this.form.patchValue(this.formlyModel);
+                this.dataSharedService.formlyShowError.next(false)
                 this.getFromQuery(data);
                 if (window.location.href.includes('taskmanager.com')) {
                   this.dataSharedService.taskmanagerDrawer.next(true);
@@ -1465,5 +1471,8 @@ export class SectionsComponent implements OnInit {
   ngOnDestroy(): void {
     if (this.requestSubscription)
       this.requestSubscription.unsubscribe();
+  }
+  clearValues() {
+    this.formlyModel = {};
   }
 }

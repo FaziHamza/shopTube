@@ -22,7 +22,6 @@ export class BlockButtonsCardComponent {
   @Input() screenName: any;
   @Input() title: any;
   @Input() tableRowId: any;
-  @Output() notify: EventEmitter<any> = new EventEmitter();
   dataSrc: any;
   isShow: Boolean = false;
   nodes: TreeNode[];
@@ -102,8 +101,5 @@ export class BlockButtonsCardComponent {
 
     bgColor = hoverColor;
   }
-  saveData(data: any) {
 
-    this.notify.emit(data);
-  }
 }
