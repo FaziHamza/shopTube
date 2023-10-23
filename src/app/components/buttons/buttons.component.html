@@ -81,6 +81,9 @@
       <a [class]="buttonData?.optionLabelClass" *ngIf="!option.link">{{
         option.label }}</a>
     </li>
+    <li *ngIf="buttonData.logoutAllow" [class]="buttonData?.optionSubClass" nz-menu-item>
+      <a [class]="buttonData?.optionLabelClass" (click)="logout()">Logout</a>
+    </li>
   </ul>
 </nz-dropdown-menu>
 
@@ -103,8 +106,7 @@
 <!-- Drawer -->
 <div
   *ngIf="buttonData?.redirect == 'drawer' || buttonData?.redirect == 'largeDrawer'  || buttonData?.redirect == 'extraLargeDrawer'">
-  <nz-drawer
-    [nzWidth]="buttonData?.redirect == 'drawer' ? 800 : (buttonData?.redirect == 'largeDrawer' ? 1000 : 1200) "
+  <nz-drawer [nzWidth]="buttonData?.redirect == 'drawer' ? 800 : (buttonData?.redirect == 'largeDrawer' ? 1000 : 1200) "
     [nzVisible]="isVisible" (nzOnClose)="handleClose()">
     <ng-container *nzDrawerContent>
       <nz-spin [nzSpinning]="loader">

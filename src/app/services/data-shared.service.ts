@@ -7,10 +7,10 @@ import { BehaviorSubject, Observable, Subject } from 'rxjs';
 export class DataSharedService {
   // activeTabIndex = 0;
   private languageChange: BehaviorSubject<string> = new BehaviorSubject<string>('');
-  public change: Subject<{ event: any; field: any}> = new Subject();
+  public change: Subject<{ event: any; field: any }> = new Subject();
   public eventChange: Subject<any> = new Subject();
-  public gridData: Subject<{ event: any; field: any}> = new Subject();
-  public urlModule: Subject<{ aplication?: any ; module? : any}> = new Subject();
+  public gridData: Subject<{ event: any; field: any }> = new Subject();
+  public urlModule: Subject<{ aplication?: any; module?: any }> = new Subject();
   public currentDepartment: Subject<any> = new Subject();
   public currentHeader: Subject<any> = new Subject();
   public currentFooter: Subject<any> = new Subject();
@@ -35,28 +35,30 @@ export class DataSharedService {
   // public menus: Subject<any> = new Subject();
   // public currentApplication: Subject<any> = new Subject();
   // public defaultPage: Subject<any> = new Subject();
-  getUserPolicyMenuList:any[] = [];
-  currentMenuLink:string = '';
-  defaultPageNodes:any;
-  screenCommentList : any[] = [];
-  menuCommentList : any[] = []
-  checkContentForFixFooter : any;
-  commentId : any;
-  public menus : any;
-  currentUrl:any;
-  selectedNode:any;
-  screenModule:any;
-  nodes:any;
-  checkModule:any;
-  headerData:any = [];
-  footerData:any = [];
+  getUserPolicyMenuList: any[] = [];
+  currentMenuLink: string = '';
+  defaultPageNodes: any;
+  screenCommentList: any[] = [];
+  menuCommentList: any[] = []
+  checkContentForFixFooter: any;
+  commentId: any;
+  public menus: any;
+  currentUrl: any;
+  selectedNode: any;
+  screenModule: any;
+  nodes: any;
+  checkModule: any;
+  headerData: any = [];
+  footerData: any = [];
   public data: any;
-  copyJson : any = {};
-  selectApplication : any = '';
-  headerLogo : any = '';
-  applicationDefaultScreen : any = '';
-  usersData:any = [];
-  rightClickMenuData : any = '';
+  copyJson: any = {};
+  selectApplication: any = '';
+  headerLogo: any = '';
+  applicationDefaultScreen: any = '';
+  usersData: any = [];
+  rightClickMenuData: any = '';
+  buttonData: any = '';
+  saveModel: any = '';
   constructor() { }
 
   setData(data: any) {
@@ -75,7 +77,7 @@ export class DataSharedService {
   }
 
   saveGridData(data: any) {
-    this.gridData.next(data );
+    this.gridData.next(data);
   }
 
   // This variable is used for goTo build page through screen builder
@@ -83,12 +85,12 @@ export class DataSharedService {
   //make wrapper of image upload insput used in configuration of image upload
   imageUrl: any;
 
-  element:any;
+  element: any;
   getLanguageChange(): Observable<string> {
     return this.languageChange.asObservable();
   }
   setLanguageChange(val: string): void {
     this.languageChange.next(val);
   }
-  
+
 }
