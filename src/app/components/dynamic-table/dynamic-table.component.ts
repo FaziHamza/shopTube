@@ -2112,7 +2112,7 @@ export class DynamicTableComponent implements OnInit {
                 // Upload complete
                 this.progress = 100;
                 this.showProgressBar = false;
-                this.toastr.success('Import successfully', { nzDuration: 3000 });
+                // this.toastr.success('Import successfully', { nzDuration: 3000 });
                 this.fileUpload = ''; // This clears the file input
                 if (event.body.isSuccess) {
                   if (this.data.appConfigurableEvent) {
