@@ -28,6 +28,7 @@ export class ResetPasswordComponent implements OnInit {
   token: any;
   code: any;
   email: any;
+  siteKey :any = environment.recaptcha.siteKey;
   constructor(private authService: AuthService, private route: ActivatedRoute,private router:Router,
     private toastr: NzMessageService, private formBuilder: FormBuilder,) {
     this.route.queryParams.subscribe(params => {
@@ -68,7 +69,7 @@ export class ResetPasswordComponent implements OnInit {
 
   ngAfterViewInit() {
     // Reinitialize reCAPTCHA after the view has been initialized
-    grecaptcha.render('recaptcha', { sitekey: '6LcZ59MnAAAAAEFG5x2mJoJ_ptOFR7O2hSX0HHx3' });
+    grecaptcha.render('recaptcha', { sitekey: environment.recaptcha.siteKey });
   }
   submitForm(): void {
     debugger
