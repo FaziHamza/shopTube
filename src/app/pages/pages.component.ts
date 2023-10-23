@@ -18,7 +18,7 @@ import { FormGroup } from '@angular/forms';
   templateUrl: './pages.component.html',
   styleUrls: ['./pages.component.scss']
 })
-export class PagesComponent implements OnInit , OnDestroy {
+export class PagesComponent implements OnInit, OnDestroy {
   joiValidationData: TreeNode[] = [];
   @Input() data: any = [];
   @Input() resData: any = [];
@@ -51,9 +51,9 @@ export class PagesComponent implements OnInit , OnDestroy {
     private toastr: NzMessageService,
     private el: ElementRef,
     public dataSharedService: DataSharedService, private router: Router) {
-      debugger
-      // this.ngOnDestroy();
-      const changeSubscription = this.dataSharedService.change.subscribe(({ event, field }) => {
+    debugger
+    // this.ngOnDestroy();
+    const changeSubscription = this.dataSharedService.change.subscribe(({ event, field }) => {
       if (field && event && this.navigation)
         if (this.formlyModel) {
           // this.formlyModel[field.key] = event;
@@ -95,7 +95,7 @@ export class PagesComponent implements OnInit , OnDestroy {
 
 
     });
-    const gridDataSubscription  = this.dataSharedService.gridData.subscribe(res => {
+    const gridDataSubscription = this.dataSharedService.gridData.subscribe(res => {
       if (res)
         this.saveDataGrid(res);
     });
@@ -115,136 +115,138 @@ export class PagesComponent implements OnInit , OnDestroy {
   ngOnDestroy(): void {
     debugger
     try {
-      this.resData=[];
-        if (this.requestSubscription) {
-            this.requestSubscription.unsubscribe();
-        }
+      this.resData = [];
+      if (this.requestSubscription) {
+        this.requestSubscription.unsubscribe();
+      }
 
-        if (this.subscriptions) {
-            this.subscriptions.unsubscribe();
-        }
+      if (this.subscriptions) {
+        this.subscriptions.unsubscribe();
+      }
 
-        this.destroy$.next();             
-        this.destroy$.complete();
+      this.destroy$.next();
+      this.destroy$.complete();
     } catch (error) {
-        console.error('Error in ngOnDestroy:', error);
+      console.error('Error in ngOnDestroy:', error);
     }
-}
+  }
+  user:any;
   ngOnInit(): void {
     debugger
     this.initHighlightFalseSubscription();
     this.initPageSubmitSubscription();
     this.initEventChangeSubscription();
     this.initActivatedRouteSubscription();
-}
+    this.user = JSON.parse(localStorage.getItem('user')!);
+  }
 
-private initHighlightFalseSubscription(): void {
+  private initHighlightFalseSubscription(): void {
     const subscription = this.dataSharedService.highlightFalse.subscribe({
-        next: (res) => {
-            if (this.resData.length > 0 && res) {
-                this.removeHighlightRecursive(this.resData[0].children[1].children[0].children[1]);
-            }
-        },
-        error: (err) => {
-            console.error(err);
+      next: (res) => {
+        if (this.resData.length > 0 && res) {
+          this.removeHighlightRecursive(this.resData[0].children[1].children[0].children[1]);
         }
+      },
+      error: (err) => {
+        console.error(err);
+      }
     });
     this.subscriptions.add(subscription);
-}
+  }
 
-private initPageSubmitSubscription(): void {
+  private initPageSubmitSubscription(): void {
     const subscription = this.dataSharedService.pageSubmit.subscribe({
-        next: (res) => {
-            if (res) {
-                const checkButtonExist = this.findObjectById(this.resData[0], res.id);
-                if (checkButtonExist?.appConfigurableEvent) {
-                    event?.stopPropagation();
-                    let makeModel: any = {};
-                    const filteredNodes = this.filterInputElements(this.resData[0].children[1].children);
-                    for (let item in this.formlyModel) {
-                        filteredNodes.forEach((element) => {
-                            if (item == element.formly[0].fieldGroup[0].key) {
-                                makeModel[item] = this.formlyModel[item]
-                            }
-                        });
-                    }
-                    this.dataModel = makeModel;
-                    if (Object.keys(makeModel).length > 0) {
-                        for (const key in this.dataModel) {
-                            if (this.dataModel.hasOwnProperty(key)) {
-                                const value = this.getValueFromNestedObject(key, this.formlyModel);
-                                if (value !== undefined) {
-                                    this.dataModel[key] = this.dataModel[key] ? this.dataModel[key] : value;
-                                }
-                            }
-                        }
-                    }
-                    if (Object.keys(makeModel).length > 0) {
-                        this.dataModel = this.convertModel(this.formlyModel);
-                        const allUndefined = Object.values(this.formlyModel).every((value) => value === undefined);
-                        if (!allUndefined) {
-                            this.saveData(res)
-                        }
-                    }
+      next: (res) => {
+        if (res) {
+          const checkButtonExist = this.findObjectById(this.resData[0], res.id);
+          if (checkButtonExist?.appConfigurableEvent) {
+            event?.stopPropagation();
+            let makeModel: any = {};
+            const filteredNodes = this.filterInputElements(this.resData[0].children[1].children);
+            for (let item in this.formlyModel) {
+              filteredNodes.forEach((element) => {
+                if (item == element.formly[0].fieldGroup[0].key) {
+                  makeModel[item] = this.formlyModel[item]
                 }
+              });
             }
-        },
-        error: (err) => {
-            console.error(err);
+            this.dataModel = makeModel;
+            if (Object.keys(makeModel).length > 0) {
+              for (const key in this.dataModel) {
+                if (this.dataModel.hasOwnProperty(key)) {
+                  const value = this.getValueFromNestedObject(key, this.formlyModel);
+                  if (value !== undefined) {
+                    this.dataModel[key] = this.dataModel[key] ? this.dataModel[key] : value;
+                  }
+                }
+              }
+            }
+            if (Object.keys(makeModel).length > 0) {
+              this.dataModel = this.convertModel(this.formlyModel);
+              const allUndefined = Object.values(this.formlyModel).every((value) => value === undefined);
+              if (!allUndefined) {
+                this.saveData(res)
+              }
+            }
+          }
         }
+      },
+      error: (err) => {
+        console.error(err);
+      }
     });
     this.subscriptions.add(subscription);
-}
+  }
 
-private initEventChangeSubscription(): void {
+  private initEventChangeSubscription(): void {
     const subscription = this.dataSharedService.eventChange.subscribe({
-        next: (res) => {
-            if (res) {
-                for (let index = 0; index < res.length; index++) {
-                    const element = res[index].actions?.[0]?.componentFrom;
-                    let findObj = this.findObjectByKey(this.resData[0], element);
-                    if (findObj) {
-                        if (findObj?.formlyType === 'input') {
-                            this.applicationService.getBackendCommonAPI(res[index].actions?.[0]?.url).subscribe(res => {
-                                if (res) {
-                                    //... the rest of your logic ...
-                                }
-                            });
-                        }
-                    }
-                }
+      next: (res) => {
+        if (res) {
+          for (let index = 0; index < res.length; index++) {
+            const element = res[index].actions?.[0]?.componentFrom;
+            let findObj = this.findObjectByKey(this.resData[0], element);
+            if (findObj) {
+              if (findObj?.formlyType === 'input') {
+                this.applicationService.getBackendCommonAPI(res[index].actions?.[0]?.url).subscribe(res => {
+                  if (res) {
+                    //... the rest of your logic ...
+                  }
+                });
+              }
             }
-        },
-        error: (err) => {
-            console.error(err);
+          }
         }
+      },
+      error: (err) => {
+        console.error(err);
+      }
     });
     this.subscriptions.add(subscription);
-}
+  }
 
-private initActivatedRouteSubscription(): void {
-  debugger
+  private initActivatedRouteSubscription(): void {
+    debugger
     if (this.data.length == 0) {
-        const subscription = this.activatedRoute.params.subscribe((params: Params) => {
-            if (params["schema"]) {
-                this.saveLoader = true;
-                this.dataSharedService.currentMenuLink = "/pages/" + params["schema"];
-                this.resData = [];
-                this.applicationService.getNestCommonAPI('cp/auth/pageAuth/' + params["schema"]).subscribe(res => {
-                    if (res?.data) {
-                        this.initiliaze(params);
-                    } else {
-                        this.saveLoader = false;
-                        this.router.navigateByUrl('permission-denied');
-                    }
-                });
+      const subscription = this.activatedRoute.params.subscribe((params: Params) => {
+        if (params["schema"]) {
+          this.saveLoader = true;
+          this.dataSharedService.currentMenuLink = "/pages/" + params["schema"];
+          this.resData = [];
+          this.applicationService.getNestCommonAPI('cp/auth/pageAuth/' + params["schema"]).subscribe(res => {
+            if (res?.data) {
+              this.initiliaze(params);
+            } else {
+              this.saveLoader = false;
+              this.router.navigateByUrl('permission-denied');
             }
-        });
-        this.subscriptions.add(subscription);
+          });
+        }
+      });
+      this.subscriptions.add(subscription);
     } else {
-        this.initiliaze('');
+      this.initiliaze('');
     }
-}
+  }
 
   initiliaze(params: any) {
     debugger
@@ -275,23 +277,23 @@ private initActivatedRouteSubscription(): void {
     else if (this.data.length > 0) {
 
       this.applicationService.getNestCommonAPIById("cp/CacheRule", this.data[0].data[0].screenBuilderId)
-      .pipe(
-        takeUntil(this.destroy$)
-      ).subscribe({
-        next: (rule: any) => {
-          this.saveLoader = false;
-          // if(rule.isSuccess)
-          this.getCacheRule(rule);
-          this.actionsBindWithPage(this.data[0]);
-        },
-        error: (err) => {
-          this.saveLoader = false;
-          this.actionsBindWithPage(this.data[0]);
-          console.error(err);
-          // this.toastr.error("An error occurred", { nzDuration: 3000 });
-        }
-      });
-      
+        .pipe(
+          takeUntil(this.destroy$)
+        ).subscribe({
+          next: (rule: any) => {
+            this.saveLoader = false;
+            // if(rule.isSuccess)
+            this.getCacheRule(rule);
+            this.actionsBindWithPage(this.data[0]);
+          },
+          error: (err) => {
+            this.saveLoader = false;
+            this.actionsBindWithPage(this.data[0]);
+            console.error(err);
+            // this.toastr.error("An error occurred", { nzDuration: 3000 });
+          }
+        });
+
 
       // this.requestSubscription = this.applicationService.getNestCommonAPIById("cp/ActionRule", this.data[0].data[0].screenBuilderId).subscribe({
       //   next: (actions: any) => {
@@ -308,7 +310,7 @@ private initActivatedRouteSubscription(): void {
   }
   getBuilderScreen(params: any) {
     this.saveLoader = true;
-  
+
     this.applicationService.getNestCommonAPIById('cp/Builder', params["schema"]).subscribe({
       next: (res: any) => {
         if (res.isSuccess && res.data.length > 0) {
@@ -418,7 +420,7 @@ private initActivatedRouteSubscription(): void {
     const screenData = JSON.parse(this.jsonStringifyWithObject(this.resData));
     this.resDataMaster = screenData
     this.checkDynamicSection();
-    this.uiRuleGetData({ key: 'text_f53ed35b', id: 'formly_86_input_text_f53ed35b_0' }); 
+    this.uiRuleGetData({ key: 'text_f53ed35b', id: 'formly_86_input_text_f53ed35b_0' });
 
     this.applicationService.callApi('knex-query/getAction/65001460e9856e9578bcb63f', 'get', '', '', `'${res.data[0].navigation}'`).subscribe({
       next: (response: any) => {
@@ -1138,7 +1140,7 @@ private initActivatedRouteSubscription(): void {
     }) || '{}'
   }
 
- 
+
   uiRuleGetData(moduleId: any) {
     this.makeFaker();
     this.checkConditionUIRule({ key: 'text_f53ed35b', id: 'formly_86_input_text_f53ed35b_0' }, '');
@@ -1737,8 +1739,9 @@ private initActivatedRouteSubscription(): void {
       try {
         this.requestSubscription = this.applicationService.getNestCommonAPI(api).subscribe({
           next: (res) => {
-            if(res){
-              if(res?.data){
+            this.saveLoader = false;
+            if (res) {
+              if (res?.data) {
                 if (res?.data.length > 0) {
                   for (let index = 0; index < res.data.length; index++) {
                     const item = res.data[index];
