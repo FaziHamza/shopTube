@@ -130,12 +130,14 @@ export class PagesComponent implements OnInit, OnDestroy {
       console.error('Error in ngOnDestroy:', error);
     }
   }
+  user:any;
   ngOnInit(): void {
     debugger
     this.initHighlightFalseSubscription();
     this.initPageSubmitSubscription();
     this.initEventChangeSubscription();
     this.initActivatedRouteSubscription();
+    this.user = JSON.parse(localStorage.getItem('user')!);
   }
 
   private initHighlightFalseSubscription(): void {
