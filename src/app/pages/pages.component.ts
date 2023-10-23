@@ -51,6 +51,8 @@ export class PagesComponent implements OnInit , OnDestroy {
     private toastr: NzMessageService,
     private el: ElementRef,
     public dataSharedService: DataSharedService, private router: Router) {
+      debugger
+      // this.ngOnDestroy();
       const changeSubscription = this.dataSharedService.change.subscribe(({ event, field }) => {
       if (field && event && this.navigation)
         if (this.formlyModel) {
@@ -111,7 +113,9 @@ export class PagesComponent implements OnInit , OnDestroy {
   }
 
   ngOnDestroy(): void {
+    debugger
     try {
+      this.resData=[];
         if (this.requestSubscription) {
             this.requestSubscription.unsubscribe();
         }
@@ -126,11 +130,8 @@ export class PagesComponent implements OnInit , OnDestroy {
         console.error('Error in ngOnDestroy:', error);
     }
 }
-
-
-  
- 
   ngOnInit(): void {
+    debugger
     this.initHighlightFalseSubscription();
     this.initPageSubmitSubscription();
     this.initEventChangeSubscription();
@@ -222,6 +223,7 @@ private initEventChangeSubscription(): void {
 }
 
 private initActivatedRouteSubscription(): void {
+  debugger
     if (this.data.length == 0) {
         const subscription = this.activatedRoute.params.subscribe((params: Params) => {
             if (params["schema"]) {
@@ -245,6 +247,7 @@ private initActivatedRouteSubscription(): void {
 }
 
   initiliaze(params: any) {
+    debugger
     if (this.data.length == 0) {
       if (params["schema"]) {
 
