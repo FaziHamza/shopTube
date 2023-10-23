@@ -5291,7 +5291,7 @@ nz-content {
 }
 
 .ant-spin-dot-item {
-  background-color: $main;
+  background-color: #fbbf24 !important;
 }
 
 .dynamic-menu {
@@ -6541,8 +6541,8 @@ tr:hover {
       }
 
       td:first-child {
-        background-color: $primary-color !important;
-        color: #fff !important;
+        background-color: #fcd34d !important;
+        color: #0f172a !important;
         width: 30% !important;
         display: inline-flex !important;
         justify-content: start;

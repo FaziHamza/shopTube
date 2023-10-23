@@ -115,7 +115,7 @@ export class PagesComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     debugger
     try {
-      this.resData = [];
+      this.clearValues();
       if (this.requestSubscription) {
         this.requestSubscription.unsubscribe();
       }
@@ -130,14 +130,12 @@ export class PagesComponent implements OnInit, OnDestroy {
       console.error('Error in ngOnDestroy:', error);
     }
   }
-  user:any;
   ngOnInit(): void {
     debugger
     this.initHighlightFalseSubscription();
     this.initPageSubmitSubscription();
     this.initEventChangeSubscription();
     this.initActivatedRouteSubscription();
-    this.user = JSON.parse(localStorage.getItem('user')!);
   }
 
   private initHighlightFalseSubscription(): void {
@@ -231,7 +229,7 @@ export class PagesComponent implements OnInit, OnDestroy {
         if (params["schema"]) {
           this.saveLoader = true;
           this.dataSharedService.currentMenuLink = "/pages/" + params["schema"];
-          this.resData = [];
+          this.clearValues();
           this.applicationService.getNestCommonAPI('cp/auth/pageAuth/' + params["schema"]).subscribe(res => {
             if (res?.data) {
               this.initiliaze(params);
@@ -2535,5 +2533,10 @@ export class PagesComponent implements OnInit, OnDestroy {
       value = value[k];
     }
     return value;
+  }
+  clearValues() {
+    this.resData = [];
+    this.resDataMaster = [];
+    this.formlyModel = {};
   }
 }

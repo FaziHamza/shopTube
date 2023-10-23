@@ -91,6 +91,7 @@ export class FormlyFieldImageUploadComponent extends FieldWrapper<FieldTypeConfi
     debugger
     const formData = new FormData();
     formData.append('image', file);
+    // this is used on configuration when response come then user can save configuration
     this.sharedService.gericFieldLoader.next(true);
     this.applicationService.uploadS3File(formData).subscribe({
       next: (res) => {
