@@ -22,8 +22,8 @@
 // @import "assets/style/main.min.scss";
 @import "output.css";
 
-$primary-color : #2563EB;
-$primary-hover-color : #3b82f6;
+$primary-color : #fcd34d;
+$primary-hover-color : #fcd34d;
 
 body {
   font-family: Roboto, "Helvetica Neue", sans-serif, Rubik, sans-serif;
@@ -7261,7 +7261,7 @@ tr:hover {
     height: 35px !important;
     flex-shrink: 0 !important;
     border-radius: 6px !important;
-    background: #2563EB !important;
+    background: #fcd34d !important;
     color: #FFF !important;
     font-size: 14px !important;
     font-style: normal !important;
@@ -7283,8 +7283,8 @@ tr:hover {
   }
 
   .fc-button-group .fc-button-active {
-    border: 2px solid #2563EB !important;
-    color: #2563EB !important;
+    border: 2px solid #fcd34d !important;
+    color: #fcd34d !important;
     background: #fff !important;
     // &:hover{
     //   border: 2px solid transparent !important;
@@ -7293,7 +7293,7 @@ tr:hover {
 
   .fc-toolbar-chunk .fc-button-group .fc-prev-button,
   .fc-next-button {
-    background: #2563EB !important;
+    background: #fcd34d !important;
     height: 35px !important;
     border-radius: 6px !important;
     width: 35px !important;
@@ -7836,9 +7836,4 @@ input[type=file]::file-selector-button:hover {
   .mini {
     padding-top: 16px;
   }
-}
-
-
-.ant-spin-nested-loading > div > .ant-spin {
-  max-height: 100% !important;
 }
