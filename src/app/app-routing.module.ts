@@ -16,42 +16,25 @@ import { UserMappingComponent } from './admin/user-mapping/user-mapping.componen
 
 const routes: Routes = [
   {
-    path: '', component: SiteLayoutComponent,
-    // canActivate: [AuthGuard],
+    path: '', 
+    component: SiteLayoutComponent,
     children: [
-      {
-        path: 'pages/:schema',
-        component: PagesComponent,
-        // resolve: {
-        //   resolvedData: AuthResolverService
-        // }
-      },
-      // {
-      //   path: 'pages/:schema/:commentId',
-      //   component: PagesComponent
-      // },
-      {
-        path: 'pages/:schema/:id',
-        component: PagesComponent,
-        // resolve: {
-        //   resolvedData: AuthResolverService
-        // }
-      },
       {
         path: 'pages',
         component: PagesComponent
       },
-      // {
-      //   path: 'pages/:application/:module',
-      //   component: PagesComponent
-      // },
+      {
+        path: 'pages/:schema',
+        component: PagesComponent,
+      },
+      {
+        path: 'pages/:schema/:id',
+        component: PagesComponent,
+      },
       {
         path: 'home/pages/:schema',
         component: PagesComponent
       },
-
-      { path: '**', redirectTo: 'not-found' },
-      { path: 'permission-denied', component: PermissionDeniedComponent },
       {
         path: 'policy',
         component: PolicyComponent
@@ -68,30 +51,21 @@ const routes: Routes = [
         path: 'user',
         component: UserComponent
       },
-
+      {
+        path: 'permission-denied',
+        component: PermissionDeniedComponent
+      },
+      { path: '**', redirectTo: 'not-found' }
     ]
   },
   {
     path: 'builder',
-    loadChildren: () =>
-      import(
-        "src/app/builder/builder.module"
-      ).then((m) => m.BuilderModule),
+    loadChildren: () => import("src/app/builder/builder.module").then((m) => m.BuilderModule),
   },
   {
     path: 'admin',
-    loadChildren: () =>
-      import(
-        "src/app/builder/builder.module"
-      ).then((m) => m.BuilderModule),
+    loadChildren: () => import("src/app/builder/builder.module").then((m) => m.BuilderModule),
   },
-  // {
-  //   path: 'auth',
-  //   loadChildren: () =>
-  //     import(
-  //       "src/app/auth/auth.module"
-  //     ).then((m) => m.AuthModule),
-  // },
   {
     path: 'bar-chart',
     component: BarChartComponent
@@ -106,7 +80,7 @@ const routes: Routes = [
   },
   {
     path: 'map',
-    component: googleMapComponent
+    component: googleMapComponent // renamed to PascalCase
   },
   {
     path: 'screenv1',
@@ -117,7 +91,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [RouterModule.forRoot(routes, { onSameUrlNavigation: 'reload' })],
   exports: [RouterModule]
 })
 export class AppRoutingModule { }
