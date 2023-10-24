@@ -124,6 +124,8 @@ export class SiteLayoutComponent implements OnInit {
       if (check) {
         this.currentUrl = this.currentUrl.split(':')[0];
         this.getMenuByDomainName(this.currentUrl, true);
+      }else{
+        this.getMenuByDomainName(this.currentUrl, true);
       }
     }
     this.requestSubscription = this.dataSharedService.urlModule.subscribe(({ aplication, module }) => {
