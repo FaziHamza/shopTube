@@ -19,7 +19,7 @@
         </div>
         <div class="page-selector !mr-0">
             <button nz-button nzType="primary" (click)="getPolicyMenu()"
-                class="btn-no  !bg-blue-600 !border-none hover:!bg-blue-500"><i
+                class="btn  !rounded !bg-amber-300 hover:!bg-amber-300 !text-slate-900 hover:text-white !border !border-transparent !hover:border-transparent !font-md"><i
                     class="fa-regular mr-1.5 fa-magnifying-glass"></i> Search</button>
         </div>
     </div>
@@ -33,7 +33,7 @@
             <button nz-button  class="btn-no !border !border-gray-300 !text-gray-800 hover:!text-blue-600 hover:!border-blue-600 mr-2" (click)="selectAll()">
                 <i class="fa-regular fa-list mr-1.5"></i>
                 Select All</button>
-            <button nz-button *ngIf="isSubmit" nzType="primary" class="btn" (click)="onSubmit()">
+            <button nz-button *ngIf="isSubmit" nzType="primary" class="btn !rounded !bg-amber-300 hover:!bg-amber-300 !text-slate-900 hover:text-white !border !border-transparent !hover:border-transparent !font-md" (click)="onSubmit()">
                 <i class="fa-solid fa-arrow-up-from-bracket mr-1.5"></i>
                 Submit</button>
             <button nz-button *ngIf="isSubmit" nzType="primary" nzDanger
