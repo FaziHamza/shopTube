@@ -4652,6 +4652,7 @@ export class BuilderComponent implements OnInit {
         break;
 
       case 'dropdownButton':
+      
         this.selectedNode.btnIcon = event.form?.icon;
         if (event.tableDta) {
           this.selectedNode.dropdownOptions = event.tableDta;

@@ -15,17 +15,25 @@ import { environment } from 'src/environments/environment';
 export class LoginComponent implements OnInit {
   passwordType: string = "password";
   passwordIcon: string = "fa-light fa-eye-slash text-lg";
-  ngAfterViewInit() {
-    grecaptcha.execute();
-  }
+  // ngAfterViewInit() {
+  //   // Render reCAPTCHA using the reCAPTCHA site key
+  //   grecaptcha.render('recaptcha', {
+  //     sitekey: environment.recaptcha.siteKey,
+  //     callback: (response) => {
+  //       // Handle the reCAPTCHA response token (e.g., send it to your server)
+  //       console.log('reCAPTCHA response token:', response);
+  //     }
+  //   });
+  // }
   ngOnDestroy() {
-   
+
   }
 
 
   recaptchaResponse = '';
   ngOnInit(): void {
-    grecaptcha.render('recaptcha', { sitekey: environment.recaptcha.siteKey });
+    this.loadScript();
+    // grecaptcha.render('recaptcha', { sitekey: environment.recaptcha.siteKey });
     // init Form
     this.create();
     this.cdr.detectChanges();
@@ -40,7 +48,7 @@ export class LoginComponent implements OnInit {
     private commonService: CommonService,
     private cdr: ChangeDetectorRef,
     private toastr: NzMessageService,
-  ) { 
+  ) {
 
   }
   showRecaptcha: boolean = false;
@@ -117,4 +125,15 @@ export class LoginComponent implements OnInit {
     this.passwordType = this.passwordType == 'password' ? 'string' : 'password';
     this.passwordIcon = this.passwordIcon == 'fa-light fa-eye-slash text-lg' ? 'fa-light fa-eye text-lg' : 'fa-light fa-eye-slash text-lg'
   }
+  reloadPage() {
+    location.reload();
+  }
+  loadScript() {
+    const script = document.createElement('script');
+    script.src = 'https://www.google.com/recaptcha/api.js';
+    script.async = true;
+    script.defer = true;
+    document.body.appendChild(script);
+  }
+  
 }

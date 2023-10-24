@@ -43,6 +43,10 @@ export class ButtonsComponent implements OnInit {
   ngOnInit(): void {
     this.hoverTextColor = this.buttonData?.textColor ? this.buttonData?.textColor : '';
     this.bgColor = this.buttonData?.color ? this.buttonData?.color : '';
+    if (this.buttonData.title === '$user') {
+      const userData = JSON.parse(localStorage.getItem('user')!);
+      this.buttonData.title = userData.username;
+    }
   }
 
   pagesRoute(data: any): void {
