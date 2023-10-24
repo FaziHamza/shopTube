@@ -29,7 +29,7 @@ export class RegisterComponent implements OnInit {
   showRecaptcha: boolean = false;
   recaptchaResponse = '';
   isFormSubmit: boolean = false;
-  constructor(private applicationService: ApplicationService, private authService: AuthService,private router:Router,
+  constructor(private applicationService: ApplicationService, private authService: AuthService, private router: Router,
     private toastr: NzMessageService, private formBuilder: FormBuilder,) { }
 
   ngOnInit(): void {
@@ -169,8 +169,11 @@ export class RegisterComponent implements OnInit {
     }
   }
   ngAfterViewInit() {
-    // Reinitialize reCAPTCHA after the view has been initialized
-    grecaptcha.render('recaptcha', { sitekey: environment.recaptcha.siteKey });
+    grecaptcha.execute();
+  }
+  ngOnDestroy() {
+    // Reset reCAPTCHA in the ngOnDestroy method to clean up when the component is destroyed
+    grecaptcha.reset();
   }
   submitForm(): void {
     debugger
@@ -204,8 +207,7 @@ export class RegisterComponent implements OnInit {
       "domain": window.location.host.split(':')[0],
     }
     console.log(obj);
-    if(!this.form.value?.remember)
-    {
+    if (!this.form.value?.remember) {
       this.toastr.warning("Please accept the term and conditions", { nzDuration: 2000 });
       return;
     }
