@@ -16,13 +16,16 @@ export class LoginComponent implements OnInit {
   passwordType: string = "password";
   passwordIcon: string = "fa-light fa-eye-slash text-lg";
   ngAfterViewInit() {
-    // Reinitialize reCAPTCHA after the view has been initialized
-    grecaptcha.render('recaptcha', { sitekey: environment.recaptcha.siteKey });
+    grecaptcha.execute();
+  }
+  ngOnDestroy() {
+   
   }
 
 
   recaptchaResponse = '';
   ngOnInit(): void {
+    grecaptcha.render('recaptcha', { sitekey: environment.recaptcha.siteKey });
     // init Form
     this.create();
     this.cdr.detectChanges();
@@ -37,7 +40,9 @@ export class LoginComponent implements OnInit {
     private commonService: CommonService,
     private cdr: ChangeDetectorRef,
     private toastr: NzMessageService,
-  ) { }
+  ) { 
+
+  }
   showRecaptcha: boolean = false;
   isFormSubmit: boolean = false;
   form: FormGroup;

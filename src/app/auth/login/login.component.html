@@ -94,7 +94,8 @@
         <div class="w-full lg:w-1/2 h-full flex justify-center box-border items-center">
             <div class="w-full flex items-center flex-col">
                 <div class="w-full flex justify-center mb-2 md:my-5 items px-5 md:px-7">
-                    <p class="text-3xl sm:text-4xl mb-3 !text-left not-italic font-bold leading-[30px] tracking-[0.2px] text-[#0F172A]">
+                    <p
+                        class="text-3xl sm:text-4xl mb-3 !text-left not-italic font-bold leading-[30px] tracking-[0.2px] text-[#0F172A]">
                         Sign In To Your Account
                     </p>
                 </div>
@@ -119,12 +120,13 @@
                             </ng-template>
                         </div>
 
-                        <div class="w-full flex justify-center items-center relative py-4" >
+                        <div class="w-full flex justify-center items-center relative py-4">
                             <nz-input-group [nzPrefix]="prefixTemplatepass" [nzSuffix]="suffixTemplateInfo"
                                 class="!w-full md:!w-[360px] relative !rounded-md py-2 px-4 !h-[46px]">
                                 <input [type]="passwordType" formControlName="password" nz-input
                                     placeholder="Password" />
-                                    <app-error class="absolute left-0 bottom-[-25px]" [form_control]="f['password']" [isSubmitted]="isFormSubmit"></app-error>
+                                <app-error class="absolute left-0 bottom-[-25px]" [form_control]="f['password']"
+                                    [isSubmitted]="isFormSubmit"></app-error>
                             </nz-input-group>
                             <ng-template #prefixTemplatepass>
                                 <i class="fa-regular fa-lock-keyhole mr-3 text-lg"></i>
@@ -134,7 +136,7 @@
                             </ng-template>
                         </div>
                     </div>
-                    <div class="my-5">
+                    <div #captchaContainer class="my-5">
                         <div class="reCaptcha" id="recaptcha" class="g-recaptcha"
                             data-sitekey="6LcZ59MnAAAAAEFG5x2mJoJ_ptOFR7O2hSX0HHx3"></div>
                     </div>
