@@ -55,6 +55,9 @@ export class PolicyMappingComponent implements OnInit {
     {
       name: 'Delete',
     },
+    {
+      name: 'Hide',
+    },
   ];
   constructor(
     public builderService: BuilderService,

@@ -137,6 +137,7 @@ export class PagesComponent implements OnInit, OnDestroy {
     this.initPageSubmitSubscription();
     this.initEventChangeSubscription();
     this.initActivatedRouteSubscription();
+    this.loaderFromFileUploadSubscription();
     this.user = JSON.parse(localStorage.getItem('user')!);
   }
 
@@ -146,6 +147,17 @@ export class PagesComponent implements OnInit, OnDestroy {
         if (this.resData.length > 0 && res) {
           this.removeHighlightRecursive(this.resData[0].children[1].children[0].children[1]);
         }
+      },
+      error: (err) => {
+        console.error(err);
+      }
+    });
+    this.subscriptions.add(subscription);
+  }
+  private loaderFromFileUploadSubscription(): void {
+    const subscription = this.dataSharedService.highlightFalse.subscribe({
+      next: (res) => {
+        this.saveLoader = res;
       },
       error: (err) => {
         console.error(err);

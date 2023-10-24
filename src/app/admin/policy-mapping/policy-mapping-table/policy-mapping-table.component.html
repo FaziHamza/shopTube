@@ -27,6 +27,9 @@
                 <td>
                     <label nz-checkbox [(ngModel)]="row.delete"></label>
                 </td>
+                <td>
+                    <label nz-checkbox [(ngModel)]="row['hideExpression']"></label>
+                </td>
             </tr>
             <tr [nzExpand]="row.expand">
                 <ng-container  *ngTemplateOutlet="recursiveTemplate; context: { $implicit: row.children }"></ng-container>

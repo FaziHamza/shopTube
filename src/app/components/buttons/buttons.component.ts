@@ -43,9 +43,10 @@ export class ButtonsComponent implements OnInit {
   ngOnInit(): void {
     this.hoverTextColor = this.buttonData?.textColor ? this.buttonData?.textColor : '';
     this.bgColor = this.buttonData?.color ? this.buttonData?.color : '';
-    if (this.buttonData.title === '$user') {
+    if (this.buttonData.title === '$user' && window.location.href.includes('/pages')) {
+      debugger
       const userData = JSON.parse(localStorage.getItem('user')!);
-      this.buttonData.title = userData.username;
+      this.buttonData.title = userData.policy.policyName ? userData.policy.policyName : this.buttonData.title;
     }
   }
 
@@ -233,7 +234,7 @@ export class ButtonsComponent implements OnInit {
       }
     }
   }
-  logout(){
+  logout() {
     localStorage.clear();
     this.router.navigate(['/login']);
   }
