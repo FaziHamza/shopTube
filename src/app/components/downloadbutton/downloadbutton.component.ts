@@ -31,7 +31,7 @@ export class DownloadbuttonComponent {
   responseData: any;
   loader: boolean = false;
   requestSubscription: Subscription;
-  serverPath = environment.nestImageUrl
+  serverPath = environment.nestBaseUrl
 
   ngOnInit(): void {
     this.hoverTextColor = this.buttonData?.textColor ? this.buttonData?.textColor : '';
@@ -68,8 +68,9 @@ export class DownloadbuttonComponent {
   }
 
   downloadReport(buttonData: any) {
+    debugger
     if (this.path) {
-      const pdfFileUrl = this.serverPath + "/" + this.path;
+      const pdfFileUrl = this.serverPath + this.path;
       if (pdfFileUrl.includes('.pdf')) {
         // Create an anchor element
         const anchor = document.createElement('a');
@@ -84,7 +85,7 @@ export class DownloadbuttonComponent {
       }
     }
     else if (buttonData.path) {
-      alert(this.serverPath + "/" + buttonData.path);
+      alert(this.serverPath  + buttonData.path);
     } else {
       alert("Path did not exist");
     }

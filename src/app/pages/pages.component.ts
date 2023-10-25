@@ -155,7 +155,7 @@ export class PagesComponent implements OnInit, OnDestroy {
     this.subscriptions.add(subscription);
   }
   private loaderFromFileUploadSubscription(): void {
-    const subscription = this.dataSharedService.highlightFalse.subscribe({
+    const subscription = this.dataSharedService.pagesLoader.subscribe({
       next: (res) => {
         this.saveLoader = res;
       },
@@ -326,6 +326,7 @@ export class PagesComponent implements OnInit, OnDestroy {
     this.applicationService.getNestCommonAPIById('cp/Builder', params["schema"]).subscribe({
       next: (res: any) => {
         if (res.isSuccess && res.data.length > 0) {
+          this.saveLoader = false;
           this.handleCacheRuleRequest(res.data[0].screenBuilderId, res);
         } else {
           this.toastr.error(res.message, { nzDuration: 3000 });
@@ -339,6 +340,7 @@ export class PagesComponent implements OnInit, OnDestroy {
     });
   }
   handleCacheRuleRequest(screenBuilderId: any, res: any) {
+    this.saveLoader = true;
     this.applicationService.getNestCommonAPIById("cp/CacheRule", screenBuilderId).subscribe({
       next: (rule: any) => {
         this.saveLoader = false;
@@ -1727,7 +1729,7 @@ export class PagesComponent implements OnInit, OnDestroy {
       if (data.type) {
         if (data.type === 'sections' || data.type === 'div' || data.type === 'cardWithComponents' || data.type === 'timelineChild') {
           if (data.mapApi) {
-            if (window.location.href.includes('spectrum.com') && this.navigation == 'default') {
+            if (window.location.href.includes('spectrum.com') || window.location.href.includes('spectrum.expocitydubai.com') && this.navigation == 'default') {
               if ((this.user?.policy?.policyId == '652581192897cfc79cf1dde2' || this.user?.policy?.policyId == '652a3dd6b91b157bcac71a72') && this.screenId == '651fa8139ce5925c4c89cedc' && data.id == 'tdrasections1') {
                 this.makeDynamicSections(data.mapApi, data);
               } else if (this.user?.policy?.policyId == '65341542adf34593785dc714' && this.screenId == '651fa8139ce5925c4c89cedc' && data.id == 'tdrasections2') {

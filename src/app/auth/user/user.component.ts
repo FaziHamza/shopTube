@@ -23,7 +23,6 @@ export class UserComponent {
   updateModel: any = {};
 
   getUsers() {
-    debugger
     this.loading = true;
     this.applicationService.getNestCommonAPI('cp/user').subscribe({
       next: (res: any) => {

@@ -118,13 +118,16 @@ export class SiteLayoutComponent implements OnInit {
         this.getAllMenu();
       }
     }
-    this.fullCurrentUrl = window.location.href;
+    //http://spectrum.com/
+    debugger
+    this.fullCurrentUrl = window.location.href.includes('spectrum.com') ? "spectrum.expocitydubai.com" : window.location.href;
+    this.currentUrl = window.location.href.includes('spectrum.com') ? "spectrum.expocitydubai.com" : window.location.href;
     if (!this.currentUrl.includes('localhost')) {
       let check = this.currentUrl.includes(':');
       if (check) {
         this.currentUrl = this.currentUrl.split(':')[0];
         this.getMenuByDomainName(this.currentUrl, true);
-      }else{
+      } else {
         this.getMenuByDomainName(this.currentUrl, true);
       }
     }
@@ -156,7 +159,7 @@ export class SiteLayoutComponent implements OnInit {
     setTimeout(() => {
       this.updateHeaderHeight();
       this.updateFooterHeight();
-    } ,5000)
+    }, 5000)
 
   }
 

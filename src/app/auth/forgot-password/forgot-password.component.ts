@@ -13,15 +13,16 @@ import { environment } from 'src/environments/environment';
   styleUrls: ['./forgot-password.component.scss']
 })
 export class ForgotPasswordComponent implements OnInit {
-  ngAfterViewInit() {
-    // Reinitialize reCAPTCHA after the view has been initialized
-    grecaptcha.render('recaptcha', { sitekey: environment.recaptcha.siteKey });
-  }
+  // ngAfterViewInit() {
+  //   // Reinitialize reCAPTCHA after the view has been initialized
+  //   grecaptcha.render('recaptcha', { sitekey: environment.recaptcha.siteKey });
+  // }
 
 
   recaptchaResponse = '';
   ngOnInit(): void {
     // init Form
+    this.loadScript();
     this.create();
     this.cdr.detectChanges();
   }
@@ -91,5 +92,12 @@ export class ForgotPasswordComponent implements OnInit {
         this.showLoader = false;
       }
     );
+  }
+  loadScript() {
+    const script = document.createElement('script');
+    script.src = 'https://www.google.com/recaptcha/api.js';
+    script.async = true;
+    script.defer = true;
+    document.body.appendChild(script);
   }
 }
