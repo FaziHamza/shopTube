@@ -236,25 +236,24 @@
                         Your password must have at least 8 characters
                     </p> -->
 
-                    <div class="w-full flex justify-center items-start mb-4 ">
-                        <input type="checkbox" id="vehicle1" formControlName="remember"
-                            class="!w-4 border mt-1.5 mr-2 !border-[#E2E8F0] !h-4" />
-                        <label for="vehicle1"
-                            class="text-xs h-fit inline-block !w-[340px] text-[#64748B] not-italic font-normal leading-[19.2px]">By
-                            creating an account means you agree to the
-                            <a class="font-semibold text-[#0F172A]">Terms & Conditions</a>
-                            and our
-                            <span class="font-semibold text-[#0F172A]">Privacy Policy</span>
-                        </label>
-                    </div>
-                    <app-error [form_control]="f['remember']" [isSubmitted]="isFormSubmit"></app-error>
-                    <div class="flex justify-center w-full">
-                        <button
-                            class="w-full sm:!w-[360px] bg-[#ffd300] hover:text-[#ffd300] !rounded-md text-black font-bold py-2 px-4 !h-[46px]">
-                            Sign Up
-                        </button>
-                    </div>
-                </form>
+                <div class="w-full flex justify-center items-start mb-4 ">
+                    <input type="checkbox" id="vehicle1" formControlName="remember"
+                        class="!w-4 border mt-1.5 mr-2 !border-[#E2E8F0] !h-4" />
+                    <label for="vehicle1"
+                        class="text-xs h-fit inline-block !w-[340px] text-[#64748B] not-italic font-normal leading-[19.2px]">By
+                        creating an account means you agree to the
+                        <a class="font-semibold text-[#0F172A]">Terms & Conditions</a>
+                        and our
+                        <span class="font-semibold text-[#0F172A]">Privacy Policy</span>
+                    </label>
+                </div>
+                <app-error [form_control]="f['remember']" [isSubmitted]="isFormSubmit"></app-error>
+                <div class="flex justify-center w-full">
+                    <button class="w-full sm:!w-[360px] bg-[#ffd300] !rounded-md text-black font-bold py-2 px-4 !h-[46px]">
+                        Sign Up
+                    </button>
+                </div>
+            </form>
 
                 <nz-divider nzText="Or Sign In with"
                     class="!text-xs not-italic font-normal my-4 leading-[19.2px]"></nz-divider>
