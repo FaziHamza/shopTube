@@ -646,15 +646,16 @@ export class PagesComponent implements OnInit, OnDestroy {
             // this.dataSharedService.sectionSubmit.next(false);
             this.requestSubscription = this.applicationService.addNestCommonAPI('knex-query/execute-rules/' + findClickApi[0]._id, result).subscribe({
               next: (res) => {
-                this.saveLoader = false;
-                this.toastr.success("Update Successfully", { nzDuration: 3000 });
-                this.setInternalValuesEmpty(this.dataModel);
-                this.setInternalValuesEmpty(this.formlyModel);
-                this.form.patchValue(this.formlyModel);
-                // this.getFromQuery(data);
-                // if (window.location.href.includes('taskmanager.com')) {
-                //   this.dataSharedService.taskmanagerDrawer.next(true);
-                // }
+                if (res.isSuccess) {
+                  this.saveLoader = false;
+                  this.toastr.success("Update Successfully", { nzDuration: 3000 });
+                  this.setInternalValuesEmpty(this.dataModel);
+                  this.setInternalValuesEmpty(this.formlyModel);
+                  this.form.patchValue(this.formlyModel);
+                } else {
+                  this.toastr.warning("Data is not updated", { nzDuration: 3000 });
+                }
+
               },
               error: (err) => {
                 this.saveLoader = false;
@@ -1729,7 +1730,7 @@ export class PagesComponent implements OnInit, OnDestroy {
       if (data.type) {
         if (data.type === 'sections' || data.type === 'div' || data.type === 'cardWithComponents' || data.type === 'timelineChild') {
           if (data.mapApi) {
-            if (window.location.href.includes('spectrum.com') || window.location.href.includes('spectrum.expocitydubai.com') && this.navigation == 'default') {
+            if ((window.location.href.includes('spectrum.com') || window.location.href.includes('spectrum.expocitydubai.com')) && this.navigation === 'default') {
               if ((this.user?.policy?.policyId == '652581192897cfc79cf1dde2' || this.user?.policy?.policyId == '652a3dd6b91b157bcac71a72') && this.screenId == '651fa8139ce5925c4c89cedc' && data.id == 'tdrasections1') {
                 this.makeDynamicSections(data.mapApi, data);
               } else if (this.user?.policy?.policyId == '65341542adf34593785dc714' && this.screenId == '651fa8139ce5925c4c89cedc' && data.id == 'tdrasections2') {

@@ -348,15 +348,19 @@ export class SectionsComponent implements OnInit {
             this.dataSharedService.buttonData = '';
             this.requestSubscription = this.applicationServices.addNestCommonAPI('knex-query/execute-rules/' + findClickApi[0]._id, result).subscribe({
               next: (res) => {
-                this.saveLoader = false;
-                this.toastr.success("Update Successfully", { nzDuration: 3000 });
-                this.setInternalValuesEmpty(this.dataModel);
-                this.setInternalValuesEmpty(this.formlyModel);
-                this.form.patchValue(this.formlyModel);
-                this.dataSharedService.formlyShowError.next(false)
-                this.getFromQuery(data);
-                if (window.location.href.includes('taskmanager.com')) {
-                  this.dataSharedService.taskmanagerDrawer.next(true);
+                if (res.success) {
+                  this.saveLoader = false;
+                  this.toastr.success("Update Successfully", { nzDuration: 3000 });
+                  this.setInternalValuesEmpty(this.dataModel);
+                  this.setInternalValuesEmpty(this.formlyModel);
+                  this.form.patchValue(this.formlyModel);
+                  this.dataSharedService.formlyShowError.next(false)
+                  this.getFromQuery(data);
+                  if (window.location.href.includes('taskmanager.com')) {
+                    this.dataSharedService.taskmanagerDrawer.next(true);
+                  }
+                } else {
+                  this.toastr.warning("Data is not updated", { nzDuration: 3000 });
                 }
               },
               error: (err) => {
