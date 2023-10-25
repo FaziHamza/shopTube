@@ -3852,6 +3852,7 @@ object {
         display: flex !important;
         justify-content: space-between !important;
         align-items: center !important;
+        border-color: $primary-color;
 
         svg {
           height: 12px !important;
@@ -3873,6 +3874,7 @@ object {
         letter-spacing: 0.2px !important;
         margin-left: 12px !important;
         padding: 4.5px !important;
+        border-color: $primary-color;
 
         i {
           font-size: 14px !important;
@@ -6275,6 +6277,7 @@ li.ant-cascader-menu-item:nth-child(1):hover {
     font-style: normal;
     line-height: 140%;
     letter-spacing: 0.2px;
+    border-color: $primary-color;
 
     &:hover {
       background-color: $primary-hover-color;
@@ -6713,6 +6716,7 @@ tr:hover {
     line-height: 140%;
     letter-spacing: 0.2px;
     width: fit-content;
+    border-color: $primary-color;
 
     &:hover {
       background-color: $primary-hover-color;
@@ -7004,6 +7008,11 @@ tr:hover {
     border-radius: 6px !important;
   }
 }
+
+.ant-carousel .slick-dots-bottom {
+  bottom: -17px !important;
+}
+
 
 .slick-dots li {
   display: inline-block !important;
