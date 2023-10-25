@@ -76,7 +76,6 @@ import { CustomReuseStrategy } from './custom-reuse-strategy';
     PolicyMappingComponent,
     UserMappingComponent,
     PolicyMappingTableComponent,
-
     // MultiFileUploadWrapperComponent,
   ],
   imports: [

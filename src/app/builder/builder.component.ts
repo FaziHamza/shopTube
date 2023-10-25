@@ -423,10 +423,10 @@ export class BuilderComponent implements OnInit {
               this.getBuilderScreen();
             }
             if (gridData) {
-              this.getFromQuery(this.navigation, 'load');
+              // this.getFromQuery(this.navigation, 'load');
             } else {
-              this.saveLoader = false;
             }
+            this.saveLoader = false;
           }
           else {
             this.toastr.error(res.message, { nzDuration: 3000 });
@@ -4652,6 +4652,7 @@ export class BuilderComponent implements OnInit {
         break;
 
       case 'dropdownButton':
+      
         this.selectedNode.btnIcon = event.form?.icon;
         if (event.tableDta) {
           this.selectedNode.dropdownOptions = event.tableDta;

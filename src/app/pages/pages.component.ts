@@ -51,7 +51,7 @@ export class PagesComponent implements OnInit, OnDestroy {
     private toastr: NzMessageService,
     private el: ElementRef,
     public dataSharedService: DataSharedService, private router: Router) {
-    debugger
+
     // this.ngOnDestroy();
     const changeSubscription = this.dataSharedService.change.subscribe(({ event, field }) => {
       if (field && event && this.navigation)
@@ -113,7 +113,7 @@ export class PagesComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    debugger
+
     try {
       this.clearValues();
       if (this.requestSubscription) {
@@ -130,13 +130,14 @@ export class PagesComponent implements OnInit, OnDestroy {
       console.error('Error in ngOnDestroy:', error);
     }
   }
-  user:any;
+  user: any;
   ngOnInit(): void {
-    debugger
+
     this.initHighlightFalseSubscription();
     this.initPageSubmitSubscription();
     this.initEventChangeSubscription();
     this.initActivatedRouteSubscription();
+    this.loaderFromFileUploadSubscription();
     this.user = JSON.parse(localStorage.getItem('user')!);
   }
 
@@ -146,6 +147,17 @@ export class PagesComponent implements OnInit, OnDestroy {
         if (this.resData.length > 0 && res) {
           this.removeHighlightRecursive(this.resData[0].children[1].children[0].children[1]);
         }
+      },
+      error: (err) => {
+        console.error(err);
+      }
+    });
+    this.subscriptions.add(subscription);
+  }
+  private loaderFromFileUploadSubscription(): void {
+    const subscription = this.dataSharedService.pagesLoader.subscribe({
+      next: (res) => {
+        this.saveLoader = res;
       },
       error: (err) => {
         console.error(err);
@@ -225,7 +237,7 @@ export class PagesComponent implements OnInit, OnDestroy {
   }
 
   private initActivatedRouteSubscription(): void {
-    debugger
+
     if (this.data.length == 0) {
       const subscription = this.activatedRoute.params.subscribe((params: Params) => {
         if (params["schema"]) {
@@ -249,7 +261,7 @@ export class PagesComponent implements OnInit, OnDestroy {
   }
 
   initiliaze(params: any) {
-    debugger
+
     if (this.data.length == 0) {
       if (params["schema"]) {
 
@@ -314,6 +326,7 @@ export class PagesComponent implements OnInit, OnDestroy {
     this.applicationService.getNestCommonAPIById('cp/Builder', params["schema"]).subscribe({
       next: (res: any) => {
         if (res.isSuccess && res.data.length > 0) {
+          this.saveLoader = false;
           this.handleCacheRuleRequest(res.data[0].screenBuilderId, res);
         } else {
           this.toastr.error(res.message, { nzDuration: 3000 });
@@ -327,6 +340,7 @@ export class PagesComponent implements OnInit, OnDestroy {
     });
   }
   handleCacheRuleRequest(screenBuilderId: any, res: any) {
+    this.saveLoader = true;
     this.applicationService.getNestCommonAPIById("cp/CacheRule", screenBuilderId).subscribe({
       next: (rule: any) => {
         this.saveLoader = false;
@@ -342,7 +356,7 @@ export class PagesComponent implements OnInit, OnDestroy {
   }
   editData: any;
   actionsBindWithPage(res: any) {
-    debugger
+
     this.screenId = res.data[0].screenBuilderId;
     this.screenName = res.data[0].screenName;
     this.navigation = res.data[0].navigation;
@@ -436,7 +450,7 @@ export class PagesComponent implements OnInit, OnDestroy {
       }
     });
 
-    debugger
+
     this.pageRuleList = this.actionRuleList.filter(a => a.componentFrom === this.resData?.[0]?.key && a.action == 'load');
     if (this.tableRowID) {
       if (this.pageRuleList.length > 0) {
@@ -501,7 +515,7 @@ export class PagesComponent implements OnInit, OnDestroy {
     this.dataModel = this.formlyModel;
   }
   saveData1(data: any) {
-    debugger
+
     // let checkButtonConfig = this.findObjectByKey(this.r, data.key);
     if (data) {
       // this.submit();
@@ -1368,7 +1382,7 @@ export class PagesComponent implements OnInit, OnDestroy {
     return inputElements;
   }
   getCacheRule(getRes: any) {
-    debugger
+
     getRes.data.forEach((res: any) => {
       if (res.name == 'BusinessRule') {
         if (res.data) {
@@ -1629,7 +1643,7 @@ export class PagesComponent implements OnInit, OnDestroy {
 
   sectionRepeat(section: any) {
     try {
-      debugger
+
       const idx = this.resData[0].children[1].children.indexOf(section as TreeNode);
       let newNode = JSON.parse(JSON.stringify(section));
       let obj = { node: newNode, type: 'copy' };
@@ -1700,6 +1714,7 @@ export class PagesComponent implements OnInit, OnDestroy {
     return data;
   };
   checkDynamicSection() {
+    debugger
     if (this.resData) {
       this.recursiveCheck(this.resData[0].children[1].children);
     }
@@ -1714,7 +1729,15 @@ export class PagesComponent implements OnInit, OnDestroy {
       if (data.type) {
         if (data.type === 'sections' || data.type === 'div' || data.type === 'cardWithComponents' || data.type === 'timelineChild') {
           if (data.mapApi) {
-            this.makeDynamicSections(data.mapApi, data);
+            if (window.location.href.includes('spectrum.com') || window.location.href.includes('spectrum.expocitydubai.com') && this.navigation == 'default') {
+              if ((this.user?.policy?.policyId == '652581192897cfc79cf1dde2' || this.user?.policy?.policyId == '652a3dd6b91b157bcac71a72') && this.screenId == '651fa8139ce5925c4c89cedc' && data.id == 'tdrasections1') {
+                this.makeDynamicSections(data.mapApi, data);
+              } else if (this.user?.policy?.policyId == '65341542adf34593785dc714' && this.screenId == '651fa8139ce5925c4c89cedc' && data.id == 'tdrasections2') {
+                this.makeDynamicSections(data.mapApi, data);
+              }
+            } else {
+              this.makeDynamicSections(data.mapApi, data);
+            }
           }
         } else if (data.type === 'listWithComponents' || data.type === 'mainTab' || data.type === 'mainStep') {
           if (data.children) {

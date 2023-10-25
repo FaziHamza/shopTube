@@ -287,7 +287,7 @@ export class SectionsComponent implements OnInit {
                     this.toastr.error(res[0]?.error, { nzDuration: 3000 });
                   else {
                     this.toastr.success("Save Successfully", { nzDuration: 3000 });
-                    if (data.saveRouteLink) {
+                    if (data.saveRouteLink && this.dataSharedService.currentMenuLink != '/ourbuilder') {
                       this.router.navigate(['/pages/' + data.saveRouteLink]);
                       return;
                     }

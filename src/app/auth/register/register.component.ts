@@ -29,10 +29,11 @@ export class RegisterComponent implements OnInit {
   showRecaptcha: boolean = false;
   recaptchaResponse = '';
   isFormSubmit: boolean = false;
-  constructor(private applicationService: ApplicationService, private authService: AuthService,private router:Router,
+  constructor(private applicationService: ApplicationService, private authService: AuthService, private router: Router,
     private toastr: NzMessageService, private formBuilder: FormBuilder,) { }
 
   ngOnInit(): void {
+    this.loadScript();
     this.create();
     // this.organizationBuilder();
   }
@@ -168,9 +169,19 @@ export class RegisterComponent implements OnInit {
       }
     }
   }
-  ngAfterViewInit() {
-    // Reinitialize reCAPTCHA after the view has been initialized
-    grecaptcha.render('recaptcha', { sitekey: environment.recaptcha.siteKey });
+  // ngAfterViewInit() {
+  //   // Render reCAPTCHA using the reCAPTCHA site key
+  //   grecaptcha.render('recaptcha', {
+  //     sitekey: environment.recaptcha.siteKey,
+  //     callback: (response) => {
+  //       // Handle the reCAPTCHA response token (e.g., send it to your server)
+  //       console.log('reCAPTCHA response token:', response);
+  //     }
+  //   });
+  // }
+  ngOnDestroy() {
+    // Reset reCAPTCHA in the ngOnDestroy method to clean up when the component is destroyed
+    // grecaptcha.reset();
   }
   submitForm(): void {
     debugger
@@ -204,8 +215,7 @@ export class RegisterComponent implements OnInit {
       "domain": window.location.host.split(':')[0],
     }
     console.log(obj);
-    if(!this.form.value?.remember)
-    {
+    if (!this.form.value?.remember) {
       this.toastr.warning("Please accept the term and conditions", { nzDuration: 2000 });
       return;
     }
@@ -240,6 +250,15 @@ export class RegisterComponent implements OnInit {
     this.confirmpasswordType = this.confirmpasswordType == 'password' ? 'string' : 'password';
     this.confirmpasswordIcon = this.confirmpasswordIcon == 'fa-light fa-eye-slash text-lg' ? 'fa-light fa-eye text-lg' : 'fa-light fa-eye-slash text-lg'
   }
-
+  reloadPage() {
+    location.reload();
+  }
+  loadScript() {
+    const script = document.createElement('script');
+    script.src = 'https://www.google.com/recaptcha/api.js';
+    script.async = true;
+    script.defer = true;
+    document.body.appendChild(script);
+  }
 
 }

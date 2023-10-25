@@ -71,7 +71,7 @@ export class GenericFieldComponent implements OnInit {
 
   }
   onSubmit() {
-
+    debugger
     // event.stopPropagation();
     // this.valueChange.emit(this.model + ' from child.');
     // const newProduct = { productName: "New", quantity: 666 };
@@ -115,7 +115,8 @@ export class GenericFieldComponent implements OnInit {
         this.saveLoader = true;
         this.requestSubscription = this.applicationService.getNestCommonAPI(obj.mapApi).subscribe({
           next: (res) => {
-            if (res.data.length > 0) {
+            this.saveLoader = false;
+            if (res?.data.length > 0) {
               this.saveLoader = false;
               this.resData = res.data;
               this.itemData.mappingNode.tableBody = [];
@@ -130,15 +131,15 @@ export class GenericFieldComponent implements OnInit {
               else {
                 this.createOptionsArray(this.itemData.mappingNode.children[1].children[0]);
               }
-              this.optionsArray.forEach((item: any, index: number) => {
-                let newObj = {
-                  // id: index + 1,
-                  fileHeader: item.key,
-                  SelectQBOField: key,
-                  defaultValue: '',
-                }
-                this.itemData.mappingNode.tableBody.push(newObj);
-              })
+              this.itemData.mappingNode.tableBody = this.optionsArray.map((item: any, index: number) => ({
+                // id: index + 1,
+                fileHeader: item.key,
+                SelectQBOField: key,
+                defaultValue: '',
+              }));
+
+            } else {
+              this.toastr.warning("Did not get data", { nzDuration: 3000 }); // Show an error message to the user
             }
           },
           error: (err) => {
@@ -148,7 +149,7 @@ export class GenericFieldComponent implements OnInit {
         });
       } catch (error) {
         this.saveLoader = false;
-        console.error("An error occurred in try-catch:", error);
+        console.error("An error occurred in get mapping:", error);
         // Handle the error appropriately, e.g., show an error message to the user.
       }
     } else {
