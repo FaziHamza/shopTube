@@ -1084,7 +1084,7 @@ export class formFeildData {
         },
         {
           key: 'browserButtonColor',
-          type: 'color',
+          type: 'input',
           className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
           wrappers: ["formly-vertical-theme-wrapper"],
           props: {
@@ -1094,7 +1094,7 @@ export class formFeildData {
         },
         {
           key: 'hoverBrowseButtonColor',
-          type: 'color',
+          type: 'input',
           className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
           wrappers: ["formly-vertical-theme-wrapper"],
           props: {
