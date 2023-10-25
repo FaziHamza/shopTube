@@ -76,7 +76,7 @@ export class MultiFileUploadWrapperComponent extends FieldType<FieldTypeConfig> 
         // `reader.result` contains the base64-encoded file data
         const base64Data = reader.result as string;
 
-        const customUploadUrl = 'http://localhost:4500/market-place/testing'; // Replace with your custom URL
+        const customUploadUrl = environment.nestBaseUrl +'market-place/testing'; // Replace with your custom URL
         const obj  = {
           image : base64Data
         }

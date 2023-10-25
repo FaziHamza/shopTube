@@ -34,7 +34,7 @@
               "src/manifest.webmanifest"
             ],
             "styles": [
-              "node_modules/monaco-editor/min/vs/editor/editor.main.css",
+              "src/assets/monaco-editor/min/vs/editor/editor.main.css",
               "src/assets/style/ng-zorro-antd.min.css",
               "node_modules/ng-zorro-antd/resizable/style/index.min.css",
               "node_modules/ng-zorro-antd/code-editor/style/index.min.css",
