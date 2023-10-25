@@ -94,7 +94,7 @@
           </ul>
           <div class="b-tree">
             <nz-tree [nzData]="nodes" [nzExpandedKeys]="expandedKeys" nzDraggable nzBlockNode
-              (nzOnDrop)="nzEvent($event)" [nzTreeTemplate]="nzTreeTemplate"></nz-tree>
+            (nzOnDrop)="nzEvent($event)" [nzTreeTemplate]="nzTreeTemplate"></nz-tree>
             <ng-template #nzTreeTemplate let-node let-origin="origin">
               <div class="custom-node flex card-lable-row {{ node.origin?.searchHighlight ? 'searchigh' : '' }}"
                 (mouseover)="hoverIn(node)" (mouseleave)="hoverOut(node)"

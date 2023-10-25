@@ -834,91 +834,49 @@ export class DynamicTableComponent implements OnInit {
     };
     if (this.screenName != undefined) {
       if (this.data?.appConfigurableEvent) {
-        let findClickApi = this.data?.appConfigurableEvent?.filter((item: any) => item.rule.includes('delete'));
-        let id = '';
-        if (findClickApi?.length > 0) {
-          if (findClickApi[0]?.rule.includes('EnumList')) {
-            id = data?._id
-          } else
-            id = data?.id
-        } else
-          id = data?.id
-        let url = '';
-        if (findClickApi[0]?.actionType == 'api') {
-          url = findClickApi[0]?.rule;
+        // Find the 'delete' event in appConfigurableEvent
+        const findClickApi = this.data.appConfigurableEvent.filter((item: any) => item.rule.includes('delete'));
+        const id = findClickApi?.[0]?.rule.includes('EnumList') ? data?._id : data?.id;
+    
+        if (findClickApi.length > 0) {
+          const url = findClickApi[0].actionType === 'api' ? findClickApi[0].rule : `knex-query/executeDelete-rules/${findClickApi[0]._id}`;
+    
           if (url) {
             this.saveLoader = true;
-            this.requestSubscription = this.employeeService.deleteCommonApi(url, id).subscribe({
+            const requestObservable = findClickApi[0].actionType === 'api' ?
+              this.employeeService.deleteCommonApi(url, id) :
+              this.employeeService.saveSQLDatabaseTable(url, model);
+    
+            this.requestSubscription = requestObservable.subscribe({
               next: (res) => {
                 this.saveLoader = false;
-                if (res) {
-                  this.tableData = this.tableData.filter((d: any) => d.id !== data.id);
-                  this.displayData = this.displayData.filter((d: any) => d.id !== data.id);
-                  this.excelReportData = this.excelReportData.filter((d: any) => d.id !== data.id);
-                  this.pageChange(1);
+                if (res.isSuccess) {
+                  // Data successfully deleted
+                  this.handleDataDeletion(data);
                   this.toastr.success("Delete Successfully", { nzDuration: 3000 });
+                } else {
+                  // Data not updated
+                  this.toastr.warning("Data is not updated", { nzDuration: 3000 });
                 }
               },
               error: (err) => {
                 this.saveLoader = false;
-                console.error(err);
+                this.toastr.error(`An error occurred ${err}`, { nzDuration: 3000 });
               }
-            })
-          }
-
-        }
-        else {
-          url = `knex-query/executeDelete-rules/${findClickApi[0]._id}`;
-          if (findClickApi?.[0]._id) {
-            this.saveLoader = true;
-            this.requestSubscription = this.employeeService.saveSQLDatabaseTable(url, model).subscribe({
-              next: (res) => {
-                this.saveLoader = false;
-                if (res) {
-                  this.tableData = this.tableData.filter((d: any) => d.id !== data.id);
-                  this.displayData = this.displayData.filter((d: any) => d.id !== data.id);
-                  this.excelReportData = this.excelReportData.filter((d: any) => d.id !== data.id);
-                  this.pageChange(1);
-                  this.toastr.success("Delete Successfully", { nzDuration: 3000 });
-                }
-              },
-              error: (err) => {
-                this.saveLoader = false;
-                console.error(err);
-              }
-            })
+            });
           }
         }
-
-      }
-      else {
-        this.saveLoader = true;
-        this.requestSubscription = this.employeeService.saveSQLDatabaseTable('knex-query/executeQuery', model).subscribe({
-          next: (res) => {
-            this.saveLoader = false;
-            this.tableData = this.tableData.filter((d: any) => d.id !== data.id);
-            this.displayData = this.displayData.filter((d: any) => d.id !== data.id);
-            this.pageChange(1);
-            this.toastr.success("Delete Successfully", { nzDuration: 3000 });
-          },
-          error: (err) => {
-            this.saveLoader = false;
-            console.error(err);
-            this.toastr.error("An error occurred", { nzDuration: 3000 });
-          }
-        });
+      } else {
+        // Handle the case where appConfigurableEvent is not defined
+        this.handleDataDeletion(data);
       }
     }
     else {
       this.pageSize = 10;
       const indexToRemove = this.tableData.findIndex((d: any) => d.id === data.id);
-
       if (indexToRemove !== -1) {
         this.tableData.splice(indexToRemove, 1);
       }
-      // this.tableData = this.tableData.filter((d: any) => d.id !== data.id);
-      // this.tableData = JSON.parse(JSON.stringify(updatedData));
-      // this.tableData = [...this.displayData]
       this.displayData = [...this.tableData];
       this.pageChange(1);
       this.toastr.success("Delete from userend successfully", { nzDuration: 3000 });
@@ -1900,44 +1858,15 @@ export class DynamicTableComponent implements OnInit {
           this.saveLoader = true;
           this.requestSubscription = this.applicationServices.addNestCommonAPI(url, model).subscribe({
             next: (res) => {
-              if (res) {
+              if (res.isSuccess && res.data.length > 0) {
                 this.toastr.success('Update Successfully', { nzDuration: 3000 });
                 this.editId = null;
                 this.editData = null;
-                // let callget = this.data?.appConfigurableEvent?.filter((item: any) =>
-                //   (item.actionLink === 'get' && (item.actionType === 'api' || item.actionType === 'query'))
-                // );
-                // if (callget) {
-                //   if (callget.length > 0) {
-                //     let getUrl = '';
-                //     for (let index = 0; index < callget.length; index++) {
-                //       let element = callget[index].actionType;
-                //       if (element == 'query') {
-                //         getUrl = `knex-query/getAction/${callget[index]._id}`;
-                //         break;
-                //       } else {
-                //         getUrl = `knex-query/getAction/${callget[index]._id}`;
-                //       }
-                //     }
-                //     let pagination = '';
-                //     if (this.data.serverSidePagination) {
-                //       pagination = '?page=' + 1 + '&pageSize=' + this.data?.end;
-                //     }
-                //     this.employeeService.getSQLDatabaseTable(getUrl + pagination).subscribe({
-                //       next: async (res) => {
-                //         if (res) {
-                //           this.getFromQueryOnlyTable(this.data, res)
-                //         }
-                //       }, error: (error: any) => {
-                //         console.error(error);
-                //         this.toastr.error("An error occurred", { nzDuration: 3000 });
-                //         this.saveLoader = false;
-                //       }
-                //     });
-                //   }
-                // }
               }
-              // this.getFromQueryOnlyTable(data);
+              else {
+                this.cancelEdit(dataModel);
+                this.toastr.warning(res.message, { nzDuration: 3000 });
+              }
               this.saveLoader = false;
             },
             error: (err) => {
@@ -1951,7 +1880,6 @@ export class DynamicTableComponent implements OnInit {
     }
   }
   exportToExcel() {
-    debugger
     let header = this.tableHeaders.filter((head: any) => head.key != 'expand')
     const dataToExport = [header
       .map((header: any) => header.name)
@@ -2560,5 +2488,13 @@ export class DynamicTableComponent implements OnInit {
       localStorage.setItem(this.screenId, JSON.stringify(storeData));
     }
   }
+  handleDataDeletion(data : any) {
+    // Remove the data to be deleted from various data arrays
+    this.tableData = this.tableData.filter((d: any) => d.id !== data.id);
+    this.displayData = this.displayData.filter((d: any) => d.id !== data.id);
+    this.excelReportData = this.excelReportData.filter((d: any) => d.id !== data.id);
+    this.pageChange(1); // Optionally, update pagination or other UI changes
+  }
+  
 }
 

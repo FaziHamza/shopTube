@@ -340,7 +340,7 @@ export class MenuBuilderComponent implements OnInit {
     this.clickButton(node?.type, parent, node)
   }
   nzEvent(event: NzFormatEmitEvent): void {
-    // console.log(event);
+    this.makeMenuData();
   }
   hoverIn(data: any) {
     this.isVisible = data.origin.id;

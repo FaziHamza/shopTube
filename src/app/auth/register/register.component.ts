@@ -29,6 +29,7 @@ export class RegisterComponent implements OnInit {
   showRecaptcha: boolean = false;
   recaptchaResponse = '';
   isFormSubmit: boolean = false;
+  saveLoader: boolean = false;
   constructor(private applicationService: ApplicationService, private authService: AuthService, private router: Router,
     private toastr: NzMessageService, private formBuilder: FormBuilder,) { }
 
@@ -184,7 +185,6 @@ export class RegisterComponent implements OnInit {
     // grecaptcha.reset();
   }
   submitForm(): void {
-    debugger
     this.isFormSubmit = true;
     // if (this.form.invalid) {
     //   this.toastr.warning('Fill all fields', { nzDuration: 3000 }); // Show an error message to the user
@@ -220,6 +220,7 @@ export class RegisterComponent implements OnInit {
       return;
     }
     if (this.form.valid) {
+      this.saveLoader = true;
       this.authService.registerUser(obj).subscribe({
         next: (res: any) => {
           if (res.isSuccess && res?.data) {
@@ -229,11 +230,11 @@ export class RegisterComponent implements OnInit {
           } else {
             this.toastr.error(res.message, { nzDuration: 2000 });
           }
-          this.loader = false;
+          this.saveLoader = false;
         },
         error: (err) => {
           this.create();
-          this.loader = false;
+          this.saveLoader = false;
           this.toastr.error('some error exception', { nzDuration: 2000 });
         },
       });
