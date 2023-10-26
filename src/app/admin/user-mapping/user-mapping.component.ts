@@ -3,6 +3,7 @@ import { NzMessageService } from 'ng-zorro-antd/message';
 import { ApplicationService } from 'src/app/services/application.service';
 import { BuilderService } from 'src/app/services/builder.service';
 import { DataSharedService } from 'src/app/services/data-shared.service';
+import { forkJoin } from 'rxjs';
 
 @Component({
   selector: 'st-user-mapping',
@@ -17,6 +18,7 @@ export class UserMappingComponent {
   userName = '';
   userList: any = [];
   isSubmit: boolean = true;
+  loader: boolean = false;
   loading = false;
   pageSize = 10;
   pageIndex: any = 1;
@@ -46,28 +48,40 @@ export class UserMappingComponent {
   }
   ngOnInit(): void {
     this.loadUserData();
-    this.jsonPolicyModuleList();
-    this.jsonUserModuleList();
+    this.jsonModuleList(); // To get policy list
   }
 
 
-  jsonPolicyModuleList() {
-    this.applicationService.getNestCommonAPI('cp/Policy').subscribe({
-      next: (res: any) => {
-        if (res.isSuccess) {
-          if (res?.data.length > 0) {
-            this.policyList = res.data;
-          }
+  jsonModuleList() {
+    this.loader = true;
+
+    forkJoin([
+      this.applicationService.getNestCommonAPI('cp/Policy'),
+      this.applicationService.getNestCommonAPI('cp/user'),
+    ]).subscribe({
+      next: ([policyRes, userRes]) => {
+        this.loader = false;
+
+        if (policyRes.isSuccess) {
+          this.policyList = policyRes?.data;
+        }
+
+        if (userRes.isSuccess) {
+          this.userList = userRes?.data;
         }
       },
       error: (err) => {
-        this.toastr.error(`Policy : An error occured`, { nzDuration: 3000 });
+        this.loader = false;
+        this.toastr.error('An error occurred', { nzDuration: 3000 });
       },
     });
   }
+
   loadUserData() {
+    this.loader = true;
     this.applicationService.getNestCommonAPI('cp/UserMapping').subscribe({
       next: (res: any) => {
+        this.loader = false;
         if (res.isSuccess) {
           if (res?.data.length > 0) {
             const transformedData = res.data.map((item: any) => ({
@@ -84,24 +98,12 @@ export class UserMappingComponent {
         }
       },
       error: (err) => {
+        this.loader = false;
         this.toastr.error(`Policy : An error occured`, { nzDuration: 3000 });
       },
     });
   }
-  jsonUserModuleList() {
-    this.applicationService.getNestCommonAPI('cp/user').subscribe({
-      next: (res: any) => {
-        if (res.isSuccess) {
-          if (res?.data.length > 0) {
-            this.userList = res.data;
-          }
-        }
-      },
-      error: (err) => {
-        this.toastr.error(`Policy : An error occured`, { nzDuration: 3000 });
-      },
-    });
-  }
+
   onSubmit() {
     if (!this.policyName || !this.userName) {
       if (!this.policyName) {
@@ -115,13 +117,12 @@ export class UserMappingComponent {
         return;
       }
     } else {
-      let findPreviousUser = this.listOfData.find(a=>a.policyId == this.policyName && a.userId == this.userName);
-      if(findPreviousUser)
-        {
-          this.toastr.warning('This user already assign this policy please select another.', { nzDuration: 2000 });
-          this.loading = false;
-          return;
-        }
+      let findPreviousUser = this.listOfData.find(a => a.policyId == this.policyName && a.userId == this.userName);
+      if (findPreviousUser) {
+        this.toastr.warning('This user already assign this policy please select another.', { nzDuration: 2000 });
+        this.loading = false;
+        return;
+      }
 
       let obj = {
         UserMapping: {
@@ -130,12 +131,13 @@ export class UserMappingComponent {
           applicationId: JSON.parse(localStorage.getItem('applicationId')!),
         }
       }
-
+      this.loader = true;
       const checkPolicyAndProceed = this.isSubmit
         ? this.applicationService.addNestCommonAPI('cp', obj)
         : this.applicationService.updateNestCommonAPI('cp/UserMapping', this.editId, obj);
       checkPolicyAndProceed.subscribe({
         next: (objTRes: any) => {
+          this.loader = false;
           if (objTRes.isSuccess) {
             this.loadUserData();
             this.policyName = "";
@@ -149,6 +151,7 @@ export class UserMappingComponent {
           }
         },
         error: (err) => {
+          this.loader = false;
           this.toastr.error(`${err.error.message}`, { nzDuration: 3000 });
         },
       });
@@ -162,14 +165,22 @@ export class UserMappingComponent {
     this.isSubmit = false;
   }
   deleteRow(id: any): void {
-    this.applicationService
-      .deleteNestCommonAPI('cp/UserMapping', id)
-      .subscribe((res: any) => {
+    this.loader = true;
+    this.applicationService.deleteNestCommonAPI('cp/UserMapping', id).subscribe({
+      next: (res: any) => {
+        this.loading = false;
         if (res.isSuccess) {
           this.loadUserData();
           this.toastr.success(`UserMapping: ${res.message}`, { nzDuration: 2000, });
         } else this.toastr.error(`UserMapping: ${res.message}`, { nzDuration: 2000, });
-      });
+      },
+      error: (err) => {
+        this.loading = false;
+        console.log(err.message)
+        this.toastr.error(`UserMapping: ${err.message}`, { nzDuration: 2000, });
+      },
+    });
+
   }
   downloadJson() {
     let obj = Object.assign({}, this.listOfData);

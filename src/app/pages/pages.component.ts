@@ -54,6 +54,7 @@ export class PagesComponent implements OnInit, OnDestroy {
 
     // this.ngOnDestroy();
     const changeSubscription = this.dataSharedService.change.subscribe(({ event, field }) => {
+      debugger
       if (field && event && this.navigation)
         if (this.formlyModel) {
           // this.formlyModel[field.key] = event;
@@ -63,9 +64,16 @@ export class PagesComponent implements OnInit, OnDestroy {
               if (newModel.hasOwnProperty(key)) {
                 if (typeof newModel[key] === 'object') {
                   for (const key1 in newModel[key]) {
-                    if (key1 == field.key.split('.')[1]) {
-                      newModel[key][field.key] = event;
+                    if (field.key.includes('.')) {
+                      if (key1 == field.key.split('.')[1]) {
+                        newModel[key][field.key.split('.')[1]] = event;
+                      }
+                    } else {
+                      if (key1 == field.key) {
+                        newModel[key][field.key] = event;
+                      }
                     }
+
                   }
                 }
                 else {
@@ -102,6 +110,10 @@ export class PagesComponent implements OnInit, OnDestroy {
     const moveLinkSubscription = this.dataSharedService.moveLink.subscribe(res => {
       this.scrollToElement(res);
     })
+    const pagesLoader = this.dataSharedService.pagesLoader.subscribe(res => {
+      if (this.navigation)
+        this.saveLoader = res;
+    })
     // this.dataSharedService.repeatableControll.subscribe(res => {
     //   if(res)
     //   this.formlyModel[res.key] = res.event;
@@ -109,6 +121,7 @@ export class PagesComponent implements OnInit, OnDestroy {
     this.subscriptions.add(changeSubscription);
     this.subscriptions.add(gridDataSubscription);
     this.subscriptions.add(moveLinkSubscription);
+    this.subscriptions.add(pagesLoader);
 
   }
 
@@ -137,7 +150,6 @@ export class PagesComponent implements OnInit, OnDestroy {
     this.initPageSubmitSubscription();
     this.initEventChangeSubscription();
     this.initActivatedRouteSubscription();
-    this.loaderFromFileUploadSubscription();
     this.user = JSON.parse(localStorage.getItem('user')!);
   }
 
@@ -147,17 +159,6 @@ export class PagesComponent implements OnInit, OnDestroy {
         if (this.resData.length > 0 && res) {
           this.removeHighlightRecursive(this.resData[0].children[1].children[0].children[1]);
         }
-      },
-      error: (err) => {
-        console.error(err);
-      }
-    });
-    this.subscriptions.add(subscription);
-  }
-  private loaderFromFileUploadSubscription(): void {
-    const subscription = this.dataSharedService.pagesLoader.subscribe({
-      next: (res) => {
-        this.saveLoader = res;
       },
       error: (err) => {
         console.error(err);

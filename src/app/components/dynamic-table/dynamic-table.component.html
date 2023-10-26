@@ -519,8 +519,8 @@
           (nzPageIndexChange)="onPageIndexChange($event)">
         </nz-pagination>
       </div>
-      <div class="perpage !mt-1.5" *ngIf="data?.changePageSize">
-        <a class="flex justify-start items-center border-2 paginator !p-1.5 rounded-md text-xs  border-[#a8a9ab] text-black hover:bg-[#3b82f6] hover:text-white hover:border-[#3b82f6]"
+      <div class="perpage !mt-1.5" *ngIf="data?.changePageSize && (data?.nzShowPagination && data.totalCount > data?.end && showPagination)">
+        <a class="flex justify-start items-center border-2 paginator !p-1.5 rounded-md text-xs  border-[#a8a9ab] text-black hover:!bg-amber-300 hover:text-white hover:!border-amber-300"
           nz-dropdown [nzDropdownMenu]="menu11">
           <p class="whitespace-nowrap pr-2">
             {{(this.data?.end ? this.data?.end : 10) + ' / page'}}
