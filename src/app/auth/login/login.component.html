@@ -54,7 +54,7 @@
 
                         <div class="w-full flex justify-center items-center relative py-4">
                             <nz-input-group [nzPrefix]="prefixTemplatemail"
-                                class="!w-full  md:!w-[360px] !rounded-md py-2 px-4 !h-[46px]">
+                                class="!w-full  sm:!w-[360px] !rounded-md py-2 px-4 !h-[46px]">
                                 <input type="email" formControlName="email" nz-input placeholder="Email" />
                                 <app-error [form_control]="f['email']" class="absolute left-0 bottom-[-25px]"
                                     [isSubmitted]="isFormSubmit"></app-error>
@@ -66,7 +66,7 @@
 
                         <div class="w-full flex justify-center items-center relative py-4">
                             <nz-input-group [nzPrefix]="prefixTemplatepass" [nzSuffix]="suffixTemplateInfo"
-                                class="!w-full md:!w-[360px] relative !rounded-md py-2 px-4 !h-[46px]">
+                                class="!w-full sm:!w-[360px] relative !rounded-md py-2 px-4 !h-[46px]">
                                 <input [type]="passwordType" formControlName="password" nz-input
                                     placeholder="Password" />
                                 <app-error class="absolute left-0 bottom-[-25px]" [form_control]="f['password']"
@@ -102,7 +102,7 @@
 
                     <div class="flex w-full justify-center">
                         <button type="submit"
-                            class="w-full md:!w-[350px] bg-[#ffd300]  !rounded-md text-black font-bold py-2 mt-4 px-4 !h-[46px]">
+                            class="w-full sm:!w-[350px] bg-[#ffd300]  !rounded-md text-black font-bold py-2 mt-4 px-4 !h-[46px]">
                             Sign In
                         </button>
                     </div>
