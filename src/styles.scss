@@ -1198,8 +1198,8 @@ a.fc-event:hover {
 }
 
 .input-border {
-  box-shadow: 0 0 0 2px rgb(251 21 63 / 20%) !important;
-  border-color: red !important;
+  // box-shadow: 0 0 0 2px rgb(251 21 63 / 20%) !important;
+  border: 1px solid red !important;
 }
 
 .float-input-border {
@@ -7010,7 +7010,7 @@ tr:hover {
 }
 
 .ant-carousel .slick-dots-bottom {
-  bottom: -17px !important;
+  bottom: 12px !important;
 }
 
 
@@ -7845,4 +7845,9 @@ input[type=file]::file-selector-button:hover {
   .mini {
     padding-top: 16px;
   }
+}
+
+
+.ant-spin-spinning{
+  max-height: 100% !important;
 }
