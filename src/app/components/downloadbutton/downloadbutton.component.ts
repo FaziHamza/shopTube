@@ -35,16 +35,14 @@ export class DownloadbuttonComponent {
   requestSubscription: Subscription;
   serverPath = environment.nestBaseUrl
 
-  constructor(private applicationService: ApplicationService) {
+  constructor(private applicationService: ApplicationService , private toastr: NzMessageService,) {
 
   }
   ngOnInit(): void {
     this.hoverTextColor = this.buttonData?.textColor ? this.buttonData?.textColor : '';
     this.bgColor = this.buttonData?.color ? this.buttonData?.color : '';
   }
-  constructor(private toastr: NzMessageService,) {
 
-  }
   handleButtonMouseOver(buttonData: any): void {
     this.hoverOpacity = '1';
     this.bgColor = buttonData.hoverColor || '';
