@@ -9,10 +9,10 @@
     <st-sales-card [salesdata]="item" *ngIf="item.type == 'chart';else second "></st-sales-card>
     <ng-template #second>
         <div *ngIf="item.type == 'headerLogo';else third">
-            <img class="desktop-toggle" 
-            [style.height]="item.height !== undefined && item.height !== null && item.height !== 0 && item.height !== '' ? item.height + 'px' : 'auto'"
-            [style.width]="item.width !== undefined && item.width !== null && item.width !== 0 && item.width !== '' ? item.width + 'px' : 'auto'"
-              [src]="'assets/spectrum.png'" alt>
+            <img class="desktop-toggle"
+                [style.height]="item.height !== undefined && item.height !== null && item.height !== 0 && item.height !== '' ? item.height + 'px' : 'auto'"
+                [style.width]="item.width !== undefined && item.width !== null && item.width !== 0 && item.width !== '' ? item.width + 'px' : 'auto'"
+                [src]="'assets/spectrum.png'" alt>
             <!-- <img class="desktop-toggle"
                 [style.height]="item.height !== undefined && item.height !== null && item.height !== 0 && item.height !== '' ? item.height + 'px' : 'auto'"
                 [style.width]="item.width !== undefined && item.width !== null && item.width !== 0 && item.width !== '' ? item.width + 'px' : 'auto'"
@@ -26,7 +26,6 @@
                 </button>
                 <img class="mobile-logo" (click)="defaultPageRoute()"
                     [src]="dataSharedService.headerLogo ? dataSharedService.headerLogo : 'assets/images/logo.png'" alt>
-                alt>
             </div>
         </div>
     </ng-template>

@@ -15,7 +15,6 @@ import { NZ_ICONS } from 'ng-zorro-antd/icon';
 import { NZ_I18N, en_US } from 'ng-zorro-antd/i18n';
 import { IconDefinition } from '@ant-design/icons-angular';
 import * as AllIcons from '@ant-design/icons-angular/icons';
-import { RegisterComponent } from './user/register/register.component';
 import { FormlyFieldStepper } from './wrappers/FormlyFieldStepper';
 import { AngularSplitModule } from 'angular-split';
 import { NgJsonEditorModule } from 'ang-jsoneditor';
@@ -51,28 +50,25 @@ import { AudioRecordingService } from './services/audio-recording.service';
 import { VideoRecordingService } from './services/video-recording.service';
 import { NotFoundComponent } from './auth/not-found/not-found.component';
 import { PermissionDeniedComponent } from './auth/permission-denied/permission-denied.component';
-import { UserComponent } from './auth/user/user.component';
 import { PolicyComponent } from './admin/policy/policy.component';
 import { PolicyMappingComponent } from './admin/policy-mapping/policy-mapping.component';
 import { UserMappingComponent } from './admin/user-mapping/user-mapping.component';
 import { PolicyMappingTableComponent } from './admin/policy-mapping/policy-mapping-table/policy-mapping-table.component';
 import { CustomReuseStrategy } from './custom-reuse-strategy';
 import { BuilderModule } from './builder/builder.module';
-
 @NgModule({
   declarations: [
     AppComponent,
     HomePageComponent,
     fieldComponents,
     FormlyFieldStepper,
-    RegisterComponent,
     MapComponent,
     MenuBulkUpdateComponent,
     Screenv1Component,
     TableRowComponent,
     NotFoundComponent,
     PermissionDeniedComponent,
-    UserComponent,
+
     PolicyComponent,
     PolicyMappingComponent,
     UserMappingComponent,

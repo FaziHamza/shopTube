@@ -2,7 +2,8 @@
     <div class="w-full flex flex-wrap h-fit register !overflow-hidden">
 
         <!-- poster -->
-        <div class="lg:w-1/2 !hidden lg:!inline-block h-screen !relative !box-border !bg-[#ffd300] !text-black">
+        <div [hidden]="userAddDrawer"
+            class="lg:w-1/2 !hidden lg:!inline-block h-screen !relative !box-border !bg-[#ffd300] !text-black">
             <!-- logo -->
             <div class="flex items-center absolute space-x-[14px] top-5 left-6">
                 <img src="assets/images/expo/icons/Layout=Horizontal, Language=English, Type=Solid Black, Text colour=Black.png"
@@ -36,7 +37,7 @@
 
         <!-- Form -->
         <div
-            class="w-full lg:w-1/2 h-auto min-h-screen py-16 md:py-0 md:h-screen flex justify-center box-border items-center">
+            [class]="!userAddDrawer ? ' lg:w-1/2 ' : ' ' + 'w-full h-auto min-h-screen py-16 md:py-0 md:h-screen flex justify-center box-border items-center'">
             <div class="w-full flex flex-col items-center">
                 <div class="w-full flex justify-start sm:justify-center mb-2 md:my-5 items px-5 md:px-7">
                     <p
@@ -164,7 +165,7 @@
                         <app-error [form_control]="f['application']" [isSubmitted]="isFormSubmit"></app-error>
                     </div>
                     <div class="my-5">
-                        <div class="reCaptcha" id="recaptcha" class="g-recaptcha"
+                        <div [hidden]="userAddDrawer" class="reCaptcha" id="recaptcha" class="g-recaptcha"
                             data-sitekey="6LcZ59MnAAAAAEFG5x2mJoJ_ptOFR7O2hSX0HHx3"></div>
                     </div>
                     <!-- <p

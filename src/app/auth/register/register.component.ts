@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit, Optional } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import { NzCascaderOption } from 'ng-zorro-antd/cascader';
 import { NzMessageService } from 'ng-zorro-antd/message';
@@ -7,6 +7,7 @@ import { EmployeeService } from 'src/app/services/employee.service';
 import { environment } from 'src/environments/environment';
 import { AuthService } from '../services/auth.service';
 import { Router } from '@angular/router';
+import { NzDrawerRef } from 'ng-zorro-antd/drawer';
 
 @Component({
   selector: 'st-register',
@@ -14,6 +15,8 @@ import { Router } from '@angular/router';
   styleUrls: ['./register.component.scss']
 })
 export class RegisterComponent implements OnInit {
+  @Input() userAddDrawer: boolean = false;
+  private drawerRef: NzDrawerRef<any>;
   passwordType: string = "password";
   confirmpasswordType: string = "password";
   passwordIcon: string = "fa-light fa-eye-slash text-lg";
@@ -31,7 +34,9 @@ export class RegisterComponent implements OnInit {
   isFormSubmit: boolean = false;
   saveLoader: boolean = false;
   constructor(private applicationService: ApplicationService, private authService: AuthService, private router: Router,
-    private toastr: NzMessageService, private formBuilder: FormBuilder,) { }
+    private toastr: NzMessageService, private formBuilder: FormBuilder, @Optional() drawerRef: NzDrawerRef<any>) {
+      this.drawerRef = drawerRef;
+     }
 
   ngOnInit(): void {
     this.loadScript();
@@ -194,12 +199,15 @@ export class RegisterComponent implements OnInit {
     //   this.toastr.warning('Application required', { nzDuration: 3000 }); // Show an error message to the user
     //   return;
     // }
-    this.recaptchaResponse = grecaptcha.getResponse();
-    if (!this.recaptchaResponse) {
-      // this.toastr.warning('You are not human', { nzDuration: 3000 }); // Show an error message to the user
-      this.showRecaptcha = true;
-      return;
+    if (!this.userAddDrawer) {
+      this.recaptchaResponse = grecaptcha.getResponse();
+      if (!this.recaptchaResponse) {
+        // this.toastr.warning('You are not human', { nzDuration: 3000 }); // Show an error message to the user
+        this.showRecaptcha = true;
+        return;
+      }
     }
+
 
     this.loader = true;
     let obj = {
@@ -225,8 +233,12 @@ export class RegisterComponent implements OnInit {
         next: (res: any) => {
           if (res.isSuccess && res?.data) {
             this.toastr.success(res.message, { nzDuration: 2000 });
-            this.router.navigateByUrl('/login')
             this.create();
+            if (this.userAddDrawer) {
+              this.drawerRef.close(true);
+            }else{
+              this.router.navigateByUrl('/login')
+            }
           } else {
             this.toastr.error(res.message, { nzDuration: 2000 });
           }

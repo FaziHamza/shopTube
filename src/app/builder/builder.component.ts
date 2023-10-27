@@ -393,6 +393,7 @@ export class BuilderComponent implements OnInit {
       if (gridData) {
         gridData.tableData = [];
         gridData.displayData = [];
+        gridData.totalCount = 0;
       }
       // Assuming data is your array of objects
       this.nodes.forEach((item: any) => {
