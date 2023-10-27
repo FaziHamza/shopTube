@@ -7,7 +7,8 @@ export const environment = {
   defaultauth: 'fake-backend',
   serverApiUrl:"http://localhost:3000/",
   serverBaseUrl:"http://3.111.85.6:3000/",
-  nestBaseUrl:"http://localhost:4500/",
+  nestBaseUrl:"https://spectrum.expocitydubai.com:9443/",
+  // nestBaseUrl:"http://localhost:4500/",
   nestImageUrl:"http://campaigns.expocitydubai.com.s3-website.me-south-1.amazonaws.com/",
   applicationId : '651fa8129ce5925c4c89ced7',
   organizationId : '651fa6889ce5925c4c89cecb',
@@ -25,6 +26,7 @@ export const environment = {
     siteKey: '6LcZ59MnAAAAAEFG5x2mJoJ_ptOFR7O2hSX0HHx3',
   },
 };
+
 
 // ng build --configuration production --base-href http://3.28.179.171/
 

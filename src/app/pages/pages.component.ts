@@ -22,7 +22,6 @@ export class PagesComponent implements OnInit, OnDestroy {
   joiValidationData: TreeNode[] = [];
   @Input() data: any = [];
   @Input() resData: any = [];
-  @Input() resDataMaster: any = [];
   @Input() formlyModel: any;
   fields: any = [];
   dataModel: any = {};
@@ -346,6 +345,17 @@ export class PagesComponent implements OnInit, OnDestroy {
         this.saveLoader = false;
         this.getCacheRule(rule);
         this.actionsBindWithPage(res);
+        if (this.screenData) {
+          const checkLoadtype = this.screenData?.uiData?.filter((a: any) => a.actionType == 'load');
+          if (checkLoadtype?.length > 0) {
+            const field = {
+              title: "User Policy",
+              key: "policyId",
+              type: 'string'
+            }
+            this.checkConditionUIRule(field, this.user?.policy?.policyId, 'policy');
+          }
+        }
       },
       error: (err) => {
         this.saveLoader = false;
@@ -432,7 +442,6 @@ export class PagesComponent implements OnInit, OnDestroy {
       this.resData = nodesData;
 
     const screenData = JSON.parse(this.jsonStringifyWithObject(this.resData));
-    this.resDataMaster = screenData
     this.checkDynamicSection();
     this.uiRuleGetData({ key: 'text_f53ed35b', id: 'formly_86_input_text_f53ed35b_0' });
 
@@ -1165,15 +1174,15 @@ export class PagesComponent implements OnInit, OnDestroy {
   updateNodes() {
     this.resData = [...this.resData];
   }
-  checkConditionUIRule(model: any, currentValue: any) {
+  checkConditionUIRule(model: any, currentValue: any, policy?: string) {
 
-    this.getUIRule(model, currentValue);
+    this.getUIRule(model, currentValue, policy);
     this.updateNodes();
     // this.resData = this.jsonParseWithObject(this.jsonStringifyWithObject(this.resData));
     // this.cdr.detectChanges();
     // this.cdr.detach();
   }
-  getUIRule(model: any, currentValue: any) {
+  getUIRule(model: any, currentValue: any, policy?: string) {
     try {
       if (this.navigation) {
         if (this.businessRuleData) {
@@ -1188,12 +1197,11 @@ export class PagesComponent implements OnInit, OnDestroy {
       console.log(error)
     }
     finally {
+      debugger
       if (this.screenData != undefined) {
         var inputType = this.resData[0].children[1].children;
         if (inputType) {
           let screenData = this.screenData;
-          // const screenData = JSON.parse(this.jsonStringifyWithObject(this.screenData));
-          // const sectionData = JSON.parse(this.jsonStringifyWithObject(this.resDataMaster[0].children[1].children));
 
           // inputType = sectionData;
           let updatedKeyData: any[] = [];
@@ -1234,9 +1242,10 @@ export class PagesComponent implements OnInit, OnDestroy {
 
                   query = this.evalConditionRule(query, screenData.uiData[index].targetIfValue);
                 } else {
-                  query = "'" + getModelValue + "' " + screenData.uiData[index].condationName + " '" + screenData.uiData[index].targetValue + "'";
+                  const checkValue = policy ? this.user?.policy?.policyId : getModelValue
+                  query = "'" + checkValue + "' " + screenData.uiData[index].condationName + " '" + screenData.uiData[index].targetValue + "'";
 
-                  query = this.evalConditionRule(query, screenData.uiData[index].targetIfValue);
+                  query = this.evalConditionRule(query, screenData.uiData[index].targetIfValue, policy);
                 }
               }
               if (this.UiRuleCondition(query)) {
@@ -1433,11 +1442,12 @@ export class PagesComponent implements OnInit, OnDestroy {
   updateFormlyModel() {
     this.formlyModel = Object.assign({}, this.formlyModel)
   }
-  evalConditionRule(query: any, dataTargetIfValue: any) {
+  evalConditionRule(query: any, dataTargetIfValue: any, policy?: string) {
     dataTargetIfValue.forEach((e: any) => {
       let type = e.conditonType == "AND" ? "&&" : "||";
       type = query == '' ? "" : type;
-      let getModelValue = this.formlyModel[e.ifMenuName] == "" ? "''" : this.formlyModel[e.ifMenuName];
+      const checkValue = policy ? this.user?.policy?.policyId : this.formlyModel[e.ifMenuName]
+      let getModelValue = checkValue == "" ? "''" : checkValue;
       if (getModelValue == undefined)
         getModelValue = "";
 
@@ -1553,11 +1563,15 @@ export class PagesComponent implements OnInit, OnDestroy {
       let element = comingData[index];
       for (let k = 0; k < uiData.targetCondition.length; k++) {
         if (currentValue) {
+          // const checkAlready = updatedKeyData.find((a: any) => a == uiData.targetCondition[k].inputOldJsonData.id)
+          // if (!checkAlready) {
+          
+          // }
           updatedKeyData.push(uiData.targetCondition[k].inputJsonData.id)
           element = this.updateObjectById(element, uiData.targetCondition[k].inputJsonData.id, uiData.targetCondition[k].inputJsonData)
         }
         else if (!currentValue) {
-          let checkAlready = updatedKeyData.find((a: any) => a == uiData.targetCondition[k].inputOldJsonData.id)
+          const checkAlready = updatedKeyData.find((a: any) => a == uiData.targetCondition[k].inputOldJsonData.id)
           if (!checkAlready)
             element = this.updateObjectById(element, uiData.targetCondition[k].inputOldJsonData.id, uiData.targetCondition[k].inputOldJsonData)
         }
@@ -1730,15 +1744,15 @@ export class PagesComponent implements OnInit, OnDestroy {
       if (data.type) {
         if (data.type === 'sections' || data.type === 'div' || data.type === 'cardWithComponents' || data.type === 'timelineChild') {
           if (data.mapApi) {
-            if ((window.location.href.includes('spectrum.com') || window.location.href.includes('spectrum.expocitydubai.com')) && this.navigation === 'default') {
-              if ((this.user?.policy?.policyId == '652581192897cfc79cf1dde2' || this.user?.policy?.policyId == '652a3dd6b91b157bcac71a72') && this.screenId == '651fa8139ce5925c4c89cedc' && data.id == 'tdrasections1') {
-                this.makeDynamicSections(data.mapApi, data);
-              } else if (this.user?.policy?.policyId == '65341542adf34593785dc714' && this.screenId == '651fa8139ce5925c4c89cedc' && data.id == 'tdrasections2') {
-                this.makeDynamicSections(data.mapApi, data);
-              }
-            } else {
-              this.makeDynamicSections(data.mapApi, data);
-            }
+            // if ((window.location.href.includes('spectrum.com') || window.location.href.includes('spectrum.expocitydubai.com')) && this.navigation === 'default') {
+            //   if ((this.user?.policy?.policyId == '652581192897cfc79cf1dde2' || this.user?.policy?.policyId == '652a3dd6b91b157bcac71a72') && this.screenId == '651fa8139ce5925c4c89cedc' && data.id == 'tdrasections1') {
+            //     this.makeDynamicSections(data.mapApi, data);
+            //   } else if (this.user?.policy?.policyId == '65341542adf34593785dc714' && this.screenId == '651fa8139ce5925c4c89cedc' && data.id == 'tdrasections2') {
+            //     this.makeDynamicSections(data.mapApi, data);
+            //   }
+            // } else {
+            // }
+            this.makeDynamicSections(data.mapApi, data);
           }
         } else if (data.type === 'listWithComponents' || data.type === 'mainTab' || data.type === 'mainStep') {
           if (data.children) {
@@ -2562,7 +2576,6 @@ export class PagesComponent implements OnInit, OnDestroy {
   }
   clearValues() {
     this.resData = [];
-    this.resDataMaster = [];
     this.formlyModel = {};
   }
 }

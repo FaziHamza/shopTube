@@ -119,18 +119,20 @@ export class SiteLayoutComponent implements OnInit {
       }
     }
     //http://spectrum.com/
-    debugger
-    this.fullCurrentUrl = window.location.href.includes('spectrum.com') ? "spectrum.expocitydubai.com" : window.location.href;
-    this.currentUrl = window.location.href.includes('spectrum.com') ? "spectrum.expocitydubai.com" : window.location.href;
-    if (!this.currentUrl.includes('localhost')) {
-      let check = this.currentUrl.includes(':');
-      if (check) {
-        this.currentUrl = this.currentUrl.split(':')[0];
-        this.getMenuByDomainName(this.currentUrl, true);
-      } else {
-        this.getMenuByDomainName(this.currentUrl, true);
-      }
-    }
+
+    this.fullCurrentUrl = 'spectrum.expocitydubai.com';
+    this.currentUrl = 'spectrum.expocitydubai.com'
+    this.getMenuByDomainName(this.currentUrl, true);
+
+    // if (!this.currentUrl.includes('localhost')) {
+    //   let check = this.currentUrl.includes(':');
+    //   if (check) {
+    //     this.currentUrl = this.currentUrl.split(':')[0];
+    //     this.getMenuByDomainName(this.currentUrl, true);
+    //   } else {
+    //     this.getMenuByDomainName(this.currentUrl, true);
+    //   }
+    // }
     this.requestSubscription = this.dataSharedService.urlModule.subscribe(({ aplication, module }) => {
 
       if (module) {
@@ -195,7 +197,7 @@ export class SiteLayoutComponent implements OnInit {
 
 
   // private updateHeaderHeight() {
-  //   debugger
+  //   
   //   // Get the actual header height dynamically
   //   const headerElement = this.el.nativeElement.querySelector('.head2');
   //   if (headerElement) {
@@ -210,7 +212,6 @@ export class SiteLayoutComponent implements OnInit {
       this.loader = true;
       this.requestSubscription = this.builderService.getApplicationByDomainName(domainName).subscribe({
         next: (res) => {
-          debugger
           if (res.isSuccess) {
             this.domainData = res.data;
             if (res.data.appication) {
