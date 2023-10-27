@@ -3974,9 +3974,15 @@ export class BuilderComponent implements OnInit {
               }
               this.updateNodes();
             }
-            this.selectedNode.dbData = event.dbData;
-            this.selectedNode.tableBody = event.tableDta;
-            this.selectedNode.mapApi = event.form.mapApi;
+            if(event.dbData){
+              this.selectedNode.dbData = event.dbData;
+            }
+            if(event.tableDta){
+              this.selectedNode.tableBody = event.tableDta;
+            }
+            if(event.form.mapApi){
+              this.selectedNode.mapApi = event.form.mapApi;
+            }
             if (event.tableDta) {
               this.selectedNode.checkData = JSON.parse(
                 JSON.stringify(event.tableDta)

@@ -346,17 +346,7 @@ export class PagesComponent implements OnInit, OnDestroy {
         this.saveLoader = false;
         this.getCacheRule(rule);
         this.actionsBindWithPage(res);
-        if (this.screenData) {
-          const checkLoadtype = this.screenData?.uiData?.filter((a: any) => a.actionType == 'load');
-          if (checkLoadtype?.length > 0) {
-            const field = {
-              title: "User Policy",
-              key: "policyId",
-              type: 'string'
-            }
-            this.checkConditionUIRule(field, this.user?.policy?.policyId, 'policy');
-          }
-        }
+
       },
       error: (err) => {
         this.saveLoader = false;
@@ -442,7 +432,18 @@ export class PagesComponent implements OnInit, OnDestroy {
     } else
       this.resData = nodesData;
 
-    const screenData = JSON.parse(this.jsonStringifyWithObject(this.resData));
+    // const screenData = JSON.parse(this.jsonStringifyWithObject(this.resData));
+    if (this.screenData) {
+      const checkLoadtype = this.screenData?.uiData?.filter((a: any) => a.actionType == 'load');
+      if (checkLoadtype?.length > 0) {
+        const field = {
+          title: "User Policy",
+          key: "policyId",
+          type: 'string'
+        }
+        this.checkConditionUIRule(field, this.user?.policy?.policyId, 'policy');
+      }
+    }
     this.checkDynamicSection();
     this.uiRuleGetData({ key: 'text_f53ed35b', id: 'formly_86_input_text_f53ed35b_0' });
 
@@ -1566,7 +1567,7 @@ export class PagesComponent implements OnInit, OnDestroy {
         if (currentValue) {
           // const checkAlready = updatedKeyData.find((a: any) => a == uiData.targetCondition[k].inputOldJsonData.id)
           // if (!checkAlready) {
-          
+
           // }
           updatedKeyData.push(uiData.targetCondition[k].inputJsonData.id)
           element = this.updateObjectById(element, uiData.targetCondition[k].inputJsonData.id, uiData.targetCondition[k].inputJsonData)
@@ -1753,7 +1754,9 @@ export class PagesComponent implements OnInit, OnDestroy {
             //   }
             // } else {
             // }
-            this.makeDynamicSections(data.mapApi, data);
+            if(!data.hideExpression){
+              this.makeDynamicSections(data.mapApi, data);
+            }
           }
         } else if (data.type === 'listWithComponents' || data.type === 'mainTab' || data.type === 'mainStep') {
           if (data.children) {
