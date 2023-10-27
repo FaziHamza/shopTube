@@ -57,6 +57,7 @@ import { PolicyMappingComponent } from './admin/policy-mapping/policy-mapping.co
 import { UserMappingComponent } from './admin/user-mapping/user-mapping.component';
 import { PolicyMappingTableComponent } from './admin/policy-mapping/policy-mapping-table/policy-mapping-table.component';
 import { CustomReuseStrategy } from './custom-reuse-strategy';
+import { BuilderModule } from './builder/builder.module';
 
 @NgModule({
   declarations: [
@@ -99,6 +100,7 @@ import { CustomReuseStrategy } from './custom-reuse-strategy';
     RecaptchaFormsModule,
     RecaptchaModule,
     NgJsonEditorModule,
+    BuilderModule,
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,

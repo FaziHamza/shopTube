@@ -9,11 +9,15 @@
     <st-sales-card [salesdata]="item" *ngIf="item.type == 'chart';else second "></st-sales-card>
     <ng-template #second>
         <div *ngIf="item.type == 'headerLogo';else third">
-            <img class="desktop-toggle"
+            <img class="desktop-toggle" 
+            [style.height]="item.height !== undefined && item.height !== null && item.height !== 0 && item.height !== '' ? item.height + 'px' : 'auto'"
+            [style.width]="item.width !== undefined && item.width !== null && item.width !== 0 && item.width !== '' ? item.width + 'px' : 'auto'"
+              [src]="'assets/spectrum.png'" alt>
+            <!-- <img class="desktop-toggle"
                 [style.height]="item.height !== undefined && item.height !== null && item.height !== 0 && item.height !== '' ? item.height + 'px' : 'auto'"
                 [style.width]="item.width !== undefined && item.width !== null && item.width !== 0 && item.width !== '' ? item.width + 'px' : 'auto'"
                 (click)="defaultPageRoute()"
-                [src]="dataSharedService.headerLogo ? dataSharedService.headerLogo : 'assets/images/logo.png'" alt>
+                [src]="dataSharedService.headerLogo ? dataSharedService.headerLogo : 'assets/images/logo.png'" alt> -->
             <div class="mobile-toggle flex">
                 <button nz-button
                     class="!rounded !bg-transparent !text-amber-300 hover:!bg-transparent hover:!text-amber-300 !border !border-amber-300 !hover:border-amber-300 !font-md !flex !flex-wrap !items-center"

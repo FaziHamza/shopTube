@@ -58,34 +58,34 @@ const routes: Routes = [
       { path: '**', redirectTo: 'not-found' }
     ]
   },
-  {
-    path: 'builder',
-    loadChildren: () => import("src/app/builder/builder.module").then((m) => m.BuilderModule),
-  },
-  {
-    path: 'admin',
-    loadChildren: () => import("src/app/builder/builder.module").then((m) => m.BuilderModule),
-  },
-  {
-    path: 'bar-chart',
-    component: BarChartComponent
-  },
-  {
-    path: 'demo',
-    component: DemoComponent
-  },
-  {
-    path: 'file-manager',
-    component: FileManagerComponent
-  },
-  {
-    path: 'map',
-    component: googleMapComponent // renamed to PascalCase
-  },
-  {
-    path: 'screenv1',
-    component: Screenv1Component
-  },
+  // {
+  //   path: 'builder',
+  //   loadChildren: () => import("src/app/builder/builder.module").then((m) => m.BuilderModule),
+  // },
+  // {
+  //   path: 'admin',
+  //   loadChildren: () => import("src/app/builder/builder.module").then((m) => m.BuilderModule),
+  // },
+  // {
+  //   path: 'bar-chart',
+  //   component: BarChartComponent
+  // },
+  // {
+  //   path: 'demo',
+  //   component: DemoComponent
+  // },
+  // {
+  //   path: 'file-manager',
+  //   component: FileManagerComponent
+  // },
+  // {
+  //   path: 'map',
+  //   component: googleMapComponent // renamed to PascalCase
+  // },
+  // {
+  //   path: 'screenv1',
+  //   component: Screenv1Component
+  // },
   { path: 'not-found', component: NotFoundComponent },
   { path: '**', redirectTo: 'not-found' }
 ];
