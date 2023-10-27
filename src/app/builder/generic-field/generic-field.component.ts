@@ -78,7 +78,8 @@ export class GenericFieldComponent implements OnInit {
     // this.publicList.push(newProduct);
     // this.model["redirection"]="sss"
     var formData = {
-      form: this.actionform.value,
+      // form: this.actionform.value,
+      form: this.modal,
       type: this.type,
     }
     if (this.actionform.valid) {

@@ -110,7 +110,8 @@ export class FormlyFieldImageUploadComponent extends FieldWrapper<FieldTypeConfi
             this.to['additionalProperties'].prefixicon = '';
           }
         }
-        this.formControl.patchValue(this.imagePath + res.path);
+        this.sharedService.onChange(this.imagePath + res.path, this.field,);
+        // this.formControl.patchValue(this.imagePath + res.path);
         // this.sharedService.onChange(this.imagePath + res.path, this.field);
 
         // this.form.patchValue({ url:  })

@@ -277,6 +277,7 @@ export class SectionsComponent implements OnInit {
                 }
               }
             });
+            console.log(empData.modalData)
             this.dataSharedService.buttonData = '';
             this.saveLoader = true;
             this.requestSubscription = this.applicationServices.addNestCommonAPI('knex-query/execute-rules/' + findClickApi[0]?._id, empData).subscribe({

@@ -171,11 +171,11 @@ export class SiteLayoutComponent implements OnInit {
     if (this.el.nativeElement.querySelector('#HEADER')) {
       const headerElement = this.el.nativeElement.querySelector('#HEADER');
       this.headerHeight = headerElement.clientHeight;
-      console.log('the height is header', this.headerHeight);
+      // console.log('the height is header', this.headerHeight);
 
       const layoutElement = this.el.nativeElement.querySelector('.content-container');
       this.renderer.setStyle(layoutElement, 'height', `calc(100vh - ${this.headerHeight + 10}px)`);
-      console.log('nz-layout', `calc(100vh - ${this.headerHeight + 15}px)`)
+      // console.log('nz-layout', `calc(100vh - ${this.headerHeight + 15}px)`)
     }
   }
 

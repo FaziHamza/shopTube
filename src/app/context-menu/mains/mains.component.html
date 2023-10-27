@@ -15,13 +15,14 @@
                 (click)="defaultPageRoute()"
                 [src]="dataSharedService.headerLogo ? dataSharedService.headerLogo : 'assets/images/logo.png'" alt>
             <div class="mobile-toggle flex">
-                <button nz-button class="!rounded !bg-transparent !text-amber-300 hover:!bg-transparent hover:!text-amber-300 !border !border-amber-300 !hover:border-amber-300 !font-md !flex !flex-wrap !items-center"
+                <button nz-button
+                    class="!rounded !bg-transparent !text-amber-300 hover:!bg-transparent hover:!text-amber-300 !border !border-amber-300 !hover:border-amber-300 !font-md !flex !flex-wrap !items-center"
                     (click)="menuCollapsed()">
                     <i class="fa fa-bars"></i>
                 </button>
                 <img class="mobile-logo" (click)="defaultPageRoute()"
-                    [src]="dataSharedService.headerLogo ? serverPath + dataSharedService.headerLogo : 'assets/images/logo.png'"
-                    alt>
+                    [src]="dataSharedService.headerLogo ? dataSharedService.headerLogo : 'assets/images/logo.png'" alt>
+                alt>
             </div>
         </div>
     </ng-template>
@@ -71,16 +72,15 @@
             *ngIf="item.type == 'button' || item.type =='linkbutton' || item.type =='buttonGroup' || item.type =='dropdownButton' ; else thirteenth">
             <nz-badge *ngIf="item?.badgeType == 'count' && item.type != 'buttonGroup'" [nzCount]="item?.badgeCount">
                 <st-block-buttons-card [formlyModel]="formlyModel" [form]="form" [screenName]="screenName"
-                     [softIconList]="item">
+                    [softIconList]="item">
                 </st-block-buttons-card>
             </nz-badge>
             <nz-badge nzDot *ngIf="item?.badgeType == 'dot' && item.type != 'buttonGroup'">
                 <st-block-buttons-card [formlyModel]="formlyModel" [form]="form" [screenName]="screenName"
-                     [softIconList]="item">
+                    [softIconList]="item">
                 </st-block-buttons-card></nz-badge>
             <st-block-buttons-card *ngIf="item?.badgeType == undefined || item?.badgeType == 'none'"
-                 [formlyModel]="formlyModel" [form]="form" [screenName]="screenName"
-                [softIconList]="item">
+                [formlyModel]="formlyModel" [form]="form" [screenName]="screenName" [softIconList]="item">
             </st-block-buttons-card>
         </div>
     </ng-template>
@@ -226,7 +226,7 @@
                 <div
                     *ngIf="data.type == 'button' || data.type == 'linkButton' || data.type == 'buttonGroup' || item.type =='dropdownButton'">
                     <st-block-buttons-card [formlyModel]="formlyModel" [form]="form" [screenName]="screenName"
-                         [softIconList]="data">
+                        [softIconList]="data">
                     </st-block-buttons-card>
                 </div>
             </div>
@@ -258,9 +258,9 @@
         <br *ngIf="item.type == 'breakTag' ; else thirtyNine">
     </ng-template>
     <ng-template #thirtyNine>
-        <st-carousel-crossfade-card 
-            *ngIf="item.type == 'carouselCrossfade' ; else fourty" [screenName]="screenName" [carouselslides]="item" [form]="form" [formlyModel]="formlyModel"
-            [screenName]="screenName" [screenId]="screenId"></st-carousel-crossfade-card>
+        <st-carousel-crossfade-card *ngIf="item.type == 'carouselCrossfade' ; else fourty" [screenName]="screenName"
+            [carouselslides]="item" [form]="form" [formlyModel]="formlyModel" [screenName]="screenName"
+            [screenId]="screenId"></st-carousel-crossfade-card>
     </ng-template>
     <ng-template #fourty>
         <st-builder-toater [toastrData]="item" *ngIf="item.type == 'toastr' ; else fourtyOne"></st-builder-toater>

@@ -85,7 +85,7 @@ export class DownloadbuttonComponent {
       }
     }
     else if (buttonData.path) {
-      alert(this.serverPath  + buttonData.path);
+      alert(buttonData.path);
     } else {
       alert("Path did not exist");
     }

@@ -1,5 +1,5 @@
 <nz-spin class="site-pages" [nzSpinning]="saveLoader" [nzSize]="'large'">
-  <div *ngIf="saveLoader" style="height: 100vh;"></div>
+  <div *ngIf="saveLoader && (resData.length == 0 || data.length == 0)"></div>
   <form [formGroup]="form" (ngSubmit)="submit()">
     <div
       class="bg-white shadow-md boxed-layout  {{resData[0].highLight ? 'highLight' : ''}} {{resData?.[0]?.className}}"
