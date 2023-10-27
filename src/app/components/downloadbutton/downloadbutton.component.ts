@@ -1,5 +1,6 @@
 import { Component, Input, Output } from '@angular/core';
 import { Subscription } from 'rxjs';
+import { ApplicationService } from 'src/app/services/application.service';
 import { environment } from 'src/environments/environment';
 
 @Component({
@@ -33,6 +34,9 @@ export class DownloadbuttonComponent {
   requestSubscription: Subscription;
   serverPath = environment.nestBaseUrl
 
+  constructor(private applicationService: ApplicationService) {
+
+  }
   ngOnInit(): void {
     this.hoverTextColor = this.buttonData?.textColor ? this.buttonData?.textColor : '';
     this.bgColor = this.buttonData?.color ? this.buttonData?.color : '';
@@ -69,26 +73,32 @@ export class DownloadbuttonComponent {
 
   downloadReport(buttonData: any) {
     debugger
-    if (this.path) {
-      const pdfFileUrl = this.serverPath + this.path;
-      if (pdfFileUrl.includes('.pdf')) {
-        // Create an anchor element
-        const anchor = document.createElement('a');
-        anchor.href = pdfFileUrl;
-        anchor.target = '_blank'; // Open in a new tab/window
+    this.applicationService.downloadFile(buttonData.path);
 
-        // Set a filename for the downloaded file
-        anchor.download = 'your-pdf-filename.pdf';
+    // if (this.path) {
+    //   const pdfFileUrl = this.serverPath + this.path;
+    //   if (pdfFileUrl.includes('.pdf')) {
+    //     // Create an anchor element
+    //     const anchor = document.createElement('a');
+    //     anchor.href = pdfFileUrl;
+    //     anchor.target = '_blank'; // Open in a new tab/window
 
-        // Trigger a click event on the anchor element
-        anchor.click();
-      }
-    }
-    else if (buttonData.path) {
-      alert(buttonData.path);
-    } else {
-      alert("Path did not exist");
-    }
+    //     // Set a filename for the downloaded file
+    //     anchor.download = 'your-pdf-filename.pdf';
+
+    //     // Trigger a click event on the anchor element
+    //     anchor.click();
+    //   }
+    // }
+    // else if (buttonData.path) {
+    //   alert(buttonData.path);
+    // } else {
+    //   alert("Path did not exist");
+    // }
     // console.log('download pdf')
+  }
+
+  downloadImage() {
+
   }
 }
