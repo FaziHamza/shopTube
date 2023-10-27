@@ -108,5 +108,17 @@ export class ApplicationService {
     const url = `${this.nestUrl}s3-file-manager?path=${encodedPath}`;
     return this.http.delete(url);
   }
+  downloadFile(url: string): void {
+    this.http.get(url, { responseType: 'blob' }).subscribe((blob) => {
+      const a = document.createElement('a');
+      const objectUrl = window.URL.createObjectURL(blob);
 
+      a.href = objectUrl;
+      a.download = url;
+      document.body.appendChild(a);
+      a.click();
+      window.URL.revokeObjectURL(objectUrl);
+      document.body.removeChild(a);
+    });
+  }
 }

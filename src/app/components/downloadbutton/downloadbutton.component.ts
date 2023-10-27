@@ -1,6 +1,7 @@
 import { Component, Input, Output } from '@angular/core';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { Subscription } from 'rxjs';
+import { ApplicationService } from 'src/app/services/application.service';
 import { environment } from 'src/environments/environment';
 
 @Component({
@@ -34,6 +35,9 @@ export class DownloadbuttonComponent {
   requestSubscription: Subscription;
   serverPath = environment.nestBaseUrl
 
+  constructor(private applicationService: ApplicationService) {
+
+  }
   ngOnInit(): void {
     this.hoverTextColor = this.buttonData?.textColor ? this.buttonData?.textColor : '';
     this.bgColor = this.buttonData?.color ? this.buttonData?.color : '';
@@ -86,8 +90,8 @@ export class DownloadbuttonComponent {
         anchor.href = pdfFileUrl;
         anchor.target = '_blank'; // Open in a new tab/window
 
-        // Set a filename for the downloaded file
-        anchor.download = 'your-pdf-filename.pdf';
+    //     // Set a filename for the downloaded file
+    //     anchor.download = 'your-pdf-filename.pdf';
 
         // Trigger a click event on the anchor element
         anchor.click();
@@ -122,5 +126,9 @@ export class DownloadbuttonComponent {
         nzDuration: 3000,
       });
     }
+  }
+
+  downloadImage() {
+
   }
 }

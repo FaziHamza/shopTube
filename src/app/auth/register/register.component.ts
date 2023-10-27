@@ -52,6 +52,7 @@ export class RegisterComponent implements OnInit {
       firstname: [null, [Validators.required]],
       lastname: [null, [Validators.required]],
       companyname: [null, [Validators.required]],
+      accreditationNumber: [null, [Validators.required]],
       confirmpassword: [null, [Validators.required]],
       password: [null, [Validators.required]],
       application: [null], // Use the custom validator here
@@ -217,6 +218,7 @@ export class RegisterComponent implements OnInit {
       "lastName": this.form.value.lastname,
       "companyName": this.form.value.companyname,
       "password": this.form.value.password,
+      "accreditationNumber": this.form.value.accreditationNumber,
       "organizationId": environment.organizationId,
       "applicationId": environment.applicationId,
       "status": 'Pending',
