@@ -13,6 +13,22 @@
                   <div class="p-3">
                     <div class="flex flex-wrap -mb-4 -mx-2">
                       <div class="w-1/4  mb-4 px-2">
+                        <label class="pt-1">Action Type</label>
+                        <div>
+                          <nz-select class="form-select" formControlName="actionType" aria-label="Default Select Example"  nzShowSearch nzAllowClear>
+                            <nz-option nzValue="select" nzLabel="Select" selected></nz-option>
+                            <nz-option nzValue="load" nzLabel="On Load"></nz-option>
+                            <nz-option nzValue="click" nzLabel="On Click"></nz-option>
+                            <nz-option nzValue="fileupload" nzLabel="File Upload"></nz-option>
+                            <nz-option nzValue="change" nzLabel="Change"></nz-option>
+                            <nz-option nzValue="dblclick" nzLabel="Double Click"></nz-option>
+                            <nz-option nzValue="mouseover" nzLabel="Mouse Over"></nz-option>
+                            <nz-option nzValue="mouseleave" nzLabel="Mouse Leave"></nz-option>
+                            <nz-option nzValue="mouseenter" nzLabel="Mouse Enter"></nz-option>
+                          </nz-select>
+                        </div>
+                      </div>
+                      <div class="w-1/4  mb-4 px-2">
                         <label class="pt-1">If</label>
                         <div>
                           <nz-select nzShowSearch nzAllowClear formControlName="ifMenuName"
@@ -32,14 +48,14 @@
                           </nz-select>
                         </div>
                       </div>
-                      <div class="w-1/4  mb-4 px-2">
+                      <div class="w-1/6  mb-4 px-2">
                         <label class="mx-2 mt-2 mb-1">Value</label>
                         <div>
                           <input nz-input type="text" placeholder="Enter value" id="targetValue{{uiIndex}}"
                             formControlName="targetValue" required class="form-control" name="targetValue{{uiIndex}}" />
                         </div>
                       </div>
-                      <div class="w-1/4   px-2 h-fit my-5">
+                      <div class="w-1/12   px-2 h-fit my-5">
                         <button nz-button nzType="primary" class="mt-[2px]" nzDanger (click)="removeUIRule(uiIndex)"
                           type="button">
                           <i class="fa-regular fa-trash text-[10px]"></i></button>
@@ -62,7 +78,8 @@
                                   <label class="pt-1">If</label>
                                   <div>
                                     <nz-select nzShowSearch nzAllowClear formControlName="ifMenuName"
-                                      (ngModelChange)="[changeIf(), getConditionList(uiIndex,ifIndex)]">
+                                      (ngModelChange)="[getConditionList(uiIndex)]">
+                                      <!-- (ngModelChange)="[changeIf(), getConditionList(uiIndex,ifIndex)]"> -->
                                       <nz-option [nzLabel]="uiData.title ? uiData.title : uiData.key"
                                         [nzValue]="uiData.key" *ngFor="let uiData of ifMenuName"></nz-option>
                                     </nz-select>

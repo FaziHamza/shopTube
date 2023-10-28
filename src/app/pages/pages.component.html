@@ -1,5 +1,5 @@
 <nz-spin class="site-pages" [nzSpinning]="saveLoader" [nzSize]="'large'">
-  <div *ngIf="saveLoader" class="!absolute top-[50%]"></div>
+  <div *ngIf="saveLoader && (resData.length == 0 || data.length == 0)"></div>
   <form [formGroup]="form" (ngSubmit)="submit()">
     <div
       class="bg-white shadow-md boxed-layout  {{resData[0].highLight ? 'highLight' : ''}} {{resData?.[0]?.className}}"
@@ -35,29 +35,10 @@
                 (traverseChangeEmit)="traverseAndChange($event , '')"
                 (sectionRepeatEmit)="sectionRepeat($event)"></st-sections>
             </span> -->
-            <ng-container
-              *ngIf="(user?.policy?.policyId == '652581192897cfc79cf1dde2' || user?.policy?.policyId == '652a3dd6b91b157bcac71a72') && i == 0 && screenId == '651fa8139ce5925c4c89cedc'">
-              <st-sections [resData]="resData" [sections]="sections" [form]="form" [screenName]="screenName"
-                [joiValidationData]="joiValidationData" [screenId]="screenId" [formlyModel]="formlyModel"
-                (traverseChangeEmit)="traverseAndChange($event, '')"
-                (sectionRepeatEmit)="sectionRepeat($event)"></st-sections>
-            </ng-container>
-
-            <ng-container *ngIf="user?.policy?.policyId == '65341542adf34593785dc714' && i == 1 && screenId == '651fa8139ce5925c4c89cedc'">
-              <st-sections [resData]="resData" [sections]="sections" [form]="form" [screenName]="screenName"
-                [joiValidationData]="joiValidationData" [screenId]="screenId" [formlyModel]="formlyModel"
-                (traverseChangeEmit)="traverseAndChange($event, '')"
-                (sectionRepeatEmit)="sectionRepeat($event)"></st-sections>
-            </ng-container>
-
-            <!-- Default action when none of the conditions are met -->
-            <ng-container
-              *ngIf="screenId != '651fa8139ce5925c4c89cedc'">
-              <st-sections [resData]="resData" [sections]="sections" [form]="form" [screenName]="screenName"
-                [joiValidationData]="joiValidationData" [screenId]="screenId" [formlyModel]="formlyModel"
-                (traverseChangeEmit)="traverseAndChange($event, '')"
-                (sectionRepeatEmit)="sectionRepeat($event)"></st-sections>
-            </ng-container>
+            <st-sections [resData]="resData" [sections]="sections" [form]="form" [screenName]="screenName"
+            [joiValidationData]="joiValidationData" [screenId]="screenId" [formlyModel]="formlyModel"
+            (traverseChangeEmit)="traverseAndChange($event, '')"
+            (sectionRepeatEmit)="sectionRepeat($event)"></st-sections>
 
 
             <!-- <st-sections [resData]="resData" [screenName]="screenName" [form]="form" [sections]="sections"

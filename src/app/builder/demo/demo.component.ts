@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Renderer2 } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Observable, Observer } from 'rxjs';
 import { EmployeeService } from 'src/app/services/employee.service';
 
 
@@ -12,7 +13,7 @@ import { EmployeeService } from 'src/app/services/employee.service';
 export class DemoComponent implements OnInit {
   array = [1, 2, 3, 4];
   effect = 'scrollx';
-  constructor(private fb: FormBuilder, private employeeService: EmployeeService) { }
+  constructor(private fb: FormBuilder, private employeeService: EmployeeService, private renderer: Renderer2) { }
 
   actionList: any = JSON.stringify([
     {
@@ -445,5 +446,17 @@ export class DemoComponent implements OnInit {
     const thenActions = this.addThenActions(ruleIndex, andIndex);
     thenActions.removeAt(thenIndex);
   }
+  name = "Mr";
+  base64Image: any;
+  imageURL = 'http://campaigns.expocitydubai.com.s3-website.me-south-1.amazonaws.com/tvshows/download-3d5320c0-0d40-439f-b41a-c5a2bbdb04c8.jpg';
+  downloadImage() {
+    const iframe = document.querySelector('iframe');
+    if (iframe) {
+      iframe?.contentWindow?.document.execCommand('SaveAs', true, 'custom-image-filename.jpg');
+    }
+  }
+
+
+
 }
 

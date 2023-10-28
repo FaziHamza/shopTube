@@ -134,9 +134,12 @@ export class BuilderComponent implements OnInit {
     this.editorOptions.modes = ['code', 'text', 'tree', 'view'];
     this.dataSharedService.change.subscribe(({ event, field }) => {
       if (event && field && this.router.url == '/builder') {
-        // if (this.formModalData[field.key]) {
-        //   this.formModalData[field.key] = event;
-        // }
+        if (this.formModalData[field.key] && field.type == 'image-upload') {
+          this.formModalData[field.key] = event;
+          if (!this.formModalData[field.key]) {
+            this.makeModel(field, event);
+          }
+        }
         this.checkConditionUIRule(field, event);
       }
     });
@@ -390,6 +393,7 @@ export class BuilderComponent implements OnInit {
       if (gridData) {
         gridData.tableData = [];
         gridData.displayData = [];
+        gridData.totalCount = 0;
       }
       // Assuming data is your array of objects
       this.nodes.forEach((item: any) => {
@@ -3971,9 +3975,15 @@ export class BuilderComponent implements OnInit {
               }
               this.updateNodes();
             }
-            this.selectedNode.dbData = event.dbData;
-            this.selectedNode.tableBody = event.tableDta;
-            this.selectedNode.mapApi = event.form.mapApi;
+            if(event.dbData){
+              this.selectedNode.dbData = event.dbData;
+            }
+            if(event.tableDta){
+              this.selectedNode.tableBody = event.tableDta;
+            }
+            if(event.form.mapApi){
+              this.selectedNode.mapApi = event.form.mapApi;
+            }
             if (event.tableDta) {
               this.selectedNode.checkData = JSON.parse(
                 JSON.stringify(event.tableDta)
@@ -4652,7 +4662,7 @@ export class BuilderComponent implements OnInit {
         break;
 
       case 'dropdownButton':
-      
+
         this.selectedNode.btnIcon = event.form?.icon;
         if (event.tableDta) {
           this.selectedNode.dropdownOptions = event.tableDta;
@@ -7143,5 +7153,35 @@ export class BuilderComponent implements OnInit {
         this.toastr.error(err, { nzDuration: 3000 });
       }
     });
+  }
+
+  makeModel(field: any, event: any) {
+    let newModel = JSON.parse(JSON.stringify(this.formlyModel));
+    if (newModel) {
+      for (const key in newModel) {
+        if (newModel.hasOwnProperty(key)) {
+          if (typeof newModel[key] === 'object') {
+            for (const key1 in newModel[key]) {
+              if (field.key.includes('.')) {
+                if (key1 == field.key.split('.')[1]) {
+                  newModel[key][field.key.split('.')[1]] = event;
+                }
+              } else {
+                if (key1 == field.key) {
+                  newModel[key][field.key] = event;
+                }
+              }
+
+            }
+          }
+          else {
+            if (key == field.key) {
+              newModel[field.key] = event;
+            }
+          }
+        }
+      }
+    }
+    this.formlyModel = newModel;
   }
 }

@@ -11,6 +11,7 @@ import { ErrorComponent } from 'src/common/error/error.component';
 import { EnvService } from '../shared/envoirment.service';
 import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
 import { ResetPasswordComponent } from './reset-password/reset-password.component';
+import { UserComponent } from './user/user.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -22,7 +23,8 @@ const routes: Routes = [
     RegisterComponent, 
     ErrorComponent,
     ForgotPasswordComponent,
-    ResetPasswordComponent
+    ResetPasswordComponent,
+    UserComponent,
   ],
   imports: [
     AuthRoutingModule,

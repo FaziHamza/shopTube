@@ -31,9 +31,18 @@ export class UIRuleComponent implements OnInit {
   targetList: any = [];
   condationList: any;
   ifMenuName: any = [];
+  actionTypeList: any = [];
   ifMenuList: any = [];
   uiRuleId: string = '';
   ngOnInit(): void {
+    const obj = {
+      title:"User Policy",
+      key:"policyId",
+      type:'string'
+    }
+    const data  = JSON.parse(JSON.stringify(this.nodes));
+    this.nodes = data;
+    this.nodes[0].children[1].children.push(obj);
     this.uiRule();
   }
   changeIf() {
@@ -124,7 +133,7 @@ export class UIRuleComponent implements OnInit {
       nodeList = this.findElementNode(this.nodes[0], menuName);
     }
 
-    let inputType = nodeList.formly[0].fieldGroup[0].props.type == undefined ? nodeList.type : nodeList.formly[0].fieldGroup[0].props.type;
+    let inputType = nodeList.formly == undefined ? nodeList.type : nodeList.formly[0].fieldGroup[0].props.type;
     this.condationList = [];
     this.condationList = this.conditioList(inputType);
     if (ifIndex != undefined && uiIndex != undefined) {
@@ -145,6 +154,7 @@ export class UIRuleComponent implements OnInit {
       inputType: '',
       condationList: [this.conditioList('')],
       condationName: '',
+      actionType: '',
       targetValue: '',
       targetName: '',
       conditonType: 'And',
@@ -171,6 +181,7 @@ export class UIRuleComponent implements OnInit {
       inputType: '',
       condationList: [this.conditioList('')],
       condationName: '',
+      actionType: '',
       targetValue: '',
       conditonType: 'AND',
     });
@@ -431,7 +442,7 @@ export class UIRuleComponent implements OnInit {
   
   uiRule() {
     this.saveLoader = true;
-    // debugger
+    debugger
     //UIRule Form Declare
     this.uiRuleFormInitilize();
     this.ifMenuName = [];
@@ -448,6 +459,7 @@ export class UIRuleComponent implements OnInit {
     //   }
 
     // }
+   
     let sectionData = this.getAllObjects(this.nodes[0].children[1]);
     this.nodesData = sectionData;
     this.ifMenuList = sectionData;
@@ -468,6 +480,7 @@ export class UIRuleComponent implements OnInit {
                   ifMenuName: [getUIRes.ifMenuName],
                   condationList: [this.getConditionListOnLoad(getUIRes.ifMenuName)],
                   condationName: [getUIRes.condationName],
+                  actionType: [getUIRes?.actionType],
                   targetValue: [getUIRes.targetValue],
                   conditonType: [getUIRes.conditonType],
                   targetIfValue: this.formBuilder.array(getUIRes.targetIfValue.map((getIFRes: any, ifIndex: number) =>
@@ -475,6 +488,7 @@ export class UIRuleComponent implements OnInit {
                       ifMenuName: [getIFRes.ifMenuName],
                       condationList: [this.getConditionListOnLoad(getIFRes.ifMenuName)],
                       condationName: [getIFRes.condationName],
+                      actionType: [getIFRes.actionType],
                       targetValue: [getIFRes.targetValue],
                       conditonType: [getIFRes.conditonType]
                     }))),
@@ -503,7 +517,7 @@ export class UIRuleComponent implements OnInit {
     nodeList = this.findElementNode(this.nodes[0], menuName);
     if (nodeList) {
 
-      let inputType = nodeList.formly[0].fieldGroup[0].props.type == undefined ? nodeList.type : nodeList.formly[0].fieldGroup[0].props.type;
+      let inputType = nodeList.formly == undefined ? nodeList.type : nodeList.formly[0].fieldGroup[0].props.type;
       this.condationList = [];
       this.condationList = this.conditioList(inputType);
       return this.condationList;

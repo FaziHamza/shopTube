@@ -7,6 +7,7 @@ import { DomSanitizer } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { NzModalService } from 'ng-zorro-antd/modal';
+import { parse } from 'path';
 import { Subscription } from 'rxjs';
 import { AnyCatcher } from 'rxjs/internal/AnyCatcher';
 import { ApplicationService } from 'src/app/services/application.service';
@@ -837,16 +838,16 @@ export class DynamicTableComponent implements OnInit {
         // Find the 'delete' event in appConfigurableEvent
         const findClickApi = this.data.appConfigurableEvent.filter((item: any) => item.rule.includes('delete'));
         const id = findClickApi?.[0]?.rule.includes('EnumList') ? data?._id : data?.id;
-    
+
         if (findClickApi.length > 0) {
           const url = findClickApi[0].actionType === 'api' ? findClickApi[0].rule : `knex-query/executeDelete-rules/${findClickApi[0]._id}`;
-    
+
           if (url) {
             this.saveLoader = true;
             const requestObservable = findClickApi[0].actionType === 'api' ?
               this.employeeService.deleteCommonApi(url, id) :
               this.employeeService.saveSQLDatabaseTable(url, model);
-    
+
             this.requestSubscription = requestObservable.subscribe({
               next: (res) => {
                 this.saveLoader = false;
@@ -893,7 +894,9 @@ export class DynamicTableComponent implements OnInit {
         for (const header of filteredHeaders) {
           if (!this.displayData.some(item => item.hasOwnProperty(header.key + '_list'))) {
             try {
+              this.dataSharedService.pagesLoader.next(true);
               const res = await this.applicationService.getNestCommonAPI(header?.callApi).toPromise();
+              this.dataSharedService.pagesLoader.next(false);
               if (res.data?.length > 0) {
                 const propertyNames = Object.keys(res.data[0]);
                 const result = res.data.map((item: any) => {
@@ -909,15 +912,18 @@ export class DynamicTableComponent implements OnInit {
                   label: item.name || item[propertyNames[1]],
                   value: item.name || item[propertyNames[1]],
                 }));
-
                 this.makeOptions(this.displayData, header.key + '_list', finalObj);
-              }
+                let newData = this.displayData.find((a: any) =>a.id == data.id)
+                this.editData = { ...newData };
+                }
             } catch (err) {
+              this.dataSharedService.pagesLoader.next(false);
               console.error(err); // Log the error to the console
               this.toastr.error("An error occurred", { nzDuration: 3000 }); // Show an error message to the user
             }
           }
         }
+      } else {
       }
     } catch (error) {
       console.error("An error occurred in try-catch:", error);
@@ -1833,50 +1839,56 @@ export class DynamicTableComponent implements OnInit {
     }
 
     if (findClickApi) {
-
-      if (newDataModel) {
-        for (let key in newDataModel) {
-          if (newDataModel[key] && Array.isArray(newDataModel[key])) {
-            delete newDataModel[key];
-          } else if (newDataModel[key] == null) {
-            newDataModel[key] = ''
-          }
-          else if (newDataModel[key] == 'null') {
-            newDataModel[key] = ''
-          }
-        }
-
-        delete newDataModel.children
-        const model = {
-          screenId: this.screenName,
-          postType: 'put',
-          modalData: newDataModel
-        };
-
-        let url = findClickApi[0]?._id ? `knex-query/executeDelete-rules/${findClickApi[0]?._id}` : '';
-        if (url) {
-          this.saveLoader = true;
-          this.requestSubscription = this.applicationServices.addNestCommonAPI(url, model).subscribe({
-            next: (res) => {
-              if (res.isSuccess && res.data.length > 0) {
-                this.toastr.success('Update Successfully', { nzDuration: 3000 });
-                this.editId = null;
-                this.editData = null;
-              }
-              else {
-                this.cancelEdit(dataModel);
-                this.toastr.warning(res.message, { nzDuration: 3000 });
-              }
-              this.saveLoader = false;
-            },
-            error: (err) => {
-              console.error(err);
-              this.toastr.error('An error occurred', { nzDuration: 3000 });
-              this.saveLoader = false;
+      if (JSON.stringify(dataModel) != JSON.stringify(this.editData)) {
+        if (newDataModel) {
+          for (let key in newDataModel) {
+            if (newDataModel[key] && Array.isArray(newDataModel[key])) {
+              delete newDataModel[key];
+            } else if (newDataModel[key] == null) {
+              newDataModel[key] = ''
             }
-          });
+            else if (newDataModel[key] == 'null') {
+              newDataModel[key] = ''
+            }
+          }
+
+          delete newDataModel.children
+          const model = {
+            screenId: this.screenName,
+            postType: 'put',
+            modalData: newDataModel
+          };
+
+          let url = findClickApi[0]?._id ? `knex-query/executeDelete-rules/${findClickApi[0]?._id}` : '';
+          if (url) {
+            this.saveLoader = true;
+            this.requestSubscription = this.applicationServices.addNestCommonAPI(url, model).subscribe({
+              next: (res) => {
+                if (res.isSuccess && res.data.length > 0) {
+                  this.toastr.success('Update Successfully', { nzDuration: 3000 });
+                  this.editId = null;
+                  this.editData = null;
+                }
+                else {
+                  this.cancelEdit(dataModel);
+                  this.toastr.warning(res.message, { nzDuration: 3000 });
+                }
+                this.saveLoader = false;
+              },
+              error: (err) => {
+                console.error(err);
+                this.toastr.error('An error occurred', { nzDuration: 3000 });
+                this.saveLoader = false;
+              }
+            });
+          }
         }
+      } else {
+        this.toastr.warning('Please change the data for update', { nzDuration: 3000 });
       }
+    }
+    else {
+      this.toastr.warning('There is no rule against this', { nzDuration: 3000 });
     }
   }
   exportToExcel() {
@@ -2488,13 +2500,13 @@ export class DynamicTableComponent implements OnInit {
       localStorage.setItem(this.screenId, JSON.stringify(storeData));
     }
   }
-  handleDataDeletion(data : any) {
+  handleDataDeletion(data: any) {
     // Remove the data to be deleted from various data arrays
     this.tableData = this.tableData.filter((d: any) => d.id !== data.id);
     this.displayData = this.displayData.filter((d: any) => d.id !== data.id);
     this.excelReportData = this.excelReportData.filter((d: any) => d.id !== data.id);
     this.pageChange(1); // Optionally, update pagination or other UI changes
   }
-  
+
 }
 

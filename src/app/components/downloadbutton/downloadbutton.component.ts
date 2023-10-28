@@ -1,5 +1,7 @@
 import { Component, Input, Output } from '@angular/core';
+import { NzMessageService } from 'ng-zorro-antd/message';
 import { Subscription } from 'rxjs';
+import { ApplicationService } from 'src/app/services/application.service';
 import { environment } from 'src/environments/environment';
 
 @Component({
@@ -33,6 +35,9 @@ export class DownloadbuttonComponent {
   requestSubscription: Subscription;
   serverPath = environment.nestBaseUrl
 
+  constructor(private applicationService: ApplicationService , private toastr: NzMessageService,) {
+
+  }
   ngOnInit(): void {
     this.hoverTextColor = this.buttonData?.textColor ? this.buttonData?.textColor : '';
     this.bgColor = this.buttonData?.color ? this.buttonData?.color : '';
@@ -69,12 +74,32 @@ export class DownloadbuttonComponent {
 
   downloadReport(buttonData: any) {
     debugger
-    if (this.path) {
+    if (this.path || this.path == 'notApproved') {
+      if (this.path == 'notApproved') {
+        this.toastr.warning('User is not approved', {
+          nzDuration: 3000,
+        });
+        return;
+      }
       const pdfFileUrl = this.serverPath + this.path;
       if (pdfFileUrl.includes('.pdf')) {
         // Create an anchor element
         const anchor = document.createElement('a');
         anchor.href = pdfFileUrl;
+        anchor.target = '_blank'; // Open in a new tab/window
+
+    //     // Set a filename for the downloaded file
+    //     anchor.download = 'your-pdf-filename.pdf';
+
+        // Trigger a click event on the anchor element
+        anchor.click();
+      }
+    }
+    else if (buttonData.path) {
+      if (buttonData.path.includes('.pdf')) {
+        // Create an anchor element
+        const anchor = document.createElement('a');
+        anchor.href = buttonData.path;
         anchor.target = '_blank'; // Open in a new tab/window
 
         // Set a filename for the downloaded file
@@ -83,12 +108,25 @@ export class DownloadbuttonComponent {
         // Trigger a click event on the anchor element
         anchor.click();
       }
+      else if (buttonData.path.endsWith('.jpg') || buttonData.path.endsWith('.png')) {
+        let name = buttonData.path;
+        var link = document.createElement("a");
+        if (name)
+          link.setAttribute('download', '');
+        link.href = buttonData.path;
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+      }
     }
-    else if (buttonData.path) {
-      alert(this.serverPath  + buttonData.path);
-    } else {
-      alert("Path did not exist");
+    else {
+      this.toastr.warning('Path did not exist', {
+        nzDuration: 3000,
+      });
     }
-    // console.log('download pdf')
+  }
+
+  downloadImage() {
+
   }
 }
