@@ -1,5 +1,5 @@
 <nz-spin [nzSpinning]="loading" [nzSize]="'large'">
-    <button nz-button (click)="drawer()" nzType="primary" class="btn"><i class="fa-regular fa-plus mr-1.5"></i>Add
+    <button nz-button (click)="drawer()" nzType="primary" class="btn ml-2 mt-2"><i class="fa-regular fa-plus mr-1.5"></i>Add
         user</button>
     <nz-table #basicTable [nzData]="listOfData">
         <thead>
@@ -26,12 +26,12 @@
                         <option class="text-black mx-2" value="Approved">Approve
                     </select>
                 </td>
-                <td class="!text-center">
+                <td class="">
                     <i (click)="editFunc(data)" *ngIf="edit !== data._id"
                         class="fa-regular !text-sm fa-pencil text-blue-500"></i>
                     <i (click)="showDeleteConfirm(data)" *ngIf="edit !== data._id"
                         class="fa-regular !text-sm fa-trash text-red-500 ml-2"></i>
-                    <div class="flex justify-center items-center" *ngIf="edit == data._id">
+                    <div class="flex justify-start items-center" *ngIf="edit == data._id">
                         <i (click)="saveEdit(data)" class="fa-regular !text-sm fa-save text-blue-500 mr-2.5"></i>
                         <!-- <i  class="fa-regular !text-sm fa-times text-red-500 "></i> -->
                         <i (click)="cancelEdit(data)" class="fa-solid fa-circle-xmark !text-sm text-red-500"></i>

@@ -16,7 +16,7 @@
             <div class="w-full h-fit flex justify-center absolute space-x-[14px] top-6 ">
                 <h1 class="!text-3xl font-bold !mb-0 !text-slate-900">Spectrum Management</h1>
             </div>
-            <div class="w-full h-screen pt-24">
+            <div class="w-full h-full pt-24">
                 <div
                     class="!flex !justify-center !items-center img-div !bg-center !bg-no-repeat !bg-contain !px-[70px]">
                     <img src="assets/images/expo/Image1st.png"
@@ -37,9 +37,9 @@
 
         <!-- Form -->
         <div
-            [class]="!userAddDrawer ? ' lg:w-1/2 ' : ' ' + 'w-full h-auto min-h-screen py-16 md:py-0 md:h-screen flex justify-center box-border items-center'">
-            <div class="w-full flex flex-col items-center">
-                <div class="w-full flex justify-start sm:justify-center mb-2 md:my-5 items px-5 md:px-7">
+            [class]="!userAddDrawer ? ' lg:w-1/2 ' : ' ' + 'w-full h-auto py-16 md:py-0 md:min-h-auto flex justify-center box-border items-center'">
+            <div class="w-full flex flex-col items-center h-full">
+                <div class="w-full flex justify-start sm:justify-center my-8 md:my-10 items px-5 md:px-7">
                     <p
                         class="text-3xl sm:text-4xl !text-left not-italic font-bold leading-[30px] tracking-[0.2px] text-[#0F172A]">
                         Sign Up for an Account
