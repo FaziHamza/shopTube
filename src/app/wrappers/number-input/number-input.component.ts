@@ -50,7 +50,5 @@ export class NumberInputComponent extends FieldType<FieldTypeConfig> {
 
   onModelChange(event: any, model: any) {
     this.sharedService.onChange(event, this.field);
-    // this.formControl.setValue(event);
-    // console.log(event, model, 'radio');
   }
 }
