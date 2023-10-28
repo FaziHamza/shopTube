@@ -39,17 +39,17 @@
         <div
             [class]="!userAddDrawer ? ' w-full lg:w-1/2 ' : ' ' + 'w-full h-auto py-16 md:py-0 md:min-h-auto flex justify-center box-border items-center'">
             <div class="w-full flex flex-col items-center h-auto overflow-auto py-16 md:py-0">
-                <div [class]="showRecaptcha ? 'mb-20 mt-6' : 'my-4 md:my-6'" class="w-full flex justify-center relative items-center px-5 md:px-7">
-                    <p
-                        class="text-3xl sm:text-4xl not-italic font-bold leading-[30px] tracking-[0.2px] text-[#0F172A]">
-                        Sign Up for an Account
+                <div [class]="showRecaptcha ? 'mb-20 mt-6' : 'my-4 md:my-6'"
+                    class="w-full flex justify-center relative items-center px-5 md:px-7">
+                    <p class="text-3xl sm:text-4xl not-italic font-bold leading-[30px] tracking-[0.2px] text-[#0F172A]">
+                        {{userAddDrawer ? 'Add user account' : 'Sign Up for an Account'}}
                     </p>
                     <nz-alert nzType="warning" nzMessage="Warning" nzDescription="You are not human" nzShowIcon
-                    class="w-full rechateAlert absolute top-14" *ngIf="showRecaptcha"></nz-alert>
+                        class="w-full rechateAlert absolute top-14" *ngIf="showRecaptcha"></nz-alert>
                 </div>
-               
-                <form [ngClass]="{'mt-4' : showRecaptcha}" class="flex flex-col px-5 md:px-7 items-center w-full" [formGroup]="form"
-                    (ngSubmit)="submitForm()">
+
+                <form [ngClass]="{'mt-4' : showRecaptcha}" class="flex flex-col px-5 md:px-7 items-center w-full"
+                    [formGroup]="form" (ngSubmit)="submitForm()">
                     <div class="flex flex-col w-full">
                         <!-- <nz-input-group [nzPrefix]="prefixTemplateUser"
                         class="!w-[350px] !rounded-md py-2 mt-4 px-4 !h-[46px]">
@@ -62,7 +62,7 @@
                             class="flex flex-col md:flex-row items-center space-y-8 md:space-y-0 md:space-x-6 relative md:py-3 pt-5 pb-3">
                             <div class="!w-full md:w-1/2 relative">
                                 <nz-input-group [nzPrefix]="prefixTemplatfirstname"
-                                    class=" !rounded-md py-2 px-4 !h-[46px]"   >
+                                    class=" !rounded-md py-2 px-4 !h-[46px]">
                                     <input type="text" formControlName="firstname" nz-input placeholder="First Name" />
                                 </nz-input-group>
                                 <ng-template #prefixTemplatfirstname>
@@ -74,7 +74,7 @@
 
                             <div class="!w-full md:w-1/2 relative">
 
-                                <nz-input-group [nzPrefix]="prefixTemplatlastname" class=" !rounded-md px-4 !h-[46px]"   >
+                                <nz-input-group [nzPrefix]="prefixTemplatlastname" class=" !rounded-md px-4 !h-[46px]">
                                     <input type="text" formControlName="lastname" nz-input placeholder="Last Name" />
                                 </nz-input-group>
                                 <ng-template #prefixTemplatlastname>
@@ -87,21 +87,8 @@
 
                         <div
                             class="flex flex-col md:flex-row items-center space-y-8 md:space-y-0 md:space-x-6 relative md:py-3 pt-5 pb-3">
-
                             <div class="!w-full md:w-1/2 relative">
-                                <nz-input-group [nzPrefix]="prefixTemplatcompanyname"   
-                                    class="!rounded-md px-4 py-2  !h-[46px]">
-                                    <input type="text" formControlName="companyname" nz-input
-                                        placeholder="Company Name" />
-                                </nz-input-group>
-                                <ng-template #prefixTemplatcompanyname>
-                                    <i class="fa-light fa-buildings mr-3 text-lg"></i>
-                                </ng-template>
-                                <app-error class="absolute left-0 bottom-[-20px]" [form_control]="f['companyname']"
-                                    [isSubmitted]="isFormSubmit"></app-error>
-                            </div>
-                            <div class="!w-full md:w-1/2 relative">
-                                <nz-input-group [nzPrefix]="prefixTemplataccreditationNumber"   
+                                <nz-input-group [nzPrefix]="prefixTemplataccreditationNumber"
                                     class="!rounded-md px-4 py-2  !h-[46px]">
                                     <input type="text" formControlName="accreditationNumber" nz-input
                                         placeholder="Accreditation Number" />
@@ -109,17 +96,11 @@
                                 <ng-template #prefixTemplataccreditationNumber>
                                     <i class="fa-light fa-buildings mr-3 text-lg"></i>
                                 </ng-template>
-                                <app-error class="absolute left-0 bottom-[-20px]" [form_control]="f['accreditationNumber']"
-                                    [isSubmitted]="isFormSubmit"></app-error>
+                                <app-error class="absolute left-0 bottom-[-20px]"
+                                    [form_control]="f['accreditationNumber']" [isSubmitted]="isFormSubmit"></app-error>
                             </div>
-
-                           
-                        </div>
-
-                        <div
-                            class="flex flex-col md:flex-row items-center space-y-8 md:space-y-0 md:space-x-6 relative md:py-3 pt-5 pb-3">
                             <div class="!w-full md:w-1/2 relative">
-                                <nz-input-group [nzPrefix]="prefixTemplatemail" class="!rounded-md px-4 !h-[46px]"   >
+                                <nz-input-group [nzPrefix]="prefixTemplatemail" class="!rounded-md px-4 !h-[46px]">
                                     <input type="email" formControlName="email" nz-input placeholder="Email" />
                                 </nz-input-group>
                                 <ng-template #prefixTemplatemail>
@@ -129,11 +110,10 @@
                                     [isSubmitted]="isFormSubmit"></app-error>
                             </div>
                         </div>
-
                         <div
                             class="flex flex-col md:flex-row items-center space-y-8 md:space-y-0 md:space-x-6 relative md:py-4 pt-5 pb-3">
                             <div class="!w-full md:w-1/2 relative">
-                                <nz-input-group [nzPrefix]="prefixTemplatepass" [nzSuffix]="suffixTemplateInfo"   
+                                <nz-input-group [nzPrefix]="prefixTemplatepass" [nzSuffix]="suffixTemplateInfo"
                                     class="!rounded-md  py-2 px-4 !h-[46px]">
                                     <input [type]="passwordType" formControlName="password" nz-input
                                         placeholder="Password" />
@@ -149,7 +129,7 @@
                             </div>
 
                             <div class="!w-full md:w-1/2 relative">
-                                <nz-input-group [nzPrefix]="prefixTemplateconfirmpass" [nzSuffix]="suffixTemplatecInfo"   
+                                <nz-input-group [nzPrefix]="prefixTemplateconfirmpass" [nzSuffix]="suffixTemplatecInfo"
                                     class="!rounded-md px-4 py-2 !h-[46px]">
                                     <input [type]="confirmpasswordType" formControlName="confirmpassword" nz-input
                                         placeholder="Confirm Password" />
@@ -169,7 +149,22 @@
                             class="text-red-500 !ml-0 relative left-0 bottom-[-10px]">
                             Password and Confirm Password did not match.
                         </div>
+                        <div
+                            class="flex flex-col md:flex-row items-center space-y-8 md:space-y-0 md:space-x-6 relative md:py-3 pt-5 pb-3">
 
+                            <div class="!w-full md:w-1/2 relative">
+                                <nz-input-group [nzPrefix]="prefixTemplatcompanyname"
+                                    class="!rounded-md px-4 py-2  !h-[46px]">
+                                    <input type="text" formControlName="companyname" nz-input
+                                        placeholder="Company Name" />
+                                </nz-input-group>
+                                <ng-template #prefixTemplatcompanyname>
+                                    <i class="fa-light fa-buildings mr-3 text-lg"></i>
+                                </ng-template>
+                                <app-error class="absolute left-0 bottom-[-20px]" [form_control]="f['companyname']"
+                                    [isSubmitted]="isFormSubmit"></app-error>
+                            </div>
+                        </div>
                         <!-- <nz-form-control nzErrorTip="Please Select Page" class="!w-1/2 mb-4" >
                             <nz-cascader formControlName="application" nzChangeOnSelect [nzAllowClear]="true" style="width: 100%"
                                 [(ngModel)]="cascaderValue" [nzLoadData]="loadData.bind(this)"
