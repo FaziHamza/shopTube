@@ -1,4 +1,3 @@
-
 <div [class]="'card-content ' + (mainData['rowClass'] ? mainData['rowClass'] : 'flex flex-wrap')">
   <div class="{{!item.hideExpression   ? item.className : ''}} relative "
     *ngFor="let item of mainData.children ; index as i; last as isLast">
@@ -6,25 +5,32 @@
       <st-task-report class="close-icon absolute left-[23px] top-[-9px] z-[1000]"
         *ngIf="item['issueReport'] && item['issueReport']?.length > 0 && item.type != 'input'" [item]="item"
         [screenName]="screenName" [type]="'pages'"></st-task-report>
-      <span [contextMenu]="oneContextMenu">
-        <context-menu #oneContextMenu>
-          <!-- <ng-template contextMenuItem (execute)="copyJson(item)">Copy</ng-template> -->
-          <ng-template contextMenuItem (execute)="issueReportFun(item)">
-            <div class="bag-report">
-              <i class="fa-regular text-red-500 fa-bug  mr-1.5"></i> Report Bag
-            </div>
-          </ng-template>
-          <ng-template contextMenuItem (execute)="OpenConfig(item )" *ngIf="url.includes('/builder')">
-            <div class="bag-report">
-              <i class="fa-regular text-green-500 fa-arrow-up-right-from-square mr-1.5"></i>
-              Open Config
-            </div>
-          </ng-template>
-        </context-menu>
+      <span *ngIf="applicationId == '651fa8129ce5925c4c89ced7' &&  !url.includes('/builder'); else withOutCOmment">
         <st-mains (click)="applyHighlightInsideLayer(mainData , item.id , $event)" [item]="item"
-          [formlyModel]="formlyModel"  [screenName]="screenName" [screenId]="screenId"
-          [isLast]='isLast' [form]="form" *ngIf="item"></st-mains>
+          [formlyModel]="formlyModel" [screenName]="screenName" [screenId]="screenId" [isLast]='isLast' [form]="form"
+          *ngIf="item"></st-mains>
       </span>
+      <ng-template #withOutCOmment>
+        <span [contextMenu]="oneContextMenu">
+          <context-menu #oneContextMenu>
+            <!-- <ng-template contextMenuItem (execute)="copyJson(item)">Copy</ng-template> -->
+            <ng-template contextMenuItem (execute)="issueReportFun(item)">
+              <div class="bag-report">
+                <i class="fa-regular text-red-500 fa-bug  mr-1.5"></i> Report Bug
+              </div>
+            </ng-template>
+            <ng-template contextMenuItem (execute)="OpenConfig(item )" *ngIf="url.includes('/builder')">
+              <div class="bag-report">
+                <i class="fa-regular text-green-500 fa-arrow-up-right-from-square mr-1.5"></i>
+                Open Config
+              </div>
+            </ng-template>
+          </context-menu>
+          <st-mains (click)="applyHighlightInsideLayer(mainData , item.id , $event)" [item]="item"
+            [formlyModel]="formlyModel" [screenName]="screenName" [screenId]="screenId" [isLast]='isLast' [form]="form"
+            *ngIf="item"></st-mains>
+        </span>
+      </ng-template>
       <span class="tooltip-icon" *ngIf="item?.tooltipPosition ==  undefined || item?.tooltipPosition == 'top'">
         <span *ngIf="item.type != 'progressBar' && item.type != 'alert'
                     && item.type != 'switch' && item.type != 'rangeSlider' && item.type != 'editor_js' && item?.formlyType != 'input' && item.tooltip
@@ -33,11 +39,7 @@
             [style.color]="item['toolTipColor']" nzTheme="outline"></span>
         </span>
       </span>
-      <div>
-        <!-- <st-mains [item]="item" [isLast]="isLast" [form]="form"  [screenName]="screenName"
-          [screenId]="screenId" *ngIf="item && !isShowContextMenu"></st-mains> -->
 
-      </div>
     </div>
   </div>
 </div>

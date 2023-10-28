@@ -54,53 +54,27 @@ export class PagesComponent implements OnInit, OnDestroy {
     // this.ngOnDestroy();
     const changeSubscription = this.dataSharedService.change.subscribe(({ event, field }) => {
       debugger
-      if (field && event && this.navigation)
-        if (this.formlyModel) {
-          // this.formlyModel[field.key] = event;
-          let newModel = JSON.parse(JSON.stringify(this.formlyModel));
-          if (newModel) {
-            for (const key in newModel) {
-              if (newModel.hasOwnProperty(key)) {
-                if (typeof newModel[key] === 'object') {
-                  for (const key1 in newModel[key]) {
-                    if (field.key.includes('.')) {
-                      if (key1 == field.key.split('.')[1]) {
-                        newModel[key][field.key.split('.')[1]] = event;
-                      }
-                    } else {
-                      if (key1 == field.key) {
-                        newModel[key][field.key] = event;
-                      }
-                    }
-
-                  }
-                }
-                else {
-                  if (key == field.key) {
-                    newModel[field.key] = event;
-                  }
-                }
-              }
-            }
+      if (this.navigation) {
+        if (field && event)
+          if (this.formlyModel && Object.keys(this.formlyModel).length > 0) {
+            // this.formlyModel[field.key] = event;
+            this.makeModel(field, event)
           }
-          this.formlyModel = newModel;
-        }
-      this.getEnumList(field, event);
-      if (event && field && this.router.url.includes('/pages')) {
-        if (this.formlyModel && this.navigation) {
-          this.formlyModel[field.key] = event;
-          console.log("key value : " + event);
-          this.checkConditionUIRule(field, event);
-          if (this.countRule < 3)
-            this.formValueAssign(this.editData);
-          // this.formlyModel[field.key] = event;
-        } else {
-          if (this.navigation)
+        this.getEnumList(field, event);
+        if (event && field && this.router.url.includes('/pages')) {
+          if (this.formlyModel && Object.keys(this.formlyModel).length > 0) {
+            this.formlyModel[field.key] = event;
+            console.log("key value : " + event);
             this.checkConditionUIRule(field, event);
+            if (this.countRule < 3)
+              this.formValueAssign(this.editData);
+            // this.formlyModel[field.key] = event;
+          } else {
+            if (this.navigation)
+              this.checkConditionUIRule(field, event);
+          }
         }
       }
-
-
     });
     const gridDataSubscription = this.dataSharedService.gridData.subscribe(res => {
       if (res)
@@ -371,10 +345,24 @@ export class PagesComponent implements OnInit, OnDestroy {
     document.documentElement.style.setProperty('--pagePrimaryColor', data[0]?.primaryColor);
     document.documentElement.style.setProperty('--pageSecondaryColor', data[0]?.secondaryColor);
     let nodesData = this.jsonParseWithObject(this.jsonStringifyWithObject(data));
+    this.resData = nodesData;
+    if (this.screenData) {
+      const checkLoadtype = this.screenData?.uiData?.filter((a: any) => a.actionType == 'load');
+      if (checkLoadtype?.length > 0) {
+        const field = {
+          title: "User Policy",
+          key: "policyId",
+          type: 'string'
+        }
+        this.checkConditionUIRule(field, this.user?.policy?.policyId, 'policy');
+      }
+    }
+    let nodesData1 = this.jsonParseWithObject(this.jsonStringifyWithObject(this.resData));
+
     // this.resData = this.jsonParseWithObject(this.jsonStringifyWithObject(data));
     this.dataSharedService.checkContentForFixFooter = this.jsonParseWithObject(this.jsonStringifyWithObject(data));
     if (this.actionRuleList.length > 0) {
-      let getInputs = this.filterInputElements(nodesData);
+      let getInputs = this.filterInputElements(nodesData1);
       if (getInputs && getInputs.length > 0) {
         getInputs.forEach((node) => {
           const formlyConfig = node.formly?.[0]?.fieldGroup?.[0]?.key;
@@ -407,7 +395,7 @@ export class PagesComponent implements OnInit, OnDestroy {
       let checkFirst: any = {};
       for (let index = 0; index < this.actionRuleList.length; index++) {
         const element = this.actionRuleList[index];
-        let findObj = this.findObjectByKey(nodesData[0], element.componentFrom);
+        let findObj = this.findObjectByKey(nodesData1[0], element.componentFrom);
         if (findObj) {
           if (findObj?.key == element.componentFrom) {
             if (!checkFirst[findObj?.key]) {
@@ -428,23 +416,12 @@ export class PagesComponent implements OnInit, OnDestroy {
           }
         }
       }
-      this.resData = nodesData;
+      this.resData = nodesData1;
     } else
-      this.resData = nodesData;
+      this.resData = nodesData1;
 
     // const screenData = JSON.parse(this.jsonStringifyWithObject(this.resData));
-    if (this.screenData) {
-      const checkLoadtype = this.screenData?.uiData?.filter((a: any) => a.actionType == 'load');
-      if (checkLoadtype?.length > 0) {
-        const field = {
-          title: "User Policy",
-          key: "policyId",
-          type: 'string'
-        }
-        this.checkConditionUIRule(field, this.user?.policy?.policyId, 'policy');
-      }
-    }
-    this.checkDynamicSection();
+
     this.uiRuleGetData({ key: 'text_f53ed35b', id: 'formly_86_input_text_f53ed35b_0' });
 
     this.applicationService.callApi('knex-query/getAction/65001460e9856e9578bcb63f', 'get', '', '', `'${res.data[0].navigation}'`).subscribe({
@@ -492,6 +469,7 @@ export class PagesComponent implements OnInit, OnDestroy {
       }
     }
     this.applyDefaultValue();
+    this.checkDynamicSection();
   }
   formValueAssign(data: any) {
     if (data && this.screenData) {
@@ -1754,7 +1732,7 @@ export class PagesComponent implements OnInit, OnDestroy {
             //   }
             // } else {
             // }
-            if(!data.hideExpression){
+            if (!data.hideExpression) {
               this.makeDynamicSections(data.mapApi, data);
             }
           }
@@ -2011,6 +1989,9 @@ export class PagesComponent implements OnInit, OnDestroy {
 
     const type = node.type;
     const key = typeMap[type];
+    if (node.formly) {
+      this.makeModel(node, replaceData[value.defaultValue])
+    }
     if (node.type == 'avatar') {
       if (Array.isArray(replaceData[value.defaultValue])) {
         let nodesArray: any = [];
@@ -2581,5 +2562,41 @@ export class PagesComponent implements OnInit, OnDestroy {
   clearValues() {
     this.resData = [];
     this.formlyModel = {};
+  }
+  makeModel(field: any, event: any) {
+    let newModel = JSON.parse(JSON.stringify(this.formlyModel));
+    if (newModel) {
+      for (const key in newModel) {
+        if (newModel.hasOwnProperty(key)) {
+          if (typeof newModel[key] === 'object') {
+            for (const key1 in newModel[key]) {
+              if (field.key.includes('.')) {
+                if (key1 == field.key.split('.')[1]) {
+                  newModel[key][field.key.split('.')[1]] = event;
+                }
+              } else {
+                if (key1 == field.key) {
+                  newModel[key][field.key] = event;
+                }
+              }
+
+            }
+          }
+          else {
+            if (key == field.key) {
+              newModel[field.key] = event;
+            }
+          }
+        }
+      }
+    }
+    this.formlyModel = newModel;
+    if (field.key.includes('.')) {
+      // let obj: any = {};
+      // obj[field.key.split('.')[0]] = this.formlyModel[field.key.split('.')[0]]
+      this.form.value[field.key.split('.')[0]][field.key.split('.')[1]] = event;
+    } else {
+      // this.form.patchValue(this.formlyModel);
+    }
   }
 }

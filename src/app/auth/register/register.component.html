@@ -42,7 +42,7 @@
                 <div class="w-full flex justify-start sm:justify-center mb-2 md:my-5 items px-5 md:px-7">
                     <p
                         class="text-3xl sm:text-4xl !text-left not-italic font-bold leading-[30px] tracking-[0.2px] text-[#0F172A]">
-                        Sign Up for an Account
+                        {{userAddDrawer ? 'Add user account' : 'Sign Up for an Account'}}
                     </p>
                 </div>
                 <nz-alert nzType="warning" nzMessage="Warning" nzDescription="You are not human" nzShowIcon
@@ -86,19 +86,6 @@
 
                         <div
                             class="flex flex-col md:flex-row items-center space-y-8 md:space-y-0 md:space-x-6 relative md:py-4 pt-5 pb-3">
-
-                            <div class="!w-full md:w-1/2 relative">
-                                <nz-input-group [nzPrefix]="prefixTemplatcompanyname"
-                                    class="!rounded-md px-4 py-2  !h-[46px]">
-                                    <input type="text" formControlName="companyname" nz-input
-                                        placeholder="Company Name" />
-                                </nz-input-group>
-                                <ng-template #prefixTemplatcompanyname>
-                                    <i class="fa-light fa-buildings mr-3 text-lg"></i>
-                                </ng-template>
-                                <app-error class="absolute left-0 bottom-[-25px]" [form_control]="f['companyname']"
-                                    [isSubmitted]="isFormSubmit"></app-error>
-                            </div>
                             <div class="!w-full md:w-1/2 relative">
                                 <nz-input-group [nzPrefix]="prefixTemplataccreditationNumber"
                                     class="!rounded-md px-4 py-2  !h-[46px]">
@@ -108,15 +95,9 @@
                                 <ng-template #prefixTemplataccreditationNumber>
                                     <i class="fa-light fa-buildings mr-3 text-lg"></i>
                                 </ng-template>
-                                <app-error class="absolute left-0 bottom-[-25px]" [form_control]="f['accreditationNumber']"
-                                    [isSubmitted]="isFormSubmit"></app-error>
+                                <app-error class="absolute left-0 bottom-[-25px]"
+                                    [form_control]="f['accreditationNumber']" [isSubmitted]="isFormSubmit"></app-error>
                             </div>
-
-                           
-                        </div>
-
-                        <div
-                            class="flex flex-col md:flex-row items-center space-y-8 md:space-y-0 md:space-x-6 relative md:py-4 pt-5 pb-3">
                             <div class="!w-full md:w-1/2 relative">
                                 <nz-input-group [nzPrefix]="prefixTemplatemail" class="!rounded-md px-4 !h-[46px]">
                                     <input type="email" formControlName="email" nz-input placeholder="Email" />
@@ -127,6 +108,10 @@
                                 <app-error class="absolute left-0 bottom-[-25px]" [form_control]="f['email']"
                                     [isSubmitted]="isFormSubmit"></app-error>
                             </div>
+                        </div>
+
+                        <div
+                            class="flex flex-col md:flex-row items-center space-y-8 md:space-y-0 md:space-x-6 relative md:py-4 pt-5 pb-3">
                             <div class="!w-full md:w-1/2 relative">
                                 <nz-input-group [nzPrefix]="prefixTemplatepass" [nzSuffix]="suffixTemplateInfo"
                                     class="!rounded-md  py-2 px-4 !h-[46px]">
@@ -164,6 +149,21 @@
                                 Password and Confirm Password did not match.
                             </div>
                         </div>
+                        <div
+                            class="flex flex-col md:flex-row items-center space-y-8 md:space-y-0 md:space-x-6 relative md:py-4 pt-5 pb-3">
+                            <div class="!w-full md:w-1/2 relative">
+                                <nz-input-group [nzPrefix]="prefixTemplatcompanyname"
+                                    class="!rounded-md px-4 py-2  !h-[46px]">
+                                    <input type="text" formControlName="companyname" nz-input
+                                        placeholder="Company Name" />
+                                </nz-input-group>
+                                <ng-template #prefixTemplatcompanyname>
+                                    <i class="fa-light fa-buildings mr-3 text-lg"></i>
+                                </ng-template>
+                                <app-error class="absolute left-0 bottom-[-25px]" [form_control]="f['companyname']"
+                                    [isSubmitted]="isFormSubmit"></app-error>
+                            </div>
+                        </div>
 
                         <!-- <nz-form-control nzErrorTip="Please Select Page" class="!w-1/2 mb-4" >
                             <nz-cascader formControlName="application" nzChangeOnSelect [nzAllowClear]="true" style="width: 100%"
@@ -185,7 +185,7 @@
                         Your password must have at least 8 characters
                     </p> -->
 
-                    <div class="w-full flex justify-center items-start mb-4 ">
+                    <div [hidden]="userAddDrawer" class="w-full flex justify-center items-start mb-4 ">
                         <input type="checkbox" id="vehicle1" formControlName="remember"
                             class="!w-4 border mt-1.5 mr-2 !border-[#E2E8F0] !h-4" />
                         <label for="vehicle1"
@@ -200,12 +200,12 @@
                     <div class="flex justify-center w-full">
                         <button
                             class="w-full sm:!w-[360px] bg-[#ffd300] !rounded-md text-black font-bold py-2 px-4 !h-[46px]">
-                            Sign Up
+                            {{userAddDrawer ? 'Save user' : 'Sign Up'}}
                         </button>
                     </div>
                 </form>
 
-                <nz-divider nzText="Or Sign In with"
+                <nz-divider [hidden]="userAddDrawer" nzText="Or Sign In with"
                     class="!text-xs not-italic font-normal my-4 leading-[19.2px]"></nz-divider>
 
                 <!-- <div class="w-full flex justify-evenly">
@@ -224,7 +224,7 @@
                     </p>
                 </div>
             </div> -->
-                <div class="mb-4">
+                <div [hidden]="userAddDrawer" class="mb-4">
                     <p class="text-[14px] not-italic font-normal leading-[22.4px]">
                         Already have an account?<a class="font-bold text-[#ffd300] hover:text-[#ffd300] ml-1"
                             routerLink="/login">Log In</a>

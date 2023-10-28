@@ -18,6 +18,8 @@ export class RepeatableControllComponent extends FieldType<FieldTypeConfig> {
   icons: any = {
 
   }
+  requestSubscription: Subscription;
+  orderIdOptions: any = [];
   @ViewChild('fileInput') fileInput!: ElementRef<HTMLInputElement>;
   imageUrl: any;
   imagePath = environment.nestImageUrl;
@@ -27,6 +29,8 @@ export class RepeatableControllComponent extends FieldType<FieldTypeConfig> {
     super();
   }
   ngOnInit(): void {
+    debugger
+    this.makeOrderOptions();
     this.myForm = this.formBuilder.group({
       fieldGroups: this.formBuilder.array([]),
     });
@@ -47,6 +51,7 @@ export class RepeatableControllComponent extends FieldType<FieldTypeConfig> {
       equipmentbroucher: ['', Validators.required],
       equipmentbroucher_base64: ['', Validators.required],
       customeclearenceid: ['', Validators.required],
+      orderid: ['', Validators.required],
     });
 
     this.fieldGroups.push(fieldGroup);
@@ -91,8 +96,8 @@ export class RepeatableControllComponent extends FieldType<FieldTypeConfig> {
     formData.append('image', file);
     this.applicationService.uploadS3File(formData).subscribe({
       next: (res) => {
-        this.icons['prefixIcon'] = 'eye';
-        this.icons['suffixIcon'] = 'delete';
+        // this.icons['prefixIcon'] = 'eye';
+        // this.icons['suffixIcon'] = 'delete';
         // this.myForm.value.fieldGroups[index]['equipmentbroucher'] = this.imagePath + res.path;
         this.myForm.value.fieldGroups[index]['equipmentbroucher_base64'] = this.imagePath + res.path;
         this.fieldGroups.at(index).get('equipmentbroucher_base64')?.setValue(this.imagePath + res.path);
@@ -178,5 +183,44 @@ export class RepeatableControllComponent extends FieldType<FieldTypeConfig> {
   }
   imagePreview(index: any) {
     window.open(this.myForm.value.fieldGroups[index]['equipmentbroucher_base64'], '_blank');
+  }
+  makeOrderOptions() {
+    this.requestSubscription = this.applicationService.callApi('knex-query/getexecute-rules/' + '6537d8d702b56b2d8b97d9f9', 'get', '', '', '').subscribe(
+      (response) => {
+        if (response?.isSuccess) {
+          if (response?.data?.length > 0) {
+            let propertyNames = Object.keys(response?.data[0]);
+            let result = response?.data.map((item: any) => {
+              let newObj: any = {};
+              let propertiesToGet: string[];
+              if ('id' in item && 'name' in item) {
+                propertiesToGet = ['id', 'name'];
+              } else {
+                propertiesToGet = Object.keys(item).slice(0, 2);
+              }
+              propertiesToGet.forEach((prop) => {
+                newObj[prop] = item[prop];
+              });
+              return newObj;
+            });
+
+            let finalObj = result.map((item: any) => {
+              return {
+                label: item.name || item[propertyNames[1]],
+                value: item.id || item[propertyNames[0]],
+              };
+            });
+            this.orderIdOptions = finalObj;
+          }
+        }
+      },
+      (error) => {
+        this.toastr.success(`error occurec in repeatbale control : ${error}`, {
+          nzDuration: 3000,
+        });
+        console.log(`error occurec in repeatbale control : ${error}`)
+        // Handle any errors from the API call
+      }
+    );
   }
 }

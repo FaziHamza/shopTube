@@ -41,6 +41,14 @@
                 [formControlName]="'equipmentbroucher'" #fileInput type="file" (change)="onFileSelected($event, i)" />
             </nz-input-group>
           </div>
+          <div>
+            <label>Order id</label>
+            <nz-select [nzStatus]="to['additionalProperties']?.status" [nzSize]="to['additionalProperties']?.size"
+              [class]="to['additionalProperties']?.innerInputClass" (input)="onModelChange($event, field)"
+              [style.border-radius]="to['additionalProperties']?.borderRadius" nz-input [formControlName]="'orderid'">
+              <nz-option *ngFor="let item of orderIdOptions" [nzValue]="item.value" [nzLabel]="item.label"></nz-option>
+            </nz-select>
+          </div>
           <div [hidden]="true">
             <label>Equipment Broucher/Datesheet</label>
             <input [nzStatus]="to['additionalProperties']?.status" [nzSize]="to['additionalProperties']?.size"

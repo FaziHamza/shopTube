@@ -37,6 +37,7 @@ export class ButtonsComponent implements OnInit {
   responseData: any;
   loader: boolean = false;
   requestSubscription: Subscription;
+  @Output() gridEmit: EventEmitter<any> = new EventEmitter<any>();
   constructor(private modalService: NzModalService, public employeeService: EmployeeService, private toastr: NzMessageService, private router: Router,
     public dataSharedService: DataSharedService, private applicationService: ApplicationService, private activatedRoute: ActivatedRoute) { }
 
@@ -162,6 +163,7 @@ export class ButtonsComponent implements OnInit {
     this.isVisible = false;
   }
   handleClose(): void {
+    this.gridEmit.emit(this.buttonData)
     this.isVisible = false;
   }
   handleButtonClick(buttonData: any): void {

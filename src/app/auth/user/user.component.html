@@ -1,6 +1,9 @@
 <nz-spin [nzSpinning]="loading" [nzSize]="'large'">
-    <button nz-button (click)="drawer()" nzType="primary" class="btn"><i class="fa-regular fa-plus mr-1.5"></i>Add
-        user</button>
+    <div class="m-2 flex justify-end">
+        <button nz-button  (click)="drawer()" nzType="primary" class="btn"><i class="fa-regular fa-plus mr-1.5"></i>Add
+            user</button>
+    </div>
+    
     <nz-table #basicTable [nzData]="listOfData">
         <thead>
             <tr>

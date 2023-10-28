@@ -28,6 +28,7 @@ export class BlockButtonsCardComponent {
   size: NzButtonSize = 'large';
   color: "hover:bg-[#000000]";
   borderColor: any;
+  @Output() tableEmit: EventEmitter<any> = new EventEmitter<any>();
   constructor(private modalService: NzModalService, public employeeService: EmployeeService, private toastr: NzMessageService, private router: Router,
   ) { }
   ngOnInit(): void {
@@ -100,6 +101,9 @@ export class BlockButtonsCardComponent {
   changeColor(bgColor: any, hoverColor: any) {
 
     bgColor = hoverColor;
+  }
+  gridEmit(data:any){
+    this.tableEmit.emit(data);
   }
 
 }

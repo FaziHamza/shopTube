@@ -35,7 +35,7 @@ export class DownloadbuttonComponent {
   requestSubscription: Subscription;
   serverPath = environment.nestBaseUrl
 
-  constructor(private applicationService: ApplicationService , private toastr: NzMessageService,) {
+  constructor(private applicationService: ApplicationService, private toastr: NzMessageService,) {
 
   }
   ngOnInit(): void {
@@ -74,9 +74,9 @@ export class DownloadbuttonComponent {
 
   downloadReport(buttonData: any) {
     debugger
-    if (this.path || this.path == 'notApproved') {
-      if (this.path == 'notApproved') {
-        this.toastr.warning('User is not approved', {
+    if (this.path || this.path == 'N/A') {
+      if (this.path == 'N/A') {
+        this.toastr.warning('Request is not approved!', {
           nzDuration: 3000,
         });
         return;
@@ -87,14 +87,13 @@ export class DownloadbuttonComponent {
         const anchor = document.createElement('a');
         anchor.href = pdfFileUrl;
         anchor.target = '_blank'; // Open in a new tab/window
+        anchor.download = 'file.pdf'; // Set the download attribute
 
-    //     // Set a filename for the downloaded file
-    //     anchor.download = 'your-pdf-filename.pdf';
-
-        // Trigger a click event on the anchor element
+        // Simulate a click on the anchor
         anchor.click();
       }
     }
+
     else if (buttonData.path) {
       if (buttonData.path.includes('.pdf')) {
         // Create an anchor element

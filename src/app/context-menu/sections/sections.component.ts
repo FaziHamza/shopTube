@@ -349,7 +349,7 @@ export class SectionsComponent implements OnInit {
             this.dataSharedService.buttonData = '';
             this.requestSubscription = this.applicationServices.addNestCommonAPI('knex-query/execute-rules/' + findClickApi[0]._id, result).subscribe({
               next: (res) => {
-                if (res.success) {
+                if (res?.isSuccess) {
                   this.saveLoader = false;
                   this.toastr.success("Update Successfully", { nzDuration: 3000 });
                   this.setInternalValuesEmpty(this.dataModel);

@@ -209,7 +209,6 @@ export class RegisterComponent implements OnInit {
       }
     }
 
-
     this.loader = true;
     let obj = {
       "username": this.form.value.email,
@@ -225,7 +224,7 @@ export class RegisterComponent implements OnInit {
       "domain": window.location.host.split(':')[0],
     }
     console.log(obj);
-    if (!this.form.value?.remember) {
+    if (!this.form.value?.remember && !this.userAddDrawer) {
       this.toastr.warning("Please accept the term and conditions", { nzDuration: 2000 });
       return;
     }

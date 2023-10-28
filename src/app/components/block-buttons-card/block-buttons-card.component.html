@@ -10,7 +10,7 @@
             nzTheme="outline"></span></span>
       </span> -->
 
-      <st-buttons [screenId]="screenId" [formlyModel]="formlyModel" [form]="form"
+      <st-buttons (gridEmit)="gridEmit($event)" [screenId]="screenId" [formlyModel]="formlyModel" [form]="form"
         [screenName]="screenName" [buttonData]="softIconList" [tableRowId]="tableRowId" [title]="title"></st-buttons>
 
       <!-- <span
@@ -37,7 +37,7 @@
 
       <nz-button-group>
         <div *ngFor="let item of softIconList.children">
-          <st-buttons [screenId]="screenId" [formlyModel]="formlyModel" [form]="form" [screenName]="screenName"
+          <st-buttons (gridEmit)="gridEmit($event)" [screenId]="screenId" [formlyModel]="formlyModel" [form]="form" [screenName]="screenName"
             [tableRowId]="tableRowId"  [buttonData]="item" [title]="title"></st-buttons>
         </div>
       </nz-button-group>
