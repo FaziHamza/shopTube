@@ -7856,3 +7856,10 @@ input[type=file]::file-selector-button:hover {
   max-height: 100% !important;
 }
 
+
+/* Inline #6 | http://spectrum.com:5600/register */
+
+nz-input-group:focus , nz-input-group:active{
+  outline: 1px solid transparent;
+}
+
