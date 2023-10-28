@@ -17,6 +17,7 @@ import { EmployeeService } from 'src/app/services/employee.service';
 import { DataService } from 'src/app/services/offlineDb.service';
 import { environment } from 'src/environments/environment';
 import * as XLSX from 'xlsx';
+import { QrCodeComponent } from '../qr-code/qr-code.component';
 @Component({
   selector: 'dynamic-table',
   templateUrl: './dynamic-table.component.html',
@@ -103,13 +104,13 @@ export class DynamicTableComponent implements OnInit {
   ) {
     this.processData = this.processData.bind(this);
   }
-
+  userDetails: any;
   ngOnInit(): void {
     if (this.data) {
       document.documentElement.style.setProperty('--paginationColor', this.data?.paginationColor || '#2563EB');
 
     }
-
+    this.userDetails = JSON.parse(localStorage.getItem('user')!)
 
     this.updateRotationDegree(50); // Rotate to -60 degrees
 
@@ -913,9 +914,9 @@ export class DynamicTableComponent implements OnInit {
                   value: item.name || item[propertyNames[1]],
                 }));
                 this.makeOptions(this.displayData, header.key + '_list', finalObj);
-                let newData = this.displayData.find((a: any) =>a.id == data.id)
+                let newData = this.displayData.find((a: any) => a.id == data.id)
                 this.editData = { ...newData };
-                }
+              }
             } catch (err) {
               this.dataSharedService.pagesLoader.next(false);
               console.error(err); // Log the error to the console
@@ -1245,6 +1246,42 @@ export class DynamicTableComponent implements OnInit {
       this.startEdit(item)
     }
   }
+  openQrCode(data: any) {
+    const modal =
+      this.modal.create<QrCodeComponent>({
+        nzTitle: 'Qr Code Scan',
+        nzWidth: '250px',
+        nzContent: QrCodeComponent,
+        nzComponentParams: {
+          model: data,
+        },
+        // nzOnOk: () => new Promise(resolve => setTimeout(resolve, 1000)),
+        nzFooter: [],
+      });
+    // const instance = modal.getContentComponent();
+    modal.afterClose.subscribe((res) => {
+      if (res) {
+
+      }
+    });
+  }
+  loadApiData() {
+    if (this.data.appConfigurableEvent) {
+      this.saveLoader = true;
+      this.requestSubscription = this.applicationService.callApi(`knex-query/getexecute-rules/${this.data.eventActionconfig._id}`, 'get', '', '', '').subscribe({
+        next: (res) => {
+          this.saveLoader = false;
+          this.getFromQueryOnlyTable(this.data, res);
+        },
+        error: (error: any) => {
+          console.error(error);
+          this.saveLoader = false;
+          this.toastr.error("An error occurred", { nzDuration: 3000 });
+        }
+      })
+    }
+  }
+
   transform(dateRange: string): any {
     if (dateRange) {
       if (dateRange.includes('GMT+0500') && dateRange) {

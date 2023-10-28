@@ -235,6 +235,7 @@ export class ButtonsComponent implements OnInit {
   }
   logout() {
     localStorage.clear();
+    window.localStorage.clear();
     this.router.navigate(['/login']);
   }
 }

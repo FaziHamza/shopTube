@@ -48,7 +48,7 @@
         <i class="fas fa-times text-lg text-red-500 cursor-pointer" (click)="close()"></i>
       </ng-template>
       <div class="mr-2 ml-2" [style.order]="split(1 , data?.buttonAlignments) || 2"
-        *ngIf="!childTable && (data?.isAllowExcelReport || data?.isAllowUploadExcel)" class="action-drop-down">
+        *ngIf="!childTable &&this.userDetails?.policyBulk && (data?.isAllowExcelReport || data?.isAllowUploadExcel)" class="action-drop-down">
         <button nz-button nzType="primary"
           [class]="data?.actionButtonClass || 'actions-btn btn-no !border-none !bg-blue-600 hover:!bg-blue-500 my-2 !h-[35px]'"
           nz-dropdown [nzDropdownMenu]="menu4">
@@ -292,7 +292,7 @@
                   && header.key != 'expand'  && header.key !='children' && header.key != 'defaultValue' ">
                   <div [class]="data?.tdClass">
                     <div
-                      *ngIf="(header?.dataType !='select' || !configurationTable) && header?.dataType !='audioVideoRecorder' && header?.dataType !='image-upload' && header?.dataType != 'repeatSection' && header?.dataType != 'dateTime' && !isMyDataArray(item[header.key]
+                      *ngIf="(header?.dataType !='select' || !configurationTable) && header?.dataType !='audioVideoRecorder' && header?.dataType !='image-upload' && header?.dataType != 'repeatSection' && header?.dataType != 'qrcode' && header?.dataType != 'dateTime' && !isMyDataArray(item[header.key]
                     )
                     && header?.subDataType != 'datetime-local' && header?.dataType != 'rangePicker' && header?.dataType !='checkbox' && header?.dataType !='icon' && header?.dataType !='button'">
                       <div [style.color]="item[header.key]== item?.colorDataType && editId !== item.id ?
@@ -325,6 +325,13 @@
                           [nzValue]="option.value ">
                         </nz-option>
                       </nz-select>
+                    </div>
+                    <div *ngIf="header?.dataType == 'qrcode'">
+                      <div [style.color]="item[header.key]== item?.colorDataType && editId !== item.id ?
+                      item?.columnTextColor : ''" [class]="data?.tdClass" class="editable-cell"
+                        *ngIf="editId != item.id" (click)="openQrCode(item[header.key])" >
+                        <i class="fas fa-qrcode"></i>
+                      </div>
                     </div>
                     <div *ngIf="header?.dataType =='image-upload'" class="4">
                       <img nz-image class="table-image" *ngIf="item[header.key]" [nzSrc]="item[header.key]" alt />
@@ -553,7 +560,7 @@
   <nz-modal [nzWidth]="1400" [(nzVisible)]="isHeaderVisible" nzTitle="Grid Rule" (nzOnCancel)="handleCancel()"
     (nzOnOk)="handleOk()">
     <ng-container *nzModalContent>
-      <st-business-rule-grid [GridType]="GridType" [selectedNode]="_dataSharedService.selectedNode"
+      <st-business-rule-grid [GridType]="GridType" [selectedNode]="_dataSharedService.selectedNode" (tableEmit)="loadApiData()"
         [screenName]="screenName" [screenId]="screenId" [screens]="_dataSharedService.screenModule"
         [nodes]="_dataSharedService.nodes"></st-business-rule-grid>
     </ng-container>

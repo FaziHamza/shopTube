@@ -352,6 +352,7 @@ export class SectionsComponent implements OnInit {
                 if (res.success) {
                   this.saveLoader = false;
                   this.toastr.success("Update Successfully", { nzDuration: 3000 });
+                  this.dataSharedService.gridDataLoad = true;
                   this.setInternalValuesEmpty(this.dataModel);
                   this.setInternalValuesEmpty(this.formlyModel);
                   this.form.patchValue(this.formlyModel);

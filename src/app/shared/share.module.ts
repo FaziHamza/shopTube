@@ -52,6 +52,7 @@ import { AudioRecordingService } from '../services/audio-recording.service';
 import { VideoRecordingService } from '../services/video-recording.service';
 import { VoiceRecorderComponent } from '../components/voice-recorder/voice-recorder.component';
 import { DownloadbuttonComponent } from '../components/downloadbutton/downloadbutton.component';
+import { QrCodeComponent } from '../components/qr-code/qr-code.component';
 // import { CommonService } from './common.service';
 // import { WebsiteModules } from '../Website/website.module';
 
@@ -117,7 +118,7 @@ import { DownloadbuttonComponent } from '../components/downloadbutton/downloadbu
     ConfigurableDirective,
     ConfigurableSelectDirective,
     TaskReportComponent,VoiceRecorderComponent,
-    DownloadbuttonComponent
+    DownloadbuttonComponent,QrCodeComponent,
     //
     // ErrorComponent
   ],
@@ -175,7 +176,7 @@ import { DownloadbuttonComponent } from '../components/downloadbutton/downloadbu
     TaskReportComponent,
     ParentCalendarComponent,
     VoiceRecorderComponent,
-    DownloadbuttonComponent,
+    DownloadbuttonComponent,QrCodeComponent,
     //
     // ErrorComponent
   ],

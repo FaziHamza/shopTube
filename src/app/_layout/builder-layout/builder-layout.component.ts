@@ -43,6 +43,7 @@ export class BuilderLayoutComponent implements OnInit {
 
   navigate() {
     localStorage.clear();
+    window.localStorage.clear();
     this.router.navigate(['/login'])
   }
   getUsers() {
