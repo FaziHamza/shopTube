@@ -104,7 +104,7 @@ export class DownloadbuttonComponent {
 
           // Simulate a click on the anchor
           anchor.click();
-        } else if (buttonData?.path.endsWith('.jpg') || buttonData.path.endsWith('.png')) {
+        } else {
           window.open(buttonData?.path, '_blank');
         }
       } else {
