@@ -2581,7 +2581,7 @@ export class BuilderComponent implements OnInit {
       if (getJoiRule) this.validationFieldData.modelData = getJoiRule;
     }
     let veriableOptions: any[] = [];
-    if (this.nodes[0].options) {
+    if (this.nodes?.[0]?.options) {
       for (let index = 0; index < this.nodes[0].options.length; index++) {
         const element = this.nodes[0].options[index];
         veriableOptions.push({

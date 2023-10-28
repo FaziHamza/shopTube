@@ -11,6 +11,7 @@
                 <th>Organization Id</th>
                 <th>Password</th> -->
                 <th>User Name</th>
+                <th>Accreditation Number</th>
                 <th>Status</th>
                 <th>Action</th>
             </tr>
@@ -21,6 +22,7 @@
                 <td>{{data?.organizationId}}</td>
                 <td>{{data?.password}}</td> -->
                 <td>{{data?.username}}</td>
+                <td>{{data?.accreditationNumber || 'N/A'}}</td>
                 <td [hidden]="edit == data._id">{{data?.status ? data?.status : 'Pending' }}</td>
                 <td [hidden]="edit != data._id">
                     <select [(ngModel)]="data.status"
@@ -29,12 +31,12 @@
                         <option class="text-black mx-2" value="Approved">Approve
                     </select>
                 </td>
-                <td class="!text-center">
+                <td class="">
                     <i (click)="editFunc(data)" *ngIf="edit !== data._id"
                         class="fa-regular !text-sm fa-pencil text-blue-500"></i>
                     <i (click)="showDeleteConfirm(data)" *ngIf="edit !== data._id"
                         class="fa-regular !text-sm fa-trash text-red-500 ml-2"></i>
-                    <div class="flex justify-center items-center" *ngIf="edit == data._id">
+                    <div class="flex justify-start items-center" *ngIf="edit == data._id">
                         <i (click)="saveEdit(data)" class="fa-regular !text-sm fa-save text-blue-500 mr-2.5"></i>
                         <!-- <i  class="fa-regular !text-sm fa-times text-red-500 "></i> -->
                         <i (click)="cancelEdit(data)" class="fa-solid fa-circle-xmark !text-sm text-red-500"></i>

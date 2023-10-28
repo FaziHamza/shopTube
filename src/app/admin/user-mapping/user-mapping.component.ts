@@ -26,9 +26,9 @@ export class UserMappingComponent {
   startIndex = 1;
   endIndex: any = 10;
   listOfColumns = [
-    {
-      name: 'Id',
-    },
+    // {
+    //   name: 'Id',
+    // },
     {
       name: 'User Name',
     },

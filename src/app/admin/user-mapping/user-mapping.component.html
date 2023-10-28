@@ -17,7 +17,7 @@
                 class="btn !rounded !bg-amber-300 hover:!bg-amber-300 !text-slate-900 hover:text-white !border !border-transparent !hover:border-transparent !font-md"><i
                     class="fa-regular fa-floppy-disk mr-1.5"></i> Save</button>
             <button [hidden]="isSubmit" nz-button nzType="primary" (click)="onSubmit()"
-                class="!rounded !bg-green-500 hover:!bg-green-600 !text-white !border hover:!border-transparent !font-md">
+                class="!rounded !bg-green-600 hover:!bg-green-500 !text-white border-green-600 !h-10 !border hover:!border-transparent !font-md">
                 <i class="fa-regular fa-floppy-disk mr-1.5"></i> Update
             </button>
         </div>
@@ -37,7 +37,7 @@
             </thead>
             <tbody>
                 <tr *ngFor="let data of filterTable.data; index as i">
-                    <td>{{ i+1 }}</td>
+                    <!-- <td>{{ i+1 }}</td> -->
                     <td>{{ data.userName }}</td>
                     <td>{{ data.policyName }}</td>
                     <td>

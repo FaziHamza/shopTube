@@ -36,6 +36,8 @@ export class DataSharedService {
   // public menus: Subject<any> = new Subject();
   // public currentApplication: Subject<any> = new Subject();
   // public defaultPage: Subject<any> = new Subject();
+
+  gridDataLoad : boolean  = false;
   getUserPolicyMenuList: any[] = [];
   currentMenuLink: string = '';
   defaultPageNodes: any;
