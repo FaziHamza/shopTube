@@ -324,7 +324,7 @@ export class SectionsComponent implements OnInit {
 
         }
         else {
-          if (!checkPermission.update && this.dataSharedService.currentMenuLink != '/ourbuilder') {
+          if (!checkPermission?.update && this.dataSharedService?.currentMenuLink != '/ourbuilder') {
             alert("You did not have permission");
             return;
           }
