@@ -362,7 +362,7 @@ export class SectionsComponent implements OnInit {
                     this.dataSharedService.taskmanagerDrawer.next(true);
                   }
                 } else {
-                  this.toastr.warning("Data is not updated", { nzDuration: 3000 });
+                  this.toastr.error(res.message, { nzDuration: 3000 });
                 }
               },
               error: (err) => {
