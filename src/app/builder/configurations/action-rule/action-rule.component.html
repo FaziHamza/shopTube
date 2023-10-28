@@ -4,6 +4,7 @@
     <div class="drawer-height">
       <div class="grid lg:grid-cols-5 sm:grid-cols-2 gap-2">
         <div>
+          <label class="text-xs font-bold" >Submission Type:</label>
           <nz-select class="form-select" formControlName="submissionType" aria-label="Default Select Example">
             <nz-option nzValue="select" nzLabel="Select" selected></nz-option>
             <nz-option nzValue="load" nzLabel="On Load"></nz-option>
@@ -17,6 +18,7 @@
           </nz-select>
         </div>
         <div>
+          <label class="text-xs font-bold" >Form Type:</label>
           <nz-select class="form-select" formControlName="actionLink" aria-label="Default Select Example">
             <nz-option nzValue="get" nzLabel="GET"></nz-option>
             <nz-option nzValue="getJoin" nzLabel="GET Join"></nz-option>
@@ -27,18 +29,21 @@
           </nz-select>
         </div>
         <div>
+          <label class="text-xs font-bold" >Select Element:</label>
           <nz-select class="form-select" nzShowSearch nzAllowClear formControlName="elementName"
             aria-label="Default Select Example">
             <nz-option [nzLabel]="item.title" [nzValue]="item.key" *ngFor="let item of nodeList"></nz-option>
           </nz-select>
         </div>
         <div>
+          <label class="text-xs font-bold" >Select Element:</label>
           <nz-select class="form-select" nzShowSearch nzAllowClear formControlName="elementNameTo"
             aria-label="Default Select Example">
             <nz-option [nzLabel]="item.title" [nzValue]="item.key" *ngFor="let item of nodeList"></nz-option>
           </nz-select>
         </div>
         <div>
+          <label class="text-xs font-bold" >Communication Method:</label>
           <nz-select class="form-select" formControlName="actionType" aria-label="Default Select Example">
             <nz-option nzValue="select" nzLabel="Select" selected></nz-option>
             <nz-option nzValue="email" nzLabel="Email"></nz-option>
