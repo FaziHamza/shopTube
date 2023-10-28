@@ -163,7 +163,11 @@ export class ButtonsComponent implements OnInit {
     this.isVisible = false;
   }
   handleClose(): void {
-    this.gridEmit.emit(this.buttonData)
+    debugger
+    if (this.dataSharedService.gridDataLoad) {
+      this.dataSharedService.gridDataLoad = false;
+      this.gridEmit.emit(this.buttonData)
+    }
     this.isVisible = false;
   }
   handleButtonClick(buttonData: any): void {

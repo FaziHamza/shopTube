@@ -2592,11 +2592,13 @@ export class PagesComponent implements OnInit, OnDestroy {
     }
     this.formlyModel = newModel;
     if (field.key.includes('.')) {
-      // let obj: any = {};
-      // obj[field.key.split('.')[0]] = this.formlyModel[field.key.split('.')[0]]
-      this.form.value[field.key.split('.')[0]][field.key.split('.')[1]] = event;
+      if (this.form.value[field.key.split('.')[0]]) {
+        if (this.form.value[field.key.split('.')[0]][field.key.split('.')[1]]) {
+          this.form.value[field.key.split('.')[0]][field.key.split('.')[1]] = event;
+        }
+      }
     } else {
-      // this.form.patchValue(this.formlyModel);
+      this.form.patchValue(this.formlyModel);
     }
   }
 }

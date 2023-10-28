@@ -73,59 +73,51 @@ export class DownloadbuttonComponent {
   }
 
   downloadReport(buttonData: any) {
-    debugger
-    if (this.path || this.path == 'N/A') {
-      if (this.path == 'N/A') {
-        this.toastr.warning('Request is not approved!', {
+    try {
+      debugger;
+
+      if (this.path || this.path == 'N/A') {
+        if (this.path == 'N/A') {
+          this.toastr.warning('Request is not approved!', {
+            nzDuration: 3000,
+          });
+          return;
+        }
+        const pdfFileUrl = this.serverPath + this.path;
+        if (pdfFileUrl.includes('.pdf')) {
+          // Create an anchor element
+          const anchor = document.createElement('a');
+          anchor.href = pdfFileUrl;
+          anchor.target = '_blank'; // Open in a new tab/window
+          anchor.download = 'file.pdf'; // Set the download attribute
+
+          // Simulate a click on the anchor
+          anchor.click();
+        }
+      } else if (buttonData.path) {
+        if (buttonData?.path.includes('.pdf')) {
+          // Create an anchor element
+          const anchor = document.createElement('a');
+          anchor.href = buttonData.path;
+          anchor.target = '_blank'; // Open in a new tab/window
+          anchor.download = 'file.pdf'; // Set the download attribute
+
+          // Simulate a click on the anchor
+          anchor.click();
+        } else if (buttonData?.path.endsWith('.jpg') || buttonData.path.endsWith('.png')) {
+          window.open(buttonData?.path, '_blank');
+        }
+      } else {
+        this.toastr.warning('Path did not exist', {
           nzDuration: 3000,
         });
-        return;
       }
-      const pdfFileUrl = this.serverPath + this.path;
-      if (pdfFileUrl.includes('.pdf')) {
-        // Create an anchor element
-        const anchor = document.createElement('a');
-        anchor.href = pdfFileUrl;
-        anchor.target = '_blank'; // Open in a new tab/window
-        anchor.download = 'file.pdf'; // Set the download attribute
-
-        // Simulate a click on the anchor
-        anchor.click();
-      }
-    }
-
-    else if (buttonData.path) {
-      if (buttonData.path.includes('.pdf')) {
-        // Create an anchor element
-        const anchor = document.createElement('a');
-        anchor.href = buttonData.path;
-        anchor.target = '_blank'; // Open in a new tab/window
-
-        // Set a filename for the downloaded file
-        anchor.download = 'your-pdf-filename.pdf';
-
-        // Trigger a click event on the anchor element
-        anchor.click();
-      }
-      else if (buttonData.path.endsWith('.jpg') || buttonData.path.endsWith('.png')) {
-        let name = buttonData.path;
-        var link = document.createElement("a");
-        if (name)
-          link.setAttribute('download', '');
-        link.href = buttonData.path;
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
-      }
-    }
-    else {
-      this.toastr.warning('Path did not exist', {
+    } catch (error) {
+      console.error('An error occurred:', error);
+      this.toastr.error('An error occurred while downloading the file', {
         nzDuration: 3000,
       });
     }
   }
 
-  downloadImage() {
-
-  }
 }

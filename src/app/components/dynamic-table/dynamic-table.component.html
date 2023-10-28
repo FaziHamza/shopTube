@@ -377,7 +377,7 @@
                       <div class="'flex flex-wrap'">
                         <div *ngFor="let childData of data.children">
                           <div *ngIf="childData?.id == header?.key" class="{{childData?.className}}">
-                            <st-block-buttons-card *ngIf="childData.type =='button'" [tableRowId]="item['id']"
+                            <st-block-buttons-card (tableEmit)="loadApiData()" *ngIf="childData.type =='button'" [tableRowId]="item['id']"
                               [form]="form" [formlyModel]="formlyModel" [title]="item[header.key]"
                               [softIconList]="childData">
                             </st-block-buttons-card>
@@ -560,7 +560,7 @@
   <nz-modal [nzWidth]="1400" [(nzVisible)]="isHeaderVisible" nzTitle="Grid Rule" (nzOnCancel)="handleCancel()"
     (nzOnOk)="handleOk()">
     <ng-container *nzModalContent>
-      <st-business-rule-grid [GridType]="GridType" [selectedNode]="_dataSharedService.selectedNode" (tableEmit)="loadApiData()"
+      <st-business-rule-grid [GridType]="GridType" [selectedNode]="_dataSharedService.selectedNode" 
         [screenName]="screenName" [screenId]="screenId" [screens]="_dataSharedService.screenModule"
         [nodes]="_dataSharedService.nodes"></st-business-rule-grid>
     </ng-container>

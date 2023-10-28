@@ -11,7 +11,7 @@
         [ngClass]="showError && !to['additionalProperties']?.suffixicon && !to['additionalProperties']?.prefixicon && !to['additionalProperties']?.addonLeft && !to['additionalProperties']?.addonRight ? 'input-border' : ''"
         style="width:100%" [ngClass]="to['additionalProperties']?.wrapper=='floating_filled' || to['additionalProperties']?.wrapper=='floating_standard'
     || to['additionalProperties']?.wrapper=='floating_outlined' ? to['additionalProperties']?.floatFieldClass : ''"
-        [nzMin]="to.minLength || 0" [nzMax]="getMaxlength(to.maxLength)" [nzStep]="to['additionalProperties']?.step || 1"
+        [nzMin]="to.minLength || 0" [nzStep]="to['additionalProperties']?.step || 1"
         [nzPrecision]="precision" nzPrecisionMode="cut" nzInputMode [nzPlaceHolder]="to.placeholder || ''"
         [nzBorderless]="to['additionalProperties']?.border" [nzDisabled]="to.disabled" [nzReadOnly]="to.readonly"
         [nzSize]="to['additionalProperties']?.size" [nzStatus]="to['additionalProperties']?.status"
