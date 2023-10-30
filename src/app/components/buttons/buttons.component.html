@@ -1,8 +1,8 @@
 <button *ngIf="buttonData.type != 'linkbutton' && buttonData.type != 'dropdownButton'" nz-button
   [disabled]="buttonData.disabled" [nzBlock]="buttonData.nzBlock" [nzDanger]="buttonData.nzDanger"
   [nzGhost]="buttonData.nzGhost" [nzLoading]="buttonData.nzLoading" [nzShape]="buttonData.nzShape"
-  [class]="buttonData.buttonClass" [nzSize]="buttonData.nzSize" [nzType]="buttonData.nztype"
-  [type]="buttonData.isSubmit ? 'submit' : 'button'"
+  [class]="(!isActionExist ? '!cursor-auto ' : '')+ buttonData.buttonClass" [nzSize]="buttonData.nzSize"
+  [nzType]="buttonData.nztype" [type]="buttonData.isSubmit ? 'submit' : 'button'"
   [style.border-radius.px]="buttonData.nzShape == 'default' ? buttonData.radius : ''"
   [style.opacity]="hoverOpacity ? hoverOpacity :  buttonData.btnopacity ? buttonData.btnopacity : '1'"
   [style.background]="(bgColor || buttonData.color) + ' !important'"
@@ -101,12 +101,10 @@
   </nz-modal>
 </div>
 
-
-
-<!-- Drawer -->
 <div
   *ngIf="buttonData?.redirect == 'drawer' || buttonData?.redirect == 'largeDrawer'  || buttonData?.redirect == 'extraLargeDrawer'">
-  <nz-drawer [nzWidth]="buttonData?.redirect == 'drawer' ? 800 : (buttonData?.redirect == 'largeDrawer' ? 1000 : 1200) "
+  <nz-drawer [nzClosable]="false" [nzTitle]="title ? title : buttonData.title" [nzExtra]="extra"
+    [nzWidth]="buttonData?.redirect == 'drawer' ? 800 : (buttonData?.redirect == 'largeDrawer' ? 1000 : 1200) "
     [nzVisible]="isVisible" (nzOnClose)="handleClose()">
     <ng-container *nzDrawerContent>
       <nz-spin [nzSpinning]="loader">
@@ -116,3 +114,7 @@
     </ng-container>
   </nz-drawer>
 </div>
+
+<ng-template #extra>
+  <i class="fas fa-times text-lg text-red-500 cursor-pointer" (click)="handleClose()"></i>
+</ng-template>
