@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { InactivityService } from './services/inactivity.service';
 
 @Component({
   selector: 'st-root',
@@ -99,4 +100,7 @@ export class AppComponent {
     ],
     "version": "2.26.5"
   } ;
+  constructor(private inactivityService: InactivityService) {
+    this.inactivityService.resetTimer();
+  }
 }
