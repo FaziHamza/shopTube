@@ -222,7 +222,7 @@ export class SectionsComponent implements OnInit {
   }
   saveData1(data: any) {
     debugger
-    this.sections
+
     let checkButtonConfig = this.findObjectByKey(this.sections, data.key);
     if (checkButtonConfig) {
       // this.submit();
@@ -558,6 +558,82 @@ export class SectionsComponent implements OnInit {
             this.saveLoader = false;
           }
         });
+      }
+    }
+  }
+  tempTableData : any[] = [];
+  addDetailGrid(data: any) {
+    if (true) {
+      let tableData = this.findObjectByKey(this.sections, 'gridlist_3d55abef');
+      if (tableData) {
+        if (data) {
+          this.tempTableData.push(data);
+          let saveForm = JSON.parse(JSON.stringify(this.tempTableData[0]));
+          const firstObjectKeys = Object.keys(saveForm);
+          // let tableKey = firstObjectKeys.map(key => ({ name: key }));
+          let obj = firstObjectKeys.map(key => ({ name: key, key: key }));
+          tableData.tableData = []; 
+          saveForm.id = tableData.tableData.length + 1;
+          this.tempTableData.forEach((element: any, index: any) => {
+            // element.id = (index + 1).toString();
+            tableData.tableData?.push(element);
+          });
+          // pagniation work start
+          if (!tableData.end) {
+            tableData.end = 10;
+          }
+          tableData.pageIndex = 1;
+          // tableData.serverApi = url;
+          tableData.data = tableData.tableData;
+          tableData.targetId = '';
+          tableData.displayData = tableData.tableData.length > tableData.end ? tableData.tableData.slice(0, tableData.end) : tableData.tableData;
+          // pagniation work end
+          tableData.totalCount = tableData.tableData.length;
+          if (!tableData?.tableHeaders) {
+            tableData.tableHeaders = obj;
+            tableData['tableKey'] = obj
+          }
+          if (tableData?.tableHeaders.length == 0) {
+            tableData.tableHeaders = obj;
+            tableData['tableKey'] = obj
+          }
+          else {
+            if (JSON.stringify(tableData['tableKey']) !== JSON.stringify(obj)) {
+              const updatedData = obj.filter(updatedItem =>
+                !tableData.tableHeaders.some((headerItem: any) => headerItem.key === updatedItem.name)
+              );
+              if (updatedData.length > 0) {
+                updatedData.forEach(updatedItem => {
+                  tableData.tableHeaders.push({ id: tableData.tableHeaders.length + 1, key: updatedItem.name, name: updatedItem.name, });
+                });
+                tableData['tableKey'] = tableData.tableHeaders;
+              }
+            }
+          }
+          // Make DataType
+          let propertiesWithoutDataType = tableData.tableHeaders.filter((check: any) => !check.hasOwnProperty('dataType'));
+          if (propertiesWithoutDataType.length > 0) {
+            let formlyInputs = this.filterInputElements(this.sections.children[1].children);
+
+            if (formlyInputs && formlyInputs.length > 0) {
+              propertiesWithoutDataType.forEach((head: any) => {
+                let input = formlyInputs.find(a => a.key  == head.key);
+
+                if (input) {
+                  head['dataType'] = input.formly[0].fieldGroup[0].type;
+                  head['subDataType'] = input.formly[0].fieldGroup[0].props.type;
+                  head['title'] = input.title;
+                }
+              });
+
+              tableData.tableHeaders = tableData.tableHeaders.concat(propertiesWithoutDataType.filter((item: any) => !tableData.tableHeaders.some((objItem: any) => objItem.key === item.key)));
+            }
+          }
+          tableData.tableHeaders = tableData.tableHeaders.filter((head: any) => head.key != 'expand')
+          this.setInternalValuesEmpty(this.dataModel);
+          this.setInternalValuesEmpty(this.formlyModel);
+          this.form.patchValue(this.formlyModel);
+        }
       }
     }
   }
