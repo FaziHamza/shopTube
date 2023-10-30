@@ -1270,7 +1270,7 @@ export class DynamicTableComponent implements OnInit {
       this.saveLoader = true;
       this.requestSubscription = this.applicationService.callApi(`knex-query/getexecute-rules/${this.data.eventActionconfig._id}`, 'get', '', '', '').subscribe({
         next: (res) => {
-          this.saveLoader = false;
+          // this.saveLoader = false;
           this.getFromQueryOnlyTable(this.data, res);
         },
         error: (error: any) => {
@@ -1836,26 +1836,12 @@ export class DynamicTableComponent implements OnInit {
             }
           });
         }
-        this.saveLoader = false;
-
-        // this.tableHeaders.forEach((header: any, index: number) => {
-        //   if (header) {
-        //     if (this.data?.endFreezingNumber || this.data.startFreezingNumber) {
-        //       if (index < this.data?.endFreezingNumber - 2 && this.data?.endFreezingNumber > 2) {
-        //         let freezeIndex = this.tableHeaders.length - (index + 1)
-        //         this.tableHeaders[freezeIndex]['headerFreeze'] = true;
-        //         // return header['headerFreeze'];
-        //       }
-        //       if (index < this.data.startFreezingNumber) {
-        //         header['headerFreeze'] = true;
-        //       }
-
-        //     }
-        //   }
-        // });
       }
+      this.saveLoader = false;
       this.gridInitilize();
-    } catch (error) {
+    } 
+    catch (error) {
+      this.toastr.error('An error occurred in load table data', { nzDuration: 3000 });
       console.error("An error occurred in getFromQueryOnlyTable:", error);
       // Handle the error appropriately, e.g., show an error message to the user.
       this.saveLoader = false;
