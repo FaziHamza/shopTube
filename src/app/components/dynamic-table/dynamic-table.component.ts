@@ -835,7 +835,7 @@ export class DynamicTableComponent implements OnInit {
       modalData: data
     };
     if (this.screenName != undefined) {
-      if (this.data?.appConfigurableEvent) {
+      if (this.data?.appConfigurableEvent && this.data?.appConfigurableEvent?.length > 0) {
         // Find the 'delete' event in appConfigurableEvent
         const findClickApi = this.data.appConfigurableEvent.filter((item: any) => item.rule.includes('delete'));
         const id = findClickApi?.[0]?.rule.includes('EnumList') ? data?._id : data?.id;
@@ -874,13 +874,7 @@ export class DynamicTableComponent implements OnInit {
       }
     }
     else {
-      this.pageSize = 10;
-      const indexToRemove = this.tableData.findIndex((d: any) => d.id === data.id);
-      if (indexToRemove !== -1) {
-        this.tableData.splice(indexToRemove, 1);
-      }
-      this.displayData = [...this.tableData];
-      this.pageChange(1);
+     this.handleDataDeletion(data);
       this.toastr.success("Delete from userend successfully", { nzDuration: 3000 });
     }
   };

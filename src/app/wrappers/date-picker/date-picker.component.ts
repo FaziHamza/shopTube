@@ -48,18 +48,19 @@ export class DatePickerComponent extends FieldType<FieldTypeConfig> {
   // }
 
   onModelChange(event: any, model: any) {
-    this.sharedService.onChange(event, this.field);
+    // this.sharedService.onChange(event, this.field);
 
     if (typeof event !== 'string') {
-      // let formattedDate = event.toLocaleDateString();
-      // if (this.to['additionalProperties']?.format) {
-      //   // Format the date using DatePipe
-      //   formattedDate = this.datePipe.transform(
-      //     event,
-      //     this.to['additionalProperties']?.format
-      //   );
-      // }
+      let formattedDate = event.toLocaleDateString();
+      if (this.to['additionalProperties']?.format) {
+        // Format the date using DatePipe
+        formattedDate = this.datePipe.transform(
+          event,
+          this.to['additionalProperties']?.format
+        );
+      }
       // this.formControl.patchValue(event);
+      this.sharedService.onChange(formattedDate, this.field);
     }
   }
   disabledDate = (current: Date): boolean => {
@@ -67,7 +68,6 @@ export class DatePickerComponent extends FieldType<FieldTypeConfig> {
       const currentDate = new Date();
       const currentYear = currentDate.getFullYear();
       const currentMonth = currentDate.getMonth();
-      const currentMonthStart = new Date(currentYear, currentMonth, 1);
 
       if (this.to.type === 'date') {
         if (this.to['additionalProperties']?.disabledCalenderProperties == 'disabledBoth') {
@@ -81,8 +81,8 @@ export class DatePickerComponent extends FieldType<FieldTypeConfig> {
       }
       else if (this.to.type === 'month') {
         if (this.to['additionalProperties']?.disabledCalenderProperties == 'disabledBoth') {
-          return current.getFullYear() < currentYear || (current.getFullYear() === currentYear && current.getMonth() < currentMonth) || 
-          current.getFullYear() > currentYear || (current.getFullYear() === currentYear && current.getMonth() > currentMonth);
+          return current.getFullYear() < currentYear || (current.getFullYear() === currentYear && current.getMonth() < currentMonth) ||
+            current.getFullYear() > currentYear || (current.getFullYear() === currentYear && current.getMonth() > currentMonth);
         }
         else if (this.to['additionalProperties']?.disabledCalenderProperties == 'disabledBeforeCurrent') {
           return current.getFullYear() < currentYear || (current.getFullYear() === currentYear && current.getMonth() < currentMonth);

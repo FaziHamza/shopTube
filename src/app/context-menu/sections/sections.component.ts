@@ -311,7 +311,7 @@ export class SectionsComponent implements OnInit {
     const oneModelData = this.convertModel(this.dataModel);
 
     if (Object.keys(oneModelData).length === 0) return;
-   
+
     const postEvent = data.appConfigurableEvent.find((item: any) => item.rule.includes('post_'));
     const putEvent = data.appConfigurableEvent.find((item: any) => item.rule.includes('put_'));
     if (!postEvent && !putEvent) {
@@ -569,7 +569,8 @@ export class SectionsComponent implements OnInit {
       tableData.displayData = []
       tableData.totalCount = tableData.tableData.length;
 
-    } else {
+    }
+    else {
       const filteredObject = Object.keys(data).reduce((acc: any, key) => {
         if (key.startsWith(btnConfig?.detailTableName)) {
           acc[key] = data[key];
@@ -589,9 +590,13 @@ export class SectionsComponent implements OnInit {
             tableData.tableData = [];
             saveForm.id = tableData.tableData.length + 1;
             this.tempTableData.forEach((element: any, index: any) => {
-              // element.id = (index + 1).toString();
-              tableData.tableData?.push(element);
+              const updatedElement = { id: (index + 1).toString(), ...element };
+              tableData.tableData?.push(updatedElement);
             });
+            obj.unshift({
+              name: 'id',
+              key: 'id',
+            })
             // pagniation work start
             if (!tableData.end) {
               tableData.end = 10;
