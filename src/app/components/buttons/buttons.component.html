@@ -29,7 +29,7 @@
     [nzLoading]="buttonData.nzLoading" [style.border-radius.px]="buttonData.radius || 0"
     [style.background]="(bgColor || buttonData.color) + ' !important'"
     [style.color]="(hoverTextColor || buttonData.textColor) + ' !important'"
-    [style.border-color]="(borderColor || buttonData.borderColor) + ' !important'" [class]="[buttonData.buttonClass]"
+    [style.border-color]="(borderColor || buttonData.borderColor) + ' !important'" [class]="(!isActionExist ? '!cursor-auto ' : '')+ buttonData.buttonClass"
     (mouseover)="bgColor = buttonData?.hoverColor" (mouseout)="bgColor = buttonData?.color"
     (click)="pagesRoute(buttonData)" (mouseover)="handleButtonMouseOver(buttonData)"
     (mouseout)="handleButtonMouseOut(buttonData)">
@@ -50,7 +50,7 @@
 <!-- dropdown  -->
 <button *ngIf="buttonData.type == 'dropdownButton'" nz-button nz-dropdown [nzDropdownMenu]="menu"
   [nzType]="buttonData.nztype" [nzGhost]="buttonData.nzGhost" [nzSize]="buttonData.nzSize"
-  [disabled]="buttonData.disabled" [nzLoading]="buttonData.nzLoading" [class]="buttonData.buttonClass"
+  [disabled]="buttonData.disabled" [nzLoading]="buttonData.nzLoading" [class]="(!isActionExist ? '!cursor-auto ' : '')+ buttonData.buttonClass"
   [nzBlock]="buttonData.nzBlock" [nzTrigger]="buttonData.trigger" [nzPlacement]="buttonData.placement"
   [nzClickHide]="buttonData.clickHide" [nzVisible]="buttonData.visible" [nzDanger]="buttonData.nzDanger"
   [nzShape]="buttonData.nzShape" [style.border-radius.px]="buttonData.radius || 0"

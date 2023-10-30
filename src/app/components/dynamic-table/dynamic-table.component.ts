@@ -1822,10 +1822,6 @@ export class DynamicTableComponent implements OnInit {
         }
         this.data['tableKey'] = this.tableHeaders;
         this.data['tableHeaders'] = this.tableHeaders;
-        if (window.location.href.includes('taskmanager.com')) {
-          // Handle any additional logic here
-        }
-
         const resizingData = localStorage.getItem(this.screenId);
         if (resizingData) {
           const parseResizingData = JSON.parse(resizingData);
@@ -1836,10 +1832,13 @@ export class DynamicTableComponent implements OnInit {
             }
           });
         }
+        this.tableHeaders.forEach((head: any) => {
+          head['isFilterdSortedColumn'] = false
+        });
       }
       this.saveLoader = false;
       this.gridInitilize();
-    } 
+    }
     catch (error) {
       this.toastr.error('An error occurred in load table data', { nzDuration: 3000 });
       console.error("An error occurred in getFromQueryOnlyTable:", error);
@@ -2303,6 +2302,11 @@ export class DynamicTableComponent implements OnInit {
         this.pageChange(1);
       }
     }
+    if(item.filterArray){
+      item['isFilterdSortedColumn'] = item.filterArray.some((a: any) => a?.filter) && item.filterArray.length > 0;
+    }else{
+      item['isFilterdSortedColumn'] = false
+    }
   }
 
   simpleFiltering(value: any, header: any) {
@@ -2320,10 +2324,11 @@ export class DynamicTableComponent implements OnInit {
     return !header?.filterArray?.some((item: any) => item.filter);
   }
   sortedArray: any[] = [];
-  sortingData(header: any, sortingOrder: any) {
+  sortingData(headerData: any, sortingOrder: any) {
     // Check if the column header is already in the sortedArray
+    const header = headerData.key
     const index = this.sortedArray.findIndex(item => item.key === header);
-
+    headerData['isFilterdSortedColumn'] = true;
     if (index !== -1) {
       // Column is already in the sortedArray, toggle the sort order
       this.sortedArray[index].order = sortingOrder;

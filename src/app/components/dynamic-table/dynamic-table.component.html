@@ -48,7 +48,8 @@
         <i class="fas fa-times text-lg text-red-500 cursor-pointer" (click)="close()"></i>
       </ng-template>
       <div class="mr-2 ml-2" [style.order]="split(1 , data?.buttonAlignments) || 2"
-        *ngIf="!childTable &&this.userDetails?.policyBulk && (data?.isAllowExcelReport || data?.isAllowUploadExcel)" class="action-drop-down">
+        *ngIf="!childTable &&this.userDetails?.policyBulk && (data?.isAllowExcelReport || data?.isAllowUploadExcel)"
+        class="action-drop-down">
         <button nz-button nzType="primary"
           [class]="data?.actionButtonClass || 'actions-btn btn-no !border-none !bg-blue-600 hover:!bg-blue-500 my-2 !h-[35px]'"
           nz-dropdown [nzDropdownMenu]="menu4">
@@ -161,19 +162,20 @@
                   <nz-filter-trigger *ngIf="(header?.filtering || header?.sorting ) && !childTable"
                     [(nzVisible)]="header['visible']" [nzDropdownMenu]="filterMenu">
                     <a (click)="makeFilterData(header , true)">
-                      <i class="fa-regular fa-filter mx-1"></i>
+                      <i
+                        [class]="'fa-regular fa-filter mx-1 ' + (header?.isFilterdSortedColumn ? '!text-blue-500' : '!text-gray-400')"></i>
                     </a>
                   </nz-filter-trigger>
                   <nz-dropdown-menu #filterMenu="nzDropdownMenu">
                     <ul nz-menu nzSelectable class="!rounded-md !text-sm !font-medium dyname">
                       <div *ngIf="header?.sorting">
-                        <p (click)="sortingData(header.key , 'asc')"
+                        <p (click)="sortingData(header , 'asc')"
                           class="p-1.5 !px-5 hover:bg-gray-100 tracking-[0.2px] leading-5">
                           <i class="fa-regular fa-arrow-down-a-z mr-1"></i>
                           Sort A to Z
                         </p>
                         <p class="p-1.5 !px-5 hover:bg-gray-100 tracking-[0.2px] leading-5"
-                          (click)="sortingData(header.key , 'desc')">
+                          (click)="sortingData(header , 'desc')">
                           <i class="fa-solid fa-arrow-up-z-a mr-1"></i>
                           Sort Z to A
                         </p>
@@ -263,7 +265,7 @@
       <tbody [class]="data?.tbodyClass" class="dynamic-responsive-table-body w-full" style="width: 100%;">
         <ng-template #recursiveList let-data1>
           <ng-container *ngFor="let item of data1; let i = index">
-            <tr  (click)="rowselected(item)" class="desktop-toggle" (dblclick)="updateModel(item)"
+            <tr (click)="rowselected(item)" class="desktop-toggle" (dblclick)="updateModel(item)"
               (click)="data?.rowClickApi!='' ? onClickRow(data.rowClickApi,item): ''"
               [ngClass]="{'selectedRow' : item === index }">
               <td [ngStyle]="{'text-align': data?.position || 'center'}" [nzLeft]="data?.endFreezingNumber >= 1"
@@ -329,7 +331,7 @@
                     <div *ngIf="header?.dataType == 'qrcode'">
                       <div [style.color]="item[header.key]== item?.colorDataType && editId !== item.id ?
                       item?.columnTextColor : ''" [class]="data?.tdClass" class="editable-cell"
-                        *ngIf="editId != item.id" (click)="openQrCode(item[header.key])" >
+                        *ngIf="editId != item.id" (click)="openQrCode(item[header.key])">
                         <i class="fas fa-qrcode"></i>
                       </div>
                     </div>
@@ -377,9 +379,9 @@
                       <div class="'flex flex-wrap'">
                         <div *ngFor="let childData of data.children">
                           <div *ngIf="childData?.id == header?.key" class="{{childData?.className}}">
-                            <st-block-buttons-card (tableEmit)="loadApiData()" *ngIf="childData.type =='button'" [tableRowId]="item['id']"
-                              [form]="form" [formlyModel]="formlyModel" [title]="item[header.key]"
-                              [softIconList]="childData">
+                            <st-block-buttons-card (tableEmit)="loadApiData()" *ngIf="childData.type =='button'"
+                              [tableRowId]="item['id']" [form]="form" [formlyModel]="formlyModel"
+                              [title]="item[header.key]" [softIconList]="childData">
                             </st-block-buttons-card>
                             <st-downloadbutton *ngIf="childData.type == 'downloadButton'" [screenId]="screenId"
                               [formlyModel]="formlyModel" [form]="form" [screenName]="screenName"
@@ -526,7 +528,8 @@
           (nzPageIndexChange)="onPageIndexChange($event)">
         </nz-pagination>
       </div>
-      <div class="perpage !mt-1.5" *ngIf="data?.changePageSize && (data?.nzShowPagination && data.totalCount > data?.end && showPagination)">
+      <div class="perpage !mt-1.5"
+        *ngIf="data?.changePageSize && (data?.nzShowPagination && data.totalCount > data?.end && showPagination)">
         <a class="flex justify-start items-center border-2 paginator !p-1.5 rounded-md text-xs  border-[#a8a9ab] text-black hover:!bg-amber-300 hover:text-white hover:!border-amber-300"
           nz-dropdown [nzDropdownMenu]="menu11">
           <p class="whitespace-nowrap pr-2">
@@ -560,7 +563,7 @@
   <nz-modal [nzWidth]="1400" [(nzVisible)]="isHeaderVisible" nzTitle="Grid Rule" (nzOnCancel)="handleCancel()"
     (nzOnOk)="handleOk()">
     <ng-container *nzModalContent>
-      <st-business-rule-grid [GridType]="GridType" [selectedNode]="_dataSharedService.selectedNode" 
+      <st-business-rule-grid [GridType]="GridType" [selectedNode]="_dataSharedService.selectedNode"
         [screenName]="screenName" [screenId]="screenId" [screens]="_dataSharedService.screenModule"
         [nodes]="_dataSharedService.nodes"></st-business-rule-grid>
     </ng-container>
