@@ -581,6 +581,15 @@ export class formFeildData {
           }
         },
         {
+          key: 'detailTableName',
+          type: 'input',
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          wrappers: ["formly-vertical-theme-wrapper"],
+          props: {
+            label: 'Detail label name'
+          }
+        },
+        {
           className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
           key: 'disabled',
           type: 'checkbox',
@@ -637,6 +646,15 @@ export class formFeildData {
           wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             label: 'Submit',
+          },
+        },
+        {
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          key: 'detailSave',
+          type: 'checkbox',
+          wrappers: ["formly-vertical-theme-wrapper"],
+          props: {
+            label: 'Detail Save',
           },
         },
         // {

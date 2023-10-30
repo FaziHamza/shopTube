@@ -245,7 +245,7 @@ export class SectionsComponent implements OnInit {
 
         const Arraytables = Array.from(tableNames)
         const remainingTables = Arraytables.slice(1);
-        let id; findClickApi[0];
+        let id; 
         for (const key in empData?.modalData) {
           if (empData?.modalData[key] == undefined) {
             empData.modalData[key] = '';
@@ -349,8 +349,8 @@ export class SectionsComponent implements OnInit {
             this.dataSharedService.buttonData = '';
             this.requestSubscription = this.applicationServices.addNestCommonAPI('knex-query/execute-rules/' + findClickApi[0]._id, result).subscribe({
               next: (res) => {
+                this.saveLoader = false;
                 if (res?.isSuccess) {
-                  this.saveLoader = false;
                   this.toastr.success("Update Successfully", { nzDuration: 3000 });
                   this.dataSharedService.gridDataLoad = true;
                   this.setInternalValuesEmpty(this.dataModel);
@@ -407,22 +407,9 @@ export class SectionsComponent implements OnInit {
     this.assignGridRules(tableData);
   }
   async getFromQuery(data: any) {
-    // let findClickApi = data?.appConfigurableEvent?.find((item: any) =>
-    //   (item.actionLink === 'get' && (item.actionType === 'api' || item.actionType === 'query'))
-    // );
     let findClickApi = data?.appConfigurableEvent?.find((item: any) => item.rule.includes('get'))
     if (findClickApi) {
       let url = `knex-query/getexecute-rules/${findClickApi._id}`;
-
-      // for (let index = 0; index < findClickApi.length; index++) {
-      //   let element = findClickApi[index].actionType;
-      //   if (element == 'query') {
-      //     url = `knex-query/getAction/${findClickApi[index]._id}`;
-      //     break;
-      //   } else {
-      //     url = `knex-query/getAction/${findClickApi[index]._id}`;
-      //   }
-      // }
       let tableData = this.findObjectByKey(this.sections, findClickApi.targetId);
       if (tableData) {
         // let pagination = '';

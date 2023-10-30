@@ -120,8 +120,8 @@ export class SiteLayoutComponent implements OnInit {
     }
     //http://spectrum.com/
 
-    this.fullCurrentUrl = 'spectrum.expocitydubai.com';
-    this.currentUrl = 'spectrum.expocitydubai.com'
+    this.fullCurrentUrl = window.location.host.includes('spectrum') ? 'spectrum.expocitydubai.com' :  window.location.host.split(':')[0];
+    this.currentUrl = window.location.host.includes('spectrum') ? 'spectrum.expocitydubai.com' :  window.location.host.split(':')[0];
     this.getMenuByDomainName(this.currentUrl, true);
 
     // if (!this.currentUrl.includes('localhost')) {
