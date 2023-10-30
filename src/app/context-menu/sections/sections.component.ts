@@ -222,137 +222,57 @@ export class SectionsComponent implements OnInit {
   }
   saveData1(data: any) {
     debugger
-    this.sections
-    let checkButtonConfig = this.findObjectByKey(this.sections, data.key);
-    if (checkButtonConfig) {
-      // this.submit();
-      const checkPermission = this.dataSharedService.getUserPolicyMenuList.find(a => a.screenId == this.dataSharedService.currentMenuLink);
+
+    if (data?.detailSave) {
       let oneModelData = this.convertModel(this.dataModel);
-      if (Object.keys(oneModelData).length > 0) {
-        let findClickApi = data.appConfigurableEvent.filter((item: any) => item.rule.includes('post_'));
-        let empData: any = {};
-        empData = {
-          screenId: this.screenName,
-          modalData: oneModelData
-        };
-        console.log(empData);
-        const tableNames = new Set();
+      this.addDetailGrid(oneModelData, data);
+    } else {
+      this.sectionDataSave(data);
+    }
 
-        for (const key in empData.modalData) {
-          const tableName = key.split('.')[0];
-          tableNames.add(tableName);
-        }
+  }
 
-        const Arraytables = Array.from(tableNames)
-        const remainingTables = Arraytables.slice(1);
-        let id; 
-        for (const key in empData?.modalData) {
-          if (empData?.modalData[key] == undefined) {
-            empData.modalData[key] = '';
-          }
-        }
-        for (const key in empData?.modalData) {
-          if (empData.modalData.hasOwnProperty(key) &&
-            key.endsWith('.id') &&
-            empData.modalData[key]) {
-            id = key;
-          }
-        }
-        if (id == undefined) {
-          if (!checkPermission?.create && this.dataSharedService.currentMenuLink != '/ourbuilder') {
-            alert("You did not have permission");
-            return;
-          }
+  handleAction(event: any, empData: any, data: any) {
+    if (event) {
+      this.saveLoader = true; // Set the loader to true when initiating the action
 
-
-          findClickApi = data.appConfigurableEvent.filter((item: any) => item.rule.includes('post_'));
-          if (findClickApi?.[0]?._id) {
-            this.dataSharedService.imageUrl = '';
-            this.requestSubscription = this.activatedRoute.params.subscribe((params: Params) => {
-              if (params["id"]) {
-                for (const key in empData.modalData) {
-                  if (key.includes('id') && key != 'id') {
-                    empData.modalData[key] = params["id"];
-                  }
+      const model = {
+        screenId: this.screenName,
+        postType: (event.rule.includes('post_')) ? 'post' : 'put',
+        modalData: empData.modalData
+      };
+      this.dataSharedService.buttonData = '';
+      try {
+        this.applicationServices.addNestCommonAPI('knex-query/execute-rules/' + event._id, model).subscribe({
+          next: (res) => {
+            try {
+              if (res) {
+                if (res[0]?.error) {
+                  this.toastr.error(res[0]?.error, { nzDuration: 3000 });
                 }
-              }
-            });
-            console.log(empData.modalData)
-            this.dataSharedService.buttonData = '';
-            this.saveLoader = true;
-            this.requestSubscription = this.applicationServices.addNestCommonAPI('knex-query/execute-rules/' + findClickApi[0]?._id, empData).subscribe({
-              next: (res) => {
-                this.saveLoader = false;
-                if (res) {
-                  if (res[0]?.error)
-                    this.toastr.error(res[0]?.error, { nzDuration: 3000 });
-                  else {
-                    this.toastr.success("Save Successfully", { nzDuration: 3000 });
-                    if (data.saveRouteLink && this.dataSharedService.currentMenuLink != '/ourbuilder') {
-                      this.router.navigate(['/pages/' + data.saveRouteLink]);
-                      return;
-                    }
+                else {
+                  const successMessage = (model.postType === 'post') ? 'Save Successfully' : 'Update Successfully';
+                  this.toastr.success(successMessage, { nzDuration: 3000 });
+
+                  if (data.saveRouteLink && this.dataSharedService.currentMenuLink !== '/ourbuilder' && model.postType === 'post') {
+                    this.router.navigate(['/pages/' + data.saveRouteLink]);
+                    return;
+                  }
+
+                  if (model.postType === 'post') {
                     let tableName: any = '';
                     if (res[0]) {
                       tableName = res[0].tableName ? res[0].tableName.split('.')[1].split('_')[0] : '';
                     }
-                    this.setInternalValuesEmpty(this.dataModel);
-                    this.setInternalValuesEmpty(this.formlyModel);
-                    this.form.patchValue(this.formlyModel);
-                    this.dataSharedService.formlyShowError.next(false)
                     if (tableName) {
-                      this.recursiveUpdate(this.formlyModel, tableName, res)
-                    }
-
-                    this.getFromQuery(data);
-                    if (window.location.href.includes('taskmanager.com')) {
-                      this.dataSharedService.taskmanagerDrawer.next(true);
+                      this.recursiveUpdate(this.formlyModel, tableName, res);
                     }
                     if (window.location.href.includes('spectrum.com')) {
                       this.dataSharedService.spectrumControlNull.next(true);
                     }
+                  } else {
+                    this.dataSharedService.gridDataLoad = true;
                   }
-                }
-              },
-              error: (err) => {
-                console.error(err);
-                this.toastr.error("An error occurred", { nzDuration: 3000 });
-                this.saveLoader = false;
-              }
-            });
-          }
-
-        }
-        else {
-          if (!checkPermission?.update && this.dataSharedService?.currentMenuLink != '/ourbuilder') {
-            alert("You did not have permission");
-            return;
-          }
-          // this.dataSharedService.sectionSubmit.next(false);
-          findClickApi = data.appConfigurableEvent.filter((item: any) => item.rule.includes('put_'));
-          if (this.dataModel) {
-            // this.form.get(dynamicPropertyName);
-            const model = {
-              screenId: this.screenName,
-              postType: 'put',
-              modalData: empData.modalData
-            };
-
-
-            const result = {
-              ...model,
-              modalData: model.modalData
-              // modalData: removePrefix(model.modalData
-            };
-            // console.log(result);
-            this.saveLoader = true;
-            this.dataSharedService.buttonData = '';
-            this.requestSubscription = this.applicationServices.addNestCommonAPI('knex-query/execute-rules/' + findClickApi[0]._id, result).subscribe({
-              next: (res) => {
-                this.saveLoader = false;
-                if (res?.isSuccess) {
-                  this.toastr.success("Update Successfully", { nzDuration: 3000 });
-                  this.dataSharedService.gridDataLoad = true;
                   this.setInternalValuesEmpty(this.dataModel);
                   this.setInternalValuesEmpty(this.formlyModel);
                   this.form.patchValue(this.formlyModel);
@@ -361,22 +281,109 @@ export class SectionsComponent implements OnInit {
                   if (window.location.href.includes('taskmanager.com')) {
                     this.dataSharedService.taskmanagerDrawer.next(true);
                   }
-                } else {
-                  this.toastr.error(res.message, { nzDuration: 3000 });
                 }
-              },
-              error: (err) => {
-                this.saveLoader = false;
-                console.error(err);
-                this.toastr.error("An error occurred", { nzDuration: 3000 });
-                this.saveLoader = false;
               }
-            });
+              this.saveLoader = false; // Set the loader to false after processing the response
+            } catch (innerErr) {
+              this.saveLoader = false; // Ensure loader set to false in case of inner error
+              console.error(innerErr);
+            }
+          },
+          error: (err) => {
+            // Handle the error
+            this.toastr.error("An error occurred", { nzDuration: 3000 });
+            this.saveLoader = false; // Ensure to set the loader to false in case of error
+            console.error(err);
           }
-        }
+        });
+      } catch (outerErr) {
+        this.saveLoader = false; // Ensure loader set to false in case of outer error
+        console.error(outerErr);
       }
     }
   }
+  sectionDataSave(data: any) {
+    const buttonConfig = this.findObjectByKey(this.sections, data.key);
+
+    if (!buttonConfig) return;
+
+    const checkPermission = this.dataSharedService.getUserPolicyMenuList.find(a => a.screenId === this.dataSharedService.currentMenuLink);
+    const oneModelData = this.convertModel(this.dataModel);
+
+    if (Object.keys(oneModelData).length === 0) return;
+
+    const postEvent = data.appConfigurableEvent.find((item: any) => item.rule.includes('post_'));
+    const putEvent = data.appConfigurableEvent.find((item: any) => item.rule.includes('put_'));
+    if (!postEvent && !putEvent) {
+      return
+    }
+    const empData = {
+      screenId: this.screenName,
+      modalData: oneModelData
+    };
+
+    for (const key in empData.modalData) {
+      if (empData.modalData[key] === undefined) {
+        empData.modalData[key] = '';
+      }
+    }
+
+    const id = Object.keys(empData.modalData).find(
+      key => empData.modalData.hasOwnProperty(key) && key.endsWith('.id') && empData.modalData[key]
+    );
+
+    if (id === undefined) {
+      if (!checkPermission?.create && this.dataSharedService.currentMenuLink !== '/ourbuilder') {
+        alert("You do not have permission");
+        return;
+      }
+      this.requestSubscription = this.activatedRoute.params.subscribe((params: Params) => {
+        if (params["id"]) {
+          for (const key in empData.modalData) {
+            if (key.includes('id') && key != 'id') {
+              empData.modalData[key] = params["id"];
+            }
+          }
+        }
+      });
+      this.handleAction(postEvent, empData, data);
+
+    } else {
+      if (!checkPermission?.update && this.dataSharedService?.currentMenuLink !== '/ourbuilder') {
+        alert("You do not have permission");
+        return;
+      }
+
+      this.handleAction(putEvent, empData, data);
+    }
+  }
+  groupDataDetailTable(inputArray: any[]): any {
+    const groupedData: any = {};
+    let tableName: any = '';
+    inputArray.forEach(item => {
+      const getTableName = Object.keys(item)[0];
+      const parts = getTableName.split('.');
+      const itemT: any = {};
+      const newKey1 = parts[0]; // Get the key before the dot
+      for (const key in item) {
+        if (item.hasOwnProperty(key)) {
+          const parts = key.split('.');
+          itemT[parts[1]] = item[key];
+        }
+      }
+      if (!groupedData[newKey1]) {
+        groupedData[newKey1] = [];
+      }
+      groupedData[newKey1].push(itemT);
+      tableName = newKey1;
+    });
+    const obj = {
+      data: groupedData,
+      tableName: tableName
+    }
+    return obj;
+  }
+
   convertModel(model: any, parentKey = "") {
     const convertedModel: any = {};
 
@@ -547,6 +554,107 @@ export class SectionsComponent implements OnInit {
         });
       }
     }
+  }
+  tempTableData: any[] = [];
+  addDetailGrid(data: any, btnConfig: any, clear?: any) {
+    if (clear) {
+      let tableData = this.findObjectByTypeBase(this.sections, "gridList");
+      this.tempTableData = [];
+      tableData.tableData = [];
+      tableData.data = [];
+      tableData.targetId = '';
+      tableData.displayData = []
+      tableData.totalCount = tableData.tableData.length;
+
+    } else {
+      const filteredObject = Object.keys(data).reduce((acc: any, key) => {
+        if (key.startsWith(btnConfig?.detailTableName)) {
+          acc[key] = data[key];
+        }
+        return acc;
+      }, {});
+
+      if (filteredObject) {
+        let tableData = this.findObjectByTypeBase(this.sections, "gridList");
+        if (tableData) {
+          if (filteredObject) {
+            this.tempTableData.push(filteredObject);
+            let saveForm = JSON.parse(JSON.stringify(this.tempTableData[0]));
+            const firstObjectKeys = Object.keys(saveForm);
+            // let tableKey = firstObjectKeys.map(key => ({ name: key }));
+            let obj = firstObjectKeys.map(key => ({ name: key, key: key }));
+            tableData.tableData = [];
+            saveForm.id = tableData.tableData.length + 1;
+            this.tempTableData.forEach((element: any, index: any) => {
+              // element.id = (index + 1).toString();
+              tableData.tableData?.push(element);
+            });
+            // pagniation work start
+            if (!tableData.end) {
+              tableData.end = 10;
+            }
+            tableData.pageIndex = 1;
+            // tableData.serverApi = url;
+            tableData.data = tableData.tableData;
+            tableData.targetId = '';
+            tableData.displayData = tableData.tableData.length > tableData.end ? tableData.tableData.slice(0, tableData.end) : tableData.tableData;
+            // pagniation work end
+            tableData.totalCount = tableData.tableData.length;
+            if (!tableData?.tableHeaders) {
+              tableData.tableHeaders = obj;
+              tableData['tableKey'] = obj
+            }
+            if (tableData?.tableHeaders.length == 0) {
+              tableData.tableHeaders = obj;
+              tableData['tableKey'] = obj
+            }
+            else {
+              if (JSON.stringify(tableData['tableKey']) !== JSON.stringify(obj)) {
+                const updatedData = obj.filter(updatedItem =>
+                  !tableData.tableHeaders.some((headerItem: any) => headerItem.key === updatedItem.name)
+                );
+                if (updatedData.length > 0) {
+                  updatedData.forEach(updatedItem => {
+                    tableData.tableHeaders.push({ id: tableData.tableHeaders.length + 1, key: updatedItem.name, name: updatedItem.name, });
+                  });
+                  tableData['tableKey'] = tableData.tableHeaders;
+                }
+              }
+            }
+            // Make DataType
+            let propertiesWithoutDataType = tableData.tableHeaders.filter((check: any) => !check.hasOwnProperty('dataType'));
+            if (propertiesWithoutDataType.length > 0) {
+              let formlyInputs = this.filterInputElements(this.sections.children[1].children);
+
+              if (formlyInputs && formlyInputs.length > 0) {
+                propertiesWithoutDataType.forEach((head: any) => {
+                  let input = formlyInputs.find(a => a.key == head.key);
+
+                  if (input) {
+                    head['dataType'] = input.formly[0].fieldGroup[0].type;
+                    head['subDataType'] = input.formly[0].fieldGroup[0].props.type;
+                    head['title'] = input.title;
+                  }
+                });
+
+                tableData.tableHeaders = tableData.tableHeaders.concat(propertiesWithoutDataType.filter((item: any) => !tableData.tableHeaders.some((objItem: any) => objItem.key === item.key)));
+              }
+            }
+            tableData.tableHeaders = tableData.tableHeaders.filter((head: any) => head.key != 'expand');
+            const filteredObject1 = Object.keys(this.formlyModel).reduce((acc: any, key) => {
+              if (key.startsWith(btnConfig?.detailTableName)) {
+                acc[key] = this.formlyModel[key];
+              }
+              return acc;
+            }, {});
+            this.setInternalValuesEmpty(filteredObject1);
+            this.setInternalValuesEmpty(filteredObject1);
+            this.form.patchValue(filteredObject1);
+          }
+        }
+      }
+    }
+
   }
   groupedFunc(data: any, type: any, header: any, groupingArray: any, displayData: any, tableData: any, tableHeaders: any) {
     header['grouping'] = type === 'add' ? data : '';
