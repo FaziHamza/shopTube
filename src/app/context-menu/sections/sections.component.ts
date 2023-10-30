@@ -311,7 +311,7 @@ export class SectionsComponent implements OnInit {
     const oneModelData = this.convertModel(this.dataModel);
 
     if (Object.keys(oneModelData).length === 0) return;
-
+   
     const postEvent = data.appConfigurableEvent.find((item: any) => item.rule.includes('post_'));
     const putEvent = data.appConfigurableEvent.find((item: any) => item.rule.includes('put_'));
     if (!postEvent && !putEvent) {
@@ -331,7 +331,10 @@ export class SectionsComponent implements OnInit {
     const id = Object.keys(empData.modalData).find(
       key => empData.modalData.hasOwnProperty(key) && key.endsWith('.id') && empData.modalData[key]
     );
-
+    if (this.tempTableData.length > 0) {
+      const getDetailData = this.groupDataDetailTable(this.tempTableData);
+      empData.modalData[getDetailData.tableName] = getDetailData.data[getDetailData.tableName];
+    }
     if (id === undefined) {
       if (!checkPermission?.create && this.dataSharedService.currentMenuLink !== '/ourbuilder') {
         alert("You do not have permission");
