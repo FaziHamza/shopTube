@@ -822,6 +822,7 @@ export class DynamicTableComponent implements OnInit {
     }
   };
   deleteRow(data: any): void {
+    debugger
     const checkPermission = this.dataSharedService.getUserPolicyMenuList.find(a => a.screenId == this.dataSharedService.currentMenuLink);
     if (!checkPermission?.delete && this.dataSharedService.currentMenuLink != '/ourbuilder') {
       alert("You did not have permission");
@@ -874,7 +875,7 @@ export class DynamicTableComponent implements OnInit {
       }
     }
     else {
-     this.handleDataDeletion(data);
+      this.handleDataDeletion(data);
       this.toastr.success("Delete from userend successfully", { nzDuration: 3000 });
     }
   };
@@ -1156,17 +1157,28 @@ export class DynamicTableComponent implements OnInit {
   pageChange(index: number) {
     this.data.pageIndex = index;
     if (!this.pageSize)
-      this.pageSize = this.data.end;
+      this.pageSize = this.data.end ? this.data.end : this.tableData.length;
     this.updateDisplayData();
   }
   updateDisplayData(): void {
     const start = (this.data.pageIndex - 1) * this.pageSize;
     const end = start + this.pageSize;
-    this.start = start == 0 ? 1 : ((this.data.pageIndex * this.pageSize) - this.pageSize) + 1;
+
+    this.start = start === 0 ? 1 : (this.data.pageIndex * this.pageSize) - this.pageSize + 1;
     this.displayData = this.tableData.slice(start, end);
-    this.end = this.displayData.length != this.data.end ? this.tableData.length : this.data.pageIndex * this.pageSize;
+    this.end = this.displayData.length !== this.data.end ? this.tableData.length : this.data.pageIndex * this.pageSize;
+
     this.data.totalCount = this.tableData.length;
+
+    // Updating this.tableData directly without creating a new reference
+    // this.tableData = JSON.parse(JSON.stringify(this.tableData)); // Avoid reassigning if not necessary
+    // this.displayData = JSON.parse(JSON.stringify(this.displayData)); // Avoid reassigning if not necessary
+
+    // Trigger change detection by marking for check and applying change detection
+    this.cdr.markForCheck();
+    this.cdr.detectChanges();
   }
+
   updateGridPagination() {
     const start = (this.data.pageIndex - 1) * this.pageSize;
     const end = start + this.pageSize;
@@ -2296,9 +2308,9 @@ export class DynamicTableComponent implements OnInit {
         this.pageChange(1);
       }
     }
-    if(item.filterArray){
+    if (item.filterArray) {
       item['isFilterdSortedColumn'] = item.filterArray.some((a: any) => a?.filter) && item.filterArray.length > 0;
-    }else{
+    } else {
       item['isFilterdSortedColumn'] = false
     }
   }

@@ -3755,6 +3755,7 @@ export class BuilderComponent implements OnInit {
   //   });
   // }
   notifyEmit(event: actionTypeFeild): void {
+    debugger
     let needToUpdate = true;
     switch (event.type) {
       case 'body':
@@ -3845,6 +3846,12 @@ export class BuilderComponent implements OnInit {
             this.selectedNode['rowClass'] = event.form.rowClass;
             this.selectedNode['borderLessInputs'] = event.form.borderLessInputs;
             this.selectedNode['inputLabelClassName'] = event.form.inputLabelClassName;
+            if (this.selectedNode['borderRadius']) {
+              document.documentElement.style.setProperty('--cascaderBorderRadius', this.selectedNode['borderRadius']);
+              this.cdr.detectChanges();
+            }
+            
+
             if (this.selectedNode.children) {
               this.selectedNode.children[1]['rowClass'] = event.form.rowClass;
             }
@@ -3855,6 +3862,12 @@ export class BuilderComponent implements OnInit {
             if (event.form.inputLabelClassName) {
               if (this.selectedNode['inputLabelClassName'] != event.form.inputLabelClassName) {
                 this.clickBack();
+              }
+            }
+            if(this.selectedNode.size){
+              const filteredCascader = this.findObjectByTypeBase(this.selectedNode?.children?.[1] , 'cascader');
+              if(filteredCascader){
+                filteredCascader['size']= this.selectedNode.size;
               }
             }
           }
@@ -3975,13 +3988,13 @@ export class BuilderComponent implements OnInit {
               }
               this.updateNodes();
             }
-            if(event.dbData){
+            if (event.dbData) {
               this.selectedNode.dbData = event.dbData;
             }
-            if(event.tableDta){
+            if (event.tableDta) {
               this.selectedNode.tableBody = event.tableDta;
             }
-            if(event.form.mapApi){
+            if (event.form.mapApi) {
               this.selectedNode.mapApi = event.form.mapApi;
             }
             if (event.tableDta) {

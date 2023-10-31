@@ -6,12 +6,16 @@
     (ngModelChange)="onChanges($event)">
 
 </nz-cascader> -->
-<nz-cascader nzChangeOnSelect [nzAllowClear]="true" 
-[appConfigurableSelect]="cascaderData['appConfigurableEvent']" [loadAction]="cascaderData['eventActionconfig']"
-[processData]="processData"
-    [(ngModel)]="values" [nzOptions]="cascaderData.options" (ngModelChange)="onChanges($event)"
-    [nzLoadData]="loadData.bind(this)" placeholder="Select Screen" [nzShowSearch]="true">
-</nz-cascader>
+<div class="dynamic-cascader">
+    <nz-cascader [nzShowInput]="cascaderData.showInput" [nzSize]="cascaderData.size || 'default'"
+        [nzStatus]="cascaderData.status" nzChangeOnSelect [nzAllowClear]="true"
+        [appConfigurableSelect]="cascaderData['appConfigurableEvent']" [loadAction]="cascaderData['eventActionconfig']"
+        [processData]="processData" class="!w-full" [(ngModel)]="values" [nzOptions]="cascaderData.options"
+        (ngModelChange)="onChanges($event)" [nzLoadData]="loadData.bind(this)"
+        [nzPlaceHolder]="cascaderData.placeHolder" [nzShowSearch]="true" [nzExpandTrigger]="cascaderData.expandTrigger">
+    </nz-cascader>
+</div>
+
 
 &nbsp;
 <ng-template #expandIcon>
