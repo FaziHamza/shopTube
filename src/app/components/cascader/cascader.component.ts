@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
 import { NzCascaderOption } from 'ng-zorro-antd/cascader';
 import { ApplicationService } from 'src/app/services/application.service';
 
@@ -11,12 +11,16 @@ export class CascaderComponent implements OnInit {
   @Input() cascaderData: any;
   nzOptions: any[] | null = null;
   values: any[] | null = null;
-  constructor(private applicationService: ApplicationService) {
+  constructor(private applicationService: ApplicationService, private cdr: ChangeDetectorRef) {
     this.processData = this.processData.bind(this);
   }
 
   ngOnInit(): void {
     debugger
+    if (this.cascaderData?.borderRadius) {
+      document.documentElement.style.setProperty('--cascaderBorderRadius', this.cascaderData?.borderRadius);
+      this.cdr.detectChanges();
+    }
   }
 
   // changeNzOptions(): void {
@@ -57,7 +61,7 @@ export class CascaderComponent implements OnInit {
             return {
               label: item.name || item[propertyNames[1]],
               value: item.id || item[propertyNames[0]],
-              isLeaf: this.cascaderData['appConfigurableEvent'].length == index + 1 ? true: false
+              isLeaf: this.cascaderData['appConfigurableEvent'].length == index + 1 ? true : false
             };
           });
           node.children = finalObj;

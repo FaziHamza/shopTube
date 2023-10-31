@@ -2258,7 +2258,7 @@ export class PagesComponent implements OnInit, OnDestroy {
                       }
                     }
                     let parentId =
-                      this.requestSubscription = this.applicationService.callApi('knex-query/getexecute-rules/' + getActions._id, 'get', '', '', typeof targetId === 'string' ? "'" + targetId + "'" : targetId
+                      this.requestSubscription = this.applicationService.callApi('knex-query/getexecute-rules/' + getActions._id, 'get', '', '', targetId
                       ).subscribe(res => {
                         if (res) {
                           if (res.data.length > 0) {

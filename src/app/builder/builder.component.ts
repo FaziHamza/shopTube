@@ -3846,7 +3846,9 @@ export class BuilderComponent implements OnInit {
             this.selectedNode['rowClass'] = event.form.rowClass;
             this.selectedNode['borderLessInputs'] = event.form.borderLessInputs;
             this.selectedNode['inputLabelClassName'] = event.form.inputLabelClassName;
-            if (this.selectedNode['borderRadius']) {
+            const filteredCascader = this.findObjectByTypeBase(this.selectedNode?.children?.[1] , 'cascader');
+            if (this.selectedNode['borderRadius'] && filteredCascader) {
+              filteredCascader['borderRadius'] = this.selectedNode['borderRadius']
               document.documentElement.style.setProperty('--cascaderBorderRadius', this.selectedNode['borderRadius']);
               this.cdr.detectChanges();
             }
@@ -3864,11 +3866,8 @@ export class BuilderComponent implements OnInit {
                 this.clickBack();
               }
             }
-            if(this.selectedNode.size){
-              const filteredCascader = this.findObjectByTypeBase(this.selectedNode?.children?.[1] , 'cascader');
-              if(filteredCascader){
-                filteredCascader['size']= this.selectedNode.size;
-              }
+            if(this.selectedNode.size && filteredCascader){
+              filteredCascader['size']= this.selectedNode.size;
             }
           }
           this.selectedNode['checkData'] =
@@ -5706,7 +5705,8 @@ export class BuilderComponent implements OnInit {
           if (check.includes('model =>'))
             return check.replace('model =>', '(model) =>');
           else return check;
-        } else {
+        } 
+        else {
           return value;
         }
       }) || '{}'
