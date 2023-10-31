@@ -69,7 +69,6 @@ import { BuilderModule } from './builder/builder.module';
     TableRowComponent,
     NotFoundComponent,
     PermissionDeniedComponent,
-
     PolicyComponent,
     PolicyMappingComponent,
     UserMappingComponent,
