@@ -71,7 +71,7 @@
       </div>
       <div [nzTooltipTitle]="
       data?.searchType ? data?.searchType : 'keyup' " nz-tooltip [style.order]="split(2 , data?.buttonAlignments) || 1"
-        class="!h-[35px] !mx-2" *ngIf="data?.isAllowSearch">
+        class="!h-[35px]" *ngIf="data?.isAllowSearch">
         <nz-input-group (input)="search(data?.searchType ? 'keyup' : 'keyup')" nzSearch
           [nzAddOnAfter]="suffixIconButton">
           <input type="text" class="!h-[35px] !rounded-tl-md !rounded-bl-md" nz-input id="searchControll"
@@ -183,7 +183,7 @@
                       </div>
                       <ng-container *ngIf="header?.filterArray">
                         <ng-container *ngIf="header?.filterArray.length > 0">
-                          <nz-input-group class="mt-2 !h-[30px] box-border !p-0 mx-5 !min-w-[210px] !rounded-md !w-auto"
+                          <nz-input-group class="mt-2 !h-[30px] box-border !p-0 ml-5 !min-w-[210px] !rounded-md !w-auto"
                             [nzSuffix]="suffixIconSearch">
                             <input nz-input placeholder="Search Filter Here ..."
                               class="!text-xs !py-1 !rounded-tl-[6px] !flex !justify-center !items-center !rounded-bl-[6px] !px-2 !font-medium"
@@ -510,7 +510,7 @@
     </nz-table>
     <div [ngClass]="{'flex  justify-end items-center': data?.changePageSize && data.totalCount > data?.end}">
       <div class="paginatio-bottom !mt-1.5"
-        *ngIf="data?.nzShowPagination && data.totalCount > data?.end && showPagination">
+        *ngIf="data?.nzShowPagination && showPagination">
         <div>
           <p class="showing">Showing <span>{{start}} - {{end ? end : data?.end}}</span>
             <span *ngIf="data.showTotal || data.showTotal == undefined">

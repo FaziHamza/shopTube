@@ -93,7 +93,8 @@ export class DownloadbuttonComponent {
           // Simulate a click on the anchor
           anchor.click();
         }
-      } else if (buttonData.path) {
+      } 
+      else if (buttonData.path) {
         if (buttonData?.path.includes('.pdf')) {
           // Create an anchor element
           const anchor = document.createElement('a');

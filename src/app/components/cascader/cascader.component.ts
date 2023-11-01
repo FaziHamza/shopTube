@@ -56,12 +56,11 @@ export class CascaderComponent implements OnInit {
             });
             return newObj;
           });
-
           let finalObj = result.map((item: any) => {
             return {
               label: item.name || item[propertyNames[1]],
               value: item.id || item[propertyNames[0]],
-              isLeaf: this.cascaderData['appConfigurableEvent'].length == index + 1 ? true : false
+              isLeaf:  this.cascaderData['appConfigurableEvent'].length == index + 1 ? true : false
             };
           });
           node.children = finalObj;

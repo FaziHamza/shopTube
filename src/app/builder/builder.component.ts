@@ -367,15 +367,23 @@ export class BuilderComponent implements OnInit {
   updateObjects(data: any) {
     if (data) {
       // Set eventActionconfig to an empty object and appConfigurableEvent to an empty array
-      data.eventActionconfig = {};
-      data.appConfigurableEvent = [];
+      if (data.formly) {
+        if (data.formly[0].fieldGroup) {
+          data.formly[0].fieldGroup[0].props.appConfigurableEvent = [];
+          data.formly[0].fieldGroup[0].props.eventActionconfig = {};
+        }
+      } else {
+        data.eventActionconfig = {};
+        data.appConfigurableEvent = [];
 
-      if (data.children && data.children.length > 0) {
-        for (let child of data.children) {
-          // Recursively update children
-          this.updateObjects(child);
+        if (data.children && data.children.length > 0) {
+          for (let child of data.children) {
+            // Recursively update children
+            this.updateObjects(child);
+          }
         }
       }
+
     }
   }
 
@@ -3852,7 +3860,7 @@ export class BuilderComponent implements OnInit {
             //   document.documentElement.style.setProperty('--cascaderBorderRadius', this.selectedNode['borderRadius']);
             //   this.cdr.detectChanges();
             // }
-            
+
 
             if (this.selectedNode.children) {
               this.selectedNode.children[1]['rowClass'] = event.form.rowClass;
@@ -4175,7 +4183,7 @@ export class BuilderComponent implements OnInit {
       case 'multiFileUploader':
       case 'audioVideoRecorder':
       case 'image':
-        case 'cascader':
+      case 'cascader':
         if (this.selectedNode) {
           needToUpdate = false;
 
@@ -5707,7 +5715,7 @@ export class BuilderComponent implements OnInit {
           if (check.includes('model =>'))
             return check.replace('model =>', '(model) =>');
           else return check;
-        } 
+        }
         else {
           return value;
         }

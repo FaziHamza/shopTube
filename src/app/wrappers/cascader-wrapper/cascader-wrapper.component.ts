@@ -10,7 +10,7 @@ import { ApplicationService } from 'src/app/services/application.service';
 })
 export class CascaderWrapperComponent extends FieldType<FieldTypeConfig> {
   nzOptions: any[] | null = null;
-  values: any[] | null = null;
+  values: any[] = [];
   constructor(private applicationService: ApplicationService, private cdr: ChangeDetectorRef) {
     super();
     this.processData = this.processData.bind(this);
@@ -39,6 +39,11 @@ export class CascaderWrapperComponent extends FieldType<FieldTypeConfig> {
   }
   async loadData(node: NzCascaderOption, index: number): Promise<void> {
     let getNextNode = this.to['appConfigurableEvent'].find((a: any) => a.level == index + 1);
+    if (index == 1) {
+      if (this.values[0] == 'Blue') {
+        node.value = this.values[0];
+      }
+    }
     if (getNextNode) {
       let url = `knex-query/getexecute-rules/${getNextNode._id}`;
       // Root node - Load application data
@@ -59,14 +64,25 @@ export class CascaderWrapperComponent extends FieldType<FieldTypeConfig> {
             });
             return newObj;
           });
+          const applicationID = JSON.parse(localStorage.getItem('applicationId')!);
 
           let finalObj = result.map((item: any) => {
             return {
               label: item.name || item[propertyNames[1]],
               value: item.id || item[propertyNames[0]],
-              isLeaf: this.to['appConfigurableEvent'].length == index + 1 ? true : false
+              isLeaf: (this.values[0] == 'Green' && applicationID == '651fa8129ce5925c4c89ced7') ? (this.to['appConfigurableEvent'].length == index + 2 ? true : false) : (this.to['appConfigurableEvent'].length == index + 1 ? true : false)
             };
           });
+          if (this.values.length == 2) {
+            if (this.values[0] == 'Blue' && applicationID == '651fa8129ce5925c4c89ced7') {
+              finalObj.forEach((a: any) => {
+                if (a.value == 'Yes') {
+                  a.isLeaf = true;
+                }
+              });
+            }
+          }
+
           node.children = finalObj;
         } else {
           // this.toastr.error(res.message, { nzDuration: 3000 });
