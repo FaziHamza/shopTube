@@ -186,12 +186,12 @@ export const htmlTabsData = [
             icon: "fa fa-chevron-down",
             children: [
 
-              {
-                parameter: "cascader",
-                icon: "uil-arrow-break",
-                label: "Cascader",
-                isLeaf: true
-              },
+              // {
+              //   parameter: "cascader",
+              //   icon: "uil-arrow-break",
+              //   label: "Cascader",
+              //   isLeaf: true
+              // },
               {
                 parameter: "input",
                 icon: "uil-check-square",
@@ -315,7 +315,15 @@ export const htmlTabsData = [
                 configType: 'number', fieldType: 'number',
                 // maskString: "",
               },
-
+              {
+                parameter: "input",
+                icon: "uil uil-calender",
+                label: "Cascader",
+                type: 'cascader',
+                configType: 'cascader', fieldType: 'cascader',
+                // maskString: "",
+                // maskLabel: "",
+              },
               {
                 parameter: "input",
                 icon: "uil uil-key-skeleton-alt",

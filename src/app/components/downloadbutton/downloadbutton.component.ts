@@ -75,7 +75,6 @@ export class DownloadbuttonComponent {
   downloadReport(buttonData: any) {
     try {
       debugger;
-
       if (this.path || this.path == 'N/A') {
         if (this.path == 'N/A') {
           this.toastr.warning('Request is not approved!', {
@@ -83,7 +82,7 @@ export class DownloadbuttonComponent {
           });
           return;
         }
-        const pdfFileUrl = this.serverPath + this.path;
+        const pdfFileUrl = this.path;
         if (pdfFileUrl.includes('.pdf')) {
           // Create an anchor element
           const anchor = document.createElement('a');
@@ -94,7 +93,8 @@ export class DownloadbuttonComponent {
           // Simulate a click on the anchor
           anchor.click();
         }
-      } else if (buttonData.path) {
+      } 
+      else if (buttonData.path) {
         if (buttonData?.path.includes('.pdf')) {
           // Create an anchor element
           const anchor = document.createElement('a');

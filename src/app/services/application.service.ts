@@ -69,7 +69,7 @@ export class ApplicationService {
 
     if (method === 'get' && parentId) {
       // Assuming apiUrl already has a base URL
-      apiUrl += `/${parentId}`;
+      apiUrl += `/${typeof parentId === 'string' ? "'" + parentId + "'" : parentId }`;
     }
 
     switch (method) {

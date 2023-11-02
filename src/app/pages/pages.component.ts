@@ -53,7 +53,6 @@ export class PagesComponent implements OnInit, OnDestroy {
 
     // this.ngOnDestroy();
     const changeSubscription = this.dataSharedService.change.subscribe(({ event, field }) => {
-      debugger
       if (this.navigation) {
         if (field && event)
           if (this.formlyModel && Object.keys(this.formlyModel).length > 0) {
@@ -1372,8 +1371,12 @@ export class PagesComponent implements OnInit, OnDestroy {
   }
   filterInputElements(data: ElementData[]): any[] {
     const inputElements: ElementData[] = [];
+    const visited = new Set(); // To keep track of visited objects
 
     function traverse(obj: any): void {
+      if (visited.has(obj)) return; // If the object is visited, return to prevent infinite loop
+      visited.add(obj); // Mark the current object as visited
+
       if (Array.isArray(obj)) {
         obj.forEach((item) => {
           traverse(item);
@@ -1391,6 +1394,7 @@ export class PagesComponent implements OnInit, OnDestroy {
     traverse(data);
     return inputElements;
   }
+
   getCacheRule(getRes: any) {
 
     getRes.data.forEach((res: any) => {
@@ -2279,7 +2283,7 @@ export class PagesComponent implements OnInit, OnDestroy {
                       }
                     }
                     let parentId =
-                      this.requestSubscription = this.applicationService.callApi('knex-query/getexecute-rules/' + getActions._id, 'get', '', '', typeof targetId === 'string' ? "'" + targetId + "'" : targetId
+                      this.requestSubscription = this.applicationService.callApi('knex-query/getexecute-rules/' + getActions._id, 'get', '', '', targetId
                       ).subscribe(res => {
                         if (res) {
                           if (res.data.length > 0) {

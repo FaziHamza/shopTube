@@ -822,6 +822,7 @@ export class DynamicTableComponent implements OnInit {
     }
   };
   deleteRow(data: any): void {
+    debugger
     const checkPermission = this.dataSharedService.getUserPolicyMenuList.find(a => a.screenId == this.dataSharedService.currentMenuLink);
     if (!checkPermission?.delete && this.dataSharedService.currentMenuLink != '/ourbuilder') {
       alert("You did not have permission");
@@ -835,7 +836,7 @@ export class DynamicTableComponent implements OnInit {
       modalData: data
     };
     if (this.screenName != undefined) {
-      if (this.data?.appConfigurableEvent) {
+      if (this.data?.appConfigurableEvent && this.data?.appConfigurableEvent?.length > 0) {
         // Find the 'delete' event in appConfigurableEvent
         const findClickApi = this.data.appConfigurableEvent.filter((item: any) => item.rule.includes('delete'));
         const id = findClickApi?.[0]?.rule.includes('EnumList') ? data?._id : data?.id;
@@ -874,13 +875,7 @@ export class DynamicTableComponent implements OnInit {
       }
     }
     else {
-      this.pageSize = 10;
-      const indexToRemove = this.tableData.findIndex((d: any) => d.id === data.id);
-      if (indexToRemove !== -1) {
-        this.tableData.splice(indexToRemove, 1);
-      }
-      this.displayData = [...this.tableData];
-      this.pageChange(1);
+      this.handleDataDeletion(data);
       this.toastr.success("Delete from userend successfully", { nzDuration: 3000 });
     }
   };
@@ -1162,17 +1157,28 @@ export class DynamicTableComponent implements OnInit {
   pageChange(index: number) {
     this.data.pageIndex = index;
     if (!this.pageSize)
-      this.pageSize = this.data.end;
+      this.pageSize = this.data.end ? this.data.end : this.tableData.length;
     this.updateDisplayData();
   }
   updateDisplayData(): void {
     const start = (this.data.pageIndex - 1) * this.pageSize;
     const end = start + this.pageSize;
-    this.start = start == 0 ? 1 : ((this.data.pageIndex * this.pageSize) - this.pageSize) + 1;
+
+    this.start = start === 0 ? 1 : (this.data.pageIndex * this.pageSize) - this.pageSize + 1;
     this.displayData = this.tableData.slice(start, end);
-    this.end = this.displayData.length != this.data.end ? this.tableData.length : this.data.pageIndex * this.pageSize;
+    this.end = this.displayData.length !== this.data.end ? this.tableData.length : this.data.pageIndex * this.pageSize;
+
     this.data.totalCount = this.tableData.length;
+
+    // Updating this.tableData directly without creating a new reference
+    // this.tableData = JSON.parse(JSON.stringify(this.tableData)); // Avoid reassigning if not necessary
+    // this.displayData = JSON.parse(JSON.stringify(this.displayData)); // Avoid reassigning if not necessary
+
+    // Trigger change detection by marking for check and applying change detection
+    this.cdr.markForCheck();
+    this.cdr.detectChanges();
   }
+
   updateGridPagination() {
     const start = (this.data.pageIndex - 1) * this.pageSize;
     const end = start + this.pageSize;
@@ -1270,7 +1276,7 @@ export class DynamicTableComponent implements OnInit {
       this.saveLoader = true;
       this.requestSubscription = this.applicationService.callApi(`knex-query/getexecute-rules/${this.data.eventActionconfig._id}`, 'get', '', '', '').subscribe({
         next: (res) => {
-          this.saveLoader = false;
+          // this.saveLoader = false;
           this.getFromQueryOnlyTable(this.data, res);
         },
         error: (error: any) => {
@@ -1822,10 +1828,6 @@ export class DynamicTableComponent implements OnInit {
         }
         this.data['tableKey'] = this.tableHeaders;
         this.data['tableHeaders'] = this.tableHeaders;
-        if (window.location.href.includes('taskmanager.com')) {
-          // Handle any additional logic here
-        }
-
         const resizingData = localStorage.getItem(this.screenId);
         if (resizingData) {
           const parseResizingData = JSON.parse(resizingData);
@@ -1836,26 +1838,15 @@ export class DynamicTableComponent implements OnInit {
             }
           });
         }
-        this.saveLoader = false;
-
-        // this.tableHeaders.forEach((header: any, index: number) => {
-        //   if (header) {
-        //     if (this.data?.endFreezingNumber || this.data.startFreezingNumber) {
-        //       if (index < this.data?.endFreezingNumber - 2 && this.data?.endFreezingNumber > 2) {
-        //         let freezeIndex = this.tableHeaders.length - (index + 1)
-        //         this.tableHeaders[freezeIndex]['headerFreeze'] = true;
-        //         // return header['headerFreeze'];
-        //       }
-        //       if (index < this.data.startFreezingNumber) {
-        //         header['headerFreeze'] = true;
-        //       }
-
-        //     }
-        //   }
-        // });
+        this.tableHeaders.forEach((head: any) => {
+          head['isFilterdSortedColumn'] = false
+        });
       }
+      this.saveLoader = false;
       this.gridInitilize();
-    } catch (error) {
+    }
+    catch (error) {
+      this.toastr.error('An error occurred in load table data', { nzDuration: 3000 });
       console.error("An error occurred in getFromQueryOnlyTable:", error);
       // Handle the error appropriately, e.g., show an error message to the user.
       this.saveLoader = false;
@@ -2317,6 +2308,11 @@ export class DynamicTableComponent implements OnInit {
         this.pageChange(1);
       }
     }
+    if (item.filterArray) {
+      item['isFilterdSortedColumn'] = item.filterArray.some((a: any) => a?.filter) && item.filterArray.length > 0;
+    } else {
+      item['isFilterdSortedColumn'] = false
+    }
   }
 
   simpleFiltering(value: any, header: any) {
@@ -2334,10 +2330,11 @@ export class DynamicTableComponent implements OnInit {
     return !header?.filterArray?.some((item: any) => item.filter);
   }
   sortedArray: any[] = [];
-  sortingData(header: any, sortingOrder: any) {
+  sortingData(headerData: any, sortingOrder: any) {
     // Check if the column header is already in the sortedArray
+    const header = headerData.key
     const index = this.sortedArray.findIndex(item => item.key === header);
-
+    headerData['isFilterdSortedColumn'] = true;
     if (index !== -1) {
       // Column is already in the sortedArray, toggle the sort order
       this.sortedArray[index].order = sortingOrder;

@@ -36,12 +36,16 @@ export class ButtonsComponent implements OnInit {
   nodes: any[] = [];
   responseData: any;
   loader: boolean = false;
+  isActionExist: boolean = false;
   requestSubscription: Subscription;
   @Output() gridEmit: EventEmitter<any> = new EventEmitter<any>();
   constructor(private modalService: NzModalService, public employeeService: EmployeeService, private toastr: NzMessageService, private router: Router,
     public dataSharedService: DataSharedService, private applicationService: ApplicationService, private activatedRoute: ActivatedRoute) { }
 
   ngOnInit(): void {
+    if (this.buttonData?.appConfigurableEvent.length > 0 || Object.entries(this.buttonData?.eventActionconfig).length === 0 || this.buttonData.redirect || this.buttonData.isSubmit) {
+      this.isActionExist = true;
+    }
     this.hoverTextColor = this.buttonData?.textColor ? this.buttonData?.textColor : '';
     this.bgColor = this.buttonData?.color ? this.buttonData?.color : '';
     if (this.buttonData.title === '$user' && window.location.href.includes('/pages')) {
@@ -145,15 +149,6 @@ export class ButtonsComponent implements OnInit {
     if (this.requestSubscription)
       this.requestSubscription.unsubscribe();
   }
-  getButtonType(type: any) {
-    console.log(type);
-    // if(type == 'insert')
-    //   this.insertData('insert');
-    // else if(type == 'update')
-    //   this.updateData('update')
-    // else if(type == 'delete')
-    //   this.deleteData('delete')
-  }
   handleOk(): void {
     console.log('Button ok clicked!');
     this.isVisible = false;
@@ -171,8 +166,6 @@ export class ButtonsComponent implements OnInit {
     this.isVisible = false;
   }
   handleButtonClick(buttonData: any): void {
-
-    // this.getButtonType(buttonData.type);
     this.pagesRoute(buttonData);
     if ((!buttonData.captureData || buttonData.captureData == 'sectionLevel') && buttonData.isSubmit) {
       this.dataSharedService.buttonData = buttonData;

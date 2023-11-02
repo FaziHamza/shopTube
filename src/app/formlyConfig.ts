@@ -30,6 +30,7 @@ import { MultiFileUploadWrapperComponent } from "./wrappers/multi-file-upload-wr
 import { AudioVideoRecorderComponent } from "./wrappers/audio-video-recorder/audio-video-recorder.component";
 import { RepeatableControllComponent } from "./wrappers/repeatable-controll/repeatable-controll.component";
 import { ColorPickerComponent } from "./wrappers/color-picker/color-picker.component";
+import { CascaderWrapperComponent } from "./wrappers/cascader-wrapper/cascader-wrapper.component";
 // import { FormlyHorizontalWrapper } from "./wrappers/FormlyHorizontalWrapper";
 
 export const fieldComponents = [
@@ -62,7 +63,8 @@ export const fieldComponents = [
   RepeatInputComponent,
   AudioVideoRecorderComponent,
   RepeatableControllComponent,
-  ColorPickerComponent
+  ColorPickerComponent,
+  CascaderWrapperComponent
 ];
 
 
@@ -106,6 +108,7 @@ export const formlyCustomeConfig: ConfigOption = {
     { name: 'audioVideoRecorder', component: AudioVideoRecorderComponent },
     { name: 'customeClearence', component: RepeatableControllComponent },
     { name: 'color', component: ColorPickerComponent },
+    { name: 'cascader', component: CascaderWrapperComponent },
 
     //   {
     //     name: 'select', component: FormlyFieldSelect,

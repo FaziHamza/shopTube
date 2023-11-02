@@ -367,15 +367,23 @@ export class BuilderComponent implements OnInit {
   updateObjects(data: any) {
     if (data) {
       // Set eventActionconfig to an empty object and appConfigurableEvent to an empty array
-      data.eventActionconfig = {};
-      data.appConfigurableEvent = [];
+      if (data.formly) {
+        if (data.formly[0].fieldGroup) {
+          data.formly[0].fieldGroup[0].props.appConfigurableEvent = [];
+          data.formly[0].fieldGroup[0].props.eventActionconfig = {};
+        }
+      } else {
+        data.eventActionconfig = {};
+        data.appConfigurableEvent = [];
 
-      if (data.children && data.children.length > 0) {
-        for (let child of data.children) {
-          // Recursively update children
-          this.updateObjects(child);
+        if (data.children && data.children.length > 0) {
+          for (let child of data.children) {
+            // Recursively update children
+            this.updateObjects(child);
+          }
         }
       }
+
     }
   }
 
@@ -2077,9 +2085,9 @@ export class BuilderComponent implements OnInit {
         newNode = { ...newNode, ...this.addControlService.treeControl() };
         break;
 
-      case 'cascader':
-        newNode = { ...newNode, ...this.addControlService.cascaderControl() };
-        break;
+      // case 'cascader':
+      //   newNode = { ...newNode, ...this.addControlService.cascaderControl() };
+      //   break;
 
       case 'drawer':
         newNode = { ...newNode, ...this.addControlService.drawerControl() };
@@ -2806,7 +2814,7 @@ export class BuilderComponent implements OnInit {
         this.fieldData.commonData?.push({ title: 'treeviewFields', data: _formFieldData.treeviewFields });
         break;
       case 'cascader':
-        this.addIconCommonConfiguration(_formFieldData.cascaderFields, false);
+        this.addIconCommonConfiguration(_formFieldData.cascaderFields, true);
         this.fieldData.commonData?.push({ title: 'cascaderFields', data: _formFieldData.cascaderFields });
         // delete configObj.options;
         break;
@@ -3755,6 +3763,7 @@ export class BuilderComponent implements OnInit {
   //   });
   // }
   notifyEmit(event: actionTypeFeild): void {
+    debugger
     let needToUpdate = true;
     switch (event.type) {
       case 'body':
@@ -3845,6 +3854,14 @@ export class BuilderComponent implements OnInit {
             this.selectedNode['rowClass'] = event.form.rowClass;
             this.selectedNode['borderLessInputs'] = event.form.borderLessInputs;
             this.selectedNode['inputLabelClassName'] = event.form.inputLabelClassName;
+            // const filteredCascader = this.findObjectByTypeBase(this.selectedNode?.children?.[1] , 'cascader');
+            // if (this.selectedNode['borderRadius'] && filteredCascader) {
+            //   filteredCascader['borderRadius'] = this.selectedNode['borderRadius']
+            //   document.documentElement.style.setProperty('--cascaderBorderRadius', this.selectedNode['borderRadius']);
+            //   this.cdr.detectChanges();
+            // }
+
+
             if (this.selectedNode.children) {
               this.selectedNode.children[1]['rowClass'] = event.form.rowClass;
             }
@@ -3857,6 +3874,9 @@ export class BuilderComponent implements OnInit {
                 this.clickBack();
               }
             }
+            // if(this.selectedNode.size && filteredCascader){
+            //   filteredCascader['size']= this.selectedNode.size;
+            // }
           }
           this.selectedNode['checkData'] =
             this.selectedNode.checkData == undefined
@@ -3975,13 +3995,13 @@ export class BuilderComponent implements OnInit {
               }
               this.updateNodes();
             }
-            if(event.dbData){
+            if (event.dbData) {
               this.selectedNode.dbData = event.dbData;
             }
-            if(event.tableDta){
+            if (event.tableDta) {
               this.selectedNode.tableBody = event.tableDta;
             }
-            if(event.form.mapApi){
+            if (event.form.mapApi) {
               this.selectedNode.mapApi = event.form.mapApi;
             }
             if (event.tableDta) {
@@ -4002,44 +4022,44 @@ export class BuilderComponent implements OnInit {
       case 'treeSelect':
       case 'tree':
       case 'treeView':
-      case 'cascader':
-        // if (event.tableDta) {
-        //   this.selectedNode.nodes = event.tableDta;
-        // }
-        if (event.form.nodes) {
-          this.selectedNode.nodes = event.form.nodes;
-        }
-        if (event.form.api) {
-          this.requestSubscription = this.builderService
-            .genericApis(event.form.api)
-            .subscribe({
-              next: (res) => {
-                switch (event.type) {
-                  case 'anchor':
-                  case 'mentions':
-                    this.selectedNode.options = res;
-                    break;
-                  case 'treeSelect':
-                  case 'tree':
-                  case 'treeView':
-                  case 'cascader':
-                    this.selectedNode.nodes = res;
-                    break;
-                  case 'transfer':
-                    this.selectedNode.list = res;
-                    break;
-                  default:
-                    break;
-                }
-                this.updateNodes();
-              },
-              error: (err) => {
-                console.error(err); // Log the error to the console
-                this.toastr.error('An error occurred', { nzDuration: 3000 }); // Show an error message to the user
-              },
-            });
-        }
-        break;
+      // case 'cascader':
+      //   // if (event.tableDta) {
+      //   //   this.selectedNode.nodes = event.tableDta;
+      //   // }
+      //   if (event.form.nodes) {
+      //     this.selectedNode.nodes = event.form.nodes;
+      //   }
+      //   if (event.form.api) {
+      //     this.requestSubscription = this.builderService
+      //       .genericApis(event.form.api)
+      //       .subscribe({
+      //         next: (res) => {
+      //           switch (event.type) {
+      //             case 'anchor':
+      //             case 'mentions':
+      //               this.selectedNode.options = res;
+      //               break;
+      //             case 'treeSelect':
+      //             case 'tree':
+      //             case 'treeView':
+      //             case 'cascader':
+      //               this.selectedNode.nodes = res;
+      //               break;
+      //             case 'transfer':
+      //               this.selectedNode.list = res;
+      //               break;
+      //             default:
+      //               break;
+      //           }
+      //           this.updateNodes();
+      //         },
+      //         error: (err) => {
+      //           console.error(err); // Log the error to the console
+      //           this.toastr.error('An error occurred', { nzDuration: 3000 }); // Show an error message to the user
+      //         },
+      //       });
+      //   }
+      //   break;
       case 'mainTab':
         this.addDynamic(event.form.nodes, 'tabs', 'mainTab');
         break;
@@ -4163,6 +4183,7 @@ export class BuilderComponent implements OnInit {
       case 'multiFileUploader':
       case 'audioVideoRecorder':
       case 'image':
+      case 'cascader':
         if (this.selectedNode) {
           needToUpdate = false;
 
@@ -4346,6 +4367,7 @@ export class BuilderComponent implements OnInit {
             props['additionalProperties']['disabledCalenderProperties'] = event.form?.disabledCalenderProperties;
             props['additionalProperties']['browserButtonColor'] = event.form?.browserButtonColor;
             props['additionalProperties']['hoverBrowseButtonColor'] = event.form?.hoverBrowseButtonColor;
+            props['additionalProperties']['expandTrigger'] = event.form?.expandTrigger;
             if (event.form?.browserButtonColor) {
               document.documentElement.style.setProperty('--browseButtonColor', event.form?.browserButtonColor || '#2563EB');
             }
@@ -5693,7 +5715,8 @@ export class BuilderComponent implements OnInit {
           if (check.includes('model =>'))
             return check.replace('model =>', '(model) =>');
           else return check;
-        } else {
+        }
+        else {
           return value;
         }
       }) || '{}'
