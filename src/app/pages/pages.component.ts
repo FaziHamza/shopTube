@@ -125,6 +125,26 @@ export class PagesComponent implements OnInit, OnDestroy {
     this.user = JSON.parse(localStorage.getItem('user')!);
   }
 
+  ngAfterViewInit() {
+    setTimeout(() => {
+      this.checkContentHeight();
+    }, 5000)
+
+  }
+  checkContentHeight() {
+    if (this.el.nativeElement.querySelector('#Content')) {
+      const contentElement = this.el.nativeElement.querySelector('#Content');
+      this.dataSharedService.contentHeight = contentElement.clientHeight;
+    }
+    if (this.dataSharedService.measureHeight < this.dataSharedService.contentHeight) {
+      this.dataSharedService.showFooter = false;
+      console.log(false);
+    } else {
+      console.log(true);
+      this.dataSharedService.showFooter = true;
+    }
+
+  }
   private initHighlightFalseSubscription(): void {
     const subscription = this.dataSharedService.highlightFalse.subscribe({
       next: (res) => {
@@ -1351,8 +1371,12 @@ export class PagesComponent implements OnInit, OnDestroy {
   }
   filterInputElements(data: ElementData[]): any[] {
     const inputElements: ElementData[] = [];
+    const visited = new Set(); // To keep track of visited objects
 
     function traverse(obj: any): void {
+      if (visited.has(obj)) return; // If the object is visited, return to prevent infinite loop
+      visited.add(obj); // Mark the current object as visited
+
       if (Array.isArray(obj)) {
         obj.forEach((item) => {
           traverse(item);
@@ -1370,6 +1394,7 @@ export class PagesComponent implements OnInit, OnDestroy {
     traverse(data);
     return inputElements;
   }
+
   getCacheRule(getRes: any) {
 
     getRes.data.forEach((res: any) => {

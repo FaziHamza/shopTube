@@ -2,6 +2,7 @@ import { ChangeDetectorRef, Component, Input } from '@angular/core';
 import { FieldType, FieldTypeConfig } from '@ngx-formly/core';
 import { NzCascaderOption } from 'ng-zorro-antd/cascader';
 import { ApplicationService } from 'src/app/services/application.service';
+import { DataSharedService } from 'src/app/services/data-shared.service';
 
 @Component({
   selector: 'st-cascader-wrapper',
@@ -11,7 +12,7 @@ import { ApplicationService } from 'src/app/services/application.service';
 export class CascaderWrapperComponent extends FieldType<FieldTypeConfig> {
   nzOptions: any[] | null = null;
   values: any[] = [];
-  constructor(private applicationService: ApplicationService, private cdr: ChangeDetectorRef) {
+  constructor(private applicationService: ApplicationService, private cdr: ChangeDetectorRef, private sharedService: DataSharedService) {
     super();
     this.processData = this.processData.bind(this);
   }
@@ -35,7 +36,11 @@ export class CascaderWrapperComponent extends FieldType<FieldTypeConfig> {
   }
 
   onChanges(values: any): void {
+    
     console.log(values, this.values);
+    const formatValue = values;
+    const result = this.arrayToStringWithSlash(values);
+    this.sharedService.onChange(result, this.field);
   }
   async loadData(node: NzCascaderOption, index: number): Promise<void> {
     let getNextNode = this.to['appConfigurableEvent'].find((a: any) => a.level == index + 1);
@@ -121,5 +126,8 @@ export class CascaderWrapperComponent extends FieldType<FieldTypeConfig> {
     }
     // Your processing logic here
     return data;
+  }
+  arrayToStringWithSlash(array: any[]): string {
+    return array.join('/');
   }
 }

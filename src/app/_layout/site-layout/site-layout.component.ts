@@ -91,6 +91,7 @@ export class SiteLayoutComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.dataSharedService.measureHeight = 0;
     // this.getTaskManagementIssuesFunc(JSON.parse(localStorage.getItem('applicationId')!));
     this.currentUser = JSON.parse(localStorage.getItem('user')!);
     this.requestSubscription = this.dataSharedService.collapseMenu.subscribe({
@@ -160,51 +161,48 @@ export class SiteLayoutComponent implements OnInit {
   ngAfterViewInit() {
     setTimeout(() => {
       this.updateHeaderHeight();
-      this.updateFooterHeight();
-    }, 5000)
+    }, 15000)
 
   }
 
 
   updateHeaderHeight() {
-    // Get the actual header height dynamically
+
+    debugger
+
     if (this.el.nativeElement.querySelector('#HEADER')) {
       const headerElement = this.el.nativeElement.querySelector('#HEADER');
       this.headerHeight = headerElement.clientHeight;
-      // console.log('the height is header', this.headerHeight);
-
       const layoutElement = this.el.nativeElement.querySelector('.content-container');
       this.renderer.setStyle(layoutElement, 'height', `calc(100vh - ${this.headerHeight + 10}px)`);
-      // console.log('nz-layout', `calc(100vh - ${this.headerHeight + 15}px)`)
     }
-  }
 
-
-  private updateFooterHeight() {
     if (this.el.nativeElement.querySelector('#FOOTER')) {
       const footerElement = this.el.nativeElement.querySelector('#FOOTER');
       this.footerHeight = footerElement.clientHeight;
-      console.log('the height is footer', this.footerHeight);
-
-      const contentElement = this.el.nativeElement.querySelector('.content');
-      // this.renderer.setStyle(contentElement, 'height', `calc(100vh - ${this.footerHeight + 10}px)`);
-      // console.log('the content height' ,`calc(100vh - ${this.footerHeight + 10}px)`)
-
-      this.renderer.setStyle(contentElement, 'marginBottom', `${this.footerHeight}px`);
-      console.warn('the content height', this.footerHeight);
     }
+
+    if (this.el.nativeElement.querySelector('#Content')) {
+      const contentElement = this.el.nativeElement.querySelector('#Content');
+      this.dataSharedService.contentHeight = contentElement.clientHeight;
+    }
+    
+    this.dataSharedService.measureHeight =  window.innerHeight - ( this.headerHeight + this.footerHeight + 10);
+
+    // Extract the numeric values from the strings
+    console.log(this.dataSharedService.measureHeight);
+
+    if (this.dataSharedService.measureHeight < this.dataSharedService.contentHeight) {
+      this.dataSharedService.showFooter = false;
+      console.log(false);
+    } else {
+      console.log(true);
+      this.dataSharedService.showFooter = true;
+    }
+  
+
   }
 
-
-  // private updateHeaderHeight() {
-  //   
-  //   // Get the actual header height dynamically
-  //   const headerElement = this.el.nativeElement.querySelector('.head2');
-  //   if (headerElement) {
-  //     this.headerHeight = headerElement.clientHeight;
-  //     console.log('Header Height:', this.headerHeight);
-  //   }
-  // }
 
 
   getMenuByDomainName(domainName: any, allowStoreId: boolean) {

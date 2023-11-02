@@ -62,6 +62,9 @@ export class DataSharedService {
   rightClickMenuData: any = '';
   buttonData: any = '';
   saveModel: any = '';
+  measureHeight : any = 0;
+  contentHeight: number;
+  showFooter : boolean;
   constructor() { }
 
   setData(data: any) {
