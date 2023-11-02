@@ -1,42 +1,64 @@
-import { Injectable, HostListener } from '@angular/core';
+import { Injectable, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
-import { switchMap, tap, startWith } from 'rxjs/operators';
-import { Subject, Observable, Subscription, timer } from 'rxjs';
+import { Subscription, fromEvent, timer } from 'rxjs';
+import { switchMap, tap, startWith  } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
 })
-export class InactivityService {
-  private inactivityTimeout = 10 * 60 * 1000; // 10 minutes in milliseconds
-  private userActivity = new Subject();
+export class InactivityService implements OnDestroy {
+  private inactivityTimeout = 1 * 60 * 1000; // 1 minute in milliseconds
+  private localStorageKey = 'lastActivityTime';
   private userActivitySubscription: Subscription;
-  
+
   constructor(private router: Router) {
-    this.watchUserActivity();
+    this.startWatchingForInactivity();
+    this.startWatchingStorageEvents();
   }
 
-  watchUserActivity() {
-    // Start watching for user activity.
-    this.userActivitySubscription = this.userActivity.pipe(
-      startWith(null),
-      // When user activity is detected, restart the timer
-      switchMap(() => timer(this.inactivityTimeout)),
+  startWatchingForInactivity() {
+    this.userActivitySubscription = timer(0, 1000).pipe(
+      switchMap(() => {
+        const lastActivity = parseInt(localStorage.getItem(this.localStorageKey) || '0', 10);
+        const timePassed = Date.now() - lastActivity;
+        return timePassed >= this.inactivityTimeout ? timer(0) : timer(this.inactivityTimeout - timePassed);
+      }),
       tap(() => this.logout())
     ).subscribe();
   }
 
+  startWatchingStorageEvents() {
+    fromEvent<StorageEvent>(window, 'storage').pipe(
+      startWith(null),
+      tap((event: StorageEvent | null) => {
+        if (event instanceof StorageEvent && event.key === this.localStorageKey) {
+          this.resetTimer();
+        }
+      })
+    ).subscribe();
+  }
+  
+
+  resetTimer() {
+    // If the user is active, reset the activity timer
+    const lastActivityStr = localStorage.getItem(this.localStorageKey);
+    if (lastActivityStr) {
+      const lastActivity = parseInt(lastActivityStr, 10);
+      if (Date.now() - lastActivity >= this.inactivityTimeout) {
+        this.logout();
+      }
+    }
+  }
+  
   updateUserActivity() {
-    // Called by the app component on user activity
-    this.userActivity.next(undefined);
+    // If the user is active in any tab, update the activity timestamp in localStorage
+    localStorage.setItem(this.localStorageKey, Date.now().toString());
   }
 
   logout() {
-    window.localStorage.clear();
     localStorage.clear();
-    // Here you would normally do whatever is needed to log out the user,
-    // like clearing the session, informing the backend, etc.
     console.log('User has been logged out due to inactivity.');
-    // Navigate to the login page or show any other logout confirmation
+    localStorage.removeItem(this.localStorageKey);
     this.router.navigate(['/login']);
   }
 
