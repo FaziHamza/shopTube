@@ -54,30 +54,42 @@ export class ConfigurableSelectDirective implements OnInit, OnDestroy {
     }
   }
 
-
   private loadOptions(): void {
-    
-    if (this.loadAction) {
-      if (this.loadAction && Object.keys(this.loadAction).length != 0) {
-        this.executeAction(this.loadAction)
-          .subscribe(response => {
-            if (response) {
-              this.data = response.data;
-              // Process this.data
-              if (this.processData) {
-                this.data = this.processData(this.data);
-              }
-              // this.viewContainer.clear();
+    debugger;
+    if (this.loadAction && Object.keys(this.loadAction).length !== 0) {
+      this.executeAction(this.loadAction)
+        .subscribe(
+          response => {
+            try {
+              if (response) {
+                this.data = response.data;
+                // Process this.data
+                if (this.processData) {
+                  this.data = this.processData(this.data);
+                }
+                // this.viewContainer.clear();
 
-              // this.viewContainer.createEmbeddedView(this.templateRef, { $implicit: this.data });
-            } else {
-              this.data = [];
+                // this.viewContainer.createEmbeddedView(this.templateRef, { $implicit: this.data });
+              } else {
+                this.data = [];
+                if (this.processData) {
+                  this.data = this.processData(this.data);
+                }
+              }
+            } catch (error) {
+              console.error("Error while processing response:", error);
+              // Handle the error appropriately (e.g., show error message, set default data, etc.)
+            }
+          },
+          error => {
+            console.error("API call failed:", error);
+            this.data = [];
               if (this.processData) {
                 this.data = this.processData(this.data);
               }
-            }
-          });
-      }
+            // Handle the API call error (e.g., show error message, set default data, etc.)
+          }
+        );
     }
   }
 
@@ -86,6 +98,7 @@ export class ConfigurableSelectDirective implements OnInit, OnDestroy {
     return this.applicationService.callApi(`knex-query/getexecute-rules/${_id}`, 'get', data, headers, parentId)
       .pipe(takeUntil(this.unsubscribe$));
   }
+
 }
 
 type LoadAction = Action;
