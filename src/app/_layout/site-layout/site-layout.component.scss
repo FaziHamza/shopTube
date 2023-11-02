@@ -141,7 +141,7 @@ nz-footer {
 .dynamic-footer {
   position: fixed;
   width: calc(100% - 60px);
-  z-index: 3000;
+  z-index: 1000;
   display: block;
   bottom: 0;
 }

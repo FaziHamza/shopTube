@@ -126,6 +126,26 @@ export class PagesComponent implements OnInit, OnDestroy {
     this.user = JSON.parse(localStorage.getItem('user')!);
   }
 
+  ngAfterViewInit() {
+    setTimeout(() => {
+      this.checkContentHeight();
+    }, 5000)
+
+  }
+  checkContentHeight() {
+    if (this.el.nativeElement.querySelector('#Content')) {
+      const contentElement = this.el.nativeElement.querySelector('#Content');
+      this.dataSharedService.contentHeight = contentElement.clientHeight;
+    }
+    if (this.dataSharedService.measureHeight < this.dataSharedService.contentHeight) {
+      this.dataSharedService.showFooter = false;
+      console.log(false);
+    } else {
+      console.log(true);
+      this.dataSharedService.showFooter = true;
+    }
+
+  }
   private initHighlightFalseSubscription(): void {
     const subscription = this.dataSharedService.highlightFalse.subscribe({
       next: (res) => {
