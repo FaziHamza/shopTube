@@ -239,7 +239,8 @@ export class SectionsComponent implements OnInit {
 
   handleAction(event: any, empData: any, data: any) {
     if (event) {
-      this.saveLoader = true; // Set the loader to true when initiating the action
+      this.dataSharedService.pagesLoader.next(true);
+      this.saveLoader = false; // Set the loader to true when initiating the action
 
       const model = {
         screenId: this.screenName,
@@ -247,66 +248,65 @@ export class SectionsComponent implements OnInit {
         modalData: empData.modalData
       };
       this.dataSharedService.buttonData = '';
-      try {
-        this.applicationServices.addNestCommonAPI('knex-query/execute-rules/' + event._id, model).subscribe({
-          next: (res) => {
+
+      this.applicationServices.addNestCommonAPI('knex-query/execute-rules/' + event._id, model).subscribe({
+        next: (res) => {
+          if (res) {
             try {
-              if (res) {
-                if (res[0]?.error) {
-                  this.toastr.error(res[0]?.error, { nzDuration: 3000 });
+              if (res[0]?.error) {
+                this.toastr.error(res[0]?.error, { nzDuration: 3000 });
+              } else {
+                const successMessage = (model.postType === 'post') ? 'Save Successfully' : 'Update Successfully';
+                this.toastr.success(successMessage, { nzDuration: 3000 });
+
+                if (data.saveRouteLink && this.dataSharedService.currentMenuLink !== '/ourbuilder' && model.postType === 'post') {
+                  this.router.navigate(['/pages/' + data.saveRouteLink]);
+                  return;
                 }
-                else {
-                  const successMessage = (model.postType === 'post') ? 'Save Successfully' : 'Update Successfully';
-                  this.toastr.success(successMessage, { nzDuration: 3000 });
 
-                  if (data.saveRouteLink && this.dataSharedService.currentMenuLink !== '/ourbuilder' && model.postType === 'post') {
-                    this.router.navigate(['/pages/' + data.saveRouteLink]);
-                    return;
+                if (model.postType === 'post') {
+                  let tableName: any = '';
+                  if (res[0]) {
+                    tableName = res[0].tableName ? res[0].tableName.split('.')[1].split('_')[0] : '';
                   }
-
-                  if (model.postType === 'post') {
-                    let tableName: any = '';
-                    if (res[0]) {
-                      tableName = res[0].tableName ? res[0].tableName.split('.')[1].split('_')[0] : '';
-                    }
-                    if (tableName) {
-                      this.recursiveUpdate(this.formlyModel, tableName, res);
-                    }
-                    if (window.location.href.includes('spectrum.com')) {
-                      this.dataSharedService.spectrumControlNull.next(true);
-                    }
-                  } else {
-                    this.dataSharedService.gridDataLoad = true;
+                  if (tableName) {
+                    this.recursiveUpdate(this.formlyModel, tableName, res);
                   }
-                  this.setInternalValuesEmpty(this.dataModel);
-                  this.setInternalValuesEmpty(this.formlyModel);
-                  this.form.patchValue(this.formlyModel);
-                  this.dataSharedService.formlyShowError.next(false)
-                  this.getFromQuery(data);
-                  if (window.location.href.includes('taskmanager.com')) {
-                    this.dataSharedService.taskmanagerDrawer.next(true);
+                  if (window.location.href.includes('spectrum.com')) {
+                    this.dataSharedService.spectrumControlNull.next(true);
                   }
+                } else {
+                  this.dataSharedService.gridDataLoad = true;
+                }
+                this.setInternalValuesEmpty(this.dataModel);
+                this.setInternalValuesEmpty(this.formlyModel);
+                this.form.patchValue(this.formlyModel);
+                this.dataSharedService.formlyShowError.next(false)
+                this.getFromQuery(data);
+                if (window.location.href.includes('taskmanager.com')) {
+                  this.dataSharedService.taskmanagerDrawer.next(true);
                 }
               }
-              this.saveLoader = false; // Set the loader to false after processing the response
             } catch (innerErr) {
-              this.saveLoader = false; // Ensure loader set to false in case of inner error
               console.error(innerErr);
             }
-          },
-          error: (err) => {
-            // Handle the error
-            this.toastr.error("An error occurred", { nzDuration: 3000 });
-            this.saveLoader = false; // Ensure to set the loader to false in case of error
-            console.error(err);
+            finally {
+              this.dataSharedService.pagesLoader.next(false);
+              this.saveLoader = false; // Always set the loader to false after processing the response
+            }
           }
-        });
-      } catch (outerErr) {
-        this.saveLoader = false; // Ensure loader set to false in case of outer error
-        console.error(outerErr);
-      }
+        },
+        error: (err) => {
+          // Handle the error
+          this.toastr.error("An error occurred", { nzDuration: 3000 });
+          console.error(err);
+          this.dataSharedService.pagesLoader.next(false);
+          this.saveLoader = false; // Ensure to set the loader to false in case of error
+        },
+      });
     }
   }
+
   sectionDataSave(data: any) {
     const buttonConfig = this.findObjectByKey(this.sections, data.key);
 
