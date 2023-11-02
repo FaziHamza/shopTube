@@ -12,6 +12,7 @@ import { DataSharedService } from 'src/app/services/data-shared.service';
 export class CascaderWrapperComponent extends FieldType<FieldTypeConfig> {
   nzOptions: any[] | null = null;
   values: any[] = [];
+  selectedValues: any[] = [];
   constructor(private applicationService: ApplicationService, private cdr: ChangeDetectorRef, private sharedService: DataSharedService) {
     super();
     this.processData = this.processData.bind(this);
@@ -36,14 +37,13 @@ export class CascaderWrapperComponent extends FieldType<FieldTypeConfig> {
   }
 
   onChanges(values: any): void {
-    
     console.log(values, this.values);
-    const formatValue = values;
-    const result = this.arrayToStringWithSlash(values);
+    const result = this.arrayToStringWithSlash(this.selectedValues);
     this.sharedService.onChange(result, this.field);
   }
   async loadData(node: NzCascaderOption, index: number): Promise<void> {
     let getNextNode = this.to['appConfigurableEvent'].find((a: any) => a.level == index + 1);
+    this.selectedValues.push(node.value);
     if (index == 1) {
       if (this.values[0] == 'Blue') {
         node.value = this.values[0];
