@@ -38,6 +38,9 @@ export class CascaderWrapperComponent extends FieldType<FieldTypeConfig> {
 
   onChanges(values: any): void {
     console.log(values, this.values);
+    if(this.selectedValues.length != values.length ){
+      this.selectedValues.push(values[values.length-1])
+    }
     const result = this.arrayToStringWithSlash(this.selectedValues);
     this.sharedService.onChange(result, this.field);
   }
