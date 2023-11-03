@@ -22,7 +22,7 @@ export class HeadingComponent implements OnInit {
     }
   }
   processData(data: any[]) {
-    debugger  
+      
     console.log('heading');
     for(const key in data[0]){
       this.headingData.text = data[0][key];

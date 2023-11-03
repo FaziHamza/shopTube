@@ -62,7 +62,7 @@ export class MultiSelectComponent extends FieldType<FieldTypeConfig> implements 
   }
 
   // convertToArray(): any {
-  //   debugger
+  //   
   //   if (Array.isArray(this.formControl.value)) {
   //     return this.formControl.value;  // If it's already an array, return as is
   //   } else if (typeof this.formControl.value === 'string') {

@@ -388,7 +388,7 @@ export class BuilderComponent implements OnInit {
   }
 
   saveJson() {
-    debugger
+    
     if (this.screenPage) {
       // this.saveLoader = true;
       if (this.selectedNode) {
@@ -1468,7 +1468,7 @@ export class BuilderComponent implements OnInit {
     else return 'sm:w-1/2 md:w-1/2 lg:w-1/2 xl:w-1/2';
   }
   addControlToJson(value: string, data?: any) {
-    debugger
+    
 
     let obj = {
       type: data?.parameter,
@@ -1835,7 +1835,7 @@ export class BuilderComponent implements OnInit {
                     hidden: false,
                     options: this.makeFormlyOptions(data?.options, data.type),
                     keyup: (model: any) => {
-                      debugger
+                      
                       let currentVal = model.formControl.value;
                       this.formlyModel[model.key] = model.formControl.value;
                       this.checkConditionUIRule(model, currentVal);
@@ -2300,7 +2300,7 @@ export class BuilderComponent implements OnInit {
                       hidden: false,
                       options: this.makeFormlyOptions(data?.options, data.type),
                       keyup: (model: any) => {
-                        debugger
+                        
                         let currentVal = model.formControl.value;
                         this.formlyModel[model.key] = model.formControl.value;
                         this.checkConditionUIRule(model, currentVal);
@@ -2571,7 +2571,7 @@ export class BuilderComponent implements OnInit {
 
 
   clickButton(type: any) {
-    debugger
+    
     let _formFieldData = new formFeildData();
     const validationObj = {
       title: this.selectedNode.title ? this.selectedNode.title : this.selectedNode.id,
@@ -2996,7 +2996,7 @@ export class BuilderComponent implements OnInit {
         this.fieldData.commonData?.push({ title: 'alertFeilds', data: _formFieldData.alertFeilds });
         break;
       case 'timeline':
-        debugger
+        
         this.addIconCommonConfiguration(_formFieldData.timelineFeilds, false);
         if (_formFieldData.timelineFeilds[0].fieldGroup) {
           _formFieldData.timelineFeilds[0].fieldGroup = _formFieldData.timelineFeilds[0].fieldGroup.filter(item => item.key !== 'iconClass');
@@ -3488,7 +3488,7 @@ export class BuilderComponent implements OnInit {
     this.addControlToJson('text', this.textJsonObj);
   }
   openField(event: any) {
-    debugger
+    
     this.searchControlValue = '';
     let id = event.origin.id;
     let node = event.origin;
@@ -3573,7 +3573,7 @@ export class BuilderComponent implements OnInit {
     }
   }
   changeIdAndkey(node: any) {
-    debugger
+    
     if (node.id) {
       let changeId = node.id.split('_');
       if (changeId.length == 2) {
@@ -3763,7 +3763,7 @@ export class BuilderComponent implements OnInit {
   //   });
   // }
   notifyEmit(event: actionTypeFeild): void {
-    debugger
+    
     let needToUpdate = true;
     switch (event.type) {
       case 'body':
@@ -4390,7 +4390,7 @@ export class BuilderComponent implements OnInit {
             //     .getNestCommonAPI(event.form.apiUrl)
             //     .subscribe({
             //       next: (res) => {
-            //         debugger
+            //         
             //         if (res?.data?.length > 0) {
             //           let propertyNames = Object.keys(res.data[0]);
             //           let result = res.data.map((item: any) => {
@@ -4429,7 +4429,7 @@ export class BuilderComponent implements OnInit {
         }
         break;
       case 'inputValidationRule':
-        debugger
+        
         if (this.selectedNode) {
           const selectedScreen = this.screens.filter(
             (a: any) => a.name == this.screenName
@@ -4767,7 +4767,7 @@ export class BuilderComponent implements OnInit {
         }
         break;
       case "heading":
-        debugger
+        
         this.selectedNode.fontstyle = event.form.fontstyle
         // this.selectedNode.fontSize = event.form.style + event.form.textAlignment + 'color:' + event.form.headingColor;
         // if (event.form.headingApi) {
@@ -5544,7 +5544,7 @@ export class BuilderComponent implements OnInit {
     });
   }
   addDynamic(nodesNumber: any, subType: any, mainType: any) {
-    debugger
+    
     try {
       if (this.selectedNode.children) {
         this.addControl = true;
@@ -5847,7 +5847,7 @@ export class BuilderComponent implements OnInit {
     a.click();
   }
   selectedJsonUpload(event: any) {
-    debugger
+    
     if (event.target instanceof HTMLInputElement && event.target.files.length > 0) {
       const reader = new FileReader();
       reader.onloadend = () => {
@@ -6633,7 +6633,7 @@ export class BuilderComponent implements OnInit {
     })
   }
   checkPage() {
-    debugger
+    
     if (!this.screenPage) {
       alert("Please Select Screen")
     } else {
@@ -6799,7 +6799,7 @@ export class BuilderComponent implements OnInit {
 
   //Fazi code
   nzEvent(event: NzFormatEmitEvent): void {
-    debugger
+    
     if (event.eventName === 'drop') {
       // capture the dragNode and dropNode
       const dragNode = event.dragNode?.origin;

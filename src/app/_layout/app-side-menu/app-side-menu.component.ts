@@ -224,7 +224,7 @@ export class AppSideMenuComponent implements OnInit {
   }
 
   handleContextMenu(event: MouseEvent, item: any) {
-    debugger
+    
     // event.stopPropagation();
     // event.preventDefault(); 
     this.dataSharedService.rightClickMenuData = item;

@@ -1196,7 +1196,7 @@ export class PagesComponent implements OnInit, OnDestroy {
       console.log(error)
     }
     finally {
-      debugger
+      
       if (this.screenData != undefined) {
         var inputType = this.resData[0].children[1].children;
         if (inputType) {
@@ -1733,7 +1733,7 @@ export class PagesComponent implements OnInit, OnDestroy {
     return data;
   };
   checkDynamicSection() {
-    debugger
+    
     if (this.resData) {
       this.recursiveCheck(this.resData[0].children[1].children);
     }

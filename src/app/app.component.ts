@@ -109,6 +109,6 @@ export class AppComponent {
   @HostListener('window:keypress')
   @HostListener('window:touchstart')
   handleUserActivity() {
-    // this.inactivityService.updateUserActivity();
+    this.inactivityService.updateUserActivity();
   }
 }

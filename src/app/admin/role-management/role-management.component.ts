@@ -65,7 +65,7 @@ export class RoleManagementComponent implements OnInit {
   getRoles() {
     this.requestSubscription = this.applicationService.getNestCommonAPI('role').subscribe({
       next: (getRes: any) => {
-        debugger
+        
         if (getRes.isSuccess) {
           if (getRes.data.length > 0) {
             this.roleList = getRes.data
@@ -81,7 +81,7 @@ export class RoleManagementComponent implements OnInit {
 
   submitRole() {
     if (this.myForm.valid) {
-      debugger
+      
       if (this.myForm.value._id == "")
         this.myForm.value._id = undefined
       this.requestSubscription = this.applicationService.addNestCommonAPI('role', this.myForm.value).subscribe({

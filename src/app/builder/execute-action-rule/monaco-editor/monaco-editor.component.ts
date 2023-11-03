@@ -56,7 +56,7 @@ export class MonacoEditorComponent implements OnInit, AfterViewInit {
 
 
   validateJSON() {
-    debugger
+    
     this.validationMessage = [];
     try {
       const jsonData = JSON.parse(this.codeEditorRuleInstance.getValue());
@@ -296,7 +296,7 @@ export class MonacoEditorComponent implements OnInit, AfterViewInit {
       });
 
       this.addCustomButton();
-      debugger
+      
       const editorInstance = this.codeEditorRuleInstance;
 
       editorInstance.onDidChangeModelContent(() => {

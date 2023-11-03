@@ -135,7 +135,7 @@ export class ApplicationBuilderComponent implements OnInit {
       }
     });
     this.dataSharedService.change.subscribe(({ event, field }) => {
-      debugger
+      
       if (event && field && field.key == 'image') {
         if (this.myForm) {
           this.model['image'] = event;
@@ -430,7 +430,7 @@ export class ApplicationBuilderComponent implements OnInit {
       });
   }
   openModal(type: any, selectedAllow?: boolean, departmentId?: any) {
-    debugger
+    
     if (this.isSubmit) {
       for (let prop in this.model) {
         if (this.model.hasOwnProperty(prop)) {
@@ -481,7 +481,7 @@ export class ApplicationBuilderComponent implements OnInit {
   }
 
   onSubmit() {
-    debugger
+    
     if (!this.myForm.valid) {
       this.handleCancel();
       return;
@@ -519,7 +519,7 @@ export class ApplicationBuilderComponent implements OnInit {
         }
       }
       if (this.applicationSubmit && key == "applicationId" && this.isSubmit) {
-        debugger
+        
         this.handleCancel();
         this.loading = true
         this.applicationService.addNestCommonAPI(`applications/${this.myForm.value.defaultApplication}/clone`, this.myForm.value).subscribe({

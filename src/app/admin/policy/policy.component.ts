@@ -122,7 +122,7 @@ export class PolicyComponent implements OnInit {
   }
 
   onSubmit() {
-    debugger
+    
     if (!this.form.valid) {
       this.handleCancel();
       return;

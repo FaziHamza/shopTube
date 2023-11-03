@@ -53,7 +53,7 @@ export class ExecuteActionRuleComponent implements OnInit, AfterViewInit {
     });
   }
   ngOnInit() {
-    debugger
+    
     this.getActionData();
     this.extractNodes(this.nodes, this.nodeList);
     // this.getActionRule();
@@ -394,7 +394,7 @@ export class ExecuteActionRuleComponent implements OnInit, AfterViewInit {
     this.applicationService.addNestCommonAPI('cp/ActionRule/deleteActionRule/'+mainModuleId[0]._id, actionRuleList).subscribe({
       next: (allResults: any) => {
         if (allResults) {  //results.every((result: any) => !(result instanceof Error))
-          debugger
+          
           this.getActionData();
           this.toastr.success("Action Rules Save Successfully", { nzDuration: 3000 });
           // }
@@ -433,7 +433,7 @@ export class ExecuteActionRuleComponent implements OnInit, AfterViewInit {
     //   forkJoin(observables).subscribe({
     //     next: (allResults: any) => {
     //       if (allResults.every((result: any) => result.isSuccess === true)) {  //results.every((result: any) => !(result instanceof Error))
-    //         debugger
+    //         
     //         // if (allResults) {
     //         this.getActionData();
     //         this.toastr.success("Action Rules Save Successfully", { nzDuration: 3000 });

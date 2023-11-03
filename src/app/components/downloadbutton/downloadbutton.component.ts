@@ -74,7 +74,7 @@ export class DownloadbuttonComponent {
 
   downloadReport(buttonData: any) {
     try {
-      debugger;
+      ;
       if (this.path || this.path == 'N/A') {
         if (this.path == 'N/A') {
           this.toastr.warning('Request is not approved!', {

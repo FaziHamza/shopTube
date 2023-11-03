@@ -7,7 +7,7 @@ import { switchMap, tap, startWith  } from 'rxjs/operators';
   providedIn: 'root'
 })
 export class InactivityService implements OnDestroy {
-  private inactivityTimeout = 1 * 60 * 1000; // 1 minute in milliseconds
+  private inactivityTimeout = 10 * 60 * 1000; // 1 minute in milliseconds
   private localStorageKey = 'lastActivityTime';
   private userActivitySubscription: Subscription;
 

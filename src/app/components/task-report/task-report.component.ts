@@ -33,7 +33,7 @@ export class TaskReportComponent implements OnInit {
     });
   }
   saveComment(data: any, issue: any, issueIndex?: any) {
-    debugger
+    
     if (!this.commentForm.valid) {
       this.toastr.warning('Please fill this', { nzDuration: 3000 });
       return;
@@ -116,7 +116,7 @@ export class TaskReportComponent implements OnInit {
 
 
   toggleCommentDisplay(data: any) {
-    debugger
+    
     data['showAllComments'] = true;
 
     this.requestSubscription =  this.applicationService.callApi('knex-query/getAction/650064bbc5215fa775985f97', 'get', '', '', "'" + data.id + "'").subscribe({
@@ -173,7 +173,7 @@ export class TaskReportComponent implements OnInit {
 
   }
   userAssigneeSave(data: any) {
-    debugger
+    
     const userData = JSON.parse(localStorage.getItem('user')!);
     let obj = {
       screenId: this.screenName,

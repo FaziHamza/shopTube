@@ -126,7 +126,7 @@ export class UserTaskManagementComponent implements OnInit {
   }
   getIssues(screenId: string, applicationId: string) {
     const objScreen = this.screens.find((x: any) => x._id == screenId);
-    debugger
+    
     this.saveLoader = true;
     this.requestSubscription = this.builderService.getUserAssignTask(objScreen ? objScreen.navigation : screenId, applicationId).subscribe({
       next: (res: any) => {

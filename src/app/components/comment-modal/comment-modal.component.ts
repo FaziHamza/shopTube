@@ -54,7 +54,7 @@ export class CommentModalComponent implements OnInit {
   }
 
   onSubmit() {
-    debugger
+    
     if (this.type != 'menu') {
       if (!this.screenName) {
         this.toastr.warning("Please select any screen", { nzDuration: 3000 });
@@ -82,7 +82,7 @@ export class CommentModalComponent implements OnInit {
       }
       let requestObservable: Observable<any>;
       this.saveLoader = true;
-      debugger
+      
       if (!this.update) {
         requestObservable = this.applicationService.addNestCommonAPI('knex-crud/task', commentObj);
       } else {

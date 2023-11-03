@@ -123,7 +123,7 @@ export class ReleaseManagementComponent implements OnInit {
   getRelease() {
     this.requestSubscription = this.applicationService.getNestCommonAPI('cp/Release').subscribe({
       next: (getRes: any) => {
-        debugger
+        
         if (getRes.isSuccess) {
           if (getRes.data.length > 0) {
             this.releaseList = getRes.data
@@ -139,7 +139,7 @@ export class ReleaseManagementComponent implements OnInit {
 
   submitRelease() {
     if (this.myForm.valid) {
-      debugger
+      
       if (this.myForm.value._id == "" || this.myForm.value._id == undefined) {
         this.myForm.value._id = undefined
         this.model._id = undefined

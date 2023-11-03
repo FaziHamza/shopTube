@@ -55,7 +55,7 @@ export class ButtonsComponent implements OnInit {
   }
 
   pagesRoute(data: any): void {
-    debugger
+    
 
     if (data.isSubmit) {
       return;
@@ -158,7 +158,7 @@ export class ButtonsComponent implements OnInit {
     this.isVisible = false;
   }
   handleClose(): void {
-    debugger
+    
     if (this.dataSharedService.gridDataLoad) {
       this.dataSharedService.gridDataLoad = false;
       this.gridEmit.emit(this.buttonData)

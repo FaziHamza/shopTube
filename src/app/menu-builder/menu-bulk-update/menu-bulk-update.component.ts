@@ -52,7 +52,7 @@ export class MenuBulkUpdateComponent implements OnInit {
     });
   }
   addMenu() {
-    debugger
+    
     const newNode = {
       id: 'Menu_' + Guid.newGuid(),
       key: 'menu_' + Guid.newGuid(),

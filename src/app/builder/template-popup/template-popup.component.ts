@@ -29,7 +29,7 @@ export class TemplatePopupComponent implements OnInit {
   }
 
   onSubmit() {
-    debugger
+    
     if (this.form.valid) {
       const formData = this.form.value;
       this.modalRef.destroy(formData);

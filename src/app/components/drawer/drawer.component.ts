@@ -36,7 +36,7 @@ export class DrawerComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    debugger
+    
     if (this.drawerData?.eventActionconfig) {
       if (this.drawerData?.eventActionconfig['parentId']) {
         this.drawerData['visible'] = true;
@@ -59,7 +59,7 @@ export class DrawerComponent implements OnInit {
                 //   this.drawerData['visible'] = false;
                 // }
                 this.loader = true;
-                debugger
+                
                 this.applicationService.callApi(url, 'get', '', '', `'${this.drawerData.eventActionconfig.parentId}'`).subscribe({
                   next: (res) => {
                     this.res = res;
@@ -172,7 +172,7 @@ export class DrawerComponent implements OnInit {
     }
   }
   open(event: MouseEvent,): void {
-    debugger
+    
     if (this.drawerData?.link) {
       event.stopPropagation();
       this.loader = true;
@@ -217,7 +217,7 @@ export class DrawerComponent implements OnInit {
     }) || '{}'
   }
   processData(data: any[]) {
-    debugger
+    
     if (window.location.href.includes('/pages')) {
       if (data) {
         if (data.length > 0) {

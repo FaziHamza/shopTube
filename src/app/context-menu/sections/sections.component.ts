@@ -108,7 +108,7 @@ export class SectionsComponent implements OnInit {
     })
     // this.requestSubscription = this.dataSharedService.taskmanager.subscribe({
     //   next: (res) => {
-    //     debugger;
+    //     ;
     //     let gridListData = this.findObjectByTypeBase(this.sections, "gridList");
     //     if (gridListData) {
     //       this.getFromQuery(gridListData);
@@ -226,7 +226,7 @@ export class SectionsComponent implements OnInit {
     });
   }
   saveData1(data: any) {
-    debugger
+    
 
     if (data?.detailSave) {
       let oneModelData = this.convertModel(this.dataModel);
@@ -768,7 +768,7 @@ export class SectionsComponent implements OnInit {
     return result;
   }
   // async getFromQueryOnlyTable(tableData: any) {
-  //   debugger
+  //   
   //   const findClickApi = tableData?.appConfigurableEvent?.filter((item: any) =>
   //     item.actions.some((action: any) => action.method === 'get' && (action.actionType === 'api' || action.actionType === 'query'))
   //   );
@@ -1416,8 +1416,8 @@ export class SectionsComponent implements OnInit {
               // this.ruleObj = {
               //   [jsonScreenRes[0].key]: Joi.string().min(parseInt(minLimit, 10)).max(parseInt(maxLimit, 10)),
               // };
-              modelObj[jsonScreenRes[0].key] = jsonScreenRes[0].key.includes('.') ? this.formlyModel[jsonScreenRes[0].key.split('.')[0]][jsonScreenRes[0].key.split('.')[1]] : this.formlyModel[jsonScreenRes[0].key];
-
+              const getKeyValue = jsonScreenRes[0].key.includes('.') ? this.formlyModel[jsonScreenRes[0].key.split('.')[0]][jsonScreenRes[0].key.split('.')[1]] : this.formlyModel[jsonScreenRes[0].key];
+              modelObj[jsonScreenRes[0].key] = getKeyValue.trim();
               if (!minLimit && !maxLimit) {
                 if (modelObj[jsonScreenRes[0].key] instanceof Date) {
                   this.ruleObj = {

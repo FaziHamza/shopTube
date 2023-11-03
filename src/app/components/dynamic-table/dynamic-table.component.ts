@@ -822,7 +822,7 @@ export class DynamicTableComponent implements OnInit {
     }
   };
   deleteRow(data: any): void {
-    debugger
+    
     const checkPermission = this.dataSharedService.getUserPolicyMenuList.find(a => a.screenId == this.dataSharedService.currentMenuLink);
     if (!checkPermission?.delete && this.dataSharedService.currentMenuLink != '/ourbuilder') {
       alert("You did not have permission");
@@ -1191,7 +1191,7 @@ export class DynamicTableComponent implements OnInit {
     // Perform any additional updates to 'listOfData' if needed
   }
   checkTypeData(item: any, header: any) {
-    debugger
+    
     if (header?.callApi != '' && header?.callApi != null && (header?.dataType != 'repeatSection' || header?.dataType == '' || header?.dataType == undefined)) {
       this.showChild = false;
       if (this.data?.openComponent == 'drawer') {
@@ -1347,7 +1347,7 @@ export class DynamicTableComponent implements OnInit {
           }
           this.requestSubscription = this.applicationService.getNestCommonAPI(path + data.screenId).subscribe({
             next: (res: any) => {
-              debugger
+              
               this.saveLoader = false;
               this.issueReport['issueReport'] = '';
               this.issueReport['showAllComments'] = false;
@@ -1736,7 +1736,7 @@ export class DynamicTableComponent implements OnInit {
   }
   async getFromQueryOnlyTable(tableData: any, res: any) {
     try {
-      debugger;
+      ;
       if (tableData && res?.data.length > 0) {
         this.data['searchValue'] = '';
         const applicationId = localStorage.getItem('applicationId') || '';
@@ -1966,7 +1966,7 @@ export class DynamicTableComponent implements OnInit {
   async search(searchType: any) {
     if (this.data?.searchType ? searchType == this.data?.searchType : 'keyup' == searchType) {
       try {
-        debugger
+        
         this.saveLoader = true;
         const applicationId = localStorage.getItem('applicationId') || '';
         let savedGroupData: any = [];
@@ -2478,7 +2478,7 @@ export class DynamicTableComponent implements OnInit {
     this.pageChange(1);
   }
   check(event: any) {
-    debugger
+    
     console.log(event)
   }
   onResizeStart(event: MouseEvent, column: any) {
@@ -2522,7 +2522,7 @@ export class DynamicTableComponent implements OnInit {
   }
 
   resizingLocalStorage() {
-    debugger
+    
     let storeData = this.tableHeaders.map((item: any) => {
       let obj = {
         key: item.key,

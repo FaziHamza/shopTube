@@ -19,7 +19,7 @@ export class CascaderWrapperComponent extends FieldType<FieldTypeConfig> {
   }
 
   ngOnInit(): void {
-    debugger
+    
     if (this.to['additionalProperties']?.borderRadius) {
       document.documentElement.style.setProperty('--cascaderBorderRadius', this.to['additionalProperties']?.borderRadius);
       this.cdr.detectChanges();
@@ -102,7 +102,7 @@ export class CascaderWrapperComponent extends FieldType<FieldTypeConfig> {
   }
 
   processData(data: any[]) {
-    debugger
+    
     if (data?.length > 0) {
       let propertyNames = Object.keys(data[0]);
       let result = data.map((item: any) => {

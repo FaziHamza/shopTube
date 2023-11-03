@@ -46,7 +46,7 @@ export class UIRuleComponent implements OnInit {
     this.uiRule();
   }
   changeIf() {
-    debugger
+    
     // this.addUIRuleIfCondition(uiIndex).at(ifIndex).get("conditonType").setValue(conValue)
     this.targetList = [];
     var objTargetList = { key: '', value: '' };
@@ -121,7 +121,7 @@ export class UIRuleComponent implements OnInit {
 
   }
   getConditionList(uiIndex?: number, ifIndex?: number) {
-    // debugger
+    // 
     let nodeList: any;
     let menuName: any;
     if (ifIndex != undefined && uiIndex != undefined) {
@@ -171,7 +171,7 @@ export class UIRuleComponent implements OnInit {
     return this.uiRuleForm.get('uiRules') as FormArray;
   }
   addUIRule() {
-    // debugger
+    // 
     this.getUiRule().push(this.uIRuleInitilize());
   }
 
@@ -442,7 +442,7 @@ export class UIRuleComponent implements OnInit {
   
   uiRule() {
     this.saveLoader = true;
-    debugger
+    
     //UIRule Form Declare
     this.uiRuleFormInitilize();
     this.ifMenuName = [];

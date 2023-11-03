@@ -28,7 +28,7 @@ export class TaskManagementListComponent implements OnInit {
   }
 
   getTasks() {
-    debugger
+    
     this.saveLoader = true;
     this.requestSubscription = this.applicationService.getNestCommonAPI('cp/getuserCommentsCurrentMonth/UserComment').subscribe({
       next: (res: any) => {

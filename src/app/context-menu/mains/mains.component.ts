@@ -57,7 +57,7 @@ export class MainsComponent implements OnInit {
     this.notify.emit(event);
   }
   patchValue(data: any) {
-    debugger
+    
     if (data?.dataObj) {
       let makeModel: any = JSON.parse(JSON.stringify(this.formlyModel));
       if (this.formlyModel) {

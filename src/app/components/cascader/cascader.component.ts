@@ -16,7 +16,7 @@ export class CascaderComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    debugger
+    
     if (this.cascaderData?.borderRadius) {
       document.documentElement.style.setProperty('--cascaderBorderRadius', this.cascaderData?.borderRadius);
       this.cdr.detectChanges();

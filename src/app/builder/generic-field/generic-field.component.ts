@@ -71,17 +71,25 @@ export class GenericFieldComponent implements OnInit {
 
   }
   onSubmit() {
-    debugger
+    
     // event.stopPropagation();
     // this.valueChange.emit(this.model + ' from child.');
     // const newProduct = { productName: "New", quantity: 666 };
     // this.publicList.push(newProduct);
     // this.model["redirection"]="sss"
-    var formData = {
-      // form: this.actionform.value,
-      form: this.modal,
-      type: this.type,
+    var formData : any;
+    if(this.type  == "inputValidationRule"){
+      formData = {
+        form: this.actionform.value,
+        type: this.type,
+      }
+    }else{
+      formData = {
+        form: this.modal,
+        type: this.type,
+      }
     }
+   
     if (this.actionform.valid) {
       var currentData = JSON.parse(JSON.stringify(formData) || '{}');
       for (const key in currentData.form) {

@@ -295,7 +295,7 @@ export class organizationBuilderComponent implements OnInit {
   }
 
   organizationSubmit() {
-    debugger;
+    ;
     if (!this.form.valid) {
       this.handleCancel();
       return;

@@ -72,7 +72,7 @@ export class ResetPasswordComponent implements OnInit {
     grecaptcha.render('recaptcha', { sitekey: environment.recaptcha.siteKey });
   }
   submitForm(): void {
-    debugger
+    
     this.isFormSubmit = true;
     this.recaptchaResponse = grecaptcha.getResponse();
     if (!this.recaptchaResponse) {

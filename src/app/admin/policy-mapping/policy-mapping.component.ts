@@ -301,7 +301,7 @@ export class PolicyMappingComponent implements OnInit {
     return newData;
   }
   getPolicyMenu() {
-    debugger
+    
     if (!this.policyName) {
       this.toastr.error("Please select policy name", { nzDuration: 3000 });
       return;

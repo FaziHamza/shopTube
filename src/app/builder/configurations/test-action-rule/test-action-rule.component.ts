@@ -77,7 +77,7 @@ export class TestActionRuleComponent implements OnInit {
   // Your fields and operators
 
   ngOnInit() {
-    debugger
+    
     const languageId = 'json';
     // Define a JSON schema for suggestions
     monaco.editor.defineTheme('myCustomTheme', {

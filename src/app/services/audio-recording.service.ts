@@ -36,7 +36,7 @@ export class AudioRecordingService {
 
 
   startRecording() {
-  debugger
+  
     if (this.recorder) {
       // It means recording is already started or it is already recording something
       return;

@@ -25,7 +25,7 @@ export class TaskManagementComponent implements OnInit {
 
   constructor(private applicationService: ApplicationService, private toastr: NzMessageService) { }
   getFields() {
-    debugger
+    
     const userOptions = this.userList.map((item: any) => ({
       label: item.username,
       value: item._id,

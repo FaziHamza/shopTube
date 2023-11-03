@@ -48,7 +48,7 @@ export class CommentListComponent implements OnInit {
     });
   }
   onSubmit() {
-    debugger
+    
     // ScreenName cannot be Null.
     if (!this.screenName) {
       this.toastr.warning("Please select any screen", { nzDuration: 3000 });

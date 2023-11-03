@@ -246,7 +246,7 @@ export class MenuBuilderComponent implements OnInit {
     a.click();
   }
   selectedJsonUpload(event: any) {
-    debugger
+    
     let contents;
     if (
       event.target instanceof HTMLInputElement &&
@@ -388,7 +388,7 @@ export class MenuBuilderComponent implements OnInit {
     // this.applySize();
   }
   clickButton(type: any, parent?: any, node?: any) {
-    debugger
+    
     // this.actionType = type;
     let _formFieldData = new formFeildData();
     const excludedKeys = ['tooltipWithoutIcon', 'className', 'tooltipPosition'];
@@ -1040,7 +1040,7 @@ export class MenuBuilderComponent implements OnInit {
   //   });
   // };
   jsonUpload(event: any) {
-    debugger;
+    ;
     if (event.target instanceof HTMLInputElement && event.target.files) {
       const reader = new FileReader();
       reader.onloadend = () => {
@@ -1449,7 +1449,7 @@ export class MenuBuilderComponent implements OnInit {
   }
 
   makeMenuData() {
-    debugger
+    
     let arrayList = [];
     arrayList = this.nodes;
     this.selectedTheme.allMenuItems = [];

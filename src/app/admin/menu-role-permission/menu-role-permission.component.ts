@@ -139,7 +139,7 @@ export class MenuRolePermissionComponent implements OnInit {
     });
   }
   bulkUpdate() {
-    debugger
+    
   }
 
   separatePermissions(permissions: any): any {

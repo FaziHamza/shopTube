@@ -15,7 +15,7 @@ export class CommonService {
   }
   // Error
   showError(title: string, options?: NzMessageDataOptions) {
-    debugger;
+    ;
     this.toastr.error(title, options);
   }
   // Warning

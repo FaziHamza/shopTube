@@ -254,7 +254,7 @@ export class ScreenBuilderComponent implements OnInit {
   //   }))
   // }
   onSubmit() {
-    debugger
+    
     if (!this.form.valid) {
       this.handleCancel();
       return;
@@ -317,7 +317,7 @@ export class ScreenBuilderComponent implements OnInit {
   }
 
   getDepartmentOptionList(id: string) {
-    debugger
+    
     this.applicationService.getNestCommonAPIById('cp/Department', id).subscribe((res: any) => {
       if (res.isSuccess) {
         const moduleListOptions = res.data.map((item: any) => ({
@@ -379,7 +379,7 @@ export class ScreenBuilderComponent implements OnInit {
       });
   }
   goToBuildPage(data: any) {
-    debugger
+    
     this.dataSharedService.screenName = data;
     this.router.navigate(['/builder']);
   }

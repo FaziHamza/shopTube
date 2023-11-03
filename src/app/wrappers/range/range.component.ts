@@ -17,7 +17,7 @@ export class RangeComponent extends FieldType<FieldTypeConfig> {
   }
 
   // onModelChange(event: any, model: any) {
-  //   debugger
+  //   
   //   if (event) {
   //     if (event.length > 0) {
   //       if (event[0])

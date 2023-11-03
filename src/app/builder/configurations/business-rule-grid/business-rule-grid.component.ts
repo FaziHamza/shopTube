@@ -563,7 +563,7 @@ export class BusinessRuleGridComponent implements OnInit {
     this.getBuisnessRuleMultiCondition(empIndex, conditionIndex).removeAt(multiConditionIndex);
   }
   dynamicBuisnessRule() {
-    debugger
+    
     this.buisnessRuleData = [];
     this.buisnessRuleIfList = [];
     this.UIRule = false;
@@ -728,7 +728,7 @@ export class BusinessRuleGridComponent implements OnInit {
     this.buisnessRuleSkills(mainIndex, ifIndex).at(conditionIndex).get("condType")?.setValue(conValue);
   }
   saveGridBusinessRule() {
-    debugger
+    
     this.GridBusinessRuleData = [];
     this.buisnessForm.value.buisnessRule.forEach((rule: any) => {
       let ifConditions: any = [];

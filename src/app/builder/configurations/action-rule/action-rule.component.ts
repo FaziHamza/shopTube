@@ -157,7 +157,7 @@ export class ActionRuleComponent implements OnInit {
   }
 
   addActionFormGroup() {
-    debugger
+    
     let mainArray: any[] = [];
     for (let i = 0; i < Object.keys(this.formlyModel).length; i++) {
       const element = Object.keys(this.formlyModel)[i];
@@ -351,7 +351,7 @@ export class ActionRuleComponent implements OnInit {
   // Save Action Backup 💾
   /*
   SaveAction() {
-    debugger
+    
      const mainModuleId = this.screens.filter((a: any) => a.name == this.screenName)
      const observables = this.actionForm.value.Actions.map((element: any) => {
        let data: any = {
@@ -401,7 +401,7 @@ export class ActionRuleComponent implements OnInit {
 
 
   SaveAction() {
-    debugger
+    
     const mainModuleId = this.screens.filter((a: any) => a.name == this.screenName);
     const checkQuery = this.actionForm.value.Actions.filter((a: any) => /SELECT\s+\*\s+FROM/i.test(a.query));
     if (checkQuery.length > 0) {
@@ -454,7 +454,7 @@ export class ActionRuleComponent implements OnInit {
     //   forkJoin(observables).subscribe({
     //     next: (allResults: any) => {
     //       if (allResults.every((result: any) => result.isSuccess === true)) {  //results.every((result: any) => !(result instanceof Error))
-    //         debugger
+    //         
     //         // if (allResults) {
     //         this.getActionData();
     //         this.getFromQuery();

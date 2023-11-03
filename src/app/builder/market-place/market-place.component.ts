@@ -27,7 +27,7 @@ export class MarketPlaceComponent implements OnInit {
     this.nodesData = JSON.parse(JSON.stringify(this.nodes));
   }
   groupDataByCategory() {
-    debugger
+    
     this.saveLoader = true;
     this.applicationService.getNestCommonAPI('market-place').subscribe(res => {
       this.saveLoader = false;
@@ -95,7 +95,7 @@ export class MarketPlaceComponent implements OnInit {
   // console.log(filteredResult);
 
   // addNodes(item: any, group: any) {
-  //   debugger
+  //   
   //   let templateData = JSON.parse(item.data);
   //   if (templateData?.[0]) {
   //     const checkPage = templateData.find((a: any) => a.type === 'page');
@@ -124,7 +124,7 @@ export class MarketPlaceComponent implements OnInit {
   //   // }
   // }
   addNodes(data: any) {
-    debugger
+    
     this.requestSubscription = this.applicationService.getNestCommonAPIById('market-place', data._id).subscribe({
       next: (res: any) => {
         if (res) {

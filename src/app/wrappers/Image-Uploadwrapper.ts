@@ -88,7 +88,7 @@ export class FormlyFieldImageUploadComponent extends FieldWrapper<FieldTypeConfi
   }
 
   uploadFile(file: File) {
-    debugger
+    
     const formData = new FormData();
     formData.append('image', file);
     // this is used on configuration when response come then user can save configuration

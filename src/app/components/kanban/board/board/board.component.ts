@@ -38,7 +38,7 @@ export class BoardComponent implements OnInit {
   }
 
   addList() {
-    debugger
+    
     if (this.lists === undefined) {
       this.lists = [];
     }
@@ -112,7 +112,7 @@ export class BoardComponent implements OnInit {
   // kanlistArray: any[] = [];
   processData(data: any[]) {
     try {
-      debugger;
+      ;
       if (data.length > 0) {
         this.kandanListData = data;
         let firstObjectKeys = Object.keys(data[0]);

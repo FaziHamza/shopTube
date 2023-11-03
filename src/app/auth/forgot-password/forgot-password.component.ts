@@ -52,7 +52,7 @@ export class ForgotPasswordComponent implements OnInit {
   }
 
   submitForm(): void {
-    debugger
+    
     this.recaptchaResponse = grecaptcha.getResponse();
     if (!this.recaptchaResponse) {
       // this.toastr.warning('You are not human', { nzDuration: 3000 }); // Show an error message to the user

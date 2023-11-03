@@ -29,7 +29,7 @@ export class InputWrapperComponent extends FieldType<FieldTypeConfig>  {
     }
   }
   onModelChange(event : any , field : any){
-    debugger
+    
     this.selectedValue = event;
   }
 

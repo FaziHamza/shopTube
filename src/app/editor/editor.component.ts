@@ -80,7 +80,7 @@ export class EditorComponent implements OnInit {
       // Your fields and operators
 
   ngOnInit() {
-    debugger
+    
     const languageId = 'json';
 
 

@@ -29,7 +29,7 @@ export class RepeatableControllComponent extends FieldType<FieldTypeConfig> {
     super();
   }
   ngOnInit(): void {
-    debugger
+    
     this.makeOrderOptions();
     this.myForm = this.formBuilder.group({
       fieldGroups: this.formBuilder.array([]),
@@ -91,7 +91,7 @@ export class RepeatableControllComponent extends FieldType<FieldTypeConfig> {
   }
 
   uploadFile(file: File, index: number) {
-    debugger
+    
     const formData = new FormData();
     formData.append('image', file);
     this.applicationService.uploadS3File(formData).subscribe({

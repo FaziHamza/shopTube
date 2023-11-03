@@ -168,7 +168,7 @@ export class SiteLayoutComponent implements OnInit {
 
   updateHeaderHeight() {
 
-    debugger
+    
 
     if (this.el.nativeElement.querySelector('#HEADER')) {
       const headerElement = this.el.nativeElement.querySelector('#HEADER');

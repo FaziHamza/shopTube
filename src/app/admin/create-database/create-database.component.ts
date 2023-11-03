@@ -135,7 +135,7 @@ export class CreateDatabaseComponent implements OnInit {
     this.getDatabaseTablev1();
   }
   startEdit(id: number): void {
-    debugger
+    
     this.editCache[id].edit = true;
   }
   cancelEdit(id: number): void {
@@ -184,7 +184,7 @@ export class CreateDatabaseComponent implements OnInit {
   }
   addRow(): void {
     const isExistingDataValid = this.listOfData.every(item => {
-      debugger
+      
       // Check if any field in the existing rows is empty or null
       return (
         item.fieldName !== '' &&
@@ -216,7 +216,7 @@ export class CreateDatabaseComponent implements OnInit {
     this.enableEditCache();
   }
   updateData() {
-    debugger
+    
     this.listOfData.forEach((record, index) => {
       record.id = index + 1;
     });
@@ -415,7 +415,7 @@ export class CreateDatabaseComponent implements OnInit {
   updateFormv1() {
 
     const isExistingDataValid = this.listOfData.every(item => {
-      debugger
+      
       // Check if any field in the existing rows is empty or null
       return (
         item.fieldName !== '' &&

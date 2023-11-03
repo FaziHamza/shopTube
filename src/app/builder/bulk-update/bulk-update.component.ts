@@ -58,7 +58,7 @@ export class BulkUpdateComponent implements OnInit {
 
 
   save() {
-    debugger
+    
     let check = this.filterInputElementKey(this.tabelNodes);
     if (check.length > 0) {
       alert("key cannot be empty")
@@ -122,7 +122,7 @@ export class BulkUpdateComponent implements OnInit {
           res.key = key + '.' + res.key;
         }
         else if (res.key.includes('.')) {
-          debugger
+          
           let new_key = res.key.split(".")
           if (new_key.length > 1) {
             let result = new_key[1];
