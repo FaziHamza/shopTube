@@ -27,6 +27,7 @@ export class SelectComponent extends FieldType<FieldTypeConfig> implements OnCha
     return this.to.options;
   }
   ngOnInit(): void {
+    debugger
     if (this.to['additionalProperties']?.borderRadius !== undefined) {
       document.documentElement.style.setProperty('--radius', this.to['additionalProperties']?.borderRadius);
       this.cdr.detectChanges();

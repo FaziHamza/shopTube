@@ -1196,12 +1196,12 @@ export class PagesComponent implements OnInit, OnDestroy {
       console.log(error)
     }
     finally {
-      
+      debugger
       if (this.screenData != undefined) {
         var inputType = this.resData[0].children[1].children;
         if (inputType) {
-          let screenData = this.screenData;
-
+          const _ = require('lodash');
+          let screenData = _.cloneDeep(this.screenData);
           // inputType = sectionData;
           let updatedKeyData: any[] = [];
           let checkFirst = false;
@@ -1261,6 +1261,23 @@ export class PagesComponent implements OnInit, OnDestroy {
               }
             }
           }
+          const filteredNodes = this.filterInputElements(this.resData);
+          filteredNodes.forEach((node) => {
+            const formlyConfig = node.formly?.[0]?.fieldGroup?.[0]?.defaultValue;
+            let key = node?.formly?.[0]?.fieldGroup?.[0]?.key;
+            if ((formlyConfig !== undefined && formlyConfig !== null && formlyConfig !== '') && (formlyConfig === 0 || formlyConfig) && key) {
+              this.formlyModel[key] =
+                formlyConfig;
+              if (node?.formly?.[0]?.fieldGroup?.[0]?.key.includes('.')) {
+                if (this.formlyModel[key.split('.')[0]]) {
+                  this.formlyModel[key.split('.')[0]][key.split('.')[1]] = formlyConfig;
+                } else {
+                  this.formlyModel[key.split('.')[0]] = {};
+                  this.formlyModel[key.split('.')[0]][key.split('.')[1]] = formlyConfig;
+                }
+              }
+            }
+          });
         }
 
       }
@@ -1572,12 +1589,13 @@ export class PagesComponent implements OnInit, OnDestroy {
 
           // }
           updatedKeyData.push(uiData.targetCondition[k].inputJsonData.id)
-          element = this.updateObjectById(element, uiData.targetCondition[k].inputJsonData.id, uiData.targetCondition[k].inputJsonData)
+          this.updateObjectById(element, uiData.targetCondition[k].inputJsonData.id, uiData.targetCondition[k].inputJsonData);
+          this.cdr.detectChanges();
         }
         else if (!currentValue) {
           const checkAlready = updatedKeyData.find((a: any) => a == uiData.targetCondition[k].inputOldJsonData.id)
           if (!checkAlready)
-            element = this.updateObjectById(element, uiData.targetCondition[k].inputOldJsonData.id, uiData.targetCondition[k].inputOldJsonData)
+            this.updateObjectById(element, uiData.targetCondition[k].inputOldJsonData.id, uiData.targetCondition[k].inputOldJsonData)
         }
       }
     }
@@ -1733,7 +1751,7 @@ export class PagesComponent implements OnInit, OnDestroy {
     return data;
   };
   checkDynamicSection() {
-    
+
     if (this.resData) {
       this.recursiveCheck(this.resData[0].children[1].children);
     }
@@ -2131,7 +2149,7 @@ export class PagesComponent implements OnInit, OnDestroy {
     // Check if the current node matches the ID
     if (data.id === id) {
       // Replace the current node with the updated object
-      return updatedObj;
+      data = updatedObj;
     }
 
     if (data.children && data.children.length > 0) {
