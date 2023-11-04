@@ -57,20 +57,27 @@ export class PagesComponent implements OnInit, OnDestroy {
         if (field && event)
           if (this.formlyModel && Object.keys(this.formlyModel).length > 0) {
             // this.formlyModel[field.key] = event;
+            if (field.type == 'cascader') {
+              if (field.key.includes('.')) {
+                this.formlyModel[field.key.split('.')[0]][field.key.split('.')[1]] = ''
+              }
+            }
             this.makeModel(field, event)
           }
-        this.getEnumList(field, event);
-        if (event && field && this.router.url.includes('/pages')) {
-          if (this.formlyModel && Object.keys(this.formlyModel).length > 0) {
-            this.formlyModel[field.key] = event;
-            console.log("key value : " + event);
-            this.checkConditionUIRule(field, event);
-            if (this.countRule < 3)
-              this.formValueAssign(this.editData);
-            // this.formlyModel[field.key] = event;
-          } else {
-            if (this.navigation)
+
+          // ye condition is ly lagai ha q ke jab image upload wala ma value path hu upload ke baad to ye na chala
+        if (field.type != 'image') {
+          this.getEnumList(field, event);
+          if (event && field && this.router.url.includes('/pages')) {
+            if (this.formlyModel && Object.keys(this.formlyModel).length > 0) {
               this.checkConditionUIRule(field, event);
+              if (this.countRule < 3)
+                this.formValueAssign(this.editData);
+              // this.formlyModel[field.key] = event;
+            } else {
+              if (this.navigation)
+                this.checkConditionUIRule(field, event);
+            }
           }
         }
       }

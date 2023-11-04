@@ -1,5 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { FieldType, FieldTypeConfig } from '@ngx-formly/core';
+import { DataSharedService } from 'src/app/services/data-shared.service';
 
 @Component({
   selector: 'st-input-wrapper',
@@ -10,6 +11,9 @@ export class InputWrapperComponent extends FieldType<FieldTypeConfig>  {
   @Input() value = '';
   @Input() placeholder = '';
   selectedValue : any = '';
+  constructor(private sharedService: DataSharedService) {
+    super();
+  }
   ngOnInit(): void {
     if (this.to.type == 'password') {
       this.to['additionalProperties'].suffixicon = 'eye-invisible';
@@ -29,7 +33,6 @@ export class InputWrapperComponent extends FieldType<FieldTypeConfig>  {
     }
   }
   onModelChange(event : any , field : any){
-    
     this.selectedValue = event;
   }
 
