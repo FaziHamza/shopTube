@@ -1417,7 +1417,7 @@ export class SectionsComponent implements OnInit {
               //   [jsonScreenRes[0].key]: Joi.string().min(parseInt(minLimit, 10)).max(parseInt(maxLimit, 10)),
               // };
               const getKeyValue = jsonScreenRes[0].key.includes('.') ? this.formlyModel[jsonScreenRes[0].key.split('.')[0]][jsonScreenRes[0].key.split('.')[1]] : this.formlyModel[jsonScreenRes[0].key];
-              modelObj[jsonScreenRes[0].key] = getKeyValue.trim();
+              modelObj[jsonScreenRes[0].key] = getKeyValue ? getKeyValue.trim() : getKeyValue;
               if (!minLimit && !maxLimit) {
                 if (modelObj[jsonScreenRes[0].key] instanceof Date) {
                   this.ruleObj = {
