@@ -226,7 +226,7 @@ export class SectionsComponent implements OnInit {
     });
   }
   saveData1(data: any) {
-    
+
 
     if (data?.detailSave) {
       let oneModelData = this.convertModel(this.dataModel);
@@ -1410,6 +1410,7 @@ export class SectionsComponent implements OnInit {
         if (filteredInputNodes[j].formlyType != undefined) {
           let jsonScreenRes: any = this.joiValidationData.filter(a => a.key == filteredInputNodes[j].formly[0].fieldGroup[0].key);
           if (jsonScreenRes.length > 0) {
+            const getKeyValue = jsonScreenRes[0].key.includes('.') ? this.formlyModel[jsonScreenRes[0].key.split('.')[0]][jsonScreenRes[0].key.split('.')[1]] : this.formlyModel[jsonScreenRes[0].key];
             if (jsonScreenRes[0].type === "text") {
               const { minlength, maxlength } = jsonScreenRes[0];
               const minLimit: any = typeof minlength !== 'undefined' ? minlength : 0;
@@ -1417,8 +1418,7 @@ export class SectionsComponent implements OnInit {
               // this.ruleObj = {
               //   [jsonScreenRes[0].key]: Joi.string().min(parseInt(minLimit, 10)).max(parseInt(maxLimit, 10)),
               // };
-              const getKeyValue = jsonScreenRes[0].key.includes('.') ? this.formlyModel[jsonScreenRes[0].key.split('.')[0]][jsonScreenRes[0].key.split('.')[1]] : this.formlyModel[jsonScreenRes[0].key];
-              modelObj[jsonScreenRes[0].key] = getKeyValue && typeof getKeyValue === 'string'? getKeyValue.trim() : getKeyValue;
+              modelObj[jsonScreenRes[0].key] = getKeyValue && typeof getKeyValue === 'string' ? getKeyValue.trim() : getKeyValue;
               if (!minLimit && !maxLimit) {
                 if (modelObj[jsonScreenRes[0].key] instanceof Date) {
                   this.ruleObj = {
@@ -1435,20 +1435,39 @@ export class SectionsComponent implements OnInit {
                 }
               }
               else {
+                let schema = Joi.string();
+
+                if (minlength !== undefined) {
+                  schema = schema.min(parseInt(minlength, 10));
+                } 
+                if (maxlength !== undefined) {
+                  schema = schema.max(parseInt(maxlength, 10));
+                }
+
                 this.ruleObj = {
-                  [jsonScreenRes[0].key]: Joi.string().min(parseInt(minLimit, 10)).max(parseInt(maxLimit, 10)),
+                  [jsonScreenRes[0].key]: schema,
                 };
               }
             }
             else if (jsonScreenRes[0].type === "number") {
-              modelObj[jsonScreenRes[0].key] = this.formlyModel[jsonScreenRes[0].key];
+              modelObj[jsonScreenRes[0].key] = getKeyValue;
               const { minlength, maxlength } = jsonScreenRes[0];
-              const minLimit: any = typeof minlength !== 'undefined' ? minlength : 0;
-              const maxLimit: any = typeof maxlength !== 'undefined' ? maxlength : 0;
+
+              let schema = Joi.number().integer();
+
+              if (minlength !== undefined) {
+                schema = schema.min(parseInt(minlength, 10));
+              }
+
+              if (maxlength !== undefined) {
+                schema = schema.max(parseInt(maxlength, 10));
+              }
+
               this.ruleObj = {
-                [jsonScreenRes[0].key]: Joi.number().integer().min(parseInt(minLimit, 10)).max(parseInt(maxLimit, 10)),
+                [jsonScreenRes[0].key]: schema,
               };
             }
+
             else if (jsonScreenRes[0].type == "pattern") {
               modelObj[jsonScreenRes[0].key] = jsonScreenRes[0].key.includes('.') ? this.formlyModel[jsonScreenRes[0].key.split('.')[0]][jsonScreenRes[0].key.split('.')[1]] : this.formlyModel[jsonScreenRes[0].key];
 
