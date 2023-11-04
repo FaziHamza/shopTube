@@ -33,7 +33,7 @@ import { UserMappingComponent } from "../admin/user-mapping/user-mapping.compone
     TemplatePopupComponent,
     MarketPlaceComponent,
     ExecuteActionRuleComponent,
-    MonacoEditorComponent,
+    MonacoEditorComponent
 
   ],
   imports: [

@@ -1,0 +1,45 @@
+<nz-spin [nzSpinning]="loader" [nzSize]="'large'">
+    <form [formGroup]="emailForm">
+        <div class="drawer-height !p-4">
+            <div formArrayName="fields">
+                <div style="border: 1px solid rgb(197 187 187); border-radius: 5px; padding: 1%; position: relative;"
+                    *ngFor="let field of emailFields.controls; let i = index" [formGroupName]="i" class="mb-4">
+                    <div class="flex items-center mb-2">
+                        <input formControlName="name" class="!border !rounded !p-2 !block !w-full" nz-input
+                            placeholder="Enter template name..." nzSize="default" />
+                        <i *ngIf="emailFields.at(i).get('imagePath')?.value" class="ml-2 fas fa-eye text-blue-500"
+                            (click)="imagePreview(emailFields.at(i).get('imagePath')?.value)"></i>
+
+                        <input nzTooltipTitle="By upload file you get path use this path in templates" nz-tooltip
+                            (change)="onFileSelected($event, i)" accept="image/*" class="ml-4" type="file"
+                            formControlName="image" class="!border !rounded !p-2 !block !w-full !ml-2" nz-input
+                            nzSize="default" />
+                        <nz-select class="!rounded !p-2 !block !w-full !ml-2" nzShowSearch nzAllowClear
+                            nzPlaceHolder="Select a person" formControlName="templateType">
+                            <nz-option nzLabel="PDF" nzValue="pdf"></nz-option>
+                            <nz-option nzLabel="TEXT" nzValue="text"></nz-option>
+                        </nz-select>
+                        <i *ngIf="emailFields.at(i).get('imagePath')?.value" class="ml-2 fas fa-trash-alt text-red-500"
+                            (click)="removeImage(i)"></i>
+                        <input [hidden]="true" formControlName="imagePath" class="!border !rounded !p-2 !block !w-full"
+                            nz-input placeholder="Enter template name..." nzSize="default" />
+                        <button type="button" (click)="removeField(i)"
+                            class="!ml-4 !px-2 !py-1 !bg-red-500 !text-white rounded"><i
+                                class="fas fa-trash-alt"></i></button>
+                    </div>
+                    <textarea formControlName="emailTemplate" row="3" nz-input
+                        class="!border !rounded !p-2 !w-full !h-32" placeholder="Paste code here..."
+                        nzAutosize></textarea>
+                </div>
+            </div>
+        </div>
+
+        <div class="drawer-height-btn">
+            <button nz-button nzType="primary" nzPrimary
+                class="btn btn-primary border-x-green-500 !bg-green-500 hover:!bg-green-400" (click)="addField()">
+                <i class="fa-regular fa-plus mr-2"></i> Add</button>
+            <button nz-button nzType="primary" nzPrimary class=" mx-2 " (click)="saveForm()">
+                <i class="fa-regular fa-floppy-disk mr-2"></i> Save </button>
+        </div>
+    </form>
+</nz-spin>
