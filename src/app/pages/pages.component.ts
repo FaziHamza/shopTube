@@ -66,7 +66,7 @@ export class PagesComponent implements OnInit, OnDestroy {
           }
 
           // ye condition is ly lagai ha q ke jab image upload wala ma value path hu upload ke baad to ye na chala
-        if (field.type != 'image') {
+        if (field.type != 'image-upload') {
           this.getEnumList(field, event);
           if (event && field && this.router.url.includes('/pages')) {
             if (this.formlyModel && Object.keys(this.formlyModel).length > 0) {

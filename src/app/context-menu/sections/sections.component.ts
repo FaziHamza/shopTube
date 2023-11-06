@@ -255,38 +255,44 @@ export class SectionsComponent implements OnInit {
             try {
               if (res[0]?.error) {
                 this.toastr.error(res[0]?.error, { nzDuration: 3000 });
-              } else {
-                const successMessage = (model.postType === 'post') ? 'Save Successfully' : 'Update Successfully';
-                this.toastr.success(successMessage, { nzDuration: 3000 });
-
-                if (data.saveRouteLink && this.dataSharedService.currentMenuLink !== '/ourbuilder' && model.postType === 'post') {
-                  this.router.navigate(['/pages/' + data.saveRouteLink]);
+              }
+              if (model.postType === 'put') {
+                if (!res?.isSuccess) {
+                  this.toastr.error(res.message, { nzDuration: 3000 });
                   return;
                 }
-
-                if (model.postType === 'post') {
-                  let tableName: any = '';
-                  if (res[0]) {
-                    tableName = res[0].tableName ? res[0].tableName.split('.')[1].split('_')[0] : '';
-                  }
-                  if (tableName) {
-                    this.recursiveUpdate(this.formlyModel, tableName, res);
-                  }
-                  if (window.location.href.includes('spectrum.com')) {
-                    this.dataSharedService.spectrumControlNull.next(true);
-                  }
-                } else {
-                  this.dataSharedService.gridDataLoad = true;
-                }
-                this.setInternalValuesEmpty(this.dataModel);
-                this.setInternalValuesEmpty(this.formlyModel);
-                this.form.patchValue(this.formlyModel);
-                this.dataSharedService.formlyShowError.next(false)
-                this.getFromQuery(data);
-                if (window.location.href.includes('taskmanager.com')) {
-                  this.dataSharedService.taskmanagerDrawer.next(true);
-                }
               }
+              const successMessage = (model.postType === 'post') ? 'Save Successfully' : 'Update Successfully';
+              this.toastr.success(successMessage, { nzDuration: 3000 });
+
+              if (data.saveRouteLink && this.dataSharedService.currentMenuLink !== '/ourbuilder' && model.postType === 'post') {
+                this.router.navigate(['/pages/' + data.saveRouteLink]);
+                return;
+              }
+
+              if (model.postType === 'post') {
+                let tableName: any = '';
+                if (res[0]) {
+                  tableName = res[0].tableName ? res[0].tableName.split('.')[1].split('_')[0] : '';
+                }
+                if (tableName) {
+                  this.recursiveUpdate(this.formlyModel, tableName, res);
+                }
+                if (window.location.href.includes('spectrum.com')) {
+                  this.dataSharedService.spectrumControlNull.next(true);
+                }
+              } else {
+                this.dataSharedService.gridDataLoad = true;
+              }
+              this.setInternalValuesEmpty(this.dataModel);
+              this.setInternalValuesEmpty(this.formlyModel);
+              this.form.patchValue(this.formlyModel);
+              this.dataSharedService.formlyShowError.next(false)
+              this.getFromQuery(data);
+              if (window.location.href.includes('taskmanager.com')) {
+                this.dataSharedService.taskmanagerDrawer.next(true);
+              }
+
             } catch (innerErr) {
               console.error(innerErr);
             }
@@ -333,13 +339,14 @@ export class SectionsComponent implements OnInit {
       }
     }
 
-    const id = Object.keys(empData.modalData).find(
+    let id = Object.keys(empData.modalData).find(
       key => empData.modalData.hasOwnProperty(key) && key.endsWith('.id') && empData.modalData[key]
     );
     if (this.tempTableData.length > 0) {
       const getDetailData = this.groupDataDetailTable(this.tempTableData);
       empData.modalData[getDetailData.tableName] = getDetailData.data[getDetailData.tableName];
     }
+    id = data?.dataTable ? empData.modalData[data?.dataTable + '.id'] : id;
     if (id === undefined) {
       if (!checkPermission?.create && this.dataSharedService.currentMenuLink !== '/ourbuilder') {
         alert("You do not have permission");
@@ -1439,7 +1446,7 @@ export class SectionsComponent implements OnInit {
 
                 if (minlength !== undefined) {
                   schema = schema.min(parseInt(minlength, 10));
-                } 
+                }
                 if (maxlength !== undefined) {
                   schema = schema.max(parseInt(maxlength, 10));
                 }
