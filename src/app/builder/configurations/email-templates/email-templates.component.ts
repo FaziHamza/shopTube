@@ -102,7 +102,7 @@ export class EmailTemplatesComponent {
         this.loader = false;
         if (allResults) {
           this.toastr.success("Save Successfully", { nzDuration: 3000 });
-          this.getEmailTemplates();
+          // this.getEmailTemplates();
         }
       },
       error: (err) => {
