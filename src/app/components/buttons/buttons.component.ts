@@ -91,7 +91,9 @@ export class ButtonsComponent implements OnInit {
                   const data = JSON.parse(res.data[0].screenData);
                   this.responseData = data;
                   if (this.tableRowId) {
-                    this.findObjectByTypeBase(this.responseData[0].children[1], 'div')
+                    this.findObjectByTypeBase(this.responseData[0].children[1], 'div');
+                    this.findObjectByTypeBase(this.responseData[0].children[1], 'timelineChild');
+
                   }
                   res.data[0].screenData = this.jsonParseWithObject(this.jsonStringifyWithObject(this.responseData));
                   this.nodes = [];
