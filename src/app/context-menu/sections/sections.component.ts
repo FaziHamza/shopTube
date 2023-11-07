@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, EventEmitter, Output, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, Input, EventEmitter, Output, ChangeDetectorRef, Optional } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { Subscription, catchError, elementAt, take } from 'rxjs';
@@ -10,6 +10,7 @@ import * as Joi from 'joi';
 import { DataService } from 'src/app/services/offlineDb.service';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { ElementData } from 'src/app/models/element';
+import { NzDrawerRef } from 'ng-zorro-antd/drawer';
 
 @Component({
   selector: 'st-sections',
@@ -37,7 +38,9 @@ export class SectionsComponent implements OnInit {
   saveLoader: boolean = false;
   constructor(public dataSharedService: DataSharedService, private toastr: NzMessageService, private employeeService: EmployeeService,
     private dataService: DataService,
-    private applicationServices: ApplicationService, private cd: ChangeDetectorRef, private activatedRoute: ActivatedRoute, private router: Router) { }
+    private applicationServices: ApplicationService, private cd: ChangeDetectorRef, private activatedRoute: ActivatedRoute, private router: Router) {
+    // this.drawerRef = drawerRef;
+  }
 
   ngOnInit(): void {
     this.clearValues();
@@ -285,16 +288,14 @@ export class SectionsComponent implements OnInit {
               } else {
                 this.dataSharedService.gridDataLoad = true;
               }
-              this.setInternalValuesEmpty(this.dataModel);
-              this.setInternalValuesEmpty(this.formlyModel);
-              this.form.patchValue(this.formlyModel);
+              this.dataSharedService.drawerVisible = false;
               this.dataSharedService.formlyShowError.next(false)
               this.getFromQuery(data);
               if (window.location.href.includes('taskmanager.com')) {
                 this.dataSharedService.taskmanagerDrawer.next(true);
               }
-
             } catch (innerErr) {
+              this.toastr.error("An error occurred : " + innerErr, { nzDuration: 3000 });
               console.error(innerErr);
             }
             finally {

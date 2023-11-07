@@ -55,7 +55,7 @@ export class ButtonsComponent implements OnInit {
   }
 
   pagesRoute(data: any): void {
-    
+
 
     if (data.isSubmit) {
       return;
@@ -81,7 +81,7 @@ export class ButtonsComponent implements OnInit {
         }
         this.loader = true;
         this.isVisible = true;
-
+        this.dataSharedService.drawerVisible = true;
         this.requestSubscription = this.applicationService.getNestCommonAPIById('cp/Builder', data.href).subscribe({
           next: (res: any) => {
             try {
@@ -160,12 +160,12 @@ export class ButtonsComponent implements OnInit {
     this.isVisible = false;
   }
   handleClose(): void {
-    
     if (this.dataSharedService.gridDataLoad) {
       this.dataSharedService.gridDataLoad = false;
       this.gridEmit.emit(this.buttonData)
     }
     this.isVisible = false;
+    this.dataSharedService.drawerVisible = false;
   }
   handleButtonClick(buttonData: any): void {
     this.pagesRoute(buttonData);
