@@ -32,7 +32,6 @@ import { environment } from 'src/environments/environment';
    [placeholder]="to.placeholder"
    [nzStatus]="to['additionalProperties']?.status"
    [nzSize]="to['additionalProperties']?.size"
-   [formControl]="formControl"
    [nzBorderless]="to['additionalProperties']?.border" />
    <label
    *ngIf="to['additionalProperties']?.wrapper == 'floating_filled' ||to['additionalProperties']?.wrapper=='floating_standard'

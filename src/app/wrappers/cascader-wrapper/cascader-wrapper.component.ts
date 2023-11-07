@@ -19,7 +19,7 @@ export class CascaderWrapperComponent extends FieldType<FieldTypeConfig> {
   }
 
   ngOnInit(): void {
-    
+
     if (this.to['additionalProperties']?.borderRadius) {
       document.documentElement.style.setProperty('--cascaderBorderRadius', this.to['additionalProperties']?.borderRadius);
       this.cdr.detectChanges();
@@ -37,26 +37,23 @@ export class CascaderWrapperComponent extends FieldType<FieldTypeConfig> {
   }
 
   onChanges(values: any): void {
-    if(this.selectedValues.length != values.length ){
-      this.selectedValues.push(values[values.length-1])
-    }
-    const result = this.arrayToStringWithSlash(this.selectedValues);
+    const result = this.arrayToStringWithSlash(values);
     this.sharedService.onChange(result, this.field);
     console.log(result);
   }
   async loadData(node: NzCascaderOption, index: number): Promise<void> {
     let getNextNode = this.to['appConfigurableEvent'].find((a: any) => a.level == index + 1);
-    this.selectedValues.push(node.value);
+    let selected = JSON.parse(JSON.stringify(node.value));
     if (index == 1) {
       if (this.values[0] == 'Blue') {
-        node.value = this.values[0];
+        selected = JSON.parse(JSON.stringify(this.values[0]));
       }
     }
     if (getNextNode) {
       let url = `knex-query/getexecute-rules/${getNextNode._id}`;
       // Root node - Load application data
       try {
-        const res = await this.applicationService.callApi(url, 'get', '', '', `${node.value}`).toPromise();
+        const res = await this.applicationService.callApi(url, 'get', '', '', `${selected}`).toPromise();
         if (res.isSuccess) {
           let propertyNames = Object.keys(res.data[0]);
           let result = res.data.map((item: any) => {
@@ -102,7 +99,7 @@ export class CascaderWrapperComponent extends FieldType<FieldTypeConfig> {
   }
 
   processData(data: any[]) {
-    
+
     if (data?.length > 0) {
       let propertyNames = Object.keys(data[0]);
       let result = data.map((item: any) => {

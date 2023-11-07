@@ -255,6 +255,7 @@ export class SectionsComponent implements OnInit {
             try {
               if (res[0]?.error) {
                 this.toastr.error(res[0]?.error, { nzDuration: 3000 });
+                return;
               }
               if (model.postType === 'put') {
                 if (!res?.isSuccess) {
