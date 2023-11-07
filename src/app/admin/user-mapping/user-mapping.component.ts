@@ -78,6 +78,7 @@ export class UserMappingComponent {
   }
 
   loadUserData() {
+    debugger
     this.loader = true;
     this.applicationService.getNestCommonAPI('cp/UserMapping').subscribe({
       next: (res: any) => {

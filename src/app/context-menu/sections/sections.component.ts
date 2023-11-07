@@ -288,7 +288,7 @@ export class SectionsComponent implements OnInit {
               } else {
                 this.dataSharedService.gridDataLoad = true;
               }
-              this.dataSharedService.drawerVisible = false;
+              // this.dataSharedService.drawerVisible = false;
               this.dataSharedService.formlyShowError.next(false)
               this.getFromQuery(data);
               if (window.location.href.includes('taskmanager.com')) {

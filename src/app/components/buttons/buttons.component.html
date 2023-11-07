@@ -29,7 +29,8 @@
     [nzLoading]="buttonData.nzLoading" [style.border-radius.px]="buttonData.radius || 0"
     [style.background]="(bgColor || buttonData.color) + ' !important'"
     [style.color]="(hoverTextColor || buttonData.textColor) + ' !important'"
-    [style.border-color]="(borderColor || buttonData.borderColor) + ' !important'" [class]="(!isActionExist ? '!cursor-auto ' : '!cursor-pointer ')+ buttonData.buttonClass"
+    [style.border-color]="(borderColor || buttonData.borderColor) + ' !important'"
+    [class]="(!isActionExist ? '!cursor-auto ' : '!cursor-pointer ')+ buttonData.buttonClass"
     (mouseover)="bgColor = buttonData?.hoverColor" (mouseout)="bgColor = buttonData?.color"
     (click)="pagesRoute(buttonData)" (mouseover)="handleButtonMouseOver(buttonData)"
     (mouseout)="handleButtonMouseOut(buttonData)">
@@ -50,7 +51,8 @@
 <!-- dropdown  -->
 <button *ngIf="buttonData.type == 'dropdownButton'" nz-button nz-dropdown [nzDropdownMenu]="menu"
   [nzType]="buttonData.nztype" [nzGhost]="buttonData.nzGhost" [nzSize]="buttonData.nzSize"
-  [disabled]="buttonData.disabled" [nzLoading]="buttonData.nzLoading" [class]="(!isActionExist ? '!cursor-auto ' : '!cursor-pointer ')+ buttonData.buttonClass"
+  [disabled]="buttonData.disabled" [nzLoading]="buttonData.nzLoading"
+  [class]="(!isActionExist ? '!cursor-auto ' : '!cursor-pointer ')+ buttonData.buttonClass"
   [nzBlock]="buttonData.nzBlock" [nzTrigger]="buttonData.trigger" [nzPlacement]="buttonData.placement"
   [nzClickHide]="buttonData.clickHide" [nzVisible]="buttonData.visible" [nzDanger]="buttonData.nzDanger"
   [nzShape]="buttonData.nzShape" [style.border-radius.px]="buttonData.radius || 0"
@@ -84,6 +86,13 @@
     <li *ngIf="buttonData.logoutAllow" [class]="buttonData?.optionSubClass" nz-menu-item>
       <a [class]="buttonData?.optionLabelClass" (click)="logout()">Logout</a>
     </li>
+    <ng-container *ngIf="policyList.length > 0">
+      <li nz-menu-item [class]="buttonData?.optionSubClass" (click)="switchPolicy(poliyItem)"
+        *ngFor="let poliyItem of policyList">
+        <a [class]="buttonData?.optionLabelClass">{{
+          poliyItem.name }}</a>
+      </li>
+    </ng-container>
   </ul>
 </nz-dropdown-menu>
 
@@ -105,7 +114,7 @@
   *ngIf="buttonData?.redirect == 'drawer' || buttonData?.redirect == 'largeDrawer'  || buttonData?.redirect == 'extraLargeDrawer'">
   <nz-drawer [nzClosable]="false" [nzTitle]="title ? title : buttonData.title" [nzExtra]="extra"
     [nzWidth]="buttonData?.redirect == 'drawer' ? 800 : (buttonData?.redirect == 'largeDrawer' ? 1000 : 1200) "
-    [nzVisible]="isVisible && dataSharedService.drawerVisible" (nzOnClose)="handleClose()">
+    [nzVisible]="isVisible" (nzOnClose)="handleClose()">
     <ng-container *nzDrawerContent>
       <nz-spin [nzSpinning]="loader">
         <st-pages [data]="nodes" [navigation]="screenId" [form]="form" [formlyModel]="formlyModel"

@@ -38,11 +38,15 @@ export class ButtonsComponent implements OnInit {
   loader: boolean = false;
   isActionExist: boolean = false;
   requestSubscription: Subscription;
+  policyList: any = [];
   @Output() gridEmit: EventEmitter<any> = new EventEmitter<any>();
   constructor(private modalService: NzModalService, public employeeService: EmployeeService, private toastr: NzMessageService, private router: Router,
     public dataSharedService: DataSharedService, private applicationService: ApplicationService, private activatedRoute: ActivatedRoute) { }
 
   ngOnInit(): void {
+    if (this.buttonData.type == 'dropdownButton') {
+      this.jsonPolicyModuleList();
+    }
     if (this.buttonData?.appConfigurableEvent.length > 0 || Object.entries(this.buttonData?.eventActionconfig).length === 0 || this.buttonData.redirect || this.buttonData.isSubmit) {
       this.isActionExist = true;
     }
@@ -238,5 +242,35 @@ export class ButtonsComponent implements OnInit {
     localStorage.clear();
     window.localStorage.clear();
     this.router.navigate(['/login']);
+  }
+  jsonPolicyModuleList() {
+    this.applicationService.getNestCommonAPI('cp/Policy').subscribe({
+      next: (res: any) => {
+        if (res.isSuccess) {
+          if (res?.data.length > 0) {
+            this.policyList = res.data;
+          }
+        }
+      },
+      error: (err) => {
+        this.toastr.error(`Policy : An error occured`, { nzDuration: 3000 });
+      },
+    });
+  }
+
+  switchPolicy(policy: any) {
+    this.modalService.confirm({
+      nzTitle: '<i>Do you Want to switch this policy?</i>',
+      nzContent: '',
+      nzOnOk: () => this.changePolicy(policy)
+    });
+  }
+  changePolicy(policy: any) {
+    debugger
+    let user = JSON.parse(window.localStorage['user']);
+    user['policy']['policyId'] = policy?._id;
+    user['policy']['policyName'] = policy?.name;
+    window.localStorage.setItem('user', JSON.stringify(user));
+    this.router.navigate(['/' + '']);
   }
 }
