@@ -28,7 +28,7 @@ export const environment = {
 };
 
 
-// ng build --configuration production --base-href http://3.28.179.171/
+// ng build --configuration production --base-href https://spectrum.expocitydubai.com/
 
 // ng serve --host=0.0.0.0 --disable-host-check
 
