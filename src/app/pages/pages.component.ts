@@ -65,7 +65,7 @@ export class PagesComponent implements OnInit, OnDestroy {
             this.makeModel(field, event)
           }
 
-          // ye condition is ly lagai ha q ke jab image upload wala ma value path hu upload ke baad to ye na chala
+        // ye condition is ly lagai ha q ke jab image upload wala ma value path hu upload ke baad to ye na chala
         if (field.type != 'image-upload') {
           this.getEnumList(field, event);
           if (event && field && this.router.url.includes('/pages')) {
@@ -93,6 +93,15 @@ export class PagesComponent implements OnInit, OnDestroy {
       if (this.navigation)
         this.saveLoader = res;
     })
+    // const callMapApiAfterSave = this.dataSharedService.callMapApiAfterSave.subscribe(res => {
+    //   if (this.navigation) {
+    //     const findMappingObj = this.findObjectById(this.resData[0], res);
+    //     if (findMappingObj && findMappingObj?.mapApi) {
+    //       this.filterDuplicateChildren(this.resData[0])
+    //       this.makeDynamicSections(findMappingObj?.mapApi, findMappingObj)
+    //     }
+    //   }
+    // })
     // this.dataSharedService.repeatableControll.subscribe(res => {
     //   if(res)
     //   this.formlyModel[res.key] = res.event;
@@ -101,6 +110,7 @@ export class PagesComponent implements OnInit, OnDestroy {
     this.subscriptions.add(gridDataSubscription);
     this.subscriptions.add(moveLinkSubscription);
     this.subscriptions.add(pagesLoader);
+    // this.subscriptions.add(callMapApiAfterSave);
 
   }
 
@@ -2650,4 +2660,24 @@ export class PagesComponent implements OnInit, OnDestroy {
       this.form.patchValue(this.formlyModel);
     }
   }
+  filterDuplicateChildren(data: any) {
+    // Maintain a set of unique keys
+    const uniqueKeys = new Set();
+
+    // Filter and keep unique children
+    data.children = data.children.filter((child: any) => {
+      if (!uniqueKeys.has(child.key)) {
+        uniqueKeys.add(child.key);
+        if (child.children && child.children.length > 0) {
+          // Recursively process children of this child
+          this.filterDuplicateChildren(child);
+        }
+        return true; // Keep this child
+      }
+      return false; // Discard this child
+    });
+
+    return data;
+  }
+
 }

@@ -38,6 +38,7 @@ export class DataSharedService {
   // public defaultPage: Subject<any> = new Subject();
 
   gridDataLoad : boolean  = false;
+  drawerVisible : boolean  = true;
   getUserPolicyMenuList: any[] = [];
   currentMenuLink: string = '';
   defaultPageNodes: any;

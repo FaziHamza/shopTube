@@ -590,6 +590,18 @@ export class formFeildData {
           }
         },
         {
+          key: 'callMapApiAfterSave',
+          type: 'input',
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          wrappers: ["formly-vertical-theme-wrapper"],
+          props: {
+            label: 'Map APi',
+            additionalProperties: {
+              tooltip: "Give map api component id to mapping call after save",
+            }
+          }
+        },
+        {
           className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
           key: 'disabled',
           type: 'checkbox',
