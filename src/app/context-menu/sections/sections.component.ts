@@ -289,6 +289,10 @@ export class SectionsComponent implements OnInit {
                 this.dataSharedService.gridDataLoad = true;
               }
               // this.dataSharedService.drawerVisible = false;
+              this.setInternalValuesEmpty(this.dataModel);
+              this.setInternalValuesEmpty(this.formlyModel);
+              this.form.patchValue(this.formlyModel);
+              this.dataSharedService.formlyShowError.next(false)
               this.dataSharedService.formlyShowError.next(false)
               this.getFromQuery(data);
               if (window.location.href.includes('taskmanager.com')) {

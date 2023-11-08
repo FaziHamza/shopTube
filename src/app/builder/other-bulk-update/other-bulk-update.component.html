@@ -1,0 +1,71 @@
+<div class="grid grid-cols-2 market-place mb-3">
+    <div>
+        <h3><b>Bulk Update Heading Paragraph</b></h3>
+    </div>
+    <div>
+        <div class="basic-button-save text-end justify-end">
+            <button nz-button nzType="primary" class="save-btn ml-3" (click)="save()"> <i
+                    class="fa-regular fa-floppy-disk mr-2"></i> Save</button>
+            <button nz-button (click)="close()" class="cancel-btn !font-normal hover:text-blue-400"> <i
+                    class="fa-regular fa-circle-xmark mr-2"></i> Cancel</button>
+        </div>
+    </div>
+</div>
+<nz-table class="builder-bulk-update" #nestedTable [nzData]="tabelNodes" [nzPageSize]="10">
+    <thead>
+        <tr>
+            <th nzWidth="10%"></th>
+            <th>Id</th>
+            <th>Key</th>
+            <th>Title</th>
+        </tr>
+    </thead>
+    <tbody>
+        <ng-template ngFor let-data [ngForOf]="nestedTable.data">
+            <tr>
+                <td [(nzExpand)]="data.expand"></td>
+                <td> <input nz-input type="text" class="form-control" [(ngModel)]="data.id" [disabled]="true"> </td>
+                <td><input nz-input type="text" class="form-control" [(ngModel)]="data.key"></td>
+                <td><input nz-input type="text" class="form-control" [(ngModel)]="data.title"></td>
+            </tr>
+            <tr [nzExpand]="data.expand">
+                <!-- <div class="container">
+                    <div class="table-key">
+                        <input nz-input type="text" placeholder="Enter Table key" class="form-control"
+                            class="table-key-input" [(ngModel)]="data['tableKey']">
+                        <button nz-button (click)="apply(data['tableKey'] , data)"
+                            class="btn-no !bg-green-600 hover:!bg-green-500 !text-white !border-none">
+                            <i class="fa-regular fa-key mr-2"></i>
+                            Apply Screen Key
+                        </button>
+                    </div>
+                </div> -->
+
+                <nz-table #innerTable [nzData]="data.children" nzSize="middle" nzShowSizeChanger>
+                    <thead>
+                        <tr>
+                            <th>Id</th>
+                            <th>Key</th>
+                            <th>Title</th>
+                            <th>Class Name</th>
+                            <th>Hide</th>
+                        </tr>
+                    </thead>
+    <tbody>
+        <tr *ngFor="let data of innerTable.data">
+            <td> <input nz-input type="text" class="form-control" [(ngModel)]="data.id" [disabled]="true"> </td>
+            <td><input nz-input type="text" class="form-control" [(ngModel)]="data.key"></td>
+            <td><input nz-input type="text" class="form-control" [(ngModel)]="data.title"></td>
+            <td><input nz-input type="text" class="form-control" [(ngModel)]="data.className"></td>
+            <td>
+                <div class="flex justify-center items-center">
+                    <label nz-checkbox [(ngModel)]="data.hideExpression"></label>
+                </div>
+            </td>
+        </tr>
+    </tbody>
+</nz-table>
+</tr>
+</ng-template>
+</tbody>
+</nz-table>

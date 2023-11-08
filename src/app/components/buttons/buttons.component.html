@@ -87,11 +87,13 @@
       <a [class]="buttonData?.optionLabelClass" (click)="logout()">Logout</a>
     </li>
     <ng-container *ngIf="policyList.length > 0">
-      <li nz-menu-item [class]="buttonData?.optionSubClass" (click)="switchPolicy(poliyItem)"
-        *ngFor="let poliyItem of policyList">
-        <a [class]="buttonData?.optionLabelClass">{{
-          poliyItem.name }}</a>
-      </li>
+      <ng-container *ngFor="let poliyItem of policyList">
+        <li *ngIf="policyId != poliyItem?.policyId._id" nz-menu-item [class]="buttonData?.optionSubClass"
+          (click)="switchPolicy(poliyItem)">
+          <a [class]="buttonData?.optionLabelClass">{{
+            poliyItem?.policyId.name }}</a>
+        </li>
+      </ng-container>
     </ng-container>
   </ul>
 </nz-dropdown-menu>
@@ -123,7 +125,6 @@
     </ng-container>
   </nz-drawer>
 </div>
-
 <ng-template #extra>
   <i class="fas fa-times text-lg text-red-500 cursor-pointer" (click)="handleClose()"></i>
 </ng-template>
