@@ -1,0 +1,28 @@
+
+
+.table-key {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+    background-color: #fff;
+    padding: 5px;
+    .table-key-input{
+        width: 219px;
+        margin-right: 10px;
+        height: 42px;
+        box-sizing: border-box;
+        font-weight: 500;
+    }
+    
+    .cancel-btn{
+        width: fit-content;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 42px;
+        box-sizing: border-box;
+        border-radius: 4px;
+    }
+    
+}

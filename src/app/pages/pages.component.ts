@@ -460,7 +460,7 @@ export class PagesComponent implements OnInit, OnDestroy {
 
     this.uiRuleGetData({ key: 'text_f53ed35b', id: 'formly_86_input_text_f53ed35b_0' });
 
-    this.applicationService.callApi('knex-query/getAction/65001460e9856e9578bcb63f', 'get', '', '', `'${res.data[0].navigation}'`).subscribe({
+    this.applicationService.callApi('knex-query/getAction/65001460e9856e9578bcb63f', 'get', '', '', `${res.data[0].navigation}`).subscribe({
       next: (response: any) => {
         if (response.data > 0) {
           response.data.forEach((element: any) => {

@@ -8,6 +8,7 @@ import { ActivatedRoute, Params, Router } from '@angular/router';
 import { DataSharedService } from 'src/app/services/data-shared.service';
 import { ApplicationService } from 'src/app/services/application.service';
 import { Subscription } from 'rxjs';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'st-buttons',
@@ -39,12 +40,13 @@ export class ButtonsComponent implements OnInit {
   isActionExist: boolean = false;
   requestSubscription: Subscription;
   policyList: any = [];
+  policyId: any = {};
   @Output() gridEmit: EventEmitter<any> = new EventEmitter<any>();
   constructor(private modalService: NzModalService, public employeeService: EmployeeService, private toastr: NzMessageService, private router: Router,
-    public dataSharedService: DataSharedService, private applicationService: ApplicationService, private activatedRoute: ActivatedRoute) { }
+    public dataSharedService: DataSharedService, private applicationService: ApplicationService, private activatedRoute: ActivatedRoute, private location: Location) { }
 
   ngOnInit(): void {
-    if (this.buttonData.type == 'dropdownButton') {
+    if (this.buttonData?.showPolicies) {
       this.jsonPolicyModuleList();
     }
     if (this.buttonData?.appConfigurableEvent.length > 0 || Object.entries(this.buttonData?.eventActionconfig).length === 0 || this.buttonData.redirect || this.buttonData.isSubmit) {
@@ -54,6 +56,7 @@ export class ButtonsComponent implements OnInit {
     this.bgColor = this.buttonData?.color ? this.buttonData?.color : '';
     if (this.buttonData.title === '$user' && window.location.href.includes('/pages')) {
       const userData = JSON.parse(localStorage.getItem('user')!);
+      this.policyId = userData['policy']['policyId'];
       this.buttonData.title = userData.policy.policyName ? userData.policy.policyName : this.buttonData.title;
     }
   }
@@ -244,8 +247,10 @@ export class ButtonsComponent implements OnInit {
     this.router.navigate(['/login']);
   }
   jsonPolicyModuleList() {
-    this.applicationService.getNestCommonAPI('cp/Policy').subscribe({
+    let user = JSON.parse(window.localStorage['user']);
+    this.applicationService.getNestCommonAPI(`cp/policy/getPolicyByUserId/${user.policy.userId}`).subscribe({
       next: (res: any) => {
+        debugger
         if (res.isSuccess) {
           if (res?.data.length > 0) {
             this.policyList = res.data;
@@ -268,9 +273,36 @@ export class ButtonsComponent implements OnInit {
   changePolicy(policy: any) {
     debugger
     let user = JSON.parse(window.localStorage['user']);
-    user['policy']['policyId'] = policy?._id;
-    user['policy']['policyName'] = policy?.name;
+    user['policy']['policyId'] = policy?.policyId?._id;
+    user['policy']['policyName'] = policy?.policyId?.name;
     window.localStorage.setItem('user', JSON.stringify(user));
-    this.router.navigate(['/' + '']);
+    let obj = {
+      UserMapping: {
+        policyId: policy?.policyId?._id,
+        userId: policy?.userId?._id,
+        defaultPolicy: true,
+        applicationId: JSON.parse(localStorage.getItem('applicationId')!),
+      }
+    }
+    this.dataSharedService.pagesLoader.next(true);
+    this.applicationService.updateNestCommonAPI('cp/UserMapping', policy._id , obj).subscribe({
+      next: (objTRes: any) => {
+        this.dataSharedService.pagesLoader.next(false);
+        if (objTRes.isSuccess) {
+          this.router.navigate(['/']).then(() => {
+            // Reload the entire application to re-render all components
+            this.location.replaceState('/');
+            window.location.reload();
+          });
+        } else {
+          this.toastr.error(objTRes.message, { nzDuration: 3000 });
+        }
+      },
+      error: (err) => {
+        this.dataSharedService.pagesLoader.next(false);
+        this.toastr.error(`${err.error.message}`, { nzDuration: 3000 });
+      },
+    });
+
   }
 }

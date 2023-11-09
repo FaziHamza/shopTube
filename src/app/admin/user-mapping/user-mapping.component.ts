@@ -12,6 +12,7 @@ import { forkJoin } from 'rxjs';
 })
 export class UserMappingComponent {
   policyName = '';
+  defaultPolicy: boolean = false;
   policyList: any = [];
   listOfDisplayData: any = [];
   listOfData: any[] = [];
@@ -34,6 +35,9 @@ export class UserMappingComponent {
     },
     {
       name: 'Policy Name',
+    },
+    {
+      name: 'Default Policy',
     },
     {
       name: 'Actions',
@@ -92,6 +96,7 @@ export class UserMappingComponent {
               userId: item?.userId?._id,
               userName: item?.userId?.username,
               applicationId: item.applicationId,
+              defaultPolicy: item?.defaultPolicy ? item?.defaultPolicy : false,
             }));
             this.listOfData = transformedData;
             this.handlePageChange(1);
@@ -106,6 +111,7 @@ export class UserMappingComponent {
   }
 
   onSubmit() {
+    debugger
     if (!this.policyName || !this.userName) {
       if (!this.policyName) {
         this.toastr.warning('Please Select Policy Name', { nzDuration: 2000 });
@@ -117,18 +123,44 @@ export class UserMappingComponent {
         this.loading = false;
         return;
       }
-    } else {
-      let findPreviousUser = this.listOfData.find(a => a.policyId == this.policyName && a.userId == this.userName);
-      if (findPreviousUser) {
-        this.toastr.warning('This user already assign this policy please select another.', { nzDuration: 2000 });
-        this.loading = false;
-        return;
+    }
+    else {
+      if (this.isSubmit) {
+        let findPreviousUser = this.listOfData.find(a => a.policyId == this.policyName && a.userId == this.userName);
+        if (findPreviousUser) {
+          this.toastr.warning('This user already assign this policy please select another.', { nzDuration: 2000 });
+          this.loading = false;
+          return;
+        }
+      } 
+      else {
+        const findAlreadypolicyAssign = this.listOfData.find(a=>a.userId == this.userName && a.policyId == this.policyName && a._id != this.editId);
+        if(findAlreadypolicyAssign){
+          this.toastr.warning('This user already assign this policy please select another.', { nzDuration: 2000 });
+          this.loading = false;
+          return;
+        }
+        let findPreviousUser = this.listOfData.find(a => a.userId == this.userName && a.defaultPolicy == this.defaultPolicy && this.policyName == a.policyId);
+        if (findPreviousUser) {
+          this.toastr.warning('You did not change data', { nzDuration: 2000 });
+          this.loading = false
+          return;
+        }
       }
 
+      // if (this.defaultPolicy == true) {
+      //   let defaultPolicyUsers: any[] = this.listOfData.filter(a => a.userId == this.userName && a.defaultPolicy == true && a._id != this.policyName);
+      //   if (defaultPolicyUsers.length > 0) {
+      //     this.toastr.warning('Already assign default.', { nzDuration: 2000 });
+      //     this.loading = false;
+      //     return;
+      //   }
+      // }
       let obj = {
         UserMapping: {
           policyId: this.policyName,
           userId: this.userName,
+          defaultPolicy: this.defaultPolicy,
           applicationId: JSON.parse(localStorage.getItem('applicationId')!),
         }
       }
@@ -143,6 +175,7 @@ export class UserMappingComponent {
             this.loadUserData();
             this.policyName = "";
             this.userName = "";
+            this.defaultPolicy = false;
             this.toastr.success(objTRes.message, { nzDuration: 3000 });
             if (!this.isSubmit) {
               this.isSubmit = true;
@@ -163,6 +196,7 @@ export class UserMappingComponent {
     this.editId = item._id;
     this.policyName = item.policyId;
     this.userName = item.userId;
+    this.defaultPolicy = item.defaultPolicy;
     this.isSubmit = false;
   }
   deleteRow(id: any): void {

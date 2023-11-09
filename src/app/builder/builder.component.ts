@@ -39,6 +39,8 @@ import { FormGroup } from '@angular/forms';
 import { EmployeeService } from '../services/employee.service';
 // import * as faker from 'faker';
 import { faker } from '@faker-js/faker';
+import { HeadingParagrapghUpdateComponent } from './heading-paragrapgh-update/heading-paragrapgh-update.component';
+import { OtherBulkUpdateComponent } from './other-bulk-update/other-bulk-update.component';
 
 @Component({
   selector: 'st-builder',
@@ -388,7 +390,7 @@ export class BuilderComponent implements OnInit {
   }
 
   saveJson() {
-    
+
     if (this.screenPage) {
       // this.saveLoader = true;
       if (this.selectedNode) {
@@ -1001,26 +1003,42 @@ export class BuilderComponent implements OnInit {
 
     });
   }
-  bulkUpdate() {
+  performBulkUpdate(updateType: string) {
     if (this.nodes.length > 0) {
-      const drawerRef = this.drawerService.create<
-        BulkUpdateComponent,
-        { value: string },
-        string
-      >({
-        // nzTitle: 'Bulk Update',
-        nzWidth: 1000,
-        nzContent: BulkUpdateComponent,
+      let nzWidth = 1000; // default width
+      let componentType: any;
+
+      switch (updateType) {
+        case 'default':
+          componentType = BulkUpdateComponent;
+          break;
+        case 'headingParagraph':
+          componentType = HeadingParagrapghUpdateComponent;
+          nzWidth = 1400;
+          break;
+        case 'other':
+          componentType = OtherBulkUpdateComponent;
+          nzWidth = 1400;
+          break;
+        default:
+          console.error('Invalid bulk update type');
+          return;
+      }
+
+      const drawerRef = this.drawerService.create<any, { value: string }, string>({
+        nzWidth: nzWidth,
+        nzContent: componentType,
         nzContentParams: {
           nodes: this.nodes,
           types: this.formlyTypes,
           screenName: this.screenName,
-          // formlyModel: this.formlyModel,
         },
       });
+
       drawerRef.afterOpen.subscribe(() => {
         console.log('Drawer(Component) open');
       });
+
       drawerRef.afterClose.subscribe((data: any) => {
         console.log(data);
         if (data) {
@@ -1034,6 +1052,7 @@ export class BuilderComponent implements OnInit {
       this.toastr.error('Please select Screen first', { nzDuration: 3000 });
     }
   }
+
 
   getUIRule(model: any, currentValue: any) {
 
@@ -1468,7 +1487,7 @@ export class BuilderComponent implements OnInit {
     else return 'sm:w-1/2 md:w-1/2 lg:w-1/2 xl:w-1/2';
   }
   addControlToJson(value: string, data?: any) {
-    
+
 
     let obj = {
       type: data?.parameter,
@@ -1835,7 +1854,7 @@ export class BuilderComponent implements OnInit {
                     hidden: false,
                     options: this.makeFormlyOptions(data?.options, data.type),
                     keyup: (model: any) => {
-                      
+
                       let currentVal = model.formControl.value;
                       this.formlyModel[model.key] = model.formControl.value;
                       this.checkConditionUIRule(model, currentVal);
@@ -2300,7 +2319,7 @@ export class BuilderComponent implements OnInit {
                       hidden: false,
                       options: this.makeFormlyOptions(data?.options, data.type),
                       keyup: (model: any) => {
-                        
+
                         let currentVal = model.formControl.value;
                         this.formlyModel[model.key] = model.formControl.value;
                         this.checkConditionUIRule(model, currentVal);
@@ -2571,7 +2590,7 @@ export class BuilderComponent implements OnInit {
 
 
   clickButton(type: any) {
-    
+
     let _formFieldData = new formFeildData();
     const validationObj = {
       title: this.selectedNode.title ? this.selectedNode.title : this.selectedNode.id,
@@ -2996,7 +3015,7 @@ export class BuilderComponent implements OnInit {
         this.fieldData.commonData?.push({ title: 'alertFeilds', data: _formFieldData.alertFeilds });
         break;
       case 'timeline':
-        
+
         this.addIconCommonConfiguration(_formFieldData.timelineFeilds, false);
         if (_formFieldData.timelineFeilds[0].fieldGroup) {
           _formFieldData.timelineFeilds[0].fieldGroup = _formFieldData.timelineFeilds[0].fieldGroup.filter(item => item.key !== 'iconClass');
@@ -3488,7 +3507,7 @@ export class BuilderComponent implements OnInit {
     this.addControlToJson('text', this.textJsonObj);
   }
   openField(event: any) {
-    
+
     this.searchControlValue = '';
     let id = event.origin.id;
     let node = event.origin;
@@ -3573,7 +3592,7 @@ export class BuilderComponent implements OnInit {
     }
   }
   changeIdAndkey(node: any) {
-    
+
     if (node.id) {
       let changeId = node.id.split('_');
       if (changeId.length == 2) {
@@ -3763,7 +3782,7 @@ export class BuilderComponent implements OnInit {
   //   });
   // }
   notifyEmit(event: actionTypeFeild): void {
-    
+
     let needToUpdate = true;
     switch (event.type) {
       case 'body':
@@ -4429,7 +4448,7 @@ export class BuilderComponent implements OnInit {
         }
         break;
       case 'inputValidationRule':
-        
+
         if (this.selectedNode) {
           const selectedScreen = this.screens.filter(
             (a: any) => a.name == this.screenName
@@ -4767,7 +4786,7 @@ export class BuilderComponent implements OnInit {
         }
         break;
       case "heading":
-        
+
         this.selectedNode.fontstyle = event.form.fontstyle
         // this.selectedNode.fontSize = event.form.style + event.form.textAlignment + 'color:' + event.form.headingColor;
         // if (event.form.headingApi) {
@@ -5544,7 +5563,7 @@ export class BuilderComponent implements OnInit {
     });
   }
   addDynamic(nodesNumber: any, subType: any, mainType: any) {
-    
+
     try {
       if (this.selectedNode.children) {
         this.addControl = true;
@@ -5847,7 +5866,7 @@ export class BuilderComponent implements OnInit {
     a.click();
   }
   selectedJsonUpload(event: any) {
-    
+
     if (event.target instanceof HTMLInputElement && event.target.files.length > 0) {
       const reader = new FileReader();
       reader.onloadend = () => {
@@ -6633,7 +6652,7 @@ export class BuilderComponent implements OnInit {
     })
   }
   checkPage() {
-    
+
     if (!this.screenPage) {
       alert("Please Select Screen")
     } else {
@@ -6799,7 +6818,7 @@ export class BuilderComponent implements OnInit {
 
   //Fazi code
   nzEvent(event: NzFormatEmitEvent): void {
-    
+
     if (event.eventName === 'drop') {
       // capture the dragNode and dropNode
       const dragNode = event.dragNode?.origin;

@@ -91,8 +91,15 @@
                 Json Upload</a>
             </li>
             <li nz-menu-item>
-              <a (click)="bulkUpdate()" class="!text-black">Bulk Update</a>
+              <a (click)="performBulkUpdate('default')" class="!text-black">Bulk Update</a>
             </li>
+            <li nz-menu-item>
+              <a (click)="performBulkUpdate('headingParagraph')" class="!text-black">Bulk Update Heading / Paragraph</a>
+            </li>
+            <li nz-menu-item>
+              <a (click)="performBulkUpdate('other')" class="!text-black">Bulk Update Other</a>
+            </li>
+
             <li nz-menu-item>
               <a class="!text-black">Bulk Import</a>
             </li>
@@ -271,7 +278,8 @@
                   [screenId]="_id" [screens]="screens" [nodes]="nodes"></st-business-rule-grid>
               </nz-tab>
               <nz-tab nzTitle="Email Templates" (nzClick)="showRulesFunc('emailTemplates')">
-                <st-email-templates *ngIf="showRules == 'emailTemplates'" [screenName]="screenName" [screenId]="_id"></st-email-templates>
+                <st-email-templates *ngIf="showRules == 'emailTemplates'" [screenName]="screenName"
+                  [screenId]="_id"></st-email-templates>
               </nz-tab>
             </nz-tabset>
           </div>

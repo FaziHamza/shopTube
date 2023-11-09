@@ -3,11 +3,11 @@ import { NzDrawerRef } from 'ng-zorro-antd/drawer';
 import { dataClassification } from '../data-classification';
 
 @Component({
-  selector: 'st-bulk-update',
-  templateUrl: './bulk-update.component.html',
-  styleUrls: ['./bulk-update.component.scss']
+  selector: 'st-other-bulk-update',
+  templateUrl: './other-bulk-update.component.html',
+  styleUrls: ['./other-bulk-update.component.scss']
 })
-export class BulkUpdateComponent implements OnInit {
+export class OtherBulkUpdateComponent {
   @Input() nodes: any;
   @Input() types: any;
   @Input() formlyModel: any;
@@ -30,22 +30,16 @@ export class BulkUpdateComponent implements OnInit {
         title: element.title,
         children: [],
         expand: false,
-
       }
       this.tabelNodes.push(sectionObj);
-      let findInputs = this.filterInputElements(element.children)
-      findInputs.forEach((forms: any) => {
+      let filterHeadingParagrapgh = this.filterInputElements(element.children)
+      filterHeadingParagrapgh.forEach((forms: any) => {
         let obj = {
           id: forms.id,
           hideExpression: forms.hideExpression,
-          key: forms?.formly[0]?.fieldGroup[0]?.key,
-          title: forms?.formly[0]?.fieldGroup[0]?.props?.label,
-          formlyType: 'input',
-          defaultValue: forms?.formly[0]?.fieldGroup[0]?.defaultValue,
-          placeholder: forms?.formly[0]?.fieldGroup[0]?.props?.placeholder,
+          key: forms.key,
+          title: forms.label,
           className: forms?.className,
-          // type: this.types,
-          dataClassification: forms?.formly[0]?.fieldGroup[0]?.props?.additionalProperties['dataClassification'],
         }
         this.tabelNodes[index].children.push(obj);
       });
@@ -72,24 +66,15 @@ export class BulkUpdateComponent implements OnInit {
         }
         this.nodes.forEach((body: any, innerIndex: any) => {
           let findInputs = this.filterInputElements(body.children);
-          findInputs.forEach((input: any) => {
+          findInputs.forEach((a: any) => {
             for (let j = 0; j < element.children.length; j++) {
               const check = element.children[j];
-              if (check.id == input.id) {
-                // if(input.formly[0].fieldGroup[0].key != check.key){
-                //   delete this.formlyModel[input.formly[0].fieldGroup[0].key];
-                // }
-                input.hideExpression = check.hideExpression;
-                input.title = check.title;
-                input.className = check.className;
-                input.key = check.key;
-                input.formly[0].fieldGroup[0].key = check.key
-                input.formly[0].fieldGroup[0].props.label = check.title;
-                input.formly[0].fieldGroup[0].defaultValue = check.defaultValue;
-                input.formly[0].fieldGroup[0].props.placeholder = check.placeholder;
-                input.formly[0].fieldGroup[0].props.className = check.className;
-                input.formly[0].fieldGroup[0].props.additionalProperties['dataClassification'] = check.dataClassification;
-                // this.formlyModel[input.formly[0].fieldGroup[0].key] = check.defaultValue;
+              if (check.id == a.id) {
+                a.hideExpression = check.hideExpression;
+                a.title = check.title;
+                a.className = check.className;
+                a.key = check.key;
+                a.label = check.title;
                 break;
               }
             }
@@ -165,7 +150,7 @@ export class BulkUpdateComponent implements OnInit {
           traverse(item);
         });
       } else if (typeof obj === 'object' && obj !== null) {
-        if (obj.formlyType === 'input') {
+        if (obj.type !== 'heading' && obj.type !== 'paragraph' && obj.formlyType != 'input' && obj.hideExpression != undefined) {
           inputElements.push(obj);
         }
         Object.values(obj).forEach((value) => {
@@ -196,6 +181,4 @@ export class BulkUpdateComponent implements OnInit {
       validateNode(node); // Start validation from the root nodes
     }
   }
-
-
 }
