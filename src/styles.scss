@@ -7856,12 +7856,20 @@ input[type=file]::file-selector-button:hover {
   max-height: 100% !important;
 }
 
-nz-input-group:focus , nz-input-group:active{
+nz-input-group:focus,
+nz-input-group:active {
   outline: 1px solid transparent !important;
 }
 
 .dynamic-cascader {
   .ant-select:not(.ant-select-customize-input) .ant-select-selector {
     border-radius: var(--cascaderBorderRadius) !important;
+  }
+}
+
+.button-drawer {
+  .ant-drawer-body {
+    background: #F0F2F5 !important;
+    padding: 8px !important;
   }
 }

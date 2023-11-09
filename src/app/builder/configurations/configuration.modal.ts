@@ -8005,6 +8005,14 @@ export class formFeildData {
       ]
     },
   ]
+  timelineChildFeilds: FormlyFieldConfig[] = [
+    {
+      fieldGroupClassName: "flex flex-wrap",
+      fieldGroup: [
+
+      ]
+    },
+  ]
   videosFeilds: FormlyFieldConfig[] = [
     {
       fieldGroupClassName: "flex flex-wrap",
