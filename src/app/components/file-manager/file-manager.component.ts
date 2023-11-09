@@ -30,10 +30,13 @@ export class FileManagerComponent implements OnInit {
   }
   getSubFolder(folderName: any) {
     this.saveLoader = true;
-    this.selectedFolder = this.selectedFolder + folderName + "/";
+    this.selectedFolder = folderName;
     this.folderName = '';
     this.folderList = [];
-    this.applicationService.getBackendCommonAPI('s3-file-manager/folderwithFiles/' + folderName).subscribe(res => {
+    const model = {
+      fileName: folderName
+    }
+    this.applicationService.addNestCommonAPI('s3-file-manager/folderwithFiles', model).subscribe(res => {
       this.saveLoader = false;
       if (res.isSuccess) {
         this.filesList = res?.data || [];
@@ -61,8 +64,8 @@ export class FileManagerComponent implements OnInit {
     })
   }
   addFolder() {
-    const folderName = this.selectedFolder ? `${this.selectedFolder}${this.folderName}` : this.folderName;
-
+    const selectedFolder = this.selectedFolder ? (this.selectedFolder.includes('/') ? this.selectedFolder : this.selectedFolder + '/') : '';
+    const folderName = selectedFolder + this.folderName;
     const model = {
       folderName,
     };

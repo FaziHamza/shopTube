@@ -114,8 +114,8 @@
 
 <div
   *ngIf="buttonData?.redirect == 'drawer' || buttonData?.redirect == 'largeDrawer'  || buttonData?.redirect == 'extraLargeDrawer'">
-  <nz-drawer [nzClosable]="false" [nzTitle]="title ? title : buttonData.title" [nzExtra]="extra"
-    [nzWidth]="buttonData?.redirect == 'drawer' ? 800 : (buttonData?.redirect == 'largeDrawer' ? 1000 : 1200) "
+  <nz-drawer [nzWrapClassName]="'button-drawer'" [nzClosable]="false" [nzTitle]="title ? title : buttonData.title" [nzExtra]="extra"
+    [nzWidth]="buttonData?.redirect == 'drawer' ? '60%' : (buttonData?.redirect == 'largeDrawer' ? '70%' : '80%') "
     [nzVisible]="isVisible" (nzOnClose)="handleClose()">
     <ng-container *nzDrawerContent>
       <nz-spin [nzSpinning]="loader">
