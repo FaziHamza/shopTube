@@ -2584,16 +2584,41 @@ export class PagesComponent implements OnInit, OnDestroy {
   }
 
   applyDefaultValue() {
-    let newMode: any = {};
     const filteredNodes = this.filterInputElements(this.resData);
-    filteredNodes.forEach((node) => {
+    const user = JSON.parse(localStorage.getItem('user')!);
+
+    const newMode = filteredNodes.reduce((acc, node) => {
       const formlyConfig = node.formly?.[0]?.fieldGroup?.[0]?.defaultValue;
-      newMode[node?.formly?.[0]?.fieldGroup?.[0]?.key] =
-        formlyConfig;
-    });
+      let formlyKey = node?.formly?.[0]?.fieldGroup?.[0]?.key;
+
+      if (formlyKey.includes('.') ? (formlyKey.split('.')[1] === 'organization' || formlyKey.split('.')[1] === 'orgnaization') : (formlyKey === 'organization' || formlyKey === 'orgnaization')) {
+        acc = this.setNewModeValue(acc, formlyKey, user.organizationName);
+      } else if (formlyKey.includes('.') ? formlyKey.split('.')[1] === 'fullname' : formlyKey === 'fullname') {
+        acc = this.setNewModeValue(acc, formlyKey, user.name);
+      } else if (formlyKey.includes('.') ? formlyKey.split('.')[1] === 'email' : formlyKey === 'email') {
+        acc = this.setNewModeValue(acc, formlyKey, user.username);
+      } else {
+        acc[formlyKey] = formlyConfig;
+      }
+
+      return acc;
+    }, {});
+
     this.formlyModel = newMode;
-    // this.form.patchValue(this.formlyModel);
   }
+
+  setNewModeValue(acc: any, formlyKey: string, value: any) {
+    acc[formlyKey] = value;
+
+    if (formlyKey.includes('.')) {
+      const [parentKey, childKey] = formlyKey.split('.');
+      acc[parentKey] = acc[parentKey] || {};
+      acc[parentKey][childKey] = value;
+    }
+
+    return acc;
+  }
+
 
   countOccurrences(arr: any) {
     const result: any = {};
