@@ -3028,12 +3028,13 @@ export class BuilderComponent implements OnInit {
         break;
       case 'div':
         this.fieldData.mappingConfig = _formFieldData.mappingFields;
-        this.fieldData.commonData?.push({ title: 'divFields', data: _formFieldData.divFields });
+        this.fieldData.commonData?.push({ title: 'Div Fields', data: _formFieldData.divFields });
         this.fieldData.mappingNode = this.selectedNode;
         break;
       case 'timelineChild':
         this.fieldData.mappingConfig = _formFieldData.mappingFields;
-        this.fieldData.commonData?.push({ title: 'divFields', data: _formFieldData.divFields });
+        this.addIconCommonConfiguration(_formFieldData.timelineChildFeilds, true);
+        this.fieldData.commonData?.push({ title: 'Time line child fileds', data: _formFieldData.timelineChildFeilds });
         this.fieldData.mappingNode = this.selectedNode;
         break;
       case 'mainDiv':
