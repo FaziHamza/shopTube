@@ -253,6 +253,7 @@ export class PagesComponent implements OnInit, OnDestroy {
         if (params["schema"]) {
           this.saveLoader = true;
           this.dataSharedService.currentMenuLink = "/pages/" + params["schema"];
+          localStorage.setItem('screenId',this.dataSharedService.currentMenuLink);
           this.clearValues();
           this.applicationService.getNestCommonAPI('cp/auth/pageAuth/' + params["schema"]).subscribe(res => {
             if (res?.data) {
@@ -283,6 +284,7 @@ export class PagesComponent implements OnInit, OnDestroy {
         // this.dataSharedService.urlModule.next({ aplication: '', module: '' });
         this.navigation = params["schema"];
         this.dataSharedService.currentMenuLink = '/pages/' + this.navigation;
+        localStorage.setItem('screenId',this.dataSharedService.currentMenuLink);
         this.getBuilderScreen(params);
         this.getTaskManagementIssuesFunc(params["schema"], JSON.parse(localStorage.getItem('applicationId')!));
 

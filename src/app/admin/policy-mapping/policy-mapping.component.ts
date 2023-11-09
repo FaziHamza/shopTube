@@ -259,7 +259,7 @@ export class PolicyMappingComponent implements OnInit {
     this.applicationService.getNestCommonAPIById('cp/Menu', id).subscribe(((res: any) => {
       if (res.isSuccess) {
         if (res.data.length > 0) {
-          this.applicationId = res.data[0]._id
+          this.applicationId = res.data[0].applicationId
           const menuList = JSON.parse(res.data[0].menuData);
           const booleanObject = {
             create: false,
