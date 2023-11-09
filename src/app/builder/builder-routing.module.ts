@@ -21,6 +21,7 @@ import { PolicyComponent } from '../admin/policy/policy.component';
 import { PolicyMappingComponent } from '../admin/policy-mapping/policy-mapping.component';
 import { UserMappingComponent } from '../admin/user-mapping/user-mapping.component';
 import { UserComponent } from '../auth/user/user.component';
+import { FileManagerComponent } from '../components';
 
 const routes: Routes = [
   {
@@ -107,7 +108,10 @@ const routes: Routes = [
         path: 'user',
         component: UserComponent
       },
-      
+      {
+        path: 'file-manager',
+        component: FileManagerComponent
+      },
     ]
   },
   {
