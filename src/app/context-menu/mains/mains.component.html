@@ -124,11 +124,11 @@
         </div>
     </ng-template>
     <ng-template #sixteen>
-        <dynamic-table [tableId]='item.tableId' *ngIf="item.type =='gridList';else seventeen" [checkType]="false"
-            [tableData]='item.tableData' [excelReportData]='item.tableData' [tableHeaders]='item.tableHeaders'
-            [formlyModel]="formlyModel" [form]="form" [screenId]="screenId" [data]="item"
-            [displayData]="item.displayData" [screenName]="screenName"
-            [configurationTable]="item?.showEditInput ? item?.showEditInput : false"></dynamic-table>
+        <dynamic-table *ngIf="item.type =='gridList';else seventeen" [tableId]='item.tableId' [checkType]="false"
+        [tableData]='item.tableData' [excelReportData]='item.tableData' [tableHeaders]='item.tableHeaders'
+        [formlyModel]="formlyModel" [form]="form" [screenId]="screenId" [data]="item"
+        [displayData]="item.displayData" [screenName]="screenName"
+        [configurationTable]="item?.showEditInput ? item?.showEditInput : false"></dynamic-table>
     </ng-template>
     <ng-template #seventeen>
         <st-table *ngIf="item.forCommomComponentCondition =='simpleGridList';else eighteen"></st-table>
@@ -464,7 +464,8 @@
             'background-repeat': 'no-repeat',
             'background-size': '100% 100%',
             'overflow-y': (item.height && item.height !== 0) ? 'auto' : 'hidden'}">
-            <st-main [mainData]="item" [formlyModel]="formlyModel" [screenName]="screenName" [form]="form"></st-main>
+            <st-main [mainData]="item" [formlyModel]="formlyModel" [screenName]="screenName" [screenId]="screenId"
+                [form]="form"></st-main>
         </div>
     </ng-template>
     <ng-template #eightySix>

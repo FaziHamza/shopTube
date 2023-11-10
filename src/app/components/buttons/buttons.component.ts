@@ -24,6 +24,7 @@ export class ButtonsComponent implements OnInit {
   @Input() formlyModel: any;
   @Input() form: any;
   @Input() screenName: any;
+  @Input() GridRuleColor: any;
   bgColor: any;
   hoverTextColor: any;
   dataSrc: any;
@@ -49,7 +50,7 @@ export class ButtonsComponent implements OnInit {
     if (this.buttonData?.showPolicies) {
       this.jsonPolicyModuleList();
     }
-    if (this.buttonData?.appConfigurableEvent.length > 0 || Object.entries(this.buttonData?.eventActionconfig).length === 0 || this.buttonData.redirect || this.buttonData.isSubmit) {
+    if (this.buttonData?.appConfigurableEvent || this.buttonData?.eventActionconfig || this.buttonData?.redirect || this.buttonData?.isSubmit) {
       this.isActionExist = true;
     }
     this.hoverTextColor = this.buttonData?.textColor ? this.buttonData?.textColor : '';

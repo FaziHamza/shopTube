@@ -1,3 +1,4 @@
+<!-- {{screenId | json}} -->
 <nz-spin [nzSpinning]="saveLoader" [nzSize]="'large'">
   <div *ngIf="showProgressBar" class="progress-container pr-2">
     <nz-progress [nzPercent]="progress" nzStatus="active"></nz-progress>
@@ -30,8 +31,10 @@
       <div *ngIf="data?.isAllowUploadExcel" [style.order]="split(1 , data?.buttonAlignments) || 2"
         class="!w-1/5 ml-2 mr-2 !h-[35px]">
       </div> -->
-      <button class="btn !mx-2 !h-[35px]" [style.order]="split(0 , data?.buttonAlignments) || 3"
-        *ngIf="data?.isShowDrawerButton" nz-button nzType="primary" (click)="open()">
+      <button
+        [class]="'btn ' + ((data?.buttonPositions === undefined || data?.buttonPositions === ' first-line:justify-end') ? 'ml-2 ' : 'mr-2 ') + ' !h-[35px]'"
+        [style.order]="split(0 , data?.buttonAlignments) || 3" *ngIf="data?.isShowDrawerButton" nz-button
+        nzType="primary" (click)="open()">
         {{data?.drawerButtonLabel ? data?.drawerButtonLabel : 'Open Drawer'}}</button>
       <nz-drawer [nzPlacement]="data?.drawerPlacement || 'right'" [nzExtra]="extra" [nzWidth]="data?.drawerWidth"
         [nzClosable]="false" [nzVisible]="visible" nzPlacement="right"
@@ -47,9 +50,8 @@
       <ng-template #extra>
         <i class="fas fa-times text-lg text-red-500 cursor-pointer" (click)="close()"></i>
       </ng-template>
-      <div class="mr-2 ml-2" [style.order]="split(1 , data?.buttonAlignments) || 2"
-        *ngIf="!childTable &&this.userDetails?.policyBulk && (data?.isAllowExcelReport || data?.isAllowUploadExcel)"
-        class="action-drop-down">
+      <div [class]="(data?.buttonPositions === undefined || data?.buttonPositions === ' justify-end') ? 'ml-2 ' : 'mr-2 '" [style.order]="split(1 , data?.buttonAlignments) || 2"
+        *ngIf="!childTable && (data?.isAllowExcelReport || data?.isAllowUploadExcel)" class="action-drop-down">
         <button nz-button nzType="primary"
           [class]="data?.actionButtonClass || 'actions-btn btn-no !border-none !bg-blue-600 hover:!bg-blue-500 my-2 !h-[35px]'"
           nz-dropdown [nzDropdownMenu]="menu4">
@@ -74,7 +76,7 @@
         class="!h-[35px]" *ngIf="data?.isAllowSearch">
         <nz-input-group (input)="search(data?.searchType ? 'keyup' : 'keyup')" nzSearch
           [nzAddOnAfter]="suffixIconButton">
-          <input type="text" class="!h-[35px] !rounded-tl-md !rounded-bl-md" nz-input id="searchControll"
+          <input type="text" [class]="((data?.buttonPositions === undefined || data?.buttonPositions === ' justify-end') ? 'ml-2 ' : 'mr-2 ') + '!h-[35px] !rounded-tl-md !rounded-bl-md'" nz-input id="searchControll"
             [(ngModel)]="data['searchValue']" placeholder="Search..." />
         </nz-input-group>
         <ng-template #suffixIconButton>
@@ -289,7 +291,7 @@
                   [nzLeft]="header?.headerFreeze == true ? true : false"
                   [nzRight]="header?.headerFreeze == true ? true : false" (click)="checkTypeData(item , header)"
                   [nzEllipsis]="true" class="5"
-                  [style.border-left]="item[header.key]== item?.colorDataType && editId !== item.id  ?  '4px solid ' + item?.columnColor : ''"
+                  [style.border-left]="item[header.key]== item?.colorDataType && editId !== item.id &&  header?.dataType != 'button' ?  '4px solid ' + item?.columnColor : ''"
                   *ngIf="(header?.show == true || header?.show === undefined || header?.show === '' || header?.show == 'Yes') && header?.dataType !='objectType' && header.key != 'headerButton' && header.key != 'footerButton' && header.key != 'expandable' && header.key != 'checked'
                   && header.key != 'expand'  && header.key !='children' && header.key != 'defaultValue' ">
                   <div [class]="data?.tdClass">
@@ -379,10 +381,17 @@
                       <div class="'flex flex-wrap'">
                         <div *ngFor="let childData of data.children">
                           <div *ngIf="childData?.id == header?.key" class="{{childData?.className}}">
-                            <st-block-buttons-card (tableEmit)="loadApiData()" *ngIf="childData.type =='button'"
+                            <st-block-buttons-card [GridRuleColor]="item?.columnColor" (tableEmit)="loadApiData()"
+                              *ngIf="(childData.type =='button' && item[header.key]== item?.colorDataType) ; else withOutGridRule"
                               [tableRowId]="item['id']" [form]="form" [formlyModel]="formlyModel"
                               [title]="item[header.key]" [softIconList]="childData">
                             </st-block-buttons-card>
+                            <ng-template #withOutGridRule>
+                              <st-block-buttons-card (tableEmit)="loadApiData()" *ngIf="childData.type =='button'"
+                                [tableRowId]="item['id']" [form]="form" [formlyModel]="formlyModel"
+                                [title]="item[header.key]" [softIconList]="childData">
+                              </st-block-buttons-card>
+                            </ng-template>
                             <st-downloadbutton *ngIf="childData.type == 'downloadButton'" [screenId]="screenId"
                               [formlyModel]="formlyModel" [form]="form" [screenName]="screenName"
                               [tableRowId]="item['id']" [buttonData]="childData" [title]="''"
@@ -509,8 +518,7 @@
       </tfoot>
     </nz-table>
     <div [ngClass]="{'flex  justify-end items-center': data?.changePageSize && data.totalCount > data?.end}">
-      <div class="paginatio-bottom !mt-1.5"
-        *ngIf="data?.nzShowPagination && showPagination">
+      <div class="paginatio-bottom !mt-1.5" *ngIf="data?.nzShowPagination && showPagination">
         <div>
           <p class="showing">Showing <span>{{start}} - {{end ? end : data?.end}}</span>
             <span *ngIf="data.showTotal || data.showTotal == undefined">
