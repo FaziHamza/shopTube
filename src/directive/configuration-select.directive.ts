@@ -2,6 +2,7 @@ import { Directive, Input, TemplateRef, ViewContainerRef, OnInit, OnDestroy, Ren
 import { ApplicationService } from 'src/app/services/application.service';
 import { Observable, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+import { NzMessageService } from 'ng-zorro-antd/message';
 
 @Directive({
   selector: '[appConfigurableSelect]'
@@ -22,6 +23,7 @@ export class ConfigurableSelectDirective implements OnInit, OnDestroy {
     private renderer: Renderer2,
     private el: ElementRef,
     private applicationService: ApplicationService,
+    private toastr: NzMessageService, 
   ) { }
 
   ngOnInit() {
@@ -62,6 +64,9 @@ export class ConfigurableSelectDirective implements OnInit, OnDestroy {
           response => {
             try {
               if (response) {
+                if(!response?.isSuccess && response.data.length  == 0){
+                  this.toastr.error(response.message, { nzDuration: 3000 });
+                }
                 this.data = response.data;
                 // Process this.data
                 if (this.processData) {

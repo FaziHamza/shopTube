@@ -164,7 +164,7 @@ export class BuilderComponent implements OnInit {
   }
   ngOnInit(): void {
     // this.getUsers();
-    this.dataSharedService.currentMenuLink = '/ourbuilder'
+    this.dataSharedService.currentMenuLink = '/ourbuilder';
     this.currentUser = JSON.parse(localStorage.getItem('user')!);
     this.loadDepartmentData();
     document
