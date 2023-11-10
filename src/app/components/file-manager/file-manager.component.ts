@@ -34,7 +34,7 @@ export class FileManagerComponent implements OnInit {
     this.folderName = '';
     this.folderList = [];
     const model = {
-      fileName: folderName
+      fileName: folderName.replace(/\/$/, ''),
     }
     this.applicationService.addNestCommonAPI('s3-file-manager/folderwithFiles', model).subscribe(res => {
       this.saveLoader = false;
