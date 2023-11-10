@@ -266,6 +266,10 @@ export class SectionsComponent implements OnInit {
                   return;
                 }
               }
+              if (!res?.isSuccess) {
+                this.toastr.error(res.message, { nzDuration: 3000 });
+                return;
+              }
               const successMessage = (model.postType === 'post') ? 'Save Successfully' : 'Update Successfully';
               this.toastr.success(successMessage, { nzDuration: 3000 });
 
