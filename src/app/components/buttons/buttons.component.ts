@@ -243,6 +243,8 @@ export class ButtonsComponent implements OnInit {
     }
   }
   logout() {
+    localStorage.removeItem('isLoggedIn'); // Clear the logged-in flag
+
     localStorage.clear();
     window.localStorage.clear();
     this.router.navigate(['/login']);

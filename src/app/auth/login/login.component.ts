@@ -98,6 +98,7 @@ export class LoginComponent implements OnInit {
             this.commonService.showSuccess('Login Successfully!', {
               nzDuration: 2000,
             });
+            localStorage.setItem('isLoggedIn', 'true');
             this.showLoader = false;
             this.authService.setAuth(response.data);
             this.router.navigate(['/home/allorder']);
