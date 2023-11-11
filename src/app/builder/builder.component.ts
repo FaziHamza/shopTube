@@ -1477,7 +1477,8 @@ export class BuilderComponent implements OnInit {
       value == 'kanban' ||
       value == 'timeline' ||
       value == 'gridList' ||
-      value == 'accordionButton'
+      value == 'accordionButton'||
+      value == 'fileManager'
     )
       return 'w-full';
     else if (value == 'body') return 'px-6 pt-6 pb-10';
@@ -1758,6 +1759,9 @@ export class BuilderComponent implements OnInit {
         break;
       case 'alert':
         newNode = { ...newNode, ...this.addControlService.getAlertControl() };
+        break;
+      case 'fileManager':
+        newNode = { ...newNode, ...this.addControlService.getFileManagerControl() };
         break;
       case 'repeatableControll':
         let formlyObj = {
@@ -3375,6 +3379,10 @@ export class BuilderComponent implements OnInit {
           ...this.clickButtonService.getTimelineChartConfig(selectedNode),
         };
         this.fieldData.commonData?.push({ title: 'steppedAreaChartFields', data: _formFieldData.steppedAreaChartFields });
+        break;
+      case 'fileManager':
+     
+        this.fieldData.commonData?.push({ title: 'File Manager Fileds', data: _formFieldData.fileManagerFields });
         break;
       default:
         break;

@@ -74,15 +74,16 @@ export class SectionsComponent implements OnInit {
           if (checkButtonExist?.appConfigurableEvent) {
             // event?.stopPropagation();
             let makeModel: any = {};
-            this.formlyModel = this.dataSharedService.saveModel;
-            const filteredNodes = this.filterInputElements(this.sections.children[1].children);
-            for (let item in this.formlyModel) {
-              filteredNodes.forEach((element) => {
-                if (item == element.formly[0].fieldGroup[0].key) {
-                  makeModel[item] = this.formlyModel[item]
-                }
-              });
-            }
+            // this.formlyModel = this.dataSharedService.saveModel;
+            // const filteredNodes = this.filterInputElements(this.sections.children[1].children);
+            // for (let item in this.formlyModel) {
+            //   filteredNodes.forEach((element) => {
+            //     if (item == element.formly[0].fieldGroup[0].key) {
+            //       makeModel[item] = this.formlyModel[item]
+            //     }
+            //   });
+            // }
+            makeModel = this.formlyModel;
             this.dataModel = makeModel;
             if (Object.keys(makeModel).length > 0) {
               for (const key in this.dataModel) {
@@ -266,10 +267,10 @@ export class SectionsComponent implements OnInit {
                   return;
                 }
               }
-              if (!res?.isSuccess) {
-                this.toastr.error(res.message, { nzDuration: 3000 });
-                return;
-              }
+              // if (!res?.isSuccess) {
+              //   this.toastr.error(res.message, { nzDuration: 3000 });
+              //   return;
+              // }
               const successMessage = (model.postType === 'post') ? 'Save Successfully' : 'Update Successfully';
               this.toastr.success(successMessage, { nzDuration: 3000 });
 

@@ -4727,6 +4727,121 @@ export class formFeildData {
       ]
     },
   ]
+  fileManagerFields: FormlyFieldConfig[] = [
+    {
+      fieldGroupClassName: "flex flex-wrap",
+      fieldGroup: [
+        {
+          key: 'apiUrl',
+          type: 'input',
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          wrappers: ["formly-vertical-theme-wrapper"],
+          props: {
+            label: 'Api Url'
+          },
+        },
+        {
+          key: 'showFile',
+          type: 'checkbox',
+          wrappers: ["formly-vertical-theme-wrapper"],
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          props: {
+            label: 'Show File'
+          },
+        },
+        {
+          key: 'showFolder',
+          type: 'checkbox',
+          wrappers: ["formly-vertical-theme-wrapper"],
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          props: {
+            label: 'Show Folder'
+          },
+        },
+        {
+          key: 'isAllowCreateFolder',
+          type: 'checkbox',
+          wrappers: ["formly-vertical-theme-wrapper"],
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          props: {
+            label: 'Allow Create Folder'
+          },
+        },
+        {
+          key: 'isAllowCreateFile',
+          type: 'checkbox',
+          wrappers: ["formly-vertical-theme-wrapper"],
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          props: {
+            label: 'Allow Create File'
+          },
+        },
+        {
+          key: 'isAllowDeleteFolder',
+          type: 'checkbox',
+          wrappers: ["formly-vertical-theme-wrapper"],
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          props: {
+            label: 'Allow Delete Folder'
+          },
+        },
+        {
+          key: 'isAllowDeleteFiles',
+          type: 'checkbox',
+          wrappers: ["formly-vertical-theme-wrapper"],
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          props: {
+            label: 'Allow Delete Files'
+          },
+        },
+        {
+          key: 'download',
+          type: 'checkbox',
+          wrappers: ["formly-vertical-theme-wrapper"],
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          props: {
+            label: 'Download'
+          },
+        },
+        {
+          key: 'isAllowShared',
+          type: 'checkbox',
+          wrappers: ["formly-vertical-theme-wrapper"],
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          props: {
+            label: 'Allow Shared'
+          },
+        },
+        {
+          key: 'isAllowStarred',
+          type: 'checkbox',
+          wrappers: ["formly-vertical-theme-wrapper"],
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          props: {
+            label: 'Allow Starred'
+          },
+        },
+        {
+          key: 'isAllowTrash',
+          type: 'checkbox',
+          wrappers: ["formly-vertical-theme-wrapper"],
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          props: {
+            label: 'Allow Trash'
+          },
+        },
+        {
+          key: 'showFolderDetail',
+          type: 'checkbox',
+          wrappers: ["formly-vertical-theme-wrapper"],
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          props: {
+            label: 'Show Folder Detail'
+          },
+        },
+      ]
+    },
+  ]
   mainStepperFields: FormlyFieldConfig[] = [
     {
       fieldGroupClassName: "flex flex-wrap",

@@ -1577,6 +1577,12 @@ export const htmlTabsData = [
                 label: "Header Logo",
                 isLeaf: true
               },
+              {
+                parameter: "fileManager",
+                icon: "uil uil-file-alt",
+                label: "File Manager",
+                isLeaf: true
+              },
             ]
           },
         ]

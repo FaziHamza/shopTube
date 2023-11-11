@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { ApplicationService } from 'src/app/services/application.service';
 
 @Component({
@@ -7,7 +7,7 @@ import { ApplicationService } from 'src/app/services/application.service';
   styleUrls: ['./file-manager.component.scss']
 })
 export class FileManagerComponent implements OnInit {
-
+  @Input() data : any;
   folderList: any[] = []
   filesList: any[] = [];
   saveLoader: boolean = false;

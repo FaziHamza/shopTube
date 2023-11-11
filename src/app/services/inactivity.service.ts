@@ -1,15 +1,14 @@
 import { Injectable, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 import { Subscription, fromEvent, timer } from 'rxjs';
-import { switchMap, tap } from 'rxjs/operators';
+import { switchMap, tap, startWith  } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
 })
 export class InactivityService implements OnDestroy {
-  private inactivityTimeout = 1 * 60 * 1000; // 10 minutes in milliseconds
+  private inactivityTimeout = 10 * 60 * 1000; // 1 minute in milliseconds
   private localStorageKey = 'lastActivityTime';
-  private isLoggedInKey = 'isLoggedIn';
   private userActivitySubscription: Subscription;
 
   constructor(private router: Router) {
@@ -17,50 +16,49 @@ export class InactivityService implements OnDestroy {
     this.startWatchingStorageEvents();
   }
 
-  private startWatchingForInactivity() {
+  startWatchingForInactivity() {
     this.userActivitySubscription = timer(0, 1000).pipe(
       switchMap(() => {
-        const isLoggedIn = localStorage.getItem(this.isLoggedInKey) === 'true';
-        console.log('Checking activity. Is Logged In:', isLoggedIn);
-
-        if (!isLoggedIn) {
-          return timer(0); // Not logged in, navigate to login
-        }
-
         const lastActivity = parseInt(localStorage.getItem(this.localStorageKey) || '0', 10);
         const timePassed = Date.now() - lastActivity;
-        const timeLeft = this.inactivityTimeout - timePassed;
-        console.log('Time passed:', timePassed, 'Time left:', timeLeft);
-
-        return timeLeft <= 0 ? timer(0) : timer(timeLeft);
+        return timePassed >= this.inactivityTimeout ? timer(0) : timer(this.inactivityTimeout - timePassed);
       }),
-      tap(() => {
-        console.log('Executing logout due to inactivity.');
-        this.logout();
-      })
+      tap(() => this.logout())
     ).subscribe();
   }
 
-  private startWatchingStorageEvents() {
+  startWatchingStorageEvents() {
     fromEvent<StorageEvent>(window, 'storage').pipe(
+      startWith(null),
       tap((event: StorageEvent | null) => {
-        if (event && event.key === this.localStorageKey && localStorage.getItem(this.isLoggedInKey) !== 'true') {
-          console.log('Detected logout from another tab.');
-          this.logout();
+        if (event instanceof StorageEvent && event.key === this.localStorageKey) {
+          this.resetTimer();
         }
       })
     ).subscribe();
   }
+  
 
+  resetTimer() {
+    // If the user is active, reset the activity timer
+    const lastActivityStr = localStorage.getItem(this.localStorageKey);
+    if (lastActivityStr) {
+      const lastActivity = parseInt(lastActivityStr, 10);
+      if (Date.now() - lastActivity >= this.inactivityTimeout) {
+        this.logout();
+      }
+    }
+  }
+  
   updateUserActivity() {
-    console.log('User activity detected.');
+    // If the user is active in any tab, update the activity timestamp in localStorage
     localStorage.setItem(this.localStorageKey, Date.now().toString());
   }
 
   logout() {
-    console.log('Logging out user.');
-    localStorage.removeItem(this.isLoggedInKey); // Clear the logged-in flag
     localStorage.clear();
+    console.log('User has been logged out due to inactivity.');
+    localStorage.removeItem(this.localStorageKey);
     this.router.navigate(['/login']);
   }
 
