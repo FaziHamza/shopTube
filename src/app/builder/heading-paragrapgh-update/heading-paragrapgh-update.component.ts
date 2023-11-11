@@ -39,12 +39,14 @@ export class HeadingParagrapghUpdateComponent {
           id: forms.id,
           hideExpression: forms.hideExpression,
           key: forms.key,
+          type: forms.type,
           title: forms.title,
           className: forms?.className,
           text: forms?.text,
           fontweight: forms?.fontweight,
           textAlign: forms?.textAlign,
-          link: forms?.link,
+          headingClass: forms.type == 'heading' ? forms?.heading : '',
+          // link: forms?.link,
         }
         this.tabelNodes[index].children.push(obj);
       });
@@ -57,6 +59,7 @@ export class HeadingParagrapghUpdateComponent {
 
 
   save() {
+    debugger
     this.tabelNodes.forEach((element, index) => {
       this.nodes[0].children[1].children[index].key = element.key;
       if (this.nodes[0].children[1].children[index].title != element.title) {
@@ -78,7 +81,10 @@ export class HeadingParagrapghUpdateComponent {
               a.text = check.text;
               a.fontweight = check.fontweight;
               a.textAlign = check.textAlign;
-              a.link = check.link;
+              if (a.type == 'heading') {
+                a['heading'] = check.headingClass;
+              }
+              // a.link = check.link;
               break;
             }
           }
