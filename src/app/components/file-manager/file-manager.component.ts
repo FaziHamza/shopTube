@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ApplicationService } from 'src/app/services/application.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'st-file-manager',
@@ -194,5 +195,8 @@ export class FileManagerComponent implements OnInit {
     this.start = start == 0 ? 1 : ((this.pageIndex * this.pageSize) - this.pageSize) + 1;
     this.filesList = this.collectionList.slice(start, end);
     this.end = this.filesList.length != 6 ? this.collectionList.length : this.pageIndex * this.pageSize;
+  }
+  downloadFile(data: any) {
+    window.open(environment.nestImageUrl + data?.storagePath, '_blank');
   }
 }
