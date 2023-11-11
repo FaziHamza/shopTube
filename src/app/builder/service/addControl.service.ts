@@ -40,12 +40,13 @@ export class AddControlService {
   }
   getFileManagerControl() {
     return {
-      apiUrl:'',
+      apiUrl: '',
       isNextChild: false,
       showFile: true,
       showFolder: true,
       isAllowCreateFolder: true,
       isAllowCreateFile: true,
+      isShowBreadcrumb: true,
       isAllowDeleteFolder: true,
       isAllowDeleteFiles: true,
       download: true,
@@ -54,7 +55,7 @@ export class AddControlService {
       isAllowTrash: true,
       showFolderDetail: true,
     }
-  } 
+  }
   getPageBodyControl() {
     return {
       footer: false, header: false, isNextChild: true,

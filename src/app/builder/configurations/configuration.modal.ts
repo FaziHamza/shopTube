@@ -4777,6 +4777,15 @@ export class formFeildData {
           },
         },
         {
+          key: 'isShowBreadcrumb',
+          type: 'checkbox',
+          wrappers: ["formly-vertical-theme-wrapper"],
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          props: {
+            label: 'Allow  Breadcrumb'
+          },
+        },
+        {
           key: 'isAllowDeleteFolder',
           type: 'checkbox',
           wrappers: ["formly-vertical-theme-wrapper"],
