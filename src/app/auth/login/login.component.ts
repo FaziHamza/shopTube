@@ -90,7 +90,7 @@ export class LoginComponent implements OnInit {
 
     // Show Loader
     this.showLoader = true;
-    this.authService.loginUser(this.form.value).subscribe(
+    this.authService.loginUser (this.form.value).subscribe(
       (response: any) => {
         this.showLoader = false;
         if (response.isSuccess) {
