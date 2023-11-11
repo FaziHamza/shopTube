@@ -1005,7 +1005,7 @@ export class BuilderComponent implements OnInit {
   }
   performBulkUpdate(updateType: string) {
     if (this.nodes.length > 0) {
-      let nzWidth = 1000; // default width
+      let nzWidth = '70%'; // default width
       let componentType: any;
 
       switch (updateType) {
@@ -1014,11 +1014,11 @@ export class BuilderComponent implements OnInit {
           break;
         case 'headingParagraph':
           componentType = HeadingParagrapghUpdateComponent;
-          nzWidth = 1400;
+          nzWidth = '70%';
           break;
         case 'other':
           componentType = OtherBulkUpdateComponent;
-          nzWidth = 1400;
+          nzWidth = '70%';
           break;
         default:
           console.error('Invalid bulk update type');

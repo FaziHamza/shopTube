@@ -5,7 +5,7 @@
   [nzType]="buttonData.nztype" [type]="buttonData.isSubmit ? 'submit' : 'button'"
   [style.border-radius.px]="buttonData.nzShape == 'default' ? buttonData.radius : ''"
   [style.opacity]="hoverOpacity ? hoverOpacity :  buttonData.btnopacity ? buttonData.btnopacity : '1'"
-  [style.background]="(bgColor || buttonData.color) + ' !important'"
+  [style.background]="(bgColor || GridRuleColor ? GridRuleColor : buttonData.color) + ' !important'"
   [style.color]="(hoverTextColor || buttonData.textColor) + ' !important'"
   [style.border-color]="(borderColor || buttonData.borderColor) + ' !important'" (click)="handleButtonClick(buttonData)"
   (mouseover)="handleButtonMouseOver(buttonData)" (mouseout)="handleButtonMouseOut(buttonData)">
@@ -27,7 +27,7 @@
   <a nz-button nzType="link" [nzGhost]="buttonData.nzGhost" [disabled]="buttonData.disabled"
     [nzDanger]="buttonData.nzDanger" [nzSize]="buttonData.nzSize" [nzBlock]="buttonData.nzBlock"
     [nzLoading]="buttonData.nzLoading" [style.border-radius.px]="buttonData.radius || 0"
-    [style.background]="(bgColor || buttonData.color) + ' !important'"
+    [style.background]="(bgColor || GridRuleColor ? GridRuleColor : buttonData.color) + ' !important'"
     [style.color]="(hoverTextColor || buttonData.textColor) + ' !important'"
     [style.border-color]="(borderColor || buttonData.borderColor) + ' !important'"
     [class]="(!isActionExist ? '!cursor-auto ' : '!cursor-pointer ')+ buttonData.buttonClass"
@@ -56,7 +56,7 @@
   [nzBlock]="buttonData.nzBlock" [nzTrigger]="buttonData.trigger" [nzPlacement]="buttonData.placement"
   [nzClickHide]="buttonData.clickHide" [nzVisible]="buttonData.visible" [nzDanger]="buttonData.nzDanger"
   [nzShape]="buttonData.nzShape" [style.border-radius.px]="buttonData.radius || 0"
-  [style.background]="(bgColor || buttonData.color) + ' !important'"
+  [style.background]="(bgColor || GridRuleColor ? GridRuleColor : buttonData.color) + ' !important'"
   [style.color]="(hoverTextColor || buttonData.textColor) + ' !important'"
   [style.border-color]="(borderColor || buttonData.borderColor) + ' !important'"
   (mouseover)="handleButtonMouseOver(buttonData)" (mouseout)="handleButtonMouseOut(buttonData)">

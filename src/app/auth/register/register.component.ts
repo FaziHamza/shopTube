@@ -51,6 +51,7 @@ export class RegisterComponent implements OnInit {
       email: [null, [Validators.required, Validators.email]],
       firstname: [null, [Validators.required]],
       lastname: [null, [Validators.required]],
+      contactnumber: [null, [Validators.required, Validators.pattern(/^92\d{10}$/)]],
       companyname: [null, [Validators.required]],
       accreditationNumber: [null, [Validators.required]],
       confirmpassword: [null, [Validators.required]],
@@ -222,6 +223,7 @@ export class RegisterComponent implements OnInit {
       "applicationId": environment.applicationId,
       "status": 'Pending',
       "domain": window.location.host.split(':')[0],
+      "contactnumber": this.form.value.contactnumber,
     }
     console.log(obj);
     if (!this.form.value?.remember && !this.userAddDrawer) {

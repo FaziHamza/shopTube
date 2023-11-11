@@ -1,6 +1,7 @@
 <div *ngIf="isSubmitted && form_control.errors">
     <span class="text-danger" style="color: red;" *ngIf="form_control.errors['required']">Field is required</span>
     <span class="text-danger" style="color: red;" *ngIf="form_control.errors['email']">Invalid email</span>
+    <span class="text-danger" style="color: red;" *ngIf="form_control.errors['contactnumber']">Invalid contactnumber</span>
     <span class="text-danger" style="color: red;" *ngIf="form_control.errors['pattern']">Invalid Data</span>
 
     <!-- Add a custom error message for the 'application' control -->

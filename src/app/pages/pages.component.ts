@@ -2597,9 +2597,14 @@ export class PagesComponent implements OnInit, OnDestroy {
         acc = this.setNewModeValue(acc, formlyKey, user.organizationName);
       } else if (formlyKey.includes('.') ? formlyKey.split('.')[1] === 'fullname' : formlyKey === 'fullname') {
         acc = this.setNewModeValue(acc, formlyKey, user.name);
-      } else if (formlyKey.includes('.') ? formlyKey.split('.')[1] === 'email' : formlyKey === 'email') {
+      } 
+      else if (formlyKey.includes('.') ? formlyKey.split('.')[1] === 'email' : formlyKey === 'email') {
         acc = this.setNewModeValue(acc, formlyKey, user.username);
-      } else {
+      } 
+      else if (formlyKey.includes('.') ? formlyKey.split('.')[1] === 'phone' : formlyKey === 'phone') {
+        acc = this.setNewModeValue(acc, formlyKey, user?.contactnumber);
+      } 
+      else {
         acc[formlyKey] = formlyConfig;
       }
 

@@ -16,6 +16,7 @@ export class BlockButtonsCardComponent {
   bgColor: any;
   hoverTextColor: any;
   @Input() softIconList: any;
+  @Input() GridRuleColor: any;
   @Input() screenId: any;
   @Input() formlyModel: any;
   @Input() form: any;

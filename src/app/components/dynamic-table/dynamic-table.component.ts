@@ -243,6 +243,7 @@ export class DynamicTableComponent implements OnInit {
     console.log("Column Click " + name);
   }
   gridInitilize() {
+    debugger
     let getRes: any = {
       data: [
         {
