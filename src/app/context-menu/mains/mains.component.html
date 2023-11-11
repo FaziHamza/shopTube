@@ -30,9 +30,8 @@
         </div>
     </ng-template>
     <ng-template #third>
-        <div *ngIf="item.type == 'widgetSectionCard';else fourth">
-            <!-- <st-growth-graph-card [allChart]=" item">
-          </st-growth-graph-card> -->
+        <div *ngIf="item.type == 'fileManager';else fourth">
+            <st-file-manager [data]="item"></st-file-manager>
         </div>
     </ng-template>
     <ng-template #fourth>
@@ -125,10 +124,10 @@
     </ng-template>
     <ng-template #sixteen>
         <dynamic-table *ngIf="item.type =='gridList';else seventeen" [tableId]='item.tableId' [checkType]="false"
-        [tableData]='item.tableData' [excelReportData]='item.tableData' [tableHeaders]='item.tableHeaders'
-        [formlyModel]="formlyModel" [form]="form" [screenId]="screenId" [data]="item"
-        [displayData]="item.displayData" [screenName]="screenName"
-        [configurationTable]="item?.showEditInput ? item?.showEditInput : false"></dynamic-table>
+            [tableData]='item.tableData' [excelReportData]='item.tableData' [tableHeaders]='item.tableHeaders'
+            [formlyModel]="formlyModel" [form]="form" [screenId]="screenId" [data]="item"
+            [displayData]="item.displayData" [screenName]="screenName"
+            [configurationTable]="item?.showEditInput ? item?.showEditInput : false"></dynamic-table>
     </ng-template>
     <ng-template #seventeen>
         <st-table *ngIf="item.forCommomComponentCondition =='simpleGridList';else eighteen"></st-table>

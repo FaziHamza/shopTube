@@ -104,11 +104,11 @@ export class AppComponent {
     // this.inactivityService.resetTimer();
   }
 
-  // @HostListener('window:mousemove')
-  // @HostListener('window:click')
-  // @HostListener('window:keypress')
-  // @HostListener('window:touchstart')
-  // handleUserActivity() {
-  //   this.inactivityService.updateUserActivity();
-  // }
+  @HostListener('window:mousemove')
+  @HostListener('window:click')
+  @HostListener('window:keypress')
+  @HostListener('window:touchstart')
+  handleUserActivity() {
+    this.inactivityService.updateUserActivity();
+  }
 }

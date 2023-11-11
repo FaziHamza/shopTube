@@ -38,6 +38,23 @@ export class AddControlService {
       isNextChild: true,
     }
   }
+  getFileManagerControl() {
+    return {
+      apiUrl:'',
+      isNextChild: false,
+      showFile: true,
+      showFolder: true,
+      isAllowCreateFolder: true,
+      isAllowCreateFile: true,
+      isAllowDeleteFolder: true,
+      isAllowDeleteFiles: true,
+      download: true,
+      isAllowShared: true,
+      isAllowStarred: true,
+      isAllowTrash: true,
+      showFolderDetail: true,
+    }
+  } 
   getPageBodyControl() {
     return {
       footer: false, header: false, isNextChild: true,
