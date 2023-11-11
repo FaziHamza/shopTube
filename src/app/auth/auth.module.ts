@@ -12,6 +12,7 @@ import { EnvService } from '../shared/envoirment.service';
 import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
 import { ResetPasswordComponent } from './reset-password/reset-password.component';
 import { UserComponent } from './user/user.component';
+import { NgxMaskModule } from 'ngx-mask';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -32,7 +33,8 @@ const routes: Routes = [
     FormsModule,
     CommonModule,
     ShareModule,
-    NgZorroAntdModule
+    NgZorroAntdModule,
+    NgxMaskModule.forRoot(),
   ],
   exports: [RouterModule],
   providers:[EnvService]

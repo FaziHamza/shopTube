@@ -1,4 +1,5 @@
 <!-- {{screenId | json}} -->
+
 <nz-spin [nzSpinning]="saveLoader" [nzSize]="'large'">
   <div *ngIf="showProgressBar" class="progress-container pr-2">
     <nz-progress [nzPercent]="progress" nzStatus="active"></nz-progress>
@@ -32,7 +33,7 @@
         class="!w-1/5 ml-2 mr-2 !h-[35px]">
       </div> -->
       <button
-        [class]="'btn ' + ((data?.buttonPositions === undefined || data?.buttonPositions === ' first-line:justify-end') ? 'ml-2 ' : 'mr-2 ') + ' !h-[35px]'"
+        [class]="'btn ' + ((data?.buttonPositions === undefined || data?.buttonPositions === ' justify-end') ? 'ml-2 ' : 'mr-2 ') + ' !h-[35px]'"
         [style.order]="split(0 , data?.buttonAlignments) || 3" *ngIf="data?.isShowDrawerButton" nz-button
         nzType="primary" (click)="open()">
         {{data?.drawerButtonLabel ? data?.drawerButtonLabel : 'Open Drawer'}}</button>
@@ -50,7 +51,9 @@
       <ng-template #extra>
         <i class="fas fa-times text-lg text-red-500 cursor-pointer" (click)="close()"></i>
       </ng-template>
-      <div [class]="(data?.buttonPositions === undefined || data?.buttonPositions === ' justify-end') ? 'ml-2 ' : 'mr-2 '" [style.order]="split(1 , data?.buttonAlignments) || 2"
+      <div
+        [class]="(data?.buttonPositions === undefined || data?.buttonPositions === ' justify-end') ? 'ml-2 ' : 'mr-2 '"
+        [style.order]="split(1 , data?.buttonAlignments) || 2"
         *ngIf="!childTable && (data?.isAllowExcelReport || data?.isAllowUploadExcel)" class="action-drop-down">
         <button nz-button nzType="primary"
           [class]="data?.actionButtonClass || 'actions-btn btn-no !border-none !bg-blue-600 hover:!bg-blue-500 my-2 !h-[35px]'"
@@ -73,10 +76,10 @@
       </div>
       <div [nzTooltipTitle]="
       data?.searchType ? data?.searchType : 'keyup' " nz-tooltip [style.order]="split(2 , data?.buttonAlignments) || 1"
-        class="!h-[35px]" *ngIf="data?.isAllowSearch">
+        [class]="((data?.buttonPositions === undefined || data?.buttonPositions === ' justify-end') ? 'ml-2 ' : 'mr-2 ') + '!h-[35px]'" *ngIf="data?.isAllowSearch">
         <nz-input-group (input)="search(data?.searchType ? 'keyup' : 'keyup')" nzSearch
           [nzAddOnAfter]="suffixIconButton">
-          <input type="text" [class]="((data?.buttonPositions === undefined || data?.buttonPositions === ' justify-end') ? 'ml-2 ' : 'mr-2 ') + '!h-[35px] !rounded-tl-md !rounded-bl-md'" nz-input id="searchControll"
+          <input type="text" [class]="'!h-[35px] !rounded-tl-md !rounded-bl-md'" nz-input id="searchControll"
             [(ngModel)]="data['searchValue']" placeholder="Search..." />
         </nz-input-group>
         <ng-template #suffixIconButton>
@@ -598,3 +601,4 @@
     border-radius: {{ borderRadius }} !important;
   }
 </style> -->
+{{data?.buttonPositions | json}}

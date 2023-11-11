@@ -11742,7 +11742,7 @@ export class formFeildData {
             label: 'Buttons Positions',
             options: [
               { value: ' justify-start', label: 'Start' },
-              { value: ' justify-between', label: 'Space-Between' },
+              // { value: ' justify-between', label: 'Space-Between' },
               { value: ' justify-end', label: 'End' }
             ],
             additionalProperties: {

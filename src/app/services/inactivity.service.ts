@@ -13,29 +13,29 @@ export class InactivityService implements OnDestroy {
   private userActivitySubscription: Subscription;
 
   constructor(private router: Router) {
-    this.startWatchingForInactivity();
-    this.startWatchingStorageEvents();
+    // this.startWatchingForInactivity();
+    // this.startWatchingStorageEvents();
   }
 
-  private startWatchingForInactivity() {
-    this.userActivitySubscription = timer(0, 1000).pipe(
-      switchMap(() => {
-        if (localStorage.getItem(this.isLoggedInKey) !== 'true') {
-          return timer(0); // Not logged in, navigate to login
-        }
-        const lastActivity = parseInt(localStorage.getItem(this.localStorageKey) || '0', 10);
-        const timePassed = Date.now() - lastActivity;
-        return timePassed >= this.inactivityTimeout ? timer(0) : timer(this.inactivityTimeout - timePassed);
-      }),
-      tap(() => this.logout())
-    ).subscribe();
-  }
+  // private startWatchingForInactivity() {
+  //   this.userActivitySubscription = timer(0, 1000).pipe(
+  //     switchMap(() => {
+  //       if (localStorage.getItem(this.isLoggedInKey) !== 'true') {
+  //         return timer(0); // Not logged in, navigate to login
+  //       }
+  //       const lastActivity = parseInt(localStorage.getItem(this.localStorageKey) || '0', 10);
+  //       const timePassed = Date.now() - lastActivity;
+  //       return timePassed >= this.inactivityTimeout ? timer(0) : timer(this.inactivityTimeout - timePassed);
+  //     }),
+  //     tap(() => this.logout())
+  //   ).subscribe();
+  // }
 
   private startWatchingStorageEvents() {
     fromEvent<StorageEvent>(window, 'storage').pipe(
       tap((event: StorageEvent | null) => {
         if (event && event.key === this.localStorageKey && localStorage.getItem(this.isLoggedInKey) !== 'true') {
-          this.logout();
+          // this.logout();
         }
       })
     ).subscribe();
@@ -46,12 +46,12 @@ export class InactivityService implements OnDestroy {
     localStorage.setItem(this.localStorageKey, Date.now().toString());
   }
 
-  logout() {
-    console.log('User has been logged out due to inactivity or user action.');
-    localStorage.removeItem(this.isLoggedInKey); // Clear the logged-in flag
-    localStorage.clear();
-    this.router.navigate(['/login']);
-  }
+  // logout() {
+  //   console.log('User has been logged out due to inactivity or user action.');
+  //   localStorage.removeItem(this.isLoggedInKey); // Clear the logged-in flag
+  //   localStorage.clear();
+  //   this.router.navigate(['/login']);
+  // }
 
   ngOnDestroy() {
     if (this.userActivitySubscription) {

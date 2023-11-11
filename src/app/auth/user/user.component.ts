@@ -62,7 +62,8 @@ export class UserComponent {
     this.applicationService.updateNestCommonAPI('cp/auth/updateUser', data._id, data).subscribe({
       next: (res: any) => {
         if (res.isSuccess) {
-          this.listOfData = res.data;
+          // this.listOfData = res.data;
+          this.getUsers();
         }
         else {
           this.toastr.error(res.message, { nzDuration: 2000 });
