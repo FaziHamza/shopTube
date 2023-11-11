@@ -860,7 +860,7 @@ export class DynamicTableComponent implements OnInit {
                   this.toastr.success("Delete Successfully", { nzDuration: 3000 });
                 } else {
                   // Data not updated
-                  this.toastr.warning("Data is not updated", { nzDuration: 3000 });
+                  this.toastr.warning( res.message || "Data is not updated", { nzDuration: 3000 });
                 }
               },
               error: (err) => {
