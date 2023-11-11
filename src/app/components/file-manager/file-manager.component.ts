@@ -13,9 +13,18 @@ export class FileManagerComponent implements OnInit {
   saveLoader: boolean = false;
   folderName: string = '';
   constructor(private applicationService: ApplicationService) { }
-  selectedFolder: string = '';
+  breadcrumbFolder: any[] = [];
   ngOnInit(): void {
-    this.getAllFolders();
+    this.loadFolder();
+  }
+
+  loadFolder() {
+    if (this.breadcrumbFolder.length == 0) {
+      this.getAllFolders();
+    }
+    else {
+      this.getSubFolder(this.selectedFolder);
+    }
   }
 
   getAllFolders() {
@@ -28,56 +37,81 @@ export class FileManagerComponent implements OnInit {
       }
     })
   }
-  getSubFolder(folderName: any) {
+
+  selectSubFolder(folder: any) {
+    this.breadcrumbFolder.push(folder);
+    this.getSubFolder(folder);
+  }
+
+  selectedFolder: any;
+  getSubFolder(folder: any) {
+    this.selectedFolder = folder;
     this.saveLoader = true;
-    this.selectedFolder = folderName;
     this.folderName = '';
     this.folderList = [];
-    const model = {
-      fileName: folderName.replace(/\/$/, ''),
-    }
-    this.applicationService.addNestCommonAPI('s3-file-manager/folderwithFiles', model).subscribe(res => {
+
+    this.applicationService.getNestCommonAPI('s3-file-manager/folderwithFiles/' + folder._id).subscribe(res => {
       this.saveLoader = false;
       if (res.isSuccess) {
-        this.filesList = res?.data || [];
-      } else {
-        this.filesList = [];
+        this.folderList = res?.data?.folderList;
+        this.filesList = res?.data?.filesList;
       }
-      this.getFolderandFiles();
+      else {
+        this.filesList = [];
+        this.folderList = [];
+      }
     })
   }
-  subFolderList: any[] = [];
-  getFolderandFiles() {
-    const getFolderDetails = this.filesList.filter(a => a.type == "application/octet-stream");
-    this.subFolderList = getFolderDetails;
-    const filesDetails = this.filesList.filter(a => a.type != "application/octet-stream");
-    this.filesList = filesDetails;
+  gotoFolder(index:number){
+    this.selectedFolder =  this.breadcrumbFolder[index];
+    this.breadcrumbFolder = this.breadcrumbFolder.splice(0,index+1);
+    this.getSubFolder(this.selectedFolder);
   }
   remove(item: any) {
-    const model = {
-      fileName: item.fileName
-    }
-    this.applicationService.addNestCommonAPI('s3-file-manager/deleteFile', model).subscribe(res => {
+    this.applicationService.addNestCommonAPI('s3-file-manager/deleteFile', item._id).subscribe(res => {
       if (res.isSuccess) {
-        this.filesList = this.filesList.filter(a => a.fileName != item.fileName);
+        this.loadFolder();
       }
     })
   }
   addFolder() {
-    const selectedFolder = this.selectedFolder ? (this.selectedFolder.includes('/') ? this.selectedFolder : this.selectedFolder + '/') : '';
-    const folderName = selectedFolder + this.folderName;
+    const gets3Folder = this.breadcrumbFolder.map(a => a.folderName);
     const model = {
-      folderName,
+      folderName: this.folderName,
+      parentId: this.selectedFolder?._id,
+      s3folderName: gets3Folder.join('/') + '/' + this.folderName
     };
 
     this.applicationService.addNestCommonAPI('s3-file-manager/createfolder', model).subscribe(res => {
       if (res.isSuccess) {
-        if (!this.selectedFolder)
-          this.folderList.push(this.folderName);
-        else
-          this.selectedFolder = this.selectedFolder + this.folderName + "/";
+        this.folderName = '';
+        this.loadFolder();
       }
     })
+  }
+
+  onFileSelected(event: any) {
+    const file: File = event.target.files[0];
+    this.uploadFile(file);
+  }
+  uploadFile(file: File) {
+    const gets3Folder = this.breadcrumbFolder.map(a => a.folderName);
+    const formData = new FormData();
+    formData.append('image', file);
+    formData.append('parentId', this.selectedFolder?._id);
+    formData.append('path', gets3Folder.join('/'));
+    this.applicationService.uploadS3File(formData).subscribe({
+      next: (res) => {
+        this.loadFolder();
+
+        console.log('File uploaded successfully:', res);
+      },
+      error: (err) => {
+        // this.isLoading = false;
+        console.error('Error uploading file:', err);
+      }
+    });
+
   }
   iconClass(fileType: string) {
     let iconName = 'fas fa-file'; // Default icon for unknown file types

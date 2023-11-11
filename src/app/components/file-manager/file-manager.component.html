@@ -6,9 +6,11 @@
                     <li>
                         <div class="custom-accordion">
                             <a class="text-body font-medium py-1 flex items-center" *ngFor="let item of folderList"
-                                (click)="getSubFolder(item)" data-toggle="collapse" role="button" aria-expanded="false"
+                                data-toggle="collapse" role="button" aria-expanded="false"
                                 aria-controls="categories-collapse">
-                                <i class="fas fa-folder text-yellow-500 text-base mr-2"></i> {{item}}
+                                <i class="fas fa-folder text-yellow-500 text-base mr-2"></i>
+                                <span (click)="selectSubFolder(item)"> {{item.folderName}} </span>
+                                <i class="fas fa-trash text-red-500 text-base mr-2" (click)="remove(item)"></i>
                             </a>
                         </div>
                     </li>
@@ -17,22 +19,18 @@
         </div>
     </nz-card><!-- end card -->
     <nz-spin [nzSpinning]="saveLoader" [nzSize]="'large'" class="builder-design">
-        <h3>{{selectedFolder}}</h3>
-        <div *ngFor="let item of subFolderList">
-            <i class="fas fa-folder text-yellow-500 text-base mr-2"></i>
-            <div (click)="getSubFolder(item.fileName)">{{item.fileName}}</div>
-            <div (click)="remove(item)">Remove </div>
-        </div>
+        <h3 *ngFor="let item of breadcrumbFolder;let index = index" class="d-flex" (click)="gotoFolder(index)"> / {{item.folderName}}</h3>
         <nz-card class="card">
             <div class="card-body">
                 <div class="w-full">
                     <div class="search-box mb-2">
+                        <input type="file"  (change)="onFileSelected($event)"  />
                         <div class="relative">
                             <nz-input-group [nzPrefix]="prefixIconSearch">
                                 <input type="text" nz-input placeholder="Enter Folder Name" [(ngModel)]="folderName" />
                             </nz-input-group>
                             <ng-template #prefixIconSearch>
-                                <button nzType="button" (click)="addFolder()">Add</button>
+                                <button nzType="primary" type="button"  (click)="addFolder()">Add</button>
                             </ng-template>
                         </div>
                     </div>
