@@ -12,6 +12,17 @@ export class FileManagerComponent implements OnInit {
   filesList: any[] = [];
   saveLoader: boolean = false;
   folderName: string = '';
+
+  tableLoader: any = false;
+  loadRequestTab: any = false;
+  collectionList: any[] = [];
+
+  selectedDate: any;
+  start = 1;
+  end = 10;
+  pnOrderId = 0;
+  totalRecordCount = 0;
+  customerList = [];
   constructor(private applicationService: ApplicationService) { }
   breadcrumbFolder: any[] = [];
   ngOnInit(): void {
@@ -55,6 +66,10 @@ export class FileManagerComponent implements OnInit {
       if (res.isSuccess) {
         this.folderList = res?.data?.folderList;
         this.filesList = res?.data?.filesList;
+        this.collectionList = res?.data?.filesList;
+        this.totalRecordCount = res.totalRecordCount;
+        this.filesList = this.collectionList.length > 6 ? this.collectionList.slice(0, 6) : this.collectionList;
+        this.end = this.filesList.length > 6 ? 6 : this.filesList.length;
       }
       else {
         this.filesList = [];
@@ -62,9 +77,9 @@ export class FileManagerComponent implements OnInit {
       }
     })
   }
-  gotoFolder(index:number){
-    this.selectedFolder =  this.breadcrumbFolder[index];
-    this.breadcrumbFolder = this.breadcrumbFolder.splice(0,index+1);
+  gotoFolder(index: number) {
+    this.selectedFolder = this.breadcrumbFolder[index];
+    this.breadcrumbFolder = this.breadcrumbFolder.splice(0, index + 1);
     this.getSubFolder(this.selectedFolder);
   }
   remove(item: any) {
@@ -148,7 +163,8 @@ export class FileManagerComponent implements OnInit {
   }
 
 
-  formatFileSize(bytes: number): string {
+  formatFileSize(by: any): string {
+    const bytes = parseInt(by);
     if (bytes < 1024) {
       return bytes + ' bytes';
     } else if (bytes < 1024 * 1024) {
@@ -158,5 +174,25 @@ export class FileManagerComponent implements OnInit {
     } else {
       return (bytes / (1024 * 1024 * 1024)).toFixed(2) + ' GB';
     }
+  }
+  pageIndex: number = 1;
+  pageSize: number = 6;
+
+  onPageIndexChange(index: number): void {
+    this.pageIndex = index;
+    this.updatefilesList();
+  }
+
+  onPageSizeChange(size: number): void {
+    this.pageSize = size;
+    this.updatefilesList();
+  }
+
+  updatefilesList(): void {
+    const start = (this.pageIndex - 1) * this.pageSize;
+    const end = start + this.pageSize;
+    this.start = start == 0 ? 1 : ((this.pageIndex * this.pageSize) - this.pageSize) + 1;
+    this.filesList = this.collectionList.slice(start, end);
+    this.end = this.filesList.length != 6 ? this.collectionList.length : this.pageIndex * this.pageSize;
   }
 }
