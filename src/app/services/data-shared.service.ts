@@ -66,6 +66,7 @@ export class DataSharedService {
   measureHeight : any = 0;
   contentHeight: number;
   showFooter : boolean;
+  queryId: any = '';
   constructor() { }
 
   setData(data: any) {

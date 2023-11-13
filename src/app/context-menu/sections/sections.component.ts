@@ -74,7 +74,7 @@ export class SectionsComponent implements OnInit {
           if (checkButtonExist?.appConfigurableEvent) {
             // event?.stopPropagation();
             let makeModel: any = {};
-            // this.formlyModel = this.dataSharedService.saveModel;
+            this.formlyModel = this.dataSharedService.saveModel;
             // const filteredNodes = this.filterInputElements(this.sections.children[1].children);
             // for (let item in this.formlyModel) {
             //   filteredNodes.forEach((element) => {

@@ -42,11 +42,13 @@ export class ButtonsComponent implements OnInit {
   requestSubscription: Subscription;
   policyList: any = [];
   policyId: any = {};
+  hostUrl:any = '';
   @Output() gridEmit: EventEmitter<any> = new EventEmitter<any>();
   constructor(private modalService: NzModalService, public employeeService: EmployeeService, private toastr: NzMessageService, private router: Router,
     public dataSharedService: DataSharedService, private applicationService: ApplicationService, private activatedRoute: ActivatedRoute, private location: Location) { }
 
   ngOnInit(): void {
+    this.hostUrl = window.location.host;
     if (this.buttonData?.showPolicies) {
       this.jsonPolicyModuleList();
     }
@@ -63,7 +65,6 @@ export class ButtonsComponent implements OnInit {
   }
 
   pagesRoute(data: any): void {
-
 
     if (data.isSubmit) {
       return;
@@ -99,8 +100,9 @@ export class ButtonsComponent implements OnInit {
                   const data = JSON.parse(res.data[0].screenData);
                   this.responseData = data;
                   if (this.tableRowId) {
-                    this.findObjectByTypeBase(this.responseData[0].children[1], 'div');
-                    this.findObjectByTypeBase(this.responseData[0].children[1], 'timelineChild');
+                    this.dataSharedService.queryId = this.tableRowId;
+                    // this.findObjectByTypeBase(this.responseData[0].children[1], 'div');
+                    // this.findObjectByTypeBase(this.responseData[0].children[1], 'timelineChild');
 
                   }
                   res.data[0].screenData = this.jsonParseWithObject(this.jsonStringifyWithObject(this.responseData));
@@ -250,13 +252,14 @@ export class ButtonsComponent implements OnInit {
     this.router.navigate(['/login']);
   }
   jsonPolicyModuleList() {
+    debugger
     let user = JSON.parse(window.localStorage['user']);
     this.applicationService.getNestCommonAPI(`cp/policy/getPolicyByUserId/${user.policy.userId}`).subscribe({
       next: (res: any) => {
         debugger
         if (res.isSuccess) {
           if (res?.data.length > 0) {
-            this.policyList = res.data;
+            this.policyList = res.data.filter((a : any) => a?.policyId.id != user['policy']['policyId']);
           }
         }
       },

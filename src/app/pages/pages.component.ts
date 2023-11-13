@@ -253,7 +253,7 @@ export class PagesComponent implements OnInit, OnDestroy {
         if (params["schema"]) {
           this.saveLoader = true;
           this.dataSharedService.currentMenuLink = "/pages/" + params["schema"];
-          localStorage.setItem('screenId',this.dataSharedService.currentMenuLink);
+          localStorage.setItem('screenId', this.dataSharedService.currentMenuLink);
           this.clearValues();
           this.applicationService.getNestCommonAPI('cp/auth/pageAuth/' + params["schema"]).subscribe(res => {
             if (res?.data) {
@@ -284,7 +284,7 @@ export class PagesComponent implements OnInit, OnDestroy {
         // this.dataSharedService.urlModule.next({ aplication: '', module: '' });
         this.navigation = params["schema"];
         this.dataSharedService.currentMenuLink = '/pages/' + this.navigation;
-        localStorage.setItem('screenId',this.dataSharedService.currentMenuLink);
+        localStorage.setItem('screenId', this.dataSharedService.currentMenuLink);
         this.getBuilderScreen(params);
         this.getTaskManagementIssuesFunc(params["schema"], JSON.parse(localStorage.getItem('applicationId')!));
 
@@ -1794,7 +1794,7 @@ export class PagesComponent implements OnInit, OnDestroy {
             // } else {
             // }
             if (!data.hideExpression) {
-              this.makeDynamicSections(data.mapApi, data);
+              this.makeDynamicSections(this.dataSharedService.queryId ? `${data.mapApi}/${this.dataSharedService.queryId}` : data.mapApi, data);
             }
           }
         } else if (data.type === 'listWithComponents' || data.type === 'mainTab' || data.type === 'mainStep') {
@@ -1820,6 +1820,7 @@ export class PagesComponent implements OnInit, OnDestroy {
       try {
         this.requestSubscription = this.applicationService.getNestCommonAPI(api).subscribe({
           next: (res) => {
+            this.dataSharedService.queryId = '';
             this.saveLoader = false;
             if (res) {
               if (res?.data) {
@@ -2592,21 +2593,25 @@ export class PagesComponent implements OnInit, OnDestroy {
     const newMode = filteredNodes.reduce((acc, node) => {
       const formlyConfig = node.formly?.[0]?.fieldGroup?.[0]?.defaultValue;
       let formlyKey = node?.formly?.[0]?.fieldGroup?.[0]?.key;
-
-      if (formlyKey.includes('.') ? (formlyKey.split('.')[1] === 'organization' || formlyKey.split('.')[1] === 'orgnaization') : (formlyKey === 'organization' || formlyKey === 'orgnaization')) {
-        acc = this.setNewModeValue(acc, formlyKey, user.organizationName);
-      } else if (formlyKey.includes('.') ? formlyKey.split('.')[1] === 'fullname' : formlyKey === 'fullname') {
-        acc = this.setNewModeValue(acc, formlyKey, user.name);
-      } 
-      else if (formlyKey.includes('.') ? formlyKey.split('.')[1] === 'email' : formlyKey === 'email') {
-        acc = this.setNewModeValue(acc, formlyKey, user.username);
-      } 
-      else if (formlyKey.includes('.') ? formlyKey.split('.')[1] === 'phone' : formlyKey === 'phone') {
-        acc = this.setNewModeValue(acc, formlyKey, user?.contactnumber);
-      } 
-      else {
+      if (user?.policy?.policyId != '653bf415eb2bd0376051b702') {
+        if (formlyKey.includes('.') ? (formlyKey.split('.')[1] === 'organization' || formlyKey.split('.')[1] === 'orgnaization') : (formlyKey === 'organization' || formlyKey === 'orgnaization')) {
+          acc = this.setNewModeValue(acc, formlyKey, user.organizationName);
+        } else if (formlyKey.includes('.') ? formlyKey.split('.')[1] === 'fullname' : formlyKey === 'fullname') {
+          acc = this.setNewModeValue(acc, formlyKey, user.name);
+        }
+        else if (formlyKey.includes('.') ? formlyKey.split('.')[1] === 'email' : formlyKey === 'email') {
+          acc = this.setNewModeValue(acc, formlyKey, user.username);
+        }
+        else if (formlyKey.includes('.') ? formlyKey.split('.')[1] === 'phone' : formlyKey === 'phone') {
+          acc = this.setNewModeValue(acc, formlyKey, user?.contactnumber);
+        }
+        else {
+          acc[formlyKey] = formlyConfig;
+        }
+      } else {
         acc[formlyKey] = formlyConfig;
       }
+
 
       return acc;
     }, {});
