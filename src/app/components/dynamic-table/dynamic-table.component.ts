@@ -823,7 +823,7 @@ export class DynamicTableComponent implements OnInit {
     }
   };
   deleteRow(data: any): void {
-    
+
     const checkPermission = this.dataSharedService.getUserPolicyMenuList.find(a => a.screenId == this.dataSharedService.currentMenuLink);
     if (!checkPermission?.delete && this.dataSharedService.currentMenuLink != '/ourbuilder') {
       alert("You did not have permission");
@@ -860,7 +860,7 @@ export class DynamicTableComponent implements OnInit {
                   this.toastr.success("Delete Successfully", { nzDuration: 3000 });
                 } else {
                   // Data not updated
-                  this.toastr.warning( res.message || "Data is not updated", { nzDuration: 3000 });
+                  this.toastr.warning(res.message || "Data is not updated", { nzDuration: 3000 });
                 }
               },
               error: (err) => {
@@ -1192,7 +1192,7 @@ export class DynamicTableComponent implements OnInit {
     // Perform any additional updates to 'listOfData' if needed
   }
   checkTypeData(item: any, header: any) {
-    
+
     if (header?.callApi != '' && header?.callApi != null && (header?.dataType != 'repeatSection' || header?.dataType == '' || header?.dataType == undefined)) {
       this.showChild = false;
       if (this.data?.openComponent == 'drawer') {
@@ -1348,7 +1348,7 @@ export class DynamicTableComponent implements OnInit {
           }
           this.requestSubscription = this.applicationService.getNestCommonAPI(path + data.screenId).subscribe({
             next: (res: any) => {
-              
+
               this.saveLoader = false;
               this.issueReport['issueReport'] = '';
               this.issueReport['showAllComments'] = false;
@@ -1737,7 +1737,6 @@ export class DynamicTableComponent implements OnInit {
   }
   async getFromQueryOnlyTable(tableData: any, res: any) {
     try {
-      ;
       if (tableData && res?.data.length > 0) {
         this.data['searchValue'] = '';
         const applicationId = localStorage.getItem('applicationId') || '';
@@ -1967,7 +1966,7 @@ export class DynamicTableComponent implements OnInit {
   async search(searchType: any) {
     if (this.data?.searchType ? searchType == this.data?.searchType : 'keyup' == searchType) {
       try {
-        
+
         this.saveLoader = true;
         const applicationId = localStorage.getItem('applicationId') || '';
         let savedGroupData: any = [];
@@ -2479,7 +2478,7 @@ export class DynamicTableComponent implements OnInit {
     this.pageChange(1);
   }
   check(event: any) {
-    
+
     console.log(event)
   }
   onResizeStart(event: MouseEvent, column: any) {
@@ -2523,7 +2522,7 @@ export class DynamicTableComponent implements OnInit {
   }
 
   resizingLocalStorage() {
-    
+
     let storeData = this.tableHeaders.map((item: any) => {
       let obj = {
         key: item.key,
@@ -2542,6 +2541,37 @@ export class DynamicTableComponent implements OnInit {
     this.excelReportData = this.excelReportData.filter((d: any) => d.id !== data.id);
     this.pageChange(1); // Optionally, update pagination or other UI changes
   }
+   parseDateString(dateString: string): Date | null {
+    // Check if the string is in the "Fri Dec 01 2023 00:00:00 GMT+0000" format
+    if (/^[A-Za-z]{3} [A-Za-z]{3} \d{2} \d{4} \d{2}:\d{2}:\d{2} GMT\+\d{4} \(Coordinated Universal Time\)$/.test(dateString)) {
+      return new Date(dateString);
+    }
+  
+    // Check if the string is in the "MM/DD/YYYY" format
+    const dateParts = dateString.split('/');
+    if (dateParts.length === 3) {
+      const month = parseInt(dateParts[0], 10) - 1; // Months are 0-based in JavaScript
+      const day = parseInt(dateParts[1], 10);
+      const year = parseInt(dateParts[2], 10);
+  
+      // Validate the month, day, and year
+      if (!isNaN(month) && !isNaN(day) && !isNaN(year) && month >= 0 && month <= 11) {
+        return new Date(year, month, day);
+      }
+    }
+  
+    // Check if the string is in the "2023-11-30T00:00:00.000Z" format
+    if (/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z$/.test(dateString)) {
+      return new Date(dateString);
+    }
+  
+    // If the format is not recognized, return null
+    return null;
+  }
+
+  
+
+
 
 }
 
