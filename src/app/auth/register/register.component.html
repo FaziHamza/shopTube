@@ -105,9 +105,17 @@
                                     formControlName="contactnumber"
                                     nz-input
                                     placeholder="Contact Number"
-                                    mask="00-0000000000"
                                   />
                                 </nz-input-group>
+                                <!-- <nz-input-group [nzPrefix]="prefixTemplateContactNumber" class="!rounded-md px-4 py-2  !h-[46px]">
+                                  <input
+                                    type="text"
+                                    formControlName="contactnumber"
+                                    nz-input
+                                    placeholder="Contact Number"
+                                    mask="00-0000000000"
+                                  />
+                                </nz-input-group> -->
                                 <ng-template #prefixTemplateContactNumber>
                                   <i class="fa-light fa-phone-alt mr-3 text-lg"></i>
                                 </ng-template>
