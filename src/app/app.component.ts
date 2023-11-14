@@ -100,15 +100,15 @@ export class AppComponent {
     ],
     "version": "2.26.5"
   } ;
-  constructor(private inactivityService: InactivityService) {
+  constructor() {
     // this.inactivityService.resetTimer();
   }
 
-  @HostListener('window:mousemove')
-  @HostListener('window:click')
-  @HostListener('window:keypress')
-  @HostListener('window:touchstart')
-  handleUserActivity() {
-    this.inactivityService.updateUserActivity();
-  }
+  // @HostListener('window:mousemove')
+  // @HostListener('window:click')
+  // @HostListener('window:keypress')
+  // @HostListener('window:touchstart')
+  // handleUserActivity() {
+  //   // this.inactivityService.updateUserActivity();
+  // }
 }
