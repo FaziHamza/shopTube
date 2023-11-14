@@ -7,7 +7,7 @@ import { NzMessageService } from 'ng-zorro-antd/message';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { DataSharedService } from 'src/app/services/data-shared.service';
 import { ApplicationService } from 'src/app/services/application.service';
-import { Subscription } from 'rxjs';
+import { Subject, Subscription } from 'rxjs';
 import { Location } from '@angular/common';
 
 @Component({
@@ -42,12 +42,15 @@ export class ButtonsComponent implements OnInit {
   requestSubscription: Subscription;
   policyList: any = [];
   policyId: any = {};
-  hostUrl:any = '';
+  hostUrl: any = '';
+  private subscriptions: Subscription = new Subscription();
+  private destroy$: Subject<void> = new Subject<void>();
   @Output() gridEmit: EventEmitter<any> = new EventEmitter<any>();
   constructor(private modalService: NzModalService, public employeeService: EmployeeService, private toastr: NzMessageService, private router: Router,
     public dataSharedService: DataSharedService, private applicationService: ApplicationService, private activatedRoute: ActivatedRoute, private location: Location) { }
 
   ngOnInit(): void {
+    this.drawerClose();
     this.hostUrl = window.location.host;
     if (this.buttonData?.showPolicies) {
       this.jsonPolicyModuleList();
@@ -157,10 +160,6 @@ export class ButtonsComponent implements OnInit {
     }
   }
 
-  ngOnDestroy() {
-    if (this.requestSubscription)
-      this.requestSubscription.unsubscribe();
-  }
   handleOk(): void {
     console.log('Button ok clicked!');
     this.isVisible = false;
@@ -170,10 +169,7 @@ export class ButtonsComponent implements OnInit {
     this.isVisible = false;
   }
   handleClose(): void {
-    if (this.dataSharedService.gridDataLoad) {
-      this.dataSharedService.gridDataLoad = false;
-      this.gridEmit.emit(this.buttonData)
-    }
+
     this.isVisible = false;
     this.dataSharedService.drawerVisible = false;
   }
@@ -246,7 +242,6 @@ export class ButtonsComponent implements OnInit {
   }
   logout() {
     localStorage.removeItem('isLoggedIn'); // Clear the logged-in flag
-
     localStorage.clear();
     window.localStorage.clear();
     this.router.navigate(['/login']);
@@ -259,7 +254,7 @@ export class ButtonsComponent implements OnInit {
         debugger
         if (res.isSuccess) {
           if (res?.data.length > 0) {
-            this.policyList = res.data.filter((a : any) => a?.policyId.id != user['policy']['policyId']);
+            this.policyList = res.data.filter((a: any) => a?.policyId.id != user['policy']['policyId']);
           }
         }
       },
@@ -291,7 +286,7 @@ export class ButtonsComponent implements OnInit {
       }
     }
     this.dataSharedService.pagesLoader.next(true);
-    this.applicationService.updateNestCommonAPI('cp/UserMapping', policy._id , obj).subscribe({
+    this.applicationService.updateNestCommonAPI('cp/UserMapping', policy._id, obj).subscribe({
       next: (objTRes: any) => {
         this.dataSharedService.pagesLoader.next(false);
         if (objTRes.isSuccess) {
@@ -309,6 +304,34 @@ export class ButtonsComponent implements OnInit {
         this.toastr.error(`${err.error.message}`, { nzDuration: 3000 });
       },
     });
-
+  }
+  private drawerClose(): void {
+    const subscription = this.dataSharedService.drawerClose.subscribe({
+      next: (res) => {
+        if (res && this.dataSharedService.gridDataLoad && (this.buttonData.redirect == 'drawer' || this.buttonData.redirect == 'largeDrawer' || this.buttonData.redirect == 'extraLargeDrawer') ) {
+          this.isVisible = false;
+          this.dataSharedService.gridDataLoad = false;
+          this.gridEmit.emit(this.buttonData)
+        }
+      },
+      error: (err) => {
+        console.error(err);
+      }
+    });
+    this.subscriptions.add(subscription);
+  }
+  ngOnDestroy(): void {
+    try {
+      if (this.requestSubscription) {
+        this.requestSubscription.unsubscribe();
+      }
+      if (this.subscriptions) {
+        this.subscriptions.unsubscribe();
+      }
+      this.destroy$.next();
+      this.destroy$.complete();
+    } catch (error) {
+      console.error('Error in ngOnDestroy:', error);
+    }
   }
 }

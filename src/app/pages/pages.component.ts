@@ -2608,7 +2608,8 @@ export class PagesComponent implements OnInit, OnDestroy {
         else {
           acc[formlyKey] = formlyConfig;
         }
-      } else {
+      } 
+      else {
         acc[formlyKey] = formlyConfig;
       }
 
