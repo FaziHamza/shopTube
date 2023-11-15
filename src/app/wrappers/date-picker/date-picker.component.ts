@@ -51,14 +51,15 @@ export class DatePickerComponent extends FieldType<FieldTypeConfig> {
     // this.sharedService.onChange(event, this.field);
 
     if (typeof event !== 'string') {
-      let formattedDate = event.toLocaleDateString();
+      let formattedDate = event.toISOString();
       if (this.to['additionalProperties']?.format) {
         // Format the date using DatePipe
-        formattedDate = this.datePipe.transform(
-          event,
-          this.to['additionalProperties']?.format
-        );
+        // formattedDate = this.datePipe.transform(
+        //   event,
+        //   this.to['additionalProperties']?.format
+        // );
       }
+      console.log('data : ' + formattedDate)
       // this.formControl.patchValue(event);
       this.sharedService.onChange(formattedDate, this.field);
     }

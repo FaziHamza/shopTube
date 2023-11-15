@@ -254,7 +254,7 @@ export class ButtonsComponent implements OnInit {
         debugger
         if (res.isSuccess) {
           if (res?.data.length > 0) {
-            this.policyList = res.data.filter((a: any) => a?.policyId.id != user['policy']['policyId']);
+            this.policyList = res.data.filter((a: any) => a?.policyId._id != user['policy']['policyId']);
           }
         }
       },

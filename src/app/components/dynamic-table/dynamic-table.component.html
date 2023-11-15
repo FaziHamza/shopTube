@@ -358,6 +358,7 @@
                       <!-- {{parseDateString(item[header.key]) | json}} -->
                       {{parseDateString(item[header.key]) | date:'dd-MM-yyyy'}}
                       <!-- {{item[header.key] | date:'dd-MM-yyyy'}} -->
+                      <!-- {{item[header.key] | json}} -->
                     </div>
                     <div *ngIf="configurationTable || header?.editMode == 'yes'|| header?.editMode == true"
                       [hidden]="editId !== item.id">

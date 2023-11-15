@@ -23,15 +23,47 @@ export class UserComponent {
   }
   loading: boolean = false;
   listOfData: any[] = [];
+  listOfDisplayData: any[] = [];
   edit: any = null;
   updateModel: any = {};
-
+  listOfColumns = [
+    {
+      name: 'User Name',
+      key:'username',
+      sortOrder: null,
+      sortFn: (a: any, b: any) => a.username.localeCompare(b.username),
+      sortDirections: ['ascend', 'descend', null],
+    },
+    {
+      name: 'Accreditation Number',
+      key:'accreditationNumber',
+      visible: false,
+      searchValue: '',
+      sortOrder: null,
+      sortFn: (a: any, b: any) => a.accreditationNumber.localeCompare(b.accreditationNumber),
+      sortDirections: ['ascend', 'descend', null],
+    },
+    {
+      name: 'Status',
+      key:'status',
+      sortOrder: null,
+      sortFn: (a: any, b: any) => a.status.localeCompare(b.status),
+      sortDirections: ['ascend', 'descend', null],
+    },
+    {
+      name: 'Action',
+      sortOrder: null,
+      sortFn: (a: any, b: any) => a.Action.localeCompare(b.Action),
+      sortDirections: ['ascend', 'descend', null],
+    },
+  ];
   getUsers() {
     this.loading = true;
     this.applicationService.getNestCommonAPI('cp/user').subscribe({
       next: (res: any) => {
         if (res.isSuccess) {
           this.listOfData = res.data;
+          this.listOfDisplayData = res.data;
         }
         else {
           this.toastr.error(res.message, { nzDuration: 2000 });
@@ -131,5 +163,22 @@ export class UserComponent {
       }
     });
   }
-
+  search(event: any, column: any): void {
+    const inputValue = event?.target ? event.target.value?.toLowerCase() : event?.toLowerCase() ?? '';
+    
+    if (inputValue) {
+      this.listOfDisplayData = this.listOfData.filter((item: any) => {
+        const { key } = column;
+        const { [key]: itemName } = item || {}; // Check if item is undefined, set to empty object if so
+        return itemName?.toLowerCase()?.includes(inputValue); // Check if itemName is undefined or null
+      });
+  
+      column.searchIcon = 'close';
+    } else {
+      this.listOfDisplayData = this.listOfData;
+      column.searchIcon = 'search';
+    }
+  }
+  
+  
 }

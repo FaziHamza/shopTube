@@ -2541,37 +2541,33 @@ export class DynamicTableComponent implements OnInit {
     this.excelReportData = this.excelReportData.filter((d: any) => d.id !== data.id);
     this.pageChange(1); // Optionally, update pagination or other UI changes
   }
-   parseDateString(dateString: string): Date | null {
+
+  parseDateString(dateString: string): Date | null {
     // Check if the string is in the "Fri Dec 01 2023 00:00:00 GMT+0000" format
     if (/^[A-Za-z]{3} [A-Za-z]{3} \d{2} \d{4} \d{2}:\d{2}:\d{2} GMT\+\d{4} \(Coordinated Universal Time\)$/.test(dateString)) {
       return new Date(dateString);
     }
-  
+
     // Check if the string is in the "MM/DD/YYYY" format
     const dateParts = dateString.split('/');
     if (dateParts.length === 3) {
       const month = parseInt(dateParts[0], 10) - 1; // Months are 0-based in JavaScript
       const day = parseInt(dateParts[1], 10);
       const year = parseInt(dateParts[2], 10);
-  
+
       // Validate the month, day, and year
       if (!isNaN(month) && !isNaN(day) && !isNaN(year) && month >= 0 && month <= 11) {
         return new Date(year, month, day);
       }
     }
-  
+
     // Check if the string is in the "2023-11-30T00:00:00.000Z" format
     if (/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z$/.test(dateString)) {
       return new Date(dateString);
     }
-  
+
     // If the format is not recognized, return null
     return null;
   }
-
-  
-
-
-
 }
 
