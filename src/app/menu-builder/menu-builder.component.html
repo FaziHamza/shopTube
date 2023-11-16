@@ -59,8 +59,8 @@
         <input type="file" class="form-control" id="fileInput" style="display:none" (change)="jsonUpload($event)">
         <input type="file" class="form-control" id="selectedFileInput" style="display:none"
           (change)="selectedJsonUpload($event)"> <nz-space>
-          <st-layout-drawer *ngIf="selectedTheme" [selectedTheme]="selectedTheme"
-            [applicationType]="selectApplicationType" (notify)="changeLayout($event)"></st-layout-drawer>
+          <st-layout-drawer *ngIf="selectedTheme" [themeList]="themeList" [selectedAppId]="selectedAppId" [selectedTheme]="selectedTheme"
+            [applicationType]="selectApplicationType" (notify)="changeLayout($event)" (selectedThemeNotify)="changeTheme($event)"></st-layout-drawer>
           <button *ngIf="!selectedTheme" nz-button (click)="undefinedSelectedTheme()" nzType="primary" 
             class="upload-btn ">
             <i class="fa-light fa-gear !relative !text-lg "></i>

@@ -178,6 +178,7 @@ export class MenuBuilderComponent implements OnInit {
   }
 
   getMenus(id: string) {
+    this.getTheme(id);
     this.applicationService.getNestCommonAPIById('cp/CacheMenu', this.currentUser.userId).subscribe(((res: any) => {
       if (res.isSuccess) {
         if (res.data.length > 0) {
@@ -744,7 +745,14 @@ export class MenuBuilderComponent implements OnInit {
       });
     }
   }
-
+  themeList: any[] = [];
+  getTheme(value:any) {
+    this.applicationService.getNestCommonAPIById("cp/MenuTheme",value).subscribe(res => {
+      if (res.isSuccess) {
+        this.themeList = res.data || [];
+      }
+    })
+  }
   saveLoader: any = false;
 
   saveJsonMenu() {
@@ -1349,7 +1357,10 @@ export class MenuBuilderComponent implements OnInit {
     this.dropdownButtonArray = [];
     this.tabsArray = [];
   }
-
+  changeTheme(theme:any){
+    if(theme)
+      this.selectedTheme ={...this.selectedTheme , ...theme}; 
+  }
   changeLayout(data: any) {
     if (!data.inPageMenu) {
       const layoutType = data.layoutType;

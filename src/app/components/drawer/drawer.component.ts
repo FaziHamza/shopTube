@@ -216,15 +216,15 @@ export class DrawerComponent implements OnInit {
       }
     }) || '{}'
   }
-  processData(data: any[]) {
+  processData(data: any) {
     
     if (window.location.href.includes('/pages')) {
       if (data) {
-        if (data.length > 0) {
+        if (data?.data?.length > 0) {
           this.showChild = true;
           this.res = {};
           this.res['data'] = [];
-          this.res.data = data;
+          this.res.data = data?.data;
           this.drawerData.children[0].hideExpression = false;
           this.checkDynamicSection(false);
         }

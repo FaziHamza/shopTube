@@ -33,6 +33,7 @@ export class PolicyComponent implements OnInit {
   totalItems: number = 0; // Total number of items
   startIndex = 1;
   endIndex: any = 10;
+  themeList: any[] = [];
   listOfColumns = [
     {
       name: 'Policy Id',
@@ -70,6 +71,12 @@ export class PolicyComponent implements OnInit {
     ];
     this.loadPolicyListFields();
     this.jsonPolicyModuleList();
+    this.getTheme();
+    this.getMenuTheme();
+  }
+  getMenuTheme(){
+    let id = JSON.parse(localStorage.getItem('user')!).userId;
+
   }
   jsonPolicyModuleList() {
     this.loading = true;
@@ -122,7 +129,7 @@ export class PolicyComponent implements OnInit {
   }
 
   onSubmit() {
-    
+
     if (!this.form.valid) {
       this.handleCancel();
       return;
@@ -146,7 +153,8 @@ export class PolicyComponent implements OnInit {
     } else {
       let obj = {
         applicationId: JSON.parse(localStorage.getItem('applicationId')!),
-        name: this.form.value.name
+        name: this.form.value.name,
+        menuThemeId: this.form.value.menuThemeId
       };
 
       const PolicyModel = {
@@ -181,7 +189,6 @@ export class PolicyComponent implements OnInit {
 
 
   editItem(item: any) {
-
     this.model = JSON.parse(JSON.stringify(item));
     this.isSubmit = false;
   }
@@ -244,6 +251,26 @@ export class PolicyComponent implements OnInit {
           },
         ],
       },
+      {
+        fieldGroup: [
+          {
+            key: 'menuThemeId',
+            type: 'select',
+            wrappers: ["formly-vertical-theme-wrapper"],
+            defaultValue: '',
+            props: {
+              label: 'Menu Theme',
+              additionalProperties: {
+                allowClear: true,
+                serveSearch: false,
+                showArrow: true,
+                showSearch: true,
+              },
+              options: this.themeList,
+            }
+          }
+        ]
+      },
     ];
   }
   handlePageChange(event: number): void {
@@ -256,5 +283,20 @@ export class PolicyComponent implements OnInit {
     this.endIndex = this.listOfDisplayData.length != this.pageSize ? this.listOfData.length : this.pageIndex * this.pageSize;
   }
 
-
+  getTheme() {
+    this.applicationService.getNestCommonAPI("cp/MenuTheme").subscribe({
+      next: (res) => {
+        if (res.isSuccess) {
+          this.themeList = res.data.map((item: any) => ({
+            label: item.name,
+            value: item._id
+          }));
+          this.loadPolicyListFields();
+        } else
+          this.toastr.error(res.message, { nzDuration: 3000 });
+      }, error: (error) => {
+        this.toastr.error(JSON.stringify(error), { nzDuration: 3000 });
+      }
+    });
+  }
 }

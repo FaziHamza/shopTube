@@ -23,7 +23,7 @@ export class ConfigurableSelectDirective implements OnInit, OnDestroy {
     private renderer: Renderer2,
     private el: ElementRef,
     private applicationService: ApplicationService,
-    private toastr: NzMessageService, 
+    private toastr: NzMessageService,
   ) { }
 
   ngOnInit() {
@@ -57,17 +57,17 @@ export class ConfigurableSelectDirective implements OnInit, OnDestroy {
   }
 
   private loadOptions(): void {
-    ;
+    
     if (this.loadAction && Object.keys(this.loadAction).length !== 0) {
       this.executeAction(this.loadAction)
         .subscribe(
           response => {
             try {
               if (response) {
-                if(!response?.isSuccess && response.data.length  == 0){
+                if (!response?.isSuccess && response.data.length == 0) {
                   this.toastr.error(response.message, { nzDuration: 3000 });
                 }
-                this.data = response.data;
+                this.data = response;
                 // Process this.data
                 if (this.processData) {
                   this.data = this.processData(this.data);
@@ -89,9 +89,9 @@ export class ConfigurableSelectDirective implements OnInit, OnDestroy {
           error => {
             console.error("API call failed:", error);
             this.data = [];
-              if (this.processData) {
-                this.data = this.processData(this.data);
-              }
+            if (this.processData) {
+              this.data = this.processData(this.data);
+            }
             // Handle the API call error (e.g., show error message, set default data, etc.)
           }
         );
@@ -99,8 +99,12 @@ export class ConfigurableSelectDirective implements OnInit, OnDestroy {
   }
 
   private executeAction(action: Action): Observable<any> {
-    const { _id, actionLink, data, headers, parentId } = action;
-    return this.applicationService.callApi(`knex-query/getexecute-rules/${_id}`, 'get', data, headers, parentId)
+    const { _id, actionLink, data, headers, parentId, page, pageSize } = action;
+    let pagination = ''
+    if (page && pageSize){
+      pagination = `?page=${page}&pageSize=${pageSize}` 
+    }
+    return this.applicationService.callApi(`knex-query/getexecute-rules/${_id}${pagination}`, 'get', data, headers, parentId)
       .pipe(takeUntil(this.unsubscribe$));
   }
 
@@ -115,6 +119,8 @@ type Action = {
   data?: any;
   headers?: any;
   _id?: any;
+  page?: any;
+  pageSize?: any;
   parentId?: any;
   screenBuilderId?: any;
 };

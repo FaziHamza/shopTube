@@ -56,10 +56,10 @@ export class InactivityService implements OnDestroy {
   }
 
   logout() {
-    localStorage.clear();
-    console.log('User has been logged out due to inactivity.');
-    localStorage.removeItem(this.localStorageKey);
-    this.router.navigate(['/login']);
+    // localStorage.clear();
+    // console.log('User has been logged out due to inactivity.');
+    // localStorage.removeItem(this.localStorageKey);
+    // this.router.navigate(['/login']);
   }
 
   ngOnDestroy() {
