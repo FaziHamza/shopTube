@@ -171,7 +171,7 @@ export class LayoutDrawerComponent implements OnInit {
       const obj = {
         "MenuTheme": {
           theme: saveTheme,
-          name: this.themeList.find(a => a._id == this.policyTheme)?.name,
+          name: this.themeName,
           applicationId: this.selectedAppId
         }
       }
@@ -181,6 +181,7 @@ export class LayoutDrawerComponent implements OnInit {
           // this.saveLoader = false;
           if (res.isSuccess) {
             this.policyTheme = '';
+            this.themeName = '';
             this.getTheme(this.selectedAppId);
             this.toastr.success(res.message, { nzDuration: 3000 });
           } else
@@ -205,6 +206,7 @@ export class LayoutDrawerComponent implements OnInit {
           if (res.isSuccess) {
             this.getTheme(this.selectedAppId);
             this.policyTheme = '';
+            this.themeName = '';
             this.toastr.success(res.message, { nzDuration: 3000 });
           } else
             this.toastr.error(res.message, { nzDuration: 3000 });
@@ -216,12 +218,55 @@ export class LayoutDrawerComponent implements OnInit {
       })
     }
   }
+  cloneTheme() {
+    const saveTheme = JSON.parse(JSON.stringify(this.selectedTheme));
+    delete saveTheme?.allMenuItems;
+    delete saveTheme?.menuChildArrayTwoColumn;
+    delete saveTheme?.newMenuArray;
+    if (this.policyTheme) {
+      const obj = {
+        "MenuTheme": {
+          theme: saveTheme,
+          name: this.themeName,
+          applicationId: this.selectedAppId
+        }
+      }
+      // this.saveLoader = true;
+      this.applicationService.addNestCommonAPI("cp", obj).subscribe({
+        next: (res) => {
+          // this.saveLoader = false;
+          if (res.isSuccess) {
+            this.policyTheme = '';
+            this.themeName = '';
+            this.getTheme(this.selectedAppId);
+            this.toastr.success(res.message, { nzDuration: 3000 });
+          } else
+            this.toastr.error(res.message, { nzDuration: 3000 });
+        }, error: (error) => {
+          this.toastr.error(JSON.stringify(error), { nzDuration: 3000 });
+          // this.saveLoader = false;
+        }
+      })
+    }
+  }
+  generateRandomAlphabets(length: any) {
+    const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
+    let result = '';
+
+    for (let i = 0; i < length; i++) {
+      const randomIndex = Math.floor(Math.random() * alphabet.length);
+      result += alphabet.charAt(randomIndex);
+    }
+
+    return result;
+  }
   setNewTheme(event: any) {
     if (event) {
       this.applicationService.getNestCommonAPIById("cp/MenuTheme1", event).subscribe({
         next: (res) => {
           if (res.isSuccess) {
             this.selectedTheme = res.data[0].theme || [];
+            this.themeName = this.themeList.find(a => a._id == this.policyTheme)?.name
             this.selectedThemeNotify.emit(this.selectedTheme);
           } else
             this.toastr.error(res.message, { nzDuration: 3000 });
