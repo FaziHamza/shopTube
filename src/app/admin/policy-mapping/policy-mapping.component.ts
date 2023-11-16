@@ -298,9 +298,6 @@ export class PolicyMappingComponent implements OnInit {
             update: false,
             delete: false,
           };
-
-          const newData = this.applyBooleanToArray(menuList, booleanObject);
-
           const newData = this.applyBooleanToArray(menuList, booleanObject);
           console.log(newData);
           this.applicationMenuList = newData;

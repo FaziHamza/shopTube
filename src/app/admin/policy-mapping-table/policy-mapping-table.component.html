@@ -1,0 +1,56 @@
+<nz-table class="Policy-builder-table" [nzScroll]="{ x: '1200px', y: null }" #filterTable [nzLoading]="loading"
+    [nzData]="data" class="border">
+    <thead>
+<<<<<<< HEAD
+        <thead>
+            <tr>
+                <ng-container *ngFor="let column of listOfColumns">
+                    <th nzCustomFilter>{{column.name}}
+                        <nz-filter-trigger [hidden]="column.inVisible" [nzDropdownMenu]="menu">
+                            <span nz-icon nzType="search"></span>
+                        </nz-filter-trigger>
+                    </th>
+                    <nz-dropdown-menu #menu="nzDropdownMenu">
+                        <div class="ant-table-filter-dropdown">
+                            <div class="search-box">
+                                <input type="text" nz-input nzClear (keyup)="search($event , column)"
+                                    placeholder="Search here..." [(ngModel)]="column.searchValue" />
+                            </div>
+                        </div>
+                    </nz-dropdown-menu>
+                </ng-container>
+            </tr>
+        </thead>
+=======
+        <tr>
+            <ng-container *ngFor="let column of listOfColumns;let index = index">
+                <th nzWidth="5%" *ngIf="index == 0"></th>
+                <th *ngIf="index != 0" nzWidth="120px" class="w-1/12">
+                    {{column.name}}
+                </th>
+            </ng-container>
+        </tr>
+>>>>>>> 7a4af322de462249cf839a660d553f3ef56fc325
+    </thead>
+    <tbody>
+        <ng-container *ngFor="let row of filterTable.data">
+            <tr>
+                <ng-container *ngFor="let column of listOfColumns;let index = index">
+                    <td [(nzExpand)]="row.expand" *ngIf="index == 0"></td>
+                    <td *ngIf="index == 1">{{ row[column.dataField] }}</td>
+                    <td *ngIf="index != 1 && index != 0">
+                        <label nz-checkbox [(ngModel)]="row[column.dataField]"></label>
+                    </td>
+                </ng-container>
+            </tr>
+            <tr [nzExpand]="row.expand">
+                <ng-container
+                    *ngTemplateOutlet="recursiveTemplate; context: { $implicit: row.children }"></ng-container>
+            </tr>
+        </ng-container>
+    </tbody>
+</nz-table>
+
+<ng-template #recursiveTemplate let-data>
+    <st-policy-mapping-table [data]="data" [listOfColumns]="listOfColumns"></st-policy-mapping-table>
+</ng-template>
