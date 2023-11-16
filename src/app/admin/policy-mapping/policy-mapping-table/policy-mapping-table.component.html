@@ -1,14 +1,25 @@
-<nz-table class="Policy-builder-table"  [nzScroll]="{ x: '1200px', y: null }" #filterTable
-    [nzLoading]="loading" [nzData]="data" class="border">
+<nz-table class="Policy-builder-table" [nzScroll]="{ x: '1200px', y: null }" #filterTable [nzLoading]="loading"
+    [nzData]="data" class="border">
     <thead>
-        <tr>
-            <th nzWidth="5%"></th>
-            <ng-container *ngFor="let column of listOfColumns">
-                <th nzWidth="120px" class="w-1/12">
-                    {{column.name}}
-                </th>
-            </ng-container>
-        </tr>
+        <thead>
+            <tr>
+                <ng-container *ngFor="let column of listOfColumns">
+                    <th nzCustomFilter>{{column.name}}
+                        <nz-filter-trigger [hidden]="column.inVisible" [nzDropdownMenu]="menu">
+                            <span nz-icon nzType="search"></span>
+                        </nz-filter-trigger>
+                    </th>
+                    <nz-dropdown-menu #menu="nzDropdownMenu">
+                        <div class="ant-table-filter-dropdown">
+                            <div class="search-box">
+                                <input type="text" nz-input nzClear (keyup)="search($event , column)"
+                                    placeholder="Search here..." [(ngModel)]="column.searchValue" />
+                            </div>
+                        </div>
+                    </nz-dropdown-menu>
+                </ng-container>
+            </tr>
+        </thead>
     </thead>
     <tbody>
         <ng-container *ngFor="let row of filterTable.data">
@@ -32,7 +43,8 @@
                 </td>
             </tr>
             <tr [nzExpand]="row.expand">
-                <ng-container  *ngTemplateOutlet="recursiveTemplate; context: { $implicit: row.children }"></ng-container>
+                <ng-container
+                    *ngTemplateOutlet="recursiveTemplate; context: { $implicit: row.children }"></ng-container>
             </tr>
         </ng-container>
     </tbody>

@@ -29,32 +29,22 @@ export class UserComponent {
   listOfColumns = [
     {
       name: 'User Name',
-      key:'username',
-      sortOrder: null,
-      sortFn: (a: any, b: any) => a.username.localeCompare(b.username),
-      sortDirections: ['ascend', 'descend', null],
+      key: 'username',
+      searchValue: '',
     },
     {
       name: 'Accreditation Number',
-      key:'accreditationNumber',
+      key: 'accreditationNumber',
       visible: false,
       searchValue: '',
-      sortOrder: null,
-      sortFn: (a: any, b: any) => a.accreditationNumber.localeCompare(b.accreditationNumber),
-      sortDirections: ['ascend', 'descend', null],
     },
     {
       name: 'Status',
-      key:'status',
-      sortOrder: null,
-      sortFn: (a: any, b: any) => a.status.localeCompare(b.status),
-      sortDirections: ['ascend', 'descend', null],
+      key: 'status',
+      searchValue: '',
     },
     {
       name: 'Action',
-      sortOrder: null,
-      sortFn: (a: any, b: any) => a.Action.localeCompare(b.Action),
-      sortDirections: ['ascend', 'descend', null],
     },
   ];
   getUsers() {
@@ -163,22 +153,23 @@ export class UserComponent {
       }
     });
   }
-  search(event: any, column: any): void {
+  searchValue(event: any, column: any): void {
     const inputValue = event?.target ? event.target.value?.toLowerCase() : event?.toLowerCase() ?? '';
-    
     if (inputValue) {
-      this.listOfDisplayData = this.listOfData.filter((item: any) => {
+      this.listOfDisplayData = this.listOfDisplayData.filter((item: any) => {
         const { key } = column;
         const { [key]: itemName } = item || {}; // Check if item is undefined, set to empty object if so
         return itemName?.toLowerCase()?.includes(inputValue); // Check if itemName is undefined or null
       });
-  
-      column.searchIcon = 'close';
-    } else {
-      this.listOfDisplayData = this.listOfData;
-      column.searchIcon = 'search';
     }
   }
-  
-  
+  search(): void {
+    this.listOfDisplayData = this.listOfData;
+    let checkSearchExist = this.listOfColumns.filter(a => a.searchValue);
+    if (checkSearchExist.length > 0) {
+      checkSearchExist.forEach(element => {
+        this.searchValue(element.searchValue, element)
+      });
+    }
+  }
 }

@@ -18,6 +18,7 @@ export class BuilderClickButtonService {
         return {
           name: obj.name,
           key: obj.key,
+          srNo: obj.srNo,
           show: ['yes', '', undefined, 'Yes', true].includes(obj.show) ? true : false,
           dataType: obj.dataType,
           editMode: ['yes', 'Yes', true].includes(obj.editMode) ? true : false,

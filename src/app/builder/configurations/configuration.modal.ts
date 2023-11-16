@@ -12433,6 +12433,14 @@ export class formFeildData {
           fieldArray: {
             className: 'ml-3 me-2',
             fieldGroup: [
+              {
+                key: 'srNo',
+                type: 'input',
+                wrappers: ["formly-vertical-theme-wrapper"],
+                props: {
+                  label: 'Sr no'
+                }
+              },
               // {
               //   key: 'id',
               //   type: 'input',

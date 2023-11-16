@@ -7873,3 +7873,17 @@ nz-input-group:active {
     padding: 8px !important;
   }
 }
+.email-select {
+
+  span.ant-select-arrow {
+      margin-top: -4px;
+  }
+
+  .ant-select-selector {
+      height: 40px !important;
+      border-radius: 4px !important;
+      display: flex;
+      justify-content: start;
+      align-items: center;
+  }
+}

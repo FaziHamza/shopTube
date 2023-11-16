@@ -27,20 +27,26 @@ export class UserMappingComponent {
   startIndex = 1;
   endIndex: any = 10;
   listOfColumns = [
-    // {
-    //   name: 'Id',
-    // },
     {
       name: 'User Name',
+      key: 'userName',
+      searchValue: '',
+      visible: false,
     },
     {
       name: 'Policy Name',
+      key: 'policyName',
+      visible: false,
+      searchValue: '',
     },
     {
       name: 'Default Policy',
+      key: 'status',
+      searchValue: '',
+      visible: true,
     },
     {
-      name: 'Actions',
+      name: 'Action',
     },
   ];
   constructor(
@@ -89,6 +95,7 @@ export class UserMappingComponent {
         this.loader = false;
         if (res.isSuccess) {
           if (res?.data.length > 0) {
+            res.data = [...res.data].reverse();
             const transformedData = res.data.map((item: any) => ({
               _id: item._id,
               policyId: item?.policyId?._id,
@@ -132,10 +139,10 @@ export class UserMappingComponent {
           this.loading = false;
           return;
         }
-      } 
+      }
       else {
-        const findAlreadypolicyAssign = this.listOfData.find(a=>a.userId == this.userName && a.policyId == this.policyName && a._id != this.editId);
-        if(findAlreadypolicyAssign){
+        const findAlreadypolicyAssign = this.listOfData.find(a => a.userId == this.userName && a.policyId == this.policyName && a._id != this.editId);
+        if (findAlreadypolicyAssign) {
           this.toastr.warning('This user already assign this policy please select another.', { nzDuration: 2000 });
           this.loading = false;
           return;
@@ -234,5 +241,24 @@ export class UserMappingComponent {
     this.startIndex = start == 0 ? 1 : ((this.pageIndex * this.pageSize) - this.pageSize) + 1;
     this.listOfDisplayData = this.listOfData.slice(start, end);
     this.endIndex = this.listOfDisplayData.length != this.pageSize ? this.listOfData.length : this.pageIndex * this.pageSize;
+  }
+  searchValue(event: any, column: any): void {
+    const inputValue = event?.target ? event.target.value?.toLowerCase() : event?.toLowerCase() ?? '';
+    if (inputValue) {
+      this.listOfDisplayData = this.listOfDisplayData.filter((item: any) => {
+        const { key } = column;
+        const { [key]: itemName } = item || {}; // Check if item is undefined, set to empty object if so
+        return itemName?.toLowerCase()?.includes(inputValue); // Check if itemName is undefined or null
+      });
+    }
+  }
+  search(): void {
+    this.listOfDisplayData = this.listOfData;
+    let checkSearchExist = this.listOfColumns.filter(a => a.searchValue);
+    if (checkSearchExist.length > 0) {
+      checkSearchExist.forEach(element => {
+        this.searchValue(element.searchValue, element)
+      });
+    }
   }
 }

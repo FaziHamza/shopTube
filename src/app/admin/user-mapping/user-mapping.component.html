@@ -1,30 +1,39 @@
 <nz-spin [nzSpinning]="loader" [nzSize]="'large'">
-    <div class="b-card user_mapping top-action-bar p-3">
-        <div class="page-selector !m-0 !p-0">
-            <nz-select nzShowSearch nzAllowClear class="temp-modal-select" [(ngModel)]="userName">
-                <nz-option [nzValue]="item._id" placeholder="Select Block Type..." [nzLabel]="item.username"
-                    *ngFor="let item of userList"></nz-option>
-            </nz-select>
-        </div>
-        <div class="page-selector !mx-2 !p-0">
-            <nz-select nzShowSearch nzAllowClear class="temp-modal-select" [(ngModel)]="policyName">
-                <nz-option [nzValue]="item._id" placeholder="Select Block Type..." [nzLabel]="item.name"
-                    *ngFor="let item of policyList"></nz-option>
-            </nz-select>
-        </div>
-        <div class="page-selector !mx-2 !p-0">
-            <label nz-checkbox [(ngModel)]="defaultPolicy"></label>
-        </div>
-        <div class="page-selector mr-0 !p-0">
-            <button [hidden]="!isSubmit" nz-button nzType="primary" (click)="onSubmit()"
-                class="btn !rounded !bg-amber-300 hover:!bg-amber-300 !text-slate-900 hover:text-white !border !border-transparent !hover:border-transparent !font-md"><i
-                    class="fa-regular fa-floppy-disk mr-1.5"></i> Save</button>
-            <button [hidden]="isSubmit" nz-button nzType="primary" (click)="onSubmit()"
-                class="!rounded !bg-green-600 hover:!bg-green-500 !text-white border-green-600 !h-10 !border hover:!border-transparent !font-md">
-                <i class="fa-regular fa-floppy-disk mr-1.5"></i> Update
-            </button>
+    <div class="b-card p-3 mb-2">
+        <div class="flex flex-wrap">
+            <div class="w-1/4 flex mr-2">
+                <label style="width: 30%;" class="mt-2 font-bold">User name</label>
+                <nz-select style="width: 70%;" nzShowSearch nzAllowClear class="temp-modal-select"
+                    [(ngModel)]="userName">
+                    <nz-option [nzValue]="item._id" placeholder="Select Block Type..." [nzLabel]="item.username"
+                        *ngFor="let item of userList"></nz-option>
+                </nz-select>
+            </div>
+            <div class="w-1/4 flex mr-2">
+                <label style="width: 30%;" class="mt-2 font-bold">User Policy</label>
+                <nz-select style="width: 70%;" nzShowSearch nzAllowClear class="temp-modal-select"
+                    [(ngModel)]="policyName">
+                    <nz-option [nzValue]="item._id" placeholder="Select Block Type..." [nzLabel]="item.name"
+                        *ngFor="let item of policyList"></nz-option>
+                </nz-select>
+            </div>
+            <div class="w-1/12 flex mr-2 mt-2">
+                <label style="width: 80%;" class="font-bold"> Default Policy</label>
+                <label style="width: 20%;" nz-checkbox [(ngModel)]="defaultPolicy"></label>
+            </div>
+            <div class="w-1/4 flex mr-2">
+                <button [hidden]="!isSubmit" nz-button nzType="primary" (click)="onSubmit()"
+                    class="btn !rounded !bg-amber-300 hover:!bg-amber-300 !text-slate-900 hover:text-white !border !border-transparent !font-md">
+                    <i class="fa-regular fa-floppy-disk mr-1.5"></i> Save
+                </button>
+                <button [hidden]="isSubmit" nz-button nzType="primary" (click)="onSubmit()"
+                    class="!rounded !bg-green-600 hover:!bg-green-500 !text-white border-green-600 !h-10 !border hover:!border-transparent !font-md">
+                    <i class="fa-regular fa-floppy-disk mr-1.5"></i> Update
+                </button>
+            </div>
         </div>
     </div>
+
 
 
     <nz-card nzTitle="User Policy List">
@@ -32,9 +41,24 @@
             #filterTable [nzLoading]="loading" [nzData]="listOfDisplayData" [nzPageSize]="pageSize" class="border">
             <thead>
                 <tr>
-                    <!-- <th>#</th> -->
                     <ng-container *ngFor="let column of listOfColumns">
-                        <th nzCustomFilter *ngIf="column.name != 'Action'">{{column.name}}</th>
+                        <th nzCustomFilter *ngIf="column.name != 'Action'">{{column.name}}
+                            <nz-filter-trigger [hidden]="column.visible || false" [nzDropdownMenu]="menu">
+                                <span nz-icon nzType="search"></span>
+                            </nz-filter-trigger>
+                        </th>
+                        <th nzWidth="120px" *ngIf="column.name == 'Action'" class="w-1/12">
+                            {{column.name}}
+                        </th>
+
+                        <nz-dropdown-menu #menu="nzDropdownMenu">
+                            <div class="ant-table-filter-dropdown">
+                                <div class="search-box">
+                                    <input type="text" nz-input nzClear (keyup)="search()"
+                                        placeholder="Search here..." [(ngModel)]="column.searchValue" />
+                                </div>
+                            </div>
+                        </nz-dropdown-menu>
                     </ng-container>
                 </tr>
             </thead>

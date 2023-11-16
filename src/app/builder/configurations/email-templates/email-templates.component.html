@@ -14,13 +14,13 @@
                             (change)="onFileSelected($event, i)" accept="image/*" class="ml-4" type="file"
                             formControlName="image" class="!border !rounded !p-2 !block !w-full !ml-2" nz-input
                             nzSize="default" />
-                        <nz-select class="!rounded !p-2 !block !w-full !ml-2" nzShowSearch nzAllowClear
+                        <i *ngIf="emailFields.at(i).get('imagePath')?.value" class="ml-2 fas fa-trash-alt text-red-500"
+                            (click)="removeImage(i)"></i>
+                        <nz-select class="email-select !h-10 !rounded-md pl-1 !ml-4" nzShowSearch nzAllowClear
                             nzPlaceHolder="Select a person" formControlName="templateType">
                             <nz-option nzLabel="PDF" nzValue="pdf"></nz-option>
                             <nz-option nzLabel="TEXT" nzValue="text"></nz-option>
                         </nz-select>
-                        <i *ngIf="emailFields.at(i).get('imagePath')?.value" class="ml-2 fas fa-trash-alt text-red-500"
-                            (click)="removeImage(i)"></i>
                         <input [hidden]="true" formControlName="imagePath" class="!border !rounded !p-2 !block !w-full"
                             nz-input placeholder="Enter template name..." nzSize="default" />
                         <button type="button" (click)="removeField(i)"
@@ -28,7 +28,7 @@
                                 class="fas fa-trash-alt"></i></button>
                     </div>
                     <textarea formControlName="emailTemplate" row="8" nz-input
-                        class="!border !rounded !p-2 !w-full !max-h-60" placeholder="Paste code here..."
+                        class="!border !rounded !p-2 !w-full !max-h-60 !min-h-[100px]" placeholder="Paste code here..."
                         nzAutosize></textarea>
                 </div>
             </div>

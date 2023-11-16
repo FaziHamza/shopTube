@@ -41,22 +41,40 @@ export class PolicyMappingComponent implements OnInit {
   departments: any[] = [];
   listOfColumns = [
     {
+      name: '',
+      key: 'title',
+      inVisible: true,
+    },
+    {
       name: 'Menu Name',
+      key: 'title',
+      searchValue: '',
+      inVisible: false,
     },
     {
       name: 'Create',
+      searchValue: '',
+      inVisible: true,
     },
     {
       name: 'Read',
+      searchValue: '',
+      inVisible: true,
     },
     {
       name: 'Update',
+      searchValue: '',
+      inVisible: true,
     },
     {
       name: 'Delete',
+      searchValue: '',
+      inVisible: true,
     },
     {
       name: 'Hide',
+      searchValue: '',
+      inVisible: true,
     },
   ];
   constructor(
@@ -267,8 +285,8 @@ export class PolicyMappingComponent implements OnInit {
             update: false,
             delete: false,
           };
-          
-          const newData =  this.applyBooleanToArray(menuList,booleanObject);
+
+          const newData = this.applyBooleanToArray(menuList, booleanObject);
           console.log(newData);
           this.applicationMenuList = newData;
         } else {
@@ -301,18 +319,29 @@ export class PolicyMappingComponent implements OnInit {
     return newData;
   }
   getPolicyMenu() {
-    
     if (!this.policyName) {
-      this.toastr.error("Please select policy name", { nzDuration: 3000 });
+      this.toastr.error("Please select a policy name", { nzDuration: 3000 });
       return;
     }
-    this.applicationService.getNestCommonAPIById('policy-mapping/policy', this.policyName).subscribe(((res: any) => {
-      if (res)
-        this.policyMenuList = res.data || [];
 
-      this.updatedMenuList();
-    }));
+    this.loading = true;
+
+    this.applicationService.getNestCommonAPIById('policy-mapping/policy', this.policyName)
+      .subscribe(
+        (res: any) => {
+          this.loading = false;
+          this.policyMenuList = res.data || [];
+          this.updatedMenuList();
+        },
+        (error) => {
+          // Handle HTTP errors or errors from the observable
+          console.error("API error:", error);
+          this.toastr.error("An error occurred while fetching data from the server", { nzDuration: 3000 });
+          this.loading = false;
+        }
+      );
   }
+
   updatedMenuList() {
     let updatedData = this.applicationMenuList;
     // if (this.policyMenuList && this.policyMenuList?.length > 0) {
@@ -328,11 +357,11 @@ export class PolicyMappingComponent implements OnInit {
     const updatedMenuData = this.mergePolicyIntoMenu(updatedData, this.policyMenuList);
     this.menuList = JSON.parse(JSON.stringify(updatedMenuData));
     console.log(updatedMenuData);
-    
+
     // this.handlePageChange(1);
 
   }
-// Define a function to merge policy data into menu data recursively
+  // Define a function to merge policy data into menu data recursively
   mergePolicyIntoMenu(menuData: any[], policyData: any[]) {
     return menuData.map(menuItem => {
       const matchingPolicyItem = policyData.find(policyItem => policyItem.menuId === menuItem.menuId);
@@ -354,9 +383,9 @@ export class PolicyMappingComponent implements OnInit {
     });
   }
 
-// Call the function to merge policy data into menu data
+  // Call the function to merge policy data into menu data
 
-// updatedMenuData now contains the merged data
+  // updatedMenuData now contains the merged data
 
   deleteAllPolicy() {
     if (!this.policyName) {

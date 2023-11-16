@@ -968,7 +968,24 @@ export class DynamicTableComponent implements OnInit {
         this.tableHeaders = this.tableHeaders.filter((head: any) => head.name !== 'expand');
       }
 
-      this.displayData = this.tableData;
+      this.tableHeaders.sort((a: any, b: any) => {
+        const srNoA = parseInt(a.srNo);
+        const srNoB = parseInt(b.srNo);
+
+        if (!isNaN(srNoA) && !isNaN(srNoB)) {
+          // Sort by 'srNo' if both values are numbers
+          return srNoA - srNoB;
+        } else if (isNaN(srNoA) && isNaN(srNoB)) {
+          // If both values are not numbers, maintain original order
+          return 0;
+        } else if (!isNaN(srNoA) && isNaN(srNoB)) {
+          // Move items with 'srNo' to the front
+          return -1;
+        } else {
+          // Move items with 'srNo' to the front
+          return 1;
+        }
+      });
 
 
 
@@ -1736,6 +1753,7 @@ export class DynamicTableComponent implements OnInit {
     return data
   }
   async getFromQueryOnlyTable(tableData: any, res: any) {
+    debugger
     try {
       if (tableData && res?.data.length > 0) {
         this.data['searchValue'] = '';
@@ -1841,6 +1859,25 @@ export class DynamicTableComponent implements OnInit {
         this.tableHeaders.forEach((head: any) => {
           head['isFilterdSortedColumn'] = false
         });
+        this.tableHeaders.sort((a: any, b: any) => {
+          const srNoA = parseInt(a.srNo);
+          const srNoB = parseInt(b.srNo);
+
+          if (!isNaN(srNoA) && !isNaN(srNoB)) {
+            // Sort by 'srNo' if both values are numbers
+            return srNoA - srNoB;
+          } else if (isNaN(srNoA) && isNaN(srNoB)) {
+            // If both values are not numbers, maintain original order
+            return 0;
+          } else if (!isNaN(srNoA) && isNaN(srNoB)) {
+            // Move items with 'srNo' to the front
+            return -1;
+          } else {
+            // Move items with 'srNo' to the front
+            return 1;
+          }
+        });
+
       }
       this.saveLoader = false;
       this.gridInitilize();
