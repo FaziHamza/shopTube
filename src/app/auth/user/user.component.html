@@ -1,26 +1,35 @@
 <nz-spin [nzSpinning]="loading" [nzSize]="'large'">
     <div class="m-2 flex justify-end">
-        <button nz-button  (click)="drawer()" nzType="primary" class="btn"><i class="fa-regular fa-plus mr-1.5"></i>Add
+        <button nz-button (click)="drawer()" nzType="primary" class="btn"><i class="fa-regular fa-plus mr-1.5"></i>Add
             user</button>
     </div>
-    
-    <nz-table #basicTable [nzData]="listOfData">
+
+    <nz-table #basicTable [nzData]="listOfDisplayData">
         <thead>
             <tr>
-                <!-- <th>Application Id</th>
-                <th>Organization Id</th>
-                <th>Password</th> -->
-                <th>User Name</th>
-                <th>Accreditation Number</th>
-                <th>Status</th>
-                <th>Action</th>
+                <ng-container *ngFor="let column of listOfColumns">
+                    <th nzCustomFilter *ngIf="column.name != 'Action'">{{column.name}}
+                        <nz-filter-trigger [nzVisible]="column.visible || false" [nzDropdownMenu]="menu">
+                            <span nz-icon nzType="search"></span>
+                        </nz-filter-trigger>
+                    </th>
+                    <th nzWidth="120px" *ngIf="column.name == 'Action'" class="w-1/12">
+                        {{column.name}}
+                    </th>
+
+                    <nz-dropdown-menu #menu="nzDropdownMenu">
+                        <div class="ant-table-filter-dropdown">
+                            <div class="search-box">
+                                <input type="text" nz-input nzClear (keyup)="search($event , column)"
+                                    placeholder="Search here..." [(ngModel)]="column.searchValue" />
+                            </div>
+                        </div>
+                    </nz-dropdown-menu>
+                </ng-container>
             </tr>
         </thead>
         <tbody>
             <tr *ngFor="let data of basicTable.data">
-                <!-- <td>{{data?.applicationId}}</td>
-                <td>{{data?.organizationId}}</td>
-                <td>{{data?.password}}</td> -->
                 <td>{{data?.username}}</td>
                 <td>{{data?.accreditationNumber || 'N/A'}}</td>
                 <td [hidden]="edit == data._id">{{data?.status ? data?.status : 'Pending' }}</td>

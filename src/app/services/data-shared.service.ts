@@ -29,6 +29,7 @@ export class DataSharedService {
   public spectrumControlNull = new BehaviorSubject<boolean>(false);
   public gericFieldLoader = new BehaviorSubject<boolean>(false);
   public pagesLoader = new BehaviorSubject<boolean>(false);
+  public drawerClose = new BehaviorSubject<boolean>(false);
   public voiceRecord: Subject<any> = new Subject();
   public configuration: Subject<any> = new Subject();
   public moveLink: Subject<any> = new Subject();
@@ -37,8 +38,8 @@ export class DataSharedService {
   // public currentApplication: Subject<any> = new Subject();
   // public defaultPage: Subject<any> = new Subject();
 
-  gridDataLoad : boolean  = false;
-  drawerVisible : boolean  = true;
+  gridDataLoad: boolean = false;
+  drawerVisible: boolean = true;
   getUserPolicyMenuList: any[] = [];
   currentMenuLink: string = '';
   defaultPageNodes: any;
@@ -63,9 +64,10 @@ export class DataSharedService {
   rightClickMenuData: any = '';
   buttonData: any = '';
   saveModel: any = '';
-  measureHeight : any = 0;
+  measureHeight: any = 0;
   contentHeight: number;
-  showFooter : boolean;
+  showFooter: boolean;
+  queryId: any = '';
   constructor() { }
 
   setData(data: any) {

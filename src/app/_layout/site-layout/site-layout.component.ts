@@ -261,15 +261,15 @@ export class SiteLayoutComponent implements OnInit {
           }
         },
         error: (err) => {
-          console.error(err);
-          this.toastr.error("An error occurred", { nzDuration: 3000 });
+          // console.error(err);
+          // this.toastr.error("An error occurred", { nzDuration: 3000 });
           this.loader = false; // Set loader to false in case of an error to avoid infinite loading
         }
       });
     }
     catch (error) {
-      console.error(error);
-      this.toastr.error("An error occurred", { nzDuration: 3000 });
+      // console.error(error);
+      // this.toastr.error("An error occurred", { nzDuration: 3000 });
       this.loader = false; // Set loader to false in case of an error to avoid infinite loading
     }
   }

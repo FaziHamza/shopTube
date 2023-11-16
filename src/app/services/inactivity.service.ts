@@ -12,20 +12,20 @@ export class InactivityService implements OnDestroy {
   private userActivitySubscription: Subscription;
 
   constructor(private router: Router) {
-    this.startWatchingForInactivity();
-    this.startWatchingStorageEvents();
+    // this.startWatchingForInactivity();
+    // this.startWatchingStorageEvents();
   }
 
-  startWatchingForInactivity() {
-    this.userActivitySubscription = timer(0, 1000).pipe(
-      switchMap(() => {
-        const lastActivity = parseInt(localStorage.getItem(this.localStorageKey) || '0', 10);
-        const timePassed = Date.now() - lastActivity;
-        return timePassed >= this.inactivityTimeout ? timer(0) : timer(this.inactivityTimeout - timePassed);
-      }),
-      tap(() => this.logout())
-    ).subscribe();
-  }
+  // startWatchingForInactivity() {
+  //   this.userActivitySubscription = timer(0, 1000).pipe(
+  //     switchMap(() => {
+  //       const lastActivity = parseInt(localStorage.getItem(this.localStorageKey) || '0', 10);
+  //       const timePassed = Date.now() - lastActivity;
+  //       return timePassed >= this.inactivityTimeout ? timer(0) : timer(this.inactivityTimeout - timePassed);
+  //     }),
+  //     tap(() => this.logout())
+  //   ).subscribe();
+  // }
 
   startWatchingStorageEvents() {
     fromEvent<StorageEvent>(window, 'storage').pipe(

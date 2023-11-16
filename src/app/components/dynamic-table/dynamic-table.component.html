@@ -1,5 +1,4 @@
 <!-- {{screenId | json}} -->
-
 <nz-spin [nzSpinning]="saveLoader" [nzSize]="'large'">
   <div *ngIf="showProgressBar" class="progress-container pr-2">
     <nz-progress [nzPercent]="progress" nzStatus="active"></nz-progress>
@@ -76,7 +75,8 @@
       </div>
       <div [nzTooltipTitle]="
       data?.searchType ? data?.searchType : 'keyup' " nz-tooltip [style.order]="split(2 , data?.buttonAlignments) || 1"
-        [class]="((data?.buttonPositions === undefined || data?.buttonPositions === ' justify-end') ? 'ml-2 ' : 'mr-2 ') + '!h-[35px]'" *ngIf="data?.isAllowSearch">
+        [class]="((data?.buttonPositions === undefined || data?.buttonPositions === ' justify-end') ? 'ml-2 ' : 'mr-2 ') + '!h-[35px]'"
+        *ngIf="data?.isAllowSearch">
         <nz-input-group (input)="search(data?.searchType ? 'keyup' : 'keyup')" nzSearch
           [nzAddOnAfter]="suffixIconButton">
           <input type="text" [class]="'!h-[35px] !rounded-tl-md !rounded-bl-md'" nz-input id="searchControll"
@@ -351,11 +351,14 @@
                       {{ item[header.key] | date:'dd-MM-yyyy HH:mm:ss'}}
                     </ng-container>
                   </ng-container>
-                  <div *ngIf="header?.dataType =='dateTime'">
+                  <div *ngIf="header?.dataType =='dateTime' && item[header.key] && item[header.key] != 'null'">
                     <div [style.color]="item[header.key]== item?.colorDataType && editId !== item.id ?
                     item?.columnTextColor : ''" [class]="data?.tdClass"
                       [hidden]="editId === item.id && (configurationTable || header?.editMode == 'yes'|| header?.editMode == true)">
-                      {{ item[header.key] | date:'dd-MM-yyyy'}}
+                      <!-- {{parseDateString(item[header.key]) | json}} -->
+                      {{parseDateString(item[header.key]) | date:'dd-MM-yyyy'}}
+                      <!-- {{item[header.key] | date:'dd-MM-yyyy'}} -->
+                      <!-- {{item[header.key] | json}} -->
                     </div>
                     <div *ngIf="configurationTable || header?.editMode == 'yes'|| header?.editMode == true"
                       [hidden]="editId !== item.id">
@@ -520,50 +523,39 @@
         </tr>
       </tfoot>
     </nz-table>
-    <div [ngClass]="{'flex  justify-end items-center': data?.changePageSize && data.totalCount > data?.end}">
+    <div [ngClass]="{'flex  justify-end items-center': data?.changePageSize}">
       <div class="paginatio-bottom !mt-1.5" *ngIf="data?.nzShowPagination && showPagination">
         <div>
-          <p class="showing">Showing <span>{{start}} - {{end ? end : data?.end}}</span>
+          <p class="showing">
+            Showing <span>{{start}} - {{end ? end : data?.end}}</span>
             <span *ngIf="data.showTotal || data.showTotal == undefined">
-              <span class="!text-black">
-                from
-              </span>
-              <span>{{data.totalCount}}</span> <span class="!text-black">
-                data
-              </span>
+              <span class="!text-black">from</span>
+              <span>{{data.totalCount}}</span>
+              <span class="!text-black">data</span>
             </span>
           </p>
         </div>
         <nz-pagination [nzTotal]="data.totalCount" [(nzPageIndex)]="data.pageIndex"
           [(nzPageSize)]="pageSize ? pageSize : data.end" (nzPageSizeChange)="check($event)"
-          (nzPageIndexChange)="onPageIndexChange($event)">
-        </nz-pagination>
+          (nzPageIndexChange)="onPageIndexChange($event)"></nz-pagination>
       </div>
-      <div class="perpage !mt-1.5"
-        *ngIf="data?.changePageSize && (data?.nzShowPagination && data.totalCount > data?.end && showPagination)">
+      <div class="perpage !mt-1.5" *ngIf="data?.changePageSize && (data?.nzShowPagination && showPagination)">
         <a class="flex justify-start items-center border-2 paginator !p-1.5 rounded-md text-xs  border-[#a8a9ab] text-black hover:!bg-amber-300 hover:text-white hover:!border-amber-300"
           nz-dropdown [nzDropdownMenu]="menu11">
-          <p class="whitespace-nowrap pr-2">
-            {{(this.data?.end ? this.data?.end : 10) + ' / page'}}
-          </p>
+          <p class="whitespace-nowrap pr-2">{{(data?.end ? data?.end : 10) + ' / page'}}</p>
           <span nz-icon nzType="down"></span>
         </a>
         <nz-dropdown-menu #menu11="nzDropdownMenu">
           <ul nz-menu nzSelectable>
-            <li nz-menu-item (click)="changePageSize(10)">10 / page</li>
-            <li nz-menu-item (click)="changePageSize(20)">20 / Page</li>
-            <li nz-menu-item (click)="changePageSize(30)">30 / Page</li>
-            <li nz-menu-item (click)="changePageSize(40)">40 / Page</li>
-            <li nz-menu-item (click)="changePageSize(50)">50 / Page</li>
-            <li nz-menu-item (click)="changePageSize(60)">60 / Page</li>
-            <li nz-menu-item (click)="changePageSize(70)">70 / Page</li>
-            <li nz-menu-item (click)="changePageSize(80)">80 / Page</li>
-            <li nz-menu-item (click)="changePageSize(90)">90 / Page</li>
-            <li nz-menu-item (click)="changePageSize(100)">100 / Page</li>
+            <li nz-menu-item *ngFor="let pageSizeOption of [10, 20, 30, 40, 50, 60, 70, 80, 90, 100]"
+              (click)="changePageSize(pageSizeOption)">
+              {{pageSizeOption}} / Page
+            </li>
           </ul>
         </nz-dropdown-menu>
       </div>
     </div>
+
   </div>
 
 

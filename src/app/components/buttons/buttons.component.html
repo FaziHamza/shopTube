@@ -75,28 +75,30 @@
   </span>
 </button>
 <nz-dropdown-menu #menu="nzDropdownMenu">
-  <ul [class]="buttonData?.optionMainClass" nz-menu>
-    <li [class]="buttonData?.optionSubClass" nz-menu-item *ngFor="let option of buttonData.dropdownOptions">
-      <a [class]="buttonData?.optionLabelClass" *ngIf="option.link" [href]="option.link">{{
-        option.label
-        }}</a>
-      <a [class]="buttonData?.optionLabelClass" *ngIf="!option.link">{{
-        option.label }}</a>
-    </li>
-    <li *ngIf="buttonData.logoutAllow" [class]="buttonData?.optionSubClass" nz-menu-item>
-      <a [class]="buttonData?.optionLabelClass" (click)="logout()">Logout</a>
-    </li>
-    <ng-container *ngIf="policyList.length > 0">
-      <ng-container *ngFor="let poliyItem of policyList">
-        <li *ngIf="policyId != poliyItem?.policyId._id" nz-menu-item [class]="buttonData?.optionSubClass"
-          (click)="switchPolicy(poliyItem)">
-          <a [class]="buttonData?.optionLabelClass">{{
-            poliyItem?.policyId.name }}</a>
+  <ul [class]="buttonData?.optionMainClass" nz-menu
+    *ngIf="buttonData && (buttonData.dropdownOptions?.length > 0 || buttonData.logoutAllow || policyList?.length > 0)">
+    <ng-container *ngIf="buttonData && buttonData.dropdownOptions?.length > 0">
+      <li [class]="buttonData?.optionSubClass" nz-menu-item *ngFor="let option of buttonData.dropdownOptions">
+        <a [class]="buttonData?.optionLabelClass" *ngIf="option.link" [href]="option.link">{{ option.label }}</a>
+        <a [class]="buttonData?.optionLabelClass" *ngIf="!option.link">{{ option.label }}</a>
+      </li>
+    </ng-container>
+    <ng-container *ngIf="buttonData && buttonData.logoutAllow">
+      <li [class]="buttonData?.optionSubClass" nz-menu-item>
+        <a [class]="buttonData?.optionLabelClass" (click)="logout()">Logout</a>
+      </li>
+    </ng-container>
+    <ng-container *ngIf="policyList?.length > 0">
+      <ng-container *ngFor="let policyItem of policyList">
+        <li *ngIf="policyId != policyItem?.policyId._id" nz-menu-item [class]="buttonData?.optionSubClass"
+          (click)="switchPolicy(policyItem)">
+          <a [class]="buttonData?.optionLabelClass">{{ policyItem?.policyId.name }}</a>
         </li>
       </ng-container>
     </ng-container>
   </ul>
 </nz-dropdown-menu>
+
 
 <!-- Modal -->
 <div *ngIf="buttonData?.redirect == 'modal' || buttonData?.redirect == '1200px' || buttonData?.redirect == '800px'">
@@ -114,7 +116,9 @@
 
 <div
   *ngIf="buttonData?.redirect == 'drawer' || buttonData?.redirect == 'largeDrawer'  || buttonData?.redirect == 'extraLargeDrawer'">
-  <nz-drawer [nzWrapClassName]="'button-drawer'" [nzClosable]="false" [nzTitle]="title ? title : buttonData.title" [nzExtra]="extra"
+  <nz-drawer [nzWrapClassName]="'button-drawer'" [nzClosable]="false"
+    [nzTitle]="hostUrl.includes('spectrum') ? 'Request Detail' + ' - ' +  title: (title ? title : buttonData.title)"
+    [nzExtra]="extra"
     [nzWidth]="buttonData?.redirect == 'drawer' ? '60%' : (buttonData?.redirect == 'largeDrawer' ? '70%' : '80%') "
     [nzVisible]="isVisible" (nzOnClose)="handleClose()">
     <ng-container *nzDrawerContent>

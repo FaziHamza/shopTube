@@ -11,6 +11,7 @@ import { DataService } from 'src/app/services/offlineDb.service';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { ElementData } from 'src/app/models/element';
 import { NzDrawerRef } from 'ng-zorro-antd/drawer';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'st-sections',
@@ -38,7 +39,7 @@ export class SectionsComponent implements OnInit {
   saveLoader: boolean = false;
   constructor(public dataSharedService: DataSharedService, private toastr: NzMessageService, private employeeService: EmployeeService,
     private dataService: DataService,
-    private applicationServices: ApplicationService, private cd: ChangeDetectorRef, private activatedRoute: ActivatedRoute, private router: Router) {
+    private applicationServices: ApplicationService, private cd: ChangeDetectorRef, private activatedRoute: ActivatedRoute, private router: Router, private location: Location) {
     // this.drawerRef = drawerRef;
   }
 
@@ -74,7 +75,11 @@ export class SectionsComponent implements OnInit {
           if (checkButtonExist?.appConfigurableEvent) {
             // event?.stopPropagation();
             let makeModel: any = {};
-            // this.formlyModel = this.dataSharedService.saveModel;
+            console.log('checkButtonExist?.detailSave : ' + checkButtonExist?.detailSave)
+            if (checkButtonExist?.detailSave == true) {
+            }else{
+              this.formlyModel = this.dataSharedService.saveModel;
+            }
             // const filteredNodes = this.filterInputElements(this.sections.children[1].children);
             // for (let item in this.formlyModel) {
             //   filteredNodes.forEach((element) => {
@@ -275,11 +280,24 @@ export class SectionsComponent implements OnInit {
               this.toastr.success(successMessage, { nzDuration: 3000 });
 
               if (data.saveRouteLink && this.dataSharedService.currentMenuLink !== '/ourbuilder' && model.postType === 'post') {
-                this.router.navigate(['/pages/' + data.saveRouteLink]);
+                let tableName: any = '';
+                if (res?.[0]) {
+                  tableName = res[0].tableName ? res[0].tableName.split('.')[1].split('_')[0] : '';
+                }
+                if(window.location.href.includes('addcustomclearanceFsy')){
+                  this.router.navigate(['/pages/' + data.saveRouteLink]).then(() => {
+                    // Reload the entire application to re-render all components
+                    this.location.replaceState('/pages/' + data.saveRouteLink);
+                    window.location.reload();
+                  });
+                }else{
+                  this.router.navigate(['/pages/' + data.saveRouteLink]);
+                }
                 return;
               }
 
               if (model.postType === 'post') {
+                
                 let tableName: any = '';
                 if (res[0]) {
                   tableName = res[0].tableName ? res[0].tableName.split('.')[1].split('_')[0] : '';
@@ -290,14 +308,17 @@ export class SectionsComponent implements OnInit {
                 if (window.location.href.includes('spectrum.com')) {
                   this.dataSharedService.spectrumControlNull.next(true);
                 }
-              } else {
-                this.dataSharedService.gridDataLoad = true;
               }
+              // else {
+              //   this.dataSharedService.gridDataLoad = true;
+              // }
+              this.dataSharedService.gridDataLoad = true;
+              this.dataSharedService.drawerClose.next(true);
               // this.dataSharedService.drawerVisible = false;
               this.setInternalValuesEmpty(this.dataModel);
               this.setInternalValuesEmpty(this.formlyModel);
               this.form.patchValue(this.formlyModel);
-              this.dataSharedService.formlyShowError.next(false)
+              // this.dataSharedService.formlyShowError.next(false)
               this.dataSharedService.formlyShowError.next(false)
               this.getFromQuery(data);
               if (window.location.href.includes('taskmanager.com')) {
@@ -602,7 +623,7 @@ export class SectionsComponent implements OnInit {
       }, {});
 
       if (filteredObject) {
-        let tableData = this.findObjectByTypeBase(this.sections, "gridList");
+        let tableData: any = this.findObjectByTypeBase(this.sections, "gridList");
         if (tableData) {
           if (filteredObject) {
             this.tempTableData.push(filteredObject);
