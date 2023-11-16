@@ -106,6 +106,10 @@ export class DynamicTableComponent implements OnInit {
   }
   userDetails: any;
   ngOnInit(): void {
+    if (this.data.serverSidePagination) {
+      this.data.eventActionconfig['page'] = 1;
+      this.data.eventActionconfig['pageSize'] = this.data?.end;
+    }
     if (this.data) {
       document.documentElement.style.setProperty('--paginationColor', this.data?.paginationColor || '#2563EB');
 
@@ -242,51 +246,56 @@ export class DynamicTableComponent implements OnInit {
     });
     console.log("Column Click " + name);
   }
+  gridRuleData: any[] = [];
   gridInitilize() {
     debugger
-    let getRes: any = {
-      data: [
-        {
-          "_id": {
-            "$oid": "649bce85e4823f1628e266c1"
-          },
-          "businessRule": [
-            {
-              "if": "id == 1",
-              "then": [
-                "id == (id-id)"
-              ]
-            }
-          ],
-          "businessRuleData": '[{"target":"status","opratorForTraget":"==","resultValue":"","ifRuleMain":[{"ifCondition":"status","oprator":"==","isGetValue":true,"getValue":"open","condType":"","conditional":[]}],"thenCondition":[],"getRuleCondition":[{"ifCondition":"status","oprator":"==","target":"status","referenceId":"","referenceOperator":"","referenceColor":"","referenceColumnColor":"#EF4444","condition":"","multiConditionList":[]}]},{"target":"status","opratorForTraget":"==","resultValue":"","ifRuleMain":[{"ifCondition":"status","oprator":"==","isGetValue":true,"getValue":"completed","condType":"","conditional":[]}],"thenCondition":[],"getRuleCondition":[{"ifCondition":"status","oprator":"==","target":"status","referenceId":"","referenceOperator":"","referenceColor":"","referenceColumnColor":"#EF4444","condition":"","multiConditionList":[]}]}]',
-          "gridKey": "gridlist_5ef02c4b",
-          "gridType": "Body",
-          "screenName": "Card",
-          "screenBuilderId": {
-            "$oid": "64901e0007e01828b29b0146"
-          },
-          "__v": 0
-        }
-      ]
-    };
+    // let getRes: any = {
+    //   data: [
+    //     {
+    //       "_id": {
+    //         "$oid": "649bce85e4823f1628e266c1"
+    //       },
+    //       "businessRule": [
+    //         {
+    //           "if": "id == 1",
+    //           "then": [
+    //             "id == (id-id)"
+    //           ]
+    //         }
+    //       ],
+    //       "businessRuleData": '[{"target":"status","opratorForTraget":"==","resultValue":"","ifRuleMain":[{"ifCondition":"status","oprator":"==","isGetValue":true,"getValue":"open","condType":"","conditional":[]}],"thenCondition":[],"getRuleCondition":[{"ifCondition":"status","oprator":"==","target":"status","referenceId":"","referenceOperator":"","referenceColor":"","referenceColumnColor":"#EF4444","condition":"","multiConditionList":[]}]},{"target":"status","opratorForTraget":"==","resultValue":"","ifRuleMain":[{"ifCondition":"status","oprator":"==","isGetValue":true,"getValue":"completed","condType":"","conditional":[]}],"thenCondition":[],"getRuleCondition":[{"ifCondition":"status","oprator":"==","target":"status","referenceId":"","referenceOperator":"","referenceColor":"","referenceColumnColor":"#EF4444","condition":"","multiConditionList":[]}]}]',
+    //       "gridKey": "gridlist_5ef02c4b",
+    //       "gridType": "Body",
+    //       "screenName": "Card",
+    //       "screenBuilderId": {
+    //         "$oid": "64901e0007e01828b29b0146"
+    //       },
+    //       "__v": 0
+    //     }
+    //   ]
+    // };
     // this.applyBusinessRule(getRes, this.data);
     // this.loadTableData();
-    if (this.screenId)
+    if (this.screenId && this.gridRuleData.length == 0) {
       this.requestSubscription = this.applicationService.getNestCommonAPIById('cp/GridBusinessRule', this.screenId).subscribe(((getRes: any) => {
         if (getRes.isSuccess) {
           if (getRes.data.length > 0) {
+            this.gridRuleData = getRes.data || [];
             // this.formlyModel['input34d5985f']='1313'
-            this.applyBusinessRule(getRes, this.data);
+            this.applyBusinessRule(getRes.data, this.data);
           }
-          this.pageChange(1);
+          // this.pageChange(1);
           // this.loadTableData();
         } else
           this.toastr.error(getRes.message, { nzDuration: 3000 });
       }));
-
+    }
+    else if (this.gridRuleData.length > 0) {
+      this.applyBusinessRule(this.gridRuleData, this.data);
+    }
   }
-  applyBusinessRule(getRes: any, data: any) {
-    let gridFilter = getRes.data.filter((a: any) => a.gridType == 'Body');
+  applyBusinessRule(ruleData: any, data: any) {
+    let gridFilter = ruleData.filter((a: any) => a.gridType == 'Body');
     for (let m = 0; m < gridFilter.length; m++) {
       if (gridFilter[m].gridKey == data.key && this.tableData) {
         const objRuleData = JSON.parse(gridFilter[m].businessRuleData);
@@ -439,7 +448,7 @@ export class DynamicTableComponent implements OnInit {
         }
       }
     }
-    let headerFilter = getRes.data.filter((a: any) => a.gridType == 'Header');
+    let headerFilter = ruleData.filter((a: any) => a.gridType == 'Header');
     for (let m = 0; m < headerFilter.length; m++) {
       if (headerFilter[m].gridKey == data.key && this.tableData) {
         for (let index = 0; index < headerFilter[m].businessRuleData.length; index++) {
@@ -489,7 +498,7 @@ export class DynamicTableComponent implements OnInit {
         }
       }
     }
-    let footerFilter = getRes.data.filter((a: any) => a.gridType == 'Footer');
+    let footerFilter = ruleData.filter((a: any) => a.gridType == 'Footer');
     for (let m = 0; m < footerFilter.length; m++) {
       if (footerFilter[m].gridKey == data.key && this.tableData) {
         for (let index = 0; index < footerFilter[m].businessRuleData.length; index++) {
@@ -1138,33 +1147,48 @@ export class DynamicTableComponent implements OnInit {
       if (this.data?.targetId) {
         const pagination = '?page=' + index + '&pageSize=' + this.data?.end;
         this.pageSize = this.data.end
-        this.requestSubscription = this.applicationService.getNestCommonAPIById(this.data?.serverApi + pagination, this.data?.targetId).subscribe(response => {
-          if (response.isSuccess) {
-            this.tableData = [];
-            this.displayData = [];
-            response.data?.forEach((element: any) => {
-              element.id = (element?.id)?.toString();
-              this.tableData?.push(element);
-            });
-            this.updateGridPagination();
+        this.saveLoader = true;
+        this.requestSubscription = this.applicationService.getNestCommonAPIById(`knex-query/getexecute-rules/${this.data.eventActionconfig._id}` + pagination, this.data?.targetId).subscribe({
+          next: (response) => {
+            this.saveLoader = false;
+            if (response.isSuccess) {
+              this.tableData = [];
+              this.displayData = [];
+              response.data?.forEach((element: any) => {
+                element.id = (element?.id)?.toString();
+                this.tableData?.push(element);
+              });
+              this.updateGridPagination();
+              this.gridInitilize();
+            }
+          }, error: (error) => {
+            this.saveLoader = false;
+            this.toastr.error(JSON.stringify(error), { nzDuration: 3000 });
           }
         })
       }
       else {
+        this.saveLoader = true;
         const pagination = '?page=' + index + '&pageSize=' + this.data?.end;
         this.pageSize = this.data.end
-        this.requestSubscription = this.employeeService.getSQLDatabaseTable(this.data?.serverApi + pagination).subscribe(response => {
-          if (response.isSuccess) {
-            this.tableData = [];
-            this.displayData = [];
-            response.data.forEach((element: any) => {
-              element.id = (element?.id)?.toString();
-              this.tableData?.push(element);
-            });
-            this.displayData = this.tableData;
-            this.updateGridPagination();
+        this.requestSubscription = this.applicationService.getNestCommonAPI(`knex-query/getexecute-rules/${this.data.eventActionconfig._id}` + pagination).subscribe({
+          next: (response) => {
+            this.saveLoader = false;
+            if (response.isSuccess) {
+              this.tableData = [];
+              this.displayData = [];
+              response.data.forEach((element: any) => {
+                element.id = (element?.id)?.toString();
+                this.tableData?.push(element);
+              });
+              this.displayData = this.tableData;
+              this.updateGridPagination();
+              this.gridInitilize();
+            }
+          }, error: (error) => {
+            this.saveLoader = false;
+            this.toastr.error(JSON.stringify(error), { nzDuration: 3000 });
           }
-
         })
       }
     }
@@ -1179,14 +1203,23 @@ export class DynamicTableComponent implements OnInit {
     this.updateDisplayData();
   }
   updateDisplayData(): void {
+
     const start = (this.data.pageIndex - 1) * this.pageSize;
     const end = start + this.pageSize;
+    this.start = start == 0 ? 1 : ((this.data.pageIndex * this.pageSize) - this.pageSize) + 1;
+    this.end = this.displayData.length == this.data.end ? (this.data.pageIndex * this.data.end) : this.data.totalCount;
 
-    this.start = start === 0 ? 1 : (this.data.pageIndex * this.pageSize) - this.pageSize + 1;
-    this.displayData = this.tableData.slice(start, end);
-    this.end = this.displayData.length !== this.data.end ? this.tableData.length : this.data.pageIndex * this.pageSize;
+    //old
+    // const start = (this.data.pageIndex - 1) * this.pageSize;
+    // const end = start + this.pageSize;
 
-    this.data.totalCount = this.tableData.length;
+    // this.start = start === 0 ? 1 : (this.data.pageIndex * this.pageSize) - this.pageSize + 1;
+    // this.displayData = this.tableData.slice(start, end);
+    // this.end = this.displayData.length !== this.data.end ? this.tableData.length : this.data.pageIndex * this.pageSize;
+
+
+    // seperate
+    // this.data.totalCount = this.tableData.length;
 
     // Updating this.tableData directly without creating a new reference
     // this.tableData = JSON.parse(JSON.stringify(this.tableData)); // Avoid reassigning if not necessary
@@ -1736,12 +1769,13 @@ export class DynamicTableComponent implements OnInit {
     return result;
   }
 
-  processData(data: any[]) {
+  processData(data: any) {
     if (data) {
-      if (data.length > 0) {
+      if (data?.data.length > 0) {
         let res: any = {};
         res['data'] = [];
-        res['data'] = data;
+        res['data'] = data?.data;
+        res['count'] = data?.count;
 
         this.getFromQueryOnlyTable(this.data, res)
       } else {
@@ -1783,7 +1817,8 @@ export class DynamicTableComponent implements OnInit {
           tableData.end = 10;
         }
         this.data.pageIndex = 1;
-        this.data.totalCount = res.data.length;
+        this.data.totalCount = res.count;
+        this.data.masteTotalCount = res.count;
         if (tableData.eventActionconfig) {
           if (tableData.eventActionconfig.actionType == 'query') {
             tableData.serverApi = `knex-query/getAction/${tableData.eventActionconfig._id}`;
@@ -1835,7 +1870,8 @@ export class DynamicTableComponent implements OnInit {
               key: 'expand',
               title: 'Expand',
             });
-            this.data.totalCount = this.tableData
+            this.data.totalCount = res?.count;
+            this.data.masteTotalCount = res.count;
           } else {
             this.tableHeaders = this.tableHeaders.filter((head: any) => head.key != 'expand');
             this.pageChange(1);

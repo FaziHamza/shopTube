@@ -33,10 +33,10 @@ export class AccordionButtonComponent implements OnInit {
   accordionCollapse() {
     this.expand = !this.expand;
   }
-  processData(data: any[]) {
-    if (data?.length > 0) {
+  processData(data: any) {
+    if (data?.data.length > 0) {
       let obj = {
-        data:data,
+        data:data?.data,
         screenData :this.accordionData
       }
       this.accordingEmit.emit(obj);

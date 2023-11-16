@@ -110,12 +110,11 @@ export class BoardComponent implements OnInit {
   kandanListData: any[] = [];
   selectedGroupBy: string = 'status';
   // kanlistArray: any[] = [];
-  processData(data: any[]) {
+  processData(data: any) {
     try {
-      ;
-      if (data.length > 0) {
-        this.kandanListData = data;
-        let firstObjectKeys = Object.keys(data[0]);
+      if (data?.data?.length > 0) {
+        this.kandanListData = data?.data;
+        let firstObjectKeys = Object.keys(data?.data?.[0]);
         let tableKey = firstObjectKeys.map(key => ({ key, isShow: true, allowDragnDrop: false }));
 
         if (this.kanbanData['kanlistArray']) {
@@ -137,8 +136,8 @@ export class BoardComponent implements OnInit {
           const uniqueStatus = [...new Set(this.kandanListData.map(item => item[this.selectedGroupBy]))];
           this.status = uniqueStatus;
 
-          if (data.length > 0)
-            this.checkDynamicSection(data);
+          if (data?.data.length > 0)
+            this.checkDynamicSection(data?.data);
         }
 
         this.loader = false;

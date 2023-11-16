@@ -12,16 +12,18 @@
                                     <i class="fas fa-folder text-yellow-500 text-sm w-6 cursor-pointer"></i>
                                     <span (click)="selectSubFolder(item)"> {{item.folderName}} </span>
                                 </div>
-                                <i class="fas fa-trash text-red-600 text-sm cursor-pointer" (click)="remove(item)" *ngIf="data?.isAllowDeleteFolder"></i>
+                                <i class="fas fa-trash text-red-600 text-sm cursor-pointer" (click)="deleteFolder(item)"
+                                    *ngIf="data?.isAllowDeleteFolder"></i>
 
-                                <p *ngIf="item.length ==0" class="text-base font-semibold text-red-500">Folder Didn't
-                                    Exist</p>
                             </a>
+                            <p *ngIf="folderList.length ==0" class="text-base font-semibold text-red-500">Folder Didn't
+                                Exist</p>
 
                         </div>
                     </li>
                     <li *ngIf="data?.isAllowShared">
-                        <div class="text-gray-600 text-sm mt-1.5">
+                        <div class="text-gray-600 text-sm mt-1.5" [ngClass]="isActiveShow  ? 'isActive' : ''"
+                            (click)="getRecordsBySharedEmail()">
                             <i class="fa-solid fa-share-nodes w-6 "></i>
                             <span class="cursor-pointer">Shared</span>
                         </div>
@@ -49,13 +51,19 @@
         </div>
     </nz-card><!-- end card -->
     <nz-spin [nzSpinning]="saveLoader" [nzSize]="'large'" class="builder-design w-[calc(100%-262px)] !h-full ">
-        <div
-            class="!h-10 border bg-white m-2 ml-0 border-gray-200 !rounded-md flex justify-start items-center box-border" *ngIf="data?.isShowBreadcrumb">
+        <div class="!h-10 border bg-white m-2 ml-0 border-gray-200 !rounded-md flex justify-start items-center box-border"
+            *ngIf="data?.isShowBreadcrumb">
             <div class="flex h-full w-auto">
                 <h3 class="!mb-0 bg-gray-100 cursor-pointer hover:shadow-xl flex justify-center items-center px-1.5 py-1 hover:scale-110"
+                    (click)="getAllFolders()">
+                    Home
+                </h3>
+                <h3 class="!mb-0 bg-gray-100 cursor-pointer hover:shadow-xl flex justify-center items-center px-1.5 py-1 hover:scale-110"
                     *ngFor="let item of breadcrumbFolder;let index = index" (click)="gotoFolder(index)">
-                    <i [class.hidden]="index === 0" class="fa-solid fa-chevron-right text-sm mr-2 "></i>
-                    {{item.folderName}}
+                    <span>
+                        <i class="fa-solid fa-chevron-right text-sm mr-2 "></i>
+                        {{item.folderName}}
+                    </span>
                 </h3>
             </div>
         </div>
@@ -64,12 +72,12 @@
             <div class="card-body">
                 <div class="w-full">
                     <div class="search-box mb-2 flex justify-start">
-                        <input type="file" class="border border-gray-300 hover:border-blue-400" *ngIf="data?.isAllowCreateFile"
-                            (change)="onFileSelected($event)" />
+                        <input type="file" class="border border-gray-300 hover:border-blue-400"
+                            *ngIf="data?.isAllowCreateFile" (change)="onFileSelected($event)" />
                         <div class="relative pl-[10px] flex group " *ngIf="data?.isAllowCreateFolder">
                             <input type="text"
-                                class="px-2.5 !border-r-0 !rounded-tr-none !rounded-br-none !h-9 !rounded-md"
-                                nz-input placeholder="Enter Folder Name" [(ngModel)]="folderName" />
+                                class="px-2.5 !border-r-0 !rounded-tr-none !rounded-br-none !h-9 !rounded-md" nz-input
+                                placeholder="Enter Folder Name" [(ngModel)]="folderName" />
                             <p class="w-9 h-9 flex justify-center items-center border group-hover:border-blue-400 border-gray-300 border-l-0 rounded-e-md rounded-tl-none rounded-bl-none"
                                 (click)="addFolder()"><i class="fa-solid fa-plus"></i></p>
                         </div>
@@ -91,7 +99,8 @@
                                     <th>Name</th>
                                     <th>Date Modified</th>
                                     <th>Size</th>
-                                    <th>Action</th>
+                                    <th>Share</th>
+                                    <th *ngIf="!isActiveShow">Action</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -103,15 +112,26 @@
                                     <td>{{item.createdDate | date : 'dd-MM-yyyy hh:mm:ss'}}</td>
                                     <td>{{formatFileSize(item.size)}}</td>
                                     <td>
+                                        <button *ngIf="!item.share" nz-button [nzType]="'primary'"
+                                            (click)="showModal(item)">
+                                            <span>Share</span>
+                                        </button>
+                                        <span *ngIf="item.share">{{item.share}}</span>
+                                    </td>
+                                    <td>
                                         <div class="dropdown" ngbDropdown placement="bottom-right">
                                             <a href="javascript:void(0);"
                                                 class="font-size-16 text-muted dropdown-toggle" ngbDropdownToggle>
                                                 <i class="uil uil-ellipsis-h"></i>
                                             </a>
                                             <div class="dropdown-menu dropdown-menu-end flex" ngbDropdownMenu>
-                                                <a class="dropdown-item" (click)="remove(item)"  *ngIf="data?.isAllowDeleteFiles"><i
+                                                <a class="dropdown-item" (click)="remove(item)"
+                                                    *ngIf="data?.isAllowDeleteFiles && !isActiveShow"><i
                                                         class="fa-solid fa-trash text-red-600 hover:text-red-500 mr-2"></i></a>
-                                                <p (click)="downloadFile(item)"><i class="fa-solid fa-download" *ngIf="data?.download"></i></p>
+                                                <p (click)="downloadFile(item)"><i class="fa-solid fa-download mr-2"
+                                                        *ngIf="data?.download"></i></p>
+                                                <p *ngIf="!isActiveShow" (click)="showModal(item)"><i
+                                                        class="fa fa-share-alt" *ngIf="data?.isAllowShared"></i></p>
 
                                             </div>
                                         </div>
@@ -141,3 +161,13 @@
     </nz-spin>
 
 </div><!-- end row -->
+
+
+<nz-modal [(nzVisible)]="isVisible" nzTitle="Meta Data" (nzOnCancel)="handleCancel()" (nzOnOk)="handleOk()">
+    <ng-container *nzModalContent>
+        <label>Enter User Email</label>
+        <input nz-input placeholder="Please enter email" [(ngModel)]="sharingEmail" type="text" />
+        <label>Enter Tags</label>
+        <input nz-input placeholder="Please enter tags" [(ngModel)]="tagging" (ngModelChange)="updateTagsList()" type="text" />
+    </ng-container>
+</nz-modal>

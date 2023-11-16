@@ -21,11 +21,11 @@ export class HeadingComponent implements OnInit {
       this.router.navigate(['/pages/' + link]);
     }
   }
-  processData(data: any[]) {
+  processData(data: any) {
       
     console.log('heading');
-    for(const key in data[0]){
-      this.headingData.text = data[0][key];
+    for(const key in data?.data?.[0]){
+      this.headingData.text = data?.data?.[0][key];
     }
     return data
   }

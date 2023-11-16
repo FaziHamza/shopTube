@@ -25,12 +25,12 @@ export class ParentCalendarComponent {
       this.loader = false;
     }
   }
-  processData(data: any[]) {
+  processData(data: any) {
     try {
       this.dataGet = false;
-      if (data?.length > 0) {
+      if (data?.data.length > 0) {
         this.item.options = [];
-        data.forEach((element, index) => {
+        data?.data.forEach((element:any) => {
           let event = {
             "id": element.id, // Increment the index to start from 1
             "title": element.message,

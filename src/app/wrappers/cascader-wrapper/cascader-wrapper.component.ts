@@ -98,11 +98,11 @@ export class CascaderWrapperComponent extends FieldType<FieldTypeConfig> {
     }
   }
 
-  processData(data: any[]) {
+  processData(data: any) {
 
-    if (data?.length > 0) {
-      let propertyNames = Object.keys(data[0]);
-      let result = data.map((item: any) => {
+    if (data?.data?.length > 0) {
+      let propertyNames = Object.keys(data?.data[0]);
+      let result = data?.data.map((item: any) => {
         let newObj: any = {};
         let propertiesToGet: string[];
         if ('id' in item && 'name' in item) {

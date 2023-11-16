@@ -49,8 +49,8 @@ export class ApplicationService {
       api.includes('http') ? api : this.nestUrl + api
     );
   }
-  updateNestCommonAPI(api: string, id: any, modal: any): Observable<any[]> {
-    return this.http.put<any[]>(
+  updateNestCommonAPI(api: string, id: any, modal: any): Observable<any> {
+    return this.http.put<any>(
       this.nestUrl + api + `/${id}`, modal
     );
   }

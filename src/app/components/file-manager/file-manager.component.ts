@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { NzMessageService } from 'ng-zorro-antd/message';
 import { ApplicationService } from 'src/app/services/application.service';
 import { environment } from 'src/environments/environment';
 
@@ -8,7 +9,7 @@ import { environment } from 'src/environments/environment';
   styleUrls: ['./file-manager.component.scss']
 })
 export class FileManagerComponent implements OnInit {
-  @Input() data : any;
+  @Input() data: any;
   folderList: any[] = []
   filesList: any[] = [];
   saveLoader: boolean = false;
@@ -24,12 +25,19 @@ export class FileManagerComponent implements OnInit {
   pnOrderId = 0;
   totalRecordCount = 0;
   customerList = [];
-  constructor(private applicationService: ApplicationService) { }
+  constructor(private applicationService: ApplicationService, private toastr: NzMessageService,) { }
   breadcrumbFolder: any[] = [];
   ngOnInit(): void {
-    this.loadFolder();
+    this.createDefaultFolder();
   }
 
+  createDefaultFolder() {
+    this.applicationService.getNestCommonAPI("s3-file-manager/createUserFolder").subscribe(res => {
+      if (res.isSuccess) {
+        this.loadFolder();
+      }
+    })
+  }
   loadFolder() {
     if (this.breadcrumbFolder.length == 0) {
       this.getAllFolders();
@@ -40,6 +48,9 @@ export class FileManagerComponent implements OnInit {
   }
 
   getAllFolders() {
+    this.isActiveShow = false;
+    this.selectedFolder = {};
+    this.breadcrumbFolder = [];
     this.applicationService.getBackendCommonAPI('s3-file-manager/getParentFolders').subscribe(res => {
       if (res.isSuccess) {
         this.folderList = res.data || []
@@ -47,6 +58,7 @@ export class FileManagerComponent implements OnInit {
       } else {
         this.folderList = [];
       }
+      this.filesList = [];
     })
   }
 
@@ -59,6 +71,7 @@ export class FileManagerComponent implements OnInit {
   getSubFolder(folder: any) {
     this.selectedFolder = folder;
     this.saveLoader = true;
+    this.isActiveShow = false;
     this.folderName = '';
     this.folderList = [];
 
@@ -79,13 +92,27 @@ export class FileManagerComponent implements OnInit {
     })
   }
   gotoFolder(index: number) {
+    this.isActiveShow = false;
     this.selectedFolder = this.breadcrumbFolder[index];
     this.breadcrumbFolder = this.breadcrumbFolder.splice(0, index + 1);
     this.getSubFolder(this.selectedFolder);
   }
   remove(item: any) {
+    this.saveLoader = true;
     this.applicationService.addNestCommonAPI('s3-file-manager/deleteFile', item._id).subscribe(res => {
+      this.saveLoader = false;
       if (res.isSuccess) {
+        this.toastr.success(res.message, { nzDuration: 3000 });
+        this.loadFolder();
+      }
+    })
+  }
+  deleteFolder(item: any) {
+    this.saveLoader = true;
+    this.applicationService.addNestCommonAPI('s3-file-manager/deleteFolder', item._id).subscribe(res => {
+      this.saveLoader = false;
+      if (res.isSuccess) {
+        this.toastr.success(res.message, { nzDuration: 3000 });
         this.loadFolder();
       }
     })
@@ -95,12 +122,13 @@ export class FileManagerComponent implements OnInit {
     const model = {
       folderName: this.folderName,
       parentId: this.selectedFolder?._id,
-      s3folderName: gets3Folder.join('/') + '/' + this.folderName
+      s3folderName: gets3Folder.length > 0 ? gets3Folder.join('/') + '/' + this.folderName : this.folderName
     };
 
     this.applicationService.addNestCommonAPI('s3-file-manager/createfolder', model).subscribe(res => {
       if (res.isSuccess) {
         this.folderName = '';
+        this.toastr.success(res.message, { nzDuration: 3000 });
         this.loadFolder();
       }
     })
@@ -111,6 +139,7 @@ export class FileManagerComponent implements OnInit {
     this.uploadFile(file);
   }
   uploadFile(file: File) {
+    this.saveLoader = true;
     const gets3Folder = this.breadcrumbFolder.map(a => a.folderName);
     const formData = new FormData();
     formData.append('image', file);
@@ -118,11 +147,13 @@ export class FileManagerComponent implements OnInit {
     formData.append('path', gets3Folder.join('/'));
     this.applicationService.uploadS3File(formData).subscribe({
       next: (res) => {
+        this.saveLoader = false;
         this.loadFolder();
-
+        this.toastr.success(res.message, { nzDuration: 3000 });
         console.log('File uploaded successfully:', res);
       },
       error: (err) => {
+        this.saveLoader = false;
         // this.isLoading = false;
         console.error('Error uploading file:', err);
       }
@@ -197,6 +228,82 @@ export class FileManagerComponent implements OnInit {
     this.end = this.filesList.length != 6 ? this.collectionList.length : this.pageIndex * this.pageSize;
   }
   downloadFile(data: any) {
-    window.open(environment.nestImageUrl + data?.storagePath, '_blank');
+    window.open(this.data?.apiUrl || environment.nestImageUrl + data?.storagePath, '_blank');
+  }
+
+  isVisible = false;
+  sharingEmail: string = ''
+  tagging: string = ''
+  updateFileDetails: any;
+  showModal(file: any): void {
+    this.updateFileDetails = file;
+    this.tagging = file?.tagging;
+    this.convertTagsToString(file?.tagging);
+    this.sharingEmail = file?.share;
+    this.isVisible = true;
+  }
+  convertTagsToString(tagging:any): void {
+    // Convert the array of key-value pairs back into a string
+    this.tagging = tagging?.map((tagObj:any) => tagObj.Key).join(', ');
+  }
+  handleOk(): void {
+    this.updateFile();
+    console.log('Button ok clicked!');
+    this.isVisible = false;
+  }
+
+  handleCancel(): void {
+    this.updateFileDetails = {};
+    console.log('Button cancel clicked!');
+    this.isVisible = false;
+  }
+  tagsList: { Key: string, Value: string }[] = [];
+
+  updateTagsList(): void {
+    // Split the tagging string into an array using a comma as the delimiter
+    const tags = this.tagging.split(',').map(tag => tag.trim());
+
+    // Create an array of objects with key-value pairs
+    this.tagsList = tags.map(tag => ({ Key: tag, Value: tag }));
+
+    // You can trim the tags and remove any empty strings if needed
+    this.tagsList = this.tagsList.filter(tagObj => tagObj.Key !== '');
+  }
+
+  updateFile() {
+
+    this.updateFileDetails['share'] = this.sharingEmail;
+    this.updateFileDetails['tagging'] = this.tagsList;
+    this.saveLoader = true;
+    this.applicationService.updateNestCommonAPI("s3-file-manager/updateFileInfo", this.updateFileDetails?._id, this.updateFileDetails).subscribe({
+      next: (res) => {
+        this.saveLoader = false;
+        if (res.isSuccess) {
+          this.sharingEmail = ''
+          this.tagging = ''
+          this.toastr.success(res.message, { nzDuration: 3000 });
+          this.loadFolder();
+        } else {
+          this.toastr.error(res.message, { nzDuration: 3000 });
+        }
+        this.updateFileDetails = {};
+        console.log('File update successfully:', res);
+      },
+      error: (err) => {
+        this.saveLoader = false;
+        // this.toastr.error(err, { nzDuration: 3000 });
+        // this.isLoading = false;
+        console.error('Error uploading file:', err);
+      }
+    });
+  }
+  isActiveShow: boolean = false
+  getRecordsBySharedEmail() {
+    this.isActiveShow = true;
+    this.applicationService.getBackendCommonAPI("s3-file-manager/getRecordsBySharedEmail").subscribe(res => {
+      if (res.isSuccess) {
+        this.filesList = res.data
+      }
+    })
   }
 }

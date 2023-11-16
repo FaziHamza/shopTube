@@ -1,3 +1,4 @@
+<nz-spin [nzSpinning]="saveLoader" [nzSize]="'large'" class="builder-design w-[calc(100%-262px)] !h-full ">
 <nz-space>
     <button *nzSpaceItem nz-button (click)="open()" nzType="primary" class="upload-btn">
         <i class="fa-light fa-gear !relative !text-lg "></i>
@@ -14,6 +15,15 @@
         <span>Menu Design</span>
     </ng-template>
     <ng-container *nzDrawerContent>
+
+        <div class="flex">
+            <nz-select nzShowSearch nzAllowClear [(ngModel)]="policyTheme" nzPlaceHolder="Select Theme" (ngModelChange)="setNewTheme($event)">
+                <nz-option *ngFor="let item of themeList" [nzLabel]="item.name" [nzValue]="item?._id"></nz-option>
+            </nz-select>
+            <input nz-input placeholder="Please Enter Theme Name" [(ngModel)]="themeName" type="text" />
+            <button nz-button nzType="primary" (click)="saveTheme()">Submit</button>
+            <button nz-button nzType="primary" (click)="cloneTheme()">Clone</button>
+        </div>
         <nz-tabset>
             <nz-tab nzTitle="Application Menu">
                 <div class="card-header">
@@ -38,7 +48,8 @@
                                         <div class="box">
                                             <input [(ngModel)]="selectedTheme['backGroundColor']" type="color"
                                                 class="input-color">
-                                                <span class="input-hex "><input nz-input [(ngModel)]="selectedTheme['backGroundColor']"></span>
+                                            <span class="input-hex "><input nz-input
+                                                    [(ngModel)]="selectedTheme['backGroundColor']"></span>
                                         </div>
                                     </div>
 
@@ -458,12 +469,13 @@
                 </div>
                 <div class="drawer-bottom">
                     <!-- <button nz-button nzType="primary">Save</button> -->
-                    <button nz-button nzType="default" class="btn-secondary" class="btn !mr-1.5" (click)="close()"> <i class="fa-regular fa-floppy-disk mr-1.5"></i> Save</button>
+                    <button nz-button nzType="default" class="btn-secondary" class="btn !mr-1.5" (click)="close()"> <i
+                            class="fa-regular fa-floppy-disk mr-1.5"></i> Save</button>
 
                     <button nz-button nzType="default" class="btn-secondary" class="btn-no" nz-popconfirm
-                        nzPopconfirmTitle="Are you sure to reset menu design"
-                        (nzOnConfirm)="reset('mainMenu')"> <i class="fa-regular fa-arrows-spin mr-1.5"></i> Reset</button>
-                        
+                        nzPopconfirmTitle="Are you sure to reset menu design" (nzOnConfirm)="reset('mainMenu')"> <i
+                            class="fa-regular fa-arrows-spin mr-1.5"></i> Reset</button>
+
                 </div>
             </nz-tab>
             <nz-tab nzTitle="In Page Menu">
@@ -516,7 +528,8 @@
                                         <div class="box">
                                             <input type="color" class="input-color"
                                                 [(ngModel)]="selectedTheme['inPageMenu']['backGroundColor']">
-                                            <span class="input-hex " >{{selectedTheme['inPageMenu']['backGroundColor'] || '#000000'}}
+                                            <span class="input-hex ">{{selectedTheme['inPageMenu']['backGroundColor'] ||
+                                                '#000000'}}
                                             </span>
                                         </div>
                                     </div>
@@ -698,7 +711,9 @@
                                         <div class="box">
                                             <input type="color" class="input-color"
                                                 [(ngModel)]="selectedTheme['inPageMenu']['child']['backGroundColor']">
-                                            <span class="input-hex ">{{selectedTheme['inPageMenu']['child']['backGroundColor'] ||
+                                            <span
+                                                class="input-hex ">{{selectedTheme['inPageMenu']['child']['backGroundColor']
+                                                ||
                                                 '#000000'}}
                                             </span>
                                         </div>
@@ -1028,3 +1043,4 @@
         </nz-tabset>
     </ng-container>
 </nz-drawer>
+</nz-spin>
