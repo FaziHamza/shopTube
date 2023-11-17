@@ -11,21 +11,23 @@ export class PolicyMappingTableComponent {
   @Input() pageSize: any;
   @Input() listOfColumns: any;
   @Input() startIndex: any;
-  @Input() data: any;
+  @Input() data: any[] = [];
 
-  search(event: any, column: any): void {
-    const inputValue = event?.target ? event.target.value?.toLowerCase() : event?.toLowerCase() ?? '';
-    if (inputValue) {
-      this.data = this.menuOfDisplayData.filter((item: any) => {
-        const { key } = column;
-        const { [key]: itemName } = item || {}; // Check if item is undefined, set to empty object if so
-        return itemName?.toLowerCase()?.includes(inputValue); // Check if itemName is undefined or null
-      });
-    } else {
-      this.data = this.menuOfDisplayData;
+  ngOnInit(): void {
+    const checkMenu = this.data?.find((a: any) => a.sqlType == "sql");
+    if(checkMenu){
+      this.listOfColumns = this.actionColumns;
     }
   }
+
+  actionColumns = [
+    { name: '', dataField: 'expand' },
+    {
+      name: 'Action Name', dataField: 'quryType'
+    },
+    {
+      name: 'Is Allow', dataField: 'isAllow'
+    }
+  ];
+
 }
-
-
-

@@ -42,41 +42,24 @@ export class PolicyMappingComponent implements OnInit {
   saveLoader: boolean = false;
   actionList: any[] = [];
   listOfColumns = [
+    { name: '', dataField: 'expand' },
     {
-      name: '',
-      key: 'title',
-      inVisible: true,
+      name: 'Menu Name', dataField: 'title'
     },
     {
-      name: 'Menu Name',
-      key: 'title',
-      searchValue: '',
-      inVisible: false,
+      name: 'Create', dataField: 'create'
     },
     {
-      name: 'Create',
-      searchValue: '',
-      inVisible: true,
+      name: 'Read', dataField: 'read'
     },
     {
-      name: 'Read',
-      searchValue: '',
-      inVisible: true,
+      name: 'Update', dataField: 'update'
     },
     {
-      name: 'Update',
-      searchValue: '',
-      inVisible: true,
+      name: 'Delete', dataField: 'delete'
     },
     {
-      name: 'Delete',
-      searchValue: '',
-      inVisible: true,
-    },
-    {
-      name: 'Hide',
-      searchValue: '',
-      inVisible: true,
+      name: 'Hide', dataField: 'hideExpression'
     },
   ];
   constructor(
@@ -298,6 +281,7 @@ export class PolicyMappingComponent implements OnInit {
             update: false,
             delete: false,
           };
+
           const newData = this.applyBooleanToArray(menuList, booleanObject);
           console.log(newData);
           this.applicationMenuList = newData;
@@ -360,40 +344,49 @@ export class PolicyMappingComponent implements OnInit {
     return newData;
   }
   getPolicyMenu() {
+
     if (!this.policyName) {
-      this.toastr.error("Please select a policy name", { nzDuration: 3000 });
+      this.toastr.error("Please select policy name", { nzDuration: 3000 });
       return;
     }
+    this.applicationService.getNestCommonAPIById('policy-mapping/policy', this.policyName).subscribe(((res: any) => {
+      if (res)
+        this.policyMenuList = res.data || [];
 
-    this.loading = true;
-
-    this.applicationService.getNestCommonAPIById('policy-mapping/policy', this.policyName)
-      .subscribe(
-        (res: any) => {
-          this.loading = false;
-          this.policyMenuList = res.data || [];
-          this.updatedMenuList();
-        },
-        (error) => {
-          // Handle HTTP errors or errors from the observable
-          console.error("API error:", error);
-          this.toastr.error("An error occurred while fetching data from the server", { nzDuration: 3000 });
-          this.loading = false;
-        }
-      );
+      this.updatedMenuList();
+    }));
   }
-
   updatedMenuList() {
     let updatedData = this.applicationMenuList;
     // this.menuList = JSON.parse(JSON.stringify(updatedData));
     const updatedMenuData = this.mergePolicyIntoMenu(updatedData, this.policyMenuList);
     this.menuList = JSON.parse(JSON.stringify(updatedMenuData));
-    console.log(updatedMenuData);
+
+    // Iterate through obj2
+    this.actionList.forEach(element => {
+      for (let index = 0; index < this.menuList.length; index++) {
+        const menu = this.menuList[index];
+        if (menu.screenId === `/pages/${element.moduleId}`) {
+          if (!menu.children) {
+            menu.children = [];
+            // Push obj1 object to children array
+            menu.children.push(element);
+            break;
+          } else {
+            const checkIsAlreadyExist = menu.children.find((a: any) => a._id == element._id);
+            if (!checkIsAlreadyExist) {
+              menu.children.push(element);
+            }
+            break;
+          }
+        }
+      }
+    });
+    console.log(this.menuList);
 
     // this.handlePageChange(1);
 
   }
-  // Define a function to merge policy data into menu data recursively
   // Define a function to merge policy data into menu data recursively
   mergePolicyIntoMenu(menuData: any[], policyData: any[]) {
     return menuData.map(menuItem => {
@@ -419,9 +412,7 @@ export class PolicyMappingComponent implements OnInit {
   }
 
   // Call the function to merge policy data into menu data
-  // Call the function to merge policy data into menu data
 
-  // updatedMenuData now contains the merged data
   // updatedMenuData now contains the merged data
 
   deleteAllPolicy() {
