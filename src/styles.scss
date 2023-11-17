@@ -7890,3 +7890,39 @@ nz-input-group:active {
 .primary-color{
   color: $primary-color !important;
 }
+
+.confirm-modal {
+  .ant-modal-confirm-btns>button:nth-child(1) {
+    height: 35px !important;
+    width: 47% !important;
+    border-radius: 6px !important;
+  }
+
+  .ant-modal-confirm-btns>button:nth-child(2) {
+    height: 35px !important;
+    width: 47% !important;
+    background: #5736fd !important;
+    border-radius: 6px !important;
+
+    &:hover {
+      background-color: #7a75ff !important;
+    }
+  }
+
+  .ant-modal-confirm .ant-modal-confirm-btns {
+    float: none !important;
+  }
+
+  .ant-modal-confirm-btns {
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    margin-bottom: 10px !important;
+    width: 100% !important;
+  }
+
+  .anticon-question-circle {
+    margin-top: 2px !important;
+  }
+
+}
