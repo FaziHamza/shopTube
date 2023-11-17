@@ -2,7 +2,7 @@ import { ChangeDetectorRef, Component, Input, OnInit, ViewContainerRef, Renderer
 import { ActivatedRoute, NavigationEnd, Params, Router } from '@angular/router';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { NzModalService } from 'ng-zorro-antd/modal';
-import { Subscription, filter, forkJoin } from 'rxjs';
+import { Subject, Subscription, filter, forkJoin } from 'rxjs';
 import { CommentModalComponent } from 'src/app/components';
 import { Guid } from 'src/app/models/guid';
 import { ApplicationService } from 'src/app/services/application.service';
@@ -38,6 +38,7 @@ export class SiteLayoutComponent implements OnInit {
   currentUser: any;
   domainData: any;
   isShowContextMenu = false;
+  hideHeaderFooterMenu = false;
   newSelectedTheme = {
     menuMode: 'inline',
     layout: 'vertical',
@@ -68,7 +69,8 @@ export class SiteLayoutComponent implements OnInit {
     iconSize: '15',
     hoverBgColor: '#3b82f6'
   }
-
+  private subscriptions: Subscription = new Subscription();
+  private destroy$: Subject<void> = new Subject<void>();
   constructor(private applicationService: ApplicationService, private renderer: Renderer2, private el: ElementRef, public dataSharedService: DataSharedService, public builderService: BuilderService,
     private toastr: NzMessageService, private router: Router, private activatedRoute: ActivatedRoute, private cd: ChangeDetectorRef, private modalService: NzModalService,
     private viewContainerRef: ViewContainerRef) {
@@ -84,13 +86,10 @@ export class SiteLayoutComponent implements OnInit {
     })
   }
 
-  ngOnDestroy() {
-    if (this.requestSubscription) {
-      this.requestSubscription.unsubscribe();
-    }
-  }
-
   ngOnInit(): void {
+
+
+
     this.dataSharedService.measureHeight = 0;
     // this.getTaskManagementIssuesFunc(JSON.parse(localStorage.getItem('applicationId')!));
     this.currentUser = JSON.parse(localStorage.getItem('user')!);
@@ -121,8 +120,8 @@ export class SiteLayoutComponent implements OnInit {
     }
     //http://spectrum.com/
 
-    this.fullCurrentUrl = window.location.host.includes('spectrum') ? 'spectrum.expocitydubai.com' :  window.location.host.split(':')[0];
-    this.currentUrl = window.location.host.includes('spectrum') ? 'spectrum.expocitydubai.com' :  window.location.host.split(':')[0];
+    this.fullCurrentUrl = window.location.host.includes('spectrum') ? 'spectrum.expocitydubai.com' : window.location.host.split(':')[0];
+    this.currentUrl = window.location.host.includes('spectrum') ? 'spectrum.expocitydubai.com' : window.location.host.split(':')[0];
     this.getMenuByDomainName(this.currentUrl, true);
 
     // if (!this.currentUrl.includes('localhost')) {
@@ -167,9 +166,6 @@ export class SiteLayoutComponent implements OnInit {
 
 
   updateHeaderHeight() {
-
-    
-
     if (this.el.nativeElement.querySelector('#HEADER')) {
       const headerElement = this.el.nativeElement.querySelector('#HEADER');
       this.headerHeight = headerElement.clientHeight;
@@ -186,8 +182,8 @@ export class SiteLayoutComponent implements OnInit {
       const contentElement = this.el.nativeElement.querySelector('#Content');
       this.dataSharedService.contentHeight = contentElement.clientHeight;
     }
-    
-    this.dataSharedService.measureHeight =  window.innerHeight - ( this.headerHeight + this.footerHeight + 10);
+
+    this.dataSharedService.measureHeight = window.innerHeight - (this.headerHeight + this.footerHeight + 10);
 
     // Extract the numeric values from the strings
     console.log(this.dataSharedService.measureHeight);
@@ -199,8 +195,6 @@ export class SiteLayoutComponent implements OnInit {
       console.log(true);
       this.dataSharedService.showFooter = true;
     }
-  
-
   }
 
 
@@ -252,6 +246,7 @@ export class SiteLayoutComponent implements OnInit {
                 }
               }
             }
+            this.hideHeaderFooterMenu = window.location.href.includes('/pdf') ? true : false;
             if (!window.location.href.includes('/pages') && res.data?.default?.navigation && !window.location.href.includes('/menu-builder')) {
               this.router.navigate(['/pages/' + res.data?.default?.navigation
               ]);
@@ -596,10 +591,10 @@ export class SiteLayoutComponent implements OnInit {
       }
     })
   }
-
-  updateStyles() {
-
+  ngOnDestroy() {
+    if (this.requestSubscription) {
+      this.requestSubscription.unsubscribe();
+    }
   }
-
 }
 

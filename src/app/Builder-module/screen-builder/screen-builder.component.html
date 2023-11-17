@@ -5,12 +5,13 @@
             <tr>
                 <!-- <th>#</th> -->
                 <ng-container *ngFor="let column of listOfColumns">
-                    <th nzCustomFilter *ngIf="column.name != 'Action'" [nzSortFn]="column.sortFn">{{column.name}}
+                    <th nzCustomFilter *ngIf="column.name != 'Action' && column.name != 'Pdf'"
+                        [nzSortFn]="column.sortFn">{{column.name}}
                         <nz-filter-trigger [nzVisible]="column.visible || false" [nzDropdownMenu]="menu">
                             <span nz-icon nzType="search"></span>
                         </nz-filter-trigger>
                     </th>
-                    <th nzWidth="120px" *ngIf="column.name == 'Action'" class="w-1/12">
+                    <th nzWidth="120px" *ngIf="column.name == 'Action' || column.name == 'Pdf'" class="w-1/12">
                         {{column.name}}
                     </th>
 
@@ -33,6 +34,7 @@
                 <!-- <td>{{ data.orgnaizationName ? data.orgnaizationName : 'no data'}}</td> -->
                 <td>{{ data.departmentName ? data.departmentName : data.applicationName}}</td>
                 <td>{{ data.moduleName ? data.moduleName : data.applicationName}}</td>
+                <td><label nz-checkbox [(ngModel)]="data.pdf" [nzDisabled]="true"></label></td>
                 <td>
                     <i class="fa-regular fa-pen-to-square !text-blue-600 hover:cursor-pointer" nzTooltipTitle="Edit"
                         nz-tooltip (click)="[openModal(),editItem(data)]"></i>
@@ -78,7 +80,8 @@
 <ng-template #extraTemplate>
     <button nz-button nzType="primary" class="btn" (click)="openModal()"><i class="fa-regular fa-plus mr-1.5"></i>Add
         New</button>
-    <button nz-button nzType="primary" class="ml-2 btn-no !bg-green-600 !border-none hover:!bg-green-500" (click)="downloadJson()"><i class="fa-regular fa-down-to-bracket mr-1.5"></i>Download Json</button>
+    <button nz-button nzType="primary" class="ml-2 btn-no !bg-green-600 !border-none hover:!bg-green-500"
+        (click)="downloadJson()"><i class="fa-regular fa-down-to-bracket mr-1.5"></i>Download Json</button>
 </ng-template>
 <!-- Modal -->
 <nz-drawer nzWidth="80%" [nzClosable]="true" [nzVisible]="isVisible" [nzFooter]="footerTpl" nzPlacement="right"
@@ -101,7 +104,7 @@
         <button nz-button *ngIf="isSubmit" [ngClass]="{'btn-no' : !form.valid,'btn': form.valid}" nzType="primary"
             (click)="onSubmit()" [disabled]="!form.valid">
             <i class="fa-regular fa-database mr-1.5"></i>
-                Submit</button>
+            Submit</button>
         <button nz-button *ngIf="!isSubmit" class="btn" nzType="primary" [disabled]="!form.valid"
             (click)="onSubmit()"><span nz-icon nzType="redo" nzTheme="outline"></span>Update</button>
     </div>

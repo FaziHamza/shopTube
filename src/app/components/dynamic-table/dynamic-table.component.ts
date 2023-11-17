@@ -1144,6 +1144,7 @@ export class DynamicTableComponent implements OnInit {
     }
     // this.displayData = this.tableData;
     if (this.data.serverSidePagination) {
+      debugger
       if (this.data?.targetId) {
         const pagination = '?page=' + index + '&pageSize=' + this.data?.end;
         this.pageSize = this.data.end

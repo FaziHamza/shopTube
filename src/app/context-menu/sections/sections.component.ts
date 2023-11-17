@@ -380,10 +380,10 @@ export class SectionsComponent implements OnInit {
     }
     id = data?.dataTable ? empData.modalData[data?.dataTable + '.id'] : id;
     if (id === undefined) {
-      if (!checkPermission?.create && this.dataSharedService.currentMenuLink !== '/ourbuilder') {
-        alert("You do not have permission");
-        return;
-      }
+      // if (!checkPermission?.create && this.dataSharedService.currentMenuLink !== '/ourbuilder') {
+      //   alert("You do not have permission");
+      //   return;
+      // }
       this.requestSubscription = this.activatedRoute.params.subscribe((params: Params) => {
         if (params["id"]) {
           for (const key in empData.modalData) {

@@ -1,31 +1,27 @@
 <!-- <nz-spin [nzSpinning]="saveLoader" [nzSize]="'large'" class="builder-design w-[calc(100%-262px)] !h-full "> -->
-<div class="b-card policy_mapping p-3">
-
-    <div class="flex flex-wrap mb-2">
-        <div class="w-1/4 flex mr-2">
-            <label style="width: 25%;" class="mt-2 font-bold">Application</label>
-            <nz-cascader style="width: 75%;" nzChangeOnSelect class=" policy-cascader !h-10 !rounded-md pl-1"
-                [nzAllowClear]="true" [(ngModel)]="selectDepartmentName" [nzLoadData]="loadData.bind(this)"
-                [nzOptions]="departmentData" placeholder="Select Application"
-                (ngModelChange)="onDepartmentChange($event)">
-            </nz-cascader>
-        </div>
-        <div class="w-1/4 flex mr-2">
-            <label style="width: 25%;" class="mt-2 font-bold">User</label>
-            <nz-select style="width: 75%;" nzShowSearch nzAllowClear class="temp-modal-select !h-10 !rounded-md"
-                [(ngModel)]="policyName" placeholder="Select User">
-                <nz-option [nzValue]="item._id" placeholder="Select Block Type..." [nzLabel]="item.name"
-                    *ngFor="let item of policyList"></nz-option>
-            </nz-select>
-        </div>
-        <div class="w-1/4 flex">
-            <button nz-button nzType="primary" (click)="getPolicyMenu()"
-                class="btn  !rounded !bg-amber-300 hover:!bg-amber-300 !text-slate-900 hover:text-white !border !border-transparent !hover:border-transparent !font-md"><i
-                    class="fa-regular mr-1.5 fa-magnifying-glass"></i> Search</button>
-        </div>
+<div class="flex flex-wrap mb-2 b-card p-3">
+    <div class="w-1/4 flex mr-2">
+        <label style="width: 25%;" class="mt-2 font-bold">Application</label>
+        <nz-cascader style="width: 75%;" nzChangeOnSelect class=" policy-cascader !h-10 !rounded-md pl-1"
+            [nzAllowClear]="true" [(ngModel)]="selectDepartmentName" [nzLoadData]="loadData.bind(this)"
+            [nzOptions]="departmentData" placeholder="Select Application" (ngModelChange)="onDepartmentChange($event)">
+        </nz-cascader>
     </div>
-
-
+    <div class="w-1/4 flex mr-2">
+        <label style="width: 25%;" class="mt-2 font-bold">User</label>
+        <nz-select style="width: 75%;" nzShowSearch nzAllowClear class="temp-modal-select !h-10 !rounded-md"
+            [(ngModel)]="policyName" placeholder="Select User">
+            <nz-option [nzValue]="item._id" placeholder="Select Block Type..." [nzLabel]="item.name"
+                *ngFor="let item of policyList"></nz-option>
+        </nz-select>
+    </div>
+    <div class="w-1/4 flex">
+        <button nz-button nzType="primary" (click)="getPolicyMenu()"
+            class="btn  !rounded !bg-amber-300 hover:!bg-amber-300 !text-slate-900 hover:text-white !border !border-transparent !hover:border-transparent !font-md"><i
+                class="fa-regular mr-1.5 fa-magnifying-glass"></i> Search</button>
+    </div>
+</div>
+<div class="b-card policy_mapping p-3">
     <nz-card nzTitle="Policy List" [nzExtra]="extraTemplate">
         <st-policy-mapping-table [loading]="loading" [data]="menuList" [pageSize]="pageSize"
             [listOfColumns]="listOfColumns" [menuOfDisplayData]="menuList"></st-policy-mapping-table>
