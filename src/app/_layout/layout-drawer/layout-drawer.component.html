@@ -1,877 +1,926 @@
-<nz-spin [nzSpinning]="saveLoader" [nzSize]="'large'" class="builder-design w-[calc(100%-262px)] !h-full ">
 <nz-space>
     <button *nzSpaceItem nz-button (click)="open()" nzType="primary" class="upload-btn">
         <i class="fa-light fa-gear !relative !text-lg "></i>
         <i class="fa-light fa-gear !absolute !top-[7px] !right-[7.5px]" style="font-size: 8px !important;"></i>
     </button>
 </nz-space>
-<!-- <button nz-button nzType="primary" [nzSize]="'large'" nzShape="circle" (click)="open()" class="fixed bottom-4 right-4"
-    style="display: flex; justify-content: center; align-items: center">
-    <span nz-icon nzType="setting" nzSpin style="margin-right: 0; "></span>
-</button> -->
 <nz-drawer nzWrapClassName="drawer-body" [nzWidth]="'50%'" [nzVisible]="visible" nzPlacement="right" [nzTitle]="drawer"
     (nzOnClose)="close()">
     <ng-template #drawer>
         <span>Menu Design</span>
     </ng-template>
     <ng-container *nzDrawerContent>
-
-        <div class="flex">
-            <nz-select nzShowSearch nzAllowClear [(ngModel)]="policyTheme" nzPlaceHolder="Select Theme" (ngModelChange)="setNewTheme($event)">
-                <nz-option *ngFor="let item of themeList" [nzLabel]="item.name" [nzValue]="item?._id"></nz-option>
-            </nz-select>
-            <input nz-input placeholder="Please Enter Theme Name" [(ngModel)]="themeName" type="text" />
-            <button nz-button nzType="primary" (click)="saveTheme()">Submit</button>
-            <button nz-button nzType="primary" (click)="cloneTheme()">Clone</button>
-        </div>
-        <nz-tabset>
-            <nz-tab nzTitle="Application Menu">
-                <div class="card-header">
-                    Application Menu Configuration
+        <div [class]="saveLoader ? 'loader-overlay' : ''">
+            <nz-spin [nzSpinning]="saveLoader" [nzSize]="'large'">
+                <div class="flex flex-wrap mb-2">
+                    <div class="w-1/3 !mx-2">
+                        <label class="ml-1 font-bold">Select Menu Theme</label>
+                        <nz-select style="width: 100%;" nzShowSearch nzAllowClear [(ngModel)]="policyTheme"
+                            class=" policy-cascader !h-10 !rounded-md pl-1" nzPlaceHolder="Select Theme"
+                            (ngModelChange)="setNewTheme($event)">
+                            <nz-option *ngFor="let item of themeList" [nzLabel]="item.name"
+                                [nzValue]="item?._id"></nz-option>
+                        </nz-select>
+                    </div>
+                    <div class="w-1/3 !mx-2">
+                        <label class="ml-1 font-bold">Menu Theme Name</label>
+                        <input class="!border !rounded-md !p-2 !block !w-full " style="width: 100%;" nz-input
+                            placeholder="Please Enter Theme Name" [(ngModel)]="themeName" type="text" />
+                    </div>
+                    <div class="w-1/5 flex mt-[20px]">
+                        <button nz-button nzType="primary" class="btn-no ml-2" (click)="saveTheme()"><i
+                                class="fa-regular fa-save mr-2"></i>Save</button>
+                        <button nz-button nzType="primary"
+                            class="ml-2 btn-no !border-none !bg-green-600 hover:!bg-green-500" (click)="cloneTheme()"><i
+                                class="fa-regular fa-clone mr-2"></i> Clone</button>
+                    </div>
                 </div>
-                <div class="ps-3">
-                    <div class="b-card drawer-coll-body">
-                        <nz-collapse [nzExpandIconPosition]="'right'">
-                            <nz-collapse-panel [nzHeader]="formhead" [nzActive]="true">
-                                <ng-template #formhead>
-                                    <div class="coll-header">
-                                        <div>
-                                            <h6>Font Design </h6>
-                                        </div>
-                                    </div>
-                                </ng-template>
-                                <div class="color-pickers">
-                                    <div class="collm lable">
-                                        Background color
-                                    </div>
-                                    <div class="collm option">
-                                        <div class="box">
-                                            <input [(ngModel)]="selectedTheme['backGroundColor']" type="color"
-                                                class="input-color">
-                                            <span class="input-hex "><input nz-input
-                                                    [(ngModel)]="selectedTheme['backGroundColor']"></span>
-                                        </div>
-                                    </div>
-
-                                    <div class="collm lable">
-                                        Active Text Color
-                                    </div>
-                                    <div class="collm option">
-                                        <div class="box">
-                                            <input type="color" class="input-color"
-                                                [(ngModel)]="selectedTheme['activeTextColor']">
-                                            <span>{{selectedTheme['activeTextColor'] || '#7c7f90'}} </span>
-                                        </div>
-                                    </div>
-                                    <div class="collm lable">
-                                        Text Color
-                                    </div>
-                                    <div class="collm option">
-                                        <div class="box">
-                                            <input [(ngModel)]="selectedTheme['textColor']" type="color"
-                                                class="input-color">
-                                            <span>{{selectedTheme['textColor'] || '#7c7f90'}} </span>
-                                        </div>
-                                    </div>
-                                    <div class="collm lable">
-                                        Active BG Color
-                                    </div>
-                                    <div class="collm option">
-                                        <div class="box">
-                                            <input [(ngModel)]="selectedTheme['activeBackgroundColor']" type="color"
-                                                class="input-color">
-                                            <span>{{selectedTheme['activeBackgroundColor']}} </span>
-                                        </div>
-                                    </div>
-                                    <div class="collm lable">
-                                        Hover Text Color
-                                    </div>
-                                    <div class="collm option">
-                                        <div class="box">
-                                            <input type="color" class="input-color"
-                                                [(ngModel)]="selectedTheme['hoverTextColor']">
-                                            <span>{{selectedTheme['hoverTextColor']}} </span>
-                                        </div>
-                                    </div>
-                                    <div class="collm lable">
-                                        Hover Bg Color
-                                    </div>
-                                    <div class="collm option">
-                                        <div class="box">
-                                            <input type="color" class="input-color"
-                                                [(ngModel)]="selectedTheme['hoverBgColor']">
-                                            <span>{{selectedTheme['hoverBgColor']}} </span>
-                                        </div>
-                                    </div>
-                                    <div class="collm lable">
-                                        Text Size
-                                    </div>
-                                    <div class="collm option">
-                                        <div class="box">
-                                            <input type="number" class="input-text" name="" id=""
-                                                [(ngModel)]="selectedTheme['titleSize']">
-                                        </div>
-                                    </div>
-                                    <div class="collm lable">
-                                        Font Family
-                                    </div>
-                                    <div class="collm option">
-                                        <div class="box">
-                                            <nz-select style="width:100%" nzShowSearch nzAllowClear
-                                                nzPlaceHolder="Select Font" [(ngModel)]="selectedTheme['font']">
-                                                <nz-option nzLabel="italic" nzValue="italic"></nz-option>
-                                                <nz-option nzLabel="underline" nzValue="underline"></nz-option>
-                                                <nz-option nzLabel="uppercase" nzValue="uppercase"></nz-option>
-                                                <nz-option nzLabel="lowercase" nzValue="lowercase"></nz-option>
-                                                <nz-option nzLabel="capitalize" nzValue="capitalize"></nz-option>
-                                                <nz-option nzLabel="font-sans" nzValue="font-sans"></nz-option>
-                                                <nz-option nzLabel="font-serif" nzValue="font-serif"></nz-option>
-                                                <nz-option nzLabel="font-mono" nzValue="font-mono"></nz-option>
-                                                <nz-option nzLabel="font-roboto" nzValue="font-roboto"></nz-option>
-                                                <nz-option nzLabel="font-thin" nzValue="font-thin"></nz-option>
-                                                <nz-option nzLabel="font-extralight"
-                                                    nzValue="font-extralight"></nz-option>
-                                                <nz-option nzLabel="font-normal" nzValue="font-normal"></nz-option>
-                                                <nz-option nzLabel="font-bold" nzValue="font-bold"></nz-option>
-                                                <nz-option nzLabel="font-extrabold"
-                                                    nzValue="font-extrabold"></nz-option>
-                                                <nz-option nzLabel="font-black" nzValue="font-black"></nz-option>
-                                            </nz-select>
-                                        </div>
-                                    </div>
-                                </div>
-                            </nz-collapse-panel>
-                        </nz-collapse>
-                    </div>
-                    <div class="b-card drawer-coll-body">
-                        <nz-collapse [nzExpandIconPosition]="'right'">
-                            <nz-collapse-panel [nzHeader]="Iconformhead" [nzActive]="true">
-                                <ng-template #Iconformhead>
-                                    <div class="coll-header">
-                                        <div>
-                                            <h6>Icon Design</h6>
-                                        </div>
-                                    </div>
-                                </ng-template>
-                                <div class="color-pickers">
-                                    <div class="collm lable">
-                                        Icon Color
-                                    </div>
-                                    <div class="collm option">
-                                        <div class="box">
-                                            <input type="color" class="input-color"
-                                                [(ngModel)]="selectedTheme['iconColor']">
-                                            <span>{{selectedTheme['iconColor'] || '#7c7f90'}} </span>
-                                        </div>
-                                    </div>
-                                    <div class="collm lable">
-                                        Hover Icon Color
-                                    </div>
-                                    <div class="collm option">
-                                        <div class="box">
-                                            <input type="color" class="input-color"
-                                                [(ngModel)]="selectedTheme['hoverIconColor']">
-                                            <span>{{selectedTheme['hoverIconColor'] || '#fff'}} </span>
-                                        </div>
-                                    </div>
-                                    <div class="collm lable">
-                                        Active Icon Color
-                                    </div>
-                                    <div class="collm option">
-                                        <div class="box">
-                                            <input type="color" class="input-color"
-                                                [(ngModel)]="selectedTheme['activeIconColor']">
-                                            <span>{{selectedTheme['activeIconColor'] || '#7c7f90'}} </span>
-                                        </div>
-                                    </div>
-                                    <div class="collm lable">
-                                        <p>Icon Size</p>
-                                    </div>
-                                    <div class="collm option">
-                                        <div class="box">
-                                            <input type="number" class="input-text" name="" id=""
-                                                [(ngModel)]="selectedTheme['iconSize']">
-                                        </div>
-                                    </div>
-                                    <div class="collm lable">
-                                        Icon Type
-                                    </div>
-                                    <div class="collm option">
-                                        <div class="box">
-                                            <nz-select nzShowSearch nzAllowClear [(ngModel)]="selectedTheme['iconType']"
-                                                (ngModelChange)="changeLayout(selectedTheme['iconType']+'_'+'iconType',false)"
-                                                nzPlaceHolder="Icon Type">
-                                                <nz-option nzLabel="ng-zorro outlined" nzValue="outline"></nz-option>
-                                                <nz-option nzLabel="ng-zorro filled" nzValue="fill"></nz-option>
-                                                <nz-option nzLabel="ng-zorro twotone" nzValue="twotone"></nz-option>
-                                                <nz-option nzLabel="Font Awsome" nzValue="font_awsome"></nz-option>
-                                                <nz-option nzLabel="Material" nzValue="material"></nz-option>
-                                            </nz-select>
-                                        </div>
-                                    </div>
-                                    <div class="collm lable">
-                                    </div>
-                                    <div class="collm option">
-                                    </div>
-                                </div>
-                            </nz-collapse-panel>
-                        </nz-collapse>
-                    </div>
-                    <div *ngIf="applicationType == 'backend_application' || !applicationType">
-                        <div class="b-card drawer-coll-body">
-                            <nz-collapse [nzExpandIconPosition]="'right'">
-                                <nz-collapse-panel [nzHeader]="formhead3" [nzActive]="true">
-                                    <ng-template #formhead3>
-                                        <div class="coll-header">
-                                            <div>
-                                                <h6>Layout Design</h6>
-                                            </div>
-                                        </div>
-                                    </ng-template>
-                                    <div class="options-list2">
-                                        <div class="option2">
-                                            <div class="banner"
-                                                [ngClass]="selectedTheme.layout == 'vertical' ? 'selected' : 'unselected'">
-                                                <img src="assets/images/banner.png" alt=""
-                                                    (click)="changeLayout('vertical',false)">
-                                            </div>
-                                            <span>Vertical</span>
-                                        </div>
-                                        <div class="option2">
-                                            <div class="banner"
-                                                [ngClass]="selectedTheme.layout == 'horizental' ? 'selected' : 'unselected'">
-                                                <img src="assets/images/banner.png" alt=""
-                                                    (click)="changeLayout('horizental',false)">
-                                            </div>
-                                            <span>Horizental</span>
-                                        </div>
-                                        <div class="option2">
-                                            <div class="banner"
-                                                [ngClass]="selectedTheme.layout == 'twoColumn' ? 'selected' : 'unselected'">
-                                                <img src="assets/images/banner.png" alt=""
-                                                    (click)="changeLayout('twoColumn',false)">
-                                            </div>
-                                            <span>Two Column</span>
-                                        </div>
-                                        <div class="option2">
-                                            <div class="banner"
-                                                [ngClass]="selectedTheme.layout == 'rtl' ? 'selected' : 'unselected'">
-                                                <img src="assets/images/banner.png" alt=""
-                                                    (click)="changeLayout('rtl',false)">
-                                            </div>
-                                            <span>RTL</span>
-                                        </div>
-                                    </div>
-                                </nz-collapse-panel>
-                            </nz-collapse>
+                <nz-tabset>
+                    <nz-tab nzTitle="Application Menu">
+                        <div class="card-header">
+                            Application Menu Configuration
                         </div>
-                        <div class="b-card drawer-coll-body" *ngIf="selectedTheme.layout != 'twoColumn'">
-                            <nz-collapse [nzExpandIconPosition]="'right'">
-                                <nz-collapse-panel [nzHeader]="formhead4" [nzActive]="true">
-                                    <ng-template #formhead4>
-                                        <div class="coll-header">
-                                            <div>
-                                                <h6>Layout Width</h6>
+                        <div class="ps-3">
+                            <div class="b-card drawer-coll-body">
+                                <nz-collapse [nzExpandIconPosition]="'right'">
+                                    <nz-collapse-panel [nzHeader]="formhead" [nzActive]="true">
+                                        <ng-template #formhead>
+                                            <div class="coll-header">
+                                                <div>
+                                                    <h6>Font Design </h6>
+                                                </div>
                                             </div>
-                                        </div>
-                                    </ng-template>
-                                    <div class="options-list2">
-                                        <div class="option2">
-                                            <div class="banner"
-                                                [ngClass]="selectedTheme.layoutWidth == 'fluid' ? 'selected' : 'unselected'">
-                                                <img src="assets/images/banner.png" alt=""
-                                                    (click)="changeLayout('fluid',false)">
+                                        </ng-template>
+                                        <div class="color-pickers">
+                                            <div class="collm lable">
+                                                Background color
                                             </div>
-                                            <span>Fluid</span>
-                                        </div>
-                                        <div class="option2">
-                                            <div class="banner"
-                                                [ngClass]="selectedTheme.layoutWidth == 'boxed' ? 'selected' : 'unselected'">
-                                                <img src="assets/images/banner.png" alt=""
-                                                    (click)="changeLayout('boxed',false)">
-                                            </div>
-                                            <span>Boxed</span>
-                                        </div>
-                                        <div class="blank-option">
-                                        </div>
-                                        <div class="blank-option">
-                                        </div>
-                                    </div>
-                                </nz-collapse-panel>
-                            </nz-collapse>
-                        </div>
-                        <div class="b-card drawer-coll-body"
-                            *ngIf="selectedTheme.layout != 'horizental' && selectedTheme.layout != 'twoColumn'">
-                            <nz-collapse [nzExpandIconPosition]="'right'">
-                                <nz-collapse-panel [nzHeader]="formhead5" [nzActive]="true">
-                                    <ng-template #formhead5>
-                                        <div class="coll-header">
-                                            <div>
-                                                <h6>Side Bar Style</h6>
-                                            </div>
-                                        </div>
-                                    </ng-template>
-                                    <div class="options-list2">
-                                        <div class="option2">
-                                            <div class="banner"
-                                                [ngClass]="selectedTheme.sideBarSize == 'default' ? 'selected' : 'unselected'">
-                                                <img src="assets/images/banner.png" alt=""
-                                                    (click)="changeLayout('default',false)">
-                                            </div>
-                                            <span>Default</span>
-                                        </div>
-                                        <div class="option2">
-                                            <div class="banner"
-                                                [ngClass]="selectedTheme.sideBarSize == 'compact' ? 'selected' : 'unselected'">
-                                                <img src="assets/images/banner.png" alt=""
-                                                    (click)="changeLayout('compact',false)">
-                                            </div>
-                                            <span>Compact</span>
-                                        </div>
-                                        <div class="option2">
-                                            <div class="banner"
-                                                [ngClass]="selectedTheme.sideBarSize == 'compact_right' ? 'selected' : 'unselected'">
-                                                <img src="assets/images/banner.png" alt=""
-                                                    (click)="changeLayout('compact_right',false)">
-                                            </div>
-                                            <span *ngIf="selectedTheme.layout != 'rtl'">Compact
-                                                Right</span>
-                                            <span *ngIf="selectedTheme.layout == 'rtl'">Compact
-                                                Left</span>
-                                        </div>
-                                        <div class="option2">
-                                            <div class="banner"
-                                                [ngClass]="selectedTheme.sideBarSize == 'compact_left' ? 'selected' : 'unselected'">
-                                                <img src="assets/images/banner.png" alt=""
-                                                    (click)="changeLayout('compact_left',false)">
-                                            </div>
-                                            <span *ngIf="selectedTheme.layout != 'rtl'">Compact
-                                                Left</span>
-                                            <span *ngIf="selectedTheme.layout == 'rtl'">Compact
-                                                Right</span>
-                                        </div>
-                                        <div class="option2">
-                                            <div class="banner"
-                                                [ngClass]="selectedTheme.sideBarSize == 'smallIconView' ? 'selected' : 'unselected'">
-                                                <img src="assets/images/banner.png" alt=""
-                                                    (click)="changeLayout('smallIconView',false)">
-                                            </div>
-                                            <span>Small (Icon View)</span>
-                                        </div>
-                                        <div class="option2">
-                                            <div class="banner"
-                                                [ngClass]="selectedTheme.sideBarSize == 'smallHoverView' ? 'selected' : 'unselected'">
-                                                <img src="assets/images/banner.png" alt=""
-                                                    (click)="changeLayout('smallHoverView',false)">
-                                            </div>
-                                            <span>Small Hover View</span>
-                                        </div>
-                                        <div class="blank-option">
-                                        </div>
-                                        <div class="blank-option">
-                                        </div>
-                                    </div>
-                                </nz-collapse-panel>
-                            </nz-collapse>
-                        </div>
-                        <div class="b-card drawer-coll-body" *ngIf="selectedTheme.layout != 'horizental'">
-                            <nz-collapse [nzExpandIconPosition]="'right'">
-                                <nz-collapse-panel [nzHeader]="formhead6" [nzActive]="true">
-                                    <ng-template #formhead6>
-                                        <div class="coll-header">
-                                            <div>
-                                                <h6>Side Bar Images</h6>
-                                            </div>
-                                        </div>
-                                    </ng-template>
-                                    <div class="options-list2">
-                                        <div class="option2">
-                                            <div class="banner" (click)="changeLayout('',false)"
-                                                [ngClass]="selectedTheme.siderBarImages == '' ? 'selected resert-bg-img' : 'unselected resert-bg-img'">
-                                                <i class="fa-solid fa-xmark"></i>
-                                            </div>
-                                        </div>
-                                        <div class="option2">
-                                            <div class="banner"
-                                                [ngClass]="selectedTheme.siderBarImages == 'assets/images/menu/image-1.avif' ? 'selected' : 'unselected'">
-                                                <img src="assets/images/menu/image-1.avif" alt=""
-                                                    (click)="changeLayout('assets/images/menu/image-1.avif',false)">
-                                            </div>
-                                        </div>
-                                        <div class="option2">
-                                            <div class="banner"
-                                                [ngClass]="selectedTheme.siderBarImages == 'assets/images/menu/image_2.avif' ? 'selected' : 'unselected'">
-                                                <img src="assets/images/menu/image_2.avif" alt=""
-                                                    (click)="changeLayout('assets/images/menu/image_2.avif',false)">
+                                            <div class="collm option">
+                                                <div class="box">
+                                                    <input [(ngModel)]="selectedTheme['backGroundColor']" type="color"
+                                                        class="input-color">
+                                                    <span class="input-hex "><input nz-input
+                                                            [(ngModel)]="selectedTheme['backGroundColor']"></span>
+                                                </div>
                                             </div>
 
-                                        </div>
-                                        <div class="option2">
-                                            <div class="banner"
-                                                [ngClass]="selectedTheme.siderBarImages == 'assets/images/menu/image_3.avif' ? 'selected' : 'unselected'">
-                                                <img src="assets/images/menu/image_3.avif" alt=""
-                                                    (click)="changeLayout('assets/images/menu/image_3.avif',false)">
+                                            <div class="collm lable">
+                                                Active Text Color
+                                            </div>
+                                            <div class="collm option">
+                                                <div class="box">
+                                                    <input type="color" class="input-color"
+                                                        [(ngModel)]="selectedTheme['activeTextColor']">
+                                                    <span>{{selectedTheme['activeTextColor'] || '#7c7f90'}} </span>
+                                                </div>
+                                            </div>
+                                            <div class="collm lable">
+                                                Text Color
+                                            </div>
+                                            <div class="collm option">
+                                                <div class="box">
+                                                    <input [(ngModel)]="selectedTheme['textColor']" type="color"
+                                                        class="input-color">
+                                                    <span>{{selectedTheme['textColor'] || '#7c7f90'}} </span>
+                                                </div>
+                                            </div>
+                                            <div class="collm lable">
+                                                Active BG Color
+                                            </div>
+                                            <div class="collm option">
+                                                <div class="box">
+                                                    <input [(ngModel)]="selectedTheme['activeBackgroundColor']"
+                                                        type="color" class="input-color">
+                                                    <span>{{selectedTheme['activeBackgroundColor']}} </span>
+                                                </div>
+                                            </div>
+                                            <div class="collm lable">
+                                                Hover Text Color
+                                            </div>
+                                            <div class="collm option">
+                                                <div class="box">
+                                                    <input type="color" class="input-color"
+                                                        [(ngModel)]="selectedTheme['hoverTextColor']">
+                                                    <span>{{selectedTheme['hoverTextColor']}} </span>
+                                                </div>
+                                            </div>
+                                            <div class="collm lable">
+                                                Hover Bg Color
+                                            </div>
+                                            <div class="collm option">
+                                                <div class="box">
+                                                    <input type="color" class="input-color"
+                                                        [(ngModel)]="selectedTheme['hoverBgColor']">
+                                                    <span>{{selectedTheme['hoverBgColor']}} </span>
+                                                </div>
+                                            </div>
+                                            <div class="collm lable">
+                                                Text Size
+                                            </div>
+                                            <div class="collm option">
+                                                <div class="box">
+                                                    <input type="number" class="input-text" name="" id=""
+                                                        [(ngModel)]="selectedTheme['titleSize']">
+                                                </div>
+                                            </div>
+                                            <div class="collm lable">
+                                                Font Family
+                                            </div>
+                                            <div class="collm option">
+                                                <div class="box">
+                                                    <nz-select style="width:100%" nzShowSearch nzAllowClear
+                                                        nzPlaceHolder="Select Font" [(ngModel)]="selectedTheme['font']">
+                                                        <nz-option nzLabel="italic" nzValue="italic"></nz-option>
+                                                        <nz-option nzLabel="underline" nzValue="underline"></nz-option>
+                                                        <nz-option nzLabel="uppercase" nzValue="uppercase"></nz-option>
+                                                        <nz-option nzLabel="lowercase" nzValue="lowercase"></nz-option>
+                                                        <nz-option nzLabel="capitalize"
+                                                            nzValue="capitalize"></nz-option>
+                                                        <nz-option nzLabel="font-sans" nzValue="font-sans"></nz-option>
+                                                        <nz-option nzLabel="font-serif"
+                                                            nzValue="font-serif"></nz-option>
+                                                        <nz-option nzLabel="font-mono" nzValue="font-mono"></nz-option>
+                                                        <nz-option nzLabel="font-roboto"
+                                                            nzValue="font-roboto"></nz-option>
+                                                        <nz-option nzLabel="font-thin" nzValue="font-thin"></nz-option>
+                                                        <nz-option nzLabel="font-extralight"
+                                                            nzValue="font-extralight"></nz-option>
+                                                        <nz-option nzLabel="font-normal"
+                                                            nzValue="font-normal"></nz-option>
+                                                        <nz-option nzLabel="font-bold" nzValue="font-bold"></nz-option>
+                                                        <nz-option nzLabel="font-extrabold"
+                                                            nzValue="font-extrabold"></nz-option>
+                                                        <nz-option nzLabel="font-black"
+                                                            nzValue="font-black"></nz-option>
+                                                    </nz-select>
+                                                </div>
                                             </div>
                                         </div>
-                                        <div class="option2">
-                                            <div class="banner"
-                                                [ngClass]="selectedTheme.siderBarImages == 'assets/images/menu/image-4.avif' ? 'selected' : 'unselected'">
-                                                <img src="assets/images/menu/image-4.avif"
-                                                    (click)="changeLayout('assets/images/menu/image-4.avif',false)">
+                                    </nz-collapse-panel>
+                                </nz-collapse>
+                            </div>
+                            <div class="b-card drawer-coll-body">
+                                <nz-collapse [nzExpandIconPosition]="'right'">
+                                    <nz-collapse-panel [nzHeader]="Iconformhead" [nzActive]="true">
+                                        <ng-template #Iconformhead>
+                                            <div class="coll-header">
+                                                <div>
+                                                    <h6>Icon Design</h6>
+                                                </div>
+                                            </div>
+                                        </ng-template>
+                                        <div class="color-pickers">
+                                            <div class="collm lable">
+                                                Icon Color
+                                            </div>
+                                            <div class="collm option">
+                                                <div class="box">
+                                                    <input type="color" class="input-color"
+                                                        [(ngModel)]="selectedTheme['iconColor']">
+                                                    <span>{{selectedTheme['iconColor'] || '#7c7f90'}} </span>
+                                                </div>
+                                            </div>
+                                            <div class="collm lable">
+                                                Hover Icon Color
+                                            </div>
+                                            <div class="collm option">
+                                                <div class="box">
+                                                    <input type="color" class="input-color"
+                                                        [(ngModel)]="selectedTheme['hoverIconColor']">
+                                                    <span>{{selectedTheme['hoverIconColor'] || '#fff'}} </span>
+                                                </div>
+                                            </div>
+                                            <div class="collm lable">
+                                                Active Icon Color
+                                            </div>
+                                            <div class="collm option">
+                                                <div class="box">
+                                                    <input type="color" class="input-color"
+                                                        [(ngModel)]="selectedTheme['activeIconColor']">
+                                                    <span>{{selectedTheme['activeIconColor'] || '#7c7f90'}} </span>
+                                                </div>
+                                            </div>
+                                            <div class="collm lable">
+                                                <p>Icon Size</p>
+                                            </div>
+                                            <div class="collm option">
+                                                <div class="box">
+                                                    <input type="number" class="input-text" name="" id=""
+                                                        [(ngModel)]="selectedTheme['iconSize']">
+                                                </div>
+                                            </div>
+                                            <div class="collm lable">
+                                                Icon Type
+                                            </div>
+                                            <div class="collm option">
+                                                <div class="box">
+                                                    <nz-select nzShowSearch nzAllowClear
+                                                        [(ngModel)]="selectedTheme['iconType']"
+                                                        (ngModelChange)="changeLayout(selectedTheme['iconType']+'_'+'iconType',false)"
+                                                        nzPlaceHolder="Icon Type">
+                                                        <nz-option nzLabel="ng-zorro outlined"
+                                                            nzValue="outline"></nz-option>
+                                                        <nz-option nzLabel="ng-zorro filled" nzValue="fill"></nz-option>
+                                                        <nz-option nzLabel="ng-zorro twotone"
+                                                            nzValue="twotone"></nz-option>
+                                                        <nz-option nzLabel="Font Awsome"
+                                                            nzValue="font_awsome"></nz-option>
+                                                        <nz-option nzLabel="Material" nzValue="material"></nz-option>
+                                                    </nz-select>
+                                                </div>
+                                            </div>
+                                            <div class="collm lable">
+                                            </div>
+                                            <div class="collm option">
                                             </div>
                                         </div>
-                                    </div>
-                                </nz-collapse-panel>
-                            </nz-collapse>
-                        </div>
-                    </div>
-                    <div *ngIf="applicationType == 'website'">
-                        <div class="b-card drawer-coll-body">
-                            <nz-collapse [nzExpandIconPosition]="'right'">
-                                <nz-collapse-panel [nzHeader]="formhead7" [nzActive]="true">
-                                    <ng-template #formhead7>
-                                        <div class="coll-header">
-                                            <div>
-                                                <h6>Layout</h6>
+                                    </nz-collapse-panel>
+                                </nz-collapse>
+                            </div>
+                            <div *ngIf="applicationType == 'backend_application' || !applicationType">
+                                <div class="b-card drawer-coll-body">
+                                    <nz-collapse [nzExpandIconPosition]="'right'">
+                                        <nz-collapse-panel [nzHeader]="formhead3" [nzActive]="true">
+                                            <ng-template #formhead3>
+                                                <div class="coll-header">
+                                                    <div>
+                                                        <h6>Layout Design</h6>
+                                                    </div>
+                                                </div>
+                                            </ng-template>
+                                            <div class="options-list2">
+                                                <div class="option2">
+                                                    <div class="banner"
+                                                        [ngClass]="selectedTheme.layout == 'vertical' ? 'selected' : 'unselected'">
+                                                        <img src="assets/images/banner.png" alt=""
+                                                            (click)="changeLayout('vertical',false)">
+                                                    </div>
+                                                    <span>Vertical</span>
+                                                </div>
+                                                <div class="option2">
+                                                    <div class="banner"
+                                                        [ngClass]="selectedTheme.layout == 'horizental' ? 'selected' : 'unselected'">
+                                                        <img src="assets/images/banner.png" alt=""
+                                                            (click)="changeLayout('horizental',false)">
+                                                    </div>
+                                                    <span>Horizental</span>
+                                                </div>
+                                                <div class="option2">
+                                                    <div class="banner"
+                                                        [ngClass]="selectedTheme.layout == 'twoColumn' ? 'selected' : 'unselected'">
+                                                        <img src="assets/images/banner.png" alt=""
+                                                            (click)="changeLayout('twoColumn',false)">
+                                                    </div>
+                                                    <span>Two Column</span>
+                                                </div>
+                                                <div class="option2">
+                                                    <div class="banner"
+                                                        [ngClass]="selectedTheme.layout == 'rtl' ? 'selected' : 'unselected'">
+                                                        <img src="assets/images/banner.png" alt=""
+                                                            (click)="changeLayout('rtl',false)">
+                                                    </div>
+                                                    <span>RTL</span>
+                                                </div>
                                             </div>
-                                        </div>
-                                    </ng-template>
-                                    <div class="options-list2">
-                                        <div class="option2">
-                                            <div class="banner">
-                                                <img src="assets/images/banner.png" alt="">
+                                        </nz-collapse-panel>
+                                    </nz-collapse>
+                                </div>
+                                <div class="b-card drawer-coll-body" *ngIf="selectedTheme.layout != 'twoColumn'">
+                                    <nz-collapse [nzExpandIconPosition]="'right'">
+                                        <nz-collapse-panel [nzHeader]="formhead4" [nzActive]="true">
+                                            <ng-template #formhead4>
+                                                <div class="coll-header">
+                                                    <div>
+                                                        <h6>Layout Width</h6>
+                                                    </div>
+                                                </div>
+                                            </ng-template>
+                                            <div class="options-list2">
+                                                <div class="option2">
+                                                    <div class="banner"
+                                                        [ngClass]="selectedTheme.layoutWidth == 'fluid' ? 'selected' : 'unselected'">
+                                                        <img src="assets/images/banner.png" alt=""
+                                                            (click)="changeLayout('fluid',false)">
+                                                    </div>
+                                                    <span>Fluid</span>
+                                                </div>
+                                                <div class="option2">
+                                                    <div class="banner"
+                                                        [ngClass]="selectedTheme.layoutWidth == 'boxed' ? 'selected' : 'unselected'">
+                                                        <img src="assets/images/banner.png" alt=""
+                                                            (click)="changeLayout('boxed',false)">
+                                                    </div>
+                                                    <span>Boxed</span>
+                                                </div>
+                                                <div class="blank-option">
+                                                </div>
+                                                <div class="blank-option">
+                                                </div>
                                             </div>
-                                            <span>Design 01</span>
-                                        </div>
-                                        <div class="option2">
-                                            <div class="banner">
-                                                <img src="assets/images/banner.png" alt="">
+                                        </nz-collapse-panel>
+                                    </nz-collapse>
+                                </div>
+                                <div class="b-card drawer-coll-body"
+                                    *ngIf="selectedTheme.layout != 'horizental' && selectedTheme.layout != 'twoColumn'">
+                                    <nz-collapse [nzExpandIconPosition]="'right'">
+                                        <nz-collapse-panel [nzHeader]="formhead5" [nzActive]="true">
+                                            <ng-template #formhead5>
+                                                <div class="coll-header">
+                                                    <div>
+                                                        <h6>Side Bar Style</h6>
+                                                    </div>
+                                                </div>
+                                            </ng-template>
+                                            <div class="options-list2">
+                                                <div class="option2">
+                                                    <div class="banner"
+                                                        [ngClass]="selectedTheme.sideBarSize == 'default' ? 'selected' : 'unselected'">
+                                                        <img src="assets/images/banner.png" alt=""
+                                                            (click)="changeLayout('default',false)">
+                                                    </div>
+                                                    <span>Default</span>
+                                                </div>
+                                                <div class="option2">
+                                                    <div class="banner"
+                                                        [ngClass]="selectedTheme.sideBarSize == 'compact' ? 'selected' : 'unselected'">
+                                                        <img src="assets/images/banner.png" alt=""
+                                                            (click)="changeLayout('compact',false)">
+                                                    </div>
+                                                    <span>Compact</span>
+                                                </div>
+                                                <div class="option2">
+                                                    <div class="banner"
+                                                        [ngClass]="selectedTheme.sideBarSize == 'compact_right' ? 'selected' : 'unselected'">
+                                                        <img src="assets/images/banner.png" alt=""
+                                                            (click)="changeLayout('compact_right',false)">
+                                                    </div>
+                                                    <span *ngIf="selectedTheme.layout != 'rtl'">Compact
+                                                        Right</span>
+                                                    <span *ngIf="selectedTheme.layout == 'rtl'">Compact
+                                                        Left</span>
+                                                </div>
+                                                <div class="option2">
+                                                    <div class="banner"
+                                                        [ngClass]="selectedTheme.sideBarSize == 'compact_left' ? 'selected' : 'unselected'">
+                                                        <img src="assets/images/banner.png" alt=""
+                                                            (click)="changeLayout('compact_left',false)">
+                                                    </div>
+                                                    <span *ngIf="selectedTheme.layout != 'rtl'">Compact
+                                                        Left</span>
+                                                    <span *ngIf="selectedTheme.layout == 'rtl'">Compact
+                                                        Right</span>
+                                                </div>
+                                                <div class="option2">
+                                                    <div class="banner"
+                                                        [ngClass]="selectedTheme.sideBarSize == 'smallIconView' ? 'selected' : 'unselected'">
+                                                        <img src="assets/images/banner.png" alt=""
+                                                            (click)="changeLayout('smallIconView',false)">
+                                                    </div>
+                                                    <span>Small (Icon View)</span>
+                                                </div>
+                                                <div class="option2">
+                                                    <div class="banner"
+                                                        [ngClass]="selectedTheme.sideBarSize == 'smallHoverView' ? 'selected' : 'unselected'">
+                                                        <img src="assets/images/banner.png" alt=""
+                                                            (click)="changeLayout('smallHoverView',false)">
+                                                    </div>
+                                                    <span>Small Hover View</span>
+                                                </div>
+                                                <div class="blank-option">
+                                                </div>
+                                                <div class="blank-option">
+                                                </div>
                                             </div>
-                                            <span>Design 02</span>
-                                        </div>
-                                        <div class="option2">
-                                            <div class="banner">
-                                                <img src="assets/images/banner.png" alt="">
-                                            </div>
-                                            <span>Design 03</span>
-                                        </div>
-                                        <div class="option2">
-                                            <div class="banner">
-                                                <img src="assets/images/banner.png" alt="">
-                                            </div>
-                                            <span>Design 04</span>
-                                        </div>
-                                    </div>
-                                </nz-collapse-panel>
-                            </nz-collapse>
-                        </div>
-                    </div>
-                </div>
-                <div class="drawer-bottom">
-                    <!-- <button nz-button nzType="primary">Save</button> -->
-                    <button nz-button nzType="default" class="btn-secondary" class="btn !mr-1.5" (click)="close()"> <i
-                            class="fa-regular fa-floppy-disk mr-1.5"></i> Save</button>
+                                        </nz-collapse-panel>
+                                    </nz-collapse>
+                                </div>
+                                <div class="b-card drawer-coll-body" *ngIf="selectedTheme.layout != 'horizental'">
+                                    <nz-collapse [nzExpandIconPosition]="'right'">
+                                        <nz-collapse-panel [nzHeader]="formhead6" [nzActive]="true">
+                                            <ng-template #formhead6>
+                                                <div class="coll-header">
+                                                    <div>
+                                                        <h6>Side Bar Images</h6>
+                                                    </div>
+                                                </div>
+                                            </ng-template>
+                                            <div class="options-list2">
+                                                <div class="option2">
+                                                    <div class="banner" (click)="changeLayout('',false)"
+                                                        [ngClass]="selectedTheme.siderBarImages == '' ? 'selected resert-bg-img' : 'unselected resert-bg-img'">
+                                                        <i class="fa-solid fa-xmark"></i>
+                                                    </div>
+                                                </div>
+                                                <div class="option2">
+                                                    <div class="banner"
+                                                        [ngClass]="selectedTheme.siderBarImages == 'assets/images/menu/image-1.avif' ? 'selected' : 'unselected'">
+                                                        <img src="assets/images/menu/image-1.avif" alt=""
+                                                            (click)="changeLayout('assets/images/menu/image-1.avif',false)">
+                                                    </div>
+                                                </div>
+                                                <div class="option2">
+                                                    <div class="banner"
+                                                        [ngClass]="selectedTheme.siderBarImages == 'assets/images/menu/image_2.avif' ? 'selected' : 'unselected'">
+                                                        <img src="assets/images/menu/image_2.avif" alt=""
+                                                            (click)="changeLayout('assets/images/menu/image_2.avif',false)">
+                                                    </div>
 
-                    <button nz-button nzType="default" class="btn-secondary" class="btn-no" nz-popconfirm
-                        nzPopconfirmTitle="Are you sure to reset menu design" (nzOnConfirm)="reset('mainMenu')"> <i
-                            class="fa-regular fa-arrows-spin mr-1.5"></i> Reset</button>
+                                                </div>
+                                                <div class="option2">
+                                                    <div class="banner"
+                                                        [ngClass]="selectedTheme.siderBarImages == 'assets/images/menu/image_3.avif' ? 'selected' : 'unselected'">
+                                                        <img src="assets/images/menu/image_3.avif" alt=""
+                                                            (click)="changeLayout('assets/images/menu/image_3.avif',false)">
+                                                    </div>
+                                                </div>
+                                                <div class="option2">
+                                                    <div class="banner"
+                                                        [ngClass]="selectedTheme.siderBarImages == 'assets/images/menu/image-4.avif' ? 'selected' : 'unselected'">
+                                                        <img src="assets/images/menu/image-4.avif"
+                                                            (click)="changeLayout('assets/images/menu/image-4.avif',false)">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </nz-collapse-panel>
+                                    </nz-collapse>
+                                </div>
+                            </div>
+                            <div *ngIf="applicationType == 'website'">
+                                <div class="b-card drawer-coll-body">
+                                    <nz-collapse [nzExpandIconPosition]="'right'">
+                                        <nz-collapse-panel [nzHeader]="formhead7" [nzActive]="true">
+                                            <ng-template #formhead7>
+                                                <div class="coll-header">
+                                                    <div>
+                                                        <h6>Layout</h6>
+                                                    </div>
+                                                </div>
+                                            </ng-template>
+                                            <div class="options-list2">
+                                                <div class="option2">
+                                                    <div class="banner">
+                                                        <img src="assets/images/banner.png" alt="">
+                                                    </div>
+                                                    <span>Design 01</span>
+                                                </div>
+                                                <div class="option2">
+                                                    <div class="banner">
+                                                        <img src="assets/images/banner.png" alt="">
+                                                    </div>
+                                                    <span>Design 02</span>
+                                                </div>
+                                                <div class="option2">
+                                                    <div class="banner">
+                                                        <img src="assets/images/banner.png" alt="">
+                                                    </div>
+                                                    <span>Design 03</span>
+                                                </div>
+                                                <div class="option2">
+                                                    <div class="banner">
+                                                        <img src="assets/images/banner.png" alt="">
+                                                    </div>
+                                                    <span>Design 04</span>
+                                                </div>
+                                            </div>
+                                        </nz-collapse-panel>
+                                    </nz-collapse>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="drawer-bottom">
+                            <!-- <button nz-button nzType="primary">Save</button> -->
+                            <button nz-button nzType="default" class="btn-secondary" class="btn !mr-1.5"
+                                (click)="close()">
+                                <i class="fa-regular fa-floppy-disk mr-1.5"></i> Save</button>
 
-                </div>
-            </nz-tab>
-            <nz-tab nzTitle="In Page Menu">
-                <div class="card-header">
-                    In Page Menu Configuration
-                </div>
-                <div class="ps-3">
-                    <div class="b-card drawer-coll-body">
-                        <nz-collapse [nzExpandIconPosition]="'right'">
-                            <nz-collapse-panel [nzHeader]="formhead" [nzActive]="true">
-                                <ng-template #formhead>
-                                    <div class="coll-header">
-                                        <div>
-                                            <h6>Font Design </h6>
+                            <button nz-button nzType="default" class="btn-secondary" class="btn-no" nz-popconfirm
+                                nzPopconfirmTitle="Are you sure to reset menu design" (nzOnConfirm)="reset('mainMenu')">
+                                <i class="fa-regular fa-arrows-spin mr-1.5"></i> Reset</button>
+
+                        </div>
+                    </nz-tab>
+                    <nz-tab nzTitle="In Page Menu">
+                        <div class="card-header">
+                            In Page Menu Configuration
+                        </div>
+                        <div class="ps-3">
+                            <div class="b-card drawer-coll-body">
+                                <nz-collapse [nzExpandIconPosition]="'right'">
+                                    <nz-collapse-panel [nzHeader]="formhead" [nzActive]="true">
+                                        <ng-template #formhead>
+                                            <div class="coll-header">
+                                                <div>
+                                                    <h6>Font Design </h6>
+                                                </div>
+                                            </div>
+                                        </ng-template>
+                                        <div class="color-pickers">
+                                            <div class="collm lable">
+                                                <p>Font Family</p>
+                                            </div>
+                                            <div class="collm option">
+                                                <div class="box">
+                                                    <nz-select style="width:100%" nzShowSearch nzAllowClear
+                                                        nzPlaceHolder="Select Font"
+                                                        [(ngModel)]="selectedTheme['inPageMenu']['font']">
+                                                        <nz-option nzLabel="italic" nzValue="italic"></nz-option>
+                                                        <nz-option nzLabel="uppercase" nzValue="uppercase"></nz-option>
+                                                        <nz-option nzLabel="lowercase" nzValue="lowercase"></nz-option>
+                                                        <nz-option nzLabel="capitalize"
+                                                            nzValue="capitalize"></nz-option>
+                                                        <nz-option nzLabel="font-sans" nzValue="font-sans"></nz-option>
+                                                        <nz-option nzLabel="font-serif"
+                                                            nzValue="font-serif"></nz-option>
+                                                        <nz-option nzLabel="font-mono" nzValue="font-mono"></nz-option>
+                                                        <nz-option nzLabel="font-roboto"
+                                                            nzValue="font-roboto"></nz-option>
+                                                        <nz-option nzLabel="font-thin" nzValue="font-thin"></nz-option>
+                                                        <nz-option nzLabel="font-extralight"
+                                                            nzValue="font-extralight"></nz-option>
+                                                        <nz-option nzLabel="font-normal"
+                                                            nzValue="font-normal"></nz-option>
+                                                        <nz-option nzLabel="font-bold" nzValue="font-bold"></nz-option>
+                                                        <nz-option nzLabel="font-extrabold"
+                                                            nzValue="font-extrabold"></nz-option>
+                                                        <nz-option nzLabel="font-black"
+                                                            nzValue="font-black"></nz-option>
+                                                    </nz-select>
+                                                </div>
+                                            </div>
+                                            <div class="collm lable">
+                                                Background Color
+                                            </div>
+                                            <div class="collm option">
+                                                <div class="box">
+                                                    <input type="color" class="input-color"
+                                                        [(ngModel)]="selectedTheme['inPageMenu']['backGroundColor']">
+                                                    <span
+                                                        class="input-hex ">{{selectedTheme['inPageMenu']['backGroundColor']
+                                                        ||
+                                                        '#000000'}}
+                                                    </span>
+                                                </div>
+                                            </div>
+                                            <div class="collm lable">
+                                                Text Color
+                                            </div>
+                                            <div class="collm option">
+                                                <div class="box">
+                                                    <input [(ngModel)]="selectedTheme['inPageMenu']['textColor']"
+                                                        type="color" class="input-color">
+                                                    <span>{{selectedTheme['inPageMenu']['textColor']}} </span>
+                                                </div>
+                                            </div>
+                                            <div class="collm lable">
+                                                Active Color
+                                            </div>
+                                            <div class="collm option">
+                                                <div class="box">
+                                                    <input
+                                                        [(ngModel)]="selectedTheme['inPageMenu']['activeBackgroundColor']"
+                                                        type="color" class="input-color">
+                                                    <span>{{selectedTheme['inPageMenu']['activeBackgroundColor']}}
+                                                    </span>
+                                                </div>
+                                            </div>
+                                            <div class="collm lable">
+                                                Active Text Color
+                                            </div>
+                                            <div class="collm option">
+                                                <div class="box">
+                                                    <input type="color" class="input-color"
+                                                        [(ngModel)]="selectedTheme['inPageMenu']['activeTextColor']">
+                                                    <span>{{selectedTheme['inPageMenu']['activeTextColor']}} </span>
+                                                </div>
+                                            </div>
+                                            <div class="collm lable">
+                                                Hover Text Color
+                                            </div>
+                                            <div class="collm option">
+                                                <div class="box">
+                                                    <input type="color" class="input-color"
+                                                        [(ngModel)]="selectedTheme['inPageMenu']['hoverTextColor']">
+                                                    <span>{{selectedTheme['inPageMenu']['hoverTextColor'] || '#000000'}}
+                                                    </span>
+                                                </div>
+                                            </div>
+                                            <div class="collm lable">
+                                                Text Size
+                                            </div>
+                                            <div class="collm option">
+                                                <div class="box">
+                                                    <input type="number" class="input-text" name="" id=""
+                                                        [(ngModel)]="selectedTheme['inPageMenu']['titleSize']">
+                                                </div>
+                                            </div>
+                                            <div class="collm lable">
+                                            </div>
+                                            <div class="collm option">
+                                            </div>
                                         </div>
-                                    </div>
-                                </ng-template>
-                                <div class="color-pickers">
-                                    <div class="collm lable">
-                                        <p>Font Family</p>
-                                    </div>
-                                    <div class="collm option">
-                                        <div class="box">
-                                            <nz-select style="width:100%" nzShowSearch nzAllowClear
-                                                nzPlaceHolder="Select Font"
-                                                [(ngModel)]="selectedTheme['inPageMenu']['font']">
-                                                <nz-option nzLabel="italic" nzValue="italic"></nz-option>
-                                                <nz-option nzLabel="uppercase" nzValue="uppercase"></nz-option>
-                                                <nz-option nzLabel="lowercase" nzValue="lowercase"></nz-option>
-                                                <nz-option nzLabel="capitalize" nzValue="capitalize"></nz-option>
-                                                <nz-option nzLabel="font-sans" nzValue="font-sans"></nz-option>
-                                                <nz-option nzLabel="font-serif" nzValue="font-serif"></nz-option>
-                                                <nz-option nzLabel="font-mono" nzValue="font-mono"></nz-option>
-                                                <nz-option nzLabel="font-roboto" nzValue="font-roboto"></nz-option>
-                                                <nz-option nzLabel="font-thin" nzValue="font-thin"></nz-option>
-                                                <nz-option nzLabel="font-extralight"
-                                                    nzValue="font-extralight"></nz-option>
-                                                <nz-option nzLabel="font-normal" nzValue="font-normal"></nz-option>
-                                                <nz-option nzLabel="font-bold" nzValue="font-bold"></nz-option>
-                                                <nz-option nzLabel="font-extrabold"
-                                                    nzValue="font-extrabold"></nz-option>
-                                                <nz-option nzLabel="font-black" nzValue="font-black"></nz-option>
-                                            </nz-select>
+                                    </nz-collapse-panel>
+                                </nz-collapse>
+                            </div>
+                            <div class="b-card drawer-coll-body">
+                                <nz-collapse [nzExpandIconPosition]="'right'">
+                                    <nz-collapse-panel [nzHeader]="Iconformhead1" [nzActive]="true">
+                                        <ng-template #Iconformhead1>
+                                            <div class="coll-header">
+                                                <div>
+                                                    <h6>Icon Design</h6>
+                                                </div>
+                                            </div>
+                                        </ng-template>
+                                        <div class="color-pickers">
+                                            <div class="collm lable">
+                                                <p>Icon Color</p>
+                                            </div>
+                                            <div class="collm option">
+                                                <div class="box">
+                                                    <input type="color" class="input-color"
+                                                        [(ngModel)]="selectedTheme['inPageMenu']['iconColor']">
+                                                    <span>{{selectedTheme['inPageMenu']['iconColor'] || '#000000'}}
+                                                    </span>
+                                                </div>
+                                            </div>
+                                            <div class="collm lable">
+                                                Hover Icon Color
+                                            </div>
+                                            <div class="collm option">
+                                                <div class="box">
+                                                    <input type="color" class="input-color"
+                                                        [(ngModel)]="selectedTheme['inPageMenu']['hoverIconColor']">
+                                                    <span>{{selectedTheme['inPageMenu']['hoverIconColor'] || '#000000'}}
+                                                    </span>
+                                                </div>
+                                            </div>
+                                            <div class="collm lable">
+                                                Active Icon Color
+                                            </div>
+                                            <div class="collm option">
+                                                <div class="box">
+                                                    <input type="color" class="input-color"
+                                                        [(ngModel)]="selectedTheme['inPageMenu']['activeIconColor']">
+                                                    <span>{{selectedTheme['inPageMenu']['activeIconColor'] ||
+                                                        '#000000'}}
+                                                    </span>
+                                                </div>
+                                            </div>
+                                            <div class="collm lable">
+                                                Icon Size
+                                            </div>
+                                            <div class="collm option">
+                                                <div class="box">
+                                                    <input type="number" class="input-text" name="" id=""
+                                                        [(ngModel)]="selectedTheme['inPageMenu']['iconSize']">
+                                                </div>
+                                            </div>
+                                            <div class="collm lable">
+                                                Icon Type
+                                            </div>
+                                            <div class="collm option">
+                                                <div class="box">
+                                                    <nz-select nzShowSearch nzAllowClear
+                                                        [(ngModel)]="selectedTheme['inPageMenu']['iconType']"
+                                                        (ngModelChange)="changeLayout(selectedTheme['inPageMenu']['iconType']+'_'+'iconType',true)"
+                                                        nzPlaceHolder="Icon Type">
+                                                        <nz-option nzLabel="ng-zorro outlined"
+                                                            nzValue="outline"></nz-option>
+                                                        <nz-option nzLabel="ng-zorro filled" nzValue="fill"></nz-option>
+                                                        <nz-option nzLabel="ng-zorro twotone"
+                                                            nzValue="twotone"></nz-option>
+                                                        <nz-option nzLabel="Font Awsome"
+                                                            nzValue="font_awsome"></nz-option>
+                                                        <nz-option nzLabel="Material" nzValue="material"></nz-option>
+                                                    </nz-select>
+                                                </div>
+                                            </div>
+                                            <div class="collm lable">
+                                            </div>
+                                            <div class="collm option">
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="collm lable">
-                                        Background Color
-                                    </div>
-                                    <div class="collm option">
-                                        <div class="box">
-                                            <input type="color" class="input-color"
-                                                [(ngModel)]="selectedTheme['inPageMenu']['backGroundColor']">
-                                            <span class="input-hex ">{{selectedTheme['inPageMenu']['backGroundColor'] ||
-                                                '#000000'}}
-                                            </span>
+                                    </nz-collapse-panel>
+                                </nz-collapse>
+                            </div>
+                            <div class="b-card drawer-coll-body">
+                                <nz-collapse [nzExpandIconPosition]="'right'">
+                                    <nz-collapse-panel [nzHeader]="childFormhead" [nzActive]="true">
+                                        <ng-template #childFormhead>
+                                            <div class="coll-header">
+                                                <div>
+                                                    <h6>Child Font Design</h6>
+                                                </div>
+                                            </div>
+                                        </ng-template>
+                                        <div class="color-pickers">
+                                            <div class="collm lable">
+                                                <p>Font Family</p>
+                                            </div>
+                                            <div class="collm option">
+                                                <div class="box">
+                                                    <nz-select style="width:100%" nzShowSearch nzAllowClear
+                                                        nzPlaceHolder="Select Font"
+                                                        [(ngModel)]="selectedTheme['inPageMenu']['child']['font']">
+                                                        <nz-option nzLabel="italic" nzValue="italic"></nz-option>
+                                                        <nz-option nzLabel="uppercase" nzValue="uppercase"></nz-option>
+                                                        <nz-option nzLabel="lowercase" nzValue="lowercase"></nz-option>
+                                                        <nz-option nzLabel="capitalize"
+                                                            nzValue="capitalize"></nz-option>
+                                                        <nz-option nzLabel="font-sans" nzValue="font-sans"></nz-option>
+                                                        <nz-option nzLabel="font-serif"
+                                                            nzValue="font-serif"></nz-option>
+                                                        <nz-option nzLabel="font-mono" nzValue="font-mono"></nz-option>
+                                                        <nz-option nzLabel="font-roboto"
+                                                            nzValue="font-roboto"></nz-option>
+                                                        <nz-option nzLabel="font-thin" nzValue="font-thin"></nz-option>
+                                                        <nz-option nzLabel="font-extralight"
+                                                            nzValue="font-extralight"></nz-option>
+                                                        <nz-option nzLabel="font-normal"
+                                                            nzValue="font-normal"></nz-option>
+                                                        <nz-option nzLabel="font-bold" nzValue="font-bold"></nz-option>
+                                                        <nz-option nzLabel="font-extrabold"
+                                                            nzValue="font-extrabold"></nz-option>
+                                                        <nz-option nzLabel="font-black"
+                                                            nzValue="font-black"></nz-option>
+                                                    </nz-select>
+                                                </div>
+                                            </div>
+                                            <div class="collm lable">
+                                                Background Color
+                                            </div>
+                                            <div class="collm option">
+                                                <div class="box">
+                                                    <input type="color" class="input-color"
+                                                        [(ngModel)]="selectedTheme['inPageMenu']['child']['backGroundColor']">
+                                                    <span
+                                                        class="input-hex ">{{selectedTheme['inPageMenu']['child']['backGroundColor']
+                                                        ||
+                                                        '#000000'}}
+                                                    </span>
+                                                </div>
+                                            </div>
+                                            <div class="collm lable">
+                                                Text Color
+                                            </div>
+                                            <div class="collm option">
+                                                <div class="box">
+                                                    <input
+                                                        [(ngModel)]="selectedTheme['inPageMenu']['child']['textColor']"
+                                                        type="color" class="input-color">
+                                                    <span>{{selectedTheme['inPageMenu']['child']['textColor']}} </span>
+                                                </div>
+                                            </div>
+                                            <div class="collm lable">
+                                                Active Color
+                                            </div>
+                                            <div class="collm option">
+                                                <div class="box">
+                                                    <input
+                                                        [(ngModel)]="selectedTheme['inPageMenu']['child']['activeBackgroundColor']"
+                                                        type="color" class="input-color">
+                                                    <span>{{selectedTheme['inPageMenu']['child']['activeBackgroundColor']}}
+                                                    </span>
+                                                </div>
+                                            </div>
+                                            <div class="collm lable">
+                                                Active Text Color
+                                            </div>
+                                            <div class="collm option">
+                                                <div class="box">
+                                                    <input type="color" class="input-color"
+                                                        [(ngModel)]="selectedTheme['inPageMenu']['child']['activeTextColor']">
+                                                    <span>{{selectedTheme['inPageMenu']['child']['activeTextColor']}}
+                                                    </span>
+                                                </div>
+                                            </div>
+                                            <div class="collm lable">
+                                                Hover Text Color
+                                            </div>
+                                            <div class="collm option">
+                                                <div class="box">
+                                                    <input type="color" class="input-color"
+                                                        [(ngModel)]="selectedTheme['inPageMenu']['child']['hoverTextColor']">
+                                                    <span>{{selectedTheme['inPageMenu']['child']['hoverTextColor'] ||
+                                                        '#000000'}} </span>
+                                                </div>
+                                            </div>
+                                            <div class="collm lable">
+                                                Hover Bg Color
+                                            </div>
+                                            <div class="collm option">
+                                                <div class="box">
+                                                    <input type="color" class="input-color"
+                                                        [(ngModel)]="selectedTheme['inPageMenu']['child']['hoverBgColor']">
+                                                    <span>{{selectedTheme['inPageMenu']['child']['hoverBgColor']}}
+                                                    </span>
+                                                </div>
+                                            </div>
+                                            <div class="collm lable">
+                                                Text Size
+                                            </div>
+                                            <div class="collm option">
+                                                <div class="box">
+                                                    <input type="number" class="input-text" name="" id=""
+                                                        [(ngModel)]="selectedTheme['inPageMenu']['child']['titleSize']">
+                                                </div>
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="collm lable">
-                                        Text Color
-                                    </div>
-                                    <div class="collm option">
-                                        <div class="box">
-                                            <input [(ngModel)]="selectedTheme['inPageMenu']['textColor']" type="color"
-                                                class="input-color">
-                                            <span>{{selectedTheme['inPageMenu']['textColor']}} </span>
+                                    </nz-collapse-panel>
+                                </nz-collapse>
+                            </div>
+                            <div class="b-card drawer-coll-body">
+                                <nz-collapse [nzExpandIconPosition]="'right'">
+                                    <nz-collapse-panel [nzHeader]="childIconformhead1" [nzActive]="true">
+                                        <ng-template #childIconformhead1>
+                                            <div class="coll-header">
+                                                <div>
+                                                    <h6>Child Icon Design</h6>
+                                                </div>
+                                            </div>
+                                        </ng-template>
+                                        <div class="color-pickers">
+                                            <div class="collm lable">
+                                                <p>Icon Color</p>
+                                            </div>
+                                            <div class="collm option">
+                                                <div class="box">
+                                                    <input type="color" class="input-color"
+                                                        [(ngModel)]="selectedTheme['inPageMenu']['child']['iconColor']">
+                                                    <span>{{selectedTheme['inPageMenu']['child']['iconColor'] ||
+                                                        '#000000'}}
+                                                    </span>
+                                                </div>
+                                            </div>
+                                            <div class="collm lable">
+                                                Hover Icon Color
+                                            </div>
+                                            <div class="collm option">
+                                                <div class="box">
+                                                    <input type="color" class="input-color"
+                                                        [(ngModel)]="selectedTheme['inPageMenu']['child']['hoverIconColor']">
+                                                    <span>{{selectedTheme['inPageMenu']['child']['hoverIconColor'] ||
+                                                        '#000000'}} </span>
+                                                </div>
+                                            </div>
+                                            <div class="collm lable">
+                                                Active Icon Color
+                                            </div>
+                                            <div class="collm option">
+                                                <div class="box">
+                                                    <input type="color" class="input-color"
+                                                        [(ngModel)]="selectedTheme['inPageMenu']['child']['activeIconColor']">
+                                                    <span>{{selectedTheme['inPageMenu']['child']['activeIconColor'] ||
+                                                        '#000000'}}
+                                                    </span>
+                                                </div>
+                                            </div>
+                                            <div class="collm lable">
+                                                Icon Size
+                                            </div>
+                                            <div class="collm option">
+                                                <div class="box">
+                                                    <input type="number" class="input-text" name="" id=""
+                                                        [(ngModel)]="selectedTheme['inPageMenu']['child']['iconSize']">
+                                                </div>
+                                            </div>
+                                            <div class="collm lable">
+                                                Icon Type
+                                            </div>
+                                            <div class="collm option">
+                                                <div class="box">
+                                                    <nz-select nzShowSearch nzAllowClear
+                                                        [(ngModel)]="selectedTheme['inPageMenu']['child']['iconType']"
+                                                        (ngModelChange)="changeLayout(selectedTheme['inPageMenu']['child']['iconType']+'_'+'hildiconType',true)"
+                                                        nzPlaceHolder="Icon Type">
+                                                        <nz-option nzLabel="ng-zorro outlined"
+                                                            nzValue="outline"></nz-option>
+                                                        <nz-option nzLabel="ng-zorro filled" nzValue="fill"></nz-option>
+                                                        <nz-option nzLabel="ng-zorro twotone"
+                                                            nzValue="twotone"></nz-option>
+                                                        <nz-option nzLabel="Font Awsome"
+                                                            nzValue="font_awsome"></nz-option>
+                                                        <nz-option nzLabel="Material" nzValue="material"></nz-option>
+                                                    </nz-select>
+                                                </div>
+                                            </div>
+                                            <div class="collm lable">
+                                            </div>
+                                            <div class="collm option">
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="collm lable">
-                                        Active Color
-                                    </div>
-                                    <div class="collm option">
-                                        <div class="box">
-                                            <input [(ngModel)]="selectedTheme['inPageMenu']['activeBackgroundColor']"
-                                                type="color" class="input-color">
-                                            <span>{{selectedTheme['inPageMenu']['activeBackgroundColor']}} </span>
-                                        </div>
-                                    </div>
-                                    <div class="collm lable">
-                                        Active Text Color
-                                    </div>
-                                    <div class="collm option">
-                                        <div class="box">
-                                            <input type="color" class="input-color"
-                                                [(ngModel)]="selectedTheme['inPageMenu']['activeTextColor']">
-                                            <span>{{selectedTheme['inPageMenu']['activeTextColor']}} </span>
-                                        </div>
-                                    </div>
-                                    <div class="collm lable">
-                                        Hover Text Color
-                                    </div>
-                                    <div class="collm option">
-                                        <div class="box">
-                                            <input type="color" class="input-color"
-                                                [(ngModel)]="selectedTheme['inPageMenu']['hoverTextColor']">
-                                            <span>{{selectedTheme['inPageMenu']['hoverTextColor'] || '#000000'}} </span>
-                                        </div>
-                                    </div>
-                                    <div class="collm lable">
-                                        Text Size
-                                    </div>
-                                    <div class="collm option">
-                                        <div class="box">
-                                            <input type="number" class="input-text" name="" id=""
-                                                [(ngModel)]="selectedTheme['inPageMenu']['titleSize']">
-                                        </div>
-                                    </div>
-                                    <div class="collm lable">
-                                    </div>
-                                    <div class="collm option">
-                                    </div>
-                                </div>
-                            </nz-collapse-panel>
-                        </nz-collapse>
-                    </div>
-                    <div class="b-card drawer-coll-body">
-                        <nz-collapse [nzExpandIconPosition]="'right'">
-                            <nz-collapse-panel [nzHeader]="Iconformhead1" [nzActive]="true">
-                                <ng-template #Iconformhead1>
-                                    <div class="coll-header">
-                                        <div>
-                                            <h6>Icon Design</h6>
-                                        </div>
-                                    </div>
-                                </ng-template>
-                                <div class="color-pickers">
-                                    <div class="collm lable">
-                                        <p>Icon Color</p>
-                                    </div>
-                                    <div class="collm option">
-                                        <div class="box">
-                                            <input type="color" class="input-color"
-                                                [(ngModel)]="selectedTheme['inPageMenu']['iconColor']">
-                                            <span>{{selectedTheme['inPageMenu']['iconColor'] || '#000000'}} </span>
-                                        </div>
-                                    </div>
-                                    <div class="collm lable">
-                                        Hover Icon Color
-                                    </div>
-                                    <div class="collm option">
-                                        <div class="box">
-                                            <input type="color" class="input-color"
-                                                [(ngModel)]="selectedTheme['inPageMenu']['hoverIconColor']">
-                                            <span>{{selectedTheme['inPageMenu']['hoverIconColor'] || '#000000'}} </span>
-                                        </div>
-                                    </div>
-                                    <div class="collm lable">
-                                        Active Icon Color
-                                    </div>
-                                    <div class="collm option">
-                                        <div class="box">
-                                            <input type="color" class="input-color"
-                                                [(ngModel)]="selectedTheme['inPageMenu']['activeIconColor']">
-                                            <span>{{selectedTheme['inPageMenu']['activeIconColor'] || '#000000'}}
-                                            </span>
-                                        </div>
-                                    </div>
-                                    <div class="collm lable">
-                                        Icon Size
-                                    </div>
-                                    <div class="collm option">
-                                        <div class="box">
-                                            <input type="number" class="input-text" name="" id=""
-                                                [(ngModel)]="selectedTheme['inPageMenu']['iconSize']">
-                                        </div>
-                                    </div>
-                                    <div class="collm lable">
-                                        Icon Type
-                                    </div>
-                                    <div class="collm option">
-                                        <div class="box">
-                                            <nz-select nzShowSearch nzAllowClear
-                                                [(ngModel)]="selectedTheme['inPageMenu']['iconType']"
-                                                (ngModelChange)="changeLayout(selectedTheme['inPageMenu']['iconType']+'_'+'iconType',true)"
-                                                nzPlaceHolder="Icon Type">
-                                                <nz-option nzLabel="ng-zorro outlined" nzValue="outline"></nz-option>
-                                                <nz-option nzLabel="ng-zorro filled" nzValue="fill"></nz-option>
-                                                <nz-option nzLabel="ng-zorro twotone" nzValue="twotone"></nz-option>
-                                                <nz-option nzLabel="Font Awsome" nzValue="font_awsome"></nz-option>
-                                                <nz-option nzLabel="Material" nzValue="material"></nz-option>
-                                            </nz-select>
-                                        </div>
-                                    </div>
-                                    <div class="collm lable">
-                                    </div>
-                                    <div class="collm option">
-                                    </div>
-                                </div>
-                            </nz-collapse-panel>
-                        </nz-collapse>
-                    </div>
-                    <div class="b-card drawer-coll-body">
-                        <nz-collapse [nzExpandIconPosition]="'right'">
-                            <nz-collapse-panel [nzHeader]="childFormhead" [nzActive]="true">
-                                <ng-template #childFormhead>
-                                    <div class="coll-header">
-                                        <div>
-                                            <h6>Child Font Design</h6>
-                                        </div>
-                                    </div>
-                                </ng-template>
-                                <div class="color-pickers">
-                                    <div class="collm lable">
-                                        <p>Font Family</p>
-                                    </div>
-                                    <div class="collm option">
-                                        <div class="box">
-                                            <nz-select style="width:100%" nzShowSearch nzAllowClear
-                                                nzPlaceHolder="Select Font"
-                                                [(ngModel)]="selectedTheme['inPageMenu']['child']['font']">
-                                                <nz-option nzLabel="italic" nzValue="italic"></nz-option>
-                                                <nz-option nzLabel="uppercase" nzValue="uppercase"></nz-option>
-                                                <nz-option nzLabel="lowercase" nzValue="lowercase"></nz-option>
-                                                <nz-option nzLabel="capitalize" nzValue="capitalize"></nz-option>
-                                                <nz-option nzLabel="font-sans" nzValue="font-sans"></nz-option>
-                                                <nz-option nzLabel="font-serif" nzValue="font-serif"></nz-option>
-                                                <nz-option nzLabel="font-mono" nzValue="font-mono"></nz-option>
-                                                <nz-option nzLabel="font-roboto" nzValue="font-roboto"></nz-option>
-                                                <nz-option nzLabel="font-thin" nzValue="font-thin"></nz-option>
-                                                <nz-option nzLabel="font-extralight"
-                                                    nzValue="font-extralight"></nz-option>
-                                                <nz-option nzLabel="font-normal" nzValue="font-normal"></nz-option>
-                                                <nz-option nzLabel="font-bold" nzValue="font-bold"></nz-option>
-                                                <nz-option nzLabel="font-extrabold"
-                                                    nzValue="font-extrabold"></nz-option>
-                                                <nz-option nzLabel="font-black" nzValue="font-black"></nz-option>
-                                            </nz-select>
-                                        </div>
-                                    </div>
-                                    <div class="collm lable">
-                                        Background Color
-                                    </div>
-                                    <div class="collm option">
-                                        <div class="box">
-                                            <input type="color" class="input-color"
-                                                [(ngModel)]="selectedTheme['inPageMenu']['child']['backGroundColor']">
-                                            <span
-                                                class="input-hex ">{{selectedTheme['inPageMenu']['child']['backGroundColor']
-                                                ||
-                                                '#000000'}}
-                                            </span>
-                                        </div>
-                                    </div>
-                                    <div class="collm lable">
-                                        Text Color
-                                    </div>
-                                    <div class="collm option">
-                                        <div class="box">
-                                            <input [(ngModel)]="selectedTheme['inPageMenu']['child']['textColor']"
-                                                type="color" class="input-color">
-                                            <span>{{selectedTheme['inPageMenu']['child']['textColor']}} </span>
-                                        </div>
-                                    </div>
-                                    <div class="collm lable">
-                                        Active Color
-                                    </div>
-                                    <div class="collm option">
-                                        <div class="box">
-                                            <input
-                                                [(ngModel)]="selectedTheme['inPageMenu']['child']['activeBackgroundColor']"
-                                                type="color" class="input-color">
-                                            <span>{{selectedTheme['inPageMenu']['child']['activeBackgroundColor']}}
-                                            </span>
-                                        </div>
-                                    </div>
-                                    <div class="collm lable">
-                                        Active Text Color
-                                    </div>
-                                    <div class="collm option">
-                                        <div class="box">
-                                            <input type="color" class="input-color"
-                                                [(ngModel)]="selectedTheme['inPageMenu']['child']['activeTextColor']">
-                                            <span>{{selectedTheme['inPageMenu']['child']['activeTextColor']}} </span>
-                                        </div>
-                                    </div>
-                                    <div class="collm lable">
-                                        Hover Text Color
-                                    </div>
-                                    <div class="collm option">
-                                        <div class="box">
-                                            <input type="color" class="input-color"
-                                                [(ngModel)]="selectedTheme['inPageMenu']['child']['hoverTextColor']">
-                                            <span>{{selectedTheme['inPageMenu']['child']['hoverTextColor'] ||
-                                                '#000000'}} </span>
-                                        </div>
-                                    </div>
-                                    <div class="collm lable">
-                                        Hover Bg Color
-                                    </div>
-                                    <div class="collm option">
-                                        <div class="box">
-                                            <input type="color" class="input-color"
-                                                [(ngModel)]="selectedTheme['inPageMenu']['child']['hoverBgColor']">
-                                            <span>{{selectedTheme['inPageMenu']['child']['hoverBgColor']}} </span>
-                                        </div>
-                                    </div>
-                                    <div class="collm lable">
-                                        Text Size
-                                    </div>
-                                    <div class="collm option">
-                                        <div class="box">
-                                            <input type="number" class="input-text" name="" id=""
-                                                [(ngModel)]="selectedTheme['inPageMenu']['child']['titleSize']">
-                                        </div>
-                                    </div>
-                                </div>
-                            </nz-collapse-panel>
-                        </nz-collapse>
-                    </div>
-                    <div class="b-card drawer-coll-body">
-                        <nz-collapse [nzExpandIconPosition]="'right'">
-                            <nz-collapse-panel [nzHeader]="childIconformhead1" [nzActive]="true">
-                                <ng-template #childIconformhead1>
-                                    <div class="coll-header">
-                                        <div>
-                                            <h6>Child Icon Design</h6>
-                                        </div>
-                                    </div>
-                                </ng-template>
-                                <div class="color-pickers">
-                                    <div class="collm lable">
-                                        <p>Icon Color</p>
-                                    </div>
-                                    <div class="collm option">
-                                        <div class="box">
-                                            <input type="color" class="input-color"
-                                                [(ngModel)]="selectedTheme['inPageMenu']['child']['iconColor']">
-                                            <span>{{selectedTheme['inPageMenu']['child']['iconColor'] || '#000000'}}
-                                            </span>
-                                        </div>
-                                    </div>
-                                    <div class="collm lable">
-                                        Hover Icon Color
-                                    </div>
-                                    <div class="collm option">
-                                        <div class="box">
-                                            <input type="color" class="input-color"
-                                                [(ngModel)]="selectedTheme['inPageMenu']['child']['hoverIconColor']">
-                                            <span>{{selectedTheme['inPageMenu']['child']['hoverIconColor'] ||
-                                                '#000000'}} </span>
-                                        </div>
-                                    </div>
-                                    <div class="collm lable">
-                                        Active Icon Color
-                                    </div>
-                                    <div class="collm option">
-                                        <div class="box">
-                                            <input type="color" class="input-color"
-                                                [(ngModel)]="selectedTheme['inPageMenu']['child']['activeIconColor']">
-                                            <span>{{selectedTheme['inPageMenu']['child']['activeIconColor'] ||
-                                                '#000000'}}
-                                            </span>
-                                        </div>
-                                    </div>
-                                    <div class="collm lable">
-                                        Icon Size
-                                    </div>
-                                    <div class="collm option">
-                                        <div class="box">
-                                            <input type="number" class="input-text" name="" id=""
-                                                [(ngModel)]="selectedTheme['inPageMenu']['child']['iconSize']">
-                                        </div>
-                                    </div>
-                                    <div class="collm lable">
-                                        Icon Type
-                                    </div>
-                                    <div class="collm option">
-                                        <div class="box">
-                                            <nz-select nzShowSearch nzAllowClear
-                                                [(ngModel)]="selectedTheme['inPageMenu']['child']['iconType']"
-                                                (ngModelChange)="changeLayout(selectedTheme['inPageMenu']['child']['iconType']+'_'+'hildiconType',true)"
-                                                nzPlaceHolder="Icon Type">
-                                                <nz-option nzLabel="ng-zorro outlined" nzValue="outline"></nz-option>
-                                                <nz-option nzLabel="ng-zorro filled" nzValue="fill"></nz-option>
-                                                <nz-option nzLabel="ng-zorro twotone" nzValue="twotone"></nz-option>
-                                                <nz-option nzLabel="Font Awsome" nzValue="font_awsome"></nz-option>
-                                                <nz-option nzLabel="Material" nzValue="material"></nz-option>
-                                            </nz-select>
-                                        </div>
-                                    </div>
-                                    <div class="collm lable">
-                                    </div>
-                                    <div class="collm option">
-                                    </div>
-                                </div>
-                            </nz-collapse-panel>
-                        </nz-collapse>
-                    </div>
-                </div>
-                <div class="drawer-bottom">
-                    <!-- <button nz-button nzType="primary">Save</button> -->
-                    <button nz-button nzType="default" class="btn-secondary" nz-popconfirm
-                        nzPopconfirmTitle="Are you sure to reset In page menu design"
-                        (nzOnConfirm)="reset('inPageMenu')">Reset</button>
-                </div>
-            </nz-tab>
-            <!-- <nz-tab nzTitle="Collapse button">
+                                    </nz-collapse-panel>
+                                </nz-collapse>
+                            </div>
+                        </div>
+                        <div class="drawer-bottom">
+                            <!-- <button nz-button nzType="primary">Save</button> -->
+                            <button nz-button nzType="default" class="btn-secondary" nz-popconfirm
+                                nzPopconfirmTitle="Are you sure to reset In page menu design"
+                                (nzOnConfirm)="reset('inPageMenu')">Reset</button>
+                        </div>
+                    </nz-tab>
+                    <!-- <nz-tab nzTitle="Collapse button">
                 <div class="color-picker-section">
                     <h3>FONT DESIGN</h3>
                     <h6>Choose Font Design</h6>
@@ -960,7 +1009,7 @@
                     </div>
                 </div>
             </nz-tab> -->
-            <!-- <nz-tab nzTitle="Collapse button">
+                    <!-- <nz-tab nzTitle="Collapse button">
                 <h6 class="mb-0 font-bold uppercase">Button Design</h6>
                 <p class="text-gray-500 text-xs">Choose Button Design
                 </p>
@@ -1040,7 +1089,8 @@
 
                 </div>
             </nz-tab> -->
-        </nz-tabset>
+                </nz-tabset>
+            </nz-spin>
+        </div>
     </ng-container>
 </nz-drawer>
-</nz-spin>

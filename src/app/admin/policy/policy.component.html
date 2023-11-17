@@ -3,7 +3,6 @@
         [nzLoading]="loading" [nzData]="listOfDisplayData" [nzPageSize]="pageSize" class="border">
         <thead>
             <tr>
-                <!-- <th>#</th> -->
                 <ng-container *ngFor="let column of listOfColumns">
                     <th nzCustomFilter *ngIf="column.name != 'Action'" [nzSortFn]="column.sortFn">{{column.name}}
                         <nz-filter-trigger [nzVisible]="column.visible || false" [nzDropdownMenu]="menu">
@@ -43,15 +42,16 @@
 
     <div class="paginatio-bottom flex justify-between items-center my-3">
         <div>
-            <p class="showing">Showing <span>{{startIndex}} - {{endIndex}}</span> from
-                <span>{{listOfData.length}}</span> data
+            <p class="showing">Showing <span class="primary-color">{{startIndex}} - {{endIndex}}</span> from
+                <span class="primary-color">{{listOfData.length}}</span> data
             </p>
         </div>
 
         <div class="flex items-center justify-end">
             <div class="pagination " nz-tooltip nzTooltipTitle="Row Per Page">
-                <!-- <label class="label">Pagination</label> -->
-                <div class="input-container input-container min-w-[40px] !w-[50px] hover:!w-16 max-w-[80px] transition-all duration-100 ease-in">
+                <label class="label">Pagination</label>
+                <div
+                    class="input-container input-container min-w-[40px] !w-[50px] hover:!w-16 max-w-[80px] transition-all duration-100 ease-in">
                     <nz-input-number [(ngModel)]="pageSize" (ngModelChange)="handlePageChange(1)" [nzStep]="1"
                         [nzMin]="1"></nz-input-number>
                 </div>
@@ -65,7 +65,9 @@
 
 </nz-card>
 <ng-template #extraTemplate>
-    <button nz-button nzType="primary"  class="btn !rounded !bg-amber-300 hover:!bg-amber-300 !text-slate-900 hover:text-white !border !border-transparent !hover:border-transparent !font-md" (click)="openModal()"><i class="fa-regular fa-plus mr-1.5"></i>Add
+    <button nz-button nzType="primary"
+        class="btn !rounded !bg-amber-300 hover:!bg-amber-300 !text-slate-900 hover:text-white !border !border-transparent !hover:border-transparent !font-md"
+        (click)="openModal()"><i class="fa-regular fa-plus mr-1.5"></i>Add
         New</button>
     <button nz-button nzType="primary" class="ml-2 btn-no  !bg-green-600 !border-none hover:!bg-green-500"
         (click)="downloadJson()"><i class="fa-regular fa-down-to-bracket mr-1.5"></i>Download Json</button>

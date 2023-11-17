@@ -1,14 +1,6 @@
 <nz-spin [nzSpinning]="loading" [nzSize]="'large'">
-    <div class="b-card p-3 mb-2">
-        <div class="m-2 flex justify-between">
-            <p class="text-xl font-bold mt-1">USER LIST</p>
-            <button nz-button (click)="drawer()" nzType="primary" class="btn"><i
-                    class="fa-regular fa-plus mr-1.5"></i>Add
-                user</button>
-        </div>
-    </div>
-    <div class="b-card p-3 mb-2">
-        <nz-table #basicTable [nzData]="listOfDisplayData">
+    <nz-card nzTitle="USER LIST" [nzExtra]="extraTemplate">
+        <nz-table [nzShowPagination]="false" #basicTable [nzData]="listOfDisplayData" [nzPageSize]="pageSize">
             <thead>
                 <tr>
                     <ng-container *ngFor="let column of listOfColumns">
@@ -24,7 +16,7 @@
                         <nz-dropdown-menu #menu="nzDropdownMenu">
                             <div class="ant-table-filter-dropdown">
                                 <div class="search-box">
-                                    <input type="text" nz-input nzClear (keyup)="search()" placeholder="Search here..."
+                                    <input class="rounded-md" type="text" nz-input nzClear (keyup)="search()" placeholder="Search here..."
                                         [(ngModel)]="column.searchValue" />
                                 </div>
                             </div>
@@ -58,5 +50,30 @@
                 </tr>
             </tbody>
         </nz-table>
-    </div>
+        <div class="paginatio-bottom flex justify-between items-center my-3">
+            <div>
+                <p class="showing">Showing <span class="primary-color">{{startIndex}} - {{endIndex}}</span> from
+                    <span class="primary-color">{{listOfData.length}}</span> data
+                </p>
+            </div>
+
+            <div class="flex items-center justify-end">
+                <div class="pagination mr-4">
+                    <label class="label">Pagination</label>
+                    <div class="input-container">
+                        <nz-input-number [(ngModel)]="pageSize" (ngModelChange)="handlePageChange(1)" [nzStep]="1"
+                            [nzMin]="1"></nz-input-number>
+                    </div>
+                </div>
+                <div>
+                    <nz-pagination [nzPageIndex]="pageIndex" [nzTotal]="listOfData.length" [nzPageSize]="pageSize"
+                        (nzPageIndexChange)="handlePageChange($event)"></nz-pagination>
+                </div>
+            </div>
+        </div>
+    </nz-card>
 </nz-spin>
+<ng-template #extraTemplate>
+    <button nz-button (click)="drawer()" nzType="primary" class="btn"><i class="fa-regular fa-plus mr-1.5"></i>Add
+        user</button>
+</ng-template>

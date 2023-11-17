@@ -26,6 +26,10 @@ export class UserComponent {
   listOfDisplayData: any[] = [];
   edit: any = null;
   updateModel: any = {};
+  startIndex = 1;
+  endIndex: any = 10;
+  pageIndex: any = 1;
+  pageSize = 10;
   listOfColumns = [
     {
       name: 'User Name',
@@ -54,6 +58,7 @@ export class UserComponent {
         if (res.isSuccess) {
           this.listOfData = res.data;
           this.listOfDisplayData = res.data;
+          this.handlePageChange(1);
         }
         else {
           this.toastr.error(res.message, { nzDuration: 2000 });
@@ -171,5 +176,14 @@ export class UserComponent {
         this.searchValue(element.searchValue, element)
       });
     }
+  }
+  handlePageChange(event: number): void {
+    this.pageSize = !this.pageSize || this.pageSize < 1 ? 1 : this.pageSize
+    this.pageIndex = event;
+    const start = (this.pageIndex - 1) * this.pageSize;
+    const end = start + this.pageSize;
+    this.startIndex = start == 0 ? 1 : ((this.pageIndex * this.pageSize) - this.pageSize) + 1;
+    this.listOfDisplayData = this.listOfData.slice(start, end);
+    this.endIndex = this.listOfDisplayData.length != this.pageSize ? this.listOfData.length : this.pageIndex * this.pageSize;
   }
 }

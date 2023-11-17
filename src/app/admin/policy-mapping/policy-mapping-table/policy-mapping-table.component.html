@@ -2,11 +2,20 @@
     [nzData]="data" class="border">
     <thead>
         <tr>
-            <ng-container *ngFor="let column of listOfColumns;let index = index">
-                <th nzWidth="5%" *ngIf="index == 0"></th>
-                <th *ngIf="index != 0" nzWidth="120px" class="w-1/12">
-                    {{column.name}}
+            <ng-container *ngFor="let column of listOfColumns ;let index = index">
+                <th [nzWidth]="index == 0 ? '5%' : '120px'" nzCustomFilter>{{column.name}}
+                    <nz-filter-trigger [hidden]="column.inVisible" [nzDropdownMenu]="menu">
+                        <span nz-icon nzType="search"></span>
+                    </nz-filter-trigger>
                 </th>
+                <nz-dropdown-menu #menu="nzDropdownMenu">
+                    <div class="ant-table-filter-dropdown">
+                        <div class="search-box">
+                            <input type="text" nz-input nzClear (keyup)="search($event , column)"
+                                placeholder="Search here..." [(ngModel)]="column.searchValue" />
+                        </div>
+                    </div>
+                </nz-dropdown-menu>
             </ng-container>
         </tr>
     </thead>

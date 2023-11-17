@@ -175,10 +175,10 @@ export class LayoutDrawerComponent implements OnInit {
           applicationId: this.selectedAppId
         }
       }
-      // this.saveLoader = true;
+      this.saveLoader = true;
       this.applicationService.updateNestCommonAPI("cp/MenuTheme", this.policyTheme, obj).subscribe({
         next: (res) => {
-          // this.saveLoader = false;
+          this.saveLoader = false;
           if (res.isSuccess) {
             this.policyTheme = '';
             this.themeName = '';
@@ -188,10 +188,11 @@ export class LayoutDrawerComponent implements OnInit {
             this.toastr.error(res.message, { nzDuration: 3000 });
         }, error: (error) => {
           this.toastr.error(JSON.stringify(error), { nzDuration: 3000 });
-          // this.saveLoader = false;
+          this.saveLoader = false;
         }
       })
-    } else {
+    } 
+    else {
       const obj = {
         "MenuTheme": {
           theme: saveTheme,
@@ -199,10 +200,10 @@ export class LayoutDrawerComponent implements OnInit {
           applicationId: this.selectedAppId
         }
       }
-      // this.saveLoader = true;
+      this.saveLoader = true;
       this.applicationService.addNestCommonAPI("cp", obj).subscribe({
         next: (res) => {
-          // this.saveLoader = false;
+          this.saveLoader = false;
           if (res.isSuccess) {
             this.getTheme(this.selectedAppId);
             this.policyTheme = '';
@@ -212,7 +213,7 @@ export class LayoutDrawerComponent implements OnInit {
             this.toastr.error(res.message, { nzDuration: 3000 });
         },
         error: (error) => {
-          // this.saveLoader = false;
+          this.saveLoader = false;
           this.toastr.error(JSON.stringify(error), { nzDuration: 3000 });
         }
       })
@@ -231,10 +232,10 @@ export class LayoutDrawerComponent implements OnInit {
           applicationId: this.selectedAppId
         }
       }
-      // this.saveLoader = true;
+      this.saveLoader = true;
       this.applicationService.addNestCommonAPI("cp", obj).subscribe({
         next: (res) => {
-          // this.saveLoader = false;
+          this.saveLoader = false;
           if (res.isSuccess) {
             this.policyTheme = '';
             this.themeName = '';
@@ -244,7 +245,7 @@ export class LayoutDrawerComponent implements OnInit {
             this.toastr.error(res.message, { nzDuration: 3000 });
         }, error: (error) => {
           this.toastr.error(JSON.stringify(error), { nzDuration: 3000 });
-          // this.saveLoader = false;
+          this.saveLoader = false;
         }
       })
     }

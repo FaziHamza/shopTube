@@ -42,26 +42,51 @@ export class PolicyMappingComponent implements OnInit {
   saveLoader: boolean = false;
   actionList: any[] = [];
   listOfColumns = [
-    { name: '', dataField: 'expand' },
     {
-      name: 'Menu Name', dataField: 'title'
+      name: 'Expand',
+      key: 'expand',
+      inVisible: true,
+      dataField: 'expand'
     },
     {
-      name: 'Create', dataField: 'create'
+      name: 'Menu Name',
+      key: 'title',
+      searchValue: '',
+      inVisible: false,
+      dataField: 'title'
     },
     {
-      name: 'Read', dataField: 'read'
+      name: 'Create',
+      searchValue: '',
+      inVisible: true,
+      dataField: 'create'
     },
     {
-      name: 'Update', dataField: 'update'
+      name: 'Read',
+      searchValue: '',
+      inVisible: true,
+      dataField: 'read'
     },
     {
-      name: 'Delete', dataField: 'delete'
+      name: 'Update',
+      searchValue: '',
+      inVisible: true,
+      dataField: 'update'
     },
     {
-      name: 'Hide', dataField: 'hideExpression'
+      name: 'Delete',
+      searchValue: '',
+      inVisible: true,
+      dataField: 'delete'
+    },
+    {
+      name: 'Hide',
+      searchValue: '',
+      inVisible: true,
+      dataField: 'hideExpression'
     },
   ];
+  
   constructor(
     public builderService: BuilderService,
     private applicationService: ApplicationService,
@@ -344,17 +369,27 @@ export class PolicyMappingComponent implements OnInit {
     return newData;
   }
   getPolicyMenu() {
-
     if (!this.policyName) {
-      this.toastr.error("Please select policy name", { nzDuration: 3000 });
+      this.toastr.error("Please select a policy name", { nzDuration: 3000 });
       return;
     }
-    this.applicationService.getNestCommonAPIById('policy-mapping/policy', this.policyName).subscribe(((res: any) => {
-      if (res)
-        this.policyMenuList = res.data || [];
 
-      this.updatedMenuList();
-    }));
+    this.loading = true;
+
+    this.applicationService.getNestCommonAPIById('policy-mapping/policy', this.policyName)
+      .subscribe(
+        (res: any) => {
+          this.loading = false;
+          this.policyMenuList = res.data || [];
+          this.updatedMenuList();
+        },
+        (error) => {
+          // Handle HTTP errors or errors from the observable
+          console.error("API error:", error);
+          this.toastr.error("An error occurred while fetching data from the server", { nzDuration: 3000 });
+          this.loading = false;
+        }
+      );
   }
   updatedMenuList() {
     let updatedData = this.applicationMenuList;

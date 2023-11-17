@@ -1,24 +1,24 @@
 <!-- <nz-spin [nzSpinning]="saveLoader" [nzSize]="'large'" class="builder-design w-[calc(100%-262px)] !h-full "> -->
 <div class="b-card policy_mapping p-3">
 
-    <div class="flex justify-start items-center pb-2">
-        <div class="page-selector ">
-            <nz-form-control nzErrorTip="Please Select Page">
-                <nz-cascader nzChangeOnSelect class="!w-[210px] policy-cascader !h-10 !rounded-md pl-1"
-                    [nzAllowClear]="true" [(ngModel)]="selectDepartmentName" [nzLoadData]="loadData.bind(this)"
-                    [nzOptions]="departmentData" placeholder="Select Application"
-                    (ngModelChange)="onDepartmentChange($event)">
-                </nz-cascader>
-            </nz-form-control>
+    <div class="flex flex-wrap mb-2">
+        <div class="w-1/4 flex mr-2">
+            <label style="width: 25%;" class="mt-2 font-bold">Application</label>
+            <nz-cascader style="width: 75%;" nzChangeOnSelect class=" policy-cascader !h-10 !rounded-md pl-1"
+                [nzAllowClear]="true" [(ngModel)]="selectDepartmentName" [nzLoadData]="loadData.bind(this)"
+                [nzOptions]="departmentData" placeholder="Select Application"
+                (ngModelChange)="onDepartmentChange($event)">
+            </nz-cascader>
         </div>
-        <div class="page-selector mx-2">
-            <nz-select nzShowSearch nzAllowClear class="temp-modal-select !h-10 !rounded-md !w-[210px]"
-                [(ngModel)]="policyName">
+        <div class="w-1/4 flex mr-2">
+            <label style="width: 25%;" class="mt-2 font-bold">User</label>
+            <nz-select style="width: 75%;" nzShowSearch nzAllowClear class="temp-modal-select !h-10 !rounded-md"
+                [(ngModel)]="policyName" placeholder="Select User">
                 <nz-option [nzValue]="item._id" placeholder="Select Block Type..." [nzLabel]="item.name"
                     *ngFor="let item of policyList"></nz-option>
             </nz-select>
         </div>
-        <div class="page-selector !mr-0">
+        <div class="w-1/4 flex">
             <button nz-button nzType="primary" (click)="getPolicyMenu()"
                 class="btn  !rounded !bg-amber-300 hover:!bg-amber-300 !text-slate-900 hover:text-white !border !border-transparent !hover:border-transparent !font-md"><i
                     class="fa-regular mr-1.5 fa-magnifying-glass"></i> Search</button>
@@ -27,14 +27,19 @@
 
 
     <nz-card nzTitle="Policy List" [nzExtra]="extraTemplate">
-        <st-policy-mapping-table [loading]="loading" [data]="menuList" [pageSize]="pageSize" [listOfColumns]="listOfColumns"></st-policy-mapping-table>
+        <st-policy-mapping-table [loading]="loading" [data]="menuList" [pageSize]="pageSize"
+            [listOfColumns]="listOfColumns" [menuOfDisplayData]="menuList"></st-policy-mapping-table>
     </nz-card>
     <ng-template #extraTemplate>
         <div class="src-btn flex justify-end">
-            <button nz-button  class="btn-no !border !border-gray-300 !text-gray-800 hover:!text-blue-600 hover:!border-blue-600 mr-2" (click)="selectAll()">
+            <button nz-button
+                class="btn-no !border !border-gray-300 !text-gray-800 hover:!text-blue-600 hover:!border-blue-600 mr-2"
+                (click)="selectAll()">
                 <i class="fa-regular fa-list mr-1.5"></i>
                 Select All</button>
-            <button nz-button *ngIf="isSubmit" nzType="primary" class="btn !rounded !bg-amber-300 hover:!bg-amber-300 !text-slate-900 hover:text-white !border !border-transparent !hover:border-transparent !font-md" (click)="onSubmit()">
+            <button nz-button *ngIf="isSubmit" nzType="primary"
+                class="btn !rounded !bg-amber-300 hover:!bg-amber-300 !text-slate-900 hover:text-white !border !border-transparent !hover:border-transparent !font-md"
+                (click)="onSubmit()">
                 <i class="fa-solid fa-arrow-up-from-bracket mr-1.5"></i>
                 Submit</button>
             <button nz-button *ngIf="isSubmit" nzType="primary" nzDanger

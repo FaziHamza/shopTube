@@ -21,13 +21,25 @@ export class PolicyMappingTableComponent {
   }
 
   actionColumns = [
-    { name: '', dataField: 'expand' },
+    { name: 'Expand', dataField: 'expand' , inVisible : true},
     {
-      name: 'Action Name', dataField: 'quryType'
+      name: 'Action Name', dataField: 'quryType' , inVisible : true
     },
     {
-      name: 'Is Allow', dataField: 'isAllow'
+      name: 'Is Allow', dataField: 'isAllow' , inVisible : true
     }
   ];
+  search(event: any, column: any): void {
+    const inputValue = event?.target ? event.target.value?.toLowerCase() : event?.toLowerCase() ?? '';
+    if (inputValue) {
+      this.data = this.menuOfDisplayData.filter((item: any) => {
+        const { key } = column;
+        const { [key]: itemName } = item || {}; // Check if item is undefined, set to empty object if so
+        return itemName?.toLowerCase()?.includes(inputValue); // Check if itemName is undefined or null
+      });
+    } else {
+      this.data = this.menuOfDisplayData;
+    }
+  }
 
 }
