@@ -1,27 +1,70 @@
-<div class="flex flex-wrap mb-2">
-    <div class="w-1/3 !mx-2">
-        <label class="ml-1 font-bold">Select Menu Theme</label>
-        <nz-select style="width: 100%;" nzShowSearch nzAllowClear [(ngModel)]="selectedApplication"
-            class=" policy-cascader !h-10 !rounded-md pl-1" nzPlaceHolder="Select Application">
-            <nz-option *ngFor="let item of applicationList" [nzLabel]="item.name" [nzValue]="item?._id"></nz-option>
-        </nz-select>
+<nz-spin [nzSpinning]="loader" [nzSize]="'large'" class="builder-design">
+    <div class="flex flex-wrap" [formGroup]="form">
+        <div class="w-2/5 !mx-2">
+            <label class="ml-1 font-bold">Select Menu Theme</label>
+            <nz-select style="width: 100%;" nzShowSearch nzAllowClear formControlName="applicationId"
+                class="policy-cascader !h-10 !rounded-md pl-1" nzPlaceHolder="Select Application">
+                <nz-option *ngFor="let item of applicationList" [nzLabel]="item.name" [nzValue]="item?._id"></nz-option>
+            </nz-select>
+        </div>
+        <div class="w-2/5 !mx-2">
+            <label class="ml-1 font-bold">Select Tag</label>
+            <nz-select style="width: 100%;" nzShowSearch nzAllowClear formControlName="tag"
+                class="policy-cascader !h-10 !rounded-md pl-1" nzPlaceHolder="Select Tag">
+                <nz-option *ngFor="let item of tagList" [nzLabel]="item" [nzValue]="item"></nz-option>
+            </nz-select>
+        </div>
+        <div class="w-1/12 flex mt-[20px]">
+            <button nz-button nzType="primary"
+                [class]="(editId == '' ? '!bg-blue-600 hover:!bg-blue-500' : '!bg-green-600 hover:!bg-green-500') + ' ml-2 btn-no !border-none  '"
+                (click)="save()"><i class="fa-regular fa-save mr-2"></i>{{editId == '' ? 'Save' : 'Update'}}</button>
+        </div>
+        <div class="w-full !mx-2 mt-2">
+            <label class="ml-1 font-bold">Global Classes Name</label>
+            <textarea class="!border !rounded-md !p-2 !block !w-full !max-h-60 !min-h-[100px]" style="width: 100%;"
+                nz-input placeholder="Please Enter Global Classes Name" formControlName="classes"></textarea>
+        </div>
     </div>
-    <div class="w-1/3 !mx-2">
-        <label class="ml-1 font-bold">Select Tag</label>
-        <nz-select style="width: 100%;" nzShowSearch nzAllowClear [(ngModel)]="selectedTag"
-            class=" policy-cascader !h-10 !rounded-md pl-1" nzPlaceHolder="Select Tag ">
-            <nz-option *ngFor="let item of tagList" [nzLabel]="item" [nzValue]="item"></nz-option>
-        </nz-select>
+
+    <div class="table-responsive mt-3">
+        <nz-table #editRowTable nzBordered [nzData]="displayData" nzTableLayout="fixed" [nzPageSize]="pageSize"
+            [nzFrontPagination]="false">
+            <thead>
+                <tr>
+                    <th>NO</th>
+                    <th>APPLICATION</th>
+                    <th>TAG</th>
+                    <th>CLASSES</th>
+                    <th>ACTION</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let item of editRowTable.data;let index = index" class="table-cursor">
+                    <td>{{index + 1}}</td>
+                    <td>{{item.applicationName}}</td>
+                    <td>{{item.name}}</td>
+                    <td>{{item.classes}}</td>
+                    <td>
+                        <div class="flex">
+                            <i class="fa-regular fa-edit !text-blue-500 mr-2" (click)="edit(item)"></i>
+                            <i class="fa-regular fa-trash-alt !text-red-500" (click)="delete(item._id)"></i>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </nz-table>
+        <!-- <div class="paginatio-bottom" *ngIf="collectionList.length > pageSize">
+            <div>
+                <p class="showing">Showing <span>{{start}} - {{end}}</span> from
+                    <span>{{collectionList.length}}</span>
+                    data
+                </p>
+            </div>
+            <div>
+                <nz-pagination *ngIf="collectionList.length > pageSize" [nzTotal]="collectionList.length"
+                    [(nzPageIndex)]="pageIndex" [(nzPageSize)]="pageSize"
+                    (nzPageIndexChange)="onPageIndexChange($event)"></nz-pagination>
+            </div>
+        </div> -->
     </div>
-    <div class="w-1/3 !mx-2">
-        <label class="ml-1 font-bold">Global Classes Name</label>
-        <input class="!border !rounded-md !p-2 !block !w-full " style="width: 100%;" nz-input
-            placeholder="Please Enter Theme Name" [(ngModel)]="themeName" type="text" />
-    </div>
-    <div class="w-1/5 flex mt-[20px]">
-        <button nz-button nzType="primary" class="btn-no ml-2" (click)="save()"><i
-                class="fa-regular fa-save mr-2"></i>Save</button>
-        <!-- <button nz-button nzType="primary" class="ml-2 btn-no !border-none !bg-green-600 hover:!bg-green-500"
-            (click)="cloneTheme()"><i class="fa-regular fa-clone mr-2"></i> Clone</button> -->
-    </div>
-</div>
+</nz-spin>
