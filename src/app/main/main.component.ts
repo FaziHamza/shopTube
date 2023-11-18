@@ -18,6 +18,8 @@ import { EmployeeService } from '../services/employee.service';
 import { ApplicationService } from '../services/application.service';
 
 
+
+
 @Component({
   selector: 'st-main',
   templateUrl: './main.component.html',
@@ -54,7 +56,7 @@ export class MainComponent implements OnInit {
   url: any = '';
   array = [1, 2, 3, 4];
   effect = 'scrollx';
-  applicationId : any ;
+  applicationId: any;
   constructor(private cd: ChangeDetectorRef, private nzImageService: NzImageService, private employeeService: EmployeeService,
     private builderService: BuilderService, private applicationServices: ApplicationService,
     private toastr: NzMessageService, private router: Router, public dataSharedService: DataSharedService,
@@ -190,7 +192,7 @@ export class MainComponent implements OnInit {
     });
   }
   updatedData(event: any) {
-    
+
     return;
     let accordingList = event;
     let data = accordingList.data;
@@ -348,7 +350,7 @@ export class MainComponent implements OnInit {
   }
 
   applyHighlight(data: any, id: any, event?: any) {
-    if(event){
+    if (event) {
       event.stopPropagation();
     }
     const isMatch = data.id === id;
@@ -367,5 +369,5 @@ export class MainComponent implements OnInit {
     obj['origin'] = item;
     this.dataSharedService.configuration.next(item);
   }
-
+  
 }

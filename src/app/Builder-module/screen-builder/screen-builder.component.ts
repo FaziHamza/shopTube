@@ -127,6 +127,12 @@ export class ScreenBuilderComponent implements OnInit {
       sortFn: (a: any, b: any) => a.name.localeCompare(b.name),
       sortDirections: ['ascend', 'descend', null],
     },
+    {
+      name: 'Pdf',
+      sortOrder: null,
+      sortFn: (a: any, b: any) => a.name.localeCompare(b.name),
+      sortDirections: ['ascend', 'descend', null],
+    },
   ];
   constructor(
     public builderService: BuilderService,
@@ -254,7 +260,7 @@ export class ScreenBuilderComponent implements OnInit {
   //   }))
   // }
   onSubmit() {
-    
+
     if (!this.form.valid) {
       this.handleCancel();
       return;
@@ -317,7 +323,7 @@ export class ScreenBuilderComponent implements OnInit {
   }
 
   getDepartmentOptionList(id: string) {
-    
+
     this.applicationService.getNestCommonAPIById('cp/Department', id).subscribe((res: any) => {
       if (res.isSuccess) {
         const moduleListOptions = res.data.map((item: any) => ({
@@ -379,7 +385,7 @@ export class ScreenBuilderComponent implements OnInit {
       });
   }
   goToBuildPage(data: any) {
-    
+
     this.dataSharedService.screenName = data;
     this.router.navigate(['/builder']);
   }
@@ -521,6 +527,19 @@ export class ScreenBuilderComponent implements OnInit {
               placeholder: 'Screen Id...',
               required: true,
               pattern: /^[a-z0-9_.]+$/,
+            },
+          },
+        ],
+      },
+      {
+        fieldGroup: [
+          {
+            key: 'pdf',
+            type: 'checkbox',
+            wrappers: ['formly-vertical-theme-wrapper'],
+            defaultValue: false,
+            props: {
+              label: 'Pdf',
             },
           },
         ],

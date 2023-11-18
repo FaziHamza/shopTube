@@ -28,11 +28,16 @@
                             placeholder="Please Enter Theme Name" [(ngModel)]="themeName" type="text" />
                     </div>
                     <div class="w-1/5 flex mt-[20px]">
-                        <button nz-button nzType="primary" class="btn-no ml-2" (click)="saveTheme()"><i
-                                class="fa-regular fa-save mr-2"></i>Save</button>
-                        <button nz-button nzType="primary"
-                            class="ml-2 btn-no !border-none !bg-green-600 hover:!bg-green-500" (click)="cloneTheme()"><i
-                                class="fa-regular fa-clone mr-2"></i> Clone</button>
+                        <button nz-button nzType="primary" nzTooltipTitle="Save Menu Theme" nz-tooltip class="btn-no ml-2"
+                            (click)="saveTheme()"><i class="fa-regular fa-save"></i></button>
+                        <button nz-button nzType="primary" nzTooltipTitle="Clone Menu Theme" nz-tooltip
+                            class="ml-2 btn-no !border-none !bg-green-600 hover:!bg-green-500"
+                            (click)="cloneThemeConfirmation()"><i class="fa-regular fa-clone"></i></button>
+                        <button nzTooltipTitle="Delete Menu Theme" nz-tooltip nz-button nzType="primary"
+                            class="ml-2 btn-no !border-none !bg-red-600 hover:!bg-red-500"
+                            (click)="showDeleteConfirm()">
+                            <i class="fas fa-trash"></i>
+                        </button>
                     </div>
                 </div>
                 <nz-tabset>

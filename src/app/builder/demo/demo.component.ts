@@ -1,462 +1,86 @@
-import { Component, OnInit, Renderer2 } from '@angular/core';
-import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Observable, Observer } from 'rxjs';
-import { EmployeeService } from 'src/app/services/employee.service';
-
+import { Component, OnInit } from '@angular/core';
+import ZebraBrowserPrintWrapper from 'zebra-browser-print-wrapper';
 
 @Component({
   selector: 'st-demo',
   templateUrl: './demo.component.html',
   styleUrls: ['./demo.component.scss'],
 })
-
 export class DemoComponent implements OnInit {
-  array = [1, 2, 3, 4];
-  effect = 'scrollx';
-  constructor(private fb: FormBuilder, private employeeService: EmployeeService, private renderer: Renderer2) { }
+  ZebraBrowserPrintWrapper = require('zebra-browser-print-wrapper');
 
-  actionList: any = JSON.stringify([
-    {
-      "name": "checkUserType",
-      "query": "select userTypeId from Users where userTypeId = {userTypeId}"
-    },
-    {
-      "name": "checkUserStatus",
-      "query": "select status from Users where status = {status}"
-    },
-    {
-      "name": "applyUserTypeDiscount",
-      "query": "update Discounts set discountPercentage = 10 where userType = {userTypeId}"
-    },
-    {
-      "name": "applyPremiumDiscount",
-      "query": "update Discounts set discountPercentage = 20 where userType = 'premium'"
-    },
-    {
-      "name": "checkMinimumValue",
-      "query": "select price from Products where price = {price}"
-    },
-    {
-      "name": "applySpecialOfferForNormalUser",
-      "query": "update Discounts set discountPercentage = 15 where userType = 'normal'"
-    },
-    {
-      "name": "notifyAdmin",
-      "query": "insert into Notifications (message) values ('Special offer applied for product with price >= {price}')"
-    },
-    {
-      "name": "sendNotification",
-      "query": "insert into Notifications (message) values ('Discount applied for user with id = {userId}')"
-    }
-  ]
-  );
-  actionRule: any = JSON.stringify(
-    [
-      {
-        "if": {
-          "actionRule": "checkUserType",
-          "key": "userTypeId",
-          "compare": "==",
-          "value": "1"
-        },
-        "then": {
-          "applyDiscount": {
-            "actionRule": "applyUserTypeDiscount",
-            "key": "userTypeId"
-          },
-          "notifyUser": {
-            "actionRule": "sendNotification",
-            "key": "userTypeId"
-          }
-        },
-        "OR": [{
-          "if": {
-            "actionRule": "checkUserStatus",
-            "key": "status",
-            "compare": "==",
-            "value": "premium"
-          },
-          "then": {
-            "applyPremiumDiscount": {
-              "actionRule": "applyPremiumDiscount",
-              "key": "status"
-            }
-          }
-        }]
-      },
-      {
-        "if": {
-          "actionRule": "checkMinimumValue",
-          "key": "price",
-          "compare": ">=",
-          "value": "200"
-        },
-        "AND": [{
-          "if": {
-            "actionRule": "checkUserType",
-            "key": "userTypeId",
-            "compare": "==",
-            "value": "2"
-          },
-          "then": {
-            "applySpecialOfferForNormalUser": {
-              "actionRule": "applySpecialOfferForNormalUser",
-              "key": "price"
-            },
-            "notifyUser": {
-              "actionRule": "sendNotification",
-              "key": "price"
-            }
-          }
-        }],
-        "then": {
-          "notifyAdmin": {
-            "actionRule": "notifyAdmin",
-            "key": "price"
-          }
-        }
-      }
-    ]
-  );
-  actionModel: any = JSON.stringify({
-    "userTypeId": 1,
-    "status": "premium",
-    "price": 250
-  }
-  )
-  actionResult: any;
-  db = {
-    execute: async (query: string) => {
-      if (query.includes("userType")) {
-        return { status: 1 }; // Simulate premium user
-      } else if (query.includes("tblDiscount")) {
-        return { discount: 10 }; // Simulate discount value
-      } else {
-        throw new Error("Unknown query");
-      }
-    },
-  };
 
-  executeAction = async (actionName: string, parameters: any) => {
-    const parsedRules = JSON.parse(this.actionList);
-    const action = parsedRules.find((a: any) => a.name === actionName);
-    if (!action) {
-      throw new Error(`Action ${actionName} not found`);
-    }
-
-    let query = action.query;
-    for (const [key, value] of Object.entries(parameters)) {
-      query = query.replace(`{${key}}`, value);
-    }
-
-    // Simulate action execution, replace with actual logic to interact with your database or API
-    // const result = await this.executeDatabaseQuery(query);
-
-    return query;
+  ngOnInit(): void {
   }
 
-
-  async processActionRules() {
+  printBarcode = async (serial: any) => {
     try {
-      await this.employeeService.saveSQLDatabaseTable('knex-query/execute-actions', JSON.parse(this.actionModel)).subscribe(res => {
-        this.actionResult = JSON.stringify(res, null, 2);
-      })
-      // const results = await this.processActionRulesV1(this.actionRule, this.actionModel);
-    } catch (error) {
-      console.error('Error while processing action rules:', error);
-      this.actionResult = 'Error occurred while processing action rules';
-    }
-  }
 
-  async processActionRulesV1(actionRules: any, context: any) {
-    let actionModel = JSON.parse(this.actionModel);
-    const results: any = {};
-    const parsedRules = JSON.parse(actionRules);
-    const parsedContext = JSON.parse(context);
+      // Create a new instance of the object
+      const browserPrint = new ZebraBrowserPrintWrapper();
 
-    for (const rule of parsedRules) {
-      if (rule.if) {
-        try {
-          const { actionRule, key, compare, value } = rule.if;
-          const actionQuery = await this.executeAction(actionRule, parsedContext);
+      // Select default printer
+      const defaultPrinter = await browserPrint.getDefaultPrinter();
 
-          // Get the dynamic comparison function based on the operator
-          const comparisonFunction = this.getComparisonFunction(compare);
+      // Set the printer
+      browserPrint.setPrinter(defaultPrinter);
 
-          // Perform the comparison using the dynamic function
-          if (comparisonFunction(actionQuery, value)) {
-            let thenConditionSatisfied = true;
+      // Check printer status
+      const printerStatus = await browserPrint.checkPrinterStatus();
 
-            // Check if there is an OR condition
-            if (rule.OR) {
-              let orConditionSatisfied = false;
+      // Check if the printer is ready
+      if (printerStatus.isReadyToPrint) {
 
-              for (const orRule of rule.OR) {
-                const { actionRule: orActionRule, key: orKey, compare: orCompare, value: orValue } = orRule.if;
-                const orActionQuery = await this.executeAction(orActionRule, parsedContext);
-                const orComparisonFunction = this.getComparisonFunction(orCompare);
+        // ZPL script to print a simple barcode
+        const zpl = `^XA
 
-                if (orComparisonFunction(orActionQuery, orValue)) {
-                  orConditionSatisfied = true;
-                }
-                thenConditionSatisfied = orConditionSatisfied;
-                if (thenConditionSatisfied) {
-                  if (orRule.then) {
-                    const thenActions = orRule.then;
-                    for (const actionKey in thenActions) {
-                      if (thenActions.hasOwnProperty(actionKey)) {
-                        const thenAction = thenActions[actionKey];
-                        if (thenAction.actionRule) {
-                          const thenActionResult = await this.executeAction(
-                            thenAction.actionRule,
-                            context
-                          );
-                          results[actionRule] = thenActionResult;
-                          actionModel[actionKey] = thenActionResult;
-                        }
-                      }
-                    }
-                  }
-                }
-              }
+        ^FX Top section with logo, name and address.
+        ^CF0,60
+        ^FO50,50^GB100,100,100^FS
+        ^FO75,75^FR^GB100,100,100^FS
+        ^FO93,93^GB40,40,40^FS
+        ^FO220,50^FDIntershipping, Inc.^FS
+        ^CF0,30
+        ^FO220,115^FD1000 Shipping Lane^FS
+        ^FO220,155^FDShelbyville TN 38102^FS
+        ^FO220,195^FDUnited States (USA)^FS
+        ^FO50,250^GB700,3,3^FS
+        
+        ^FX Second section with recipient address and permit information.
+        ^CFA,30
+        ^FO50,300^FDExpo^FS
+        ^FO50,340^FD100 Main Street^FS
+        ^FO50,380^FDSpringfield TN 39021^FS
+        ^FO50,420^FDUnited States (USA)^FS
+        ^CFA,15
+        ^FO600,300^GB150,150,3^FS
+        ^FO638,340^FDPermit^FS
+        ^FO638,390^FD123456^FS
+        ^FO50,500^GB700,3,3^FS
+        
+        ^FX Third section with bar code.
+        ^BY5,2,270
+        ^FO100,550^BC^FD12345678^FS
+        
+        ^FX Fourth section (the two boxes on the bottom).
+        ^FO50,900^GB700,250,3^FS
+        ^FO400,900^GB3,250,3^FS
+        ^CF0,40
+        ^FO100,960^FDCtr. X34B-1^FS
+        ^FO100,1010^FDREF1 F00B47^FS
+        ^FO100,1060^FDREF2 BL4H8^FS
+        ^CF0,190
+        ^FO470,955^FDCA^FS
+        ^XZ`;
 
-            }
-
-            // Check if there is an AND condition
-            if (rule.AND) {
-              let andConditionSatisfied = true;
-
-              for (const andRule of rule.AND) {
-                const { actionRule: andActionRule, key: andKey, compare: andCompare, value: andValue } = andRule.if;
-                const andActionQuery = await this.executeAction(andActionRule, parsedContext);
-                const andComparisonFunction = this.getComparisonFunction(andCompare);
-
-                if (!andComparisonFunction(andActionQuery, andValue)) {
-                  andConditionSatisfied = false;
-                }
-                thenConditionSatisfied = thenConditionSatisfied && andConditionSatisfied;
-                if (thenConditionSatisfied) {
-                  if (andRule.then) {
-                    const thenActions = andRule.then;
-                    for (const actionKey in thenActions) {
-                      if (thenActions.hasOwnProperty(actionKey)) {
-                        const thenAction = thenActions[actionKey];
-                        if (thenAction.actionRule) {
-                          const thenActionResult = await this.executeAction(
-                            thenAction.actionRule,
-                            context
-                          );
-                          results[actionRule] = thenActionResult;
-                          actionModel[actionKey] = thenActionResult;
-                        }
-                      }
-                    }
-                  }
-                }
-              }
-
-            }
-
-            if (rule.then) {
-              const thenActions = rule.then;
-              for (const actionKey in thenActions) {
-                if (thenActions.hasOwnProperty(actionKey)) {
-                  const thenAction = thenActions[actionKey];
-                  if (thenAction.actionRule) {
-                    const thenActionResult = await this.executeAction(
-                      thenAction.actionRule,
-                      context
-                    );
-                    results[actionRule] = thenActionResult;
-                    actionModel[actionKey] = thenActionResult;
-                  }
-                }
-              }
-            }
-          }
-          // Always apply the 'then' actions of the main condition
-
-        } catch (error) {
-          console.error(`Error while processing action rule: ${JSON.stringify(rule)}`, error);
-        }
+        browserPrint.print(zpl);
+      } else {
+        console.log("Error/s", printerStatus.errors);
       }
-    }
-    this.actionModel = JSON.stringify(actionModel);
-    return results;
-  }
 
-
-
-  getComparisonFunction(operator: string): (left: any, right: any) => boolean {
-    switch (operator) {
-      case '==':
-        return (left, right) => left.includes(`= ${right}`);
-      case '>':
-        return (left, right) => {
-          const columnValue = left.split(/([\s><=]+)/);
-          return parseFloat(columnValue) > parseFloat(right);
-        };
-      case '!=':
-        return (left, right) => left.includes(`!= ${right}`);
-      case '>=':
-        return (left, right) => {
-          let columnValue = left.split(/([\s><=]+)/);
-          return parseFloat(columnValue[columnValue.length - 1]) >= parseFloat(right);
-        };
-      case '<=':
-        return (left, right) => {
-          const [, , columnValue] = left.split(/([\s><=]+)/);
-          return parseFloat(columnValue) <= parseFloat(right);
-        };
-      case '<':
-        return (left, right) => {
-          const [, , columnValue] = left.split(/([\s><=]+)/);
-          return parseFloat(columnValue) < parseFloat(right);
-        };
-      default:
-        throw new Error(`Unknown comparison operator: ${operator}`);
+    } catch (error: any) {
+      console.log(error)
+      // throw new Error(error);
     }
   }
-
-  // Rules Form
-
-  ruleForm: FormGroup;
-  ngOnInit() {
-    this.ruleForm = this.fb.group({
-      actionRules: this.fb.array([])
-    });
-    this.addRule(); // Add first rule
-  }
-  actionRulesControl(): FormArray {
-    return this.ruleForm.get('actionRules') as FormArray;
-  }
-
-  get actionRules() {
-    return this.ruleForm.get('actionRules') as FormArray;
-  }
-
-  addIfThenActions(ifIndex: number): FormArray {
-    return this.actionRulesControl()
-      .at(ifIndex)
-      .get('then') as FormArray;
-  }
-  createRuleGroup(rule?: any): FormGroup {
-    return this.fb.group({
-      if: this.fb.group({
-        actionRule: ['', Validators.required],
-        key: ['', Validators.required],
-        compare: ['', Validators.required],
-        value: ['', Validators.required]
-      }),
-      then: this.fb.array([]),
-      OR: this.fb.array([]),
-      AND: this.fb.array([])
-    });
-  }
-  createThenAction(): FormGroup {
-    return this.fb.group({
-      actionRule: ['', Validators.required],
-      key: ['', Validators.required],
-      // Add other form controls for your "then" action properties here
-    });
-  }
-  addRule() {
-    this.actionRules.push(this.createRuleGroup());
-  }
-
-  removeRule(index: number) {
-    this.actionRules.removeAt(index);
-  }
-
-  addIfThenAction(index: number) {
-    this.addIfThenActions(index).push(this.createThenAction());
-  }
-
-  removeIfThenAction(index: number) {
-    this.addIfThenActions(index).removeAt(index);
-  }
-  removeIfThen(index: number) {
-    this.actionRulesControl().removeAt(index);
-  }
-  removeThenAction(parentIndex: number, index: number) {
-    this.addIfThenActions(parentIndex).removeAt(index);
-  }
-
-  addORCondition(ruleGroup: FormGroup) {
-    const orConditions = ruleGroup.get('OR') as FormArray;
-    orConditions.push(this.createRuleGroup());
-  }
-
-  removeORCondition(ruleGroup: FormGroup, index: number) {
-    const orConditions = ruleGroup.get('OR') as FormArray;
-    orConditions.removeAt(index);
-  }
-
-  addANDCondition(ruleGroup: FormGroup) {
-    const andConditions = ruleGroup.get('AND') as FormArray;
-    andConditions.push(this.createRuleGroup());
-  }
-
-  // AND condition
-  createAndCondition(): FormGroup {
-    return this.fb.group({
-      if: this.fb.group({
-        actionRule: ['', Validators.required],
-        key: ['', Validators.required],
-        compare: ['', Validators.required],
-        value: ['', Validators.required]
-      }),
-      then: this.fb.array([]),
-      OR: this.fb.array([]),
-      AND: this.fb.array([])
-    });
-  }
-
-  addIfAndAction(ruleIndex: number) {
-    this.addIfAndActions(ruleIndex).push(this.createAndCondition());
-  }
-
-  addIfAndActions(ifIndex: number): FormArray {
-    return this.actionRulesControl()
-      .at(ifIndex)
-      .get('AND') as FormArray;
-  }
-
-  removeIfAndAction(parentIndex: number, index: number) {
-    this.addIfAndActions(parentIndex).removeAt(index);
-  }
-
-  addThenActions(ruleIndex: number, andIndex: number): FormArray {
-    const andConditions = this.addIfAndActions(ruleIndex);
-    const andCondition = andConditions.at(andIndex) as FormGroup;
-    return andCondition.get('then') as FormArray;
-  }
-
-  removeANDCondition(ruleIndex: number, andIndex: number): void {
-    const andConditions = this.addIfAndActions(ruleIndex);
-    andConditions.removeAt(andIndex);
-  }
-
-  addThenAction(ruleIndex: number, andIndex: number): void {
-    const thenActions = this.addThenActions(ruleIndex, andIndex);
-    thenActions.push(this.createThenAction());
-  }
-
-  removeAndThenAction(ruleIndex: number, andIndex: number, thenIndex: number): void {
-    const thenActions = this.addThenActions(ruleIndex, andIndex);
-    thenActions.removeAt(thenIndex);
-  }
-  name = "Mr";
-  base64Image: any;
-  imageURL = 'http://campaigns.expocitydubai.com.s3-website.me-south-1.amazonaws.com/tvshows/download-3d5320c0-0d40-439f-b41a-c5a2bbdb04c8.jpg';
-  downloadImage() {
-    const iframe = document.querySelector('iframe');
-    if (iframe) {
-      iframe?.contentWindow?.document.execCommand('SaveAs', true, 'custom-image-filename.jpg');
-    }
-  }
-
-
-
 }
-

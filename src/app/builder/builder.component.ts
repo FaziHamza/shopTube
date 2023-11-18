@@ -109,6 +109,7 @@ export class BuilderComponent implements OnInit {
   iconActive: string = '';
   form: any = new FormGroup({});
   formlyLength: any = 0;
+  pdf: boolean = false;
   getTaskManagementIssues: any[] = [];
   constructor(
     public builderService: BuilderService,
@@ -140,10 +141,12 @@ export class BuilderComponent implements OnInit {
     this.editorOptions.modes = ['code', 'text', 'tree', 'view'];
     this.dataSharedService.change.subscribe(({ event, field }) => {
       if (event && field && this.router.url == '/builder') {
-        if (this.formModalData[field.key] && field.type == 'image-upload') {
-          this.formModalData[field.key] = event;
-          if (!this.formModalData[field.key]) {
-            this.makeModel(field, event);
+        if (this.formModalData) {
+          if (this.formModalData[field.key] && field.type == 'image-upload') {
+            this.formModalData[field.key] = event;
+            if (!this.formModalData[field.key]) {
+              this.makeModel(field, event);
+            }
           }
         }
         this.checkConditionUIRule(field, event);
@@ -419,6 +422,7 @@ export class BuilderComponent implements OnInit {
         "screenName": this.screenName,
         "navigation": this.navigation,
         "screenBuilderId": this._id,
+        "pdf": this.pdf,
         "applicationId": this.selectApplicationName,
       };
       data.navigation = this.navigation;
@@ -474,6 +478,7 @@ export class BuilderComponent implements OnInit {
           const objScreen = this.screens.find((x: any) => x._id == data);
           this.navigation = objScreen.navigation;
           this._id = objScreen._id;
+          this.pdf = objScreen.pdf ? objScreen.pdf : false;
           this.screenName = objScreen.name;
           this.isSavedDb = false;
           this.getActions();
@@ -1516,7 +1521,7 @@ export class BuilderComponent implements OnInit {
       value == 'kanban' ||
       value == 'timeline' ||
       value == 'gridList' ||
-      value == 'accordionButton'||
+      value == 'accordionButton' ||
       value == 'fileManager'
     )
       return 'w-full';
@@ -3420,7 +3425,7 @@ export class BuilderComponent implements OnInit {
         this.fieldData.commonData?.push({ title: 'steppedAreaChartFields', data: _formFieldData.steppedAreaChartFields });
         break;
       case 'fileManager':
-     
+
         this.fieldData.commonData?.push({ title: 'File Manager Fileds', data: _formFieldData.fileManagerFields });
         break;
       default:

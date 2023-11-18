@@ -3,6 +3,7 @@ import { NzButtonSize } from 'ng-zorro-antd/button';
 import { DataSharedService } from 'src/app/services/data-shared.service';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { ApplicationService } from 'src/app/services/application.service';
+import { NzModalService } from 'ng-zorro-antd/modal';
 @Component({
   selector: 'st-layout-drawer',
   templateUrl: './layout-drawer.component.html',
@@ -18,7 +19,8 @@ export class LayoutDrawerComponent implements OnInit {
   saveLoader: boolean = false;
   listOfOption: any = [];
   visible = false;
-  constructor(public dataSharedService: DataSharedService, private toastr: NzMessageService, private applicationService: ApplicationService) { }
+  constructor(public dataSharedService: DataSharedService, private toastr: NzMessageService, private applicationService: ApplicationService,
+    private modalService: NzModalService,) { }
   themeName: string = ''
   ngOnInit(): void {
     this.listOfOption = [
@@ -163,61 +165,78 @@ export class LayoutDrawerComponent implements OnInit {
   policyTheme: any;
 
   saveTheme() {
-    const saveTheme = JSON.parse(JSON.stringify(this.selectedTheme));
-    delete saveTheme?.allMenuItems;
-    delete saveTheme?.menuChildArrayTwoColumn;
-    delete saveTheme?.newMenuArray;
-    if (this.policyTheme) {
-      const obj = {
-        "MenuTheme": {
-          theme: saveTheme,
-          name: this.themeName,
-          applicationId: this.selectedAppId
+    if (this.policyTheme || this.themeName) {
+      const saveTheme = JSON.parse(JSON.stringify(this.selectedTheme));
+      delete saveTheme?.allMenuItems;
+      delete saveTheme?.menuChildArrayTwoColumn;
+      delete saveTheme?.newMenuArray;
+      if (this.policyTheme) {
+        const obj = {
+          "MenuTheme": {
+            theme: saveTheme,
+            name: this.themeName,
+            applicationId: this.selectedAppId
+          }
         }
+        this.saveLoader = true;
+        this.applicationService.updateNestCommonAPI("cp/MenuTheme", this.policyTheme, obj).subscribe({
+          next: (res) => {
+            this.saveLoader = false;
+            if (res.isSuccess) {
+              this.policyTheme = '';
+              this.themeName = '';
+              this.getTheme(this.selectedAppId);
+              this.toastr.success(res.message, { nzDuration: 3000 });
+            } else
+              this.toastr.error(res.message, { nzDuration: 3000 });
+          }, error: (error) => {
+            this.toastr.error(JSON.stringify(error), { nzDuration: 3000 });
+            this.saveLoader = false;
+          }
+        })
       }
-      this.saveLoader = true;
-      this.applicationService.updateNestCommonAPI("cp/MenuTheme", this.policyTheme, obj).subscribe({
-        next: (res) => {
-          this.saveLoader = false;
-          if (res.isSuccess) {
-            this.policyTheme = '';
-            this.themeName = '';
-            this.getTheme(this.selectedAppId);
-            this.toastr.success(res.message, { nzDuration: 3000 });
-          } else
-            this.toastr.error(res.message, { nzDuration: 3000 });
-        }, error: (error) => {
-          this.toastr.error(JSON.stringify(error), { nzDuration: 3000 });
-          this.saveLoader = false;
+      else {
+        const obj = {
+          "MenuTheme": {
+            theme: saveTheme,
+            name: this.themeName,
+            applicationId: this.selectedAppId
+          }
         }
-      })
-    } 
-    else {
-      const obj = {
-        "MenuTheme": {
-          theme: saveTheme,
-          name: this.themeName,
-          applicationId: this.selectedAppId
-        }
+        this.saveLoader = true;
+        this.applicationService.addNestCommonAPI("cp", obj).subscribe({
+          next: (res) => {
+            this.saveLoader = false;
+            if (res.isSuccess) {
+              this.getTheme(this.selectedAppId);
+              this.policyTheme = '';
+              this.themeName = '';
+              this.toastr.success(res.message, { nzDuration: 3000 });
+            } else
+              this.toastr.error(res.message, { nzDuration: 3000 });
+          },
+          error: (error) => {
+            this.saveLoader = false;
+            this.toastr.error(JSON.stringify(error), { nzDuration: 3000 });
+          }
+        })
       }
-      this.saveLoader = true;
-      this.applicationService.addNestCommonAPI("cp", obj).subscribe({
-        next: (res) => {
-          this.saveLoader = false;
-          if (res.isSuccess) {
-            this.getTheme(this.selectedAppId);
-            this.policyTheme = '';
-            this.themeName = '';
-            this.toastr.success(res.message, { nzDuration: 3000 });
-          } else
-            this.toastr.error(res.message, { nzDuration: 3000 });
-        },
-        error: (error) => {
-          this.saveLoader = false;
-          this.toastr.error(JSON.stringify(error), { nzDuration: 3000 });
-        }
-      })
+    } else {
+      this.toastr.warning('Please Enter Data', { nzDuration: 3000 });
     }
+  }
+  cloneThemeConfirmation() {
+    if (this.policyTheme) {
+      this.modalService.confirm({
+        nzClassName: 'confirm-modal',
+        nzTitle: '<p class="font-bold">Are you sure you want to clone this theme?</p>',
+        nzContent: '',
+        nzOnOk: () => this.cloneTheme()
+      });
+    } else {
+      this.toastr.warning('Please select theme to clone ', { nzDuration: 3000 });
+    }
+
   }
   cloneTheme() {
     const saveTheme = JSON.parse(JSON.stringify(this.selectedTheme));
@@ -278,6 +297,7 @@ export class LayoutDrawerComponent implements OnInit {
     }
   }
   getTheme(value: any) {
+    debugger
     // this.saveLoader = true;
     if (value) {
       this.applicationService.getNestCommonAPIById("cp/MenuTheme", value).subscribe({
@@ -293,5 +313,40 @@ export class LayoutDrawerComponent implements OnInit {
         }
       })
     }
+  }
+  showDeleteConfirm(): void {
+    if (this.policyTheme) {
+      this.modalService.confirm({
+        nzTitle: 'Are you sure you want to delete this menu theme?',
+        nzOkText: 'Yes',
+        nzClassName: 'deleteRow',
+        nzOkType: 'primary',
+        nzOkDanger: true,
+        nzOnOk: () => this.deleteMenuTheme(),
+        nzCancelText: 'No',
+        nzOnCancel: () => console.log('Cancel')
+      });
+    }else{
+      this.toastr.warning('Please select theme to delete', { nzDuration: 3000 });
+    }
+
+  }
+  deleteMenuTheme() {
+    this.saveLoader = true;
+    this.applicationService.deleteNestCommonAPI("cp/MenuTheme", this.policyTheme).subscribe({
+      next: (res: any) => {
+        this.saveLoader = false;
+        if (res.isSuccess) {
+          this.policyTheme = '';
+          this.themeName = '';
+          this.getTheme(this.selectedAppId);
+          this.toastr.success(res.message, { nzDuration: 3000 });
+        } else
+          this.toastr.error(res.message, { nzDuration: 3000 });
+      }, error: (error) => {
+        this.toastr.error(JSON.stringify(error), { nzDuration: 3000 });
+        this.saveLoader = false;
+      }
+    })
   }
 }

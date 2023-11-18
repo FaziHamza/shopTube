@@ -12,6 +12,8 @@ import { Clipboard } from '@angular/cdk/clipboard';
 import { ApplicationService } from '../services/application.service';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { FormGroup } from '@angular/forms';
+import html2canvas from 'html2canvas';
+import { jsPDF } from "jspdf"; // Trying to import as in the documentation 
 
 @Component({
   selector: 'st-pages',
@@ -37,6 +39,7 @@ export class PagesComponent implements OnInit, OnDestroy {
   getTaskManagementIssues: any[] = [];
   isVisible: boolean = false;
   tableRowID: any = '';
+  pdf: boolean = false;
   pageRuleList: any[] = [];
   saveLoader: boolean = false;
   countRule: number = 0;
@@ -134,7 +137,6 @@ export class PagesComponent implements OnInit, OnDestroy {
   }
   user: any;
   ngOnInit(): void {
-
     this.initHighlightFalseSubscription();
     this.initPageSubmitSubscription();
     this.initEventChangeSubscription();
@@ -250,6 +252,8 @@ export class PagesComponent implements OnInit, OnDestroy {
 
     if (this.data.length == 0) {
       const subscription = this.activatedRoute.params.subscribe((params: Params) => {
+        // this.initiliaze(params);
+
         if (params["schema"]) {
           this.saveLoader = true;
           this.dataSharedService.currentMenuLink = "/pages/" + params["schema"];
@@ -275,9 +279,12 @@ export class PagesComponent implements OnInit, OnDestroy {
 
     if (this.data.length == 0) {
       if (params["schema"]) {
-
-        if (params["id"]) {
+        //True is check for params["id"] because this param also use for pdf
+        if (params["id"] && params["id"] != 'pdf') {
           this.tableRowID = params["id"];
+        }
+        if (params["id"] == 'pdf') {
+          this.pdf = true;
         }
         this.dataSharedService.defaultPageNodes = '';
         this.isPageContextShow = true;
@@ -508,6 +515,9 @@ export class PagesComponent implements OnInit, OnDestroy {
     }
     this.applyDefaultValue();
     this.checkDynamicSection();
+    if (this.pdf == true) {
+      this.captureAndGeneratePDF();
+    }
   }
   formValueAssign(data: any) {
     if (data && this.screenData) {
@@ -2608,7 +2618,7 @@ export class PagesComponent implements OnInit, OnDestroy {
         else {
           acc[formlyKey] = formlyConfig;
         }
-      } 
+      }
       else {
         acc[formlyKey] = formlyConfig;
       }
@@ -2717,5 +2727,30 @@ export class PagesComponent implements OnInit, OnDestroy {
 
     return data;
   }
+  captureAndGeneratePDF() {
+    // Add a time delay of 2 seconds (2000 milliseconds)
+    setTimeout(() => {
+      html2canvas(document.body).then((canvas) => {
+        // Create PDF
+        const pdf = new jsPDF({
+          orientation: 'p', // 'p' for portrait, 'l' for landscape
+          unit: 'mm', // use millimeters for units
+          format: 'a4', // standard paper size
+        });
 
+        // Convert canvas to image data URL
+        const imgData = canvas.toDataURL('image/png');
+
+        // Set scale factor for both width and height to fit the entire content within the PDF page
+        const scaleFactorWidth = pdf.internal.pageSize.getWidth() / canvas.width;
+        const scaleFactorHeight = pdf.internal.pageSize.getHeight() / canvas.height;
+        const scaleFactor = Math.min(scaleFactorWidth, scaleFactorHeight);
+
+        pdf.addImage(imgData, 'PNG', 0, 0, canvas.width * scaleFactor, canvas.height * scaleFactor);
+
+        // Download or display the PDF
+        pdf.save('screenshot.pdf');
+      });
+    }, 2000); // 2000 milliseconds (2 seconds) delay
+  }
 }

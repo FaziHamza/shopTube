@@ -10,42 +10,45 @@
         <nz-header #header *ngIf="!currentHeader">
           <st-menu [selectedTheme]="selectedTheme"></st-menu>
         </nz-header>
-        <st-pages #header *ngIf="currentHeader" [resData]="currentHeader" [screenName]="domainData?.header?.navigation"
-          [screenId]="domainData?.header?.screenBuilderId"></st-pages>
+        <st-pages #header *ngIf="currentHeader && !hideHeaderFooterMenu" [resData]="currentHeader"
+          [screenName]="domainData?.header?.navigation" [screenId]="domainData?.header?.screenBuilderId"></st-pages>
       </div>
       <nz-layout #mainContent
         [class]="'content-container' + (selectedTheme?.layout === 'horizental' ? ' b-horizontal-menu' : '') + (selectedTheme.layout == 'rtl' ? ' rtl-layout2' : '')">
-        <div *ngIf="!selectedTheme.isCollapsed" class="backdrop"></div>
-        <nz-sider [hidden]="selectedTheme.isCollapsed && selectedTheme.sideBarSize == 'smallIconView'" class="!rounded-tr-[4px] !rounded-br-[4px] side-bar "
-          *ngIf="currentWebsiteLayout != 'website' || fullCurrentUrl.includes('/menu-builder')" [class]="'menu-sidebar' + (selectedTheme.layout === 'twoColumn' && selectedTheme['menuChildArrayTwoColumn'].length == 0 ? ' two-column-sider' : '')+
-          (selectedTheme.sideBarSize == 'smallIconView' && (selectedTheme.layout == 'vertical' || selectedTheme.layout == 'rtl') ? ' small-icon-view-menu' : '') + (selectedTheme.layout == 'rtl' ? ' mobile-side-menu-rtl' : '')
-          " nzTheme="light" nzCollapsible nzWidth="240px" nzBreakpoint="md" [(nzCollapsed)]="selectedTheme.isCollapsed"
-          [nzTrigger]="null">
-          <span [contextMenu]="oneContextMenu" *ngIf="isShowContextMenu ; else nonContextMenu">
-            <context-menu #oneContextMenu>
-              <ng-template contextMenuItem (execute)="issueReportFun()" [visible]="isShowContextMenu">Issue
-                Report</ng-template>
-            </context-menu>
-            <div class="dynamic-menu desktop-toggle">
-              <st-app-side-menu [selectedTheme]="selectedTheme" [menuItems]="menuItems" [mobileView]="false"
-                (notify)="loadTabsAndButtons($event)"></st-app-side-menu>
-            </div>
-            <div *ngIf="!selectedTheme.isCollapsed" class="dynamic-menu mobile-toggle">
-              <st-app-side-menu [selectedTheme]="selectedTheme" [menuItems]="menuItems" [mobileView]="true"
-                (notify)="loadTabsAndButtons($event)"></st-app-side-menu>
-            </div>
-          </span>
-          <ng-template #nonContextMenu>
-            <div class="dynamic-menu desktop-toggle">
-              <st-app-side-menu [selectedTheme]="selectedTheme" [menuItems]="menuItems" [mobileView]="false"
-                (notify)="loadTabsAndButtons($event)"></st-app-side-menu>
-            </div>
-            <div *ngIf="!selectedTheme.isCollapsed" class="dynamic-menu mobile-toggle">
-              <st-app-side-menu [selectedTheme]="selectedTheme" [menuItems]="menuItems" [mobileView]="true"
-                (notify)="loadTabsAndButtons($event)"></st-app-side-menu>
-            </div>
-          </ng-template>
-        </nz-sider>
+        <ng-container *ngIf="!hideHeaderFooterMenu">
+          <div *ngIf="!selectedTheme.isCollapsed" class="backdrop"></div>
+          <nz-sider [hidden]="selectedTheme.isCollapsed && selectedTheme.sideBarSize == 'smallIconView'"
+            class="!rounded-tr-[4px] !rounded-br-[4px] side-bar "
+            *ngIf="currentWebsiteLayout != 'website' || fullCurrentUrl.includes('/menu-builder')" [class]="'menu-sidebar' + (selectedTheme.layout === 'twoColumn' && selectedTheme['menuChildArrayTwoColumn'].length == 0 ? ' two-column-sider' : '')+
+            (selectedTheme.sideBarSize == 'smallIconView' && (selectedTheme.layout == 'vertical' || selectedTheme.layout == 'rtl') ? ' small-icon-view-menu' : '') + (selectedTheme.layout == 'rtl' ? ' mobile-side-menu-rtl' : '')
+            " nzTheme="light" nzCollapsible nzWidth="240px" nzBreakpoint="md"
+            [(nzCollapsed)]="selectedTheme.isCollapsed" [nzTrigger]="null">
+            <span [contextMenu]="oneContextMenu" *ngIf="isShowContextMenu ; else nonContextMenu">
+              <context-menu #oneContextMenu>
+                <ng-template contextMenuItem (execute)="issueReportFun()" [visible]="isShowContextMenu">Issue
+                  Report</ng-template>
+              </context-menu>
+              <div class="dynamic-menu desktop-toggle">
+                <st-app-side-menu [selectedTheme]="selectedTheme" [menuItems]="menuItems" [mobileView]="false"
+                  (notify)="loadTabsAndButtons($event)"></st-app-side-menu>
+              </div>
+              <div *ngIf="!selectedTheme.isCollapsed" class="dynamic-menu mobile-toggle">
+                <st-app-side-menu [selectedTheme]="selectedTheme" [menuItems]="menuItems" [mobileView]="true"
+                  (notify)="loadTabsAndButtons($event)"></st-app-side-menu>
+              </div>
+            </span>
+            <ng-template #nonContextMenu>
+              <div class="dynamic-menu desktop-toggle">
+                <st-app-side-menu [selectedTheme]="selectedTheme" [menuItems]="menuItems" [mobileView]="false"
+                  (notify)="loadTabsAndButtons($event)"></st-app-side-menu>
+              </div>
+              <div *ngIf="!selectedTheme.isCollapsed" class="dynamic-menu mobile-toggle">
+                <st-app-side-menu [selectedTheme]="selectedTheme" [menuItems]="menuItems" [mobileView]="true"
+                  (notify)="loadTabsAndButtons($event)"></st-app-side-menu>
+              </div>
+            </ng-template>
+          </nz-sider>
+        </ng-container>
         <nz-content class="relative site-content !bg-slate-50 ">
           <ng-container *ngIf="tabs.length">
             <ng-container *ngFor="let item of tabs">
@@ -57,8 +60,7 @@
             <router-outlet></router-outlet>
           </div>
           <div id="FOOTER" [ngClass]="{ 'dynamic-footer' :  dataSharedService.showFooter }"
-            
-            *ngIf="currentFooter && !fullCurrentUrl.includes('/menu-builder')">
+            *ngIf="currentFooter && !fullCurrentUrl.includes('/menu-builder') && !hideHeaderFooterMenu">
             <st-pages [resData]="currentFooter" [screenName]="domainData?.footer?.navigation"
               [screenId]="domainData?.footer?.screenBuilderId"></st-pages>
           </div>
