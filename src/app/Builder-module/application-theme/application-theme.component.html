@@ -1,0 +1,27 @@
+<div class="flex flex-wrap mb-2">
+    <div class="w-1/3 !mx-2">
+        <label class="ml-1 font-bold">Select Menu Theme</label>
+        <nz-select style="width: 100%;" nzShowSearch nzAllowClear [(ngModel)]="selectedApplication"
+            class=" policy-cascader !h-10 !rounded-md pl-1" nzPlaceHolder="Select Application">
+            <nz-option *ngFor="let item of applicationList" [nzLabel]="item.name" [nzValue]="item?._id"></nz-option>
+        </nz-select>
+    </div>
+    <div class="w-1/3 !mx-2">
+        <label class="ml-1 font-bold">Select Tag</label>
+        <nz-select style="width: 100%;" nzShowSearch nzAllowClear [(ngModel)]="selectedTag"
+            class=" policy-cascader !h-10 !rounded-md pl-1" nzPlaceHolder="Select Tag ">
+            <nz-option *ngFor="let item of tagList" [nzLabel]="item" [nzValue]="item"></nz-option>
+        </nz-select>
+    </div>
+    <div class="w-1/3 !mx-2">
+        <label class="ml-1 font-bold">Global Classes Name</label>
+        <input class="!border !rounded-md !p-2 !block !w-full " style="width: 100%;" nz-input
+            placeholder="Please Enter Theme Name" [(ngModel)]="themeName" type="text" />
+    </div>
+    <div class="w-1/5 flex mt-[20px]">
+        <button nz-button nzType="primary" class="btn-no ml-2" (click)="save()"><i
+                class="fa-regular fa-save mr-2"></i>Save</button>
+        <!-- <button nz-button nzType="primary" class="ml-2 btn-no !border-none !bg-green-600 hover:!bg-green-500"
+            (click)="cloneTheme()"><i class="fa-regular fa-clone mr-2"></i> Clone</button> -->
+    </div>
+</div>

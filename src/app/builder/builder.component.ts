@@ -4,6 +4,8 @@ import {
   ChangeDetectorRef,
   ViewContainerRef,
   ViewChild,
+  Renderer2,
+  ElementRef,
 } from '@angular/core';
 import { JsonEditorComponent, JsonEditorOptions } from 'ang-jsoneditor';
 import { NzButtonSize } from 'ng-zorro-antd/button';
@@ -123,7 +125,9 @@ export class BuilderComponent implements OnInit {
     private clickButtonService: BuilderClickButtonService,
     public dataSharedService: DataSharedService,
     private colorPickerService: ColorPickerService,
-    private router: Router
+    private el: ElementRef,
+    private router: Router,
+    private renderer: Renderer2,
   ) {
 
     // document.getElementsByTagName("body")[0].setAttribute("data-sidebar-size", "sm");
@@ -688,6 +692,9 @@ export class BuilderComponent implements OnInit {
           this.uiRuleGetData(this.screenName);
           this.updateNodes();
           this.applyDefaultValue();
+          const classesToAdd = ['!bg-red-500', '!text-white', '!font-bold', 'p-2'];
+          this.addClasses('button', classesToAdd);
+          
         } else {
           this.toastr.error(res.message, { nzDuration: 3000 }); // Show an error message to the user
           this.saveLoader = false;
@@ -698,6 +705,38 @@ export class BuilderComponent implements OnInit {
         this.toastr.error("An error occurred", { nzDuration: 3000 }); // Show an error message to the user
         this.saveLoader = false;
       }
+    });
+  }
+  private addClasses(tagName: string, classesToAdd: string[]): void {
+    const elements = this.el.nativeElement.querySelectorAll(tagName);
+  
+    elements.forEach((element: HTMLElement) => {
+      const existingClasses = Array.from(element.classList);
+  
+      classesToAdd.forEach(classToAdd => {
+        // Split the class name by the '-' character
+        const [prefix] = classToAdd.split('-');
+  
+        // Check if the prefix already exists in the element's classes
+        const prefixExists = existingClasses.some(existingClass => existingClass.startsWith(prefix));
+  
+        if (!prefixExists) {
+          // If the prefix doesn't exist, add the new class
+          this.renderer.addClass(element, classToAdd);
+        }
+      });
+    });
+  }
+  
+  
+  private addClass(tagName: string, classes: string): void {
+    const elements = this.el.nativeElement.querySelectorAll(tagName);
+  
+    elements.forEach((element: HTMLElement) => {
+      const classList = classes.split(' ');
+      classList.forEach((className: string) => {
+        this.renderer.addClass(element, className);
+      });
     });
   }
   applyDefaultValue() {

@@ -10,6 +10,8 @@ import { BuilderService } from 'src/app/services/builder.service';
 import { DataSharedService } from 'src/app/services/data-shared.service';
 import { forkJoin } from 'rxjs';
 import { environment } from 'src/environments/environment';
+import { NzModalService } from 'ng-zorro-antd/modal';
+import { ApplicationThemeComponent } from '../application-theme/application-theme.component';
 
 @Component({
   selector: 'st-application-builder',
@@ -108,6 +110,7 @@ export class ApplicationBuilderComponent implements OnInit {
     },
   ];
   constructor(public builderService: BuilderService,
+    private modalService: NzModalService,
     private applicationService: ApplicationService,
     public dataSharedService: DataSharedService, private toastr: NzMessageService, private router: Router,) {
     this.dataSharedService.change.subscribe(({ event, field }) => {
@@ -135,7 +138,7 @@ export class ApplicationBuilderComponent implements OnInit {
       }
     });
     this.dataSharedService.change.subscribe(({ event, field }) => {
-      
+
       if (event && field && field.key == 'image') {
         if (this.myForm) {
           this.model['image'] = event;
@@ -430,7 +433,7 @@ export class ApplicationBuilderComponent implements OnInit {
       });
   }
   openModal(type: any, selectedAllow?: boolean, departmentId?: any) {
-    
+
     if (this.isSubmit) {
       for (let prop in this.model) {
         if (this.model.hasOwnProperty(prop)) {
@@ -463,7 +466,26 @@ export class ApplicationBuilderComponent implements OnInit {
       this.isSubmit = true;
     }
   }
-
+  applicationTheme() {
+    const modal =
+      this.modalService.create<ApplicationThemeComponent>({
+        nzTitle: 'Application Theme',
+        nzWidth: '60%',
+        nzContent: ApplicationThemeComponent,
+        // nzViewContainerRef: this.viewContainerRef,
+        nzComponentParams: {
+          applicationList : this.listOfChildrenData,
+        },
+        // nzOnOk: () => new Promise(resolve => setTimeout(resolve, 1000)),
+        nzFooter: [],
+      });
+    const instance = modal.getContentComponent();
+    modal.afterClose.subscribe((res) => {
+      if (res) {
+        // this.controls(value, data, obj, res);
+      }
+    });
+  }
   handleCancel(): void {
     this.isVisible = false;
   }
@@ -481,7 +503,7 @@ export class ApplicationBuilderComponent implements OnInit {
   }
 
   onSubmit() {
-    
+
     if (!this.myForm.valid) {
       this.handleCancel();
       return;
@@ -519,7 +541,7 @@ export class ApplicationBuilderComponent implements OnInit {
         }
       }
       if (this.applicationSubmit && key == "applicationId" && this.isSubmit) {
-        
+
         this.handleCancel();
         this.loading = true
         this.applicationService.addNestCommonAPI(`applications/${this.myForm.value.defaultApplication}/clone`, this.myForm.value).subscribe({

@@ -56,6 +56,7 @@ import { UserMappingComponent } from './admin/user-mapping/user-mapping.componen
 import { PolicyMappingTableComponent } from './admin/policy-mapping/policy-mapping-table/policy-mapping-table.component';
 import { CustomReuseStrategy } from './custom-reuse-strategy';
 import { BuilderModule } from './builder/builder.module';
+import { ApplicationThemeComponent } from './Builder-module/application-theme/application-theme.component';
 
 @NgModule({
   declarations: [
@@ -73,6 +74,7 @@ import { BuilderModule } from './builder/builder.module';
     PolicyMappingComponent,
     UserMappingComponent,
     PolicyMappingTableComponent,
+    ApplicationThemeComponent,
     // MultiFileUploadWrapperComponent,
   ],
   imports: [
