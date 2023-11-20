@@ -2698,15 +2698,15 @@ export class PagesComponent implements OnInit, OnDestroy {
       }
     }
     this.formlyModel = newModel;
-    if (field.key.includes('.')) {
-      if (this.form.value[field.key.split('.')[0]]) {
-        if (this.form.value[field.key.split('.')[0]][field.key.split('.')[1]]) {
-          this.form.value[field.key.split('.')[0]][field.key.split('.')[1]] = event;
-        }
-      }
-    } else {
-      this.form.patchValue(this.formlyModel);
-    }
+    // if (field.key.includes('.')) {
+    //   if (this.form.value[field.key.split('.')[0]]) {
+    //     if (this.form.value[field.key.split('.')[0]][field.key.split('.')[1]]) {
+    //       this.form.value[field.key.split('.')[0]][field.key.split('.')[1]] = event;
+    //     }
+    //   }
+    // } else {
+    //   this.form.patchValue(this.formlyModel);
+    // }
   }
   filterDuplicateChildren(data: any) {
     // Maintain a set of unique keys
