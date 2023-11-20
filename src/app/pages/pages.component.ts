@@ -52,7 +52,7 @@ export class PagesComponent implements OnInit, OnDestroy {
     private cdr: ChangeDetectorRef,
     private toastr: NzMessageService,
     private el: ElementRef,
-    public dataSharedService: DataSharedService, private router: Router ,private renderer: Renderer2) {
+    public dataSharedService: DataSharedService, private router: Router, private renderer: Renderer2) {
 
     // this.ngOnDestroy();
     const changeSubscription = this.dataSharedService.change.subscribe(({ event, field }) => {
@@ -253,10 +253,8 @@ export class PagesComponent implements OnInit, OnDestroy {
     if (this.data.length == 0) {
       const subscription = this.activatedRoute.params.subscribe((params: Params) => {
         // this.initiliaze(params);
-
         if (params["schema"]) {
           this.initiliaze(params);
-
           // this.saveLoader = true;
           // this.dataSharedService.currentMenuLink = "/pages/" + params["schema"];
           // localStorage.setItem('screenId', this.dataSharedService.currentMenuLink);

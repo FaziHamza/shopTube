@@ -111,6 +111,7 @@ export class BuilderComponent implements OnInit {
   formlyLength: any = 0;
   pdf: boolean = false;
   getTaskManagementIssues: any[] = [];
+  applicationThemeClasses: any = [];
   constructor(
     public builderService: BuilderService,
     private viewContainerRef: ViewContainerRef,
@@ -701,10 +702,8 @@ export class BuilderComponent implements OnInit {
             next: (res: any) => {
               if (res.isSuccess) {
                 if (res.data.length > 0) {
-                  res.data.forEach((appTheme: any) => {
-                    const classesToAdd = appTheme?.classes;
-                    this.addClasses(appTheme?.name, classesToAdd);
-                  });
+                  this.applicationThemeClasses = res.data;
+                  this.applyApplicationThemeClass();
                 }
               }
               else {
@@ -2404,6 +2403,7 @@ export class BuilderComponent implements OnInit {
     }
     this.addNode(node, newNode);
     this.updateNodes();
+    this.applyApplicationThemeClass();
   }
   makeFormlyOptions(option: any, type: any) {
     if (!option) {
@@ -5601,6 +5601,7 @@ export class BuilderComponent implements OnInit {
     }
     this.showSuccess();
     this.updateNodes();
+    this.applyApplicationThemeClass();
     this.closeConfigurationList();
   }
 
@@ -7296,5 +7297,15 @@ export class BuilderComponent implements OnInit {
       }
     }
     this.formlyModel = newModel;
+  }
+  applyApplicationThemeClass() {
+    debugger
+    if (this.applicationThemeClasses.length > 0) {
+      for (let index = 0; index < this.applicationThemeClasses.length; index++) {
+        const element = this.applicationThemeClasses[index];
+        const classesToAdd = element?.classes;
+        this.addClasses(element?.name, classesToAdd);
+      }
+    }
   }
 }
