@@ -27,7 +27,7 @@
     </div>
 
     <div class="table-responsive mt-3">
-        <nz-table #editRowTable nzBordered [nzData]="displayData" nzTableLayout="fixed" [nzPageSize]="pageSize"
+        <nz-table #editRowTable nzBordered [nzData]="listOfDisplayData" nzTableLayout="fixed" [nzPageSize]="pageSize"
             [nzFrontPagination]="false">
             <thead>
                 <tr>
@@ -47,24 +47,23 @@
                     <td>
                         <div class="flex">
                             <i class="fa-regular fa-edit !text-blue-500 mr-2" (click)="edit(item)"></i>
-                            <i class="fa-regular fa-trash-alt !text-red-500" (click)="delete(item._id)"></i>
+                            <i class="fa-regular fa-trash-alt !text-red-500" (click)="showDeleteConfirm(item._id)"></i>
                         </div>
                     </td>
                 </tr>
             </tbody>
         </nz-table>
-        <!-- <div class="paginatio-bottom" *ngIf="collectionList.length > pageSize">
+        <div class="paginatio-bottom">
             <div>
-                <p class="showing">Showing <span>{{start}} - {{end}}</span> from
-                    <span>{{collectionList.length}}</span>
+                <p class="showing">Showing <span class="primary-color">{{start}} - {{end}}</span> from
+                    <span class="primary-color">{{listOfData.length}}</span>
                     data
                 </p>
             </div>
             <div>
-                <nz-pagination *ngIf="collectionList.length > pageSize" [nzTotal]="collectionList.length"
-                    [(nzPageIndex)]="pageIndex" [(nzPageSize)]="pageSize"
+                <nz-pagination [nzTotal]="listOfData.length" [(nzPageIndex)]="pageIndex" [(nzPageSize)]="pageSize"
                     (nzPageIndexChange)="onPageIndexChange($event)"></nz-pagination>
             </div>
-        </div> -->
+        </div>
     </div>
 </nz-spin>

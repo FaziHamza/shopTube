@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, ElementRef, Input, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, ElementRef, Input, OnDestroy, OnInit, Renderer2 } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { BuilderService } from '../services/builder.service';
 import { EmployeeService } from '../services/employee.service';
@@ -52,7 +52,7 @@ export class PagesComponent implements OnInit, OnDestroy {
     private cdr: ChangeDetectorRef,
     private toastr: NzMessageService,
     private el: ElementRef,
-    public dataSharedService: DataSharedService, private router: Router) {
+    public dataSharedService: DataSharedService, private router: Router ,private renderer: Renderer2) {
 
     // this.ngOnDestroy();
     const changeSubscription = this.dataSharedService.change.subscribe(({ event, field }) => {
@@ -255,18 +255,20 @@ export class PagesComponent implements OnInit, OnDestroy {
         // this.initiliaze(params);
 
         if (params["schema"]) {
-          this.saveLoader = true;
-          this.dataSharedService.currentMenuLink = "/pages/" + params["schema"];
-          localStorage.setItem('screenId', this.dataSharedService.currentMenuLink);
-          this.clearValues();
-          this.applicationService.getNestCommonAPI('cp/auth/pageAuth/' + params["schema"]).subscribe(res => {
-            if (res?.data) {
-              this.initiliaze(params);
-            } else {
-              this.saveLoader = false;
-              this.router.navigateByUrl('permission-denied');
-            }
-          });
+          this.initiliaze(params);
+
+          // this.saveLoader = true;
+          // this.dataSharedService.currentMenuLink = "/pages/" + params["schema"];
+          // localStorage.setItem('screenId', this.dataSharedService.currentMenuLink);
+          // this.clearValues();
+          // this.applicationService.getNestCommonAPI('cp/auth/pageAuth/' + params["schema"]).subscribe(res => {
+          //   if (res?.data) {
+          //     this.initiliaze(params);
+          //   } else {
+          //     this.saveLoader = false;
+          //     this.router.navigateByUrl('permission-denied');
+          //   }
+          // });
         }
       });
       this.subscriptions.add(subscription);
@@ -513,6 +515,27 @@ export class PagesComponent implements OnInit, OnDestroy {
 
       }
     }
+    this.requestSubscription = this.applicationService.getNestCommonAPI('cp/applicationTheme').subscribe({
+      next: (res: any) => {
+        if (res.isSuccess) {
+          if (res.data.length > 0) {
+            res.data.forEach((appTheme: any) => {
+              const classesToAdd = appTheme?.classes;
+              this.addClasses(appTheme?.name, classesToAdd);
+            });
+          }
+        }
+        else {
+          this.toastr.error(res.message, { nzDuration: 3000 }); // Show an error message to the user
+          this.saveLoader = false;
+        }
+      },
+      error: (err) => {
+        console.error(err); // Log the error to the console
+        this.toastr.error("An error occurred", { nzDuration: 3000 }); // Show an error message to the user
+        this.saveLoader = false;
+      }
+    });
     this.applyDefaultValue();
     this.checkDynamicSection();
     if (this.pdf == true) {
@@ -2752,5 +2775,26 @@ export class PagesComponent implements OnInit, OnDestroy {
         pdf.save('screenshot.pdf');
       });
     }, 2000); // 2000 milliseconds (2 seconds) delay
+  }
+
+  private addClasses(tagName: string, classesToAdd: string[]): void {
+    const elements = this.el.nativeElement.querySelectorAll(tagName);
+
+    elements.forEach((element: HTMLElement) => {
+      const existingClasses = Array.from(element.classList);
+
+      classesToAdd.forEach(classToAdd => {
+        // Split the class name by the '-' character
+        const [prefix] = classToAdd.split('-');
+
+        // Check if the prefix already exists in the element's classes
+        const prefixExists = existingClasses.some(existingClass => existingClass.startsWith(prefix));
+
+        if (!prefixExists) {
+          // If the prefix doesn't exist, add the new class
+          this.renderer.addClass(element, classToAdd);
+        }
+      });
+    });
   }
 }

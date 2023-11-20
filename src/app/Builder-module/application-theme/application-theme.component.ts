@@ -1,6 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NzMessageService } from 'ng-zorro-antd/message';
+import { NzModalService } from 'ng-zorro-antd/modal';
 import { ApplicationService } from 'src/app/services/application.service';
 
 @Component({
@@ -20,10 +21,13 @@ export class ApplicationThemeComponent {
   form: FormGroup;
   isSubmit: boolean = false;
   loader: boolean = false;
-  displayData: any[] = [];
+  listOfData: any[] = [];
+  listOfDisplayData: any[] = [];
   pageIndex: number = 1;
   pageSize: number = 6;
-  constructor(private fb: FormBuilder, private applicationService: ApplicationService, private toastr: NzMessageService,) {
+  start = 1;
+  end = 10;
+  constructor(private fb: FormBuilder, private applicationService: ApplicationService, private toastr: NzMessageService, private modal: NzModalService) {
     this.form = this.fb.group({
       id: [''], // Application is required
       applicationId: ['', Validators.required], // Application is required
@@ -39,15 +43,24 @@ export class ApplicationThemeComponent {
   save() {
     debugger
     if (this.form.valid) {
-      let obj: any = {
-        applicationTheme: {}
+      if (this.listOfData.some((a) => a.name === this.form.value.tag)) {
+        this.toastr.warning('Already classes exist against this tag', { nzDuration: 3000 });
+        return;
       }
-      obj.applicationTheme = JSON.parse(JSON.stringify(this.form.value));
-      obj.applicationTheme['name'] = this.form.value.tag;
-      let app = this.applicationList.find((a: any) => a._id == this.form.value.applicationId);
-      obj.applicationTheme['applicationName'] = app.name
-      let classNamesString = JSON.parse(JSON.stringify(this.form.value.classes));
-      obj.applicationTheme['classes'] = classNamesString.replace(/\s+/g, ',').split(',');
+      const formValue = this.form.value;
+      const app = this.applicationList.find((a: any) => a._id === formValue.applicationId);
+
+      const classNamesArray = formValue.classes.split(/\s+/).filter(Boolean);
+
+      const obj = {
+        applicationTheme: {
+          ...formValue,
+          name: formValue.tag,
+          applicationName: app?.name,
+          classes: classNamesArray,
+        }
+      };
+
       this.loader = true;
       const checkPolicyAndProceed = this.editId == ''
         ? this.applicationService.addNestCommonAPI('cp', obj)
@@ -56,6 +69,7 @@ export class ApplicationThemeComponent {
         next: (objTRes: any) => {
           this.loader = false;
           if (objTRes.isSuccess) {
+            this.editId = '';
             this.form.reset();
             this.getApplicationTheme();
           } else {
@@ -78,7 +92,8 @@ export class ApplicationThemeComponent {
     this.applicationService.getNestCommonAPI('cp/applicationTheme').subscribe(((res: any) => {
       this.loader = false;
       if (res.isSuccess) {
-        this.displayData = res.data
+        this.listOfData = res.data;
+        this.listOfDisplayData = res.data;
       } else
         this.toastr.warning(res.message, { nzDuration: 2000 });
     }));
@@ -101,6 +116,30 @@ export class ApplicationThemeComponent {
       classes: data?.classes.join(' '), // Join the array elements with a space
     });
   }
+  onPageIndexChange(index: number): void {
+    this.pageIndex = index;
+    this.updatefilesList();
+  }
 
+  updatefilesList(): void {
+    const start = (this.pageIndex - 1) * this.pageSize;
+    const end = start + this.pageSize;
+    this.start = start == 0 ? 1 : ((this.pageIndex * this.pageSize) - this.pageSize) + 1;
+    this.listOfDisplayData = this.listOfData.slice(start, end);
+    this.end = this.listOfData.length != 6 ? this.listOfDisplayData.length : this.pageIndex * this.pageSize;
+  }
 
+  showDeleteConfirm(id: any): void {
+    this.modal.confirm({
+      nzTitle: 'Are you sure delete this Record?',
+      // nzContent: '<b style="color: red;">Some descriptions</b>',
+      nzOkText: 'Yes',
+      nzClassName: 'deleteRow',
+      nzOkType: 'primary',
+      nzOkDanger: true,
+      nzOnOk: () => this.delete(id),
+      nzCancelText: 'No',
+      nzOnCancel: () => console.log('Cancel')
+    });
+  }
 }

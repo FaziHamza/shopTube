@@ -697,9 +697,27 @@ export class BuilderComponent implements OnInit {
           this.uiRuleGetData(this.screenName);
           this.updateNodes();
           this.applyDefaultValue();
-          const classesToAdd = ['!bg-red-500', '!text-white', '!font-bold', 'p-2'];
-          this.addClasses('button', classesToAdd);
-          
+          this.requestSubscription = this.applicationService.getNestCommonAPI('cp/applicationTheme').subscribe({
+            next: (res: any) => {
+              if (res.isSuccess) {
+                if (res.data.length > 0) {
+                  res.data.forEach((appTheme: any) => {
+                    const classesToAdd = appTheme?.classes;
+                    this.addClasses(appTheme?.name, classesToAdd);
+                  });
+                }
+              }
+              else {
+                this.toastr.error(res.message, { nzDuration: 3000 }); // Show an error message to the user
+                this.saveLoader = false;
+              }
+            },
+            error: (err) => {
+              console.error(err); // Log the error to the console
+              this.toastr.error("An error occurred", { nzDuration: 3000 }); // Show an error message to the user
+              this.saveLoader = false;
+            }
+          });
         } else {
           this.toastr.error(res.message, { nzDuration: 3000 }); // Show an error message to the user
           this.saveLoader = false;
@@ -714,17 +732,17 @@ export class BuilderComponent implements OnInit {
   }
   private addClasses(tagName: string, classesToAdd: string[]): void {
     const elements = this.el.nativeElement.querySelectorAll(tagName);
-  
+
     elements.forEach((element: HTMLElement) => {
       const existingClasses = Array.from(element.classList);
-  
+
       classesToAdd.forEach(classToAdd => {
         // Split the class name by the '-' character
         const [prefix] = classToAdd.split('-');
-  
+
         // Check if the prefix already exists in the element's classes
         const prefixExists = existingClasses.some(existingClass => existingClass.startsWith(prefix));
-  
+
         if (!prefixExists) {
           // If the prefix doesn't exist, add the new class
           this.renderer.addClass(element, classToAdd);
@@ -732,11 +750,11 @@ export class BuilderComponent implements OnInit {
       });
     });
   }
-  
-  
+
+
   private addClass(tagName: string, classes: string): void {
     const elements = this.el.nativeElement.querySelectorAll(tagName);
-  
+
     elements.forEach((element: HTMLElement) => {
       const classList = classes.split(' ');
       classList.forEach((className: string) => {
