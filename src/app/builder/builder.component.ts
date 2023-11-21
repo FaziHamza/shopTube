@@ -20,7 +20,7 @@ import {
   actionTypeFeild,
   formFeildData,
 } from './configurations/configuration.modal';
-import { htmlTabsData } from './ControlList';
+import { htmlTabsData } from '../ControlList';
 import { BuilderClickButtonService } from './service/builderClickButton.service';
 import { Subscription, catchError, forkJoin, of } from 'rxjs';
 import { INITIAL_EVENTS } from '../shared/event-utils/event-utils';
@@ -703,7 +703,7 @@ export class BuilderComponent implements OnInit {
               if (res.isSuccess) {
                 if (res.data.length > 0) {
                   this.applicationThemeClasses = res.data;
-                  this.applyApplicationThemeClass();
+                  // this.applyApplicationThemeClass();
                 }
               }
               else {
@@ -1999,7 +1999,7 @@ export class BuilderComponent implements OnInit {
         newNode = { ...newNode, ...this.addControlService.mainDivControl() };
         break;
       case 'heading':
-        newNode = { ...newNode, ...this.addControlService.headingControl() };
+        // newNode = { ...newNode, ...this.addControlService.headingControl() };
         break;
 
       case 'paragraph':
@@ -2401,9 +2401,86 @@ export class BuilderComponent implements OnInit {
         }
         break;
     }
-    this.addNode(node, newNode);
+    // let controlType = value;
+    // let type = value;
+    // if (controlType == 'insertButton' || controlType == 'updateButton' || controlType == 'downloadButton' || controlType == 'deleteButton') {
+    //   controlType = 'button'
+    //   type = 'button'
+    // } else if (data?.parameter === 'input') {
+    //   controlType = 'input'
+    // }
+    // this.applicationService.getNestCommonAPI(`controls/${controlType}`).subscribe(((apiRes: any) => {
+    //   if (apiRes.isSuccess) {
+    //     if (apiRes.data) {
+    //       let response = JSON.parse(apiRes.data.controlJson);
+    //       if (data?.parameter === 'input') {
+    //         newNode = {
+    //           ...response,
+    //           id: formlyId,
+    //           className: this.columnApply(value),
+    //           expanded: true,
+    //           type: value,
+    //           title: res?.title ? res.title : obj.title,
+    //           children: [],
+    //           tooltip: '',
+    //           hideExpression: false,
+    //           highLight: false,
+    //           copyJsonIcon: false,
+    //           treeExpandIcon: data?.treeExpandIcon,
+    //           treeInExpandIcon: data?.treeInExpandIcon,
+    //           isLeaf: true,
+    //           apiUrl: '',
+    //         }
+    //         newNode.type = data?.configType;
+    //         newNode.formlyType = data?.parameter;
+    //         newNode.title = res?.title ? res.title : obj.title;
+    //         newNode.formly[0].fieldGroup[0].key = res?.key ? res.key : obj.key;
+    //         newNode.formly[0].fieldGroup[0].type = data?.type;
+    //         newNode.formly[0].fieldGroup[0].id = formlyId.toLowerCase();
+    //         newNode.formly[0].fieldGroup[0].wrappers = this.getLastNodeWrapper('wrappers');
+    //         newNode.formly[0].fieldGroup[0].props.additionalProperties.wrapper = this.getLastNodeWrapper('configWrapper');
+    //         newNode.formly[0].fieldGroup[0].props.type = data?.fieldType;
+    //         newNode.formly[0].fieldGroup[0].props.label = res?.title ? res.title : obj.title;
+    //         newNode.formly[0].fieldGroup[0].props.placeholder = data?.label;
+    //         newNode.formly[0].fieldGroup[0].props.maskString = data?.maskString;
+    //         newNode.formly[0].fieldGroup[0].props.maskLabel = data?.maskLabel;
+    //         newNode.formly[0].fieldGroup[0].props.options = this.makeFormlyOptions(data?.options, data.type);
+    //         newNode.formly[0].fieldGroup[0].props.keyup = (model: any) => {
+    //           let currentVal = model.formControl.value;
+    //           this.formlyModel[model.key] = model.formControl.value;
+    //           this.checkConditionUIRule(model, currentVal);
+    //         };
+    //       }
+    //       else {
+    //         newNode = {
+    //           ...response, // Spread the properties from response
+    //           key: res?.key ? res.key : obj.key,
+    //           id: this.navigation + '_' + value.toLowerCase() + '_' + Guid.newGuid(),
+    //           className: this.columnApply(value),
+    //           expanded: true,
+    //           type: type,
+    //           title: res?.title ? res.title : obj.title,
+    //           children: [],
+    //           tooltip: '',
+    //           tooltipIcon: 'question-circle',
+    //           hideExpression: false,
+    //           highLight: false,
+    //           copyJsonIcon: false,
+    //           treeExpandIcon: data?.treeExpandIcon,
+    //           treeInExpandIcon: data?.treeInExpandIcon,
+    //         };
+    //       }
+    //       this.addNode(node, newNode);
+    //       this.updateNodes();
+    //     } else {
+    //       this.toastr.warning('No control found', { nzDuration: 2000 });
+    //     }
+    //   } else
+    //     this.toastr.warning(res.message, { nzDuration: 2000 });
+    // }));
+    // this.applyApplicationThemeClass();
+      this.addNode(node, newNode);
     this.updateNodes();
-    this.applyApplicationThemeClass();
   }
   makeFormlyOptions(option: any, type: any) {
     if (!option) {
@@ -2656,8 +2733,16 @@ export class BuilderComponent implements OnInit {
 
 
   clickButton(type: any) {
-
     let _formFieldData = new formFeildData();
+    if (_formFieldData.commonFormlyConfigurationFields[0].fieldGroup || _formFieldData.commonOtherConfigurationFields[0].fieldGroup) {
+      let newArray = this.applicationThemeClasses.filter((a: any) => a.tag.includes(this.selectedNode.type));
+      const transformedArray = newArray.map((item: any) => ({
+        label: item.name,
+        value: item.classes
+      }));
+      this.setOptionsForFieldGroup(_formFieldData.commonFormlyConfigurationFields[0].fieldGroup, 'applicationThemeClasses', transformedArray);
+      this.setOptionsForFieldGroup(_formFieldData.commonOtherConfigurationFields[0].fieldGroup, 'applicationThemeClasses', transformedArray);
+    }
     const validationObj = {
       title: this.selectedNode.title ? this.selectedNode.title : this.selectedNode.id,
       data: _formFieldData.inputValidationRuleFields
@@ -2852,6 +2937,7 @@ export class BuilderComponent implements OnInit {
         index + 1
       ].props!.options = veriableOptions;
     }
+
     const selectedNode = this.selectedNode;
     let configObj: any;
     if (Array.isArray(selectedNode.className)) {
@@ -4458,6 +4544,7 @@ export class BuilderComponent implements OnInit {
             props['additionalProperties']['browserButtonColor'] = event.form?.browserButtonColor;
             props['additionalProperties']['hoverBrowseButtonColor'] = event.form?.hoverBrowseButtonColor;
             props['additionalProperties']['expandTrigger'] = event.form?.expandTrigger;
+            props['additionalProperties']['applicationThemeClasses'] = event.form?.applicationThemeClasses;
             if (event.form?.browserButtonColor) {
               document.documentElement.style.setProperty('--browseButtonColor', event.form?.browserButtonColor || '#2563EB');
             }
@@ -5601,7 +5688,7 @@ export class BuilderComponent implements OnInit {
     }
     this.showSuccess();
     this.updateNodes();
-    this.applyApplicationThemeClass();
+    // this.applyApplicationThemeClass();
     this.closeConfigurationList();
   }
 
@@ -7306,6 +7393,15 @@ export class BuilderComponent implements OnInit {
         const classesToAdd = element?.classes;
         this.addClasses(element?.name, classesToAdd);
       }
+    }
+  }
+  setOptionsForFieldGroup(fieldGroup: any, key: string, options: any): void {
+    if (fieldGroup) {
+      fieldGroup.forEach((element: any) => {
+        if (element?.key === key) {
+          element.props.options = options;
+        }
+      });
     }
   }
 }

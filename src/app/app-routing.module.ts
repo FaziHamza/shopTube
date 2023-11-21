@@ -13,6 +13,7 @@ import { PermissionDeniedComponent } from './auth/permission-denied/permission-d
 import { UserComponent } from './auth/user/user.component';
 import { PolicyMappingComponent } from './admin/policy-mapping/policy-mapping.component';
 import { UserMappingComponent } from './admin/user-mapping/user-mapping.component';
+import { ApplicationThemeComponent } from './Builder-module/application-theme/application-theme.component';
 
 const routes: Routes = [
   {
@@ -77,6 +78,10 @@ const routes: Routes = [
   {
     path: 'file-manager',
     component: FileManagerComponent
+  },
+  {
+    path: 'app-theme',
+    component: ApplicationThemeComponent
   },
   {
     path: 'map',

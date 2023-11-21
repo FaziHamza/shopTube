@@ -1,28 +1,58 @@
 <nz-spin [nzSpinning]="loader" [nzSize]="'large'" class="builder-design">
-    <div class="flex flex-wrap" [formGroup]="form">
-        <div class="w-2/5 !mx-2">
-            <label class="ml-1 font-bold">Select Menu Theme</label>
+    <div class="flex flex-wrap mt-2" [formGroup]="form">
+        <div class="w-1/4 pl-2">
+            <label class="ml-1 font-bold">Select Application Theme</label>
             <nz-select style="width: 100%;" nzShowSearch nzAllowClear formControlName="applicationId"
-                class="policy-cascader !h-10 !rounded-md pl-1" nzPlaceHolder="Select Application">
-                <nz-option *ngFor="let item of applicationList" [nzLabel]="item.name" [nzValue]="item?._id"></nz-option>
+                class="policy-cascader !h-10 !rounded-md pl-1" nzPlaceHolder="Select Application Theme..">
+                <nz-option *ngFor="let item of applicationList" [nzLabel]="item.label"
+                    [nzValue]="item?.value"></nz-option>
             </nz-select>
         </div>
-        <div class="w-2/5 !mx-2">
+        <div class="w-1/4 pl-2">
+            <label class="ml-1 font-bold">Name</label>
+            <input formControlName="name" nz-input placeholder="Enter Name Here..."
+                class="!border !rounded-md !p-2 !block !w-full" />
+        </div>
+        <div class="w-1/4 pl-2">
             <label class="ml-1 font-bold">Select Tag</label>
             <nz-select style="width: 100%;" nzShowSearch nzAllowClear formControlName="tag"
-                class="policy-cascader !h-10 !rounded-md pl-1" nzPlaceHolder="Select Tag">
-                <nz-option *ngFor="let item of tagList" [nzLabel]="item" [nzValue]="item"></nz-option>
+                class="policy-cascader !h-10 !rounded-md pl-1" nzPlaceHolder="Select Tag...">
+                <nz-option *ngFor="let item of controllist" [nzLabel]="item.label" [nzValue]="item.value"></nz-option>
             </nz-select>
         </div>
-        <div class="w-1/12 flex mt-[20px]">
+        <div class="w-1/4 flex mt-[21px]">
             <button nz-button nzType="primary"
                 [class]="(editId == '' ? '!bg-blue-600 hover:!bg-blue-500' : '!bg-green-600 hover:!bg-green-500') + ' ml-2 btn-no !border-none  '"
                 (click)="save()"><i class="fa-regular fa-save mr-2"></i>{{editId == '' ? 'Save' : 'Update'}}</button>
         </div>
         <div class="w-full !mx-2 mt-2">
             <label class="ml-1 font-bold">Global Classes Name</label>
+            <!-- <div id="mySidenav-right" class="sidenav-right">
+                <div class="mySidenav-right">
+                    <div class="side-nav-body">
+                        <div class="flex flex-wrap">
+                            <div class="w-full">
+                                <ul *ngIf="validationMessage.length">
+                                    <li class="text-red-800 flex justify-start items-center mb-2"
+                                        *ngFor="let errorObj of validationMessage">
+                                        <p class="font-semibold capitalize text-base">
+                                            {{ errorObj.message }}
+                                        </p>
+                                        <button nz-button nzType="primary" class="btn ml-2"
+                                            (click)="fixError(errorObj)">
+
+                                            <i class="fa-regular fa-sliders mr-2"></i>
+                                            Auto Fix</button>
+                                    </li>
+                                </ul>
+                                <div class="editor-container rounded-md" #editorRuleContainer></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div> -->
             <textarea class="!border !rounded-md !p-2 !block !w-full !max-h-60 !min-h-[100px]" style="width: 100%;"
-                nz-input placeholder="Please Enter Global Classes Name" formControlName="classes"></textarea>
+                nz-input placeholder="Please Enter Global Classes Name..." formControlName="classes"></textarea>
         </div>
     </div>
 
@@ -31,21 +61,35 @@
             [nzFrontPagination]="false">
             <thead>
                 <tr>
-                    <th>NO</th>
-                    <th>APPLICATION</th>
-                    <th>TAG</th>
-                    <th>CLASSES</th>
-                    <th>ACTION</th>
+                    <ng-container *ngFor="let column of listOfColumns">
+                        <th [nzWidth]="column.name === 'ACTION' ? '120px' : (column.name === 'NO' ? '60px' : '')"
+                            nzCustomFilter *ngIf="column.name != 'Action'">{{column.name}}
+                            <nz-filter-trigger [hidden]="column.hideSearch" [nzVisible]="column.visible || false"
+                                [nzDropdownMenu]="menu">
+                                <span nz-icon nzType="search"></span>
+                            </nz-filter-trigger>
+                        </th>
+                        <nz-dropdown-menu #menu="nzDropdownMenu">
+                            <div class="ant-table-filter-dropdown">
+                                <div class="search-box">
+                                    <input class="rounded-md" type="text" nz-input nzClear (keyup)="search()"
+                                        placeholder="Search here..." [(ngModel)]="column.searchValue" />
+                                </div>
+                            </div>
+                        </nz-dropdown-menu>
+                    </ng-container>
                 </tr>
             </thead>
             <tbody>
                 <tr *ngFor="let item of editRowTable.data;let index = index" class="table-cursor">
                     <td>{{index + 1}}</td>
-                    <td>{{item.applicationName}}</td>
-                    <td>{{item.name}}</td>
-                    <td>{{item.classes}}</td>
+                    <td>{{item?.applicationName}}</td>
+                    <td>{{item?.name}}</td>
+                    <td>{{item?.tag}}</td>
+                    <td>{{item?.classes}}</td>
                     <td>
                         <div class="flex">
+                            <i class="fa-regular fa-arrow-up-from-bracket mr-2" (click)="preview(item)"></i>
                             <i class="fa-regular fa-edit !text-blue-500 mr-2" (click)="edit(item)"></i>
                             <i class="fa-regular fa-trash-alt !text-red-500" (click)="showDeleteConfirm(item._id)"></i>
                         </div>
@@ -55,7 +99,8 @@
         </nz-table>
         <div class="paginatio-bottom">
             <div>
-                <p class="showing">Showing <span class="primary-color">{{start}} - {{end}}</span> from
+                <p class="showing">Showing <span class="primary-color">{{start}} <span class="!text-black"> -</span>
+                        {{end}}</span> from
                     <span class="primary-color">{{listOfData.length}}</span>
                     data
                 </p>

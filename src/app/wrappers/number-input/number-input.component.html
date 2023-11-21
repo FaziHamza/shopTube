@@ -3,7 +3,7 @@
   <div [class]="to['additionalProperties']?.wrapper=='floating_standard' ? 'relative z-0' : ''">
     <nz-input-group [ngClass]="showError ? 'input-border' : ''"
       *ngIf="!to['additionalProperties']?.suffixicon && !to['additionalProperties']?.prefixicon "
-      [class]="to['additionalProperties']?.innerInputClass" [nzSuffix]="(to['additionalProperties']?.addonRight   || to['additionalProperties']?.suffixicon) ? suffixTemplateInfo : undefined"
+      [class]="to['additionalProperties']?.innerInputClass + ' ' + to['additionalProperties']?.applicationThemeClasses" [nzSuffix]="(to['additionalProperties']?.addonRight   || to['additionalProperties']?.suffixicon) ? suffixTemplateInfo : undefined"
       [nzPrefix]="(to['additionalProperties']?.addonLeft || to['additionalProperties']?.prefixicon) ? prefixTemplateUser : undefined"
       [nzSize]="to['additionalProperties']?.size" [nzStatus]="to['additionalProperties']?.status">
       <nz-input-number (ngModelChange)="onModelChange($event, field)"

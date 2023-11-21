@@ -13,7 +13,7 @@
             *ngIf="to.type == 'date'" [nzDisabled]="to.disabled" style="width:100%" [formControl]="formControl"
             [nzStatus]="to['additionalProperties']?.status"
             [nzSize]="to['additionalProperties']?.size"></nz-range-picker>
-        <nz-range-picker [class]="to['additionalProperties']?.innerInputClass"
+        <nz-range-picker [class]="to['additionalProperties']?.innerInputClass + ' ' + to['additionalProperties']?.applicationThemeClasses"
             (ngModelChange)="onModelChange($event, field)"
             [style.border-radius]="to['additionalProperties']?.borderRadius"
             [ngClass]="showError && !to['additionalProperties']?.suffixicon && !to['additionalProperties']?.prefixicon && !to['additionalProperties']?.addonLeft && !to['additionalProperties']?.addonRight ? 'input-border' : ''"

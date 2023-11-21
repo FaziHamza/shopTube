@@ -10,8 +10,9 @@
             nzTheme="outline"></span></span>
       </span> -->
 
-      <st-buttons [GridRuleColor]="GridRuleColor" (gridEmit)="gridEmit($event)" [screenId]="screenId" [formlyModel]="formlyModel" [form]="form"
-        [screenName]="screenName" [buttonData]="softIconList" [tableRowId]="tableRowId" [title]="title"></st-buttons>
+      <st-buttons [GridRuleColor]="GridRuleColor" (gridEmit)="gridEmit($event)" [screenId]="screenId"
+        [formlyModel]="formlyModel" [form]="form" [screenName]="screenName" [buttonData]="softIconList"
+        [tableRowId]="tableRowId" [title]="title"></st-buttons>
 
       <!-- <span
         *ngIf="softIconList?.tooltipPosition == 'right' || softIconList?.tooltipPosition == undefined">
@@ -27,7 +28,8 @@
 
 </div>
 <div *ngIf="softIconList.type == 'buttonGroup' && softIconList.children.length">
-  <div [class]="softIconList.buttonGroupClass + ' ' +  softIconList.btngroupformat">
+  <div
+    [class]="softIconList.buttonGroupClass + ' ' +  softIconList.btngroupformat + ' ' + softIconList.applicationThemeClasses">
     <span>
       <span *ngIf="softIconList?.tooltipPosition == 'left'">
         <span class="pt-2 pr-1" nz-tooltip *ngIf="softIconList.tooltip && !softIconList?.tooltipWithoutIcon || false"
@@ -37,8 +39,9 @@
 
       <nz-button-group>
         <div *ngFor="let item of softIconList.children">
-          <st-buttons [GridRuleColor]="GridRuleColor" (gridEmit)="gridEmit($event)" [screenId]="screenId" [formlyModel]="formlyModel" [form]="form" [screenName]="screenName"
-            [tableRowId]="tableRowId"  [buttonData]="item" [title]="title"></st-buttons>
+          <st-buttons [GridRuleColor]="GridRuleColor" (gridEmit)="gridEmit($event)" [screenId]="screenId"
+            [formlyModel]="formlyModel" [form]="form" [screenName]="screenName" [tableRowId]="tableRowId"
+            [buttonData]="item" [title]="title"></st-buttons>
         </div>
       </nz-button-group>
 

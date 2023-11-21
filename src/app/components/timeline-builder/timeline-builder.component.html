@@ -12,7 +12,7 @@
                 <span *ngIf="item?.icon">
                     <st-icon [type]="item?.iconType || 'outline'" [icon]="item?.icon"
                         [hoverIconColor]="item?.hoverIconColor || ''" [size]="item?.iconSize"
-                        [color]="item?.iconColor" [iconClass]="item?.iconClass"></st-icon>
+                        [color]="item?.iconColor" [iconClass]="item?.iconClass" [applicationThemeClasses]="item?.applicationThemeClasses"></st-icon>
                 </span>
             </ng-template>
         </ng-container>
@@ -25,6 +25,6 @@
     <span *ngIf="timelineData?.mainIcon" [class]="timelineData.classForIcon">
         <st-icon [type]="timelineData?.iconType || 'outline'" [icon]="timelineData?.mainIcon"
             [hoverIconColor]="timelineData?.hoverIconColor || ''" [size]="timelineData?.iconSize"
-            [color]="timelineData?.iconColor"></st-icon>
+            [color]="timelineData?.iconColor" [applicationThemeClasses]="timelineData?.applicationThemeClasses"></st-icon>
     </span>
 </ng-template>

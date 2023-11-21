@@ -22,6 +22,8 @@ import { PolicyMappingComponent } from '../admin/policy-mapping/policy-mapping.c
 import { UserMappingComponent } from '../admin/user-mapping/user-mapping.component';
 import { UserComponent } from '../auth/user/user.component';
 import { FileManagerComponent } from '../components';
+import { ApplicationThemeComponent } from '../Builder-module/application-theme/application-theme.component';
+import { CreateControlComponent } from '../Builder-module/create-control/create-control.component';
 
 const routes: Routes = [
   {
@@ -111,6 +113,14 @@ const routes: Routes = [
       {
         path: 'file-manager',
         component: FileManagerComponent
+      },
+      {
+        path: 'app-theme',
+        component: ApplicationThemeComponent
+      },
+      {
+        path: 'create-controls',
+        component: CreateControlComponent
       },
     ]
   },

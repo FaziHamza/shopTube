@@ -98,7 +98,7 @@
             <nz-badge [nzCount]="item?.badgeCount" *ngIf="item?.badgeType == 'count'">
                 <st-icon [type]="item.iconType" [icon]="item.icon" [size]="item.iconSize"
                     [hoverIconColor]="item.hoverIconColor" [color]="item.iconColor"
-                    [iconClass]="item.iconClass"></st-icon>
+                    [iconClass]="item.iconClass" [applicationThemeClasses]="item?.applicationThemeClasses" ></st-icon>
             </nz-badge>
             <st-icon *ngIf="item?.badgeType == undefined || item?.badgeType == 'none'" [type]="
               item.iconType" [icon]="item.icon" [size]="item.iconSize" [color]="item.iconColor"
