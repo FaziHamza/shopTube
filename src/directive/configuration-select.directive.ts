@@ -59,12 +59,13 @@ export class ConfigurableSelectDirective implements OnInit, OnDestroy {
   private loadOptions(): void {
     
     if (this.loadAction && Object.keys(this.loadAction).length !== 0) {
-      this.executeAction(this.loadAction)
+      if(this.loadAction?._id){
+        this.executeAction(this.loadAction)
         .subscribe(
           response => {
             try {
               if (response) {
-                if (!response?.isSuccess && response.data.length == 0) {
+                if (!response?.isSuccess && response?.data?.length == 0) {
                   this.toastr.error(response.message, { nzDuration: 3000 });
                 }
                 this.data = response;
@@ -95,6 +96,8 @@ export class ConfigurableSelectDirective implements OnInit, OnDestroy {
             // Handle the API call error (e.g., show error message, set default data, etc.)
           }
         );
+      }
+     
     }
   }
 
