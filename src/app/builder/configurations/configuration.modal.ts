@@ -6966,6 +6966,32 @@ export class formFeildData {
       ]
     },
   ]
+  qrCodeFeilds: FormlyFieldConfig[] = [
+    {
+      fieldGroupClassName: "flex flex-wrap",
+      fieldGroup: [
+        {
+          className: "w-full ",
+          key: 'link',
+          type: 'input',
+          wrappers: ["formly-vertical-theme-wrapper"],
+          props: {
+            label: 'Link',
+          }
+        },
+        {
+          className: "w-full ",
+          key: 'qrString',
+          type: 'textarea',
+          wrappers: ["formly-vertical-theme-wrapper"],
+          props: {
+            label: 'Qr String',
+            rows: 2,
+          }
+        },
+      ]
+    },
+  ]
   progressBarFeilds: FormlyFieldConfig[] = [
     {
       fieldGroupClassName: "flex flex-wrap",

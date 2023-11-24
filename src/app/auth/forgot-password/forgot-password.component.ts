@@ -86,7 +86,7 @@ export class ForgotPasswordComponent implements OnInit {
       },
       (error) => {
         this.showLoader = false;
-        this.commonService.showError('Login Failed: Something went wrong.', {
+        this.commonService.showError('Forgot Failed: Something went wrong.', {
           nzPauseOnHover: true,
         });
         this.showLoader = false;

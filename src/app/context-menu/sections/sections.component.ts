@@ -77,7 +77,7 @@ export class SectionsComponent implements OnInit {
             let makeModel: any = {};
             console.log('checkButtonExist?.detailSave : ' + checkButtonExist?.detailSave)
             if (checkButtonExist?.detailSave == true) {
-            }else{
+            } else {
               this.formlyModel = this.dataSharedService.saveModel;
             }
             // const filteredNodes = this.filterInputElements(this.sections.children[1].children);
@@ -284,20 +284,20 @@ export class SectionsComponent implements OnInit {
                 if (res?.[0]) {
                   tableName = res[0].tableName ? res[0].tableName.split('.')[1].split('_')[0] : '';
                 }
-                if(window.location.href.includes('addcustomclearanceFsy')){
+                if (window.location.href.includes('addcustomclearanceFsy')) {
                   this.router.navigate(['/pages/' + data.saveRouteLink]).then(() => {
                     // Reload the entire application to re-render all components
                     this.location.replaceState('/pages/' + data.saveRouteLink);
                     window.location.reload();
                   });
-                }else{
+                } else {
                   this.router.navigate(['/pages/' + data.saveRouteLink]);
                 }
                 return;
               }
 
               if (model.postType === 'post') {
-                
+
                 let tableName: any = '';
                 if (res[0]) {
                   tableName = res[0].tableName ? res[0].tableName.split('.')[1].split('_')[0] : '';
@@ -364,12 +364,27 @@ export class SectionsComponent implements OnInit {
       screenId: this.screenName,
       modalData: oneModelData
     };
-
+    
+    let formlyInputs: any[] = this.filterInputElements(this.sections.children[1].children);
+    let multiselect: any = [];;
+    if (formlyInputs.length > 0) {
+      multiselect = formlyInputs.filter((a: any) => a.type == 'multiselect');
+      if (multiselect.length > 0) {
+        multiselect.forEach((mul: any) => {
+          let multiSelectKey = mul.formly[0].fieldGroup[0].key;
+          empData.modalData[multiSelectKey] = empData.modalData[multiSelectKey].length > 0 ? empData.modalData[multiSelectKey].map(String).join(', ') : ''
+        });
+      }
+    }
     for (const key in empData.modalData) {
       if (empData.modalData[key] === undefined) {
         empData.modalData[key] = '';
       }
+      // if (key === 'orderrequest.requiredfrequency') {
+      //   empData.modalData[key] = empData.modalData[key].length > 0 ? empData.modalData[key].map(String).join(', ') : '';
+      // }
     }
+
 
     let id = Object.keys(empData.modalData).find(
       key => empData.modalData.hasOwnProperty(key) && key.endsWith('.id') && empData.modalData[key]

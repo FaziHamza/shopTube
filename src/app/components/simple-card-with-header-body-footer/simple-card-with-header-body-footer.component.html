@@ -12,10 +12,10 @@
                 <span nz-tooltip *ngIf='item.tooltip' [nzTooltipTitle]='item.tooltip'><span nz-icon
                         nzType=" question-circle" nzTheme="twotone"></span></span>
                 <img *ngIf="item.source" nz-image [style.height.px]="item.imagHieght" [style.width.px]="item.imageWidth"
-                    [class]='item.imageClass' [nzSrc]='item.source' [alt]='item.alt' [nzDisablePreview]="false"
+                [class]="item.imageClass + ' ' + item?.applicationThemeClasses" [nzSrc]='item.source' [alt]='item.alt' [nzDisablePreview]="false"
                     [nzFallback]="item.fallback" />
                 <img *ngIf="item.base64Image" nz-image [style.height.px]="item.imagHieght"
-                    [style.width.px]="item.imageWidth" [class]='item.imageClass' [nzSrc]='item.base64Image'
+                    [style.width.px]="item.imageWidth" [class]="item.imageClass + ' ' + item?.applicationThemeClasses" [nzSrc]='item.base64Image'
                     [alt]='item.alt' [nzFallback]="item.fallback" />
             </div>
             <st-paragraph *ngIf="item.type == 'paragraph'" [data]="item"></st-paragraph>

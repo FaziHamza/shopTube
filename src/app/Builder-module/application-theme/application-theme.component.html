@@ -112,3 +112,11 @@
         </div>
     </div>
 </nz-spin>
+<nz-drawer [nzExtra]="extra" [nzClosable]="false" [nzWidth]="'50%'" [nzVisible]="visible && previewComponent" nzPlacement="right" nzTitle="Preview" (nzOnClose)="close()">
+    <ng-container *nzDrawerContent>
+        <st-mains [item]="previewComponent"></st-mains>
+    </ng-container>
+</nz-drawer>
+<ng-template #extra>
+    <i class="fas fa-times text-lg text-red-500 cursor-pointer" (click)="close()"></i>
+  </ng-template>

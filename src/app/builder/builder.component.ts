@@ -43,6 +43,7 @@ import { EmployeeService } from '../services/employee.service';
 import { faker } from '@faker-js/faker';
 import { HeadingParagrapghUpdateComponent } from './heading-paragrapgh-update/heading-paragrapgh-update.component';
 import { OtherBulkUpdateComponent } from './other-bulk-update/other-bulk-update.component';
+import { AnyCnameRecord } from 'dns';
 
 @Component({
   selector: 'st-builder',
@@ -171,6 +172,7 @@ export class BuilderComponent implements OnInit {
     this.controlListvisible = true;
   }
   ngOnInit(): void {
+    this.getApplicationTheme();
     // this.getUsers();
     this.dataSharedService.currentMenuLink = '/ourbuilder';
     this.currentUser = JSON.parse(localStorage.getItem('user')!);
@@ -777,6 +779,7 @@ export class BuilderComponent implements OnInit {
     this.addControl = true;
     this.isSavedDb = false;
     this.showNotification = false;
+
     if (this.screenPage) {
       this.formlyModel = [];
       const newNode = [
@@ -801,19 +804,19 @@ export class BuilderComponent implements OnInit {
       ];
       this.nodes = newNode;
       this.selectedNode = newNode[0];
-      this.addControlToJson('pageHeader', null);
-      this.addControlToJson('pageBody', null);
+      this.addControlToJson('pageHeader', null, true);
+      this.addControlToJson('pageBody', null, true);
       this.selectedNode = this.sectionBageBody;
-      this.addControlToJson('sections', null);
+      this.addControlToJson('sections', null, true);
       this.selectedNode = this.sections;
-      this.addControlToJson('header', null);
-      this.addControlToJson('body', null);
-      this.addControlToJson('footer', null);
+      this.addControlToJson('header', null, true);
+      this.addControlToJson('body', null, true);
+      this.addControlToJson('footer', null, true);
       this.selectedNode = newNode[0];
-      this.addControlToJson('pageFooter', null);
+      this.addControlToJson('pageFooter', null, true);
       this.addControl = false;
       this.selectedNode = this.sectionAccorBody;
-      this.addControlToJson('text', this.textJsonObj);
+      this.addControlToJson('text', this.textJsonObj, true);
       this.updateNodes();
       this.saveOfflineDB();
       this.isSavedDb = true;
@@ -1548,9 +1551,7 @@ export class BuilderComponent implements OnInit {
     else if (value == 'buttonGroup') return 'w-11/12';
     else return 'sm:w-1/2 md:w-1/2 lg:w-1/2 xl:w-1/2';
   }
-  addControlToJson(value: string, data?: any) {
-
-
+  addControlToJson(value: string, data?: any, allow?: any) {
     let obj = {
       type: data?.parameter,
       title: value,
@@ -1562,7 +1563,7 @@ export class BuilderComponent implements OnInit {
       obj.key = data?.configType.toLowerCase() + '_' + Guid.newGuid();
     }
     if (this.addControl) {
-      this.controls(value, data, obj);
+      this.controls(value, data, obj, null, allow);
     }
     else {
       const modal =
@@ -1585,7 +1586,7 @@ export class BuilderComponent implements OnInit {
       });
     }
   }
-  controls(value: any, data: any, obj?: any, res?: any) {
+  controls(value: any, data: any, obj?: any, res?: any, allow?: any) {
     if (
       value == 'stepperMain' ||
       value == 'tabsMain' ||
@@ -1597,6 +1598,7 @@ export class BuilderComponent implements OnInit {
     let node = this.selectedNode;
     let newNode: any = {};
     let formlyId = this.navigation + '_' + value.toLowerCase() + '_' + Guid.newGuid();
+
     if (data?.parameter == 'input') {
       newNode = {
         id: formlyId,
@@ -1647,840 +1649,787 @@ export class BuilderComponent implements OnInit {
       newNode.id =
         this.screenName + '_' + 'gridList'.toLowerCase() + '_' + Guid.newGuid();
     }
-    switch (value) {
-      case 'page':
-        newNode = { ...newNode, ...this.addControlService.getPageControl() };
-        break;
-      case 'headerLogo':
-        newNode = { ...newNode, ...this.addControlService.headerLogoControl() };
-        break;
-      case 'pageHeader':
-        newNode = {
-          ...newNode,
-          ...this.addControlService.getPageHeaderControl(),
-        };
-        break;
-      case 'pageBody':
-        newNode = {
-          ...newNode,
-          ...this.addControlService.getPageBodyControl(),
-        };
-        this.sectionBageBody = newNode;
-        break;
-      case 'pageFooter':
-        newNode = {
-          ...newNode,
-          ...this.addControlService.getPageFooterControl(),
-        };
-        break;
-      case 'sections':
-        newNode = { ...newNode, ...this.addControlService.getSectionControl() };
-        this.sections = newNode;
-        break;
-      case 'header':
-        newNode = { ...newNode, ...this.addControlService.getHeaderControl() };
-        break;
-      case 'body':
-        newNode = { ...newNode, ...this.addControlService.getBodyControl() };
-        this.sectionAccorBody = newNode;
-        break;
-      case 'footer':
-        newNode = { ...newNode, ...this.addControlService.getFooterControl() };
-        break;
-      case 'header_1':
-        newNode = {
-          ...newNode,
-          ...this.addControlService.getHeader1(newNode, this.screenName),
-        };
-        break;
-      case 'header_2':
-        newNode = {
-          ...newNode,
-          ...this.addControlService.getHeader_2(newNode, this.screenName),
-        };
-        break;
-      case 'header_3':
-        newNode = {
-          ...newNode,
-          ...this.addControlService.getHeade_3(newNode, this.screenName),
-        };
-        break;
-      case 'header_4':
-        newNode = {
-          ...newNode,
-          ...this.addControlService.getHeader_4(newNode, this.screenName),
-        };
-        break;
-      case 'header_5':
-        newNode = {
-          ...newNode,
-          ...this.addControlService.getHeader_5(newNode, this.screenName),
-        };
-        break;
-      case 'header_6':
-        newNode = {
-          ...newNode,
-          ...this.addControlService.getHeader_6(newNode, this.screenName),
-        };
-        break;
-      case 'header_7':
-        newNode = {
-          ...newNode,
-          ...this.addControlService.getHeader_7(newNode, this.screenName),
-        };
-        break;
-      case 'pricing':
-        newNode = {
-          ...newNode,
-          ...this.addControlService.getwebistepricing(newNode, this.screenName),
-        };
-        break;
-      case 'buttonGroup':
-        newNode = {
-          ...newNode,
-          ...this.addControlService.getButtonGroupControl(),
-        };
-        break;
-      case 'insertButton':
-      case 'updateButton':
-      case 'downloadButton':
-      case 'deleteButton':
-        newNode = {
-          ...newNode,
-          ...this.addControlService.getInsertButtonControl(value),
-        };
-        break;
-      case 'dropdownButton':
-        newNode = {
-          ...newNode,
-          ...this.addControlService.getDropdownButtonControl(),
-        };
-        break;
-      case 'menu':
-        newNode = { ...newNode, ...this.addControlService.getMenuControl() };
-        break;
-      case 'linkbutton':
-        newNode = {
-          ...newNode,
-          ...this.addControlService.getLinkbuttonControl(),
-        };
-        break;
-      case 'cardWithComponents':
-        newNode = {
-          ...newNode,
-          ...this.addControlService.getCardWithComponentsControl(),
-        };
-        break;
-      case 'switch':
-        newNode = { ...newNode, ...this.addControlService.getSwitchControl() };
-        break;
-      case 'imageUpload':
-        newNode = {
-          ...newNode,
-          ...this.addControlService.getImageUploadControl(),
-        };
-        break;
-      case 'progressBar':
-        newNode = {
-          ...newNode,
-          ...this.addControlService.getProgressBarControl(),
-        };
-        break;
-      case 'video':
-        newNode = { ...newNode, ...this.addControlService.getVideoControl() };
-        break;
-      case 'audio':
-        newNode = { ...newNode, ...this.addControlService.getAudioControl() };
-        break;
-      case 'carouselCrossfade':
-        newNode = {
-          ...newNode,
-          ...this.addControlService.getCarouselCrossfadeControl(),
-        };
-        this.ParentAdd = newNode;
-        break;
-      case 'subCarouselCrossfade':
-        newNode = {
-          ...newNode,
-          ...this.addControlService.getsubCarouselCrossfadeControl(),
-        };
-        this.childAdd = newNode;
-        break;
-      case 'calender':
-        newNode = {
-          ...newNode,
-          ...this.addControlService.getCalenderControl(),
-        };
-        break;
-      case 'sharedMessagesChart':
-        newNode = {
-          ...newNode,
-          ...this.addControlService.getSharedMessagesChartControl(),
-        };
-        break;
-      case 'alert':
-        newNode = { ...newNode, ...this.addControlService.getAlertControl() };
-        break;
-      case 'fileManager':
-        newNode = { ...newNode, ...this.addControlService.getFileManagerControl() };
-        break;
-      case 'repeatableControll':
-        let formlyObj = {
-          isNextChild: true,
-          type: data?.configType,
-          formlyType: 'input',
-          hideExpression: false,
-          title: res?.title ? res.title : obj.title,
-          formly: [
-            {
-              fieldGroup: [
-                {
-                  key: res?.key ? res.key : obj.key,
-                  type: data?.type,
-                  defaultValue: '',
-                  focus: false,
-                  id: formlyId.toLowerCase(),
-                  wrappers: this.getLastNodeWrapper('wrappers'),
-                  props: {
-                    multiple: true,
-                    className: 'sm:w-1/2 md:w-1/2 lg:w-1/2 xl:w-1/2',
-                    attributes: {
-                      autocomplete: 'off',
-                    },
-                    additionalProperties: {
-                      getVariable: '',
-                      setVariable: '',
-                      addonLeft: '',
-                      addonRight: '',
-                      // addonLeftIcon: '',
-                      // addonrightIcon: '',
-                      status: '',
-                      size: 'default',
-                      border: false,
-                      firstBtnText: 'Now',
-                      secondBtnText: 'ok',
-                      minuteStep: 1,
-                      secondStep: 1,
-                      hoursStep: 1,
-                      use12Hours: false,
-                      icon: 'close',
-                      allowClear: false,
-                      step: 1,
-                      serveSearch: false,
-                      showArrow: false,
-                      showSearch: false,
-                      format: 'dd-MM-yyyy',
-                      optionHieght: 30,
-                      optionHoverSize: 10,
-                      suffixicon: '',
-                      prefixicon: '',
-                      wrapper: this.getLastNodeWrapper('configWrapper'),
-                      floatFieldClass: '',
-                      floatLabelClass: '',
-                      formatAlignment: 'ltr',
-                      iconType: 'outline',
-                      iconSize: 15,
-                      iconColor: '',
-                      labelPosition: 'text-left',
-                      titleIcon: '',
-                      tooltip: '',
-                      default: '',
-                      hoverIconColor: '',
-                      requiredMessage: '',
-                      tooltipPosition: 'right',
-                      toolTipClass: '',
-                      formlyTypes: data?.type + '_' + data?.configType + '_' + data?.fieldType,
-                      uploadBtnLabel: "Click here to upload",
-                      multiple: false,
-                      disabled: false,
-                      showDialogueBox: true,
-                      showUploadlist: true,
-                      onlyDirectoriesAllow: false,
-                      isNextChild: false,
-                      uploadLimit: 10,
-                      fileUploadSize: 30,
-                      selectType: 'multiple',
-                      multiFileUploadTypes: 'dragNDrop',
-                      innerInputClass: '',
-                      dataClassification: '',
-                    },
-                    apiUrl: '',
-                    rows: 1,
-                    maxLength: null,
-                    minLength: 1,
-                    type: data?.fieldType,
-                    label: res?.title ? res.title : obj.title,
-                    placeholder: data?.label,
-                    maskString: data?.maskString,
-                    // sufix: 'INV ',
-                    maskLabel: data?.maskLabel,
-                    // disabled: this.getLastNodeWrapper("disabled"),
-                    readonly: false,
-                    hidden: false,
-                    options: this.makeFormlyOptions(data?.options, data.type),
-                    keyup: (model: any) => {
-
-                      let currentVal = model.formControl.value;
-                      this.formlyModel[model.key] = model.formControl.value;
-                      this.checkConditionUIRule(model, currentVal);
-                    },
-                  },
-                  fieldArray: {
-                    // type: 'input',
-                    // props: {
-                    //   placeholder: 'Task name',
-                    //   required: true,
-                    // },
-                  },
-                },
-              ],
-            },
-          ],
-        };
-        newNode = { ...newNode, ...formlyObj };
-        break;
-      case 'simpleCardWithHeaderBodyFooter':
-        newNode = {
-          ...newNode,
-          ...this.addControlService.getSimpleCardWithHeaderBodyFooterControl(),
-        };
-        break;
-      case 'tabs':
-        newNode = { ...newNode, ...this.addControlService.getTabsControl() };
-        this.childAdd = newNode;
-        break;
-      case 'mainTab':
-        newNode = { ...newNode, ...this.addControlService.getMainTabControl() };
-        this.ParentAdd = newNode;
-        break;
-      case 'mainStep':
-        newNode = {
-          ...newNode,
-          ...this.addControlService.getMainStepControl(),
-        };
-        this.ParentAdd = newNode;
-        break;
-      case 'listWithComponents':
-        newNode = {
-          ...newNode,
-          ...this.addControlService.getlistWithComponentsControl(),
-        };
-        this.ParentAdd = newNode;
-        break;
-      case 'listWithComponentsChild':
-        newNode = {
-          ...newNode,
-          ...this.addControlService.getlistWithComponentsChildControl(),
-        };
-        this.childAdd = newNode;
-        break;
-      case 'step':
-        newNode = { ...newNode, ...this.addControlService.getStepControl() };
-        this.childAdd = newNode;
-        break;
-      case 'kanban':
-        newNode = { ...newNode, ...this.addControlService.getKanbanControl() };
-        this.ParentAdd = newNode;
-        break;
-      case 'kanbanChild':
-        newNode = {
-          ...newNode,
-          ...this.addControlService.getKanbanTaskControl(),
-        };
-        this.childAdd = newNode;
-        break;
-      case 'simplecard':
-        newNode = { ...newNode, ...this.addControlService.simplecardControl() };
-        break;
-      case 'div':
-        newNode = { ...newNode, ...this.addControlService.divControl() };
-        break;
-      case 'mainDiv':
-        newNode = { ...newNode, ...this.addControlService.mainDivControl() };
-        break;
-      case 'heading':
-        // newNode = { ...newNode, ...this.addControlService.headingControl() };
-        break;
-
-      case 'paragraph':
-        newNode = { ...newNode, ...this.addControlService.paragraphControl() };
-        break;
-
-      case 'htmlBlock':
-        newNode = { ...newNode, ...this.addControlService.htmlBlockControl() };
-        break;
-
-      case 'textEditor':
-        newNode = { ...newNode, ...this.addControlService.textEditorControl() };
-        break;
-
-      case 'editor_js':
-        newNode = { ...newNode, ...this.addControlService.editor_jsControl() };
-        break;
-
-      case 'breakTag':
-        newNode = { ...newNode, ...this.addControlService.breakTagControl() };
-        break;
-
-      // case 'multiFileUpload':
-      //   newNode = {
-      //     ...newNode,
-      //     ...this.addControlService.multiFileUploadControl(),
-      //   };
-      //   break;
-
-      case 'gridList':
-        newNode = { ...newNode, ...this.addControlService.gridListControl() };
-        break;
-      case 'invoiceGrid':
-        newNode = {
-          ...newNode,
-          ...this.addControlService.invoiceGridControl(),
-        };
-        break;
-
-      case 'column':
-        newNode = { ...newNode, ...this.addControlService.columnControl() };
-        break;
-
-      case 'timeline':
-        newNode = { ...newNode, ...this.addControlService.timelineControl() };
-        this.ParentAdd = newNode;
-        break;
-      case 'timelineChild':
-        newNode = { ...newNode, ...this.addControlService.timelineChildControl() };
-        this.childAdd = newNode;
-        break;
-
-      case 'fixedDiv':
-        newNode = { ...newNode, ...this.addControlService.fixedDivControl() };
-        this.childAdd = newNode;
-        break;
-
-      case 'accordionButton':
-        newNode = {
-          ...newNode,
-          ...this.addControlService.accordionButtonControl(),
-        };
-        break;
-
-      case 'divider':
-        newNode = { ...newNode, ...this.addControlService.dividerControl() };
-        break;
-
-      case 'toastr':
-        newNode = { ...newNode, ...this.addControlService.toastrControl() };
-        break;
-
-      case 'rate':
-        newNode = { ...newNode, ...this.addControlService.rateControl() };
-        break;
-
-      case 'rangeSlider':
-        newNode = {
-          ...newNode,
-          ...this.addControlService.rangeSliderControl(),
-        };
-        break;
-
-      case 'invoice':
-        newNode = { ...newNode, ...this.addControlService.invoiceControl() };
-        break;
-
-      case 'affix':
-        newNode = { ...newNode, ...this.addControlService.affixControl() };
-        break;
-
-      case 'statistic':
-        newNode = { ...newNode, ...this.addControlService.statisticControl() };
-        break;
-
-      case 'backTop':
-        newNode = { ...newNode, ...this.addControlService.backTopControl() };
-        break;
-
-      case 'anchor':
-        newNode = { ...newNode, ...this.addControlService.anchorControl() };
-        break;
-
-      case 'modal':
-        newNode = { ...newNode, ...this.addControlService.modalControl() };
-        break;
-
-      case 'popConfirm':
-        newNode = { ...newNode, ...this.addControlService.popConfirmControl() };
-        break;
-
-      case 'avatar':
-        newNode = { ...newNode, ...this.addControlService.avatarControl() };
-        break;
-
-      case 'badge':
-        newNode = { ...newNode, ...this.addControlService.badgeControl() };
-        break;
-
-      case 'comment':
-        newNode = { ...newNode, ...this.addControlService.commentControl() };
-        break;
-
-      case 'popOver':
-        newNode = { ...newNode, ...this.addControlService.popOverControl() };
-        break;
-
-      case 'description':
-        newNode = {
-          ...newNode,
-          ...this.addControlService.descriptionControl(),
-        };
-        break;
-
-      case 'descriptionChild':
-        newNode = {
-          ...newNode,
-          ...this.addControlService.descriptionChildControl(),
-        };
-        break;
-
-      case 'segmented':
-        newNode = { ...newNode, ...this.addControlService.segmentedControl() };
-        break;
-
-      case 'result':
-        newNode = { ...newNode, ...this.addControlService.resultControl() };
-        break;
-
-      case 'tag':
-        newNode = { ...newNode, ...this.addControlService.nzTagControl() };
-        break;
-
-      case 'treeSelect':
-        newNode = { ...newNode, ...this.addControlService.treeSelectControl() };
-        break;
-
-      case 'transfer':
-        newNode = { ...newNode, ...this.addControlService.transferControl() };
-        break;
-
-      case 'spin':
-        newNode = { ...newNode, ...this.addControlService.spinControl() };
-        break;
-
-      case 'tree':
-        newNode = { ...newNode, ...this.addControlService.treeControl() };
-        break;
-
-      // case 'cascader':
-      //   newNode = { ...newNode, ...this.addControlService.cascaderControl() };
-      //   break;
-
-      case 'drawer':
-        newNode = { ...newNode, ...this.addControlService.drawerControl() };
-        break;
-
-      case 'skeleton':
-        newNode = { ...newNode, ...this.addControlService.skeletonControl() };
-        break;
-
-      case 'empty':
-        newNode = { ...newNode, ...this.addControlService.emptyControl() };
-        break;
-
-      case 'list':
-        newNode = { ...newNode, ...this.addControlService.listControl() };
-        break;
-
-      case 'treeView':
-        newNode = { ...newNode, ...this.addControlService.treeViewControl() };
-        break;
-
-      case 'message':
-        newNode = { ...newNode, ...this.addControlService.messageControl() };
-        break;
-
-      case 'mentions':
-        newNode = { ...newNode, ...this.addControlService.mentionsControl() };
-        break;
-
-      case 'notification':
-        newNode = {
-          ...newNode,
-          ...this.addControlService.notificationControl(),
-        };
-        break;
-
-      case 'icon':
-        newNode = { ...newNode, ...this.addControlService.iconControl() };
-        break;
-      case 'barChart':
-        newNode = { ...newNode, ...this.addControlService.barChartControl() };
-        break;
-      case 'pieChart':
-        newNode = { ...newNode, ...this.addControlService.pieChartControl() };
-        break;
-      case 'bubbleChart':
-        newNode = {
-          ...newNode,
-          ...this.addControlService.bubbleChartControl(),
-        };
-        break;
-      case 'candlestickChart':
-        newNode = {
-          ...newNode,
-          ...this.addControlService.candlestickChartControl(),
-        };
-        break;
-      case 'columnChart':
-        newNode = {
-          ...newNode,
-          ...this.addControlService.columnChartControl(),
-        };
-        break;
-      case 'orgChart':
-        newNode = { ...newNode, ...this.addControlService.orgChartControl() };
-        break;
-      case 'ganttChart':
-        newNode = { ...newNode, ...this.addControlService.ganttChartControl() };
-        break;
-      case 'geoChart':
-        newNode = { ...newNode, ...this.addControlService.geoChartControl() };
-        break;
-      case 'histogramChart':
-        newNode = {
-          ...newNode,
-          ...this.addControlService.histogramChartControl(),
-        };
-        break;
-      case 'treeMapChart':
-        newNode = {
-          ...newNode,
-          ...this.addControlService.treeMapChartControl(),
-        };
-        break;
-      case 'tableChart':
-        newNode = { ...newNode, ...this.addControlService.tableChartControl() };
-        break;
-      case 'lineChart':
-        newNode = { ...newNode, ...this.addControlService.lineChartControl() };
-        break;
-      case 'sankeyChart':
-        newNode = {
-          ...newNode,
-          ...this.addControlService.sankeyChartControl(),
-        };
-        break;
-      case 'scatterChart':
-        newNode = {
-          ...newNode,
-          ...this.addControlService.scatterChartControl(),
-        };
-        break;
-      case 'areaChart':
-        newNode = { ...newNode, ...this.addControlService.areaChartControl() };
-        break;
-      case 'comboChart':
-        newNode = { ...newNode, ...this.addControlService.comboChartControl() };
-        break;
-      case 'steppedAreaChart':
-        newNode = {
-          ...newNode,
-          ...this.addControlService.steppedAreaChartControl(),
-        };
-        break;
-      case 'map':
-        newNode = { ...newNode, ...this.addControlService.mapControl() };
-        break;
-      default:
-        if (data?.parameter === 'input') {
-          let formlyObj = {
-            type: data?.configType,
-            formlyType: data?.parameter,
-            hideExpression: false,
-            title: res?.title ? res.title : obj.title,
-            formly: [
-              {
-                fieldGroup: [
-                  {
-                    key: res?.key ? res.key : obj.key,
-                    type: data?.type,
-                    defaultValue: '',
-                    focus: false,
-                    id: formlyId.toLowerCase(),
-                    wrappers: this.getLastNodeWrapper('wrappers'),
-                    props: {
-                      multiple: true,
-                      className: 'sm:w-1/2 md:w-1/2 lg:w-1/2 xl:w-1/2',
-                      attributes: {
-                        autocomplete: 'off',
-                      },
-                      additionalProperties: {
-                        getVariable: '',
-                        setVariable: '',
-                        addonLeft: '',
-                        addonRight: '',
-                        // addonLeftIcon: '',
-                        // addonrightIcon: '',
-                        status: '',
-                        size: 'default',
-                        border: false,
-                        firstBtnText: 'Now',
-                        secondBtnText: 'ok',
-                        minuteStep: 1,
-                        secondStep: 1,
-                        hoursStep: 1,
-                        use12Hours: false,
-                        icon: 'close',
-                        allowClear: false,
-                        step: 1,
-                        serveSearch: false,
-                        showArrow: false,
-                        showSearch: false,
-                        format: 'dd-MM-yyyy',
-                        optionHieght: 30,
-                        optionHoverSize: 10,
-                        suffixicon: '',
-                        prefixicon: '',
-                        wrapper: this.getLastNodeWrapper('configWrapper'),
-                        floatFieldClass: '',
-                        floatLabelClass: '',
-                        formatAlignment: 'ltr',
-                        iconType: 'outline',
-                        iconSize: 15,
-                        iconColor: '',
-                        labelPosition: 'text-left',
-                        titleIcon: '',
-                        tooltip: '',
-                        default: '',
-                        hoverIconColor: '',
-                        requiredMessage: '',
-                        tooltipPosition: 'right',
-                        toolTipClass: '',
-                        formlyTypes: data?.type + '_' + data?.configType + '_' + data?.fieldType,
-                        uploadBtnLabel: "Click here to upload",
-                        multiple: false,
-                        disabled: false,
-                        showDialogueBox: true,
-                        showUploadlist: true,
-                        onlyDirectoriesAllow: false,
-                        isNextChild: false,
-                        uploadLimit: 10,
-                        fileUploadSize: 30,
-                        selectType: 'multiple',
-                        multiFileUploadTypes: 'dragNDrop',
-                        innerInputClass: '',
-                        dataClassification: '',
-                      },
-                      apiUrl: '',
-                      rows: 1,
-                      maxLength: null,
-                      minLength: 1,
-                      type: data?.fieldType,
-                      label: res?.title ? res.title : obj.title,
-                      placeholder: data?.label,
-                      maskString: data?.maskString,
-                      // sufix: 'INV ',
-                      maskLabel: data?.maskLabel,
-                      // disabled: this.getLastNodeWrapper("disabled"),
-                      readonly: false,
-                      hidden: false,
-                      options: this.makeFormlyOptions(data?.options, data.type),
-                      keyup: (model: any) => {
-
-                        let currentVal = model.formControl.value;
-                        this.formlyModel[model.key] = model.formControl.value;
-                        this.checkConditionUIRule(model, currentVal);
-                      },
-                    },
-                  },
-                ],
-              },
-            ],
+    if (allow) {
+      switch (value) {
+        case 'page':
+          newNode = { ...newNode, ...this.addControlService.getPageControl() };
+          break;
+        // case 'headerLogo':
+        //   newNode = { ...newNode, ...this.addControlService.headerLogoControl() };
+        //   break;
+        case 'pageHeader':
+          newNode = {
+            ...newNode,
+            ...this.addControlService.getPageHeaderControl(),
           };
-          newNode = { ...newNode, ...formlyObj };
-          newNode = this.applyFloatingLastNodeWrapper(newNode);
-          this.showActionRule = false;
-        }
-        break;
-    }
-    // let controlType = value;
-    // let type = value;
-    // if (controlType == 'insertButton' || controlType == 'updateButton' || controlType == 'downloadButton' || controlType == 'deleteButton') {
-    //   controlType = 'button'
-    //   type = 'button'
-    // } else if (data?.parameter === 'input') {
-    //   controlType = 'input'
-    // }
-    // this.applicationService.getNestCommonAPI(`controls/${controlType}`).subscribe(((apiRes: any) => {
-    //   if (apiRes.isSuccess) {
-    //     if (apiRes.data) {
-    //       let response = JSON.parse(apiRes.data.controlJson);
-    //       if (data?.parameter === 'input') {
-    //         newNode = {
-    //           ...response,
-    //           id: formlyId,
-    //           className: this.columnApply(value),
-    //           expanded: true,
-    //           type: value,
-    //           title: res?.title ? res.title : obj.title,
-    //           children: [],
-    //           tooltip: '',
-    //           hideExpression: false,
-    //           highLight: false,
-    //           copyJsonIcon: false,
-    //           treeExpandIcon: data?.treeExpandIcon,
-    //           treeInExpandIcon: data?.treeInExpandIcon,
-    //           isLeaf: true,
-    //           apiUrl: '',
-    //         }
-    //         newNode.type = data?.configType;
-    //         newNode.formlyType = data?.parameter;
-    //         newNode.title = res?.title ? res.title : obj.title;
-    //         newNode.formly[0].fieldGroup[0].key = res?.key ? res.key : obj.key;
-    //         newNode.formly[0].fieldGroup[0].type = data?.type;
-    //         newNode.formly[0].fieldGroup[0].id = formlyId.toLowerCase();
-    //         newNode.formly[0].fieldGroup[0].wrappers = this.getLastNodeWrapper('wrappers');
-    //         newNode.formly[0].fieldGroup[0].props.additionalProperties.wrapper = this.getLastNodeWrapper('configWrapper');
-    //         newNode.formly[0].fieldGroup[0].props.type = data?.fieldType;
-    //         newNode.formly[0].fieldGroup[0].props.label = res?.title ? res.title : obj.title;
-    //         newNode.formly[0].fieldGroup[0].props.placeholder = data?.label;
-    //         newNode.formly[0].fieldGroup[0].props.maskString = data?.maskString;
-    //         newNode.formly[0].fieldGroup[0].props.maskLabel = data?.maskLabel;
-    //         newNode.formly[0].fieldGroup[0].props.options = this.makeFormlyOptions(data?.options, data.type);
-    //         newNode.formly[0].fieldGroup[0].props.keyup = (model: any) => {
-    //           let currentVal = model.formControl.value;
-    //           this.formlyModel[model.key] = model.formControl.value;
-    //           this.checkConditionUIRule(model, currentVal);
-    //         };
-    //       }
-    //       else {
-    //         newNode = {
-    //           ...response, // Spread the properties from response
-    //           key: res?.key ? res.key : obj.key,
-    //           id: this.navigation + '_' + value.toLowerCase() + '_' + Guid.newGuid(),
-    //           className: this.columnApply(value),
-    //           expanded: true,
-    //           type: type,
-    //           title: res?.title ? res.title : obj.title,
-    //           children: [],
-    //           tooltip: '',
-    //           tooltipIcon: 'question-circle',
-    //           hideExpression: false,
-    //           highLight: false,
-    //           copyJsonIcon: false,
-    //           treeExpandIcon: data?.treeExpandIcon,
-    //           treeInExpandIcon: data?.treeInExpandIcon,
-    //         };
-    //       }
-    //       this.addNode(node, newNode);
-    //       this.updateNodes();
-    //     } else {
-    //       this.toastr.warning('No control found', { nzDuration: 2000 });
-    //     }
-    //   } else
-    //     this.toastr.warning(res.message, { nzDuration: 2000 });
-    // }));
-    // this.applyApplicationThemeClass();
+          break;
+        case 'pageBody':
+          newNode = {
+            ...newNode,
+            ...this.addControlService.getPageBodyControl(),
+          };
+          this.sectionBageBody = newNode;
+          break;
+        case 'pageFooter':
+          newNode = {
+            ...newNode,
+            ...this.addControlService.getPageFooterControl(),
+          };
+          break;
+        case 'sections':
+          newNode = { ...newNode, ...this.addControlService.getSectionControl() };
+          this.sections = newNode;
+          break;
+        case 'header':
+          newNode = { ...newNode, ...this.addControlService.getHeaderControl() };
+          break;
+        case 'body':
+          newNode = { ...newNode, ...this.addControlService.getBodyControl() };
+          this.sectionAccorBody = newNode;
+          break;
+        case 'footer':
+          newNode = { ...newNode, ...this.addControlService.getFooterControl() };
+          break;
+        // case 'header_1':
+        //   newNode = {
+        //     ...newNode,
+        //     ...this.addControlService.getHeader1(newNode, this.screenName),
+        //   };
+        //   break;
+        // case 'header_2':
+        //   newNode = {
+        //     ...newNode,
+        //     ...this.addControlService.getHeader_2(newNode, this.screenName),
+        //   };
+        //   break;
+        // case 'header_3':
+        //   newNode = {
+        //     ...newNode,
+        //     ...this.addControlService.getHeade_3(newNode, this.screenName),
+        //   };
+        //   break;
+        // case 'header_4':
+        //   newNode = {
+        //     ...newNode,
+        //     ...this.addControlService.getHeader_4(newNode, this.screenName),
+        //   };
+        //   break;
+        // case 'header_5':
+        //   newNode = {
+        //     ...newNode,
+        //     ...this.addControlService.getHeader_5(newNode, this.screenName),
+        //   };
+        //   break;
+        // case 'header_6':
+        //   newNode = {
+        //     ...newNode,
+        //     ...this.addControlService.getHeader_6(newNode, this.screenName),
+        //   };
+        //   break;
+        // case 'header_7':
+        //   newNode = {
+        //     ...newNode,
+        //     ...this.addControlService.getHeader_7(newNode, this.screenName),
+        //   };
+        //   break;
+        // case 'pricing':
+        //   newNode = {
+        //     ...newNode,
+        //     ...this.addControlService.getwebistepricing(newNode, this.screenName),
+        //   };
+        //   break;
+        // case 'buttonGroup':
+        //   newNode = {
+        //     ...newNode,
+        //     ...this.addControlService.getButtonGroupControl(),
+        //   };
+        //   break;
+        // case 'insertButton':
+        // case 'updateButton':
+        // case 'downloadButton':
+        // case 'deleteButton':
+        //   newNode = {
+        //     ...newNode,
+        //     ...this.addControlService.getInsertButtonControl(value),
+        //   };
+        //   break;
+        // case 'dropdownButton':
+        //   newNode = {
+        //     ...newNode,
+        //     ...this.addControlService.getDropdownButtonControl(),
+        //   };
+        //   break;
+        // case 'menu':
+        //   newNode = { ...newNode, ...this.addControlService.getMenuControl() };
+        //   break;
+        // case 'linkbutton':
+        //   newNode = {
+        //     ...newNode,
+        //     ...this.addControlService.getLinkbuttonControl(),
+        //   };
+        //   break;
+        // case 'cardWithComponents':
+        //   newNode = {
+        //     ...newNode,
+        //     ...this.addControlService.getCardWithComponentsControl(),
+        //   };
+        //   break;
+        // case 'switch':
+        //   newNode = { ...newNode, ...this.addControlService.getSwitchControl() };
+        //   break;
+        // case 'imageUpload':
+        //   newNode = {
+        //     ...newNode,
+        //     ...this.addControlService.getImageUploadControl(),
+        //   };
+        //   break;
+        // case 'progressBar':
+        //   newNode = {
+        //     ...newNode,
+        //     ...this.addControlService.getProgressBarControl(),
+        //   };
+        //   break;
+        // case 'video':
+        //   newNode = { ...newNode, ...this.addControlService.getVideoControl() };
+        //   break;
+        // case 'audio':
+        //   newNode = { ...newNode, ...this.addControlService.getAudioControl() };
+        //   break;
+        // case 'carouselCrossfade':
+        //   newNode = {
+        //     ...newNode,
+        //     ...this.addControlService.getCarouselCrossfadeControl(),
+        //   };
+        //   this.ParentAdd = newNode;
+        //   break;
+        // case 'subCarouselCrossfade':
+        //   newNode = {
+        //     ...newNode,
+        //     ...this.addControlService.getsubCarouselCrossfadeControl(),
+        //   };
+        //   this.childAdd = newNode;
+        //   break;
+        // case 'calender':
+        //   newNode = {
+        //     ...newNode,
+        //     ...this.addControlService.getCalenderControl(),
+        //   };
+        //   break;
+        // case 'sharedMessagesChart':
+        //   newNode = {
+        //     ...newNode,
+        //     ...this.addControlService.getSharedMessagesChartControl(),
+        //   };
+        //   break;
+        // case 'alert':
+        //   newNode = { ...newNode, ...this.addControlService.getAlertControl() };
+        //   break;
+        // case 'fileManager':
+        //   newNode = { ...newNode, ...this.addControlService.getFileManagerControl() };
+        //   break;
+        // case 'repeatableControll':
+        //   let formlyObj = {
+        //     isNextChild: true,
+        //     type: data?.configType,
+        //     formlyType: 'input',
+        //     hideExpression: false,
+        //     title: res?.title ? res.title : obj.title,
+        //     formly: [
+        //       {
+        //         fieldGroup: [
+        //           {
+        //             key: res?.key ? res.key : obj.key,
+        //             type: data?.type,
+        //             defaultValue: '',
+        //             focus: false,
+        //             id: formlyId.toLowerCase(),
+        //             wrappers: this.getLastNodeWrapper('wrappers'),
+        //             props: {
+        //               multiple: true,
+        //               className: 'sm:w-1/2 md:w-1/2 lg:w-1/2 xl:w-1/2',
+        //               attributes: {
+        //                 autocomplete: 'off',
+        //               },
+        //               additionalProperties: {
+        //                 getVariable: '',
+        //                 setVariable: '',
+        //                 addonLeft: '',
+        //                 addonRight: '',
+        //                 // addonLeftIcon: '',
+        //                 // addonrightIcon: '',
+        //                 status: '',
+        //                 size: 'default',
+        //                 border: false,
+        //                 firstBtnText: 'Now',
+        //                 secondBtnText: 'ok',
+        //                 minuteStep: 1,
+        //                 secondStep: 1,
+        //                 hoursStep: 1,
+        //                 use12Hours: false,
+        //                 icon: 'close',
+        //                 allowClear: false,
+        //                 step: 1,
+        //                 serveSearch: false,
+        //                 showArrow: false,
+        //                 showSearch: false,
+        //                 format: 'dd-MM-yyyy',
+        //                 optionHieght: 30,
+        //                 optionHoverSize: 10,
+        //                 suffixicon: '',
+        //                 prefixicon: '',
+        //                 wrapper: this.getLastNodeWrapper('configWrapper'),
+        //                 floatFieldClass: '',
+        //                 floatLabelClass: '',
+        //                 formatAlignment: 'ltr',
+        //                 iconType: 'outline',
+        //                 iconSize: 15,
+        //                 iconColor: '',
+        //                 labelPosition: 'text-left',
+        //                 titleIcon: '',
+        //                 tooltip: '',
+        //                 default: '',
+        //                 hoverIconColor: '',
+        //                 requiredMessage: '',
+        //                 tooltipPosition: 'right',
+        //                 toolTipClass: '',
+        //                 formlyTypes: data?.type + '_' + data?.configType + '_' + data?.fieldType,
+        //                 uploadBtnLabel: "Click here to upload",
+        //                 multiple: false,
+        //                 disabled: false,
+        //                 showDialogueBox: true,
+        //                 showUploadlist: true,
+        //                 onlyDirectoriesAllow: false,
+        //                 isNextChild: false,
+        //                 uploadLimit: 10,
+        //                 fileUploadSize: 30,
+        //                 selectType: 'multiple',
+        //                 multiFileUploadTypes: 'dragNDrop',
+        //                 innerInputClass: '',
+        //                 dataClassification: '',
+        //               },
+        //               apiUrl: '',
+        //               rows: 1,
+        //               maxLength: null,
+        //               minLength: 1,
+        //               type: data?.fieldType,
+        //               label: res?.title ? res.title : obj.title,
+        //               placeholder: data?.label,
+        //               maskString: data?.maskString,
+        //               // sufix: 'INV ',
+        //               maskLabel: data?.maskLabel,
+        //               // disabled: this.getLastNodeWrapper("disabled"),
+        //               readonly: false,
+        //               hidden: false,
+        //               options: this.makeFormlyOptions(data?.options, data.type),
+        //               keyup: (model: any) => {
+
+        //                 let currentVal = model.formControl.value;
+        //                 this.formlyModel[model.key] = model.formControl.value;
+        //                 this.checkConditionUIRule(model, currentVal);
+        //               },
+        //             },
+        //             fieldArray: {
+        //               // type: 'input',
+        //               // props: {
+        //               //   placeholder: 'Task name',
+        //               //   required: true,
+        //               // },
+        //             },
+        //           },
+        //         ],
+        //       },
+        //     ],
+        //   };
+        //   newNode = { ...newNode, ...formlyObj };
+        //   break;
+        // case 'simpleCardWithHeaderBodyFooter':
+        //   newNode = {
+        //     ...newNode,
+        //     ...this.addControlService.getSimpleCardWithHeaderBodyFooterControl(),
+        //   };
+        //   break;
+        // case 'tabs':
+        //   newNode = { ...newNode, ...this.addControlService.getTabsControl() };
+        //   this.childAdd = newNode;
+        //   break;
+        // case 'mainTab':
+        //   newNode = { ...newNode, ...this.addControlService.getMainTabControl() };
+        //   this.ParentAdd = newNode;
+        //   break;
+        // case 'mainStep':
+        //   newNode = {
+        //     ...newNode,
+        //     ...this.addControlService.getMainStepControl(),
+        //   };
+        //   this.ParentAdd = newNode;
+        //   break;
+        // case 'listWithComponents':
+        //   newNode = {
+        //     ...newNode,
+        //     ...this.addControlService.getlistWithComponentsControl(),
+        //   };
+        //   this.ParentAdd = newNode;
+        //   break;
+        // case 'listWithComponentsChild':
+        //   newNode = {
+        //     ...newNode,
+        //     ...this.addControlService.getlistWithComponentsChildControl(),
+        //   };
+        //   this.childAdd = newNode;
+        //   break;
+        // case 'step':
+        //   newNode = { ...newNode, ...this.addControlService.getStepControl() };
+        //   this.childAdd = newNode;
+        //   break;
+        // case 'kanban':
+        //   newNode = { ...newNode, ...this.addControlService.getKanbanControl() };
+        //   this.ParentAdd = newNode;
+        //   break;
+        // case 'kanbanChild':
+        //   newNode = {
+        //     ...newNode,
+        //     ...this.addControlService.getKanbanTaskControl(),
+        //   };
+        //   this.childAdd = newNode;
+        //   break;
+        // case 'simplecard':
+        //   newNode = { ...newNode, ...this.addControlService.simplecardControl() };
+        //   break;
+        // case 'div':
+        //   newNode = { ...newNode, ...this.addControlService.divControl() };
+        //   break;
+        // case 'mainDiv':
+        //   newNode = { ...newNode, ...this.addControlService.mainDivControl() };
+        //   break;
+        // case 'heading':
+        //   // newNode = { ...newNode, ...this.addControlService.headingControl() };
+        //   break;
+
+        // case 'paragraph':
+        //   newNode = { ...newNode, ...this.addControlService.paragraphControl() };
+        //   break;
+
+        // case 'htmlBlock':
+        //   newNode = { ...newNode, ...this.addControlService.htmlBlockControl() };
+        //   break;
+
+        // case 'textEditor':
+        //   newNode = { ...newNode, ...this.addControlService.textEditorControl() };
+        //   break;
+
+        // case 'editor_js':
+        //   newNode = { ...newNode, ...this.addControlService.editor_jsControl() };
+        //   break;
+
+        // case 'breakTag':
+        //   newNode = { ...newNode, ...this.addControlService.breakTagControl() };
+        //   break;
+
+        // // case 'multiFileUpload':
+        // //   newNode = {
+        // //     ...newNode,
+        // //     ...this.addControlService.multiFileUploadControl(),
+        // //   };
+        // //   break;
+
+        // case 'gridList':
+        //   newNode = { ...newNode, ...this.addControlService.gridListControl() };
+        //   break;
+        // case 'invoiceGrid':
+        //   newNode = {
+        //     ...newNode,
+        //     ...this.addControlService.invoiceGridControl(),
+        //   };
+        //   break;
+
+        // case 'column':
+        //   newNode = { ...newNode, ...this.addControlService.columnControl() };
+        //   break;
+
+        // case 'timeline':
+        //   newNode = { ...newNode, ...this.addControlService.timelineControl() };
+        //   this.ParentAdd = newNode;
+        //   break;
+        // case 'timelineChild':
+        //   newNode = { ...newNode, ...this.addControlService.timelineChildControl() };
+        //   this.childAdd = newNode;
+        //   break;
+
+        // case 'fixedDiv':
+        //   newNode = { ...newNode, ...this.addControlService.fixedDivControl() };
+        //   this.childAdd = newNode;
+        //   break;
+
+        // case 'accordionButton':
+        //   newNode = {
+        //     ...newNode,
+        //     ...this.addControlService.accordionButtonControl(),
+        //   };
+        //   break;
+
+        // case 'divider':
+        //   newNode = { ...newNode, ...this.addControlService.dividerControl() };
+        //   break;
+
+        // case 'toastr':
+        //   newNode = { ...newNode, ...this.addControlService.toastrControl() };
+        //   break;
+
+        // case 'rate':
+        //   newNode = { ...newNode, ...this.addControlService.rateControl() };
+        //   break;
+
+        // case 'rangeSlider':
+        //   newNode = {
+        //     ...newNode,
+        //     ...this.addControlService.rangeSliderControl(),
+        //   };
+        //   break;
+
+        // case 'invoice':
+        //   newNode = { ...newNode, ...this.addControlService.invoiceControl() };
+        //   break;
+
+        // case 'affix':
+        //   newNode = { ...newNode, ...this.addControlService.affixControl() };
+        //   break;
+
+        // case 'statistic':
+        //   newNode = { ...newNode, ...this.addControlService.statisticControl() };
+        //   break;
+
+        // case 'backTop':
+        //   newNode = { ...newNode, ...this.addControlService.backTopControl() };
+        //   break;
+
+        // case 'anchor':
+        //   newNode = { ...newNode, ...this.addControlService.anchorControl() };
+        //   break;
+
+        // case 'modal':
+        //   newNode = { ...newNode, ...this.addControlService.modalControl() };
+        //   break;
+
+        // case 'popConfirm':
+        //   newNode = { ...newNode, ...this.addControlService.popConfirmControl() };
+        //   break;
+
+        // case 'avatar':
+        //   newNode = { ...newNode, ...this.addControlService.avatarControl() };
+        //   break;
+
+        // case 'badge':
+        //   newNode = { ...newNode, ...this.addControlService.badgeControl() };
+        //   break;
+
+        // case 'comment':
+        //   newNode = { ...newNode, ...this.addControlService.commentControl() };
+        //   break;
+
+        // case 'popOver':
+        //   newNode = { ...newNode, ...this.addControlService.popOverControl() };
+        //   break;
+
+        // case 'description':
+        //   newNode = {
+        //     ...newNode,
+        //     ...this.addControlService.descriptionControl(),
+        //   };
+        //   break;
+
+        // case 'descriptionChild':
+        //   newNode = {
+        //     ...newNode,
+        //     ...this.addControlService.descriptionChildControl(),
+        //   };
+        //   break;
+
+        // case 'segmented':
+        //   newNode = { ...newNode, ...this.addControlService.segmentedControl() };
+        //   break;
+
+        // case 'result':
+        //   newNode = { ...newNode, ...this.addControlService.resultControl() };
+        //   break;
+
+        // case 'tag':
+        //   newNode = { ...newNode, ...this.addControlService.nzTagControl() };
+        //   break;
+
+        // case 'treeSelect':
+        //   newNode = { ...newNode, ...this.addControlService.treeSelectControl() };
+        //   break;
+
+        // case 'transfer':
+        //   newNode = { ...newNode, ...this.addControlService.transferControl() };
+        //   break;
+
+        // case 'spin':
+        //   newNode = { ...newNode, ...this.addControlService.spinControl() };
+        //   break;
+
+        // case 'tree':
+        //   newNode = { ...newNode, ...this.addControlService.treeControl() };
+        //   break;
+
+        // // case 'cascader':
+        // //   newNode = { ...newNode, ...this.addControlService.cascaderControl() };
+        // //   break;
+
+        // case 'drawer':
+        //   newNode = { ...newNode, ...this.addControlService.drawerControl() };
+        //   break;
+
+        // case 'skeleton':
+        //   newNode = { ...newNode, ...this.addControlService.skeletonControl() };
+        //   break;
+
+        // case 'empty':
+        //   newNode = { ...newNode, ...this.addControlService.emptyControl() };
+        //   break;
+
+        // case 'list':
+        //   newNode = { ...newNode, ...this.addControlService.listControl() };
+        //   break;
+
+        // case 'treeView':
+        //   newNode = { ...newNode, ...this.addControlService.treeViewControl() };
+        //   break;
+
+        // case 'message':
+        //   newNode = { ...newNode, ...this.addControlService.messageControl() };
+        //   break;
+
+        // case 'mentions':
+        //   newNode = { ...newNode, ...this.addControlService.mentionsControl() };
+        //   break;
+
+        // case 'notification':
+        //   newNode = {
+        //     ...newNode,
+        //     ...this.addControlService.notificationControl(),
+        //   };
+        //   break;
+
+        // case 'icon':
+        //   newNode = { ...newNode, ...this.addControlService.iconControl() };
+        //   break;
+        // case 'barChart':
+        //   newNode = { ...newNode, ...this.addControlService.barChartControl() };
+        //   break;
+        // case 'pieChart':
+        //   newNode = { ...newNode, ...this.addControlService.pieChartControl() };
+        //   break;
+        // case 'bubbleChart':
+        //   newNode = {
+        //     ...newNode,
+        //     ...this.addControlService.bubbleChartControl(),
+        //   };
+        //   break;
+        // case 'candlestickChart':
+        //   newNode = {
+        //     ...newNode,
+        //     ...this.addControlService.candlestickChartControl(),
+        //   };
+        //   break;
+        // case 'columnChart':
+        //   newNode = {
+        //     ...newNode,
+        //     ...this.addControlService.columnChartControl(),
+        //   };
+        //   break;
+        // case 'orgChart':
+        //   newNode = { ...newNode, ...this.addControlService.orgChartControl() };
+        //   break;
+        // case 'ganttChart':
+        //   newNode = { ...newNode, ...this.addControlService.ganttChartControl() };
+        //   break;
+        // case 'geoChart':
+        //   newNode = { ...newNode, ...this.addControlService.geoChartControl() };
+        //   break;
+        // case 'histogramChart':
+        //   newNode = {
+        //     ...newNode,
+        //     ...this.addControlService.histogramChartControl(),
+        //   };
+        //   break;
+        // case 'treeMapChart':
+        //   newNode = {
+        //     ...newNode,
+        //     ...this.addControlService.treeMapChartControl(),
+        //   };
+        //   break;
+        // case 'tableChart':
+        //   newNode = { ...newNode, ...this.addControlService.tableChartControl() };
+        //   break;
+        // case 'lineChart':
+        //   newNode = { ...newNode, ...this.addControlService.lineChartControl() };
+        //   break;
+        // case 'sankeyChart':
+        //   newNode = {
+        //     ...newNode,
+        //     ...this.addControlService.sankeyChartControl(),
+        //   };
+        //   break;
+        // case 'scatterChart':
+        //   newNode = {
+        //     ...newNode,
+        //     ...this.addControlService.scatterChartControl(),
+        //   };
+        //   break;
+        // case 'areaChart':
+        //   newNode = { ...newNode, ...this.addControlService.areaChartControl() };
+        //   break;
+        // case 'comboChart':
+        //   newNode = { ...newNode, ...this.addControlService.comboChartControl() };
+        //   break;
+        // case 'steppedAreaChart':
+        //   newNode = {
+        //     ...newNode,
+        //     ...this.addControlService.steppedAreaChartControl(),
+        //   };
+        //   break;
+        // case 'map':
+        //   newNode = { ...newNode, ...this.addControlService.mapControl() };
+        //   break;
+        // default:
+        //   if (data?.parameter === 'input') {
+        //     let formlyObj = {
+        //       type: data?.configType,
+        //       formlyType: data?.parameter,
+        //       hideExpression: false,
+        //       title: res?.title ? res.title : obj.title,
+        //       formly: [
+        //         {
+        //           fieldGroup: [
+        //             {
+        //               key: res?.key ? res.key : obj.key,
+        //               type: data?.type,
+        //               defaultValue: '',
+        //               focus: false,
+        //               id: formlyId.toLowerCase(),
+        //               wrappers: this.getLastNodeWrapper('wrappers'),
+        //               props: {
+        //                 multiple: true,
+        //                 className: 'sm:w-1/2 md:w-1/2 lg:w-1/2 xl:w-1/2',
+        //                 attributes: {
+        //                   autocomplete: 'off',
+        //                 },
+        //                 additionalProperties: {
+        //                   getVariable: '',
+        //                   setVariable: '',
+        //                   addonLeft: '',
+        //                   addonRight: '',
+        //                   // addonLeftIcon: '',
+        //                   // addonrightIcon: '',
+        //                   status: '',
+        //                   size: 'default',
+        //                   border: false,
+        //                   firstBtnText: 'Now',
+        //                   secondBtnText: 'ok',
+        //                   minuteStep: 1,
+        //                   secondStep: 1,
+        //                   hoursStep: 1,
+        //                   use12Hours: false,
+        //                   icon: 'close',
+        //                   allowClear: false,
+        //                   step: 1,
+        //                   serveSearch: false,
+        //                   showArrow: false,
+        //                   showSearch: false,
+        //                   format: 'dd-MM-yyyy',
+        //                   optionHieght: 30,
+        //                   optionHoverSize: 10,
+        //                   suffixicon: '',
+        //                   prefixicon: '',
+        //                   wrapper: this.getLastNodeWrapper('configWrapper'),
+        //                   floatFieldClass: '',
+        //                   floatLabelClass: '',
+        //                   formatAlignment: 'ltr',
+        //                   iconType: 'outline',
+        //                   iconSize: 15,
+        //                   iconColor: '',
+        //                   labelPosition: 'text-left',
+        //                   titleIcon: '',
+        //                   tooltip: '',
+        //                   default: '',
+        //                   hoverIconColor: '',
+        //                   requiredMessage: '',
+        //                   tooltipPosition: 'right',
+        //                   toolTipClass: '',
+        //                   formlyTypes: data?.type + '_' + data?.configType + '_' + data?.fieldType,
+        //                   uploadBtnLabel: "Click here to upload",
+        //                   multiple: false,
+        //                   disabled: false,
+        //                   showDialogueBox: true,
+        //                   showUploadlist: true,
+        //                   onlyDirectoriesAllow: false,
+        //                   isNextChild: false,
+        //                   uploadLimit: 10,
+        //                   fileUploadSize: 30,
+        //                   selectType: 'multiple',
+        //                   multiFileUploadTypes: 'dragNDrop',
+        //                   innerInputClass: '',
+        //                   dataClassification: '',
+        //                 },
+        //                 apiUrl: '',
+        //                 rows: 1,
+        //                 maxLength: null,
+        //                 minLength: 1,
+        //                 type: data?.fieldType,
+        //                 label: res?.title ? res.title : obj.title,
+        //                 placeholder: data?.label,
+        //                 maskString: data?.maskString,
+        //                 // sufix: 'INV ',
+        //                 maskLabel: data?.maskLabel,
+        //                 // disabled: this.getLastNodeWrapper("disabled"),
+        //                 readonly: false,
+        //                 hidden: false,
+        //                 options: this.makeFormlyOptions(data?.options, data.type),
+        //                 keyup: (model: any) => {
+
+        //                   let currentVal = model.formControl.value;
+        //                   this.formlyModel[model.key] = model.formControl.value;
+        //                   this.checkConditionUIRule(model, currentVal);
+        //                 },
+        //               },
+        //             },
+        //           ],
+        //         },
+        //       ],
+        //     };
+        //     newNode = { ...newNode, ...formlyObj };
+        //     newNode = this.applyFloatingLastNodeWrapper(newNode);
+        //     this.showActionRule = false;
+        //   }
+        //   break;
+      }
       this.addNode(node, newNode);
-    this.updateNodes();
+      this.updateNodes();
+    } else {
+      let controlType = value;
+      let type = value;
+      if (controlType == 'insertButton' || controlType == 'updateButton' || controlType == 'downloadButton' || controlType == 'deleteButton') {
+        controlType = 'button'
+        type = 'button'
+      } else if (data?.parameter === 'input') {
+        controlType = 'input'
+      }
+      this.applicationService.getNestCommonAPI(`controls/${controlType}`).subscribe(((apiRes: any) => {
+        if (apiRes.isSuccess) {
+          if (apiRes.data) {
+            let response = this.jsonParseWithObject(apiRes.data.controlJson);
+            newNode = this.createControl(response, data, value, res, obj, type)
+            this.addNode(node, newNode);
+            this.updateNodes();
+          } else {
+            this.toastr.warning('No control found', { nzDuration: 2000 });
+          }
+        } else
+          this.toastr.warning(apiRes.message, { nzDuration: 2000 });
+      }));
+    }
+    // this.applyApplicationThemeClass();
   }
   makeFormlyOptions(option: any, type: any) {
     if (!option) {
@@ -2733,9 +2682,10 @@ export class BuilderComponent implements OnInit {
 
 
   clickButton(type: any) {
+    debugger
     let _formFieldData = new formFeildData();
-    if (_formFieldData.commonFormlyConfigurationFields[0].fieldGroup || _formFieldData.commonOtherConfigurationFields[0].fieldGroup) {
-      let newArray = this.applicationThemeClasses.filter((a: any) => a.tag.includes(this.selectedNode.type));
+    if ((_formFieldData.commonFormlyConfigurationFields[0].fieldGroup || _formFieldData.commonOtherConfigurationFields[0].fieldGroup) && this.applicationThemeClasses.length) {
+      let newArray = this.applicationThemeClasses.filter((a: any) => a.tag?.toLowerCase().includes(this.selectedNode.type?.toLowerCase()));
       const transformedArray = newArray.map((item: any) => ({
         label: item.name,
         value: item.classes
@@ -2971,6 +2921,9 @@ export class BuilderComponent implements OnInit {
         break;
       case 'icon':
         this.fieldData.commonData?.push({ title: 'Icon Fields', data: _formFieldData.commonIconFields });
+        break;
+      case 'qrcode':
+        this.fieldData.commonData?.push({ title: 'Qr Code Fields', data: _formFieldData.qrCodeFeilds });
         break;
       case 'anchor':
         this.fieldData.commonData?.push({ title: 'anchorFields', data: _formFieldData.anchorFields });
@@ -3827,33 +3780,52 @@ export class BuilderComponent implements OnInit {
 
 
   addChildControls(parent?: any, child?: any) {
-    this.addControlToJson(parent);
-    this.selectedNode = this.ParentAdd;
-    this.addControlToJson(child);
-    this.selectedNode = this.ParentAdd;
-    this.addControlToJson(child);
-    this.selectedNode = this.ParentAdd;
-    this.addControlToJson(child);
-    // this.selectedNode = this.ParentAdd;
-    this.selectedNode = this.selectForDropdown;
-    this.updateNodes();
+    let findControls = parent + ',' + child;
+    this.applicationService.getNestCommonAPI(`controls/multiplConrols/${findControls}`).subscribe(((apiRes: any) => {
+      if (apiRes.isSuccess) {
+        if (apiRes.data) {
+          let mainParent = this.getControls(apiRes.data, parent);
+          this.selectedNode = mainParent;
+          let createNode = this.getControls(apiRes.data, child);
+          this.selectedNode = mainParent;
+          createNode = this.getControls(apiRes.data, child);
+          this.selectedNode = mainParent;
+          createNode = this.getControls(apiRes.data, child);
+          this.selectedNode = mainParent;
+          this.updateNodes()
+        } else {
+          this.toastr.warning('No control found', { nzDuration: 2000 });
+        }
+      } else
+        this.toastr.warning(apiRes.message, { nzDuration: 2000 });
+    }));
   }
   addChildControlsWithSubChild(parent: any, child: any) {
-    this.addControlToJson(parent);
-    this.selectedNode = this.ParentAdd;
-    this.addControlToJson(child);
-    this.selectedNode = this.childAdd;
-    this.addControlToJson('text', this.textJsonObj);
-    this.selectedNode = this.ParentAdd;
-    this.addControlToJson(child);
-    this.selectedNode = this.childAdd;
-    this.addControlToJson('text', this.textJsonObj);
-    this.selectedNode = this.ParentAdd;
-    this.addControlToJson(child);
-    this.selectedNode = this.childAdd;
-    this.addControlToJson('text', this.textJsonObj);
-    this.selectedNode = this.selectForDropdown;
-    this.updateNodes();
+    let findControls = parent + ',' + child + ',' + 'input';
+    this.applicationService.getNestCommonAPI(`controls/multiplConrols/${findControls}`).subscribe(((apiRes: any) => {
+      if (apiRes.isSuccess) {
+        if (apiRes.data) {
+          let mainParent = this.getControls(apiRes.data, parent);
+          this.selectedNode = mainParent;
+          let createNode = this.getControls(apiRes.data, child);
+          this.selectedNode = createNode;
+          createNode = this.getControls(apiRes.data, 'input');
+          this.selectedNode = mainParent;
+          createNode = this.getControls(apiRes.data, child);
+          this.selectedNode = createNode;
+          createNode = this.getControls(apiRes.data, 'input');
+          this.selectedNode = mainParent;
+          createNode = this.getControls(apiRes.data, child);
+          this.selectedNode = createNode;
+          createNode = this.getControls(apiRes.data, 'input');
+          this.selectedNode = mainParent;
+          this.updateNodes()
+        } else {
+          this.toastr.warning('No control found', { nzDuration: 2000 });
+        }
+      } else
+        this.toastr.warning(apiRes.message, { nzDuration: 2000 });
+    }));
   }
   formDataFromApi(screenId: any) {
     this.requestSubscription = this.builderService
@@ -5722,7 +5694,6 @@ export class BuilderComponent implements OnInit {
     });
   }
   addDynamic(nodesNumber: any, subType: any, mainType: any) {
-
     try {
       if (this.selectedNode.children) {
         this.addControl = true;
@@ -7403,5 +7374,110 @@ export class BuilderComponent implements OnInit {
         }
       });
     }
+  }
+  createControl(response: any, data: any, value: any, res: any, obj: any, type: any) {
+    let newNode: any = {};
+    let formlyId = this.navigation + '_' + value.toLowerCase() + '_' + Guid.newGuid();
+    if (data?.parameter === 'input') {
+      newNode = {
+        ...response,
+        id: formlyId,
+        className: this.columnApply(value),
+        expanded: true,
+        type: value,
+        title: res?.title ? res.title : obj.title,
+        children: [],
+        tooltip: '',
+        hideExpression: false,
+        highLight: false,
+        copyJsonIcon: false,
+        treeExpandIcon: data?.treeExpandIcon,
+        treeInExpandIcon: data?.treeInExpandIcon,
+        isLeaf: true,
+        apiUrl: '',
+      }
+      newNode.type = data?.configType;
+      newNode.formlyType = data?.parameter;
+      newNode.title = res?.title ? res.title : obj.title;
+      newNode.formly[0].fieldGroup[0].key = res?.key ? res.key : obj.key;
+      newNode.formly[0].fieldGroup[0].type = data?.type;
+      newNode.formly[0].fieldGroup[0].id = formlyId.toLowerCase();
+      newNode.formly[0].fieldGroup[0].wrappers = this.getLastNodeWrapper('wrappers');
+      newNode.formly[0].fieldGroup[0].props.additionalProperties.wrapper = this.getLastNodeWrapper('configWrapper');
+      newNode.formly[0].fieldGroup[0].props.type = data?.fieldType;
+      newNode.formly[0].fieldGroup[0].props.label = res?.title ? res.title : obj.title;
+      newNode.formly[0].fieldGroup[0].props.placeholder = data?.label;
+      newNode.formly[0].fieldGroup[0].props.maskString = data?.maskString;
+      newNode.formly[0].fieldGroup[0].props.maskLabel = data?.maskLabel;
+      newNode.formly[0].fieldGroup[0].props.options = this.makeFormlyOptions(data?.options, data.type);
+      newNode.formly[0].fieldGroup[0].props.keyup = (model: any) => {
+        let currentVal = model.formControl.value;
+        this.formlyModel[model.key] = model.formControl.value;
+        this.checkConditionUIRule(model, currentVal);
+      };
+    }
+    else {
+      newNode = {
+        ...response, // Spread the properties from response
+        key: res?.key ? res.key : obj.key,
+        id: this.navigation + '_' + value.toLowerCase() + '_' + Guid.newGuid(),
+        className: this.columnApply(value),
+        expanded: true,
+        type: type,
+        title: res?.title ? res.title : obj.title,
+        children: [],
+        tooltip: '',
+        tooltipIcon: 'question-circle',
+        hideExpression: false,
+        highLight: false,
+        copyJsonIcon: false,
+        treeExpandIcon: data?.treeExpandIcon,
+        treeInExpandIcon: data?.treeInExpandIcon,
+      };
+    }
+    return newNode;
+  }
+
+  getControls(apiRes: any, controlName: any) {
+    let findControl: any = '';
+    findControl = apiRes.find((a: any) => a.name == controlName);
+    let response = this.jsonParseWithObject(findControl.controlJson);
+    if (findControl) {
+      let obj = {
+        type: findControl?.name,
+        title: findControl?.name,
+        key: findControl?.name.toLowerCase() + '_' + Guid.newGuid(),
+        isSubmit: false,
+      };
+      if (findControl?.name === 'input') {
+        obj.title = this.textJsonObj?.label;
+        obj.key = this.textJsonObj?.configType.toLowerCase() + '_' + Guid.newGuid();
+      }
+      let newNode = this.createControl(response, findControl.name == 'input' ? this.textJsonObj : null, findControl.name, response, obj, findControl?.name)
+      this.addNode(this.selectedNode, newNode);
+      this.updateNodes();
+      return newNode;
+    }
+  }
+  getApplicationTheme() {
+    this.requestSubscription = this.applicationService.getNestCommonAPI('cp/applicationTheme').subscribe({
+      next: (res: any) => {
+        if (res.isSuccess) {
+          if (res.data.length > 0) {
+            this.applicationThemeClasses = res.data;
+            // this.applyApplicationThemeClass();
+          }
+        }
+        else {
+          this.toastr.error(res.message, { nzDuration: 3000 }); // Show an error message to the user
+          this.saveLoader = false;
+        }
+      },
+      error: (err) => {
+        console.error(err); // Log the error to the console
+        this.toastr.error("An error occurred", { nzDuration: 3000 }); // Show an error message to the user
+        this.saveLoader = false;
+      }
+    });
   }
 }

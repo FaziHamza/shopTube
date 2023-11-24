@@ -11,6 +11,7 @@ export class DemoComponent implements OnInit {
 
 
   ngOnInit(): void {
+    
   }
 
   // printBarcode = async (serial: any) => {
@@ -90,14 +91,14 @@ export class DemoComponent implements OnInit {
       popupWin.document.open();
       popupWin.document.write(`
       <html>
-        <body onload="window.print();window.close()">
+        <body onload="window.print();">
         ^XA
         ^MMT
         ^PW406
         ^LL0203
         ^LS0
-        ^FT160,168^BQN,2,4
-        ^FH\^FDLA,https://URL.com^FS
+        ^FT90,250^BQN,2,4
+        ^FH\^FDLA,https://s3.me-south-1.amazonaws.com/campaigns.expocitydubai.com/pdfs/generated_pdf_1700311607606.pdf^FS
         ^PQ1,0,1,Y
         ^XZ
         </body>

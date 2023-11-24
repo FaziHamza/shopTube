@@ -1247,7 +1247,6 @@ export class PagesComponent implements OnInit, OnDestroy {
       console.log(error)
     }
     finally {
-      debugger
       if (this.screenData != undefined) {
         var inputType = this.resData[0].children[1].children;
         if (inputType) {
@@ -2084,7 +2083,16 @@ export class PagesComponent implements OnInit, OnDestroy {
     const type = node.type;
     const key = typeMap[type];
     if (node.formly) {
-      this.makeModel(node, replaceData[value.defaultValue])
+      if (node.type == 'multiselect') {
+        if (replaceData['orderrequest.requiredfrequency']) {
+          node.formly[0 ].fieldGroup[0].props['additionalProperties']['maxMultipleCount']= replaceData['orderrequest.requiredfrequency'];
+        }
+        replaceData[value.defaultValue] = replaceData[value.defaultValue] ? replaceData[value.defaultValue].split(',').map((name: any) => name.trim()) : [];
+        this.makeModel(node, replaceData[value.defaultValue])
+        return node;
+      } else {
+        this.makeModel(node, replaceData[value.defaultValue])
+      }
     }
     if (node.type == 'avatar') {
       if (Array.isArray(replaceData[value.defaultValue])) {

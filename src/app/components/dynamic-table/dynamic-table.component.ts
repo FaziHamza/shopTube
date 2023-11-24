@@ -1304,7 +1304,7 @@ export class DynamicTableComponent implements OnInit {
       this.startEdit(item)
     }
   }
-  openQrCode(data: any) {
+  openQrCode(data: any , item: any) {
     const modal =
       this.modal.create<QrCodeComponent>({
         nzTitle: 'Qr Code Scan',
@@ -1312,6 +1312,7 @@ export class DynamicTableComponent implements OnInit {
         nzContent: QrCodeComponent,
         nzComponentParams: {
           model: data,
+          item: item,
         },
         // nzOnOk: () => new Promise(resolve => setTimeout(resolve, 1000)),
         nzFooter: [],

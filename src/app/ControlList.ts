@@ -1583,6 +1583,12 @@ export const htmlTabsData = [
                 label: "File Manager",
                 isLeaf: true
               },
+              {
+                parameter: "qrcode",
+                icon: "uil uil-file-alt",
+                label: "Qr Code",
+                isLeaf: true
+              },
             ]
           },
         ]

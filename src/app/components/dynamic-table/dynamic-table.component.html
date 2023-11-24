@@ -333,13 +333,13 @@
                         </nz-option>
                       </nz-select>
                     </div>
-                    <div *ngIf="header?.dataType == 'qrcode'">
+                    <!-- <div *ngIf="header?.dataType == 'qrcode'">
                       <div [style.color]="item[header.key]== item?.colorDataType && editId !== item.id ?
                       item?.columnTextColor : ''" [class]="data?.tdClass" class="editable-cell"
                         *ngIf="editId != item.id" (click)="openQrCode(item[header.key])">
                         <i class="fas fa-qrcode"></i>
                       </div>
-                    </div>
+                    </div> -->
                     <div *ngIf="header?.dataType =='image-upload'" class="4">
                       <img nz-image class="table-image" *ngIf="item[header.key]" [nzSrc]="item[header.key]" alt />
                     </div>
@@ -402,6 +402,11 @@
                               [formlyModel]="formlyModel" [form]="form" [screenName]="screenName"
                               [tableRowId]="item['id']" [buttonData]="childData" [title]="''"
                               [path]="item[header.key]"></st-downloadbutton>
+                            <div *ngIf="childData.type == 'qrcode'">
+                              <div (click)="openQrCode(item[header.key], childData)">
+                                <i class="fas fa-qrcode"></i>
+                              </div>
+                            </div>
                           </div>
                         </div>
                       </div>

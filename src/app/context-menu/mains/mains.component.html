@@ -35,9 +35,8 @@
         </div>
     </ng-template>
     <ng-template #fourth>
-        <div *ngIf="item.type == 'browserCard';else fifth">
-            <!-- <st-visitor-browser-card [browserdata]="item">
-          </st-visitor-browser-card> -->
+        <div *ngIf="item.type == 'qrcode';else fifth">
+            <st-qr-code [item]="item"></st-qr-code>
         </div>
     </ng-template>
     <ng-template #fifth>
@@ -97,8 +96,8 @@
             </nz-badge>
             <nz-badge [nzCount]="item?.badgeCount" *ngIf="item?.badgeType == 'count'">
                 <st-icon [type]="item.iconType" [icon]="item.icon" [size]="item.iconSize"
-                    [hoverIconColor]="item.hoverIconColor" [color]="item.iconColor"
-                    [iconClass]="item.iconClass" [applicationThemeClasses]="item?.applicationThemeClasses" ></st-icon>
+                    [hoverIconColor]="item.hoverIconColor" [color]="item.iconColor" [iconClass]="item.iconClass"
+                    [applicationThemeClasses]="item?.applicationThemeClasses"></st-icon>
             </nz-badge>
             <st-icon *ngIf="item?.badgeType == undefined || item?.badgeType == 'none'" [type]="
               item.iconType" [icon]="item.icon" [size]="item.iconSize" [color]="item.iconColor"
@@ -279,11 +278,11 @@
         <div class="image-preview" *ngIf="item.type == 'imageUpload' ; else fourtyFour">
             <button class="mb-2" nz-button nzType="primary" *ngIf="item.imagePreview"
                 (click)="imagePreview(item)">Preview</button>
-            <img *ngIf="item.image ; else secondImage" nz-image [class]='item.imageClass' [nzSrc]='item.image'
-                [alt]='item.alt' [nzDisablePreview]="false" [nzFallback]="item.fallback" />
+            <img *ngIf="item.image ; else secondImage" nz-image [class]="item.imageClass + ' ' + item?.applicationThemeClasses"
+                [nzSrc]='item.image' [alt]='item.alt' [nzDisablePreview]="false" [nzFallback]="item.fallback" />
             <ng-template #secondImage>
                 {{item.image | json}}
-                <img nz-image [class]='item.imageClass' [nzSrc]='item.source' [alt]='item.alt'
+                <img nz-image [class]="item.imageClass + ' ' + item?.applicationThemeClasses"    [nzSrc]='item.source' [alt]='item.alt'
                     [nzDisablePreview]="false" [nzFallback]="item.fallback" />
             </ng-template>
             <!-- <img *ngIf="item.base64Image" nz-image [class]='item.imageClass' [nzSrc]='item.base64Image' [alt]='item.alt'

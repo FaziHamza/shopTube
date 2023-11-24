@@ -35,6 +35,8 @@ export class ApplicationThemeComponent {
   validationMessage: any[] = [];
   IsShowConfig: boolean = false;
   isEditorInitialized = false;
+  visible: boolean = false;
+  previewComponent: any = '';
   @ViewChild('editorRuleContainer', { static: false }) private _editorRuleContainer: ElementRef;
   @Input() codeEditorRuleInstance!: monaco.editor.IStandaloneCodeEditor;
   @Input() jsonSchema = {};
@@ -219,7 +221,17 @@ export class ApplicationThemeComponent {
     node.children.forEach((element: any) => {
       element.children.forEach((element1: any) => {
         (element1.children || []).forEach((element3: any) => {
-          if (element3.parameter !== 'input') {
+          if (element3.parameter !== 'input' && (element3.parameter == 'insertButton' 
+          || element3.parameter == 'updateButton'
+            || element3.parameter == 'deleteButton'
+            || element3.parameter == 'dropdownButton'
+            || element3.parameter == 'linkbutton'
+            || element3.parameter == 'downloadButton'
+            || element3.parameter == 'heading'
+            || element3.parameter == 'paragraph'
+            || element3.parameter == 'icon'
+            || element3.parameter == 'imageUpload')
+          ) {
             this.controllist.push({
               label: element3.label,
               value: element3.parameter,
@@ -234,6 +246,7 @@ export class ApplicationThemeComponent {
       label: 'Input',
       value: 'input',
     });
+
   }
 
   getApplicationList() {
@@ -444,7 +457,27 @@ export class ApplicationThemeComponent {
     }, 1000); // Adjust the timeout if necessary
   }
   preview(item: any) {
-
+    let controlType = item.tag;
+    controlType = item.tag == 'insertButton' || item.tag == 'insertButton' || item.tag == 'updateButton' || item.tag == 'deleteButton' ? 'button' : controlType;
+    this.loader = true;
+    this.applicationService.getNestCommonAPI(`controls/${controlType}`).subscribe(((apiRes: any) => {
+      this.loader = false;
+      if (apiRes.isSuccess) {
+        if (apiRes.data) {
+          let response = this.jsonParseWithObject(apiRes.data.controlJson);
+          if (controlType == 'input') {
+            response.formly[0].fieldGroup[0].props.additionalProperties['applicationThemeClasses'] = item.classes;
+          } else {
+            response['applicationThemeClasses'] = item.classes;
+          }
+          this.previewComponent = response;
+          this.visible = true;
+        } else {
+          this.toastr.warning('No control found', { nzDuration: 2000 });
+        }
+      } else
+        this.toastr.warning(apiRes.message, { nzDuration: 2000 });
+    }));
   }
   searchValue(event: any, column: any): void {
     const inputValue = event?.target ? event.target.value?.toLowerCase() : event?.toLowerCase() ?? '';
@@ -464,5 +497,17 @@ export class ApplicationThemeComponent {
         this.searchValue(element.searchValue, element)
       });
     }
+  }
+  close() {
+    this.visible = false;
+    this.previewComponent = '';
+  }
+  jsonParseWithObject(data: any) {
+    return JSON.parse(data, (key, value) => {
+      if (typeof value === 'string' && value.startsWith('(') && value.includes('(model)')) {
+        return eval(`(${value})`);
+      }
+      return value;
+    });
   }
 }

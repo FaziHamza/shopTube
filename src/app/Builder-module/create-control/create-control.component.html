@@ -16,5 +16,55 @@
                 nz-input placeholder="Enter control json here..." formControlName="controlJson"></textarea>
         </div>
     </div>
-
+    <div class="table-responsive mt-3">
+        <nz-table #editRowTable nzBordered [nzData]="listOfDisplayData" nzTableLayout="fixed" [nzPageSize]="pageSize"
+            [nzFrontPagination]="false">
+            <thead>
+                <tr>
+                    <ng-container *ngFor="let column of listOfColumns">
+                        <th [nzWidth]="column.name === 'ACTION' ? '120px' : (column.name === 'NO' ? '60px' : '')"
+                            nzCustomFilter *ngIf="column.name != 'Action'">{{column.name}}
+                            <nz-filter-trigger [hidden]="column.hideSearch" [nzVisible]="column.visible || false"
+                                [nzDropdownMenu]="menu">
+                                <span nz-icon nzType="search"></span>
+                            </nz-filter-trigger>
+                        </th>
+                        <nz-dropdown-menu #menu="nzDropdownMenu">
+                            <div class="ant-table-filter-dropdown">
+                                <div class="search-box">
+                                    <input class="rounded-md" type="text" nz-input nzClear (keyup)="search()"
+                                        placeholder="Search here..." [(ngModel)]="column.searchValue" />
+                                </div>
+                            </div>
+                        </nz-dropdown-menu>
+                    </ng-container>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let item of editRowTable.data;let index = index" class="table-cursor">
+                    <td>{{index + 1}}</td>
+                    <td>{{item?.name}}</td>
+                    <td>
+                        <div class="flex">
+                            <i class="fa-regular fa-edit !text-blue-500 mr-2" (click)="edit(item)"></i>
+                            <i class="fa-regular fa-trash-alt !text-red-500" (click)="showDeleteConfirm(item._id)"></i>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </nz-table>
+        <div class="paginatio-bottom">
+            <div>
+                <p class="showing">Showing <span class="primary-color">{{start}} <span class="!text-black"> -</span>
+                        {{end}}</span> from
+                    <span class="primary-color">{{listOfDisplayData.length}}</span>
+                    data
+                </p>
+            </div>
+            <div>
+                <nz-pagination [nzTotal]="listOfData.length" [(nzPageIndex)]="pageIndex" [(nzPageSize)]="pageSize"
+                    (nzPageIndexChange)="onPageIndexChange($event)"></nz-pagination>
+            </div>
+        </div>
+    </div>
 </nz-spin>

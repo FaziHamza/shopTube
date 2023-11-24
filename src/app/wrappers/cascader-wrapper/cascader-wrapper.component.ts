@@ -49,6 +49,9 @@ export class CascaderWrapperComponent extends FieldType<FieldTypeConfig> {
         selected = JSON.parse(JSON.stringify(this.values[0]));
       }
     }
+    if(selected == "Gold"){
+      node.children = [];
+    }
     if (selected != "Gold") {
       let url = `knex-query/getexecute-rules/${getNextNode._id}`;
       // Root node - Load application data

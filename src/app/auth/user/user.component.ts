@@ -176,14 +176,17 @@ export class UserComponent {
         this.searchValue(element.searchValue, element)
       });
     }
+    this.handlePageChange(1, true)
   }
-  handlePageChange(event: number): void {
+  handlePageChange(event: number, search?: any): void {
     this.pageSize = !this.pageSize || this.pageSize < 1 ? 1 : this.pageSize
     this.pageIndex = event;
+    this.startIndex = (this.pageIndex - 1) * this.pageSize;
     const start = (this.pageIndex - 1) * this.pageSize;
+    this.endIndex = start + this.pageSize;
     const end = start + this.pageSize;
     this.startIndex = start == 0 ? 1 : ((this.pageIndex * this.pageSize) - this.pageSize) + 1;
-    this.listOfDisplayData = this.listOfData.slice(start, end);
+    this.listOfDisplayData = search ? this.listOfDisplayData.slice(start, end) : this.listOfData.slice(start, end);
     this.endIndex = this.listOfDisplayData.length != this.pageSize ? this.listOfData.length : this.pageIndex * this.pageSize;
   }
 }

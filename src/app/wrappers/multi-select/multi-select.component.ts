@@ -25,7 +25,7 @@ export class MultiSelectComponent extends FieldType<FieldTypeConfig> implements 
     this.cdr.detectChanges();
   }
   ngOnChanges(changes: any) {
-    document.documentElement.style.setProperty('--radius', this.to['additionalProperties']?.borderRadius );
+    document.documentElement.style.setProperty('--radius', this.to['additionalProperties']?.borderRadius);
   }
   get list(): any {
     return this.to.options;
@@ -37,28 +37,30 @@ export class MultiSelectComponent extends FieldType<FieldTypeConfig> implements 
 
 
   onModelChange(event: any, model: any) {
-    // if (event === '') {
-    //   event = [];
-    //   this.formControl.patchValue(event);
-    // }
-    this.sharedService.onChange(event, this.field);
-    // if (event) {
-    //   if (!Array.isArray(event)) {
-    //     if (event) {
-    //       if (event.includes(',')) {
-    //         event = event.split(',')
-    //       } else {
-    //         event = [event];
-    //       }
-    //     } else {
-    //       event = [];
-    //     }
-    //     this.formControl.patchValue(event);
-    //   } else {
-    //     this.sharedService.onChange(event, this.field);
-    //     console.log(event, model, 'radio');
-    //   }
-    // }
+    if (typeof event == 'string') {
+      if (event == '') {
+        if (this.selectedValue != event) {
+          this.selectedValue = [];
+          this.sharedService.onChange(this.selectedValue, this.field);
+
+        }
+      }
+      else {
+        this.selectedValue = event.split(',').map(name => name.trim());
+        if (this.selectedValue != event) {
+          this.sharedService.onChange(this.selectedValue, this.field);
+        }
+      }
+    }
+    else {
+      // event = event.length > 0 ? event.join(', ') : [];
+      if (JSON.stringify(this.selectedValue) != JSON.stringify(event)) {
+        this.selectedValue = event
+        console.log('event : ' + event);
+        this.sharedService.onChange(this.selectedValue, this.field);
+      }
+    }
+    
   }
 
   // convertToArray(): any {
