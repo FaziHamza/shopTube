@@ -347,7 +347,8 @@ export class PagesComponent implements OnInit, OnDestroy {
       next: (res: any) => {
         if (res.isSuccess && res.data.length > 0) {
           this.saveLoader = false;
-          this.handleCacheRuleRequest(res.data[0].screenBuilderId, res);
+        localStorage.setItem('screenBuildId', res.data[0].screenBuilderId);
+        this.handleCacheRuleRequest(res.data[0].screenBuilderId, res);
         } else {
           this.toastr.error(res.message, { nzDuration: 3000 });
           this.saveLoader = false;

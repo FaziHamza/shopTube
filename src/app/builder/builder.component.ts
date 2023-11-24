@@ -554,6 +554,7 @@ export class BuilderComponent implements OnInit {
     this.requestSubscription = this.applicationService.getNestCommonAPIById('cp/Builder', this._id).subscribe({
       next: (res: any) => {
         if (res.isSuccess) {
+        localStorage.setItem('screenBuildId', res.data[0].screenBuilderId);
           this.builderScreenData = [res.data[0]];
           // this.form = new FormGroup({});
           if (res.data.length > 0) {
