@@ -1,8 +1,11 @@
-import { Component, Input } from '@angular/core';
+import { ChangeDetectorRef, Component, ElementRef, Input, NgZone, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NzMessageService } from 'ng-zorro-antd/message';
-import { NzModalService } from 'ng-zorro-antd/modal';
+import { htmlTabsData } from 'src/app/ControlList';
 import { ApplicationService } from 'src/app/services/application.service';
+import * as monaco from 'monaco-editor';
+import Ajv, { ErrorObject } from 'ajv';
+import { NzModalService } from 'ng-zorro-antd/modal';
 
 @Component({
   selector: 'st-application-theme',
@@ -27,37 +30,105 @@ export class ApplicationThemeComponent {
   pageSize: number = 6;
   start = 1;
   end = 10;
-  constructor(private fb: FormBuilder, private applicationService: ApplicationService, private toastr: NzMessageService, private modal: NzModalService) {
+  formlyTypes: any = [];
+  controllist: any = [];
+  validationMessage: any[] = [];
+  IsShowConfig: boolean = false;
+  isEditorInitialized = false;
+  @ViewChild('editorRuleContainer', { static: false }) private _editorRuleContainer: ElementRef;
+  @Input() codeEditorRuleInstance!: monaco.editor.IStandaloneCodeEditor;
+  @Input() jsonSchema = {};
+  languageId = 'styles.scss';
+  listOfColumns = [
+    {
+      name: 'NO',
+      key: 'no',
+      searchValue: '',
+      hideSearch: true,
+      visible: false
+    },
+    {
+      name: 'APPLICATION',
+      key: 'applicationName',
+      searchValue: '',
+      hideSearch: true,
+      visible: false
+    },
+    {
+      name: 'NAME',
+      key: 'name',
+      searchValue: '',
+      hideSearch: false,
+      visible: false
+    },
+    {
+      name: 'TAG',
+      key: 'tag',
+      searchValue: '',
+      hideSearch: false,
+      visible: false
+    },
+    {
+      name: 'CLASSES',
+      key: 'classes',
+      searchValue: '',
+      hideSearch: false,
+      visible: false
+    },
+    {
+      name: 'ACTION',
+      key: 'action',
+      searchValue: '',
+      hideSearch: true,
+      visible: false
+    },
+  ];
+  constructor(private fb: FormBuilder, private applicationService: ApplicationService, private toastr: NzMessageService,
+    private zone: NgZone, private cdRef: ChangeDetectorRef, private modal: NzModalService,
+  ) {
     this.form = this.fb.group({
-      id: [''], // Application is required
       applicationId: ['', Validators.required], // Application is required
       tag: ['', Validators.required], // Tag is required
       classes: ['', Validators.required], // Classes is required
+      name: ['', Validators.required], // Classes is required
     });
   }
   ngOnInit() {
     this.getApplicationTheme();
+    this.getApplicationList();
+    this.makeFormlyTypeOptions(htmlTabsData[0]);
+
   }
+
+  // ngAfterViewInit(): void {
+  //   this.IsShowConfig = true;
+  //   this.cdRef.detectChanges();
+
+  //   // Delay the execution of initializeMonacoEditor by 1 second
+  //   setTimeout(() => {
+  //     if (this.IsShowConfig) {
+  //       this.initializeMonacoEditor();
+
+  //     }
+  //   }, 1000); // 1000 milliseconds (1 second)
+  // }
 
 
   save() {
     debugger
     if (this.form.valid) {
-      if (this.listOfData.some((a) => a.name === this.form.value.tag)) {
-        this.toastr.warning('Already classes exist against this tag', { nzDuration: 3000 });
-        return;
-      }
       const formValue = this.form.value;
-      const app = this.applicationList.find((a: any) => a._id === formValue.applicationId);
+      const app = this.applicationList.find((a: any) => a.value === formValue.applicationId);
 
-      const classNamesArray = formValue.classes.split(/\s+/).filter(Boolean);
+      // const classNamesArray = formValue.classes.split(/\s+/).filter(Boolean);
 
       const obj = {
         applicationTheme: {
           ...formValue,
-          name: formValue.tag,
-          applicationName: app?.name,
-          classes: classNamesArray,
+          name: formValue.name,
+          tag: formValue.tag,
+          applicationName: app?.label,
+          classes: formValue?.classes,
         }
       };
 
@@ -94,6 +165,7 @@ export class ApplicationThemeComponent {
       if (res.isSuccess) {
         this.listOfData = res.data;
         this.listOfDisplayData = res.data;
+        this.onPageIndexChange(1);
       } else
         this.toastr.warning(res.message, { nzDuration: 2000 });
     }));
@@ -112,8 +184,9 @@ export class ApplicationThemeComponent {
     this.editId = data._id;
     this.form.patchValue({
       applicationId: data?.applicationId,
-      tag: data?.name,
-      classes: data?.classes.join(' '), // Join the array elements with a space
+      name: data?.name,
+      tag: data?.tag,
+      classes: data?.classes
     });
   }
   onPageIndexChange(index: number): void {
@@ -141,5 +214,255 @@ export class ApplicationThemeComponent {
       nzCancelText: 'No',
       nzOnCancel: () => console.log('Cancel')
     });
+  }
+  makeFormlyTypeOptions(node: any) {
+    node.children.forEach((element: any) => {
+      element.children.forEach((element1: any) => {
+        (element1.children || []).forEach((element3: any) => {
+          if (element3.parameter !== 'input') {
+            this.controllist.push({
+              label: element3.label,
+              value: element3.parameter,
+            });
+          }
+        });
+      });
+    });
+
+    // Add 'Input' type separately
+    this.controllist.push({
+      label: 'Input',
+      value: 'input',
+    });
+  }
+
+  getApplicationList() {
+    // Retrieve data from localStorage
+    const storedData = window.localStorage.getItem('applicationId');
+
+    // Check if storedData is not null before parsing
+    if (storedData !== null) {
+      const app = JSON.parse(storedData);
+
+      this.loader = true;
+
+      if (app) {
+        this.applicationService.getBackendCommonAPI(`application/${app}`).subscribe(((res: any) => {
+          this.loader = false;
+          if (res) {
+            this.applicationList = [{
+              label: res.name,
+              value: res._id
+            }];
+          } else {
+            this.toastr.warning(res.message, { nzDuration: 2000 });
+          }
+        }), (error) => {
+          this.loader = false;
+          console.error('Error fetching application data:', error);
+          // Handle error, show error message, etc.
+        });
+      }
+    }
+    else {
+      // Handle the case where the data is null (not available in localStorage)
+      console.error('Data not found in localStorage');
+      // Handle accordingly, show a message, set default value, etc.
+    }
+  }
+  initializeMonacoEditor(): void {
+    if (!this.isEditorInitialized) {
+      if (this._editorRuleContainer) {
+        // Try logging to see if the reference is available
+
+      } else {
+        console.log('editorRuleContainer is not available');
+      }
+
+      // if (this._editorActionsContainer) {
+      //   console.log(this._editorActionsContainer.nativeElement);
+      // } else {
+      //   console.log('editorActionsContainer is not available');
+      // }
+
+      if (this.isEditorInitialized) {
+        return;
+      }
+      // Define a JSON schema for suggestions
+      monaco.editor.defineTheme('myCustomTheme', {
+        base: 'vs', // can also be vs-dark or hc-black
+        inherit: true, // can also be false to completely replace the built-in rules
+        rules: [
+          { token: 'comment', foreground: 'ffa500' },
+          { token: 'string', foreground: '00ff00' },
+          // more rules here
+        ],
+        colors: {
+          // you can also set editor-wide colors here
+          'editor.foreground': '#000000',
+          'editor.background': '#f5f5f5',
+          // and more
+        }
+      });
+
+      // Register the JSON schema
+      monaco.languages.json.jsonDefaults.setDiagnosticsOptions({
+        validate: true,
+        schemas: [{
+          uri: 'mySchema',
+          fileMatch: ['*'],
+          schema: this.jsonSchema
+        }]
+      });
+
+      this.codeEditorRuleInstance = monaco.editor.create(this._editorRuleContainer.nativeElement, {
+        theme: 'myCustomTheme',
+        language: this.languageId,
+        value: this.form.value.classes // Initial value
+      });
+
+
+      this.codeEditorRuleInstance.addAction({
+        id: 'validate-json',
+        label: 'Validate JSON',
+        run: () => {
+          this.validateJSON(); // Call the validation method
+        }
+      });
+
+      this.codeEditorRuleInstance.addAction({
+        id: 'my-duplicate-action',
+        label: 'Duplicate',
+        keybindings: [monaco.KeyCode.F10],
+        contextMenuGroupId: 'customActions',
+        contextMenuOrder: 1.5,
+        run: (ed: any) => {
+          const selectedText = ed.getModel().getValueInRange(ed.getSelection());
+
+          if (selectedText) {
+            try {
+              const selectedJson = JSON.parse(selectedText);
+
+              if (selectedJson.if) {
+                const content = ed.getValue();
+                const updatedContent = this.duplicateIfObjectInContent(content, selectedJson);
+                ed.setValue(updatedContent);
+              }
+            } catch (e) {
+              console.error("Invalid JSON selected or other error:", e);
+            }
+          }
+        }
+      });
+
+      this.addCustomButton();
+
+      const editorInstance = this.codeEditorRuleInstance;
+
+      editorInstance.onDidChangeModelContent(() => {
+        // console.log(editorInstance.getValue());
+        this.zone.run(() => {
+          let value = editorInstance.getValue();
+          this.form?.get('classes')?.patchValue(value);
+        });
+      });
+
+
+      this.isEditorInitialized = true;
+
+    } else {
+      // this.codeEditorRuleInstance.layout();
+      // this.codeEditorActionsInstance.layout();
+    }
+  }
+  validateJSON() {
+
+    this.validationMessage = [];
+    try {
+      const jsonData = JSON.parse(this.codeEditorRuleInstance.getValue());
+      const ajv = new Ajv();
+      const valid = ajv.validate(this.jsonSchema, jsonData);
+      if (!valid && ajv.errors) {
+        // Keep the original error objects, but add custom error messages
+        this.validationMessage = ajv.errors.map(err => ({
+          originalError: err,
+          message: this.customErrorMessage(err)
+        }));
+      }
+    } catch (error) {
+      this.validationMessage.push({ message: 'Invalid JSON format.' });
+    }
+  }
+  customErrorMessage(error: ErrorObject): string {
+    if (error.keyword === 'enum' && error.instancePath.includes('conditions')) {
+      const field = error.instancePath.split('/')[3];
+      const allowedValues = error.params['allowedValues'] as string[] | undefined;
+      if (allowedValues) {
+        return `Invalid value for field '${field}'. Did you mean one of these? ${allowedValues.join(', ')}`;
+      }
+    } else if (error.keyword === 'type' && error.instancePath.endsWith('/value')) {
+      const field = error.instancePath.split('/')[3];
+      return `Invalid type for field '${field}'. The value must be a string.`;
+    } else if (error.keyword === 'additionalProperties') {
+      const propertyName = error.params['additionalProperty'];
+      const validProperties = Object.keys(error.parentSchema?.['properties'] || {}).join(', ');
+      return `Unknown property '${propertyName}'. Please choose from the following valid properties: ${validProperties}`;
+    }
+    return error.message || 'Unknown error';
+  }
+  duplicateIfObjectInContent(content: any, ifObjectToDuplicate: any) {
+    const data = JSON.parse(content);
+    const indexOfObject = data.findIndex((obj: any) => JSON.stringify(obj.if) === JSON.stringify(ifObjectToDuplicate));
+
+    if (indexOfObject !== -1) {
+      const newObject = { ...data[indexOfObject] };
+      data.splice(indexOfObject + 1, 0, newObject);
+    }
+
+    return JSON.stringify(data, null, 2);
+  }
+  addCustomButton() {
+    // Wait for the editor to be ready
+    setTimeout(() => {
+      // Find the toolbar in the Monaco Editor's DOM
+      const toolbar = document.querySelector('.monaco-toolbar');
+
+      // Create a button element
+      const button = document.createElement('button');
+      button.innerText = 'Validate JSON';
+      button.className = 'my-custom-button'; // You can add styling with CSS
+
+      // Add a click event listener to run your validation function
+      button.addEventListener('click', () => {
+        this.validateJSON();
+      });
+
+      // Append the button to the toolbar
+      if (toolbar) {
+        toolbar.appendChild(button);
+      }
+    }, 1000); // Adjust the timeout if necessary
+  }
+  preview(item: any) {
+
+  }
+  searchValue(event: any, column: any): void {
+    const inputValue = event?.target ? event.target.value?.toLowerCase() : event?.toLowerCase() ?? '';
+    if (inputValue) {
+      this.listOfDisplayData = this.listOfDisplayData.filter((item: any) => {
+        const { key } = column;
+        const { [key]: itemName } = item || {}; // Check if item is undefined, set to empty object if so
+        return itemName?.toLowerCase()?.includes(inputValue); // Check if itemName is undefined or null
+      });
+    }
+  }
+  search(): void {
+    this.listOfDisplayData = this.listOfData;
+    let checkSearchExist = this.listOfColumns.filter(a => a.searchValue);
+    if (checkSearchExist.length > 0) {
+      checkSearchExist.forEach(element => {
+        this.searchValue(element.searchValue, element)
+      });
+    }
   }
 }

@@ -13356,6 +13356,22 @@ export class formFeildData {
         },
         {
           className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          key: 'applicationThemeClasses',
+          type: 'select',
+          wrappers: ["formly-vertical-theme-wrapper"],
+          props: {
+            label: 'Application Theme Classes',
+            options: [],
+            additionalProperties: {
+              allowClear: true,
+              serveSearch: false,
+              showArrow: true,
+              showSearch: true,
+            },
+          }
+        },
+        {
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
           key: 'required',
           type: 'checkbox',
           wrappers: ["formly-vertical-theme-wrapper"],
@@ -13508,6 +13524,22 @@ export class formFeildData {
                 value: 'right'
               },
             ],
+            additionalProperties: {
+              allowClear: true,
+              serveSearch: false,
+              showArrow: true,
+              showSearch: true,
+            },
+          }
+        },
+        {
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          key: 'applicationThemeClasses',
+          type: 'select',
+          wrappers: ["formly-vertical-theme-wrapper"],
+          props: {
+            label: 'Application Theme Classes',
+            options: [],
             additionalProperties: {
               allowClear: true,
               serveSearch: false,

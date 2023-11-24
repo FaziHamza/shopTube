@@ -10,7 +10,7 @@
         ></nz-step>
         <ng-template #characterIcon>
             <st-icon *ngIf="item.icon" [type]="item.iconType" [icon]="item.icon" [size]="item.iconSize"
-            [hoverIconColor]="item?.hoverIconColor || ''" [color]="item?.iconColor"></st-icon>
+            [hoverIconColor]="item?.hoverIconColor || ''" [color]="item?.iconColor" [applicationThemeClasses]="item?.applicationThemeClasses"></st-icon>
         </ng-template>
     </ng-container>
 </nz-steps>

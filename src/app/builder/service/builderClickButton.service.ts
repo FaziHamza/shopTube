@@ -169,6 +169,7 @@ export class BuilderClickButtonService {
       filetype: node.formly[0].fieldGroup[0].props['additionalProperties']['filetype'],
       browserButtonColor: node.formly[0].fieldGroup[0].props['additionalProperties']['browserButtonColor'],
       hoverBrowseButtonColor: node.formly[0].fieldGroup[0].props['additionalProperties']['hoverBrowseButtonColor'],
+      applicationThemeClasses: node.formly[0].fieldGroup[0].props['additionalProperties']['applicationThemeClasses'],
       disabled: node.formly[0].fieldGroup[0].props?.disabled,
       readonly: node.formly[0].fieldGroup[0].props?.readonly,
       // hideExpression: node.formly[0].fieldGroup[0].props?.hideExpression,

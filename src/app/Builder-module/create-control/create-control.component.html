@@ -1,0 +1,20 @@
+<nz-spin [nzSpinning]="loader" [nzSize]="'large'" class="builder-design">
+    <div class="flex flex-wrap mt-2" [formGroup]="form">
+        <div class="w-1/4 pl-2">
+            <label class="ml-1 font-bold">Name</label>
+            <input formControlName="name" nz-input placeholder="Enter name here..."
+                class="!border !rounded-md !p-2 !block !w-full" />
+        </div>
+        <div class="w-1/4 flex mt-[21px]">
+            <button nz-button nzType="primary"
+                [class]="(editId == '' ? '!bg-blue-600 hover:!bg-blue-500' : '!bg-green-600 hover:!bg-green-500') + ' ml-2 btn-no !border-none  '"
+                (click)="save()"><i class="fa-regular fa-save mr-2"></i>{{editId == '' ? 'Save' : 'Update'}}</button>
+        </div>
+        <div class="w-full !mx-2 mt-2">
+            <label class="ml-1 font-bold">Control Json</label>
+            <textarea class="!border !rounded-md !p-2 !block !w-full !max-h-60 !min-h-[100px]" style="width: 100%;"
+                nz-input placeholder="Enter control json here..." formControlName="controlJson"></textarea>
+        </div>
+    </div>
+
+</nz-spin>

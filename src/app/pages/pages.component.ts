@@ -252,7 +252,8 @@ export class PagesComponent implements OnInit, OnDestroy {
 
     if (this.data.length == 0) {
       const subscription = this.activatedRoute.params.subscribe((params: Params) => {
-        // this.initiliaze(params);
+        this.initiliaze(params);
+
         if (params["schema"]) {
           // this.initiliaze(params);
           this.saveLoader = true;
