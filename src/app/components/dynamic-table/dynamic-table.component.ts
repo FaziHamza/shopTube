@@ -1772,7 +1772,7 @@ export class DynamicTableComponent implements OnInit {
 
   processData(data: any) {
     if (data) {
-      if (data?.data.length > 0) {
+      if (data?.data?.length > 0) {
         let res: any = {};
         res['data'] = [];
         res['data'] = data?.data;
