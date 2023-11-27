@@ -146,3 +146,6 @@ td {
 // .rotated-header--zero {
 //   /* Add styles for headers at zero degrees rotation */
 // }
+.resizable-header:hover {
+  cursor: col-resize;
+}
