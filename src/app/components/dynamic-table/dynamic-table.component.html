@@ -119,7 +119,7 @@
   <div class="dynamic-table" [processData]="processData"
     [appConfigurableSelect]="childTable == false ? (data?.appConfigurableEvent ? data?.appConfigurableEvent : []) : []"
     [loadAction]="childTable == false ? ( data?.eventActionconfig ? data?.eventActionconfig : {}) : false">
-    <nz-table nzShowPagination  [nzVirtualItemSize]="54" [nzSimple]="true"
+    <nz-table nzShowPagination [nzVirtualItemSize]="54" [nzSimple]="true"
       [nzOuterBordered]="data?.outerBordered || false" [nzScroll]="data?.stickyHeaders
       ? {  y: data?.hieght ?  data?.hieght + 'px':'240px' , x: '2500px' }
       : (data?.endFreezingNumber !== undefined || data?.startFreezingNumber !== undefined
@@ -138,11 +138,9 @@
             [nzIndeterminate]="indeterminate" (nzCheckedChange)="checkAll($event)"></th>
           <ng-container *ngFor="let header of tableHeaders ; let i = index">
             <!-- !border-r-4 !border-gray-200 -->
-            <th [class]="data.tableHeaderClass" 
-            nz-resizable 
-            (nzResize)="onResize($event, header)"
-            [nzWidth]="header?.width ? header.width + 'px' : 'auto'"
-            *ngIf="header.key !== 'defaultValue' && (header?.show == true || header?.show === undefined || header?.show === '' || header?.show == 'Yes')">
+            <th [class]="data.tableHeaderClass" nz-resizable (nzResize)="onResize($event, header)"
+              [nzWidth]="header?.width ? header.width + 'px' : 'auto'"
+              *ngIf="header.key !== 'defaultValue' && (header?.show == true || header?.show === undefined || header?.show === '' || header?.show == 'Yes')">
               <!-- (click)="header?.columnClickApi ? onClickColumn(header.columnClickApi,header): ''" -->
               <div [class]="data?.thClass"
                 class="!text-gray-500 !relative w-auto flex justify-center items-center myTEXT"
@@ -409,12 +407,9 @@
                               [formlyModel]="formlyModel" [form]="form" [screenName]="screenName"
                               [tableRowId]="item['id']" [buttonData]="childData" [title]="''"
                               [path]="item[header.key]"></st-downloadbutton>
-                            <div *ngIf="childData.type == 'qrcode'">
-                              <div (click)="openQrCode(item[header.key], childData)">
-                                <i class="fas fa-qrcode"></i>
-                              </div>
-                            </div>
                           </div>
+                          <i *ngIf="childData.type == 'qrcode' && childData?.id == header?.key"
+                            (click)="openQrCode(item[header.key], childData)" class="fas fa-qrcode"></i>
                         </div>
                       </div>
                     </ng-container>

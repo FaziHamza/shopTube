@@ -235,9 +235,10 @@ export class AddControlService {
       ]
     }
   }
-  getInsertButtonControl(type?: any) {
+  getInsertButtonControl(type?: any, data?: any) {
     return {
       type: type == 'downloadButton' ? 'downloadButton' : "button",
+      commonButtonProperty: data?.parameter,
       actionType: "insert",
       isNextChild: false,
       className: "w-auto",
@@ -778,6 +779,13 @@ export class AddControlService {
       heading: 'text-base',
       fontstyle: '',
       link: '',
+    }
+  }
+  qrControl() {
+    return {
+      isNextChild: false,
+      qrString: "<html>  <body onload='window.print();'> ^XA ^MMT ^PW406 ^LL0203 ^LS0 ^FT90,250^BQN,2,4 ^FH\\^FDLA,$link^FS ^PQ1,0,1,Y ^XZ </body> </html>",
+      link: "https://s3.me-south-1.amazonaws.com/campaigns.expocitydubai.com/pdfs/generated_pdf_1700311607606.pdf"
     }
   }
   paragraphControl() {

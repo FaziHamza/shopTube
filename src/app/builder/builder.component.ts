@@ -1752,7 +1752,7 @@ export class BuilderComponent implements OnInit {
         case 'deleteButton':
           newNode = {
             ...newNode,
-            ...this.addControlService.getInsertButtonControl(value),
+            ...this.addControlService.getInsertButtonControl(value , data),
           };
           break;
         case 'dropdownButton':
@@ -2000,11 +2000,14 @@ export class BuilderComponent implements OnInit {
         case 'div':
           newNode = { ...newNode, ...this.addControlService.divControl() };
           break;
+        case 'qrcode':
+          newNode = { ...newNode, ...this.addControlService.qrControl() };
+          break;
         case 'mainDiv':
           newNode = { ...newNode, ...this.addControlService.mainDivControl() };
           break;
         case 'heading':
-          // newNode = { ...newNode, ...this.addControlService.headingControl() };
+          newNode = { ...newNode, ...this.addControlService.headingControl() };
           break;
 
         case 'paragraph':

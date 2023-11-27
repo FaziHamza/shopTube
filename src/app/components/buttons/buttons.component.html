@@ -1,8 +1,8 @@
 <button *ngIf="buttonData.type != 'linkbutton' && buttonData.type != 'dropdownButton'" nz-button
   [disabled]="buttonData.disabled" [nzBlock]="buttonData.nzBlock" [nzDanger]="buttonData.nzDanger"
   [nzGhost]="buttonData.nzGhost" [nzLoading]="buttonData.nzLoading" [nzShape]="buttonData.nzShape"
-  [class]="(!isActionExist ? '!cursor-auto ' : '!cursor-pointer ')+ buttonData.buttonClass + ' ' + buttonData.applicationThemeClasses" [nzSize]="buttonData.nzSize"
-  [nzType]="buttonData.nztype" [type]="buttonData.isSubmit ? 'submit' : 'button'"
+  [class]="(!isActionExist ? '!cursor-auto ' : '!cursor-pointer ')+ buttonData.buttonClass + ' ' + buttonData.applicationThemeClasses"
+  [nzSize]="buttonData.nzSize" [nzType]="buttonData.nztype" [type]="buttonData.isSubmit ? 'submit' : 'button'"
   [style.border-radius.px]="buttonData.nzShape == 'default' ? buttonData.radius : ''"
   [style.opacity]="hoverOpacity ? hoverOpacity :  buttonData.btnopacity ? buttonData.btnopacity : '1'"
   [style.background]="(bgColor || GridRuleColor ? GridRuleColor : buttonData.color) + ' !important'"
@@ -90,9 +90,14 @@
     </ng-container>
     <ng-container *ngIf="policyList?.length > 0">
       <ng-container *ngFor="let policyItem of policyList">
-        <li *ngIf="policyId != policyItem?.policyId._id" nz-menu-item [class]="buttonData?.optionSubClass"
+        <li *ngIf="policyId != policyItem?.policyId._id && buttonData?.showPolicies" nz-menu-item [class]="buttonData?.optionSubClass"
           (click)="switchPolicy(policyItem)">
           <a [class]="buttonData?.optionLabelClass">{{ policyItem?.policyId.name }}</a>
+        </li>
+        <li *ngIf="buttonData?.dropdownProperties == 'policyTheme'" nz-menu-item
+          [class]="buttonData?.optionSubClass" (click)="switchPolicyTheme(policyItem)">
+          <a [class]="buttonData?.optionLabelClass">{{ policyItem?.policyId?.applicationTheme
+            }}</a>
         </li>
       </ng-container>
     </ng-container>

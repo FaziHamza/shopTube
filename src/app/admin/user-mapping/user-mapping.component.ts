@@ -26,6 +26,7 @@ export class UserMappingComponent {
   totalItems: number = 0; // Total number of items
   startIndex = 1;
   endIndex: any = 10;
+  searchData: any[] = [];
   listOfColumns = [
     {
       name: 'User Name',
@@ -233,32 +234,37 @@ export class UserMappingComponent {
     document.body.appendChild(a);
     a.click();
   }
-  handlePageChange(event: number): void {
-    this.pageSize = !this.pageSize || this.pageSize < 1 ? 1 : this.pageSize
-    this.pageIndex = event;
-    const start = (this.pageIndex - 1) * this.pageSize;
-    const end = start + this.pageSize;
-    this.startIndex = start == 0 ? 1 : ((this.pageIndex * this.pageSize) - this.pageSize) + 1;
-    this.listOfDisplayData = this.listOfData.slice(start, end);
-    this.endIndex = this.listOfDisplayData.length != this.pageSize ? this.listOfData.length : this.pageIndex * this.pageSize;
-  }
   searchValue(event: any, column: any): void {
     const inputValue = event?.target ? event.target.value?.toLowerCase() : event?.toLowerCase() ?? '';
     if (inputValue) {
-      this.listOfDisplayData = this.listOfDisplayData.filter((item: any) => {
+      this.searchData = this.searchData.filter((item: any) => {
         const { key } = column;
         const { [key]: itemName } = item || {}; // Check if item is undefined, set to empty object if so
         return itemName?.toLowerCase()?.includes(inputValue); // Check if itemName is undefined or null
       });
     }
   }
-  search(): void {
-    this.listOfDisplayData = this.listOfData;
+  search(event?: number): void {
     let checkSearchExist = this.listOfColumns.filter(a => a.searchValue);
     if (checkSearchExist.length > 0) {
+      this.searchData = this.listOfData;
       checkSearchExist.forEach(element => {
         this.searchValue(element.searchValue, element)
       });
+    } else {
+      this.searchData = [];
     }
+    this.handlePageChange(event ? event : this.pageIndex);
+  }
+  handlePageChange(event: number): void {
+    this.pageSize = !this.pageSize || this.pageSize < 1 ? 1 : this.pageSize
+    this.pageIndex = event;
+    this.startIndex = (this.pageIndex - 1) * this.pageSize;
+    const start = (this.pageIndex - 1) * this.pageSize;
+    this.endIndex = start + this.pageSize;
+    const end = start + this.pageSize;
+    this.startIndex = start == 0 ? 1 : ((this.pageIndex * this.pageSize) - this.pageSize) + 1;
+    this.listOfDisplayData = this.searchData.length > 0 ? this.searchData.slice(start, end) : this.listOfData.slice(start, end);
+    this.endIndex = this.listOfDisplayData.length != this.pageSize ? this.listOfData.length : this.pageIndex * this.pageSize;
   }
 }

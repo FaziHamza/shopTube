@@ -1312,24 +1312,37 @@ export class DynamicTableComponent implements OnInit {
     }
   }
   openQrCode(data: any, item: any) {
-    const modal =
-      this.modal.create<QrCodeComponent>({
-        nzTitle: 'Qr Code Scan',
-        nzWidth: '250px',
-        nzContent: QrCodeComponent,
-        nzComponentParams: {
-          model: data,
-          item: item,
-        },
-        // nzOnOk: () => new Promise(resolve => setTimeout(resolve, 1000)),
-        nzFooter: [],
+    if (data == 'N/A') {
+      this.toastr.warning('Request is not approved!', {
+        nzDuration: 3000,
       });
-    // const instance = modal.getContentComponent();
-    modal.afterClose.subscribe((res) => {
-      if (res) {
+      return;
+    }
+    else if (data) {
+      const modal =
+        this.modal.create<QrCodeComponent>({
+          nzTitle: 'Qr Code Scan',
+          nzWidth: '250px',
+          nzContent: QrCodeComponent,
+          nzComponentParams: {
+            model: data,
+            item: item,
+          },
+          // nzOnOk: () => new Promise(resolve => setTimeout(resolve, 1000)),
+          nzFooter: [],
+        });
+      // const instance = modal.getContentComponent();
+      modal.afterClose.subscribe((res) => {
+        if (res) {
 
-      }
-    });
+        }
+      });
+    }
+    else {
+      this.toastr.warning('Path did not exist', {
+        nzDuration: 3000,
+      });
+    }
   }
   loadApiData() {
     if (this.data.appConfigurableEvent) {

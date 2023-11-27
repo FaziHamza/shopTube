@@ -14,6 +14,8 @@ import { NzMessageService } from 'ng-zorro-antd/message';
 import { FormGroup } from '@angular/forms';
 import html2canvas from 'html2canvas';
 import { jsPDF } from "jspdf"; // Trying to import as in the documentation 
+import { json } from 'stream/consumers';
+import { AnyComponent } from '@fullcalendar/core/preact';
 
 @Component({
   selector: 'st-pages',
@@ -43,6 +45,7 @@ export class PagesComponent implements OnInit, OnDestroy {
   pageRuleList: any[] = [];
   saveLoader: boolean = false;
   countRule: number = 0;
+  themeValue: any = '';
 
   private subscriptions: Subscription = new Subscription();
   private destroy$: Subject<void> = new Subject<void>();
@@ -89,6 +92,10 @@ export class PagesComponent implements OnInit, OnDestroy {
       if (res)
         this.saveDataGrid(res);
     });
+    const applicationTheme = this.dataSharedService.applicationTheme.subscribe(res => {
+      if (res)
+        this.applyApplicationTheme();
+    });
     const moveLinkSubscription = this.dataSharedService.moveLink.subscribe(res => {
       this.scrollToElement(res);
     })
@@ -113,6 +120,7 @@ export class PagesComponent implements OnInit, OnDestroy {
     this.subscriptions.add(gridDataSubscription);
     this.subscriptions.add(moveLinkSubscription);
     this.subscriptions.add(pagesLoader);
+    this.subscriptions.add(applicationTheme);
     // this.subscriptions.add(callMapApiAfterSave);
 
   }
@@ -255,19 +263,19 @@ export class PagesComponent implements OnInit, OnDestroy {
         this.initiliaze(params);
 
         if (params["schema"]) {
-          // this.initiliaze(params);
-          this.saveLoader = true;
-          this.dataSharedService.currentMenuLink = "/pages/" + params["schema"];
-          localStorage.setItem('screenId', this.dataSharedService.currentMenuLink);
-          this.clearValues();
-          this.applicationService.getNestCommonAPI('cp/auth/pageAuth/' + params["schema"]).subscribe(res => {
-            if (res?.data) {
-              this.initiliaze(params);
-            } else {
-              this.saveLoader = false;
-              this.router.navigateByUrl('permission-denied');
-            }
-          });
+          this.initiliaze(params);
+          // this.saveLoader = true;
+          // this.dataSharedService.currentMenuLink = "/pages/" + params["schema"];
+          // localStorage.setItem('screenId', this.dataSharedService.currentMenuLink);
+          // this.clearValues();
+          // this.applicationService.getNestCommonAPI('cp/auth/pageAuth/' + params["schema"]).subscribe(res => {
+          //   if (res?.data) {
+          //     this.initiliaze(params);
+          //   } else {
+          //     this.saveLoader = false;
+          //     this.router.navigateByUrl('permission-denied');
+          //   }
+          // });
         }
       });
       this.subscriptions.add(subscription);
@@ -347,8 +355,8 @@ export class PagesComponent implements OnInit, OnDestroy {
       next: (res: any) => {
         if (res.isSuccess && res.data.length > 0) {
           this.saveLoader = false;
-        localStorage.setItem('screenBuildId', res.data[0].screenBuilderId);
-        this.handleCacheRuleRequest(res.data[0].screenBuilderId, res);
+          localStorage.setItem('screenBuildId', res.data[0].screenBuilderId);
+          this.handleCacheRuleRequest(res.data[0].screenBuilderId, res);
         } else {
           this.toastr.error(res.message, { nzDuration: 3000 });
           this.saveLoader = false;
@@ -392,7 +400,7 @@ export class PagesComponent implements OnInit, OnDestroy {
     document.documentElement.style.setProperty('--pagePrimaryColor', data[0]?.primaryColor);
     document.documentElement.style.setProperty('--pageSecondaryColor', data[0]?.secondaryColor);
     let nodesData = this.jsonParseWithObject(this.jsonStringifyWithObject(data));
-    this.resData = nodesData;
+    // this.resData = nodesData;
     if (this.screenData) {
       const checkLoadtype = this.screenData?.uiData?.filter((a: any) => a.actionType == 'load');
       if (checkLoadtype?.length > 0) {
@@ -404,7 +412,7 @@ export class PagesComponent implements OnInit, OnDestroy {
         this.checkConditionUIRule(field, this.user?.policy?.policyId, 'policy');
       }
     }
-    let nodesData1 = this.jsonParseWithObject(this.jsonStringifyWithObject(this.resData));
+    let nodesData1 = this.jsonParseWithObject(this.jsonStringifyWithObject(nodesData));
 
     // this.resData = this.jsonParseWithObject(this.jsonStringifyWithObject(data));
     this.dataSharedService.checkContentForFixFooter = this.jsonParseWithObject(this.jsonStringifyWithObject(data));
@@ -463,9 +471,11 @@ export class PagesComponent implements OnInit, OnDestroy {
           }
         }
       }
-      this.resData = nodesData1;
+      this.applyApplicationTheme(nodesData1);
+      // this.resData = nodesData1;
     } else
-      this.resData = nodesData1;
+      this.applyApplicationTheme(nodesData1);
+    // this.resData = nodesData1;
 
     // const screenData = JSON.parse(this.jsonStringifyWithObject(this.resData));
 
@@ -2086,7 +2096,7 @@ export class PagesComponent implements OnInit, OnDestroy {
     if (node.formly) {
       if (node.type == 'multiselect') {
         if (replaceData['orderrequest.requiredfrequency']) {
-          node.formly[0 ].fieldGroup[0].props['additionalProperties']['maxMultipleCount']= replaceData['orderrequest.requiredfrequency'];
+          node.formly[0].fieldGroup[0].props['additionalProperties']['maxMultipleCount'] = replaceData['orderrequest.requiredfrequency'];
         }
         replaceData[value.defaultValue] = replaceData[value.defaultValue] ? replaceData[value.defaultValue].split(',').map((name: any) => name.trim()) : [];
         this.makeModel(node, replaceData[value.defaultValue])
@@ -2804,5 +2814,46 @@ export class PagesComponent implements OnInit, OnDestroy {
     //     }
     //   });
     // });
+  }
+
+  applyApplicationTheme(node?: any) {
+    let user = JSON.parse(window.localStorage['user']);
+    if (user.policy?.policyTheme) {
+      this.applicationService.getNestCommonAPI(`applicationTheme/allBythemeName${user.policy?.policyTheme}`).subscribe(((res: any) => {
+        if (res.isSuccess) {
+          this.findObjectByTypeAndApplyApplictionTheme(node ? node[0] : this.resData[0], res.data);
+          if(node){
+            this.resData = node;
+          }
+        } else
+          this.toastr.warning(res.message, { nzDuration: 2000 });
+      }));
+    }else{
+      this.resData = node;
+    }
+  }
+
+  findObjectByTypeAndApplyApplictionTheme(data: any, ThemeData: any) {
+    if (data?.formly) {
+      let input: any = ThemeData.find((item: any) => item.tag === 'input');
+      if (data.formly[0]) {
+        data.formly[0].fieldGroup[0].props['additionalProperties']['applicationThemeClasses'] = input?.classes;
+      }
+    }
+    if (data?.type == 'button') {
+      let obj: any = ThemeData.find((item: any) => item.tag === data?.commonButtonProperty);
+      if (obj) {
+        data['applicationThemeClasses'] = obj?.classes;
+      }
+    }
+    else {
+      let obj: any = ThemeData.find((item: any) => item.tag === data.type);
+      if (obj) {
+        data['applicationThemeClasses'] = obj?.classes
+      }
+    }
+    for (let child of data.children) {
+      this.findObjectByTypeAndApplyApplictionTheme(child, ThemeData);
+    }
   }
 }

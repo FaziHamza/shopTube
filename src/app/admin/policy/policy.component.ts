@@ -34,6 +34,7 @@ export class PolicyComponent implements OnInit {
   startIndex = 1;
   endIndex: any = 10;
   themeList: any[] = [];
+  applicationThemeList: any[] = [];
   listOfColumns = [
     {
       name: 'Policy Id',
@@ -73,8 +74,9 @@ export class PolicyComponent implements OnInit {
     this.jsonPolicyModuleList();
     this.getTheme();
     this.getMenuTheme();
+    this.getApplicationTheme();
   }
-  getMenuTheme(){
+  getMenuTheme() {
     let id = JSON.parse(localStorage.getItem('user')!).userId;
 
   }
@@ -154,7 +156,8 @@ export class PolicyComponent implements OnInit {
       let obj = {
         applicationId: JSON.parse(localStorage.getItem('applicationId')!),
         name: this.form.value.name,
-        menuThemeId: this.form.value.menuThemeId
+        menuThemeId: this.form.value.menuThemeId,
+        applicationTheme: this.form.value.applicationTheme
       };
 
       const PolicyModel = {
@@ -271,6 +274,26 @@ export class PolicyComponent implements OnInit {
           }
         ]
       },
+      {
+        fieldGroup: [
+          {
+            key: 'applicationTheme',
+            type: 'select',
+            wrappers: ["formly-vertical-theme-wrapper"],
+            defaultValue: '',
+            props: {
+              label: 'Application Theme',
+              additionalProperties: {
+                allowClear: true,
+                serveSearch: false,
+                showArrow: true,
+                showSearch: true,
+              },
+              options: this.applicationThemeList,
+            }
+          }
+        ]
+      },
     ];
   }
   handlePageChange(event: number): void {
@@ -291,6 +314,19 @@ export class PolicyComponent implements OnInit {
             label: item.name,
             value: item._id
           }));
+          this.loadPolicyListFields();
+        } else
+          this.toastr.error(res.message, { nzDuration: 3000 });
+      }, error: (error) => {
+        this.toastr.error(JSON.stringify(error), { nzDuration: 3000 });
+      }
+    });
+  }
+  getApplicationTheme() {
+    this.applicationService.getNestCommonAPI('applicationTheme/themeList').subscribe({
+      next: (res) => {
+        if (res.isSuccess) {
+          this.applicationThemeList = res.data;
           this.loadPolicyListFields();
         } else
           this.toastr.error(res.message, { nzDuration: 3000 });

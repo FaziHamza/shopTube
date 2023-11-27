@@ -6,6 +6,7 @@ import { ApplicationService } from 'src/app/services/application.service';
 import * as monaco from 'monaco-editor';
 import Ajv, { ErrorObject } from 'ajv';
 import { NzModalService } from 'ng-zorro-antd/modal';
+import { Guid } from 'src/app/models/guid';
 
 @Component({
   selector: 'st-application-theme',
@@ -37,10 +38,12 @@ export class ApplicationThemeComponent {
   isEditorInitialized = false;
   visible: boolean = false;
   previewComponent: any = '';
+  themeList: any[] = [];
   @ViewChild('editorRuleContainer', { static: false }) private _editorRuleContainer: ElementRef;
   @Input() codeEditorRuleInstance!: monaco.editor.IStandaloneCodeEditor;
   @Input() jsonSchema = {};
   languageId = 'styles.scss';
+  selectedTheme: any = '';
   listOfColumns = [
     {
       name: 'NO',
@@ -54,6 +57,13 @@ export class ApplicationThemeComponent {
       key: 'applicationName',
       searchValue: '',
       hideSearch: true,
+      visible: false
+    },
+    {
+      name: 'Theme Name',
+      key: 'applicationName',
+      searchValue: '',
+      hideSearch: false,
       visible: false
     },
     {
@@ -92,14 +102,15 @@ export class ApplicationThemeComponent {
       applicationId: ['', Validators.required], // Application is required
       tag: ['', Validators.required], // Tag is required
       classes: ['', Validators.required], // Classes is required
-      name: ['', Validators.required], // Classes is required
+      name: ['', Validators.required], // Name is required
+      themeName: ['', Validators.required], // themeName is required
     });
   }
   ngOnInit() {
-    this.getApplicationTheme();
+    // this.getApplicationTheme();
     this.getApplicationList();
     this.makeFormlyTypeOptions(htmlTabsData[0]);
-
+    this.getThemeList();
   }
 
   // ngAfterViewInit(): void {
@@ -119,6 +130,19 @@ export class ApplicationThemeComponent {
   save() {
     debugger
     if (this.form.valid) {
+      if (this.selectedTheme == this.form.value.themeName) {
+        if (this.editId == '') {
+          if (this.listOfData.some(a => a.tag == this.form.value.tag)) {
+            this.toastr.warning('This control already exist against this theme', { nzDuration: 3000 });
+            return;
+          }
+        } else {
+          if (this.listOfData.some(a => a.tag == this.form.value.tag && a._id != this.editId)) {
+            this.toastr.warning('This control already exist against this theme', { nzDuration: 3000 });
+            return;
+          }
+        }
+      }
       const formValue = this.form.value;
       const app = this.applicationList.find((a: any) => a.value === formValue.applicationId);
 
@@ -127,10 +151,12 @@ export class ApplicationThemeComponent {
       const obj = {
         applicationTheme: {
           ...formValue,
-          name: formValue.name,
+          name: `${formValue.name}_${Guid.newGuid()}`,
           tag: formValue.tag,
           applicationName: app?.label,
           classes: formValue?.classes,
+          themeName: formValue?.themeName,
+          controlName: formValue?.name,
         }
       };
 
@@ -144,7 +170,7 @@ export class ApplicationThemeComponent {
           if (objTRes.isSuccess) {
             this.editId = '';
             this.form.reset();
-            this.getApplicationTheme();
+            this.searchByTheme();
           } else {
             this.toastr.error(objTRes.message, { nzDuration: 3000 });
           }
@@ -172,12 +198,22 @@ export class ApplicationThemeComponent {
         this.toastr.warning(res.message, { nzDuration: 2000 });
     }));
   }
+  getThemeList() {
+    this.loader = true;
+    this.applicationService.getNestCommonAPI('applicationTheme/themeList').subscribe(((res: any) => {
+      this.loader = false;
+      if (res.isSuccess) {
+        this.themeList = res?.data;
+      } else
+        this.toastr.warning(res.message, { nzDuration: 2000 });
+    }));
+  }
   delete(id: any) {
     this.loader = true;
     this.applicationService.deleteNestCommonAPI('cp/applicationTheme', id).subscribe(((res: any) => {
       this.loader = false;
       if (res.isSuccess) {
-        this.getApplicationTheme();
+        this.searchByTheme();
       } else
         this.toastr.warning(res.message, { nzDuration: 2000 });
     }));
@@ -186,10 +222,12 @@ export class ApplicationThemeComponent {
     this.editId = data._id;
     this.form.patchValue({
       applicationId: data?.applicationId,
-      name: data?.name,
+      name: data?.controlName,
       tag: data?.tag,
-      classes: data?.classes
+      classes: data?.classes,
+      themeName: data?.themeName,
     });
+    this.selectedTheme = data?.themeName;
   }
   onPageIndexChange(index: number): void {
     this.pageIndex = index;
@@ -221,8 +259,8 @@ export class ApplicationThemeComponent {
     node.children.forEach((element: any) => {
       element.children.forEach((element1: any) => {
         (element1.children || []).forEach((element3: any) => {
-          if (element3.parameter !== 'input' && (element3.parameter == 'insertButton' 
-          || element3.parameter == 'updateButton'
+          if (element3.parameter !== 'input' && (element3.parameter == 'insertButton'
+            || element3.parameter == 'updateButton'
             || element3.parameter == 'deleteButton'
             || element3.parameter == 'dropdownButton'
             || element3.parameter == 'linkbutton'
@@ -509,5 +547,25 @@ export class ApplicationThemeComponent {
       }
       return value;
     });
+  }
+  searchByTheme() {
+    this.loader = true;
+    this.form.patchValue({
+      themeName: this.selectedTheme,
+    });
+    if (this.selectedTheme) {
+      this.applicationService.getNestCommonAPI(`applicationTheme/allBythemeName${this.selectedTheme}`).subscribe(((res: any) => {
+        this.loader = false;
+        if (res.isSuccess) {
+          this.listOfData = res.data;
+          this.listOfDisplayData = res.data;
+          this.onPageIndexChange(1);
+        } else
+          this.toastr.warning(res.message, { nzDuration: 2000 });
+      }));
+    } else {
+      this.loader = false;
+      this.toastr.warning('Please select theme', { nzDuration: 2000 });
+    }
   }
 }

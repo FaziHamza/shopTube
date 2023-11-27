@@ -5,7 +5,7 @@
     [nzPrefix]="(to['additionalProperties']?.addonLeft || to['additionalProperties']?.prefixicon) ? prefixTemplateUser : undefined"
     [nzSize]="to['additionalProperties']?.size" [nzStatus]="to['additionalProperties']?.status">
     <nz-select
-      [class]="to['additionalProperties']?.innerInputClass + ' ' + to['additionalProperties']?.applicationThemeClasses"
+      [class]="to['additionalProperties']?.innerInputClass + ' ' +to['additionalProperties']?.applicationThemeClasses"
       [appConfigurableSelect]="to['appConfigurableEvent']" [loadAction]="to['eventActionconfig']"
       [processData]="processData" [style.border-radius]="to['additionalProperties']?.borderRadius"
       (ngModelChange)="onModelChange($event, field)" [ngClass]=" showError && !to['additionalProperties']?.suffixicon && !to['additionalProperties']?.prefixicon

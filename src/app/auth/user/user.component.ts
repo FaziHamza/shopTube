@@ -24,6 +24,7 @@ export class UserComponent {
   loading: boolean = false;
   listOfData: any[] = [];
   listOfDisplayData: any[] = [];
+  searchData: any[] = [];
   edit: any = null;
   updateModel: any = {};
   startIndex = 1;
@@ -161,24 +162,26 @@ export class UserComponent {
   searchValue(event: any, column: any): void {
     const inputValue = event?.target ? event.target.value?.toLowerCase() : event?.toLowerCase() ?? '';
     if (inputValue) {
-      this.listOfDisplayData = this.listOfDisplayData.filter((item: any) => {
+      this.searchData = this.searchData.filter((item: any) => {
         const { key } = column;
         const { [key]: itemName } = item || {}; // Check if item is undefined, set to empty object if so
         return itemName?.toLowerCase()?.includes(inputValue); // Check if itemName is undefined or null
       });
     }
   }
-  search(): void {
-    this.listOfDisplayData = this.listOfData;
+  search(event?: number): void {
     let checkSearchExist = this.listOfColumns.filter(a => a.searchValue);
     if (checkSearchExist.length > 0) {
+      this.searchData = this.listOfData;
       checkSearchExist.forEach(element => {
         this.searchValue(element.searchValue, element)
       });
+    }else{
+      this.searchData = [];
     }
-    this.handlePageChange(1, true)
+    this.handlePageChange(event ? event : this.pageIndex);
   }
-  handlePageChange(event: number, search?: any): void {
+  handlePageChange(event: number): void {
     this.pageSize = !this.pageSize || this.pageSize < 1 ? 1 : this.pageSize
     this.pageIndex = event;
     this.startIndex = (this.pageIndex - 1) * this.pageSize;
@@ -186,7 +189,7 @@ export class UserComponent {
     this.endIndex = start + this.pageSize;
     const end = start + this.pageSize;
     this.startIndex = start == 0 ? 1 : ((this.pageIndex * this.pageSize) - this.pageSize) + 1;
-    this.listOfDisplayData = search ? this.listOfDisplayData.slice(start, end) : this.listOfData.slice(start, end);
+    this.listOfDisplayData = this.searchData.length > 0 ? this.searchData.slice(start, end) : this.listOfData.slice(start, end);
     this.endIndex = this.listOfDisplayData.length != this.pageSize ? this.listOfData.length : this.pageIndex * this.pageSize;
   }
 }

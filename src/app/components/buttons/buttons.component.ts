@@ -52,7 +52,7 @@ export class ButtonsComponent implements OnInit {
   ngOnInit(): void {
     this.drawerClose();
     this.hostUrl = window.location.host;
-    if (this.buttonData?.showPolicies) {
+    if (this.buttonData?.showPolicies || this.buttonData?.dropdownProperties == 'policyTheme') {
       this.jsonPolicyModuleList();
     }
     if (this.buttonData?.appConfigurableEvent || this.buttonData?.eventActionconfig || this.buttonData?.redirect || this.buttonData?.isSubmit) {
@@ -254,7 +254,11 @@ export class ButtonsComponent implements OnInit {
         debugger
         if (res.isSuccess) {
           if (res?.data.length > 0) {
-            this.policyList = res.data.filter((a: any) => a?.policyId._id != user['policy']['policyId']);
+            if(this.buttonData?.showPolicies){
+              this.policyList = res.data.filter((a: any) => a?.policyId._id != user['policy']['policyId']);
+            }else{
+              this.policyList = res?.data;
+            }
           }
         }
       },
@@ -271,11 +275,26 @@ export class ButtonsComponent implements OnInit {
       nzOnOk: () => this.changePolicy(policy)
     });
   }
+  switchPolicyTheme(policy: any) {
+    this.modalService.confirm({
+      nzTitle: '<i>Do you Want to switch this theme?</i>',
+      nzContent: '',
+      nzOnOk: () => this.changeTheme(policy)
+    });
+  }
+  changeTheme(policy: any) {
+    debugger
+    let user = JSON.parse(window.localStorage['user']);
+    user['policy']['policyTheme'] = policy?.policyId?.applicationTheme ? policy?.policyId?.applicationTheme : '';
+    window.localStorage.setItem('user', JSON.stringify(user));
+    this.dataSharedService.applicationTheme.next(true);
+  }
   changePolicy(policy: any) {
     debugger
     let user = JSON.parse(window.localStorage['user']);
     user['policy']['policyId'] = policy?.policyId?._id;
     user['policy']['policyName'] = policy?.policyId?.name;
+    user['policy']['policyTheme'] = policy?.policyId?.applicationTheme;
     window.localStorage.setItem('user', JSON.stringify(user));
     let obj = {
       UserMapping: {
@@ -308,7 +327,7 @@ export class ButtonsComponent implements OnInit {
   private drawerClose(): void {
     const subscription = this.dataSharedService.drawerClose.subscribe({
       next: (res) => {
-        if (res && this.dataSharedService.gridDataLoad && (this.buttonData.redirect == 'drawer' || this.buttonData.redirect == 'largeDrawer' || this.buttonData.redirect == 'extraLargeDrawer') ) {
+        if (res && this.dataSharedService.gridDataLoad && (this.buttonData.redirect == 'drawer' || this.buttonData.redirect == 'largeDrawer' || this.buttonData.redirect == 'extraLargeDrawer')) {
           this.isVisible = false;
           this.dataSharedService.gridDataLoad = false;
           this.gridEmit.emit(this.buttonData)

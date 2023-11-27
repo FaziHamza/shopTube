@@ -1604,6 +1604,28 @@ export class formFeildData {
           }
         },
         {
+          key: 'dropdownProperties',
+          type: 'select',
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          wrappers: ["formly-vertical-theme-wrapper"],
+          props: {
+            label: 'Dropdown Properties',
+            options: [
+              {
+                label: 'Policy Theme',
+                value: 'policyTheme'
+              },
+            ],
+            additionalProperties: {
+              allowClear: true,
+              serveSearch: false,
+              showArrow: true,
+              showSearch: true,
+            },
+          },
+          // defaultValue: 'Vertical'
+        },
+        {
           className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
           key: 'optionBorder',
           type: 'checkbox',
@@ -13573,6 +13595,15 @@ export class formFeildData {
               showSearch: true,
             },
           }
+        },
+        {
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          key: 'commonButtonProperty',
+          type: 'input',
+          wrappers: ["formly-vertical-theme-wrapper"],
+          props: {
+            label: 'Common Button Property',
+          },
         },
         // {
         //   className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
