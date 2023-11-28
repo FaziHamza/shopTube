@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { TreeNode } from 'src/app/models/treeNode';
 import { EmployeeService } from 'src/app/services/employee.service';
 // import { CommonchartService } from 'src/app/servics/commonchart.service';
@@ -52,7 +52,7 @@ export class ButtonsComponent implements OnInit {
   private destroy$: Subject<void> = new Subject<void>();
   @Output() gridEmit: EventEmitter<any> = new EventEmitter<any>();
   constructor(private modalService: NzModalService, public employeeService: EmployeeService, private toastr: NzMessageService, private router: Router,
-    public dataSharedService: DataSharedService, private applicationService: ApplicationService, private activatedRoute: ActivatedRoute, private location: Location) { }
+    public dataSharedService: DataSharedService, private applicationService: ApplicationService, private activatedRoute: ActivatedRoute, private location: Location , private cdr: ChangeDetectorRef) { }
 
   ngOnInit(): void {
     debugger
@@ -65,7 +65,7 @@ export class ButtonsComponent implements OnInit {
       this.policyTheme = userData['policy']['policyTheme'];
       this.buttonData['title'] = userData['policy']['policyTheme'] ? userData['policy']['policyTheme'] : this.buttonData?.title;
     }
-    this.drawerClose();
+    // this.drawerClose();
     this.hostUrl = window.location.host;
     if (this.buttonData?.showPolicies || this.buttonData?.dropdownProperties == 'policyTheme') {
       this.jsonPolicyModuleList();
@@ -99,6 +99,7 @@ export class ButtonsComponent implements OnInit {
       case 'drawer':
       case 'largeDrawer':
       case 'extraLargeDrawer':
+        this.drawerTiltle = '';
         if (!data.href) {
           this.toastr.warning('Required Href', {
             nzDuration: 3000,
@@ -107,7 +108,8 @@ export class ButtonsComponent implements OnInit {
         }
         this.loader = true;
         this.isVisible = true;
-        this.dataSharedService.drawerVisible = true;
+        this.cdr.detectChanges();
+        // this.dataSharedService.drawerVisible = true;
         this.requestSubscription = this.applicationService.getNestCommonAPIById('cp/Builder', data.href).subscribe({
           next: (res: any) => {
             try {
@@ -340,21 +342,21 @@ export class ButtonsComponent implements OnInit {
       },
     });
   }
-  private drawerClose(): void {
-    const subscription = this.dataSharedService.drawerClose.subscribe({
-      next: (res) => {
-        if (res && this.dataSharedService.gridDataLoad && (this.buttonData.redirect == 'drawer' || this.buttonData.redirect == 'largeDrawer' || this.buttonData.redirect == 'extraLargeDrawer')) {
-          this.isVisible = false;
-          this.dataSharedService.gridDataLoad = false;
-          this.gridEmit.emit(this.buttonData)
-        }
-      },
-      error: (err) => {
-        console.error(err);
-      }
-    });
-    this.subscriptions.add(subscription);
-  }
+  // private drawerClose(): void {
+  //   const subscription = this.dataSharedService.drawerClose.subscribe({
+  //     next: (res) => {
+  //       if (res && this.isVisible && (this.buttonData.redirect == 'drawer' || this.buttonData.redirect == 'largeDrawer' || this.buttonData.redirect == 'extraLargeDrawer')) {
+  //         this.isVisible = false;
+  //         // this.dataSharedService.gridDataLoad = false;
+  //         this.gridEmit.emit(this.buttonData)
+  //       }
+  //     },
+  //     error: (err) => {
+  //       console.error(err);
+  //     }
+  //   });
+  //   this.subscriptions.add(subscription);
+  // }
   ngOnDestroy(): void {
     try {
       if (this.requestSubscription) {
@@ -377,8 +379,8 @@ export class ButtonsComponent implements OnInit {
         this.drawerTiltle = this.tableDisplayData[index + 1][this.keyName];
       }
       else if (direction === 'previous' && index > 0) {
-        this.tableRowId = this.tableDisplayData[index + 1]['id'];
-        this.drawerTiltle = this.tableDisplayData[index + 1][this.keyName];
+        this.tableRowId = this.tableDisplayData[index - 1]['id'];
+        this.drawerTiltle = this.tableDisplayData[index - 1][this.keyName];
       } else {
         this.toastr.warning('Id does not exist', { nzDuration: 3000 });
         return;
