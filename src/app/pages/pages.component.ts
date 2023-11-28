@@ -479,14 +479,15 @@ export class PagesComponent implements OnInit, OnDestroy {
           }
         }
       }
-      this.getIssues(res.data[0].navigation, res1);
-      // this.resData = nodesData1;
-    } else
-      this.getIssues(res.data[0].navigation, res1);
-    if (res1) {
+      // this.getIssues(res.data[0].navigation, res1);
+      this.resData = nodesData1;
+      if(res1)
       this.findObjectByTypeAndApplyApplictionTheme(this.resData[0], res1);
-    }
-    // this.resData = nodesData1;
+    } else
+      this.resData = nodesData1;
+    // this.getIssues(res.data[0].navigation, res1);
+    if (res1) 
+      this.findObjectByTypeAndApplyApplictionTheme(this.resData[0], res1);
 
     // const screenData = JSON.parse(this.jsonStringifyWithObject(this.resData));
 

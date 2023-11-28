@@ -1165,12 +1165,12 @@ export class DynamicTableComponent implements OnInit {
       debugger
       localStorage.setItem('tablePageNo', index.toString());
       localStorage.setItem('tablePageSize', this.data?.end);
-      let  pagination = '?page=' + index + '&pageSize=' + this.data?.end;
-        if(this.data['searchValue']){
-          pagination = `${pagination}&search=${this.data['searchValue']}`;
-        }
-        this.pageSize = this.data.end;
-        this.saveLoader = true;
+      let pagination = '?page=' + index + '&pageSize=' + this.data?.end;
+      if (this.data['searchValue']) {
+        pagination = `${pagination}&search=${this.data['searchValue']}`;
+      }
+      this.pageSize = this.data.end;
+      this.saveLoader = true;
       if (this.data?.targetId) {
         this.requestSubscription = this.applicationService.getNestCommonAPIById(`knex-query/getexecute-rules/${this.data.eventActionconfig._id}` + pagination, this.data?.targetId).subscribe({
           next: (response) => {
@@ -1368,11 +1368,22 @@ export class DynamicTableComponent implements OnInit {
       });
     }
   }
-  loadApiData() {
+  drawOpen : boolean = false;
+  loadApiData(check: any) {
+    debugger
+    this.drawOpen = false;
     if (this.data.appConfigurableEvent) {
       this.saveLoader = true;
       const pageNo = localStorage.getItem('tablePageNo')!;
-      this.onPageIndexChange(parseInt(pageNo) || 1);
+      if (check) {
+        this.drawOpen = true;
+        if(this.data.pageIndex != 1){
+          this.data.pageIndex = parseInt(pageNo) + check;
+          this.onPageIndexChange(parseInt(pageNo) + check || 1);
+        }
+      } else {
+        this.onPageIndexChange(parseInt(pageNo) || 1);
+      }
       // this.requestSubscription = this.applicationService.callApi(`knex-query/getexecute-rules/${this.data.eventActionconfig._id}`, 'get', '', '', '').subscribe({
       //   next: (res) => {
       //     // this.saveLoader = false;

@@ -392,13 +392,13 @@
                       <div class="'flex flex-wrap'">
                         <div *ngFor="let childData of data.children">
                           <div *ngIf="childData?.id == header?.key" class="{{childData?.className}}">
-                            <st-block-buttons-card [GridRuleColor]="item?.columnColor" (tableEmit)="loadApiData()"
+                            <st-block-buttons-card [GridRuleColor]="item?.columnColor" (tableEmit)="loadApiData($event)" [drawOpen]="drawOpen" [tableIndex]="i"
                               *ngIf="(childData.type =='button' && item[header.key]== item?.colorDataType) ; else withOutGridRule"
                               [tableRowId]="item['id']" [tableDisplayData]="displayData" [form]="form" [formlyModel]="formlyModel"
                               [title]="item[header.key]" [softIconList]="childData">
                             </st-block-buttons-card>
                             <ng-template #withOutGridRule>
-                              <st-block-buttons-card [tableDisplayData]="displayData" (tableEmit)="loadApiData()" *ngIf="childData.type =='button'"
+                              <st-block-buttons-card [tableDisplayData]="displayData" (tableEmit)="loadApiData($event)" *ngIf="childData.type =='button'" [drawOpen]="drawOpen" [tableIndex]="i"
                                 [tableRowId]="item['id']" [form]="form" [formlyModel]="formlyModel"
                                 [title]="item[header.key]" [softIconList]="childData">
                               </st-block-buttons-card>

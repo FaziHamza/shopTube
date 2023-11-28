@@ -18,6 +18,8 @@ export class BlockButtonsCardComponent {
   @Input() softIconList: any;
   @Input() GridRuleColor: any;
   @Input() tableDisplayData: any;
+  @Input() drawOpen: any;
+  @Input() tableIndex: any;
   @Input() screenId: any;
   @Input() formlyModel: any;
   @Input() form: any;

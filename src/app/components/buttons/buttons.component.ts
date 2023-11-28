@@ -26,6 +26,8 @@ export class ButtonsComponent implements OnInit {
   @Input() form: any;
   @Input() screenName: any;
   @Input() GridRuleColor: any;
+  @Input() drawOpen: any;
+  @Input() tableIndex: any;
   bgColor: any;
   hoverTextColor: any;
   dataSrc: any;
@@ -79,6 +81,11 @@ export class ButtonsComponent implements OnInit {
       this.policyId = userData['policy']['policyId'];
       this.buttonData.title = userData.policy.policyName ? userData.policy.policyName : this.buttonData.title;
     }
+
+    if(this.drawOpen && this.tableIndex == 0){
+      this.pagesRoute(this.buttonData);
+    }
+
   }
 
   pagesRoute(data: any): void {
@@ -371,6 +378,7 @@ export class ButtonsComponent implements OnInit {
       console.error('Error in ngOnDestroy:', error);
     }
   }
+
   getNextOrPreviousObjectById(direction: any) {
     const index = this.tableDisplayData.findIndex((item: any) => item.id === this.tableRowId);
     if (index !== -1) {
@@ -382,7 +390,9 @@ export class ButtonsComponent implements OnInit {
         this.tableRowId = this.tableDisplayData[index - 1]['id'];
         this.drawerTiltle = this.tableDisplayData[index - 1][this.keyName];
       } else {
-        this.toastr.warning('Id does not exist', { nzDuration: 3000 });
+        const indexValue  = direction === 'next' ? 1 : -1
+        this.gridEmit.emit(indexValue);
+        // this.toastr.warning('Id does not exist', { nzDuration: 3000 });
         return;
       }
     }
