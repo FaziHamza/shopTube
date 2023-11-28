@@ -125,18 +125,26 @@
 <div
   *ngIf="buttonData?.redirect == 'drawer' || buttonData?.redirect == 'largeDrawer'  || buttonData?.redirect == 'extraLargeDrawer'">
   <nz-drawer [nzWrapClassName]="'button-drawer'" [nzClosable]="false"
-    [nzTitle]="hostUrl.includes('spectrum') ? 'Request Detail' + ' - ' +  title: (title ? title : buttonData.title)"
+    [nzTitle]="hostUrl.includes('spectrum') ? 'Request Detail' + ' - ' +  (drawerTiltle ? drawerTiltle :  title): (title ? title : buttonData.title)"
     [nzExtra]="extra"
     [nzWidth]="buttonData?.redirect == 'drawer' ? '60%' : (buttonData?.redirect == 'largeDrawer' ? '70%' : '80%') "
     [nzVisible]="isVisible" (nzOnClose)="handleClose()">
     <ng-container *nzDrawerContent>
       <nz-spin [nzSpinning]="loader">
-        <st-pages [data]="nodes" [navigation]="screenId" [form]="form" [formlyModel]="formlyModel"
+        <st-pages [isDrawer]="true" [data]="nodes" [navigation]="screenId" [form]="form" [formlyModel]="formlyModel"
           *ngIf="nodes.length > 0"></st-pages>
       </nz-spin>
     </ng-container>
   </nz-drawer>
 </div>
 <ng-template #extra>
+  <!-- Buttons with Font Awesome icons -->
+  <button nz-button nzType="primary" class="btn mb-4" (click)="getNextOrPreviousObjectById('previous')">
+    <i class="fas fa-arrow-left mr-1"></i> Previous
+  </button>
+
+  <button nz-button nzType="primary" class="btn mb-4 ml-2 mr-2" (click)="getNextOrPreviousObjectById('next')">
+    Next <i class="fas fa-arrow-right ml-1"></i>
+  </button>
   <i class="fas fa-times text-lg text-red-500 cursor-pointer" (click)="handleClose()"></i>
 </ng-template>

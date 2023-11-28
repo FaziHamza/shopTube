@@ -46,7 +46,7 @@ export class PagesComponent implements OnInit, OnDestroy {
   saveLoader: boolean = false;
   countRule: number = 0;
   themeValue: any = '';
-
+  @Input() isDrawer: boolean = false;
   private subscriptions: Subscription = new Subscription();
   private destroy$: Subject<void> = new Subject<void>();
   constructor(public employeeService: EmployeeService, private activatedRoute: ActivatedRoute,
@@ -97,6 +97,11 @@ export class PagesComponent implements OnInit, OnDestroy {
         this.applyApplicationTheme(this.resData[0], true);
       }
     });
+    const prevNextRecord = this.dataSharedService.prevNextRecord.subscribe(res => {
+      if (res && this.navigation) {
+        this.checkDynamicSection(res);
+      }
+    });
     const moveLinkSubscription = this.dataSharedService.moveLink.subscribe(res => {
       this.scrollToElement(res);
     })
@@ -122,6 +127,7 @@ export class PagesComponent implements OnInit, OnDestroy {
     this.subscriptions.add(moveLinkSubscription);
     this.subscriptions.add(pagesLoader);
     this.subscriptions.add(applicationTheme);
+    this.subscriptions.add(prevNextRecord);
     // this.subscriptions.add(callMapApiAfterSave);
 
   }
@@ -1263,7 +1269,7 @@ export class PagesComponent implements OnInit, OnDestroy {
             if (model.key == screenData.uiData[index].ifMenuName) {
               checkFirst = true;
               let query: any;
-              let getModelValue = this.formlyModel[screenData?.uiData?.[index]?.ifMenuName] == "" ? false : this.formlyModel[screenData?.uiData?.[index]?.ifMenuName];
+              let getModelValue = this.formlyModel ? (this.formlyModel[screenData?.uiData?.[index]?.ifMenuName] == "" ? false : this.formlyModel[screenData?.uiData?.[index]?.ifMenuName]) : false;
               if (screenData.uiData[index].condationName == 'contains') {
                 if (this.formlyModel[screenData.uiData[index].ifMenuName] != undefined &&
                   this.formlyModel[screenData.uiData[index].ifMenuName].includes(screenData.uiData[index].targetValue)) {
@@ -1804,16 +1810,15 @@ export class PagesComponent implements OnInit, OnDestroy {
     };
     return data;
   };
-  checkDynamicSection() {
-
+  checkDynamicSection(id?: any) {
     if (this.resData) {
-      this.recursiveCheck(this.resData[0].children[1].children);
+      this.recursiveCheck(this.resData[0].children[1].children, id);
     }
   }
-  recursiveCheck(data: any): void {
+  recursiveCheck(data: any, id?: any): void {
     if (Array.isArray(data)) {
       data.forEach((element: any) => {
-        this.recursiveCheck(element);
+        this.recursiveCheck(element, id);
       });
     }
     else if (typeof data === 'object' && data !== null) {
@@ -1829,7 +1834,13 @@ export class PagesComponent implements OnInit, OnDestroy {
             // } else {
             // }
             if (!data.hideExpression) {
-              this.makeDynamicSections(this.dataSharedService.queryId ? `${data.mapApi}/${this.dataSharedService.queryId}` : data.mapApi, data);
+              let mapApiUrl = data.mapApi;
+              if (this.dataSharedService.queryId) {
+                mapApiUrl = `${data.mapApi}/${this.dataSharedService.queryId}`;
+              } else if (id) {
+                mapApiUrl = `${data.mapApi}/${id}`;
+              }
+              this.makeDynamicSections(mapApiUrl, data);
             }
           }
         } else if (data.type === 'listWithComponents' || data.type === 'mainTab' || data.type === 'mainStep') {
@@ -1843,7 +1854,7 @@ export class PagesComponent implements OnInit, OnDestroy {
         }
       }
       if (data.children) {
-        this.recursiveCheck(data.children);
+        this.recursiveCheck(data.children, id);
       }
     }
   }
@@ -2838,17 +2849,24 @@ export class PagesComponent implements OnInit, OnDestroy {
       let input: any = ThemeData.find((item: any) => item.tag === 'input');
       if (data.formly[0]) {
         data.formly[0].fieldGroup[0].props['additionalProperties']['applicationThemeClasses'] = input?.classes;
+      } else {
+        data.formly[0].fieldGroup[0].props['additionalProperties']['applicationThemeClasses'] = input?.classes;
       }
     }
     if (data?.type == 'button') {
       let obj: any = ThemeData.find((item: any) => item.tag === data?.commonButtonProperty);
       if (obj) {
         data['applicationThemeClasses'] = obj?.classes;
+      } else {
+        let obj: any = ThemeData.find((item: any) => item.tag.includes('Button'));
+        data['applicationThemeClasses'] = obj?.classes;
       }
     }
     else {
       let obj: any = ThemeData.find((item: any) => item.tag === data.type);
       if (obj) {
+        data['applicationThemeClasses'] = obj?.classes
+      } else {
         data['applicationThemeClasses'] = obj?.classes
       }
     }

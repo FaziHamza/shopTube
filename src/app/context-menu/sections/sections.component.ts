@@ -20,6 +20,7 @@ import { Location } from '@angular/common';
 })
 export class SectionsComponent implements OnInit {
   @Input() sections: any;
+  @Input() isDrawer: boolean = false;
   @Input() screenName: any;
   @Input() screenId: any;
   @Input() resData: any;
@@ -313,13 +314,16 @@ export class SectionsComponent implements OnInit {
               //   this.dataSharedService.gridDataLoad = true;
               // }
               this.dataSharedService.gridDataLoad = true;
-              this.dataSharedService.drawerClose.next(true);
-              // this.dataSharedService.drawerVisible = false;
-              this.setInternalValuesEmpty(this.dataModel);
-              this.setInternalValuesEmpty(this.formlyModel);
-              this.form.patchValue(this.formlyModel);
-              // this.dataSharedService.formlyShowError.next(false)
-              this.dataSharedService.formlyShowError.next(false)
+              if (!this.isDrawer) {
+                // this.dataSharedService.drawerClose.next(true);
+                // this.dataSharedService.drawerVisible = false;
+                this.setInternalValuesEmpty(this.dataModel);
+                this.setInternalValuesEmpty(this.formlyModel);
+                this.form.patchValue(this.formlyModel);
+                // this.dataSharedService.formlyShowError.next(false)
+                this.dataSharedService.formlyShowError.next(false)
+              }
+
               this.getFromQuery(data);
               if (window.location.href.includes('taskmanager.com')) {
                 this.dataSharedService.taskmanagerDrawer.next(true);
@@ -364,7 +368,7 @@ export class SectionsComponent implements OnInit {
       screenId: this.screenName,
       modalData: oneModelData
     };
-    
+
     let formlyInputs: any[] = this.filterInputElements(this.sections.children[1].children);
     let multiselect: any = [];;
     if (formlyInputs.length > 0) {

@@ -278,12 +278,13 @@
         <div class="image-preview" *ngIf="item.type == 'imageUpload' ; else fourtyFour">
             <button class="mb-2" nz-button nzType="primary" *ngIf="item.imagePreview"
                 (click)="imagePreview(item)">Preview</button>
-            <img *ngIf="item.image ; else secondImage" nz-image [class]="item.imageClass + ' ' + item?.applicationThemeClasses"
-                [nzSrc]='item.image' [alt]='item.alt' [nzDisablePreview]="false" [nzFallback]="item.fallback" />
+            <img *ngIf="item.image ; else secondImage" nz-image
+                [class]="item.imageClass + ' ' + item?.applicationThemeClasses" [nzSrc]='item.image' [alt]='item.alt'
+                [nzDisablePreview]="false" [nzFallback]="item.fallback" />
             <ng-template #secondImage>
                 {{item.image | json}}
-                <img nz-image [class]="item.imageClass + ' ' + item?.applicationThemeClasses"    [nzSrc]='item.source' [alt]='item.alt'
-                    [nzDisablePreview]="false" [nzFallback]="item.fallback" />
+                <img nz-image [class]="item.imageClass + ' ' + item?.applicationThemeClasses" [nzSrc]='item.source'
+                    [alt]='item.alt' [nzDisablePreview]="false" [nzFallback]="item.fallback" />
             </ng-template>
             <!-- <img *ngIf="item.base64Image" nz-image [class]='item.imageClass' [nzSrc]='item.base64Image' [alt]='item.alt'
                 [nzFallback]="item.fallback" /> -->
@@ -462,8 +463,8 @@
             'background-repeat': 'no-repeat',
             'background-size': '100% 100%',
             'overflow-y': (item.height && item.height !== 0) ? 'auto' : 'hidden'}">
-            <st-main [mainData]="item" [formlyModel]="formlyModel" [screenName]="screenName" [screenId]="screenId"
-                [form]="form"></st-main>
+            <st-main [isDrawer]="isDrawer" [mainData]="item" [formlyModel]="formlyModel" [screenName]="screenName"
+                [screenId]="screenId" [form]="form"></st-main>
         </div>
     </ng-template>
     <ng-template #eightySix>

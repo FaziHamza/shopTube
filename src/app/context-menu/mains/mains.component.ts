@@ -22,6 +22,7 @@ export class MainsComponent implements OnInit {
   serverPath = environment.nestImageUrl;
   array = [1, 2, 3, 4];
   effect = 'scrollx';
+  @Input() isDrawer: boolean = false;
   constructor(private nzImageService: NzImageService, public dataSharedService: DataSharedService, private router: Router) { }
 
   ngOnInit(): void {

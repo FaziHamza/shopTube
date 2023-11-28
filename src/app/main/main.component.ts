@@ -26,6 +26,7 @@ import { ApplicationService } from '../services/application.service';
   styleUrls: ['./main.component.scss']
 })
 export class MainComponent implements OnInit {
+  @Input() isDrawer: boolean = false;
   @Input() mainData: any = [];
   @Input() formlyModel: any;
   @Input() form: any;

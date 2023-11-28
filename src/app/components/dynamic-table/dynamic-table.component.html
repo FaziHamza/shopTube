@@ -394,11 +394,11 @@
                           <div *ngIf="childData?.id == header?.key" class="{{childData?.className}}">
                             <st-block-buttons-card [GridRuleColor]="item?.columnColor" (tableEmit)="loadApiData()"
                               *ngIf="(childData.type =='button' && item[header.key]== item?.colorDataType) ; else withOutGridRule"
-                              [tableRowId]="item['id']" [form]="form" [formlyModel]="formlyModel"
+                              [tableRowId]="item['id']" [tableDisplayData]="displayData" [form]="form" [formlyModel]="formlyModel"
                               [title]="item[header.key]" [softIconList]="childData">
                             </st-block-buttons-card>
                             <ng-template #withOutGridRule>
-                              <st-block-buttons-card (tableEmit)="loadApiData()" *ngIf="childData.type =='button'"
+                              <st-block-buttons-card [tableDisplayData]="displayData" (tableEmit)="loadApiData()" *ngIf="childData.type =='button'"
                                 [tableRowId]="item['id']" [form]="form" [formlyModel]="formlyModel"
                                 [title]="item[header.key]" [softIconList]="childData">
                               </st-block-buttons-card>

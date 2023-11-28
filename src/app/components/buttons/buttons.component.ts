@@ -19,6 +19,7 @@ export class ButtonsComponent implements OnInit {
   @Input() buttonData: any;
   @Input() title: any;
   @Input() tableRowId: any;
+  @Input() tableDisplayData: any;
   @Input() softIconList: any;
   @Input() screenId: any;
   @Input() formlyModel: any;
@@ -44,6 +45,9 @@ export class ButtonsComponent implements OnInit {
   policyId: any = {};
   hostUrl: any = '';
   policyTheme: any = '';
+  //Drawer title and keyName is used in case of previous next in button drawer
+  drawerTiltle: any;
+  keyName: any = '';
   private subscriptions: Subscription = new Subscription();
   private destroy$: Subject<void> = new Subject<void>();
   @Output() gridEmit: EventEmitter<any> = new EventEmitter<any>();
@@ -52,10 +56,14 @@ export class ButtonsComponent implements OnInit {
 
   ngOnInit(): void {
     debugger
+    if (this.tableDisplayData) {
+      this.keyName = this.findKeyByOrderid(this.tableDisplayData, this.title);
+    }
+
     const userData = JSON.parse(localStorage.getItem('user')!);
     if (this.buttonData?.dropdownProperties == 'policyTheme') {
       this.policyTheme = userData['policy']['policyTheme'];
-      this.buttonData['title'] = userData['policy']['policyTheme'] ? userData['policy']['policyTheme'] :this.buttonData?.title;
+      this.buttonData['title'] = userData['policy']['policyTheme'] ? userData['policy']['policyTheme'] : this.buttonData?.title;
     }
     this.drawerClose();
     this.hostUrl = window.location.host;
@@ -360,5 +368,33 @@ export class ButtonsComponent implements OnInit {
     } catch (error) {
       console.error('Error in ngOnDestroy:', error);
     }
+  }
+  getNextOrPreviousObjectById(direction: any) {
+    const index = this.tableDisplayData.findIndex((item: any) => item.id === this.tableRowId);
+    if (index !== -1) {
+      if (direction === 'next' && index < this.tableDisplayData.length - 1) {
+        this.tableRowId = this.tableDisplayData[index + 1]['id'];
+        this.drawerTiltle = this.tableDisplayData[index + 1][this.keyName];
+      }
+      else if (direction === 'previous' && index > 0) {
+        this.tableRowId = this.tableDisplayData[index + 1]['id'];
+        this.drawerTiltle = this.tableDisplayData[index + 1][this.keyName];
+      } else {
+        this.toastr.warning('Id does not exist', { nzDuration: 3000 });
+        return;
+      }
+    }
+    this.dataSharedService.prevNextRecord.next(this.tableRowId);
+  }
+  findKeyByOrderid(data: any[], targetOrderid: string): string | null {
+    for (const key in data[0]) {
+      if (data[0].hasOwnProperty(key)) {
+        const foundObject = data.find(obj => obj[key] === targetOrderid);
+        if (foundObject) {
+          return key;
+        }
+      }
+    }
+    return null;
   }
 }
