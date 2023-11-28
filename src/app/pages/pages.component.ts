@@ -14,6 +14,8 @@ import { NzMessageService } from 'ng-zorro-antd/message';
 import { FormGroup } from '@angular/forms';
 import html2canvas from 'html2canvas';
 import { jsPDF } from "jspdf"; // Trying to import as in the documentation 
+import { json } from 'stream/consumers';
+import { AnyComponent } from '@fullcalendar/core/preact';
 
 @Component({
   selector: 'st-pages',
@@ -43,6 +45,7 @@ export class PagesComponent implements OnInit, OnDestroy {
   pageRuleList: any[] = [];
   saveLoader: boolean = false;
   countRule: number = 0;
+  themeValue: any = '';
 
   private subscriptions: Subscription = new Subscription();
   private destroy$: Subject<void> = new Subject<void>();
@@ -89,6 +92,11 @@ export class PagesComponent implements OnInit, OnDestroy {
       if (res)
         this.saveDataGrid(res);
     });
+    const applicationTheme = this.dataSharedService.applicationTheme.subscribe(res => {
+      if (res && this.navigation) {
+        this.applyApplicationTheme(this.resData[0], true);
+      }
+    });
     const moveLinkSubscription = this.dataSharedService.moveLink.subscribe(res => {
       this.scrollToElement(res);
     })
@@ -113,6 +121,7 @@ export class PagesComponent implements OnInit, OnDestroy {
     this.subscriptions.add(gridDataSubscription);
     this.subscriptions.add(moveLinkSubscription);
     this.subscriptions.add(pagesLoader);
+    this.subscriptions.add(applicationTheme);
     // this.subscriptions.add(callMapApiAfterSave);
 
   }
@@ -255,19 +264,19 @@ export class PagesComponent implements OnInit, OnDestroy {
         this.initiliaze(params);
 
         if (params["schema"]) {
-          // this.initiliaze(params);
-          this.saveLoader = true;
-          this.dataSharedService.currentMenuLink = "/pages/" + params["schema"];
-          localStorage.setItem('screenId', this.dataSharedService.currentMenuLink);
-          this.clearValues();
-          this.applicationService.getNestCommonAPI('cp/auth/pageAuth/' + params["schema"]).subscribe(res => {
-            if (res?.data) {
-              this.initiliaze(params);
-            } else {
-              this.saveLoader = false;
-              this.router.navigateByUrl('permission-denied');
-            }
-          });
+          this.initiliaze(params);
+          // this.saveLoader = true;
+          // this.dataSharedService.currentMenuLink = "/pages/" + params["schema"];
+          // localStorage.setItem('screenId', this.dataSharedService.currentMenuLink);
+          // this.clearValues();
+          // this.applicationService.getNestCommonAPI('cp/auth/pageAuth/' + params["schema"]).subscribe(res => {
+          //   if (res?.data) {
+          //     this.initiliaze(params);
+          //   } else {
+          //     this.saveLoader = false;
+          //     this.router.navigateByUrl('permission-denied');
+          //   }
+          // });
         }
       });
       this.subscriptions.add(subscription);
@@ -316,11 +325,13 @@ export class PagesComponent implements OnInit, OnDestroy {
             this.saveLoader = false;
             // if(rule.isSuccess)
             this.getCacheRule(rule);
-            this.actionsBindWithPage(this.data[0]);
+            // this.actionsBindWithPage(this.data[0]);
+            this.applyApplicationTheme(this.data[0]);
           },
           error: (err) => {
             this.saveLoader = false;
-            this.actionsBindWithPage(this.data[0]);
+            // this.actionsBindWithPage(this.data[0]);
+            this.applyApplicationTheme(this.data[0]);
             console.error(err);
             // this.toastr.error("An error occurred", { nzDuration: 3000 });
           }
@@ -347,8 +358,8 @@ export class PagesComponent implements OnInit, OnDestroy {
       next: (res: any) => {
         if (res.isSuccess && res.data.length > 0) {
           this.saveLoader = false;
-        localStorage.setItem('screenBuildId', res.data[0].screenBuilderId);
-        this.handleCacheRuleRequest(res.data[0].screenBuilderId, res);
+          localStorage.setItem('screenBuildId', res.data[0].screenBuilderId);
+          this.handleCacheRuleRequest(res.data[0].screenBuilderId, res);
         } else {
           this.toastr.error(res.message, { nzDuration: 3000 });
           this.saveLoader = false;
@@ -366,8 +377,7 @@ export class PagesComponent implements OnInit, OnDestroy {
       next: (rule: any) => {
         this.saveLoader = false;
         this.getCacheRule(rule);
-        this.actionsBindWithPage(res);
-
+        this.applyApplicationTheme(res);
       },
       error: (err) => {
         this.saveLoader = false;
@@ -377,7 +387,7 @@ export class PagesComponent implements OnInit, OnDestroy {
     });
   }
   editData: any;
-  actionsBindWithPage(res: any) {
+  actionsBindWithPage(res: any, res1: any) {
 
     this.screenId = res.data[0].screenBuilderId;
     this.screenName = res.data[0].screenName;
@@ -463,34 +473,27 @@ export class PagesComponent implements OnInit, OnDestroy {
           }
         }
       }
-      this.resData = nodesData1;
+      this.getIssues(res.data[0].navigation, res1);
+      // this.resData = nodesData1;
     } else
-      this.resData = nodesData1;
+      this.getIssues(res.data[0].navigation, res1);
+    if (res1) {
+      this.findObjectByTypeAndApplyApplictionTheme(this.resData[0], res1);
+    }
+    // this.resData = nodesData1;
 
     // const screenData = JSON.parse(this.jsonStringifyWithObject(this.resData));
 
     this.uiRuleGetData({ key: 'text_f53ed35b', id: 'formly_86_input_text_f53ed35b_0' });
 
-    this.applicationService.callApi('knex-query/getAction/65001460e9856e9578bcb63f', 'get', '', '', `${res.data[0].navigation}`).subscribe({
-      next: (response: any) => {
-        if (response.data > 0) {
-          response.data.forEach((element: any) => {
-            this.assignIssue(this.resData[0], element);
-          });
-        }
-      },
-      error: (error: any) => {
-        console.error(error);
-        this.toastr.error("An error occurred", { nzDuration: 3000 });
-      }
-    });
+
 
 
     this.pageRuleList = this.actionRuleList.filter(a => a.componentFrom === this.resData?.[0]?.key && a.action == 'load');
     if (this.tableRowID) {
       if (this.pageRuleList.length > 0) {
         const observables = this.pageRuleList.map((element: any) => {
-          return this.applicationService.callApi('knex-query/getexecute-rules/' + element._id, 'get', '', '', `'${this.tableRowID}'`).pipe(
+          return this.applicationService.callApi('knex-query/getexecute-rules/' + element._id, 'get', '', '', this.tableRowID).pipe(
             catchError((error: any) => of(error)) // Handle error and continue the forkJoin
           );
         });
@@ -2086,7 +2089,7 @@ export class PagesComponent implements OnInit, OnDestroy {
     if (node.formly) {
       if (node.type == 'multiselect') {
         if (replaceData['orderrequest.requiredfrequency']) {
-          node.formly[0 ].fieldGroup[0].props['additionalProperties']['maxMultipleCount']= replaceData['orderrequest.requiredfrequency'];
+          node.formly[0].fieldGroup[0].props['additionalProperties']['maxMultipleCount'] = replaceData['orderrequest.requiredfrequency'];
         }
         replaceData[value.defaultValue] = replaceData[value.defaultValue] ? replaceData[value.defaultValue].split(',').map((name: any) => name.trim()) : [];
         this.makeModel(node, replaceData[value.defaultValue])
@@ -2804,5 +2807,78 @@ export class PagesComponent implements OnInit, OnDestroy {
     //     }
     //   });
     // });
+  }
+  applicationThemeData: any[] = [];
+  applyApplicationTheme(res1: any, notAllowRuleGet?: any) {
+    let user = JSON.parse(window.localStorage['user']);
+    if (user.policy?.policyTheme) {
+      this.saveLoader = true;
+      this.applicationService.getNestCommonAPI(`applicationTheme/allBythemeName${user.policy?.policyTheme}`).subscribe(((res: any) => {
+        this.saveLoader = false;
+        if (res.isSuccess) {
+          this.applicationThemeData = res?.data;
+          if (notAllowRuleGet) {
+            this.findObjectByTypeAndApplyApplictionTheme(res1, this.applicationThemeData)
+          } else {
+            this.actionsBindWithPage(res1, this.applicationThemeData);
+          }
+        } else {
+          this.actionsBindWithPage(res1, this.applicationThemeData);
+          this.toastr.warning(res.message, { nzDuration: 2000 });
+        }
+      }));
+    } else {
+      this.saveLoader = false;
+      this.actionsBindWithPage(res1, this.applicationThemeData);
+    }
+  }
+
+  findObjectByTypeAndApplyApplictionTheme(data: any, ThemeData: any) {
+    if (data?.formly) {
+      let input: any = ThemeData.find((item: any) => item.tag === 'input');
+      if (data.formly[0]) {
+        data.formly[0].fieldGroup[0].props['additionalProperties']['applicationThemeClasses'] = input?.classes;
+      }
+    }
+    if (data?.type == 'button') {
+      let obj: any = ThemeData.find((item: any) => item.tag === data?.commonButtonProperty);
+      if (obj) {
+        data['applicationThemeClasses'] = obj?.classes;
+      }
+    }
+    else {
+      let obj: any = ThemeData.find((item: any) => item.tag === data.type);
+      if (obj) {
+        data['applicationThemeClasses'] = obj?.classes
+      }
+    }
+    for (let child of data.children) {
+      this.findObjectByTypeAndApplyApplictionTheme(child, ThemeData);
+    }
+  }
+  getIssues(navigation: any, res1: any) {
+    this.applicationService.callApi('knex-query/getAction/65001460e9856e9578bcb63f', 'get', '', '', navigation).subscribe({
+      next: (response: any) => {
+        if (res1) {
+          if (res1.length > 0) {
+            this.findObjectByTypeAndApplyApplictionTheme(this.resData[0], res1);
+          }
+        }
+        if (response.data > 0) {
+          response.data.forEach((element: any) => {
+            this.assignIssue(this.resData[0], element);
+          });
+        }
+      },
+      error: (error: any) => {
+        if (res1) {
+          if (res1.length > 0) {
+            this.findObjectByTypeAndApplyApplictionTheme(this.resData[0], res1);
+          }
+        }
+        console.error(error);
+        this.toastr.error("An error occurred", { nzDuration: 3000 });
+      }
+    });
   }
 }

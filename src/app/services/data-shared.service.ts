@@ -30,6 +30,7 @@ export class DataSharedService {
   public gericFieldLoader = new BehaviorSubject<boolean>(false);
   public pagesLoader = new BehaviorSubject<boolean>(false);
   public drawerClose = new BehaviorSubject<boolean>(false);
+  public applicationTheme = new BehaviorSubject<boolean>(false);
   public voiceRecord: Subject<any> = new Subject();
   public configuration: Subject<any> = new Subject();
   public moveLink: Subject<any> = new Subject();

@@ -17,11 +17,11 @@
                         *ngFor="let item of policyList"></nz-option>
                 </nz-select>
             </div>
-            <div class="w-1/12 flex mr-2 mt-2">
+            <div class="w-1/6 flex mr-2 mt-2">
                 <label style="width: 80%;" class="font-bold"> Default Policy</label>
                 <label style="width: 20%;" nz-checkbox [(ngModel)]="defaultPolicy"></label>
             </div>
-            <div class="w-1/4 flex mr-2">
+            <div class="w-1/6 flex mr-2">
                 <button [hidden]="!isSubmit" nz-button nzType="primary" (click)="onSubmit()"
                     class="btn !rounded !bg-amber-300 hover:!bg-amber-300 !text-slate-900 hover:text-white !border !border-transparent !font-md">
                     <i class="fa-regular fa-floppy-disk mr-1.5"></i> Save
@@ -54,8 +54,8 @@
                         <nz-dropdown-menu #menu="nzDropdownMenu">
                             <div class="ant-table-filter-dropdown">
                                 <div class="search-box">
-                                    <input type="text" nz-input nzClear (keyup)="search()"
-                                        placeholder="Search here..." [(ngModel)]="column.searchValue" />
+                                    <input type="text" nz-input nzClear (keyup)="search()" placeholder="Search here..."
+                                        [(ngModel)]="column.searchValue" />
                                 </div>
                             </div>
                         </nz-dropdown-menu>
@@ -82,22 +82,25 @@
 
         <div class="paginatio-bottom flex justify-between items-center my-3">
             <div>
-                <p class="showing">Showing <span>{{startIndex}} - {{endIndex}}</span> from
-                    <span>{{listOfData.length}}</span> data
+                <p class="showing">Showing <span class="primary-color">{{startIndex}} - {{endIndex <
+                            listOfDisplayData.length ? endIndex : listOfDisplayData.length}}</span> from
+                            <span class="primary-color">{{searchData.length > 0 ? searchData.length
+                                :listOfData.length}}</span> data
                 </p>
             </div>
 
             <div class="flex items-center justify-end">
-                <!-- <div class="pagination mr-4">
-                <label class="label">Pagination</label>
-                <div class="input-container">
-                    <nz-input-number [(ngModel)]="pageSize" (ngModelChange)="handlePageChange(1)" [nzStep]="1"
-                        [nzMin]="1"></nz-input-number>
+                <div class="pagination mr-4">
+                    <label class="label">Pagination</label>
+                    <div class="input-container">
+                        <nz-input-number [(ngModel)]="pageSize" (ngModelChange)="search(1)" [nzStep]="1"
+                            [nzMin]="1"></nz-input-number>
+                    </div>
                 </div>
-            </div> -->
                 <div>
-                    <nz-pagination [nzPageIndex]="pageIndex" [nzTotal]="listOfData.length" [nzPageSize]="pageSize"
-                        (nzPageIndexChange)="handlePageChange($event)"></nz-pagination>
+                    <nz-pagination [nzPageIndex]="pageIndex"
+                        [nzTotal]="searchData.length > 0 ? searchData.length :listOfData.length" [nzPageSize]="pageSize"
+                        (nzPageIndexChange)="search($event)"></nz-pagination>
                 </div>
             </div>
         </div>

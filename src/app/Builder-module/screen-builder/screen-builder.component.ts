@@ -127,12 +127,12 @@ export class ScreenBuilderComponent implements OnInit {
       sortFn: (a: any, b: any) => a.name.localeCompare(b.name),
       sortDirections: ['ascend', 'descend', null],
     },
-    {
-      name: 'Pdf',
-      sortOrder: null,
-      sortFn: (a: any, b: any) => a.name.localeCompare(b.name),
-      sortDirections: ['ascend', 'descend', null],
-    },
+    // {
+    //   name: 'Pdf',
+    //   sortOrder: null,
+    //   sortFn: (a: any, b: any) => a.name.localeCompare(b.name),
+    //   sortDirections: ['ascend', 'descend', null],
+    // },
   ];
   constructor(
     public builderService: BuilderService,

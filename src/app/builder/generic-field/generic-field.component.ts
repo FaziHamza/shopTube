@@ -71,25 +71,25 @@ export class GenericFieldComponent implements OnInit {
 
   }
   onSubmit() {
-    
+
     // event.stopPropagation();
     // this.valueChange.emit(this.model + ' from child.');
     // const newProduct = { productName: "New", quantity: 666 };
     // this.publicList.push(newProduct);
     // this.model["redirection"]="sss"
-    var formData : any;
-    if(this.type  == "inputValidationRule"){
+    var formData: any;
+    if (this.type == "inputValidationRule") {
       formData = {
         form: this.actionform.value,
         type: this.type,
       }
-    }else{
+    } else {
       formData = {
         form: this.modal,
         type: this.type,
       }
     }
-   
+
     if (this.actionform.valid) {
       var currentData = JSON.parse(JSON.stringify(formData) || '{}');
       for (const key in currentData.form) {
@@ -146,7 +146,19 @@ export class GenericFieldComponent implements OnInit {
                 SelectQBOField: key,
                 defaultValue: '',
               }));
+              this.itemData.mappingNode.tableBody = this.itemData.mappingNode.tableBody.map((item: any) => {
+                let qboField = item.SelectQBOField.find((field: any) => field.key === item.fileHeader);
 
+                if (qboField) {
+                  // Assign defaultValue from QBO field value if there's a match
+                  return {
+                    ...item,
+                    defaultValue: qboField.value
+                  };
+                } else {
+                  return item;
+                }
+              });
             } else {
               this.toastr.warning("Did not get data", { nzDuration: 3000 }); // Show an error message to the user
             }
@@ -166,7 +178,6 @@ export class GenericFieldComponent implements OnInit {
       this.itemData.mappingNode.tableBody = [];
     }
   }
-
 
   createOptionsArray(node: any) {
     if (node?.formly) {

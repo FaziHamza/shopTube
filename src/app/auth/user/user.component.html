@@ -16,8 +16,8 @@
                         <nz-dropdown-menu #menu="nzDropdownMenu">
                             <div class="ant-table-filter-dropdown">
                                 <div class="search-box">
-                                    <input class="rounded-md" type="text" nz-input nzClear (keyup)="search()" placeholder="Search here..."
-                                        [(ngModel)]="column.searchValue" />
+                                    <input class="rounded-md" type="text" nz-input nzClear (keyup)="search()"
+                                        placeholder="Search here..." [(ngModel)]="column.searchValue" />
                                 </div>
                             </div>
                         </nz-dropdown-menu>
@@ -52,8 +52,10 @@
         </nz-table>
         <div class="paginatio-bottom flex justify-between items-center my-3">
             <div>
-                <p class="showing">Showing <span class="primary-color">{{startIndex}} - {{endIndex}}</span> from
-                    <span class="primary-color">{{listOfData.length}}</span> data
+                <p class="showing">Showing <span class="primary-color">{{startIndex}} - {{endIndex <
+                            listOfDisplayData.length ? endIndex : listOfDisplayData.length}}</span> from
+                            <span class="primary-color">{{searchData.length > 0 ? searchData.length
+                                :listOfData.length}}</span> data
                 </p>
             </div>
 
@@ -61,13 +63,14 @@
                 <div class="pagination mr-4">
                     <label class="label">Pagination</label>
                     <div class="input-container">
-                        <nz-input-number [(ngModel)]="pageSize" (ngModelChange)="handlePageChange(1)" [nzStep]="1"
+                        <nz-input-number [(ngModel)]="pageSize" (ngModelChange)="search(1)" [nzStep]="1"
                             [nzMin]="1"></nz-input-number>
                     </div>
                 </div>
                 <div>
-                    <nz-pagination [nzPageIndex]="pageIndex" [nzTotal]="listOfData.length" [nzPageSize]="pageSize"
-                        (nzPageIndexChange)="handlePageChange($event)"></nz-pagination>
+                    <nz-pagination [nzPageIndex]="pageIndex"
+                        [nzTotal]="searchData.length > 0 ? searchData.length :listOfData.length" [nzPageSize]="pageSize"
+                        (nzPageIndexChange)="search($event)"></nz-pagination>
                 </div>
             </div>
         </div>

@@ -193,6 +193,7 @@ export class RegisterComponent implements OnInit {
     // grecaptcha.reset();
   }
   submitForm(): void {
+    debugger
     this.isFormSubmit = true;
     // if (this.form.invalid) {
     //   this.toastr.warning('Fill all fields', { nzDuration: 3000 }); // Show an error message to the user
@@ -225,9 +226,12 @@ export class RegisterComponent implements OnInit {
       "status": 'Pending',
       "domain": window.location.host.split(':')[0],
       "contactnumber": this.form.value.contactnumber,
+      "responsekey": this.recaptchaResponse,
     }
     console.log(obj);
     if (!this.form.value?.remember && !this.userAddDrawer) {
+      grecaptcha.reset();
+
       this.toastr.warning("Please accept the term and conditions", { nzDuration: 2000 });
       return;
     }
@@ -244,11 +248,14 @@ export class RegisterComponent implements OnInit {
               this.router.navigateByUrl('/login')
             }
           } else {
+            grecaptcha.reset();
             this.toastr.error(res.message, { nzDuration: 2000 });
           }
           this.saveLoader = false;
         },
         error: (err) => {
+          grecaptcha.reset();
+
           this.create();
           this.saveLoader = false;
           this.toastr.error('some error exception', { nzDuration: 2000 });

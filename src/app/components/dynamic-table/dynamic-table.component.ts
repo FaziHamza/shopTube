@@ -18,6 +18,7 @@ import { DataService } from 'src/app/services/offlineDb.service';
 import { environment } from 'src/environments/environment';
 import * as XLSX from 'xlsx';
 import { QrCodeComponent } from '../qr-code/qr-code.component';
+import { NzResizeEvent } from 'ng-zorro-antd/resizable';
 @Component({
   selector: 'dynamic-table',
   templateUrl: './dynamic-table.component.html',
@@ -91,7 +92,13 @@ export class DynamicTableComponent implements OnInit {
   boxShadow = '0px 7px 16px rgba(0, 0, 0, 0.14)';
   borderRadius = '8px';
   @HostListener('window:resize', ['$event'])
-  onResize(event: Event): void {
+  onResize(event: NzResizeEvent, header: any): void {
+    if (event.width) {
+      header.width = event.width;
+      header = JSON.parse(JSON.stringify(header));
+      this.cdr.detach();
+      this.cdr.detectChanges();
+    }
     // Update the nzScroll configuration based on screen size
     this.updateScrollConfig();
   }
@@ -1329,24 +1336,37 @@ export class DynamicTableComponent implements OnInit {
     }
   }
   openQrCode(data: any, item: any) {
-    const modal =
-      this.modal.create<QrCodeComponent>({
-        nzTitle: 'Qr Code Scan',
-        nzWidth: '250px',
-        nzContent: QrCodeComponent,
-        nzComponentParams: {
-          model: data,
-          item: item,
-        },
-        // nzOnOk: () => new Promise(resolve => setTimeout(resolve, 1000)),
-        nzFooter: [],
+    if (data == 'N/A') {
+      this.toastr.warning('Request is not approved!', {
+        nzDuration: 3000,
       });
-    // const instance = modal.getContentComponent();
-    modal.afterClose.subscribe((res) => {
-      if (res) {
+      return;
+    }
+    else if (data) {
+      const modal =
+        this.modal.create<QrCodeComponent>({
+          nzTitle: 'Qr Code Scan',
+          nzWidth: '250px',
+          nzContent: QrCodeComponent,
+          nzComponentParams: {
+            model: data,
+            item: item,
+          },
+          // nzOnOk: () => new Promise(resolve => setTimeout(resolve, 1000)),
+          nzFooter: [],
+        });
+      // const instance = modal.getContentComponent();
+      modal.afterClose.subscribe((res) => {
+        if (res) {
 
-      }
-    });
+        }
+      });
+    }
+    else {
+      this.toastr.warning('Path did not exist', {
+        nzDuration: 3000,
+      });
+    }
   }
   loadApiData() {
     if (this.data.appConfigurableEvent) {
@@ -2150,7 +2170,11 @@ export class DynamicTableComponent implements OnInit {
       }
     }
   }
+  private onMouseMove: (e: MouseEvent) => void;
+  private onMouseUp: () => void;
   ngOnDestroy() {
+    window.removeEventListener('mousemove', this.onMouseMove);
+    window.removeEventListener('mouseup', this.onMouseUp);
     if (this.requestSubscription)
       this.requestSubscription.unsubscribe();
 
@@ -2595,28 +2619,26 @@ export class DynamicTableComponent implements OnInit {
 
     console.log(event)
   }
-  onResizeStart(event: MouseEvent, column: any) {
-    if (!this.saveLoader) {
-      const startX = event.clientX;
-      const initialWidth = parseInt(column.width) || 100;
+  onResizeStart(event: MouseEvent, column: any): void {
+    const startX = event.clientX;
+    const initialWidth = parseInt(column.width) || 100;
+    const minimumWidth = 50;  // Minimum width for a column
 
-      const onMouseMove = (e: MouseEvent) => {
-        const width = initialWidth + e.clientX - startX;
-        if (width > 0) {
-          column.width = width;
-          this.resizingLocalStorage();
-        }
-      };
+    const onMouseMove = (e: MouseEvent) => {
+      const width = Math.max(initialWidth + e.clientX - startX, minimumWidth);
+      if (width > minimumWidth) {
+        column.width = width;
+        this.resizingLocalStorage();
+      }
+    };
 
-      const onMouseUp = () => {
-        document.removeEventListener('mousemove', onMouseMove);
-        document.removeEventListener('mouseup', onMouseUp);
-      };
+    const onMouseUp = () => {
+      window.removeEventListener('mousemove', onMouseMove);
+      window.removeEventListener('mouseup', onMouseUp);
+    };
 
-      document.addEventListener('mousemove', onMouseMove);
-      document.addEventListener('mouseup', onMouseUp);
-    }
-
+    window.addEventListener('mousemove', onMouseMove);
+    window.addEventListener('mouseup', onMouseUp);
   }
   updateRotationDegree(degree: number) {
     this.rotationDegree = degree;

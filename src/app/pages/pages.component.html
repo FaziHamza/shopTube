@@ -1,7 +1,7 @@
 <nz-spin class="site-pages" [nzSpinning]="saveLoader" [nzSize]="'large'">
   <div style="height: 100vh;" *ngIf="saveLoader && resData.length == 0"></div>
   <form [formGroup]="form" (ngSubmit)="submit()">
-    <div  id='Content'
+    <div id='Content'
       class="bg-white shadow-md boxed-layout  {{resData[0].highLight ? 'highLight' : ''}} {{resData?.[0]?.className}}"
       *ngIf="resData.length">
       <!-- PAGE HEADER -->
