@@ -87,6 +87,8 @@ export class LoginComponent implements OnInit {
 
     // console.log('submit', this.form.value);
     this.form.value['username'] = this.form.value.email;
+    this.form.value['domain'] =window.location.host.split(':')[0],
+    this.form.value['responsekey'] = this.recaptchaResponse;
 
     // Show Loader
     this.showLoader = true;
@@ -95,6 +97,8 @@ export class LoginComponent implements OnInit {
         this.showLoader = false;
         if (response.isSuccess) {
           if (response.data?.access_token) {
+            grecaptcha.reset(); // Reset reCAPTCHA
+
             this.commonService.showSuccess('Login Successfully!', {
               nzDuration: 2000,
             });
@@ -105,8 +109,12 @@ export class LoginComponent implements OnInit {
             this.router.navigate(['/']);
           } else {
             this.commonService.showError('Something went wrong!');
+            grecaptcha.reset(); // Reset reCAPTCHA
+
           }
         } else {
+          grecaptcha.reset(); // Reset reCAPTCHA
+
           this.commonService.showError(response.message, {
             nzPauseOnHover: true,
           });
@@ -115,6 +123,8 @@ export class LoginComponent implements OnInit {
       },
       (error) => {
         this.showLoader = false;
+        grecaptcha.reset(); // Reset reCAPTCHA
+
         this.commonService.showError('Login Failed: Something went wrong.', {
           nzPauseOnHover: true,
         });

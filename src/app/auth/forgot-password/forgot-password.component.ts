@@ -68,16 +68,23 @@ export class ForgotPasswordComponent implements OnInit {
 
     this.isFormSubmit = false;
     this.form.value['username'] = this.form.value.email;
+    this.form.value['domain'] =window.location.host.split(':')[0],
+    this.form.value['responsekey'] = this.recaptchaResponse;
+
     this.showLoader = true;
     this.authService.forgotUser(this.form.value).subscribe(
       (response: any) => {
         this.showLoader = false;
         if (response.isSuccess) {
+          grecaptcha.reset(); // Reset reCAPTCHA
+
           this.commonService.showSuccess(response.message, {
             nzDuration: 2000,
           });
           this.showLoader = false;
         } else {
+          grecaptcha.reset(); // Reset reCAPTCHA
+
           this.commonService.showError(response.message, {
             nzPauseOnHover: true,
           });
@@ -86,6 +93,8 @@ export class ForgotPasswordComponent implements OnInit {
       },
       (error) => {
         this.showLoader = false;
+        grecaptcha.reset(); // Reset reCAPTCHA
+
         this.commonService.showError('Forgot Failed: Something went wrong.', {
           nzPauseOnHover: true,
         });
