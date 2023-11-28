@@ -112,7 +112,7 @@ export class BuilderComponent implements OnInit {
   formlyLength: any = 0;
   pdf: boolean = false;
   getTaskManagementIssues: any[] = [];
-  applicationThemeClasses: any = [];
+  applicationThemeClasses: any[] = [];
   constructor(
     public builderService: BuilderService,
     private viewContainerRef: ViewContainerRef,
@@ -554,7 +554,6 @@ export class BuilderComponent implements OnInit {
     this.requestSubscription = this.applicationService.getNestCommonAPIById('cp/Builder', this._id).subscribe({
       next: (res: any) => {
         if (res.isSuccess) {
-
           // this.form = new FormGroup({});
           if (res.data.length > 0) {
             localStorage.setItem('screenBuildId', res.data[0].screenBuilderId);
@@ -7481,6 +7480,7 @@ export class BuilderComponent implements OnInit {
     }
   }
   createControl(response: any, data: any, value: any, res: any, obj: any, type: any) {
+    const findThemeClass = this.applicationThemeClasses?.find(a => a.tag == value);
     let newNode: any = {};
     let formlyId = this.navigation + '_' + value.toLowerCase() + '_' + Guid.newGuid();
     if (data?.parameter === 'input') {
@@ -7514,6 +7514,7 @@ export class BuilderComponent implements OnInit {
       newNode.formly[0].fieldGroup[0].props.placeholder = data?.label;
       newNode.formly[0].fieldGroup[0].props.maskString = data?.maskString;
       newNode.formly[0].fieldGroup[0].props.maskLabel = data?.maskLabel;
+      newNode.formly[0].fieldGroup[0].props.applicationThemeClasses = findThemeClass?.classes;
       newNode.formly[0].fieldGroup[0].props.options = this.makeFormlyOptions(data?.options, data.type);
       newNode.formly[0].fieldGroup[0].props.keyup = (model: any) => {
         let currentVal = model.formControl.value;
@@ -7538,6 +7539,7 @@ export class BuilderComponent implements OnInit {
         copyJsonIcon: false,
         treeExpandIcon: data?.treeExpandIcon,
         treeInExpandIcon: data?.treeInExpandIcon,
+        applicationThemeClasses: findThemeClass?.classes
       };
     }
     return newNode;

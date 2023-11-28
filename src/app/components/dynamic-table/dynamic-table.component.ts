@@ -8,7 +8,7 @@ import { Router } from '@angular/router';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { NzModalService } from 'ng-zorro-antd/modal';
 import { parse } from 'path';
-import { Subscription } from 'rxjs';
+import { Subject, Subscription, debounceTime, takeUntil } from 'rxjs';
 import { AnyCatcher } from 'rxjs/internal/AnyCatcher';
 import { ApplicationService } from 'src/app/services/application.service';
 import { BuilderService } from 'src/app/services/builder.service';
@@ -56,6 +56,8 @@ export class DynamicTableComponent implements OnInit {
   storeColums: any = [];
   responsiveTable: boolean = false;
   requestSubscription: Subscription;
+  unsubscribe = new Subject<void>();
+  searchByGrid$ = new Subject<any>();
   drawerChild: any[] = [];
   nodes: any = [];
   selectList = [
@@ -113,7 +115,12 @@ export class DynamicTableComponent implements OnInit {
   }
   userDetails: any;
   ngOnInit(): void {
+    localStorage.removeItem('tablePageNo');
+    localStorage.removeItem('tablePageSize');
+    this.data['searchValue'] = '';
     if (this.data.serverSidePagination) {
+      localStorage.setItem('tablePageNo', '1');
+      localStorage.setItem('tablePageSize', this.data?.end);
       this.data.eventActionconfig['page'] = 1;
       this.data.eventActionconfig['pageSize'] = this.data?.end;
     }
@@ -159,7 +166,11 @@ export class DynamicTableComponent implements OnInit {
         this.saveLoader = false;
       }
     });
-
+    this.searchByGrid$
+      .pipe(debounceTime(500), takeUntil(this.unsubscribe))
+      .subscribe(() => {
+        this.onPageIndexChange(1);
+      });
   }
   async getSaveGroupNodes() {
     const applicationId = localStorage.getItem('applicationId') || '';
@@ -1152,16 +1163,22 @@ export class DynamicTableComponent implements OnInit {
     // this.displayData = this.tableData;
     if (this.data.serverSidePagination) {
       debugger
-      if (this.data?.targetId) {
-        const pagination = '?page=' + index + '&pageSize=' + this.data?.end;
-        this.pageSize = this.data.end
+      localStorage.setItem('tablePageNo', index.toString());
+      localStorage.setItem('tablePageSize', this.data?.end);
+      let  pagination = '?page=' + index + '&pageSize=' + this.data?.end;
+        if(this.data['searchValue']){
+          pagination = `${pagination}&search=${this.data['searchValue']}`;
+        }
+        this.pageSize = this.data.end;
         this.saveLoader = true;
+      if (this.data?.targetId) {
         this.requestSubscription = this.applicationService.getNestCommonAPIById(`knex-query/getexecute-rules/${this.data.eventActionconfig._id}` + pagination, this.data?.targetId).subscribe({
           next: (response) => {
             this.saveLoader = false;
             if (response.isSuccess) {
               this.tableData = [];
               this.displayData = [];
+              this.data.totalCount = response?.count
               response.data?.forEach((element: any) => {
                 element.id = (element?.id)?.toString();
                 this.tableData?.push(element);
@@ -1176,15 +1193,13 @@ export class DynamicTableComponent implements OnInit {
         })
       }
       else {
-        this.saveLoader = true;
-        const pagination = '?page=' + index + '&pageSize=' + this.data?.end;
-        this.pageSize = this.data.end
         this.requestSubscription = this.applicationService.getNestCommonAPI(`knex-query/getexecute-rules/${this.data.eventActionconfig._id}` + pagination).subscribe({
           next: (response) => {
             this.saveLoader = false;
             if (response.isSuccess) {
               this.tableData = [];
               this.displayData = [];
+              this.data.totalCount = response?.count
               response.data.forEach((element: any) => {
                 element.id = (element?.id)?.toString();
                 this.tableData?.push(element);
@@ -1211,12 +1226,21 @@ export class DynamicTableComponent implements OnInit {
     this.updateDisplayData();
   }
   updateDisplayData(): void {
+    if (this.data?.serverSidePagination) {
+      const start = (this.data.pageIndex - 1) * this.pageSize;
+      const end = start + this.pageSize;
+      this.start = start == 0 ? 1 : ((this.data.pageIndex * this.pageSize) - this.pageSize) + 1;
+      this.end = this.displayData.length == this.data.end ? (this.data.pageIndex * this.data.end) : this.data.totalCount;
+    } else {
+      const start = (this.data.pageIndex - 1) * this.pageSize;
+      const end = start + this.pageSize;
 
-    const start = (this.data.pageIndex - 1) * this.pageSize;
-    const end = start + this.pageSize;
-    this.start = start == 0 ? 1 : ((this.data.pageIndex * this.pageSize) - this.pageSize) + 1;
-    this.end = this.displayData.length == this.data.end ? (this.data.pageIndex * this.data.end) : this.data.totalCount;
+      this.start = start === 0 ? 1 : (this.data.pageIndex * this.pageSize) - this.pageSize + 1;
+      this.displayData = this.tableData.slice(start, end);
+      this.end = this.displayData.length !== this.data.end ? this.tableData.length : this.data.pageIndex * this.pageSize;
 
+      this.data.totalCount = this.tableData.length;
+    }
     //old
     // const start = (this.data.pageIndex - 1) * this.pageSize;
     // const end = start + this.pageSize;
@@ -1347,17 +1371,19 @@ export class DynamicTableComponent implements OnInit {
   loadApiData() {
     if (this.data.appConfigurableEvent) {
       this.saveLoader = true;
-      this.requestSubscription = this.applicationService.callApi(`knex-query/getexecute-rules/${this.data.eventActionconfig._id}`, 'get', '', '', '').subscribe({
-        next: (res) => {
-          // this.saveLoader = false;
-          this.getFromQueryOnlyTable(this.data, res);
-        },
-        error: (error: any) => {
-          console.error(error);
-          this.saveLoader = false;
-          this.toastr.error("An error occurred", { nzDuration: 3000 });
-        }
-      })
+      const pageNo = localStorage.getItem('tablePageNo')!;
+      this.onPageIndexChange(parseInt(pageNo) || 1);
+      // this.requestSubscription = this.applicationService.callApi(`knex-query/getexecute-rules/${this.data.eventActionconfig._id}`, 'get', '', '', '').subscribe({
+      //   next: (res) => {
+      //     // this.saveLoader = false;
+      //     this.getFromQueryOnlyTable(this.data, res);
+      //   },
+      //   error: (error: any) => {
+      //     console.error(error);
+      //     this.saveLoader = false;
+      //     this.toastr.error("An error occurred", { nzDuration: 3000 });
+      //   }
+      // })
     }
   }
 
@@ -2059,7 +2085,11 @@ export class DynamicTableComponent implements OnInit {
   }
 
   async search(searchType: any) {
-    if (this.data?.searchType ? searchType == this.data?.searchType : 'keyup' == searchType) {
+    if (this.data?.serverSidePagination) {
+      if (this.data['searchValue'].length >= 0) {
+        this.searchByGrid$.next(this.data['searchValue']);
+      }
+    } else if (this.data?.searchType ? searchType == this.data?.searchType : 'keyup' == searchType) {
       try {
 
         this.saveLoader = true;
@@ -2147,6 +2177,9 @@ export class DynamicTableComponent implements OnInit {
     window.removeEventListener('mouseup', this.onMouseUp);
     if (this.requestSubscription)
       this.requestSubscription.unsubscribe();
+
+    this.unsubscribe.next();
+    this.unsubscribe.complete();
   }
   onFileSelected(event: any): void {
     if (this.data.appConfigurableEvent) {
@@ -2573,8 +2606,14 @@ export class DynamicTableComponent implements OnInit {
   }
   changePageSize(pageSize: number) {
     this.data['end'] = pageSize;
-    this.pageSize = '';
-    this.pageChange(1);
+    localStorage.setItem('tablePageSize', this.data?.end);
+    if (this.data.serverSidePagination)
+      this.onPageIndexChange(1)
+    else {
+      this.pageSize = '';
+      this.pageChange(1);
+
+    }
   }
   check(event: any) {
 
