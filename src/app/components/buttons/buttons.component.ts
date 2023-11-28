@@ -43,6 +43,7 @@ export class ButtonsComponent implements OnInit {
   policyList: any = [];
   policyId: any = {};
   hostUrl: any = '';
+  policyTheme: any = '';
   private subscriptions: Subscription = new Subscription();
   private destroy$: Subject<void> = new Subject<void>();
   @Output() gridEmit: EventEmitter<any> = new EventEmitter<any>();
@@ -50,6 +51,12 @@ export class ButtonsComponent implements OnInit {
     public dataSharedService: DataSharedService, private applicationService: ApplicationService, private activatedRoute: ActivatedRoute, private location: Location) { }
 
   ngOnInit(): void {
+    debugger
+    const userData = JSON.parse(localStorage.getItem('user')!);
+    if (this.buttonData?.dropdownProperties == 'policyTheme') {
+      this.policyTheme = userData['policy']['policyTheme'];
+      this.buttonData['title'] = userData['policy']['policyTheme'] ? userData['policy']['policyTheme'] :this.buttonData?.title;
+    }
     this.drawerClose();
     this.hostUrl = window.location.host;
     if (this.buttonData?.showPolicies || this.buttonData?.dropdownProperties == 'policyTheme') {
@@ -61,7 +68,6 @@ export class ButtonsComponent implements OnInit {
     this.hoverTextColor = this.buttonData?.textColor ? this.buttonData?.textColor : '';
     this.bgColor = this.buttonData?.color ? this.buttonData?.color : '';
     if (this.buttonData.title === '$user' && window.location.href.includes('/pages')) {
-      const userData = JSON.parse(localStorage.getItem('user')!);
       this.policyId = userData['policy']['policyId'];
       this.buttonData.title = userData.policy.policyName ? userData.policy.policyName : this.buttonData.title;
     }
@@ -254,9 +260,9 @@ export class ButtonsComponent implements OnInit {
         debugger
         if (res.isSuccess) {
           if (res?.data.length > 0) {
-            if(this.buttonData?.showPolicies){
+            if (this.buttonData?.showPolicies) {
               this.policyList = res.data.filter((a: any) => a?.policyId._id != user['policy']['policyId']);
-            }else{
+            } else {
               this.policyList = res?.data;
             }
           }
@@ -285,7 +291,9 @@ export class ButtonsComponent implements OnInit {
   changeTheme(policy: any) {
     debugger
     let user = JSON.parse(window.localStorage['user']);
+    this.policyTheme = policy?.policyId?.applicationTheme;
     user['policy']['policyTheme'] = policy?.policyId?.applicationTheme ? policy?.policyId?.applicationTheme : '';
+    this.buttonData.title = policy?.policyId?.applicationTheme ? policy?.policyId?.applicationTheme : '';
     window.localStorage.setItem('user', JSON.stringify(user));
     this.dataSharedService.applicationTheme.next(true);
   }
@@ -294,7 +302,7 @@ export class ButtonsComponent implements OnInit {
     let user = JSON.parse(window.localStorage['user']);
     user['policy']['policyId'] = policy?.policyId?._id;
     user['policy']['policyName'] = policy?.policyId?.name;
-    user['policy']['policyTheme'] = policy?.policyId?.applicationTheme;
+    this.policyTheme = policy?.policyId?.applicationTheme;
     window.localStorage.setItem('user', JSON.stringify(user));
     let obj = {
       UserMapping: {

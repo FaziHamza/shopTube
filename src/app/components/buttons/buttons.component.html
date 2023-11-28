@@ -90,15 +90,18 @@
     </ng-container>
     <ng-container *ngIf="policyList?.length > 0">
       <ng-container *ngFor="let policyItem of policyList">
-        <li *ngIf="policyId != policyItem?.policyId._id && buttonData?.showPolicies" nz-menu-item [class]="buttonData?.optionSubClass"
-          (click)="switchPolicy(policyItem)">
+        <li *ngIf="policyId != policyItem?.policyId._id && buttonData?.showPolicies" nz-menu-item
+          [class]="buttonData?.optionSubClass" (click)="switchPolicy(policyItem)">
           <a [class]="buttonData?.optionLabelClass">{{ policyItem?.policyId.name }}</a>
         </li>
-        <li *ngIf="buttonData?.dropdownProperties == 'policyTheme'" nz-menu-item
-          [class]="buttonData?.optionSubClass" (click)="switchPolicyTheme(policyItem)">
-          <a [class]="buttonData?.optionLabelClass">{{ policyItem?.policyId?.applicationTheme
-            }}</a>
-        </li>
+        <ng-container
+          *ngIf="buttonData?.dropdownProperties == 'policyTheme' && policyItem?.policyId?.applicationTheme ">
+          <ng-container *ngIf="policyTheme != policyItem?.policyId?.applicationTheme">
+            <li nz-menu-item [class]="buttonData?.optionSubClass" (click)="switchPolicyTheme(policyItem)">
+              <a [class]="buttonData?.optionLabelClass">{{ policyItem?.policyId?.applicationTheme }}</a>
+            </li>
+          </ng-container>
+        </ng-container>
       </ng-container>
     </ng-container>
   </ul>

@@ -93,8 +93,9 @@ export class PagesComponent implements OnInit, OnDestroy {
         this.saveDataGrid(res);
     });
     const applicationTheme = this.dataSharedService.applicationTheme.subscribe(res => {
-      if (res)
-        this.applyApplicationTheme();
+      if (res && this.navigation) {
+        this.applyApplicationTheme(this.resData[0], true);
+      }
     });
     const moveLinkSubscription = this.dataSharedService.moveLink.subscribe(res => {
       this.scrollToElement(res);
@@ -324,11 +325,13 @@ export class PagesComponent implements OnInit, OnDestroy {
             this.saveLoader = false;
             // if(rule.isSuccess)
             this.getCacheRule(rule);
-            this.actionsBindWithPage(this.data[0]);
+            // this.actionsBindWithPage(this.data[0]);
+            this.applyApplicationTheme(this.data[0]);
           },
           error: (err) => {
             this.saveLoader = false;
-            this.actionsBindWithPage(this.data[0]);
+            // this.actionsBindWithPage(this.data[0]);
+            this.applyApplicationTheme(this.data[0]);
             console.error(err);
             // this.toastr.error("An error occurred", { nzDuration: 3000 });
           }
@@ -374,8 +377,7 @@ export class PagesComponent implements OnInit, OnDestroy {
       next: (rule: any) => {
         this.saveLoader = false;
         this.getCacheRule(rule);
-        this.actionsBindWithPage(res);
-
+        this.applyApplicationTheme(res);
       },
       error: (err) => {
         this.saveLoader = false;
@@ -385,7 +387,7 @@ export class PagesComponent implements OnInit, OnDestroy {
     });
   }
   editData: any;
-  actionsBindWithPage(res: any) {
+  actionsBindWithPage(res: any, res1: any) {
 
     this.screenId = res.data[0].screenBuilderId;
     this.screenName = res.data[0].screenName;
@@ -400,7 +402,7 @@ export class PagesComponent implements OnInit, OnDestroy {
     document.documentElement.style.setProperty('--pagePrimaryColor', data[0]?.primaryColor);
     document.documentElement.style.setProperty('--pageSecondaryColor', data[0]?.secondaryColor);
     let nodesData = this.jsonParseWithObject(this.jsonStringifyWithObject(data));
-    // this.resData = nodesData;
+    this.resData = nodesData;
     if (this.screenData) {
       const checkLoadtype = this.screenData?.uiData?.filter((a: any) => a.actionType == 'load');
       if (checkLoadtype?.length > 0) {
@@ -412,7 +414,7 @@ export class PagesComponent implements OnInit, OnDestroy {
         this.checkConditionUIRule(field, this.user?.policy?.policyId, 'policy');
       }
     }
-    let nodesData1 = this.jsonParseWithObject(this.jsonStringifyWithObject(nodesData));
+    let nodesData1 = this.jsonParseWithObject(this.jsonStringifyWithObject(this.resData));
 
     // this.resData = this.jsonParseWithObject(this.jsonStringifyWithObject(data));
     this.dataSharedService.checkContentForFixFooter = this.jsonParseWithObject(this.jsonStringifyWithObject(data));
@@ -471,36 +473,27 @@ export class PagesComponent implements OnInit, OnDestroy {
           }
         }
       }
-      this.applyApplicationTheme(nodesData1);
+      this.getIssues(res.data[0].navigation, res1);
       // this.resData = nodesData1;
     } else
-      this.applyApplicationTheme(nodesData1);
+      this.getIssues(res.data[0].navigation, res1);
+    if (res1) {
+      this.findObjectByTypeAndApplyApplictionTheme(this.resData[0], res1);
+    }
     // this.resData = nodesData1;
 
     // const screenData = JSON.parse(this.jsonStringifyWithObject(this.resData));
 
     this.uiRuleGetData({ key: 'text_f53ed35b', id: 'formly_86_input_text_f53ed35b_0' });
 
-    this.applicationService.callApi('knex-query/getAction/65001460e9856e9578bcb63f', 'get', '', '', `${res.data[0].navigation}`).subscribe({
-      next: (response: any) => {
-        if (response.data > 0) {
-          response.data.forEach((element: any) => {
-            this.assignIssue(this.resData[0], element);
-          });
-        }
-      },
-      error: (error: any) => {
-        console.error(error);
-        this.toastr.error("An error occurred", { nzDuration: 3000 });
-      }
-    });
+
 
 
     this.pageRuleList = this.actionRuleList.filter(a => a.componentFrom === this.resData?.[0]?.key && a.action == 'load');
     if (this.tableRowID) {
       if (this.pageRuleList.length > 0) {
         const observables = this.pageRuleList.map((element: any) => {
-          return this.applicationService.callApi('knex-query/getexecute-rules/' + element._id, 'get', '', '', `'${this.tableRowID}'`).pipe(
+          return this.applicationService.callApi('knex-query/getexecute-rules/' + element._id, 'get', '', '', this.tableRowID).pipe(
             catchError((error: any) => of(error)) // Handle error and continue the forkJoin
           );
         });
@@ -2815,21 +2808,28 @@ export class PagesComponent implements OnInit, OnDestroy {
     //   });
     // });
   }
-
-  applyApplicationTheme(node?: any) {
+  applicationThemeData: any[] = [];
+  applyApplicationTheme(res1: any, notAllowRuleGet?: any) {
     let user = JSON.parse(window.localStorage['user']);
     if (user.policy?.policyTheme) {
+      this.saveLoader = true;
       this.applicationService.getNestCommonAPI(`applicationTheme/allBythemeName${user.policy?.policyTheme}`).subscribe(((res: any) => {
+        this.saveLoader = false;
         if (res.isSuccess) {
-          this.findObjectByTypeAndApplyApplictionTheme(node ? node[0] : this.resData[0], res.data);
-          if(node){
-            this.resData = node;
+          this.applicationThemeData = res?.data;
+          if (notAllowRuleGet) {
+            this.findObjectByTypeAndApplyApplictionTheme(res1, this.applicationThemeData)
+          } else {
+            this.actionsBindWithPage(res1, this.applicationThemeData);
           }
-        } else
+        } else {
+          this.actionsBindWithPage(res1, this.applicationThemeData);
           this.toastr.warning(res.message, { nzDuration: 2000 });
+        }
       }));
-    }else{
-      this.resData = node;
+    } else {
+      this.saveLoader = false;
+      this.actionsBindWithPage(res1, this.applicationThemeData);
     }
   }
 
@@ -2855,5 +2855,30 @@ export class PagesComponent implements OnInit, OnDestroy {
     for (let child of data.children) {
       this.findObjectByTypeAndApplyApplictionTheme(child, ThemeData);
     }
+  }
+  getIssues(navigation: any, res1: any) {
+    this.applicationService.callApi('knex-query/getAction/65001460e9856e9578bcb63f', 'get', '', '', navigation).subscribe({
+      next: (response: any) => {
+        if (res1) {
+          if (res1.length > 0) {
+            this.findObjectByTypeAndApplyApplictionTheme(this.resData[0], res1);
+          }
+        }
+        if (response.data > 0) {
+          response.data.forEach((element: any) => {
+            this.assignIssue(this.resData[0], element);
+          });
+        }
+      },
+      error: (error: any) => {
+        if (res1) {
+          if (res1.length > 0) {
+            this.findObjectByTypeAndApplyApplictionTheme(this.resData[0], res1);
+          }
+        }
+        console.error(error);
+        this.toastr.error("An error occurred", { nzDuration: 3000 });
+      }
+    });
   }
 }
