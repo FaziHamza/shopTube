@@ -105,7 +105,7 @@ export class ConfigurableSelectDirective implements OnInit, OnDestroy {
     const { _id, actionLink, data, headers, parentId, page, pageSize } = action;
     let pagination = ''
     if (page && pageSize){
-      pagination = `?page=${page}&pageSize=${pageSize}` 
+      pagination = `?page=${localStorage.getItem('tablePageNo') || 1}&pageSize=${localStorage.getItem('tablePageSize') || 10}` 
     }
     return this.applicationService.callApi(`knex-query/getexecute-rules/${_id}${pagination}`, 'get', data, headers, parentId)
       .pipe(takeUntil(this.unsubscribe$));

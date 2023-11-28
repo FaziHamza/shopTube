@@ -364,7 +364,7 @@ export class SectionsComponent implements OnInit {
       screenId: this.screenName,
       modalData: oneModelData
     };
-    
+
     let formlyInputs: any[] = this.filterInputElements(this.sections.children[1].children);
     let multiselect: any = [];;
     if (formlyInputs.length > 0) {
@@ -481,14 +481,14 @@ export class SectionsComponent implements OnInit {
       let url = `knex-query/getexecute-rules/${findClickApi._id}`;
       let tableData = this.findObjectByKey(this.sections, findClickApi.targetId);
       if (tableData) {
-        // let pagination = '';
-        // if (tableData.serverSidePagination) {
-        //   pagination = '?page=' + 1 + '&pageSize=' + tableData?.end;
-        // }
+        let pagination: any = '';
+        if (tableData.serverSidePagination) {
+          pagination = '?page=' + localStorage.getItem('tablePageNo') || 1 + '&pageSize=' + localStorage.getItem('tablePageSize') || 10;
+        }
         this.saveLoader = true;
         const applicationId = localStorage.getItem('applicationId') || '';
         let savedGroupData = await this.dataService.getNodes(JSON.parse(applicationId), this.screenName, "Table");
-        this.requestSubscription = this.employeeService.getSQLDatabaseTable(url).subscribe({
+        this.requestSubscription = this.employeeService.getSQLDatabaseTable(url+pagination).subscribe({
           next: async (res) => {
             this.saveLoader = false;
             if (tableData && res?.isSuccess) {
