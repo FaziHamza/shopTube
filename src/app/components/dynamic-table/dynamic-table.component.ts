@@ -82,7 +82,7 @@ export class DynamicTableComponent implements OnInit {
   filteringArrayData: any[] = [];
   localStorageGrouping: any[] = [];
   filteringHeadArray: any = [];
-  nzScrollConfig: { x: string } = { x: '1100px' };
+  // nzScrollConfig: { x: string } = { x: '1100px' };
   rotationDegree: number = -45;
   editData: any;
   deleteditWidth: any = [{ label: 'Edit', Width: '' }, { label: 'Delete', Width: '' }, { label: 'Checkbox', Width: '' }
@@ -100,7 +100,7 @@ export class DynamicTableComponent implements OnInit {
       this.cdr.detectChanges();
     }
     // Update the nzScroll configuration based on screen size
-    this.updateScrollConfig();
+    // this.updateScrollConfig();
   }
   constructor(public _dataSharedService: DataSharedService, private builderService: BuilderService,
     private applicationService: ApplicationService,
@@ -132,7 +132,7 @@ export class DynamicTableComponent implements OnInit {
 
     this.updateRotationDegree(50); // Rotate to -60 degrees
 
-    this.updateScrollConfig();
+    // this.updateScrollConfig();
     if (!this.childTable) {
       // this.search(this.data?.searchType ? 'keyup' : 'keyup')
     }
@@ -2520,16 +2520,16 @@ export class DynamicTableComponent implements OnInit {
     });
   }
 
-  updateScrollConfig(): void {
-    // Adjust the nzScroll configuration based on your desired logic
-    const screenWidth = window.innerWidth;
+  // updateScrollConfig(): void {
+  //   // Adjust the nzScroll configuration based on your desired logic
+  //   const screenWidth = window.innerWidth;
 
-    if (screenWidth >= 1200) {
-      this.nzScrollConfig = { x: '1100px' };
-    } else {
-      this.nzScrollConfig = { x: '100%' }; // Adjust this value for smaller screens
-    }
-  }
+  //   if (screenWidth >= 1200) {
+  //     this.nzScrollConfig = { x: '1100px' };
+  //   } else {
+  //     this.nzScrollConfig = { x: '100%' }; // Adjust this value for smaller screens
+  //   }
+  // }
   allowFreeze(header: any, index: number): boolean {
     if (header) {
       if (this.data?.endFreezingNumber || this.data.startFreezingNumber) {
