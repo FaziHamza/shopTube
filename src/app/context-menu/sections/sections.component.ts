@@ -314,6 +314,18 @@ export class SectionsComponent implements OnInit {
               //   this.dataSharedService.gridDataLoad = true;
               // }
               this.dataSharedService.gridDataLoad = true;
+              let findCommentsDiv = this.findObjectByKey(this.sections, 'section_comments_drawer');
+              if (findCommentsDiv && this.dataModel) {
+                const keyWithId = Object.keys(this.dataModel).find(key => key.includes('.id'));
+                if (keyWithId) {
+                  let mapApi = findCommentsDiv['mapApi'].includes(`/${this.dataModel[keyWithId]}`) ? findCommentsDiv['mapApi'] : `${findCommentsDiv['mapApi']}/${this.dataModel[keyWithId]}`;
+                  let obj: any = {
+                    control: findCommentsDiv,
+                    mapApi: mapApi
+                  }
+                  this.dataSharedService.commentsRecall.next(obj)
+                }
+              }
               if (!this.isDrawer) {
                 // this.dataSharedService.drawerClose.next(true);
                 // this.dataSharedService.drawerVisible = false;
@@ -381,12 +393,9 @@ export class SectionsComponent implements OnInit {
       }
     }
     for (const key in empData.modalData) {
-      if (empData.modalData[key] === undefined) {
+      if (empData.modalData[key] === undefined || empData.modalData[key] === null) {
         empData.modalData[key] = '';
       }
-      // if (key === 'orderrequest.requiredfrequency') {
-      //   empData.modalData[key] = empData.modalData[key].length > 0 ? empData.modalData[key].map(String).join(', ') : '';
-      // }
     }
 
 
@@ -492,7 +501,7 @@ export class SectionsComponent implements OnInit {
         this.saveLoader = true;
         const applicationId = localStorage.getItem('applicationId') || '';
         let savedGroupData = await this.dataService.getNodes(JSON.parse(applicationId), this.screenName, "Table");
-        this.requestSubscription = this.employeeService.getSQLDatabaseTable(url+pagination).subscribe({
+        this.requestSubscription = this.employeeService.getSQLDatabaseTable(url + pagination).subscribe({
           next: async (res) => {
             this.saveLoader = false;
             if (tableData && res?.isSuccess) {

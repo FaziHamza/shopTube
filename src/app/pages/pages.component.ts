@@ -97,6 +97,15 @@ export class PagesComponent implements OnInit, OnDestroy {
         this.applyApplicationTheme(this.resData[0], true);
       }
     });
+    const commentsRecall = this.dataSharedService.commentsRecall.subscribe((res: any) => {
+      if (res && this.navigation) {
+        this.filterDuplicateChildren(this.resData[0]);
+        if (res.mapApi) {
+          let selectedNodeMap = this.findObjectByKey(this.resData[0].children[1], res.control.key)
+          this.makeDynamicSections(res.mapApi, selectedNodeMap)
+        }
+      }
+    });
     const prevNextRecord = this.dataSharedService.prevNextRecord.subscribe(res => {
       if (res && this.navigation) {
         this.checkDynamicSection(res);
@@ -128,6 +137,7 @@ export class PagesComponent implements OnInit, OnDestroy {
     this.subscriptions.add(pagesLoader);
     this.subscriptions.add(applicationTheme);
     this.subscriptions.add(prevNextRecord);
+    this.subscriptions.add(commentsRecall);
     // this.subscriptions.add(callMapApiAfterSave);
 
   }
@@ -270,19 +280,19 @@ export class PagesComponent implements OnInit, OnDestroy {
         this.initiliaze(params);
 
         if (params["schema"]) {
-          this.initiliaze(params);
-          // this.saveLoader = true;
-          // this.dataSharedService.currentMenuLink = "/pages/" + params["schema"];
-          // localStorage.setItem('screenId', this.dataSharedService.currentMenuLink);
-          // this.clearValues();
-          // this.applicationService.getNestCommonAPI('cp/auth/pageAuth/' + params["schema"]).subscribe(res => {
-          //   if (res?.data) {
-          //     this.initiliaze(params);
-          //   } else {
-          //     this.saveLoader = false;
-          //     this.router.navigateByUrl('permission-denied');
-          //   }
-          // });
+          // this.initiliaze(params);
+          this.saveLoader = true;
+          this.dataSharedService.currentMenuLink = "/pages/" + params["schema"];
+          localStorage.setItem('screenId', this.dataSharedService.currentMenuLink);
+          this.clearValues();
+          this.applicationService.getNestCommonAPI('cp/auth/pageAuth/' + params["schema"]).subscribe(res => {
+            if (res?.data) {
+              this.initiliaze(params);
+            } else {
+              this.saveLoader = false;
+              this.router.navigateByUrl('permission-denied');
+            }
+          });
         }
       });
       this.subscriptions.add(subscription);
@@ -481,12 +491,12 @@ export class PagesComponent implements OnInit, OnDestroy {
       }
       // this.getIssues(res.data[0].navigation, res1);
       this.resData = nodesData1;
-      if(res1)
-      this.findObjectByTypeAndApplyApplictionTheme(this.resData[0], res1);
+      if (res1)
+        this.findObjectByTypeAndApplyApplictionTheme(this.resData[0], res1);
     } else
       this.resData = nodesData1;
     // this.getIssues(res.data[0].navigation, res1);
-    if (res1) 
+    if (res1)
       this.findObjectByTypeAndApplyApplictionTheme(this.resData[0], res1);
 
     // const screenData = JSON.parse(this.jsonStringifyWithObject(this.resData));
