@@ -54,7 +54,7 @@ export class RegisterComponent implements OnInit {
       // contactnumber: [null, [Validators.required, Validators.pattern(/^92\d{10}$/)]],
       contactnumber: [null, [Validators.required]],
       companyname: [null, [Validators.required]],
-      accreditationNumber: [null, [Validators.required]],
+      accreditationNumber: [null],
       confirmpassword: [null, [Validators.required]],
       password: [null, [Validators.required]],
       application: [null], // Use the custom validator here
