@@ -310,7 +310,7 @@
                       <div [style.color]="item[header.key]== item?.colorDataType && editId !== item.id ?
                       item?.columnTextColor : ''" class="editable-cell"
                         [hidden]="editId === item.id && (configurationTable || header?.editMode == 'yes'|| header?.editMode == true)">
-                        {{item[header.key] | translate}}
+                        {{item[header.key] == 'undefined' ? '' : item[header.key] | translate}}
                       </div>
                       <input *ngIf="configurationTable || header?.editMode == 'yes'|| header?.editMode == true"
                         [hidden]="editId !== item.id" type="text" nz-input [(ngModel)]="item[header.key]" />
@@ -328,7 +328,7 @@
                       <div [style.color]="item[header.key]== item?.colorDataType && editId !== item.id ?
                       item?.columnTextColor : ''" [class]="data?.tdClass" class="editable-cell"
                         *ngIf="editId != item.id">
-                        {{item[header.key] | translate}}
+                        {{item[header.key]  == 'undefined' ? '' : item[header.key] | translate}}
                       </div>
                       <nz-select *ngIf="editId == item.id && (configurationTable || header?.editMode)" nzAllowClear
                         nzShowSearch class="dynamic-selector" style="width: 100px" nzPlaceHolder="Select Value"

@@ -57,7 +57,7 @@ export class ButtonsComponent implements OnInit {
     public dataSharedService: DataSharedService, private applicationService: ApplicationService, private activatedRoute: ActivatedRoute, private location: Location , private cdr: ChangeDetectorRef) { }
 
   ngOnInit(): void {
-    debugger
+    
     if (this.tableDisplayData) {
       this.keyName = this.findKeyByOrderid(this.tableDisplayData, this.title);
     }
@@ -195,6 +195,8 @@ export class ButtonsComponent implements OnInit {
 
     this.isVisible = false;
     this.dataSharedService.drawerVisible = false;
+    this.gridEmit.emit();
+
   }
   handleButtonClick(buttonData: any): void {
     this.pagesRoute(buttonData);
@@ -270,11 +272,11 @@ export class ButtonsComponent implements OnInit {
     this.router.navigate(['/login']);
   }
   jsonPolicyModuleList() {
-    debugger
+    
     let user = JSON.parse(window.localStorage['user']);
     this.applicationService.getNestCommonAPI(`cp/policy/getPolicyByUserId/${user.policy.userId}`).subscribe({
       next: (res: any) => {
-        debugger
+        
         if (res.isSuccess) {
           if (res?.data.length > 0) {
             if (this.buttonData?.showPolicies) {
@@ -306,7 +308,7 @@ export class ButtonsComponent implements OnInit {
     });
   }
   changeTheme(policy: any) {
-    debugger
+    
     let user = JSON.parse(window.localStorage['user']);
     this.policyTheme = policy?.policyId?.applicationTheme;
     user['policy']['policyTheme'] = policy?.policyId?.applicationTheme ? policy?.policyId?.applicationTheme : '';
@@ -315,7 +317,7 @@ export class ButtonsComponent implements OnInit {
     this.dataSharedService.applicationTheme.next(true);
   }
   changePolicy(policy: any) {
-    debugger
+    
     let user = JSON.parse(window.localStorage['user']);
     user['policy']['policyId'] = policy?.policyId?._id;
     user['policy']['policyName'] = policy?.policyId?.name;

@@ -266,7 +266,7 @@ export class DynamicTableComponent implements OnInit {
   }
   gridRuleData: any[] = [];
   gridInitilize() {
-    debugger
+    
     // let getRes: any = {
     //   data: [
     //     {
@@ -1162,7 +1162,7 @@ export class DynamicTableComponent implements OnInit {
     }
     // this.displayData = this.tableData;
     if (this.data.serverSidePagination) {
-      debugger
+      
       localStorage.setItem('tablePageNo', index.toString());
       localStorage.setItem('tablePageSize', this.data?.end);
       let pagination = '?page=' + index + '&pageSize=' + this.data?.end;
@@ -1368,33 +1368,20 @@ export class DynamicTableComponent implements OnInit {
       });
     }
   }
-  drawOpen : boolean = false;
-  loadApiData(check: any) {
-    debugger
+  drawOpen: boolean = false;
+  loadApiData(check: number): void {
     this.drawOpen = false;
-    if (this.data.appConfigurableEvent) {
-      this.saveLoader = true;
-      const pageNo = localStorage.getItem('tablePageNo')!;
-      if (check) {
-        this.drawOpen = true;
-        if(this.data.pageIndex != 1){
-          this.data.pageIndex = parseInt(pageNo) + check;
-          this.onPageIndexChange(parseInt(pageNo) + check || 1);
-        }
-      } else {
-        this.onPageIndexChange(parseInt(pageNo) || 1);
+    const storedPageIndex = parseInt(localStorage.getItem('tablePageNo')!) || 1;
+  
+    if (check) {
+      this.drawOpen = true;
+  
+      if (this.data.pageIndex !== 1 || check !== -1) {
+        this.data.pageIndex = storedPageIndex + check;
+        this.onPageIndexChange(this.data.pageIndex);
       }
-      // this.requestSubscription = this.applicationService.callApi(`knex-query/getexecute-rules/${this.data.eventActionconfig._id}`, 'get', '', '', '').subscribe({
-      //   next: (res) => {
-      //     // this.saveLoader = false;
-      //     this.getFromQueryOnlyTable(this.data, res);
-      //   },
-      //   error: (error: any) => {
-      //     console.error(error);
-      //     this.saveLoader = false;
-      //     this.toastr.error("An error occurred", { nzDuration: 3000 });
-      //   }
-      // })
+    } else {
+      this.onPageIndexChange(storedPageIndex);
     }
   }
 
@@ -1846,7 +1833,7 @@ export class DynamicTableComponent implements OnInit {
     return data
   }
   async getFromQueryOnlyTable(tableData: any, res: any) {
-    debugger
+    
     try {
       if (tableData && res?.data.length > 0) {
         this.data['searchValue'] = '';
