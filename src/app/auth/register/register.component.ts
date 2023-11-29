@@ -203,14 +203,12 @@ export class RegisterComponent implements OnInit {
     //   this.toastr.warning('Application required', { nzDuration: 3000 }); // Show an error message to the user
     //   return;
     // }
-    if (!this.userAddDrawer) {
-      this.recaptchaResponse = grecaptcha.getResponse();
+    this.recaptchaResponse = grecaptcha.getResponse();
       if (!this.recaptchaResponse) {
         // this.toastr.warning('You are not human', { nzDuration: 3000 }); // Show an error message to the user
         this.showRecaptcha = true;
         return;
       }
-    }
 
     this.loader = true;
     let obj = {
