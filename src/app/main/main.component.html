@@ -1,5 +1,5 @@
 <div [class]="'card-content ' + (mainData['rowClass'] ? mainData['rowClass'] : 'flex flex-wrap')">
-  <div class="{{!item.hideExpression   ? item.className : ''}} relative "
+  <div class="{{!item.hideExpression && item.type != 'chat'  ? item.className : ''}} relative "
     *ngFor="let item of mainData.children ; index as i; last as isLast">
     <div [ngClass]="{'highLight': item.highLight == true}" *ngIf="!item.hideExpression">
       <st-task-report class="close-icon absolute left-[23px] top-[-9px] z-[1000]"
