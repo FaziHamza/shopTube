@@ -29,5 +29,14 @@
     google.charts.setOnLoadCallback(() => { });
   </script>
 </body>
-
+<script>
+  function chatboxToogleHandler() {
+    const formWrapper = document.querySelector(".formbold-form-wrapper");
+    const chatIcon = document.querySelector(".chat-icon");
+    const crossIcon = document.querySelector(".cross-icon");
+    formWrapper.classList.toggle("hidden");
+    crossIcon.classList.toggle("hidden");
+    chatIcon.classList.toggle("hidden");
+  }
+</script>
 </html>

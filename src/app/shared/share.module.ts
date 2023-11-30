@@ -55,6 +55,7 @@ import { DownloadbuttonComponent } from '../components/downloadbutton/downloadbu
 import { QrCodeComponent } from '../components/qr-code/qr-code.component';
 import { ApplicationThemeComponent } from '../Builder-module/application-theme/application-theme.component';
 import { CreateControlComponent } from '../Builder-module/create-control/create-control.component';
+import { SupportChatComponent } from '../admin/support-chat/support-chat.component';
 // import { CommonService } from './common.service';
 // import { WebsiteModules } from '../Website/website.module';
 
@@ -120,7 +121,8 @@ import { CreateControlComponent } from '../Builder-module/create-control/create-
     ConfigurableDirective,
     ConfigurableSelectDirective,
     TaskReportComponent,VoiceRecorderComponent,
-    DownloadbuttonComponent,QrCodeComponent,ApplicationThemeComponent,CreateControlComponent
+    DownloadbuttonComponent,QrCodeComponent,ApplicationThemeComponent,CreateControlComponent,
+    SupportChatComponent,
     //
     // ErrorComponent
   ],
@@ -178,7 +180,8 @@ import { CreateControlComponent } from '../Builder-module/create-control/create-
     TaskReportComponent,
     ParentCalendarComponent,
     VoiceRecorderComponent,
-    DownloadbuttonComponent,QrCodeComponent,ApplicationThemeComponent,CreateControlComponent
+    DownloadbuttonComponent,QrCodeComponent,ApplicationThemeComponent,CreateControlComponent,
+    SupportChatComponent,
     //
     // ErrorComponent
   ],

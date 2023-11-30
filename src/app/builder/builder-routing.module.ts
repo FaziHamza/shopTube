@@ -24,6 +24,7 @@ import { UserComponent } from '../auth/user/user.component';
 import { FileManagerComponent } from '../components';
 import { ApplicationThemeComponent } from '../Builder-module/application-theme/application-theme.component';
 import { CreateControlComponent } from '../Builder-module/create-control/create-control.component';
+import { SupportChatComponent } from '../admin/support-chat/support-chat.component';
 
 const routes: Routes = [
   {
@@ -113,6 +114,10 @@ const routes: Routes = [
       {
         path: 'file-manager',
         component: FileManagerComponent
+      },
+      {
+        path: 'support-chat',
+        component: SupportChatComponent
       },
       {
         path: 'app-theme',
