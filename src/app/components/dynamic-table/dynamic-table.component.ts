@@ -81,7 +81,7 @@ export class DynamicTableComponent implements OnInit {
   checklink: any = '';
   filteringArrayData: any[] = [];
   localStorageGrouping: any[] = [];
-  filteringHeadArray: any = [];
+  filteringHeadArray: any[] = [];
   // nzScrollConfig: { x: string } = { x: '1100px' };
   rotationDegree: number = -45;
   editData: any;
@@ -114,7 +114,7 @@ export class DynamicTableComponent implements OnInit {
     this.processData = this.processData.bind(this);
   }
   userDetails: any;
-  ngOnInit(): void {
+  async ngOnInit(): Promise<void> {
     localStorage.removeItem('tablePageNo');
     localStorage.removeItem('tablePageSize');
     this.data['searchValue'] = '';
@@ -143,6 +143,15 @@ export class DynamicTableComponent implements OnInit {
     this.loadTableData();
     // this.gridInitilize();
     this.getSaveGroupNodes();
+    try {
+      if (this.data?.tableHeaders) {
+        for (const api of this.data.tableHeaders) {
+          await this.handleRowClickApi(api);
+        }
+      }
+    } catch (error) {
+      this.toastr.error(JSON.stringify(error), { nzDuration: 3000 });
+    }
     this.requestSubscription = this.dataSharedService.taskmanager.subscribe({
       next: (res) => {
         if (this.data.appConfigurableEvent && res) {
@@ -172,9 +181,35 @@ export class DynamicTableComponent implements OnInit {
         this.onPageIndexChange(1);
       });
   }
+  private async handleRowClickApi(api: any) {
+    try {
+      
+      if (api?.callApi) {
+        const response = await this.applicationService.getNestCommonAPI(`knex-query/getexecute-rules/${api.callApi}`).toPromise();
+
+        if (response.isSuccess && response.data) {
+          api.filterArray = [];
+          api.filterSearch = [];
+          response.data.forEach((res: any) => {
+            const obj = {
+              key: api.key,
+              text: res.status,
+              value: res.status,
+              filter: false,
+            };
+            api.filterArray.push(obj);
+            api.filterSearch.push(obj);
+          });
+        }
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }
   async getSaveGroupNodes() {
     const applicationId = localStorage.getItem('applicationId') || '';
-    let groupedNodes = await this.dataService.getNodes(this.screenName, JSON.parse(applicationId), "Table");
+    let groupedNodes: any = []
+    //  groupedNodes = await this.dataService.getNodes(this.screenName, JSON.parse(applicationId), "Table");
     if (groupedNodes.length > 0) {
       this.groupingArray = groupedNodes[groupedNodes.length - 1].data;
     }
@@ -266,7 +301,7 @@ export class DynamicTableComponent implements OnInit {
   }
   gridRuleData: any[] = [];
   gridInitilize() {
-    
+
     // let getRes: any = {
     //   data: [
     //     {
@@ -1151,6 +1186,13 @@ export class DynamicTableComponent implements OnInit {
   getObjectKeys(obj: object): string[] {
     return Object.keys(obj);
   }
+  generateSqlQuery(input: any[]): string {
+    return input
+      .map(({ key, value }) => {
+        return `${key} IN (SELECT value FROM STRING_SPLIT('${value}', ','))`;
+      })
+      .join(' AND ');
+  }
   onPageIndexChange(index: number): void {
     if (this.tableHeaders.length == 0) {
       const firstObjectKeys = Object.keys(this.tableData[0]);
@@ -1162,12 +1204,20 @@ export class DynamicTableComponent implements OnInit {
     }
     // this.displayData = this.tableData;
     if (this.data.serverSidePagination) {
-      
+
       localStorage.setItem('tablePageNo', index.toString());
       localStorage.setItem('tablePageSize', this.data?.end);
       let pagination = '?page=' + index + '&pageSize=' + this.data?.end;
       if (this.data['searchValue']) {
         pagination = `${pagination}&search=${this.data['searchValue']}`;
+      }
+      if (this.filteringHeadArray.length > 0) {
+        const transformedOutput = this.filteringHeadArray.map(({ key, filterArray }) => ({
+          key,
+          value: filterArray.filter(({ filter }: any) => filter).map(({ value }: any) => value).join(',')
+        }));
+        const filtersData = this.generateSqlQuery(transformedOutput);
+        pagination = `${pagination}&filters=${filtersData}`;
       }
       this.pageSize = this.data.end;
       this.saveLoader = true;
@@ -1372,10 +1422,10 @@ export class DynamicTableComponent implements OnInit {
   loadApiData(check: number): void {
     this.drawOpen = false;
     const storedPageIndex = parseInt(localStorage.getItem('tablePageNo')!) || 1;
-  
+
     if (check) {
       this.drawOpen = true;
-  
+
       if (this.data.pageIndex !== 1 || check !== -1) {
         this.data.pageIndex = storedPageIndex + check;
         this.onPageIndexChange(this.data.pageIndex);
@@ -1833,14 +1883,14 @@ export class DynamicTableComponent implements OnInit {
     return data
   }
   async getFromQueryOnlyTable(tableData: any, res: any) {
-    
+
     try {
       if (tableData && res?.data.length > 0) {
         this.data['searchValue'] = '';
         const applicationId = localStorage.getItem('applicationId') || '';
         let savedGroupData: any = [];
         if (applicationId) {
-          savedGroupData = await this.dataService.getNodes(JSON.parse(applicationId), this.screenName, "Table");
+          // savedGroupData = await this.dataService.getNodes(JSON.parse(applicationId), this.screenName, "Table");
         }
         if (this.data?.eventActionconfig && !this.childTable && Object.keys(this.data.eventActionconfig).length > 0) {
           if (window.location.href.includes('marketplace.com')) {
@@ -2094,7 +2144,7 @@ export class DynamicTableComponent implements OnInit {
         const applicationId = localStorage.getItem('applicationId') || '';
         let savedGroupData: any = [];
         if (applicationId) {
-          savedGroupData = await this.dataService.getNodes(JSON.parse(applicationId), this.screenName, "Table");
+          // savedGroupData = await this.dataService.getNodes(JSON.parse(applicationId), this.screenName, "Table");
         }
         // Step 1: Remove the 'expand' header from tableHeaders
         this.tableHeaders = this.tableHeaders.filter((head: any) => head.key != 'expand');
@@ -2309,6 +2359,7 @@ export class DynamicTableComponent implements OnInit {
     this.visible = false;
   }
   makeFilterData(header: any, allowPrevious: boolean) {
+    debugger
     header['searchValue'] = '';
     const filterData: any = {};
     if (this.filteringArrayData.length == 0) {
@@ -2328,7 +2379,7 @@ export class DynamicTableComponent implements OnInit {
     }
 
     // Now filterData['status'] contains the unique filter data for 'status'
-    if (header['filterArray'] && header?.filterArray?.length > 0 && allowPrevious) {
+    if (header['filterArray'] && header?.filterArray?.length > 0 && allowPrevious && !header?.callApi) {
       let result: any[] = [];
       filterData[header?.key].forEach((element: any) => {
         let fonudObj: any = ''
@@ -2344,8 +2395,10 @@ export class DynamicTableComponent implements OnInit {
       header['filterSearch'] = [...result]
 
     } else {
-      header['filterArray'] = filterData[header?.key];
-      header['filterSearch'] = filterData[header?.key];
+      if(!header?.callApi){
+        header['filterArray'] = filterData[header?.key];
+        header['filterSearch'] = filterData[header?.key];
+      }
     }
   }
   async filter(item: any, add: boolean) {
@@ -2361,39 +2414,51 @@ export class DynamicTableComponent implements OnInit {
         this.filteringHeadArray.push(item);
       }
     } else {
-      if (item?.filterArray) {
+      if (item?.filterArray && !item?.callApi) {
         delete item?.filterArray;
       }
     }
 
     if (this.filteringHeadArray.length > 0) {
       // Create an array of filtered values for each filter header
-      const filteredValuesMap = new Map<string, Set<string>>();
 
-      this.filteringHeadArray.forEach((element1: any) => {
-        const filteredValues = new Set<string>(
-          element1?.filterArray.filter((filterItem: any) => filterItem.filter).map((filterItem: any) => filterItem.value)
-        );
-        filteredValuesMap.set(element1.key, filteredValues);
-      });
+      if (this.data.serverSidePagination) {
+        this.onPageIndexChange(1);
+      } else {
+        const filteredValuesMap = new Map<string, Set<string>>();
 
-      // Filter the data based on all filter headers
-      const filteredData = this.filteringArrayData.filter((dataItem: any) => {
-        return this.filteringHeadArray.every((filterHead: any) => {
-          const filteredValues = filteredValuesMap.get(filterHead.key) ?? new Set<string>();
-          return filteredValues.has(dataItem[filterHead.key]);
+        this.filteringHeadArray.forEach((element1: any) => {
+          const filteredValues = new Set<string>(
+            element1?.filterArray.filter((filterItem: any) => filterItem.filter).map((filterItem: any) => filterItem.value)
+          );
+          filteredValuesMap.set(element1.key, filteredValues);
         });
-      });
 
-      // Assign the filtered data to this.displayData and this.tableData
-      this.filteringArrayData = filteredData;
-      this.displayData = filteredData;
-      this.tableData = filteredData;
+        // Filter the data based on all filter headers
+        const filteredData = this.filteringArrayData.filter((dataItem: any) => {
+          return this.filteringHeadArray.every((filterHead: any) => {
+            const filteredValues = filteredValuesMap.get(filterHead.key) ?? new Set<string>();
+            return filteredValues.has(dataItem[filterHead.key]);
+          });
+        });
+
+        // Assign the filtered data to this.displayData and this.tableData
+        this.filteringArrayData = filteredData;
+        this.displayData = filteredData;
+        this.tableData = filteredData;
+      }
+
+
     }
     else {
-      this.displayData = this.excelReportData;
-      this.tableData = this.excelReportData;
-      this.filteringArrayData = [];
+      if (this.data.serverSidePagination) {
+        this.onPageIndexChange(1);
+      } else {
+        this.displayData = this.excelReportData;
+        this.tableData = this.excelReportData;
+        this.filteringArrayData = [];
+      }
+
     }
     this.groupingData = [];
     if (this.data?.searchValue) {
@@ -2403,9 +2468,10 @@ export class DynamicTableComponent implements OnInit {
       const applicationId = localStorage.getItem('applicationId') || '';
       let savedGroupData: any = [];
       if (applicationId) {
-        this.saveLoader = true;
-        savedGroupData = await this.dataService.getNodes(JSON.parse(applicationId), this.screenName, "Table");
-        this.saveLoader = false;
+        // this.saveLoader = true;
+        // time ly rahi thi es liyee comment ki
+        // savedGroupData = await this.dataService.getNodes(JSON.parse(applicationId), this.screenName, "Table");
+        // this.saveLoader = false;
       }
       if (savedGroupData.length > 0) {
         let getData = savedGroupData[savedGroupData.length - 1];
