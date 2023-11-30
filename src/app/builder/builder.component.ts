@@ -1828,6 +1828,9 @@ export class BuilderComponent implements OnInit {
         case 'fileManager':
           newNode = { ...newNode, ...this.addControlService.getFileManagerControl() };
           break;
+        case 'chat':
+          newNode = { ...newNode, ...this.addControlService.getChatControl() };
+          break;
         case 'repeatableControll':
           let formlyObj = {
             isNextChild: true,

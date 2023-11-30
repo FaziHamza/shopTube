@@ -56,6 +56,11 @@ export class AddControlService {
       showFolderDetail: true,
     }
   }
+  getChatControl() {
+    return {
+      isNextChild: false,
+    }
+  }
   getPageBodyControl() {
     return {
       footer: false, header: false, isNextChild: true,

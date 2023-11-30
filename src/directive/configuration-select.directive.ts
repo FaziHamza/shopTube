@@ -27,6 +27,7 @@ export class ConfigurableSelectDirective implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit() {
+    debugger
     this.bindEvents();
     this.loadOptions();
   }

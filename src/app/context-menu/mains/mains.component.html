@@ -40,9 +40,9 @@
         </div>
     </ng-template>
     <ng-template #fifth>
-        <div *ngIf="item.type == 'donutChart';else sixth">
-            <!-- <st-visitor-source-card [donutChart]="item">
-          </st-visitor-source-card> -->
+        <div *ngIf="item.type == 'chat';else sixth">
+            <st-support-chat [formlyModel]="formlyModel" [form]="form" [screenId]="screenId"
+                [screenName]="screenName" [data]="item"></st-support-chat>
         </div>
     </ng-template>
     <ng-template #sixth>
