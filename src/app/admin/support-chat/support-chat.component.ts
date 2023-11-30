@@ -14,7 +14,6 @@ export class SupportChatComponent {
   @Input() screenId: any;
   @Input() screenName: any;
   @Input() data: any;
-
   hideChat: boolean = true;
   comment: any;
   saveLoader: boolean = false;
@@ -41,10 +40,10 @@ export class SupportChatComponent {
   }
   saveChat() {
     const checkPermission = this.dataSharedService.getUserPolicyMenuList.find(a => a.screenId === this.dataSharedService.currentMenuLink);
-    if (!checkPermission?.create && this.dataSharedService?.currentMenuLink !== '/ourbuilder') {
-      this.toastr.warning("You do not have permission", { nzDuration: 3000 });
-      return;
-    }
+    // if (!checkPermission?.create && this.dataSharedService?.currentMenuLink !== '/ourbuilder') {
+    //   this.toastr.warning("You do not have permission", { nzDuration: 3000 });
+    //   return;
+    // }
     const postEvent = this.data.appConfigurableEvent.find((item: any) => item.rule.includes('post_'));
     if (postEvent) {
       const model = {
