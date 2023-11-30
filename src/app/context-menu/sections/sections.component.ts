@@ -382,7 +382,7 @@ export class SectionsComponent implements OnInit {
     };
 
     let formlyInputs: any[] = this.filterInputElements(this.sections.children[1].children);
-    let multiselect: any = [];;
+    let multiselect: any = [];
     if (formlyInputs.length > 0) {
       multiselect = formlyInputs.filter((a: any) => a.type == 'multiselect');
       if (multiselect.length > 0) {

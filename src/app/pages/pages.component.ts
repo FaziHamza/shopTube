@@ -101,8 +101,10 @@ export class PagesComponent implements OnInit, OnDestroy {
       if (res && this.navigation) {
         this.filterDuplicateChildren(this.resData[0]);
         if (res.mapApi) {
-          let selectedNodeMap = this.findObjectByKey(this.resData[0].children[1], res.control.key)
-          this.makeDynamicSections(res.mapApi, selectedNodeMap)
+          let selectedNodeMap = this.findObjectByKey(this.resData[0].children[1], res.control.key);
+          if(selectedNodeMap){
+            this.makeDynamicSections(res.mapApi, selectedNodeMap)
+          }
         }
       }
     });

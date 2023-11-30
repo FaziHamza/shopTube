@@ -1589,6 +1589,12 @@ export const htmlTabsData = [
                 label: "Qr Code",
                 isLeaf: true
               },
+              {
+                parameter: "chat",
+                icon: "uil uil-file-alt",
+                label: "Chat",
+                isLeaf: true
+              },
             ]
           },
         ]
