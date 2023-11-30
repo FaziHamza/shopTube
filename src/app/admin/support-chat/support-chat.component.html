@@ -8,7 +8,8 @@
                 <div class="flex flex-col flex-auto flex-shrink-0 rounded-2xl bg-gray-100 h-full p-4">
                     <div class="flex flex-col h-full overflow-x-auto mb-4">
                         <div class="flex flex-col h-full">
-                            <div *ngFor="let userChat of chatData" class="grid grid-cols-12 gap-y-2">
+                            <div *ngFor="let userChat of chatData ; let i = index" (mouseover)="hover(i , 'in')"
+                                (mouseleave)="hover(i , 'out')" class="grid grid-cols-12 gap-y-2">
                                 <div *ngIf="userName != userChat.createdby"
                                     class="col-start-1 col-end-8 p-3 rounded-lg">
                                     <div class="flex flex-row items-center">
@@ -30,6 +31,14 @@
                                         </div>
                                         <div class="relative mr-3 text-sm bg-indigo-100 py-2 px-4 shadow rounded-xl">
                                             <div>{{userChat.comment}}</div>
+                                        </div>
+                                        <div class="flex" *ngIf="i == editDeleteId">
+                                            <i (click)="showDeleteConfirm(userChat)"
+                                                class="fa-regular fa-trash  hover:shadow-lg text-red-500"
+                                                nzTooltipTitle="Delete" nz-tooltip></i>
+                                            <i (click)="edit(userChat)"
+                                                class="fa-regular fa-pencil  hover:shadow-lg text-red-500"
+                                                nzTooltipTitle="Delete" nz-tooltip></i>
                                         </div>
                                     </div>
                                 </div>
