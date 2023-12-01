@@ -118,8 +118,8 @@ export class SupportChatComponent {
   close() {
     this.hideChat = false;
   }
-  hover(id: any, type: any) {
-    this.editDeleteId = type == 'in' ? id : '';
+  editIdAssign(id: any) {
+    this.editDeleteId = id;
   }
   delete(data: any) {
     // const checkPermission = this.dataSharedService.getUserPolicyMenuList.find(a => a.screenId == this.dataSharedService.currentMenuLink);
