@@ -1,6 +1,6 @@
 <nz-spin [nzSpinning]="saveLoader" [nzSize]="'large'">
 
-    <div [hidden]="hideChat" class="flex h-screen antialiased text-gray-800">
+    <div [hidden]="hideChat" class="fixed bottom-4 right-4 h-[700px]" style="z-index: 1000;">
         <div class="flex flex-row h-full w-full overflow-x-hidden">
             <div class="flex flex-col flex-auto h-full p-6">
 
@@ -100,7 +100,7 @@
 
 
     <div [appConfigurableSelect]="data['appConfigurableEvent']" [loadAction]="data['eventActionconfig']"
-        [processData]="processData" [hidden]="hideChat == false ? true : false" class="fixed bottom-4 right-4">
+        [processData]="processData" [hidden]="hideChat == false ? true : false" class="fixed bottom-4 right-4" style="z-index: 1000;">
         <button class="flex h-[70px] w-[70px] items-center justify-center rounded-full bg-amber-300 text-white"
             (click)="hideChat = !hideChat">
             <span class="cross-icon hidden">
