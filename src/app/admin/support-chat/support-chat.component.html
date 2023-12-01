@@ -25,7 +25,7 @@
                                 </div>
                                 <div *ngIf="userName == userChat.createdby"
                                     class="col-start-6 col-end-13 p-3 rounded-lg">
-                                    <div (click)="editIdAssign(i)" class="flex items-center justify-between">
+                                    <div class="flex items-center justify-between">
                                         <div class="flex width-[10]" *ngIf="i == editDeleteId">
                                             <i (click)="showDeleteConfirm(userChat)"
                                                 class="fa-regular fa-trash hover:shadow-lg text-red-500"
@@ -35,7 +35,8 @@
                                                 nzTooltipTitle="Edit" nz-tooltip></i>
                                         </div>
                                         <div class="flex-grow width-[70]">
-                                            <div class="flex items-center justify-start flex-row-reverse">
+                                            <div (click)="editIdAssign(i)"
+                                                class="flex items-center justify-start flex-row-reverse">
                                                 <div
                                                     class="flex items-center justify-center h-10 w-10 rounded-full bg-amber-300 flex-shrink-0 uppercase text-white">
                                                     {{ userChat.createdby | slice: 0:2 }}
@@ -52,7 +53,7 @@
                         </div>
                     </div>
                     <div class="flex flex-row items-center h-[14%] rounded-xl bg-white w-full px-4">
-                        <div>
+                        <!-- <div>
                             <button class="flex items-center justify-center text-gray-400 hover:text-gray-600">
                                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"
                                     xmlns="http://www.w3.org/2000/svg">
@@ -61,12 +62,12 @@
                                     </path>
                                 </svg>
                             </button>
-                        </div>
+                        </div> -->
                         <div class="flex-grow ml-4">
                             <div class="relative w-full">
-                                <input type="text" [(ngModel)]="comment"
-                                    class="flex w-full border rounded-xl focus:outline-none focus:border-indigo-300 pl-4 h-10" />
-                                <button
+                                <textarea type="text" [(ngModel)]="comment"
+                                    class="flex w-full border rounded-xl focus:outline-none focus:border-indigo-300 pl-4 h-10"></textarea>
+                                <!-- <button
                                     class="absolute flex items-center justify-center h-full w-12 right-0 top-0 text-gray-400 hover:text-gray-600">
                                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"
                                         xmlns="http://www.w3.org/2000/svg">
@@ -74,7 +75,7 @@
                                             d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z">
                                         </path>
                                     </svg>
-                                </button>
+                                </button> -->
                             </div>
                         </div>
                         <div class="ml-4">
