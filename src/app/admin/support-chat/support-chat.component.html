@@ -25,8 +25,8 @@
                                 </div>
                                 <div *ngIf="userName == userChat.createdby"
                                     class="col-start-6 col-end-13 p-3 rounded-lg">
-                                    <div class="flex items-center justify-start">
-                                        <div class="flex " *ngIf="i == editDeleteId">
+                                    <div (click)="editIdAssign(i)" class="flex items-center justify-between">
+                                        <div class="flex width-[10]" *ngIf="i == editDeleteId">
                                             <i (click)="showDeleteConfirm(userChat)"
                                                 class="fa-regular fa-trash hover:shadow-lg text-red-500"
                                                 nzTooltipTitle="Delete" nz-tooltip></i>
@@ -34,9 +34,8 @@
                                                 class="fa-regular fa-pencil hover:shadow-lg text-blue-500 mx-2"
                                                 nzTooltipTitle="Edit" nz-tooltip></i>
                                         </div>
-                                        <div class="flex-grow">
-                                            <div class="flex items-center justify-start flex-row-reverse"
-                                                (mouseover)="hover(i, 'in')" (mouseleave)="hover(i, 'out')">
+                                        <div class="flex-grow width-[70]">
+                                            <div class="flex items-center justify-start flex-row-reverse">
                                                 <div
                                                     class="flex items-center justify-center h-10 w-10 rounded-full bg-amber-300 flex-shrink-0 uppercase text-white">
                                                     {{ userChat.createdby | slice: 0:2 }}
