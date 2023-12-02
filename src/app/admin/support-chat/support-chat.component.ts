@@ -22,6 +22,7 @@ export class SupportChatComponent {
   saveLoader: boolean = false;
   chatData: any[] = [];
   userName: any;
+  showIcon : boolean = false;
   requestSubscription: Subscription;
   editDeleteId: any;
   editId: any;
@@ -200,5 +201,10 @@ export class SupportChatComponent {
         });
       }
     }
+  }
+
+  showicon(){
+    this.showIcon = true ;
+    console.log(this.showIcon)
   }
 }

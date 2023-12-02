@@ -4,11 +4,11 @@
         <div class="flex flex-row h-full w-full overflow-x-hidden">
             <div class="flex flex-col flex-auto h-full p-6">
 
-                <div class="absolute right-3 bottom-10 shadow-xl rounded-2xl bg-gray-100 h-[70%] p-4 w-96">
-                    <div class="flex justify-end h-[6%]">
+                <div class="absolute right-3 bottom-10 shadow-xl rounded-2xl bg-gray-100 h-[70%] px-4 w-96">
+                    <div class="flex justify-end items-center h-[8%] pt-2">
                         <i class="fas fa-times text-lg text-red-500 cursor-pointer" (click)="hideChat = !hideChat"></i>
                     </div>
-                    <div class="flex flex-col h-[80%] overflow-x-auto mb-4">
+                    <div class="flex flex-col h-[73%] overflow-x-auto mb-2">
                         <div class="flex flex-col h-full">
                             <div *ngFor="let userChat of chatData ; let i = index" class="grid grid-cols-12 gap-y-2">
                                 <div *ngIf="userName != userChat.createdby"
@@ -24,7 +24,8 @@
                                     </div>
                                 </div>
                                 <div *ngIf="userName == userChat.createdby"
-                                    class="col-start-4 col-end-13 p-3 rounded-lg">
+                                    [class]="!showIcon ? '!col-start-2 col-end-13 p-3 rounded-lg' : '!col-start-1 col-end-13 p-3 rounded-lg'"
+                                >
                                     <div class="flex items-center justify-between">
                                         <div class="flex w-14" *ngIf="i == editDeleteId">
                                             <i (click)="showDeleteConfirm(userChat)"
@@ -34,16 +35,17 @@
                                                 class="fa-regular fa-pencil hover:shadow-lg text-blue-500 mx-2"
                                                 nzTooltipTitle="Edit" nz-tooltip></i>
                                         </div>
-                                        <div class="flex-grow w-56">
+                                        <div class="flex-grow w-60">
                                             <div (click)="editIdAssign(i)"
                                                 class="flex items-center justify-start flex-row-reverse">
                                                 <div
                                                     class="flex items-center justify-center h-10 w-10 rounded-full bg-amber-300 flex-shrink-0 uppercase text-white">
                                                     {{ userChat.createdby | slice: 0:2 }}
                                                 </div>
-                                                <div
-                                                    class="relative mr-3 text-sm bg-indigo-100 py-2 px-4 shadow rounded-xl flex-grow">
-                                                    <div>{{ userChat.comment }}</div>
+                                                <div (click)="showicon()"
+                                                    class="relative mr-3 " style="max-width: 212px !important;
+                                                    ;">
+                                                    <div class="bg-indigo-100 py-2 px-4 text-sm  shadow rounded-xl" >{{ userChat.comment }}</div>
                                                 </div>
                                             </div>
                                         </div>
@@ -63,10 +65,10 @@
                                 </svg>
                             </button>
                         </div> -->
-                        <div class="flex-grow ml-4">
+                        <div class="flex-grow">
                             <div class="relative w-full">
                                 <textarea type="text" [(ngModel)]="comment"
-                                    class="flex w-full border rounded-xl focus:outline-none focus:border-indigo-300 pl-4 h-10 pt-2"></textarea>
+                                    class="flex w-full border rounded-md focus:outline-none focus:border-indigo-300 pl-4 h-10 pt-2"></textarea>
                                 <!-- <button
                                     class="absolute flex items-center justify-center h-full w-12 right-0 top-0 text-gray-400 hover:text-gray-600">
                                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"
@@ -80,7 +82,7 @@
                         </div>
                         <div class="ml-4">
                             <button (click)="saveChat()"
-                                class="flex items-center justify-center bg-amber-300 hover:bg-amber-400 rounded-xl text-white px-4 py-2 flex-shrink-0">
+                                class="flex items-center justify-center bg-amber-300 hover:bg-amber-400 rounded-md text-white px-4 py-2 flex-shrink-0">
                                 <span>Send</span>
                                 <span class="ml-2">
                                     <svg class="w-4 h-4 transform rotate-45 -mt-px" fill="none" stroke="currentColor"
@@ -101,7 +103,7 @@
 
     <div [appConfigurableSelect]="data['appConfigurableEvent']" [loadAction]="data['eventActionconfig']"
         [processData]="processData" [hidden]="hideChat == false ? true : false" class="fixed bottom-4 right-4"
-        style="z-index: 1000;">
+        style="z-index: 2000;">
         <button class="flex h-[60px] w-[60px] items-center justify-center rounded-full bg-amber-300 text-white"
             (click)="hideChat = !hideChat">
             <span class="cross-icon hidden">
