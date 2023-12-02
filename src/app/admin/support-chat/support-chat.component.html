@@ -12,20 +12,20 @@
                         <div class="flex flex-col h-full">
                             <div *ngFor="let userChat of chatData ; let i = index" class="grid grid-cols-12 gap-y-2">
                                 <div *ngIf="userName != userChat.createdby"
-                                    class="col-start-1 col-end-9 p-3 rounded-lg">
-                                    <div class="flex flex-row items-center">
+                                    class="col-start-1 col-end-9 px-2 py-1 rounded-lg">
+                                    <div class="flex flex-row items-center h-fit relative">
                                         <div
-                                            class="flex items-center justify-center h-10 w-10 rounded-full bg-amber-300 flex-shrink-0 uppercase text-white">
+                                            class="flex items-center justify-center h-7 w-7 absolute top-0 rounded-full bg-amber-300 flex-shrink-0 uppercase text-sm text-white">
                                             {{userChat.createdby | slice:0:2}}
                                         </div>
-                                        <div class="relative ml-3 text-sm bg-white py-2 px-4 shadow rounded-xl">
+                                        <div
+                                            class="relative ml-9 text-sm bg-white h-fit py-2 px-4 shadow rounded-xl !rounded-tl-none">
                                             <div>{{userChat.comment}}</div>
                                         </div>
                                     </div>
                                 </div>
                                 <div *ngIf="userName == userChat.createdby"
-                                    [class]="!showIcon ? '!col-start-2 col-end-13 p-3 rounded-lg' : '!col-start-1 col-end-13 p-3 rounded-lg'"
-                                >
+                                    [class]="!showIcon ? '!col-start-2 col-end-13 px-2 py-1 rounded-lg' : '!col-start-1 col-end-13 rounded-lg'">
                                     <div class="flex items-center justify-between">
                                         <div class="flex w-14" *ngIf="i == editDeleteId">
                                             <i (click)="showDeleteConfirm(userChat)"
@@ -35,17 +35,20 @@
                                                 class="fa-regular fa-pencil hover:shadow-lg text-blue-500 mx-2"
                                                 nzTooltipTitle="Edit" nz-tooltip></i>
                                         </div>
-                                        <div class="flex-grow w-60">
+                                        <div class="flex-grow w-60 relative">
                                             <div (click)="editIdAssign(i)"
                                                 class="flex items-center justify-start flex-row-reverse">
+
                                                 <div
-                                                    class="flex items-center justify-center h-10 w-10 rounded-full bg-amber-300 flex-shrink-0 uppercase text-white">
+                                                    class="flex items-center justify-center h-7 w-7 rounded-full absolute top-0 bg-amber-300 flex-shrink-0 uppercase text-sm text-white">
                                                     {{ userChat.createdby | slice: 0:2 }}
                                                 </div>
-                                                <div (click)="showicon()"
-                                                    class="relative mr-3 " style="max-width: 212px !important;
+                                                <div (click)="showicon()" class="relative mr-9 " style="max-width: 212px !important;
                                                     ;">
-                                                    <div class="bg-indigo-100 py-2 px-4 text-sm  shadow rounded-xl" >{{ userChat.comment }}</div>
+                                                    <div
+                                                        class="bg-indigo-100 py-2 px-4 text-sm  shadow rounded-xl !rounded-tr-none">
+                                                        {{
+                                                        userChat.comment }}</div>
                                                 </div>
                                             </div>
                                         </div>
