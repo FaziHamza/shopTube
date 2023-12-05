@@ -10,7 +10,7 @@
                     </div>
                     <div class="flex flex-col h-[73%] overflow-x-auto mb-2 px-3">
                         <div class="flex flex-col h-full">
-                            <div *ngFor="let userChat of chatData ; let i = index" class="grid grid-cols-12 gap-y-2">
+                            <div *ngFor="let userChat of data?.chatData ; let i = index" class="grid grid-cols-12 gap-y-2">
                                 <div *ngIf="userName != userChat.createdby"
                                     class="col-start-1 col-end-9 px-2 py-1 rounded-lg">
                                     <div class="flex flex-row items-center h-fit relative">

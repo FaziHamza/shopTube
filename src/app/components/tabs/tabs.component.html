@@ -1,10 +1,9 @@
-<!-- {{formlyModel | json}} -->
 <nz-tabset [(nzSelectedIndex)]="tabs.selectedIndex" [nzAnimated]="tabs.animated" [nzSize]="tabs.size"
     [nzTabPosition]="tabs.tabPosition" [nzType]="tabs.tabType" [nzHideAll]="tabs.hideTabs" nzHideAdd
     (nzClose)="closeTab($event)" [nzCentered]="tabs.centerd">
     <nz-tab *ngFor="let items of tabs.children; let i = index ; let last = last"
         [nzTitle]="titleTemplate" (nzSelectChange)="handleTabSelect($event)" [nzForceRender]="true"
-        [nzDisabled]="tabs.disabled" nzClosable >
+        [nzDisabled]="items.disabled" nzClosable >
         <ng-template #titleTemplate>
             <span *ngIf="items.icon">
                 <st-icon [type]="items.iconType" [hoverIconColor]="items?.hoverIconColor || ''" [icon]="items.icon" [size]="items.iconSize" [color]="items?.iconColor"></st-icon>
@@ -14,6 +13,6 @@
                     nzType="question-circle" nzTheme="twotone"></span></span>
         </ng-template>
         <st-main [screenName]="screenName" [mainData]="items"  [formlyModel]="formlyModel" [form]="form" [screenId]="screenId"></st-main>
-        <nz-divider *ngIf="tabs?.border"></nz-divider>
+        <nz-divider *ngIf="tabs?.border && tabs.tabPosition != 'bottom'"></nz-divider>
     </nz-tab>
 </nz-tabset>

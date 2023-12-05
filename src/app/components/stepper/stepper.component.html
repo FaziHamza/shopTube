@@ -1,8 +1,8 @@
 <nz-steps [class]="step.styleType || 'steper1'" [nzCurrent]="current" [nzStatus]="step.status" [nzCurrent]="current" [nzType]='step.stepperType' [nzDirection]="step.direction"
     [nzLabelPlacement]="step.placement" [nzSize]="step.size" [nzStartIndex]="step.selectedIndex"
-    (nzIndexChange)="handleIndexChange($event)">
+    (nzIndexChange)="handleIndexChange($event)"> 
     <ng-container *ngFor="let item of step.children">
-        <nz-step [nzDescription]="item.description" *ngIf="!item.icon" [nzDisabled]="item.disabled"
+        <nz-step [nzDescription]="item.description" *ngIf="!item.icon" [nzDisabled]="false"
         [nzTitle]="item.title | translate" [nzSubtitle]="item.subtitle" [nzPercentage]="item.percentage"
         ></nz-step>
         <nz-step [nzDescription]="item.description" *ngIf="item.icon" [nzIcon]="characterIcon" [nzDisabled]="item.disabled"

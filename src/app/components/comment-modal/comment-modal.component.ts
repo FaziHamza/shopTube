@@ -68,7 +68,7 @@ export class CommentModalComponent implements OnInit {
         screenid: this.screenName,
         datetime: new Date(),
         message: this.form.value.message,
-        status: this.update ? this.form.value.status : 'backlog',
+        status: this.update ? this.form.value.status : 'Backlog',
         organizationid: JSON.parse(localStorage.getItem('organizationId')!),
         applicationid: JSON.parse(localStorage.getItem('applicationId')!),
         componentid: this.data.id,

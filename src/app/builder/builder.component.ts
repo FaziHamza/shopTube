@@ -1751,7 +1751,7 @@ export class BuilderComponent implements OnInit {
         case 'deleteButton':
           newNode = {
             ...newNode,
-            ...this.addControlService.getInsertButtonControl(value , data),
+            ...this.addControlService.getInsertButtonControl(value, data),
           };
           break;
         case 'dropdownButton':
@@ -2689,7 +2689,7 @@ export class BuilderComponent implements OnInit {
 
 
   clickButton(type: any) {
-    
+
     let _formFieldData = new formFeildData();
     if ((_formFieldData.commonFormlyConfigurationFields[0].fieldGroup || _formFieldData.commonOtherConfigurationFields[0].fieldGroup) && this.applicationThemeClasses.length) {
       let newArray = this.applicationThemeClasses.filter((a: any) => a.tag?.toLowerCase().includes(this.selectedNode.type?.toLowerCase()));
@@ -3107,7 +3107,7 @@ export class BuilderComponent implements OnInit {
         this.fieldData.commonData?.push({ title: 'kanbanTaskFeilds', data: _formFieldData.kanbanTaskFeilds });
         break;
       case 'mainTab':
-        this.fieldData.commonData?.push({ title: 'mainTabFields', data: _formFieldData.mainTabFields });
+        this.fieldData.commonData?.push({ title: 'MainTab Fields', data: _formFieldData.mainTabFields });
         break;
       case 'progressBar':
         this.fieldData.commonData?.push({ title: 'progressBarFields', data: _formFieldData.progressBarFields });
@@ -3366,7 +3366,7 @@ export class BuilderComponent implements OnInit {
         this.addIconCommonConfiguration(_formFieldData.stepperFields, true);
         this.fieldData.commonData?.push({ title: 'stepperFields', data: _formFieldData.stepperFields });
         this.fieldData.mappingConfig = _formFieldData.mappingFields;
-        this.fieldData.commonData?.push({ title: 'selectedNode', data: this.selectedNode });
+        this.fieldData.mappingNode = this.selectedNode;
 
         break;
       case 'mainStep':
@@ -3957,8 +3957,10 @@ export class BuilderComponent implements OnInit {
       case 'cardWithComponents':
       case 'timelineChild':
         if (this.selectedNode.id) {
-
-          if (event.type == 'div') {
+          if (event.type == 'tabs') {
+            this.selectedNode['disabled'] = event.form.disabled;
+          }
+          else if (event.type == 'div') {
             this.selectedNode['rowClass'] = event.form.rowClass;
             this.selectedNode['componentMapping'] = event.form.componentMapping;
             this.selectedNode['image'] = event.form.image;
@@ -3973,7 +3975,7 @@ export class BuilderComponent implements OnInit {
               this.addDynamic(event.form.nodes, 'step', 'mainStep');
             }
           }
-          if (event.type == 'sections') {
+          else if (event.type == 'sections') {
             if (Array.isArray(event.form.className)) {
               if (event.form.className.length > 0) {
                 let classArray: any;
@@ -5040,7 +5042,7 @@ export class BuilderComponent implements OnInit {
         // if (event.tableDta) {
         //   this.selectedNode.carousalConfig = event.tableDta;
         // }
-        this.addDynamic(event.form.nodes, 'tabs', 'mainTab');
+        this.addDynamic(event.form.nodes, 'subCarouselCrossfade', 'carouselCrossfade');
         // event.tableDta != undefined
         //   ? (this.selectedNode.carousalConfig = event.tableDta)
         //   : (this.selectedNode.carousalConfig =
@@ -5803,13 +5805,13 @@ export class BuilderComponent implements OnInit {
   //   }
   // }
   addDynamic(nodesNumber: any, subType: any, mainType: any) {
-
     try {
       if (this.selectedNode.children) {
         this.addControl = true;
         this.showNotification = false;
         let nodesLength = this.selectedNode.children?.length;
         if (nodesLength < nodesNumber) {
+          this.ParentAdd = this.selectedNode;
           for (let k = 0; k < nodesNumber; k++) {
             if (nodesLength < nodesNumber) {
               if (mainType != 'mainDiv') {
@@ -5858,7 +5860,7 @@ export class BuilderComponent implements OnInit {
         }
         this.addControl = false;
         this.showNotification = true;
-        this.toastr.success('Control Updated', { nzDuration: 3000 });
+        // this.toastr.success('Control Updated', { nzDuration: 3000 });
       }
     } catch (error) {
       console.error(error);
@@ -7467,7 +7469,7 @@ export class BuilderComponent implements OnInit {
     this.formlyModel = newModel;
   }
   applyApplicationThemeClass() {
-    
+
     if (this.applicationThemeClasses.length > 0) {
       for (let index = 0; index < this.applicationThemeClasses.length; index++) {
         const element = this.applicationThemeClasses[index];
