@@ -12,15 +12,15 @@
                         <div class="flex flex-col h-full">
                             <div *ngFor="let userChat of chatData ; let i = index" class="grid grid-cols-12 gap-y-1">
                                 <div *ngIf="userName != userChat.createdby"
-                                    class="col-start-1 col-end-9 px-2 py-1 rounded-lg">
+                                    class="col-start-1 col-end-13 px-2 py-1 rounded-lg">
                                     <div class="flex flex-row items-center h-fit relative">
                                         <div
                                             class="flex items-center justify-center h-7 w-7 absolute top-0 rounded-full bg-amber-300 flex-shrink-0 uppercase text-sm text-white">
                                             {{userChat.createdby | slice:0:2}}
                                         </div>
                                         <div
-                                            class="relative ml-9 text-sm bg-white h-fit py-2 px-4 shadow rounded-xl !rounded-tl-none">
-                                            <div>{{userChat.comment}}</div>
+                                            class="relative pl-9 text-sm " style="max-width: 300px !important;">
+                                            <div class="bg-white h-fit py-2 px-4 shadow rounded-xl !rounded-tl-none" >{{userChat.comment}}</div>
                                         </div>
                                     </div>
                                 </div>
@@ -42,8 +42,7 @@
                                                     class="flex items-center justify-center h-7 w-7 rounded-full absolute top-0 right-[2px] bg-amber-300 flex-shrink-0 uppercase text-sm text-white" [ngClass]="{ ' right-[6px]' : showIcon}">
                                                     {{ userChat.createdby | slice: 0:2 }}
                                                 </div>
-                                                <div (click)="showicon()" class="relative pr-9 " style="max-width: 280px !important;
-                                                    ;">
+                                                <div (click)="showicon()" class="relative pr-9 " style="max-width: 280px !important;">
                                                     <div
                                                         class="bg-indigo-100 py-2 px-4 text-sm  shadow rounded-xl !rounded-tr-none">
                                                         {{

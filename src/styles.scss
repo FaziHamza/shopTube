@@ -7926,3 +7926,7 @@ nz-input-group:active {
   }
 
 }
+
+.ant-tabs-right>.ant-tabs-nav .ant-tabs-tab+.ant-tabs-tab , .ant-tabs-left>.ant-tabs-nav .ant-tabs-tab+.ant-tabs-tab{
+  margin-left: 0px !important;
+}
