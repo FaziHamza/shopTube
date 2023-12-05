@@ -1119,9 +1119,10 @@ export class DynamicTableComponent implements OnInit {
     return childKeys;
   }
   save() {
-    this._dataSharedService.setData(this.tableData);
+
+    this._dataSharedService.setData(this.displayData);
     if (this.data.doubleClick == false)
-      this._dataSharedService.saveGridData(this.tableData);
+      this._dataSharedService.saveGridData(this.displayData);
     this.toastr.success('Data saved successfully', { nzDuration: 3000 });
   }
 

@@ -146,19 +146,19 @@ export class GenericFieldComponent implements OnInit {
                 SelectQBOField: key,
                 defaultValue: '',
               }));
-              this.itemData.mappingNode.tableBody = this.itemData.mappingNode.tableBody.map((item: any) => {
-                let qboField = item.SelectQBOField.find((field: any) => field.key === item.fileHeader);
+              // this.itemData.mappingNode.tableBody = this.itemData.mappingNode.tableBody.map((item: any) => {
+              //   let qboField = item.SelectQBOField.find((field: any) => field.key === item.fileHeader);
 
-                if (qboField) {
-                  // Assign defaultValue from QBO field value if there's a match
-                  return {
-                    ...item,
-                    defaultValue: qboField.value
-                  };
-                } else {
-                  return item;
-                }
-              });
+              //   if (qboField) {
+              //     // Assign defaultValue from QBO field value if there's a match
+              //     return {
+              //       ...item,
+              //       defaultValue: qboField.value
+              //     };
+              //   } else {
+              //     return item;
+              //   }
+              // });
             } else {
               this.toastr.warning("Did not get data", { nzDuration: 3000 }); // Show an error message to the user
             }

@@ -531,19 +531,19 @@ export class ScreenBuilderComponent implements OnInit {
           },
         ],
       },
-      {
-        fieldGroup: [
-          {
-            key: 'pdf',
-            type: 'checkbox',
-            wrappers: ['formly-vertical-theme-wrapper'],
-            defaultValue: false,
-            props: {
-              label: 'Pdf',
-            },
-          },
-        ],
-      },
+      // {
+      //   fieldGroup: [
+      //     {
+      //       key: 'pdf',
+      //       type: 'checkbox',
+      //       wrappers: ['formly-vertical-theme-wrapper'],
+      //       defaultValue: false,
+      //       props: {
+      //         label: 'Pdf',
+      //       },
+      //     },
+      //   ],
+      // },
     ];
   }
   handlePageChange(event: number): void {

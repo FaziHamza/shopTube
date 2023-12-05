@@ -4744,15 +4744,15 @@ export class formFeildData {
         //     ]
         //   }
         // },
-        {
-          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
-          key: 'api',
-          type: 'input',
-          wrappers: ["formly-vertical-theme-wrapper"],
-          props: {
-            label: 'Api',
-          }
-        },
+        // {
+        //   className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+        //   key: 'api',
+        //   type: 'input',
+        //   wrappers: ["formly-vertical-theme-wrapper"],
+        //   props: {
+        //     label: 'Api',
+        //   }
+        // },
         {
           key: 'disabled',
           type: 'checkbox',
@@ -5409,24 +5409,24 @@ export class formFeildData {
         //     pattern: '^\\S*$',
         //   }
         // },
-        {
-          key: 'stepperLabel',
-          type: 'input',
-          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
-          wrappers: ["formly-vertical-theme-wrapper"],
-          props: {
-            label: 'Label',
-          }
-        },
-        {
-          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
-          key: 'api',
-          type: 'input',
-          wrappers: ["formly-vertical-theme-wrapper"],
-          props: {
-            label: 'Api',
-          }
-        },
+        // {
+        //   key: 'stepperLabel',
+        //   type: 'input',
+        //   className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+        //   wrappers: ["formly-vertical-theme-wrapper"],
+        //   props: {
+        //     label: 'Label',
+        //   }
+        // },
+        // {
+        //   className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+        //   key: 'api',
+        //   type: 'input',
+        //   wrappers: ["formly-vertical-theme-wrapper"],
+        //   props: {
+        //     label: 'Api',
+        //   }
+        // },
         // {
         //   key: 'stepperFormat',
         //   type: 'select',
@@ -5462,15 +5462,15 @@ export class formFeildData {
         //     label: 'Icon',
         //   }
         // },
-        {
-          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
-          key: 'api',
-          type: 'input',
-          wrappers: ["formly-vertical-theme-wrapper"],
-          props: {
-            label: 'Api',
-          }
-        },
+        // {
+        //   className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+        //   key: 'api',
+        //   type: 'input',
+        //   wrappers: ["formly-vertical-theme-wrapper"],
+        //   props: {
+        //     label: 'Api',
+        //   }
+        // },
         {
           key: 'disabled',
           type: 'checkbox',
@@ -5494,7 +5494,7 @@ export class formFeildData {
           className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
           wrappers: ["formly-vertical-theme-wrapper"],
           props: {
-            label: 'selectedIndex',
+            label: 'Selected Index',
           }
         },
         {
@@ -5503,22 +5503,22 @@ export class formFeildData {
           className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
           wrappers: ["formly-vertical-theme-wrapper"],
           props: {
-            label: 'tabPosition',
+            label: 'Tab Position',
             options: [
               {
-                label: 'top',
+                label: 'Top',
                 value: 'top'
               },
               {
-                label: 'right',
+                label: 'Right',
                 value: 'right'
               },
               {
-                label: 'bottom',
+                label: 'Bottom',
                 value: 'bottom'
               },
               {
-                label: 'left',
+                label: 'Left',
                 value: 'left'
               },
             ],
@@ -5566,7 +5566,7 @@ export class formFeildData {
           wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             type: 'number',
-            label: 'Number of Nodes',
+            label: 'Number of Tabs',
           }
         },
         {
@@ -5578,15 +5578,15 @@ export class formFeildData {
             label: 'Tab type',
             options: [
               {
-                label: 'line',
+                label: 'Line',
                 value: 'line'
               },
               {
-                label: 'card',
+                label: 'Card',
                 value: 'card'
               },
               {
-                label: 'editable-card',
+                label: 'Editable-card',
                 value: 'editable-card'
               },
 
@@ -5599,15 +5599,15 @@ export class formFeildData {
             },
           },
         },
-        {
-          key: 'hideTabs',
-          type: 'checkbox',
-          wrappers: ["formly-vertical-theme-wrapper"],
-          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
-          props: {
-            label: 'Hidetabs'
-          },
-        },
+        // {
+        //   key: 'hideTabs',
+        //   type: 'checkbox',
+        //   wrappers: ["formly-vertical-theme-wrapper"],
+        //   className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+        //   props: {
+        //     label: 'Hidetabs'
+        //   },
+        // },
         {
           key: 'animated',
           type: 'checkbox',
@@ -5623,7 +5623,7 @@ export class formFeildData {
           wrappers: ["formly-vertical-theme-wrapper"],
           className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
           props: {
-            label: 'centerd'
+            label: 'Centerd'
           },
         },
         {
@@ -8388,36 +8388,36 @@ export class formFeildData {
             },
           }
         },
-        {
-          key: 'link',
-          type: 'select',
-          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
-          wrappers: ["formly-vertical-theme-wrapper"],
-          defaultValue: "carousel-fade",
-          props: {
-            label: 'Api Ref',
-            options: [
-              {
-                label: '--Select--',
-                value: ''
-              },
-              {
-                label: 'Carousel 1',
-                value: 'carousel1'
-              },
-              {
-                label: 'Carousel 2',
-                value: 'carousel2'
-              },
-            ],
-            additionalProperties: {
-              allowClear: true,
-              serveSearch: false,
-              showArrow: true,
-              showSearch: true,
-            },
-          }
-        },
+        // {
+        //   key: 'link',
+        //   type: 'select',
+        //   className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+        //   wrappers: ["formly-vertical-theme-wrapper"],
+        //   defaultValue: "carousel-fade",
+        //   props: {
+        //     label: 'Api Ref',
+        //     options: [
+        //       {
+        //         label: '--Select--',
+        //         value: ''
+        //       },
+        //       {
+        //         label: 'Carousel 1',
+        //         value: 'carousel1'
+        //       },
+        //       {
+        //         label: 'Carousel 2',
+        //         value: 'carousel2'
+        //       },
+        //     ],
+        //     additionalProperties: {
+        //       allowClear: true,
+        //       serveSearch: false,
+        //       showArrow: true,
+        //       showSearch: true,
+        //     },
+        //   }
+        // },
         {
           key: 'autolPlaySpeed',
           type: 'input',

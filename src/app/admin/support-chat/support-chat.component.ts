@@ -45,7 +45,7 @@ export class SupportChatComponent {
 
   processData(res: any) {
     if (res) {
-      this.chatData = res.data;
+      this.data.chatData = res.data;
     }
     return res;
   }
@@ -141,7 +141,7 @@ export class SupportChatComponent {
           this.resetValues();
           if (res.isSuccess) {
             this.toastr.success("Delete Successfully", { nzDuration: 3000 });
-            this.chatData = this.chatData.filter((a: any) => a.id != data.id)
+            this.data.chatData = this.data.chatData.filter((a: any) => a.id != data.id)
           } else {
             this.toastr.warning(res.message || "Data is not deleted", { nzDuration: 3000 });
           }
