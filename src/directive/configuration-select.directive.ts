@@ -27,7 +27,6 @@ export class ConfigurableSelectDirective implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit() {
-    debugger
     this.bindEvents();
     this.loadOptions();
   }
@@ -103,6 +102,7 @@ export class ConfigurableSelectDirective implements OnInit, OnDestroy {
   }
 
   private executeAction(action: Action): Observable<any> {
+    
     const { _id, actionLink, data, headers, parentId, page, pageSize } = action;
     let pagination = ''
     if (page && pageSize){

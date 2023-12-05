@@ -130,7 +130,7 @@ export class EmailTemplatesComponent {
   }
 
   getEmailTemplates() {
-    debugger
+    
     this.loader = true;
     this.applicationService.getNestCommonAPIById('cp/emailTemplates', this.screenId).subscribe((getRes: any) => {
       this.loader = false;

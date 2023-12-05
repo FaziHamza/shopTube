@@ -59,6 +59,7 @@ export class AddControlService {
   getChatControl() {
     return {
       isNextChild: false,
+      chatData:[]
     }
   }
   getPageBodyControl() {

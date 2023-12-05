@@ -58,6 +58,8 @@ export class MainComponent implements OnInit {
   array = [1, 2, 3, 4];
   effect = 'scrollx';
   applicationId: any;
+  @Input() mappingId: any;
+
   constructor(private cd: ChangeDetectorRef, private nzImageService: NzImageService, private employeeService: EmployeeService,
     private builderService: BuilderService, private applicationServices: ApplicationService,
     private toastr: NzMessageService, private router: Router, public dataSharedService: DataSharedService,

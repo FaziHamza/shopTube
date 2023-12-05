@@ -26,6 +26,7 @@ export class BlockButtonsCardComponent {
   @Input() screenName: any;
   @Input() title: any;
   @Input() tableRowId: any;
+  @Input() mappingId: any;
   dataSrc: any;
   isShow: Boolean = false;
   nodes: TreeNode[];

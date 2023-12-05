@@ -3653,6 +3653,22 @@ export class formFeildData {
       ]
     },
   ]
+  chatFields: FormlyFieldConfig[] = [
+    {
+      fieldGroupClassName: "flex flex-wrap",
+      fieldGroup: [
+        {
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          key: 'mapApi',
+          type: 'input',
+          wrappers: ["formly-vertical-theme-wrapper"],
+          props: {
+            label: 'mapApi',
+          }
+        }
+      ]
+    },
+  ]
   mainDivFields: FormlyFieldConfig[] = [
     {
       fieldGroupClassName: "flex flex-wrap",

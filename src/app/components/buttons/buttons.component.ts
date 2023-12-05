@@ -28,6 +28,7 @@ export class ButtonsComponent implements OnInit {
   @Input() GridRuleColor: any;
   @Input() drawOpen: any;
   @Input() tableIndex: any;
+  @Input() mappingId: any;
   bgColor: any;
   hoverTextColor: any;
   dataSrc: any;
@@ -54,10 +55,10 @@ export class ButtonsComponent implements OnInit {
   private destroy$: Subject<void> = new Subject<void>();
   @Output() gridEmit: EventEmitter<any> = new EventEmitter<any>();
   constructor(private modalService: NzModalService, public employeeService: EmployeeService, private toastr: NzMessageService, private router: Router,
-    public dataSharedService: DataSharedService, private applicationService: ApplicationService, private activatedRoute: ActivatedRoute, private location: Location , private cdr: ChangeDetectorRef) { }
+    public dataSharedService: DataSharedService, private applicationService: ApplicationService, private activatedRoute: ActivatedRoute, private location: Location, private cdr: ChangeDetectorRef) { }
 
   ngOnInit(): void {
-    
+
     if (this.tableDisplayData) {
       this.keyName = this.findKeyByOrderid(this.tableDisplayData, this.title);
     }
@@ -82,14 +83,14 @@ export class ButtonsComponent implements OnInit {
       this.buttonData.title = userData.policy.policyName ? userData.policy.policyName : this.buttonData.title;
     }
 
-    if(this.drawOpen && this.tableIndex == 0){
+    if (this.drawOpen && this.tableIndex == 0) {
       this.pagesRoute(this.buttonData);
     }
 
   }
 
   pagesRoute(data: any): void {
-
+    
     if (data.isSubmit) {
       return;
     }
@@ -113,9 +114,18 @@ export class ButtonsComponent implements OnInit {
           });
           return
         }
+        this.cdr.detectChanges();
+        this.nodes = [];
+        if (this.tableRowId) {
+          this.mappingId = this.tableRowId;
+          this.mappingId = this.mappingId ? JSON.parse(JSON.stringify(this.mappingId)) : this.mappingId;
+          // this.dataSharedService.queryId = this.tableRowId;
+          // this.findObjectByTypeBase(this.responseData[0].children[1], 'div');
+          // this.findObjectByTypeBase(this.responseData[0].children[1], 'timelineChild');
+
+        }
         this.loader = true;
         this.isVisible = true;
-        this.cdr.detectChanges();
         // this.dataSharedService.drawerVisible = true;
         this.requestSubscription = this.applicationService.getNestCommonAPIById('cp/Builder', data.href).subscribe({
           next: (res: any) => {
@@ -125,15 +135,10 @@ export class ButtonsComponent implements OnInit {
                   this.screenId = res.data[0].screenBuilderId;
                   const data = JSON.parse(res.data[0].screenData);
                   this.responseData = data;
-                  if (this.tableRowId) {
-                    this.dataSharedService.queryId = this.tableRowId;
-                    // this.findObjectByTypeBase(this.responseData[0].children[1], 'div');
-                    // this.findObjectByTypeBase(this.responseData[0].children[1], 'timelineChild');
-
-                  }
                   res.data[0].screenData = this.jsonParseWithObject(this.jsonStringifyWithObject(this.responseData));
                   this.nodes = [];
                   this.nodes.push(res);
+
                 }
                 this.loader = false;
               } else {
@@ -192,7 +197,6 @@ export class ButtonsComponent implements OnInit {
     this.isVisible = false;
   }
   handleClose(): void {
-
     this.isVisible = false;
     this.dataSharedService.drawerVisible = false;
     this.gridEmit.emit();
@@ -203,7 +207,11 @@ export class ButtonsComponent implements OnInit {
     if ((!buttonData.captureData || buttonData.captureData == 'sectionLevel') && buttonData.isSubmit) {
       this.dataSharedService.buttonData = buttonData;
       this.dataSharedService.saveModel = this.formlyModel;
-      this.dataSharedService.sectionSubmit.next(buttonData);
+      let newData = {
+        buttonData: buttonData,
+        mappingId: this.mappingId,
+      }
+      this.dataSharedService.sectionSubmit.next(newData);
     } else if (buttonData.captureData == 'pageLevel' && buttonData.isSubmit) {
       this.dataSharedService.pageSubmit.next(buttonData);
     }
@@ -272,11 +280,11 @@ export class ButtonsComponent implements OnInit {
     this.router.navigate(['/login']);
   }
   jsonPolicyModuleList() {
-    
+
     let user = JSON.parse(window.localStorage['user']);
     this.applicationService.getNestCommonAPI(`cp/policy/getPolicyByUserId/${user.policy.userId}`).subscribe({
       next: (res: any) => {
-        
+
         if (res.isSuccess) {
           if (res?.data.length > 0) {
             if (this.buttonData?.showPolicies) {
@@ -308,7 +316,7 @@ export class ButtonsComponent implements OnInit {
     });
   }
   changeTheme(policy: any) {
-    
+
     let user = JSON.parse(window.localStorage['user']);
     this.policyTheme = policy?.policyId?.applicationTheme;
     user['policy']['policyTheme'] = policy?.policyId?.applicationTheme ? policy?.policyId?.applicationTheme : '';
@@ -317,7 +325,7 @@ export class ButtonsComponent implements OnInit {
     this.dataSharedService.applicationTheme.next(true);
   }
   changePolicy(policy: any) {
-    
+
     let user = JSON.parse(window.localStorage['user']);
     user['policy']['policyId'] = policy?.policyId?._id;
     user['policy']['policyName'] = policy?.policyId?.name;
@@ -392,7 +400,7 @@ export class ButtonsComponent implements OnInit {
         this.tableRowId = this.tableDisplayData[index - 1]['id'];
         this.drawerTiltle = this.tableDisplayData[index - 1][this.keyName];
       } else {
-        const indexValue  = direction === 'next' ? 1 : -1
+        const indexValue = direction === 'next' ? 1 : -1
         this.gridEmit.emit(indexValue);
         // this.toastr.warning('Id does not exist', { nzDuration: 3000 });
         return;

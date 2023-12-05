@@ -89,7 +89,7 @@ export class UserMappingComponent {
   }
 
   loadUserData() {
-    debugger
+    
     this.loader = true;
     this.applicationService.getNestCommonAPI('cp/UserMapping').subscribe({
       next: (res: any) => {
@@ -119,7 +119,7 @@ export class UserMappingComponent {
   }
 
   onSubmit() {
-    debugger
+    
     if (!this.policyName || !this.userName) {
       if (!this.policyName) {
         this.toastr.warning('Please Select Policy Name', { nzDuration: 2000 });

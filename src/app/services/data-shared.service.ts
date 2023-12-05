@@ -71,6 +71,7 @@ export class DataSharedService {
   contentHeight: number;
   showFooter: boolean;
   queryId: any = '';
+  isSaveData: boolean = false;
   constructor() { }
 
   setData(data: any) {

@@ -32,7 +32,7 @@
       </div>
       <div class="{{sections.children[1].className}} {{sections.children[1].highLight ? 'highLight' : ''}} "
         [style]="{'background-color': sections.children[1].backGroundColor,'color': sections.children[1].textColor}">
-        <st-main [mainData]="sections.children[1]" [formlyModel]="formlyModel" [screenId]="screenId"
+        <st-main [mappingId]="mappingId" [mainData]="sections.children[1]" [formlyModel]="formlyModel" [screenId]="screenId"
           [screenName]="screenName" [form]="form"></st-main>
       </div>
       <div
@@ -60,7 +60,7 @@
             class="p-2 font-normal text-base {{sections.children[1].highLight ? 'highLight' : ''}} {{sections.children[1].className}}"
             *ngIf="resData.length > 0"
             [style]="{'background-color': sections.children[1].backGroundColor,'color': sections.children[1].textColor}">
-            <st-main [mainData]="sections.children[1]" [formlyModel]="formlyModel" [screenName]="screenName"
+            <st-main [mappingId]="mappingId" [mainData]="sections.children[1]" [formlyModel]="formlyModel" [screenName]="screenName"
               [screenId]="screenId" [form]="form"></st-main>
           </div>
           <div

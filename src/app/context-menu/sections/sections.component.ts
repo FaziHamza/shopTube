@@ -21,6 +21,7 @@ import { Location } from '@angular/common';
 export class SectionsComponent implements OnInit {
   @Input() sections: any;
   @Input() isDrawer: boolean = false;
+  @Input() mappingId: any;
   @Input() screenName: any;
   @Input() screenId: any;
   @Input() resData: any;
@@ -72,8 +73,9 @@ export class SectionsComponent implements OnInit {
     this.requestSubscription = this.dataSharedService.sectionSubmit.subscribe({
       next: (res) => {
         if (res && this.dataSharedService.buttonData) {
-          const checkButtonExist = this.findObjectById(this.sections, res.id);
+          const checkButtonExist = this.findObjectById(this.sections, res?.buttonData?.id);
           if (checkButtonExist?.appConfigurableEvent) {
+            this.mappingId = res.mappingId;
             // event?.stopPropagation();
             let makeModel: any = {};
             console.log('checkButtonExist?.detailSave : ' + checkButtonExist?.detailSave)
@@ -105,7 +107,7 @@ export class SectionsComponent implements OnInit {
               this.dataModel = this.convertModel(this.formlyModel);
               const allUndefined = Object.values(this.formlyModel).every((value) => value === undefined);
               if (!allUndefined) {
-                this.saveData(res)
+                this.saveData(res?.buttonData)
               }
 
             }
@@ -313,12 +315,14 @@ export class SectionsComponent implements OnInit {
               // else {
               //   this.dataSharedService.gridDataLoad = true;
               // }
+
               this.dataSharedService.gridDataLoad = true;
+              this.dataSharedService.isSaveData = true;
               let findCommentsDiv = this.findObjectByKey(this.sections, 'section_comments_drawer');
-              if (findCommentsDiv && this.dataModel) {
-                const keyWithId = Object.keys(this.dataModel).find(key => key.includes('.id'));
-                if (keyWithId) {
-                  let mapApi = findCommentsDiv['mapApi'].includes(`/${this.dataModel[keyWithId]}`) ? findCommentsDiv['mapApi'] : `${findCommentsDiv['mapApi']}/${this.dataModel[keyWithId]}`;
+              if (findCommentsDiv && this.dataModel && findCommentsDiv.type != 'chat') {
+                // const keyWithId = Object.keys(this.dataModel).find(key => key.includes('.id'));
+                if (this.mappingId) {
+                  let mapApi = findCommentsDiv['mapApi'].includes(`/${this.mappingId}`) ? findCommentsDiv['mapApi'] : `${findCommentsDiv['mapApi']}/${this.mappingId}`;
                   let obj: any = {
                     control: findCommentsDiv,
                     mapApi: mapApi
@@ -1467,7 +1471,7 @@ export class SectionsComponent implements OnInit {
     // }
   }
   joiValidation() {
-    debugger
+    
     let modelObj: any = [];
     this.ruleValidation = {};
     let filterdFormly: any = this.filterInputElements(this.sections.children[1].children);

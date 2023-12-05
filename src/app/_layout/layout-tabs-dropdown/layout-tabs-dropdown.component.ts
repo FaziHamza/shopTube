@@ -27,6 +27,9 @@ export class LayoutTabsDropdownComponent implements OnInit {
       this.layoutTabsDropdownData['aboveSevenTab'] = this.layoutTabsDropdownData.children.slice(6);
       this.layoutTabsDropdownData.children = this.layoutTabsDropdownData.children.slice(0, 6);
     }
+    if(this.layoutTabsDropdownData.children.length > 0){
+      this.screenLoad(this.layoutTabsDropdownData.children[0] , true);
+    }
   }
   screenLoad(data: any, allow: boolean) {
     const idToUpdate = allow ? 'isActiveShow' : 'isActiveShowChild';

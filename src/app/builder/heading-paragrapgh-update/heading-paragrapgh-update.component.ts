@@ -59,7 +59,7 @@ export class HeadingParagrapghUpdateComponent {
 
 
   save() {
-    debugger
+    
     this.tabelNodes.forEach((element, index) => {
       this.nodes[0].children[1].children[index].key = element.key;
       if (this.nodes[0].children[1].children[index].title != element.title) {

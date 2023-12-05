@@ -319,7 +319,7 @@ export class PolicyMappingComponent implements OnInit {
   }
   getActions(id: any) {
     this.applicationService.getNestCommonAPIById('cp/action/getDataByAppId/Action', id).subscribe(((res: any) => {
-      debugger
+      
       if (res.isSuccess) {
         if (res.data.length > 0) {
           const actionList = res.data;
