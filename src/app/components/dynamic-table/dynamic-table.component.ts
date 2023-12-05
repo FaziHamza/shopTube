@@ -145,8 +145,10 @@ export class DynamicTableComponent implements OnInit {
     this.getSaveGroupNodes();
     try {
       if (this.data?.tableHeaders) {
-        for (const api of this.data.tableHeaders) {
-          await this.handleRowClickApi(api);
+        if (this.data?.tableHeaders.length > 0) {
+          for (const api of this.data.tableHeaders) {
+            await this.handleRowClickApi(api);
+          }
         }
       }
     } catch (error) {
@@ -173,7 +175,7 @@ export class DynamicTableComponent implements OnInit {
     try {
 
       if (api?.callApi) {
-        const response = await this.applicationService.getNestCommonAPI(`knex-query/getexecute-rules/${api.callApi}`).toPromise();
+        const response = await this.applicationService.getNestCommonAPI(api.callApi).toPromise();
 
         if (response.isSuccess && response.data) {
           api.filterArray = [];
@@ -2051,6 +2053,7 @@ export class DynamicTableComponent implements OnInit {
             this.requestSubscription = this.applicationServices.addNestCommonAPI(url, model).subscribe({
               next: (res) => {
                 if (res.isSuccess) {
+                  this.gridInitilize();
                   this.toastr.success('Update Successfully', { nzDuration: 3000 });
                   this.editId = null;
                   this.editData = null;
@@ -2345,7 +2348,7 @@ export class DynamicTableComponent implements OnInit {
   }
 
   close(): void {
-    
+
     this.visible = false;
     if (this.data.appConfigurableEvent && this.dataSharedService.isSaveData) {
       this.dataSharedService.isSaveData = false;
@@ -2353,7 +2356,7 @@ export class DynamicTableComponent implements OnInit {
     }
   }
   makeFilterData(header: any, allowPrevious: boolean) {
-    
+
     header['searchValue'] = '';
     const filterData: any = {};
     if (this.filteringArrayData.length == 0) {

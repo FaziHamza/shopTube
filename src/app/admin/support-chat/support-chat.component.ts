@@ -89,15 +89,15 @@ export class SupportChatComponent {
             this.toastr.error(res[0]?.error, { nzDuration: 3000 });
             return;
           }
-          if (model.postType === 'put' && !res?.isSuccess) {
-            this.toastr.error(res.message, { nzDuration: 3000 });
-            return;
-          }
           this.resetValues();
           const successMessage = (model.postType === 'post') ? 'Save Successfully' : 'Update Successfully';
           this.toastr.success(successMessage, { nzDuration: 3000 });
-          if (this.data?.mapApi && this.data?.key == 'section_comments_drawer') {
+          if (this.data.mapApi) {
             this.getChatsWithMapping();
+            return;
+          }
+          if (model.postType === 'put' && !res?.isSuccess) {
+            this.toastr.error(res.message, { nzDuration: 3000 });
             return;
           }
           this.getChats();
