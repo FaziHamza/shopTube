@@ -193,7 +193,6 @@ export class RegisterComponent implements OnInit {
     // grecaptcha.reset();
   }
   submitForm(): void {
-    debugger
     this.isFormSubmit = true;
     // if (this.form.invalid) {
     //   this.toastr.warning('Fill all fields', { nzDuration: 3000 }); // Show an error message to the user

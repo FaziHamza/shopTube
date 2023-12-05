@@ -54,7 +54,7 @@ export class CommentModalComponent implements OnInit {
   }
 
   onSubmit() {
-    
+
     if (this.type != 'menu') {
       if (!this.screenName) {
         this.toastr.warning("Please select any screen", { nzDuration: 3000 });
@@ -82,7 +82,7 @@ export class CommentModalComponent implements OnInit {
       }
       let requestObservable: Observable<any>;
       this.saveLoader = true;
-      
+
       if (!this.update) {
         requestObservable = this.applicationService.addNestCommonAPI('knex-crud/task', commentObj);
       } else {
@@ -97,13 +97,17 @@ export class CommentModalComponent implements OnInit {
 
       this.requestSubscription = requestObservable.subscribe({
         next: (res: any) => {
+          
           this.saveLoader = false;
           if (res.id) {
             this.create();
             this.#modal.destroy(commentObj);
-            this.dataSharedService.taskmanager.next(true);
             this.toastr.success(`UserComment save succesfully`, { nzDuration: 3000 });
-          } else {
+            if (window.location.host.includes('taskmanager.com')) {
+              this.dataSharedService.taskmanager.next(true);
+            }
+          }
+          else {
             this.toastr.error(`UserComment: ${res.message}`, { nzDuration: 3000 });
           }
         },

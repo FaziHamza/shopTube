@@ -128,7 +128,7 @@ export class ApplicationThemeComponent {
 
 
   save() {
-    debugger
+    
     if (this.form.valid) {
       if (this.selectedTheme == this.form.value.themeName) {
         if (this.editId == '') {

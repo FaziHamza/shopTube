@@ -17,6 +17,7 @@ export class MainsComponent implements OnInit {
   @Input() form: any;
   @Input() screenName: any;
   @Input() screenId: any;
+  @Input() mappingId: any;
   @Output() notify: EventEmitter<any> = new EventEmitter();
   menu: boolean = false;
   serverPath = environment.nestImageUrl;

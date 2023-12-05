@@ -297,7 +297,7 @@ export class LayoutDrawerComponent implements OnInit {
     }
   }
   getTheme(value: any) {
-    debugger
+    
     // this.saveLoader = true;
     if (value) {
       this.applicationService.getNestCommonAPIById("cp/MenuTheme", value).subscribe({

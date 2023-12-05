@@ -53,7 +53,7 @@ export class CreateControlComponent {
     this.getcontrols();
   }
   save() {
-    debugger
+    
     if (this.form.valid) {
       if (this.editId === '' && this.listOfData.some((a: any) => a.name == this.form.value.name)) {
         this.toastr.warning('Already exist this name exist', { nzDuration: 3000 });

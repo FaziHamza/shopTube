@@ -2689,7 +2689,7 @@ export class BuilderComponent implements OnInit {
 
 
   clickButton(type: any) {
-    debugger
+    
     let _formFieldData = new formFeildData();
     if ((_formFieldData.commonFormlyConfigurationFields[0].fieldGroup || _formFieldData.commonOtherConfigurationFields[0].fieldGroup) && this.applicationThemeClasses.length) {
       let newArray = this.applicationThemeClasses.filter((a: any) => a.tag?.toLowerCase().includes(this.selectedNode.type?.toLowerCase()));
@@ -3077,6 +3077,9 @@ export class BuilderComponent implements OnInit {
         break;
       case 'card':
         this.fieldData.commonData?.push({ title: 'cardFields', data: _formFieldData.cardFields });
+        break;
+      case 'chat':
+        this.fieldData.commonData?.push({ title: 'cardFields', data: _formFieldData.chatFields });
         break;
       case 'calender':
         this.fieldData.commonData?.push({ title: 'tuiCalendarFeilds', data: _formFieldData.tuiCalendarFeilds });
@@ -7464,7 +7467,7 @@ export class BuilderComponent implements OnInit {
     this.formlyModel = newModel;
   }
   applyApplicationThemeClass() {
-    debugger
+    
     if (this.applicationThemeClasses.length > 0) {
       for (let index = 0; index < this.applicationThemeClasses.length; index++) {
         const element = this.applicationThemeClasses[index];

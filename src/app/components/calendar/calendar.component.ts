@@ -8,6 +8,7 @@ import { createEventId, INITIAL_EVENTS } from 'src/app/shared/event-utils/event-
 import { EventDropArg } from '@fullcalendar/core';
 import { ApplicationService } from 'src/app/services/application.service';
 import { NzMessageService } from 'ng-zorro-antd/message';
+import { DataSharedService } from 'src/app/services/data-shared.service';
 
 
 @Component({
@@ -96,7 +97,8 @@ export class CalendarComponent {
 
   currentEvents: EventApi[] = [];
 
-  constructor(private changeDetector: ChangeDetectorRef, private applicationServices: ApplicationService, private toastr: NzMessageService) {
+  constructor(private changeDetector: ChangeDetectorRef, private applicationServices: ApplicationService, private toastr: NzMessageService,
+    public dataSharedService: DataSharedService,) {
     this.handleEvents.bind(this)
 
   }
@@ -150,10 +152,12 @@ export class CalendarComponent {
     return `${year}-${month}-${day}`;
   }
   handleEventDrop(arg: EventDropArg) {
-    const findClickApi = this.calenderData?.appConfigurableEvent?.find(
-      (item: any) => item.rule.includes('put') && item.action == 'change'
-    );
-
+    let findClickApi = this.calenderData?.appConfigurableEvent?.find((item: any) => item.rule.includes('put'));
+    const checkPermission = this.dataSharedService.getUserPolicyMenuList.find(a => a.screenId == this.dataSharedService.currentMenuLink);
+    if (!checkPermission?.update && this.dataSharedService.currentMenuLink != '/ourbuilder') {
+      alert("You did not have permission");
+      return;
+    }
     if (!findClickApi) {
       return;
     }

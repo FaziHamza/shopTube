@@ -10,7 +10,8 @@
             nzTheme="outline"></span></span>
       </span> -->
 
-      <st-buttons [tableDisplayData]="tableDisplayData" [GridRuleColor]="GridRuleColor" (gridEmit)="gridEmit($event)" [screenId]="screenId" [drawOpen]="drawOpen" [tableIndex]="tableIndex"
+      <st-buttons [mappingId]="mappingId" [tableDisplayData]="tableDisplayData" [GridRuleColor]="GridRuleColor"
+        (gridEmit)="gridEmit($event)" [screenId]="screenId" [drawOpen]="drawOpen" [tableIndex]="tableIndex"
         [formlyModel]="formlyModel" [form]="form" [screenName]="screenName" [buttonData]="softIconList"
         [tableRowId]="tableRowId" [title]="title"></st-buttons>
 
@@ -39,7 +40,8 @@
 
       <nz-button-group>
         <div *ngFor="let item of softIconList.children">
-          <st-buttons [tableDisplayData]="tableDisplayData" [GridRuleColor]="GridRuleColor" (gridEmit)="gridEmit($event)" [screenId]="screenId"  [drawOpen]="drawOpen" [tableIndex]="tableIndex"
+          <st-buttons [mappingId]="mappingId" [tableDisplayData]="tableDisplayData" [GridRuleColor]="GridRuleColor"
+            (gridEmit)="gridEmit($event)" [screenId]="screenId" [drawOpen]="drawOpen" [tableIndex]="tableIndex"
             [formlyModel]="formlyModel" [form]="form" [screenName]="screenName" [tableRowId]="tableRowId"
             [buttonData]="item" [title]="title"></st-buttons>
         </div>

@@ -4,6 +4,7 @@ import { MovementIntf } from '../../model/card/movement';
 import { BoardModel } from '../../model/board/board.model';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { ApplicationService } from 'src/app/services/application.service';
+import { DataSharedService } from 'src/app/services/data-shared.service';
 
 @Component({
   selector: 'st-board',
@@ -20,25 +21,36 @@ export class BoardComponent implements OnInit {
   status: any = [];
   originalKanbanData: any;
   loader: boolean = false;
-  constructor(private toastr: NzMessageService, private applicationServices: ApplicationService) {
+  constructor(private toastr: NzMessageService, private applicationServices: ApplicationService, public dataSharedService: DataSharedService) {
     this.processData = this.processData.bind(this);
   }
 
   ngOnInit() {
+    
     if (this.kanbanData?.eventActionconfig) {
       this.loader = true
     } else {
       this.loader = false
-
     }
     this.originalKanbanData = JSON.parse(JSON.stringify(this.kanbanData))
     this.lists = this.kanbanData.kanbanSave;
-    this.status = JSON.parse(localStorage.getItem(this.kanbanData?.id + '_status') || this.status);
+
+    // Assuming this.kanbanData?.id is a string
+    const localStorageKey = this.kanbanData?.id + '_status';
+    const storedStatus = localStorage.getItem(localStorageKey);
+
+    // Check if storedStatus is not null before parsing
+    if (storedStatus !== null) {
+      this.status = JSON.parse(storedStatus);
+    } else {
+      this.status = this.status;
+    }
+
     this.selectedGroupBy = localStorage.getItem(this.kanbanData?.id + '_groupBy') || 'status';
   }
 
   addList() {
-    
+
     if (this.lists === undefined) {
       this.lists = [];
     }
@@ -61,10 +73,12 @@ export class BoardComponent implements OnInit {
     this.handleEventDrop(cardMoved[0].dataObj);
   }
   handleEventDrop(obj: any) {
-    const findClickApi = this.kanbanData?.appConfigurableEvent?.find(
-      (item: any) => item.rule.includes('put') && item.action == 'change'
-    );
-
+    let findClickApi = this.kanbanData?.appConfigurableEvent?.find((item: any) => item.rule.includes('put'));
+    const checkPermission = this.dataSharedService.getUserPolicyMenuList.find(a => a.screenId == this.dataSharedService.currentMenuLink);
+    if (!checkPermission?.update && this.dataSharedService.currentMenuLink != '/ourbuilder') {
+      alert("You did not have permission");
+      return;
+    }
     if (!findClickApi) {
       return;
     }
@@ -177,17 +191,17 @@ export class BoardComponent implements OnInit {
         if (index == 0) {
           this.kanbanData.children = [];
           updateRecord.children[0].title = res;
-          updateRecord.children[0].children = latestKanbanData
+          updateRecord.children[0].children = latestKanbanData;
           this.kanbanData.children = [updateRecord.children[0]]
         }
         else {
           updateRecord.children[0].title = res;
-          updateRecord.children[0].children = latestKanbanData
+          updateRecord.children[0].children = latestKanbanData;
           this.kanbanData.children.push(updateRecord.children[0])
-
         }
+
+        this.updateNodes1();
       })
-      this.updateNodes1();
     }
   }
   recursiveCheck(data: any, dataList: any) {
@@ -262,16 +276,20 @@ export class BoardComponent implements OnInit {
         if (checkFirstTime) {
           if (selectedNode.type == 'tabs' || selectedNode.type == 'step' || selectedNode.type == 'div' || selectedNode.type == 'listWithComponentsChild' || selectedNode.type == 'cardWithComponents' || selectedNode.type == 'timelineChild') {
             {
-              newNode['dataObj'] = data[index];
-              selectedNode.children = newNode;
+              let newSelected = JSON.parse(JSON.stringify(selectedNode));
+              newSelected['dataObj'] = data[index];
+              newSelected.children = newNode;
+              selectedNode = JSON.parse(JSON.stringify(newSelected));
             }
           } else if (selectedNode.children[1]) {
             selectedNode.children[1].children = [];
             selectedNode?.children[1]?.children?.push(newNode);
           }
+          tabsAndStepper.push(selectedNode)
           this.updateNodes();
           checkFirstTime = false
-        } else {
+        }
+        else {
           if (selectedNode.type == 'tabs' || selectedNode.type == 'step' || selectedNode.type == 'listWithComponentsChild') {
             if (newNode.length) {
               newNode.forEach((k: any) => {
@@ -302,17 +320,17 @@ export class BoardComponent implements OnInit {
             let newSelected = JSON.parse(JSON.stringify(selectedNode));
             newSelected.children = newNode;
             newSelected['dataObj'] = item;
-            let data = JSON.parse(JSON.stringify(newSelected));
-            tabsAndStepper.push(data);
-            if (index == data.length - 1) {
-              let checkPushOrNot = true
-              if ((selectedNode.type == 'div' || selectedNode.type == 'cardWithComponents' || selectedNode.type == 'timelineChild') && checkPushOrNot) {
-                if (tabsAndStepper) {
-                  this.pushObjectsById(this.kanbanData, tabsAndStepper, selectedNode.id);
-                  checkPushOrNot = false;
-                }
-              }
-            }
+            let newData = JSON.parse(JSON.stringify(newSelected));
+            tabsAndStepper.push(newData);
+            // if (index == data.length - 1) {
+            //   let checkPushOrNot = true
+            //   if ((selectedNode.type == 'div' || selectedNode.type == 'cardWithComponents' || selectedNode.type == 'timelineChild') && checkPushOrNot) {
+            //     if (tabsAndStepper) {
+            //       this.pushObjectsById(this.kanbanData, tabsAndStepper, selectedNode.id);
+            //       checkPushOrNot = false;
+            //     }
+            //   }
+            // }
           } else if (selectedNode.children[1]) {
             selectedNode?.children[1]?.children?.push(newNode);
           }
@@ -321,7 +339,7 @@ export class BoardComponent implements OnInit {
       this.updateNodes();
     }
     // if (tabsAndStepper.length > 0)
-    tabsAndStepper.push(selectedNode);
+    // tabsAndStepper.push(selectedNode);
     return tabsAndStepper;
   }
   updateNodes() {

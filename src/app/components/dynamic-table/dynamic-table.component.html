@@ -356,13 +356,12 @@
                       {{ item[header.key] | date:'dd-MM-yyyy HH:mm:ss'}}
                     </ng-container>
                   </ng-container>
-                  <div *ngIf="header?.dataType =='dateTime' && item[header.key] && item[header.key] != 'null'">
+                  <div *ngIf="header?.dataType =='dateTime' && item[header.key]">
                     <div [style.color]="item[header.key]== item?.colorDataType && editId !== item.id ?
                     item?.columnTextColor : ''" [class]="data?.tdClass"
                       [hidden]="editId === item.id && (configurationTable || header?.editMode == 'yes'|| header?.editMode == true)">
-                      <!-- {{parseDateString(item[header.key]) | json}} -->
-                      {{parseDateString(item[header.key]) | date:'dd-MM-yyyy'}}
-                      <!-- {{item[header.key] | date:'dd-MM-yyyy'}} -->
+                      <!-- {{parseDateString(item[header.key]) | date:'dd-MM-yyyy'}} -->
+                      {{item[header.key] | date:'dd-MM-yyyy'}}
                       <!-- {{item[header.key] | json}} -->
                     </div>
                     <div *ngIf="configurationTable || header?.editMode == 'yes'|| header?.editMode == true"

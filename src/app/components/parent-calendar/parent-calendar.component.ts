@@ -26,6 +26,7 @@ export class ParentCalendarComponent {
     }
   }
   processData(data: any) {
+    
     try {
       this.dataGet = false;
       if (data?.data.length > 0) {

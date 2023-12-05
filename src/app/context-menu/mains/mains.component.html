@@ -41,7 +41,7 @@
     </ng-template>
     <ng-template #fifth>
         <div *ngIf="item.type == 'chat';else sixth">
-            <st-support-chat [formlyModel]="formlyModel" [form]="form" [screenId]="screenId"
+            <st-support-chat [mappingId]="mappingId" [formlyModel]="formlyModel" [form]="form" [screenId]="screenId"
                 [screenName]="screenName" [data]="item"></st-support-chat>
         </div>
     </ng-template>
@@ -72,16 +72,17 @@
         <div
             *ngIf="item.type == 'button' || item.type =='linkbutton' || item.type =='buttonGroup' || item.type =='dropdownButton' ; else thirteenth">
             <nz-badge *ngIf="item?.badgeType == 'count' && item.type != 'buttonGroup'" [nzCount]="item?.badgeCount">
-                <st-block-buttons-card [formlyModel]="formlyModel" [form]="form" [screenName]="screenName"
-                    [softIconList]="item">
+                <st-block-buttons-card [mappingId]="mappingId" [formlyModel]="formlyModel" [form]="form"
+                    [screenName]="screenName" [softIconList]="item">
                 </st-block-buttons-card>
             </nz-badge>
             <nz-badge nzDot *ngIf="item?.badgeType == 'dot' && item.type != 'buttonGroup'">
-                <st-block-buttons-card [formlyModel]="formlyModel" [form]="form" [screenName]="screenName"
-                    [softIconList]="item">
+                <st-block-buttons-card [mappingId]="mappingId" [formlyModel]="formlyModel" [form]="form"
+                    [screenName]="screenName" [softIconList]="item">
                 </st-block-buttons-card></nz-badge>
-            <st-block-buttons-card *ngIf="item?.badgeType == undefined || item?.badgeType == 'none'"
-                [formlyModel]="formlyModel" [form]="form" [screenName]="screenName" [softIconList]="item">
+            <st-block-buttons-card [mappingId]="mappingId"
+                *ngIf="item?.badgeType == undefined || item?.badgeType == 'none'" [formlyModel]="formlyModel"
+                [form]="form" [screenName]="screenName" [softIconList]="item">
             </st-block-buttons-card>
         </div>
     </ng-template>
@@ -463,8 +464,8 @@
             'background-repeat': 'no-repeat',
             'background-size': '100% 100%',
             'overflow-y': (item.height && item.height !== 0) ? 'auto' : 'hidden'}">
-            <st-main [isDrawer]="isDrawer" [mainData]="item" [formlyModel]="formlyModel" [screenName]="screenName"
-                [screenId]="screenId" [form]="form"></st-main>
+            <st-main [mappingId]="mappingId" [isDrawer]="isDrawer" [mainData]="item" [formlyModel]="formlyModel"
+                [screenName]="screenName" [screenId]="screenId" [form]="form"></st-main>
         </div>
     </ng-template>
     <ng-template #eightySix>

@@ -16,6 +16,7 @@ export class SupportChatComponent {
   @Input() form: any;
   @Input() screenId: any;
   @Input() screenName: any;
+  @Input() mappingId: any;
   @Input() data: any;
   hideChat: boolean = true;
   comment: any;
@@ -27,26 +28,27 @@ export class SupportChatComponent {
   editId: any;
   constructor(public dataSharedService: DataSharedService, private toastr: NzMessageService,
     private applicationServices: ApplicationService, private employeeService: EmployeeService, private modal: NzModalService,
-    private cdr: ChangeDetectorRef) {
+    private cdr: ChangeDetectorRef, private applicationService: ApplicationService) {
     this.processData = this.processData.bind(this);
   }
 
 
   ngOnInit(): void {
+    // if (this.mappingId && this.data?.eventActionconfig) {
+    //   this.data.eventActionconfig['parentId'] = this.mappingId;
+    // }
     const userData = JSON.parse(localStorage.getItem('user')!);
     this.userName = userData.username;
     // this.getChats();
   }
 
   processData(res: any) {
-    debugger
     if (res) {
       this.chatData = res.data;
     }
     return res;
   }
   saveChat() {
-    debugger
     if (this.comment == '' || this.comment == undefined || this.comment == null) {
       return;
     }
@@ -67,7 +69,7 @@ export class SupportChatComponent {
       modalData: {
         "ticketcomments.comment": this.comment,
         "ticketcomments.createdby": "",
-        "ticketcomments.spectrumissueid": "",
+        "ticketcomments.spectrumissueid": this.formlyModel ? (this.formlyModel['ticketcomments.spectrumissueid'] ? this.formlyModel['ticketcomments.spectrumissueid'] : '') : '',
         "ticketcomments.currentdate": "",
         "ticketcomments.commenttable": "",
         "ticketcomments.screenid": ""
@@ -90,21 +92,14 @@ export class SupportChatComponent {
             this.toastr.error(res.message, { nzDuration: 3000 });
             return;
           }
-          // if (model.postType === 'put') {
-          //   this.chatData = this.chatData.map((obj: any) => (obj.id === this.editId ? { ...obj, comment: this.comment } : obj));
-          // } else {
-          //   let obj: any = {};
-          //   let responseObject = res[0];
-          //   for (let key in responseObject) {
-          //     obj[key.split('.')[1]] = responseObject[key];
-          //   }
-          //   this.chatData.push(obj);
-          // }
-          this.getChats();
           this.resetValues();
           const successMessage = (model.postType === 'post') ? 'Save Successfully' : 'Update Successfully';
           this.toastr.success(successMessage, { nzDuration: 3000 });
-
+          if (this.data?.mapApi && this.data?.key == 'section_comments_drawer') {
+            this.getChatsWithMapping();
+            return;
+          }
+          this.getChats();
         },
         error: (err) => {
           // Handle the error
@@ -180,15 +175,14 @@ export class SupportChatComponent {
     this.editDeleteId = '';
   }
   getChats() {
-    debugger
-    this.saveLoader = true;
     if (this.data.eventActionconfig) {
       if (this.data.eventActionconfig.action) {
+        this.saveLoader = true;
         this.applicationServices.callApi('knex-query/getexecute-rules/' + this.data.eventActionconfig._id, 'get', '', '', '').subscribe({
           next: (res) => {
             this.saveLoader = false; // Ensure to set the loader to false in case of error
             if (res.isSuccess) {
-              this.chatData = res.data;
+              this.data['chatData'] = res.data;
             }
           },
           error: (err) => {
@@ -199,6 +193,25 @@ export class SupportChatComponent {
           },
         });
       }
+    }
+  }
+  getChatsWithMapping() {
+    let api = this.formlyModel ? (this.formlyModel['ticketcomments.spectrumissueid'] ? `${this.data.mapApi}/${this.formlyModel['ticketcomments.spectrumissueid']}` : '') : '';
+    if (api) {
+      this.saveLoader = true;
+      this.requestSubscription = this.applicationService.getNestCommonAPI(api).subscribe({
+        next: (res) => {
+          this.saveLoader = false;
+          if (res && res.data && res.data.length > 0) {
+            this.data['chatData'] = res.data;
+          }
+        },
+        error: (err) => {
+          console.error(err);
+          this.saveLoader = false;
+          this.toastr.error("An error occurred in mapping", { nzDuration: 3000 });
+        }
+      });
     }
   }
 }

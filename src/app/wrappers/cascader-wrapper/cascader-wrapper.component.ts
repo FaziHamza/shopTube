@@ -42,7 +42,7 @@ export class CascaderWrapperComponent extends FieldType<FieldTypeConfig> {
     console.log(result);
   }
   async loadData(node: NzCascaderOption, index: number): Promise<void> {
-    debugger
+    
     let getNextNode = this.to['appConfigurableEvent'].find((a: any) => a.level == index + 1);
     let selected = JSON.parse(JSON.stringify(node.value));
     if (index == 1) {

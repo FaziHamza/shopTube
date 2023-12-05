@@ -154,20 +154,8 @@ export class DynamicTableComponent implements OnInit {
     }
     this.requestSubscription = this.dataSharedService.taskmanager.subscribe({
       next: (res) => {
-        if (this.data.appConfigurableEvent && res) {
-          let url = 'knex-query/getAction/' + this.data.eventActionconfig._id;
-          this.saveLoader = true;
-          this.requestSubscription = this.applicationService.callApi(url, 'get', '', '', '').subscribe({
-            next: (res) => {
-              this.saveLoader = false;
-              this.getFromQueryOnlyTable(this.data, res);
-            },
-            error: (error: any) => {
-              console.error(error);
-              this.saveLoader = false;
-              this.toastr.error("An error occurred", { nzDuration: 3000 });
-            }
-          })
+        if (this.data.eventActionconfig && res) {
+          this.recallApi();
         }
       },
       error: (err) => {
@@ -183,7 +171,7 @@ export class DynamicTableComponent implements OnInit {
   }
   private async handleRowClickApi(api: any) {
     try {
-      
+
       if (api?.callApi) {
         const response = await this.applicationService.getNestCommonAPI(`knex-query/getexecute-rules/${api.callApi}`).toPromise();
 
@@ -2061,7 +2049,7 @@ export class DynamicTableComponent implements OnInit {
             this.saveLoader = true;
             this.requestSubscription = this.applicationServices.addNestCommonAPI(url, model).subscribe({
               next: (res) => {
-                if (res.isSuccess && res.data.length > 0) {
+                if (res.isSuccess) {
                   this.toastr.success('Update Successfully', { nzDuration: 3000 });
                   this.editId = null;
                   this.editData = null;
@@ -2356,10 +2344,15 @@ export class DynamicTableComponent implements OnInit {
   }
 
   close(): void {
+    
     this.visible = false;
+    if (this.data.appConfigurableEvent && this.dataSharedService.isSaveData) {
+      this.dataSharedService.isSaveData = false;
+      this.recallApi();
+    }
   }
   makeFilterData(header: any, allowPrevious: boolean) {
-    debugger
+    
     header['searchValue'] = '';
     const filterData: any = {};
     if (this.filteringArrayData.length == 0) {
@@ -2395,7 +2388,7 @@ export class DynamicTableComponent implements OnInit {
       header['filterSearch'] = [...result]
 
     } else {
-      if(!header?.callApi){
+      if (!header?.callApi) {
         header['filterArray'] = filterData[header?.key];
         header['filterSearch'] = filterData[header?.key];
       }
@@ -2768,6 +2761,29 @@ export class DynamicTableComponent implements OnInit {
 
     // If the format is not recognized, return null
     return null;
+  }
+
+  recallApi() {
+    const { _id, actionLink, data, headers, parentId, page, pageSize } = this.data.eventActionconfig;
+    if (_id) {
+      let pagination = ''
+      if (page && pageSize) {
+        pagination = `?page=${localStorage.getItem('tablePageNo') || 1}&pageSize=${localStorage.getItem('tablePageSize') || 10}`
+      }
+      let url = 'knex-query/getexecute-rules/' + _id;
+      this.saveLoader = true;
+      this.requestSubscription = this.applicationService.callApi(`knex-query/getexecute-rules/${_id}${pagination}`, 'get', data, headers, parentId).subscribe({
+        next: (res) => {
+          this.saveLoader = false;
+          this.getFromQueryOnlyTable(this.data, res);
+        },
+        error: (error: any) => {
+          console.error(error);
+          this.saveLoader = false;
+          this.toastr.error("An error occurred", { nzDuration: 3000 });
+        }
+      })
+    }
   }
 }
 

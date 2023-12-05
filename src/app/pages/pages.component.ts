@@ -47,6 +47,7 @@ export class PagesComponent implements OnInit, OnDestroy {
   countRule: number = 0;
   themeValue: any = '';
   @Input() isDrawer: boolean = false;
+  @Input() mappingId: any;
   private subscriptions: Subscription = new Subscription();
   private destroy$: Subject<void> = new Subject<void>();
   constructor(public employeeService: EmployeeService, private activatedRoute: ActivatedRoute,
@@ -102,15 +103,16 @@ export class PagesComponent implements OnInit, OnDestroy {
         this.filterDuplicateChildren(this.resData[0]);
         if (res.mapApi) {
           let selectedNodeMap = this.findObjectByKey(this.resData[0].children[1], res.control.key);
-          if(selectedNodeMap){
+          if (selectedNodeMap) {
             this.makeDynamicSections(res.mapApi, selectedNodeMap)
           }
         }
       }
     });
-    const prevNextRecord = this.dataSharedService.prevNextRecord.subscribe(res => {
+    const prevNextRecord = this.dataSharedService.prevNextRecord.subscribe((res: any) => {
       if (res && this.navigation) {
-        this.checkDynamicSection(res);
+        this.filterDuplicateChildren(this.resData[0]);
+        this.checkDynamicSection(res, true);
       }
     });
     const moveLinkSubscription = this.dataSharedService.moveLink.subscribe(res => {
@@ -1823,20 +1825,20 @@ export class PagesComponent implements OnInit, OnDestroy {
     };
     return data;
   };
-  checkDynamicSection(id?: any) {
+  checkDynamicSection(id?: any, removeValue?: any) {
     if (this.resData) {
-      this.recursiveCheck(this.resData[0].children[1].children, id);
+      this.recursiveCheck(this.resData[0].children[1].children, id, removeValue);
     }
   }
-  recursiveCheck(data: any, id?: any): void {
+  recursiveCheck(data: any, id?: any, removeValue?: any): void {
     if (Array.isArray(data)) {
       data.forEach((element: any) => {
-        this.recursiveCheck(element, id);
+        this.recursiveCheck(element, id, removeValue);
       });
     }
     else if (typeof data === 'object' && data !== null) {
       if (data.type) {
-        if (data.type === 'sections' || data.type === 'div' || data.type === 'cardWithComponents' || data.type === 'timelineChild') {
+        if (data.type === 'sections' || data.type === 'div' || data.type === 'cardWithComponents' || data.type === 'timelineChild' || data.type === 'chat') {
           if (data.mapApi) {
             // if ((window.location.href.includes('spectrum.com') || window.location.href.includes('spectrum.expocitydubai.com')) && this.navigation === 'default') {
             //   if ((this.user?.policy?.policyId == '652581192897cfc79cf1dde2' || this.user?.policy?.policyId == '652a3dd6b91b157bcac71a72') && this.screenId == '651fa8139ce5925c4c89cedc' && data.id == 'tdrasections1') {
@@ -1848,10 +1850,35 @@ export class PagesComponent implements OnInit, OnDestroy {
             // }
             if (!data.hideExpression) {
               let mapApiUrl = data.mapApi;
-              if (this.dataSharedService.queryId) {
-                mapApiUrl = `${data.mapApi}/${this.dataSharedService.queryId}`;
-              } else if (id) {
+              if (id) {
                 mapApiUrl = `${data.mapApi}/${id}`;
+              }
+              else if (this.mappingId) {
+                mapApiUrl = `${data.mapApi}/${this.mappingId}`;
+              }
+              if (removeValue && data.type != 'chat') {
+                if (data?.dbData && data?.tableBody) {
+                  if (data?.dbData.length > 0 && data?.tableBody.length > 0) {
+                    const item = data?.dbData[0];
+                    data?.tableBody.forEach((element: any) => {
+                      const keyObj = this.findObjectByKey(
+                        data,
+                        element.fileHeader
+                      );
+                      for (const key in item) {
+                        item[key] = '';
+                      }
+                      if (keyObj && element?.defaultValue) {
+                        this.dataReplace(
+                          keyObj,
+                          item,
+                          element
+                        );
+                      }
+                    });
+                    this.updateNodes();
+                  }
+                }
               }
               this.makeDynamicSections(mapApiUrl, data);
             }
@@ -1867,7 +1894,7 @@ export class PagesComponent implements OnInit, OnDestroy {
         }
       }
       if (data.children) {
-        this.recursiveCheck(data.children, id);
+        this.recursiveCheck(data.children, id, removeValue);
       }
     }
   }
@@ -1879,11 +1906,15 @@ export class PagesComponent implements OnInit, OnDestroy {
       try {
         this.requestSubscription = this.applicationService.getNestCommonAPI(api).subscribe({
           next: (res) => {
-            this.dataSharedService.queryId = '';
+            // this.dataSharedService.queryId = '';
             this.saveLoader = false;
             if (res) {
               if (res?.data) {
                 if (res?.data.length > 0) {
+                  if (selectedNode.type == 'chat') {
+                    selectedNode['chatData'] = res?.data;
+                    return;
+                  }
                   for (let index = 0; index < res.data.length; index++) {
                     const item = res.data[index];
                     let newNode: any = {};
@@ -2772,6 +2803,9 @@ export class PagesComponent implements OnInit, OnDestroy {
 
     // Filter and keep unique children
     data.children = data.children.filter((child: any) => {
+      if (child.type == 'chat') {
+        child['chatData'] = [];
+      }
       if (!uniqueKeys.has(child.key)) {
         uniqueKeys.add(child.key);
         if (child.children && child.children.length > 0) {
