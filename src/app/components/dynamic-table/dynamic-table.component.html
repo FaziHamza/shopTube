@@ -328,7 +328,7 @@
                       <div [style.color]="item[header.key]== item?.colorDataType && editId !== item.id ?
                       item?.columnTextColor : ''" [class]="data?.tdClass" class="editable-cell"
                         *ngIf="editId != item.id">
-                        {{item[header.key]  == 'undefined' ? '' : item[header.key] | translate}}
+                        {{item[header.key] == 'undefined' ? '' : item[header.key] | translate}}
                       </div>
                       <nz-select *ngIf="editId == item.id && (configurationTable || header?.editMode)" nzAllowClear
                         nzShowSearch class="dynamic-selector" style="width: 100px" nzPlaceHolder="Select Value"
@@ -356,10 +356,11 @@
                       {{ item[header.key] | date:'dd-MM-yyyy HH:mm:ss'}}
                     </ng-container>
                   </ng-container>
-                  <div *ngIf="header?.dataType =='dateTime' && item[header.key]">
-                    <div [style.color]="item[header.key]== item?.colorDataType && editId !== item.id ?
+                  <div *ngIf="header?.dataType =='dateTime'">
+                    <div *ngIf="item[header.key]" [style.color]="item[header.key]== item?.colorDataType && editId !== item.id ?
                     item?.columnTextColor : ''" [class]="data?.tdClass"
                       [hidden]="editId === item.id && (configurationTable || header?.editMode == 'yes'|| header?.editMode == true)">
+
                       {{parseDateString(item[header.key]) | date:'dd-MM-yyyy'}}
                       <!-- {{item[header.key] | date:'dd-MM-yyyy'}} -->
                       <!-- {{item[header.key] | json}} -->
@@ -391,13 +392,15 @@
                       <div class="'flex flex-wrap'">
                         <div *ngFor="let childData of data.children">
                           <div *ngIf="childData?.id == header?.key" class="{{childData?.className}}">
-                            <st-block-buttons-card [GridRuleColor]="item?.columnColor" (tableEmit)="loadApiData($event)" [drawOpen]="drawOpen" [tableIndex]="i"
+                            <st-block-buttons-card [GridRuleColor]="item?.columnColor" (tableEmit)="loadApiData($event)"
+                              [drawOpen]="drawOpen" [tableIndex]="i"
                               *ngIf="(childData.type =='button' && item[header.key]== item?.colorDataType) ; else withOutGridRule"
-                              [tableRowId]="item['id']" [tableDisplayData]="displayData" [form]="form" [formlyModel]="formlyModel"
-                              [title]="item[header.key]" [softIconList]="childData">
+                              [tableRowId]="item['id']" [tableDisplayData]="displayData" [form]="form"
+                              [formlyModel]="formlyModel" [title]="item[header.key]" [softIconList]="childData">
                             </st-block-buttons-card>
                             <ng-template #withOutGridRule>
-                              <st-block-buttons-card [tableDisplayData]="displayData" (tableEmit)="loadApiData($event)" *ngIf="childData.type =='button'" [drawOpen]="drawOpen" [tableIndex]="i"
+                              <st-block-buttons-card [tableDisplayData]="displayData" (tableEmit)="loadApiData($event)"
+                                *ngIf="childData.type =='button'" [drawOpen]="drawOpen" [tableIndex]="i"
                                 [tableRowId]="item['id']" [form]="form" [formlyModel]="formlyModel"
                                 [title]="item[header.key]" [softIconList]="childData">
                               </st-block-buttons-card>

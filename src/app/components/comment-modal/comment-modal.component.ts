@@ -6,7 +6,6 @@ import { Observable, Subscription } from 'rxjs';
 import { BuilderService } from 'src/app/services/builder.service';
 import { DataSharedService } from 'src/app/services/data-shared.service';
 import { ApplicationService } from 'src/app/services/application.service';
-
 @Component({
   selector: 'st-comment-modal',
   templateUrl: './comment-modal.component.html',
@@ -62,11 +61,14 @@ export class CommentModalComponent implements OnInit {
       }
     }
     if (this.form.valid || this.voiceissue) {
+      const now = new Date();
+
+      // Format the date in ISO format
       const userData = JSON.parse(localStorage.getItem('user')!);
       let commentObj = {
         // id:0,
         screenid: this.screenName,
-        datetime: new Date(),
+        datetime:  new Date().toISOString(),
         message: this.form.value.message,
         status: this.update ? this.form.value.status : 'Backlog',
         organizationid: JSON.parse(localStorage.getItem('organizationId')!),
@@ -97,12 +99,12 @@ export class CommentModalComponent implements OnInit {
 
       this.requestSubscription = requestObservable.subscribe({
         next: (res: any) => {
-          
+
           this.saveLoader = false;
           if (res.id) {
             this.create();
             this.#modal.destroy(commentObj);
-            this.toastr.success(`UserComment save succesfully`, { nzDuration: 3000 });
+            this.toastr.success(`User Comment save succesfully`, { nzDuration: 3000 });
             if (window.location.host.includes('taskmanager.com')) {
               this.dataSharedService.taskmanager.next(true);
             }

@@ -319,16 +319,13 @@ export class SectionsComponent implements OnInit {
               this.dataSharedService.gridDataLoad = true;
               this.dataSharedService.isSaveData = true;
               let findCommentsDiv = this.findObjectByKey(this.sections, 'section_comments_drawer');
-              if (findCommentsDiv && this.dataModel && findCommentsDiv.type != 'chat') {
-                // const keyWithId = Object.keys(this.dataModel).find(key => key.includes('.id'));
-                if (this.mappingId) {
-                  let mapApi = findCommentsDiv['mapApi'].includes(`/${this.mappingId}`) ? findCommentsDiv['mapApi'] : `${findCommentsDiv['mapApi']}/${this.mappingId}`;
-                  let obj: any = {
-                    control: findCommentsDiv,
-                    mapApi: mapApi
-                  }
-                  this.dataSharedService.commentsRecall.next(obj)
+              if (findCommentsDiv && this.mappingId) {
+                let mapApi = findCommentsDiv['mapApi'].includes(`/${this.mappingId}`) ? findCommentsDiv['mapApi'] : `${findCommentsDiv['mapApi']}/${this.mappingId}`;
+                let obj: any = {
+                  control: findCommentsDiv,
+                  mapApi: mapApi
                 }
+                this.dataSharedService.commentsRecall.next(obj)
               }
               if (!this.isDrawer) {
                 // this.dataSharedService.drawerClose.next(true);
@@ -1471,7 +1468,7 @@ export class SectionsComponent implements OnInit {
     // }
   }
   joiValidation() {
-    
+
     let modelObj: any = [];
     this.ruleValidation = {};
     let filterdFormly: any = this.filterInputElements(this.sections.children[1].children);

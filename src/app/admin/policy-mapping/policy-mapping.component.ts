@@ -86,7 +86,7 @@ export class PolicyMappingComponent implements OnInit {
       dataField: 'hideExpression'
     },
   ];
-  
+
   constructor(
     public builderService: BuilderService,
     private applicationService: ApplicationService,
@@ -319,7 +319,7 @@ export class PolicyMappingComponent implements OnInit {
   }
   getActions(id: any) {
     this.applicationService.getNestCommonAPIById('cp/action/getDataByAppId/Action', id).subscribe(((res: any) => {
-      
+
       if (res.isSuccess) {
         if (res.data.length > 0) {
           const actionList = res.data;
@@ -491,21 +491,55 @@ export class PolicyMappingComponent implements OnInit {
     });
   }
   selectAll() {
-    const updatedDat = this.menuOfDisplayData.map((item) => ({
-      ...item,
-      create: true,
-      update: true,
-      read: true,
-      delete: true,
-    }));
-    this.menuOfDisplayData = updatedDat
-    const updatedData = this.menuList.map((item) => ({
-      ...item,
-      create: true,
-      update: true,
-      read: true,
-      delete: true,
-    }));
-    this.menuList = updatedData;
+    // Update parent values
+    if (this.menuOfDisplayData.length > 0) {
+      const updatedDat = this.menuOfDisplayData.map((item) => ({
+        ...item,
+        create: true,
+        update: true,
+        read: true,
+        delete: true,
+        children: this.updateChildren(item.children),
+      }));
+      this.menuOfDisplayData = updatedDat;
+    }
+
+    if (this.menuList) {
+      // Update child values
+      const updatedData = this.menuList.map((parentItem) => ({
+        ...parentItem,
+        create: true,
+        update: true,
+        read: true,
+        delete: true,
+        children: this.updateChildren(parentItem.children),
+      }));
+      this.menuList = updatedData;
+    }
+
+  }
+
+  updateChildren(children: any[]): any[] {
+    if (!children || !children.length) {
+      return [];
+    }
+
+    return children.map((childItem) => {
+      if (childItem?.actionType) {
+        return {
+          ...childItem,
+          children: this.updateChildren(childItem.children),
+        };
+      } else {
+        return {
+          ...childItem,
+          create: true,
+          update: true,
+          read: true,
+          delete: true,
+          children: this.updateChildren(childItem.children),
+        };
+      }
+    });
   }
 }
