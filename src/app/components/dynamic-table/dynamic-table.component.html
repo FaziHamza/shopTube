@@ -304,7 +304,7 @@
                   && header.key != 'expand'  && header.key !='children' && header.key != 'defaultValue' ">
                   <div [class]="data?.tdClass">
                     <div
-                      *ngIf="(header?.dataType !='select' || !configurationTable) && header?.dataType !='audioVideoRecorder' && header?.dataType !='image-upload' && header?.dataType != 'repeatSection' && header?.dataType != 'qrcode' && header?.dataType != 'dateTime' && !isMyDataArray(item[header.key]
+                      *ngIf="header?.dataType !='select' && header?.dataType !='audioVideoRecorder' && header?.dataType !='image-upload' && header?.dataType != 'repeatSection' && header?.dataType != 'qrcode' && header?.dataType != 'dateTime' && !isMyDataArray(item[header.key]
                     )
                     && header?.subDataType != 'datetime-local' && header?.dataType != 'rangePicker' && header?.dataType !='checkbox' && header?.dataType !='icon' && header?.dataType !='button'">
                       <div [style.color]="item[header.key]== item?.colorDataType && editId !== item.id ?

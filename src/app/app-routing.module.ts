@@ -14,6 +14,7 @@ import { UserComponent } from './auth/user/user.component';
 import { PolicyMappingComponent } from './admin/policy-mapping/policy-mapping.component';
 import { UserMappingComponent } from './admin/user-mapping/user-mapping.component';
 import { ApplicationThemeComponent } from './Builder-module/application-theme/application-theme.component';
+import { NgxGraphNodeComponent } from './builder/ngx-graph-node/ngx-graph-node.component';
 
 const routes: Routes = [
   {
@@ -74,6 +75,10 @@ const routes: Routes = [
   {
     path: 'demo',
     component: DemoComponent
+  },
+  {
+    path: 'mindmap',
+    component: NgxGraphNodeComponent
   },
   {
     path: 'file-manager',

@@ -37,6 +37,7 @@ export class DynamicTableComponent implements OnInit {
   @Input() data: any;
   editId: string | null = null;
   @Input() screenName: any;
+  @Input() mappingId: any;
   @Input() showPagination: any = true;
   @Input() childTable: any = false;
   GridType: string = '';
@@ -98,6 +99,9 @@ export class DynamicTableComponent implements OnInit {
       header = JSON.parse(JSON.stringify(header));
       this.cdr.detach();
       this.cdr.detectChanges();
+      setTimeout(() => {
+        this.resizingLocalStorage();
+      }, 200);
     }
     // Update the nzScroll configuration based on screen size
     // this.updateScrollConfig();
@@ -115,6 +119,9 @@ export class DynamicTableComponent implements OnInit {
   }
   userDetails: any;
   async ngOnInit(): Promise<void> {
+    if(this.mappingId && this.data.eventActionconfig){
+      this.data.eventActionconfig['parentId'] = this.mappingId;
+    }
     localStorage.removeItem('tablePageNo');
     localStorage.removeItem('tablePageSize');
     this.data['searchValue'] = '';
@@ -1016,9 +1023,9 @@ export class DynamicTableComponent implements OnInit {
         this.tableHeaders = this.data['tableKey'];
         this.footerData = this.data['tableKey'];
       }
-      if (!this.tableData.some((a: any) => a.children)) {
-        this.tableHeaders = this.tableHeaders.filter((head: any) => head.name !== 'expand');
-      }
+      // if (!this.tableData.some((a: any) => a.children)) {
+      //   this.tableHeaders = this.tableHeaders.filter((head: any) => head.name !== 'expand');
+      // }
 
       this.tableHeaders.sort((a: any, b: any) => {
         const srNoA = parseInt(a.srNo);
@@ -1941,6 +1948,12 @@ export class DynamicTableComponent implements OnInit {
             }
           }
         }
+        this.displayData = this.tableData.length > this.data.end ? this.tableData.slice(0, this.data.end) : this.tableData;
+        // tableData.tableHeaders.unshift({
+        //   name: 'expand',
+        //   key: 'expand',
+        //   title: 'Expand',
+        // });
         if (savedGroupData.length > 0) {
           let getData = savedGroupData[savedGroupData.length - 1];
           if (getData.data.length > 0) {
@@ -1960,11 +1973,11 @@ export class DynamicTableComponent implements OnInit {
             this.data.totalCount = res?.count;
             this.data.masteTotalCount = res.count;
           } else {
-            this.tableHeaders = this.tableHeaders.filter((head: any) => head.key != 'expand');
+            // this.tableHeaders = this.tableHeaders.filter((head: any) => head.key != 'expand');
             this.pageChange(1);
           }
         } else {
-          this.tableHeaders = this.tableHeaders.filter((head: any) => head.key != 'expand');
+          // this.tableHeaders = this.tableHeaders.filter((head: any) => head.key != 'expand');
           this.pageChange(1);
         }
         this.data['tableKey'] = this.tableHeaders;

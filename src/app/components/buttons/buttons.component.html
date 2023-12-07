@@ -14,7 +14,9 @@
       [hoverIconColor]="buttonData?.hoverIconColor || ''" [size]="buttonData.iconSize"
       [type]="buttonData.iconType"></st-icon>
     <span [class]="buttonData.btnLabelPaddingClass" *ngIf="buttonData.title">
-      {{ title ? title : buttonData.title | translate}}
+      {{ (buttonData?.title) ? (title || buttonData?.title | translate) : ''
+      }}
+
     </span>
     <st-icon *ngIf="buttonData.rightbtnIcon" [icon]="buttonData.rightbtnIcon" [color]="buttonData.iconColor"
       [size]="buttonData.iconSize" [hoverIconColor]="buttonData?.hoverIconColor || ''"
@@ -39,7 +41,8 @@
         [hoverIconColor]="buttonData?.hoverIconColor || ''" [size]="buttonData.iconSize"
         [type]="buttonData.iconType"></st-icon>
       <span [class]="buttonData.btnLabelPaddingClass" *ngIf="buttonData.title">
-        {{ title ? title : buttonData.title | translate}}
+        {{ (buttonData?.title) ? (title || buttonData?.title | translate) : ''
+        }}
       </span>
       <st-icon *ngIf="buttonData.rightbtnIcon" [icon]="buttonData.rightbtnIcon" [color]="buttonData.iconColor"
         [size]="buttonData.iconSize" [hoverIconColor]="buttonData?.hoverIconColor || ''"
@@ -65,7 +68,8 @@
       [color]="buttonData.iconColor" [hoverIconColor]="buttonData?.hoverIconColor || ''" [size]="buttonData.iconSize"
       [type]="buttonData.iconType"></st-icon>
     <span [class]="buttonData.btnLabelPaddingClass" *ngIf="buttonData.title">
-      {{ title ? title : buttonData.title | translate}}
+      {{ (buttonData?.title) ? (title || buttonData?.title | translate) : ''
+      }}
     </span>
     <span [class]="buttonData.iconClass">
       <st-icon *ngIf="buttonData.rightbtnIcon" [icon]="buttonData.rightbtnIcon" [color]="buttonData.iconColor"
@@ -131,8 +135,8 @@
     [nzVisible]="isVisible" (nzOnClose)="handleClose()">
     <ng-container *nzDrawerContent>
       <nz-spin [nzSpinning]="loader">
-        <st-pages [mappingId]="mappingId" [mappingId]="tableRowId" [isDrawer]="true" [data]="nodes" [navigation]="screenId" [form]="form" [formlyModel]="formlyModel"
-          *ngIf="nodes.length > 0"></st-pages>
+        <st-pages [mappingId]="mappingId" [mappingId]="tableRowId" [isDrawer]="true" [data]="nodes"
+          [navigation]="screenId" [form]="form" [formlyModel]="formlyModel" *ngIf="nodes.length > 0"></st-pages>
       </nz-spin>
     </ng-container>
   </nz-drawer>

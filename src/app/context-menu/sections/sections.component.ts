@@ -493,6 +493,7 @@ export class SectionsComponent implements OnInit {
     let findClickApi = data?.appConfigurableEvent?.find((item: any) => item.rule.includes('get'))
     if (findClickApi) {
       let url = `knex-query/getexecute-rules/${findClickApi._id}`;
+      url = this.mappingId ? `${url}/${this.mappingId}` : url;
       let tableData = this.findObjectByKey(this.sections, findClickApi.targetId);
       if (tableData) {
         let pagination: any = '';
@@ -501,7 +502,7 @@ export class SectionsComponent implements OnInit {
         }
         this.saveLoader = true;
         const applicationId = localStorage.getItem('applicationId') || '';
-        let savedGroupData = await this.dataService.getNodes(JSON.parse(applicationId), this.screenName, "Table");
+        // let savedGroupData = await this.dataService.getNodes(JSON.parse(applicationId), this.screenName, "Table");
         this.requestSubscription = this.employeeService.getSQLDatabaseTable(url + pagination).subscribe({
           next: async (res) => {
             this.saveLoader = false;
@@ -537,6 +538,7 @@ export class SectionsComponent implements OnInit {
                 }
                 tableData.pageIndex = 1;
                 tableData.totalCount = res.count;
+                tableData['masteTotalCount'] = res.count;
                 tableData.serverApi = url;
                 tableData.targetId = '';
                 tableData.displayData = tableData.tableData.length > tableData.end ? tableData.tableData.slice(0, tableData.end) : tableData.tableData;
@@ -591,7 +593,8 @@ export class SectionsComponent implements OnInit {
                     }
                   }
                 }
-                let getData = savedGroupData[savedGroupData.length - 1];
+                // let getData = savedGroupData[savedGroupData.length - 1];
+                let getData: any = '';
                 if (getData?.data) {
                   if (getData.data.length > 0) {
                     let groupingArray: any = [];
@@ -617,6 +620,18 @@ export class SectionsComponent implements OnInit {
                 } else {
                   tableData.tableHeaders = tableData.tableHeaders.filter((head: any) => head.key != 'expand')
 
+                }
+                tableData.pageIndex = 1;
+                if (tableData?.serverSidePagination) {
+                  const start = (tableData.pageIndex - 1) * 10;
+                  // const end = start + 10;
+                  // this.start = start == 0 ? 1 : ((tableData.pageIndex * 10) - 10) + 1;
+                  // this.end = this.displayData.length == tableData.end ? (tableData.pageIndex * tableData.end) : tableData.totalCount;
+                } else {
+                  const start = (tableData.pageIndex - 1) * 10;
+                  const end = start + 10;
+                  tableData.displayData = tableData.tableData.slice(start, end);
+                  tableData.totalCount = tableData.tableData.length;
                 }
               }
               // this.assignGridRules(tableData);

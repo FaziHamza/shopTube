@@ -56,6 +56,11 @@ import { UserMappingComponent } from './admin/user-mapping/user-mapping.componen
 import { PolicyMappingTableComponent } from './admin/policy-mapping/policy-mapping-table/policy-mapping-table.component';
 import { CustomReuseStrategy } from './custom-reuse-strategy';
 import { BuilderModule } from './builder/builder.module';
+import { NgxGraphNodeComponent } from './builder/ngx-graph-node/ngx-graph-node.component';
+import { NgxGraphModule } from '@swimlane/ngx-graph';
+import { ContextMenuModule } from '@perfectmemory/ngx-contextmenu';
+
+
 
 @NgModule({
   declarations: [
@@ -73,6 +78,7 @@ import { BuilderModule } from './builder/builder.module';
     PolicyMappingComponent,
     UserMappingComponent,
     PolicyMappingTableComponent,
+    NgxGraphNodeComponent,
     // MultiFileUploadWrapperComponent,
   ],
   imports: [
@@ -97,6 +103,8 @@ import { BuilderModule } from './builder/builder.module';
     RecaptchaModule,
     NgJsonEditorModule,
     BuilderModule,
+    NgxGraphModule,
+    ContextMenuModule,
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,
