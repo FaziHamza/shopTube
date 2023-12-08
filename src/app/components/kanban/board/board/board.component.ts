@@ -5,6 +5,7 @@ import { BoardModel } from '../../model/board/board.model';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { ApplicationService } from 'src/app/services/application.service';
 import { DataSharedService } from 'src/app/services/data-shared.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'st-board',
@@ -12,6 +13,7 @@ import { DataSharedService } from 'src/app/services/data-shared.service';
   styleUrls: ['./board.component.scss']
 })
 export class BoardComponent implements OnInit {
+  @Input() mappingId: any;
   @Input() kanbanData: any;
   lists: ListInterface[];
   @Input() formlyModel: any;
@@ -21,12 +23,12 @@ export class BoardComponent implements OnInit {
   status: any = [];
   originalKanbanData: any;
   loader: boolean = false;
+  requestSubscription: Subscription;
   constructor(private toastr: NzMessageService, private applicationServices: ApplicationService, public dataSharedService: DataSharedService) {
     this.processData = this.processData.bind(this);
   }
 
   ngOnInit() {
-    
     if (this.kanbanData?.eventActionconfig) {
       this.loader = true
     } else {
@@ -519,5 +521,26 @@ export class BoardComponent implements OnInit {
       }
     }
     return null;
+  }
+  recallApi(event: any) {
+    const { _id, actionLink, data, headers, parentId, page, pageSize } = this.kanbanData.eventActionconfig;
+    if (_id) {
+      let pagination = ''
+      if (page && pageSize) {
+        pagination = `?page=${localStorage.getItem('tablePageNo') || 1}&pageSize=${localStorage.getItem('tablePageSize') || 10}`
+      }
+      this.loader = true;
+      this.requestSubscription = this.applicationServices.callApi(`knex-query/getexecute-rules/${_id}${pagination}`, 'get', data, headers, parentId).subscribe({
+        next: (res) => {
+          this.processData(res);
+          this.loader = false;
+        },
+        error: (error: any) => {
+          console.error(error);
+          this.loader = false;
+          this.toastr.error("An error occurred", { nzDuration: 3000 });
+        }
+      })
+    }
   }
 }

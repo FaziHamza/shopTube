@@ -35,8 +35,10 @@ export class DynamicTableComponent implements OnInit {
   @Input() displayData: any[] = [];
   @Input() tableHeaders: any = [];
   @Input() data: any;
+  @Input() childDataObj: any;
   editId: string | null = null;
   @Input() screenName: any;
+  @Input() mappingId: any;
   @Input() showPagination: any = true;
   @Input() childTable: any = false;
   GridType: string = '';
@@ -98,6 +100,9 @@ export class DynamicTableComponent implements OnInit {
       header = JSON.parse(JSON.stringify(header));
       this.cdr.detach();
       this.cdr.detectChanges();
+      setTimeout(() => {
+        this.resizingLocalStorage();
+      }, 200);
     }
     // Update the nzScroll configuration based on screen size
     // this.updateScrollConfig();
@@ -115,6 +120,9 @@ export class DynamicTableComponent implements OnInit {
   }
   userDetails: any;
   async ngOnInit(): Promise<void> {
+    if (this.mappingId && this.data.eventActionconfig) {
+      this.data.eventActionconfig['parentId'] = this.mappingId;
+    }
     localStorage.removeItem('tablePageNo');
     localStorage.removeItem('tablePageSize');
     this.data['searchValue'] = '';
@@ -1016,9 +1024,9 @@ export class DynamicTableComponent implements OnInit {
         this.tableHeaders = this.data['tableKey'];
         this.footerData = this.data['tableKey'];
       }
-      if (!this.tableData.some((a: any) => a.children)) {
-        this.tableHeaders = this.tableHeaders.filter((head: any) => head.name !== 'expand');
-      }
+      // if (!this.tableData.some((a: any) => a.children)) {
+      //   this.tableHeaders = this.tableHeaders.filter((head: any) => head.name !== 'expand');
+      // }
 
       this.tableHeaders.sort((a: any, b: any) => {
         const srNoA = parseInt(a.srNo);
@@ -1070,6 +1078,17 @@ export class DynamicTableComponent implements OnInit {
       }
       this.data = newNode;
     }
+    if (this.tableData.length > 0 && this.childDataObj) {
+      if (!this.data.end) {
+        this.data.end = 10;
+      }
+      this.data.pageIndex = 1;
+      this.data.totalCount = this.childDataObj.count;
+      this.data.masteTotalCount = this.childDataObj.count;
+      this.showPagination = true;
+      // this.pageChange(1);
+    }
+
   }
   handleCancel(): void {
     this.isHeaderVisible = false;
@@ -1213,6 +1232,7 @@ export class DynamicTableComponent implements OnInit {
       this.pageSize = this.data.end;
       this.saveLoader = true;
       if (this.data?.targetId) {
+
         this.requestSubscription = this.applicationService.getNestCommonAPIById(`knex-query/getexecute-rules/${this.data.eventActionconfig._id}` + pagination, this.data?.targetId).subscribe({
           next: (response) => {
             this.saveLoader = false;
@@ -1224,6 +1244,12 @@ export class DynamicTableComponent implements OnInit {
                 element.id = (element?.id)?.toString();
                 this.tableData?.push(element);
               });
+              if (this.data.tableHeaders.some((header: any) => header.key === 'expand')) {
+                this.tableData = this.tableData.map((row: any) => ({
+                  'expand': false,
+                  ...row
+                }));
+              }
               this.updateGridPagination();
               this.gridInitilize();
             }
@@ -1234,7 +1260,14 @@ export class DynamicTableComponent implements OnInit {
         })
       }
       else {
-        this.requestSubscription = this.applicationService.getNestCommonAPI(`knex-query/getexecute-rules/${this.data.eventActionconfig._id}` + pagination).subscribe({
+        let url = 'knex-query/getexecute-rules/' + this.data.eventActionconfig._id;
+        if(this.childDataObj){
+          let findExpandKeyHead = this.tableHeaders.find((head: any) => head.key == 'expand');
+          if(findExpandKeyHead){
+            url = findExpandKeyHead.callApi + '/' + this.childDataObj.id;
+          }
+        }
+        this.requestSubscription = this.applicationService.getNestCommonAPI(url + pagination).subscribe({
           next: (response) => {
             this.saveLoader = false;
             if (response.isSuccess) {
@@ -1245,6 +1278,12 @@ export class DynamicTableComponent implements OnInit {
                 element.id = (element?.id)?.toString();
                 this.tableData?.push(element);
               });
+              if (this.data.tableHeaders.some((header: any) => header.key === 'expand')) {
+                this.tableData = this.tableData.map((row: any) => ({
+                  'expand': false,
+                  ...row
+                }));
+              }
               this.displayData = this.tableData;
               this.updateGridPagination();
               this.gridInitilize();
@@ -1941,6 +1980,12 @@ export class DynamicTableComponent implements OnInit {
             }
           }
         }
+        this.displayData = this.tableData.length > this.data.end ? this.tableData.slice(0, this.data.end) : this.tableData;
+        // tableData.tableHeaders.unshift({
+        //   name: 'expand',
+        //   key: 'expand',
+        //   title: 'Expand',
+        // });
         if (savedGroupData.length > 0) {
           let getData = savedGroupData[savedGroupData.length - 1];
           if (getData.data.length > 0) {
@@ -1960,13 +2005,26 @@ export class DynamicTableComponent implements OnInit {
             this.data.totalCount = res?.count;
             this.data.masteTotalCount = res.count;
           } else {
-            this.tableHeaders = this.tableHeaders.filter((head: any) => head.key != 'expand');
+            // this.tableHeaders = this.tableHeaders.filter((head: any) => head.key != 'expand');
             this.pageChange(1);
           }
         } else {
-          this.tableHeaders = this.tableHeaders.filter((head: any) => head.key != 'expand');
+          // this.tableHeaders = this.tableHeaders.filter((head: any) => head.key != 'expand');
           this.pageChange(1);
         }
+
+        if (tableData.tableHeaders.some((header: any) => header.key === 'expand')) {
+          this.tableData = this.tableData.map((row: any) => ({
+            'expand': false,
+            ...row
+          }));
+          this.displayData = this.displayData.map((row: any) => ({
+            'expand': false,
+            ...row
+          }));
+
+        }
+
         this.data['tableKey'] = this.tableHeaders;
         this.data['tableHeaders'] = this.tableHeaders;
         const resizingData = localStorage.getItem(this.screenId);
@@ -2739,7 +2797,7 @@ export class DynamicTableComponent implements OnInit {
     this.pageChange(1); // Optionally, update pagination or other UI changes
   }
 
-  parseDateString(dateString: string): Date | null {
+  parseDateString(dateString: string): Date | any {
     // Check if the string is in the "Fri Dec 01 2023 00:00:00 GMT+0000" format
     if (/^[A-Za-z]{3} [A-Za-z]{3} \d{2} \d{4} \d{2}:\d{2}:\d{2} GMT\+\d{4} \(Coordinated Universal Time\)$/.test(dateString)) {
       return new Date(dateString);
@@ -2758,14 +2816,20 @@ export class DynamicTableComponent implements OnInit {
       }
     }
 
+    // Check if the string is in the 'yyyy-MM-dd' format
+    if (/^\d{4}-\d{2}-\d{2}$/.test(dateString)) {
+      return new Date(dateString);
+    }
+
     // Check if the string is in the "2023-11-30T00:00:00.000Z" format
     if (/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z$/.test(dateString)) {
       return new Date(dateString);
     }
 
     // If the format is not recognized, return null
-    return null;
+    return dateString;
   }
+
 
   recallApi() {
     const { _id, actionLink, data, headers, parentId, page, pageSize } = this.data.eventActionconfig;
@@ -2774,7 +2838,6 @@ export class DynamicTableComponent implements OnInit {
       if (page && pageSize) {
         pagination = `?page=${localStorage.getItem('tablePageNo') || 1}&pageSize=${localStorage.getItem('tablePageSize') || 10}`
       }
-      let url = 'knex-query/getexecute-rules/' + _id;
       this.saveLoader = true;
       this.requestSubscription = this.applicationService.callApi(`knex-query/getexecute-rules/${_id}${pagination}`, 'get', data, headers, parentId).subscribe({
         next: (res) => {
@@ -2787,6 +2850,48 @@ export class DynamicTableComponent implements OnInit {
           this.toastr.error("An error occurred", { nzDuration: 3000 });
         }
       })
+    }
+  }
+  callExpandAPi(item: any, event: any) {
+    let findExpandKeyHead = this.tableHeaders.find((head: any) => head.key == 'expand');
+    if (findExpandKeyHead && event) {
+      if (findExpandKeyHead.callApi) {
+        let pagination = '';
+        let { _id, actionLink, data, headers, parentId, page, pageSize } = this.data.eventActionconfig;
+        if (page && pageSize) {
+          pagination = `?page=${localStorage.getItem('tablePageNo') || 1}&pageSize=${localStorage.getItem('tablePageSize') || 10}`
+        }
+        this.saveLoader = true;
+        let itemIdString: string | undefined = item?.id;
+        parentId = itemIdString ? parseInt(itemIdString, 10) : 0;
+        if (parentId) {
+          let url = findExpandKeyHead.callApi + '/' + parentId;
+          this.requestSubscription = this.applicationService.callApi(`${url}${pagination}`, 'get', data, headers, null).subscribe({
+            next: (res) => {
+              this.saveLoader = false;
+              let responseData = res.data.map((row: any) => ({
+                'expand': false,
+                ...row
+              }));
+              item['children'] = responseData;
+              if (res.count) {
+                item['childDataObj'] = {
+                  count: res.count,
+                  callExpandAPi: true,
+                  id: item?.id,
+                  data: JSON.parse(JSON.stringify(this.data))
+                };
+              }
+            },
+            error: (error: any) => {
+              console.error(error);
+              this.saveLoader = false;
+              this.toastr.error("An error occurred", { nzDuration: 3000 });
+            }
+          })
+        }
+
+      }
     }
   }
 }

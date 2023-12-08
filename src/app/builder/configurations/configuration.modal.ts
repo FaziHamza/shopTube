@@ -670,6 +670,16 @@ export class formFeildData {
           },
         },
         // {
+        //   className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+        //   key: 'showLabel',
+        //   type: 'checkbox',
+        //   wrappers: ["formly-vertical-theme-wrapper"],
+        //   props: {
+        //     label: 'Show Label',
+        //   },
+        //   defaultValue: false
+        // },
+        // {
         //   key: 'buttonClass',
         //   type: 'multiselect',
         //   className: "w-full",
@@ -5822,6 +5832,65 @@ export class formFeildData {
       ]
     },
   ]
+  buttonDrawerFields: FormlyFieldConfig[] = [
+    {
+      fieldGroupClassName: "flex flex-wrap",
+      fieldGroup: [
+        {
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          key: 'headerHeight',
+          type: 'input',
+          wrappers: ["formly-vertical-theme-wrapper"],
+          props: {
+            label: 'Header Height',
+            type: 'number',
+          }
+        },
+        {
+          key: 'showHideButton',
+          type: 'select',
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          wrappers: ["formly-vertical-theme-wrapper"],
+          props: {
+            label: 'Badge Type',
+            options: [
+              {
+                label: 'Hide Both',
+                value: 'hideBoth'
+              },
+              {
+                label: 'Show Both',
+                value: 'showBoth'
+              },
+              {
+                label: 'show Previous Button',
+                value: 'showPreviousButton'
+              },
+              {
+                label: 'show Next Button',
+                value: 'showNextButton'
+              },
+            ],
+            additionalProperties: {
+              allowClear: true,
+              serveSearch: false,
+              showArrow: true,
+              showSearch: true,
+            },
+          }
+        },
+        {
+          key: 'hideHeader',
+          type: 'checkbox',
+          wrappers: ["formly-vertical-theme-wrapper"],
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          props: {
+            label: 'Hide Header'
+          },
+        },
+      ]
+    },
+  ]
   accordionButtonFields: FormlyFieldConfig[] = [
     {
       fieldGroupClassName: "flex flex-wrap",
@@ -8501,6 +8570,24 @@ export class formFeildData {
           wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             label: 'Nodes',
+          },
+        },
+        {
+          key: 'screenLink',
+          type: 'input',
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          wrappers: ["formly-vertical-theme-wrapper"],
+          props: {
+            label: 'Screen Link',
+          },
+        },
+        {
+          key: 'editScreenLink',
+          type: 'input',
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          wrappers: ["formly-vertical-theme-wrapper"],
+          props: {
+            label: 'Edit Screen Link',
           },
         },
         // {

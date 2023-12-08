@@ -40,7 +40,7 @@ export class MainsComponent implements OnInit {
     ];
     this.nzImageService.preview(images, { nzZoom: data.zoom, nzRotate: data.rotate, nzKeyboard: data.keyboardKey, nzZIndex: data.zIndex });
   }
-  
+
 
   handleIndexChange(e: number): void {
     console.log(e);
@@ -59,7 +59,7 @@ export class MainsComponent implements OnInit {
     this.notify.emit(event);
   }
   patchValue(data: any) {
-    
+
     if (data?.dataObj) {
       let makeModel: any = JSON.parse(JSON.stringify(this.formlyModel));
       if (this.formlyModel) {
@@ -92,5 +92,5 @@ export class MainsComponent implements OnInit {
       this.formlyModel = makeModel;
       this.form.patchValue(this.formlyModel);
     }
-  }
+  } 
 }

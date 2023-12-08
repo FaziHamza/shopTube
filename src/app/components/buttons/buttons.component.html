@@ -14,7 +14,9 @@
       [hoverIconColor]="buttonData?.hoverIconColor || ''" [size]="buttonData.iconSize"
       [type]="buttonData.iconType"></st-icon>
     <span [class]="buttonData.btnLabelPaddingClass" *ngIf="buttonData.title">
-      {{ title ? title : buttonData.title | translate}}
+      {{ (buttonData?.title) ? (title || buttonData?.title | translate) : ''
+      }}
+
     </span>
     <st-icon *ngIf="buttonData.rightbtnIcon" [icon]="buttonData.rightbtnIcon" [color]="buttonData.iconColor"
       [size]="buttonData.iconSize" [hoverIconColor]="buttonData?.hoverIconColor || ''"
@@ -39,7 +41,8 @@
         [hoverIconColor]="buttonData?.hoverIconColor || ''" [size]="buttonData.iconSize"
         [type]="buttonData.iconType"></st-icon>
       <span [class]="buttonData.btnLabelPaddingClass" *ngIf="buttonData.title">
-        {{ title ? title : buttonData.title | translate}}
+        {{ (buttonData?.title) ? (title || buttonData?.title | translate) : ''
+        }}
       </span>
       <st-icon *ngIf="buttonData.rightbtnIcon" [icon]="buttonData.rightbtnIcon" [color]="buttonData.iconColor"
         [size]="buttonData.iconSize" [hoverIconColor]="buttonData?.hoverIconColor || ''"
@@ -65,7 +68,8 @@
       [color]="buttonData.iconColor" [hoverIconColor]="buttonData?.hoverIconColor || ''" [size]="buttonData.iconSize"
       [type]="buttonData.iconType"></st-icon>
     <span [class]="buttonData.btnLabelPaddingClass" *ngIf="buttonData.title">
-      {{ title ? title : buttonData.title | translate}}
+      {{ (buttonData?.title) ? (title || buttonData?.title | translate) : ''
+      }}
     </span>
     <span [class]="buttonData.iconClass">
       <st-icon *ngIf="buttonData.rightbtnIcon" [icon]="buttonData.rightbtnIcon" [color]="buttonData.iconColor"
@@ -125,25 +129,27 @@
 <div
   *ngIf="buttonData?.redirect == 'drawer' || buttonData?.redirect == 'largeDrawer'  || buttonData?.redirect == 'extraLargeDrawer'">
   <nz-drawer [nzWrapClassName]="'button-drawer'" [nzClosable]="false"
-    [nzTitle]="hostUrl.includes('spectrum') ? 'Request Detail' + ' - ' +  (drawerTiltle ? drawerTiltle :  title): (drawerTiltle ? drawerTiltle :  (title ? title : buttonData.title))"
-    [nzExtra]="extra"
+    [nzTitle]="buttonData?.hideHeader == false ||  buttonData?.hideHeader == undefined ? (hostUrl.includes('spectrum') ? 'Request Detail' + ' - ' +  (drawerTiltle ? drawerTiltle :  title): (drawerTiltle ? drawerTiltle :  (title ? title : buttonData.title))) : ''"
+    [nzExtra]="buttonData?.hideHeader == false ||  buttonData?.hideHeader == undefined ? extra : ''"
     [nzWidth]="buttonData?.redirect == 'drawer' ? '60%' : (buttonData?.redirect == 'largeDrawer' ? '70%' : '80%') "
     [nzVisible]="isVisible" (nzOnClose)="handleClose()">
     <ng-container *nzDrawerContent>
       <nz-spin [nzSpinning]="loader">
-        <st-pages [mappingId]="mappingId" [mappingId]="tableRowId" [isDrawer]="true" [data]="nodes" [navigation]="screenId" [form]="form" [formlyModel]="formlyModel"
-          *ngIf="nodes.length > 0"></st-pages>
+        <st-pages [mappingId]="mappingId" [mappingId]="tableRowId" [isDrawer]="true" [data]="nodes"
+          [navigation]="screenId" [form]="form" [formlyModel]="formlyModel" *ngIf="nodes.length > 0"></st-pages>
       </nz-spin>
     </ng-container>
   </nz-drawer>
 </div>
 <ng-template #extra>
   <!-- Buttons with Font Awesome icons -->
-  <button nz-button nzType="primary" class="btn mb-4" (click)="getNextOrPreviousObjectById('previous')">
-    <i class="fas fa-arrow-left mr-1"></i> Previous
+  <button *ngIf="buttonData?.showHideButton == 'showPreviousButton' || buttonData?.showHideButton == undefined || buttonData?.showHideButton == 'showBoth'" nz-button
+    nzType="primary" class="btn mb-4" (click)="getNextOrPreviousObjectById('previous')">
+    <i class="fas fa-arrow-left mr-2"></i> Previous
   </button>
 
-  <button nz-button nzType="primary" class="btn mb-4 ml-2 mr-2" (click)="getNextOrPreviousObjectById('next')">
+  <button *ngIf="buttonData?.showHideButton == 'showNextButton' || buttonData?.showHideButton == undefined || buttonData?.showHideButton == 'showBoth'" nz-button
+    nzType="primary" class="btn mb-4 ml-2 mr-2" (click)="getNextOrPreviousObjectById('next')">
     Next <i class="fas fa-arrow-right ml-1"></i>
   </button>
   <i class="fas fa-times text-lg text-red-500 cursor-pointer" (click)="handleClose()"></i>

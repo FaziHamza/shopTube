@@ -9,7 +9,7 @@ import { EventDropArg } from '@fullcalendar/core';
 import { ApplicationService } from 'src/app/services/application.service';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { DataSharedService } from 'src/app/services/data-shared.service';
-
+import * as moment from 'moment';
 
 @Component({
   selector: 'st-calendar',
@@ -171,15 +171,15 @@ export class CalendarComponent {
     const date = new Date(newStart.toString());
     const newdateData = date.toISOString();
     const formattedDate = newdateData.split('T')[0];
-
+    
     // Parse the formatted date
-    const currentDate = new Date(formattedDate);
-
+    const currentDate = moment(formattedDate);
+    
     // Add 1 day
-    currentDate.setDate(currentDate.getDate() + 1);
-
-    // Format the date back to 'YYYY-MM-DD'
-    const formattedDatePlus1Day = currentDate.toISOString().split('T')[0];
+    currentDate.add(1, 'days');
+    
+    // Format the date back to 'YYYY-MM-DDTHH:mm:ss.SSSZ'
+    const formattedDatePlus1Day = currentDate.toISOString();
 
 
     const model = {

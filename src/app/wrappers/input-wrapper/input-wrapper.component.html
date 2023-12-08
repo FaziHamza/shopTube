@@ -1,12 +1,12 @@
 <div [class]="to['additionalProperties']?.wrapper=='floating_standard' ? 'relative z-0' : ''"
   *ngIf="to.type != 'number'">
-  <nz-input-group [style.border-radius]="to['additionalProperties']?.borderRadius"
+  <nz-input-group [style.border]="to['additionalProperties']?.border? '0px': ''" [style.border-radius]="to['additionalProperties']?.borderRadius"
     [class]="to['additionalProperties']?.innerInputClass + ' ' + to['additionalProperties']?.applicationThemeClasses"
     [ngClass]="showError ? 'input-border' : ''"
     [nzSuffix]="(to['additionalProperties']?.addonRight   || to['additionalProperties']?.suffixicon) ? suffixTemplateInfo : undefined"
     [nzPrefix]="(to['additionalProperties']?.addonLeft || to['additionalProperties']?.prefixicon) ? prefixTemplateUser : undefined"
     [nzSize]="to['additionalProperties']?.size" [nzStatus]="to['additionalProperties']?.status">
-    <input (ngModelChange)="onModelChange($event, field)"
+    <input class="!text-left" (ngModelChange)="onModelChange($event, field)"
       [class]="to['additionalProperties']?.innerInputClass + ' ' +to['additionalProperties']?.applicationThemeClasses"
       [style.border-radius]="to['additionalProperties']?.borderRadius" [ngClass]=" showError && !to['additionalProperties']?.suffixicon && !to['additionalProperties']?.prefixicon
 && !to['additionalProperties']?.addonLeft && !to['additionalProperties']?.addonRight ? 'input-border' : ''"
