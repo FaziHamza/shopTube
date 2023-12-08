@@ -32,7 +32,7 @@
       <div class="col-11"></div>
       <div class="col"><button (click)="saveBoard()">Save</button></div>
     </div> -->
-    <div class="flex flex-nowrap flex-row ">
+    <div class="flex flex-nowrap flex-row overflow-y-hidden overflow-x-auto h-[calc(100vh-235px)]">
       <div class="p-1" *ngFor="let list of kanbanData.children;let i = index">
         <st-lists [list]="list" [listIndex]="i" (moveCardAcrossList)="moveCardAcrossList($event)" [form]="form"
           [formlyModel]="formlyModel" [screenId]="screenId" [screenName]="screenName" (deleteList)="deleteList($event)"
