@@ -1,0 +1,224 @@
+<div class="container-fluid">
+    <div class="flex flex-wrap">
+        <!-- Sidebar -->
+        <nav class="w-1/5" id="sidebar"
+            class="{{arrow =='fa-solid fa-square-arrow-left fa-lg'?'col-md-4 col-lg-4 d-md-block bg-light sidebar':'d-none'}}">
+            <div class="position-sticky">
+                <h2>Configuration</h2>
+                <form class="settings">
+                    <div class="form-group">
+                        <label for="layout">Layout</label>
+                        <nz-select class="form-control" id="layout" [(ngModel)]="layout"
+                            (ngModelChange)="setLayout($event)" name="layout">
+                            <nz-option *ngFor="let l of layouts" [nzValue]="l.value" [nzLabel]="l.label"></nz-option>
+                        </nz-select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="curve">Line Curve Interpolation</label>
+                        <nz-select class="form-control" id="curve" [(ngModel)]="curveType"
+                            (ngModelChange)="setInterpolationType($event)" name="curve">
+                            <nz-option *ngFor="let curveType of interpolationTypes" [nzValue]="curveType"
+                                [nzLabel]="curveType"></nz-option>
+                        </nz-select>
+                    </div>
+
+                    <div class="form-check">
+                        <label nz-checkbox [(ngModel)]="draggingEnabled">Enable Dragging</label>
+                    </div>
+                    <div class="form-check">
+                        <label nz-checkbox [(ngModel)]="panningEnabled">Enable Panning</label>
+                    </div>
+                    <div class="form-check">
+                        <label nz-checkbox [(ngModel)]="zoomEnabled">Enable Zoom</label>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="zoomSpeed">Zoom Speed</label>
+                        <input nz-input type="number" class="form-control" [(ngModel)]="zoomSpeed" id="zoomSpeed"
+                            name="zoomSpeed" placeholder="Zoom speed" step="0.1">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="minZoomLevel">Min Zoom Level</label>
+                        <input nz-input type="number" class="form-control" [(ngModel)]="minZoomLevel" id="minZoomLevel"
+                            name="minZoomLevel" placeholder="Min Zoom Level" min="0" [max]="maxZoomLevel" step="0.1">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="maxZoomLevel">Max Zoom Level</label>
+                        <input nz-input type="number" class="form-control" [(ngModel)]="maxZoomLevel" id="maxZoomLevel"
+                            name="maxZoomLevel" placeholder="Max Zoom Level" [min]="minZoomLevel" step="0.1">
+                    </div>
+                    <div class="form-check">
+                        <input nz-input class="form-check-input" type="checkbox" [(ngModel)]="panOnZoom" id="panOnZoom"
+                            name="panOnZoom">
+                        <label class="form-check-label" for="panOnZoom">Pan while zooming</label>
+                    </div>
+
+                    <div class="form-check">
+                        <input nz-input class="form-check-input" type="checkbox" [(ngModel)]="autoZoom" id="autoZoom"
+                            name="autoZoom">
+                        <label class="form-check-label" for="autoZoom">Auto Zoom</label>
+                    </div>
+
+                    <div class="form-check">
+                        <input nz-input class="form-check-input" type="checkbox" [(ngModel)]="autoCenter"
+                            id="autoCenter" name="autoCenter">
+                        <label class="form-check-label" for="autoCenter">Auto Center</label>
+                    </div>
+                </form>
+                <button nz-button nzType="primary" class="btn mb-4 mr-2" (click)="update$.next(true)">Update</button>
+                <button nz-button nzType="primary" class="btn mb-4 mr-2" (click)="center$.next(true)">Center</button>
+                <button nz-button nzType="primary" class="btn mb-4 mr-2" (click)="zoomToFit$.next(true)">Zoom to
+                    fit</button>
+                <button nz-button nzType="primary" class="btn mb-4 mr-2" (click)="onSubmit()">Save</button>
+                <button nz-button nzType="primary" class="btn mb-4 mr-2" (click)="onAddNodeSelect()">Add</button>
+            </div>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="{{arrow =='fa-solid fa-square-arrow-left fa-lg'?' w-3/4 px-md-4':' w-3/4 px-md-4'}}'">
+            <!-- Replace with your content -->
+            <div class="page">
+                <ngx-graph [links]="links" [nodes]="nodes" [layout]="layout" [curve]="curve" [view]="[1600, 600]"
+                    [draggingEnabled]="draggingEnabled" [panningEnabled]="panningEnabled" [enableZoom]="zoomEnabled"
+                    [zoomSpeed]="zoomSpeed" [minZoomLevel]="minZoomLevel" [maxZoomLevel]="maxZoomLevel"
+                    [panOnZoom]="panOnZoom" [autoZoom]="autoZoom" [autoCenter]="autoCenter" [update$]="update$"
+                    [center$]="center$" [zoomToFit$]="zoomToFit$">
+
+                    <div cdkDropList [cdkDropListData]="nodes" (cdkDropListDropped)="onNodeDrop($event)">
+                        <ng-template #nodeTemplate let-node>
+                            <svg:g [contextMenu]="nodeContextMenu" [contextMenuValue]="node" class="node"
+                                (dblclick)="selectedNodeValue(node)" cdkDrag (cdkDragStarted)="onNodeDragged(node)">
+                                <svg:rect [attr.width]="node.dimension.width" [attr.height]="node.dimension.height"
+                                    [attr.fill]="node.color" />
+                                <svg:text [ngClass]="node.id == selectedNode?.id ? 'fw-bolder':''"
+                                    alignment-baseline="central" [attr.x]="10" [attr.y]="node.dimension.height / 2">
+                                    {{node.label}} {{node.isExpand? " <":""}} </svg:text>
+                            </svg:g>
+                            <context-menu class="custom-style" #nodeContextMenu>
+                                <ng-template contextMenuItem
+                                    (execute)="onClickNodeToggle(node)">Collapse/Uncollapse</ng-template>
+                                <ng-template contextMenuItem (execute)="openModalForAddNewNode(null,node)">Add
+                                    Children</ng-template>
+                                <ng-template contextMenuItem (execute)="openModalForLabel(null,node,'label')">Change
+                                    Label</ng-template>
+                                <ng-template contextMenuItem (execute)="openModalForLabel(null,node,'linkName')">Change
+                                    Link Name</ng-template>
+                                <ng-template contextMenuItem (execute)="openModalForLabel(null,node,'color')">Change
+                                    Node
+                                    Color</ng-template>
+                                <ng-template contextMenuItem (execute)="openModalForLabel(null,node,'linkColor')">Change
+                                    Link
+                                    Color</ng-template>
+                                <ng-template contextMenuItem (execute)="copyData(node,'cut')">Cut</ng-template>
+                                <ng-template contextMenuItem (execute)="copyData(node,'copy')">Copy</ng-template>
+                                <ng-template contextMenuItem [disabled]="isCopy"
+                                    (execute)="copyData(node,'paste')">Paste</ng-template>
+                                <ng-template contextMenuItem (execute)="copyData(node,'delete')">Delete</ng-template>
+                            </context-menu>
+                        </ng-template>
+                    </div>
+                    <div cdkDropList [cdkDropListData]="nodes" (cdkDropListDropped)="onNodeDrop($event)">
+                        <ng-template #linkTemplate let-link>
+                            <svg:g class="edge">
+                                <svg:path class="line" [attr.stroke]="link.color" stroke-width="2"
+                                    [attr.marker-end]="'url(#arrow'+ link.id+')'"
+                                    (mousedown)="startLinkDrag($event, link)">
+                                </svg:path>
+                                <svg:text class="edge-label" text-anchor="middle">
+                                    <textPath class="text-path" [attr.href]="'#' + link.id"
+                                        [style.dominant-baseline]="link.dominantBaseline" startOffset="50%">
+                                        {{link.label}}
+                                    </textPath>
+                                </svg:text>
+                            </svg:g>
+                            <ng-template #defsTemplate>
+                                <svg:marker [id]="'arrow'+link.id" viewBox="0 -5 10 10" refX="8" refY="0"
+                                    markerWidth="4" markerHeight="4" orient="auto">
+                                    <svg:path [attr.fill]="link.color" d="M0,-5L10,0L0,5" class="arrow-head" />
+                                </svg:marker>
+                            </ng-template>
+                        </ng-template>
+                    </div>
+                </ngx-graph>
+            </div>
+        </main>
+    </div>
+</div>
+<nz-modal [(nzVisible)]="isVisible" nzTitle="Chnage node config" (nzOnCancel)="handleCancel()" (nzOnOk)="changeLabel()">
+    <ng-container *nzModalContent>
+        <div class="flex items-start justify-between p-4 border-b rounded-t dark:border-gray-600">
+            <!-- <div class="flex items-start justify-between p-4 border-b rounded-t dark:border-gray-600"> -->
+            <button (click)="handleCancel()" type="button"
+                class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white"
+                data-modal-hide="defaultModal">
+                <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"
+                    xmlns="http://www.w3.org/2000/svg">
+                    <path fill-rule="evenodd"
+                        d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                        clip-rule="evenodd"></path>
+                </svg>
+                <span class="sr-only">Close modal</span>
+            </button>
+            <!-- </div> -->
+        </div>
+        <div class="p-6 space-y-6">
+            <form>
+                <div class="form-group mb-6" *ngIf="isLabel =='label' || isLabel =='linkName'">
+                    <label for="exampleInputEmail1" class="form-label inline-block mb-2 text-gray-700">Label
+                        Name </label>
+                    <input nz-input type="text"
+                        class="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
+                        id="inputNamebyId" [(ngModel)]="labelName" placeholder="Enter Label Name">
+                </div>
+                <div class="form-group mb-6" *ngIf="isLabel =='color' || isLabel =='linkColor'">
+                    <label for="exampleInputEmail1"
+                        class="form-label inline-block mb-2 text-gray-700">Change
+                        Color </label>
+                    <input nz-input type="color"
+                        class="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
+                        id="inputNamebyId" [(ngModel)]="color">
+                </div>
+            </form>
+        </div>
+    </ng-container>
+</nz-modal>
+<nz-modal [(nzVisible)]="addNodeModal" nzTitle="Add New Node" (nzOnCancel)="handleCancel()" (nzOnOk)="onAddNodeSelect()">
+    <ng-container *nzModalContent>
+        <form>
+            <div class="mb-4">
+                <label for="exampleInputEmail1" class="form-label inline-block mb-2 text-gray-700">Label
+                    Name </label>
+                <input nz-input type="text"
+                    class="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
+                    id="inputNamebyId" [(ngModel)]="labelName" placeholder="Enter Label Name">
+            </div>
+            <div class="mb-4">
+                <label for="exampleInputEmail1" class="form-label inline-block mb-2 text-gray-700">Link
+                    Name </label>
+                <input nz-input type="text"
+                    class="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
+                    id="inputNamebyId" [(ngModel)]="linkName" placeholder="Enter Link Name">
+            </div>
+            <div class="mb-4">
+                <label for="exampleInputEmail1"
+                    class="form-label inline-block mb-2 text-gray-700">Select
+                    Color</label>
+                <input nz-input type="color"
+                    class="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
+                    id="inputNamebyId" [(ngModel)]="color">
+            </div>
+            <div class="mb-4">
+                <label for="exampleInputEmail1"
+                    class="form-label inline-block mb-2 text-gray-700">Select
+                    Link
+                    Color</label>
+                <input nz-input type="color"
+                    class="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
+                    id="inputNamebyId" [(ngModel)]="linkColor">
+            </div>
+        </form>
+    </ng-container>
+</nz-modal>

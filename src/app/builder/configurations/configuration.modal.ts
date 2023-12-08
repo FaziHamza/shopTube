@@ -670,6 +670,16 @@ export class formFeildData {
           },
         },
         // {
+        //   className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+        //   key: 'showLabel',
+        //   type: 'checkbox',
+        //   wrappers: ["formly-vertical-theme-wrapper"],
+        //   props: {
+        //     label: 'Show Label',
+        //   },
+        //   defaultValue: false
+        // },
+        // {
         //   key: 'buttonClass',
         //   type: 'multiselect',
         //   className: "w-full",
@@ -5822,6 +5832,63 @@ export class formFeildData {
       ]
     },
   ]
+  buttonDrawerFields: FormlyFieldConfig[] = [
+    {
+      fieldGroupClassName: "flex flex-wrap",
+      fieldGroup: [
+        {
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          key: 'height',
+          type: 'input',
+          wrappers: ["formly-vertical-theme-wrapper"],
+          props: {
+            label: 'Height',
+            type: 'number',
+          }
+        },
+        {
+          key: 'showHeader',
+          type: 'checkbox',
+          wrappers: ["formly-vertical-theme-wrapper"],
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          props: {
+            label: 'Show Header'
+          },
+          defaultValue: false
+        },
+        {
+          key: 'showPreviousButton',
+          type: 'checkbox',
+          wrappers: ["formly-vertical-theme-wrapper"],
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          props: {
+            label: 'Show Previous Button'
+          },
+          defaultValue: false
+        },
+        {
+          key: 'showNextButton',
+          type: 'checkbox',
+          wrappers: ["formly-vertical-theme-wrapper"],
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          props: {
+            label: 'Show Next Button'
+          },
+          defaultValue: false
+        },
+        {
+          key: 'showHeader',
+          type: 'checkbox',
+          wrappers: ["formly-vertical-theme-wrapper"],
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          props: {
+            label: 'Show Header'
+          },
+          defaultValue: false
+        },
+      ]
+    },
+  ]
   accordionButtonFields: FormlyFieldConfig[] = [
     {
       fieldGroupClassName: "flex flex-wrap",
@@ -8501,6 +8568,15 @@ export class formFeildData {
           wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             label: 'Nodes',
+          },
+        },
+        {
+          key: 'screenLink',
+          type: 'input',
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          wrappers: ["formly-vertical-theme-wrapper"],
+          props: {
+            label: 'Screen Link',
           },
         },
         // {

@@ -1,5 +1,5 @@
 <ng-container *ngIf="to['additionalProperties']?.wrapper != 'floating_standard'">
-    <nz-input-group *ngIf="!to['additionalProperties']?.suffixicon && !to['additionalProperties']?.prefixicon" [nzSuffix]="to['additionalProperties']?.addonRight"
+    <nz-input-group [style.border]="to['additionalProperties']?.border? '0px': ''" *ngIf="!to['additionalProperties']?.suffixicon && !to['additionalProperties']?.prefixicon" [nzSuffix]="to['additionalProperties']?.addonRight"
         [nzPrefix]="to['additionalProperties']?.addonLeft" [nzStatus]="to['additionalProperties']?.status" [nzSize]="to['additionalProperties']?.size">
         <nz-time-picker [(ngModel)]="time" (ngModelChange)="log($event)"
             [ngClass]="to['additionalProperties']?.wrapper && to['additionalProperties']?.wrapper == 'floating_filled' || to['additionalProperties']?.wrapper == 'floating_outlined' || to['additionalProperties']?.wrapper == 'floating_standard' ? to['additionalProperties']?.floatFieldClass : ''"
@@ -12,7 +12,7 @@
         <label *ngIf="to['additionalProperties']?.wrapper == 'floating_filled' || to['additionalProperties']?.wrapper == 'floating_outlined'"
             [ngClass]="to['additionalProperties']?.floatLabelClass">{{ to.label ?? '' | translate }}</label>
     </nz-input-group>
-    <nz-input-group *ngIf="to['additionalProperties']?.suffixicon || to['additionalProperties']?.prefixicon" [(ngModel)]="time" [nzSuffix]="suffixTemplateInfo"
+    <nz-input-group [style.border]="to['additionalProperties']?.border? '0px': ''" *ngIf="to['additionalProperties']?.suffixicon || to['additionalProperties']?.prefixicon" [(ngModel)]="time" [nzSuffix]="suffixTemplateInfo"
         [nzPrefix]="prefixTemplateUser" [nzStatus]="to['additionalProperties']?.status" [nzSize]="to['additionalProperties']?.size">
         <nz-time-picker [nzAddOn]="customAddon" [nzAllowEmpty]="to['additionalProperties']?.allowClear"  (ngModelChange)="log($event)"
            [style.border-radius]="to['additionalProperties']?.borderRadius"  [nzStatus]="to['additionalProperties']?.status" [nzNowText]="to['additionalProperties']?.firstBtnText" [nzOkText]="to['additionalProperties']?.secondBtnText"

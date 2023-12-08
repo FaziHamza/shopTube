@@ -1838,7 +1838,7 @@ export class PagesComponent implements OnInit, OnDestroy {
     }
     else if (typeof data === 'object' && data !== null) {
       if (data.type) {
-        if (data.type === 'sections' || data.type === 'div' || data.type === 'cardWithComponents' || data.type === 'timelineChild' || data.type === 'chat') {
+        if (data.type === 'sections' || data.type === 'div' || data.type === 'cardWithComponents' || data.type === 'timelineChild') {
           if (data.mapApi) {
             // if ((window.location.href.includes('spectrum.com') || window.location.href.includes('spectrum.expocitydubai.com')) && this.navigation === 'default') {
             //   if ((this.user?.policy?.policyId == '652581192897cfc79cf1dde2' || this.user?.policy?.policyId == '652a3dd6b91b157bcac71a72') && this.screenId == '651fa8139ce5925c4c89cedc' && data.id == 'tdrasections1') {
@@ -1856,7 +1856,7 @@ export class PagesComponent implements OnInit, OnDestroy {
               else if (this.mappingId) {
                 mapApiUrl = `${data.mapApi}/${this.mappingId}`;
               }
-              if (removeValue && data.type != 'chat') {
+              if (removeValue) {
                 if (data?.dbData && data?.tableBody) {
                   if (data?.dbData.length > 0 && data?.tableBody.length > 0) {
                     const item = data?.dbData[0];
@@ -1911,10 +1911,6 @@ export class PagesComponent implements OnInit, OnDestroy {
             if (res) {
               if (res?.data) {
                 if (res?.data.length > 0) {
-                  if (selectedNode.type == 'chat') {
-                    selectedNode['chatData'] = res?.data;
-                    return;
-                  }
                   for (let index = 0; index < res.data.length; index++) {
                     const item = res.data[index];
                     let newNode: any = {};
@@ -2803,9 +2799,6 @@ export class PagesComponent implements OnInit, OnDestroy {
 
     // Filter and keep unique children
     data.children = data.children.filter((child: any) => {
-      if (child.type == 'chat') {
-        child['chatData'] = [];
-      }
       if (!uniqueKeys.has(child.key)) {
         uniqueKeys.add(child.key);
         if (child.children && child.children.length > 0) {

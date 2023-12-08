@@ -126,7 +126,7 @@
         <dynamic-table *ngIf="item.type =='gridList';else seventeen" [tableId]='item.tableId' [checkType]="false"
             [tableData]='item.tableData' [excelReportData]='item.tableData' [tableHeaders]='item.tableHeaders'
             [formlyModel]="formlyModel" [form]="form" [screenId]="screenId" [data]="item"
-            [displayData]="item.displayData" [screenName]="screenName"
+            [displayData]="item.displayData" [screenName]="screenName" [mappingId]="mappingId"
             [configurationTable]="item?.showEditInput ? item?.showEditInput : false"></dynamic-table>
     </ng-template>
     <ng-template #seventeen>
@@ -218,7 +218,7 @@
         <st-switch [switchData]="item" *ngIf="item.type == 'switch'; else thirtyforth"></st-switch>
     </ng-template>
     <ng-template #thirtyforth>
-        <st-board [kanbanData]="item" *ngIf="item.type == 'kanban' ; else thirtyfifth" [form]="form"
+        <st-board [mappingId]="mappingId" [kanbanData]="item" *ngIf="item.type == 'kanban' ; else thirtyfifth" [form]="form"
             [screenId]="screenId" [screenName]="screenName" [formlyModel]="formlyModel"></st-board>
         <!-- <st-kanban-boards [kanbanData]="item"></st-kanban-boards> -->
     </ng-template>

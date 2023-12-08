@@ -48,6 +48,8 @@ export class DataSharedService {
   defaultPageNodes: any;
   screenCommentList: any[] = [];
   menuCommentList: any[] = []
+  nodeData: any[] = [];
+  drawerIdList: any;
   checkContentForFixFooter: any;
   commentId: any;
   public menus: any;

@@ -2,7 +2,7 @@
   id="list-{{listIndex}}">
   <div style="display: flex; justify-content: space-between; padding-bottom: 4%;">
     <div>
-      <p class="list-name text-lg font-semibold " >{{list.title}}</p>
+      <p class="list-name text-lg font-semibold ">{{list.title}}</p>
     </div>
     <!-- <div>
       <span style="color:red" nz-icon nzType="delete" nzTheme="outline" (click)="delete()"></span>
@@ -10,8 +10,22 @@
     <!-- <st-context-menu (contextAction)="delete()"></st-context-menu> -->
   </div>
   <div id="list-one">
-  <st-card-summary [form]="form" [formlyModel]="formlyModel" [screenId]="screenId"
-    [screenName]="screenName" *ngFor="let card of list.children;let i = index" [card]="card" [listIndex]="listIndex"
-      [cardIndex]="i" attr.cardIndex="{{i}}"></st-card-summary>
+    <st-card-summary [form]="form" [formlyModel]="formlyModel" [screenId]="screenId" [screenName]="screenName"
+      *ngFor="let card of list.children;let i = index" [card]="card" [listIndex]="listIndex" [cardIndex]="i"
+      attr.cardIndex="{{i}}"></st-card-summary>
+    <button nz-button nzType="primary" (click)="openDrawer()"
+      class="actions-btn btn-no !border-none !bg-blue-600 hover:!bg-blue-500 my-2 !h-[35px]">
+      Add task
+    </button>
   </div>
 </nz-card>
+
+<nz-drawer [nzWrapClassName]="'button-drawer'" [nzClosable]="false" [nzTitle]="'Add Task'" [nzWidth]="'60%'"
+  [nzVisible]="isVisible" (nzOnClose)="handleClose()">
+  <ng-container *nzDrawerContent>
+    <nz-spin [nzSpinning]="loader">
+      <st-pages [mappingId]="mappingId" [isDrawer]="true" [data]="nodes" [navigation]="screenId" [form]="form"
+        [formlyModel]="formlyModel" *ngIf="nodes.length > 0"></st-pages>
+    </nz-spin>
+  </ng-container>
+</nz-drawer>
