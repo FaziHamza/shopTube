@@ -706,6 +706,7 @@ export class AddControlService {
   }
   getKanbanControl() {
     return {
+      screenLink: "",
       nodes: 3,
       maxLength: 10,
       showAddbtn: true,

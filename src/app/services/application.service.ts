@@ -69,7 +69,7 @@ export class ApplicationService {
 
     if (method === 'get' && parentId) {
       // Assuming apiUrl already has a base URL
-      apiUrl += `/${typeof parentId === 'string' ? "'" + parentId + "'" : parentId }`;
+      apiUrl += `/${typeof parentId === 'string' ? "'" + parentId + "'" : parentId}`;
     }
 
     switch (method) {
@@ -120,5 +120,23 @@ export class ApplicationService {
       window.URL.revokeObjectURL(objectUrl);
       document.body.removeChild(a);
     });
+  }
+  jsonStringifyWithObject(data: any) {
+    return JSON.stringify(data, function (key, value) {
+      if (typeof value == 'function') {
+        return value.toString();
+      } else {
+        return value;
+      }
+    }) || '{}'
+  }
+  jsonParseWithObject(data: any) {
+    return JSON.parse(
+      data, (key, value) => {
+        if (typeof value === 'string' && value.startsWith('(') && value.includes('(model)')) {
+          return eval(`(${value})`);
+        }
+        return value;
+      });
   }
 }

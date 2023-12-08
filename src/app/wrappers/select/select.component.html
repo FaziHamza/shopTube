@@ -1,5 +1,5 @@
 <div [class]="to['additionalProperties']?.wrapper=='floating_standard' ? 'relative z-0' : ''">
-  <nz-input-group
+  <nz-input-group [style.border]="to['additionalProperties']?.border? '0px': ''"
     [class]="to['additionalProperties']?.innerInputClass + ' ' +to['additionalProperties']?.applicationThemeClasses"
     [style.border-radius]="to['additionalProperties']?.borderRadius" [ngClass]="showError ? 'input-border' : ''"
     [nzSuffix]="(to['additionalProperties']?.addonRight   || to['additionalProperties']?.suffixicon) ? suffixTemplateInfo : undefined"
