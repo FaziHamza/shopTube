@@ -8231,4 +8231,18 @@ nz-input-group:active {
     border-radius: 8px;
   }
 
+  .button-drawer {
+    .ant-drawer-header {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 16px 24px;
+      color: rgba(0, 0, 0, .85);
+      background: #fff;
+      border-radius: 2px 2px 0 0;
+      height: var(--drawerHeaderHight) !important;
+    }
+  }
+
 }
