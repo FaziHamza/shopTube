@@ -278,10 +278,10 @@
             <tr (click)="rowselected(item)" class="desktop-toggle" (dblclick)="updateModel(item)"
               (click)="data?.rowClickApi!='' ? onClickRow(data.rowClickApi,item): ''"
               [ngClass]="{'selectedRow' : item === index }">
-              <td [ngStyle]="{'text-align': data?.position || 'center'}" [nzLeft]="data?.endFreezingNumber >= 1"
+              <td (click)="callExpandAPi(item , item.expand)" [ngStyle]="{'text-align': data?.position || 'center'}" [nzLeft]="data?.endFreezingNumber >= 1"
                 *ngIf="item.expand != undefined" [(nzExpand)]="item.expand">
-                <p class="pb-1 ">
-                  ({{item.children.length}})
+                <p class="pb-1" *ngIf="item?.children">
+                  ({{item?.children?.length}})
                 </p>
               </td>
               <td [ngStyle]="{'text-align': data?.position || 'center'}" [nzLeft]="data?.startFreezingNumber >= 1"

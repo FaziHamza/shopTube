@@ -119,7 +119,7 @@ export class DynamicTableComponent implements OnInit {
   }
   userDetails: any;
   async ngOnInit(): Promise<void> {
-    if(this.mappingId && this.data.eventActionconfig){
+    if (this.mappingId && this.data.eventActionconfig) {
       this.data.eventActionconfig['parentId'] = this.mappingId;
     }
     localStorage.removeItem('tablePageNo');
@@ -1980,6 +1980,19 @@ export class DynamicTableComponent implements OnInit {
           // this.tableHeaders = this.tableHeaders.filter((head: any) => head.key != 'expand');
           this.pageChange(1);
         }
+
+        if (tableData.tableHeaders.some((header: any) => header.key === 'expand')) {
+          this.tableData = this.tableData.map((row: any) => ({
+            'expand': false,
+            ...row
+          }));
+          this.displayData = this.displayData.map((row: any) => ({
+            'expand': false,
+            ...row
+          }));
+
+        }
+
         this.data['tableKey'] = this.tableHeaders;
         this.data['tableHeaders'] = this.tableHeaders;
         const resizingData = localStorage.getItem(this.screenId);
@@ -2793,7 +2806,6 @@ export class DynamicTableComponent implements OnInit {
       if (page && pageSize) {
         pagination = `?page=${localStorage.getItem('tablePageNo') || 1}&pageSize=${localStorage.getItem('tablePageSize') || 10}`
       }
-      let url = 'knex-query/getexecute-rules/' + _id;
       this.saveLoader = true;
       this.requestSubscription = this.applicationService.callApi(`knex-query/getexecute-rules/${_id}${pagination}`, 'get', data, headers, parentId).subscribe({
         next: (res) => {
@@ -2806,6 +2818,42 @@ export class DynamicTableComponent implements OnInit {
           this.toastr.error("An error occurred", { nzDuration: 3000 });
         }
       })
+    }
+  }
+  callExpandAPi(item : any , event : any) {
+    let findExpandKeyHead = this.tableHeaders.find((head: any) => head.key == 'expand');
+    if (findExpandKeyHead && event) {
+      if (findExpandKeyHead.callApi) {
+        let pagination = '';
+        let { _id, actionLink, data, headers, parentId, page, pageSize } = this.data.eventActionconfig;
+        if (page && pageSize) {
+          pagination = `?page=${localStorage.getItem('tablePageNo') || 1}&pageSize=${localStorage.getItem('tablePageSize') || 10}`
+        }
+        this.saveLoader = true;
+        let itemIdString: string | undefined = item?.id;
+        parentId = itemIdString ? parseInt(itemIdString, 10) : 0;
+        if(parentId){
+          let url = findExpandKeyHead.callApi + '/' + parentId;
+          this.requestSubscription = this.applicationService.callApi(`${url}${pagination}`, 'get', data, headers, null).subscribe({
+            next: (res) => {
+              this.saveLoader = false;
+              let responseData = res.data.map((row: any) => ({
+                'expand': false,
+                ...row
+              }));
+              item['children'] = responseData;
+              
+              // this.getFromQueryOnlyTable(this.data, res);
+            },
+            error: (error: any) => {
+              console.error(error);
+              this.saveLoader = false;
+              this.toastr.error("An error occurred", { nzDuration: 3000 });
+            }
+          })
+        }
+        
+      }
     }
   }
 }

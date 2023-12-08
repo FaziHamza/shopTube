@@ -3287,7 +3287,7 @@ export class BuilderComponent implements OnInit {
         // }
         configObj.icon = selectedNode.btnIcon;
         this.addIconCommonConfiguration(_formFieldData.buttonFields, true);
-        this.fieldData.commonData?.push({ title: 'Button Fields', data: _formFieldData.buttonFields });
+        this.fieldData.commonData?.push({ title: 'Button Fields', data: _formFieldData.buttonFields } , { title: 'Button Drawer Fields', data: _formFieldData.buttonDrawerFields });
         break;
       case 'dropdownButton':
         // if (typeof selectedNode.buttonClass === "string") {
