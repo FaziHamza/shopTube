@@ -8581,6 +8581,15 @@ export class formFeildData {
             label: 'Screen Link',
           },
         },
+        {
+          key: 'editScreenLink',
+          type: 'input',
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          wrappers: ["formly-vertical-theme-wrapper"],
+          props: {
+            label: 'Edit Screen Link',
+          },
+        },
         // {
         //   key: 'maxLength',
         //   type: 'input',

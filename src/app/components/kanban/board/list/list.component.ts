@@ -7,6 +7,7 @@ import { DataSharedService } from 'src/app/services/data-shared.service';
 import { Subscription } from 'rxjs';
 import { ApplicationService } from 'src/app/services/application.service';
 import { NzMessageService } from 'ng-zorro-antd/message';
+import { debug } from 'console';
 
 @Component({
   selector: 'st-lists',
@@ -17,6 +18,7 @@ export class ListsComponent implements OnInit {
   @Input() kanban: any;
   @Input() mappingId: any;
   @Input() screenLink: any;
+  @Input() editScreenLink: any;
   @Input() list: any;
   @Input() listIndex: number;
   @Output() moveCardAcrossList: EventEmitter<MovementIntf> = new EventEmitter<MovementIntf>();
@@ -29,6 +31,7 @@ export class ListsComponent implements OnInit {
   @Input() screenId: any;
   loader: boolean = false;
   isVisible = false;
+  eidt:boolean = false;
 
   private cardCount = 0;
 
@@ -88,25 +91,22 @@ export class ListsComponent implements OnInit {
   requestSubscription: Subscription;
   responseData: any;
   nodes: any[] = [];
-  openDrawer() {
+  openDrawer(type?: any, EditData?: any) {
+    debugger
     if (this.screenLink) {
       this.isVisible = true;
-      this.requestSubscription = this.applicationService.getNestCommonAPIById('cp/Builder', this.screenLink).subscribe({
+      if (type == 'edit') {
+        this.eidt = true;
+        this.mappingId = EditData?.id;
+      }else{
+        this.eidt = false;
+      }
+      this.loader = true
+      this.requestSubscription = this.applicationService.getNestCommonAPIById('cp/Builder', type == 'edit' ? this.editScreenLink : this.screenLink).subscribe({
         next: (res: any) => {
           try {
             if (res.isSuccess) {
               if (res.data.length > 0) {
-
-                // if (this.dataSharedService.drawerIdList) {
-                //   // for (const key in this.dataSharedService.drawerIdList) {
-                //   //   this.dataSharedService.drawerIdList[key] = false;
-                //   // }
-                //   // this.dataSharedService.drawerIdList[this.tableRowId] = true;
-                //   this.dataSharedService.drawerIdList[this.tableRowId] = true;
-                // } else {
-                //   this.dataSharedService.drawerIdList = {};
-                //   this.dataSharedService.drawerIdList[this.tableRowId] = true;
-                // }
                 this.screenId = res.data[0].screenBuilderId;
                 const data = JSON.parse(res.data[0].screenData);
                 this.responseData = data;
@@ -141,6 +141,9 @@ export class ListsComponent implements OnInit {
     this.dataSharedService.drawerVisible = false;
     if (this.dataSharedService.isSaveData)
       this.taskSubmitEmit.emit(true)
+  }
+  edit(item: any) {
+    this.openDrawer('edit' , item)
   }
 
 }

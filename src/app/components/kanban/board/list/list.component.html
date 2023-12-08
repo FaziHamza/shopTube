@@ -10,17 +10,17 @@
     <!-- <st-context-menu (contextAction)="delete()"></st-context-menu> -->
   </div>
   <div id="list-one">
-    <st-card-summary [form]="form" [formlyModel]="formlyModel" [screenId]="screenId" [screenName]="screenName"
+    <st-card-summary (taskEditEmit)="edit($event)" [form]="form" [formlyModel]="formlyModel" [screenId]="screenId" [screenName]="screenName"
       *ngFor="let card of list.children;let i = index" [card]="card" [listIndex]="listIndex" [cardIndex]="i"
       attr.cardIndex="{{i}}"></st-card-summary>
-    <button nz-button nzType="primary" (click)="openDrawer()"
+    <button nz-button nzType="primary" (click)="openDrawer('Screen')"
       class="actions-btn btn-no !border-none !bg-blue-600 hover:!bg-blue-500 my-2 !h-[35px]">
       Add task
     </button>
   </div>
 </nz-card>
 
-<nz-drawer [nzWrapClassName]="'button-drawer'" [nzClosable]="false" [nzTitle]="'Add Task'" [nzWidth]="'60%'"
+<nz-drawer [nzWrapClassName]="'button-drawer'" [nzClosable]="false" [nzTitle]="eidt ? 'Update' : 'Add'" [nzWidth]="'60%'"
   [nzVisible]="isVisible" (nzOnClose)="handleClose()">
   <ng-container *nzDrawerContent>
     <nz-spin [nzSpinning]="loader">
