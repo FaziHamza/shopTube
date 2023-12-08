@@ -119,10 +119,16 @@ export class ButtonsComponent implements OnInit {
         if (this.tableRowId) {
           this.mappingId = this.tableRowId;
           this.mappingId = this.mappingId;
-         
+
         }
         this.dataSharedService.drawerIdList = {};
+        if (this.buttonData?.headerHeight !== undefined) {
+          document.documentElement.style.setProperty('--drawerHeaderHight', this.buttonData?.headerHeight + '%');
+          this.cdr.detectChanges();
+        } else {
+          document.documentElement.style.setProperty('--drawerHeaderHight', 'auto');
 
+        }
         this.loader = true;
         this.isVisible = true;
         // this.dataSharedService.drawerVisible = true;

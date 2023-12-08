@@ -35,6 +35,7 @@ export class DynamicTableComponent implements OnInit {
   @Input() displayData: any[] = [];
   @Input() tableHeaders: any = [];
   @Input() data: any;
+  @Input() childDataObj: any;
   editId: string | null = null;
   @Input() screenName: any;
   @Input() mappingId: any;
@@ -1077,6 +1078,17 @@ export class DynamicTableComponent implements OnInit {
       }
       this.data = newNode;
     }
+    if (this.tableData.length > 0 && this.childDataObj) {
+      if (!this.data.end) {
+        this.data.end = 10;
+      }
+      this.data.pageIndex = 1;
+      this.data.totalCount = this.childDataObj.count;
+      this.data.masteTotalCount = this.childDataObj.count;
+      this.showPagination = true;
+      // this.pageChange(1);
+    }
+
   }
   handleCancel(): void {
     this.isHeaderVisible = false;
@@ -1220,6 +1232,7 @@ export class DynamicTableComponent implements OnInit {
       this.pageSize = this.data.end;
       this.saveLoader = true;
       if (this.data?.targetId) {
+
         this.requestSubscription = this.applicationService.getNestCommonAPIById(`knex-query/getexecute-rules/${this.data.eventActionconfig._id}` + pagination, this.data?.targetId).subscribe({
           next: (response) => {
             this.saveLoader = false;
@@ -1231,6 +1244,12 @@ export class DynamicTableComponent implements OnInit {
                 element.id = (element?.id)?.toString();
                 this.tableData?.push(element);
               });
+              if (this.data.tableHeaders.some((header: any) => header.key === 'expand')) {
+                this.tableData = this.tableData.map((row: any) => ({
+                  'expand': false,
+                  ...row
+                }));
+              }
               this.updateGridPagination();
               this.gridInitilize();
             }
@@ -1241,7 +1260,14 @@ export class DynamicTableComponent implements OnInit {
         })
       }
       else {
-        this.requestSubscription = this.applicationService.getNestCommonAPI(`knex-query/getexecute-rules/${this.data.eventActionconfig._id}` + pagination).subscribe({
+        let url = 'knex-query/getexecute-rules/' + this.data.eventActionconfig._id;
+        if(this.childDataObj){
+          let findExpandKeyHead = this.tableHeaders.find((head: any) => head.key == 'expand');
+          if(findExpandKeyHead){
+            url = findExpandKeyHead.callApi + '/' + this.childDataObj.id;
+          }
+        }
+        this.requestSubscription = this.applicationService.getNestCommonAPI(url + pagination).subscribe({
           next: (response) => {
             this.saveLoader = false;
             if (response.isSuccess) {
@@ -1252,6 +1278,12 @@ export class DynamicTableComponent implements OnInit {
                 element.id = (element?.id)?.toString();
                 this.tableData?.push(element);
               });
+              if (this.data.tableHeaders.some((header: any) => header.key === 'expand')) {
+                this.tableData = this.tableData.map((row: any) => ({
+                  'expand': false,
+                  ...row
+                }));
+              }
               this.displayData = this.tableData;
               this.updateGridPagination();
               this.gridInitilize();
@@ -2820,7 +2852,7 @@ export class DynamicTableComponent implements OnInit {
       })
     }
   }
-  callExpandAPi(item : any , event : any) {
+  callExpandAPi(item: any, event: any) {
     let findExpandKeyHead = this.tableHeaders.find((head: any) => head.key == 'expand');
     if (findExpandKeyHead && event) {
       if (findExpandKeyHead.callApi) {
@@ -2832,7 +2864,7 @@ export class DynamicTableComponent implements OnInit {
         this.saveLoader = true;
         let itemIdString: string | undefined = item?.id;
         parentId = itemIdString ? parseInt(itemIdString, 10) : 0;
-        if(parentId){
+        if (parentId) {
           let url = findExpandKeyHead.callApi + '/' + parentId;
           this.requestSubscription = this.applicationService.callApi(`${url}${pagination}`, 'get', data, headers, null).subscribe({
             next: (res) => {
@@ -2842,8 +2874,14 @@ export class DynamicTableComponent implements OnInit {
                 ...row
               }));
               item['children'] = responseData;
-              
-              // this.getFromQueryOnlyTable(this.data, res);
+              if (res.count) {
+                item['childDataObj'] = {
+                  count: res.count,
+                  callExpandAPi: true,
+                  id: item?.id,
+                  data: JSON.parse(JSON.stringify(this.data))
+                };
+              }
             },
             error: (error: any) => {
               console.error(error);
@@ -2852,7 +2890,7 @@ export class DynamicTableComponent implements OnInit {
             }
           })
         }
-        
+
       }
     }
   }

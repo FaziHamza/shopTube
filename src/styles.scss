@@ -7873,21 +7873,23 @@ nz-input-group:active {
     padding: 8px !important;
   }
 }
+
 .email-select {
 
   span.ant-select-arrow {
-      margin-top: -4px;
+    margin-top: -4px;
   }
 
   .ant-select-selector {
-      height: 40px !important;
-      border-radius: 4px !important;
-      display: flex;
-      justify-content: start;
-      align-items: center;
+    height: 40px !important;
+    border-radius: 4px !important;
+    display: flex;
+    justify-content: start;
+    align-items: center;
   }
 }
-.primary-color{
+
+.primary-color {
   color: $primary-color !important;
 }
 
@@ -7927,6 +7929,21 @@ nz-input-group:active {
 
 }
 
-.ant-tabs-right>.ant-tabs-nav .ant-tabs-tab+.ant-tabs-tab , .ant-tabs-left>.ant-tabs-nav .ant-tabs-tab+.ant-tabs-tab{
+.ant-tabs-right>.ant-tabs-nav .ant-tabs-tab+.ant-tabs-tab,
+.ant-tabs-left>.ant-tabs-nav .ant-tabs-tab+.ant-tabs-tab {
   margin-left: 0px !important;
+}
+
+.button-drawer {
+  .ant-drawer-header {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 24px;
+    color: rgba(0, 0, 0, .85);
+    background: #fff;
+    border-radius: 2px 2px 0 0;
+    height: var(--drawerHeaderHight) !important;
+  }
 }

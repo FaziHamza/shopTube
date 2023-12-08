@@ -279,7 +279,9 @@ export class AddControlService {
       hoverIconColor: '',
       captureData: 'sectionLevel',
       buttonClass: '!rounded !bg-blue-500 !text-white hover:!bg-blue-600 hover:text-white !border !border-transparent !hover:border-transparent font-md text-lg',
-      path: ''
+      path: '',
+      showHideButton: 'hideBoth',
+      hideHeader:false,
     }
   }
   getDropdownButtonControl() {
