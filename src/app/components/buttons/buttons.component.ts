@@ -119,7 +119,7 @@ export class ButtonsComponent implements OnInit {
         if (this.tableRowId) {
           this.mappingId = this.tableRowId;
           this.mappingId = this.mappingId;
-         
+
         }
         this.dataSharedService.drawerIdList = {};
 
@@ -145,7 +145,7 @@ export class ButtonsComponent implements OnInit {
                   this.screenId = res.data[0].screenBuilderId;
                   const data = JSON.parse(res.data[0].screenData);
                   this.responseData = data;
-                  res.data[0].screenData = this.jsonParseWithObject(this.jsonStringifyWithObject(this.responseData));
+                  res.data[0].screenData = this.applicationService.jsonParseWithObject(this.applicationService.jsonStringifyWithObject(this.responseData));
                   this.nodes = [];
                   this.nodes.push(res);
 
@@ -250,24 +250,6 @@ export class ButtonsComponent implements OnInit {
     } else {
       this.buttonData.dropdownOptions.forEach((option: any) => option['hover'] = false);
     }
-  }
-  jsonStringifyWithObject(data: any) {
-    return JSON.stringify(data, function (key, value) {
-      if (typeof value == 'function') {
-        return value.toString();
-      } else {
-        return value;
-      }
-    }) || '{}'
-  }
-  jsonParseWithObject(data: any) {
-    return JSON.parse(
-      data, (key, value) => {
-        if (typeof value === 'string' && value.startsWith('(') && value.includes('(model)')) {
-          return eval(`(${value})`);
-        }
-        return value;
-      });
   }
   findObjectByTypeBase(data: any, type: any) {
     if (data) {
