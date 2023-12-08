@@ -1,0 +1,23 @@
+<!-- friend.component.html -->
+<div class="p-4">
+  <div class="flex items-center mb-4">
+    <input type="text" [(ngModel)]="keyword" placeholder="Enter keyword" class="py-2 px-4 border rounded mr-2">
+    <button nz-button nzType="primary" (click)="searchFriends()">Search Friends</button>
+  </div>
+
+  <div *ngFor="let friend of matchingFriends" class="mb-4">
+    <div class="bg-white p-4 rounded">
+       {{ friend.firstName }} - {{friend.lastName}}
+      <button nz-button nzType="primary" (click)="sendFriendRequest(friend._id)" class="ml-2">Send Friend
+        Request</button>
+    </div>
+  </div>
+
+  <div *ngFor="let request of friendRequests" class="mb-4">
+    <div class="bg-white p-4 rounded">
+      {{ request.sender.username }} has sent you a friend request
+      <button nz-button nzType="primary" (click)="acceptFriendRequest(request.request.id)" class="ml-2">Accept</button>
+      <button nz-button nzType="default" (click)="rejectFriendRequest(request.request.id)" class="ml-2">Reject</button>
+    </div>
+  </div>
+</div>

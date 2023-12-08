@@ -1,0 +1,42 @@
+<!-- <div *ngIf="profile">
+    <h2>{{ profile.name }}'s Profile</h2>
+    <p>Email: {{ profile.email }}</p>
+    <p>Country: {{ profile.country }}</p>
+  
+    <button (click)="updateProfile()">Update Profile</button>
+  </div>
+   -->
+
+  <!-- profile.component.html -->
+<div class="profile-container" *ngIf="profile">
+  <nz-card nzTitle="User Profile" nzHoverable>
+    <div nz-row nzGutter="16">
+      <div nz-col nzSpan="12">
+        <nz-descriptions nzTitle="Personal Information" [nzBordered]="true">
+          <nz-descriptions-item nzTitle="Username">{{ profile.username }}</nz-descriptions-item>
+          <nz-descriptions-item nzTitle="Email">{{ profile.email }}</nz-descriptions-item>
+          <nz-descriptions-item nzTitle="First Name">{{ profile.firstName }}</nz-descriptions-item>
+          <nz-descriptions-item nzTitle="Last Name">{{ profile.lastName }}</nz-descriptions-item>
+        </nz-descriptions>
+      </div>
+      <div nz-col nzSpan="12">
+        <nz-descriptions nzTitle="Company Information" [nzBordered]="true">
+          <nz-descriptions-item nzTitle="Company Name">{{ profile.companyName }}</nz-descriptions-item>
+          <nz-descriptions-item nzTitle="Organization ID">{{ profile.organizationId }}</nz-descriptions-item>
+          <nz-descriptions-item nzTitle="Application ID">{{ profile.applicationId }}</nz-descriptions-item>
+          <nz-descriptions-item nzTitle="Status">{{ profile.status }}</nz-descriptions-item>
+        </nz-descriptions>
+      </div>
+    </div>
+    <div nz-row nzGutter="16">
+      <div nz-col nzSpan="12">
+        <nz-descriptions nzTitle="Additional Information" [nzBordered]="true">
+          <nz-descriptions-item nzTitle="Accreditation Number">{{ profile.accreditationNumber }}</nz-descriptions-item>
+          <nz-descriptions-item nzTitle="Contact Number">{{ profile.contactnumber }}</nz-descriptions-item>
+        </nz-descriptions>
+      </div>
+    </div>
+  </nz-card>
+  <button (click)="updateProfile()">Update Profile</button>
+
+</div>

@@ -38,11 +38,7 @@ import { AuthGuard } from './auth/auth.Guard';
 import { CommonService } from '../common/common-services/common.service';
 import { DatePipe } from '@angular/common';
 // import { MultiFileUploadWrapperComponent } from './wrappers/multi-file-upload-wrapper/multi-file-upload-wrapper.component';
-
-const antDesignIcons = AllIcons as {
-  [key: string]: IconDefinition;
-};
-const icons: IconDefinition[] = Object.keys(antDesignIcons).map(key => antDesignIcons[key])
+// import { SocketIoConfig, SocketIoModule } from 'ngx-socket-io';
 import { RECAPTCHA_SETTINGS, RecaptchaFormsModule, RecaptchaModule, RecaptchaSettings } from 'ng-recaptcha';
 import { environment } from 'src/environments/environment';
 import { DataService } from './services/offlineDb.service';
@@ -56,6 +52,13 @@ import { UserMappingComponent } from './admin/user-mapping/user-mapping.componen
 import { PolicyMappingTableComponent } from './admin/policy-mapping/policy-mapping-table/policy-mapping-table.component';
 import { CustomReuseStrategy } from './custom-reuse-strategy';
 import { BuilderModule } from './builder/builder.module';
+import { ChatAppModule } from './chat/chat.module';
+const antDesignIcons = AllIcons as {
+  [key: string]: IconDefinition;
+};
+const icons: IconDefinition[] = Object.keys(antDesignIcons).map(key => antDesignIcons[key])
+ 
+// const config: SocketIoConfig = {url:  `${environment.socketBackUrl}/chat`, options: {transports: ['websocket'], allowUpgrades: true}};
 
 @NgModule({
   declarations: [
@@ -97,6 +100,7 @@ import { BuilderModule } from './builder/builder.module';
     RecaptchaModule,
     NgJsonEditorModule,
     BuilderModule,
+    ChatAppModule,
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,

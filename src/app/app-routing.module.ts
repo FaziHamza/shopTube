@@ -60,6 +60,14 @@ const routes: Routes = [
     ]
   },
   {
+    path: 'chatapp',
+    loadChildren: () => import("src/app/chat/chat.module").then((m) => m.ChatAppModule),
+  },
+  {
+    path: 'chat',
+    loadChildren: () => import("src/app/chat/chat.module").then((m) => m.ChatAppModule),
+  },
+  {
     path: 'builder',
     loadChildren: () => import("src/app/builder/builder.module").then((m) => m.BuilderModule),
   },
