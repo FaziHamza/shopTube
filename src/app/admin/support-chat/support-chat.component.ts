@@ -35,7 +35,10 @@ export class SupportChatComponent {
 
 
   ngOnInit(): void {
-    this.getChatsWithMapping();
+    if (this.mappingId && this.data.eventActionconfig) {
+      this.data.eventActionconfig['parentId'] = this.mappingId;
+    }
+    // this.getChatsWithMapping();
     // if (this.mappingId && this.data?.eventActionconfig) {
     //   this.data.eventActionconfig['parentId'] = this.mappingId;
     // }

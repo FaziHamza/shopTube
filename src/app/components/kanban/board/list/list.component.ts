@@ -8,6 +8,8 @@ import { Subscription } from 'rxjs';
 import { ApplicationService } from 'src/app/services/application.service';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { debug } from 'console';
+import { NzModalService } from 'ng-zorro-antd/modal';
+import { EmployeeService } from 'src/app/services/employee.service';
 
 @Component({
   selector: 'st-lists',
@@ -20,6 +22,7 @@ export class ListsComponent implements OnInit {
   @Input() screenLink: any;
   @Input() editScreenLink: any;
   @Input() list: any;
+  @Input() kanbanData: any;
   @Input() listIndex: number;
   @Output() moveCardAcrossList: EventEmitter<MovementIntf> = new EventEmitter<MovementIntf>();
   @Output() newCardAdded: EventEmitter<Card> = new EventEmitter<CardInterface>();
@@ -31,13 +34,13 @@ export class ListsComponent implements OnInit {
   @Input() screenId: any;
   loader: boolean = false;
   isVisible = false;
-  eidt:boolean = false;
+  eidt: boolean = false;
 
   private cardCount = 0;
 
   constructor(private elementRef: ElementRef, @Inject(DOCUMENT) private document: Document,
     private applicationService: ApplicationService, public dataSharedService: DataSharedService,
-    private toastr: NzMessageService,) { }
+    private toastr: NzMessageService, private modal: NzModalService, private employeeService: EmployeeService) { }
 
   ngOnInit() {
   }
@@ -56,10 +59,6 @@ export class ListsComponent implements OnInit {
     dragEvent.preventDefault();
   }
 
-  delete() {
-    this.deleteList.emit(this.listIndex);
-
-  }
 
 
   dropCard(dragEvent: DragEvent) {
@@ -98,7 +97,7 @@ export class ListsComponent implements OnInit {
       if (type == 'edit') {
         this.eidt = true;
         this.mappingId = EditData?.id;
-      }else{
+      } else {
         this.eidt = false;
       }
       this.loader = true
@@ -143,7 +142,53 @@ export class ListsComponent implements OnInit {
       this.taskSubmitEmit.emit(true)
   }
   edit(item: any) {
-    this.openDrawer('edit' , item)
+    this.openDrawer('edit', item)
+  }
+  delete(data: any) {
+    const checkPermission = this.dataSharedService.getUserPolicyMenuList.find(a => a.screenId == this.dataSharedService.currentMenuLink);
+    if (!checkPermission?.delete && this.dataSharedService.currentMenuLink != '/ourbuilder') {
+      alert("You did not have permission");
+      return;
+    }
+    const model = {
+      screenId: this.screenName,
+      postType: 'delete',
+      modalData: data
+    };
+    if (this.kanbanData?.appConfigurableEvent && this.kanbanData?.appConfigurableEvent?.length > 0) {
+      // Find the 'delete' event in appConfigurableEvent
+      const findClickApi = this.kanbanData.appConfigurableEvent.find((item: any) => item.rule.includes('delete'));
+      if (findClickApi) {
+        const url = `knex-query/executeDelete-rules/${findClickApi._id}`;
+        if (url) {
+
+          this.employeeService.saveSQLDatabaseTable(url, model).subscribe({
+            next: (res) => {
+              if (res.isSuccess) {
+                // Data successfully deleted
+                this.taskSubmitEmit.emit(true);
+                this.toastr.success("Delete Successfully", { nzDuration: 3000 });
+              }
+            },
+            error: (err) => {
+              this.toastr.error(`An error occurred ${err}`, { nzDuration: 3000 });
+            }
+          });
+        }
+      }
+    }
+  }
+  showDeleteConfirm(item: any): void {
+    this.modal.confirm({
+      nzTitle: 'Are you sure delete this record?',
+      nzOkText: 'Yes',
+      nzClassName: 'deleteRow',
+      nzOkType: 'primary',
+      nzOkDanger: true,
+      nzOnOk: () => this.delete(item),
+      nzCancelText: 'No',
+      nzOnCancel: () => console.log('Cancel')
+    });
   }
 
 }

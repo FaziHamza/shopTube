@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Card } from '../../../model/card/card.model';
+import { DataSharedService } from 'src/app/services/data-shared.service';
 
 @Component({
   selector: 'st-card-summary',
@@ -15,8 +16,9 @@ export class SummaryComponent implements OnInit {
   @Input() listIndex: number;
   @Input() cardIndex: number;
   @Output() taskEditEmit: EventEmitter<any> = new EventEmitter<any>();
+  @Output() taskDeleteEmit: EventEmitter<any> = new EventEmitter<any>();
 
-  constructor() { }
+  constructor(public dataSharedService: DataSharedService,) { }
 
   ngOnInit() {
 
@@ -43,4 +45,8 @@ export class SummaryComponent implements OnInit {
   edit(item: any) {
     this.taskEditEmit.emit(item?.dataObj)
   }
+  delete(item: any) {
+    this.taskDeleteEmit.emit(item?.dataObj)
+  }
+  
 }

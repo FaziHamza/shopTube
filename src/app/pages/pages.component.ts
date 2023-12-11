@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, ElementRef, Input, OnDestroy, OnInit, Renderer2 } from '@angular/core';
+import { ChangeDetectorRef, Component, ElementRef, Input, NgZone, OnDestroy, OnInit, Renderer2 } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { BuilderService } from '../services/builder.service';
 import { EmployeeService } from '../services/employee.service';
@@ -56,7 +56,7 @@ export class PagesComponent implements OnInit, OnDestroy {
     private cdr: ChangeDetectorRef,
     private toastr: NzMessageService,
     private el: ElementRef,
-    public dataSharedService: DataSharedService, private router: Router, private renderer: Renderer2) {
+    public dataSharedService: DataSharedService, private router: Router, private renderer: Renderer2 , private zone: NgZone) {
 
     // this.ngOnDestroy();
     const changeSubscription = this.dataSharedService.change.subscribe(({ event, field }) => {
@@ -1954,6 +1954,11 @@ export class PagesComponent implements OnInit, OnDestroy {
                         selectedNode.children[1].children = [];
                         selectedNode?.children[1]?.children?.push(newNode);
                       }
+                      this.zone.run(() => {
+                        this.cdr.detectChanges();
+                      });
+                      // this.cdr.detach();
+                      // this.cdr.detectChanges();
                       this.updateNodes();
                       checkFirstTime = false
                     } else {

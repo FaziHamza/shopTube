@@ -34,7 +34,7 @@
     </div> -->
     <div class="flex flex-nowrap flex-row overflow-y-hidden overflow-x-auto h-[calc(100vh-235px)]">
       <div class="p-1" *ngFor="let list of kanbanData.children;let i = index">
-        <st-lists [list]="list" [screenLink]="kanbanData.screenLink" [editScreenLink]="kanbanData.editScreenLink" [mappingId]="mappingId" [listIndex]="i" (moveCardAcrossList)="moveCardAcrossList($event)" [form]="form"
+        <st-lists [list]="list" [kanbanData]="kanbanData" [screenLink]="kanbanData.screenLink" [editScreenLink]="kanbanData.editScreenLink" [mappingId]="mappingId" [listIndex]="i" (moveCardAcrossList)="moveCardAcrossList($event)" [form]="form"
           [formlyModel]="formlyModel" [screenId]="screenId" [screenName]="screenName" (deleteList)="deleteList($event)"
           attr.listIndex="{{i}}" (taskSubmitEmit)="recallApi($event)"></st-lists>
       </div>

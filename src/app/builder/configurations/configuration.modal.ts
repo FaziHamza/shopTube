@@ -8590,6 +8590,33 @@ export class formFeildData {
             label: 'Edit Screen Link',
           },
         },
+        {
+          key: 'allowDelete',
+          type: 'checkbox',
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          wrappers: ["formly-vertical-theme-wrapper"],
+          props: {
+            label: 'Allow Delete',
+          },
+        },
+        {
+          key: 'allowEdit',
+          type: 'checkbox',
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          wrappers: ["formly-vertical-theme-wrapper"],
+          props: {
+            label: 'Allow Edit',
+          },
+        },
+        {
+          key: 'actionButtonClass',
+          type: 'number',
+          className: "w-full",
+          wrappers: ["formly-vertical-theme-wrapper"],
+          props: {
+            label: 'Action Button Class',
+          },
+        },
         // {
         //   key: 'maxLength',
         //   type: 'input',
