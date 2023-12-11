@@ -17,7 +17,7 @@
     <!-- <st-context-menu (contextAction)="delete()"></st-context-menu> -->
   </div>
   <div id="list-one" class="px-2 overflow-auto !h-[calc(100vh-360px)]">
-    <st-card-summary [form]="form" [formlyModel]="formlyModel" [screenId]="screenId" [screenName]="screenName"
+    <st-card-summary (taskDeleteEmit)="showDeleteConfirm($event)" [form]="form" [formlyModel]="formlyModel" [screenId]="screenId" [screenName]="screenName"
       *ngFor="let card of list.children;let i = index" [card]="card" [listIndex]="listIndex" [cardIndex]="i"
       attr.cardIndex="{{i}}"></st-card-summary>
 
