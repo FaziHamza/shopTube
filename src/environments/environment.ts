@@ -11,6 +11,7 @@ export const environment = {
   nestBaseUrl:"http://localhost:4500/",
   nestImageUrl:"http://campaigns.expocitydubai.com.s3-website.me-south-1.amazonaws.com/",
   applicationId : '651fa8129ce5925c4c89ced7',
+  socketBackUrl: 'http://localhost:3101',
   organizationId : '651fa6889ce5925c4c89cecb',
   firebaseConfig: {
     apiKey: '',

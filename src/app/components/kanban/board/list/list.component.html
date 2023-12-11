@@ -19,8 +19,8 @@
   </div>
 </nz-card>
 
-<nz-drawer [nzWrapClassName]="'button-drawer'" [nzClosable]="false" [nzTitle]="'Add Task'" [nzWidth]="'60%'"
-  [nzVisible]="isVisible" (nzOnClose)="handleClose()">
+<nz-drawer [nzWrapClassName]="'button-drawer'" [nzClosable]="false" [nzTitle]="eidt ? 'Update' : 'Add'"
+  [nzWidth]="'60%'" [nzVisible]="isVisible" (nzOnClose)="handleClose()">
   <ng-container *nzDrawerContent>
     <nz-spin [nzSpinning]="loader">
       <st-pages [mappingId]="mappingId" [isDrawer]="true" [data]="nodes" [navigation]="screenId" [form]="form"

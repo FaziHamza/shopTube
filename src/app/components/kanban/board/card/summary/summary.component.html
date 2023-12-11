@@ -2,6 +2,9 @@
   id="list-{{listIndex}}-card-{{cardIndex}}" attr.listIndex="{{listIndex}}" attr.cardIndex="{{cardIndex}}"
   (dragover)="allowCardDragToBeDropped($event)">
   <div>
+    <div class="flex justify-end">
+      <i class="fa-regular fa-pencil text-blue-500 hover:cursor-pointer" (click)="edit(card)"></i>
+    </div>
     <st-mains [item]="card" [formlyModel]="formlyModel" [form]="form" [screenName]="screenName"
       [draggable]="'false'"></st-mains>
   </div>

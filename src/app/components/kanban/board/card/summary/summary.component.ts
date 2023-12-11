@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Card } from '../../../model/card/card.model';
 
 @Component({
@@ -14,7 +14,7 @@ export class SummaryComponent implements OnInit {
   @Input() card: Card;
   @Input() listIndex: number;
   @Input() cardIndex: number;
-
+  @Output() taskEditEmit: EventEmitter<any> = new EventEmitter<any>();
 
   constructor() { }
 
@@ -23,7 +23,7 @@ export class SummaryComponent implements OnInit {
   }
 
   identifyCardBeingDragged(dragEvent: DragEvent) {
-    if(dragEvent.dataTransfer){
+    if (dragEvent.dataTransfer) {
       dragEvent.dataTransfer.effectAllowed = 'move'
       dragEvent.dataTransfer.dropEffect = 'move'
       const transferObject = {
@@ -36,8 +36,11 @@ export class SummaryComponent implements OnInit {
   }
 
   allowCardDragToBeDropped(dragEvent: DragEvent) {
-    if(dragEvent.dataTransfer)
-    dragEvent.dataTransfer.dropEffect = 'move'
+    if (dragEvent.dataTransfer)
+      dragEvent.dataTransfer.dropEffect = 'move'
     dragEvent.preventDefault();
+  }
+  edit(item: any) {
+    this.taskEditEmit.emit(item?.dataObj)
   }
 }

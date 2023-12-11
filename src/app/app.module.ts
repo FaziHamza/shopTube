@@ -38,11 +38,7 @@ import { AuthGuard } from './auth/auth.Guard';
 import { CommonService } from '../common/common-services/common.service';
 import { DatePipe } from '@angular/common';
 // import { MultiFileUploadWrapperComponent } from './wrappers/multi-file-upload-wrapper/multi-file-upload-wrapper.component';
-
-const antDesignIcons = AllIcons as {
-  [key: string]: IconDefinition;
-};
-const icons: IconDefinition[] = Object.keys(antDesignIcons).map(key => antDesignIcons[key])
+// import { SocketIoConfig, SocketIoModule } from 'ngx-socket-io';
 import { RECAPTCHA_SETTINGS, RecaptchaFormsModule, RecaptchaModule, RecaptchaSettings } from 'ng-recaptcha';
 import { environment } from 'src/environments/environment';
 import { DataService } from './services/offlineDb.service';
@@ -59,7 +55,12 @@ import { BuilderModule } from './builder/builder.module';
 import { NgxGraphNodeComponent } from './builder/ngx-graph-node/ngx-graph-node.component';
 import { NgxGraphModule } from '@swimlane/ngx-graph';
 import { ContextMenuModule } from '@perfectmemory/ngx-contextmenu';
+import { ChatAppModule } from './chat/chat.module';
 
+const antDesignIcons = AllIcons as {
+  [key: string]: IconDefinition;
+};
+const icons: IconDefinition[] = Object.keys(antDesignIcons).map(key => antDesignIcons[key])
 
 
 @NgModule({
@@ -105,6 +106,7 @@ import { ContextMenuModule } from '@perfectmemory/ngx-contextmenu';
     BuilderModule,
     NgxGraphModule,
     ContextMenuModule,
+    ChatAppModule,
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,
