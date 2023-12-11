@@ -10,6 +10,7 @@ import { DataSharedService } from 'src/app/services/data-shared.service';
 export class SummaryComponent implements OnInit {
   @Input() formlyModel: any;
   @Input() form: any;
+  @Input() kanbanData: any;
   @Input() screenName: any;
   @Input() screenId: any;
   @Input() card: Card;

@@ -323,7 +323,8 @@ export class SectionsComponent implements OnInit {
                 let mapApi = findCommentsDiv['mapApi'].includes(`/${this.mappingId}`) ? findCommentsDiv['mapApi'] : `${findCommentsDiv['mapApi']}/${this.mappingId}`;
                 let obj: any = {
                   control: findCommentsDiv,
-                  mapApi: mapApi
+                  mapApi: mapApi,
+                  mappingId:this.mappingId
                 }
                 this.dataSharedService.commentsRecall.next(obj)
               }

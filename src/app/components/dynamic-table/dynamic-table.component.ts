@@ -93,6 +93,8 @@ export class DynamicTableComponent implements OnInit {
   backgroundColor = 'red';
   boxShadow = '0px 7px 16px rgba(0, 0, 0, 0.14)';
   borderRadius = '8px';
+  private subscriptions: Subscription = new Subscription();
+  private destroy$: Subject<void> = new Subject<void>();
   @HostListener('window:resize', ['$event'])
   onResize(event: NzResizeEvent, header: any): void {
     if (event.width) {
@@ -117,6 +119,15 @@ export class DynamicTableComponent implements OnInit {
     private modal: NzModalService
   ) {
     this.processData = this.processData.bind(this);
+    // const commentsRecall = this.dataSharedService.commentsRecall.subscribe((res: any) => {
+    //   if (res) {
+    //     this.mappingId = res.mappingId;
+    //     this.tableData = [];
+    //     this.displayData = [];
+    //     this.recallApi();
+    //   }
+    // });
+    // this.subscriptions.add(commentsRecall);
   }
   userDetails: any;
   async ngOnInit(): Promise<void> {
@@ -928,8 +939,8 @@ export class DynamicTableComponent implements OnInit {
       this.updateDisplayData();
     }
   };
-  deleteRow(data: any): void {
-
+  deleteRow(item: any): void {
+    let data = JSON.parse(JSON.stringify(item));
     const checkPermission = this.dataSharedService.getUserPolicyMenuList.find(a => a.screenId == this.dataSharedService.currentMenuLink);
     if (!checkPermission?.delete && this.dataSharedService.currentMenuLink != '/ourbuilder') {
       alert("You did not have permission");
@@ -2312,15 +2323,15 @@ export class DynamicTableComponent implements OnInit {
   }
   private onMouseMove: (e: MouseEvent) => void;
   private onMouseUp: () => void;
-  ngOnDestroy() {
-    window.removeEventListener('mousemove', this.onMouseMove);
-    window.removeEventListener('mouseup', this.onMouseUp);
-    if (this.requestSubscription)
-      this.requestSubscription.unsubscribe();
+  // ngOnDestroy() {
+  //   window.removeEventListener('mousemove', this.onMouseMove);
+  //   window.removeEventListener('mouseup', this.onMouseUp);
+  //   if (this.requestSubscription)
+  //     this.requestSubscription.unsubscribe();
 
-    this.unsubscribe.next();
-    this.unsubscribe.complete();
-  }
+  //   this.unsubscribe.next();
+  //   this.unsubscribe.complete();
+  // }
   onFileSelected(event: any): void {
     if (this.data.appConfigurableEvent) {
       let findClickApi = this.data?.appConfigurableEvent?.find((item: any) => item.rule.includes('fileupload'));
@@ -3005,6 +3016,24 @@ export class DynamicTableComponent implements OnInit {
           return 1;
         }
       });
+    }
+  }
+  ngOnDestroy(): void {
+    try {
+      window.removeEventListener('mousemove', this.onMouseMove);
+      window.removeEventListener('mouseup', this.onMouseUp);
+      if (this.requestSubscription) {
+        this.requestSubscription.unsubscribe();
+      }
+
+      if (this.subscriptions) {
+        this.subscriptions.unsubscribe();
+      }
+
+      this.destroy$.next();
+      this.destroy$.complete();
+    } catch (error) {
+      console.error('Error in ngOnDestroy:', error);
     }
   }
 }
