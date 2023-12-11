@@ -1,4 +1,4 @@
-<nz-card class='card cursor-pointer !mb-1.5' [draggable]="'true'" (dragstart)="identifyCardBeingDragged($event)"
+<nz-card class='card cursor-pointer !mb-1.5 !p-4' [draggable]="'true'" (dragstart)="identifyCardBeingDragged($event)"
   id="list-{{listIndex}}-card-{{cardIndex}}" attr.listIndex="{{listIndex}}" attr.cardIndex="{{cardIndex}}"
   (dragover)="allowCardDragToBeDropped($event)">
   <div>
