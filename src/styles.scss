@@ -313,7 +313,7 @@ object {
   .ant-input-number {
     height: 46px;
     display: flex;
-    justify-content: start;
+    justify-content: flex-start;
     align-items: center;
     font-size: 12px !important;
     font-weight: 500 !important;
@@ -344,7 +344,7 @@ object {
   .ant-select-selector {
     height: 46px !important;
     display: flex !important;
-    justify-content: start;
+    justify-content: flex-start;
     align-items: center;
     font-size: 12px !important;
   }
@@ -461,7 +461,7 @@ object {
     padding: 13px !important;
     min-height: 46px !important;
     display: flex;
-    justify-content: start;
+    justify-content: flex-start;
     align-items: center;
     font-size: 12px;
     font-weight: bold;
@@ -6548,13 +6548,13 @@ tr:hover {
         color: #0f172a !important;
         width: 30% !important;
         display: inline-flex !important;
-        justify-content: start;
+        justify-content: flex-start;
         align-items: center;
       }
 
       td:nth-child(2) {
         display: inline-flex !important;
-        justify-content: start;
+        justify-content: flex-start;
         align-items: center;
         width: 70% !important;
       }
@@ -6994,7 +6994,7 @@ tr:hover {
   //   .ant-collapse-header {
   //     height: 40px;
   //     display: flex;
-  //     justify-content: start;
+  //     justify-content: flex-start;
   //     align-items: center;
   //   }
   // }
@@ -7742,7 +7742,7 @@ input[type=file]::file-selector-button:hover {
     height: 40px !important;
     border-radius: 6px !important;
     display: flex;
-    justify-content: start;
+    justify-content: flex-start;
     align-items: center;
   }
 }
@@ -7884,7 +7884,7 @@ nz-input-group:active {
     height: 40px !important;
     border-radius: 4px !important;
     display: flex;
-    justify-content: start;
+    justify-content: flex-start;
     align-items: center;
   }
 }
@@ -8231,18 +8231,24 @@ nz-input-group:active {
     border-radius: 8px;
   }
 
-  .button-drawer {
-    .ant-drawer-header {
-      position: relative;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 16px 24px;
-      color: rgba(0, 0, 0, .85);
-      background: #fff;
-      border-radius: 2px 2px 0 0;
-      height: var(--drawerHeaderHight) !important;
-    }
-  }
 
+}
+.button-drawer {
+  .ant-drawer-header {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 24px;
+    color: rgba(0, 0, 0, .85);
+    background: #fff;
+    border-radius: 2px 2px 0 0;
+    height: var(--drawerHeaderHight) !important;
+  }
+}
+
+.list-card {
+  .ant-card-body {
+    padding: 0px !important; 
+  }
 }

@@ -1,27 +1,31 @@
-<nz-card style="background-color: #f7f8fa; border-radius: 7px;" class="!min-w-[300px] w-auto !mr-4 h-full overflow-auto" (dragover)="allowCardReplacement($event)" (drop)="dropCard($event)"
-  id="list-{{listIndex}}">
-  <div style="display: flex; justify-content: space-between; padding-bottom: 4%;">
-    <div>
-      <p class="list-name text-lg font-semibold ">{{list.title}}</p>
+<nz-card style="background-color: #f7f8fa; border-radius: 7px;" class="!min-w-[300px] list-card w-auto !mr-4 h-full overflow-hidden"
+  (dragover)="allowCardReplacement($event)" (drop)="dropCard($event)" id="list-{{listIndex}}">
+  <div class="w-full" >
+    <div class="flex justify-between items-center text-white bg-red-500 px-2" >
+      <p class="list-name flex items-center text-base font-semibold w-fit !text-left !h-[40px] rounded-md rounded-bl-none rounded-br-none">{{list.title}}</p>
+      <i class="fa-solid fa-ellipsis-vertical"></i>
     </div>
+    <div class="px-2" >
+      <button nz-button nzType="primary" (click)="openDrawer()"
+      class="actions-btn btn-no !border-none !bg-blue-600 hover:!bg-blue-500 my-2 !w-full !h-[40px]">
+      <i class="fa-regular fa-plus mr-2"></i> Add task
+    </button>
+  </div>
     <!-- <div>
       <span style="color:red" nz-icon nzType="delete" nzTheme="outline" (click)="delete()"></span>
     </div> -->
     <!-- <st-context-menu (contextAction)="delete()"></st-context-menu> -->
   </div>
-  <div id="list-one">
-    <st-card-summary (taskEditEmit)="edit($event)" (taskDeleteEmit)="showDeleteConfirm($event)" [form]="form" [formlyModel]="formlyModel" [screenId]="screenId" [screenName]="screenName"
+  <div id="list-one" class="px-2 overflow-auto !h-[calc(100vh-360px)]">
+    <st-card-summary [form]="form" [formlyModel]="formlyModel" [screenId]="screenId" [screenName]="screenName"
       *ngFor="let card of list.children;let i = index" [card]="card" [listIndex]="listIndex" [cardIndex]="i"
       attr.cardIndex="{{i}}"></st-card-summary>
-    <button nz-button nzType="primary" (click)="openDrawer('Screen')"
-      class="actions-btn btn-no !border-none !bg-blue-600 hover:!bg-blue-500 my-2 !h-[35px]">
-      Add task
-    </button>
+
   </div>
 </nz-card>
 
-<nz-drawer [nzWrapClassName]="'button-drawer'" [nzClosable]="false" [nzTitle]="eidt ? 'Update' : 'Add'" [nzWidth]="'60%'"
-  [nzVisible]="isVisible" (nzOnClose)="handleClose()">
+<nz-drawer [nzWrapClassName]="'button-drawer'" [nzClosable]="false" [nzTitle]="eidt ? 'Update' : 'Add'"
+  [nzWidth]="'60%'" [nzVisible]="isVisible" (nzOnClose)="handleClose()">
   <ng-container *nzDrawerContent>
     <nz-spin [nzSpinning]="loader">
       <st-pages [mappingId]="mappingId" [isDrawer]="true" [data]="nodes" [navigation]="screenId" [form]="form"

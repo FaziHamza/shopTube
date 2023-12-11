@@ -1,9 +1,23 @@
-<nz-card class='card cursor-pointer !mb-1.5' [draggable]="'true'" (dragstart)="identifyCardBeingDragged($event)"
+<nz-card class='card cursor-pointer !mb-1.5 !p-2 relative' [draggable]="'true'" (dragstart)="identifyCardBeingDragged($event)"
   id="list-{{listIndex}}-card-{{cardIndex}}" attr.listIndex="{{listIndex}}" attr.cardIndex="{{cardIndex}}"
   (dragover)="allowCardDragToBeDropped($event)">
   <div>
     <div class="flex justify-end">
-      <i class="fa-regular fa-pencil text-blue-500 hover:cursor-pointer" (click)="edit(card)"></i>
+      <a nz-dropdown [nzDropdownMenu]="menu" class="!w-3 !h-3 absolute top-2 right-2 z-[5000]">
+        <i class="fa-solid fa-ellipsis-vertical text-black"></i>
+      </a>
+      <nz-dropdown-menu #menu="nzDropdownMenu" nzPlacement="bottomRight">
+        <ul nz-menu>
+          <li nz-menu-item (click)="edit(card)">
+            <!-- <i class="fa-regular fa-pencil text-blue-500 hover:cursor-pointer" ></i> -->
+            Edit
+          </li>
+          <li nz-menu-item>
+            <!-- <i class="fa-regular fa-pencil text-blue-500 hover:cursor-pointer" ></i> -->
+            Delete
+          </li>
+        </ul>
+      </nz-dropdown-menu>
     </div>
     <st-mains [item]="card" [formlyModel]="formlyModel" [form]="form" [screenName]="screenName"
       [draggable]="'false'"></st-mains>
