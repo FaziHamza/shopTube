@@ -119,15 +119,17 @@ export class DynamicTableComponent implements OnInit {
     private modal: NzModalService
   ) {
     this.processData = this.processData.bind(this);
-    // const commentsRecall = this.dataSharedService.commentsRecall.subscribe((res: any) => {
-    //   if (res) {
-    //     this.mappingId = res.mappingId;
-    //     this.tableData = [];
-    //     this.displayData = [];
-    //     this.recallApi();
-    //   }
-    // });
-    // this.subscriptions.add(commentsRecall);
+    const prevNextRecord = this.dataSharedService.prevNextRecord.subscribe((res: any) => {
+      if (res) {
+        if (this.screenId == res.screenId && res.tableRowId) {
+          this.mappingId = res.tableRowId;
+          this.tableData = [];
+          this.displayData = [];
+          this.recallApi();
+        }
+      }
+    });
+    this.subscriptions.add(prevNextRecord);
   }
   userDetails: any;
   async ngOnInit(): Promise<void> {
@@ -882,6 +884,16 @@ export class DynamicTableComponent implements OnInit {
     }
     if (this.tableData.length == 0) {
       if (this.tableHeaders.length > 0) {
+        const resizingData = localStorage.getItem(this.screenId);
+        if (resizingData) {
+          const parseResizingData = JSON.parse(resizingData);
+          this.tableHeaders.forEach((element1: any) => {
+            const matchingElement = parseResizingData.find((element: any) => element.key === element1.key);
+            if (matchingElement) {
+              element1.width = matchingElement.width;
+            }
+          });
+        }
         let obj: any = {};
         this.tableHeaders.forEach((item: any) => {
           if (item.key == 'expand') {
@@ -973,7 +985,9 @@ export class DynamicTableComponent implements OnInit {
                 this.saveLoader = false;
                 if (res.isSuccess) {
                   // Data successfully deleted
-                  this.handleDataDeletion(data);
+                  // this.handleDataDeletion(data);
+                  // this.pageChange(this.pageSize);
+                  this.recallApi();
                   this.toastr.success("Delete Successfully", { nzDuration: 3000 });
                 } else {
                   // Data not updated
@@ -1054,6 +1068,7 @@ export class DynamicTableComponent implements OnInit {
   }
 
   loadTableData() {
+    this.getResizingAndColumnSortng();
     if (this.tableData.length > 0) {
       if (this.tableData[0].__v || this.tableData[0]._id) {
         const requiredData = this.tableData.map(({ __v, _id, ...rest }: any) => ({
@@ -1088,7 +1103,6 @@ export class DynamicTableComponent implements OnInit {
       // if (!this.tableData.some((a: any) => a.children)) {
       //   this.tableHeaders = this.tableHeaders.filter((head: any) => head.name !== 'expand');
       // }
-      this.getResizingAndColumnSortng();
     }
     if (!this.data) {
       const newNode = {
@@ -2914,7 +2928,7 @@ export class DynamicTableComponent implements OnInit {
     }
   }
   callExpandAPi(item: any, event: any) {
-    if(item?.editabeRowAddNewRow){
+    if (item?.editabeRowAddNewRow) {
       item.expand = false;
       this.toastr.warning("Please save before expand", { nzDuration: 3000 });
       return;

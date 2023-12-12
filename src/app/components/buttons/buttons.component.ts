@@ -404,7 +404,11 @@ export class ButtonsComponent implements OnInit {
         return;
       }
     }
-    this.dataSharedService.prevNextRecord.next(this.tableRowId);
+    let obj: any = {
+      tableRowId: this.tableRowId,
+      screenId: this.screenId
+    }
+    this.dataSharedService.prevNextRecord.next(obj);
   }
   findKeyByOrderid(data: any[], targetOrderid: string): string | null {
     for (const key in data[0]) {

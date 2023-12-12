@@ -35,6 +35,7 @@ export class SupportChatComponent {
 
 
   ngOnInit(): void {
+    console.log('supportchat')
     if (this.mappingId && this.data.eventActionconfig) {
       this.data.eventActionconfig['parentId'] = this.mappingId;
     }
