@@ -1,4 +1,5 @@
-<button nz-button [nzType]="'primary'" (click)="showModal()"><span>{{modalData.btnLabel}}</span></button>
+{{modalData?.btnClass | json}}
+<button nz-button [class]="modalData?.btnClass ? modalData?.btnClass : 'actions-btn btn-no !border-none !bg-blue-600 hover:!bg-blue-500 my-2 !h-[35px]'" [nzType]="'primary'" (click)="showModal()"><span>{{modalData.btnLabel}}</span></button>
 <nz-modal *ngIf="modalData.width && modalData.width != 0 && modalData.width != '0' ; else responsiveModal"
   [nzClassName]="modalData?.modalClass" [(nzVisible)]="isVisible" [nzTitle]='modalData.modalTitle'
   [nzClosable]="modalData.showCloseIcon" (nzOnCancel)="handleCancel()" (nzOnOk)="handleOk()"

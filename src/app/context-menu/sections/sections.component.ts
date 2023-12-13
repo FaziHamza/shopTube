@@ -323,7 +323,8 @@ export class SectionsComponent implements OnInit {
                 let mapApi = findCommentsDiv['mapApi'].includes(`/${this.mappingId}`) ? findCommentsDiv['mapApi'] : `${findCommentsDiv['mapApi']}/${this.mappingId}`;
                 let obj: any = {
                   control: findCommentsDiv,
-                  mapApi: mapApi
+                  mapApi: mapApi,
+                  mappingId:this.mappingId
                 }
                 this.dataSharedService.commentsRecall.next(obj)
               }
@@ -614,11 +615,11 @@ export class SectionsComponent implements OnInit {
                     });
                     tableData.totalCount = tableData.tableData
                   } else {
-                    tableData.tableHeaders = tableData.tableHeaders.filter((head: any) => head.key != 'expand')
+                    // tableData.tableHeaders = tableData.tableHeaders.filter((head: any) => head.key != 'expand')
                   }
 
                 } else {
-                  tableData.tableHeaders = tableData.tableHeaders.filter((head: any) => head.key != 'expand')
+                  // tableData.tableHeaders = tableData.tableHeaders.filter((head: any) => head.key != 'expand')
 
                 }
                 tableData.pageIndex = 1;
@@ -632,6 +633,19 @@ export class SectionsComponent implements OnInit {
                   const end = start + 10;
                   tableData.displayData = tableData.tableData.slice(start, end);
                   tableData.totalCount = tableData.tableData.length;
+                }
+
+                //This is used when use expand icon from options of grid config to call api.
+                if (tableData.tableHeaders.some((header: any) => header.key === 'expand')) {
+                  tableData.tableData = tableData.tableData.map((row: any) => ({
+                    'expand': false,
+                    ...row
+                  }));
+                  tableData.displayData = tableData.displayData.map((row: any) => ({
+                    'expand': false,
+                    ...row
+                  }));
+        
                 }
               }
               // this.assignGridRules(tableData);

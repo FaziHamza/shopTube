@@ -1,13 +1,24 @@
-<nz-card class='card cursor-pointer !mb-1.5' [draggable]="'true'" (dragstart)="identifyCardBeingDragged($event)"
+<!-- <nz-card [class]="this.startDragIndex == cardIndex ? '!bg-blue-500': '' + ' card cursor-pointer !mb-1.5 !p-2 relative'" -->
+<nz-card class="card cursor-pointer !mb-1.5 !p-2 relative"
+  [draggable]="'true'" draggable="true" (dragstart)="identifyCardBeingDragged($event)"
   id="list-{{listIndex}}-card-{{cardIndex}}" attr.listIndex="{{listIndex}}" attr.cardIndex="{{cardIndex}}"
   (dragover)="allowCardDragToBeDropped($event)">
   <div>
-    <div class="flex justify-end">
-      <i class="fa-regular fa-pencil text-blue-500 hover:cursor-pointer" (click)="edit(card)"></i>
-    </div>
     <st-mains [item]="card" [formlyModel]="formlyModel" [form]="form" [screenName]="screenName"
       [draggable]="'false'"></st-mains>
+    <div *ngIf="kanbanData?.allowEdit || kanbanData?.allowDelete || kanbanData?.allowDetail"
+      class="flex justify-between border-gray-300 border-t">
+      <div *ngIf="kanbanData?.allowEdit" (click)="edit(card , 'edit')"
+        class="w-fit h-fit py-0.5 px-2 hover:scale-110 transition-all"><i
+          class="fa-regular fa-pen-to-square text-blue-500"></i></div>
+      <div (click)="delete(card)" *ngIf="kanbanData?.allowDelete" class="mr-2 w-fit h-fit px-2 py-0.5 hover:scale-110 transition-all"><i
+          class="fa-regular fa-trash text-red-500"></i></div>
+      <div *ngIf="kanbanData?.allowDetail" (click)="edit(card , 'detail')"
+        class="mr-2 w-fit h-fit px-2 py-0.5 hover:scale-110 transition-all"><i
+          class="fa-regular fa-comment text-gray-400"></i></div>
+    </div>
   </div>
+
   <!-- <b>
     <h4 class="card-title" [(appContentEdit)]="card.header" [draggable]="'false'"> </h4>
   </b>

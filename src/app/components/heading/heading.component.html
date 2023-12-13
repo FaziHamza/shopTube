@@ -40,7 +40,7 @@
                     </h5>
                 </div>
                 <ng-template #paragraph>
-                    <p nz-tooltip [nzTooltipTitle]="'aaaaa'" nz-typography (click)="pageRoute(headingData.link)"
+                    <p nz-typography (click)="pageRoute(headingData.link)"
                         [class]=" headingData.heading + ' ' +  headingData.fontweight + ' ' + headingData.fontstyle + ' ' + headingData?.applicationThemeClasses"
                         [style.color]="headingData.color || undefined">
                         {{ headingData.text | translate }}

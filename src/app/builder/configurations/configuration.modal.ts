@@ -8590,25 +8590,69 @@ export class formFeildData {
             label: 'Edit Screen Link',
           },
         },
-        // {
-        //   key: 'maxLength',
-        //   type: 'input',
-        //   className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
-        //   wrappers: ["formly-vertical-theme-wrapper"],
-        //   props: {
-        //     type: 'number',
-        //     label: 'Max',
-        //   },
-        // },
-        // {
-        //   key: 'showAddbtn',
-        //   type: 'checkbox',
-        //   className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
-        //   wrappers: ["formly-vertical-theme-wrapper"],
-        //   props: {
-        //     label: 'Show Button',
-        //   },
-        // },
+        {
+          key: 'detailScreenLink',
+          type: 'input',
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          wrappers: ["formly-vertical-theme-wrapper"],
+          props: {
+            label: 'Detail Screen Link',
+          },
+        },
+        {
+          key: 'actionButtonClass',
+          type: 'input',
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          wrappers: ["formly-vertical-theme-wrapper"],
+          props: {
+            label: 'Action Button Class',
+          },
+        },
+        {
+          key: 'addButtonClass',
+          type: 'input',
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          wrappers: ["formly-vertical-theme-wrapper"],
+          props: {
+            label: 'Add Button Class',
+          },
+        },
+        {
+          key: 'allowDelete',
+          type: 'checkbox',
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          wrappers: ["formly-vertical-theme-wrapper"],
+          props: {
+            label: 'Allow Delete',
+          },
+        },
+        {
+          key: 'allowAdd',
+          type: 'checkbox',
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          wrappers: ["formly-vertical-theme-wrapper"],
+          props: {
+            label: 'Allow Add',
+          },
+        },
+        {
+          key: 'allowEdit',
+          type: 'checkbox',
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          wrappers: ["formly-vertical-theme-wrapper"],
+          props: {
+            label: 'Allow Edit',
+          },
+        },
+        {
+          key: 'allowDetail',
+          type: 'checkbox',
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          wrappers: ["formly-vertical-theme-wrapper"],
+          props: {
+            label: 'Allow Detail',
+          },
+        },
         {
           key: 'kanlistArray',
           type: 'repeatSection',
@@ -14938,6 +14982,15 @@ export class formFeildData {
           wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             label: 'Modal Class',
+          }
+        },
+        {
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          key: 'btnClass',
+          type: 'input',
+          wrappers: ["formly-vertical-theme-wrapper"],
+          props: {
+            label: 'Button Class',
           }
         },
         {

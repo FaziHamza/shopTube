@@ -33,6 +33,7 @@ export class DataSharedService {
   public applicationTheme = new BehaviorSubject<boolean>(false);
   public prevNextRecord = new BehaviorSubject<boolean>(false);
   public commentsRecall = new BehaviorSubject<boolean>(false);
+  public removeKanbanListIndex = new BehaviorSubject<boolean>(false);
   public voiceRecord: Subject<any> = new Subject();
   public configuration: Subject<any> = new Subject();
   public moveLink: Subject<any> = new Subject();

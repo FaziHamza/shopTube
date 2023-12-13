@@ -93,6 +93,8 @@ export class DynamicTableComponent implements OnInit {
   backgroundColor = 'red';
   boxShadow = '0px 7px 16px rgba(0, 0, 0, 0.14)';
   borderRadius = '8px';
+  private subscriptions: Subscription = new Subscription();
+  private destroy$: Subject<void> = new Subject<void>();
   @HostListener('window:resize', ['$event'])
   onResize(event: NzResizeEvent, header: any): void {
     if (event.width) {
@@ -102,7 +104,7 @@ export class DynamicTableComponent implements OnInit {
       this.cdr.detectChanges();
       setTimeout(() => {
         this.resizingLocalStorage();
-      }, 200);
+      }, 100);
     }
     // Update the nzScroll configuration based on screen size
     // this.updateScrollConfig();
@@ -117,6 +119,17 @@ export class DynamicTableComponent implements OnInit {
     private modal: NzModalService
   ) {
     this.processData = this.processData.bind(this);
+    const prevNextRecord = this.dataSharedService.prevNextRecord.subscribe((res: any) => {
+      if (res) {
+        if (this.screenId == res.screenId && res.tableRowId) {
+          this.mappingId = res.tableRowId;
+          this.tableData = [];
+          this.displayData = [];
+          this.recallApi();
+        }
+      }
+    });
+    this.subscriptions.add(prevNextRecord);
   }
   userDetails: any;
   async ngOnInit(): Promise<void> {
@@ -359,7 +372,7 @@ export class DynamicTableComponent implements OnInit {
               console.log("No obj Found!")
             }
             else {
-              for (let j = 0; j < this.tableData.length; j++) {
+              for (let j = 0; j < this.displayData.length; j++) {
                 //query
                 let query: any = '';
                 objRuleData[index].ifRuleMain.forEach((element: any, ruleIndex: number) => {
@@ -372,7 +385,7 @@ export class DynamicTableComponent implements OnInit {
                       }
                     }
                     else {
-                      let firstValue = this.tableData[j][element.ifCondition] ? this.tableData[j][element.ifCondition] : "0";
+                      let firstValue = this.displayData[j][element.ifCondition] ? this.displayData[j][element.ifCondition] : "0";
                       let appendString = element.conditional.length > 0 ? " ( " : ' ';
                       if (ruleIndex == 0) {
                         query = appendString + firstValue + element.oprator + element.getValue
@@ -382,7 +395,7 @@ export class DynamicTableComponent implements OnInit {
                     }
                     for (let k = 0; k < element.conditional.length; k++) {
                       const conditionElement = element.conditional[k];
-                      let check = this.tableData[j][conditionElement.condifCodition] ? this.tableData[j][conditionElement.condifCodition] : '0';
+                      let check = this.displayData[j][conditionElement.condifCodition] ? this.displayData[j][conditionElement.condifCodition] : '0';
                       query += ' ' + conditionElement.condType + ' ' + check + conditionElement.condOperator + conditionElement.condValue;
                       if (k + 1 == element.conditional.length)
                         query += " ) " + element.condType
@@ -392,12 +405,12 @@ export class DynamicTableComponent implements OnInit {
                     if (element.oprator == 'NotNull')
                       query = "1==1"
                     else {
-                      let firstValue = this.tableData[j][element.ifCondition] ? this.tableData[j][element.ifCondition] : "0";
+                      let firstValue = this.displayData[j][element.ifCondition] ? this.displayData[j][element.ifCondition] : "0";
                       query = firstValue + element.oprator + element.getValue
                     }
                     for (let k = 0; k < element.conditional.length; k++) {
                       const conditionElement = element.conditional[k];
-                      let check = this.tableData[j][conditionElement.condifCodition] ? this.tableData[j][conditionElement.condifCodition] : '0';
+                      let check = this.displayData[j][conditionElement.condifCodition] ? this.displayData[j][conditionElement.condifCodition] : '0';
                       query += ' ' + conditionElement.condType + ' ' + check + conditionElement.condOperator + conditionElement.condValue;
                     }
                   }
@@ -412,62 +425,62 @@ export class DynamicTableComponent implements OnInit {
                   for (let k = 0; k < elementv1.getRuleCondition.length; k++) {
                     const elementv2 = elementv1.getRuleCondition[k];
                     if (elementv1.getRuleCondition[k].referenceOperator != '') {
-                      if (this.tableData[j][elementv2.ifCondition])
-                        this.tableData[j][elementv1.target] = this.evaluateGridConditionOperator(`${this.tableData[j][elementv2.ifCondition]} ${elementv1.getRuleCondition[k].oprator} ${this.tableData[j][elementv2.target]}`);
+                      if (this.displayData[j][elementv2.ifCondition])
+                        this.displayData[j][elementv1.target] = this.evaluateGridConditionOperator(`${this.displayData[j][elementv2.ifCondition]} ${elementv1.getRuleCondition[k].oprator} ${this.displayData[j][elementv2.target]}`);
                       // if (elementv1.getRuleCondition[k].referenceColor)
-                      this.tableData[j]['color'] = elementv1.getRuleCondition[k].referenceColor;
-                      this.tableData[j]['textColor'] = elementv1.getRuleCondition[k].referenceTextColor;
+                      this.displayData[j]['color'] = elementv1.getRuleCondition[k].referenceColor;
+                      this.displayData[j]['textColor'] = elementv1.getRuleCondition[k].referenceTextColor;
                       // if (elementv1.getRuleCondition[k].referenceColumnColor) {
-                      this.tableData[j]['columnColor'] = elementv1.getRuleCondition[k].referenceColor;
-                      this.tableData[j]['columnTextColor'] = elementv1.getRuleCondition[k].referenceTextColor;
-                      this.tableData[j]['colorDataType'] = this.tableData[j][elementv1.target];
+                      this.displayData[j]['columnColor'] = elementv1.getRuleCondition[k].referenceColor;
+                      this.displayData[j]['columnTextColor'] = elementv1.getRuleCondition[k].referenceTextColor;
+                      this.displayData[j]['colorDataType'] = this.displayData[j][elementv1.target];
                       // }
                     }
                     else {
                       if (k > 0) {
-                        if (this.tableData[j][elementv2.ifCondition])
-                          this.tableData[j][elementv1.target] = this.evaluateGridConditionOperator(`${this.tableData[j][elementv1.target]} ${elementv1.getRuleCondition[k - 1].referenceOperator} ${this.tableData[j][elementv2.ifCondition]} ${elementv1.getRuleCondition[k].oprator} ${this.tableData[j][elementv2.target]}`);
+                        if (this.displayData[j][elementv2.ifCondition])
+                          this.displayData[j][elementv1.target] = this.evaluateGridConditionOperator(`${this.displayData[j][elementv1.target]} ${elementv1.getRuleCondition[k - 1].referenceOperator} ${this.displayData[j][elementv2.ifCondition]} ${elementv1.getRuleCondition[k].oprator} ${this.displayData[j][elementv2.target]}`);
                         // if (elementv1.getRuleCondition[k].referenceColor)
-                        this.tableData[j]['color'] = elementv1.getRuleCondition[k].referenceColor;
-                        this.tableData[j]['textColor'] = elementv1.getRuleCondition[k].referenceTextColor;
+                        this.displayData[j]['color'] = elementv1.getRuleCondition[k].referenceColor;
+                        this.displayData[j]['textColor'] = elementv1.getRuleCondition[k].referenceTextColor;
                         // if (elementv1.getRuleCondition[k].referenceColor) {
-                        this.tableData[j]['columnColor'] = elementv1.getRuleCondition[k].referenceColor;
-                        this.tableData[j]['columnTextColor'] = elementv1.getRuleCondition[k].referenceTextColor;
-                        this.tableData[j]['colorDataType'] = this.tableData[j][elementv1.target];
+                        this.displayData[j]['columnColor'] = elementv1.getRuleCondition[k].referenceColor;
+                        this.displayData[j]['columnTextColor'] = elementv1.getRuleCondition[k].referenceTextColor;
+                        this.displayData[j]['colorDataType'] = this.displayData[j][elementv1.target];
                         // }
                       }
                       else
                         // if (elementv1.getRuleCondition[k].referenceColor)
-                        this.tableData[j]['color'] = elementv1.getRuleCondition[k].referenceColor;
-                      this.tableData[j]['textColor'] = elementv1.getRuleCondition[k].referenceTextColor;
-                      this.tableData[j]['columnColor'] = elementv1.getRuleCondition[k].referenceColor;
-                      this.tableData[j]['columnTextColor'] = elementv1.getRuleCondition[k].referenceTextColor;
-                      this.tableData[j]['colorDataType'] = this.tableData[j][elementv1.target];
+                        this.displayData[j]['color'] = elementv1.getRuleCondition[k].referenceColor;
+                      this.displayData[j]['textColor'] = elementv1.getRuleCondition[k].referenceTextColor;
+                      this.displayData[j]['columnColor'] = elementv1.getRuleCondition[k].referenceColor;
+                      this.displayData[j]['columnTextColor'] = elementv1.getRuleCondition[k].referenceTextColor;
+                      this.displayData[j]['colorDataType'] = this.displayData[j][elementv1.target];
                       if (elementv1.getRuleCondition[k].referenceColumnColor) {
                         // data.tableHeaders.filter((check: any) => !check.hasOwnProperty('dataType'));
                         let head = data.tableHeaders.find((a: any) => a.name == elementv1.target)
                         if (head) {
-                          this.tableData[j]['colorDataType'] = this.tableData[j][elementv1.target];
+                          this.displayData[j]['colorDataType'] = this.displayData[j][elementv1.target];
                           head['dataType'] = 'objectType';
                           head['columnColor'] = elementv1.getRuleCondition[k].referenceColor;
                           head['columnTextColor'] = elementv1.getRuleCondition[k].referenceTextColor;
                         }
                       }
                       else {
-                        if (this.tableData[j][elementv2.ifCondition])
-                          this.tableData[j][elementv1.target] = this.evaluateGridConditionOperator(`${this.tableData[j][elementv2.ifCondition]} ${elementv1.getRuleCondition[k].oprator} ${this.tableData[j][elementv2.target]}`);
+                        if (this.displayData[j][elementv2.ifCondition])
+                          this.displayData[j][elementv1.target] = this.evaluateGridConditionOperator(`${this.displayData[j][elementv2.ifCondition]} ${elementv1.getRuleCondition[k].oprator} ${this.displayData[j][elementv2.target]}`);
 
                       }
                     }
                     if (elementv2.multiConditionList.length > 0) {
                       for (let l = 0; l < elementv2.multiConditionList.length; l++) {
                         const elementv3 = elementv2.multiConditionList[l];
-                        const value = this.tableData[j][elementv1.target];
-                        this.tableData[j][elementv1.target] = this.evaluateGridConditionOperator(`${value} ${elementv3.oprator} ${this.tableData[j][elementv3.target]}`);
+                        const value = this.displayData[j][elementv1.target];
+                        this.displayData[j][elementv1.target] = this.evaluateGridConditionOperator(`${value} ${elementv3.oprator} ${this.displayData[j][elementv3.target]}`);
                         // if (elementv1.getRuleCondition[k].referenceColumnColor) {
-                        this.tableData[j]['columnTextColor'] = elementv1.getRuleCondition[k].referenceTextColor;
-                        this.tableData[j]['columnColor'] = elementv1.getRuleCondition[k].referenceColor;
-                        this.tableData[j]['colorDataType'] = this.tableData[j][elementv1.target];
+                        this.displayData[j]['columnTextColor'] = elementv1.getRuleCondition[k].referenceTextColor;
+                        this.displayData[j]['columnColor'] = elementv1.getRuleCondition[k].referenceColor;
+                        this.displayData[j]['colorDataType'] = this.displayData[j][elementv1.target];
                         // }
                       }
                     }
@@ -476,16 +489,16 @@ export class DynamicTableComponent implements OnInit {
                     const elementv2 = elementv1.thenCondition[k];
                     for (let l = 0; l < elementv2.getRuleCondition.length; l++) {
                       const elementv3 = elementv2.getRuleCondition[l];
-                      this.tableData[j][elementv2.thenTarget] = this.evaluateGridConditionOperator(`${this.tableData[j][elementv3.ifCondition]} ${elementv3.oprator} ${this.tableData[j][elementv3.target]}`);
+                      this.displayData[j][elementv2.thenTarget] = this.evaluateGridConditionOperator(`${this.displayData[j][elementv3.ifCondition]} ${elementv3.oprator} ${this.displayData[j][elementv3.target]}`);
                       if (elementv3.multiConditionList.length > 0) {
                         for (let m = 0; m < elementv3.multiConditionList.length; m++) {
                           const elementv4 = elementv3.multiConditionList[m];
-                          const value = this.tableData[j][elementv2.thenTarget];
-                          this.tableData[j][elementv2.thenTarget] = this.evaluateGridConditionOperator(`${value} ${elementv4.oprator} ${this.tableData[j][elementv4.target]}`);
+                          const value = this.displayData[j][elementv2.thenTarget];
+                          this.displayData[j][elementv2.thenTarget] = this.evaluateGridConditionOperator(`${value} ${elementv4.oprator} ${this.displayData[j][elementv4.target]}`);
                           // if (elementv1.getRuleCondition[k].referenceColumnColor) {
-                          this.tableData[j]['columnColor'] = elementv1.getRuleCondition[k].referenceColor;
-                          this.tableData[j]['columnTextColor'] = elementv1.getRuleCondition[k].referenceTextColor;
-                          this.tableData[j]['colorDataType'] = this.tableData[j][elementv1.target];
+                          this.displayData[j]['columnColor'] = elementv1.getRuleCondition[k].referenceColor;
+                          this.displayData[j]['columnTextColor'] = elementv1.getRuleCondition[k].referenceTextColor;
+                          this.displayData[j]['colorDataType'] = this.displayData[j][elementv1.target];
                           // }
                         }
                       }
@@ -860,6 +873,61 @@ export class DynamicTableComponent implements OnInit {
   }
 
   addRow(): void {
+    if (this.configurationTable == false || this.configurationTable == undefined) {
+      if (this.displayData.length > 0) {
+        let findAddrow = this.findInlineSaveExist(this.displayData);
+        if (findAddrow) {
+          this.toastr.warning('You already add the row and did not save it', { nzDuration: 3000 });
+          return;
+        }
+      }
+    }
+    if (this.tableData.length == 0) {
+      if (this.tableHeaders.length > 0) {
+        const resizingData = localStorage.getItem(this.screenId);
+        if (resizingData) {
+          const parseResizingData = JSON.parse(resizingData);
+          this.tableHeaders.forEach((element1: any) => {
+            const matchingElement = parseResizingData.find((element: any) => element.key === element1.key);
+            if (matchingElement) {
+              element1.width = matchingElement.width;
+            }
+          });
+        }
+        let obj: any = {};
+        this.tableHeaders.forEach((item: any) => {
+          if (item.key == 'expand') {
+            obj[item.key] = false;
+          }
+          else if (item.key == 'parentid') {
+            obj[item.key] = this.mappingId ? this.mappingId : '';
+          }
+          else {
+            obj[item.key] = '';
+          }
+        });
+        if (this.configurationTable) {
+          this.tableData.push(obj);
+        }
+        else if (this.childDataObj) {
+          if (this.childDataObj.rowObj) {
+            let newRecord = this.childDataObj.rowObj;
+            newRecord['editabeRowAddNewRow'] = true;
+            newRecord['expand'] = false;
+            this.tableData.push(newRecord);
+          } else {
+            obj['editabeRowAddNewRow'] = true;
+            this.tableData.push(obj);
+          }
+        }
+        else {
+          obj['editabeRowAddNewRow'] = true;
+          this.tableData.push(obj);
+        }
+      }
+      this.displayData = [...this.tableData];
+      return;
+    }
     const id = this.displayData.length - 1;
     if (id == -1) {
       let row = {
@@ -875,6 +943,7 @@ export class DynamicTableComponent implements OnInit {
       newRow["id"] = this.tableData[id].id + 1;
       delete newRow?._id;
       delete newRow?.__v;
+      newRow['editabeRowAddNewRow'] = true;
       this.tableData.unshift(newRow);
       this.displayData = [...this.tableData];
       if (!this.pageSize)
@@ -882,8 +951,8 @@ export class DynamicTableComponent implements OnInit {
       this.updateDisplayData();
     }
   };
-  deleteRow(data: any): void {
-
+  deleteRow(item: any): void {
+    let data = JSON.parse(JSON.stringify(item));
     const checkPermission = this.dataSharedService.getUserPolicyMenuList.find(a => a.screenId == this.dataSharedService.currentMenuLink);
     if (!checkPermission?.delete && this.dataSharedService.currentMenuLink != '/ourbuilder') {
       alert("You did not have permission");
@@ -916,7 +985,9 @@ export class DynamicTableComponent implements OnInit {
                 this.saveLoader = false;
                 if (res.isSuccess) {
                   // Data successfully deleted
-                  this.handleDataDeletion(data);
+                  // this.handleDataDeletion(data);
+                  // this.pageChange(this.pageSize);
+                  this.recallApi();
                   this.toastr.success("Delete Successfully", { nzDuration: 3000 });
                 } else {
                   // Data not updated
@@ -942,6 +1013,10 @@ export class DynamicTableComponent implements OnInit {
   };
 
   async startEdit(data: any): Promise<void> {
+    if (data?.editabeRowAddNewRow == true) {
+      //This condition is used when we use add row then not update after add bfore saveing data
+      return;
+    }
     this.editId = data.id;
     let newData = JSON.parse(JSON.stringify(data))
     this.editData = newData;
@@ -993,6 +1068,7 @@ export class DynamicTableComponent implements OnInit {
   }
 
   loadTableData() {
+    this.getResizingAndColumnSortng();
     if (this.tableData.length > 0) {
       if (this.tableData[0].__v || this.tableData[0]._id) {
         const requiredData = this.tableData.map(({ __v, _id, ...rest }: any) => ({
@@ -1027,28 +1103,6 @@ export class DynamicTableComponent implements OnInit {
       // if (!this.tableData.some((a: any) => a.children)) {
       //   this.tableHeaders = this.tableHeaders.filter((head: any) => head.name !== 'expand');
       // }
-
-      this.tableHeaders.sort((a: any, b: any) => {
-        const srNoA = parseInt(a.srNo);
-        const srNoB = parseInt(b.srNo);
-
-        if (!isNaN(srNoA) && !isNaN(srNoB)) {
-          // Sort by 'srNo' if both values are numbers
-          return srNoA - srNoB;
-        } else if (isNaN(srNoA) && isNaN(srNoB)) {
-          // If both values are not numbers, maintain original order
-          return 0;
-        } else if (!isNaN(srNoA) && isNaN(srNoB)) {
-          // Move items with 'srNo' to the front
-          return -1;
-        } else {
-          // Move items with 'srNo' to the front
-          return 1;
-        }
-      });
-
-
-
     }
     if (!this.data) {
       const newNode = {
@@ -1140,11 +1194,53 @@ export class DynamicTableComponent implements OnInit {
     return childKeys;
   }
   save() {
+    debugger
+    this.editId = '';
+    if (this.configurationTable) {
+      this._dataSharedService.setData(this.displayData);
+      if (this.data.doubleClick == false)
+        this._dataSharedService.saveGridData(this.displayData);
+      this.toastr.success('Data saved successfully', { nzDuration: 3000 });
+    } else {
+      let findInlineSave = this.findInlineSaveExist(this.displayData);
+      if (findInlineSave) {
+        if (this.data.appConfigurableEvent)
+          if (this.data.appConfigurableEvent.length > 0) {
+            let findAction = this.data.appConfigurableEvent.find((a: any) => a.componentFrom == this.data.key && a.rule.includes('post_') && a.action == 'click');
+            if (findAction) {
+              delete findInlineSave.id;
+              const model = {
+                screenId: this.screenName,
+                postType: 'post',
+                modalData: findInlineSave
+              };
+              this.saveLoader = true;
+              this.applicationServices.addNestCommonAPI('knex-query/execute-rules/' + findAction._id, model).subscribe({
+                next: (res) => {
+                  if (res) {
+                    this.saveLoader = false;
+                    if (res[0]?.error) {
+                      this.toastr.error(res[0]?.error, { nzDuration: 3000 });
+                      return;
+                    }
 
-    this._dataSharedService.setData(this.displayData);
-    if (this.data.doubleClick == false)
-      this._dataSharedService.saveGridData(this.displayData);
-    this.toastr.success('Data saved successfully', { nzDuration: 3000 });
+                    const successMessage = (model.postType === 'post') ? 'Save Successfully' : 'Update Successfully';
+                    this.toastr.success(successMessage, { nzDuration: 3000 });
+                    this.recallApi();
+                  }
+                },
+                error: (err) => {
+                  // Handle the error
+                  this.toastr.error("An error occurred", { nzDuration: 3000 });
+                  console.error(err);
+                  this.dataSharedService.pagesLoader.next(false);
+                  this.saveLoader = false; // Ensure to set the loader to false in case of error
+                },
+              });
+            }
+          }
+      }
+    }
   }
 
   checkAll(value: boolean): void {
@@ -1250,8 +1346,8 @@ export class DynamicTableComponent implements OnInit {
                   ...row
                 }));
               }
-              this.updateGridPagination();
               this.gridInitilize();
+              this.updateGridPagination();
             }
           }, error: (error) => {
             this.saveLoader = false;
@@ -1261,9 +1357,9 @@ export class DynamicTableComponent implements OnInit {
       }
       else {
         let url = 'knex-query/getexecute-rules/' + this.data.eventActionconfig._id;
-        if(this.childDataObj){
+        if (this.childDataObj) {
           let findExpandKeyHead = this.tableHeaders.find((head: any) => head.key == 'expand');
-          if(findExpandKeyHead){
+          if (findExpandKeyHead) {
             url = findExpandKeyHead.callApi + '/' + this.childDataObj.id;
           }
         }
@@ -1908,6 +2004,7 @@ export class DynamicTableComponent implements OnInit {
         this.saveLoader = false;
       }
     } else {
+      this.getResizingAndColumnSortng();
       this.saveLoader = false;
     }
     return data
@@ -2028,37 +2125,7 @@ export class DynamicTableComponent implements OnInit {
         this.data['tableKey'] = this.tableHeaders;
         this.data['tableHeaders'] = this.tableHeaders;
         const resizingData = localStorage.getItem(this.screenId);
-        if (resizingData) {
-          const parseResizingData = JSON.parse(resizingData);
-          this.tableHeaders.forEach((element1: any) => {
-            const matchingElement = parseResizingData.find((element: any) => element.key === element1.key);
-            if (matchingElement) {
-              element1.width = matchingElement.width;
-            }
-          });
-        }
-        this.tableHeaders.forEach((head: any) => {
-          head['isFilterdSortedColumn'] = false
-        });
-        this.tableHeaders.sort((a: any, b: any) => {
-          const srNoA = parseInt(a.srNo);
-          const srNoB = parseInt(b.srNo);
-
-          if (!isNaN(srNoA) && !isNaN(srNoB)) {
-            // Sort by 'srNo' if both values are numbers
-            return srNoA - srNoB;
-          } else if (isNaN(srNoA) && isNaN(srNoB)) {
-            // If both values are not numbers, maintain original order
-            return 0;
-          } else if (!isNaN(srNoA) && isNaN(srNoB)) {
-            // Move items with 'srNo' to the front
-            return -1;
-          } else {
-            // Move items with 'srNo' to the front
-            return 1;
-          }
-        });
-
+        this.getResizingAndColumnSortng();
       }
       this.saveLoader = false;
       this.gridInitilize();
@@ -2270,15 +2337,15 @@ export class DynamicTableComponent implements OnInit {
   }
   private onMouseMove: (e: MouseEvent) => void;
   private onMouseUp: () => void;
-  ngOnDestroy() {
-    window.removeEventListener('mousemove', this.onMouseMove);
-    window.removeEventListener('mouseup', this.onMouseUp);
-    if (this.requestSubscription)
-      this.requestSubscription.unsubscribe();
+  // ngOnDestroy() {
+  //   window.removeEventListener('mousemove', this.onMouseMove);
+  //   window.removeEventListener('mouseup', this.onMouseUp);
+  //   if (this.requestSubscription)
+  //     this.requestSubscription.unsubscribe();
 
-    this.unsubscribe.next();
-    this.unsubscribe.complete();
-  }
+  //   this.unsubscribe.next();
+  //   this.unsubscribe.complete();
+  // }
   onFileSelected(event: any): void {
     if (this.data.appConfigurableEvent) {
       let findClickApi = this.data?.appConfigurableEvent?.find((item: any) => item.rule.includes('fileupload'));
@@ -2364,6 +2431,10 @@ export class DynamicTableComponent implements OnInit {
   }
 
   showDeleteConfirm(rowData: any): void {
+    if (rowData?.editabeRowAddNewRow == true) {
+      //This condition is used when we use add row then not update after add bfore saveing data
+      return;
+    }
     this.modal.confirm({
       nzTitle: 'Are you sure delete this Row?',
       // nzContent: '<b style="color: red;">Some descriptions</b>',
@@ -2839,7 +2910,11 @@ export class DynamicTableComponent implements OnInit {
         pagination = `?page=${localStorage.getItem('tablePageNo') || 1}&pageSize=${localStorage.getItem('tablePageSize') || 10}`
       }
       this.saveLoader = true;
-      this.requestSubscription = this.applicationService.callApi(`knex-query/getexecute-rules/${_id}${pagination}`, 'get', data, headers, parentId).subscribe({
+      let url = `knex-query/getexecute-rules/${_id}`;
+      if (this.mappingId) {
+        url = `knex-query/getexecute-rules/${_id}/${this.mappingId}`
+      }
+      this.requestSubscription = this.applicationService.callApi(`${url}${pagination}`, 'get', data, headers).subscribe({
         next: (res) => {
           this.saveLoader = false;
           this.getFromQueryOnlyTable(this.data, res);
@@ -2853,6 +2928,11 @@ export class DynamicTableComponent implements OnInit {
     }
   }
   callExpandAPi(item: any, event: any) {
+    if (item?.editabeRowAddNewRow) {
+      item.expand = false;
+      this.toastr.warning("Please save before expand", { nzDuration: 3000 });
+      return;
+    }
     let findExpandKeyHead = this.tableHeaders.find((head: any) => head.key == 'expand');
     if (findExpandKeyHead && event) {
       if (findExpandKeyHead.callApi) {
@@ -2869,17 +2949,23 @@ export class DynamicTableComponent implements OnInit {
           this.requestSubscription = this.applicationService.callApi(`${url}${pagination}`, 'get', data, headers, null).subscribe({
             next: (res) => {
               this.saveLoader = false;
-              let responseData = res.data.map((row: any) => ({
+              let rowData = JSON.parse(JSON.stringify(item));
+              let responseData: any = res.data.map((row: any) => ({
                 'expand': false,
                 ...row
               }));
               item['children'] = responseData;
-              if (res.count) {
+              if (responseData.length == 0 && window.location.host.includes('taskmanager.com')) {
+                rowData['parentid'] = rowData.id;
+              }
+              if (res.count || res.count == 0) {
                 item['childDataObj'] = {
                   count: res.count,
                   callExpandAPi: true,
                   id: item?.id,
-                  data: JSON.parse(JSON.stringify(this.data))
+                  data: JSON.parse(JSON.stringify(this.data)),
+                  header: this.tableHeaders,
+                  rowObj: responseData.length > 0 ? '' : rowData
                 };
               }
             },
@@ -2892,6 +2978,76 @@ export class DynamicTableComponent implements OnInit {
         }
 
       }
+    }
+  }
+
+  findInlineSaveExist(data: any): any {
+    for (const element of data) {
+      if (element.editabeRowAddNewRow) {
+        return element;
+      }
+
+      if (element.children && element.children.length > 0) {
+        const result = this.findInlineSaveExist(element.children);
+        if (result) {
+          return result;
+        }
+      }
+    }
+
+    return null;
+  }
+  getResizingAndColumnSortng() {
+    if (this.tableHeaders.length > 0) {
+      const resizingData = localStorage.getItem(this.screenId);
+      if (resizingData) {
+        const parseResizingData = JSON.parse(resizingData);
+        this.tableHeaders.forEach((element1: any) => {
+          const matchingElement = parseResizingData.find((element: any) => element.key === element1.key);
+          if (matchingElement) {
+            element1.width = matchingElement.width;
+          }
+        });
+      }
+      this.tableHeaders.forEach((head: any) => {
+        head['isFilterdSortedColumn'] = false
+      });
+      this.tableHeaders.sort((a: any, b: any) => {
+        const srNoA = parseInt(a.srNo);
+        const srNoB = parseInt(b.srNo);
+
+        if (!isNaN(srNoA) && !isNaN(srNoB)) {
+          // Sort by 'srNo' if both values are numbers
+          return srNoA - srNoB;
+        } else if (isNaN(srNoA) && isNaN(srNoB)) {
+          // If both values are not numbers, maintain original order
+          return 0;
+        } else if (!isNaN(srNoA) && isNaN(srNoB)) {
+          // Move items with 'srNo' to the front
+          return -1;
+        } else {
+          // Move items with 'srNo' to the front
+          return 1;
+        }
+      });
+    }
+  }
+  ngOnDestroy(): void {
+    try {
+      window.removeEventListener('mousemove', this.onMouseMove);
+      window.removeEventListener('mouseup', this.onMouseUp);
+      if (this.requestSubscription) {
+        this.requestSubscription.unsubscribe();
+      }
+
+      if (this.subscriptions) {
+        this.subscriptions.unsubscribe();
+      }
+
+      this.destroy$.next();
+      this.destroy$.complete();
+    } catch (error) {
+      console.error('Error in ngOnDestroy:', error);
     }
   }
 }
