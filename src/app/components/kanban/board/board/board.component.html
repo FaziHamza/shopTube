@@ -18,15 +18,15 @@
       </ng-container>
     </ul>
   </nz-dropdown-menu>
-  <div [processData]="processData" [appConfigurableSelect]="kanbanData?.appConfigurableEvent "
+  <div class="w-full overflow-hidden h-[calc(100vh-154px)]  !overflow-x-auto" [processData]="processData" [appConfigurableSelect]="kanbanData?.appConfigurableEvent "
     [loadAction]="kanbanData?.eventActionconfig ">
-    <div class="flex" cdkDropListGroup>
+    <div class="flex h-full" cdkDropListGroup>
       <div [kanbanData]="kanbanData" [screenLink]="kanbanData.screenLink"
         [editScreenLink]="kanbanData.editScreenLink" [mappingId]="mappingId" [listIndex]="i"
         (moveCardAcrossList)="moveCardAcrossList($event)" (taskDeleteEmit)="delete($event)" [form]="form" [formlyModel]="formlyModel"
         [screenId]="screenId" [screenName]="screenName" (deleteList)="deleteList($event)" attr.listIndex="{{i}}"
         (taskSubmitEmit)="recallApi($event)" [kanbanData]="kanbanData"
-        [lane]="lane" *ngFor="let lane of kanbanData.children ;let i = index" st-lists class="board-dnd-list">
+        [lane]="lane" *ngFor="let lane of kanbanData.children ;let i = index" st-lists class="board-dnd-list h-full">
       </div>
     </div>
   </div>
