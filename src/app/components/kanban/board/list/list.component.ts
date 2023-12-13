@@ -1,4 +1,4 @@
-import { Component, ElementRef, EventEmitter, Inject, Input, OnInit, Output } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Inject, Input, OnInit, Output, ViewEncapsulation } from '@angular/core';
 import { ListInterface } from '../../model/list/list.model';
 import { Movement, MovementIntf } from '../../model/card/movement';
 import { Card, CardInterface } from '../../model/card/card.model';
@@ -10,11 +10,17 @@ import { NzMessageService } from 'ng-zorro-antd/message';
 import { debug } from 'console';
 import { NzModalService } from 'ng-zorro-antd/modal';
 import { EmployeeService } from 'src/app/services/employee.service';
+import {
+  CdkDragDrop,
+  moveItemInArray,
+  transferArrayItem
+} from '@angular/cdk/drag-drop';
 
 @Component({
-  selector: 'st-lists',
+  selector: '[st-lists]',
   templateUrl: './list.component.html',
-  styleUrls: ['./list.component.scss']
+  styleUrls: ['./list.component.scss'],
+  encapsulation: ViewEncapsulation.None
 })
 export class ListsComponent implements OnInit {
   @Input() kanban: any;
@@ -22,6 +28,7 @@ export class ListsComponent implements OnInit {
   @Input() screenLink: any;
   @Input() editScreenLink: any;
   @Input() dropListIndex: any;
+  @Input() lane: any;
   @Input() list: any;
   @Input() kanbanData: any;
   @Input() listIndex: any;
@@ -45,14 +52,6 @@ export class ListsComponent implements OnInit {
   constructor(private elementRef: ElementRef, @Inject(DOCUMENT) private document: Document,
     private applicationService: ApplicationService, public dataSharedService: DataSharedService,
     private toastr: NzMessageService, private modal: NzModalService, private employeeService: EmployeeService) {
-    // const removeKanbanListIndex = this.dataSharedService.removeKanbanListIndex.subscribe((res: any) => {
-    //   if (res) {
-    //     console.log(this.listIndex)
-    //     // this.listIndex = res == this.listIndex ? this.listIndex :'';
-    //     this.listIndex = ''
-    //   }
-    // });
-    // this.subscriptions.add(removeKanbanListIndex);
   }
 
   ngOnInit() {
@@ -124,12 +123,12 @@ export class ListsComponent implements OnInit {
       let screenLink: any;
       if (type == 'add') {
         this.DrawerType = 'Add';
-        screenLink = this.screenLink;
+        screenLink = this.kanbanData?.screenLink;
       }
       else if (type == 'edit' || type == 'detail') {
         this.DrawerType = type == 'edit' ? 'Update' : 'Detail';
         this.mappingId = EditData?.id;
-        screenLink = type == 'edit' ? this.editScreenLink : this.kanbanData?.detailScreenLink;
+        screenLink = type == 'edit' ? this.kanbanData?.editScreenLink : this.kanbanData?.detailScreenLink;
       }
       if (screenLink == undefined || screenLink == '') {
         this.toastr.warning('No screen Link found', { nzDuration: 3000 });
@@ -239,6 +238,33 @@ export class ListsComponent implements OnInit {
       this.destroy$.complete();
     } catch (error) {
       console.error('Error in ngOnDestroy:', error);
+    }
+  }
+  drop(event: CdkDragDrop<any[]>, groupedByValue?: any) {
+    debugger
+    let isMovingInsideTheSameList = event.previousContainer === event.container;
+    if (isMovingInsideTheSameList) {
+      moveItemInArray(
+        event.container.data,
+        event.previousIndex,
+        event.currentIndex
+      );
+    }
+    else {
+      let previouData = JSON.parse(JSON.stringify(event.previousContainer.data));
+      transferArrayItem(
+        event.previousContainer.data,
+        event.container.data,
+        event.previousIndex,
+        event.currentIndex
+      );
+      if (previouData[event.previousIndex]) {
+        let obj: any = {
+          detail:previouData[event.previousIndex].dataObj,
+          value: groupedByValue
+        }
+        this.moveCardAcrossList.emit(obj);
+      }
     }
   }
 }

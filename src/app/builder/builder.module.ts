@@ -27,6 +27,7 @@ import { PolicyMappingComponent } from "../admin/policy-mapping/policy-mapping.c
 import { UserMappingComponent } from "../admin/user-mapping/user-mapping.component";
 import { HeadingParagrapghUpdateComponent } from './heading-paragrapgh-update/heading-paragrapgh-update.component';
 import { OtherBulkUpdateComponent } from './other-bulk-update/other-bulk-update.component';
+import { DragDropModule } from "@angular/cdk/drag-drop";
 
 @NgModule({
   declarations: [
@@ -55,6 +56,7 @@ import { OtherBulkUpdateComponent } from './other-bulk-update/other-bulk-update.
     ShareModule,
     GoogleChartsModule,
     ContextMenuModule,
+    DragDropModule,
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,

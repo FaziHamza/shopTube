@@ -65,15 +65,24 @@ export class BoardComponent implements OnInit {
     this.toastr.success('Board add!', { nzDuration: 3000 });
   }
 
-  moveCardAcrossList(movementInformation: MovementIntf) {
+  // moveCardAcrossList(movementInformation: MovementIntf) {
+  //   if (this.kanbanData.kanlistArray.some((item: any) => item.key == this.selectedGroupBy && !item?.allowDragnDrop)) {
+  //     this.toastr.warning('Not allow drag n drop on this ' + this.selectedGroupBy, { nzDuration: 3000 });
+  //     return;
+  //   }
+  //   const cardMoved = this.kanbanData.children[movementInformation.fromListIdx].children.splice(movementInformation.fromCardIdx ?? 0, 1);
+  //   this.kanbanData.children[movementInformation.toListIdx].children.splice(movementInformation?.toCardIdx ?? 0, 0, ...cardMoved);
+  //   cardMoved[0].dataObj[this.selectedGroupBy] = this.status[movementInformation.toListIdx];
+  //   this.handleEventDrop(cardMoved[0].dataObj);
+  // }
+  moveCardAcrossList(data: any) {
+    debugger
     if (this.kanbanData.kanlistArray.some((item: any) => item.key == this.selectedGroupBy && !item?.allowDragnDrop)) {
       this.toastr.warning('Not allow drag n drop on this ' + this.selectedGroupBy, { nzDuration: 3000 });
       return;
     }
-    const cardMoved = this.kanbanData.children[movementInformation.fromListIdx].children.splice(movementInformation.fromCardIdx ?? 0, 1);
-    this.kanbanData.children[movementInformation.toListIdx].children.splice(movementInformation?.toCardIdx ?? 0, 0, ...cardMoved);
-    cardMoved[0].dataObj[this.selectedGroupBy] = this.status[movementInformation.toListIdx];
-    this.handleEventDrop(cardMoved[0].dataObj);
+    data.detail[this.selectedGroupBy] = data.value;
+    this.handleEventDrop(data.detail);
   }
   handleEventDrop(obj: any) {
     let findClickApi = this.kanbanData?.appConfigurableEvent?.find((item: any) => item.rule.includes('put'));
@@ -545,7 +554,7 @@ export class BoardComponent implements OnInit {
       })
     }
   }
-  removeDropIndex(allow : boolean){
+  removeDropIndex(allow: boolean) {
     debugger
     this.dropListIndex = '';
   }

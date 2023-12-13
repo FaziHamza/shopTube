@@ -20,6 +20,7 @@ export class SummaryComponent implements OnInit {
   @Input() cardIndex: number;
   @Output() taskEditEmit: EventEmitter<any> = new EventEmitter<any>();
   @Output() taskDeleteEmit: EventEmitter<any> = new EventEmitter<any>();
+    @Input() issue: any;
   constructor(public dataSharedService: DataSharedService,) {
     // const removeKanbanListIndex = this.dataSharedService.removeKanbanListIndex.subscribe((res: any) => {
     //   if (res) {

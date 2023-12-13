@@ -1,25 +1,29 @@
-.card {
-  margin-bottom: 10px;
-  width: 300px;
-  border-radius: 7px;
+:host {
+  display: flex;
+  width: 100% !important;
+  // flex: 1;
 }
 
-.card-title {
-  font-size: 14px;
-  margin-bottom: .35rem;
+.issue-wrap {
+  touch-action: manipulation;
+  cursor: -webkit-grab;
+  cursor: grab;
+  margin-bottom: 5px;
+  width: 100% !important;
 }
 
-p.card-text {
-  max-height: 65px;
-  overflow-y: hidden;
-  text-overflow: ellipsis;
-  font-size: 10px;
-  width: 200px;
+.issue {
+  width: 100% !important;
+    display: flex;
+    flex-grow: 1;
+    flex-direction: column;
+    border-radius: .125rem;    
+    background-color: #fff;    
+    transition-property: all;
+    transition-duration: .1s;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    padding: 10px;
 }
-.text-muted {
-  font-size: 10px;
-}
-
-// .card:last-child{
-//   margin-bottom: 0px !important;
-// }
