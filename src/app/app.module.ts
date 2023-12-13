@@ -55,7 +55,6 @@ import { BuilderModule } from './builder/builder.module';
 import { NgxGraphNodeComponent } from './builder/ngx-graph-node/ngx-graph-node.component';
 import { NgxGraphModule } from '@swimlane/ngx-graph';
 import { ContextMenuModule } from '@perfectmemory/ngx-contextmenu';
-import { ChatAppModule } from './chat/chat.module';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 
 const antDesignIcons = AllIcons as {
@@ -107,7 +106,6 @@ const icons: IconDefinition[] = Object.keys(antDesignIcons).map(key => antDesign
     BuilderModule,
     NgxGraphModule,
     ContextMenuModule,
-    ChatAppModule,
     DragDropModule,
     TranslateModule.forRoot({
       loader: {
