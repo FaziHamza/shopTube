@@ -21,9 +21,9 @@
   <div [processData]="processData" [appConfigurableSelect]="kanbanData?.appConfigurableEvent "
     [loadAction]="kanbanData?.eventActionconfig ">
     <div class="flex" cdkDropListGroup>
-      <div (removeDropIndex)="removeDropIndex($event)" [kanbanData]="kanbanData" [screenLink]="kanbanData.screenLink"
+      <div [kanbanData]="kanbanData" [screenLink]="kanbanData.screenLink"
         [editScreenLink]="kanbanData.editScreenLink" [mappingId]="mappingId" [listIndex]="i"
-        (moveCardAcrossList)="moveCardAcrossList($event)" [form]="form" [formlyModel]="formlyModel"
+        (moveCardAcrossList)="moveCardAcrossList($event)" (taskDeleteEmit)="delete($event)" [form]="form" [formlyModel]="formlyModel"
         [screenId]="screenId" [screenName]="screenName" (deleteList)="deleteList($event)" attr.listIndex="{{i}}"
         (taskSubmitEmit)="recallApi($event)" [kanbanData]="kanbanData"
         [lane]="lane" *ngFor="let lane of kanbanData.children ;let i = index" st-lists class="board-dnd-list">

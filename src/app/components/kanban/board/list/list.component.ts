@@ -33,6 +33,7 @@ export class ListsComponent implements OnInit {
   @Input() kanbanData: any;
   @Input() listIndex: any;
   @Output() moveCardAcrossList: EventEmitter<MovementIntf> = new EventEmitter<MovementIntf>();
+  @Output() taskDeleteEmit: EventEmitter<MovementIntf> = new EventEmitter<MovementIntf>();
   @Output() newCardAdded: EventEmitter<Card> = new EventEmitter<CardInterface>();
   @Output() deleteList: EventEmitter<number> = new EventEmitter<number>();
   @Output() taskSubmitEmit: EventEmitter<any> = new EventEmitter<any>();
@@ -178,40 +179,7 @@ export class ListsComponent implements OnInit {
   edit(item: any) {
     this.openDrawer(item?.type, item?.detail)
   }
-  delete(data: any) {
-    const checkPermission = this.dataSharedService.getUserPolicyMenuList.find(a => a.screenId == this.dataSharedService.currentMenuLink);
-    if (!checkPermission?.delete && this.dataSharedService.currentMenuLink != '/ourbuilder') {
-      alert("You did not have permission");
-      return;
-    }
-    const model = {
-      screenId: this.screenName,
-      postType: 'delete',
-      modalData: data
-    };
-    if (this.kanbanData?.appConfigurableEvent && this.kanbanData?.appConfigurableEvent?.length > 0) {
-      // Find the 'delete' event in appConfigurableEvent
-      const findClickApi = this.kanbanData.appConfigurableEvent.find((item: any) => item.rule.includes('delete'));
-      if (findClickApi) {
-        const url = `knex-query/executeDelete-rules/${findClickApi._id}`;
-        if (url) {
 
-          this.employeeService.saveSQLDatabaseTable(url, model).subscribe({
-            next: (res) => {
-              if (res.isSuccess) {
-                // Data successfully deleted
-                this.taskSubmitEmit.emit(true);
-                this.toastr.success("Delete Successfully", { nzDuration: 3000 });
-              }
-            },
-            error: (err) => {
-              this.toastr.error(`An error occurred ${err}`, { nzDuration: 3000 });
-            }
-          });
-        }
-      }
-    }
-  }
   showDeleteConfirm(item: any): void {
     this.modal.confirm({
       nzTitle: 'Are you sure delete this record?',
@@ -223,6 +191,9 @@ export class ListsComponent implements OnInit {
       nzCancelText: 'No',
       nzOnCancel: () => console.log('Cancel')
     });
+  }
+  delete(item : any) {
+    this.taskDeleteEmit.emit(item);
   }
   ngOnDestroy(): void {
     try {
@@ -260,7 +231,7 @@ export class ListsComponent implements OnInit {
       );
       if (previouData[event.previousIndex]) {
         let obj: any = {
-          detail:previouData[event.previousIndex].dataObj,
+          detail: previouData[event.previousIndex].dataObj,
           value: groupedByValue
         }
         this.moveCardAcrossList.emit(obj);

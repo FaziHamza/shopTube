@@ -6,6 +6,7 @@ import { NzMessageService } from 'ng-zorro-antd/message';
 import { ApplicationService } from 'src/app/services/application.service';
 import { DataSharedService } from 'src/app/services/data-shared.service';
 import { Subscription } from 'rxjs';
+import { EmployeeService } from 'src/app/services/employee.service';
 
 @Component({
   selector: 'st-board',
@@ -25,7 +26,8 @@ export class BoardComponent implements OnInit {
   loader: boolean = false;
   dropListIndex: any;
   requestSubscription: Subscription;
-  constructor(private toastr: NzMessageService, private applicationServices: ApplicationService, public dataSharedService: DataSharedService) {
+  constructor(private toastr: NzMessageService, private applicationServices: ApplicationService, public dataSharedService: DataSharedService,
+    private employeeService: EmployeeService) {
     this.processData = this.processData.bind(this);
   }
 
@@ -532,7 +534,7 @@ export class BoardComponent implements OnInit {
     }
     return null;
   }
-  recallApi(event: any) {
+  recallApi(event?: any) {
     this.dropListIndex = '';
     const { _id, actionLink, data, headers, parentId, page, pageSize } = this.kanbanData.eventActionconfig;
     if (_id) {
@@ -554,8 +556,41 @@ export class BoardComponent implements OnInit {
       })
     }
   }
-  removeDropIndex(allow: boolean) {
-    debugger
-    this.dropListIndex = '';
+  delete(data: any) {
+    const checkPermission = this.dataSharedService.getUserPolicyMenuList.find(a => a.screenId == this.dataSharedService.currentMenuLink);
+    if (!checkPermission?.delete && this.dataSharedService.currentMenuLink != '/ourbuilder') {
+      alert("You did not have permission");
+      return;
+    }
+    const model = {
+      screenId: this.screenName,
+      postType: 'delete',
+      modalData: data
+    };
+    if (this.kanbanData?.appConfigurableEvent && this.kanbanData?.appConfigurableEvent?.length > 0) {
+      // Find the 'delete' event in appConfigurableEvent
+      const findClickApi = this.kanbanData.appConfigurableEvent.find((item: any) => item.rule.includes('delete'));
+      if (findClickApi) {
+        this.loader = true;
+        const url = `knex-query/executeDelete-rules/${findClickApi._id}`;
+        if (url) {
+
+          this.employeeService.saveSQLDatabaseTable(url, model).subscribe({
+            next: (res) => {
+              this.loader = false;
+              if (res.isSuccess) {
+                // Data successfully deleted
+                this.recallApi();
+                this.toastr.success("Delete Successfully", { nzDuration: 3000 });
+              }
+            },
+            error: (err) => {
+              this.loader = false;
+              this.toastr.error(`An error occurred ${err}`, { nzDuration: 3000 });
+            }
+          });
+        }
+      }
+    }
   }
 }
