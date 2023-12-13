@@ -55,7 +55,6 @@ import { BuilderModule } from './builder/builder.module';
 import { NgxGraphNodeComponent } from './builder/ngx-graph-node/ngx-graph-node.component';
 import { NgxGraphModule } from '@swimlane/ngx-graph';
 import { ContextMenuModule } from '@perfectmemory/ngx-contextmenu';
-import { ChatAppModule } from './chat/chat.module';
 
 const antDesignIcons = AllIcons as {
   [key: string]: IconDefinition;
@@ -106,7 +105,6 @@ const icons: IconDefinition[] = Object.keys(antDesignIcons).map(key => antDesign
     BuilderModule,
     NgxGraphModule,
     ContextMenuModule,
-    ChatAppModule,
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,
