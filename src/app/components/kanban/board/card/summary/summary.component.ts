@@ -9,17 +9,27 @@ import { DataSharedService } from 'src/app/services/data-shared.service';
 })
 export class SummaryComponent implements OnInit {
   @Input() formlyModel: any;
+  @Input() dropIndex: any;
   @Input() form: any;
   @Input() kanbanData: any;
   @Input() screenName: any;
   @Input() screenId: any;
+  @Input() startDragIndex: any;
   @Input() card: Card;
   @Input() listIndex: number;
   @Input() cardIndex: number;
   @Output() taskEditEmit: EventEmitter<any> = new EventEmitter<any>();
   @Output() taskDeleteEmit: EventEmitter<any> = new EventEmitter<any>();
-
-  constructor(public dataSharedService: DataSharedService,) { }
+  constructor(public dataSharedService: DataSharedService,) {
+    // const removeKanbanListIndex = this.dataSharedService.removeKanbanListIndex.subscribe((res: any) => {
+    //   if (res) {
+    //     console.log(this.listIndex)
+    //     // this.listIndex = res == this.listIndex ? this.listIndex :'';
+    //     this.listIndex = ''
+    //   }
+    // });
+    // this.subscriptions.add(removeKanbanListIndex);
+  }
 
   ngOnInit() {
 
@@ -27,6 +37,8 @@ export class SummaryComponent implements OnInit {
 
   identifyCardBeingDragged(dragEvent: DragEvent) {
     if (dragEvent.dataTransfer) {
+      // this.dataSharedService.removeKanbanListIndex.next(true);
+      this.startDragIndex = this.cardIndex;
       dragEvent.dataTransfer.effectAllowed = 'move'
       dragEvent.dataTransfer.dropEffect = 'move'
       const transferObject = {
@@ -43,11 +55,15 @@ export class SummaryComponent implements OnInit {
       dragEvent.dataTransfer.dropEffect = 'move'
     dragEvent.preventDefault();
   }
-  edit(item: any) {
-    this.taskEditEmit.emit(item?.dataObj)
+  edit(item: any, type: any) {
+    let obj = {
+      type : type,
+      detail : item?.dataObj
+    }
+    this.taskEditEmit.emit(obj)
   }
   delete(item: any) {
     this.taskDeleteEmit.emit(item?.dataObj)
   }
-  
+
 }

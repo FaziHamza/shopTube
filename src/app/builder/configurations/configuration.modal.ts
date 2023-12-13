@@ -8591,6 +8591,15 @@ export class formFeildData {
           },
         },
         {
+          key: 'detailScreenLink',
+          type: 'input',
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          wrappers: ["formly-vertical-theme-wrapper"],
+          props: {
+            label: 'Detail Screen Link',
+          },
+        },
+        {
           key: 'actionButtonClass',
           type: 'input',
           className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
@@ -8633,6 +8642,15 @@ export class formFeildData {
           wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             label: 'Allow Edit',
+          },
+        },
+        {
+          key: 'allowDetail',
+          type: 'checkbox',
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          wrappers: ["formly-vertical-theme-wrapper"],
+          props: {
+            label: 'Allow Detail',
           },
         },
         {

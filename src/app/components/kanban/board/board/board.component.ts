@@ -23,6 +23,7 @@ export class BoardComponent implements OnInit {
   status: any = [];
   originalKanbanData: any;
   loader: boolean = false;
+  dropListIndex: any;
   requestSubscription: Subscription;
   constructor(private toastr: NzMessageService, private applicationServices: ApplicationService, public dataSharedService: DataSharedService) {
     this.processData = this.processData.bind(this);
@@ -523,6 +524,7 @@ export class BoardComponent implements OnInit {
     return null;
   }
   recallApi(event: any) {
+    this.dropListIndex = '';
     const { _id, actionLink, data, headers, parentId, page, pageSize } = this.kanbanData.eventActionconfig;
     if (_id) {
       let pagination = ''
@@ -542,5 +544,9 @@ export class BoardComponent implements OnInit {
         }
       })
     }
+  }
+  removeDropIndex(allow : boolean){
+    debugger
+    this.dropListIndex = '';
   }
 }
