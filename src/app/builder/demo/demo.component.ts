@@ -1,113 +1,59 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import ZebraBrowserPrintWrapper from 'zebra-browser-print-wrapper';
+import { NatsService } from '../service/nats.service';
 
 @Component({
   selector: 'st-demo',
   templateUrl: './demo.component.html',
   styleUrls: ['./demo.component.scss'],
 })
-export class DemoComponent implements OnInit {
-  ZebraBrowserPrintWrapper = require('zebra-browser-print-wrapper');
+export class DemoComponent implements OnInit, OnDestroy {
+  rowData!: any[];
+  colDefs!: any[];
 
+  constructor(private natsService: NatsService) {}
 
-  ngOnInit(): void {
-    
+  ngOnInit() {
+    this.initializeGrid();
+    this.connectToNatsAndSubscribe();
   }
 
-  // printBarcode = async (serial: any) => {
-  //   try {
+  ngOnDestroy() {
+    this.natsService.closeConnection();
+  }
 
-  //     // Create a new instance of the object
-  //     const browserPrint = new ZebraBrowserPrintWrapper();
-
-  //     // Select default printer
-  //     const defaultPrinter = await browserPrint.getDefaultPrinter();
-
-  //     // Set the printer
-  //     browserPrint.setPrinter(defaultPrinter);
-
-  //     // Check printer status
-  //     const printerStatus = await browserPrint.checkPrinterStatus();
-
-  //     // Check if the printer is ready
-  //     if (printerStatus.isReadyToPrint) {
-
-  //       // ZPL script to print a simple barcode
-  //       const zpl = `^XA
-
-  //       ^FX Top section with logo, name and address.
-  //       ^CF0,60
-  //       ^FO50,50^GB100,100,100^FS
-  //       ^FO75,75^FR^GB100,100,100^FS
-  //       ^FO93,93^GB40,40,40^FS
-  //       ^FO220,50^FDIntershipping, Inc.^FS
-  //       ^CF0,30
-  //       ^FO220,115^FD1000 Shipping Lane^FS
-  //       ^FO220,155^FDShelbyville TN 38102^FS
-  //       ^FO220,195^FDUnited States (USA)^FS
-  //       ^FO50,250^GB700,3,3^FS
-
-  //       ^FX Second section with recipient address and permit information.
-  //       ^CFA,30
-  //       ^FO50,300^FDExpo^FS
-  //       ^FO50,340^FD100 Main Street^FS
-  //       ^FO50,380^FDSpringfield TN 39021^FS
-  //       ^FO50,420^FDUnited States (USA)^FS
-  //       ^CFA,15
-  //       ^FO600,300^GB150,150,3^FS
-  //       ^FO638,340^FDPermit^FS
-  //       ^FO638,390^FD123456^FS
-  //       ^FO50,500^GB700,3,3^FS
-
-  //       ^FX Third section with bar code.
-  //       ^BY5,2,270
-  //       ^FO100,550^BC^FD12345678^FS
-
-  //       ^FX Fourth section (the two boxes on the bottom).
-  //       ^FO50,900^GB700,250,3^FS
-  //       ^FO400,900^GB3,250,3^FS
-  //       ^CF0,40
-  //       ^FO100,960^FDCtr. X34B-1^FS
-  //       ^FO100,1010^FDREF1 F00B47^FS
-  //       ^FO100,1060^FDREF2 BL4H8^FS
-  //       ^CF0,190
-  //       ^FO470,955^FDCA^FS
-  //       ^XZ`;
-
-  //       browserPrint.print(zpl);
-  //     } else {
-  //       console.log("Error/s", printerStatus.errors);
-  //     }
-
-  //   } catch (error: any) {
-  //     console.log(error)
-  //     // throw new Error(error);
-  //   }
-  // }
-  printBarcode = async () => {
+  initializeGrid() {
+    // Define your column definitions here
+    this.colDefs = [
+      { field: 'tconst' },
+      // ... other fields
+    ];
+  }
+  myFun(){
+    const jsonString = JSON.stringify("get");
+    this.natsService.publishMessage('getalltitlebasicV1', jsonString);
+  }
+  async connectToNatsAndSubscribe() {
     try {
-      const printContents = document.getElementById('imageToPrint');
-      let popupWin: any = window.open('', '_blank', 'width=auto,height=auto');
-      popupWin.document.open();
-      popupWin.document.write(`
-      <html>
-        <body onload="window.print();">
-        ^XA
-        ^MMT
-        ^PW406
-        ^LL0203
-        ^LS0
-        ^FT90,250^BQN,2,4
-        ^FH\^FDLA,https://s3.me-south-1.amazonaws.com/campaigns.expocitydubai.com/pdfs/generated_pdf_1700311607606.pdf^FS
-        ^PQ1,0,1,Y
-        ^XZ
-        </body>
-      </html>`
-      );
-      popupWin.document.close();
-    } catch (error: any) {
-      console.log(error)
-      // throw new Error(error);
+      debugger
+      await this.natsService.connectToNats('ws://172.23.0.5:9090');
+      this.natsService.subscribeToSubject('getalldatacallbackV1', (err, data) => {
+        if (err) {
+          console.error('Error:', err);
+          return;
+        }
+        this.rowData = JSON.parse(data);
+      });
+    } catch (error) {
+      console.error('Error connecting to NATS:', error);
     }
+  }
+
+  getData() {
+    // Replace with your subject and data
+    this.natsService.publishMessage('getalltitlebasic.subject', 'Your Message Here');
+  }
+  clear(){
+    this.rowData =[];
   }
 }

@@ -1,1 +1,27 @@
-<button nz-button nzType="primary"  class="btn-no m-2" (click)="printBarcode()">Print Zebra</button>
+<p>data works!</p>
+<button (click)="myFun()" > CLick me </button>
+<button (click)="clear()" > clear me </button>
+<!-- {{rowData}} -->
+<nz-table #basicTable [nzData]="rowData">
+    <thead>
+      <tr>
+        <th nzWidth="100px">Title Type</th>
+        <th nzWidth="100px">Primary Title</th>
+        <th nzWidth="100px">Original Title</th>
+        <th nzWidth="50px">Year</th>
+        <th nzWidth="50px">Runtime</th>
+        <th nzWidth="100px">Genres</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let item of basicTable.data">
+        <td>{{ item.titletype }}</td>
+        <td>{{ item.primarytitle }}</td>
+        <td>{{ item.originaltitle }}</td>
+        <td>{{ item.startyear }} - {{ item.endyear }}</td>
+        <td>{{ item.runtimeminutes }} mins</td>
+        <td>{{ item.genres.join(', ') }}</td>
+      </tr>
+    </tbody>
+  </nz-table>
+  
