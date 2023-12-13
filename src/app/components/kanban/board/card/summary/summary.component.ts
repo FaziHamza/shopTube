@@ -20,16 +20,10 @@ export class SummaryComponent implements OnInit {
   @Input() cardIndex: number;
   @Output() taskEditEmit: EventEmitter<any> = new EventEmitter<any>();
   @Output() taskDeleteEmit: EventEmitter<any> = new EventEmitter<any>();
-    @Input() issue: any;
+  @Input() issue: any;
+  @Input() recordIndex: any;
   constructor(public dataSharedService: DataSharedService,) {
-    // const removeKanbanListIndex = this.dataSharedService.removeKanbanListIndex.subscribe((res: any) => {
-    //   if (res) {
-    //     console.log(this.listIndex)
-    //     // this.listIndex = res == this.listIndex ? this.listIndex :'';
-    //     this.listIndex = ''
-    //   }
-    // });
-    // this.subscriptions.add(removeKanbanListIndex);
+
   }
 
   ngOnInit() {
@@ -58,12 +52,13 @@ export class SummaryComponent implements OnInit {
   }
   edit(item: any, type: any) {
     let obj = {
-      type : type,
-      detail : item?.dataObj
+      type: type,
+      detail: item?.dataObj
     }
     this.taskEditEmit.emit(obj)
   }
   delete(item: any) {
+    item.dataObj['index'] = this.recordIndex;
     this.taskDeleteEmit.emit(item?.dataObj)
   }
 

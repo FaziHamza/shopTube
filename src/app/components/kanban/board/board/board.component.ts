@@ -579,8 +579,14 @@ export class BoardComponent implements OnInit {
             next: (res) => {
               this.loader = false;
               if (res.isSuccess) {
+                if (this.kanbanData.children[data.listIndex].children.length > 1) {
+                  this.kanbanData.children[data.listIndex].children.splice(data.index, 1);
+                } else {
+                  this.kanbanData.children.splice(data.listIndex, 1)
+                }
+
                 // Data successfully deleted
-                this.recallApi();
+                // this.recallApi();
                 this.toastr.success("Delete Successfully", { nzDuration: 3000 });
               }
             },

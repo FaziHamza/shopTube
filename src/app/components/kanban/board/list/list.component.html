@@ -17,9 +17,10 @@
     </div>
     <div class="issue-card-container pl-2 px-2 overflow-auto !h-[calc(100vh-360px)]" cdkDropList
       [cdkDropListData]="lane.children" (cdkDropListDropped)="drop($event , lane.title)" [id]="lane.id">
-      <st-card-summary (taskDeleteEmit)="showDeleteConfirm($event)" (taskEditEmit)="edit($event)" [form]="form"
+      <st-card-summary [recordIndex]="i" (taskDeleteEmit)="showDeleteConfirm($event)" (taskEditEmit)="edit($event)" [form]="form"
         [kanbanData]="kanbanData" [formlyModel]="formlyModel" [screenId]="screenId" [screenName]="screenName"
-        [kanbanData]="kanbanData" *ngFor="let issue of lane.children" [issue]="issue" [cdkDragData]="issue" cdkDrag>
+        [kanbanData]="kanbanData" *ngFor="let issue of lane.children ; let i =index" [issue]="issue"
+        [cdkDragData]="issue" cdkDrag>
       </st-card-summary>
     </div>
   </div>

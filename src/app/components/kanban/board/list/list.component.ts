@@ -192,7 +192,8 @@ export class ListsComponent implements OnInit {
       nzOnCancel: () => console.log('Cancel')
     });
   }
-  delete(item : any) {
+  delete(item: any) {
+    item['listIndex'] = this.listIndex;
     this.taskDeleteEmit.emit(item);
   }
   ngOnDestroy(): void {
