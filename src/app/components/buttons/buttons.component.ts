@@ -90,7 +90,7 @@ export class ButtonsComponent implements OnInit {
   }
 
   pagesRoute(data: any): void {
-
+    debugger
     if (data.isSubmit) {
       return;
     }
@@ -181,7 +181,10 @@ export class ButtonsComponent implements OnInit {
           this.requestSubscription = this.activatedRoute.params.subscribe((params: Params) => {
             if (params["id"]) {
               window.open('/pages/' + data.href + '/' + params["id"]);
-            } else {
+            }else if(data.href.includes('https://www')){
+              window.open(data.href);
+            }  
+            else {
               window.open('/pages/' + data.href);
             }
           });
@@ -191,11 +194,19 @@ export class ButtonsComponent implements OnInit {
       case '':
         if (this.tableRowId) {
           this.router.navigate(['/pages/' + data.href + '/' + this.tableRowId]);
-        } else {
+        } 
+        else if(data.href.includes('https://www')){
+          window.location.href = data.href;
+        }
+        else {
           this.requestSubscription = this.activatedRoute.params.subscribe((params: Params) => {
             if (params["id"]) {
               this.router.navigate(['/pages/' + data.href + '/' + params["id"]])
-            } else {
+            }
+            else if(data.href.includes('https://www')){
+              this.router.navigate([data.href]);
+            } 
+            else {
               this.router.navigate(['/pages/' + data.href]);
             }
           });

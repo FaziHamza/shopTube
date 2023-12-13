@@ -1,46 +1,59 @@
-import { Component, ElementRef, EventEmitter, Inject, Input, OnInit, Output } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Inject, Input, OnInit, Output, ViewEncapsulation } from '@angular/core';
 import { ListInterface } from '../../model/list/list.model';
 import { Movement, MovementIntf } from '../../model/card/movement';
 import { Card, CardInterface } from '../../model/card/card.model';
 import { DOCUMENT } from '@angular/common';
 import { DataSharedService } from 'src/app/services/data-shared.service';
-import { Subscription } from 'rxjs';
+import { Subject, Subscription } from 'rxjs';
 import { ApplicationService } from 'src/app/services/application.service';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { debug } from 'console';
 import { NzModalService } from 'ng-zorro-antd/modal';
 import { EmployeeService } from 'src/app/services/employee.service';
+import {
+  CdkDragDrop,
+  moveItemInArray,
+  transferArrayItem
+} from '@angular/cdk/drag-drop';
 
 @Component({
-  selector: 'st-lists',
+  selector: '[st-lists]',
   templateUrl: './list.component.html',
-  styleUrls: ['./list.component.scss']
+  styleUrls: ['./list.component.scss'],
+  encapsulation: ViewEncapsulation.None
 })
 export class ListsComponent implements OnInit {
   @Input() kanban: any;
   @Input() mappingId: any;
   @Input() screenLink: any;
   @Input() editScreenLink: any;
+  @Input() dropListIndex: any;
+  @Input() lane: any;
   @Input() list: any;
   @Input() kanbanData: any;
-  @Input() listIndex: number;
+  @Input() listIndex: any;
   @Output() moveCardAcrossList: EventEmitter<MovementIntf> = new EventEmitter<MovementIntf>();
+  @Output() taskDeleteEmit: EventEmitter<MovementIntf> = new EventEmitter<MovementIntf>();
   @Output() newCardAdded: EventEmitter<Card> = new EventEmitter<CardInterface>();
   @Output() deleteList: EventEmitter<number> = new EventEmitter<number>();
   @Output() taskSubmitEmit: EventEmitter<any> = new EventEmitter<any>();
+  @Output() removeDropIndex: EventEmitter<any> = new EventEmitter<any>();
   @Input() formlyModel: any;
   @Input() form: any;
   @Input() screenName: any;
   @Input() screenId: any;
   loader: boolean = false;
   isVisible = false;
-  eidt: boolean = false;
-
+  DrawerType: any = 'add';
+  startDragIndex: any;
   private cardCount = 0;
-
+  dropCardIndex: any;
+  private subscriptions: Subscription = new Subscription();
+  private destroy$: Subject<void> = new Subject<void>();
   constructor(private elementRef: ElementRef, @Inject(DOCUMENT) private document: Document,
     private applicationService: ApplicationService, public dataSharedService: DataSharedService,
-    private toastr: NzMessageService, private modal: NzModalService, private employeeService: EmployeeService) { }
+    private toastr: NzMessageService, private modal: NzModalService, private employeeService: EmployeeService) {
+  }
 
   ngOnInit() {
   }
@@ -57,6 +70,20 @@ export class ListsComponent implements OnInit {
     if (dragEvent.dataTransfer)
       dragEvent.dataTransfer.dropEffect = 'move';
     dragEvent.preventDefault();
+    const elements: Element[] = this.document.elementsFromPoint(dragEvent.x, dragEvent.y);
+    const cardElementBeingDroppedOn = elements.find(x => x.tagName.toLowerCase() === 'st-card-summary');
+    const listElementBeingDroppedOn = elements.find(x => x.tagName.toLowerCase() === 'st-lists');
+    if (listElementBeingDroppedOn && listElementBeingDroppedOn.getAttribute('listIndex')) {
+      this.dropListIndex = parseInt(listElementBeingDroppedOn.getAttribute('listIndex') ?? '', 10);
+      // this.dataSharedService.removeKanbanListIndex.next(this.dropListIndex);
+      this.dropCardIndex = cardElementBeingDroppedOn === undefined ? undefined :
+        parseInt(cardElementBeingDroppedOn.getAttribute('cardIndex') ?? '', 10);
+      if (dragEvent.dataTransfer) {
+        const data = JSON.parse(dragEvent.dataTransfer.getData('text'));
+        const listIndexDragged = parseInt(data.listIndex, 10);
+        this.dropListIndex = listIndexDragged == this.dropListIndex ? '' : this.dropListIndex;
+      }
+    }
   }
 
 
@@ -94,14 +121,22 @@ export class ListsComponent implements OnInit {
     debugger
     if (this.screenLink) {
       this.isVisible = true;
-      if (type == 'edit') {
-        this.eidt = true;
+      let screenLink: any;
+      if (type == 'add') {
+        this.DrawerType = 'Add';
+        screenLink = this.kanbanData?.screenLink;
+      }
+      else if (type == 'edit' || type == 'detail') {
+        this.DrawerType = type == 'edit' ? 'Update' : 'Detail';
         this.mappingId = EditData?.id;
-      } else {
-        this.eidt = false;
+        screenLink = type == 'edit' ? this.kanbanData?.editScreenLink : this.kanbanData?.detailScreenLink;
+      }
+      if (screenLink == undefined || screenLink == '') {
+        this.toastr.warning('No screen Link found', { nzDuration: 3000 });
+        return;
       }
       this.loader = true
-      this.requestSubscription = this.applicationService.getNestCommonAPIById('cp/Builder', type == 'edit' ? this.editScreenLink : this.screenLink).subscribe({
+      this.requestSubscription = this.applicationService.getNestCommonAPIById('cp/Builder', screenLink).subscribe({
         next: (res: any) => {
           try {
             if (res.isSuccess) {
@@ -142,42 +177,9 @@ export class ListsComponent implements OnInit {
       this.taskSubmitEmit.emit(true)
   }
   edit(item: any) {
-    this.openDrawer('edit', item)
+    this.openDrawer(item?.type, item?.detail)
   }
-  delete(data: any) {
-    const checkPermission = this.dataSharedService.getUserPolicyMenuList.find(a => a.screenId == this.dataSharedService.currentMenuLink);
-    if (!checkPermission?.delete && this.dataSharedService.currentMenuLink != '/ourbuilder') {
-      alert("You did not have permission");
-      return;
-    }
-    const model = {
-      screenId: this.screenName,
-      postType: 'delete',
-      modalData: data
-    };
-    if (this.kanbanData?.appConfigurableEvent && this.kanbanData?.appConfigurableEvent?.length > 0) {
-      // Find the 'delete' event in appConfigurableEvent
-      const findClickApi = this.kanbanData.appConfigurableEvent.find((item: any) => item.rule.includes('delete'));
-      if (findClickApi) {
-        const url = `knex-query/executeDelete-rules/${findClickApi._id}`;
-        if (url) {
 
-          this.employeeService.saveSQLDatabaseTable(url, model).subscribe({
-            next: (res) => {
-              if (res.isSuccess) {
-                // Data successfully deleted
-                this.taskSubmitEmit.emit(true);
-                this.toastr.success("Delete Successfully", { nzDuration: 3000 });
-              }
-            },
-            error: (err) => {
-              this.toastr.error(`An error occurred ${err}`, { nzDuration: 3000 });
-            }
-          });
-        }
-      }
-    }
-  }
   showDeleteConfirm(item: any): void {
     this.modal.confirm({
       nzTitle: 'Are you sure delete this record?',
@@ -190,5 +192,51 @@ export class ListsComponent implements OnInit {
       nzOnCancel: () => console.log('Cancel')
     });
   }
+  delete(item: any) {
+    item['listIndex'] = this.listIndex;
+    this.taskDeleteEmit.emit(item);
+  }
+  ngOnDestroy(): void {
+    try {
+      if (this.requestSubscription) {
+        this.requestSubscription.unsubscribe();
+      }
 
+      if (this.subscriptions) {
+        this.subscriptions.unsubscribe();
+      }
+
+      this.destroy$.next();
+      this.destroy$.complete();
+    } catch (error) {
+      console.error('Error in ngOnDestroy:', error);
+    }
+  }
+  drop(event: CdkDragDrop<any[]>, groupedByValue?: any) {
+    debugger
+    let isMovingInsideTheSameList = event.previousContainer === event.container;
+    if (isMovingInsideTheSameList) {
+      moveItemInArray(
+        event.container.data,
+        event.previousIndex,
+        event.currentIndex
+      );
+    }
+    else {
+      let previouData = JSON.parse(JSON.stringify(event.previousContainer.data));
+      transferArrayItem(
+        event.previousContainer.data,
+        event.container.data,
+        event.previousIndex,
+        event.currentIndex
+      );
+      if (previouData[event.previousIndex]) {
+        let obj: any = {
+          detail: previouData[event.previousIndex].dataObj,
+          value: groupedByValue
+        }
+        this.moveCardAcrossList.emit(obj);
+      }
+    }
+  }
 }

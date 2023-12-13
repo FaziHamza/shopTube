@@ -1,14 +1,4 @@
 <nz-spin [nzSpinning]="loader" [nzSize]="'large'">
-  <!-- <button [processData]="processData"
-  [appConfigurableSelect]="kanbanData?.appConfigurableEvent ? kanbanData?.appConfigurableEvent : []"
-  [loadAction]="kanbanData?.eventActionconfig ? kanbanData?.eventActionconfig : {}" *ngIf="this.kanbanData.showAddbtn"
-  nz-button nzType="primary" (click)="addList()">
-  <i class="fa-regular fa-plus"></i>
-  Add
-  new</button>
-<button class="ml-2" nz-button nzType="primary" (click)="saveBoard()">
-  <i class="fa-regular fa-plus"></i>
-  Save</button> -->
   <div class="w-full flex justify-between items-center">
     <h1 class="text-xl font-semibold">{{kanbanData?.title}}</h1>
     <button *ngIf="this.kanbanData?.kanlistArray" nz-button nzType="primary"
@@ -18,7 +8,7 @@
       <span nz-icon nzType="down"></span>
     </button>
   </div>
-  <!-- liist -->
+  <!-- list -->
   <nz-dropdown-menu #menu4="nzDropdownMenu" class="action-drop-down-list">
     <ul *ngIf="this.kanbanData?.kanlistArray" nz-menu class="!p-2">
       <ng-container *ngFor="let item of this.kanbanData['kanlistArray']">
@@ -28,24 +18,16 @@
       </ng-container>
     </ul>
   </nz-dropdown-menu>
-  <nz-card [processData]="processData" [appConfigurableSelect]="kanbanData?.appConfigurableEvent "
-    [loadAction]="kanbanData?.eventActionconfig " class="overflow-x-auto mt-2 card">
-    <!-- <div class="row">
-      <div class="col-11"></div>
-      <div class="col"><button (click)="saveBoard()">Save</button></div>
-    </div> -->
-    <div class="flex flex-nowrap flex-row overflow-y-hidden overflow-x-auto h-[calc(100vh-235px)]">
-      <div class="p-1" *ngFor="let list of kanbanData.children;let i = index">
-        <st-lists [list]="list" [kanbanData]="kanbanData" [screenLink]="kanbanData.screenLink"
-          [editScreenLink]="kanbanData.editScreenLink" [mappingId]="mappingId" [listIndex]="i"
-          (moveCardAcrossList)="moveCardAcrossList($event)" [form]="form" [formlyModel]="formlyModel"
-          [screenId]="screenId" [screenName]="screenName" (deleteList)="deleteList($event)" attr.listIndex="{{i}}"
-          (taskSubmitEmit)="recallApi($event)"></st-lists>
+  <div class="w-full overflow-hidden h-[calc(100vh-154px)]  !overflow-x-auto" [processData]="processData" [appConfigurableSelect]="kanbanData?.appConfigurableEvent "
+    [loadAction]="kanbanData?.eventActionconfig ">
+    <div class="flex h-full" cdkDropListGroup>
+      <div [kanbanData]="kanbanData" [screenLink]="kanbanData.screenLink"
+        [editScreenLink]="kanbanData.editScreenLink" [mappingId]="mappingId" [listIndex]="i"
+        (moveCardAcrossList)="moveCardAcrossList($event)" (taskDeleteEmit)="delete($event)" [form]="form" [formlyModel]="formlyModel"
+        [screenId]="screenId" [screenName]="screenName" (deleteList)="deleteList($event)" attr.listIndex="{{i}}"
+        (taskSubmitEmit)="recallApi($event)" [kanbanData]="kanbanData"
+        [lane]="lane" *ngFor="let lane of kanbanData.children ;let i = index" st-lists class="board-dnd-list h-full">
       </div>
     </div>
-    <!-- <div class="" style="margin:10px;padding:15px;padding-top:15px;padding-bottom:15px;">
-      <h6 class="text-center add-new-list" *ngIf="kanbanData.showAddbtn && lists.length < kanbanData.maxLength"
-        (click)="addList()">Add new item...</h6>
-    </div> -->
-  </nz-card>
+  </div>
 </nz-spin>

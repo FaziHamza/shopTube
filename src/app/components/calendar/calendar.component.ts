@@ -152,6 +152,7 @@ export class CalendarComponent {
     return `${year}-${month}-${day}`;
   }
   handleEventDrop(arg: EventDropArg) {
+    debugger
     let findClickApi = this.calenderData?.appConfigurableEvent?.find((item: any) => item.rule.includes('put'));
     const checkPermission = this.dataSharedService.getUserPolicyMenuList.find(a => a.screenId == this.dataSharedService.currentMenuLink);
     if (!checkPermission?.update && this.dataSharedService.currentMenuLink != '/ourbuilder') {
@@ -169,25 +170,23 @@ export class CalendarComponent {
     }
     const newStart: any = arg.event.start;
     const date = new Date(newStart.toString());
-    const newdateData = date.toISOString();
-    const formattedDate = newdateData.split('T')[0];
-    
-    // Parse the formatted date
-    const currentDate = moment(formattedDate);
-    
+
+    // Parse the date using Moment.js
+    const currentDate = moment(date);
+
     // Add 1 day
     currentDate.add(1, 'days');
-    
-    // Format the date back to 'YYYY-MM-DDTHH:mm:ss.SSSZ'
-    const formattedDatePlus1Day = currentDate.toISOString();
 
+    // Format the date to ISO format 'YYYY-MM-DDTHH:mm:ss.SSSZ'
+    const newdateData = currentDate.toISOString();
 
+    console.log(newdateData)
     const model = {
       screenId: this.screenName,
       postType: 'put',
       modalData: {
         'id': arg.event.id,
-        'datetime': `'${formattedDatePlus1Day}'`,
+        'datetime': `'${newdateData}'`,
       }
     };
     this.loader = true;
