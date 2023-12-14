@@ -458,9 +458,9 @@ export class ApplicationBuilderComponent implements OnInit {
       this.loadDepartmentFields();
       this.applicationSubmit = false;
     }
-    if (this.isSubmit && this.applicationSubmit) {
-      this.model['defaultApplication'] = "64abfe6476ac2e992aa14d88";
-    }
+    // if (this.isSubmit && this.applicationSubmit) {
+    //   this.model['defaultApplication'] = "64abfe6476ac2e992aa14d88";
+    // }
     this.isVisible = true;
     if (!this.isSubmit) {
       this.isSubmit = true;
@@ -503,7 +503,6 @@ export class ApplicationBuilderComponent implements OnInit {
   }
 
   onSubmit() {
-
     if (!this.myForm.valid) {
       this.handleCancel();
       return;
@@ -543,8 +542,9 @@ export class ApplicationBuilderComponent implements OnInit {
       if (this.applicationSubmit && key == "applicationId" && this.isSubmit) {
 
         this.handleCancel();
-        this.loading = true
-        this.applicationService.addNestCommonAPI(`applications/${this.myForm.value.defaultApplication}/clone`, this.myForm.value).subscribe({
+        this.loading = true;
+        const defaultCheck = '/' + this.myForm.value.defaultApplication ??"''";
+        this.applicationService.addNestCommonAPI(`applications/clone${defaultCheck}`, this.myForm.value).subscribe({
           next: (res: any) => {
             if (res.isSuccess) {
               this.getDepartment();
@@ -850,7 +850,7 @@ export class ApplicationBuilderComponent implements OnInit {
             defaultValue: '',
             props: {
               label: 'Default Application',
-              required: true,
+              // required: true,
               additionalProperties: {
                 allowClear: true,
                 serveSearch: false,
