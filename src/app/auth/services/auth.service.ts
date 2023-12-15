@@ -77,7 +77,11 @@ export class AuthService {
     let url = environment.nestBaseUrl + "forgot/resetpassword";
     return this.http.post(url, model)
   }
-
+  getNestCommonAPI(api: string): Observable<any> {
+    return this.http.get<any>(
+      api.includes('http') ? api : environment.nestBaseUrl + api
+    );
+  }
   // Register
   // public userRegister(model: LoginModel) {
     

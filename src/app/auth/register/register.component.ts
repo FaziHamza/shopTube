@@ -22,18 +22,14 @@ export class RegisterComponent implements OnInit {
   passwordIcon: string = "fa-light fa-eye-slash text-lg";
   confirmpasswordIcon: string = "fa-light fa-eye-slash text-lg";
 
-  cascaderValue: any[] = [];
-  cascaderData: any[] = [];
-  applications: any[] = [];
-  departments: any[] = [];
-  organizations: any[] = [];
+  applications: any;
   loader: boolean = false;
   form: FormGroup;
   showRecaptcha: boolean = false;
   recaptchaResponse = '';
   isFormSubmit: boolean = false;
   saveLoader: boolean = false;
-  constructor(private applicationService: ApplicationService, private authService: AuthService, private router: Router,
+  constructor(private authService: AuthService, private router: Router,
     private toastr: NzMessageService, private formBuilder: FormBuilder, @Optional() drawerRef: NzDrawerRef<any>) {
       this.drawerRef = drawerRef;
      }
@@ -41,7 +37,7 @@ export class RegisterComponent implements OnInit {
   ngOnInit(): void {
     this.loadScript();
     this.create();
-    // this.organizationBuilder();
+    this.getApplicationData();
   }
   get f() {
     return this.form.controls;
@@ -72,28 +68,13 @@ export class RegisterComponent implements OnInit {
     }
   }
 
-  organizationBuilder() {
+  getApplicationData() {
     this.loader = true;
-    this.applicationService.getNestCommonAPI('cp/Organization').subscribe({
+    const hostUrl = window.location.host.split(':')[0];
+    this.authService.getNestCommonAPI('auth/domain/'+hostUrl).subscribe({
       next: (res: any) => {
         if (res.isSuccess) {
-          if (res.data.length > 0) {
-            this.organizations = res.data;
-            this.cascaderData = res.data?.map((data: any) => {
-              return {
-                label: data.name,
-                value: data._id
-              };
-            });
-            let header = {
-              label: 'Select organizations',
-              value: 'selectOrganizations'
-            }
-            this.cascaderData.unshift(header)
-          } else {
-            this.organizations = [];
-            this.cascaderData = [];
-          }
+          this.applications = res.data;
         }
         else {
           this.toastr.error(res.message, { nzDuration: 3000 }); // Show an error message to the user
@@ -106,78 +87,7 @@ export class RegisterComponent implements OnInit {
       },
     });
   }
-  async loadData(node: NzCascaderOption, index: number): Promise<void> {
-    if (index === 0 && node.value != 'selectOrganizations') {
-      try {
-        const res = await this.applicationService.getNestCommonAPIById('cp/Department', node.value).toPromise();
-        if (res.isSuccess) {
-          this.departments = res.data;
-          const departments = res.data.map((dep: any) => {
-            return {
-              label: dep.name,
-              value: dep._id,
-            };
-          });
-          let header = {
-            label: 'Select Department',
-            value: 'selectdepartment'
-          }
-          departments.unshift(header)
-          node.children = departments;
-        } else {
-          this.toastr.error(res.message, { nzDuration: 3000 });
-        }
-      } catch (err) {
-        console.error('Error loader screen data:', err);
-        this.toastr.error('An error occurred while loader screen data', { nzDuration: 3000 });
-      }
-    }
-    else if (index === 1 && node.value != 'selectdepartment') {
-      try {
-        const res = await this.applicationService.getNestCommonAPIById('cp/Application', node.value).toPromise();
-        if (res.isSuccess) {
-          const applications = res.data.map((appData: any) => {
-            return {
-              label: appData.name,
-              value: appData._id,
-              isLeaf: true
-            };
-          });
-          let header = {
-            label: 'Select Application',
-            value: 'selectApplication'
-          }
-          applications.unshift(header)
-          node.children = applications;
-        } else {
-          this.toastr.error(res.message, { nzDuration: 3000 });
-        }
-      } catch (err) {
-        console.error('Error loader screen data:', err);
-        this.toastr.error('An error occurred while loader screen data', { nzDuration: 3000 });
-      }
-    }
-  }
-  onDepartmentChange(value: any) {
-    if (value.length === 2) {
-      const selectedNode = this.departments.find((a: any) => a._id == value[1]);
-      if (selectedNode) {
-        let data = {
-          label: selectedNode.name,
-          value: selectedNode._id,
-          children: []
-        }
-        this.loadData(data, 1);
-      }
-    }
-    else if (value.length === 1) {
-      const selectedNode = this.cascaderData.find((a: any) => a.value == value[0]);
-      if (selectedNode.children && selectedNode?.children?.length > 0) {
-        selectedNode.children = [];
-        this.loadData(selectedNode, 0);
-      }
-    }
-  }
+  
   // ngAfterViewInit() {
   //   // Render reCAPTCHA using the reCAPTCHA site key
   //   grecaptcha.render('recaptcha', {
@@ -218,8 +128,8 @@ export class RegisterComponent implements OnInit {
       "companyName": this.form.value.companyname,
       "password": this.form.value.password,
       "accreditationNumber": this.form.value.accreditationNumber,
-      "organizationId": environment.organizationId,
-      "applicationId": environment.applicationId,
+      "organizationId": this.applications?.department?.organizationId || environment.organizationId,
+      "applicationId":  this.applications?.application?._id || environment.applicationId,
       "status": 'Pending',
       "domain": window.location.host.split(':')[0],
       "contactnumber": this.form.value.contactnumber,
