@@ -432,39 +432,28 @@ export class ApplicationBuilderComponent implements OnInit {
         this.loading = false;
       });
   }
-  openModal(type: any, selectedAllow?: boolean, departmentId?: any) {
-
+  openModal(type: any, eidt?: boolean) {
     if (this.isSubmit) {
       for (let prop in this.model) {
         if (this.model.hasOwnProperty(prop)) {
           this.model[prop] = null;
         }
       }
+      this.model = {};
+      this.myForm = new FormGroup({});
     }
-    this.model = {};
-    this.myForm = new FormGroup({});
-    if (type == 'application') {
-      this.loadApplicationFields();
-      if (selectedAllow) {
-        this.fields.forEach((element: any) => {
-          if (element.fieldGroup[0].key === 'departmentId') {
-            this.model.departmentId = departmentId;
-            // element.fieldGroup[0].props.disabled = true;
-          }
-        });
+    this.applicationSubmit = type == 'application' ? true : false;
+    if (eidt == false || eidt == undefined) {
+      if(type == 'application'){
+        this.loadApplicationFields();
+      }else{
+        this.loadDepartmentFields();
       }
-      this.applicationSubmit = true;
-    } else {
-      this.loadDepartmentFields();
-      this.applicationSubmit = false;
     }
-    // if (this.isSubmit && this.applicationSubmit) {
-    //   this.model['defaultApplication'] = "64abfe6476ac2e992aa14d88";
-    // }
     this.isVisible = true;
-    if (!this.isSubmit) {
-      this.isSubmit = true;
-    }
+    // if (!this.isSubmit) {
+    //   this.isSubmit = true;
+    // }
   }
   applicationTheme() {
     const modal =
@@ -474,7 +463,7 @@ export class ApplicationBuilderComponent implements OnInit {
         nzContent: ApplicationThemeComponent,
         // nzViewContainerRef: this.viewContainerRef,
         nzComponentParams: {
-          applicationList : this.listOfChildrenData,
+          applicationList: this.listOfChildrenData,
         },
         // nzOnOk: () => new Promise(resolve => setTimeout(resolve, 1000)),
         nzFooter: [],
@@ -488,6 +477,7 @@ export class ApplicationBuilderComponent implements OnInit {
   }
   handleCancel(): void {
     this.isVisible = false;
+    this.isSubmit =  true;
   }
   getOrganizationData() {
     this.applicationService.getNestCommonAPI('cp/Organization').subscribe(((res: any) => {
@@ -543,7 +533,7 @@ export class ApplicationBuilderComponent implements OnInit {
 
         this.handleCancel();
         this.loading = true;
-        const defaultCheck = '/' + this.myForm.value.defaultApplication ??"''";
+        const defaultCheck = '/' + this.myForm.value.defaultApplication ?? "''";
         this.applicationService.addNestCommonAPI(`applications/clone${defaultCheck}`, this.myForm.value).subscribe({
           next: (res: any) => {
             if (res.isSuccess) {
@@ -585,9 +575,19 @@ export class ApplicationBuilderComponent implements OnInit {
       }
     }
   }
-  editItem(item: any) {
+  editItem(item: any, type: any) {
+    if (type == 'application') {
+      this.loadApplicationFields();
+      let data = this.fields.filter((fieldsData: any) => {
+        return fieldsData.fieldGroup[0].key != 'email' && fieldsData.fieldGroup[0].key != 'password';
+      });
+      this.fields = data;
+    } else {
+      this.loadDepartmentFields();
+    }
     this.model = JSON.parse(JSON.stringify(item));
     this.isSubmit = false;
+    this.openModal(type , true)
   }
 
 
@@ -774,20 +774,6 @@ export class ApplicationBuilderComponent implements OnInit {
       {
         fieldGroup: [
           {
-            key: 'email',
-            type: 'input',
-            wrappers: ["formly-vertical-theme-wrapper"],
-            defaultValue: '',
-            props: {
-              label: 'Email',
-              placeholder: 'Email...',
-            }
-          },
-        ],
-      },
-      {
-        fieldGroup: [
-          {
             key: 'description',
             type: 'input',
             wrappers: ["formly-vertical-theme-wrapper"],
@@ -795,6 +781,36 @@ export class ApplicationBuilderComponent implements OnInit {
             props: {
               label: 'Description',
               placeholder: 'Description...',
+            }
+          },
+        ],
+      },
+      {
+        fieldGroup: [
+          {
+            key: 'email',
+            type: 'input',
+            wrappers: ["formly-vertical-theme-wrapper"],
+            defaultValue: '',
+            props: {
+              label: 'Email',
+              placeholder: 'Email...',
+              required: true,
+            }
+          },
+        ],
+      },
+      {
+        fieldGroup: [
+          {
+            key: 'password',
+            type: 'input',
+            wrappers: ["formly-vertical-theme-wrapper"],
+            defaultValue: '',
+            props: {
+              label: 'Password',
+              placeholder: 'password...',
+              required: true,
             }
           },
         ],
@@ -876,42 +892,43 @@ export class ApplicationBuilderComponent implements OnInit {
             }
           },
         ],
-      },
-      {
-        fieldGroup: [
-          {
-            key: 'primaryColor',
-            type: 'input',
-            wrappers: ["formly-vertical-theme-wrapper"],
-            defaultValue: '',
-            props: {
-              type: 'color',
-              label: 'Primary Color',
-              additionalProperties: {
-                tooltip: "This class used for app-primary-color",
-              }
-            }
-          },
-        ],
-      },
-      {
-        fieldGroup: [
-          {
-            key: 'secondaryColor',
-            type: 'input',
-            wrappers: ["formly-vertical-theme-wrapper"],
-            defaultValue: '',
-            props: {
-              type: 'color',
-              label: 'Secondary Color',
-              additionalProperties: {
-                tooltip: "This class used for app-secondary-color",
-              }
-            }
-          },
-        ],
       }
+      // {
+      //   fieldGroup: [
+      //     {
+      //       key: 'primaryColor',
+      //       type: 'input',
+      //       wrappers: ["formly-vertical-theme-wrapper"],
+      //       defaultValue: '',
+      //       props: {
+      //         type: 'color',
+      //         label: 'Primary Color',
+      //         additionalProperties: {
+      //           tooltip: "This class used for app-primary-color",
+      //         }
+      //       }
+      //     },
+      //   ],
+      // },
+      // {
+      //   fieldGroup: [
+      //     {
+      //       key: 'secondaryColor',
+      //       type: 'input',
+      //       wrappers: ["formly-vertical-theme-wrapper"],
+      //       defaultValue: '',
+      //       props: {
+      //         type: 'color',
+      //         label: 'Secondary Color',
+      //         additionalProperties: {
+      //           tooltip: "This class used for app-secondary-color",
+      //         }
+      //       }
+      //     },
+      //   ],
+      // }
     ];
+
   }
   loadSearchArray() {
     const properties = ['expand', 'name', 'companyName', 'application_Type', 'action'];

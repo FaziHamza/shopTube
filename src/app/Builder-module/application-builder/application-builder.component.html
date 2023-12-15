@@ -38,8 +38,7 @@
                         data.companyName:data.organizationName}}</td>
                     <td>
                         <span class="text-blue-600 hover:cursor-pointer" nzTooltipTitle="Edit" nz-tooltip
-                            (click)="[openModal('department'),editItem(data)]"><i
-                                class="fa-regular fa-pen-to-square"></i></span>
+                            (click)="editItem(data , 'department')"><i class="fa-regular fa-pen-to-square"></i></span>
                         <span class="text-[#fd3636] pl-2 hover:cursor-pointer" nzTooltipTitle="Delete" nz-tooltip
                             nz-popconfirm nzPopconfirmTitle="Sure to delete?"
                             (nzOnConfirm)="deleteRow(data._id , 'department')"><i
@@ -48,7 +47,7 @@
                 </tr>
                 <tr [nzExpand]="data.expand">
                     <button nz-button nzType="primary" class="btn mb-4"
-                        (click)="openModal('application',true,data._id)"><span nz-icon nzType="plus"
+                        (click)="openModal('application')"><span nz-icon nzType="plus"
                             nzTheme="outline"></span>Add
                         Application</button>
                     <nz-table #innerTable nzBordered [nzData]="data?.children" nzSize="middle"
@@ -64,8 +63,8 @@
                                 <th>Layout</th>
                                 <th>Domain Name</th>
                                 <th>Image</th>
-                                <th>Primary Color</th>
-                                <th>Secondary Color</th>
+                                <!-- <th>Primary Color</th>
+                                <th>Secondary Color</th> -->
                                 <th>Action</th>
                             </tr>
                         </thead>
@@ -89,16 +88,15 @@
                         <nz-empty class="no-image"></nz-empty>
                     </ng-template>
                 </td>
-                <td>
+                <!-- <td>
                     <input nz-input type="color" [(ngModel)]="data.primaryColor" [disabled]="true" />
                 </td>
                 <td>
                     <input nz-input type="color" [(ngModel)]="data.secondaryColor" [disabled]="true" />
-                </td>
+                </td> -->
                 <td>
                     <span class="text-blue-600 hover:cursor-pointer" nzTooltipTitle="Edit" nz-tooltip
-                        (click)="[openModal('application'),editItem(data)]"><i
-                            class="fa-regular fa-pen-to-square"></i></span>
+                        (click)="editItem(data , 'application')"><i class="fa-regular fa-pen-to-square"></i></span>
                     <span class="text-[#fd3636] pl-2 hover:cursor-pointer" nzTooltipTitle="Delete" nz-tooltip
                         nz-popconfirm nzPopconfirmTitle="Sure to delete?"
                         (nzOnConfirm)="deleteRow(data._id , 'application')"><i class="fa-regular fa-trash"></i></span>
@@ -144,7 +142,8 @@
 </ng-template>
 <!-- Drawer -->
 <nz-drawer nzWidth="80%" [nzClosable]="true" [nzVisible]="isVisible" [nzFooter]="footerTpl" nzPlacement="right"
-    [nzTitle]="applicationSubmit ? 'Add Application' : 'Add Department'" (nzOnClose)="handleCancel()">
+    [nzTitle]="applicationSubmit ? (isSubmit ? 'Add Application' : 'Update Application') :(isSubmit ? 'Add Department' : 'Update Department')"
+    (nzOnClose)="handleCancel()">
     <ng-container *nzDrawerContent>
         <form [formGroup]="myForm">
             <div class="flex flex-wrap">
