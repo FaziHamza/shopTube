@@ -1,7 +1,7 @@
 <!-- <nz-ribbon nzText="Hippies"> -->
 <!-- <nz-badge nzSize="default" [nzCount]="5"> -->
 <!-- <nz-badge nzDot> -->
-<nz-card [style.border-radius.px]="item['radius']" [nzTitle]="item?.title ? title : item?.title"
+<nz-card (click)="routeLink(item?.link)" [style.border-radius.px]="item['radius']" [nzTitle]="item?.title ? title : item?.title"
     [style.background-color]="item?.bgColor || ''"
     [ngStyle]="{'height': item?.height && item?.height != 0 ? item?.height + 'px' : '', 'overflow': item?.height && item?.height != 0 ? 'auto' : ''}"
     [style.border]="item?.borderless ? 'none' :'1px solid #f0f0f0' ">

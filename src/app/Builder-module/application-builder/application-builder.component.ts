@@ -808,9 +808,13 @@ export class ApplicationBuilderComponent implements OnInit {
             wrappers: ["formly-vertical-theme-wrapper"],
             defaultValue: '',
             props: {
+              type: 'password',
               label: 'Password',
               placeholder: 'password...',
               required: true,
+              additionalProperties: {
+                suffixicon: 'eye-invisible',
+              }
             }
           },
         ],

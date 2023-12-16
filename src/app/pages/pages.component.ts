@@ -2094,7 +2094,7 @@ export class PagesComponent implements OnInit, OnDestroy {
   }
   dataReplace(node: any, replaceData: any, value: any): any {
     let typeMap: any = {
-      cardWithComponents: 'title',
+      cardWithComponents: 'link',
       buttonGroup: 'title',
       button: 'title',
       downloadButton: 'path',
@@ -2148,7 +2148,8 @@ export class PagesComponent implements OnInit, OnDestroy {
       treeView: 'title',
       message: 'content',
       mentions: 'title',
-      icon: 'title'
+      icon: 'title',
+      linkbutton:'href'
     };
 
     const type = node.type;

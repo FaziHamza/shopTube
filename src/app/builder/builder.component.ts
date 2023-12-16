@@ -6554,7 +6554,7 @@ export class BuilderComponent implements OnInit {
 
   dataReplace(node: any, replaceData: any, value: any): any {
     let typeMap: any = {
-      cardWithComponents: 'title',
+      cardWithComponents: 'link',
       buttonGroup: 'title',
       button: 'title',
       downloadButton: 'path',
