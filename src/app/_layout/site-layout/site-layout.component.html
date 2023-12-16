@@ -59,8 +59,10 @@
           <div class="content mb-2.5" id='Content'>
             <router-outlet></router-outlet>
           </div>
-          <div id="FOOTER" [ngClass]="{ 'dynamic-footer' :  dataSharedService.showFooter }"
-            *ngIf="currentFooter && !fullCurrentUrl.includes('/menu-builder') && !hideHeaderFooterMenu">
+          <div id="FOOTER" [ngClass]="{
+            'dynamic-footer': dataSharedService.showFooter && currentWebsiteLayout === 'backend_application',
+            'dynamic-footer-website': dataSharedService.showFooter && currentWebsiteLayout === 'website'
+          }" *ngIf="currentFooter && !fullCurrentUrl.includes('/menu-builder') && !hideHeaderFooterMenu">
             <st-pages [resData]="currentFooter" [screenName]="domainData?.footer?.navigation"
               [screenId]="domainData?.footer?.screenBuilderId"></st-pages>
           </div>
