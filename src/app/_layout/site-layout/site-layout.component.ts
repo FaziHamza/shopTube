@@ -158,9 +158,9 @@ export class SiteLayoutComponent implements OnInit {
   }
 
   ngAfterViewInit() {
-    setTimeout(() => {
-      this.updateHeaderHeight();
-    }, 15000)
+    // setTimeout(() => {
+    //   this.updateHeaderHeight();
+    // }, 15000)
 
   }
 
