@@ -9,6 +9,7 @@ export const environment = {
   serverBaseUrl:"http://3.111.85.6:3000/",
   // nestBaseUrl:"https://spectrum.expocitydubai.com:9443/",
   nestBaseUrl:"http://localhost:4500/",
+  natsUrl:"ws://172.23.0.5:9090",
   nestImageUrl:"http://campaigns.expocitydubai.com.s3-website.me-south-1.amazonaws.com/",
   applicationId : '651fa8129ce5925c4c89ced7',
   socketBackUrl: 'http://localhost:3101',

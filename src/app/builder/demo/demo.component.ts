@@ -1,6 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import ZebraBrowserPrintWrapper from 'zebra-browser-print-wrapper';
 import { NatsService } from '../service/nats.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'st-demo',
@@ -31,13 +32,13 @@ export class DemoComponent implements OnInit, OnDestroy {
   }
   myFun(){
     const jsonString = JSON.stringify("get");
-    this.natsService.publishMessage('getalltitlebasicV1', jsonString);
+    this.natsService.publishMessage('Req_Auth_Login', jsonString);
   }
   async connectToNatsAndSubscribe() {
     try {
       debugger
-      await this.natsService.connectToNats('ws://172.23.0.5:9090');
-      this.natsService.subscribeToSubject('getalldatacallbackV1', (err, data) => {
+      await this.natsService.connectToNats(environment.natsUrl);
+      this.natsService.subscribeToSubject('Res_Auth_Login', (err, data) => {
         if (err) {
           console.error('Error:', err);
           return;

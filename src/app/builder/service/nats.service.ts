@@ -1,6 +1,7 @@
 // nats.service.ts
 import { Injectable } from '@angular/core';
 import { connect, NatsConnection, StringCodec, Subscription } from 'nats.ws';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -11,14 +12,13 @@ export class NatsService {
 
   async connectToNats(serverUrl: string): Promise<void> {
     if (!this.nc) {
-      this.nc = await connect({ servers: ['ws://172.23.0.5:9090'] });
+      this.nc = await connect({ servers: [environment.natsUrl] });
       // this.nc.publish(`getalltitlebasicV1`,"get");
 
     }
   }
 
   subscribeToSubject(subject: string, callback: (error: Error | null, data: any) => void): Subscription {
-    debugger
     return this.nc.subscribe(subject, {
       callback: (err, msg) => {
         if (err) {
@@ -31,10 +31,27 @@ export class NatsService {
     });
   }
 
-  publishMessage(subject: string, message: string) {
-    // this.nc.publish(`getalltitlebasicV1`,"get");
-    this.nc.publish(subject, this.sc.encode(message));
-  
+  publishMessage(subject: string, message: any) {
+    let applicationId = JSON.parse(localStorage.getItem('applicationId')!);
+    let organizationId = JSON.parse(localStorage.getItem('organizationId')!);
+    let user = JSON.parse(localStorage.getItem('user')!);
+    let id = JSON.parse(localStorage.getItem('user')!);
+    let screenId = localStorage.getItem('screenId')! || '';
+    let screenBuildId = localStorage.getItem('screenBuildId')! || '';
+    let policyId = JSON.parse(localStorage.getItem('user')!)?.policy?.policyId
+
+    message['applicationId'] = applicationId;
+    message['organizationId'] = organizationId;
+    message['screenId'] = screenId;
+    message['screenBuildId'] = screenBuildId;
+    message['user'] = user?.username || "";
+    message['userId'] = id?.userId || "";
+    message["policyId"] = policyId;
+
+    const payloadData = this.sc.encode(JSON.stringify(message));
+
+    this.nc.publish(subject, payloadData);
+
   }
 
   closeConnection(): void {

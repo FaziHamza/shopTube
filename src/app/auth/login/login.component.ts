@@ -6,6 +6,7 @@ import { AuthService } from '../services/auth.service';
 import { CommonService } from 'src/common/common-services/common.service';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { environment } from 'src/environments/environment';
+import { NatsService } from 'src/app/builder/service/nats.service';
 
 @Component({
   selector: 'st-login',
@@ -31,9 +32,34 @@ export class LoginComponent implements OnInit {
 
 
   recaptchaResponse = '';
+
+  async connectToNatsAndSubscribe(callback: (data: any) => void) {
+    try {
+      debugger
+      await this.natsService.connectToNats(environment.natsUrl);
+      this.natsService.subscribeToSubject('Res_Auth_Login', (err, data) => {
+        if (err) {
+          console.error('Error:', err);
+          return;
+        }
+        const parsedData = JSON.parse(data);
+
+        // callback(parsedData);
+        this.loginCallback(parsedData);
+      });
+    } catch (error) {
+      console.error('Error connecting to NATS:', error);
+    }
+  }
+
   ngOnInit(): void {
+
+    this.connectToNatsAndSubscribe((data) => {
+
+      // Perform additional actions with the data if needed
+    });
     this.loadScript();
-    // grecaptcha.render('recaptcha', { sitekey: environment.recaptcha.siteKey });
+    // grecaptcha.render('recaptcha', { siteke                                                   y: environment.recaptcha.siteKey });
     // init Form
     this.create();
     this.cdr.detectChanges();
@@ -48,6 +74,7 @@ export class LoginComponent implements OnInit {
     private commonService: CommonService,
     private cdr: ChangeDetectorRef,
     private toastr: NzMessageService,
+    private natsService: NatsService
   ) {
 
   }
@@ -69,7 +96,7 @@ export class LoginComponent implements OnInit {
   }
 
   submitForm(): void {
-    
+
     this.recaptchaResponse = grecaptcha.getResponse();
     if (!this.recaptchaResponse) {
       // this.toastr.warning('You are not human', { nzDuration: 3000 }); // Show an error message to the user
@@ -87,51 +114,56 @@ export class LoginComponent implements OnInit {
 
     // console.log('submit', this.form.value);
     this.form.value['username'] = this.form.value.email;
-    this.form.value['domain'] =window.location.host.split(':')[0],
-    this.form.value['responsekey'] = this.recaptchaResponse;
+    this.form.value['domain'] = window.location.host.split(':')[0],
+      this.form.value['responsekey'] = this.recaptchaResponse;
 
     // Show Loader
     this.showLoader = true;
-    this.authService.loginUser (this.form.value).subscribe(
-      (response: any) => {
-        this.showLoader = false;
-        if (response.isSuccess) {
-          if (response.data?.access_token) {
-            grecaptcha.reset(); // Reset reCAPTCHA
+    this.form.value;
+    this.natsService.publishMessage('Req_Auth_Login', this.form.value);
 
-            this.commonService.showSuccess('Login Successfully!', {
-              nzDuration: 2000,
-            });
-            localStorage.setItem('isLoggedIn', 'true');
-            this.showLoader = false;
-            this.authService.setAuth(response.data);
-            this.router.navigate(['/home/allorder']);
-            this.router.navigate(['/']);
-          } else {
-            this.commonService.showError('Something went wrong!');
-            grecaptcha.reset(); // Reset reCAPTCHA
+  }
 
-          }
-        } else {
-          grecaptcha.reset(); // Reset reCAPTCHA
+  loginCallback: any = (response: any) => {
+    debugger
+    this.showLoader = false;
 
-          this.commonService.showError(response.message, {
-            nzPauseOnHover: true,
-          });
-        }
-
-      },
-      (error) => {
-        this.showLoader = false;
+    if (response.isSuccess) {
+      if (response.data?.access_token) {
         grecaptcha.reset(); // Reset reCAPTCHA
 
-        this.commonService.showError('Login Failed: Something went wrong.', {
-          nzPauseOnHover: true,
+        this.commonService.showSuccess('Login Successfully!', {
+          nzDuration: 2000,
         });
+        localStorage.setItem('isLoggedIn', 'true');
         this.showLoader = false;
+        this.authService.setAuth(response.data);
+        this.router.navigate(['/home/allorder']);
+        this.router.navigate(['/']);
+      } else {
+        this.commonService.showError('Something went wrong!');
+        grecaptcha.reset(); // Reset reCAPTCHA
       }
-    );
+    } else {
+      grecaptcha.reset(); // Reset reCAPTCHA
+
+      this.commonService.showError(response.message, {
+        nzPauseOnHover: true,
+      });
+    }
+  };
+
+
+  loginErrorCallback(error: any) {
+    this.showLoader = false;
+    grecaptcha.reset(); // Reset reCAPTCHA
+
+    this.commonService.showError('Login Failed: Something went wrong.', {
+      nzPauseOnHover: true,
+    });
+    this.showLoader = false;
   }
+
   showPassword() {
     this.passwordType = this.passwordType == 'password' ? 'string' : 'password';
     this.passwordIcon = this.passwordIcon == 'fa-light fa-eye-slash text-lg' ? 'fa-light fa-eye text-lg' : 'fa-light fa-eye-slash text-lg'
@@ -146,5 +178,6 @@ export class LoginComponent implements OnInit {
     script.defer = true;
     document.body.appendChild(script);
   }
-  
+
 }
+

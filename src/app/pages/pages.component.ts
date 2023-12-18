@@ -16,6 +16,8 @@ import html2canvas from 'html2canvas';
 import { jsPDF } from "jspdf"; // Trying to import as in the documentation 
 import { json } from 'stream/consumers';
 import { AnyComponent } from '@fullcalendar/core/preact';
+import { NatsService } from '../builder/service/nats.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'st-pages',
@@ -50,13 +52,15 @@ export class PagesComponent implements OnInit, OnDestroy {
   @Input() mappingId: any;
   private subscriptions: Subscription = new Subscription();
   private destroy$: Subject<void> = new Subject<void>();
+  checkValue: boolean = false;
   constructor(public employeeService: EmployeeService, private activatedRoute: ActivatedRoute,
     private clipboard: Clipboard, private applicationService: ApplicationService,
     public builderService: BuilderService,
     private cdr: ChangeDetectorRef,
     private toastr: NzMessageService,
+    private natsService: NatsService,
     private el: ElementRef,
-    public dataSharedService: DataSharedService, private router: Router, private renderer: Renderer2 , private zone: NgZone) {
+    public dataSharedService: DataSharedService, private router: Router, private renderer: Renderer2, private zone: NgZone) {
 
     // this.ngOnDestroy();
     const changeSubscription = this.dataSharedService.change.subscribe(({ event, field }) => {
@@ -95,6 +99,7 @@ export class PagesComponent implements OnInit, OnDestroy {
     });
     const applicationTheme = this.dataSharedService.applicationTheme.subscribe(res => {
       if (res && this.navigation) {
+        this.checkValue = true;
         this.applyApplicationTheme(this.resData[0], true);
       }
     });
@@ -166,6 +171,12 @@ export class PagesComponent implements OnInit, OnDestroy {
   }
   user: any;
   ngOnInit(): void {
+    this.connectToNatsAndSubscribe((data) => {
+
+    });
+    this.connectToNatsAndSubscribeBuilderScreen((data)=>{
+
+    });
     this.initHighlightFalseSubscription();
     this.initPageSubmitSubscription();
     this.initEventChangeSubscription();
@@ -276,7 +287,7 @@ export class PagesComponent implements OnInit, OnDestroy {
     });
     this.subscriptions.add(subscription);
   }
-
+  paramsValue: any;
   private initActivatedRouteSubscription(): void {
 
     if (this.data.length == 0) {
@@ -289,14 +300,9 @@ export class PagesComponent implements OnInit, OnDestroy {
           this.dataSharedService.currentMenuLink = "/pages/" + params["schema"];
           localStorage.setItem('screenId', this.dataSharedService.currentMenuLink);
           this.clearValues();
-          this.applicationService.getNestCommonAPI('cp/auth/pageAuth/' + params["schema"]).subscribe(res => {
-            if (res?.data) {
-              this.initiliaze(params);
-            } else {
-              this.saveLoader = false;
-              this.router.navigateByUrl('permission-denied');
-            }
-          });
+          const obj = { screenId: params["schema"] };
+          this.paramsValue = params;
+          this.natsService.publishMessage('Req_Cp_CheckPageAuth', obj);
         }
       });
       this.subscriptions.add(subscription);
@@ -304,11 +310,34 @@ export class PagesComponent implements OnInit, OnDestroy {
       this.initiliaze('');
     }
   }
-
+  async connectToNatsAndSubscribe(callback: (data: any) => void) {
+    try {
+      await this.natsService.connectToNats(environment.natsUrl);
+      this.natsService.subscribeToSubject('Res_Cp_CheckPageAuth', (err, data) => {
+        if (err) {
+          console.error('Error:', err);
+          return;
+        }
+        const parsedData = JSON.parse(data);
+        // callback(parsedData);
+        this.getNatsData(parsedData);
+      });
+    } catch (error) {
+      console.error('Error connecting to NATS:', error);
+    }
+  }
+  getNatsData: any = (res: any) => {
+    if (res?.data) {
+      this.initiliaze(this.paramsValue);
+    } else {
+      this.saveLoader = false;
+      this.router.navigateByUrl('permission-denied');
+    }
+  }
   initiliaze(params: any) {
 
     if (this.data.length == 0) {
-      if (params["schema"]) {
+      if (params && params["schema"]) {
         //True is check for params["id"] because this param also use for pdf
         if (params["id"] && params["id"] != 'pdf') {
           this.tableRowID = params["id"];
@@ -322,89 +351,105 @@ export class PagesComponent implements OnInit, OnDestroy {
         this.navigation = params["schema"];
         this.dataSharedService.currentMenuLink = '/pages/' + this.navigation;
         localStorage.setItem('screenId', this.dataSharedService.currentMenuLink);
-        this.getBuilderScreen(params);
-        this.getTaskManagementIssuesFunc(params["schema"], JSON.parse(localStorage.getItem('applicationId')!));
+        const obj1 = {
+          modelType: 'Builder',
+          id: params["schema"]
+        }
 
-        // this.requestSubscription = this.applicationService.getNestCommonAPI("cp/getuserCommentsByApp/UserComment/pages/" + params["schema"]).subscribe((res: any) => {
-        //   if (res.isSuccess) {
-        //     let commentList = res.data
-        //     this.dataSharedService.screenCommentList = commentList;
-
-        //   }
-        // })
+        this.natsService.publishMessage('Req_Cp_Model_ById', obj1);
+        const obj = {
+          modelType: 'UserAssignTask',
+          screenId: params["schema"],
+          appId: JSON.parse(localStorage.getItem('applicationId')!)
+        }
+        this.natsService.publishMessage('Req_Cp_userAssignTask', obj);
       }
     }
     //
     else if (this.data.length > 0) {
-
-      this.applicationService.getNestCommonAPIById("cp/CacheRule", this.data[0].data[0].screenBuilderId)
-        .pipe(
-          takeUntil(this.destroy$)
-        ).subscribe({
-          next: (rule: any) => {
-            this.saveLoader = false;
-            // if(rule.isSuccess)
-            this.getCacheRule(rule);
-            // this.actionsBindWithPage(this.data[0]);
-            this.applyApplicationTheme(this.data[0]);
-          },
-          error: (err) => {
-            this.saveLoader = false;
-            // this.actionsBindWithPage(this.data[0]);
-            this.applyApplicationTheme(this.data[0]);
-            console.error(err);
-            // this.toastr.error("An error occurred", { nzDuration: 3000 });
-          }
-        });
-
-
-      // this.requestSubscription = this.applicationService.getNestCommonAPIById("cp/ActionRule", this.data[0].data[0].screenBuilderId).subscribe({
-      //   next: (actions: any) => {
-      //     this.actionRuleList = actions?.data;
-      //     this.actionsBindWithPage(this.data[0]);
-      //   },
-      //   error: (err) => {
-      //     this.actionsBindWithPage(this.data[0]);
-      //     console.error(err);
-      //     // this.toastr.error("An error occurred", { nzDuration: 3000 });
-      //   }
-      // })
+      debugger
+      const obj = {
+        modelType: "CacheRule",
+        id: this.data[0].data[0].screenBuilderId
+      }
+      this.natsService.publishMessage('Req_Cp_Model_ById', obj);
     }
   }
-  getBuilderScreen(params: any) {
-    this.saveLoader = true;
-
-    this.applicationService.getNestCommonAPIById('cp/Builder', params["schema"]).subscribe({
-      next: (res: any) => {
-        if (res.isSuccess && res.data.length > 0) {
-          this.saveLoader = false;
-          localStorage.setItem('screenBuildId', res.data[0].screenBuilderId);
-          this.handleCacheRuleRequest(res.data[0].screenBuilderId, res);
-        } else {
-          this.toastr.error(res.message, { nzDuration: 3000 });
-          this.saveLoader = false;
+  async connectToNatsAndSubscribeTask(callback: (data: any) => void) {
+    try {
+      await this.natsService.connectToNats(environment.natsUrl);
+      this.natsService.subscribeToSubject('Res_Cp_userAssignTask', (err, data) => {
+        if (err) {
+          console.error('Error:', err);
+          return;
         }
-      },
-      error: (err) => {
-        console.error(err);
-        this.saveLoader = false;
-      }
-    });
+        const parsedData = JSON.parse(data);
+        // callback(parsedData);
+        this.getTaskManagementIssuesFunc(parsedData);
+      });
+    } catch (error) {
+      console.error('Error connecting to NATS:', error);
+    }
+  }
+  getBuilderScreen: any = (res: any) => {
+    if (res.isSuccess && res.data.length > 0) {
+      this.saveLoader = false;
+      localStorage.setItem('screenBuildId', res.data[0].screenBuilderId);
+      this.handleCacheRuleRequest(res.data[0].screenBuilderId, res);
+    } else {
+      this.toastr.error(res.message, { nzDuration: 3000 });
+      this.saveLoader = false;
+    }
+  }
+  async connectToNatsAndSubscribeBuilderScreen(callback: (data: any) => void) {
+    try {
+      await this.natsService.connectToNats(environment.natsUrl);
+      this.natsService.subscribeToSubject('Res_Cp_Model_ById', (err, data) => {
+        debugger
+        if (err) {
+          console.error('Error:', err);
+          return;
+        }
+        const parsedData = JSON.parse(data);
+        const responseType = parsedData.responseType;
+        // callback(parsedData);
+        switch (responseType) {
+          case 'Builder':
+            this.getBuilderScreen(parsedData);
+            break;
+          case 'CacheRule':
+            this.getCacheRule(parsedData);
+            // this.actionsBindWithPage(this.data[0]);
+            this.applyApplicationTheme(this.data[0]);
+            break;
+          // Add more cases as needed
+          default:
+          // console.warn('Unhandled responseType:', responseType);
+        }
+      });
+    } catch (error) {
+      console.error('Error connecting to NATS:', error);
+    }
   }
   handleCacheRuleRequest(screenBuilderId: any, res: any) {
     this.saveLoader = true;
-    this.applicationService.getNestCommonAPIById("cp/CacheRule", screenBuilderId).subscribe({
-      next: (rule: any) => {
-        this.saveLoader = false;
-        this.getCacheRule(rule);
-        this.applyApplicationTheme(res);
-      },
-      error: (err) => {
-        this.saveLoader = false;
-        console.error(err);
-        this.toastr.error("An error occurred", { nzDuration: 3000 });
-      }
-    });
+    const obj = {
+      modelType: "CacheRule",
+      id: screenBuilderId
+    }
+    this.natsService.publishMessage('Req_Cp_Model_ById', obj);
+    // this.applicationService.getNestCommonAPIById("cp/CacheRule", screenBuilderId).subscribe({
+    //   next: (rule: any) => {
+    //     this.saveLoader = false;
+    //     this.getCacheRule(rule);
+    //     this.applyApplicationTheme(res);
+    //   },
+    //   error: (err) => {
+    //     this.saveLoader = false;
+    //     console.error(err);
+    //     this.toastr.error("An error occurred", { nzDuration: 3000 });
+    //   }
+    // });
   }
   editData: any;
   actionsBindWithPage(res: any, res1: any) {
@@ -1857,7 +1902,7 @@ export class PagesComponent implements OnInit, OnDestroy {
                 mapApiUrl = `${data.mapApi}/${this.mappingId}`;
               }
               if (removeValue) {
-                if(data.type == 'chat'){
+                if (data.type == 'chat') {
                   data.chatData = [];
                 }
                 else if (data?.dbData && data?.tableBody) {
@@ -1914,7 +1959,7 @@ export class PagesComponent implements OnInit, OnDestroy {
             if (res) {
               if (res?.data) {
                 if (res?.data.length > 0) {
-                  if(selectedNode.type == 'chat'){
+                  if (selectedNode.type == 'chat') {
                     selectedNode.chatData = res.data;
                     this.zone.run(() => {
                       this.cdr.detectChanges();
@@ -2637,23 +2682,15 @@ export class PagesComponent implements OnInit, OnDestroy {
       });
     }
   }
-  getTaskManagementIssuesFunc(screenId: string, applicationId: string) {
-    this.requestSubscription = this.builderService.getUserAssignTask(screenId, applicationId).subscribe({
-      next: (res: any) => {
-        if (res.isSuccess) {
-          if (res.data.length > 0) {
-            this.getTaskManagementIssues = res.data;
-          }
-        }
-        else {
-          this.toastr.error(`userAssignTask:` + res.message, { nzDuration: 3000 });
-        }
-      },
-      error: (err) => {
-        console.error(err);
-        this.toastr.error("An error occurred", { nzDuration: 3000 });
+  getTaskManagementIssuesFunc: any = (res: any) => {
+    if (res.isSuccess) {
+      if (res.data.length > 0) {
+        this.getTaskManagementIssues = res.data;
       }
-    })
+    }
+    else {
+      this.toastr.error(`userAssignTask:` + res.message, { nzDuration: 3000 });
+    }
   }
   pushObjectsById(targetArray: any[], sourceArray: any[], idToMatch: string): void {
     for (let i = 0; i < targetArray.length; i++) {
@@ -2877,29 +2914,58 @@ export class PagesComponent implements OnInit, OnDestroy {
   }
   applicationThemeData: any[] = [];
   applyApplicationTheme(res1: any, notAllowRuleGet?: any) {
+    debugger
     let user = JSON.parse(window.localStorage['user']);
     if (user.policy?.policyTheme) {
       this.saveLoader = true;
-      this.applicationService.getNestCommonAPI(`applicationTheme/allBythemeName${user.policy?.policyTheme}`).subscribe(((res: any) => {
-        this.saveLoader = false;
-        if (res.isSuccess) {
-          this.applicationThemeData = res?.data;
-          if (notAllowRuleGet) {
-            this.findObjectByTypeAndApplyApplictionTheme(res1, this.applicationThemeData)
-          } else {
-            this.actionsBindWithPage(res1, this.applicationThemeData);
-          }
-        } else {
-          this.actionsBindWithPage(res1, this.applicationThemeData);
-          this.toastr.warning(res.message, { nzDuration: 2000 });
-        }
-      }));
+      const obj = {
+        ThemeName: user.policy?.policyTheme
+      }
+      this.natsService.publishMessage('Req_App_Theme', obj);
+
     } else {
       this.saveLoader = false;
       this.actionsBindWithPage(res1, this.applicationThemeData);
     }
   }
+  applyTheme: any = (res: any) => {
+    let notAllowRuleGet = false;
+    let res1;
+    if (this.checkValue) {
+      notAllowRuleGet = true;
+      res1 = this.resData[0]
+    } else {
+      res1 = this.data[0];
+    }
+    if (res.isSuccess) {
+      this.applicationThemeData = res?.data;
 
+      if (notAllowRuleGet) {
+        this.findObjectByTypeAndApplyApplictionTheme(res1, this.applicationThemeData)
+      } else {
+        this.actionsBindWithPage(res1, this.applicationThemeData);
+      }
+    } else {
+      this.actionsBindWithPage(res1, this.applicationThemeData);
+      this.toastr.warning(res.message, { nzDuration: 2000 });
+    }
+  }
+  async connectToNatsAndSubscribeTheme(callback: (data: any) => void) {
+    try {
+      await this.natsService.connectToNats(environment.natsUrl);
+      this.natsService.subscribeToSubject('Res_Cp_Domain', (err, data) => {
+        if (err) {
+          console.error('Error:', err);
+          return;
+        }
+        const parsedData = JSON.parse(data);
+
+        this.applyTheme(parsedData);
+      });
+    } catch (error) {
+      console.error('Error connecting to NATS:', error);
+    }
+  }
   findObjectByTypeAndApplyApplictionTheme(data: any, ThemeData: any) {
     if (data?.formly) {
       let input: any = ThemeData.find((item: any) => item.tag === 'input');

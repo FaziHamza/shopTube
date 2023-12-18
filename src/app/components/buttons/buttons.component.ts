@@ -9,6 +9,8 @@ import { DataSharedService } from 'src/app/services/data-shared.service';
 import { ApplicationService } from 'src/app/services/application.service';
 import { Subject, Subscription } from 'rxjs';
 import { Location } from '@angular/common';
+import { NatsService } from 'src/app/builder/service/nats.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'st-buttons',
@@ -55,6 +57,7 @@ export class ButtonsComponent implements OnInit {
   private destroy$: Subject<void> = new Subject<void>();
   @Output() gridEmit: EventEmitter<any> = new EventEmitter<any>();
   constructor(private modalService: NzModalService, public employeeService: EmployeeService, private toastr: NzMessageService, private router: Router,
+    private natsService: NatsService,
     public dataSharedService: DataSharedService, private applicationService: ApplicationService, private activatedRoute: ActivatedRoute, private location: Location, private cdr: ChangeDetectorRef) { }
 
   ngOnInit(): void {
@@ -71,7 +74,9 @@ export class ButtonsComponent implements OnInit {
     // this.drawerClose();
     this.hostUrl = window.location.host;
     if (this.buttonData?.showPolicies || this.buttonData?.dropdownProperties == 'policyTheme') {
-      this.jsonPolicyModuleList();
+      const obj = {userId : JSON.parse(window.localStorage['user'])}
+      this.natsService.publishMessage('Req_Cp_PolicyByUserId', obj);
+
     }
     if (this.buttonData?.appConfigurableEvent || this.buttonData?.eventActionconfig || this.buttonData?.redirect || this.buttonData?.isSubmit) {
       this.isActionExist = true;
@@ -181,9 +186,9 @@ export class ButtonsComponent implements OnInit {
           this.requestSubscription = this.activatedRoute.params.subscribe((params: Params) => {
             if (params["id"]) {
               window.open('/pages/' + data.href + '/' + params["id"]);
-            }else if(data.href.includes('https://www')){
+            } else if (data.href.includes('https://www')) {
               window.open(data.href);
-            }  
+            }
             else {
               window.open('/pages/' + data.href);
             }
@@ -194,8 +199,8 @@ export class ButtonsComponent implements OnInit {
       case '':
         if (this.tableRowId) {
           this.router.navigate(['/pages/' + data.href + '/' + this.tableRowId]);
-        } 
-        else if(data.href.includes('https://www')){
+        }
+        else if (data.href.includes('https://www')) {
           window.location.href = data.href;
         }
         else {
@@ -203,9 +208,9 @@ export class ButtonsComponent implements OnInit {
             if (params["id"]) {
               this.router.navigate(['/pages/' + data.href + '/' + params["id"]])
             }
-            else if(data.href.includes('https://www')){
+            else if (data.href.includes('https://www')) {
               this.router.navigate([data.href]);
-            } 
+            }
             else {
               this.router.navigate(['/pages/' + data.href]);
             }
@@ -288,28 +293,35 @@ export class ButtonsComponent implements OnInit {
     window.localStorage.clear();
     this.router.navigate(['/login']);
   }
-  jsonPolicyModuleList() {
-
+  jsonPolicyModuleList: any = (res: any) => {
     let user = JSON.parse(window.localStorage['user']);
-    this.applicationService.getNestCommonAPI(`cp/policy/getPolicyByUserId/${user.policy.userId}`).subscribe({
-      next: (res: any) => {
-
-        if (res.isSuccess) {
-          if (res?.data.length > 0) {
-            if (this.buttonData?.showPolicies) {
-              this.policyList = res.data.filter((a: any) => a?.policyId._id != user['policy']['policyId']);
-            } else {
-              this.policyList = res?.data;
-            }
-          }
+    if (res.isSuccess) {
+      if (res?.data.length > 0) {
+        if (this.buttonData?.showPolicies) {
+          this.policyList = res.data.filter((a: any) => a?.policyId._id != user['policy']['policyId']);
+        } else {
+          this.policyList = res?.data;
         }
-      },
-      error: (err) => {
-        this.toastr.error(`Policy : An error occured`, { nzDuration: 3000 });
-      },
-    });
+      }
+    }
   }
-
+  async connectToNatsAndSubscribe(callback: (data: any) => void) {
+    try {
+      await this.natsService.connectToNats(environment.natsUrl);
+      this.natsService.subscribeToSubject('Res_Cp_PolicyByUserId', (err, data) => {
+        if (err) {
+          console.error('Error:', err);
+          return;
+        }
+        const parsedData = JSON.parse(data);
+        this.loader = true;
+        // callback(parsedData);
+        this.jsonPolicyModuleList(parsedData);
+      });
+    } catch (error) {
+      console.error('Error connecting to NATS:', error);
+    }
+  }
   switchPolicy(policy: any) {
     this.modalService.confirm({
       nzTitle: '<i>Do you Want to switch this policy?</i>',

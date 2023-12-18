@@ -3,12 +3,14 @@ import { ActivatedRoute, NavigationEnd, Params, Router } from '@angular/router';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { NzModalService } from 'ng-zorro-antd/modal';
 import { Subject, Subscription, filter, forkJoin } from 'rxjs';
+import { NatsService } from 'src/app/builder/service/nats.service';
 import { CommentModalComponent } from 'src/app/components';
 import { Guid } from 'src/app/models/guid';
 import { ApplicationService } from 'src/app/services/application.service';
 import { BuilderService } from 'src/app/services/builder.service';
 import { DataSharedService } from 'src/app/services/data-shared.service';
 import { EmployeeService } from 'src/app/services/employee.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'st-site-layout',
@@ -72,7 +74,9 @@ export class SiteLayoutComponent implements OnInit {
   private subscriptions: Subscription = new Subscription();
   private destroy$: Subject<void> = new Subject<void>();
   constructor(private applicationService: ApplicationService, private renderer: Renderer2, private el: ElementRef, public dataSharedService: DataSharedService, public builderService: BuilderService,
-    private toastr: NzMessageService, private router: Router, private activatedRoute: ActivatedRoute, private cd: ChangeDetectorRef, private modalService: NzModalService,
+    private toastr: NzMessageService, private router: Router,
+    private natsService: NatsService,
+    private activatedRoute: ActivatedRoute, private cd: ChangeDetectorRef, private modalService: NzModalService,
     private viewContainerRef: ViewContainerRef) {
     this.requestSubscription = this.dataSharedService.localhostHeaderFooter.subscribe({
       next: (res) => {
@@ -88,7 +92,9 @@ export class SiteLayoutComponent implements OnInit {
 
   ngOnInit(): void {
 
+    this.connectToNatsAndSubscribe((data) => {
 
+    });
 
     this.dataSharedService.measureHeight = 0;
     // this.getTaskManagementIssuesFunc(JSON.parse(localStorage.getItem('applicationId')!));
@@ -122,7 +128,9 @@ export class SiteLayoutComponent implements OnInit {
 
     this.fullCurrentUrl = window.location.host.includes('spectrum') ? '172.23.0.8' : window.location.host.split(':')[0];
     this.currentUrl = window.location.host.includes('spectrum') ? '172.23.0.8' : window.location.host.split(':')[0];
-    this.getMenuByDomainName(this.currentUrl, true);
+    this.applydomain();
+
+    // this.getMenuByDomainName(this.currentUrl, true);
 
     // if (!this.currentUrl.includes('localhost')) {
     //   let check = this.currentUrl.includes(':');
@@ -156,7 +164,14 @@ export class SiteLayoutComponent implements OnInit {
       this.tabs = [];
     });
   }
-
+  async applydomain() {
+    await this.natsService.connectToNats(environment.natsUrl);
+    const obj: any = {
+      modelType: 'Application',
+      id: this.currentUrl,
+    }
+    this.natsService.publishMessage('Req_Cp_Domain', obj);
+  }
   ngAfterViewInit() {
     setTimeout(() => {
       this.updateHeaderHeight();
@@ -197,77 +212,79 @@ export class SiteLayoutComponent implements OnInit {
     }
   }
 
-
-
-  getMenuByDomainName(domainName: any, allowStoreId: boolean) {
+  async connectToNatsAndSubscribe(callback: (data: any) => void) {
     try {
-      this.loader = true;
-      this.requestSubscription = this.builderService.getApplicationByDomainName(domainName).subscribe({
-        next: (res) => {
-          if (res.isSuccess) {
-            this.domainData = res.data;
-            if (res.data.appication) {
-              this.currentWebsiteLayout = res.data.appication.application_Type ? res.data.appication.application_Type : 'backend_application';
-            }
-            document.documentElement.style.setProperty('--primaryColor', res.data.appication?.primaryColor);
-            document.documentElement.style.setProperty('--secondaryColor', res.data.appication?.secondaryColor);
-            this.dataSharedService.applicationDefaultScreen = res.data['default'] ? res.data['default'].navigation : '';
-            this.logo = res.data.appication['image'];
-            this.dataSharedService.headerLogo = res.data.appication['image'];
-            if (allowStoreId) {
-              localStorage.setItem('applicationId', JSON.stringify(res.data?.appication?._id));
-              localStorage.setItem('organizationId', JSON.stringify(res.data?.department?.organizationId));
-            }
-            this.currentWebsiteLayout = res.data.appication['application_Type'] ? res.data.appication['application_Type'] : 'backend_application';
-            this.currentHeader = res.data['header'] ? this.jsonParseWithObject(res.data['header']['screenData']) : '';
-            this.currentFooter = res.data['footer'] ? this.jsonParseWithObject(res.data['footer']['screenData']) : '';
-            if (res.data['menu']) {
-              if (this.selectedTheme && res.data['menu']?.selectedTheme) {
-                const theme = JSON.parse(res.data['menu'].selectedTheme);
-                this.selectedTheme['isCollapsed'] = theme['isCollapsed'];
-              }
-              if (!window.location.href.includes('/menu-builder')) {
-                this.isShowContextMenu = true;
-                let getMenu = res.data['menu'] ? this.jsonParseWithObject(res.data['menu']['menuData']) : '';
-                let selectedTheme = res.data['menu'] ? this.jsonParseWithObject(res.data['menu'].selectedTheme) : {};
-                if (getMenu) {
-                  this.selectedTheme = selectedTheme;
-                  this.selectedTheme.allMenuItems = getMenu;
-                  this.menuItems = getMenu;
-                  this.getComments();
-                  if (selectedTheme?.layout == 'horizental') {
-                    this.makeMenuData();
-                  }
-
-                }
-                if (this.currentWebsiteLayout == 'website') {
-                  this.dataSharedService.menus = this.selectedTheme;
-                  this.dataSharedService.menus.allMenuItems = getMenu;
-                }
-              }
-            }
-            this.hideHeaderFooterMenu = window.location.href.includes('/pdf') ? true : false;
-            if (!window.location.href.includes('/pages') && res.data?.default?.navigation && !window.location.href.includes('/menu-builder')) {
-              this.router.navigate(['/pages/' + res.data?.default?.navigation
-              ]);
-            }
-            this.loader = false;
-            this.getUserPolicyMenu();
-          }
-        },
-        error: (err) => {
-          // console.error(err);
-          // this.toastr.error("An error occurred", { nzDuration: 3000 });
-          this.loader = false; // Set loader to false in case of an error to avoid infinite loading
+      await this.natsService.connectToNats(environment.natsUrl);
+      this.natsService.subscribeToSubject('Res_Cp_Domain', (err, data) => {
+        if (err) {
+          console.error('Error:', err);
+          return;
         }
+        const parsedData = JSON.parse(data);
+        this.loader = true;
+        // callback(parsedData);
+        this.getMenuByDomainName(parsedData);
       });
-    }
-    catch (error) {
-      // console.error(error);
-      // this.toastr.error("An error occurred", { nzDuration: 3000 });
-      this.loader = false; // Set loader to false in case of an error to avoid infinite loading
+    } catch (error) {
+      console.error('Error connecting to NATS:', error);
     }
   }
+  getMenuByDomainName: any = (res: any) => {
+    if (res.isSuccess) {
+      this.domainData = res.data;
+      if (res.data.appication) {
+        this.currentWebsiteLayout = res.data.appication.application_Type ? res.data.appication.application_Type : 'backend_application';
+      }
+      document.documentElement.style.setProperty('--primaryColor', res.data.appication?.primaryColor);
+      document.documentElement.style.setProperty('--secondaryColor', res.data.appication?.secondaryColor);
+      this.dataSharedService.applicationDefaultScreen = res.data['default'] ? res.data['default'].navigation : '';
+      this.logo = res.data.appication['image'];
+      this.dataSharedService.headerLogo = res.data.appication['image'];
+      this.currentWebsiteLayout = res.data.appication['application_Type'] ? res.data.appication['application_Type'] : 'backend_application';
+      this.currentHeader = res.data['header'] ? this.jsonParseWithObject(res.data['header']['screenData']) : '';
+      this.currentFooter = res.data['footer'] ? this.jsonParseWithObject(res.data['footer']['screenData']) : '';
+      if (res.data['menu']) {
+        if (this.selectedTheme && res.data['menu']?.selectedTheme) {
+          const theme = JSON.parse(res.data['menu'].selectedTheme);
+          this.selectedTheme['isCollapsed'] = theme['isCollapsed'];
+        }
+        if (!window.location.href.includes('/menu-builder')) {
+          this.isShowContextMenu = true;
+          let getMenu = res.data['menu'] ? this.jsonParseWithObject(res.data['menu']['menuData']) : '';
+          let selectedTheme = res.data['menu'] ? this.jsonParseWithObject(res.data['menu'].selectedTheme) : {};
+          if (getMenu) {
+            this.selectedTheme = selectedTheme;
+            this.selectedTheme.allMenuItems = getMenu;
+            this.menuItems = getMenu;
+            const obj: any = {
+              modelType: 'UserComment',
+              type: 'menu',
+            }
+            this.natsService.publishMessage('Req_Cp_UserComments', obj);
+            // this.getComments();
+            if (selectedTheme?.layout == 'horizental') {
+              this.makeMenuData();
+            }
+
+          }
+          if (this.currentWebsiteLayout == 'website') {
+            this.dataSharedService.menus = this.selectedTheme;
+            this.dataSharedService.menus.allMenuItems = getMenu;
+          }
+        }
+      }
+      this.hideHeaderFooterMenu = window.location.href.includes('/pdf') ? true : false;
+      if (!window.location.href.includes('/pages') && res.data?.default?.navigation && !window.location.href.includes('/menu-builder')) {
+        this.router.navigate(['/pages/' + res.data?.default?.navigation
+        ]);
+      }
+      this.loader = false;
+      const obj = {
+        id: `1`
+      }
+      this.natsService.publishMessage('Req_Cp_UserPolicyMenu', obj);
+    }
+  };
 
   getMenuBHeaderName(domainName: any, allowStoreId: boolean) {
 
@@ -512,17 +529,30 @@ export class SiteLayoutComponent implements OnInit {
       }
     });
   }
-  getComments() {
-    this.requestSubscription = this.applicationService.getNestCommonAPI("cp/getuserCommentsByApp/UserComment/menu").subscribe((res: any) => {
-      if (res.isSuccess) {
-        let commentList = res.data
-        this.dataSharedService.menuCommentList = commentList;
-        this.dataSharedService.menuCommentList.forEach(element => {
-          this.assignIssue(this.selectedTheme.allMenuItems, element);
-        });
-
-      }
-    })
+  async connectToNatsAndSubscribeComments(callback: (data: any) => void) {
+    try {
+      await this.natsService.connectToNats(environment.natsUrl);
+      this.natsService.subscribeToSubject('Res_Cp_UserComments', (err, data) => {
+        if (err) {
+          console.error('Error:', err);
+          return;
+        }
+        const parsedData = JSON.parse(data);
+        // callback(parsedData);
+        this.getComments(parsedData);
+      });
+    } catch (error) {
+      console.error('Error connecting to NATS:', error);
+    }
+  }
+  getComments: any = (res: any) => {
+    if (res.isSuccess) {
+      let commentList = res.data
+      this.dataSharedService.menuCommentList = commentList;
+      this.dataSharedService.menuCommentList.forEach(element => {
+        this.assignIssue(this.selectedTheme.allMenuItems, element);
+      });
+    }
   }
   assignIssue(node: any, issue: any) {
     node.forEach((element: any) => {
@@ -573,23 +603,31 @@ export class SiteLayoutComponent implements OnInit {
       }
     })
   }
-  getUserPolicyMenu() {
-    this.requestSubscription = this.applicationService.getNestCommonAPI('cp/userpolicy/getUserPolicyMenu/1').subscribe({
-      next: (res: any) => {
-        if (res.isSuccess) {
-          if (res.data.length > 0) {
-            this.dataSharedService.getUserPolicyMenuList = res.data;
-          }
+  async connectToNatsAndSubscribePolicy(callback: (data: any) => void) {
+    try {
+      await this.natsService.connectToNats(environment.natsUrl);
+      this.natsService.subscribeToSubject('Res_Cp_UserPolicyMenu', (err, data) => {
+        if (err) {
+          console.error('Error:', err);
+          return;
         }
-        else {
-          this.toastr.error(`getUserPolicyMenu:` + res.message, { nzDuration: 3000 });
-        }
-      },
-      error: (err) => {
-        console.error(err);
-        this.toastr.error("An error occurred", { nzDuration: 3000 });
+        const parsedData = JSON.parse(data);
+        // callback(parsedData);
+        this.getUserPolicyMenu(parsedData);
+      });
+    } catch (error) {
+      console.error('Error connecting to NATS:', error);
+    }
+  }
+  getUserPolicyMenu: any = (res: any) => {
+    if (res.isSuccess) {
+      if (res.data.length > 0) {
+        this.dataSharedService.getUserPolicyMenuList = res.data;
       }
-    })
+    }
+    else {
+      this.toastr.error(`getUserPolicyMenu:` + res.message, { nzDuration: 3000 });
+    }
   }
   ngOnDestroy() {
     if (this.requestSubscription) {
