@@ -159,7 +159,7 @@
                 </span>
                 <span *ngIf="screenPage" class="row-icon">
                   <label class="mx-1"
-                    *ngIf="isVisible === node.origin.id && node?.origin?.type != 'page' && node?.origin?.type !='sections'"
+                    *ngIf="isVisible === node.origin.id && node?.origin?.type != 'page' && node?.origin?.type !='sections' && node?.origin?.isNextChild"
                     (click)="[openField(node),highlightSelect(node.origin.id,true)]">
                     <span class="fa hover:shadow-lg text-gray-500" nz-icon nzType="plus-circle" nzTooltipTitle="Add"
                       nzTheme="outline" nz-tooltip></span>

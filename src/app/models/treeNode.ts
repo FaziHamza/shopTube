@@ -180,6 +180,7 @@ export interface TreeNode {
   sort?: any;
   tableHeaders?: any;
   tableKey?: any;
+  tableHeader?: any;
   tableNoResultArray?: any;
   expandable?: any;
   tableData?: any;

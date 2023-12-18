@@ -112,7 +112,7 @@ export class PagesComponent implements OnInit, OnDestroy {
     const prevNextRecord = this.dataSharedService.prevNextRecord.subscribe((res: any) => {
       if (res && this.navigation) {
         this.filterDuplicateChildren(this.resData[0]);
-        this.checkDynamicSection(res?.tableRowId, true);
+        // this.checkDynamicSection(res?.tableRowId, true);
       }
     });
     const moveLinkSubscription = this.dataSharedService.moveLink.subscribe(res => {
@@ -2093,67 +2093,9 @@ export class PagesComponent implements OnInit, OnDestroy {
     return null;
   }
   dataReplace(node: any, replaceData: any, value: any): any {
-    let typeMap: any = {
-      cardWithComponents: 'link',
-      buttonGroup: 'title',
-      button: 'title',
-      downloadButton: 'path',
-      breakTag: 'title',
-      switch: 'title',
-      imageUpload: 'source',
-      heading: 'text',
-      paragraph: 'text',
-      alert: 'text',
-      progressBar: 'percent',
-      video: 'videoSrc',
-      audio: 'audioSrc',
-      carouselCrossfade: 'carousalConfig',
-      tabs: 'title',
-      mainTab: 'title',
-      mainStep: 'title',
-      listWithComponents: 'title',
-      listWithComponentsChild: 'title',
-      step: 'title',
-      kanban: 'title',
-      simplecard: 'title',
-      div: 'title',
-      textEditor: 'title',
-      multiFileUpload: 'uploadBtnLabel',
-      accordionButton: 'title',
-      divider: 'dividerText',
-      toastr: 'toasterTitle',
-      rate: 'icon',
-      editor_js: 'title',
-      rangeSlider: 'title',
-      affix: 'title',
-      statistic: 'title',
-      anchor: 'title',
-      modal: 'btnLabel',
-      popConfirm: 'btnLabel',
-      avatar: 'src',
-      badge: 'nzText',
-      comment: 'avatar',
-      description: 'btnText',
-      descriptionChild: 'content',
-      segmented: 'title',
-      result: 'resultTitle',
-      tree: 'title',
-      transfer: 'title',
-      spin: 'loaderText',
-      cascader: 'title',
-      drawer: 'btnText',
-      skeleton: 'title',
-      empty: 'text',
-      list: 'title',
-      treeView: 'title',
-      message: 'content',
-      mentions: 'title',
-      icon: 'title',
-      linkbutton:'href'
-    };
-
+    let typeMap: any = this.dataSharedService.typeMap;
     const type = node.type;
-    const key = typeMap[type];
+    const key = value.componentKey ? value.componentKey : typeMap[type];
     if (node.formly) {
       if (node.type == 'multiselect') {
         if (replaceData['orderrequest.requiredfrequency']) {

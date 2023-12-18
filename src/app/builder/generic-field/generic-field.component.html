@@ -37,11 +37,14 @@
       [tableId]='tableId' [checkType]='true' [tableHeaders]="itemData.mappingNode.tableHeader"
       [data]="itemData.mappingNode" [configurationTable]="true"
       [displayData]="itemData.mappingNode.displayData"></dynamic-table> -->
-      <dynamic-table [configurationTable]="true"
-        *ngIf='this.itemData?.mappingNode && this.itemData?.mappingNode?.tableBody?.length > 0' [tableId]='tableId'
-        [checkType]='true' [tableHeaders]="itemData.mappingNode.tableHeader"
-        [tableData]='itemData.mappingNode.tableBody' [displayData]="itemData.mappingNode.tableBody"
-        [data]="itemData.mappingNode"></dynamic-table>
+      <div *ngIf='this.itemData?.mappingNode && this.itemData?.mappingNode?.tableBody?.length > 0'>
+        <dynamic-table [configurationTable]="true"
+        [tableId]='tableId'
+       [checkType]='true' [tableHeaders]="itemData.mappingNode.tableHeader"
+       [tableData]='itemData.mappingNode.tableBody' [displayData]="itemData.mappingNode.tableBody"
+       [data]="itemData.mappingNode"></dynamic-table>
+      </div>
+
       <br>
     </div>
 
