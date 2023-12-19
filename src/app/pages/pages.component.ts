@@ -438,18 +438,6 @@ export class PagesComponent implements OnInit, OnDestroy {
       id: screenBuilderId
     }
     this.natsService.publishMessage('Req_Cp_Model_ById', obj);
-    // this.applicationService.getNestCommonAPIById("cp/CacheRule", screenBuilderId).subscribe({
-    //   next: (rule: any) => {
-    //     this.saveLoader = false;
-    //     this.getCacheRule(rule);
-    //     this.applyApplicationTheme(res);
-    //   },
-    //   error: (err) => {
-    //     this.saveLoader = false;
-    //     console.error(err);
-    //     this.toastr.error("An error occurred", { nzDuration: 3000 });
-    //   }
-    // });
   }
   editData: any;
   actionsBindWithPage(res: any, res1: any) {
