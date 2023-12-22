@@ -27,6 +27,7 @@ export interface TreeNode {
   level?: any;
   padding?: any;
   hideExpression?: boolean;
+  iconRight?: boolean;
   affix?: any;
   count?: any;
   offSetTop?: any;

@@ -119,6 +119,7 @@ export class ListsComponent implements OnInit {
   nodes: any[] = [];
   openDrawer(type?: any, EditData?: any) {
     debugger
+    this.responseData = [];
     if (this.screenLink) {
       this.isVisible = true;
       let screenLink: any;

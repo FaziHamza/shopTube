@@ -11555,6 +11555,16 @@ export class formFeildData {
           },
           defaultValue: false
         },
+        {
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          key: 'iconRight',
+          type: 'checkbox',
+          wrappers: ["formly-vertical-theme-wrapper"],
+          props: {
+            label: 'Show Icon on right',
+          },
+          defaultValue: false
+        }
       ]
     },
   ]
