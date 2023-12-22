@@ -425,7 +425,7 @@ export class BuilderComponent implements OnInit {
         "screenName": this.screenName,
         "navigation": this.navigation,
         "screenBuilderId": this._id,
-        "pdf": this.pdf,
+        // "pdf": this.pdf,
         "applicationId": this.selectApplicationName,
       };
       data.navigation = this.navigation;
@@ -481,7 +481,7 @@ export class BuilderComponent implements OnInit {
           const objScreen = this.screens.find((x: any) => x._id == data);
           this.navigation = objScreen.navigation;
           this._id = objScreen._id;
-          this.pdf = objScreen.pdf ? objScreen.pdf : false;
+          // this.pdf = objScreen.pdf ? objScreen.pdf : false;
           this.screenName = objScreen.name;
           this.isSavedDb = false;
           this.getActions();
@@ -2657,7 +2657,7 @@ export class BuilderComponent implements OnInit {
   }
   closeConfigurationList() {
     if (this.selectedNode) {
-      const allowedTypes : any = [
+      const allowedTypes: any = [
         'sections',
         'tabs',
         'step',
@@ -4297,9 +4297,13 @@ export class BuilderComponent implements OnInit {
         //     (option: any) => option.label
         //   );
         // }
-        this.selectedNode.options = event.form.options.map(
-          (option: any) => option.label
-        );
+       document.documentElement.style.setProperty('--rateSpacing', (event.form.spacing ? event.form.spacing : 8) + 'px');
+        if (event.tableDta) {
+          this.selectedNode.options = event.tableDta.map(
+            (option: any) => option.label
+          );
+        }
+        this.cdr.detectChanges();
         break;
 
       case 'statistic':

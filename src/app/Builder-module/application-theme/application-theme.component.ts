@@ -171,6 +171,7 @@ export class ApplicationThemeComponent {
             this.editId = '';
             this.form.reset();
             this.searchByTheme();
+            this.getThemeList();
           } else {
             this.toastr.error(objTRes.message, { nzDuration: 3000 });
           }

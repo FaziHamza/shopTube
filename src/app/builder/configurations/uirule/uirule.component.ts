@@ -4,6 +4,8 @@ import { JsonEditorOptions } from 'ang-jsoneditor';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { ApplicationService } from 'src/app/services/application.service';
 import { BuilderService } from 'src/app/services/builder.service';
+import * as jsonpatch from 'fast-json-patch';
+import { Operation } from 'fast-json-patch';
 
 @Component({
   selector: 'st-uirule',
@@ -18,6 +20,8 @@ export class UIRuleComponent implements OnInit {
   @Input() applicationId: string;
   @Input() selectedNode: any;
   @Input() nodes: any;
+  responseData: any;
+  originalData: any;
   saveLoader: any = false;
   public editorOptions: JsonEditorOptions;
   makeOptions = () => new JsonEditorOptions();
@@ -25,7 +29,7 @@ export class UIRuleComponent implements OnInit {
     private applicationService: ApplicationService, private toastr: NzMessageService,) {
     this.editorOptions = new JsonEditorOptions();
   }
-  nodesData : any[] = [];
+  nodesData: any[] = [];
   uiRuleForm: FormGroup;
   screenData: any;
   targetList: any = [];
@@ -36,17 +40,17 @@ export class UIRuleComponent implements OnInit {
   uiRuleId: string = '';
   ngOnInit(): void {
     const obj = {
-      title:"User Policy",
-      key:"policyId",
-      type:'string'
+      title: "User Policy",
+      key: "policyId",
+      type: 'string'
     }
-    const data  = JSON.parse(JSON.stringify(this.nodes));
+    const data = JSON.parse(JSON.stringify(this.nodes));
     this.nodes = data;
     this.nodes[0].children[1].children.push(obj);
     this.uiRule();
   }
   changeIf() {
-    
+
     // this.addUIRuleIfCondition(uiIndex).at(ifIndex).get("conditonType").setValue(conValue)
     this.targetList = [];
     var objTargetList = { key: '', value: '' };
@@ -212,7 +216,7 @@ export class UIRuleComponent implements OnInit {
   }
   onChangeTargetNameChild(event: any, uiIndex: number, index: number) {
 
-    const findObj = this.nodesData.find(a=>a.key == event);
+    const findObj = this.nodesData.find(a => a.key == event);
     this.addTargetCondition(uiIndex).at(index).patchValue({
       inputJsonData: findObj,
       inputOldJsonData: findObj
@@ -227,8 +231,7 @@ export class UIRuleComponent implements OnInit {
           inputOldJsonData: section
         });
       }
-      else
-      {
+      else {
         for (let j = 0; j < sectionData[k].children[1].children.length; j++) {
           var inputType = sectionData[k].children[1].children[j];
           if (inputType.type == "button" || inputType.type == "linkButton" || inputType.type == "dropdownButton") {
@@ -351,9 +354,91 @@ export class UIRuleComponent implements OnInit {
       changeData: [''],
     });
   }
+  modifedOriginalData() {
+    let data = JSON.stringify(this.uiRuleForm.value.uiRules);
+    let parseData = JSON.parse(data);
+    parseData.forEach((rule: any) => {
+      if (rule.targetCondition.length > 0) {
+        rule.targetCondition.forEach((ruleChild: any) => {
+          let findObj = this.findObjectByKey(this.nodes[0], ruleChild.targetName);
+          if (findObj)
+            delete ruleChild.inputOldJsonData;
+          delete ruleChild.changeData;
+          ruleChild['inputJsonData'] = JSON.parse(JSON.stringify(findObj));
+        })
+      }
+      else {
+        let findObj = this.findObjectByKey(this.nodes[0], rule.targetName);
+        if (findObj)
+          delete rule.inputOldJsonData;
+        delete rule.changeData;
+        rule['inputJsonData'] = JSON.parse(JSON.stringify(findObj));
+      }
+    });
+    const jsonUIResult = {
+      "key": this.selectedNode.key,
+      "title": this.selectedNode.title,
+      "screenName": this.screenName,
+      "applicationId": this.applicationId,
+      "screenBuilderId": this.screenId,
+      "uiData": parseData,
+      "patchOperations": ""
+    }
+    return jsonUIResult;
+  }
+
   saveUIRule() {
+    debugger
+    const data = JSON.parse(JSON.stringify(this.uiRuleForm.value.uiRules));
+    data.forEach((rule: any) => {
+      if (rule.targetCondition.length > 0) {
+        rule.targetCondition.forEach((ruleChild: any) => {
+          delete ruleChild.inputOldJsonData;
+          delete ruleChild.changeData;
+        })
+      }
+      else {
+        delete rule.inputOldJsonData;
+        delete rule.changeData;
+      }
+    });
+
+
+    const newData = {
+      // "key": this.selectedNode.chartCardConfig?.at(0)?.buttonGroup == undefined ? this.selectedNode.chartCardConfig?.at(0)?.formly?.at(0)?.fieldGroup?.at(0)?.key : this.selectedNode.chartCardConfig?.at(0)?.buttonGroup?.at(0)?.btnConfig[0].key,
+      "title": this.selectedNode.title,
+      "screenName": this.screenName,
+      "applicationId": this.applicationId,
+      "screenBuilderId": this.screenId,
+      "uiData": data,
+      "patchOperations": ""
+    }
     this.saveLoader = true;
-    const selectedScreen = this.screens.filter((a: any) => a._id == this.screenId)
+    let patchOperations: any = '';
+    // if (this.originalData) {
+    const getModifiedData = this.modifedOriginalData();
+    const cleanedChanges = this.removeDiffChanges(newData); //Changed Data
+    patchOperations = this.generatePatchOperations(getModifiedData, cleanedChanges);
+    // } else {
+    //   const cleanedChanges = this.removeDiffChanges(this.uiRuleForm.value);
+    //   patchOperations = this.generatePatchOperations(this.originalData, cleanedChanges);
+    // }
+
+    this.uiRuleForm.value.uiRules.forEach((rule: any) => {
+      if (rule.targetCondition.length > 0) {
+        rule.targetCondition.forEach((ruleChild: any) => {
+          ruleChild
+          delete ruleChild.inputJsonData;
+          delete ruleChild.inputOldJsonData;
+          delete ruleChild.changeData;
+        })
+
+      } else {
+        delete rule.targetCondition[0].inputJsonData;
+        delete rule.targetCondition[0].inputOldJsonData;
+        delete rule.targetCondition[0].changeData;
+      }
+    });
     const jsonUIResult = {
       // "key": this.selectedNode.chartCardConfig?.at(0)?.buttonGroup == undefined ? this.selectedNode.chartCardConfig?.at(0)?.formly?.at(0)?.fieldGroup?.at(0)?.key : this.selectedNode.chartCardConfig?.at(0)?.buttonGroup?.at(0)?.btnConfig[0].key,
       "key": this.selectedNode.key,
@@ -362,6 +447,7 @@ export class UIRuleComponent implements OnInit {
       "applicationId": this.applicationId,
       "screenBuilderId": this.screenId,
       "uiData": JSON.stringify(this.uiRuleForm.value.uiRules),
+      "patchOperations": patchOperations
     }
     const uiModel = {
       "UiRule": jsonUIResult
@@ -372,7 +458,7 @@ export class UIRuleComponent implements OnInit {
         : this.applicationService.updateNestCommonAPI('cp/UiRule', this.uiRuleId, uiModel);
       checkAndProcess.subscribe({
         next: (res: any) => {
-    this.saveLoader = false;
+          this.saveLoader = false;
           if (res.isSuccess) {
             this.toastr.success(res.message, { nzDuration: 3000 }); // Show an error message to the user
             this.uiRule();
@@ -384,7 +470,7 @@ export class UIRuleComponent implements OnInit {
             this.toastr.error(res.message, { nzDuration: 3000 }); // Show an error message to the user
         },
         error: (err) => {
-    this.saveLoader = false;
+          this.saveLoader = false;
           this.toastr.error("An error occurred", { nzDuration: 3000 }); // Show an error message to the user
         }
       });
@@ -423,11 +509,11 @@ export class UIRuleComponent implements OnInit {
   }
   getAllObjects(data: any): any[] {
     const foundObjects: any[] = [];
-  
+
     function recursiveFind(currentData: any) {
       if (currentData) {
         foundObjects.push(currentData);
-  
+
         if (currentData.children && currentData.children.length > 0) {
           for (const child of currentData.children) {
             recursiveFind(child);
@@ -435,14 +521,14 @@ export class UIRuleComponent implements OnInit {
         }
       }
     }
-  
+
     recursiveFind(data);
     return foundObjects;
   }
-  
+
   uiRule() {
     this.saveLoader = true;
-    
+
     //UIRule Form Declare
     this.uiRuleFormInitilize();
     this.ifMenuName = [];
@@ -459,7 +545,7 @@ export class UIRuleComponent implements OnInit {
     //   }
 
     // }
-   
+
     let sectionData = this.getAllObjects(this.nodes[0].children[1]);
     this.nodesData = sectionData;
     this.ifMenuList = sectionData;
@@ -472,7 +558,29 @@ export class UIRuleComponent implements OnInit {
       if (getRes.isSuccess) {
         if (getRes.data.length > 0) {
           this.uiRuleId = getRes.data[0]._id;
-          const objUiData = JSON.parse(getRes.data[0].uiData);
+          this.responseData = JSON.parse(JSON.stringify(getRes.data));
+          let parseData = JSON.parse(getRes.data[0].uiData);
+          let newData = JSON.parse(JSON.stringify(this.nodes))
+          parseData.forEach((rule: any) => {
+            if (rule.targetCondition.length > 0) {
+              rule.targetCondition.forEach((ruleChild: any) => {
+
+                let findObj = this.findObjectByKey(newData[0], ruleChild.targetName);
+                if (findObj)
+                  ruleChild['inputJsonData'] = findObj;
+              })
+            }
+            else {
+              let findObj = this.findObjectByKey(newData[0], rule.targetName);
+              if (findObj)
+                rule['inputJsonData'] = findObj;
+            }
+          });
+          let originalData = JSON.parse(JSON.stringify({ uiData: parseData }));
+          let objUiData = getRes.data[0].patchOperations ? jsonpatch.applyPatch(originalData, getRes.data[0].patchOperations).newDocument : parseData;
+          objUiData = objUiData.uiData ? objUiData.uiData : objUiData;
+          this.responseData[0].uiData = objUiData;
+
           this.uiRuleForm = this.formBuilder.group({
             uiRules: this.formBuilder.array(
               objUiData.map((getUIRes: any, uiIndex: number) =>
@@ -548,8 +656,8 @@ export class UIRuleComponent implements OnInit {
   }
   findElementNode(data: any, key: any) {
     if (data) {
-      if (data.key && key) {
-        if (data.key === key) {
+      if ((data.key ? data.key : data.formly[0]?.fieldGroup[0]?.key) && key) {
+        if ((data.key ? data.key : data.formly[0]?.fieldGroup[0]?.key) === key) {
           return data;
         }
         if (data.children.length > 0) {
@@ -584,5 +692,133 @@ export class UIRuleComponent implements OnInit {
       });
     else
       this.uiRuleFormInitilize();
+  }
+  separateRecordAndDifferences(user: any): { record: any, differences: any[] } {
+    const record: any = { ...user };
+    const differences: any[] = [];
+
+    // Extract the differences and remove them from the record
+    Object.keys(user).forEach((key) => {
+      if (!isNaN(Number(key))) { // Check if the key is a number
+        differences.push(user[key]);
+        delete record[key];
+      }
+    });
+
+    return { record, differences };
+  }
+
+  filterRemovedProperties(user: any): any {
+    const cleanedUser: any = { ...user };
+
+    // Remove properties with keys like "0", "1", etc.
+    Object.keys(cleanedUser).forEach(key => {
+      if (!isNaN(Number(key))) {
+        delete cleanedUser[key];
+      }
+    });
+
+    return cleanedUser;
+  }
+
+  applyChangesAndSave(changes: any) {
+    // if (!this.originalData) {
+    //   return Promise.reject('Original data not available');
+    // }
+
+    const originalUser = this.uiRuleForm.value;
+    let originalUserObj = {
+      originalUser
+    }
+    let changesObj = {
+      changes
+    }
+    // Remove diff changes from the changes object
+    const cleanedChanges = this.removeDiffChanges(changesObj);
+
+    const patchOperations = this.generatePatchOperations(originalUserObj, cleanedChanges);
+
+    // if (patchOperations.length === 0) {
+    //   // No differences found, nothing to update
+    //   return Promise.resolve();
+    // }
+    const updatedUser = jsonpatch.applyPatch(originalUser, patchOperations).newDocument;
+  }
+  private removeDiffChanges(changes: any): any {
+    // Check if the changes object is defined and has properties
+    if (!changes || typeof changes !== 'object' || Object.keys(changes).length === 0) {
+      return {};
+    }
+
+    const cleanedChanges: any = JSON.parse(JSON.stringify(changes));
+
+    // Remove properties with keys like "0", "1", etc.
+    Object.keys(cleanedChanges).forEach(key => {
+      if (!isNaN(Number(key))) {
+        delete cleanedChanges[key];
+      }
+    });
+
+    return cleanedChanges;
+  }
+  private generatePatchOperations(originalUser: any, changes: any): Operation[] {
+    const patchOperations: Operation[] = [];
+
+    const compareObjects = (obj1: any, obj2: any, path: string = ''): Operation[] => {
+      const differences: Operation[] = [];
+      if (obj1 && obj2) {
+        Object.keys(obj1).forEach((key) => {
+          const currentPath = `${path}/${key}`;
+
+          if (!obj2.hasOwnProperty(key)) {
+            // Add remove operation for properties not present in obj2
+            differences.push({ op: 'remove', path: currentPath });
+          } else {
+            const value1 = obj1[key];
+            const value2 = obj2[key];
+
+            if (typeof value1 === 'object' && typeof value2 === 'object') {
+              // Recursively compare nested objects
+              differences.push(...compareObjects(value1, value2, currentPath));
+            } else if (value1 !== value2) {
+              // Add replace operation for primitive values
+              differences.push({ op: 'replace', path: currentPath, value: value2 });
+            }
+          }
+        });
+        Object.keys(obj2).forEach((key) => {
+          const currentPath = `${path}/${key}`;
+          if (!obj1.hasOwnProperty(key)) {
+            differences.push({ op: 'add', path: currentPath, value: obj2[key] });
+          }
+        });
+      }
+      return differences; // Add this return statement
+    };
+
+
+    // Compare the entire uiData array
+    const uiDataDifferences = compareObjects(originalUser.uiData, changes.uiData, '/uiData');
+    patchOperations.push(...uiDataDifferences);
+
+    return patchOperations;
+  }
+  findObjectByKey(data: any, key: any) {
+    if (data) {
+      if (data.key && key) {
+        if (data.key === key) {
+          return data;
+        }
+        if (data.children && data.children.length > 0) {
+          for (let child of data.children) {
+            let result: any = this.findObjectByKey(child, key);
+            if (result !== null) {
+              return result;
+            }
+          }
+        }
+      }
+    }
+    return null;
   }
 }

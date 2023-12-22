@@ -41,7 +41,7 @@
 
                     <i class="fa-regular fa-trash !text-[#fd3636] pl-2 hover:cursor-pointer" nzTooltipTitle="Delete"
                         nz-tooltip nz-popconfirm nzPopconfirmTitle="Sure to delete?"
-                        (nzOnConfirm)="deleteRow(data._id)"></i>
+                        (nzOnConfirm)="deleteRow(data)"></i>
 
                     <i class="fa-regular fa-file-export !text-green-600 hover:cursor-pointer pl-2"
                         nzTooltipTitle="Go To Page" nz-tooltip routerLink="/pages/{{data.navigation}}"></i>

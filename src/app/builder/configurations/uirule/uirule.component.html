@@ -15,7 +15,8 @@
                       <div class="w-1/4  mb-4 px-2">
                         <label class="pt-1">Action Type</label>
                         <div>
-                          <nz-select class="form-select" formControlName="actionType" aria-label="Default Select Example"  nzShowSearch nzAllowClear>
+                          <nz-select class="form-select" formControlName="actionType"
+                            aria-label="Default Select Example" nzShowSearch nzAllowClear>
                             <nz-option nzValue="select" nzLabel="Select" selected></nz-option>
                             <nz-option nzValue="load" nzLabel="On Load"></nz-option>
                             <nz-option nzValue="click" nzLabel="On Click"></nz-option>
@@ -34,7 +35,7 @@
                           <nz-select nzShowSearch nzAllowClear formControlName="ifMenuName"
                             (ngModelChange)="[getConditionList(uiIndex)]">
                             <!-- (ngModelChange)="[changeIf(),getConditionList(uiIndex)]"> -->
-                            <nz-option [nzLabel]="uiData.title ? uiData.title : uiData.key" [nzValue]="uiData.key"
+                            <nz-option [nzLabel]="uiData.title ? uiData.title : uiData.key" [nzValue]="uiData?.formly ?  uiData?.formly[0]?.fieldGroup[0]?.key : uiData.key"
                               *ngFor="let uiData of ifMenuName"></nz-option>
                           </nz-select>
                         </div>
@@ -80,8 +81,9 @@
                                     <nz-select nzShowSearch nzAllowClear formControlName="ifMenuName"
                                       (ngModelChange)="[getConditionList(uiIndex)]">
                                       <!-- (ngModelChange)="[changeIf(), getConditionList(uiIndex,ifIndex)]"> -->
-                                      <nz-option [nzLabel]="uiData.title ? uiData.title : uiData.key"
-                                        [nzValue]="uiData.key" *ngFor="let uiData of ifMenuName"></nz-option>
+                                      <nz-option [nzLabel]="uiData?.formly ?  uiData?.formly[0]?.fieldGroup[0]?.key : uiData.key"
+                                        [nzValue]="uiData?.formly ?  uiData?.formly[0]?.fieldGroup[0]?.key : uiData.key"
+                                        *ngFor="let uiData of ifMenuName"></nz-option>
                                     </nz-select>
                                   </div>
                                 </div>
