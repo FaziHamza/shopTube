@@ -34,6 +34,7 @@ export class InputWrapperComponent extends FieldType<FieldTypeConfig>  {
   }
   onModelChange(event : any , field : any){
     this.selectedValue = event;
+    this.sharedService.onChange(event, this.field);
   }
 
 }

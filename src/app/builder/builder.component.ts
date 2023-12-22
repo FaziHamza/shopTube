@@ -2306,6 +2306,7 @@ export class BuilderComponent implements OnInit {
               formlyType: data?.parameter,
               hideExpression: false,
               title: res?.title ? res.title : obj.title,
+              key: res?.key ? res.key : obj.key,
               formly: [
                 {
                   fieldGroup: [
