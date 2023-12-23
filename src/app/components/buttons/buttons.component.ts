@@ -74,7 +74,7 @@ export class ButtonsComponent implements OnInit {
     // this.drawerClose();
     this.hostUrl = window.location.host;
     if (this.buttonData?.showPolicies || this.buttonData?.dropdownProperties == 'policyTheme') {
-      const obj = {userId : JSON.parse(window.localStorage['user'])}
+      const obj = { userId: JSON.parse(window.localStorage['user']) }
       this.natsService.publishMessage('Req_Cp_PolicyByUserId', obj);
 
     }
@@ -308,7 +308,7 @@ export class ButtonsComponent implements OnInit {
   async connectToNatsAndSubscribe(callback: (data: any) => void) {
     try {
       await this.natsService.connectToNats(environment.natsUrl);
-      this.natsService.subscribeToSubject('Res_Cp_PolicyByUserId', (err, data) => {
+      await this.natsService.subscribeToSubject('Res_Cp_PolicyByUserId', async (err, data) => {
         if (err) {
           console.error('Error:', err);
           return;

@@ -18,8 +18,8 @@ export class NatsService {
     }
   }
 
-  subscribeToSubject(subject: string, callback: (error: Error | null, data: any) => void): Subscription {
-    return this.nc.subscribe(subject, {
+  async subscribeToSubject(subject: string, callback: (error: Error | null, data: any) => Promise<void>): Promise<Subscription> {
+    return  await this.nc.subscribe(subject, {
       callback: (err, msg) => {
         if (err) {
           callback(err, null);
@@ -39,6 +39,7 @@ export class NatsService {
     let screenId = localStorage.getItem('screenId')! || '';
     let screenBuildId = localStorage.getItem('screenBuildId')! || '';
     let policyId = JSON.parse(localStorage.getItem('user')!)?.policy?.policyId
+    let theme = JSON.parse(window.localStorage['user']).policy?.policyTheme || '';
 
     message['applicationId'] = applicationId;
     message['organizationId'] = organizationId;
@@ -47,7 +48,7 @@ export class NatsService {
     message['user'] = user?.username || "";
     message['userId'] = id?.userId || "";
     message["policyId"] = policyId;
-
+    message["policyTheme"] = theme;
     const payloadData = this.sc.encode(JSON.stringify(message));
 
     this.nc.publish(subject, payloadData);

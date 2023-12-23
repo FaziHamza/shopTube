@@ -215,7 +215,7 @@ export class SiteLayoutComponent implements OnInit {
   async connectToNatsAndSubscribe(callback: (data: any) => void) {
     try {
       await this.natsService.connectToNats(environment.natsUrl);
-      this.natsService.subscribeToSubject('Res_Cp_Domain', (err, data) => {
+      await this.natsService.subscribeToSubject('Res_Cp_Domain', async (err, data) => {
         if (err) {
           console.error('Error:', err);
           return;
@@ -532,7 +532,7 @@ export class SiteLayoutComponent implements OnInit {
   async connectToNatsAndSubscribeComments(callback: (data: any) => void) {
     try {
       await this.natsService.connectToNats(environment.natsUrl);
-      this.natsService.subscribeToSubject('Res_Cp_UserComments', (err, data) => {
+      await this.natsService.subscribeToSubject('Res_Cp_UserComments', async (err, data) => {
         if (err) {
           console.error('Error:', err);
           return;
@@ -606,7 +606,7 @@ export class SiteLayoutComponent implements OnInit {
   async connectToNatsAndSubscribePolicy(callback: (data: any) => void) {
     try {
       await this.natsService.connectToNats(environment.natsUrl);
-      this.natsService.subscribeToSubject('Res_Cp_UserPolicyMenu', (err, data) => {
+     await  this.natsService.subscribeToSubject('Res_Cp_UserPolicyMenu', async (err, data) => {
         if (err) {
           console.error('Error:', err);
           return;

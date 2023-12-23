@@ -54,7 +54,9 @@ export class AuthInterceptor implements HttpInterceptor {
     let id = JSON.parse(localStorage.getItem('user')!).userId;
     let screenId = localStorage.getItem('screenId')! || '';
     let screenBuildId = localStorage.getItem('screenBuildId')! || '';
-    let policyId = JSON.parse(localStorage.getItem('user')!)?.policy?.policyId
+    let policyId = JSON.parse(localStorage.getItem('user')!)?.policy?.policyId;
+    let theme = JSON.parse(window.localStorage['user']).policy?.policyTheme || '';
+
     this.authReq = req.clone({
       setHeaders: {
         Authorization: `Bearer ${token}`,
@@ -64,7 +66,8 @@ export class AuthInterceptor implements HttpInterceptor {
         'screenBuildId': screenBuildId,
         'user': user,
         'userId': id,
-        "policyId": policyId
+        "policyId": policyId,
+        "policyTheme": theme
       },
     });
     return next

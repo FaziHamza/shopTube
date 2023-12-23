@@ -37,7 +37,7 @@ export class LoginComponent implements OnInit {
     try {
       debugger
       await this.natsService.connectToNats(environment.natsUrl);
-      this.natsService.subscribeToSubject('Res_Auth_Login', (err, data) => {
+      await this.natsService.subscribeToSubject('Res_Auth_Login', async (err, data) => {
         if (err) {
           console.error('Error:', err);
           return;

@@ -52,7 +52,6 @@ export class PagesComponent implements OnInit, OnDestroy {
   @Input() mappingId: any;
   private subscriptions: Subscription = new Subscription();
   private destroy$: Subject<void> = new Subject<void>();
-  checkValue: boolean = false;
   constructor(public employeeService: EmployeeService, private activatedRoute: ActivatedRoute,
     private clipboard: Clipboard, private applicationService: ApplicationService,
     public builderService: BuilderService,
@@ -99,7 +98,6 @@ export class PagesComponent implements OnInit, OnDestroy {
     });
     const applicationTheme = this.dataSharedService.applicationTheme.subscribe(res => {
       if (res && this.navigation) {
-        this.checkValue = true;
         this.applyApplicationTheme(this.resData[0], true);
       }
     });
@@ -117,7 +115,7 @@ export class PagesComponent implements OnInit, OnDestroy {
     const prevNextRecord = this.dataSharedService.prevNextRecord.subscribe((res: any) => {
       if (res && this.navigation) {
         this.filterDuplicateChildren(this.resData[0]);
-        this.checkDynamicSection(res?.tableRowId, true);
+        // this.checkDynamicSection(res?.tableRowId, true);
       }
     });
     const moveLinkSubscription = this.dataSharedService.moveLink.subscribe(res => {
@@ -153,35 +151,30 @@ export class PagesComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
 
-    try {
-      this.clearValues();
-      if (this.requestSubscription) {
-        this.requestSubscription.unsubscribe();
-      }
+    // try {
+    //   this.clearValues();
+    //   if (this.requestSubscription) {
+    //     this.requestSubscription.unsubscribe();
+    //   }
 
-      if (this.subscriptions) {
-        this.subscriptions.unsubscribe();
-      }
+    //   if (this.subscriptions) {
+    //     this.subscriptions.unsubscribe();
+    //   }
 
-      this.destroy$.next();
-      this.destroy$.complete();
-    } catch (error) {
-      console.error('Error in ngOnDestroy:', error);
-    }
+    //   this.destroy$.next();
+    //   this.destroy$.complete();
+    // } catch (error) {
+    //   console.error('Error in ngOnDestroy:', error);
+    // }
   }
   user: any;
   ngOnInit(): void {
-    this.connectToNatsAndSubscribe((data) => {
-
-    });
-    this.connectToNatsAndSubscribeBuilderScreen((data)=>{
-
-    });
     this.initHighlightFalseSubscription();
     this.initPageSubmitSubscription();
     this.initEventChangeSubscription();
     this.initActivatedRouteSubscription();
     this.user = JSON.parse(localStorage.getItem('user')!);
+
   }
 
   ngAfterViewInit() {
@@ -287,22 +280,31 @@ export class PagesComponent implements OnInit, OnDestroy {
     });
     this.subscriptions.add(subscription);
   }
-  paramsValue: any;
+  currentParams: any;
   private initActivatedRouteSubscription(): void {
 
     if (this.data.length == 0) {
-      const subscription = this.activatedRoute.params.subscribe((params: Params) => {
-        this.initiliaze(params);
+      const subscription = this.activatedRoute.params.subscribe(async (params: Params) => {
+        // this.initiliaze(params);
+        this.connectToNatsAndSubscribePageAuth((data) => {
 
+        });
+        this.connectToNatsAndSubscribe((data) => {
+
+        });
         if (params["schema"]) {
           // this.initiliaze(params);
           this.saveLoader = true;
           this.dataSharedService.currentMenuLink = "/pages/" + params["schema"];
           localStorage.setItem('screenId', this.dataSharedService.currentMenuLink);
           this.clearValues();
-          const obj = { screenId: params["schema"] };
-          this.paramsValue = params;
+          this.currentParams = params;
+          const obj: any = {
+            screenId: params["schema"],
+          }
+          await this.natsService.connectToNats(environment.natsUrl);
           this.natsService.publishMessage('Req_Cp_CheckPageAuth', obj);
+
         }
       });
       this.subscriptions.add(subscription);
@@ -310,34 +312,32 @@ export class PagesComponent implements OnInit, OnDestroy {
       this.initiliaze('');
     }
   }
-  async connectToNatsAndSubscribe(callback: (data: any) => void) {
+  async connectToNatsAndSubscribePageAuth(callback: (data: any) => void) {
     try {
       await this.natsService.connectToNats(environment.natsUrl);
-      this.natsService.subscribeToSubject('Res_Cp_CheckPageAuth', (err, data) => {
+      await this.natsService.subscribeToSubject('Res_Cp_CheckPageAuth',  async (err, data) => {
         if (err) {
           console.error('Error:', err);
           return;
         }
-        const parsedData = JSON.parse(data);
-        // callback(parsedData);
-        this.getNatsData(parsedData);
+        const res = JSON.parse(data);
+        if (res?.data) {
+          this.initiliaze(this.currentParams);
+        } else {
+          this.saveLoader = false;
+          this.router.navigateByUrl('permission-denied');
+        }
+        // this.natsService.closeConnection();
       });
     } catch (error) {
       console.error('Error connecting to NATS:', error);
     }
   }
-  getNatsData: any = (res: any) => {
-    if (res?.data) {
-      this.initiliaze(this.paramsValue);
-    } else {
-      this.saveLoader = false;
-      this.router.navigateByUrl('permission-denied');
-    }
-  }
   initiliaze(params: any) {
 
     if (this.data.length == 0) {
-      if (params && params["schema"]) {
+      if (params) {
+        debugger
         //True is check for params["id"] because this param also use for pdf
         if (params["id"] && params["id"] != 'pdf') {
           this.tableRowID = params["id"];
@@ -351,102 +351,103 @@ export class PagesComponent implements OnInit, OnDestroy {
         this.navigation = params["schema"];
         this.dataSharedService.currentMenuLink = '/pages/' + this.navigation;
         localStorage.setItem('screenId', this.dataSharedService.currentMenuLink);
-        const obj1 = {
-          modelType: 'Builder',
-          id: params["schema"]
-        }
+        this.getBuilderScreen(params);
+        // this.requestSubscription = this.applicationService.getNestCommonAPI("cp/getuserCommentsByApp/UserComment/pages/" + params["schema"]).subscribe((res: any) => {
+        //   if (res.isSuccess) {
+        //     let commentList = res.data
+        //     this.dataSharedService.screenCommentList = commentList;
 
-        this.natsService.publishMessage('Req_Cp_Model_ById', obj1);
-        const obj = {
-          modelType: 'UserAssignTask',
-          screenId: params["schema"],
-          appId: JSON.parse(localStorage.getItem('applicationId')!)
-        }
-        this.natsService.publishMessage('Req_Cp_userAssignTask', obj);
+        //   }
+        // })
       }
     }
     //
     else if (this.data.length > 0) {
-      debugger
-      const obj = {
-        modelType: "CacheRule",
-        id: this.data[0].data[0].screenBuilderId
-      }
-      this.natsService.publishMessage('Req_Cp_Model_ById', obj);
-    }
-  }
-  async connectToNatsAndSubscribeTask(callback: (data: any) => void) {
-    try {
-      await this.natsService.connectToNats(environment.natsUrl);
-      this.natsService.subscribeToSubject('Res_Cp_userAssignTask', (err, data) => {
-        if (err) {
-          console.error('Error:', err);
-          return;
-        }
-        const parsedData = JSON.parse(data);
-        // callback(parsedData);
-        this.getTaskManagementIssuesFunc(parsedData);
-      });
-    } catch (error) {
-      console.error('Error connecting to NATS:', error);
-    }
-  }
-  getBuilderScreen: any = (res: any) => {
-    if (res.isSuccess && res.data.length > 0) {
-      this.saveLoader = false;
-      localStorage.setItem('screenBuildId', res.data[0].screenBuilderId);
-      this.handleCacheRuleRequest(res.data[0].screenBuilderId, res);
-    } else {
-      this.toastr.error(res.message, { nzDuration: 3000 });
-      this.saveLoader = false;
-    }
-  }
-  async connectToNatsAndSubscribeBuilderScreen(callback: (data: any) => void) {
-    try {
-      await this.natsService.connectToNats(environment.natsUrl);
-      this.natsService.subscribeToSubject('Res_Cp_Model_ById', (err, data) => {
-        debugger
-        if (err) {
-          console.error('Error:', err);
-          return;
-        }
-        const parsedData = JSON.parse(data);
-        const responseType = parsedData.responseType;
-        // callback(parsedData);
-        switch (responseType) {
-          case 'Builder':
-            this.getBuilderScreen(parsedData);
-            break;
-          case 'CacheRule':
-            this.getCacheRule(parsedData);
+
+      this.applicationService.getNestCommonAPIById("cp/CacheRule", this.data[0].data[0].screenBuilderId)
+        .pipe(
+          takeUntil(this.destroy$)
+        ).subscribe({
+          next: (rule: any) => {
+            this.saveLoader = false;
+            // if(rule.isSuccess)
+            this.getCacheRule(rule);
             // this.actionsBindWithPage(this.data[0]);
             this.applyApplicationTheme(this.data[0]);
-            break;
-          // Add more cases as needed
-          default:
-          // console.warn('Unhandled responseType:', responseType);
+          },
+          error: (err) => {
+            this.saveLoader = false;
+            // this.actionsBindWithPage(this.data[0]);
+            this.applyApplicationTheme(this.data[0]);
+            console.error(err);
+            // this.toastr.error("An error occurred", { nzDuration: 3000 });
+          }
+        });
+
+
+      // this.requestSubscription = this.applicationService.getNestCommonAPIById("cp/ActionRule", this.data[0].data[0].screenBuilderId).subscribe({
+      //   next: (actions: any) => {
+      //     this.actionRuleList = actions?.data;
+      //     this.actionsBindWithPage(this.data[0]);
+      //   },
+      //   error: (err) => {
+      //     this.actionsBindWithPage(this.data[0]);
+      //     console.error(err);
+      //     // this.toastr.error("An error occurred", { nzDuration: 3000 });
+      //   }
+      // })
+    }
+  }
+  async getBuilderScreen(params: any) {
+    this.saveLoader = true;
+    const obj: any = {
+      modelType: 'Builder',
+      id: params["schema"],
+    }
+    await this.natsService.connectToNats(environment.natsUrl);
+    await this.natsService.publishMessage('Req_Cp_Model_ById', obj);
+  }
+  async connectToNatsAndSubscribe(callback: (data: any) => void) {
+    try {
+      await this.natsService.connectToNats(environment.natsUrl);
+      await this.natsService.subscribeToSubject('Res_Cp_Model_ById', async (err, data) => {
+        if (err) {
+          console.error('Error:', err);
+          return;
         }
+        debugger
+        const res = JSON.parse(data);
+        if (res.isSuccess && res.data) {
+          this.saveLoader = false;
+          const dataV1 = res.data;
+          localStorage.setItem('screenBuildId', dataV1.builder[0].screenBuilderId);
+          this.getCacheRule(dataV1.cacheRule);
+          // this.applyApplicationTheme(dataV1.builder);
+          let user = JSON.parse(window.localStorage['user']);
+          if (user.policy?.policyTheme)
+            this.applicationThemeData = dataV1?.policyTheme;
+
+          this.actionsBindWithPage(dataV1.builder, this.applicationThemeData);
+          this.getTaskManagementIssues = dataV1.userAssignTask;
+
+        } else {
+          this.toastr.error(res.message, { nzDuration: 3000 });
+          this.saveLoader = false;
+        }
+        this.natsService.closeConnection();
       });
     } catch (error) {
       console.error('Error connecting to NATS:', error);
     }
-  }
-  handleCacheRuleRequest(screenBuilderId: any, res: any) {
-    this.saveLoader = true;
-    const obj = {
-      modelType: "CacheRule",
-      id: screenBuilderId
-    }
-    this.natsService.publishMessage('Req_Cp_Model_ById', obj);
   }
   editData: any;
   actionsBindWithPage(res: any, res1: any) {
 
-    this.screenId = res.data[0].screenBuilderId;
-    this.screenName = res.data[0].screenName;
-    this.navigation = res.data[0].navigation;
+    this.screenId = res[0].screenBuilderId;
+    this.screenName = res[0].screenName;
+    this.navigation = res[0].navigation;
 
-    let data = res.data[0].screenData;
+    let data = res[0].screenData;
 
     if (typeof data === 'string') {
       // It's a JSON string, parse it
@@ -551,7 +552,7 @@ export class PagesComponent implements OnInit, OnDestroy {
             catchError((error: any) => of(error)) // Handle error and continue the forkJoin
           );
         });
-        this.saveLoader = true;
+        // this.saveLoader = true;
         this.requestSubscription = forkJoin(observables).subscribe({
           next: (results: any) => {
             this.saveLoader = false;
@@ -1522,7 +1523,7 @@ export class PagesComponent implements OnInit, OnDestroy {
 
   getCacheRule(getRes: any) {
 
-    getRes.data.forEach((res: any) => {
+    getRes.forEach((res: any) => {
       if (res.name == 'BusinessRule') {
         if (res.data) {
           this.businessRuleData = [];
@@ -1934,12 +1935,14 @@ export class PagesComponent implements OnInit, OnDestroy {
       }
     }
   }
+
   makeDynamicSections(api: any, selectedNode: any) {
     let checkFirstTime = true;
     let tabsAndStepper: any = [];
     if (api && (selectedNode.componentMapping == undefined || selectedNode.componentMapping == '' || selectedNode.componentMapping == false)) {
-      this.saveLoader = true;
+      // this.saveLoader = true;
       try {
+
         this.requestSubscription = this.applicationService.getNestCommonAPI(api).subscribe({
           next: (res) => {
             // this.dataSharedService.queryId = '';
@@ -2126,66 +2129,9 @@ export class PagesComponent implements OnInit, OnDestroy {
     return null;
   }
   dataReplace(node: any, replaceData: any, value: any): any {
-    let typeMap: any = {
-      cardWithComponents: 'title',
-      buttonGroup: 'title',
-      button: 'title',
-      downloadButton: 'path',
-      breakTag: 'title',
-      switch: 'title',
-      imageUpload: 'source',
-      heading: 'text',
-      paragraph: 'text',
-      alert: 'text',
-      progressBar: 'percent',
-      video: 'videoSrc',
-      audio: 'audioSrc',
-      carouselCrossfade: 'carousalConfig',
-      tabs: 'title',
-      mainTab: 'title',
-      mainStep: 'title',
-      listWithComponents: 'title',
-      listWithComponentsChild: 'title',
-      step: 'title',
-      kanban: 'title',
-      simplecard: 'title',
-      div: 'title',
-      textEditor: 'title',
-      multiFileUpload: 'uploadBtnLabel',
-      accordionButton: 'title',
-      divider: 'dividerText',
-      toastr: 'toasterTitle',
-      rate: 'icon',
-      editor_js: 'title',
-      rangeSlider: 'title',
-      affix: 'title',
-      statistic: 'title',
-      anchor: 'title',
-      modal: 'btnLabel',
-      popConfirm: 'btnLabel',
-      avatar: 'src',
-      badge: 'nzText',
-      comment: 'avatar',
-      description: 'btnText',
-      descriptionChild: 'content',
-      segmented: 'title',
-      result: 'resultTitle',
-      tree: 'title',
-      transfer: 'title',
-      spin: 'loaderText',
-      cascader: 'title',
-      drawer: 'btnText',
-      skeleton: 'title',
-      empty: 'text',
-      list: 'title',
-      treeView: 'title',
-      message: 'content',
-      mentions: 'title',
-      icon: 'title'
-    };
-
+    let typeMap: any = this.dataSharedService.typeMap;
     const type = node.type;
-    const key = typeMap[type];
+    const key = value.componentKey ? value.componentKey : typeMap[type];
     if (node.formly) {
       if (node.type == 'multiselect') {
         if (replaceData['orderrequest.requiredfrequency']) {
@@ -2670,16 +2616,7 @@ export class PagesComponent implements OnInit, OnDestroy {
       });
     }
   }
-  getTaskManagementIssuesFunc: any = (res: any) => {
-    if (res.isSuccess) {
-      if (res.data.length > 0) {
-        this.getTaskManagementIssues = res.data;
-      }
-    }
-    else {
-      this.toastr.error(`userAssignTask:` + res.message, { nzDuration: 3000 });
-    }
-  }
+
   pushObjectsById(targetArray: any[], sourceArray: any[], idToMatch: string): void {
     for (let i = 0; i < targetArray.length; i++) {
       const item = targetArray[i];
@@ -2902,58 +2839,29 @@ export class PagesComponent implements OnInit, OnDestroy {
   }
   applicationThemeData: any[] = [];
   applyApplicationTheme(res1: any, notAllowRuleGet?: any) {
-    debugger
     let user = JSON.parse(window.localStorage['user']);
     if (user.policy?.policyTheme) {
       this.saveLoader = true;
-      const obj = {
-        ThemeName: user.policy?.policyTheme
-      }
-      this.natsService.publishMessage('Req_App_Theme', obj);
-
+      this.applicationService.getNestCommonAPI(`applicationTheme/allBythemeName${user.policy?.policyTheme}`).subscribe(((res: any) => {
+        this.saveLoader = false;
+        if (res.isSuccess) {
+          this.applicationThemeData = res?.data;
+          if (notAllowRuleGet) {
+            this.findObjectByTypeAndApplyApplictionTheme(res1, this.applicationThemeData)
+          } else {
+            this.actionsBindWithPage(res1, this.applicationThemeData);
+          }
+        } else {
+          this.actionsBindWithPage(res1, this.applicationThemeData);
+          this.toastr.warning(res.message, { nzDuration: 2000 });
+        }
+      }));
     } else {
       this.saveLoader = false;
       this.actionsBindWithPage(res1, this.applicationThemeData);
     }
   }
-  applyTheme: any = (res: any) => {
-    let notAllowRuleGet = false;
-    let res1;
-    if (this.checkValue) {
-      notAllowRuleGet = true;
-      res1 = this.resData[0]
-    } else {
-      res1 = this.data[0];
-    }
-    if (res.isSuccess) {
-      this.applicationThemeData = res?.data;
 
-      if (notAllowRuleGet) {
-        this.findObjectByTypeAndApplyApplictionTheme(res1, this.applicationThemeData)
-      } else {
-        this.actionsBindWithPage(res1, this.applicationThemeData);
-      }
-    } else {
-      this.actionsBindWithPage(res1, this.applicationThemeData);
-      this.toastr.warning(res.message, { nzDuration: 2000 });
-    }
-  }
-  async connectToNatsAndSubscribeTheme(callback: (data: any) => void) {
-    try {
-      await this.natsService.connectToNats(environment.natsUrl);
-      this.natsService.subscribeToSubject('Res_Cp_Domain', (err, data) => {
-        if (err) {
-          console.error('Error:', err);
-          return;
-        }
-        const parsedData = JSON.parse(data);
-
-        this.applyTheme(parsedData);
-      });
-    } catch (error) {
-      console.error('Error connecting to NATS:', error);
-    }
-  }
   findObjectByTypeAndApplyApplictionTheme(data: any, ThemeData: any) {
     if (data?.formly) {
       let input: any = ThemeData.find((item: any) => item.tag === 'input');
