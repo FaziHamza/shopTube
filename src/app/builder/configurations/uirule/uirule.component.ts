@@ -6,6 +6,7 @@ import { ApplicationService } from 'src/app/services/application.service';
 import { BuilderService } from 'src/app/services/builder.service';
 import * as jsonpatch from 'fast-json-patch';
 import { Operation } from 'fast-json-patch';
+import { diff, Config, DiffPatcher, formatters, Delta } from "jsondiffpatch";
 
 @Component({
   selector: 'st-uirule',
@@ -25,6 +26,7 @@ export class UIRuleComponent implements OnInit {
   saveLoader: any = false;
   public editorOptions: JsonEditorOptions;
   makeOptions = () => new JsonEditorOptions();
+  private jsondiffpatch = new DiffPatcher();
   constructor(private formBuilder: FormBuilder, private builderService: BuilderService,
     private applicationService: ApplicationService, private toastr: NzMessageService,) {
     this.editorOptions = new JsonEditorOptions();
@@ -319,9 +321,11 @@ export class UIRuleComponent implements OnInit {
 
   }
   saveJsonStringify(uiIndex: number, index: number) {
+    let findObj = this.findObjectByKey(this.nodesData[0], this.addTargetCondition(uiIndex)?.at(index)?.get("inputJsonData")?.value.key)
     this.addTargetCondition(uiIndex).at(index).patchValue({
       // inputJsonData: this.addTargetCondition(uiIndex).at(index).get("inputJsonData").value,
-      changeData: this.compare(this.addTargetCondition(uiIndex)?.at(index)?.get("inputJsonData")?.value, this.addTargetCondition(uiIndex)?.at(index)?.get("inputOldJsonData")?.value)
+      diff:this.jsondiffpatch.diff(findObj, this.addTargetCondition(uiIndex)?.at(index)?.get("inputJsonData")?.value),
+      // changeData: this.compare(this.addTargetCondition(uiIndex)?.at(index)?.get("inputJsonData")?.value, this.addTargetCondition(uiIndex)?.at(index)?.get("inputOldJsonData")?.value)
     });
   }
   compare(newData: any, oldData: any) {
@@ -364,6 +368,7 @@ export class UIRuleComponent implements OnInit {
           if (findObj)
             delete ruleChild.inputOldJsonData;
           delete ruleChild.changeData;
+          delete ruleChild.diff;
           ruleChild['inputJsonData'] = JSON.parse(JSON.stringify(findObj));
         })
       }
@@ -372,6 +377,7 @@ export class UIRuleComponent implements OnInit {
         if (findObj)
           delete rule.inputOldJsonData;
         delete rule.changeData;
+        delete rule.diff;
         rule['inputJsonData'] = JSON.parse(JSON.stringify(findObj));
       }
     });
@@ -395,11 +401,13 @@ export class UIRuleComponent implements OnInit {
         rule.targetCondition.forEach((ruleChild: any) => {
           delete ruleChild.inputOldJsonData;
           delete ruleChild.changeData;
+          delete ruleChild.diff;
         })
       }
       else {
         delete rule.inputOldJsonData;
         delete rule.changeData;
+        delete rule.diff;
       }
     });
 
@@ -581,6 +589,24 @@ export class UIRuleComponent implements OnInit {
           objUiData = objUiData.uiData ? objUiData.uiData : objUiData;
           this.responseData[0].uiData = objUiData;
 
+          objUiData.forEach((rule: any) => {
+            if (rule.targetCondition.length > 0) {
+              rule.targetCondition.forEach((ruleChild: any) => {
+                let findObj = this.findObjectByKey(newData[0], ruleChild.targetName);
+                if (findObj) {
+                  const diff: any = this.jsondiffpatch.diff(findObj, ruleChild['inputJsonData']);
+                  ruleChild['diff'] = diff;
+                }
+              })
+            }
+            else {
+              let findObj = this.findObjectByKey(newData[0], rule.targetName);
+              if (findObj) {
+                const diff: any = this.jsondiffpatch.diff(findObj, rule['inputJsonData']);
+                rule['diff'] = diff;
+              }
+            }
+          });
           this.uiRuleForm = this.formBuilder.group({
             uiRules: this.formBuilder.array(
               objUiData.map((getUIRes: any, uiIndex: number) =>
@@ -607,6 +633,7 @@ export class UIRuleComponent implements OnInit {
                       formattingName: [getTargetRes.formattingName],
                       inputJsonData: [getTargetRes.inputJsonData],
                       inputOldJsonData: [getTargetRes.inputOldJsonData],
+                      diff: [getTargetRes.diff],
                       changeData: getTargetRes.changeData
                     })
                   )),
