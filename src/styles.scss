@@ -7934,7 +7934,161 @@ nz-input-group:active {
   margin-left: 0px !important;
 }
 
+.ant-steps.steper.ant-steps-horizontal.ant-steps-label-horizontal.ant-steps-label-vertical {
+  .ant-steps-item-content {
+    margin-top: 0px !important;
+  }
+}
 
+.ant-steps.ant-steps-horizontal.ant-steps-label-horizontal.ant-steps-label-vertical.ant-steps-navigation.ant-steps-small {
+  .ant-steps-item-container {
+    height: fit-content !important;
+  }
+}
+
+.ant-steps.steper.ant-steps-vertical.ant-steps-navigation {
+  .ant-steps-item::after {
+    top: 15px;
+    left: 48%;
+    width: 15px;
+    height: 15px;
+  }
+
+  .ant-steps-item:last-child::after {
+    display: none !important;
+  }
+
+  .ant-steps-item.ant-steps-item-active::before {
+    display: none !important;
+  }
+
+  .ant-steps-item {
+    width: 150px;
+  }
+
+}
+
+.ant-steps.ant-steps-vertical.ant-steps-small .ant-steps.ant-steps-vertical.ant-steps-navigation.ant-steps-small {
+  .ant-steps-item-container {
+    padding-bottom: 0px !important;
+  }
+
+  .ant-steps-item-content {
+    padding-left: 7px !important;
+  }
+}
+
+.ant-steps.ant-steps-vertical.ant-steps-small {
+  .ant-steps-item-tail {
+    top: -63px !important;
+    left: -26px !important;
+  }
+
+  .ant-steps-item:first-child {
+    margin-top: 10px !important;
+  }
+
+  .ant-steps-item {
+    margin: 10px 0px !important;
+  }
+
+  .ant-steps-item:first-child {
+    margin-bottom: 10px !important;
+  }
+
+  .ant-steps-item-content {
+    padding-left: 7px !important;
+  }
+}
+
+
+// .ant-steps.steper.ant-steps-vertical {
+//   .nz-step.ant-steps-item:first-child {
+//     margin-bottom: 10px;
+//   }
+
+//   .nz-step.ant-steps-item:last-child {
+//     margin-top: 10px;
+//   }
+
+//   .nz-step.ant-steps-item:not(:first-child):not(:last-child) {
+//     margin: 10px 0px;
+//   }
+
+
+// }
+
+.ant-steps.steper1.ant-steps-horizontal.ant-steps-label-horizontal.ant-steps-label-vertical.ant-steps-navigation {
+  .ant-steps-item-container .ant-steps-item-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .ant-steps-item-custom .ant-steps-item-icon {
+    width: 100% !important;
+    margin: 0 !important;
+  }
+}
+
+
+.ant-steps.steper1.ant-steps-horizontal.ant-steps-label-horizontal.ant-steps-label-vertical {
+
+  // .ant-steps-item-icon{
+  //   margin: auto !important;
+  // }
+  .ant-steps-item-tail {
+    top: -5px !important;
+    left: -5px !important;
+  }
+}
+
+.ant-steps.steper1.ant-steps-vertical {
+  .ant-steps-item-container {
+    padding: 8px;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    min-height: 70px !important;
+    height: auto;
+    width: auto;
+  }
+
+  .ant-steps-item-description {
+    padding-bottom: 0px !important;
+  }
+
+  .ant-steps-item-content,
+  .ant-steps-item-icon {
+    height: fit-content !important;
+    min-height: fit-content !important;
+  }
+
+  .ant-steps-item-tail {
+    top: -17px !important;
+  }
+
+}
+
+.ant-steps.steper1.ant-steps-vertical.ant-steps-small {
+  .ant-steps-item-custom .ant-steps-item-icon {
+    width: auto !important;
+  }
+
+  .ant-steps-item-container {
+    min-height: 55px !important;
+  }
+
+  .ant-steps-item-title {
+    margin-top: 0px !important;
+  }
+
+  .ant-steps-item-tail {
+    top: -31px !important;
+    left: 13px !important;
+  }
+
+}
 
 // vertical stepper 1 default size
 .ant-steps-vertical {
@@ -7979,9 +8133,9 @@ nz-input-group:active {
 
 // horizental navigation stepper 1 default size
 .steper1.ant-steps-navigation.ant-steps-horizontal {
-  .ant-steps-item:not(.ant-steps-item-active) .ant-steps-item-container[role="button"] {
-    max-height: 47px !important;
-  }
+  // .ant-steps-item:not(.ant-steps-item-active) .ant-steps-item-container[role="button"] {
+  //   max-height: 47px !important;
+  // }
 
   .ant-steps-item-active {
     padding-bottom: 4px !important;
@@ -8233,6 +8387,7 @@ nz-input-group:active {
 
 
 }
+
 .button-drawer {
   .ant-drawer-header {
     position: relative;
@@ -8249,7 +8404,11 @@ nz-input-group:active {
 
 .list-card {
   .ant-card-body {
-    padding: 0px !important; 
+    padding: 0px !important;
     height: 100% !important;
   }
+}
+
+.pagClr {
+  color: $primary-color !important;
 }
