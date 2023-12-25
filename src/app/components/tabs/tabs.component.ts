@@ -16,6 +16,7 @@ export class TabsComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
+    document.documentElement.style.setProperty('--selected-tab-color',this.tabs?.selectedTabColor || '#1890ff');
   }
   handleTabChange(index: number) {
     console.log('Selected tab index: ', index);
@@ -25,6 +26,7 @@ export class TabsComponent implements OnInit {
     console.log(e);
   }
   handleTabSelect(index: any) {
+    this.tabs.selectedIndex = index;
     console.log('Selected tab index: ', index);
     // add your code here to handle the tab select event
   }

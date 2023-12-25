@@ -152,14 +152,15 @@
                                           </json-editor>
                                         </div>
                                         <div class="w-1/2 px-2">
-                                          <json-editor formControlName="diff" id="diff{{uiIndex}}"
+                                          <!-- <json-editor formControlName="diff" id="diff{{uiIndex}}"
                                             [options]="editorOptions" style="max-height: 150px !important;"
                                             [options]="makeOptions()">
-                                          </json-editor>
+                                          </json-editor> -->
+                                          <div id="app{{uiIndex}}diff{{index}}">
+                                          </div>
                                         </div>
                                       </div>
                                     </div>
-                                    <!-- {{uiRuleForm.value.uiRules[uiIndex]?.targetCondition[index]?.diff | json}} -->
                                   </div>
                                 </div>
                                 <div class="col-md-1 mt-4">

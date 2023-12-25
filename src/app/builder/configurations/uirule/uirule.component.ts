@@ -40,6 +40,8 @@ export class UIRuleComponent implements OnInit {
   actionTypeList: any = [];
   ifMenuList: any = [];
   uiRuleId: string = '';
+  invoice1: any;
+  invoice2: any;
   ngOnInit(): void {
     const obj = {
       title: "User Policy",
@@ -50,6 +52,9 @@ export class UIRuleComponent implements OnInit {
     this.nodes = data;
     this.nodes[0].children[1].children.push(obj);
     this.uiRule();
+    this.invoice1 = { "title": "Select One" };
+    this.invoice2 = { "title": "Select two" };
+    // this.applyDiff();
   }
   changeIf() {
 
@@ -321,12 +326,21 @@ export class UIRuleComponent implements OnInit {
 
   }
   saveJsonStringify(uiIndex: number, index: number) {
-    let findObj = this.findObjectByKey(this.nodesData[0], this.addTargetCondition(uiIndex)?.at(index)?.get("inputJsonData")?.value.key)
-    this.addTargetCondition(uiIndex).at(index).patchValue({
-      // inputJsonData: this.addTargetCondition(uiIndex).at(index).get("inputJsonData").value,
-      diff:this.jsondiffpatch.diff(findObj, this.addTargetCondition(uiIndex)?.at(index)?.get("inputJsonData")?.value),
-      // changeData: this.compare(this.addTargetCondition(uiIndex)?.at(index)?.get("inputJsonData")?.value, this.addTargetCondition(uiIndex)?.at(index)?.get("inputOldJsonData")?.value)
-    });
+    let findObj = this.findObjectByKey(this.nodesData[0], this.addTargetCondition(uiIndex)?.at(index)?.get("inputJsonData")?.value.key);
+    if (findObj) {
+      const jsondiffpatch = require('jsondiffpatch');
+      const appDiv: any = document.getElementById(`app${uiIndex}diff${index}`);
+      const diff: any = jsondiffpatch.diff(findObj, this.addTargetCondition(uiIndex)?.at(index)?.get("inputJsonData")?.value);
+      appDiv.innerHTML = jsondiffpatch.formatters.html.format(diff, this.invoice1);
+      jsondiffpatch.formatters.html.hideUnchanged();
+    }
+
+    // this.addTargetCondition(uiIndex).at(index).patchValue({
+    //   // inputJsonData: this.addTargetCondition(uiIndex).at(index).get("inputJsonData").value,
+
+    //   diff: this.jsondiffpatch.diff(findObj, this.addTargetCondition(uiIndex)?.at(index)?.get("inputJsonData")?.value),
+    //   // changeData: this.compare(this.addTargetCondition(uiIndex)?.at(index)?.get("inputJsonData")?.value, this.addTargetCondition(uiIndex)?.at(index)?.get("inputOldJsonData")?.value)
+    // });
   }
   compare(newData: any, oldData: any) {
     const changes: any[] = [];
@@ -404,11 +418,6 @@ export class UIRuleComponent implements OnInit {
           delete ruleChild.diff;
         })
       }
-      else {
-        delete rule.inputOldJsonData;
-        delete rule.changeData;
-        delete rule.diff;
-      }
     });
 
 
@@ -441,10 +450,6 @@ export class UIRuleComponent implements OnInit {
           delete ruleChild.changeData;
         })
 
-      } else {
-        delete rule.targetCondition[0].inputJsonData;
-        delete rule.targetCondition[0].inputOldJsonData;
-        delete rule.targetCondition[0].changeData;
       }
     });
     const jsonUIResult = {
@@ -535,6 +540,7 @@ export class UIRuleComponent implements OnInit {
   }
 
   uiRule() {
+    debugger
     this.saveLoader = true;
 
     //UIRule Form Declare
@@ -578,35 +584,13 @@ export class UIRuleComponent implements OnInit {
                   ruleChild['inputJsonData'] = findObj;
               })
             }
-            else {
-              let findObj = this.findObjectByKey(newData[0], rule.targetName);
-              if (findObj)
-                rule['inputJsonData'] = findObj;
-            }
           });
           let originalData = JSON.parse(JSON.stringify({ uiData: parseData }));
           let objUiData = getRes.data[0].patchOperations ? jsonpatch.applyPatch(originalData, getRes.data[0].patchOperations).newDocument : parseData;
           objUiData = objUiData.uiData ? objUiData.uiData : objUiData;
           this.responseData[0].uiData = objUiData;
 
-          objUiData.forEach((rule: any) => {
-            if (rule.targetCondition.length > 0) {
-              rule.targetCondition.forEach((ruleChild: any) => {
-                let findObj = this.findObjectByKey(newData[0], ruleChild.targetName);
-                if (findObj) {
-                  const diff: any = this.jsondiffpatch.diff(findObj, ruleChild['inputJsonData']);
-                  ruleChild['diff'] = diff;
-                }
-              })
-            }
-            else {
-              let findObj = this.findObjectByKey(newData[0], rule.targetName);
-              if (findObj) {
-                const diff: any = this.jsondiffpatch.diff(findObj, rule['inputJsonData']);
-                rule['diff'] = diff;
-              }
-            }
-          });
+
           this.uiRuleForm = this.formBuilder.group({
             uiRules: this.formBuilder.array(
               objUiData.map((getUIRes: any, uiIndex: number) =>
@@ -641,6 +625,23 @@ export class UIRuleComponent implements OnInit {
               )
             )
           });
+          setTimeout(() => {
+            objUiData.forEach((rule: any , uiIndex : number) => {
+              if (rule.targetCondition.length > 0) {
+                rule.targetCondition.forEach((ruleChild: any , index : number) => {
+                  let findObj = this.findObjectByKey(newData[0], ruleChild.targetName);
+                  if (findObj) {
+                    const jsondiffpatch = require('jsondiffpatch');
+                    const appDiv: any = document.getElementById(`app${uiIndex}diff${index}`);
+                    const diff: any = jsondiffpatch.diff(findObj, ruleChild['inputJsonData']);
+                    appDiv.innerHTML = jsondiffpatch.formatters.html.format(diff, this.invoice1);
+                    jsondiffpatch.formatters.html.hideUnchanged();
+                  }
+                })
+              }
+            });
+          }, 200);
+
         }
       } else
         this.toastr.error(getRes.message, { nzDuration: 3000 });
@@ -847,5 +848,18 @@ export class UIRuleComponent implements OnInit {
       }
     }
     return null;
+  }
+  applyDiff() {
+    debugger
+
+    setTimeout(() => {
+      const appDiv: any = document.getElementById('app');
+      const jsondiffpatch = require('jsondiffpatch');
+      let delta = jsondiffpatch.create().diff(this.invoice1, this.invoice2);
+      appDiv.innerHTML = jsondiffpatch.formatters.html.format(delta, this.invoice1);
+      jsondiffpatch.formatters.html.hideUnchanged();
+      console.log(delta);
+
+    }, 1000);
   }
 }

@@ -5580,6 +5580,16 @@ export class formFeildData {
           }
         },
         {
+          key: 'selectedTabColor',
+          type: 'input',
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          wrappers: ["formly-vertical-theme-wrapper"],
+          props: {
+            type: 'color',
+            label: 'Selected Tab color',
+          }
+        },
+        {
           key: 'tabType',
           type: 'select',
           className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",

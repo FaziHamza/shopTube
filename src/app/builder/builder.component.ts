@@ -1643,7 +1643,7 @@ export class BuilderComponent implements OnInit {
       value == 'downloadButton'
 
     ) {
-      newNode.isSubmit = res.isSubmit;
+      newNode.isSubmit = res?.isSubmit || false;
     }
     if (value == 'invoiceGrid') {
       newNode.type = 'gridList';
@@ -3808,6 +3808,7 @@ export class BuilderComponent implements OnInit {
         this.toastr.success('Control Added', { nzDuration: 3000 });
         break;
     }
+    this.addControl = false;
   }
 
 
@@ -4266,6 +4267,7 @@ export class BuilderComponent implements OnInit {
       //   }
       //   break;
       case 'mainTab':
+        document.documentElement.style.setProperty('--selected-tab-color', event.form?.selectedTabColor || 'red');
         this.addDynamic(event.form.nodes, 'tabs', 'mainTab');
         break;
       case 'kanban':
