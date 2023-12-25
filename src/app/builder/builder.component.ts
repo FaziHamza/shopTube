@@ -4791,6 +4791,7 @@ export class BuilderComponent implements OnInit {
           this.selectedNode['thClass'] = event.form?.thClass;
           this.selectedNode['tbodyClass'] = event.form?.tbodyClass;
           this.selectedNode['tdClass'] = event.form?.tdClass;
+          this.selectedNode['tdrowClass'] = event.form?.tdrowClass;
           this.selectedNode['hieght'] = event.form?.hieght;
           this.selectedNode['searchfieldClass'] = event.form?.searchfieldClass;
           this.selectedNode['actionButtonClass'] = event.form?.actionButtonClass;
