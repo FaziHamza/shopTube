@@ -13,6 +13,7 @@ export class IconComponent implements OnInit {
   @Input() hoverIconColor: any;
   @Input() iconClass: any;
   @Input() applicationThemeClasses: any;
+  @Input() appGlobalClass: any;
   constructor() { }
   mainColor: any;
 

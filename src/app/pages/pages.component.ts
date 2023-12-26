@@ -1869,8 +1869,14 @@ export class PagesComponent implements OnInit, OnDestroy {
             let splittedName = classItem.split('$')[1];
             let resClass: any = this.dataSharedService.applicationGlobalClass.find((item: any) => item.name == splittedName);
             if (resClass) {
-              data['appGlobalClass'] = data['appGlobalClass'] ? data['appGlobalClass'] + ' ' + resClass?.class : resClass?.class;
-            } else if (index == 0) {
+              if (data?.formly) {
+                let globalClass = data.formly[0].fieldGroup[0].props['additionalProperties']['appGlobalClass'];
+                data.formly[0].fieldGroup[0].props['additionalProperties']['appGlobalClass'] = globalClass ? globalClass + ' ' + resClass?.class : resClass?.class;
+              }else{
+                data['appGlobalClass'] = data['appGlobalClass'] ? data['appGlobalClass'] + ' ' + resClass?.class : resClass?.class;
+              }
+            }
+            else if (index == 0) {
               data['appGlobalClass'] = '';
             }
           });

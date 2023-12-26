@@ -479,7 +479,7 @@ export class ApplicationBuilderComponent implements OnInit {
   applicationClasses() {
     const modal =
       this.modalService.create<ApplicationGlobalClassesComponent>({
-        nzTitle: 'Application Theme',
+        nzTitle: 'Application Custom Classes',
         nzWidth: '60%',
         nzContent: ApplicationGlobalClassesComponent,
         // nzViewContainerRef: this.viewContainerRef,

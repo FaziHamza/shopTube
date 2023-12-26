@@ -98,7 +98,7 @@
             <nz-badge [nzCount]="item?.badgeCount" *ngIf="item?.badgeType == 'count'">
                 <st-icon [type]="item.iconType" [icon]="item.icon" [size]="item.iconSize"
                     [hoverIconColor]="item.hoverIconColor" [color]="item.iconColor" [iconClass]="item.iconClass"
-                    [applicationThemeClasses]="item?.applicationThemeClasses"></st-icon>
+                    [applicationThemeClasses]="item?.applicationThemeClasses" [appGlobalClass]="item?.appGlobalClass"></st-icon>
             </nz-badge>
             <st-icon *ngIf="item?.badgeType == undefined || item?.badgeType == 'none'" [type]="
               item.iconType" [icon]="item.icon" [size]="item.iconSize" [color]="item.iconColor"
@@ -280,11 +280,11 @@
             <button class="mb-2" nz-button nzType="primary" *ngIf="item.imagePreview"
                 (click)="imagePreview(item)">Preview</button>
             <img *ngIf="item.image ; else secondImage" nz-image
-                [class]="item.imageClass + ' ' + item?.applicationThemeClasses" [nzSrc]='item.image' [alt]='item.alt'
+                [class]="item.imageClass + ' ' + item?.applicationThemeClasses + ' ' + item?.appGlobalClass" [nzSrc]='item.image' [alt]='item.alt'
                 [nzDisablePreview]="false" [nzFallback]="item.fallback" />
             <ng-template #secondImage>
                 {{item.image | json}}
-                <img nz-image [class]="item.imageClass + ' ' + item?.applicationThemeClasses" [nzSrc]='item.source'
+                <img nz-image [class]="item.imageClass + ' ' + item?.applicationThemeClasses + ' ' + item?.appGlobalClass" [nzSrc]='item.source'
                     [alt]='item.alt' [nzDisablePreview]="false" [nzFallback]="item.fallback" />
             </ng-template>
             <!-- <img *ngIf="item.base64Image" nz-image [class]='item.imageClass' [nzSrc]='item.base64Image' [alt]='item.alt'

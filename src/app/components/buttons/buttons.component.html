@@ -1,7 +1,7 @@
 <button *ngIf="buttonData.type != 'linkbutton' && buttonData.type != 'dropdownButton'" nz-button
   [disabled]="buttonData.disabled" [nzBlock]="buttonData.nzBlock" [nzDanger]="buttonData.nzDanger"
   [nzGhost]="buttonData.nzGhost" [nzLoading]="buttonData.nzLoading" [nzShape]="buttonData.nzShape"
-  [class]="(!isActionExist ? '!cursor-auto ' : '!cursor-pointer ')+ buttonData.buttonClass + ' ' + buttonData.applicationThemeClasses"
+  [class]="(!isActionExist ? '!cursor-auto ' : '!cursor-pointer ')+ buttonData.buttonClass + ' ' + buttonData.applicationThemeClasses + ' ' + buttonData.appGlobalClass"
   [nzSize]="buttonData.nzSize" [nzType]="buttonData.nztype" [type]="buttonData.isSubmit ? 'submit' : 'button'"
   [style.border-radius.px]="buttonData.nzShape == 'default' ? buttonData.radius : ''"
   [style.opacity]="hoverOpacity ? hoverOpacity :  buttonData.btnopacity ? buttonData.btnopacity : '1'"
@@ -32,7 +32,7 @@
     [style.background]="(bgColor || GridRuleColor ? GridRuleColor : buttonData.color) + ' !important'"
     [style.color]="(hoverTextColor || buttonData.textColor) + ' !important'"
     [style.border-color]="(borderColor || buttonData.borderColor) + ' !important'"
-    [class]="(!isActionExist ? '!cursor-auto ' : '!cursor-pointer ')+ buttonData.buttonClass + ' ' + buttonData.applicationThemeClasses"
+    [class]="(!isActionExist ? '!cursor-auto ' : '!cursor-pointer ')+ buttonData.buttonClass + ' ' + buttonData.applicationThemeClasses + ' ' + buttonData.appGlobalClass"
     (mouseover)="bgColor = buttonData?.hoverColor" (mouseout)="bgColor = buttonData?.color"
     (click)="pagesRoute(buttonData)" (mouseover)="handleButtonMouseOver(buttonData)"
     (mouseout)="handleButtonMouseOut(buttonData)">
@@ -55,7 +55,7 @@
 <button *ngIf="buttonData.type == 'dropdownButton'" nz-button nz-dropdown [nzDropdownMenu]="menu"
   [nzType]="buttonData.nztype" [nzGhost]="buttonData.nzGhost" [nzSize]="buttonData.nzSize"
   [disabled]="buttonData.disabled" [nzLoading]="buttonData.nzLoading"
-  [class]="(!isActionExist ? '!cursor-auto ' : '!cursor-pointer ')+ buttonData.buttonClass + ' ' + buttonData.applicationThemeClasses"
+  [class]="(!isActionExist ? '!cursor-auto ' : '!cursor-pointer ')+ buttonData.buttonClass + ' ' + buttonData.applicationThemeClasses + ' ' + buttonData.appGlobalClass"
   [nzBlock]="buttonData.nzBlock" [nzTrigger]="buttonData.trigger" [nzPlacement]="buttonData.placement"
   [nzClickHide]="buttonData.clickHide" [nzVisible]="buttonData.visible" [nzDanger]="buttonData.nzDanger"
   [nzShape]="buttonData.nzShape" [style.border-radius.px]="buttonData.radius || 0"

@@ -35,7 +35,7 @@ export class ApplicationGlobalClassesComponent {
       visible: false
     },
     {
-      name: 'CLASS',
+      name: 'CLASSES',
       key: 'class',
       searchValue: '',
       hideSearch: false,

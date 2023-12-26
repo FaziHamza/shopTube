@@ -421,7 +421,9 @@ export class BuilderComponent implements OnInit {
       this.nodes.forEach((item: any) => {
         this.updateObjects(item);
       });
-      const screenData = this.jsonParse(this.jsonStringifyWithObject(this.nodes));
+      let newNode = JSON.parse(JSON.stringify(this.nodes))
+      this.applyTheme(newNode[0], true)
+      const screenData = this.jsonParse(this.jsonStringifyWithObject(newNode));
       const data: any = {
         "screenData": JSON.stringify(screenData),
         "screenName": this.screenName,
@@ -445,7 +447,7 @@ export class BuilderComponent implements OnInit {
             this.toastr.success(res.message, { nzDuration: 3000 });
             this.showActionRule = true;
             if (this.builderScreenData?.length > 0) {
-
+              this.applyTheme(this.nodes[0] , false)
             } else {
               this.getBuilderScreen();
             }
@@ -568,7 +570,7 @@ export class BuilderComponent implements OnInit {
             // this.formlyModel = {};
 
             let nodesData = this.jsonParseWithObject(this.jsonStringifyWithObject(objScreenData));
-            this.applyTheme(nodesData[0])
+            this.applyTheme(nodesData[0] , false)
             if (this.actionRuleList.length > 0) {
               let getInputs = this.filterInputElements(nodesData);
               if (getInputs && getInputs.length > 0) {
@@ -3619,7 +3621,6 @@ export class BuilderComponent implements OnInit {
   }
 
   private recursiveHighlight(node: any, id: any, highlightOrNot: boolean) {
-    node['appGlobalClass'] = '';
     this.applyOrRemoveHighlight(node, id, highlightOrNot);
 
     if (node.children) {
@@ -7227,9 +7228,6 @@ export class BuilderComponent implements OnInit {
       }
     }
     else {
-      if (data?.appGlobalClass) {
-        data['appGlobalClass'] = '';
-      }
       data['searchHighlight'] = false;
       if (data?.children?.length > 0) {
         data.children.forEach((element: any) => {
@@ -7634,10 +7632,10 @@ export class BuilderComponent implements OnInit {
       }
     }
   }
-  applyTheme(data: any) {
+  applyTheme(data: any, remove: boolean) {
     if (data) {
       if (data.className) {
-        if (data.className.includes('$')) {
+        if (data.className.includes('$') && !remove) {
           let matches: any[] = data.className.match(/\$\w+/g);
           if (matches.length > 0 && this.dataSharedService.applicationGlobalClass.length > 0) {
             matches.forEach((classItem: any, index: number) => {
@@ -7650,11 +7648,13 @@ export class BuilderComponent implements OnInit {
               }
             });
           }
+        }else{
+          data['appGlobalClass'] = '';
         }
       }
       if (data.children && data.children.length > 0) {
         for (let child of data.children) {
-          this.applyTheme(child);
+          this.applyTheme(child , remove);
         }
       }
     }

@@ -11,7 +11,7 @@
             <st-icon *ngIf="item.icon" [type]="item.iconType" [icon]="item.icon" [size]="item.iconSize"
                 [hoverIconColor]="item?.hoverIconColor || ''"
                 [color]="this.step?.selectedStepperColor?this.step?.selectedStepperColor:item?.iconColor"
-                [applicationThemeClasses]="item?.applicationThemeClasses"></st-icon>
+                [applicationThemeClasses]="item?.applicationThemeClasses" [appGlobalClass]="item?.appGlobalClass"></st-icon>
         </ng-template>
     </ng-container>
 </nz-steps>
