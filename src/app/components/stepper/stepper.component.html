@@ -1,16 +1,17 @@
-<nz-steps [class]="step.styleType || 'steper1'" [nzCurrent]="current" [nzStatus]="step.status" [nzCurrent]="current" [nzType]='step.stepperType' [nzDirection]="step.direction"
-    [nzLabelPlacement]="step.placement" [nzSize]="step.size" [nzStartIndex]="step.selectedIndex"
-    (nzIndexChange)="handleIndexChange($event)"> 
+<nz-steps [class]="step.styleType || 'steper1'" [nzCurrent]="current" [nzStatus]="step.status" [nzCurrent]="current"
+    [nzType]='step.stepperType' [nzDirection]="step.direction" [nzLabelPlacement]="step.placement" [nzSize]="step.size"
+    [nzStartIndex]="step.selectedIndex" (nzIndexChange)="handleIndexChange($event)">
     <ng-container *ngFor="let item of step.children">
         <nz-step [nzDescription]="item.description" *ngIf="!item.icon" [nzDisabled]="false"
-        [nzTitle]="item.title | translate" [nzSubtitle]="item.subtitle" [nzPercentage]="item.percentage"
-        ></nz-step>
-        <nz-step [nzDescription]="item.description" *ngIf="item.icon" [nzIcon]="characterIcon" [nzDisabled]="item.disabled"
-        [nzTitle]="item.title | translate" [nzSubtitle]="item.subtitle" [nzPercentage]="item.percentage"
-        ></nz-step>
+            [nzTitle]="item.title | translate" [nzSubtitle]="item.subtitle" [nzPercentage]="item.percentage"></nz-step>
+        <nz-step [nzDescription]="item.description" *ngIf="item.icon" [nzIcon]="characterIcon"
+            [nzDisabled]="item.disabled" [nzTitle]="item.title | translate" [nzSubtitle]="item.subtitle"
+            [nzPercentage]="item.percentage"></nz-step>
         <ng-template #characterIcon>
             <st-icon *ngIf="item.icon" [type]="item.iconType" [icon]="item.icon" [size]="item.iconSize"
-            [hoverIconColor]="item?.hoverIconColor || ''" [color]="item?.iconColor" [applicationThemeClasses]="item?.applicationThemeClasses"></st-icon>
+                [hoverIconColor]="item?.hoverIconColor || ''"
+                [color]="this.step?.selectedStepperColor?this.step?.selectedStepperColor:item?.iconColor"
+                [applicationThemeClasses]="item?.applicationThemeClasses"></st-icon>
         </ng-template>
     </ng-container>
 </nz-steps>
@@ -35,7 +36,8 @@
     </ng-container>
 </nz-steps> -->
 <div class="pt-2">
-    <st-main [screenName]="screenName" [mainData]="step.children[current]"  [formlyModel]="formlyModel" [form]="form"></st-main>
+    <st-main [screenName]="screenName" [mainData]="step.children[current]" [formlyModel]="formlyModel"
+        [form]="form"></st-main>
 </div>
 <div class="steps-action">
     <button nz-button nzType="default" (click)="pre()" *ngIf="current > 0">

@@ -8415,9 +8415,11 @@ nz-input-group:active {
 .pagClr {
   color: $primary-color !important;
 }
+
 .ant-rate-star:not(:last-child) {
   margin-right: var(--rateSpacing) !important;
 }
+
 .theme-body {
   .ant-input-affix-wrapper {
     height: 46px;
@@ -8678,6 +8680,36 @@ ul.jsondiffpatch-textdiff {
     .ant-tabs-tab-btn div {
       color: var(--selected-tab-color) !important;
       transition: all;
+    }
+  }
+}
+
+.ant-steps-item-finish>.ant-steps-item-container>.ant-steps-item-content>.ant-steps-item-title::after,
+.ant-steps-item-finish>.ant-steps-item-container>.ant-steps-item-tail::after {
+  background-color: var(--selected-stepper-color) !important;
+}
+
+.ant-steps-item-finish>.ant-steps-item-container>.ant-steps-item-content>.ant-steps-item-title:hover,
+.ant-switch,
+.ant-table:hover {
+  color: var(--selected-stepper-color) !important;
+}
+
+.ant-steps-item-finish>.ant-steps-item-container>.ant-steps-item-content>.ant-steps-item-description:hover {
+  color: var(--selected-stepper-color) !important;
+}
+
+.ant-steps .ant-steps-item:not(.ant-steps-item-active)>.ant-steps-item-container[role=button]:hover {
+  color: var(--selected-stepper-color) !important;
+}
+
+.ant-steps-item-finish .ant-steps-item-container:hover {
+  .ant-steps-item-content {
+    .ant-steps-item-title{
+      color: var(--selected-stepper-color) !important;
+    }
+    .ant-steps-item-description{
+      color: var(--selected-stepper-color) !important;
     }
   }
 }
