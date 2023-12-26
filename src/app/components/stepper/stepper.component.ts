@@ -13,15 +13,18 @@ export class StepperComponent implements OnInit {
   @Input() screenId: any;
   current = 0;
   ngOnInt(){
-
+    debugger
+    document.documentElement.style.setProperty('--selected-stepper-color',this.step?.selectedStepperColor || '#1890ff');
     this.step;
   }
 
   pre(): void {
+    document.documentElement.style.setProperty('--selected-stepper-color',this.step?.selectedStepperColor || '#1890ff');
     this.current -= 1;
   }
 
   next(): void {
+    document.documentElement.style.setProperty('--selected-stepper-color',this.step?.selectedStepperColor || '#1890ff');
     this.current += 1;
   }
 

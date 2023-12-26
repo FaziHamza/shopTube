@@ -4306,6 +4306,7 @@ export class BuilderComponent implements OnInit {
         this.addDynamic(event.form.nodes, 'kanbanChild', 'kanban');
         break;
       case 'mainStep':
+        document.documentElement.style.setProperty('--selected-stepper-color', event.form?.selectedStepperColor || 'red');
         this.addDynamic(event.form.nodes, 'step', 'mainStep');
         break;
       case 'listWithComponents':
