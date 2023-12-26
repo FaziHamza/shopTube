@@ -286,13 +286,15 @@
                 <label nz-checkbox [(ngModel)]="item['checked']"></label>
               </td>
               <ng-container *ngFor="let header of data['tableKey']; let index = index">
+                <!-- [class]="data?.tdrowClass"  -->
                 <td
                   [ngStyle]="{'text-align':  configurationTable ?  header?.key == 'id' ? 'center' : 'left' :  
                 (header?.position  ? header?.position : 
                 (header?.key == 'id' || header?.dataType == 'icon' || header?.dataType == 'number' ? 'center' : 'left'))}"
                   [style.width.px]="header.width ? header.width : 'auto'"
-                  [class]="header?.headerFreeze == true ? 'TDZINDEX' : ''"
-                  [class]="data?.tdrowClass"
+                  [class]="header?.headerFreeze == true ? 'TDZINDEX' : ''" 
+                  class="overflow-hidden whitespace-nowrap text-ellipsis font-normal text-[#23303d] border border-t-0
+                  border-[#e5e7eb] border-solid text-xs z-0 bg-white border-x p-[5px]"
                   [nzLeft]="header?.headerFreeze == true ? true : false"
                   [nzRight]="header?.headerFreeze == true ? true : false" (click)="checkTypeData(item , header)"
                   [nzEllipsis]="true" class="5"
