@@ -4997,6 +4997,17 @@ export class formFeildData {
           }
         },
         {
+          key: 'selectedStepperColor',
+          type: 'input',
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          wrappers: ["formly-vertical-theme-wrapper"],
+          props: {
+            type: 'color',
+            label: 'Selected stepper color',
+          },
+          defaultValue:'#1890ff'
+        },
+        {
           key: 'placement',
           type: 'select',
           className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
