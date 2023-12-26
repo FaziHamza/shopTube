@@ -12,6 +12,7 @@ import { forkJoin } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { NzModalService } from 'ng-zorro-antd/modal';
 import { ApplicationThemeComponent } from '../application-theme/application-theme.component';
+import { ApplicationGlobalClassesComponent } from '../application-global-classes/application-global-classes.component';
 
 @Component({
   selector: 'st-application-builder',
@@ -464,6 +465,25 @@ export class ApplicationBuilderComponent implements OnInit {
         // nzViewContainerRef: this.viewContainerRef,
         nzComponentParams: {
           applicationList: this.listOfChildrenData,
+        },
+        // nzOnOk: () => new Promise(resolve => setTimeout(resolve, 1000)),
+        nzFooter: [],
+      });
+    const instance = modal.getContentComponent();
+    modal.afterClose.subscribe((res) => {
+      if (res) {
+        // this.controls(value, data, obj, res);
+      }
+    });
+  }
+  applicationClasses() {
+    const modal =
+      this.modalService.create<ApplicationGlobalClassesComponent>({
+        nzTitle: 'Application Theme',
+        nzWidth: '60%',
+        nzContent: ApplicationGlobalClassesComponent,
+        // nzViewContainerRef: this.viewContainerRef,
+        nzComponentParams: {
         },
         // nzOnOk: () => new Promise(resolve => setTimeout(resolve, 1000)),
         nzFooter: [],

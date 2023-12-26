@@ -141,8 +141,7 @@
                                           [nzValue]="uiData.key" *ngFor="let uiData of targetList"></nz-option>
                                       </nz-select>
                                     </div>
-                                    {{uiRuleForm.value.uiRules[uiIndex]?.targetCondition[index]?.inputJsonData.hideUiRule | json}}
-                                    <div class="col-md-12" *ngIf="uiRuleForm.value.uiRules[uiIndex]?.targetCondition[index]?.inputJsonData?.hideUiRule!= true">
+                                    <div class="col-md-12" >
                                       <div class="flex flex-wrap">
                                         <div class="w-1/2 px-2">
                                           <json-editor formControlName="inputJsonData" id="inputJsonDataa{{uiIndex}}"
@@ -151,12 +150,12 @@
                                           </json-editor>
                                         </div>
                                         <div class="w-1/2 px-2">
-                                          <!-- <json-editor formControlName="diff" id="diff{{uiIndex}}"
+                                          <json-editor formControlName="diff" id="diff{{uiIndex}}"
                                             [options]="editorOptions" style="max-height: 150px !important;" 
                                             [options]="makeOptions()">
-                                          </json-editor> -->
-                                          <div id="app{{uiIndex}}diff{{index}}">
-                                          </div>
+                                          </json-editor>
+                                          <!-- <div id="app{{uiIndex}}diff{{index}}">
+                                          </div> -->
                                         </div>
                                       </div>
                                     </div>

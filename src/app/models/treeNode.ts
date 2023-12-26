@@ -590,4 +590,5 @@ export interface TreeNode {
   primaryColor?: string,
   secondaryColor?: string,
   paginationColor?: string,
+  appGlobalClass?: string,
 }

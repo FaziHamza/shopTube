@@ -430,8 +430,8 @@ export class PagesComponent implements OnInit, OnDestroy {
         if (rule.targetCondition.length > 0) {
           rule.targetCondition.forEach((ruleChild: any) => {
             let findObj = this.findObjectByKey(newData[0], ruleChild.targetName);
-            ruleChild['inputJsonData'] = findObj ? findObj : { "hideUiRule ": true };
-            ruleChild['inputOldJsonData'] = findObj ? JSON.parse(JSON.stringify(findObj)) : { "hideUiRule ": true };
+            ruleChild['inputJsonData'] = findObj ? findObj : {};
+            ruleChild['inputOldJsonData'] = findObj ? JSON.parse(JSON.stringify(findObj)) : {};
 
           })
         }
@@ -511,13 +511,13 @@ export class PagesComponent implements OnInit, OnDestroy {
       }
       // this.getIssues(res.data[0].navigation, res1);
       this.resData = nodesData1;
-      if (res1)
-        this.findObjectByTypeAndApplyApplictionTheme(this.resData[0], res1);
+      // if (res1)
+      //   this.findObjectByTypeAndApplyApplictionTheme(this.resData[0], res1);
     } else
       this.resData = nodesData1;
     // this.getIssues(res.data[0].navigation, res1);
-    if (res1)
-      this.findObjectByTypeAndApplyApplictionTheme(this.resData[0], res1);
+    // if (res1)
+    //   this.findObjectByTypeAndApplyApplictionTheme(this.resData[0], res1);
 
     // const screenData = JSON.parse(this.jsonStringifyWithObject(this.resData));
 
@@ -1341,20 +1341,16 @@ export class PagesComponent implements OnInit, OnDestroy {
                 }
               }
               if (this.UiRuleCondition(query)) {
-                if (inputType?.hideUiRule == undefined) {
-                  const check = this.makeUIJSONForSave(screenData.uiData[index], inputType, updatedKeyData, true);
-                  this.resData[0].children[1].children = check;
-                  this.updateNodes();
-                  this.updateFormlyModel();
-                }
+                const check = this.makeUIJSONForSave(screenData.uiData[index], inputType, updatedKeyData, true);
+                this.resData[0].children[1].children = check;
+                this.updateNodes();
+                this.updateFormlyModel();
               }
               else {
-                if (inputType?.hideUiRule == undefined) {
-                  const check = this.makeUIJSONForSave(screenData.uiData[index], inputType, updatedKeyData, false);
-                  this.resData[0].children[1].children = check;
-                  this.updateNodes();
-                  this.updateFormlyModel();
-                }
+                const check = this.makeUIJSONForSave(screenData.uiData[index], inputType, updatedKeyData, false);
+                this.resData[0].children[1].children = check;
+                this.updateNodes();
+                this.updateFormlyModel();
               }
             }
           }
@@ -1692,7 +1688,7 @@ export class PagesComponent implements OnInit, OnDestroy {
           this.cdr.detectChanges();
         }
         else if (!currentValue) {
-          const checkAlready = uiData.targetCondition[k].inputOldJsonData.hideUiRule ? updatedKeyData.find((a: any) => a == uiData.targetCondition[k].inputOldJsonData.id) : true;
+          const checkAlready = updatedKeyData.find((a: any) => a == uiData.targetCondition[k].inputOldJsonData.id);
           if (!checkAlready)
             this.updateObjectById(element, uiData.targetCondition[k].inputOldJsonData.id, uiData.targetCondition[k].inputOldJsonData)
         }
@@ -1861,17 +1857,28 @@ export class PagesComponent implements OnInit, OnDestroy {
       });
     }
     else if (typeof data === 'object' && data !== null) {
+      if (data.className.includes('$') && window.location.href.includes('/pages')) {
+        // let replacedString = data.className.replace(/\$(\w+)/g, (match: any, p1: any) => {
+        //   return `$ bg-blue-500 $ * primary *`;
+        // });
+        // data.className = replacedString;
+        // data['appGlobalClass'] = '!bg-blue-500';
+        let matches: any[] = data.className.match(/\$\w+/g);
+        if (matches.length > 0 && this.dataSharedService.applicationGlobalClass.length > 0) {
+          matches.forEach((classItem: any, index: number) => {
+            let splittedName = classItem.split('$')[1];
+            let resClass: any = this.dataSharedService.applicationGlobalClass.find((item: any) => item.name == splittedName);
+            if (resClass) {
+              data['appGlobalClass'] = data['appGlobalClass'] ? data['appGlobalClass'] + ' ' + resClass?.class : resClass?.class;
+            } else if (index == 0) {
+              data['appGlobalClass'] = '';
+            }
+          });
+        }
+      }
       if (data.type) {
         if (data.type === 'sections' || data.type === 'div' || data.type === 'cardWithComponents' || data.type === 'timelineChild' || data.type === 'chat') {
           if (data.mapApi) {
-            // if ((window.location.href.includes('spectrum.com') || window.location.href.includes('spectrum.expocitydubai.com')) && this.navigation === 'default') {
-            //   if ((this.user?.policy?.policyId == '652581192897cfc79cf1dde2' || this.user?.policy?.policyId == '652a3dd6b91b157bcac71a72') && this.screenId == '651fa8139ce5925c4c89cedc' && data.id == 'tdrasections1') {
-            //     this.makeDynamicSections(data.mapApi, data);
-            //   } else if (this.user?.policy?.policyId == '65341542adf34593785dc714' && this.screenId == '651fa8139ce5925c4c89cedc' && data.id == 'tdrasections2') {
-            //     this.makeDynamicSections(data.mapApi, data);
-            //   }
-            // } else {
-            // }
             if (!data.hideExpression) {
               let mapApiUrl = data.mapApi;
               if (id) {
