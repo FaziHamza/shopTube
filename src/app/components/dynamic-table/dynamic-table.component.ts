@@ -168,7 +168,8 @@ export class DynamicTableComponent implements OnInit {
       if (this.data?.tableHeaders) {
         if (this.data?.tableHeaders.length > 0) {
           for (const api of this.data.tableHeaders) {
-            await this.handleRowClickApi(api);
+            if(api.key !="expand")
+              await this.handleRowClickApi(api);
           }
         }
       }
@@ -202,10 +203,12 @@ export class DynamicTableComponent implements OnInit {
           api.filterArray = [];
           api.filterSearch = [];
           response.data.forEach((res: any) => {
+            const keys = Object.keys(res);
+            const firstKey = keys[0];
             const obj = {
               key: api.key,
-              text: res.status,
-              value: res.status,
+              text: res[firstKey],
+              value: res[firstKey],
               filter: false,
             };
             api.filterArray.push(obj);
