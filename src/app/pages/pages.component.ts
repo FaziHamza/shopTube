@@ -1863,7 +1863,7 @@ export class PagesComponent implements OnInit, OnDestroy {
         // });
         // data.className = replacedString;
         // data['appGlobalClass'] = '!bg-blue-500';
-        let matches: any[] = data.className.match(/\$\w+/g);
+        let matches: any[] = data.className.match(/\$\S+/g);
         if (matches.length > 0 && this.dataSharedService.applicationGlobalClass.length > 0) {
           matches.forEach((classItem: any, index: number) => {
             let splittedName = classItem.split('$')[1];

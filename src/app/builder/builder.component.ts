@@ -3981,7 +3981,7 @@ export class BuilderComponent implements OnInit {
   notifyEmit(event: actionTypeFeild): void {
     let needToUpdate = true;
     if (this.selectedNode.className.includes('$')) {
-      let matches: any[] = this.selectedNode.className.match(/\$\w+/g);
+      let matches: any[] = this.selectedNode.className.match(/\$\S+/g);
       if (matches.length > 0 && this.dataSharedService.applicationGlobalClass.length > 0) {
         matches.forEach((classItem: any, index: number) => {
           let splittedName = classItem.split('$')[1];
@@ -7636,7 +7636,7 @@ export class BuilderComponent implements OnInit {
     if (data) {
       if (data.className) {
         if (data.className.includes('$') && !remove) {
-          let matches: any[] = data.className.match(/\$\w+/g);
+          let matches: any[] = data.className.match(/\$\S+/g);
           if (matches.length > 0 && this.dataSharedService.applicationGlobalClass.length > 0) {
             matches.forEach((classItem: any, index: number) => {
               let splittedName = classItem.split('$')[1];

@@ -171,6 +171,7 @@ export class UIRuleComponent implements OnInit {
       conditonType: 'And',
       targetIfValue: this.formBuilder.array([]),
       targetCondition: this.formBuilder.array([]),
+      diff:{},
     });
   }
   uiRuleFormInitilize() {
@@ -372,6 +373,7 @@ export class UIRuleComponent implements OnInit {
       inputJsonData: [''],
       inputOldJsonData: [''],
       changeData: [''],
+      diff:{}
     });
   }
   modifedOriginalData() {
