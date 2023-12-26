@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { ApplicationService } from 'src/app/services/application.service';
 import { environment } from 'src/environments/environment';
@@ -9,6 +9,7 @@ import { environment } from 'src/environments/environment';
   styleUrls: ['./file-manager.component.scss']
 })
 export class FileManagerComponent implements OnInit {
+  @ViewChild('fileInput') fileInput!: ElementRef;
   @Input() data: any;
   folderList: any[] = []
   filesList: any[] = [];
@@ -99,7 +100,7 @@ export class FileManagerComponent implements OnInit {
   }
   remove(item: any) {
     this.saveLoader = true;
-    this.applicationService.addNestCommonAPI('s3-file-manager/deleteFile', item._id).subscribe(res => {
+    this.applicationService.addNestCommonAPI('s3-file-manager/deleteFile', item).subscribe(res => {
       this.saveLoader = false;
       if (res.isSuccess) {
         this.toastr.success(res.message, { nzDuration: 3000 });
@@ -108,8 +109,9 @@ export class FileManagerComponent implements OnInit {
     })
   }
   deleteFolder(item: any) {
+    debugger
     this.saveLoader = true;
-    this.applicationService.addNestCommonAPI('s3-file-manager/deleteFolder', item._id).subscribe(res => {
+    this.applicationService.addNestCommonAPI('s3-file-manager/deleteFolder', item).subscribe(res => {
       this.saveLoader = false;
       if (res.isSuccess) {
         this.toastr.success(res.message, { nzDuration: 3000 });
@@ -137,6 +139,9 @@ export class FileManagerComponent implements OnInit {
   onFileSelected(event: any) {
     const file: File = event.target.files[0];
     this.uploadFile(file);
+    if (this.fileInput) {
+      this.fileInput.nativeElement.value = '';
+    }
   }
   uploadFile(file: File) {
     this.saveLoader = true;
@@ -242,9 +247,9 @@ export class FileManagerComponent implements OnInit {
     this.sharingEmail = file?.share;
     this.isVisible = true;
   }
-  convertTagsToString(tagging:any): void {
+  convertTagsToString(tagging: any): void {
     // Convert the array of key-value pairs back into a string
-    this.tagging = tagging?.map((tagObj:any) => tagObj.Key).join(', ');
+    this.tagging = tagging?.map((tagObj: any) => tagObj.Key).join(', ');
   }
   handleOk(): void {
     this.updateFile();

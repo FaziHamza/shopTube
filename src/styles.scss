@@ -8515,9 +8515,10 @@ ul.jsondiffpatch-textdiff {
     color: var(--selected-tab-color) !important;
   }
 
-  // .ant-tabs-tab {
-  //   .ant-tabs-tab-btn:hover div , .ant-tabs-tab-btn:hover span{
-  //     color: #000 !important;
-  //   }
-  // }
+  .ant-tabs-tab:hover {
+    .ant-tabs-tab-btn div {
+      color: var(--selected-tab-color) !important;
+      transition: all;
+    }
+  }
 }

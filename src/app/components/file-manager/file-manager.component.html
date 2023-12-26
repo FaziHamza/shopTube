@@ -72,8 +72,8 @@
             <div class="card-body">
                 <div class="w-full">
                     <div class="search-box mb-2 flex justify-start">
-                        <input type="file" class="border border-gray-300 hover:border-blue-400"
-                            *ngIf="data?.isAllowCreateFile" (change)="onFileSelected($event)" />
+                        <input #fileInput type="file" class="border border-gray-300 hover:border-blue-400"
+                            *ngIf="data?.isAllowCreateFile"  (change)="onFileSelected($event)" />
                         <div class="relative pl-[10px] flex group " *ngIf="data?.isAllowCreateFolder">
                             <input type="text"
                                 class="px-2.5 !border-r-0 !rounded-tr-none !rounded-br-none !h-9 !rounded-md" nz-input

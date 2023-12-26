@@ -429,18 +429,11 @@ export class PagesComponent implements OnInit, OnDestroy {
       parseData.forEach((rule: any) => {
         if (rule.targetCondition.length > 0) {
           rule.targetCondition.forEach((ruleChild: any) => {
-
             let findObj = this.findObjectByKey(newData[0], ruleChild.targetName);
-            if (findObj)
-              ruleChild['inputJsonData'] = findObj;
-            ruleChild['inputOldJsonData'] = JSON.parse(JSON.stringify(findObj));
+            ruleChild['inputJsonData'] = findObj ? findObj : { "hideUiRule ": true };
+            ruleChild['inputOldJsonData'] = findObj ? JSON.parse(JSON.stringify(findObj)) : { "hideUiRule ": true };
+
           })
-        }
-        else {
-          let findObj = this.findObjectByKey(newData[0], rule.targetName);
-          if (findObj)
-            rule['inputJsonData'] = findObj;
-          rule['inputOldJsonData'] = JSON.parse(JSON.stringify(findObj));
         }
       });
       let originalData = JSON.parse(JSON.stringify({ uiData: parseData }));
@@ -1348,16 +1341,20 @@ export class PagesComponent implements OnInit, OnDestroy {
                 }
               }
               if (this.UiRuleCondition(query)) {
-                const check = this.makeUIJSONForSave(screenData.uiData[index], inputType, updatedKeyData, true);
-                this.resData[0].children[1].children = check;
-                this.updateNodes();
-                this.updateFormlyModel();
+                if (inputType?.hideUiRule == undefined) {
+                  const check = this.makeUIJSONForSave(screenData.uiData[index], inputType, updatedKeyData, true);
+                  this.resData[0].children[1].children = check;
+                  this.updateNodes();
+                  this.updateFormlyModel();
+                }
               }
               else {
-                const check = this.makeUIJSONForSave(screenData.uiData[index], inputType, updatedKeyData, false);
-                this.resData[0].children[1].children = check;
-                this.updateNodes();
-                this.updateFormlyModel();
+                if (inputType?.hideUiRule == undefined) {
+                  const check = this.makeUIJSONForSave(screenData.uiData[index], inputType, updatedKeyData, false);
+                  this.resData[0].children[1].children = check;
+                  this.updateNodes();
+                  this.updateFormlyModel();
+                }
               }
             }
           }
@@ -1695,7 +1692,7 @@ export class PagesComponent implements OnInit, OnDestroy {
           this.cdr.detectChanges();
         }
         else if (!currentValue) {
-          const checkAlready = updatedKeyData.find((a: any) => a == uiData.targetCondition[k].inputOldJsonData.id)
+          const checkAlready = uiData.targetCondition[k].inputOldJsonData.hideUiRule ? updatedKeyData.find((a: any) => a == uiData.targetCondition[k].inputOldJsonData.id) : true;
           if (!checkAlready)
             this.updateObjectById(element, uiData.targetCondition[k].inputOldJsonData.id, uiData.targetCondition[k].inputOldJsonData)
         }

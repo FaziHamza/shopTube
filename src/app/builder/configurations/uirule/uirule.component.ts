@@ -578,10 +578,8 @@ export class UIRuleComponent implements OnInit {
           parseData.forEach((rule: any) => {
             if (rule.targetCondition.length > 0) {
               rule.targetCondition.forEach((ruleChild: any) => {
-
                 let findObj = this.findObjectByKey(newData[0], ruleChild.targetName);
-                if (findObj)
-                  ruleChild['inputJsonData'] = findObj;
+                ruleChild['inputJsonData'] = findObj ?findObj : { "hideUiRule ": true };
               })
             }
           });
