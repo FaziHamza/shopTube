@@ -8254,6 +8254,8 @@ nz-input-group:active {
   }
 }
 
+
+
 // horizontal navigation stepper 3 small size 
 .steper3.ant-steps-navigation.ant-steps-small {
   .ant-steps-item-container {
@@ -8412,4 +8414,12 @@ nz-input-group:active {
 
 .pagClr {
   color: $primary-color !important;
+}
+.ant-rate-star:not(:last-child) {
+  margin-right: var(--rateSpacing) !important;
+}
+.theme-body {
+  .ant-input-affix-wrapper {
+    height: 46px;
+  }
 }
