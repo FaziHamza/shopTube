@@ -308,7 +308,7 @@ export class AddControlService {
       nztype: "default",
       textColor: "",
       hoverIconColor: '',
-      buttonClass: '!rounded !bg-blue-500 !text-white hover:!bg-blue-600 hover:text-white !border !border-transparent !hover:border-transparent font-md text-lg',
+      buttonClass: '!rounded !bg-blue-500 !text-white hover:!bg-blue-600 hover:text-white !border !border-transparent !hover:border-transparent !font-medium !text-base',
       iconSize: 15,
       hoverTextColor: '',
       dataTable: '',
@@ -909,6 +909,7 @@ export class AddControlService {
       isAllowExcelReport: false,
       drawerButtonLabel: 'Open Drawer',
       actionButtonClass: 'actions-btn btn-no !border-none !bg-blue-600 hover:!bg-blue-500 my-2 !h-[35px]',
+      tdrowClass: '!overflow-hidden !whitespace-nowrap !text-ellipsis !font-normal !py-1 !px-5 !text-gray-800 !border-b !border-solid !border-gray-300 !text-sm !z-0 !bg-white !border-l !border-r',
       tableHeaders: [
         // {
         //   name: 'Id',
@@ -1466,6 +1467,7 @@ export class AddControlService {
       modalContent: "Content",
       modalTitle: "The is modal title",
       cancalButtontext: 'Cancel',
+      btnClass:"!rounded !bg-blue-500 !text-white hover:!bg-blue-600 hover:text-white !border !border-transparent !hover:border-transparent !font-normal !text-base",
       centered: false,
       isNextChild: true,
       okBtnLoading: false,

@@ -425,7 +425,7 @@ export class BuilderComponent implements OnInit {
         "screenName": this.screenName,
         "navigation": this.navigation,
         "screenBuilderId": this._id,
-        "pdf": this.pdf,
+        // "pdf": this.pdf,
         "applicationId": this.selectApplicationName,
       };
       data.navigation = this.navigation;
@@ -481,7 +481,7 @@ export class BuilderComponent implements OnInit {
           const objScreen = this.screens.find((x: any) => x._id == data);
           this.navigation = objScreen.navigation;
           this._id = objScreen._id;
-          this.pdf = objScreen.pdf ? objScreen.pdf : false;
+          // this.pdf = objScreen.pdf ? objScreen.pdf : false;
           this.screenName = objScreen.name;
           this.isSavedDb = false;
           this.getActions();
@@ -1643,7 +1643,7 @@ export class BuilderComponent implements OnInit {
       value == 'downloadButton'
 
     ) {
-      newNode.isSubmit = res.isSubmit;
+      newNode.isSubmit = res?.isSubmit || false;
     }
     if (value == 'invoiceGrid') {
       newNode.type = 'gridList';
@@ -2306,6 +2306,7 @@ export class BuilderComponent implements OnInit {
               formlyType: data?.parameter,
               hideExpression: false,
               title: res?.title ? res.title : obj.title,
+              key: res?.key ? res.key : obj.key,
               formly: [
                 {
                   fieldGroup: [
@@ -2656,6 +2657,29 @@ export class BuilderComponent implements OnInit {
     return node;
   }
   closeConfigurationList() {
+    if (this.selectedNode) {
+      const allowedTypes: any = [
+        'sections',
+        'tabs',
+        'step',
+        'div',
+        'listWithComponentsChild',
+        'cardWithComponents',
+        'timelineChild'
+      ];
+
+      if (allowedTypes.includes(this.selectedNode.type) && this.selectedNode?.tableBody && this.selectedNode?.tableBody?.length > 0) {
+        this.selectedNode.tableBody = this.selectedNode.tableBody.map((mapping: any) => ({
+          ...mapping,
+          'SelectQBOField': []
+        }));
+      }
+      this.selectedNode['tableHeader'] = [];
+      this.selectedNode['tableKey'] = [];
+      this.selectedNode['checkData'] = [];
+
+    }
+
     this.IsShowConfig = false;
     this.showRules = '';
   }
@@ -3287,7 +3311,7 @@ export class BuilderComponent implements OnInit {
         // }
         configObj.icon = selectedNode.btnIcon;
         this.addIconCommonConfiguration(_formFieldData.buttonFields, true);
-        this.fieldData.commonData?.push({ title: 'Button Fields', data: _formFieldData.buttonFields } , { title: 'Button Drawer Fields', data: _formFieldData.buttonDrawerFields });
+        this.fieldData.commonData?.push({ title: 'Button Fields', data: _formFieldData.buttonFields }, { title: 'Button Drawer Fields', data: _formFieldData.buttonDrawerFields });
         break;
       case 'dropdownButton':
         // if (typeof selectedNode.buttonClass === "string") {
@@ -3784,6 +3808,7 @@ export class BuilderComponent implements OnInit {
         this.toastr.success('Control Added', { nzDuration: 3000 });
         break;
     }
+    this.addControl = false;
   }
 
 
@@ -4057,84 +4082,55 @@ export class BuilderComponent implements OnInit {
             //   filteredCascader['size']= this.selectedNode.size;
             // }
           }
-          this.selectedNode['checkData'] =
-            this.selectedNode.checkData == undefined
-              ? ''
-              : this.selectedNode.checkData;
-          let check = this.arrayEqual(
-            this.selectedNode.checkData,
-            event.tableDta == undefined
-              ? event.tableDta
-              : this.selectedNode.tableBody
-          );
-          if (!check) {
-            if (event.dbData) {
-              for (let index = 0; index < event.dbData.length; index++) {
-                const item = event.dbData[index];
-                let newNode: any = {};
-                if (
-                  event.type == 'tabs' ||
-                  event.type == 'step' ||
-                  event.type == 'div' ||
-                  event.type == 'listWithComponentsChild' ||
-                  event.type == 'cardWithComponents' ||
-                  event.type == 'timelineChild'
-                ) {
-                  newNode = JSON.parse(
-                    JSON.stringify(this.selectedNode?.children)
-                  );
-                }
-                else {
-                  newNode = JSON.parse(
-                    JSON.stringify(
-                      this.selectedNode?.children?.[1]?.children?.[0]
-                    )
-                  );
-                }
-                if (
-                  event.type == 'tabs' ||
-                  event.type == 'step' ||
-                  event.type == 'div' ||
-                  event.type == 'timelineChild' ||
-                  event.type == 'listWithComponentsChild' ||
-                  event.type == 'cardWithComponents'
-                ) {
-                  if (event.tableDta) {
-                    event.tableDta.forEach((element: any) => {
-                      if (newNode.length) {
-                        newNode.forEach((j: any) => {
-                          const keyObj = this.findObjectByKey(
-                            j,
-                            element.fileHeader
-                          );
-                          if (keyObj && element.defaultValue) {
-                            const updatedObj = this.dataReplace(
-                              keyObj,
-                              item,
-                              element
-                            );
-                            j = this.replaceObjectByKey(
-                              j,
-                              keyObj.key,
-                              updatedObj
-                            );
-                          }
-                        });
-                      }
-                    });
-                  }
-                } else if (
-                  event.type != 'tabs' &&
-                  event.type != 'step' &&
-                  event.type != 'div' &&
-                  event.type != 'timelineChild' &&
-                  event.type != 'listWithComponentsChild' &&
-                  event.type != 'cardWithComponents'
-                ) {
-                  if (event.tableDta) {
-                    event.tableDta.forEach((element: any) => {
+          // this.selectedNode['checkData'] =
+          //   this.selectedNode.checkData == undefined
+          //     ? ''
+          //     : this.selectedNode.checkData;
+          // let check = this.arrayEqual(
+          //   this.selectedNode.checkData,
+          //   event.tableDta == undefined
+          //     ? event.tableDta
+          //     : this.selectedNode.tableBody
+          // );
+          if (this.selectedNode?.checkData) {
+            this.selectedNode.checkData = [];
+          }
+          if (event.tableDta && event.tableDta?.length > 0) {
+            const item = this.selectedNode.dbData[0];
+            let newNode: any = {};
+            if (
+              event.type == 'tabs' ||
+              event.type == 'step' ||
+              event.type == 'div' ||
+              event.type == 'listWithComponentsChild' ||
+              event.type == 'cardWithComponents' ||
+              event.type == 'timelineChild'
+            ) {
+              newNode = JSON.parse(
+                JSON.stringify(this.selectedNode?.children)
+              );
+            }
+            else {
+              newNode = JSON.parse(
+                JSON.stringify(
+                  this.selectedNode?.children?.[1]?.children?.[0]
+                )
+              );
+            }
+            if (
+              event.type == 'tabs' ||
+              event.type == 'step' ||
+              event.type == 'div' ||
+              event.type == 'timelineChild' ||
+              event.type == 'listWithComponentsChild' ||
+              event.type == 'cardWithComponents'
+            ) {
+              if (event.tableDta) {
+                event.tableDta.forEach((element: any) => {
+                  if (newNode.length) {
+                    newNode.forEach((j: any) => {
                       const keyObj = this.findObjectByKey(
-                        newNode,
+                        j,
                         element.fileHeader
                       );
                       if (keyObj && element.defaultValue) {
@@ -4143,54 +4139,85 @@ export class BuilderComponent implements OnInit {
                           item,
                           element
                         );
-                        newNode = this.replaceObjectByKey(
-                          newNode,
+                        j = this.replaceObjectByKey(
+                          j,
                           keyObj.key,
                           updatedObj
                         );
                       }
                     });
                   }
-                }
-                const { selectedNode } = this;
-                if (selectedNode && selectedNode.children) {
-                  if (
-                    event.type == 'tabs' ||
-                    event.type == 'step' ||
-                    event.type == 'div' ||
-                    event.type == 'timelineChild' ||
-                    event.type == 'listWithComponentsChild' ||
-                    event.type == 'cardWithComponents'
-                  ) {
-                    selectedNode.children = newNode;
-                  } else if (selectedNode.children[1]) {
-                    selectedNode.children[1].children = newNode
-                      ? [newNode]
-                      : [];
+                });
+              }
+            }
+            else if (
+              event.type != 'tabs' &&
+              event.type != 'step' &&
+              event.type != 'div' &&
+              event.type != 'timelineChild' &&
+              event.type != 'listWithComponentsChild' &&
+              event.type != 'cardWithComponents'
+            ) {
+              if (event.tableDta) {
+                event.tableDta.forEach((element: any) => {
+                  const keyObj = this.findObjectByKey(
+                    newNode,
+                    element.fileHeader
+                  );
+                  if (keyObj && element.defaultValue) {
+                    const updatedObj = this.dataReplace(
+                      keyObj,
+                      item,
+                      element
+                    );
+                    newNode = this.replaceObjectByKey(
+                      newNode,
+                      keyObj.key,
+                      updatedObj
+                    );
                   }
-                  this.updateNodes();
-                }
-                break;
+                });
+              }
+            }
+            const { selectedNode } = this;
+            if (selectedNode && selectedNode.children) {
+              if (
+                event.type == 'tabs' ||
+                event.type == 'step' ||
+                event.type == 'div' ||
+                event.type == 'timelineChild' ||
+                event.type == 'listWithComponentsChild' ||
+                event.type == 'cardWithComponents'
+              ) {
+                selectedNode.children = newNode;
+              } else if (selectedNode.children[1]) {
+                selectedNode.children[1].children = newNode
+                  ? [newNode]
+                  : [];
               }
               this.updateNodes();
             }
-            if (event.dbData) {
-              this.selectedNode.dbData = event.dbData;
-            }
-            if (event.tableDta) {
-              this.selectedNode.tableBody = event.tableDta;
-            }
-            if (event.form.mapApi) {
-              this.selectedNode.mapApi = event.form.mapApi;
-            }
-            if (event.tableDta) {
-              this.selectedNode.checkData = JSON.parse(
-                JSON.stringify(event.tableDta)
-              );
-            }
+            this.updateNodes();
           }
-          else {
-            alert('change Data if you want mapping');
+          // if (event.dbData) {
+          //   this.selectedNode.dbData = event.dbData;
+          // }
+          this.selectedNode.tableBody = event.tableDta ? event.tableDta : this.selectedNode.tableBody;
+          this.selectedNode.mapApi = event.form.mapApi;
+          // if (event.tableDta) {
+          //   this.selectedNode.checkData = JSON.parse(
+          //     JSON.stringify(event.tableDta)
+          //   );
+          // }
+          if (this.selectedNode.tableBody.length > 0) {
+            this.selectedNode.tableBody = this.selectedNode.tableBody.map((mapping: any) => {
+              return {
+                ...mapping,
+                'SelectQBOField': []
+              }
+            });
+            this.selectedNode['tableHeader'] = [];
+            this.selectedNode.tableKey = [];
           }
           this.updateNodes();
         }
@@ -4240,6 +4267,7 @@ export class BuilderComponent implements OnInit {
       //   }
       //   break;
       case 'mainTab':
+        document.documentElement.style.setProperty('--selected-tab-color', event.form?.selectedTabColor || 'red');
         this.addDynamic(event.form.nodes, 'tabs', 'mainTab');
         break;
       case 'kanban':
@@ -4272,9 +4300,13 @@ export class BuilderComponent implements OnInit {
         //     (option: any) => option.label
         //   );
         // }
-        this.selectedNode.options = event.form.options.map(
-          (option: any) => option.label
-        );
+       document.documentElement.style.setProperty('--rateSpacing', (event.form.spacing ? event.form.spacing : 8) + 'px');
+        if (event.tableDta) {
+          this.selectedNode.options = event.tableDta.map(
+            (option: any) => option.label
+          );
+        }
+        this.cdr.detectChanges();
         break;
 
       case 'statistic':
@@ -4761,6 +4793,7 @@ export class BuilderComponent implements OnInit {
           this.selectedNode['thClass'] = event.form?.thClass;
           this.selectedNode['tbodyClass'] = event.form?.tbodyClass;
           this.selectedNode['tdClass'] = event.form?.tdClass;
+          this.selectedNode['tdrowClass'] = event.form?.tdrowClass;
           this.selectedNode['hieght'] = event.form?.hieght;
           this.selectedNode['searchfieldClass'] = event.form?.searchfieldClass;
           this.selectedNode['actionButtonClass'] = event.form?.actionButtonClass;
@@ -6553,66 +6586,9 @@ export class BuilderComponent implements OnInit {
   }
 
   dataReplace(node: any, replaceData: any, value: any): any {
-    let typeMap: any = {
-      cardWithComponents: 'link',
-      buttonGroup: 'title',
-      button: 'title',
-      downloadButton: 'path',
-      breakTag: 'title',
-      switch: 'title',
-      imageUpload: 'source',
-      heading: 'text',
-      paragraph: 'text',
-      alert: 'text',
-      progressBar: 'percent',
-      video: 'videoSrc',
-      audio: 'audioSrc',
-      carouselCrossfade: 'carousalConfig',
-      tabs: 'title',
-      mainTab: 'title',
-      mainStep: 'title',
-      listWithComponents: 'title',
-      listWithComponentsChild: 'title',
-      step: 'title',
-      kanban: 'title',
-      simplecard: 'title',
-      div: 'title',
-      textEditor: 'title',
-      multiFileUpload: 'uploadBtnLabel',
-      accordionButton: 'title',
-      divider: 'dividerText',
-      toastr: 'toasterTitle',
-      rate: 'icon',
-      editor_js: 'title',
-      rangeSlider: 'title',
-      affix: 'title',
-      statistic: 'title',
-      anchor: 'title',
-      modal: 'btnLabel',
-      popConfirm: 'btnLabel',
-      avatar: 'src',
-      badge: 'nzText',
-      comment: 'avatar',
-      description: 'btnText',
-      descriptionChild: 'content',
-      segmented: 'title',
-      result: 'resultTitle',
-      tree: 'title',
-      transfer: 'title',
-      spin: 'loaderText',
-      cascader: 'title',
-      drawer: 'btnText',
-      skeleton: 'title',
-      empty: 'text',
-      list: 'title',
-      treeView: 'title',
-      message: 'content',
-      mentions: 'title',
-      icon: 'title',
-    };
-
+    let typeMap: any = this.dataSharedService.typeMap;
     const type = node.type;
-    const key = typeMap[type];
+    const key = value.componentKey ? value.componentKey : typeMap[type];
     if (node.type == 'avatar') {
       if (Array.isArray(replaceData[value.defaultValue])) {
         let nodesArray: any = [];

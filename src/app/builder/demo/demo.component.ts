@@ -1,59 +1,33 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import ZebraBrowserPrintWrapper from 'zebra-browser-print-wrapper';
 import { NatsService } from '../service/nats.service';
+import { diff, Config, DiffPatcher, formatters, Delta } from "jsondiffpatch";
 
 @Component({
   selector: 'st-demo',
   templateUrl: './demo.component.html',
   styleUrls: ['./demo.component.scss'],
 })
-export class DemoComponent implements OnInit, OnDestroy {
-  rowData!: any[];
-  colDefs!: any[];
+export class DemoComponent implements OnInit {
+  invoice1: any;
+  invoice2: any;
 
-  constructor(private natsService: NatsService) {}
+  constructor() { }
 
   ngOnInit() {
-    this.initializeGrid();
-    this.connectToNatsAndSubscribe();
+    this.invoice1 = { "title": "Select One" };
+    this.invoice2 = { "title": "Select two" };
+    this.applyDiff();
   }
 
-  ngOnDestroy() {
-    this.natsService.closeConnection();
+  applyDiff() {
+    const appDiv: any = document.getElementById('app');
+    const jsondiffpatch = require('jsondiffpatch');
+    let delta = jsondiffpatch.create().diff(this.invoice1, this.invoice2);
+    appDiv.innerHTML = jsondiffpatch.formatters.html.format(delta, this.invoice1);
+    jsondiffpatch.formatters.html.hideUnchanged();
+    console.log(delta);
   }
 
-  initializeGrid() {
-    // Define your column definitions here
-    this.colDefs = [
-      { field: 'tconst' },
-      // ... other fields
-    ];
-  }
-  myFun(){
-    const jsonString = JSON.stringify("get");
-    this.natsService.publishMessage('getalltitlebasicV1', jsonString);
-  }
-  async connectToNatsAndSubscribe() {
-    try {
-      debugger
-      await this.natsService.connectToNats('ws://172.23.0.5:9090');
-      this.natsService.subscribeToSubject('getalldatacallbackV1', (err, data) => {
-        if (err) {
-          console.error('Error:', err);
-          return;
-        }
-        this.rowData = JSON.parse(data);
-      });
-    } catch (error) {
-      console.error('Error connecting to NATS:', error);
-    }
-  }
 
-  getData() {
-    // Replace with your subject and data
-    this.natsService.publishMessage('getalltitlebasic.subject', 'Your Message Here');
-  }
-  clear(){
-    this.rowData =[];
-  }
 }

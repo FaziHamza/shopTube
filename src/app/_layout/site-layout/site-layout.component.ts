@@ -161,7 +161,6 @@ export class SiteLayoutComponent implements OnInit {
     setTimeout(() => {
       this.updateHeaderHeight();
     }, 15000)
-
   }
 
 
@@ -177,7 +176,7 @@ export class SiteLayoutComponent implements OnInit {
       const footerElement = this.el.nativeElement.querySelector('#FOOTER');
       this.footerHeight = footerElement.clientHeight;
     }
-
+         
     if (this.el.nativeElement.querySelector('#Content')) {
       const contentElement = this.el.nativeElement.querySelector('#Content');
       this.dataSharedService.contentHeight = contentElement.clientHeight;
@@ -187,14 +186,14 @@ export class SiteLayoutComponent implements OnInit {
 
     // Extract the numeric values from the strings
     console.log(this.dataSharedService.measureHeight);
-
-    if (this.dataSharedService.measureHeight < this.dataSharedService.contentHeight) {
-      this.dataSharedService.showFooter = false;
-      console.log(false);
-    } else {
-      console.log(true);
-      this.dataSharedService.showFooter = true;
-    }
+    this.dataSharedService.showFooter = true;
+    // if (this.dataSharedService.measureHeight < this.dataSharedService.contentHeight) {
+    //   this.dataSharedService.showFooter = false;
+    //   console.log(false);
+    // } else {
+    //   console.log(true);
+    //   this.dataSharedService.showFooter = true;
+    // }
   }
 
 

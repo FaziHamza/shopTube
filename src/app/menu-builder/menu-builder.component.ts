@@ -247,7 +247,7 @@ export class MenuBuilderComponent implements OnInit {
     a.click();
   }
   selectedJsonUpload(event: any) {
-    
+
     let contents;
     if (
       event.target instanceof HTMLInputElement &&
@@ -389,7 +389,6 @@ export class MenuBuilderComponent implements OnInit {
     // this.applySize();
   }
   clickButton(type: any, parent?: any, node?: any) {
-    
     // this.actionType = type;
     let _formFieldData = new formFeildData();
     const excludedKeys = ['tooltipWithoutIcon', 'className', 'tooltipPosition'];
@@ -746,8 +745,8 @@ export class MenuBuilderComponent implements OnInit {
     }
   }
   themeList: any[] = [];
-  getTheme(value:any) {
-    this.applicationService.getNestCommonAPIById("cp/MenuTheme",value).subscribe(res => {
+  getTheme(value: any) {
+    this.applicationService.getNestCommonAPIById("cp/MenuTheme", value).subscribe(res => {
       if (res.isSuccess) {
         this.themeList = res.data || [];
       }
@@ -1206,6 +1205,7 @@ export class MenuBuilderComponent implements OnInit {
           this.selectedNode['iconSize'] = event.form.iconSize;
           this.selectedNode['iconColor'] = event.form.iconColor;
           this.selectedNode['hideExpression'] = event.form.hideExpression;
+          this.selectedNode['iconRight'] = event.form.iconRight;
         }
         break;
 
@@ -1357,9 +1357,9 @@ export class MenuBuilderComponent implements OnInit {
     this.dropdownButtonArray = [];
     this.tabsArray = [];
   }
-  changeTheme(theme:any){
-    if(theme)
-      this.selectedTheme ={...this.selectedTheme , ...theme}; 
+  changeTheme(theme: any) {
+    if (theme)
+      this.selectedTheme = { ...this.selectedTheme, ...theme };
   }
   changeLayout(data: any) {
     if (!data.inPageMenu) {
@@ -1460,7 +1460,7 @@ export class MenuBuilderComponent implements OnInit {
   }
 
   makeMenuData() {
-    
+
     let arrayList = [];
     arrayList = this.nodes;
     this.selectedTheme.allMenuItems = [];

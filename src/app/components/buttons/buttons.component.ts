@@ -58,7 +58,7 @@ export class ButtonsComponent implements OnInit {
     public dataSharedService: DataSharedService, private applicationService: ApplicationService, private activatedRoute: ActivatedRoute, private location: Location, private cdr: ChangeDetectorRef) { }
 
   ngOnInit(): void {
-
+    debugger
     if (this.tableDisplayData) {
       this.keyName = this.findKeyByOrderid(this.tableDisplayData, this.title);
     }

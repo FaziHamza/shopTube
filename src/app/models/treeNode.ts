@@ -27,6 +27,7 @@ export interface TreeNode {
   level?: any;
   padding?: any;
   hideExpression?: boolean;
+  iconRight?: boolean;
   affix?: any;
   count?: any;
   offSetTop?: any;
@@ -180,6 +181,7 @@ export interface TreeNode {
   sort?: any;
   tableHeaders?: any;
   tableKey?: any;
+  tableHeader?: any;
   tableNoResultArray?: any;
   expandable?: any;
   tableData?: any;
@@ -581,6 +583,7 @@ export interface TreeNode {
   thClass?: string,
   tbodyClass?: string,
   tdClass?: string,
+  tdrowClass?: string,
   hieght?: string,
   image?: string,
   actionButtonClass?: string,

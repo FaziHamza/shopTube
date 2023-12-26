@@ -11,9 +11,11 @@ export class RateComponent implements OnChanges {
   constructor() { }
   ngOnChanges(changes: any) {
     document.documentElement.style.setProperty('--my-color', this.rateData.iconColor != '' ? this.rateData.iconColor : 'yellow');
+    document.documentElement.style.setProperty('--rateSpacing', (this.rateData.spacing ? this.rateData.spacing : 8) + 'px');
+
   }
-  // ngOnInit(): void {
-  // }
+  ngOnInit(): void {
+  }
   onRateBlur() {
     // console.log('Rate component blurred');
   }

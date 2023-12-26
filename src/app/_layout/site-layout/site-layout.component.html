@@ -56,11 +56,13 @@
                 [theme]="selectedTheme['inPageMenu']"></st-layout-tabs-dropdown>
             </ng-container>
           </ng-container>
-          <div class="content mb-2.5" id='Content'>
+          <div class="content" id='Content'>
             <router-outlet></router-outlet>
           </div>
-          <div id="FOOTER" [ngClass]="{ 'dynamic-footer' :  dataSharedService.showFooter }"
-            *ngIf="currentFooter && !fullCurrentUrl.includes('/menu-builder') && !hideHeaderFooterMenu">
+          <div id="FOOTER" [ngClass]="{
+            'dynamic-footer': dataSharedService.showFooter && dataSharedService.fixedFooter && currentWebsiteLayout === 'backend_application',
+            'dynamic-footer-website': dataSharedService.showFooter && dataSharedService.fixedFooter && currentWebsiteLayout === 'website'
+          }" *ngIf="currentFooter && !fullCurrentUrl.includes('/menu-builder') && !hideHeaderFooterMenu">
             <st-pages [resData]="currentFooter" [screenName]="domainData?.footer?.navigation"
               [screenId]="domainData?.footer?.screenBuilderId"></st-pages>
           </div>

@@ -205,6 +205,7 @@ export class BuilderClickButtonService {
       iconColor: node['iconColor'],
       tooltip : node['tooltip'],
       hideExpression : node['hideExpression'],
+      iconRight : node['iconRight'],
     }
   }
   getTabAttributeConfig(node: any) {

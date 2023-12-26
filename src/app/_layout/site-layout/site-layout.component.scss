@@ -145,3 +145,11 @@ nz-footer {
   display: block;
   bottom: 0;
 }
+
+.dynamic-footer-website {
+  position: fixed;
+  width: 100%;
+  z-index: 1000;
+  display: block;
+  bottom: 0;
+}

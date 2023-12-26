@@ -26,6 +26,7 @@ export class GenericFieldComponent implements OnInit {
   @Output() notify: EventEmitter<any> = new EventEmitter<any>();
   @Output() deleteValidation: EventEmitter<any> = new EventEmitter<any>();
   requestSubscription: Subscription;
+  showMappingTable : boolean = false;
   resData: any;
   saveLoader: boolean = false;
   publicList: object[] = [
@@ -44,6 +45,7 @@ export class GenericFieldComponent implements OnInit {
     this.itemData;
     this._dataSharedService.data = '';
     if (this.itemData?.mappingNode) {
+      // this.saveLoader = true;
       this.itemData.mappingNode['dbData'] = this.itemData?.mappingNode?.dbData == undefined ? [] : this.itemData?.mappingNode?.dbData;
       this.itemData.mappingNode['tableBody'] = this.itemData?.mappingNode?.tableBody == undefined ? [] : this.itemData?.mappingNode?.tableBody;
       if (this.itemData.mappingNode['tableBody'].length) {
@@ -59,12 +61,31 @@ export class GenericFieldComponent implements OnInit {
         let obj = { name: 'Id' }
         this.itemData.mappingNode['tableHeader'].unshift(obj);
       }
+      let checkComponentKey = this.itemData.mappingNode['tableHeader'].find((a: any) => a.name == 'componentKey');
+      if (!checkComponentKey) {
+        let obj = { name: 'Component Key', key: 'componentKey' };
+        this.itemData.mappingNode.tableHeader.push(obj);
+      }
       this.tableId = this.itemData.mappingNode.key + Guid.newGuid();
       this.itemData.mappingNode['tableKey'] = this.itemData.mappingNode['tableHeader']
       if (this.itemData?.mappingNode?.dbData) {
         this.resData = this.itemData.mappingNode.dbData;
       }
+      if (this.itemData?.mappingNode?.dbData && this.itemData?.mappingNode?.dbData?.length > 0) {
+        let firstObjectKeys = Object.keys(this.itemData.mappingNode.dbData[0]);
+        let key = firstObjectKeys.map(key => ({ key: key, value: key }));
+        this.itemData.mappingNode.tableBody = this.itemData.mappingNode.tableBody.map((body: any) => {
+          return {
+            ...body,
+            'SelectQBOField': key
+          }
+        })
+      }
     }
+    // setTimeout(() => {
+    //   this.saveLoader = false;
+    //   this.showMappingTable = true;
+    // }, 1);
   }
   actionform = new FormGroup({});
   onSubmitV1(e: any) {
@@ -100,9 +121,9 @@ export class GenericFieldComponent implements OnInit {
       if (this._dataSharedService.getData()) {
         currentData["tableDta"] = this._dataSharedService.getData();
       }
-      if (this.resData) {
-        currentData["dbData"] = this.resData;
-      }
+      // if (this.resData) {
+      //   currentData["dbData"] = this.resData;
+      // }
       this.notify.emit(currentData);
       // this.check(currentData);
 
@@ -117,6 +138,7 @@ export class GenericFieldComponent implements OnInit {
   }
 
   dynamicSectionOption() {
+    debugger
     this.resData = [];
     let obj: { mapApi?: any } = this.actionform.value;
     if (obj.mapApi) {
@@ -128,6 +150,7 @@ export class GenericFieldComponent implements OnInit {
             if (res?.data.length > 0) {
               this.saveLoader = false;
               this.resData = res.data;
+              this.itemData.mappingNode['dbData'] = res.data;
               this.itemData.mappingNode.tableBody = [];
               let firstObjectKeys = Object.keys(res.data[0]);
               let key = firstObjectKeys.map(key => ({ key: key, value: key }));
@@ -140,11 +163,13 @@ export class GenericFieldComponent implements OnInit {
               else {
                 this.createOptionsArray(this.itemData.mappingNode.children[1].children[0]);
               }
+
               this.itemData.mappingNode.tableBody = this.optionsArray.map((item: any, index: number) => ({
                 // id: index + 1,
                 fileHeader: item.key,
                 SelectQBOField: key,
                 defaultValue: '',
+                componentKey: this._dataSharedService.typeMap[item.type] ? this._dataSharedService.typeMap[item.type] : '',
               }));
               this.itemData.mappingNode.tableBody = this.itemData.mappingNode.tableBody.map((item: any) => {
                 let qboField = item.SelectQBOField.find((field: any) => field.key === item.fileHeader);
@@ -191,5 +216,6 @@ export class GenericFieldComponent implements OnInit {
       });
     }
   }
+
 }
 

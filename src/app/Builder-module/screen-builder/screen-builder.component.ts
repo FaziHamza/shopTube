@@ -373,7 +373,13 @@ export class ScreenBuilderComponent implements OnInit {
     this.getApplicationOptionList(this.model.departmentId);
     this.isSubmit = false;
   }
-  deleteRow(id: any): void {
+  deleteRow(data: any): void {
+    if (data.name.includes('_header') || data.name.includes('_footer') || data.navigation.includes('_header') || data.navigation.includes('_footer')) {
+      const lastPart = data.navigation.split('_').pop();
+      this.toastr.warning(`Not allowed to delete ${lastPart}`, { nzDuration: 2000 });
+      return;
+    }
+    let id = data._id;
     this.applicationService
       .deleteNestCommonAPI('cp/ScreenBuilder', id)
       .subscribe((res: any) => {

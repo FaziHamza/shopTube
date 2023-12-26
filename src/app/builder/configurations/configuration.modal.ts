@@ -5580,6 +5580,16 @@ export class formFeildData {
           }
         },
         {
+          key: 'selectedTabColor',
+          type: 'input',
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          wrappers: ["formly-vertical-theme-wrapper"],
+          props: {
+            type: 'color',
+            label: 'Selected Tab color',
+          }
+        },
+        {
           key: 'tabType',
           type: 'select',
           className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
@@ -11555,6 +11565,16 @@ export class formFeildData {
           },
           defaultValue: false
         },
+        {
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          key: 'iconRight',
+          type: 'checkbox',
+          wrappers: ["formly-vertical-theme-wrapper"],
+          props: {
+            label: 'Show Icon on right',
+          },
+          defaultValue: false
+        }
       ]
     },
   ]
@@ -11752,6 +11772,15 @@ export class formFeildData {
           className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
           props: {
             label: 'Font Class',
+          },
+        },
+        {
+          key: 'tdrowClass',
+          type: 'input',
+          wrappers: ["formly-vertical-theme-wrapper"],
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          props: {
+            label: 'Row Class',
           },
         },
       ]
@@ -14725,6 +14754,16 @@ export class formFeildData {
           props: {
             type: 'number',
             label: 'Value',
+          }
+        },
+        {
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          key: 'spacing',
+          type: 'input',
+          wrappers: ["formly-vertical-theme-wrapper"],
+          props: {
+            type: 'number',
+            label: 'Spacing',
           }
         },
         {

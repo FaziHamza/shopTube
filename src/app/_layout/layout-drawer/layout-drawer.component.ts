@@ -19,10 +19,12 @@ export class LayoutDrawerComponent implements OnInit {
   saveLoader: boolean = false;
   listOfOption: any = [];
   visible = false;
+
   constructor(public dataSharedService: DataSharedService, private toastr: NzMessageService, private applicationService: ApplicationService,
     private modalService: NzModalService,) { }
   themeName: string = ''
   ngOnInit(): void {
+    this.disabledButtonsFunc();
     this.listOfOption = [
       { label: "px-1", value: "px-1" },
       { label: "py-1", value: "py-1" },
@@ -288,16 +290,19 @@ export class LayoutDrawerComponent implements OnInit {
             this.selectedTheme = res.data[0].theme || [];
             this.themeName = this.themeList.find(a => a._id == this.policyTheme)?.name
             this.selectedThemeNotify.emit(this.selectedTheme);
+            this.disabledButtonsFunc();
           } else
             this.toastr.error(res.message, { nzDuration: 3000 });
         }, error: (error) => {
           this.toastr.error(JSON.stringify(error), { nzDuration: 3000 });
         }
       });
+    } else {
+      this.disabledButtonsFunc();
     }
   }
   getTheme(value: any) {
-    
+
     // this.saveLoader = true;
     if (value) {
       this.applicationService.getNestCommonAPIById("cp/MenuTheme", value).subscribe({
@@ -305,6 +310,7 @@ export class LayoutDrawerComponent implements OnInit {
           // this.saveLoader = false;
           if (res.isSuccess) {
             this.themeList = res.data || [];
+            this.disabledButtonsFunc();
           } else
             this.toastr.error(res.message, { nzDuration: 3000 });
         }, error: (error) => {
@@ -326,7 +332,7 @@ export class LayoutDrawerComponent implements OnInit {
         nzCancelText: 'No',
         nzOnCancel: () => console.log('Cancel')
       });
-    }else{
+    } else {
       this.toastr.warning('Please select theme to delete', { nzDuration: 3000 });
     }
 
@@ -348,5 +354,46 @@ export class LayoutDrawerComponent implements OnInit {
         this.saveLoader = false;
       }
     })
+  }
+  disabledButton = {
+    "save": true,
+    "clone": true,
+    "delete": true,
+    "update": false,
+  }
+  disabledButtonsFunc(event?: any) {
+    if (this.policyTheme || this.themeName) {
+      if (this.policyTheme && event == '') {
+        this.disabledButton['save'] = true;
+        this.disabledButton['clone'] = true;
+        this.disabledButton['delete'] = false;
+        this.disabledButton['update'] = false;
+      }
+      else if (this.policyTheme) {
+        this.disabledButton['save'] = false;
+        this.disabledButton['clone'] = false;
+        this.disabledButton['delete'] = false;
+        this.disabledButton['update'] = true;
+        // let policyThemeName = this.themeList.find((theme: any) => theme._id == this.policyTheme)
+        // if (policyThemeName.name === (event ? event : this.themeName)) {
+        //   this.disabledButton['update'] = true;
+        //   this.disabledButton['save'] = false;
+        // }
+      }
+      else {
+        this.disabledButton['save'] = false;
+        this.disabledButton['clone'] = true;
+        this.disabledButton['delete'] = true;
+        this.disabledButton['update'] = false;
+      }
+    }
+    else {
+      this.disabledButton = {
+        "save": true,
+        "clone": true,
+        "delete": true,
+        "update": false,
+      }
+    }
   }
 }

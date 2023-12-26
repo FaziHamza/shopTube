@@ -16,6 +16,7 @@ import html2canvas from 'html2canvas';
 import { jsPDF } from "jspdf"; // Trying to import as in the documentation 
 import { json } from 'stream/consumers';
 import { AnyComponent } from '@fullcalendar/core/preact';
+import * as jsonpatch from 'fast-json-patch';
 
 @Component({
   selector: 'st-pages',
@@ -56,7 +57,7 @@ export class PagesComponent implements OnInit, OnDestroy {
     private cdr: ChangeDetectorRef,
     private toastr: NzMessageService,
     private el: ElementRef,
-    public dataSharedService: DataSharedService, private router: Router, private renderer: Renderer2 , private zone: NgZone) {
+    public dataSharedService: DataSharedService, private router: Router, private renderer: Renderer2, private zone: NgZone) {
 
     // this.ngOnDestroy();
     const changeSubscription = this.dataSharedService.change.subscribe(({ event, field }) => {
@@ -112,7 +113,7 @@ export class PagesComponent implements OnInit, OnDestroy {
     const prevNextRecord = this.dataSharedService.prevNextRecord.subscribe((res: any) => {
       if (res && this.navigation) {
         this.filterDuplicateChildren(this.resData[0]);
-        this.checkDynamicSection(res?.tableRowId, true);
+        // this.checkDynamicSection(res?.tableRowId, true);
       }
     });
     const moveLinkSubscription = this.dataSharedService.moveLink.subscribe(res => {
@@ -173,26 +174,25 @@ export class PagesComponent implements OnInit, OnDestroy {
     this.user = JSON.parse(localStorage.getItem('user')!);
   }
 
-  ngAfterViewInit() {
-    setTimeout(() => {
-      this.checkContentHeight();
-    }, 5000)
+  // ngAfterViewInit() {
+  //   setTimeout(() => {
+  //     this.checkContentHeight();
+  //   }, 16000)
 
-  }
-  checkContentHeight() {
-    if (this.el.nativeElement.querySelector('#Content')) {
-      const contentElement = this.el.nativeElement.querySelector('#Content');
-      this.dataSharedService.contentHeight = contentElement.clientHeight;
-    }
-    if (this.dataSharedService.measureHeight < this.dataSharedService.contentHeight) {
-      this.dataSharedService.showFooter = false;
-      console.log(false);
-    } else {
-      console.log(true);
-      this.dataSharedService.showFooter = true;
-    }
-
-  }
+  // }
+  // checkContentHeight() {
+  //   if (this.el.nativeElement.querySelector('#Content')) {
+  //     const contentElement = this.el.nativeElement.querySelector('#Content');
+  //     this.dataSharedService.contentHeight = contentElement.clientHeight;
+  //   }
+  //   if (this.dataSharedService.measureHeight < this.dataSharedService.contentHeight) {
+  //     this.dataSharedService.showFooter = false;
+  //     console.log(false);
+  //   } else {
+  //     console.log(true);
+  //     this.dataSharedService.showFooter = true;
+  //   }
+  // }
   private initHighlightFalseSubscription(): void {
     const subscription = this.dataSharedService.highlightFalse.subscribe({
       next: (res) => {
@@ -283,21 +283,21 @@ export class PagesComponent implements OnInit, OnDestroy {
       const subscription = this.activatedRoute.params.subscribe((params: Params) => {
         this.initiliaze(params);
 
-        if (params["schema"]) {
-          // this.initiliaze(params);
-          this.saveLoader = true;
-          this.dataSharedService.currentMenuLink = "/pages/" + params["schema"];
-          localStorage.setItem('screenId', this.dataSharedService.currentMenuLink);
-          this.clearValues();
-          this.applicationService.getNestCommonAPI('cp/auth/pageAuth/' + params["schema"]).subscribe(res => {
-            if (res?.data) {
-              this.initiliaze(params);
-            } else {
-              this.saveLoader = false;
-              this.router.navigateByUrl('permission-denied');
-            }
-          });
-        }
+        // if (params["schema"]) {
+        //   // this.initiliaze(params);
+        //   this.saveLoader = true;
+        //   this.dataSharedService.currentMenuLink = "/pages/" + params["schema"];
+        //   localStorage.setItem('screenId', this.dataSharedService.currentMenuLink);
+        //   this.clearValues();
+        //   this.applicationService.getNestCommonAPI('cp/auth/pageAuth/' + params["schema"]).subscribe(res => {
+        //     if (res?.data) {
+        //       this.initiliaze(params);
+        //     } else {
+        //       this.saveLoader = false;
+        //       this.router.navigateByUrl('permission-denied');
+        //     }
+        //   });
+        // }
       });
       this.subscriptions.add(subscription);
     } else {
@@ -424,6 +424,29 @@ export class PagesComponent implements OnInit, OnDestroy {
     let nodesData = this.jsonParseWithObject(this.jsonStringifyWithObject(data));
     this.resData = nodesData;
     if (this.screenData) {
+      let parseData = JSON.parse(JSON.stringify(this.screenData.uiData));
+      let newData = JSON.parse(JSON.stringify(this.resData))
+      parseData.forEach((rule: any) => {
+        if (rule.targetCondition.length > 0) {
+          rule.targetCondition.forEach((ruleChild: any) => {
+
+            let findObj = this.findObjectByKey(newData[0], ruleChild.targetName);
+            if (findObj)
+              ruleChild['inputJsonData'] = findObj;
+            ruleChild['inputOldJsonData'] = JSON.parse(JSON.stringify(findObj));
+          })
+        }
+        else {
+          let findObj = this.findObjectByKey(newData[0], rule.targetName);
+          if (findObj)
+            rule['inputJsonData'] = findObj;
+          rule['inputOldJsonData'] = JSON.parse(JSON.stringify(findObj));
+        }
+      });
+      let originalData = JSON.parse(JSON.stringify({ uiData: parseData }));
+      let objUiData = this.screenData?.patchOperations ? jsonpatch.applyPatch(originalData, this.screenData?.patchOperations).newDocument : parseData;
+      objUiData = objUiData.uiData ? objUiData.uiData : objUiData;
+      this.screenData.uiData = objUiData;
       const checkLoadtype = this.screenData?.uiData?.filter((a: any) => a.actionType == 'load');
       if (checkLoadtype?.length > 0) {
         const field = {
@@ -565,6 +588,7 @@ export class PagesComponent implements OnInit, OnDestroy {
     if (this.pdf == true) {
       this.captureAndGeneratePDF();
     }
+    this.dataSharedService.fixedFooter = this.resData[0].fixedFooter ? true : false;
   }
   formValueAssign(data: any) {
     if (data && this.screenData) {
@@ -1279,6 +1303,7 @@ export class PagesComponent implements OnInit, OnDestroy {
           let screenData = _.cloneDeep(this.screenData);
           // inputType = sectionData;
           let updatedKeyData: any[] = [];
+
           let checkFirst = false;
           for (let index = 0; index < screenData?.uiData?.length; index++) {
             if (model.key == screenData.uiData[index].ifMenuName) {
@@ -1517,9 +1542,11 @@ export class PagesComponent implements OnInit, OnDestroy {
             "title": res.data.title,
             "screenName": res.data.screenName,
             "screenId": res.data.screenBuilderId,
-            "uiData": JSON.parse(res.data.uiData)
+            "uiData": JSON.parse(res.data.uiData),
+            "patchOperations": res.data.patchOperations
           }
           this.screenData = jsonUIResult;
+
         }
       }
     });
@@ -1857,7 +1884,7 @@ export class PagesComponent implements OnInit, OnDestroy {
                 mapApiUrl = `${data.mapApi}/${this.mappingId}`;
               }
               if (removeValue) {
-                if(data.type == 'chat'){
+                if (data.type == 'chat') {
                   data.chatData = [];
                 }
                 else if (data?.dbData && data?.tableBody) {
@@ -1914,7 +1941,7 @@ export class PagesComponent implements OnInit, OnDestroy {
             if (res) {
               if (res?.data) {
                 if (res?.data.length > 0) {
-                  if(selectedNode.type == 'chat'){
+                  if (selectedNode.type == 'chat') {
                     selectedNode.chatData = res.data;
                     this.zone.run(() => {
                       this.cdr.detectChanges();
@@ -2093,67 +2120,9 @@ export class PagesComponent implements OnInit, OnDestroy {
     return null;
   }
   dataReplace(node: any, replaceData: any, value: any): any {
-    let typeMap: any = {
-      cardWithComponents: 'link',
-      buttonGroup: 'title',
-      button: 'title',
-      downloadButton: 'path',
-      breakTag: 'title',
-      switch: 'title',
-      imageUpload: 'source',
-      heading: 'text',
-      paragraph: 'text',
-      alert: 'text',
-      progressBar: 'percent',
-      video: 'videoSrc',
-      audio: 'audioSrc',
-      carouselCrossfade: 'carousalConfig',
-      tabs: 'title',
-      mainTab: 'title',
-      mainStep: 'title',
-      listWithComponents: 'title',
-      listWithComponentsChild: 'title',
-      step: 'title',
-      kanban: 'title',
-      simplecard: 'title',
-      div: 'title',
-      textEditor: 'title',
-      multiFileUpload: 'uploadBtnLabel',
-      accordionButton: 'title',
-      divider: 'dividerText',
-      toastr: 'toasterTitle',
-      rate: 'icon',
-      editor_js: 'title',
-      rangeSlider: 'title',
-      affix: 'title',
-      statistic: 'title',
-      anchor: 'title',
-      modal: 'btnLabel',
-      popConfirm: 'btnLabel',
-      avatar: 'src',
-      badge: 'nzText',
-      comment: 'avatar',
-      description: 'btnText',
-      descriptionChild: 'content',
-      segmented: 'title',
-      result: 'resultTitle',
-      tree: 'title',
-      transfer: 'title',
-      spin: 'loaderText',
-      cascader: 'title',
-      drawer: 'btnText',
-      skeleton: 'title',
-      empty: 'text',
-      list: 'title',
-      treeView: 'title',
-      message: 'content',
-      mentions: 'title',
-      icon: 'title',
-      linkbutton:'href'
-    };
-
+    let typeMap: any = this.dataSharedService.typeMap;
     const type = node.type;
-    const key = typeMap[type];
+    const key = value.componentKey ? value.componentKey : typeMap[type];
     if (node.formly) {
       if (node.type == 'multiselect') {
         if (replaceData['orderrequest.requiredfrequency']) {
