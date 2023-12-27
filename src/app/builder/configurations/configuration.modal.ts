@@ -11777,12 +11777,30 @@ export class formFeildData {
       fieldGroupClassName: "flex flex-wrap",
       fieldGroup: [
         {
+          key: 'tbodyClass',
+          type: 'input',
+          wrappers: ["formly-vertical-theme-wrapper"],
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          props: {
+            label: 'Body main Class',
+          },
+        },
+        {
+          key: 'dataRow',
+          type: 'input',
+          wrappers: ["formly-vertical-theme-wrapper"],
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          props: {
+            label: 'Data Row Class',
+          },
+        },
+        {
           key: 'tdClass',
           type: 'input',
           wrappers: ["formly-vertical-theme-wrapper"],
           className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
           props: {
-            label: 'Font Class',
+            label: 'Cell Font Class',
           },
         },
         {
@@ -11791,7 +11809,25 @@ export class formFeildData {
           wrappers: ["formly-vertical-theme-wrapper"],
           className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
           props: {
-            label: 'Row Class',
+            label: 'Cells Class',
+          },
+        },
+        {
+          key: 'editCell',
+          type: 'input',
+          wrappers: ["formly-vertical-theme-wrapper"],
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          props: {
+            label: 'Edit Cell Class',
+          },
+        },
+        {
+          key: 'deleteCell',
+          type: 'input',
+          wrappers: ["formly-vertical-theme-wrapper"],
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          props: {
+            label: 'Delete Cell Class',
           },
         },
       ]
@@ -12324,14 +12360,7 @@ export class formFeildData {
         //   },
         // },
         // {
-        //   key: 'tbodyClass',
-        //   type: 'input',
-        //   wrappers: ["formly-vertical-theme-wrapper"],
-        //   className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
-        //   props: {
-        //     label: 't body Class',
-        //   },
-        // },
+       
         {
           key: 'hieght',
           type: 'input',

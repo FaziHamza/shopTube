@@ -114,6 +114,7 @@
     [appConfigurableSelect]="childTable == false ? (data?.appConfigurableEvent ? data?.appConfigurableEvent : []) : []"
     [loadAction]="childTable == false ? ( data?.eventActionconfig ? data?.eventActionconfig : {}) : false"
     class="dynamic-table">
+    <!-- table -->
     <nz-table nzShowPagination [nzVirtualItemSize]="54" [nzSimple]="true"
       [nzOuterBordered]="data?.outerBordered || false" [nzScroll]="data?.stickyHeaders
       ? {  y: data?.hieght ?  data?.hieght + 'px':'240px' , x: '2500px' }
@@ -124,6 +125,7 @@
       [nzPaginationPosition]='data?.nzPaginationPosition' [nzPaginationType]='data?.nzPaginationType'
       [nzFrontPagination]='false' [nzTitle]='data?.nzTitle' [nzSimple]="data.nzSimple"
       [nzShowSizeChanger]="data.nzShowSizeChanger">
+      <!-- header -->
       <thead *ngIf="tableHeaders.length > 0" class="desktop-toggle">
         <tr class="desktop-toggle " *ngIf="data?.showColumnHeader == undefined ? true : data?.showColumnHeader">
           <th [class]="data.tableHeaderClass" (mousedown)="onResizeStart($event, deleteditWidth[2])"
@@ -269,32 +271,35 @@
           </th>
         </tr>
       </thead>
-      <tbody [class]="data?.tbodyClass" class="dynamic-responsive-table-body w-full" style="width: 100%;">
+
+      <tbody [class]="data?.tbodyClass" class="dynamic-responsive-table-body">
         <ng-template #recursiveList let-data1>
           <ng-container *ngFor="let item of data1; let i = index">
-            <tr (click)="rowselected(item)" class="desktop-toggle" (dblclick)="updateModel(item)"
+            <!-- main row -->
+            <tr (click)="rowselected(item)" [class]="data?.dataRow" class="desktop-toggle" (dblclick)="updateModel(item)"
               (click)="data?.rowClickApi!='' ? onClickRow(data.rowClickApi,item): ''"
               [ngClass]="{'selectedRow' : item === index }">
+              <!-- Expand icon td -->
               <td (click)="callExpandAPi(item , item.expand)" [ngStyle]="{'text-align': data?.position || 'center'}"
                 [nzLeft]="data?.endFreezingNumber >= 1" *ngIf="item.expand != undefined" [(nzExpand)]="item.expand">
                 <p class="pb-1" *ngIf="item?.children">
                   ({{item?.children?.length}})
                 </p>
               </td>
+              <!-- checkbox td -->
               <td [ngStyle]="{'text-align': data?.position || 'center'}" [nzLeft]="data?.startFreezingNumber >= 1"
                 *ngIf="data.showCheckbox">
                 <label nz-checkbox [(ngModel)]="item['checked']"></label>
               </td>
+              <!-- data container -->
               <ng-container *ngFor="let header of data['tableKey']; let index = index">
-                <!-- [class]="data?.tdrowClass"  -->
                 <td
                   [ngStyle]="{'text-align':  configurationTable ?  header?.key == 'id' ? 'center' : 'left' :  
                 (header?.position  ? header?.position : 
                 (header?.key == 'id' || header?.dataType == 'icon' || header?.dataType == 'number' ? 'center' : 'left'))}"
                   [style.width.px]="header.width ? header.width : 'auto'"
                   [class]="header?.headerFreeze == true ? 'TDZINDEX' : ''" 
-                  class="overflow-hidden whitespace-nowrap text-ellipsis font-normal text-[#23303d] border border-t-0
-                  border-[#e5e7eb] border-solid text-xs z-0 bg-white border-x p-[5px]"
+                  [class]="data?.tdrowClass"
                   [nzLeft]="header?.headerFreeze == true ? true : false"
                   [nzRight]="header?.headerFreeze == true ? true : false" (click)="checkTypeData(item , header)"
                   [nzEllipsis]="true" class="5"
@@ -302,6 +307,7 @@
                   *ngIf="(header?.show == true || header?.show === undefined || header?.show === '' || header?.show == 'Yes') && header?.dataType !='objectType' && header.key != 'headerButton' && header.key != 'footerButton' && header.key != 'expandable' && header.key != 'checked'
                   && header.key != 'expand'  && header.key !='children' && header.key != 'defaultValue' ">
                   <div [class]="data?.tdClass">
+                    <!-- input case cell -->
                     <div
                       *ngIf="header?.dataType !='select' && header?.dataType !='audioVideoRecorder' && header?.dataType !='image-upload' && header?.dataType != 'repeatSection' && header?.dataType != 'qrcode' && header?.dataType != 'dateTime' && !isMyDataArray(item[header.key]
                     )
@@ -316,6 +322,7 @@
                         [hidden]="item['editabeRowAddNewRow'] ? false : editId !== item.id" type="text" nz-input
                         [(ngModel)]="item[header.key]" />
                     </div>
+                    <!-- mspping case select  cell -->
                     <div *ngIf=" isMyDataArray(item[header.key]) ">
                       <nz-select nzAllowClear nzShowSearch style="width: 100px" nzPlaceHolder="Select Value"
                         [(ngModel)]="item.defaultValue" (ngModelChange)="select(i, $event)">
@@ -325,6 +332,7 @@
                         </nz-option>
                       </nz-select>
                     </div>
+                    <!-- simple select -->
                     <div *ngIf="header?.dataType == 'repeatSection' || header?.dataType =='select'">
                       <div [style.color]="item[header.key]== item?.colorDataType && editId !== item.id ?
                       item?.columnTextColor : ''" [class]="data?.tdClass" class="editable-cell"
@@ -346,10 +354,12 @@
                         <i class="fas fa-qrcode"></i>
                       </div>
                     </div> -->
+                    <!-- image cell -->
                     <div *ngIf="header?.dataType =='image-upload'" class="4">
                       <img nz-image class="table-image" *ngIf="item[header.key]" [nzSrc]="item[header.key]" alt />
                     </div>
                   </div>
+                  <!-- date time cell -->
                   <ng-container
                     *ngIf="header?.dataType =='input' && tableHeaders[index]?.subDataType == 'datetime-local'">
                     <ng-container [style.color]="item[header.key]== item?.colorDataType && editId !== item.id ?
@@ -357,6 +367,7 @@
                       {{ item[header.key] | date:'dd-MM-yyyy HH:mm:ss'}}
                     </ng-container>
                   </ng-container>
+                  <!-- date cell -->
                   <div *ngIf="header?.dataType =='dateTime'">
                     <div *ngIf="item[header.key]" [style.color]="item[header.key]== item?.colorDataType && editId !== item.id ?
                     item?.columnTextColor : ''" [class]="data?.tdClass"
@@ -378,16 +389,19 @@
                   item?.columnTextColor : ''" *ngIf="header?.dataType =='rangePicker'" class="date">
                     {{ transform(item[header.key]) }}
                   </div>
+                  <!-- Audio play -->
                   <div *ngIf="header?.dataType =='audioVideoRecorder'" class="!h-fit">
                     <audio *ngIf="item[header.key]" class="!w-[224px] !h-[30px]" controls>
                       <source [src]="item[header.key] ? serverPath + '/' + item[header.key] : ''" type="audio/mp3">
                     </audio>
                   </div>
+                  <!-- icon cell -->
                   <div *ngIf="header?.dataType =='icon'">
                     <st-icon *ngIf="header?.icon" [type]="'outline'" [icon]="header?.icon" [size]="15"
                       [hoverIconColor]="''" [color]="item[header.key]== item?.colorDataType && editId !== item.id ?
                       item?.columnTextColor : ''"></st-icon>
                   </div>
+                  <!-- button case cell -->
                   <ng-container *ngIf="data && data?.children">
                     <ng-container *ngIf="data.children.length > 0">
                       <div class="'flex flex-wrap'">
@@ -417,16 +431,19 @@
                       </div>
                     </ng-container>
                   </ng-container>
+                  <!-- checkbox cell -->
                   <div *ngIf="header?.dataType =='checkbox'" class="4">
                     <label nz-checkbox [(ngModel)]="item[header.key]"></label>
                   </div>
                 </td>
+                <!-- grid configuration butoon in header-->
                 <td *ngIf="header.key == 'headerButton'">
                   <button (click)="showModal('Header')" type="button"
                     class="bg-blue-600 hover:bg-blue-500 text-white font-bold py-1  px-2.5 rounded">
                     Button
                   </button>
                 </td>
+                <!-- grid configuration butoon in foote-->
                 <td *ngIf="header.key == 'footerButton'">
                   <button type="button" (click)="showModal('Footer')"
                     class="bg-blue-600 hover:bg-blue-500 text-white font-bold py-1  px-2.5 rounded">
@@ -434,7 +451,8 @@
                   </button>
                 </td>
               </ng-container>
-              <td [nzRight]="data?.endFreezingNumber >= 2" *ngIf="isAllowEdit(tableHeaders)" class="!text-center">
+              <!-- edit and cancel td -->
+              <td [nzRight]="data?.endFreezingNumber >= 2" *ngIf="isAllowEdit(tableHeaders)" [class]="data?.editCell">
                 <i (click)="startEdit(item)" *ngIf="editId !== item.id"
                   [class]="'fa-regular !text-sm fa-pencil text-blue-500 ' + (item?.editabeRowAddNewRow == true ?  '!cursor-no-drop' :'')"></i>
                 <div class="flex justify-center items-center" *ngIf="editId == item.id">
@@ -443,14 +461,16 @@
                   <i (click)="cancelEdit(item)" class="fa-solid fa-circle-xmark !text-sm text-red-500"></i>
                 </div>
               </td>
+              <!-- delete td -->
               <td [nzRight]="data?.endFreezingNumber >= 1"
-                *ngIf="data?.isDeleteAllow || data?.isDeleteAllow == undefined " class="!text-center">
+                *ngIf="data?.isDeleteAllow || data?.isDeleteAllow == undefined " [class]="data?.deleteCell">
                 <a (click)="showDeleteConfirm(item)">
                   <i
                     [class]="'fa-regular fa-trash !text-sm text-red-500 ' + (item?.editabeRowAddNewRow == true ?  '!cursor-no-drop' :'')"></i>
                 </a>
               </td>
             </tr>
+            <!-- child table -->
             <tr *ngIf="item.expand != undefined" [nzExpand]="item.expand">
               <ng-container *ngIf="item?.children && item.expand">
                 <dynamic-table [childDataObj]="item?.childDataObj" [tableId]='item.tableId' [childTable]='true'
@@ -463,6 +483,7 @@
                   [showPagination]="false"></dynamic-table>
               </ng-container>
             </tr>
+            <!-- mobile case table -->
             <div (dblclick)="updateModel(item)" class="dynamic-responsive-table mobile-toggle" style="width: 100%;">
               <tr *ngFor="let entryKey of getObjectKeys(item)">
                 <ng-container *ngFor="let header of tableHeaders; let index = index">
@@ -525,6 +546,7 @@
         </ng-template>
         <ng-container *ngTemplateOutlet="recursiveList; context:{ $implicit: editRowTable.data }"></ng-container>
       </tbody>
+
       <tfoot *ngIf="data?.nzFooter && !responsiveTable" class="bg-gray-100">
         <tr nz-custom-footer>
           {{data?.nzFooter}}
