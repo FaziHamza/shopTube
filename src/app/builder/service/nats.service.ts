@@ -7,7 +7,7 @@ import { environment } from 'src/environments/environment';
   providedIn: 'root'
 })
 export class NatsService {
-  private nc!: NatsConnection;
+  private nc: NatsConnection | undefined = undefined;
   private sc = StringCodec();
 
   async connectToNats(serverUrl: string): Promise<void> {
@@ -19,7 +19,11 @@ export class NatsService {
   }
 
   async subscribeToSubject(subject: string, callback: (error: Error | null, data: any) => Promise<void>): Promise<Subscription> {
-    return  await this.nc.subscribe(subject, {
+    if (!this.nc) {
+      // Handle the case where this.nc is undefined
+      throw new Error('NatsConnection is not defined');
+    }
+    return await this.nc.subscribe(subject, {
       callback: (err, msg) => {
         if (err) {
           callback(err, null);
@@ -51,13 +55,15 @@ export class NatsService {
     message["policyTheme"] = theme;
     const payloadData = this.sc.encode(JSON.stringify(message));
 
-    this.nc.publish(subject, payloadData);
-
+    this.nc?.publish(subject, payloadData);
   }
 
   closeConnection(): void {
     if (this.nc) {
-      this.nc.close();
+      console.log(this.nc);
+      this.nc.closed();
+      console.log(this.nc);
+      this.nc = undefined
     }
   }
 }

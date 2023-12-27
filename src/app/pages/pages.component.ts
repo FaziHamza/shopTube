@@ -286,13 +286,13 @@ export class PagesComponent implements OnInit, OnDestroy {
     if (this.data.length == 0) {
       const subscription = this.activatedRoute.params.subscribe(async (params: Params) => {
         // this.initiliaze(params);
-        this.connectToNatsAndSubscribePageAuth((data) => {
-
-        });
-        this.connectToNatsAndSubscribe((data) => {
-
-        });
         if (params["schema"]) {
+          this.connectToNatsAndSubscribePageAuth((data) => {
+
+          });
+          this.connectToNatsAndSubscribe((data) => {
+
+          });
           // this.initiliaze(params);
           this.saveLoader = true;
           this.dataSharedService.currentMenuLink = "/pages/" + params["schema"];
@@ -303,8 +303,8 @@ export class PagesComponent implements OnInit, OnDestroy {
             screenId: params["schema"],
           }
           await this.natsService.connectToNats(environment.natsUrl);
+          console.log(`Res_Cp_CheckPageAuth start ${Date.now()}`)
           this.natsService.publishMessage('Req_Cp_CheckPageAuth', obj);
-
         }
       });
       this.subscriptions.add(subscription);
@@ -315,19 +315,21 @@ export class PagesComponent implements OnInit, OnDestroy {
   async connectToNatsAndSubscribePageAuth(callback: (data: any) => void) {
     try {
       await this.natsService.connectToNats(environment.natsUrl);
-      await this.natsService.subscribeToSubject('Res_Cp_CheckPageAuth',  async (err, data) => {
+      console.log(`Res_Cp_CheckPageAuth start ${Date.now()}`)
+      await this.natsService.subscribeToSubject('Res_Cp_CheckPageAuth', async (err, data) => {
+        console.log(`Res_Cp_CheckPageAuth end ${Date.now()}`)
         if (err) {
           console.error('Error:', err);
           return;
         }
         const res = JSON.parse(data);
+        this.natsService.closeConnection();
         if (res?.data) {
           this.initiliaze(this.currentParams);
         } else {
           this.saveLoader = false;
           this.router.navigateByUrl('permission-denied');
         }
-        // this.natsService.closeConnection();
       });
     } catch (error) {
       console.error('Error connecting to NATS:', error);
@@ -399,18 +401,22 @@ export class PagesComponent implements OnInit, OnDestroy {
     }
   }
   async getBuilderScreen(params: any) {
-    this.saveLoader = true;
-    const obj: any = {
-      modelType: 'Builder',
-      id: params["schema"],
+    if (params["schema"]) {
+      this.saveLoader = true;
+      const obj: any = {
+        modelType: 'Builder',
+        id: params["schema"],
+      }
+      await this.natsService.connectToNats(environment.natsUrl);
+      console.log(`Req_Cp_Model_ById start ${Date.now()}`)
+      this.natsService.publishMessage('Req_Cp_Model_ById', obj);
     }
-    await this.natsService.connectToNats(environment.natsUrl);
-    await this.natsService.publishMessage('Req_Cp_Model_ById', obj);
   }
   async connectToNatsAndSubscribe(callback: (data: any) => void) {
     try {
       await this.natsService.connectToNats(environment.natsUrl);
       await this.natsService.subscribeToSubject('Res_Cp_Model_ById', async (err, data) => {
+        console.log(`Req_Cp_Model_ById end ${Date.now()}`)
         if (err) {
           console.error('Error:', err);
           return;
@@ -429,6 +435,7 @@ export class PagesComponent implements OnInit, OnDestroy {
 
           this.actionsBindWithPage(dataV1.builder, this.applicationThemeData);
           this.getTaskManagementIssues = dataV1.userAssignTask;
+          this.saveLoader = false;
 
         } else {
           this.toastr.error(res.message, { nzDuration: 3000 });

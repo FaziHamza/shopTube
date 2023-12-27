@@ -170,6 +170,7 @@ export class SiteLayoutComponent implements OnInit {
       modelType: 'Application',
       id: this.currentUrl,
     }
+    console.log(`Req_Cp_Domain start ${Date.now()}`)
     this.natsService.publishMessage('Req_Cp_Domain', obj);
   }
   ngAfterViewInit() {
@@ -216,12 +217,14 @@ export class SiteLayoutComponent implements OnInit {
     try {
       await this.natsService.connectToNats(environment.natsUrl);
       await this.natsService.subscribeToSubject('Res_Cp_Domain', async (err, data) => {
+        console.log(`Req_Cp_Domain end ${Date.now()}`)
         if (err) {
           console.error('Error:', err);
           return;
         }
         const parsedData = JSON.parse(data);
         this.loader = true;
+        this.natsService.closeConnection();
         // callback(parsedData);
         this.getMenuByDomainName(parsedData);
       });
@@ -260,6 +263,7 @@ export class SiteLayoutComponent implements OnInit {
               modelType: 'UserComment',
               type: 'menu',
             }
+            console.log(`Req_Cp_UserComments start ${Date.now()}`)
             this.natsService.publishMessage('Req_Cp_UserComments', obj);
             // this.getComments();
             if (selectedTheme?.layout == 'horizental') {
@@ -282,6 +286,7 @@ export class SiteLayoutComponent implements OnInit {
       const obj = {
         id: `1`
       }
+      console.log(`Res_Cp_UserPolicyMenu start ${Date.now()}`)
       this.natsService.publishMessage('Req_Cp_UserPolicyMenu', obj);
     }
   };
@@ -533,12 +538,14 @@ export class SiteLayoutComponent implements OnInit {
     try {
       await this.natsService.connectToNats(environment.natsUrl);
       await this.natsService.subscribeToSubject('Res_Cp_UserComments', async (err, data) => {
+        console.log(`Res_Cp_UserComments end ${Date.now()}`)
         if (err) {
           console.error('Error:', err);
           return;
         }
         const parsedData = JSON.parse(data);
         // callback(parsedData);
+        this.natsService.closeConnection();
         this.getComments(parsedData);
       });
     } catch (error) {
@@ -606,13 +613,15 @@ export class SiteLayoutComponent implements OnInit {
   async connectToNatsAndSubscribePolicy(callback: (data: any) => void) {
     try {
       await this.natsService.connectToNats(environment.natsUrl);
-     await  this.natsService.subscribeToSubject('Res_Cp_UserPolicyMenu', async (err, data) => {
+      await this.natsService.subscribeToSubject('Res_Cp_UserPolicyMenu', async (err, data) => {
+        console.log(`Res_Cp_UserPolicyMenu end ${Date.now()}`)
         if (err) {
           console.error('Error:', err);
           return;
         }
         const parsedData = JSON.parse(data);
         // callback(parsedData);
+        this.natsService.closeConnection();
         this.getUserPolicyMenu(parsedData);
       });
     } catch (error) {
