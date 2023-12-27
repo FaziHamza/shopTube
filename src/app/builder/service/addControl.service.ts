@@ -278,7 +278,7 @@ export class AddControlService {
       iconPlacement: 'left',
       hoverIconColor: '',
       captureData: 'sectionLevel',
-      buttonClass: '!rounded !bg-blue-500 !text-white hover:!bg-blue-600 hover:text-white !border !border-transparent !hover:border-transparent font-md text-lg',
+      innerClass: '!rounded !bg-blue-500 !text-white hover:!bg-blue-600 hover:text-white !border !border-transparent !hover:border-transparent font-md text-lg',
       path: '',
       showHideButton: 'hideBoth',
       hideHeader:false,
@@ -744,7 +744,6 @@ export class AddControlService {
       dataTable: '',
       btnLabelPaddingClass: '',
       hoverIconColor: '',
-
       badgeType: 'none',
       badgeCount: '',
       hoverBorderColor: '',
@@ -785,7 +784,7 @@ export class AddControlService {
       color: '',
       headingApi: "",
       text: "Editor.js",
-      heading: 'text-base',
+      innerClass: 'text-base',
       fontstyle: '',
       link: '',
     }
@@ -816,13 +815,12 @@ export class AddControlService {
       beforecopyIcon: '',
       aftercopyIcon: '',
       hoverIconColor: '',
-
       editableIcon: '',
       link: '',
       iconType: 'outline',
       iconSize: 15,
       iconColor: '',
-      textSize: ' text-sm'
+      innerClass: '!text-sm'
     }
   }
   htmlBlockControl() {
@@ -1296,7 +1294,6 @@ export class AddControlService {
       isNextChild: true,
       nzExpandedIcon: '',
       hoverIconColor: '',
-
       nzShowArrow: true,
       extra: '',
     }
