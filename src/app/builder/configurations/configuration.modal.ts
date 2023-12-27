@@ -187,7 +187,7 @@ export class formFeildData {
           }
         },
         {
-          key: 'buttonClass',
+          key: 'innerClass',
           type: 'input',
           className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
           wrappers: ["formly-vertical-theme-wrapper"],
@@ -3578,7 +3578,7 @@ export class formFeildData {
       fieldGroup: [
         {
           className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
-          key: 'divClass',
+          key: 'innerClass',
           type: 'input',
           wrappers: ["formly-vertical-theme-wrapper"],
           props: {
@@ -4033,72 +4033,12 @@ export class formFeildData {
       fieldGroupClassName: "flex flex-wrap",
       fieldGroup: [
         {
-          key: 'heading',
+          key: 'innerClass',
           type: 'input',
           className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
           wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             label: 'Heading Class',
-            // options: [
-            //   {
-            //     label: 'text-xs',
-            //     value: 'text-xs'
-            //   },
-            //   {
-            //     label: 'text-sm',
-            //     value: 'text-sm'
-            //   },
-            //   {
-            //     label: 'text-base',
-            //     value: 'text-base'
-            //   },
-            //   {
-            //     label: 'text-lg',
-            //     value: 'text-lg'
-            //   },
-            //   {
-            //     label: 'text-xl',
-            //     value: 'text-xl'
-            //   },
-            //   {
-            //     label: 'text-2xl',
-            //     value: 'text-2xl'
-            //   },
-            //   {
-            //     label: 'text-3xl',
-            //     value: 'text-3xl'
-            //   },
-            //   {
-            //     label: 'text-4xl',
-            //     value: 'text-4xl'
-            //   },
-            //   {
-            //     label: 'text-5xl',
-            //     value: 'text-5xl'
-            //   },
-            //   {
-            //     label: 'text-6xl',
-            //     value: 'text-6xl'
-            //   },
-            //   {
-            //     label: 'text-7xl',
-            //     value: 'text-7xl'
-            //   },
-            //   {
-            //     label: 'text-8xl',
-            //     value: 'text-8xl'
-            //   },
-            //   {
-            //     label: 'text-9xl',
-            //     value: 'text-9xl'
-            //   }
-            // ],
-            // additionalProperties: {
-            //   allowClear: true,
-            //   serveSearch: true,
-            //   showArrow: true,
-            //   showSearch: true,
-            // },
           },
         },
         {
@@ -4501,40 +4441,12 @@ export class formFeildData {
           defaultValue: 'bold'
         },
         {
-          key: 'textSize',
+          key: 'innerClass',
           type: 'input',
           className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
           wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             label: 'Text Class',
-            // options: [
-            //   {
-            //     label: 'Extra Small',
-            //     value: ' text-xs'
-            //   },
-            //   {
-            //     label: 'Small',
-            //     value: ' text-sm'
-            //   },
-            //   {
-            //     label: 'Medium',
-            //     value: ' text-base'
-            //   },
-            //   {
-            //     label: 'Large',
-            //     value: ' text-lg'
-            //   },
-            //   {
-            //     label: 'Extra Large',
-            //     value: ' text-xl'
-            //   },
-            // ],
-            // additionalProperties: {
-            //   allowClear: true,
-            //   serveSearch: true,
-            //   showArrow: true,
-            //   showSearch: true,
-            // },
           },
         },
         {
@@ -11347,7 +11259,7 @@ export class formFeildData {
         // },
         {
           className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
-          key: 'imageClass',
+          key: 'innerClass',
           type: 'input',
           wrappers: ["formly-vertical-theme-wrapper"],
           props: {

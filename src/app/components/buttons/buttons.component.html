@@ -1,7 +1,7 @@
 <button *ngIf="buttonData.type != 'linkbutton' && buttonData.type != 'dropdownButton'" nz-button
   [disabled]="buttonData.disabled" [nzBlock]="buttonData.nzBlock" [nzDanger]="buttonData.nzDanger"
   [nzGhost]="buttonData.nzGhost" [nzLoading]="buttonData.nzLoading" [nzShape]="buttonData.nzShape"
-  [class]="(!isActionExist ? '!cursor-auto ' : '!cursor-pointer ')+ buttonData.buttonClass + ' ' + buttonData.applicationThemeClasses + ' ' + buttonData.appGlobalClass"
+  [class]="(!isActionExist ? '!cursor-auto ' : '!cursor-pointer ')+ buttonData.buttonClass + ' ' + buttonData.applicationThemeClasses + ' ' + buttonData?.innerClass + ' ' + buttonData?.appGlobalInnerClass"
   [nzSize]="buttonData.nzSize" [nzType]="buttonData.nztype" [type]="buttonData.isSubmit ? 'submit' : 'button'"
   [style.border-radius.px]="buttonData.nzShape == 'default' ? buttonData.radius : ''"
   [style.opacity]="hoverOpacity ? hoverOpacity :  buttonData.btnopacity ? buttonData.btnopacity : '1'"
@@ -10,7 +10,7 @@
   [style.border-color]="(borderColor || buttonData.borderColor) + ' !important'" (click)="handleButtonClick(buttonData)"
   (mouseover)="handleButtonMouseOver(buttonData)" (mouseout)="handleButtonMouseOut(buttonData)">
   <span>
-    <st-icon *ngIf="buttonData.btnIcon" [icon]="buttonData.btnIcon" [color]="buttonData.iconColor"
+    <st-icon [iconClass]="buttonData?.iconClass + ' ' + buttonData?.appGlobalInnerIconClass" *ngIf="buttonData.btnIcon" [icon]="buttonData.btnIcon" [color]="buttonData.iconColor"
       [hoverIconColor]="buttonData?.hoverIconColor || ''" [size]="buttonData.iconSize"
       [type]="buttonData.iconType"></st-icon>
     <span [class]="buttonData.btnLabelPaddingClass" *ngIf="buttonData.title">
@@ -18,7 +18,7 @@
       }}
 
     </span>
-    <st-icon *ngIf="buttonData.rightbtnIcon" [icon]="buttonData.rightbtnIcon" [color]="buttonData.iconColor"
+    <st-icon [iconClass]="buttonData?.iconClass + ' ' + buttonData?.appGlobalInnerIconClass" *ngIf="buttonData.rightbtnIcon" [icon]="buttonData.rightbtnIcon" [color]="buttonData.iconColor"
       [size]="buttonData.iconSize" [hoverIconColor]="buttonData?.hoverIconColor || ''"
       [type]="buttonData.iconType"></st-icon>
   </span>
@@ -32,19 +32,19 @@
     [style.background]="(bgColor || GridRuleColor ? GridRuleColor : buttonData.color) + ' !important'"
     [style.color]="(hoverTextColor || buttonData.textColor) + ' !important'"
     [style.border-color]="(borderColor || buttonData.borderColor) + ' !important'"
-    [class]="(!isActionExist ? '!cursor-auto ' : '!cursor-pointer ')+ buttonData.buttonClass + ' ' + buttonData.applicationThemeClasses + ' ' + buttonData.appGlobalClass"
+    [class]="(!isActionExist ? '!cursor-auto ' : '!cursor-pointer ')+ buttonData.buttonClass + ' ' + buttonData.applicationThemeClasses + ' ' + buttonData?.innerClass + ' ' + buttonData?.appGlobalInnerClass"
     (mouseover)="bgColor = buttonData?.hoverColor" (mouseout)="bgColor = buttonData?.color"
     (click)="pagesRoute(buttonData)" (mouseover)="handleButtonMouseOver(buttonData)"
     (mouseout)="handleButtonMouseOut(buttonData)">
     <span [style]="borderColor || buttonData.borderColor ? 'padding-left: 10px; padding-right: 10px;' : ''">
-      <st-icon *ngIf="buttonData.btnIcon" [icon]="buttonData.btnIcon" [color]="buttonData.iconColor"
+      <st-icon [iconClass]="buttonData?.iconClass + ' ' + buttonData?.appGlobalInnerIconClass" *ngIf="buttonData.btnIcon" [icon]="buttonData.btnIcon" [color]="buttonData.iconColor"
         [hoverIconColor]="buttonData?.hoverIconColor || ''" [size]="buttonData.iconSize"
         [type]="buttonData.iconType"></st-icon>
       <span [class]="buttonData.btnLabelPaddingClass" *ngIf="buttonData.title">
         {{ (buttonData?.title) ? (title || buttonData?.title | translate) : ''
         }}
       </span>
-      <st-icon *ngIf="buttonData.rightbtnIcon" [icon]="buttonData.rightbtnIcon" [color]="buttonData.iconColor"
+      <st-icon [iconClass]="buttonData?.iconClass + ' ' + buttonData?.appGlobalInnerIconClass" *ngIf="buttonData.rightbtnIcon" [icon]="buttonData.rightbtnIcon" [color]="buttonData.iconColor"
         [size]="buttonData.iconSize" [hoverIconColor]="buttonData?.hoverIconColor || ''"
         [type]="buttonData.iconType"></st-icon>
     </span>
@@ -55,7 +55,7 @@
 <button *ngIf="buttonData.type == 'dropdownButton'" nz-button nz-dropdown [nzDropdownMenu]="menu"
   [nzType]="buttonData.nztype" [nzGhost]="buttonData.nzGhost" [nzSize]="buttonData.nzSize"
   [disabled]="buttonData.disabled" [nzLoading]="buttonData.nzLoading"
-  [class]="(!isActionExist ? '!cursor-auto ' : '!cursor-pointer ')+ buttonData.buttonClass + ' ' + buttonData.applicationThemeClasses + ' ' + buttonData.appGlobalClass"
+  [class]="(!isActionExist ? '!cursor-auto ' : '!cursor-pointer ')+ buttonData.buttonClass + ' ' + buttonData.applicationThemeClasses + ' ' + buttonData?.innerClass + ' ' + buttonData?.appGlobalInnerClass"
   [nzBlock]="buttonData.nzBlock" [nzTrigger]="buttonData.trigger" [nzPlacement]="buttonData.placement"
   [nzClickHide]="buttonData.clickHide" [nzVisible]="buttonData.visible" [nzDanger]="buttonData.nzDanger"
   [nzShape]="buttonData.nzShape" [style.border-radius.px]="buttonData.radius || 0"
@@ -64,15 +64,15 @@
   [style.border-color]="(borderColor || buttonData.borderColor) + ' !important'"
   (mouseover)="handleButtonMouseOver(buttonData)" (mouseout)="handleButtonMouseOut(buttonData)">
   <span>
-    <st-icon [class]="buttonData.iconClass" *ngIf="buttonData.btnIcon" [icon]="buttonData.btnIcon"
+    <st-icon [iconClass]="buttonData?.iconClass + ' ' + buttonData?.appGlobalInnerIconClass" *ngIf="buttonData.btnIcon" [icon]="buttonData.btnIcon"
       [color]="buttonData.iconColor" [hoverIconColor]="buttonData?.hoverIconColor || ''" [size]="buttonData.iconSize"
       [type]="buttonData.iconType"></st-icon>
     <span [class]="buttonData.btnLabelPaddingClass" *ngIf="buttonData.title">
       {{ (buttonData?.title) ? (title || buttonData?.title | translate) : ''
       }}
     </span>
-    <span [class]="buttonData.iconClass">
-      <st-icon *ngIf="buttonData.rightbtnIcon" [icon]="buttonData.rightbtnIcon" [color]="buttonData.iconColor"
+    <span >
+      <st-icon [iconClass]="buttonData?.iconClass + ' ' + buttonData?.appGlobalInnerIconClass" *ngIf="buttonData.rightbtnIcon" [icon]="buttonData.rightbtnIcon" [color]="buttonData.iconColor"
         [size]="buttonData.iconSize" [hoverIconColor]="buttonData?.hoverIconColor || ''"
         [type]="buttonData.iconType"></st-icon>
     </span>

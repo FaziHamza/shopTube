@@ -22,6 +22,7 @@ export class UIRuleComponent implements OnInit {
   @Input() selectedNode: any;
   @Input() nodes: any;
   @Input() responseData: any;
+  @Input() isScreenSaved: boolean;
   originalData: any;
   saveLoader: any = false;
   public editorOptions: JsonEditorOptions;
@@ -43,6 +44,8 @@ export class UIRuleComponent implements OnInit {
   invoice1: any;
   invoice2: any;
   ngOnInit(): void {
+    if (this.isScreenSaved)
+      this.toastr.warning("Please save screen before add or update ui rule", { nzDuration: 3000 });
     const obj = {
       title: "User Policy",
       key: "policyId",
@@ -171,7 +174,7 @@ export class UIRuleComponent implements OnInit {
       conditonType: 'And',
       targetIfValue: this.formBuilder.array([]),
       targetCondition: this.formBuilder.array([]),
-      diff:{},
+      diff: {},
     });
   }
   uiRuleFormInitilize() {
@@ -373,7 +376,7 @@ export class UIRuleComponent implements OnInit {
       inputJsonData: [''],
       inputOldJsonData: [''],
       changeData: [''],
-      diff:{}
+      diff: {}
     });
   }
   modifedOriginalData() {
@@ -413,116 +416,120 @@ export class UIRuleComponent implements OnInit {
 
   saveUIRule() {
     debugger
-    const data = JSON.parse(JSON.stringify(this.uiRuleForm.value.uiRules));
-    data.forEach((rule: any) => {
-      if (rule.targetCondition.length > 0) {
-        rule.targetCondition.forEach((ruleChild: any) => {
-          delete ruleChild.inputOldJsonData;
-          delete ruleChild.changeData;
-          delete ruleChild.diff;
-        })
-      }
-    });
-
-
-    const newData = {
-      // "key": this.selectedNode.chartCardConfig?.at(0)?.buttonGroup == undefined ? this.selectedNode.chartCardConfig?.at(0)?.formly?.at(0)?.fieldGroup?.at(0)?.key : this.selectedNode.chartCardConfig?.at(0)?.buttonGroup?.at(0)?.btnConfig[0].key,
-      "title": this.selectedNode.title,
-      "screenName": this.screenName,
-      "applicationId": this.applicationId,
-      "screenBuilderId": this.screenId,
-      "uiData": data,
-      "patchOperations": ""
-    }
-    this.saveLoader = true;
-    let patchOperations: any = '';
-    // if (this.originalData) {
-    const getModifiedData = this.modifedOriginalData();
-    const cleanedChanges = this.removeDiffChanges(newData); //Changed Data
-    patchOperations = this.generatePatchOperations(getModifiedData, cleanedChanges);
-    // } else {
-    //   const cleanedChanges = this.removeDiffChanges(this.uiRuleForm.value);
-    //   patchOperations = this.generatePatchOperations(this.originalData, cleanedChanges);
-    // }
-
-    this.uiRuleForm.value.uiRules.forEach((rule: any) => {
-      if (rule.targetCondition.length > 0) {
-        rule.targetCondition.forEach((ruleChild: any) => {
-          ruleChild
-          delete ruleChild.inputJsonData;
-          delete ruleChild.inputOldJsonData;
-          delete ruleChild.changeData;
-        })
-
-      }
-    });
-    const jsonUIResult = {
-      // "key": this.selectedNode.chartCardConfig?.at(0)?.buttonGroup == undefined ? this.selectedNode.chartCardConfig?.at(0)?.formly?.at(0)?.fieldGroup?.at(0)?.key : this.selectedNode.chartCardConfig?.at(0)?.buttonGroup?.at(0)?.btnConfig[0].key,
-      "key": this.selectedNode.key,
-      "title": this.selectedNode.title,
-      "screenName": this.screenName,
-      "applicationId": this.applicationId,
-      "screenBuilderId": this.screenId,
-      "uiData": JSON.stringify(this.uiRuleForm.value.uiRules),
-      "patchOperations": patchOperations
-    }
-    const uiModel = {
-      "UiRule": jsonUIResult
-    }
-    if (jsonUIResult != null) {
-      const checkAndProcess = this.uiRuleId == ''
-        ? this.applicationService.addNestCommonAPI('cp', uiModel)
-        : this.applicationService.updateNestCommonAPI('cp/UiRule', this.uiRuleId, uiModel);
-      checkAndProcess.subscribe({
-        next: (res: any) => {
-          this.saveLoader = false;
-          if (res.isSuccess) {
-            this.toastr.success(res.message, { nzDuration: 3000 }); // Show an error message to the user
-            this.uiRule();
-            this.ruleNotify.emit(true);
-            this.screenData = [];
-            this.screenData = jsonUIResult;
-            this.checkConditionUIRule({ key: 'text_f53ed35b', id: 'formly_86_input_text_f53ed35b_0' }, '');
-          } else
-            this.toastr.error(res.message, { nzDuration: 3000 }); // Show an error message to the user
-        },
-        error: (err) => {
-          this.saveLoader = false;
-          this.toastr.error("An error occurred", { nzDuration: 3000 }); // Show an error message to the user
+    if (this.isScreenSaved)
+      this.toastr.error("Please save screen before add or update  ui rule", { nzDuration: 3000 }); // Show an error message to the user
+    else {
+      const data = JSON.parse(JSON.stringify(this.uiRuleForm.value.uiRules));
+      data.forEach((rule: any) => {
+        if (rule.targetCondition.length > 0) {
+          rule.targetCondition.forEach((ruleChild: any) => {
+            delete ruleChild.inputOldJsonData;
+            delete ruleChild.changeData;
+            delete ruleChild.diff;
+          })
         }
       });
 
-      // const mainModuleId = this.screens.filter((a: any) => a.name == this.screenId)
-      // if (mainModuleId[0].screenId != null) {
-      //   this.builderService.jsonUIRuleGetData(this.screenId).subscribe((getRes => {
 
-      //     if (getRes.length > 0) {
-      //       this.builderService.jsonUIRuleRemove(getRes[0].id).subscribe((delRes => {
-      //         this.builderService.jsonUIRuleDataSave(jsonUIResult).subscribe((saveRes => {
-      //           alert("Data Save");
-      //           this.ruleNotify.emit(true);
-      //           this.screenData = [];
-      //           this.screenData = jsonUIResult;
-      //           // this.makeFaker();
-      //           this.checkConditionUIRule({ key: 'text_f53ed35b', id: 'formly_86_input_text_f53ed35b_0' }, '');
-      //         }));
-      //       }));
-      //     }
-      //     else {
-      //       this.builderService.jsonUIRuleDataSave(jsonUIResult).subscribe((saveRes => {
-      //         alert("Data Save");
-      //         this.ruleNotify.emit(true);
-      //         this.screenData = [];
-      //         this.screenData = jsonUIResult;
-      //         // this.makeFaker();
-      //         this.checkConditionUIRule({ key: 'text_f53ed35b', id: 'formly_86_input_text_f53ed35b_0' }, '');
-      //       }));
-      //     }
-      //   }));
+      const newData = {
+        // "key": this.selectedNode.chartCardConfig?.at(0)?.buttonGroup == undefined ? this.selectedNode.chartCardConfig?.at(0)?.formly?.at(0)?.fieldGroup?.at(0)?.key : this.selectedNode.chartCardConfig?.at(0)?.buttonGroup?.at(0)?.btnConfig[0].key,
+        "title": this.selectedNode.title,
+        "screenName": this.screenName,
+        "applicationId": this.applicationId,
+        "screenBuilderId": this.screenId,
+        "uiData": data,
+        "patchOperations": ""
+      }
+      this.saveLoader = true;
+      let patchOperations: any = '';
+      // if (this.originalData) {
+      const getModifiedData = this.modifedOriginalData();
+      const cleanedChanges = this.removeDiffChanges(newData); //Changed Data
+      patchOperations = this.generatePatchOperations(getModifiedData, cleanedChanges);
+      // } else {
+      //   const cleanedChanges = this.removeDiffChanges(this.uiRuleForm.value);
+      //   patchOperations = this.generatePatchOperations(this.originalData, cleanedChanges);
       // }
+
+      this.uiRuleForm.value.uiRules.forEach((rule: any) => {
+        if (rule.targetCondition.length > 0) {
+          rule.targetCondition.forEach((ruleChild: any) => {
+            ruleChild
+            delete ruleChild.inputJsonData;
+            delete ruleChild.inputOldJsonData;
+            delete ruleChild.changeData;
+          })
+
+        }
+      });
+      const jsonUIResult = {
+        // "key": this.selectedNode.chartCardConfig?.at(0)?.buttonGroup == undefined ? this.selectedNode.chartCardConfig?.at(0)?.formly?.at(0)?.fieldGroup?.at(0)?.key : this.selectedNode.chartCardConfig?.at(0)?.buttonGroup?.at(0)?.btnConfig[0].key,
+        "key": this.selectedNode.key,
+        "title": this.selectedNode.title,
+        "screenName": this.screenName,
+        "applicationId": this.applicationId,
+        "screenBuilderId": this.screenId,
+        "uiData": JSON.stringify(this.uiRuleForm.value.uiRules),
+        "patchOperations": patchOperations
+      }
+      const uiModel = {
+        "UiRule": jsonUIResult
+      }
+      if (jsonUIResult != null) {
+        const checkAndProcess = this.uiRuleId == ''
+          ? this.applicationService.addNestCommonAPI('cp', uiModel)
+          : this.applicationService.updateNestCommonAPI('cp/UiRule', this.uiRuleId, uiModel);
+        checkAndProcess.subscribe({
+          next: (res: any) => {
+            this.saveLoader = false;
+            if (res.isSuccess) {
+              this.toastr.success(res.message, { nzDuration: 3000 }); // Show an error message to the user
+              this.uiRule();
+              this.ruleNotify.emit(true);
+              this.screenData = [];
+              this.screenData = jsonUIResult;
+              this.checkConditionUIRule({ key: 'text_f53ed35b', id: 'formly_86_input_text_f53ed35b_0' }, '');
+            } else
+              this.toastr.error(res.message, { nzDuration: 3000 }); // Show an error message to the user
+          },
+          error: (err) => {
+            this.saveLoader = false;
+            this.toastr.error("An error occurred", { nzDuration: 3000 }); // Show an error message to the user
+          }
+        });
+
+        // const mainModuleId = this.screens.filter((a: any) => a.name == this.screenId)
+        // if (mainModuleId[0].screenId != null) {
+        //   this.builderService.jsonUIRuleGetData(this.screenId).subscribe((getRes => {
+
+        //     if (getRes.length > 0) {
+        //       this.builderService.jsonUIRuleRemove(getRes[0].id).subscribe((delRes => {
+        //         this.builderService.jsonUIRuleDataSave(jsonUIResult).subscribe((saveRes => {
+        //           alert("Data Save");
+        //           this.ruleNotify.emit(true);
+        //           this.screenData = [];
+        //           this.screenData = jsonUIResult;
+        //           // this.makeFaker();
+        //           this.checkConditionUIRule({ key: 'text_f53ed35b', id: 'formly_86_input_text_f53ed35b_0' }, '');
+        //         }));
+        //       }));
+        //     }
+        //     else {
+        //       this.builderService.jsonUIRuleDataSave(jsonUIResult).subscribe((saveRes => {
+        //         alert("Data Save");
+        //         this.ruleNotify.emit(true);
+        //         this.screenData = [];
+        //         this.screenData = jsonUIResult;
+        //         // this.makeFaker();
+        //         this.checkConditionUIRule({ key: 'text_f53ed35b', id: 'formly_86_input_text_f53ed35b_0' }, '');
+        //       }));
+        //     }
+        //   }));
+        // }
+      }
+      // this.cd.detectChanges();
+      // this.clickBack();
     }
-    // this.cd.detectChanges();
-    // this.clickBack();
   }
   getAllObjects(data: any): any[] {
     const foundObjects: any[] = [];

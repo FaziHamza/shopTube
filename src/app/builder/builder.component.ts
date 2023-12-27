@@ -51,6 +51,7 @@ import { AnyCnameRecord } from 'dns';
   styleUrls: ['./builder.component.scss'],
 })
 export class BuilderComponent implements OnInit {
+  isScreenSaved: boolean = false;
   showRules: any = '';
   showActionRule: any = true;
   public editorOptions: JsonEditorOptions = new JsonEditorOptions();
@@ -444,10 +445,12 @@ export class BuilderComponent implements OnInit {
       this.requestSubscription = checkBuilderAndProcess.subscribe({
         next: (res: any) => {
           if (res.isSuccess) {
+            this.isScreenSaved = true;
             this.toastr.success(res.message, { nzDuration: 3000 });
             this.showActionRule = true;
             if (this.builderScreenData?.length > 0) {
-              this.applyTheme(this.nodes[0] , false)
+              this.applyTheme(this.nodes[0], false)
+              this.applyTheme(this.nodes[0], false)
             } else {
               this.getBuilderScreen();
             }
@@ -570,7 +573,7 @@ export class BuilderComponent implements OnInit {
             // this.formlyModel = {};
 
             let nodesData = this.jsonParseWithObject(this.jsonStringifyWithObject(objScreenData));
-            this.applyTheme(nodesData[0] , false)
+            this.applyTheme(nodesData[0], false)
             if (this.actionRuleList.length > 0) {
               let getInputs = this.filterInputElements(nodesData);
               if (getInputs && getInputs.length > 0) {
@@ -1547,11 +1550,11 @@ export class BuilderComponent implements OnInit {
       value == 'timeline' ||
       value == 'gridList' ||
       value == 'accordionButton' ||
-      value == 'fileManager'
+      value == 'fileManager' ||
+      value == 'header'
     )
       return 'w-full';
     else if (value == 'body') return 'px-6 pt-6 pb-10';
-    else if (value == 'header') return '';
     else if (value == 'footer') return '';
     else if (value == 'buttonGroup') return 'w-11/12';
     else return 'sm:w-1/2 md:w-1/2 lg:w-1/2 xl:w-1/2';
@@ -2466,7 +2469,7 @@ export class BuilderComponent implements OnInit {
   addNode(node: any, newNode: TreeNode) {
     if (node?.children) {
       node.children.push(newNode);
-
+      this.isScreenSaved = true;
       if (node.children.length > 0) {
         delete node.isLeaf
       }
@@ -3908,17 +3911,20 @@ export class BuilderComponent implements OnInit {
       if (this.screenData.uiData.length > 0) {
         if (node?.origin?.key) {
           for (const rule of this.screenData.uiData) {
-            if (rule.ifMenuName == node?.origin?.key) {
+            if ((node.origin && rule.ifMenuName === node.origin.key) || (node.parentNode && rule.ifMenuName === node.parentNode.key)) {
               this.toastr.warning('UI Rule is applied to this component, so please refrain from deleting it.', { nzDuration: 3000 }); // Show an error message to the user
               return;
             }
+            var data = true;
             if (rule.targetCondition.length > 0) {
-              for (const ruleChild of rule.targetCondition) {
-                if (ruleChild?.targetName == node?.origin?.key) {
-                  this.toastr.warning('UI Rule is applied to this component, so please refrain from deleting it.', { nzDuration: 3000 }); // Show an error message to the user
-                  return;
+              rule.targetCondition.forEach((element: any) => {
+                if ((node.origin && element.targetName === node.origin.key) || (node.parentNode && element.targetName === node.parentNode.key)) {
+                  this.toastr.warning('UI Rule is applied on parent component, so please refrain from deleting it.', { nzDuration: 3000 }); // Show an error message to the user
+                  data = false;
                 }
-              }
+              });
+              if (!data)
+                return;
             }
           }
         }
@@ -3980,23 +3986,41 @@ export class BuilderComponent implements OnInit {
   // }
   notifyEmit(event: actionTypeFeild): void {
     let needToUpdate = true;
-    if (this.selectedNode.className.includes('$')) {
-      let matches: any[] = this.selectedNode.className.match(/\$\S+/g);
-      if (matches.length > 0 && this.dataSharedService.applicationGlobalClass.length > 0) {
-        matches.forEach((classItem: any, index: number) => {
-          let splittedName = classItem.split('$')[1];
-          let resClass: any = this.dataSharedService.applicationGlobalClass.find((item: any) => item.name == splittedName);
-          if (resClass) {
-            this.selectedNode['appGlobalClass'] = this.selectedNode['appGlobalClass'] ? this.selectedNode['appGlobalClass'] + ' ' + resClass?.class : resClass?.class;
-          }
-          else if (index == 0) {
-            this.selectedNode['appGlobalClass'] = '';
-          }
-        });
+    if (event.form.className) {
+      if (event.form.className.includes('$')) {
+        this.selectedNode['appGlobalClass'] = this.changeWithGlobalClass(event.form.className);
+      } else {
+        this.selectedNode['appGlobalClass'] = ''
       }
     } else {
       this.selectedNode['appGlobalClass'] = ''
     }
+    if (event.form?.innerClass || event.form?.iconClass) {
+      if (event.form?.innerClass) {
+        if (event.form?.innerClass.includes('$')) {
+          this.selectedNode['appGlobalInnerClass'] = this.changeWithGlobalClass(event.form?.innerClass);
+        } else {
+          this.selectedNode['appGlobalInnerClass'] = '';
+        }
+      } 
+      else if (event.form?.iconClass) {
+        if (event.form?.iconClass.includes('$')) {
+          this.selectedNode['appGlobalInnerIconClass'] = this.changeWithGlobalClass(event.form?.iconClass);
+        } 
+        else {
+          this.selectedNode['appGlobalInnerIconClass'] = '';
+        }
+      }
+      else {
+        this.selectedNode['appGlobalInnerClass'] = '';
+      }
+    }
+    else {
+      this.selectedNode['appGlobalInnerIconClass'] = '';
+      this.selectedNode['appGlobalInnerClass'] = '';
+    }
+
+
     switch (event.type) {
       case 'body':
         this.selectedNode = this.api(event.form.api, this.selectedNode);
@@ -4053,7 +4077,14 @@ export class BuilderComponent implements OnInit {
             );
             filteredNodes.forEach((node) => {
               if (event.form.sectionClassName) {
+                if (event.form?.sectionClassName.includes('$')) {
+                  node['appGlobalInnerIconClass'] = this.changeWithGlobalClass(event.form.sectionClassName);
+                } else {
+                  node['appGlobalInnerIconClass'] = '';
+                }
                 node.className = event.form.sectionClassName;
+              } else {
+                node['appGlobalInnerIconClass'] = '';
               }
               node.formly[0].fieldGroup = this.sectionFormlyConfigApply(
                 event.form,
@@ -4608,6 +4639,15 @@ export class BuilderComponent implements OnInit {
             props['additionalProperties']['fileUploadSize'] = event.form?.fileUploadSize;
             props['additionalProperties']['multiFileUploadTypes'] = event.form?.multiFileUploadTypes;
             props['additionalProperties']['innerInputClass'] = event.form?.innerInputClass;
+            if (event.form?.innerInputClass) {
+              if (event.form?.innerInputClass.includes('$')) {
+                props['additionalProperties']['appGlobalInnerClass'] = this.changeWithGlobalClass(event.form?.innerInputClass);
+              } else {
+                props['additionalProperties']['appGlobalInnerClass'] = ''
+              }
+            } else {
+              props['additionalProperties']['appGlobalInnerClass'] = ''
+            }
             props['additionalProperties']['dataClassification'] = event.form?.dataClassification;
             // props['additionalProperties']['disabledBeforeCurrent'] = event.form?.disabledBeforeCurrent;
             props['additionalProperties']['disabledCalenderProperties'] = event.form?.disabledCalenderProperties;
@@ -7637,27 +7677,46 @@ export class BuilderComponent implements OnInit {
   }
   applyTheme(data: any, remove: boolean) {
     if (data) {
-      if (data.className) {
-        if (data.className.includes('$') && !remove) {
-          let matches: any[] = data.className.match(/\$\S+/g);
-          if (matches.length > 0 && this.dataSharedService.applicationGlobalClass.length > 0) {
-            matches.forEach((classItem: any, index: number) => {
-              let splittedName = classItem.split('$')[1];
-              let resClass: any = this.dataSharedService.applicationGlobalClass.find((item: any) => item.name == splittedName);
-              if (resClass) {
-                data['appGlobalClass'] = data['appGlobalClass'] ? data['appGlobalClass'] + ' ' + resClass?.class : resClass?.class;
-              } else if (index == 0) {
-                data['appGlobalClass'] = '';
-              }
-            });
+      if (remove) {
+        data['appGlobalClass'] = '';
+        data['appGlobalInnerClass'] = '';
+        data['appGlobalInnerIconClass'] = '';
+        if (data?.formlyType) {
+          if (data?.formlyType == 'input') {
+            data.formly[0].fieldGroup[0].props['additionalProperties']['appGlobalInnerClass'] = '';
           }
-        }else{
-          data['appGlobalClass'] = '';
         }
       }
+      else {
+        if (data.className) {
+          if (data.className.includes('$')) {
+            data['appGlobalClass'] = this.changeWithGlobalClass(data.className);
+          }
+        }
+        if (data?.innerClass) {
+          if (data?.innerClass.includes('$')) {
+            data['appGlobalInnerClass'] = this.changeWithGlobalClass(data?.innerClass);
+          }
+        }
+        if (data?.iconClass) {
+          if (data?.iconClass.includes('$')) {
+            data['appGlobalInnerIconClass'] = this.changeWithGlobalClass(data?.iconClass);
+          }
+        }
+        if (data?.formlyType) {
+          if (data?.formlyType == 'input') {
+            if (data.formly[0].fieldGroup[0].props['additionalProperties']?.innerInputClass) {
+              if (data.formly[0].fieldGroup[0].props['additionalProperties']?.innerInputClass.includes('$')) {
+                data.formly[0].fieldGroup[0].props['additionalProperties']['appGlobalInnerClass'] = this.changeWithGlobalClass(data.formly[0].fieldGroup[0].props['additionalProperties']?.innerInputClass);
+              }
+            }
+          }
+        }
+      }
+
       if (data.children && data.children.length > 0) {
         for (let child of data.children) {
-          this.applyTheme(child , remove);
+          this.applyTheme(child, remove);
         }
       }
     }
@@ -7671,5 +7730,27 @@ export class BuilderComponent implements OnInit {
       } else
         this.toastr.warning(res.message, { nzDuration: 2000 });
     }));
+  }
+  changeWithGlobalClass(className: any) {
+    let matches: any[] = className.match(/\$\S+/g);
+    let globalClass: any = '';
+    if (matches) {
+      if (matches.length > 0 && this.dataSharedService.applicationGlobalClass.length > 0) {
+        matches.forEach((classItem: any, index: number) => {
+          let splittedName = classItem.split('$')[1];
+          let resClass: any = this.dataSharedService.applicationGlobalClass.find((item: any) => item.name.toLocaleLowerCase() == splittedName.toLocaleLowerCase());
+          if (resClass) {
+            globalClass = globalClass ? globalClass + ' ' + resClass?.class : resClass?.class;
+          }
+          else if (index == 0) {
+            globalClass = '';
+          }
+        });
+      }
+    } else {
+      globalClass = '';
+    }
+
+    return globalClass;
   }
 }

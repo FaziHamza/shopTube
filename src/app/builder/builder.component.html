@@ -240,7 +240,7 @@
               <nz-tab nzTitle="UI Rule" (nzClick)="showRulesFunc('uiRule')">
                 <st-uirule [applicationId]="selectApplicationName" [selectedNode]="selectedNode"
                   *ngIf="selectedNode && nodes.length  > 0 && showRules == 'uiRule'" [screenId]="_id"
-                  [screenName]="screenName" [screens]="screens" [nodes]="nodes"
+                  [screenName]="screenName" [screens]="screens" [nodes]="nodes" [isScreenSaved]="this.isScreenSaved"
                   (ruleNotify)="getUIRuleData($event)" ></st-uirule>
                 <!-- [screenName]="screenName" [screenModule]="screenModule" [nodes]="nodes" (ruleNotify)="getUIRuleData($event)"></st-uirule> -->
               </nz-tab>

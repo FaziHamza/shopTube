@@ -12,7 +12,7 @@
                 <span *ngIf="item?.icon">
                     <st-icon [type]="item?.iconType || 'outline'" [icon]="item?.icon"
                         [hoverIconColor]="item?.hoverIconColor || ''" [size]="item?.iconSize"
-                        [color]="item?.iconColor" [iconClass]="item?.iconClass" [applicationThemeClasses]="item?.applicationThemeClasses" [appGlobalClass]="item?.appGlobalClass"></st-icon>
+                        [color]="item?.iconColor" [iconClass]="item?.iconClass  + ' ' + item?.appGlobalInnerIconClass" [applicationThemeClasses]="item?.applicationThemeClasses" [appGlobalClass]="item?.appGlobalClass"></st-icon>
                 </span>
             </ng-template>
         </ng-container>
