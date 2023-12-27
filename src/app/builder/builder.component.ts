@@ -51,6 +51,7 @@ import { AnyCnameRecord } from 'dns';
   styleUrls: ['./builder.component.scss'],
 })
 export class BuilderComponent implements OnInit {
+  isScreenSaved: boolean = false;
   showRules: any = '';
   showActionRule: any = true;
   public editorOptions: JsonEditorOptions = new JsonEditorOptions();
@@ -444,10 +445,11 @@ export class BuilderComponent implements OnInit {
       this.requestSubscription = checkBuilderAndProcess.subscribe({
         next: (res: any) => {
           if (res.isSuccess) {
+            this.isScreenSaved = true;
             this.toastr.success(res.message, { nzDuration: 3000 });
             this.showActionRule = true;
             if (this.builderScreenData?.length > 0) {
-              this.applyTheme(this.nodes[0] , false)
+              this.applyTheme(this.nodes[0], false)
             } else {
               this.getBuilderScreen();
             }
@@ -570,7 +572,7 @@ export class BuilderComponent implements OnInit {
             // this.formlyModel = {};
 
             let nodesData = this.jsonParseWithObject(this.jsonStringifyWithObject(objScreenData));
-            this.applyTheme(nodesData[0] , false)
+            this.applyTheme(nodesData[0], false)
             if (this.actionRuleList.length > 0) {
               let getInputs = this.filterInputElements(nodesData);
               if (getInputs && getInputs.length > 0) {
@@ -2466,7 +2468,7 @@ export class BuilderComponent implements OnInit {
   addNode(node: any, newNode: TreeNode) {
     if (node?.children) {
       node.children.push(newNode);
-
+      this.isScreenSaved = true;
       if (node.children.length > 0) {
         delete node.isLeaf
       }
@@ -3908,17 +3910,20 @@ export class BuilderComponent implements OnInit {
       if (this.screenData.uiData.length > 0) {
         if (node?.origin?.key) {
           for (const rule of this.screenData.uiData) {
-            if (rule.ifMenuName == node?.origin?.key) {
+            if ((node.origin && rule.ifMenuName === node.origin.key) || (node.parentNode && rule.ifMenuName === node.parentNode.key)) {
               this.toastr.warning('UI Rule is applied to this component, so please refrain from deleting it.', { nzDuration: 3000 }); // Show an error message to the user
               return;
             }
+            var data = true;
             if (rule.targetCondition.length > 0) {
-              for (const ruleChild of rule.targetCondition) {
-                if (ruleChild?.targetName == node?.origin?.key) {
-                  this.toastr.warning('UI Rule is applied to this component, so please refrain from deleting it.', { nzDuration: 3000 }); // Show an error message to the user
-                  return;
+              rule.targetCondition.forEach((element: any) => {
+                if ((node.origin && element.targetName === node.origin.key) || (node.parentNode && element.targetName === node.parentNode.key)) {
+                  this.toastr.warning('UI Rule is applied on parent component, so please refrain from deleting it.', { nzDuration: 3000 }); // Show an error message to the user
+                  data = false;
                 }
-              }
+              });
+              if (!data)
+                return;
             }
           }
         }
@@ -7648,13 +7653,13 @@ export class BuilderComponent implements OnInit {
               }
             });
           }
-        }else{
+        } else {
           data['appGlobalClass'] = '';
         }
       }
       if (data.children && data.children.length > 0) {
         for (let child of data.children) {
-          this.applyTheme(child , remove);
+          this.applyTheme(child, remove);
         }
       }
     }
