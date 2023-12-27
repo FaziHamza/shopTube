@@ -1857,31 +1857,31 @@ export class PagesComponent implements OnInit, OnDestroy {
       });
     }
     else if (typeof data === 'object' && data !== null) {
-      if (data.className.includes('$') && window.location.href.includes('/pages')) {
-        // let replacedString = data.className.replace(/\$(\w+)/g, (match: any, p1: any) => {
-        //   return `$ bg-blue-500 $ * primary *`;
-        // });
-        // data.className = replacedString;
-        // data['appGlobalClass'] = '!bg-blue-500';
-        let matches: any[] = data.className.match(/\$\S+/g);
-        if (matches.length > 0 && this.dataSharedService.applicationGlobalClass.length > 0) {
-          matches.forEach((classItem: any, index: number) => {
-            let splittedName = classItem.split('$')[1];
-            let resClass: any = this.dataSharedService.applicationGlobalClass.find((item: any) => item.name == splittedName);
-            if (resClass) {
-              if (data?.formly) {
-                let globalClass = data.formly[0].fieldGroup[0].props['additionalProperties']['appGlobalClass'];
-                data.formly[0].fieldGroup[0].props['additionalProperties']['appGlobalClass'] = globalClass ? globalClass + ' ' + resClass?.class : resClass?.class;
-              }else{
-                data['appGlobalClass'] = data['appGlobalClass'] ? data['appGlobalClass'] + ' ' + resClass?.class : resClass?.class;
-              }
-            }
-            else if (index == 0) {
-              data['appGlobalClass'] = '';
-            }
-          });
+      if (data.className) {
+        if (data.className.includes('$')) {
+          data['appGlobalClass'] = this.changeWithGlobalClass(data.className);
         }
       }
+      if (data?.innerClass) {
+        if (data?.innerClass.includes('$')) {
+          data['appGlobalInnerClass'] = this.changeWithGlobalClass(data?.innerClass);
+        }
+      }
+      if (data?.iconClass) {
+        if (data?.iconClass.includes('$')) {
+          data['appGlobalInnerIconClass'] = this.changeWithGlobalClass(data?.iconClass);
+        }
+      }
+      if (data?.formlyType) {
+        if (data?.formlyType == 'input') {
+          if (data.formly[0].fieldGroup[0].props['additionalProperties']?.innerInputClass) {
+            if (data.formly[0].fieldGroup[0].props['additionalProperties']?.innerInputClass.includes('$')) {
+              data.formly[0].fieldGroup[0].props['additionalProperties']['appGlobalInnerClass'] = this.changeWithGlobalClass(data.formly[0].fieldGroup[0].props['additionalProperties']?.innerInputClass);
+            }
+          }
+        }
+      }
+
       if (data.type) {
         if (data.type === 'sections' || data.type === 'div' || data.type === 'cardWithComponents' || data.type === 'timelineChild' || data.type === 'chat') {
           if (data.mapApi) {
@@ -2934,5 +2934,22 @@ export class PagesComponent implements OnInit, OnDestroy {
         this.toastr.error("An error occurred", { nzDuration: 3000 });
       }
     });
+  }
+  changeWithGlobalClass(className: any) {
+    let matches: any[] = className.match(/\$\S+/g);
+    let globalClass: any = '';
+    if (matches.length > 0 && this.dataSharedService.applicationGlobalClass.length > 0) {
+      matches.forEach((classItem: any, index: number) => {
+        let splittedName = classItem.split('$')[1];
+        let resClass: any = this.dataSharedService.applicationGlobalClass.find((item: any) => item.name.toLocaleLowerCase() == splittedName.toLocaleLowerCase());
+        if (resClass) {
+          globalClass = globalClass ? globalClass + ' ' + resClass?.class : resClass?.class;
+        }
+        else if (index == 0) {
+          globalClass = '';
+        }
+      });
+    }
+    return globalClass;
   }
 }
