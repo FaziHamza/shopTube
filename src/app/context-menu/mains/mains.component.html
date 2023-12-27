@@ -93,16 +93,16 @@
         <div *ngIf="item.type =='icon'; else fifteen">
             <nz-badge nzDot *ngIf="item?.badgeType == 'dot'">
                 <st-icon [type]="item.iconType" [icon]="item.icon" [size]="item.iconSize" [color]="item.iconColor"
-                    [hoverIconColor]="item.hoverIconColor" [iconClass]="item.iconClass"></st-icon>
+                    [hoverIconColor]="item.hoverIconColor" [iconClass]="item.iconClass + ' ' + item?.appGlobalInnerIconClass"></st-icon>
             </nz-badge>
             <nz-badge [nzCount]="item?.badgeCount" *ngIf="item?.badgeType == 'count'">
                 <st-icon [type]="item.iconType" [icon]="item.icon" [size]="item.iconSize"
-                    [hoverIconColor]="item.hoverIconColor" [color]="item.iconColor" [iconClass]="item.iconClass"
+                    [hoverIconColor]="item.hoverIconColor" [color]="item.iconColor" [iconClass]="item.iconClass + ' ' + item?.appGlobalInnerIconClass"
                     [applicationThemeClasses]="item?.applicationThemeClasses" [appGlobalClass]="item?.appGlobalClass"></st-icon>
             </nz-badge>
             <st-icon *ngIf="item?.badgeType == undefined || item?.badgeType == 'none'" [type]="
               item.iconType" [icon]="item.icon" [size]="item.iconSize" [color]="item.iconColor"
-                [hoverIconColor]="item.hoverIconColor" [iconClass]="item.iconClass"></st-icon>
+                [hoverIconColor]="item.hoverIconColor" [iconClass]="item.iconClass + ' ' + item?.appGlobalInnerIconClass"></st-icon>
         </div>
     </ng-template>
     <ng-template #fifteen>
@@ -280,7 +280,7 @@
             <button class="mb-2" nz-button nzType="primary" *ngIf="item.imagePreview"
                 (click)="imagePreview(item)">Preview</button>
             <img *ngIf="item.image ; else secondImage" nz-image
-                [class]="item.imageClass + ' ' + item?.applicationThemeClasses + ' ' + item?.appGlobalClass" [nzSrc]='item.image' [alt]='item.alt'
+                [class]="item.imageClass + ' ' + item?.applicationThemeClasses + ' ' + item?.innerClass" [nzSrc]='item.image' [alt]='item.alt'
                 [nzDisablePreview]="false" [nzFallback]="item.fallback" />
             <ng-template #secondImage>
                 {{item.image | json}}
@@ -457,7 +457,7 @@
     </ng-template>
     <ng-template #eightyFive>
         <div *ngIf="item.type == 'div';  else eightySix" (dblclick)="patchValue(item)"
-            [style.border-radius.px]="item['radius']" [class]="item.divClass" [ngStyle]="{
+            [style.border-radius.px]="item['radius']" [class]="item.divClass + ' ' + item?.innerClass+ ' ' + item?.appGlobalInnerClass" [ngStyle]="{
             'height': item.height && item.height !== 0 ? item.height + 'px' : 'auto',
             'width': item.width && item.width !== 0 && item.imageSrc ? item.width + 'px' : 'auto',
             'background-image': (item.imageSrc ||  item.image) ? 'url(' + (item.imageSrc ? item.imageSrc : item.image)+ ')' : 'none',
