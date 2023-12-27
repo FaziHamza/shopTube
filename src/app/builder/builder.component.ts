@@ -113,6 +113,7 @@ export class BuilderComponent implements OnInit {
   pdf: boolean = false;
   getTaskManagementIssues: any[] = [];
   applicationThemeClasses: any[] = [];
+  uiRuleData: any[] = [];
   constructor(
     public builderService: BuilderService,
     private viewContainerRef: ViewContainerRef,
@@ -172,6 +173,7 @@ export class BuilderComponent implements OnInit {
     this.controlListvisible = true;
   }
   ngOnInit(): void {
+    this.getAppliationGlobalClass();
     this.getApplicationTheme();
     // this.getUsers();
     this.dataSharedService.currentMenuLink = '/ourbuilder';
@@ -419,7 +421,9 @@ export class BuilderComponent implements OnInit {
       this.nodes.forEach((item: any) => {
         this.updateObjects(item);
       });
-      const screenData = this.jsonParse(this.jsonStringifyWithObject(this.nodes));
+      let newNode = JSON.parse(JSON.stringify(this.nodes))
+      this.applyTheme(newNode[0], true)
+      const screenData = this.jsonParse(this.jsonStringifyWithObject(newNode));
       const data: any = {
         "screenData": JSON.stringify(screenData),
         "screenName": this.screenName,
@@ -443,7 +447,7 @@ export class BuilderComponent implements OnInit {
             this.toastr.success(res.message, { nzDuration: 3000 });
             this.showActionRule = true;
             if (this.builderScreenData?.length > 0) {
-
+              this.applyTheme(this.nodes[0] , false)
             } else {
               this.getBuilderScreen();
             }
@@ -566,7 +570,7 @@ export class BuilderComponent implements OnInit {
             // this.formlyModel = {};
 
             let nodesData = this.jsonParseWithObject(this.jsonStringifyWithObject(objScreenData));
-
+            this.applyTheme(nodesData[0] , false)
             if (this.actionRuleList.length > 0) {
               let getInputs = this.filterInputElements(nodesData);
               if (getInputs && getInputs.length > 0) {
@@ -2713,7 +2717,7 @@ export class BuilderComponent implements OnInit {
 
 
   clickButton(type: any) {
-
+    debugger
     let _formFieldData = new formFeildData();
     if ((_formFieldData.commonFormlyConfigurationFields[0].fieldGroup || _formFieldData.commonOtherConfigurationFields[0].fieldGroup) && this.applicationThemeClasses.length) {
       let newArray = this.applicationThemeClasses.filter((a: any) => a.tag?.toLowerCase().includes(this.selectedNode.type?.toLowerCase()));
@@ -3613,32 +3617,19 @@ export class BuilderComponent implements OnInit {
   }
 
   highlightSelect(id: any, highlightOrNot: boolean) {
-    this.applyOrRemoveHighlight(this.nodes[0], id, highlightOrNot);
-    this.nodes.at(0)?.children?.forEach((element: any) => {
-      this.applyOrRemoveHighlight(element, id, highlightOrNot);
-      element.children.forEach((child: any) => {
-        this.applyOrRemoveHighlight(child, id, highlightOrNot);
-        child.children.forEach((child1: any) => {
-          this.applyOrRemoveHighlight(child1, id, highlightOrNot);
-          child1.children.forEach((child2: any) => {
-            this.applyOrRemoveHighlight(child2, id, highlightOrNot);
-            child2.children.forEach((child3: any) => {
-              this.applyOrRemoveHighlight(child3, id, highlightOrNot);
-              child3.children.forEach((child4: any) => {
-                this.applyOrRemoveHighlight(child4, id, highlightOrNot);
-                child4.children.forEach((child5: any) => {
-                  this.applyOrRemoveHighlight(child5, id, highlightOrNot);
-                  child5.children.forEach((child6: any) => {
-                    this.applyOrRemoveHighlight(child6, id, highlightOrNot);
-                  });
-                });
-              });
-            });
-          });
-        });
-      });
-    });
+    this.recursiveHighlight(this.nodes[0], id, highlightOrNot);
   }
+
+  private recursiveHighlight(node: any, id: any, highlightOrNot: boolean) {
+    this.applyOrRemoveHighlight(node, id, highlightOrNot);
+
+    if (node.children) {
+      node.children.forEach((child: any) => {
+        this.recursiveHighlight(child, id, highlightOrNot);
+      });
+    }
+  }
+
   addSection(section?: any) {
     this.sectionBageBody = this.nodes[0].children[1];
     (this.selectedNode = this.sectionBageBody),
@@ -3911,10 +3902,33 @@ export class BuilderComponent implements OnInit {
       });
   }
   remove(parent: any, node: any) {
+    debugger
+    //This condition is work if ui rule apply on component then user cannot delete the component.
+    if (this.screenData) {
+      if (this.screenData.uiData.length > 0) {
+        if (node?.origin?.key) {
+          for (const rule of this.screenData.uiData) {
+            if (rule.ifMenuName == node?.origin?.key) {
+              this.toastr.warning('UI Rule is applied to this component, so please refrain from deleting it.', { nzDuration: 3000 }); // Show an error message to the user
+              return;
+            }
+            if (rule.targetCondition.length > 0) {
+              for (const ruleChild of rule.targetCondition) {
+                if (ruleChild?.targetName == node?.origin?.key) {
+                  this.toastr.warning('UI Rule is applied to this component, so please refrain from deleting it.', { nzDuration: 3000 }); // Show an error message to the user
+                  return;
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+
+    this.uiRuleData;
     if (parent?.parentNode && node.origin) {
       parent = parent?.parentNode?.origin;
       node = node.origin;
-
     }
     if (parent != undefined) {
       console.log(parent, node);
@@ -3965,8 +3979,24 @@ export class BuilderComponent implements OnInit {
   //   });
   // }
   notifyEmit(event: actionTypeFeild): void {
-
     let needToUpdate = true;
+    if (this.selectedNode.className.includes('$')) {
+      let matches: any[] = this.selectedNode.className.match(/\$\S+/g);
+      if (matches.length > 0 && this.dataSharedService.applicationGlobalClass.length > 0) {
+        matches.forEach((classItem: any, index: number) => {
+          let splittedName = classItem.split('$')[1];
+          let resClass: any = this.dataSharedService.applicationGlobalClass.find((item: any) => item.name == splittedName);
+          if (resClass) {
+            this.selectedNode['appGlobalClass'] = this.selectedNode['appGlobalClass'] ? this.selectedNode['appGlobalClass'] + ' ' + resClass?.class : resClass?.class;
+          }
+          else if (index == 0) {
+            this.selectedNode['appGlobalClass'] = '';
+          }
+        });
+      }
+    } else {
+      this.selectedNode['appGlobalClass'] = ''
+    }
     switch (event.type) {
       case 'body':
         this.selectedNode = this.api(event.form.api, this.selectedNode);
@@ -4301,9 +4331,13 @@ export class BuilderComponent implements OnInit {
         //     (option: any) => option.label
         //   );
         // }
-       document.documentElement.style.setProperty('--rateSpacing', (event.form.spacing ? event.form.spacing : 8) + 'px');
+        document.documentElement.style.setProperty('--rateSpacing', (event.form.spacing ? event.form.spacing : 8) + 'px');
         if (event.tableDta) {
           this.selectedNode.options = event.tableDta.map(
+            (option: any) => option.label
+          );
+        } else {
+          this.selectedNode.options = this.selectedNode.options.map(
             (option: any) => option.label
           );
         }
@@ -5723,6 +5757,7 @@ export class BuilderComponent implements OnInit {
 
       // this.updateNodes();
     }
+
     this.showSuccess();
     this.updateNodes();
     // this.applyApplicationThemeClass();
@@ -7596,5 +7631,42 @@ export class BuilderComponent implements OnInit {
         this.updateNodes();
       }
     }
+  }
+  applyTheme(data: any, remove: boolean) {
+    if (data) {
+      if (data.className) {
+        if (data.className.includes('$') && !remove) {
+          let matches: any[] = data.className.match(/\$\S+/g);
+          if (matches.length > 0 && this.dataSharedService.applicationGlobalClass.length > 0) {
+            matches.forEach((classItem: any, index: number) => {
+              let splittedName = classItem.split('$')[1];
+              let resClass: any = this.dataSharedService.applicationGlobalClass.find((item: any) => item.name == splittedName);
+              if (resClass) {
+                data['appGlobalClass'] = data['appGlobalClass'] ? data['appGlobalClass'] + ' ' + resClass?.class : resClass?.class;
+              } else if (index == 0) {
+                data['appGlobalClass'] = '';
+              }
+            });
+          }
+        }else{
+          data['appGlobalClass'] = '';
+        }
+      }
+      if (data.children && data.children.length > 0) {
+        for (let child of data.children) {
+          this.applyTheme(child , remove);
+        }
+      }
+    }
+  }
+  getAppliationGlobalClass() {
+    this.applicationService.getNestCommonAPI('cp/applicationGlobalClass').subscribe(((res: any) => {
+      if (res.isSuccess) {
+        if (res.data.length > 0) {
+          this.dataSharedService.applicationGlobalClass = res.data
+        }
+      } else
+        this.toastr.warning(res.message, { nzDuration: 2000 });
+    }));
   }
 }

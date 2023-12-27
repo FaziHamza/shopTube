@@ -56,6 +56,7 @@ import { NgxGraphNodeComponent } from './builder/ngx-graph-node/ngx-graph-node.c
 import { NgxGraphModule } from '@swimlane/ngx-graph';
 import { ContextMenuModule } from '@perfectmemory/ngx-contextmenu';
 import { DragDropModule } from '@angular/cdk/drag-drop';
+import { ApplicationGlobalClassesComponent } from './Builder-module/application-global-classes/application-global-classes.component';
 
 const antDesignIcons = AllIcons as {
   [key: string]: IconDefinition;
@@ -80,6 +81,7 @@ const icons: IconDefinition[] = Object.keys(antDesignIcons).map(key => antDesign
     UserMappingComponent,
     PolicyMappingTableComponent,
     NgxGraphNodeComponent,
+    ApplicationGlobalClassesComponent,
     // MultiFileUploadWrapperComponent,
   ],
   imports: [

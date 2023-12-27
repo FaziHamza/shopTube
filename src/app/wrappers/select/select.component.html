@@ -1,12 +1,12 @@
 <div [class]="to['additionalProperties']?.wrapper=='floating_standard' ? 'relative z-0' : ''">
   <nz-input-group [style.border]="to['additionalProperties']?.border? '0px': ''"
-    [class]="to['additionalProperties']?.innerInputClass + ' ' +to['additionalProperties']?.applicationThemeClasses"
+    [class]="to['additionalProperties']?.innerInputClass + ' ' +to['additionalProperties']?.applicationThemeClasses + ' ' +to['additionalProperties']?.appGlobalClass"
     [style.border-radius]="to['additionalProperties']?.borderRadius" [ngClass]="showError ? 'input-border' : ''"
     [nzSuffix]="(to['additionalProperties']?.addonRight   || to['additionalProperties']?.suffixicon) ? suffixTemplateInfo : undefined"
     [nzPrefix]="(to['additionalProperties']?.addonLeft || to['additionalProperties']?.prefixicon) ? prefixTemplateUser : undefined"
     [nzSize]="to['additionalProperties']?.size" [nzStatus]="to['additionalProperties']?.status">
     <nz-select
-      [class]="to['additionalProperties']?.innerInputClass + ' ' +to['additionalProperties']?.applicationThemeClasses"
+      [class]="to['additionalProperties']?.innerInputClass + ' ' +to['additionalProperties']?.applicationThemeClasses + ' ' +to['additionalProperties']?.appGlobalClass"
       [appConfigurableSelect]="to['appConfigurableEvent']" [loadAction]="to['eventActionconfig']"
       [processData]="processData" [style.border-radius]="to['additionalProperties']?.borderRadius"
       (ngModelChange)="onModelChange($event, field)" [ngClass]=" showError && !to['additionalProperties']?.suffixicon && !to['additionalProperties']?.prefixicon

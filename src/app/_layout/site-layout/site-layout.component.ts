@@ -87,9 +87,6 @@ export class SiteLayoutComponent implements OnInit {
   }
 
   ngOnInit(): void {
-
-
-
     this.dataSharedService.measureHeight = 0;
     // this.getTaskManagementIssuesFunc(JSON.parse(localStorage.getItem('applicationId')!));
     this.currentUser = JSON.parse(localStorage.getItem('user')!);
@@ -216,6 +213,9 @@ export class SiteLayoutComponent implements OnInit {
             if (allowStoreId) {
               localStorage.setItem('applicationId', JSON.stringify(res.data?.appication?._id));
               localStorage.setItem('organizationId', JSON.stringify(res.data?.department?.organizationId));
+            }
+            if(res.data['applicationGlobalClasses']){
+              this.dataSharedService.applicationGlobalClass = res.data['applicationGlobalClasses'];
             }
             this.currentWebsiteLayout = res.data.appication['application_Type'] ? res.data.appication['application_Type'] : 'backend_application';
             this.currentHeader = res.data['header'] ? this.jsonParseWithObject(res.data['header']['screenData']) : '';

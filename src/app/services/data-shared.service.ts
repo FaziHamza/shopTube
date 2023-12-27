@@ -76,6 +76,7 @@ export class DataSharedService {
   queryId: any = '';
   isSaveData: boolean = false;
   fixedFooter: boolean = false;
+  applicationGlobalClass: any = [];
   constructor() { }
 
   setData(data: any) {

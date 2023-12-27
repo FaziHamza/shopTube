@@ -13,21 +13,21 @@
           <div>
             <label>Model</label>
             <input class="h-10" [nzStatus]="to['additionalProperties']?.status"
-              [nzSize]="to['additionalProperties']?.size" [class]="to['additionalProperties']?.innerInputClass + ' ' + to['additionalProperties']?.applicationThemeClasses"
+              [nzSize]="to['additionalProperties']?.size" [class]="to['additionalProperties']?.innerInputClass + ' ' + to['additionalProperties']?.applicationThemeClasses + ' ' + to['additionalProperties']?.appGlobalClass"
               [style.border-radius]="to['additionalProperties']?.borderRadius" (input)="onModelChange($event, field)"
               nz-input [formControlName]="'model'" />
           </div>
           <div>
             <label>Quantity</label>
             <input class="h-10" [nzStatus]="to['additionalProperties']?.status" type="number"
-              [nzSize]="to['additionalProperties']?.size" [class]="to['additionalProperties']?.innerInputClass + ' ' + to['additionalProperties']?.applicationThemeClasses"
+              [nzSize]="to['additionalProperties']?.size" [class]="to['additionalProperties']?.innerInputClass + ' ' + to['additionalProperties']?.applicationThemeClasses + ' ' + to['additionalProperties']?.appGlobalClass"
               [style.border-radius]="to['additionalProperties']?.borderRadius" (input)="onModelChange($event, field)"
               nz-input [formControlName]="'quantity'" />
           </div>
           <div>
             <label>Serial Numbers/s</label>
             <input class="h-10" [nzStatus]="to['additionalProperties']?.status"
-              [nzSize]="to['additionalProperties']?.size" [class]="to['additionalProperties']?.innerInputClass + ' ' + to['additionalProperties']?.applicationThemeClasses"
+              [nzSize]="to['additionalProperties']?.size" [class]="to['additionalProperties']?.innerInputClass + ' ' + to['additionalProperties']?.applicationThemeClasses + ' ' + to['additionalProperties']?.appGlobalClass"
               [style.border-radius]="to['additionalProperties']?.borderRadius" (input)="onModelChange($event, field)"
               nz-input [formControlName]="'serialnumber'" />
           </div>
