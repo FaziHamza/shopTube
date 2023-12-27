@@ -8715,6 +8715,60 @@ ul.jsondiffpatch-textdiff {
   }
 }
 
+.ant-steps-item.ant-steps-item-active::before,
+.ant-steps-item::before {
+  background: var(--selected-stepper-color) !important;
+}
+
+.ant-steps.steper1.ant-steps-horizontal.ant-steps-label-horizontal.ant-steps-label-vertical {
+  .ant-steps-item-icon {
+    margin: auto !important;
+  }
+}
+
+.ant-steps.steper1 {
+  .ant-steps-item-active .ant-steps-item-container {
+    background: var(--selected-stepper-color, #f5f5f5) !important;
+
+    .ant-steps-item-icon .anticon {
+      color: var(--selected-stepper-color) !important;
+    }
+
+    .ant-steps-item-content {
+      .ant-steps-item-title {
+        color: black !important;
+      }
+
+      .ant-steps-item-description {
+        color: black !important;
+      }
+    }
+  }
+}
+
+.ant-steps.steper2 ,.ant-steps.steper3 {
+  .ant-steps-item-active .ant-steps-item-icon {
+    background:  var(--selected-stepper-color, #f5f5f5) !important;
+    border: 2px solid  var(--selected-stepper-color, #f5f5f5) !important;
+  }
+}
+
+.ant-steps.steper4{
+  .ant-steps-item-active .ant-steps-item-container{
+    border-bottom: 2px solid var(--selected-stepper-color, #f5f5f5) !important;
+    .ant-steps-item-icon .anticon svg {
+      fill: var(--selected-stepper-color, #878787) !important;
+    }
+    .ant-steps-item-content .ant-steps-item-title {
+      color: var(--selected-stepper-color, #878787) !important;
+    }
+    .ant-steps-item-content .ant-steps-item-description{
+      color: var(--selected-stepper-color, #5c5c5c) !important;
+    }
+  }
+}
+
+
 // .ant-steps-item-finish .ant-steps-item-container:hover {
 //   .ant-steps-item-content {
 //     .ant-steps-item-title {
