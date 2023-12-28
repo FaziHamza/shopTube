@@ -381,7 +381,7 @@ export interface TreeNode {
   link?: string,
   forCommomComponentCondition?: string,
   pagination?: any,
-  eventActionConfig?:any,
+  eventActionConfig?: any,
   delete?: boolean,
   update?: boolean,
   create?: boolean,
@@ -597,4 +597,5 @@ export interface TreeNode {
   appGlobalInnerClass?: string,
   innerClass?: string,
   appGlobalInnerIconClass?: string,
+  isNewNode?: boolean;
 }

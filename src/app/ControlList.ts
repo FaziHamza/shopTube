@@ -1332,8 +1332,11 @@ export const htmlTabsData = [
                 icon: "uil uil-file-alt",
                 label: "Accordion Button"
               },
-
-
+              {
+                parameter: "contactList",
+                icon: "uil uil-file-alt",
+                label: "Contact List"
+              },
               {
                 parameter: "audio",
                 icon: "uil uil-file-alt",

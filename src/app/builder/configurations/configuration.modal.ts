@@ -5824,6 +5824,7 @@ export class formFeildData {
       ]
     },
   ]
+  contactListFields: FormlyFieldConfig[] = []
   accordionButtonFields: FormlyFieldConfig[] = [
     {
       fieldGroupClassName: "flex flex-wrap",

@@ -1459,6 +1459,7 @@ export class BuilderComponent implements OnInit {
           inputType[l].type == 'skeleton' ||
           inputType[l].type == 'spin' ||
           inputType[l].type == 'accordionButton' ||
+          inputType[l].type == 'contactList' ||
           inputType[l].type == 'audio' ||
           inputType[l].type == 'multiFileUpload' ||
           inputType[l].type == 'rate' ||
@@ -1550,6 +1551,7 @@ export class BuilderComponent implements OnInit {
       value == 'timeline' ||
       value == 'gridList' ||
       value == 'accordionButton' ||
+      value == 'contactList' ||
       value == 'fileManager' ||
       value == 'header'
     )
@@ -2081,6 +2083,13 @@ export class BuilderComponent implements OnInit {
           };
           break;
 
+        case 'contactList':
+          newNode = {
+            ...newNode,
+            ...this.addControlService.contactListControl(),
+          };
+          break;
+
         case 'divider':
           newNode = { ...newNode, ...this.addControlService.dividerControl() };
           break;
@@ -2468,6 +2477,7 @@ export class BuilderComponent implements OnInit {
 
   addNode(node: any, newNode: TreeNode) {
     if (node?.children) {
+      newNode.isNewNode = true;
       node.children.push(newNode);
       this.isScreenSaved = true;
       if (node.children.length > 0) {
@@ -3343,6 +3353,13 @@ export class BuilderComponent implements OnInit {
         );
         this.fieldData.commonData?.push({ title: 'Accordion Button Fields', data: _formFieldData.accordionButtonFields });
         break;
+      case 'contactList':
+        this.addIconCommonConfiguration(
+          _formFieldData.contactListFields,
+          true
+        );
+        this.fieldData.commonData?.push({ title: 'Contact List Fields', data: _formFieldData.contactListFields });
+        break;
       case 'linkbutton':
         // if (typeof selectedNode.buttonClass === "string") {
         //   const classObj = JSON.parse(JSON.stringify(selectedNode.buttonClass.split(" ")));
@@ -3919,8 +3936,12 @@ export class BuilderComponent implements OnInit {
             if (rule.targetCondition.length > 0) {
               rule.targetCondition.forEach((element: any) => {
                 if ((node.origin && element.targetName === node.origin.key) || (node.parentNode && element.targetName === node.parentNode.key)) {
-                  this.toastr.warning('UI Rule is applied on parent component, so please refrain from deleting it.', { nzDuration: 3000 }); // Show an error message to the user
-                  data = false;
+                  if (node?.origin?.isNewNode)
+                    data = true;
+                  else {
+                    this.toastr.warning('UI Rule is applied on parent component, so please refrain from deleting it.', { nzDuration: 3000 }); // Show an error message to the user
+                    data = false;
+                  }
                 }
               });
               if (!data)
@@ -4002,11 +4023,11 @@ export class BuilderComponent implements OnInit {
         } else {
           this.selectedNode['appGlobalInnerClass'] = '';
         }
-      } 
+      }
       else if (event.form?.iconClass) {
         if (event.form?.iconClass.includes('$')) {
           this.selectedNode['appGlobalInnerIconClass'] = this.changeWithGlobalClass(event.form?.iconClass);
-        } 
+        }
         else {
           this.selectedNode['appGlobalInnerIconClass'] = '';
         }
@@ -7688,6 +7709,7 @@ export class BuilderComponent implements OnInit {
         }
       }
       else {
+        data.isNewNode ? data.isNewNode : data['isNewNode'] = false;
         if (data.className) {
           if (data.className.includes('$')) {
             data['appGlobalClass'] = this.changeWithGlobalClass(data.className);

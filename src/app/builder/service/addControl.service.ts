@@ -1298,6 +1298,20 @@ export class AddControlService {
       extra: '',
     }
   }
+  contactListControl() {
+    return {
+      nzBordered: true,
+      nzGhost: false,
+      nzExpandIconPosition: "left",
+      nzDisabled: false,
+      isNextChild: true,
+      nzExpandedIcon: '',
+      hoverIconColor: '',
+
+      nzShowArrow: true,
+      extra: '',
+    }
+  }
   dividerControl() {
     return {
       dividerClassName: "w-1/4",

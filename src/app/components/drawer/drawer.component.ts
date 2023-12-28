@@ -431,6 +431,7 @@ export class DrawerComponent implements OnInit {
       textEditor: 'title',
       multiFileUpload: 'uploadBtnLabel',
       accordionButton: 'title',
+      contactList: 'title',
       divider: 'dividerText',
       toastr: 'toasterTitle',
       rate: 'icon',

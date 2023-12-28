@@ -82,7 +82,7 @@ const icons: IconDefinition[] = Object.keys(antDesignIcons).map(key => antDesign
     PolicyMappingTableComponent,
     NgxGraphNodeComponent,
     ApplicationGlobalClassesComponent,
-    // MultiFileUploadWrapperComponent,
+        // MultiFileUploadWrapperComponent,
   ],
   imports: [
     FormsModule,

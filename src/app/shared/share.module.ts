@@ -25,7 +25,7 @@ import {
   GeoChartComponent, HistogramChartComponent,LineChartComponent, SankeyChartComponent,ScatterChartComponent,
   TimelineChartComponent,AreaChartComponent,ComboChartComponent,SteppedAreaChartComponent ,OrgChartComponent,TableChartComponent,ListWithComponentsComponent,TreeMapComponent,
   CardWithComponentsComponent,CommentModalComponent, CommentListComponent,MenuControllComponent,PrintInvoiceComponent,FileManagerComponent,googleMapComponent,
-  TaskReportComponent
+  TaskReportComponent,ContactListComponent
 
 } from '../components'
 import { SanitizePipe } from '../pipe/sanitize.pipe';
@@ -122,7 +122,7 @@ import { SupportChatComponent } from '../admin/support-chat/support-chat.compone
     ConfigurableSelectDirective,
     TaskReportComponent,VoiceRecorderComponent,
     DownloadbuttonComponent,QrCodeComponent,ApplicationThemeComponent,CreateControlComponent,
-    SupportChatComponent,
+    SupportChatComponent,ContactListComponent
     //
     // ErrorComponent
   ],
@@ -181,7 +181,7 @@ import { SupportChatComponent } from '../admin/support-chat/support-chat.compone
     ParentCalendarComponent,
     VoiceRecorderComponent,
     DownloadbuttonComponent,QrCodeComponent,ApplicationThemeComponent,CreateControlComponent,
-    SupportChatComponent,
+    SupportChatComponent,ContactListComponent
     //
     // ErrorComponent
   ],

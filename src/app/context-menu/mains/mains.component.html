@@ -523,9 +523,14 @@
         <st-google-map *ngIf="item.type == 'map' ; else hFive"></st-google-map>
     </ng-template>
     <ng-template #hFive>
-        <st-downloadbutton *ngIf="item.type == 'downloadButton'" [screenId]="screenId" [formlyModel]="formlyModel"
+        <st-downloadbutton *ngIf="item.type == 'downloadButton'; else hSix" [screenId]="screenId" [formlyModel]="formlyModel"
             [form]="form" [screenName]="screenName" [tableRowId]="''" [buttonData]="item"
             [title]="''"></st-downloadbutton>
+    </ng-template>
+    <ng-template #hSix>
+        <st-contact-list [accordionData]="item" (accordingEmit)="accordingList($event)" [form]="form"
+            [screenId]="screenId" [screenName]="screenName" [formlyModel]="formlyModel"
+            *ngIf="item.type == 'contactList'"></st-contact-list>
     </ng-template>
     <!-- <span class="tooltip-icon" *ngIf="item?.tooltipPosition == 'right'">
         <span

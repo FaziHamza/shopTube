@@ -139,6 +139,7 @@ export class DataSharedService {
     textEditor: 'title',
     multiFileUpload: 'uploadBtnLabel',
     accordionButton: 'title',
+    contactList: 'title',
     divider: 'dividerText',
     toastr: 'toasterTitle',
     rate: 'icon',
