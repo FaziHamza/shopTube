@@ -303,7 +303,7 @@ export class PagesComponent implements OnInit, OnDestroy {
             screenId: params["schema"],
           }
           await this.natsService.connectToNats(environment.natsUrl);
-          console.log(`Res_Cp_CheckPageAuth start ${Date.now()}`)
+          console.log(`Res_Cp_CheckPageAuth start ${new Date().getHours()} : ${new Date().getMinutes()} : ${new Date().getSeconds()}`)
           this.natsService.publishMessage('Req_Cp_CheckPageAuth', obj);
         }
       });
@@ -315,9 +315,9 @@ export class PagesComponent implements OnInit, OnDestroy {
   async connectToNatsAndSubscribePageAuth(callback: (data: any) => void) {
     try {
       await this.natsService.connectToNats(environment.natsUrl);
-      console.log(`Res_Cp_CheckPageAuth start ${Date.now()}`)
+      console.log(`Res_Cp_CheckPageAuth start ${new Date().getHours()} : ${new Date().getMinutes()} : ${new Date().getSeconds()}`)
       await this.natsService.subscribeToSubject('Res_Cp_CheckPageAuth', async (err, data) => {
-        console.log(`Res_Cp_CheckPageAuth end ${Date.now()}`)
+        console.log(`Res_Cp_CheckPageAuth end ${new Date().getHours()} : ${new Date().getMinutes()} : ${new Date().getSeconds()}`)
         if (err) {
           console.error('Error:', err);
           return;
@@ -408,7 +408,7 @@ export class PagesComponent implements OnInit, OnDestroy {
         id: params["schema"],
       }
       await this.natsService.connectToNats(environment.natsUrl);
-      console.log(`Req_Cp_Model_ById start ${Date.now()}`)
+      console.log(`Req_Cp_Model_ById start ${new Date().getHours()} : ${new Date().getMinutes()} : ${new Date().getSeconds()}`)
       this.natsService.publishMessage('Req_Cp_Model_ById', obj);
     }
   }
@@ -416,7 +416,7 @@ export class PagesComponent implements OnInit, OnDestroy {
     try {
       await this.natsService.connectToNats(environment.natsUrl);
       await this.natsService.subscribeToSubject('Res_Cp_Model_ById', async (err, data) => {
-        console.log(`Req_Cp_Model_ById end ${Date.now()}`)
+        console.log(`Req_Cp_Model_ById end ${new Date().getHours()} : ${new Date().getMinutes()} : ${new Date().getSeconds()}`)
         if (err) {
           console.error('Error:', err);
           return;

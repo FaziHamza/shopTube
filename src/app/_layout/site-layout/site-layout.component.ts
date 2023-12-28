@@ -170,7 +170,7 @@ export class SiteLayoutComponent implements OnInit {
       modelType: 'Application',
       id: this.currentUrl,
     }
-    console.log(`Req_Cp_Domain start ${Date.now()}`)
+    console.log(`Req_Cp_Domain start ${new Date().getHours()} : ${new Date().getMinutes()} : ${new Date().getSeconds()}`)
     this.natsService.publishMessage('Req_Cp_Domain', obj);
   }
   ngAfterViewInit() {
@@ -217,7 +217,7 @@ export class SiteLayoutComponent implements OnInit {
     try {
       await this.natsService.connectToNats(environment.natsUrl);
       await this.natsService.subscribeToSubject('Res_Cp_Domain', async (err, data) => {
-        console.log(`Req_Cp_Domain end ${Date.now()}`)
+        console.log(`Req_Cp_Domain end ${new Date().getHours()} : ${new Date().getMinutes()} : ${new Date().getSeconds()}`)
         if (err) {
           console.error('Error:', err);
           return;
@@ -263,7 +263,7 @@ export class SiteLayoutComponent implements OnInit {
               modelType: 'UserComment',
               type: 'menu',
             }
-            console.log(`Req_Cp_UserComments start ${Date.now()}`)
+            console.log(`Req_Cp_UserComments start ${new Date().getHours()} : ${new Date().getMinutes()} : ${new Date().getSeconds()}`)
             this.natsService.publishMessage('Req_Cp_UserComments', obj);
             // this.getComments();
             if (selectedTheme?.layout == 'horizental') {
@@ -286,7 +286,7 @@ export class SiteLayoutComponent implements OnInit {
       const obj = {
         id: `1`
       }
-      console.log(`Res_Cp_UserPolicyMenu start ${Date.now()}`)
+      console.log(`Res_Cp_UserPolicyMenu start ${new Date().getHours()} : ${new Date().getMinutes()} : ${new Date().getSeconds()}`)
       this.natsService.publishMessage('Req_Cp_UserPolicyMenu', obj);
     }
   };
@@ -538,7 +538,7 @@ export class SiteLayoutComponent implements OnInit {
     try {
       await this.natsService.connectToNats(environment.natsUrl);
       await this.natsService.subscribeToSubject('Res_Cp_UserComments', async (err, data) => {
-        console.log(`Res_Cp_UserComments end ${Date.now()}`)
+        console.log(`Res_Cp_UserComments end ${new Date().getHours()} : ${new Date().getMinutes()} : ${new Date().getSeconds()}`)
         if (err) {
           console.error('Error:', err);
           return;
@@ -614,7 +614,7 @@ export class SiteLayoutComponent implements OnInit {
     try {
       await this.natsService.connectToNats(environment.natsUrl);
       await this.natsService.subscribeToSubject('Res_Cp_UserPolicyMenu', async (err, data) => {
-        console.log(`Res_Cp_UserPolicyMenu end ${Date.now()}`)
+        console.log(`Res_Cp_UserPolicyMenu end ${new Date().getHours()} : ${new Date().getMinutes()} : ${new Date().getSeconds()}`)
         if (err) {
           console.error('Error:', err);
           return;

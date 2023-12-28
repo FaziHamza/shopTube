@@ -58,11 +58,20 @@ export class NatsService {
     this.nc?.publish(subject, payloadData);
   }
 
-  closeConnection(): void {
+  closeConnection() {
     if (this.nc) {
-      console.log(this.nc);
-      this.nc.closed();
-      console.log(this.nc);
+      console.log(this.nc.stats());
+      console.log(this.nc.isClosed);
+      this.nc.drain().then((err) => {
+        console.log(`the connection closed.`);
+        console.log(this.nc?.isClosed);
+        // if (err) {
+        //   console.log(`the connection closed with an error ${err.message}`);
+        // } else {
+        // }
+      });
+      console.log(this.nc.isClosed);
+      console.log(this.nc.stats());
       this.nc = undefined
     }
   }
