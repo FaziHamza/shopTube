@@ -6474,24 +6474,24 @@ tr:hover {
 
   /* Styling for regular cells */
   tbody tr td {
-    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-    // text-align: center !important;
-    // min-width: 125px !important;
-    // max-width: 210px !important;
-    // width: auto !important;
-    overflow: hidden !important;
-    white-space: nowrap !important;
-    text-overflow: ellipsis !important;
-    font-weight: 400 !important;
-    padding: 5px !important;
+    // font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    // // text-align: center !important;
+    // // min-width: 125px !important;
+    // // max-width: 210px !important;
+    // // width: auto !important;
+    // overflow: hidden !important;
+    // white-space: nowrap !important;
+    // text-overflow: ellipsis !important;
+    // font-weight: 400 !important;
+    // padding: 5px !important;
+    // // background: white !important;
+    // color: #23303d !important;
+    // border-bottom: 1px solid #d6dce1 !important;
+    // font-size: 12px !important;
+    // z-index: 0;
     // background: white !important;
-    color: #23303d !important;
-    border-bottom: 1px solid #d6dce1 !important;
-    font-size: 12px !important;
-    z-index: 0;
-    background: white !important;
-    border-right: 1px solid #e5e7eb;
-    border-left: 1px solid #e5e7eb;
+    // border-right: 1px solid #e5e7eb;
+    // border-left: 1px solid #e5e7eb;
 
     .editable-cell {
       width: 100%;
@@ -6500,20 +6500,7 @@ tr:hover {
       // text-overflow: ellipsis;
     }
 
-    // &:hover .editable-cell {
-    //   white-space: normal !important;
-    // }
-
-
   }
-
-  // tbody tr:hover td {
-  //   background: white !important;
-  // }
-
-  // .ant-table-wrapper {
-  //   max-height: 680px !important;
-  //   }
 
 }
 
@@ -6540,8 +6527,7 @@ tr:hover {
         min-height: fit-content !important;
         vertical-align: middle !important;
         border: 1px solid #d6dce1 !important;
-        ;
-      }
+        }
 
       td:first-child {
         background-color: #fcd34d !important;

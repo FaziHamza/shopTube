@@ -6059,47 +6059,6 @@ export class formFeildData {
     {
       fieldGroupClassName: "flex flex-wrap",
       fieldGroup: [
-        // {
-        //   key: 'headingSize',
-        //   type: 'select',
-        //   className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
-        //   wrappers: ["formly-vertical-theme-wrapper"],
-        //   props: {
-        //     label: 'Heading Size',
-        //     options: [
-        //       {
-        //         label: 'h1',
-        //         value: 'text-5xl font-extrabold dark:text-white'
-        //       },
-        //       {
-        //         label: 'h2',
-        //         value: 'text-4xl font-bold dark:text-white'
-        //       },
-        //       {
-        //         label: 'h3',
-        //         value: 'text-3xl font-bold dark:text-white'
-        //       },
-        //       {
-        //         label: 'h4',
-        //         value: 'text-2xl font-bold dark:text-white'
-        //       },
-        //       {
-        //         label: 'h5',
-        //         value: 'text-xl font-bold dark:text-white'
-        //       },
-        //       {
-        //         label: 'h6',
-        //         value: 'text-lg font-bold dark:text-white'
-        //       },
-        //     ],
-        //     additionalProperties: {
-        //       allowClear: true,
-        //       serveSearch: false,
-        //       showArrow: true,
-        //       showSearch: true,
-        //     },
-        //   },
-        // },
         {
           className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
           key: 'textClass',
@@ -11689,12 +11648,30 @@ export class formFeildData {
       fieldGroupClassName: "flex flex-wrap",
       fieldGroup: [
         {
+          key: 'tbodyClass',
+          type: 'input',
+          wrappers: ["formly-vertical-theme-wrapper"],
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          props: {
+            label: 'Body main Class',
+          },
+        },
+        {
+          key: 'dataRow',
+          type: 'input',
+          wrappers: ["formly-vertical-theme-wrapper"],
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          props: {
+            label: 'Data Row Class',
+          },
+        },
+        {
           key: 'tdClass',
           type: 'input',
           wrappers: ["formly-vertical-theme-wrapper"],
           className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
           props: {
-            label: 'Font Class',
+            label: 'Cell Font Class',
           },
         },
         {
@@ -11703,7 +11680,25 @@ export class formFeildData {
           wrappers: ["formly-vertical-theme-wrapper"],
           className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
           props: {
-            label: 'Row Class',
+            label: 'Cells Class',
+          },
+        },
+        {
+          key: 'editCell',
+          type: 'input',
+          wrappers: ["formly-vertical-theme-wrapper"],
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          props: {
+            label: 'Edit Cell Class',
+          },
+        },
+        {
+          key: 'deleteCell',
+          type: 'input',
+          wrappers: ["formly-vertical-theme-wrapper"],
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          props: {
+            label: 'Delete Cell Class',
           },
         },
       ]
@@ -12236,14 +12231,7 @@ export class formFeildData {
         //   },
         // },
         // {
-        //   key: 'tbodyClass',
-        //   type: 'input',
-        //   wrappers: ["formly-vertical-theme-wrapper"],
-        //   className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
-        //   props: {
-        //     label: 't body Class',
-        //   },
-        // },
+       
         {
           key: 'hieght',
           type: 'input',

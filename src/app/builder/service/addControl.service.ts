@@ -278,7 +278,7 @@ export class AddControlService {
       iconPlacement: 'left',
       hoverIconColor: '',
       captureData: 'sectionLevel',
-      buttonClass: '!rounded !bg-blue-500 !text-white hover:!bg-blue-600 hover:text-white !border !border-transparent !hover:border-transparent font-md text-lg',
+      innerClass: '!rounded !bg-blue-500 !text-white hover:!bg-blue-600 hover:text-white !border !border-transparent !hover:border-transparent font-md text-lg',
       path: '',
       showHideButton: 'hideBoth',
       hideHeader:false,
@@ -744,7 +744,6 @@ export class AddControlService {
       dataTable: '',
       btnLabelPaddingClass: '',
       hoverIconColor: '',
-
       badgeType: 'none',
       badgeCount: '',
       hoverBorderColor: '',
@@ -785,7 +784,7 @@ export class AddControlService {
       color: '',
       headingApi: "",
       text: "Editor.js",
-      heading: 'text-base',
+      innerClass: 'text-base',
       fontstyle: '',
       link: '',
     }
@@ -816,13 +815,12 @@ export class AddControlService {
       beforecopyIcon: '',
       aftercopyIcon: '',
       hoverIconColor: '',
-
       editableIcon: '',
       link: '',
       iconType: 'outline',
       iconSize: 15,
       iconColor: '',
-      textSize: ' text-sm'
+      innerClass: '!text-sm'
     }
   }
   htmlBlockControl() {
@@ -909,7 +907,10 @@ export class AddControlService {
       isAllowExcelReport: false,
       drawerButtonLabel: 'Open Drawer',
       actionButtonClass: 'actions-btn btn-no !border-none !bg-blue-600 hover:!bg-blue-500 my-2 !h-[35px]',
-      tdrowClass: '!overflow-hidden !whitespace-nowrap !text-ellipsis !font-normal !py-1 !px-5 !text-gray-800 !border-b !border-solid !border-gray-300 !text-sm !z-0 !bg-white !border-l !border-r',
+      tdrowClass: 'overflow-hidden whitespace-nowrap text-ellipsis font-normal text-[#23303d] border border-t-0 border-l border-r border-[#e5e7eb] border-solid text-xs z-0 bg-white border-x p-[5px]',
+      dataRow: 'group w-full bg-white hover:bg-white',
+      editCell: '!text-center group-hover:!bg-white',
+      deleteCell: '!text-center !bg-white group-hover:!bg-white',
       tableHeaders: [
         // {
         //   name: 'Id',
@@ -1293,7 +1294,6 @@ export class AddControlService {
       isNextChild: true,
       nzExpandedIcon: '',
       hoverIconColor: '',
-
       nzShowArrow: true,
       extra: '',
     }
