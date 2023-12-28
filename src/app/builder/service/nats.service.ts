@@ -12,7 +12,8 @@ export class NatsService {
 
   async connectToNats(serverUrl: string): Promise<void> {
     if (!this.nc) {
-      this.nc = await connect({ servers: [environment.natsUrl] });
+      console.log('NatsConnection is defined');
+      this.nc = await connect({ servers: [serverUrl] });
       // this.nc.publish(`getalltitlebasicV1`,"get");
 
     }
@@ -43,7 +44,7 @@ export class NatsService {
     let screenId = localStorage.getItem('screenId')! || '';
     let screenBuildId = localStorage.getItem('screenBuildId')! || '';
     let policyId = JSON.parse(localStorage.getItem('user')!)?.policy?.policyId
-    let theme = JSON.parse(window.localStorage['user']).policy?.policyTheme || '';
+    let theme = JSON.parse(localStorage.getItem('user')!)?.policy?.policyTheme || '';
 
     message['applicationId'] = applicationId;
     message['organizationId'] = organizationId;
@@ -61,16 +62,9 @@ export class NatsService {
   closeConnection() {
     if (this.nc) {
       console.log(this.nc.stats());
-      console.log(this.nc.isClosed);
-      this.nc.drain().then((err) => {
-        console.log(`the connection closed.`);
-        console.log(this.nc?.isClosed);
-        // if (err) {
-        //   console.log(`the connection closed with an error ${err.message}`);
-        // } else {
-        // }
-      });
-      console.log(this.nc.isClosed);
+      console.log('the connection closed. '+this.nc.isClosed());
+      this.nc.close();
+      console.log('the connection closed. '+this.nc.isClosed());
       console.log(this.nc.stats());
       this.nc = undefined
     }

@@ -98,11 +98,11 @@ export class LoginComponent implements OnInit {
   submitForm(): void {
 
     this.recaptchaResponse = grecaptcha.getResponse();
-    if (!this.recaptchaResponse) {
-      // this.toastr.warning('You are not human', { nzDuration: 3000 }); // Show an error message to the user
-      this.showRecaptcha = true;
-      return;
-    }
+    // if (!this.recaptchaResponse) {
+    //   // this.toastr.warning('You are not human', { nzDuration: 3000 }); // Show an error message to the user
+    //   this.showRecaptcha = true;
+    //   return;
+    // }
 
 
     this.isFormSubmit = true;

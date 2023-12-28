@@ -150,16 +150,16 @@ export class PagesComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-
+    this.natsService.closeConnection();
     // try {
     //   this.clearValues();
-    //   if (this.requestSubscription) {
-    //     this.requestSubscription.unsubscribe();
-    //   }
+      if (this.requestSubscription) {
+        this.requestSubscription.unsubscribe();
+      }
 
-    //   if (this.subscriptions) {
-    //     this.subscriptions.unsubscribe();
-    //   }
+      if (this.subscriptions) {
+        this.subscriptions.unsubscribe();
+      }
 
     //   this.destroy$.next();
     //   this.destroy$.complete();
@@ -303,7 +303,7 @@ export class PagesComponent implements OnInit, OnDestroy {
             screenId: params["schema"],
           }
           await this.natsService.connectToNats(environment.natsUrl);
-          console.log(`Res_Cp_CheckPageAuth start ${new Date().getHours()} : ${new Date().getMinutes()} : ${new Date().getSeconds()}`)
+          console.log(`Res_Cp_CheckPageAuth start ${params["schema"]} ${new Date().getHours()} : ${new Date().getMinutes()} : ${new Date().getSeconds()}`)
           this.natsService.publishMessage('Req_Cp_CheckPageAuth', obj);
         }
       });
@@ -323,7 +323,7 @@ export class PagesComponent implements OnInit, OnDestroy {
           return;
         }
         const res = JSON.parse(data);
-        this.natsService.closeConnection();
+        // this.natsService.closeConnection();
         if (res?.data) {
           this.initiliaze(this.currentParams);
         } else {
@@ -408,7 +408,7 @@ export class PagesComponent implements OnInit, OnDestroy {
         id: params["schema"],
       }
       await this.natsService.connectToNats(environment.natsUrl);
-      console.log(`Req_Cp_Model_ById start ${new Date().getHours()} : ${new Date().getMinutes()} : ${new Date().getSeconds()}`)
+      console.log(`Req_Cp_Model_ById start ${params["schema"]} ${new Date().getHours()} : ${new Date().getMinutes()} : ${new Date().getSeconds()}`)
       this.natsService.publishMessage('Req_Cp_Model_ById', obj);
     }
   }
@@ -441,7 +441,7 @@ export class PagesComponent implements OnInit, OnDestroy {
           this.toastr.error(res.message, { nzDuration: 3000 });
           this.saveLoader = false;
         }
-        this.natsService.closeConnection();
+        // this.natsService.closeConnection();
       });
     } catch (error) {
       console.error('Error connecting to NATS:', error);

@@ -224,7 +224,7 @@ export class SiteLayoutComponent implements OnInit {
         }
         const parsedData = JSON.parse(data);
         this.loader = true;
-        this.natsService.closeConnection();
+        // this.natsService.closeConnection();
         // callback(parsedData);
         this.getMenuByDomainName(parsedData);
       });
@@ -545,7 +545,7 @@ export class SiteLayoutComponent implements OnInit {
         }
         const parsedData = JSON.parse(data);
         // callback(parsedData);
-        this.natsService.closeConnection();
+        // this.natsService.closeConnection();
         this.getComments(parsedData);
       });
     } catch (error) {
@@ -621,7 +621,7 @@ export class SiteLayoutComponent implements OnInit {
         }
         const parsedData = JSON.parse(data);
         // callback(parsedData);
-        this.natsService.closeConnection();
+        // this.natsService.closeConnection();
         this.getUserPolicyMenu(parsedData);
       });
     } catch (error) {
@@ -639,6 +639,7 @@ export class SiteLayoutComponent implements OnInit {
     }
   }
   ngOnDestroy() {
+    this.natsService.closeConnection();
     if (this.requestSubscription) {
       this.requestSubscription.unsubscribe();
     }
