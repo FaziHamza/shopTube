@@ -73,6 +73,7 @@ export class ApplicationGlobalClassesComponent {
       const obj = {
         applicationGlobalClass: {
           ...formValue,
+          'classes':this.form.value.class.trim(),
           'applicationId': JSON.parse(localStorage.getItem('applicationId')!)
         }
       };
@@ -162,6 +163,7 @@ export class ApplicationGlobalClassesComponent {
   }
   delete(id: any) {
     this.loader = true;
+    this.reset();
     this.applicationService.deleteNestCommonAPI('cp/applicationGlobalClass', id).subscribe(((res: any) => {
       this.loader = false;
       if (res.isSuccess) {
@@ -176,5 +178,9 @@ export class ApplicationGlobalClassesComponent {
       name: data?.name,
       class: data?.class,
     });
+  }
+  reset() {
+    this.editId = '';
+    this.form.reset();
   }
 }
