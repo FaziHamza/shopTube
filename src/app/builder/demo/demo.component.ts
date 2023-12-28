@@ -12,7 +12,7 @@ import { ApplicationService } from 'src/app/services/application.service';
 export class DemoComponent {
   form: FormGroup;
   isVisible: boolean = false;
-  selectedFiles: any;
+  selectedFiles: any = [];
   constructor(private fb: FormBuilder, private applicationService: ApplicationService, private toastr: NzMessageService, private modal: NzModalService
   ) {
     this.form = this.fb.group({
@@ -36,15 +36,10 @@ export class DemoComponent {
       formData.append(key, this.form.value[key]);
     });
 
-    // Append files
-    for (let i = 0; i < this.selectedFiles.length; i++) {
-      formData.append('attachments', this.selectedFiles[i]);
-    }
+    // Append files to formData
+    formData.append('files', this.selectedFiles);
 
-    console.log(formData);
-    let obj = this.form.value;
-    obj['attachments'] = formData;
-    this.applicationService.addNestCommonAPI('email/sendEmailReal', formData).subscribe(
+    this.applicationService.addNestCommonAPI('email/send-email', formData).subscribe(
       (res: any) => {
         this.toastr.success(res.message, { nzDuration: 2000 });
       },
@@ -54,13 +49,16 @@ export class DemoComponent {
     );
   }
 
+  onFileChange(event: any) {
+    this.selectedFiles = event.target.files[0];
+  }
+
+
+
   openEmail(value: any) {
     this.isVisible = value;
   }
-  onFileChange(event: any) {
-    const files: File[] = event.target.files;
-    this.selectedFiles = files;
-  }
+
 
 
 }
