@@ -7,8 +7,7 @@
     [nzSize]="to['additionalProperties']?.size" [nzStatus]="to['additionalProperties']?.status">
     <nz-select
       [class]="to['additionalProperties']?.innerInputClass + ' ' +to['additionalProperties']?.applicationThemeClasses"
-      [appConfigurableSelect]="to['appConfigurableEvent']" [loadAction]="to['eventActionconfig']"
-      [processData]="processData" [style.border-radius]="to['additionalProperties']?.borderRadius"
+       [style.border-radius]="to['additionalProperties']?.borderRadius"
       (ngModelChange)="onModelChange($event, field)" [ngClass]=" showError && !to['additionalProperties']?.suffixicon && !to['additionalProperties']?.prefixicon
     && !to['additionalProperties']?.addonLeft && !to['additionalProperties']?.addonRight ? 'input-border' : ''"
       [formControl]="formControl" [nzStatus]="to['additionalProperties']?.status" [ngClass]="to['additionalProperties']?.wrapper=='floating_filled' || to['additionalProperties']?.wrapper=='floating_standard'

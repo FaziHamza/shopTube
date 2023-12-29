@@ -61,7 +61,6 @@ export class PagesComponent implements OnInit, OnDestroy {
     private el: ElementRef,
     public dataSharedService: DataSharedService, private router: Router, private renderer: Renderer2, private zone: NgZone) {
 
-    // this.ngOnDestroy();
     const changeSubscription = this.dataSharedService.change.subscribe(({ event, field }) => {
       if (this.navigation) {
         if (field && event)
@@ -150,9 +149,9 @@ export class PagesComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.natsService.closeConnection();
-    // try {
-    //   this.clearValues();
+    this.natsService.natsClose();
+    try {
+      this.clearValues();
       if (this.requestSubscription) {
         this.requestSubscription.unsubscribe();
       }
@@ -161,11 +160,11 @@ export class PagesComponent implements OnInit, OnDestroy {
         this.subscriptions.unsubscribe();
       }
 
-    //   this.destroy$.next();
-    //   this.destroy$.complete();
-    // } catch (error) {
-    //   console.error('Error in ngOnDestroy:', error);
-    // }
+      this.destroy$.next();
+      this.destroy$.complete();
+    } catch (error) {
+      console.error('Error in ngOnDestroy:', error);
+    }
   }
   user: any;
   ngOnInit(): void {
@@ -290,9 +289,7 @@ export class PagesComponent implements OnInit, OnDestroy {
           this.connectToNatsAndSubscribePageAuth((data) => {
 
           });
-          this.connectToNatsAndSubscribe((data) => {
 
-          });
           // this.initiliaze(params);
           this.saveLoader = true;
           this.dataSharedService.currentMenuLink = "/pages/" + params["schema"];
@@ -317,6 +314,8 @@ export class PagesComponent implements OnInit, OnDestroy {
       await this.natsService.connectToNats(environment.natsUrl);
       console.log(`Res_Cp_CheckPageAuth start ${new Date().getHours()} : ${new Date().getMinutes()} : ${new Date().getSeconds()}`)
       await this.natsService.subscribeToSubject('Res_Cp_CheckPageAuth', async (err, data) => {
+        this.natsService.natsClose();
+        this.connectToNatsAndSubscribe((data) => {});
         console.log(`Res_Cp_CheckPageAuth end ${new Date().getHours()} : ${new Date().getMinutes()} : ${new Date().getSeconds()}`)
         if (err) {
           console.error('Error:', err);
@@ -404,7 +403,7 @@ export class PagesComponent implements OnInit, OnDestroy {
     if (params["schema"]) {
       this.saveLoader = true;
       const obj: any = {
-        modelType: 'Builder',
+        modelType: 'BuilderV1',
         id: params["schema"],
       }
       await this.natsService.connectToNats(environment.natsUrl);
@@ -422,6 +421,7 @@ export class PagesComponent implements OnInit, OnDestroy {
           return;
         }
         debugger
+        this.natsService.natsClose();
         const res = JSON.parse(data);
         if (res.isSuccess && res.data) {
           this.saveLoader = false;

@@ -19,6 +19,7 @@ import { environment } from 'src/environments/environment';
 import * as XLSX from 'xlsx';
 import { QrCodeComponent } from '../qr-code/qr-code.component';
 import { NzResizeEvent } from 'ng-zorro-antd/resizable';
+import { NatsService } from 'src/app/builder/service/nats.service';
 @Component({
   selector: 'dynamic-table',
   templateUrl: './dynamic-table.component.html',
@@ -111,6 +112,7 @@ export class DynamicTableComponent implements OnInit {
   }
   constructor(public _dataSharedService: DataSharedService, private builderService: BuilderService,
     private applicationService: ApplicationService,
+    private natsService: NatsService,
     private dataService: DataService,
     private employeeService: EmployeeService, private toastr: NzMessageService, private cdr: ChangeDetectorRef,
     public dataSharedService: DataSharedService,
@@ -118,7 +120,6 @@ export class DynamicTableComponent implements OnInit {
     private sanitizer: DomSanitizer, private router: Router, private http: HttpClient,
     private modal: NzModalService
   ) {
-    this.processData = this.processData.bind(this);
     const prevNextRecord = this.dataSharedService.prevNextRecord.subscribe((res: any) => {
       if (res) {
         if (this.screenId == res.screenId && res.tableRowId) {
@@ -159,6 +160,7 @@ export class DynamicTableComponent implements OnInit {
     }
     if (this.data?.eventActionconfig && !this.childTable && Object.keys(this.data.eventActionconfig).length > 0) {
       // The object is not empty, do something here
+      this.loadData();
       this.saveLoader = true;
     }
     this.loadTableData();
@@ -341,21 +343,50 @@ export class DynamicTableComponent implements OnInit {
     // this.applyBusinessRule(getRes, this.data);
     // this.loadTableData();
     if (this.screenId && this.gridRuleData.length == 0) {
-      this.requestSubscription = this.applicationService.getNestCommonAPIById('cp/GridBusinessRule', this.screenId).subscribe(((getRes: any) => {
-        if (getRes.isSuccess) {
-          if (getRes.data.length > 0) {
-            this.gridRuleData = getRes.data || [];
-            // this.formlyModel['input34d5985f']='1313'
-            this.applyBusinessRule(getRes.data, this.data);
-          }
-          // this.pageChange(1);
-          // this.loadTableData();
-        } else
-          this.toastr.error(getRes.message, { nzDuration: 3000 });
-      }));
+      this.getDataById();
     }
     else if (this.gridRuleData.length > 0) {
       this.applyBusinessRule(this.gridRuleData, this.data);
+    }
+  }
+  async getDataById() {
+    if (this.screenId) {
+      this.connectToNatsAndSubscribe((data) => { });
+      const obj: any = {
+        modelType: 'GridBusinessRule',
+        id: this.screenId,
+      }
+      await this.natsService.connectToNats(environment.natsUrl);
+      console.log(`Req_Cp_Model_ById start ${this.screenId} ${new Date().getHours()} : ${new Date().getMinutes()} : ${new Date().getSeconds()}`)
+      this.natsService.publishMessage('Req_Cp_Model_ById', obj);
+    }
+  }
+  async connectToNatsAndSubscribe(callback: (data: any) => void) {
+    try {
+      await this.natsService.connectToNats(environment.natsUrl);
+      await this.natsService.subscribeToSubject('Res_Cp_Model_ById', async (err, data) => {
+        console.log(`Req_Cp_Model_ById end ${new Date().getHours()} : ${new Date().getMinutes()} : ${new Date().getSeconds()}`)
+        if (err) {
+          console.error('Error:', err);
+          return;
+        }
+        this.natsService.natsClose();
+        const res = JSON.parse(data);
+        if (res.isSuccess && res.data) {
+          if (res.data.length > 0) {
+            this.gridRuleData = res.data || [];
+            // this.formlyModel['input34d5985f']='1313'
+            this.applyBusinessRule(res.data, this.data);
+          }
+
+        } else {
+          this.toastr.error(res.message, { nzDuration: 3000 });
+          this.saveLoader = false;
+        }
+        // this.natsService.closeConnection();
+      });
+    } catch (error) {
+      console.error('Error connecting to NATS:', error);
     }
   }
   applyBusinessRule(ruleData: any, data: any) {
@@ -1990,13 +2021,48 @@ export class DynamicTableComponent implements OnInit {
 
     return result;
   }
-
+  async loadData() {
+    debugger
+    if (this.childTable == false ? (this.data?.eventActionconfig ? this.data?.eventActionconfig : {}) : false) {
+      if (this.data?.eventActionconfig?._id) {
+        this.connectToNatsAndSubscribeSelect((data) => { });
+        const obj: any = {
+          ruleId: this.data?.eventActionconfig?._id,
+          pagination: localStorage.getItem('tablePageNo') || 1,
+          pageSize: localStorage.getItem('tablePageSize') || 10
+        }
+        await this.natsService.connectToNats(environment.natsUrl);
+        console.log(`Req_Knex_getexecute_rules Dynamic Table start ${this.data?.eventActionconfig?._id} ${new Date().getHours()} : ${new Date().getMinutes()} : ${new Date().getSeconds()}`)
+        this.natsService.publishMessage('Req_Knex_getexecute_rules', obj);
+      }
+    }
+  }
+  async connectToNatsAndSubscribeSelect(callback: (data: any) => void) {
+    try {
+      await this.natsService.connectToNats(environment.natsUrl);
+      console.log(`Res_Knex_getexecute_rules Dynamic Table start ${new Date().getHours()} : ${new Date().getMinutes()} : ${new Date().getSeconds()}`)
+      await this.natsService.subscribeToSubject('Res_Knex_getexecute_rules', async (err, data) => {
+        this.natsService.natsClose();
+        console.log(`Res_Knex_getexecute_rules Dynamic Table end ${new Date().getHours()} : ${new Date().getMinutes()} : ${new Date().getSeconds()}`)
+        if (err) {
+          console.error('Error:', err);
+          return;
+        }
+        const res = JSON.parse(data);
+        if (res?.data) {
+          this.processData(res?.data);
+        }
+      });
+    } catch (error) {
+      console.error('Error connecting to NATS:', error);
+    }
+  }
   processData(data: any) {
     if (data) {
-      if (data?.data?.length > 0) {
+      if (data?.length > 0) {
         let res: any = {};
         res['data'] = [];
-        res['data'] = data?.data;
+        res['data'] = data;
         res['count'] = data?.count;
 
         this.getFromQueryOnlyTable(this.data, res)

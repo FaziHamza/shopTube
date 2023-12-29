@@ -7,15 +7,18 @@ import { environment } from 'src/environments/environment';
   providedIn: 'root'
 })
 export class NatsService {
-  private nc: NatsConnection | undefined = undefined;
+  private nc: NatsConnection;
   private sc = StringCodec();
+  private natsSubscription: Subscription | null = null;
+
 
   async connectToNats(serverUrl: string): Promise<void> {
-    if (!this.nc) {
+    if(!this.nc){
+      this.nc = await connect({ servers: [serverUrl] });
+    }
+    else if (this.nc?.isClosed()) {
       console.log('NatsConnection is defined');
       this.nc = await connect({ servers: [serverUrl] });
-      // this.nc.publish(`getalltitlebasicV1`,"get");
-
     }
   }
 
@@ -24,7 +27,7 @@ export class NatsService {
       // Handle the case where this.nc is undefined
       throw new Error('NatsConnection is not defined');
     }
-    return await this.nc.subscribe(subject, {
+    return this.natsSubscription = await this.nc.subscribe(subject, {
       callback: (err, msg) => {
         if (err) {
           callback(err, null);
@@ -35,7 +38,11 @@ export class NatsService {
       }
     });
   }
-
+  unsubscribeFromNats(): void {
+    if (this.natsSubscription) {
+      this.natsSubscription.unsubscribe();
+    }
+  }
   publishMessage(subject: string, message: any) {
     let applicationId = JSON.parse(localStorage.getItem('applicationId')!);
     let organizationId = JSON.parse(localStorage.getItem('organizationId')!);
@@ -62,11 +69,16 @@ export class NatsService {
   closeConnection() {
     if (this.nc) {
       console.log(this.nc.stats());
-      console.log('the connection closed. '+this.nc.isClosed());
-      this.nc.close();
-      console.log('the connection closed. '+this.nc.isClosed());
+      console.log('the connection closed. ' + this.nc.isClosed());
+      if (this.nc) {
+        this.nc.close();
+      }
+      console.log('the connection closed. ' + this.nc.isClosed());
       console.log(this.nc.stats());
-      this.nc = undefined
     }
+  }
+  natsClose(){
+    this.unsubscribeFromNats();
+    this.closeConnection();
   }
 }

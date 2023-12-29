@@ -111,9 +111,7 @@
           class="fa-solid fa-square-xmark z-20 absolute  right-[-28px] text-[32px] hidden group-hover:block text-red-500"></i>
       </div>
     </div>
-    <div [processData]="processData"
-    [appConfigurableSelect]="childTable == false ? (data?.appConfigurableEvent ? data?.appConfigurableEvent : []) : []"
-    [loadAction]="childTable == false ? ( data?.eventActionconfig ? data?.eventActionconfig : {}) : false" class="dynamic-table">
+    <div  class="dynamic-table">
       <nz-table nzShowPagination [nzVirtualItemSize]="54" [nzSimple]="true"
         [nzOuterBordered]="data?.outerBordered || false" [nzScroll]="data?.stickyHeaders
       ? {  y: data?.hieght ?  data?.hieght + 'px':'240px' , x: '2500px' }
