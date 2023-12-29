@@ -2,7 +2,7 @@
     <!-- dashboard side -->
     <div class="left-content w-60  border-r border-r-gray-300 h-full bg-white">
         <div class="header h-[70px] box-border py-4 px-[18px] flex justify-center items-center flex-shrink ">
-            <button
+            <button (click)="openEmail(true)"
                 class="bg-blue-600 hover:bg-blue-500 text-white text-center rounded-lg h-full w-full text-sm tracking-wider leading-3 font-semibold capitalize">compose</button>
         </div>
         <div class="content h-[calc(100vh-150px)] w-full overflow-x-hidden overflow-y-auto">
@@ -136,8 +136,12 @@
                         <img class="w-8 h-8 rounded-full"
                             src="https://plus.unsplash.com/premium_photo-1669047670905-fa4331d07e06?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8aGQlMjBwaG90b3N8ZW58MHx8MHx8fDA%3D"
                             alt="Rounded avatar">
-                        <p class="font-medium text-base text-gray-600 capitalize w-36 overflow-hidden text-ellipsis whitespace-nowrap">TAYYAB BAIG</p>
-                        <p class="font-normal text-base text-gray-500 overflow-hidden whitespace-nowrap text-ellipsis w-full">Lorem ipsum dolor sit, amet consectetur
+                        <p
+                            class="font-medium text-base text-gray-600 capitalize w-36 overflow-hidden text-ellipsis whitespace-nowrap">
+                            TAYYAB BAIG</p>
+                        <p
+                            class="font-normal text-base text-gray-500 overflow-hidden whitespace-nowrap text-ellipsis w-full">
+                            Lorem ipsum dolor sit, amet consectetur
                             adipisicing elit. Esse, blanditiis.</p>
                     </div>
                     <div class="flex h-full w-[10%] items-center justify-end">
@@ -163,10 +167,15 @@
                         <img class="w-8 h-8 rounded-full"
                             src="https://plus.unsplash.com/premium_photo-1669047670905-fa4331d07e06?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8aGQlMjBwaG90b3N8ZW58MHx8MHx8fDA%3D"
                             alt="Rounded avatar">
-                        <p class="font-medium text-base text-gray-600 capitalize w-36 overflow-hidden text-ellipsis whitespace-nowrap">hasain</p>
+                        <p
+                            class="font-medium text-base text-gray-600 capitalize w-36 overflow-hidden text-ellipsis whitespace-nowrap">
+                            Arfan</p>
                         <p
                             class="font-normal text-base text-gray-500 overflow-hidden whitespace-nowrap text-ellipsis w-full">
-                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Iusto, sint autem! Molestiae, nam eum. Culpa ullam laboriosam alias labore nulla earum voluptate nesciunt doloremque quia adipisci suscipit possimus vel sequi ipsa, eum ad illum numquam autem delectus dolorum iusto fugit dolores quo mollitia? Veritatis culpa enim optio vitae corporis ullam..</p>
+                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Iusto, sint autem! Molestiae, nam
+                            eum. Culpa ullam laboriosam alias labore nulla earum voluptate nesciunt doloremque quia
+                            adipisci suscipit possimus vel sequi ipsa, eum ad illum numquam autem delectus dolorum iusto
+                            fugit dolores quo mollitia? Veritatis culpa enim optio vitae corporis ullam..</p>
                     </div>
                     <div class="flex h-full w-[10%] items-center justify-end">
 
@@ -191,3 +200,60 @@
         </div>
     </div>
 </div>
+<nz-modal [(nzVisible)]="isVisible" nzTitle="Compose Mail" (nzOnCancel)="openEmail(false)" (nzOnOk)="openEmail(false)">
+    <section *nzModalContent class="bg-white dark:bg-gray-900">
+        <nz-spin [nzSpinning]="saveLoader" [nzSize]="'large'" class="builder-design">
+            <div>
+                <label for="email" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-  300">To</label>
+                <nz-select nzMode="tags" nzPlaceHolder="Tag Mode" [(ngModel)]="to">
+                    <nz-option *ngFor="let option of listOfOption" [nzLabel]="option.label"
+                        [nzValue]="option.value"></nz-option>
+                </nz-select>
+            </div>
+            <div>
+                <label for="email" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">
+                    CC</label>
+                <nz-select nzMode="tags" nzPlaceHolder="Tag Mode" [(ngModel)]="cc">
+                    <nz-option *ngFor="let option of listOfOption" [nzLabel]="option.label"
+                        [nzValue]="option.value"></nz-option>
+                </nz-select>
+            </div>
+            <div>
+                <label for="email" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">
+                    BCC</label>
+                <nz-select nzMode="tags" nzPlaceHolder="Tag Mode" [(ngModel)]="bcc">
+                    <nz-option *ngFor="let option of listOfOption" [nzLabel]="option.label"
+                        [nzValue]="option.value"></nz-option>
+                </nz-select>
+            </div>
+            <div class="mx-auto max-w-screen-md" [formGroup]="form">
+                <div>
+                    <label for="subject"
+                        class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Subject</label>
+                    <input formControlName="subject" type="text" id="subject"
+                        class="block p-3 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 shadow-sm focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light"
+                        required>
+                </div>
+                <div>
+                    <label for="attchments" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">
+                        Attachment</label>
+                    <input formControlName="attachments" type="file" id="attachments" multiple
+                        (change)="onFileChange($event)"
+                        class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light"
+                        required>
+                </div>
+                <div class="sm:col-span-2">
+                    <label for="message" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-400">Your
+                        message</label>
+                    <textarea formControlName="text" id="message" rows="6"
+                        class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg shadow-sm border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"></textarea>
+                </div>
+                <button (click)="sendEmail()"
+                    class="py-3 mt-2 px-5 text-sm font-medium text-center text-white rounded-lg bg-blue-700 sm:w-fit hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                    Send
+                </button>
+            </div>
+        </nz-spin>
+
+    </section>
+</nz-modal>

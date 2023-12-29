@@ -74,6 +74,11 @@ export class AddControlService {
       isNextChild: true,
     }
   }
+  getEmailControl() {
+    return {
+      isNextChild: false,
+    }
+  }
   getSectionControl() {
     return {
       sectionClassName: "",

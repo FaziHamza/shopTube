@@ -251,15 +251,10 @@ export class organizationBuilderComponent implements OnInit {
   }
 
   openModal(type: any, selectedAllow?: boolean, organizationName?: any) {
-
     if (this.isSubmit) {
-      for (let prop in this.model) {
-        if (this.model.hasOwnProperty(prop)) {
-          this.model[prop] = null;
-        }
-      }
-      this.form = new FormGroup({});
+      this.model = {};
     }
+    
     if (type == 'department') {
       this.loadDepartmentFields();
       if (selectedAllow) {
@@ -270,20 +265,20 @@ export class organizationBuilderComponent implements OnInit {
           }
         });
       }
-
       this.departmentSubmit = true;
     } else {
       this.LoadOrganizationFields();
       this.departmentSubmit = false;
     }
     this.isVisible = true;
-    if (!this.isSubmit) {
-      this.isSubmit = true;
-    }
+    // if (!this.isSubmit) {
+    //   this.isSubmit = true;
+    // }
   }
   handleCancel(): void {
-
+    this.isSubmit = true;
     this.isVisible = false;
+    this.model = {};
   }
 
   submit() {
@@ -416,9 +411,10 @@ export class organizationBuilderComponent implements OnInit {
     }
     this.form = new FormGroup({});
   }
-  editItem(item: any) {
-    this.model = JSON.parse(JSON.stringify(item));
+  editItem(item: any, type: any) {
     this.isSubmit = false;
+    this.model = JSON.parse(JSON.stringify(item));
+    this.openModal(type);
   }
   deleteRow(id: any, type: any): void {
     try {
@@ -560,7 +556,7 @@ export class organizationBuilderComponent implements OnInit {
             },
           },
         ],
-      },  
+      },
       {
         fieldGroup: [
           {

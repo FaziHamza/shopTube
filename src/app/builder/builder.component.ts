@@ -846,6 +846,10 @@ export class BuilderComponent implements OnInit {
     isLeaf: true
   };
   downloadJson() {
+    if (!this.screenPage) {
+      this.toastr.warning('Please Select Screen', { nzDuration: 3000 });
+      return;
+    }
     if (this.selectedNode) {
       this.highlightSelect(this.selectedNode.id, false);
     }
@@ -1076,6 +1080,10 @@ export class BuilderComponent implements OnInit {
     });
   }
   performBulkUpdate(updateType: string) {
+    if (!this.screenPage) {
+      this.toastr.warning('Please Select Screen', { nzDuration: 3000 });
+      return;
+    }
     if (this.nodes.length > 0) {
       let nzWidth = '70%'; // default width
       let componentType: any;
@@ -1553,7 +1561,8 @@ export class BuilderComponent implements OnInit {
       value == 'accordionButton' ||
       value == 'contactList' ||
       value == 'fileManager' ||
-      value == 'header'
+      value == 'header' ||
+      value == 'email'
     )
       return 'w-full';
     else if (value == 'body') return 'px-6 pt-6 pb-10';
@@ -1839,6 +1848,9 @@ export class BuilderComponent implements OnInit {
           break;
         case 'chat':
           newNode = { ...newNode, ...this.addControlService.getChatControl() };
+          break;
+        case 'email':
+          newNode = { ...newNode, ...this.addControlService.getEmailControl() };
           break;
         case 'repeatableControll':
           let formlyObj = {
@@ -6152,6 +6164,10 @@ export class BuilderComponent implements OnInit {
   // }
 
   jsonUpload(event: any) {
+    if (!this.screenPage) {
+      this.toastr.warning('Please Select Screen', { nzDuration: 3000 });
+      return;
+    }
     let contents: any;
     if (this.screenName) {
       if (
@@ -6224,6 +6240,10 @@ export class BuilderComponent implements OnInit {
   }
 
   selectedDownloadJson() {
+    if (!this.screenPage) {
+      this.toastr.warning('Please Select Screen', { nzDuration: 3000 });
+      return;
+    }
     var currentData = this.jsonParse(
       this.jsonStringifyWithObject(this.selectedNode)
     );
@@ -6241,7 +6261,10 @@ export class BuilderComponent implements OnInit {
     a.click();
   }
   selectedJsonUpload(event: any) {
-
+    if (!this.screenPage) {
+      this.toastr.warning('Please Select Screen', { nzDuration: 3000 });
+      return;
+    }
     if (event.target instanceof HTMLInputElement && event.target.files.length > 0) {
       const reader = new FileReader();
       reader.onloadend = () => {
@@ -7495,26 +7518,6 @@ export class BuilderComponent implements OnInit {
     }
   }
 
-  screenClone() {
-    this.iconActive = 'screenClone'
-    if (!this.screenPage) {
-      this.toastr.warning('Please Select Screen', { nzDuration: 3000 });
-      return;
-    }
-    this.saveLoader = true;
-    this.applicationService.addNestCommonAPI(`applications/${this._id}/screenClone`, this.builderScreenData).subscribe({
-      next: (res: any) => {
-        this.saveLoader = false;
-        this.toastr.success('clone Data SuccessFully', { nzDuration: 3000 });
-      },
-      error: (err) => {
-        this.saveLoader = false;
-        console.log(err)
-        this.toastr.error(err, { nzDuration: 3000 });
-      }
-    });
-  }
-
   makeModel(field: any, event: any) {
     let newModel = JSON.parse(JSON.stringify(this.formlyModel));
     if (newModel) {
@@ -7672,6 +7675,10 @@ export class BuilderComponent implements OnInit {
     });
   }
   removeMapping() {
+       if (!this.screenPage) {
+      this.toastr.warning('Please Select Screen', { nzDuration: 3000 });
+      return;
+    }
     if (this.selectedNode?.dbData) {
       if (this.selectedNode?.dbData.length > 0) {
         let selectedNode: any = this.selectedNode;
@@ -7775,4 +7782,30 @@ export class BuilderComponent implements OnInit {
 
     return globalClass;
   }
+  screenClone() {
+    this.iconActive = 'screenClone';
+    if (!this.screenPage) {
+      this.toastr.warning('Please Select Screen', { nzDuration: 3000 });
+      return;
+    }
+    this.modalService.confirm({
+      nzTitle: 'Are you sure you want to clone his screen?',
+      nzContent: '',
+      nzOnOk: () => {
+        this.saveLoader = true;
+        this.applicationService.addNestCommonAPI(`applications/${this._id}/screenClone`, this.builderScreenData).subscribe({
+          next: (res: any) => {
+            this.saveLoader = false;
+            this.toastr.success('clone Data Successfully', { nzDuration: 3000 });
+          },
+          error: (err) => {
+            this.saveLoader = false;
+            console.log(err);
+            this.toastr.error(err, { nzDuration: 3000 });
+          }
+        });
+      }
+    });
+  }
+
 }
