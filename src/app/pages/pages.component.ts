@@ -2808,29 +2808,42 @@ export class PagesComponent implements OnInit, OnDestroy {
 
     return data;
   }
+  // captureAndGeneratePDF() {
+  //   // Add a time delay of 2 seconds (2000 milliseconds)
+  //   setTimeout(() => {
+  //     html2canvas(document.body).then((canvas) => {
+  //       // Create PDF
+  //       const pdf = new jsPDF({
+  //         orientation: 'p', // 'p' for portrait, 'l' for landscape
+  //         unit: 'mm', // use millimeters for units
+  //         format: 'a4', // standard paper size
+  //       });
+
+  //       // Convert canvas to image data URL
+  //       const imgData = canvas.toDataURL('image/png');
+
+  //       // Set scale factor for both width and height to fit the entire content within the PDF page
+  //       const scaleFactorWidth = pdf.internal.pageSize.getWidth() / canvas.width;
+  //       const scaleFactorHeight = pdf.internal.pageSize.getHeight() / canvas.height;
+  //       const scaleFactor = Math.min(scaleFactorWidth, scaleFactorHeight);
+
+  //       pdf.addImage(imgData, 'PNG', 0, 0, canvas.width * scaleFactor, canvas.height * scaleFactor);
+
+  //       // Download or display the PDF
+  //       pdf.save('screenshot.pdf');
+  //     });
+  //   }, 2000); // 2000 milliseconds (2 seconds) delay
+  // }
   captureAndGeneratePDF() {
     // Add a time delay of 2 seconds (2000 milliseconds)
     setTimeout(() => {
       html2canvas(document.body).then((canvas) => {
-        // Create PDF
-        const pdf = new jsPDF({
-          orientation: 'p', // 'p' for portrait, 'l' for landscape
-          unit: 'mm', // use millimeters for units
-          format: 'a4', // standard paper size
-        });
-
         // Convert canvas to image data URL
         const imgData = canvas.toDataURL('image/png');
-
-        // Set scale factor for both width and height to fit the entire content within the PDF page
-        const scaleFactorWidth = pdf.internal.pageSize.getWidth() / canvas.width;
-        const scaleFactorHeight = pdf.internal.pageSize.getHeight() / canvas.height;
-        const scaleFactor = Math.min(scaleFactorWidth, scaleFactorHeight);
-
-        pdf.addImage(imgData, 'PNG', 0, 0, canvas.width * scaleFactor, canvas.height * scaleFactor);
-
-        // Download or display the PDF
-        pdf.save('screenshot.pdf');
+        this.applicationService.getNestCommonAPI('email/emailPdf').subscribe(((res: any) => {
+          this.saveLoader = false;
+          
+        }));
       });
     }, 2000); // 2000 milliseconds (2 seconds) delay
   }
