@@ -57,6 +57,7 @@ import { ApplicationThemeComponent } from '../Builder-module/application-theme/a
 import { CreateControlComponent } from '../Builder-module/create-control/create-control.component';
 import { SupportChatComponent } from '../admin/support-chat/support-chat.component';
 import { PdfComponent } from '../components/pdf/pdf.component';
+import { EmailComponent } from '../components/email/email.component';
 // import { CommonService } from './common.service';
 // import { WebsiteModules } from '../Website/website.module';
 
@@ -124,7 +125,7 @@ import { PdfComponent } from '../components/pdf/pdf.component';
     TaskReportComponent,VoiceRecorderComponent,
     DownloadbuttonComponent,QrCodeComponent,ApplicationThemeComponent,CreateControlComponent,
     SupportChatComponent,ContactListComponent,
-    PdfComponent
+    PdfComponent,EmailComponent
     //
     // ErrorComponent
   ],
@@ -184,7 +185,7 @@ import { PdfComponent } from '../components/pdf/pdf.component';
     VoiceRecorderComponent,
     DownloadbuttonComponent,QrCodeComponent,ApplicationThemeComponent,CreateControlComponent,
     SupportChatComponent,ContactListComponent,
-    PdfComponent
+    PdfComponent,EmailComponent
     //
     // ErrorComponent
   ],
