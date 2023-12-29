@@ -25,6 +25,7 @@ import { FileManagerComponent } from '../components';
 import { ApplicationThemeComponent } from '../Builder-module/application-theme/application-theme.component';
 import { CreateControlComponent } from '../Builder-module/create-control/create-control.component';
 import { SupportChatComponent } from '../admin/support-chat/support-chat.component';
+import { EmailComponent } from '../components/email/email.component';
 
 const routes: Routes = [
   {
@@ -126,6 +127,10 @@ const routes: Routes = [
       {
         path: 'create-controls',
         component: CreateControlComponent
+      },
+      {
+        path: 'email',
+        component: EmailComponent
       },
     ]
   },
