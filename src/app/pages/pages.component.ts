@@ -306,16 +306,16 @@ export class PagesComponent implements OnInit, OnDestroy {
   }
 
   initiliaze(params: any) {
-
+    console.log('initiliaze')
     if (this.data.length == 0) {
       if (params["schema"]) {
         //True is check for params["id"] because this param also use for pdf
         if (params["id"] && params["id"] != 'pdf') {
           this.tableRowID = params["id"];
         }
-        if (params["id"] == 'pdf') {
-          this.pdf = true;
-        }
+        // if (params["id"] == 'pdf') {
+        //   this.pdf = true;
+        // }
         this.dataSharedService.defaultPageNodes = '';
         this.isPageContextShow = true;
         // this.dataSharedService.urlModule.next({ aplication: '', module: '' });
@@ -335,7 +335,7 @@ export class PagesComponent implements OnInit, OnDestroy {
       }
     }
     //
-    else if (this.data.length > 0) {
+    else if (this.data.length > 0 && params["pdfPage"] == undefined) {
 
       this.applicationService.getNestCommonAPIById("cp/CacheRule", this.data[0].data[0].screenBuilderId)
         .pipe(
@@ -578,9 +578,9 @@ export class PagesComponent implements OnInit, OnDestroy {
     // });
     this.applyDefaultValue();
     this.checkDynamicSection();
-    if (this.pdf == true) {
-      this.captureAndGeneratePDF();
-    }
+    // if (this.pdf == true) {
+    //   this.captureAndGeneratePDF();
+    // }
     this.dataSharedService.fixedFooter = this.resData[0].fixedFooter ? true : false;
   }
   formValueAssign(data: any) {
@@ -2618,22 +2618,22 @@ export class PagesComponent implements OnInit, OnDestroy {
     }
   }
   getTaskManagementIssuesFunc(screenId: string, applicationId: string) {
-    this.requestSubscription = this.builderService.getUserAssignTask(screenId, applicationId).subscribe({
-      next: (res: any) => {
-        if (res.isSuccess) {
-          if (res.data.length > 0) {
-            this.getTaskManagementIssues = res.data;
-          }
-        }
-        else {
-          this.toastr.error(`userAssignTask:` + res.message, { nzDuration: 3000 });
-        }
-      },
-      error: (err) => {
-        console.error(err);
-        this.toastr.error("An error occurred", { nzDuration: 3000 });
-      }
-    })
+    // this.requestSubscription = this.builderService.getUserAssignTask(screenId, applicationId).subscribe({
+    //   next: (res: any) => {
+    //     if (res.isSuccess) {
+    //       if (res.data.length > 0) {
+    //         this.getTaskManagementIssues = res.data;
+    //       }
+    //     }
+    //     else {
+    //       this.toastr.error(`userAssignTask:` + res.message, { nzDuration: 3000 });
+    //     }
+    //   },
+    //   error: (err) => {
+    //     console.error(err);
+    //     this.toastr.error("An error occurred", { nzDuration: 3000 });
+    //   }
+    // })
   }
   pushObjectsById(targetArray: any[], sourceArray: any[], idToMatch: string): void {
     for (let i = 0; i < targetArray.length; i++) {
@@ -2834,19 +2834,19 @@ export class PagesComponent implements OnInit, OnDestroy {
   //     });
   //   }, 2000); // 2000 milliseconds (2 seconds) delay
   // }
-  captureAndGeneratePDF() {
-    // Add a time delay of 2 seconds (2000 milliseconds)
-    setTimeout(() => {
-      html2canvas(document.body).then((canvas) => {
-        // Convert canvas to image data URL
-        const imgData = canvas.toDataURL('image/png');
-        this.applicationService.getNestCommonAPI('email/emailPdf').subscribe(((res: any) => {
-          this.saveLoader = false;
+  // captureAndGeneratePDF() {
+  //   // Add a time delay of 2 seconds (2000 milliseconds)
+  //   setTimeout(() => {
+  //     html2canvas(document.body).then((canvas) => {
+  //       // Convert canvas to image data URL
+  //       const imgData = canvas.toDataURL('image/png');
+  //       this.applicationService.getNestCommonAPI('email/emailPdf').subscribe(((res: any) => {
+  //         this.saveLoader = false;
           
-        }));
-      });
-    }, 2000); // 2000 milliseconds (2 seconds) delay
-  }
+  //       }));
+  //     });
+  //   }, 2000); // 2000 milliseconds (2 seconds) delay
+  // }
 
   private addClasses(tagName: string, classesToAdd: string[]): void {
     // const elements = this.el.nativeElement.querySelectorAll(tagName);

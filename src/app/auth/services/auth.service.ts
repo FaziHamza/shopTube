@@ -82,6 +82,11 @@ export class AuthService {
       api.includes('http') ? api : environment.nestBaseUrl + api
     );
   }
+  addNestCommonAPI(api: string, modal: any): Observable<any> {
+    return this.http.post<any>(
+      api.includes('http') ? api : environment.nestBaseUrl + api, modal
+    );
+  }
   // Register
   // public userRegister(model: LoginModel) {
     

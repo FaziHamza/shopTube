@@ -5,9 +5,12 @@ import { RegisterComponent } from './register/register.component';
 import { UserComponent } from './user/user.component';
 import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
 import { ResetPasswordComponent } from './reset-password/reset-password.component';
+import { DemoComponent } from '../builder/demo/demo.component';
+import { PdfComponent } from '../components/pdf/pdf.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
+  { path: 'pdf/:pdfPage', component: PdfComponent },
   {
     path: 'register',
     component: RegisterComponent
