@@ -11,7 +11,7 @@ import { environment } from 'src/environments/environment';
   'imageUpload': true,
   'dynamic-image-upload': this.to['additionalProperties']?.browserButtonColor
 }">
-<div  [class]="to['additionalProperties']?.wrapper=='floating_standard' ? 'relative z-0' : ''"
+<div class="dynamic-file-input"  [class]="to['additionalProperties']?.wrapper=='floating_standard' ? 'relative z-0' : ''"
    >
    <nz-input-group [style.border-radius]="to['additionalProperties']?.borderRadius"
    [ngClass]="showError ? 'input-border' : ''"

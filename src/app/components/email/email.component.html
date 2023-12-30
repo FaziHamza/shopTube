@@ -205,7 +205,8 @@
         <nz-spin [nzSpinning]="saveLoader" [nzSize]="'large'" class="builder-design">
             <div class="mb-1">
                 <label for="email" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-  300">To</label>
-                <nz-select class="temp-modal-select !h-12 !rounded-md" nzMode="tags" nzPlaceHolder="Recipients" [(ngModel)]="to">
+                <nz-select class="temp-modal-select !h-12 !rounded-md" nzMode="tags" nzPlaceHolder="Recipients"
+                    [(ngModel)]="to">
                     <nz-option *ngFor="let option of listOfOption" [nzLabel]="option.label"
                         [nzValue]="option.value"></nz-option>
                 </nz-select>
@@ -213,7 +214,8 @@
             <div class="mb-1">
                 <label for="email" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">
                     CC</label>
-                <nz-select class="temp-modal-select !h-10 !rounded-md" nzMode="tags" nzPlaceHolder="Cc" [(ngModel)]="cc">
+                <nz-select class="temp-modal-select !h-10 !rounded-md" nzMode="tags" nzPlaceHolder="Cc"
+                    [(ngModel)]="cc">
                     <nz-option *ngFor="let option of listOfOption" [nzLabel]="option.label"
                         [nzValue]="option.value"></nz-option>
                 </nz-select>
@@ -221,7 +223,8 @@
             <div class="mb-1">
                 <label for="email" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">
                     BCC</label>
-                <nz-select class="temp-modal-select !h-10 !rounded-md" nzMode="tags" nzPlaceHolder="Bcc" [(ngModel)]="bcc">
+                <nz-select class="temp-modal-select !h-10 !rounded-md" nzMode="tags" nzPlaceHolder="Bcc"
+                    [(ngModel)]="bcc">
                     <nz-option *ngFor="let option of listOfOption" [nzLabel]="option.label"
                         [nzValue]="option.value"></nz-option>
                 </nz-select>
@@ -230,17 +233,21 @@
                 <div class="mb-1">
                     <label for="subject"
                         class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Subject</label>
-                    <input formControlName="subject" type="text" id="subject"
-                        class="block p-3 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 shadow-sm focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light"
+                    <input nz-input formControlName="subject" type="text" id="subject"
+                        class="temp-modal-input block p-3 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 shadow-sm focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light"
                         required>
                 </div>
+
+
                 <div class="mb-1">
                     <label for="attchments" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">
                         Attachment</label>
-                    <input formControlName="attachments" #fileInputRef type="file" id="fileInputRef" multiple
+                    <input formControlName="attachments" type="file" id="fileInputRef" multiple
                         (change)="onFileChange($event)"
-                        class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light"
+                        class="temp-modal-fileUploader shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light"
                         required>
+                    <ng-template fileInputRef><button class="temp-modal-fileUploader-button">Choose
+                            file</button></ng-template>
                     <div *ngIf="selectedFiles.length > 0" class="mt-4">
                         <p class="font-bold mb-2">Uploaded Files:</p>
                         <ul>
@@ -253,11 +260,14 @@
                         </ul>
                     </div>
                 </div>
+
+
+
                 <div class="sm:col-span-2 mb-1">
                     <label for="message" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-400">Your
                         message</label>
-                    <textarea formControlName="text" id="message" rows="6"
-                        class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg shadow-sm border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"></textarea>
+                    <textarea nz-input formControlName="text" id="message" rows="6"
+                        class="temp-modal-textarea"></textarea>
                 </div>
             </div>
         </nz-spin>
