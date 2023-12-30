@@ -167,4 +167,8 @@ export class CreateControlComponent {
       controlJson: data?.controlJson,
     });
   }
+  reset(){
+    this.editId = '';
+    this.form.reset()
+  }
 }

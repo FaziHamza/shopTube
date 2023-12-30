@@ -1,7 +1,7 @@
 <nz-spin [nzSpinning]="loader" [nzSize]="'large'" class="builder-design">
-    <div class="flex flex-wrap mt-2" [formGroup]="form">
+    <div class="flex flex-wrap" [formGroup]="form">
         <div class="w-1/4">
-            <label class="my-2 pl-2 font-bold py-2 inline-block border !rounded-md w-full">Enter Name:</label>
+            <label class="mb-2 pl-2 font-bold py-2 inline-block !rounded-md w-full">Name</label>
             <input formControlName="name" nz-input placeholder="Enter name here..."
                 class="!border !rounded-md m-2 !p-2 !block !w-full" />
             <div class="!w-full flex justify-between mt-3">
@@ -9,20 +9,20 @@
                     [class]="(editId == '' ? '!bg-blue-600 hover:!bg-blue-500' : '!bg-green-600 hover:!bg-green-500') + ' !w-[48%] btn-no !border-none  '"
                     (click)="save()"><i class="fa-regular fa-save mr-2"></i>{{editId == '' ? 'Save' :
                     'Update'}}</button>
-                <button nz-button nzType="primary"
+                <button (click)="reset()" *ngIf="editId != ''" nz-button nzType="primary"
                     class="!bg-white !text-gray-700 hover:!bg-gray-50 ml-2 !w-[48%] btn-no !border !border-gray-50 hover:!border-gray-400"><i class="fa-regular fa-x mr-2"></i>Cancel</button>
             </div>
         </div>
         <div class="w-3/4  flex">
-            <div class="w-full !mx-2 mt-2  ">
-                <label class="px-2 font-bold !rounded-md py-2  mb-2 inline-block w-full border">Control
+            <div class="w-full !mx-2">
+                <label class="px-2 font-bold !rounded-md py-2  mb-2 inline-block w-full">Control
                     Json</label>
                 <textarea class="!border !rounded-md !p-2 !block !w-full !max-h-60 !min-h-[100px]" style="width: 100%;"
                     nz-input placeholder="Enter control json here..." formControlName="controlJson"></textarea>
             </div>
         </div>
     </div>
-    <label class="px-2 font-bold !rounded-md py-2 mb-2 inline-block w-fit border mt-2">Control List</label>
+    <label class="px-2 font-bold !rounded-md py-2 mb-2 inline-block w-fit mt-2">Control List</label>
     <div class="table-responsive ">
         <nz-table #editRowTable nzBordered [nzData]="listOfDisplayData" nzTableLayout="fixed" [nzPageSize]="pageSize"
             [nzFrontPagination]="false">

@@ -4055,6 +4055,9 @@ export class BuilderComponent implements OnInit {
 
 
     switch (event.type) {
+      case 'rangeSlider':
+        document.documentElement.style.setProperty('--slider-color', event.form.color ? event.form.color : '#91d5ff');
+        break;
       case 'body':
         this.selectedNode = this.api(event.form.api, this.selectedNode);
         break;
@@ -7675,7 +7678,7 @@ export class BuilderComponent implements OnInit {
     });
   }
   removeMapping() {
-       if (!this.screenPage) {
+    if (!this.screenPage) {
       this.toastr.warning('Please Select Screen', { nzDuration: 3000 });
       return;
     }
