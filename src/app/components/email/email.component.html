@@ -203,57 +203,69 @@
 <nz-modal [(nzVisible)]="isVisible" nzTitle="Compose Mail" (nzOnCancel)="openEmail(false)" (nzOnOk)="openEmail(false)">
     <section *nzModalContent class="bg-white dark:bg-gray-900">
         <nz-spin [nzSpinning]="saveLoader" [nzSize]="'large'" class="builder-design">
-            <div>
+            <div class="mb-1">
                 <label for="email" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-  300">To</label>
-                <nz-select nzMode="tags" nzPlaceHolder="Tag Mode" [(ngModel)]="to">
+                <nz-select class="temp-modal-select !h-12 !rounded-md" nzMode="tags" nzPlaceHolder="Recipients" [(ngModel)]="to">
                     <nz-option *ngFor="let option of listOfOption" [nzLabel]="option.label"
                         [nzValue]="option.value"></nz-option>
                 </nz-select>
             </div>
-            <div>
+            <div class="mb-1">
                 <label for="email" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">
                     CC</label>
-                <nz-select nzMode="tags" nzPlaceHolder="Tag Mode" [(ngModel)]="cc">
+                <nz-select class="temp-modal-select !h-10 !rounded-md" nzMode="tags" nzPlaceHolder="Cc" [(ngModel)]="cc">
                     <nz-option *ngFor="let option of listOfOption" [nzLabel]="option.label"
                         [nzValue]="option.value"></nz-option>
                 </nz-select>
             </div>
-            <div>
+            <div class="mb-1">
                 <label for="email" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">
                     BCC</label>
-                <nz-select nzMode="tags" nzPlaceHolder="Tag Mode" [(ngModel)]="bcc">
+                <nz-select class="temp-modal-select !h-10 !rounded-md" nzMode="tags" nzPlaceHolder="Bcc" [(ngModel)]="bcc">
                     <nz-option *ngFor="let option of listOfOption" [nzLabel]="option.label"
                         [nzValue]="option.value"></nz-option>
                 </nz-select>
             </div>
             <div class="mx-auto max-w-screen-md" [formGroup]="form">
-                <div>
+                <div class="mb-1">
                     <label for="subject"
                         class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Subject</label>
                     <input formControlName="subject" type="text" id="subject"
                         class="block p-3 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 shadow-sm focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light"
                         required>
                 </div>
-                <div>
+                <div class="mb-1">
                     <label for="attchments" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">
                         Attachment</label>
-                    <input formControlName="attachments" type="file" id="attachments" multiple
+                    <input formControlName="attachments" #fileInputRef type="file" id="fileInputRef" multiple
                         (change)="onFileChange($event)"
                         class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light"
                         required>
+                    <div *ngIf="selectedFiles.length > 0" class="mt-4">
+                        <p class="font-bold mb-2">Uploaded Files:</p>
+                        <ul>
+                            <li *ngFor="let file of selectedFiles"
+                                class="flex items-center justify-between bg-gray-100 p-2 mb-2">
+                                <span>{{ file.name }}</span>
+                                <i class="text-red-500 hover:text-red-700 cursor-pointer fas fa-trash"
+                                    (click)="removeFile(file)"></i>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
-                <div class="sm:col-span-2">
+                <div class="sm:col-span-2 mb-1">
                     <label for="message" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-400">Your
                         message</label>
                     <textarea formControlName="text" id="message" rows="6"
                         class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg shadow-sm border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"></textarea>
                 </div>
-                <button (click)="sendEmail()"
-                    class="py-3 mt-2 px-5 text-sm font-medium text-center text-white rounded-lg bg-blue-700 sm:w-fit hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-                    Send
-                </button>
             </div>
         </nz-spin>
-
     </section>
+    <div *nzModalFooter>
+        <button (click)="sendEmail()"
+            class="py-3 mt-2 px-5 text-sm font-medium text-center text-white rounded-lg bg-blue-700 sm:w-fit hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+            Send
+        </button>
+    </div>
 </nz-modal>

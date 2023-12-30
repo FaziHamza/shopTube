@@ -7789,7 +7789,7 @@ export class BuilderComponent implements OnInit {
       return;
     }
     this.modalService.confirm({
-      nzTitle: 'Are you sure you want to clone his screen?',
+      nzTitle: 'Are you sure you want to clone this screen?',
       nzContent: '',
       nzOnOk: () => {
         this.saveLoader = true;

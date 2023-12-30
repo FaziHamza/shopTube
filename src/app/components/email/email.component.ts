@@ -1,8 +1,11 @@
-import { Component } from '@angular/core';
+import { Component, ElementRef, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { NzModalService } from 'ng-zorro-antd/modal';
+import { NzUploadFile } from 'ng-zorro-antd/upload';
 import { ApplicationService } from 'src/app/services/application.service';
+import { NzUploadChangeParam } from 'ng-zorro-antd/upload';
+
 
 @Component({
   selector: 'st-email',
@@ -17,7 +20,9 @@ export class EmailComponent {
   to: any = [];
   cc: any = [];
   bcc: any = [];
-  constructor(private fb: FormBuilder, private applicationService: ApplicationService, private toastr: NzMessageService, private modal: NzModalService
+  @ViewChild('fileInputRef') fileInputRef: ElementRef | undefined;
+  constructor(private fb: FormBuilder, private applicationService: ApplicationService, private toastr: NzMessageService, private modal: NzModalService,
+    private msg: NzMessageService
   ) {
     this.form = this.fb.group({
       to: ['', Validators.required], // Classes is required
@@ -32,7 +37,7 @@ export class EmailComponent {
   ngOnInit() {
 
   }
- 
+  fileList: NzUploadFile[] = [];
   listOfOption = [
     {
       label: 'hasnainatique786@gmail.com',
@@ -58,9 +63,13 @@ export class EmailComponent {
     });
 
     // Append files to formData
+    // Append files to formData
     if (this.selectedFiles) {
-      formData.append('files', this.selectedFiles);
+      for (let i = 0; i < this.selectedFiles.length; i++) {
+        formData.append('files', this.selectedFiles[i]);
+      }
     }
+    this.saveLoader = true;
     this.applicationService.addNestCommonAPI('email/send-email', formData).subscribe({
       next: (res: any) => {
         if (res.isSuccess) {
@@ -68,7 +77,7 @@ export class EmailComponent {
         } else {
           this.toastr.error(res.message, { nzDuration: 2000 });
         }
-        this.openEmail(false);
+        // this.openEmail(false);
         this.saveLoader = false;
       },
       error: (err) => {
@@ -79,15 +88,28 @@ export class EmailComponent {
   }
 
   onFileChange(event: any) {
-    this.selectedFiles = event.target.files[0];
+    this.selectedFiles.push(event.target.files[0]);
+    // Clear the file input
+    if (this.fileInputRef && this.fileInputRef.nativeElement) {
+      this.fileInputRef.nativeElement.value = '';
+    }
+
   }
-
-
-
   openEmail(value: any) {
     this.isVisible = value;
     if (value == false) {
       this.form.reset();
+      this.selectedFiles = [];
+      this.to = [];
+      this.cc = [];
+      this.bcc = [];
+
+    }
+  }
+  removeFile(file: any): void {
+    const index = this.selectedFiles.indexOf(file);
+    if (index !== -1) {
+      this.selectedFiles.splice(index, 1);
     }
   }
 }
