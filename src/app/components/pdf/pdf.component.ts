@@ -44,23 +44,27 @@ export class PdfComponent {
 
   getBuilder(param: any) {
     this.saveLoader = true;
-    this.authService.getNestCommonAPI(`builder/screenId/${param}`).subscribe(
-      (res: any) => {
+    let url = window.location.host.includes('spectrum') ? '172.23.0.8' : window.location.host.split(':')[0];
+    this.authService.getNestCommonAPI(`applications/navigation/${param}/${url}`).subscribe({
+      next: (res: any) => {
         this.saveLoader = false;
-        this.screenId = res[0].screenBuilderId;
-        this.screenName = res[0].screenName;
-        this.navigation = res[0].navigation;
-        const data = JSON.parse(res[0].screenData);
-        this.nodes = [];
-        this.nodes = this.applicationService.jsonParseWithObject(this.applicationService.jsonStringifyWithObject(data));
-        this.sendPDF();
-        this.toastr.success('Screen load successfully', { nzDuration: 2000 });
+        if (res.isSuccess) {
+          this.saveLoader = false;
+          this.screenId = res.data[0].screenBuilderId;
+          this.screenName = res.data[0].screenName;
+          this.navigation = res.data[0].navigation;
+          this.nodes = [];
+          this.nodes = JSON.parse(res.data[0].screenData);
+          this.sendPDF();
+        } else {
+          this.toastr.error(res.message, { nzDuration: 2000 });
+        }
       },
-      (error) => {
+      error: (err) => {
         this.saveLoader = false;
-        console.error('Error sending email:', error);
-      }
-    );
+        this.toastr.error(`some error exception : ${err}`, { nzDuration: 2000 });
+      },
+    });
   }
   sendPDF() {
     let location = window.location.href;

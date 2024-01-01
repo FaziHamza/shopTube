@@ -1598,6 +1598,12 @@ export const htmlTabsData = [
                 label: "Chat",
                 isLeaf: true
               },
+              {
+                parameter: "email",
+                icon: "uil uil-file-alt",
+                label: "Email",
+                isLeaf: true
+              },
             ]
           },
         ]

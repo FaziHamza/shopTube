@@ -46,9 +46,8 @@
         </div>
     </ng-template>
     <ng-template #sixth>
-        <div *ngIf="item.type == 'donuteSaleChart';else seventh">
-            <!-- <st-sale-donute-card [saleDonutChart]="item">
-          </st-sale-donute-card> -->
+        <div *ngIf="item.type == 'email';else seventh">
+         <st-email></st-email>
         </div>
     </ng-template>
     <ng-template #seventh>

@@ -10,25 +10,27 @@ import { DataSharedService } from 'src/app/services/data-shared.service';
 })
 export class RangInputsComponent extends FieldType<FieldTypeConfig> {
   @Input() rangSlider: any;
-  marks : any;
+  marks: any;
   rangeValue: any;
   _sliderValue = 0;
   preHighLight = false;
   nextHighLight = false;
-  mid : any = 0;
+  mid: any = 0;
   constructor(private sharedService: DataSharedService) {
     super();
   }
   ngOnInit(): void {
+    debugger
+    document.documentElement.style.setProperty('--slider-color', this.rangSlider.color ? this.rangSlider.color : '#91d5ff');
     this.mid = parseFloat(((this.rangSlider.max - this.rangSlider.min) / 2).toFixed(5));
-    this.marks =  {
+    this.marks = {
       0: '0°C',
       26: '26°C',
       37: '37°C',
     };
   }
   set sliderValue(value: number) {
-    
+
     this._sliderValue = value;
     this.highlightIcon();
   }

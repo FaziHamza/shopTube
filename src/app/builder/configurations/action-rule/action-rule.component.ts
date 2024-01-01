@@ -157,18 +157,20 @@ export class ActionRuleComponent implements OnInit {
   }
 
   addActionFormGroup() {
-    
+
     let mainArray: any[] = [];
     for (let i = 0; i < Object.keys(this.formlyModel).length; i++) {
       const element = Object.keys(this.formlyModel)[i];
-      let keyPart = element.split('.')
-      let check = mainArray.find(a => a.name == keyPart[0])
-      if (!check) {
-        let obj: any = { name: keyPart[0], children: [] };
-        obj.children.push(this.formlyModel[element] ? this.formlyModel[element] : `value${i}`);
-        mainArray.push(obj);
-      } else {
-        check.children.push(this.formlyModel[element] ? this.formlyModel[element] : `value${i}`)
+      if (typeof this.formlyModel[element] !== 'object') {
+        let keyPart = element.split('.')
+        let check = mainArray.find(a => a.name == keyPart[0])
+        if (!check) {
+          let obj: any = { name: keyPart[0], children: [] };
+          obj.children.push(this.formlyModel[element] ? this.formlyModel[element] : `value${i}`);
+          mainArray.push(obj);
+        } else {
+          check.children.push(this.formlyModel[element] ? this.formlyModel[element] : `value${i}`)
+        }
       }
     }
 
@@ -180,37 +182,39 @@ export class ActionRuleComponent implements OnInit {
       joinTables.push(element.name);
       let fields = [];
       let values: any[] = [];
-
       for (let j = 0; j < Object.keys(this.formlyModel).length; j++) {
         const key = Object.keys(this.formlyModel)[j];
-        const keys = key.split('.')
-        if (keys[0] == element.name) {
-          const item = this.formlyModel[key] ? this.formlyModel[key] : `value${j}`;
-          if (item) {
-            const keyvalue = key.replace(`${element.name}.`, '');
-            fields.push(keyvalue.toLocaleLowerCase());
-            if (keyvalue.includes('_id')) {
-              let s = (keyvalue).toLowerCase()
-              s = s.replace('_id', '');
-              s = (`${s}.${keyvalue}`);
-              values.push(`$${s.toLocaleLowerCase()}`);
-            } else {
+        if (typeof this.formlyModel[key] !== 'object') {
+          const keys = key.split('.')
+          if (keys[0] == element.name) {
+            const item = this.formlyModel[key] ? this.formlyModel[key] : `value${j}`;
+            if (item) {
+              const keyvalue = key.replace(`${element.name}.`, '');
+              fields.push(keyvalue.toLocaleLowerCase());
+              if (keyvalue.includes('_id')) {
+                let s = (keyvalue).toLowerCase()
+                s = s.replace('_id', '');
+                s = (`${s}.${keyvalue}`);
+                values.push(`$${s.toLocaleLowerCase()}`);
+              } else {
+                if (this.actionForm.value.actionLink == 'put') {
+                  const valueMatched = key.split('.')[1];
+                  values.push(`$${valueMatched ? valueMatched.toLocaleLowerCase() : key.toLocaleLowerCase()}`);
+                }
+                else
+                  values.push(`$${key.toLocaleLowerCase()}`);
+              }
               if (this.actionForm.value.actionLink == 'put') {
                 const valueMatched = key.split('.')[1];
-                values.push(`$${valueMatched ? valueMatched.toLocaleLowerCase() : key.toLocaleLowerCase()}`);
-              }
-              else
-                values.push(`$${key.toLocaleLowerCase()}`);
-            }
-            if (this.actionForm.value.actionLink == 'put') {
-              const valueMatched = key.split('.')[1];
-              joinFields.push(`${valueMatched ? valueMatched.toLocaleLowerCase() : key.toLocaleLowerCase()}`);
+                joinFields.push(`${valueMatched ? valueMatched.toLocaleLowerCase() : key.toLocaleLowerCase()}`);
 
-            } else {
-              joinFields.push(`${key.toLocaleLowerCase()}`);
+              } else {
+                joinFields.push(`${key.toLocaleLowerCase()}`);
+              }
             }
           }
         }
+
       }
 
       // if (this.actionForm.value.actionLink == 'select') {
@@ -401,7 +405,7 @@ export class ActionRuleComponent implements OnInit {
 
 
   SaveAction() {
-    
+
     const mainModuleId = this.screens.filter((a: any) => a.name == this.screenName);
     const checkQuery = this.actionForm.value.Actions.filter((a: any) => /SELECT\s+\*\s+FROM/i.test(a.query));
     if (checkQuery.length > 0) {
@@ -502,7 +506,7 @@ export class ActionRuleComponent implements OnInit {
         actionData['_id'] = element.id
       actionListData.push(actionData)
     });
-    this.applicationService.addNestCommonAPI('cp/Action/DeleteAction/'+mainModuleId[0]._id, actionListData).subscribe({
+    this.applicationService.addNestCommonAPI('cp/Action/DeleteAction/' + mainModuleId[0]._id, actionListData).subscribe({
       next: (allResults: any) => {
         if (allResults) {
           this.getActionData();
