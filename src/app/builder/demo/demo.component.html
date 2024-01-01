@@ -1,167 +1,165 @@
-<nz-modal [(nzVisible)]="isVisible" nzTitle="Modal Title" (nzOnCancel)="openEmail(false)" (nzOnOk)="openEmail(false)">
-    <section *nzModalContent class="bg-white dark:bg-gray-900">
-        <div class="py-8 lg:py-16 px-4 mx-auto max-w-screen-md" [formGroup]="form">
-            <div>
-                <label for="email" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Your
-                    email</label>
-                <input formControlName="to" type="email" id="email"
-                    class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light"
-                    placeholder="name@flowbite.com" required>
-            </div>
-            <div>
-                <label for="email" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Your
-                    CC</label>
-                <input formControlName="cc" type="email" id="email"
-                    class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light"
-                    placeholder="name@flowbite.com" required>
-            </div>
-            <div>
-                <label for="email" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Your
-                    BCC</label>
-                <input formControlName="bcc" type="email" id="email"
-                    class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light"
-                    placeholder="name@flowbite.com" required>
-            </div>
-            <div>
-                <label for="subject"
-                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Subject</label>
-                <input formControlName="subject" type="text" id="subject"
-                    class="block p-3 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 shadow-sm focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light"
-                    placeholder="Let us know how we can help you" required>
-            </div>
-            <div>
-                <label for="email" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Your
-                    Attachments</label>
-                <input formControlName="attachments" type="file" id="attachments" multiple
-                    (change)="onFileChange($event)"
-                    class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light"
-                    required>
-            </div>
-            <div class="sm:col-span-2">
-                <label for="message" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-400">Your
-                    message</label>
-                <textarea formControlName="text" id="message" rows="6"
-                    class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg shadow-sm border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                    placeholder="Leave a comment..."></textarea>
-            </div>
-            <button (click)="sendEmail()"
-                class="py-3 mt-2 px-5 text-sm font-medium text-center text-white rounded-lg bg-blue-700 sm:w-fit hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-                Send Message
-            </button>
+<div class="main-div h-fit w-full inline-block">
+    <div class="header w-full h-[70px] border-b border-b-gray-300 flex items-center justify-normal px-5">
+        <div
+            class="icon bg-blue-600 h-[60%]  w-12 flex justify-center items-center text-2xl hover:bg-blue-500 rounded-lg">
+            <i class="fa-light fa-ellipsis-vertical mr-1 text-black"></i>
+            <i class="fa-solid fa-bars text-white"></i>
         </div>
-    </section>
-</nz-modal>
+        <div class="w-[calc(100%-48px-300px)] h-full p-2.5 !text-base overflow-x-auto overflow-hidden">
+            <div class="h-1/2 w-full flex space-x-2 items-center justify-start">
+                <div class="name group">
+                    <!-- <div class="relative cursor-pointer group-hover:border group-hover:border-gray-300 " [hidden]="editId === dataId" (click)="startEdit(1)">
+                        {{ data.name }}
+                      </div>
+                      <input [hidden]="editId != 1" type="text" nz-input  (blur)="stopEdit()" /> -->
+                    <p class="text-base font-semibold text-gray-800">NAME</p>
+                </div>
+                <div class="drop">
+                    <i nz-dropdown [nzDropdownMenu]="menu" nzTrigger="click"
+                        class="fa-regular fa-chevron-down text-gray-600 text-bsae"></i>
+                    <nz-dropdown-menu #menu="nzDropdownMenu">
+                        <ul nz-menu nzSelectable>
+                            <li nz-menu-item>1st menu item</li>
+                            <li nz-menu-item>2nd menu item</li>
+                            <li nz-menu-item>3rd menu item</li>
+                            <li nz-menu-item nzDanger>4th danger item</li>
+                        </ul>
+                    </nz-dropdown-menu>
+                </div>
+                <i class="fa-thin fa-star"></i>
+                <div class="dropII flex items-center" nz-dropdown [nzDropdownMenu]="menu1">
+                    <div nzTrigger="click" class="flex items-center">
+                        <p class="w-3 h-3 rounded-[50%] bg-white border-2 border-gray-300 mr-2"></p>
+                        <p>Set Status</p>
+                    </div>
+                    <nz-dropdown-menu #menu1="nzDropdownMenu">
+                        <ul nz-menu nzSelectable>
+                            <li nz-menu-item class="text-center">
+                                <div class="bg-green-100 flex items-center justify-center p-2 py-1 rounded-2xl text-sm">
+                                    <p class="w-3 h-3 rounded-[50%] bg-green-500 border-2 border-green-500 mr-1"></p>
+                                    <p>On Track</p>
+                                </div>
+                            </li>
+                            <li nz-menu-item class="text-center">
+                                <div
+                                    class="bg-orange-100 flex items-center justify-center p-2 py-1 rounded-2xl text-sm">
+                                    <p class="w-3 h-3 rounded-[50%] bg-orange-500 border-2 border-orange-500 mr-1"></p>
+                                    <p>At Risk</p>
+                                </div>
+                            </li>
+                            <li nz-menu-item class="text-center">
+                                <div class="bg-red-100 flex items-center justify-center p-2 py-1 rounded-2xl text-sm">
+                                    <p class="w-3 h-3 rounded-[50%] bg-red-500 border-2 border-red-500 mr-1"></p>
+                                    <p>Off Track</p>
+                                </div>
+                            </li>
+                            <li nz-menu-item class="text-center">
+                                <div class="bg-blue-100 flex items-center justify-center p-2 py-1 rounded-2xl text-sm">
+                                    <p class="w-3 h-3 rounded-[50%] bg-blue-500 border-2 border-blue-500 mr-1"></p>
+                                    <p>On Hold</p>
+                                </div>
+                            </li>
+                            <li nz-menu-item class="text-center">
+                                <div class="bg-green-500 flex items-center justify-center p-2 py-1 rounded-2xl text-sm">
+                                    <p>All Completed</p>
+                                </div>
+                            </li>
 
 
+                        </ul>
+                    </nz-dropdown-menu>
+                </div>
+            </div>
+            <div class="h-1/2 w-full flex justify-between">
+                <div>
+                    <nz-tabset class="!h-full assan-builder">
+                        <nz-tab class="!h-full !mb-0 !text-gray-600" *ngFor="let tab of tabs" [nzTitle]="titleTemplate">
+                            <ng-template #titleTemplate>
+                                <i class="{{tab.icon}}"></i>
+                                {{ tab.name }}
+                            </ng-template>
+                            {{tab.name}}555
+                        </nz-tab>
+                    </nz-tabset>
+                </div>
 
-<main class="flex w-full h-full shadow-lg rounded-3xl">
-    <section class="flex flex-col w-2/12 bg-white rounded-l-3xl">
-        <div (click)="openEmail(true)" class="w-16 mx-auto mt-12 mb-20 p-4 bg-indigo-600 rounded-2xl text-white">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1"
-                    d="M3 19v-8.93a2 2 0 01.89-1.664l7-4.666a2 2 0 012.22 0l7 4.666A2 2 0 0121 10.07V19M3 19a2 2 0 002 2h14a2 2 0 002-2M3 19l6.75-4.5M21 19l-6.75-4.5M5 10l6.75 4.5M18 10l-6.75 4.5m0 0l-1.14.76a2 2 0 01-2.22 0l-1.14-.76" />
-            </svg>
+                <div class="">
+                    <i class="fa-regular fa-plus font-semibold"></i>
+                </div>
+            </div>
         </div>
-        <nav class="relative flex flex-col py-4 items-center">
-            <a href="#" class="relative w-16 p-4 bg-purple-100 text-purple-900 rounded-2xl mb-4">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1"
-                        d="M8 4H6a2 2 0 00-2 2v12a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-2m-4-1v8m0 0l3-3m-3 3L9 8m-5 5h2.586a1 1 0 01.707.293l2.414 2.414a1 1 0 00.707.293h3.172a1 1 0 00.707-.293l2.414-2.414a1 1 0 01.707-.293H20" />
-                </svg>
-                <span
-                    class="absolute -top-2 -right-2 bg-red-600 h-6 w-6 p-2 flex justify-center items-center text-white rounded-full">3</span>
-            </a>
-            <a href="#" class="w-16 p-4 border text-gray-700 rounded-2xl mb-4">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1"
-                        d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z" />
-                </svg>
-            </a>
-            <a href="#" class="w-16 p-4 border text-gray-700 rounded-2xl mb-4">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1"
-                        d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                </svg>
-            </a>
-            <a href="#" class="w-16 p-4 border text-gray-700 rounded-2xl mb-4">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1"
-                        d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z" />
-                </svg>
-            </a>
-            <a href="#" class="w-16 p-4 border text-gray-700 rounded-2xl mb-24">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1"
-                        d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                </svg>
-            </a>
-            <a href="#" class="w-16 p-4 border text-gray-700 rounded-2xl">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1"
-                        d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1"
-                        d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                </svg>
-            </a>
-        </nav>
-    </section>
-    <section class="flex flex-col pt-3 w-10/12 bg-gray-50 h-full overflow-y-scroll">
-        <label class="px-3">
-            <input class="rounded-lg p-4 bg-gray-100 transition duration-200 focus:outline-none focus:ring-2 w-full"
-                placeholder="Search..." />
-        </label>
+        <div class="w-[300px] flex justify-between space-x-3">
+            <div>
+                <nz-avatar-group>
+                    <nz-avatar style="background-color: #f56a00" nzText="U"></nz-avatar>
+                    <nz-avatar style="background-color: #f56a00" nzText="U"></nz-avatar>
+                    <nz-avatar style="background-color: #87d068" nz-tooltip nzTooltipTitle="NG-ZORRO User" nzIcon="user"></nz-avatar>
+                    <nz-avatar style="background-color: #1890ff" nzText="NG"></nz-avatar>
+                  </nz-avatar-group>
+            </div>
+            <div class="w-fit h-[28px] border border-gray-300 rounded-lg bg-blue-600 text-white px-3 py-1 flex justify-center items-center" >
+                <i class="fa-regular fa-plus mr-1.5 font-semibold"></i>
+                <p class="text-sm" >Share</p>
+            </div>
+            <div class="w-fit h-[28px] border border-gray-300 rounded-lg bg-white text-gray-600 px-3 py-1 flex justify-center items-center" >
+                <i class="fa-solid fa-grid-2 mr-1.5 font-semibold"></i>
+                <p class="text-sm" >Customize</p>
+            </div>
+        </div>
+    </div>
 
-        <ul class="mt-6">
-            <li class="py-5 border-b px-3 transition hover:bg-indigo-100">
-                <a href="#" class="flex justify-between items-center">
-                    <h3 class="text-lg font-semibold">Akhil Gautam</h3>
-                    <p class="text-md text-gray-400">23m ago</p>
-                </a>
-                <div class="text-md italic text-gray-400">You have been invited!</div>
-            </li>
-            <li class="py-5 border-b px-3 transition hover:bg-indigo-100">
-                <a href="#" class="flex justify-between items-center">
-                    <h3 class="text-lg font-semibold">Akhil Gautam</h3>
-                    <p class="text-md text-gray-400">23m ago</p>
-                </a>
-                <div class="text-md italic text-gray-400">You have been invited!</div>
-            </li>
-            <li class="py-5 border-b px-3 transition hover:bg-indigo-100">
-                <a href="#" class="flex justify-between items-center">
-                    <h3 class="text-lg font-semibold">Akhil Gautam</h3>
-                    <p class="text-md text-gray-400">23m ago</p>
-                </a>
-                <div class="text-md italic text-gray-400">You have been invited!</div>
-            </li>
-            <li class="py-5 border-b px-3 transition hover:bg-indigo-100">
-                <a href="#" class="flex justify-between items-center">
-                    <h3 class="text-lg font-semibold">Akhil Gautam</h3>
-                    <p class="text-md text-gray-400">23m ago</p>
-                </a>
-                <div class="text-md italic text-gray-400">You have been invited!</div>
-            </li>
-            <li class="py-5 border-b px-3 bg-indigo-600 text-white">
-                <a href="#" class="flex justify-between items-center">
-                    <h3 class="text-lg font-semibold">Akhil Gautam</h3>
-                    <p class="text-md">23m ago</p>
-                </a>
-                <div class="text-md">You have been invited!</div>
-            </li>
-            <li class="py-5 border-b px-3 transition hover:bg-indigo-100">
-                <a href="#" class="flex justify-between items-center">
-                    <h3 class="text-lg font-semibold">Akhil Gautam</h3>
-                    <p class="text-md text-gray-400">23m ago</p>
-                </a>
-                <div class="text-md italic text-gray-400">You have been invited!</div>
-            </li>
-            <li class="py-5 border-b px-3 transition hover:bg-indigo-100">
-                <a href="#" class="flex justify-between items-center">
-                    <h3 class="text-lg font-semibold">Akhil Gautam</h3>
-                    <p class="text-md text-gray-400">23m ago</p>
-                </a>
-                <div class="text-md italic text-gray-400">You have been invited!</div>
-            </li>
-        </ul>
-    </section>
+    <div class="h-14 w-full px-5 py-2 flex justify-between items-center border-b border-gray-300">
+        <div class="flex items-center justify-start space-x-2">
+            <div class="h-full flex justify-normal items-center">
+                <div nz-dropdown [nzDropdownMenu]="menu4" nzTrigger="click"
+                    class="flex items-center justify-center text-xs rounded-lg border border-gray-300 rounded-tr-none rounded-br-none px-3 py-1 h-[28px]">
+                    <i class="fa-regular fa-plus mr-1.5 font-semibold"></i>
+                    <p class="text-sm">
+                        Add task
+                    </p>
+                </div>
+                <div nz-dropdown [nzDropdownMenu]="menu3" nzTrigger="click"
+                    class="rounded-lg rounded-tl-none rounded-bl-none border border-l-0 border-gray-3 h-[28px] px-2 py-1 flex items-center justify-center">
+                    <i class="fa-regular fa-chevron-down text-xs"></i>
+                </div>
+            </div>
+            <div class="filter px-3 py-1 rounded-lg hover:bg-gray-50 flex items-center ">
+                <i class="fa-regular fa-plus mr-1 text-[10px]"></i>
+                <p class="capitalize text-xs font-semibold">filter</p>
+            </div>
+            <div class="filter px-3 py-1 rounded-lg hover:bg-gray-50 flex items-center ">
+                <i class="fa-regular fa-plus mr-1 text-[10px]"></i>
+                <p class="capitalize font-semibold text-xs">Sort</p>
+            </div>
+            <div class="filter px-3 py-1 rounded-lg hover:bg-gray-50 flex items-center ">
+                <i class="fa-regular fa-plus mr-1 text-[10px]"></i>
+                <p class="capitalize font-semibold text-xs">hide</p>
+            </div>
+        </div>
 
-</main>
+        <div class="h-full flex justify-end items-center text-base">
+            <i class="fa-regular fa-plus mr-3 font-medium"></i>
+            <i class="fa-regular fa-plus font-medium"></i>
+        </div>
+
+    </div>
+</div>
+
+
+<nz-dropdown-menu #menu3="nzDropdownMenu">
+    <ul nz-menu nzSelectable>
+        <li nz-menu-item>1st menu item</li>
+        <li nz-menu-item>2nd menu item</li>
+        <li nz-menu-item>3rd menu item</li>
+        <li nz-menu-item nzDanger>4th danger item</li>
+    </ul>
+</nz-dropdown-menu>
+
+<nz-dropdown-menu #menu4="nzDropdownMenu">
+    <ul nz-menu nzSelectable>
+        <li nz-menu-item>1st menu item</li>
+        <li nz-menu-item>2nd menu item</li>
+        <li nz-menu-item>3rd menu item</li>
+        <li nz-menu-item nzDanger>4th danger item</li>
+    </ul>
+</nz-dropdown-menu>
