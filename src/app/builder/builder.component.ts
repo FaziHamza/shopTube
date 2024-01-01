@@ -1562,6 +1562,7 @@ export class BuilderComponent implements OnInit {
       value == 'contactList' ||
       value == 'fileManager' ||
       value == 'header' ||
+      value == 'email' ||
       value == 'email'
     )
       return 'w-full';
@@ -1851,6 +1852,9 @@ export class BuilderComponent implements OnInit {
           break;
         case 'email':
           newNode = { ...newNode, ...this.addControlService.getEmailControl() };
+          break;
+        case 'taskManager':
+          newNode = { ...newNode, ...this.addControlService.getTaskManagerControl() };
           break;
         case 'repeatableControll':
           let formlyObj = {
@@ -2990,6 +2994,13 @@ export class BuilderComponent implements OnInit {
         break;
       case 'treeSelect':
         this.fieldData.commonData?.push({ title: 'Tree Select Fields', data: _formFieldData.treeSelectFields });
+        break;
+      case 'taskManager':
+        configObj = {
+          ...configObj,
+          ...this.clickButtonService.getGridConfig(selectedNode),
+        };
+        this.fieldData.commonData?.push({ title: 'Tree Select Fields', data: _formFieldData.taskManagerFileds });
         break;
       case 'headerLogo':
         this.fieldData.commonData?.push({ title: 'Header Logo Fields', data: _formFieldData.headerLogoFields });
@@ -4376,6 +4387,10 @@ export class BuilderComponent implements OnInit {
       case 'mainStep':
         document.documentElement.style.setProperty('--selected-stepper-color', event.form?.selectedStepperColor || 'red');
         this.addDynamic(event.form.nodes, 'step', 'mainStep');
+        break;
+      case 'taskManager':
+        this.selectedNode['className'] = event.form.className;
+        this.selectedNode['tableHeaders'] = event.form.tableHeaders;
         break;
       case 'listWithComponents':
         this.addDynamic(

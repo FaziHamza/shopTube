@@ -7,6 +7,7 @@ import { ForgotPasswordComponent } from './forgot-password/forgot-password.compo
 import { ResetPasswordComponent } from './reset-password/reset-password.component';
 import { DemoComponent } from '../builder/demo/demo.component';
 import { PdfComponent } from '../components/pdf/pdf.component';
+import { TaskManagerComponent } from '../components/task-manager/task-manager.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -22,6 +23,10 @@ const routes: Routes = [
   {
     path: 'reset-password',
     component: ResetPasswordComponent
+  },
+  {
+    path: 'task',
+    component: TaskManagerComponent
   },
 ];
 

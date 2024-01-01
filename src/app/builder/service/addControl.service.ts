@@ -79,6 +79,12 @@ export class AddControlService {
       isNextChild: false,
     }
   }
+  getTaskManagerControl() {
+    return {
+      isNextChild: true,
+      tableHeaders:[]
+    }
+  }
   getSectionControl() {
     return {
       sectionClassName: "",

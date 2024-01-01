@@ -12840,6 +12840,156 @@ export class formFeildData {
       ]
     }
   ]
+  taskManagerFileds: FormlyFieldConfig[] = [
+    {
+      fieldGroupClassName: "flex flex-wrap",
+      fieldGroup: [
+        {
+          key: 'options',
+          type: 'repeatSection',
+          className: "w-full px-1",
+          props: {
+          },
+          fieldArray: {
+            className: 'ml-3 me-2',
+            fieldGroup: [
+              {
+                key: 'srNo',
+                type: 'input',
+                wrappers: ["formly-vertical-theme-wrapper"],
+                props: {
+                  label: 'Sr no'
+                }
+              },
+              {
+                key: 'key',
+                type: 'input',
+                wrappers: ["formly-vertical-theme-wrapper"],
+                props: {
+                  label: 'key'
+                }
+              },
+              {
+                key: 'name',
+                type: 'input',
+                wrappers: ["formly-vertical-theme-wrapper"],
+                props: {
+                  label: 'Header'
+                }
+              },
+              {
+                key: 'dataType',
+                type: 'input',
+                wrappers: ["formly-vertical-theme-wrapper"],
+                props: {
+                  label: 'Data Type'
+                }
+              },
+              {
+                key: 'width',
+                type: 'input',
+                wrappers: ["formly-vertical-theme-wrapper"],
+                props: {
+                  type: 'number',
+                  label: 'width'
+                }
+              },
+              {
+                key: 'icon',
+                type: 'input',
+                wrappers: ["formly-vertical-theme-wrapper"],
+                props: {
+                  label: 'Icon'
+                }
+              },
+              {
+                className: "ml-2",
+                key: 'show',
+                type: 'checkbox',
+                wrappers: ["formly-vertical-theme-wrapper"],
+                props: {
+                  label: 'Is Show'
+                }
+              },
+              {
+                className: "ml-2",
+                key: 'editMode',
+                type: 'checkbox',
+                wrappers: ["formly-vertical-theme-wrapper"],
+                props: {
+                  label: 'Edit Mode'
+                }
+              },
+              {
+                className: "ml-2",
+                key: 'callApi',
+                type: 'input',
+                wrappers: ["formly-vertical-theme-wrapper"],
+                props: {
+                  label: 'Call Api'
+                }
+              },
+              {
+                key: 'position',
+                type: 'select',
+                className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+                wrappers: ["formly-vertical-theme-wrapper"],
+                props: {
+                  label: 'Position',
+                  options: [
+                  ],
+                  additionalProperties: {
+                    allowClear: true,
+                    serveSearch: false,
+                    showArrow: true,
+                    showSearch: true,
+                  },
+                },
+              },
+              {
+                key: 'position_list',
+                type: 'select',
+                className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+                wrappers: ["formly-vertical-theme-wrapper"],
+                props: {
+                  label: 'Open Component',
+                  options: [
+                    {
+                      label: 'Left',
+                      value: 'left'
+                    },
+                    {
+                      label: 'Center',
+                      value: 'center'
+                    },
+                    {
+                      label: 'Right',
+                      value: 'right'
+                    }
+                  ],
+                  additionalProperties: {
+                    allowClear: true,
+                    serveSearch: false,
+                    showArrow: true,
+                    showSearch: true,
+                  },
+                },
+              },
+              {
+                className: "ml-2",
+                key: 'columnClickApi',
+                type: 'input',
+                wrappers: ["formly-vertical-theme-wrapper"],
+                props: {
+                  label: 'Is Column Click'
+                }
+              }
+            ]
+          }
+        }
+      ]
+    }
+  ]
   gridNameFields: FormlyFieldConfig[] = [
     {
       fieldGroupClassName: "flex flex-wrap",

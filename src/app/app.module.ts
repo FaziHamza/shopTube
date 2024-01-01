@@ -57,6 +57,7 @@ import { NgxGraphModule } from '@swimlane/ngx-graph';
 import { ContextMenuModule } from '@perfectmemory/ngx-contextmenu';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { ApplicationGlobalClassesComponent } from './Builder-module/application-global-classes/application-global-classes.component';
+import { TaskManagerComponent } from './components/task-manager/task-manager.component';
 
 const antDesignIcons = AllIcons as {
   [key: string]: IconDefinition;
