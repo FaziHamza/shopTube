@@ -26,7 +26,9 @@
 //   padding: 10px !important;
 // }
 .responsive-checkBox {
-  text-align: start !important;
+  // This line comment due to warning
+  // text-align: start !important;
+  text-align: flex-start !important;
 }
 
 .table-image {
@@ -39,7 +41,7 @@
 
 .perpage{
   display: flex;
-  justify-content: end;
+  justify-content: flex-end;
   .paginator {
     box-sizing: border-box;
     height: 32px;

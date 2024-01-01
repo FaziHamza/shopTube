@@ -55,6 +55,42 @@ export class BuilderClickButtonService {
 
     };
   }
+  getTaskManagerConfig(node: any) {
+    return {
+      rowClickApi: node.rowClickApi,
+      doubleClick: node.doubleClick,
+      sortDirections: node.sortDirections ? JSON.stringify(node.sortDirections) : node.sortDirections,
+      options: (node?.tableHeaders || []).map((obj: any) => {
+        return {
+          name: obj.name,
+          key: obj.key,
+          srNo: obj.srNo,
+          show: ['yes', '', undefined, 'Yes', true].includes(obj.show) ? true : false,
+          dataType: obj.dataType,
+          editMode: ['yes', 'Yes', true].includes(obj.editMode) ? true : false,
+          callApi: obj?.callApi ? obj?.callApi : '',
+          position: obj.position,
+          width: obj.width,
+          icon: obj.icon,
+          position_list: [
+            {
+              label: 'Left',
+              value: 'left'
+            },
+            {
+              label: 'Center',
+              value: 'center'
+            },
+            {
+              label: 'Right',
+              value: 'right'
+            }
+          ],
+        };
+      })
+
+    };
+  }
   // kanbanFields(node: any) {
   //   return {
   //     options: (node?.kanlistArray || []).map((obj: any) => {

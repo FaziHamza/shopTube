@@ -131,7 +131,7 @@ const routes: Routes = [
       {
         path: 'email',
         component: EmailComponent
-      },
+      }
     ]
   },
   // {

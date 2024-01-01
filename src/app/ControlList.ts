@@ -1604,6 +1604,12 @@ export const htmlTabsData = [
                 label: "Email",
                 isLeaf: true
               },
+              {
+                parameter: "taskManager",
+                icon: "uil uil-file-alt",
+                label: "Task manager",
+                isLeaf: true
+              },
             ]
           },
         ]

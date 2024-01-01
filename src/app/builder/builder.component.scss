@@ -103,6 +103,9 @@
 
 .perpage {
     display: flex;
-    justify-content: end;
+    //This line is comment due to warning
+    // justify-content: end;
+    justify-content: flex-end;
+
   }
   

@@ -1,0 +1,55 @@
+<nz-spin [nzSpinning]="saveLoader" [nzSize]="'large'" class="builder-design">
+    <nz-table [processData]="processData" [appConfigurableSelect]="taskManagerData?.appConfigurableEvent "
+        [loadAction]="taskManagerData?.eventActionconfig " #editRowTable nzBordered [nzData]="listOfDisplayData"
+        nzTableLayout="fixed" [nzFrontPagination]="false">
+        <thead>
+            <tr>
+                <ng-container *ngFor="let column of taskManagerData['tableHeaders']">
+                    <th *ngIf="column?.show || column?.show == undefined">{{column.name}}
+                    </th>
+                </ng-container>
+            </tr>
+        </thead>
+        <tbody>
+            <ng-container *ngFor="let item of editRowTable.data;let index = index" class="table-cursor">
+                <tr>
+                    <ng-container *ngFor="let head  of  taskManagerData['tableHeaders']">
+                        <td *ngIf="head.key == 'expand' && (head?.show || head?.show == undefined)" [nzExpand]="item.expand" (click)="expand(item , head)">
+                        </td>
+                        <td *ngIf="head.key != 'expand' && (head?.show || head?.show == undefined)">{{item[head.key]}}</td>
+                    </ng-container>
+                </tr>
+                <ng-container *ngIf="item.expand">
+                    <tr *ngFor="let child of item.children">
+                        <td><i class="fa-regular fa-check"></i> {{child.task_name}} <span class="ml-2">7</span> <span
+                                class="ml-2"><i class="fas fa-share"></i>
+                            </span>
+                        </td>
+                        <td> <nz-select>
+                                <nz-option nzValue="test@gmail.com" nzLabel="test@gmail.com"></nz-option>
+                                <nz-option nzValue="test1@gmail.com" nzLabel="test1@gmail.com"></nz-option>
+                                <nz-option nzValue="test2@gmail.com" nzLabel="test2@gmail.com"></nz-option>
+                            </nz-select></td>
+                        <td><nz-date-picker></nz-date-picker></td>
+                    </tr>
+                    <div *ngIf="item.addTask" class="!w-full">
+                        <st-main [screenName]="screenName" [mainData]="taskManagerData" [formlyModel]="formlyModel"
+                            [form]="form" [screenId]="screenId"></st-main>
+                    </div>
+                    <div (click)="showAddTask(item)">
+                        <span nz-icon nzType="plus" nzTheme="outline"></span>Add
+                        task...
+                    </div>
+                </ng-container>
+            </ng-container>
+            <div *ngIf="addSection" class="!w-full">
+                <st-main [screenName]="screenName" [mainData]="taskManagerData" [formlyModel]="formlyModel"
+                    [form]="form" [screenId]="screenId"></st-main>
+            </div>
+            <div *ngIf="!addSection" (click)="addSection = !addSection">
+                <span nz-icon nzType="plus" nzTheme="outline"></span>Add
+                Section...
+            </div>
+        </tbody>
+    </nz-table>
+</nz-spin>

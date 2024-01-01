@@ -94,6 +94,11 @@ export class PagesComponent implements OnInit, OnDestroy {
       if (res)
         this.saveDataGrid(res);
     });
+    const updateModel = this.dataSharedService.updateModel.subscribe(res => {
+      if (res && this.navigation) {
+        this.formlyModel = res;
+      }
+    });
     const applicationTheme = this.dataSharedService.applicationTheme.subscribe(res => {
       if (res && this.navigation) {
         this.applyApplicationTheme(this.resData[0], true);
@@ -143,6 +148,7 @@ export class PagesComponent implements OnInit, OnDestroy {
     this.subscriptions.add(applicationTheme);
     this.subscriptions.add(prevNextRecord);
     this.subscriptions.add(commentsRecall);
+    this.subscriptions.add(updateModel);
     // this.subscriptions.add(callMapApiAfterSave);
 
   }
@@ -2842,7 +2848,7 @@ export class PagesComponent implements OnInit, OnDestroy {
   //       const imgData = canvas.toDataURL('image/png');
   //       this.applicationService.getNestCommonAPI('email/emailPdf').subscribe(((res: any) => {
   //         this.saveLoader = false;
-          
+
   //       }));
   //     });
   //   }, 2000); // 2000 milliseconds (2 seconds) delay
