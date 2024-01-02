@@ -55,6 +55,7 @@ export class SupportChatComponent {
     return res;
   }
   saveChat() {
+    debugger
     if (this.comment == '' || this.comment == undefined || this.comment == null) {
       return;
     }

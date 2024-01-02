@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { NzMessageService } from 'ng-zorro-antd/message';
-import { Subscription } from 'rxjs';
+import { Subject, Subscription } from 'rxjs';
 import { ElementData } from 'src/app/models/element';
 import { ApplicationService } from 'src/app/services/application.service';
 import { BuilderService } from 'src/app/services/builder.service';
@@ -18,23 +18,46 @@ export class TaskManagerComponent {
   @Input() taskManagerData: any;
   @Input() formlyModel: any;
   @Input() form: any;
+  @Input() mappingId: any;
   requestSubscription: Subscription;
   saveLoader: boolean = false;
   drawerLoader: boolean = false;
   visible: boolean = false;
   addSubtask: boolean = false;
+  editData: any = {};
   drawerData: any = {
+    "id": '',
+    "parentid": '',
     "task": '',
     "date": '',
     "assignee": '',
     "data": []
   }
+
+  subTask: any = {
+    "task": '',
+    "date": '',
+    "assignee": '',
+    "parentid": '',
+  }
+  subTaskEditId: any = '';
+  afterDrawerDataGet : boolean = false;
+  private subscriptions: Subscription = new Subscription();
+  private destroy$: Subject<void> = new Subject<void>();
   constructor(public _dataSharedService: DataSharedService, private builderService: BuilderService,
     private applicationService: ApplicationService, private toastr: NzMessageService,
     public dataSharedService: DataSharedService,
     private applicationServices: ApplicationService
   ) {
     this.processData = this.processData.bind(this);
+    const recallData = this.dataSharedService.callDataIntaskManager.subscribe(res => {
+      if (res) {
+        this.recallApi();
+        this.addSection = false;
+        this.addSection = false;
+      }
+    });
+    this.subscriptions.add(recallData);
   }
   ngOnInit() {
     if (this.taskManagerData?.eventActionconfig) {
@@ -149,33 +172,20 @@ export class TaskManagerComponent {
   }
   tdFunc(head: any, item: any) {
     if (head?.drawer) {
+      this.mappingId = item?.id;
       this.visible = true;
-      this.drawerData['task'] = item?.task;
-      this.drawerData['date'] = item?.date;
-      this.drawerData['assignee'] = item?.assignee;
+      // this.drawerData['id'] = item?.id;
+      // this.drawerData['task'] = item?.task;
+      this.drawerData = item;
+      this.drawerData['parentid'] = item?.id;
+      this.formlyModel['ticketcomments.spectrumissueid'] = item?.id;
+      this.dataSharedService.updateModel.next(this.formlyModel)
+      this.drawerData = { ...this.drawerData, 'data': [] };
+      // this.drawerData['date'] = item?.date;
+      // this.drawerData['assignee'] = item?.assignee;
+
       if (head.callApi) {
-        let pagination = '';
-        let { _id, actionLink, data, headers, parentId, page, pageSize } = this.taskManagerData.eventActionconfig;
-        if (page && pageSize) {
-          pagination = `?page=${localStorage.getItem('tablePageNo') || 1}&pageSize=${localStorage.getItem('tablePageSize') || 10}`
-        }
-        this.drawerLoader = true;
-        let itemIdString: string | undefined = item?.id;
-        parentId = itemIdString ? parseInt(itemIdString, 10) : 0;
-        if (parentId) {
-          let url = head.callApi + '/' + parentId;
-          this.requestSubscription = this.applicationService.callApi(`${url}${pagination}`, 'get', data, headers, null).subscribe({
-            next: (res) => {
-              this.drawerLoader = false;
-              this.drawerData.data = res.data;
-            },
-            error: (error: any) => {
-              console.error(error);
-              this.drawerLoader = false;
-              this.toastr.error("An error occurred", { nzDuration: 3000 });
-            }
-          })
-        }
+        this.recallApiWithId(head.callApi, item.id);
       }
     }
   }
@@ -214,5 +224,269 @@ export class TaskManagerComponent {
 
     traverse(data);
     return inputElements;
+  }
+  addSubTask() {
+    this.addSubtask = true;
+  }
+  save() {
+    debugger
+    const checkPermission = this.dataSharedService.getUserPolicyMenuList.find(a => a.screenId === this.dataSharedService.currentMenuLink);
+    if (!checkPermission?.create && this.dataSharedService?.currentMenuLink !== '/ourbuilder') {
+      this.toastr.warning("You do not have permission", { nzDuration: 3000 });
+      return;
+    }
+    const postEvent = this.taskManagerData.appConfigurableEvent.find((item: any) => item.rule.includes('post_'));
+
+    const filteredNodes = this.filterInputElements(this.taskManagerData.children);
+    if (filteredNodes == undefined) {
+      return;
+    }
+
+    let actionID = postEvent._id;
+    this.drawerLoader = true;
+    if (actionID && postEvent && this.addSubtask) {
+      let saveData: any = {};
+      this.subTask['parentid'] = this.drawerData.parentid;
+      if (filteredNodes[0].key.includes('.')) {
+        let tableName = filteredNodes[0].key.split('.')[0];
+        for (const key in this.subTask) {
+          saveData[`${tableName}.${key}`] = this.subTask[key];
+        }
+      }
+
+      const model: any = {
+        screenId: this.screenId,
+        postType: 'post',
+        modalData: saveData
+      };
+      this.applicationServices.addNestCommonAPI('knex-query/execute-rules/' + actionID, model).subscribe({
+        next: (res) => {
+          this.drawerLoader = false;
+          if (res[0]?.error) {
+            this.toastr.error(res[0]?.error, { nzDuration: 3000 });
+            return;
+          }
+          this.toastr.success('Save Successfully', { nzDuration: 3000 });
+          // let newObj: any = {};
+          // for (let key in res[0]) {
+          //   let newKey = key.split('.')[1];
+          //   newObj[newKey] = res[0][key];
+          // }
+          // this.drawerData.data.push(newObj);
+          for (const key in this.subTask) {
+            this.subTask[key] = '';
+          }
+          let findApi = this.taskManagerData.tableHeaders.find((head: any) => head?.callApi && head?.drawer);
+          if (findApi) {
+            this.recallApiWithId(`${findApi.callApi}`, this.drawerData.id);
+          }
+          this.addSubtask = false;
+        },
+        error: (err) => {
+          // Handle the error
+          this.toastr.error("An error occurred", { nzDuration: 3000 });
+          console.error(err);
+          this.drawerLoader = false; // Ensure to set the loader to false in case of error
+        },
+      });
+    }
+  }
+  formatDate(event: any) {
+    this.drawerData.date = event.toISOString();
+  }
+  updateTask() {
+    let updatedData: any = JSON.parse(JSON.stringify(this.drawerData));
+    delete updatedData.data;
+    this.saveInlineEdit(updatedData)
+    // const checkPermission = this.dataSharedService.getUserPolicyMenuList.find(a => a.screenId === this.dataSharedService.currentMenuLink);
+    // if (!checkPermission?.create && this.dataSharedService?.currentMenuLink !== '/ourbuilder') {
+    //   this.toastr.warning("You do not have permission", { nzDuration: 3000 });
+    //   return;
+    // }
+
+    // const filteredNodes = this.filterInputElements(this.taskManagerData.children);
+    // if (filteredNodes == undefined) {
+    //   return;
+    // }
+    // const putEvent = this.taskManagerData.appConfigurableEvent.find((item: any) => item.rule.includes('put_'));
+    // if (putEvent) {
+    //   let updatedDrawerData = JSON.parse(JSON.stringify(this.drawerData));
+    //   delete updatedDrawerData.data;
+    //   let saveData: any = {};
+    //   if (filteredNodes[0].key.includes('.')) {
+    //     let tableName = filteredNodes[0].key.split('.')[0];
+    //     saveData[`${tableName}.id`] = updatedDrawerData['id'];
+    //     for (const key in updatedDrawerData) {
+    //       saveData[`${tableName}.${key}`] = updatedDrawerData[key];
+    //     }
+    //   }
+    //   const model: any = {
+    //     screenId: this.screenId,
+    //     postType: 'put',
+    //     modalData: saveData
+    //   };
+    //   this.applicationServices.addNestCommonAPI('knex-query/execute-rules/' + putEvent._id, model).subscribe({
+    //     next: (res) => {
+    //       this.drawerLoader = false;
+    //       if (res[0]?.error) {
+    //         this.toastr.error(res[0]?.error, { nzDuration: 3000 });
+    //         return;
+    //       }
+    //       const successMessage = (model.postType === 'post') ? 'Save Successfully' : 'Update Successfully';
+    //       this.toastr.success(successMessage, { nzDuration: 3000 });
+    //       if (model.postType === 'put' && !res?.isSuccess) {
+    //         this.toastr.error(res.message, { nzDuration: 3000 });
+    //         return;
+    //       }
+    //     },
+    //     error: (err) => {
+    //       // Handle the error
+    //       this.toastr.error("An error occurred", { nzDuration: 3000 });
+    //       console.error(err);
+    //       this.drawerLoader = false; // Ensure to set the loader to false in case of error
+    //     },
+    //   });
+    // }
+  }
+  edit(item: any) {
+    this.subTaskEditId = item.id;
+    this.editData = JSON.parse(JSON.stringify(item))
+  }
+
+  saveInlineEdit(dataModel: any) {
+    let newDataModel = JSON.parse(JSON.stringify(dataModel))
+    const putEvent = this.taskManagerData.appConfigurableEvent.find((item: any) => item.rule.includes('put_'));
+    const checkPermission = this.dataSharedService.getUserPolicyMenuList.find(a => a.screenId == this.dataSharedService.currentMenuLink);
+    if (!checkPermission?.update && this.dataSharedService.currentMenuLink != '/ourbuilder') {
+      alert("You did not have permission");
+      return;
+    }
+
+    if (putEvent) {
+      if (JSON.stringify(dataModel) != JSON.stringify(this.editData)) {
+        if (newDataModel) {
+          for (let key in newDataModel) {
+            if (newDataModel[key] && Array.isArray(newDataModel[key])) {
+              delete newDataModel[key];
+            } else if (newDataModel[key] == null) {
+              newDataModel[key] = ''
+            }
+            else if (newDataModel[key] == 'null') {
+              newDataModel[key] = ''
+            }
+          }
+          const model = {
+            screenId: this.screenName,
+            postType: 'put',
+            modalData: newDataModel
+          };
+
+          let url = putEvent?._id ? `knex-query/executeDelete-rules/${putEvent?._id}` : '';
+          if (url) {
+            this.drawerLoader = true;
+            this.requestSubscription = this.applicationServices.addNestCommonAPI(url, model).subscribe({
+              next: (res) => {
+                if (res.isSuccess) {
+                  this.toastr.success('Update Successfully', { nzDuration: 3000 });
+                  this.subTaskEditId = null;
+                  this.editData = null;
+                }
+                else {
+                  this.toastr.warning(res.message, { nzDuration: 3000 });
+                }
+                this.drawerLoader = false;
+              },
+              error: (err) => {
+                console.error(err);
+                this.toastr.error('An error occurred', { nzDuration: 3000 });
+                this.drawerLoader = false;
+              }
+            });
+          }
+        }
+      } else {
+        this.toastr.warning('Please change the data for update', { nzDuration: 3000 });
+      }
+    }
+    else {
+      this.toastr.warning('There is no rule against this', { nzDuration: 3000 });
+    }
+  }
+  cancelEdit(item: any) {
+    for (const key in this.editData) {
+      item[key] = this.editData[key]
+    }
+    this.subTaskEditId = null;
+    this.editData = null;
+  }
+  ngOnDestroy(): void {
+    try {
+      if (this.requestSubscription) {
+        this.requestSubscription.unsubscribe();
+      }
+
+      if (this.subscriptions) {
+        this.subscriptions.unsubscribe();
+      }
+
+      this.destroy$.next();
+      this.destroy$.complete();
+    } catch (error) {
+      console.error('Error in ngOnDestroy:', error);
+    }
+  }
+  recallApi() {
+    const { _id, actionLink, data, headers, parentId, page, pageSize } = this.taskManagerData.eventActionconfig;
+    if (_id) {
+      let pagination = ''
+      if (page && pageSize) {
+        pagination = `?page=${localStorage.getItem('tablePageNo') || 1}&pageSize=${localStorage.getItem('tablePageSize') || 10}`
+      }
+      this.saveLoader = true;
+      let url = `knex-query/getexecute-rules/${_id}`;
+      if (this.mappingId) {
+        url = `knex-query/getexecute-rules/${_id}/${this.mappingId}`
+      }
+      this.requestSubscription = this.applicationService.callApi(`${url}${pagination}`, 'get', data, headers).subscribe({
+        next: (res) => {
+          this.saveLoader = false;
+          if (res) {
+            if (res.data.length > 0) {
+              this.getFromQueryOnlyTable(res);
+            }
+          }
+        },
+        error: (error: any) => {
+          console.error(error);
+          this.saveLoader = false;
+          this.toastr.error("An error occurred", { nzDuration: 3000 });
+        }
+      })
+    }
+  }
+  recallApiWithId(api: any, id: any) {
+    let pagination = '';
+    let { _id, actionLink, data, headers, parentId, page, pageSize } = this.taskManagerData.eventActionconfig;
+    if (page && pageSize) {
+      pagination = `?page=${localStorage.getItem('tablePageNo') || 1}&pageSize=${localStorage.getItem('tablePageSize') || 10}`
+    }
+    this.drawerLoader = true;
+    let itemIdString: string | undefined = id;
+    parentId = itemIdString ? parseInt(itemIdString, 10) : 0;
+    if (parentId) {
+      let url = api + '/' + parentId;
+      this.requestSubscription = this.applicationService.callApi(`${url}${pagination}`, 'get', data, headers, null).subscribe({
+        next: (res) => {
+          this.drawerLoader = false;
+          this.drawerData = { ...this.drawerData, 'data': res.data };
+          // this.drawerData.data = res.data;
+        },
+        error: (error: any) => {
+          console.error(error);
+          this.drawerLoader = false;
+          this.toastr.error("An error occurred", { nzDuration: 3000 });
+        }
+      })
+    }
   }
 }

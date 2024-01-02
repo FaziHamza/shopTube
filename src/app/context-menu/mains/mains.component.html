@@ -52,8 +52,8 @@
     </ng-template>
     <ng-template #seventh>
         <div *ngIf="item.type == 'taskManager';else eight">
-            <st-task-manager [screenName]="screenName" [screenId]="screenId" [formlyModel]="formlyModel" [form]="form"
-                [taskManagerData]="item"></st-task-manager>
+            <st-task-manager [mappingId]="mappingId" [screenName]="screenName" [screenId]="screenId"
+                [formlyModel]="formlyModel" [form]="form" [taskManagerData]="item"></st-task-manager>
         </div>
     </ng-template>
     <ng-template #eight>

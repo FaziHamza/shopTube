@@ -337,7 +337,7 @@ export class SectionsComponent implements OnInit {
                 // this.dataSharedService.formlyShowError.next(false)
                 this.dataSharedService.formlyShowError.next(false)
               }
-
+              this.dataSharedService.callDataIntaskManager.next(true);
               this.getFromQuery(data);
               if (window.location.href.includes('taskmanager.com')) {
                 this.dataSharedService.taskmanagerDrawer.next(true);
