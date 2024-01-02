@@ -12913,6 +12913,15 @@ export class formFeildData {
               },
               {
                 className: "ml-2",
+                key: 'drawer',
+                type: 'checkbox',
+                wrappers: ["formly-vertical-theme-wrapper"],
+                props: {
+                  label: 'Drawer'
+                }
+              },
+              {
+                className: "ml-2",
                 key: 'editMode',
                 type: 'checkbox',
                 wrappers: ["formly-vertical-theme-wrapper"],

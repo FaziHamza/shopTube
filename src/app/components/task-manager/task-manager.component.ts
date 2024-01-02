@@ -19,6 +19,15 @@ export class TaskManagerComponent {
   @Input() form: any;
   requestSubscription: Subscription;
   saveLoader: boolean = false;
+  drawerLoader: boolean = false;
+  visible: boolean = false;
+  addSubtask: boolean = false;
+  drawerData: any = {
+    "task": '',
+    "date": '',
+    "assignee": '',
+    "data": []
+  }
   constructor(public _dataSharedService: DataSharedService, private builderService: BuilderService,
     private applicationService: ApplicationService, private toastr: NzMessageService,
     public dataSharedService: DataSharedService,
@@ -41,54 +50,37 @@ export class TaskManagerComponent {
   expand(item: any, head: any) {
     item['expand'] = !item['expand'];
     // Adding a delay of 500 milliseconds (adjust the delay as needed)
-    setTimeout(() => {
-      this.makeModel(item.id);
-      this.dataSharedService.updateModel.next(this.formlyModel)
-    }, 100);
+    if (item['expand']) {
+      setTimeout(() => {
+        this.makeModel(item.id);
+        this.dataSharedService.updateModel.next(this.formlyModel)
+      }, 100);
+    }
 
-    // if (head.callApi) {
-    //   let pagination = '';
-    //   let { _id, actionLink, data, headers, parentId, page, pageSize } = this.taskManagerData.eventActionconfig;
-    //   if (page && pageSize) {
-    //     pagination = `?page=${localStorage.getItem('tablePageNo') || 1}&pageSize=${localStorage.getItem('tablePageSize') || 10}`
-    //   }
-    //   this.saveLoader = true;
-    //   let itemIdString: string | undefined = item?.id;
-    //   parentId = itemIdString ? parseInt(itemIdString, 10) : 0;
-    //   if (parentId) {
-    //     let url = head.callApi + '/' + parentId;
-    //     this.requestSubscription = this.applicationService.callApi(`${url}${pagination}`, 'get', data, headers, null).subscribe({
-    //       next: (res) => {
-    //         this.saveLoader = false;
-    //         let rowData = JSON.parse(JSON.stringify(item));
-    //         let responseData: any = res.data.map((row: any) => ({
-    //           'expand': false,
-    //           ...row
-    //         }));
-    //         item['children'] = responseData;
-    //         if (responseData.length == 0 && window.location.host.includes('taskmanager.com')) {
-    //           rowData['parentid'] = rowData.id;
-    //         }
-    //         if (res.count || res.count == 0) {
-    //           item['childDataObj'] = {
-    //             count: res.count,
-    //             callExpandAPi: true,
-    //             id: item?.id,
-    //             data: JSON.parse(JSON.stringify(this.data)),
-    //             header: this.tableHeaders,
-    //             rowObj: responseData.length > 0 ? '' : rowData
-    //           };
-    //         }
-    //       },
-    //       error: (error: any) => {
-    //         console.error(error);
-    //         this.saveLoader = false;
-    //         this.toastr.error("An error occurred", { nzDuration: 3000 });
-    //       }
-    //     })
-    //   }
-
-    // }
+    if (head.callApi && item['expand']) {
+      let pagination = '';
+      let { _id, actionLink, data, headers, parentId, page, pageSize } = this.taskManagerData.eventActionconfig;
+      if (page && pageSize) {
+        pagination = `?page=${localStorage.getItem('tablePageNo') || 1}&pageSize=${localStorage.getItem('tablePageSize') || 10}`
+      }
+      this.saveLoader = true;
+      let itemIdString: string | undefined = item?.id;
+      parentId = itemIdString ? parseInt(itemIdString, 10) : 0;
+      if (parentId) {
+        let url = head.callApi + '/' + parentId;
+        this.requestSubscription = this.applicationService.callApi(`${url}${pagination}`, 'get', data, headers, null).subscribe({
+          next: (res) => {
+            this.saveLoader = false;
+            item['children'] = res.data;
+          },
+          error: (error: any) => {
+            console.error(error);
+            this.saveLoader = false;
+            this.toastr.error("An error occurred", { nzDuration: 3000 });
+          }
+        })
+      }
+    }
   }
 
   makeModel(event: any) {
@@ -141,6 +133,45 @@ export class TaskManagerComponent {
         'name': 'expand',
         'key': 'expand',
       });
+    }
+  }
+  addSectionFunc() {
+    this.addSection = true;
+    this.makeModel('');
+  }
+  close() {
+    this.visible = false;
+  }
+  tdFunc(head: any, item: any) {
+    if (head?.drawer) {
+      this.visible = true;
+      this.drawerData['task'] = item?.task;
+      this.drawerData['date'] = item?.date;
+      this.drawerData['assignee'] = item?.assignee;
+      if (head.callApi) {
+        let pagination = '';
+        let { _id, actionLink, data, headers, parentId, page, pageSize } = this.taskManagerData.eventActionconfig;
+        if (page && pageSize) {
+          pagination = `?page=${localStorage.getItem('tablePageNo') || 1}&pageSize=${localStorage.getItem('tablePageSize') || 10}`
+        }
+        this.drawerLoader = true;
+        let itemIdString: string | undefined = item?.id;
+        parentId = itemIdString ? parseInt(itemIdString, 10) : 0;
+        if (parentId) {
+          let url = head.callApi + '/' + parentId;
+          this.requestSubscription = this.applicationService.callApi(`${url}${pagination}`, 'get', data, headers, null).subscribe({
+            next: (res) => {
+              this.drawerLoader = false;
+              this.drawerData.data = res.data;
+            },
+            error: (error: any) => {
+              console.error(error);
+              this.drawerLoader = false;
+              this.toastr.error("An error occurred", { nzDuration: 3000 });
+            }
+          })
+        }
+      }
     }
   }
 }

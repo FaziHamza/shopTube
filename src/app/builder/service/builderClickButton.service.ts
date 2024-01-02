@@ -66,6 +66,7 @@ export class BuilderClickButtonService {
           key: obj.key,
           srNo: obj.srNo,
           show: ['yes', '', undefined, 'Yes', true].includes(obj.show) ? true : false,
+          drawer: [undefined].includes(obj.drawer) ? false : obj?.drawer,
           dataType: obj.dataType,
           editMode: ['yes', 'Yes', true].includes(obj.editMode) ? true : false,
           callApi: obj?.callApi ? obj?.callApi : '',
