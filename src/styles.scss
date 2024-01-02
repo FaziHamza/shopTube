@@ -6528,7 +6528,7 @@ tr:hover {
         min-height: fit-content !important;
         vertical-align: middle !important;
         border: 1px solid #d6dce1 !important;
-        }
+      }
 
       td:first-child {
         background-color: #fcd34d !important;
@@ -7064,6 +7064,7 @@ tr:hover {
   border-radius: 4px !important;
   border: 1px solid #b0b0b0 !important;
 }
+
 .temp-modal-fileUploader-input {
   color: #444 !important;
   // padding: 4px !important;
@@ -7075,7 +7076,7 @@ tr:hover {
 .temp-modal-fileUploader-button {
   margin-right: 10px !important;
   border: none !important;
-  background: #2563eb ;
+  background: #2563eb;
   padding: 5px 10px !important;
   border-radius: 2px !important;
   color: #fff !important;
@@ -7842,15 +7843,15 @@ input[type=file]::file-selector-button:hover {
   }
 }
 
-.dynamic-file-input{ 
+.dynamic-file-input {
   input[type=file]::file-selector-button {
     background: var(--browseButtonColor) !important;
   }
-  
+
   input[type=file]::file-selector-button:hover {
     background: var(--hoverBrowseButtonColor) !important;
   }
-  
+
 }
 
 input[type=file]::file-selector-button {
@@ -8775,23 +8776,27 @@ ul.jsondiffpatch-textdiff {
   }
 }
 
-.ant-steps.steper2 ,.ant-steps.steper3 {
+.ant-steps.steper2,
+.ant-steps.steper3 {
   .ant-steps-item-active .ant-steps-item-icon {
-    background:  var(--selected-stepper-color, #f5f5f5) !important;
-    border: 2px solid  var(--selected-stepper-color, #f5f5f5) !important;
+    background: var(--selected-stepper-color, #f5f5f5) !important;
+    border: 2px solid var(--selected-stepper-color, #f5f5f5) !important;
   }
 }
 
-.ant-steps.steper4{
-  .ant-steps-item-active .ant-steps-item-container{
+.ant-steps.steper4 {
+  .ant-steps-item-active .ant-steps-item-container {
     border-bottom: 2px solid var(--selected-stepper-color, #f5f5f5) !important;
+
     .ant-steps-item-icon .anticon svg {
       fill: var(--selected-stepper-color, #878787) !important;
     }
+
     .ant-steps-item-content .ant-steps-item-title {
       color: var(--selected-stepper-color, #878787) !important;
     }
-    .ant-steps-item-content .ant-steps-item-description{
+
+    .ant-steps-item-content .ant-steps-item-description {
       color: var(--selected-stepper-color, #5c5c5c) !important;
     }
   }
@@ -8812,6 +8817,7 @@ ul.jsondiffpatch-textdiff {
   box-shadow: 0;
   transition: border-color .3s, box-shadow .6s, transform .3s cubic-bezier(.18, .89, .32, 1.28);
 }
+
 // .ant-steps-item-finish .ant-steps-item-container:hover {
 //   .ant-steps-item-content {
 //     .ant-steps-item-title {
@@ -8851,12 +8857,58 @@ ul.jsondiffpatch-textdiff {
 // }
 
 
-.assan-builder{
-  .ant-tabs-nav{
+.assan-builder {
+  .ant-tabs-nav {
     height: 100% !important;
     margin-bottom: 0px !important;
+  }
+
+  // .ant-tabs-tab-btn{
+  //   color: gray !important;
+  // }
 }
-// .ant-tabs-tab-btn{
-//   color: gray !important;
-// }
+
+.task-manager-drawer {
+  .ant-drawer-body {
+    flex-grow: 1;
+    padding: 0px !important;
+    overflow: auto;
+    word-wrap: break-word;
+  }
+
+  .ant-input-affix-wrapper {
+    position: relative !important;
+    color: rgba(0, 0, 0, .85) !important;
+    font-size: 14px !important;
+    line-height: 1.5715 !important;
+    background-image: none !important;
+    background-color: inherit !important;
+    border: none !important;
+    border-radius: 2px !important;
+    display: inline-flex !important;
+
+    .ant-select:not(.ant-select-customize-input) .ant-select-selector {
+      position: relative;
+      background-color: inherit !important;
+      border: none !important;
+      border-radius: 2px;
+      transition: all .3s cubic-bezier(.645, .045, .355, 1);
+    }
+
+    .ant-picker {
+      box-sizing: border-box;
+      margin: 0;
+      color: rgba(0,0,0,.85);
+      font-size: 14px;
+      font-variant: tabular-nums;
+      line-height: 1.5715;
+      list-style: none;
+      font-feature-settings: 'tnum';
+      padding: 4px 11px;
+      background: #fff;
+      border: none !important;
+      border-radius: 2px;
+      transition: border .3s,box-shadow .3s;
+  }
+  }
 }

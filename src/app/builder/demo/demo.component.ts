@@ -16,8 +16,10 @@ interface Person {
   styleUrls: ['./demo.component.scss'],
 })
 export class DemoComponent {
+  visible = false;
 
-  tabs : Tab[] = [
+
+  tabs: Tab[] = [
     {
       name: 'Overview',
       icon: 'fa-light fa-clipboard-list-check text-sm text-gray-600'
@@ -47,5 +49,11 @@ export class DemoComponent {
       address: 'Sidney No. 1 Lake Park'
     }
   ];
+  open(): void {
+    this.visible = true;
+  }
 
+  close(): void {
+    this.visible = false;
+  }
 }
