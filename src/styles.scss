@@ -6516,7 +6516,7 @@ tr:hover {
 
       .ng-star-inserted {
         display: flex;
-        justify-content: start !important;
+        justify-content: flex-start !important;
         align-items: center !important;
       }
 
@@ -7581,7 +7581,7 @@ input[type=file]::file-selector-button:hover {
 
 .drawer-height-btn {
   display: flex !important;
-  justify-content: end !important;
+  justify-content: flex-end !important;
   align-items: center !important;
   border-top: 1px solid #afafaf !important;
   padding-top: 11.5px !important;
@@ -7655,7 +7655,7 @@ input[type=file]::file-selector-button:hover {
 .bag-report {
   .ngx-contextmenu--item-content {
     display: flex !important;
-    justify-content: start !important;
+    justify-content: flex-start !important;
     align-items: center !important;
   }
 
