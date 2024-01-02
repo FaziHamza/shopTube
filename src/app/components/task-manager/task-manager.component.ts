@@ -1,6 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { Subscription } from 'rxjs';
+import { ElementData } from 'src/app/models/element';
 import { ApplicationService } from 'src/app/services/application.service';
 import { BuilderService } from 'src/app/services/builder.service';
 import { DataSharedService } from 'src/app/services/data-shared.service';
@@ -49,6 +50,7 @@ export class TaskManagerComponent {
   }
   expand(item: any, head: any) {
     item['expand'] = !item['expand'];
+    this.applyDefaultValue();
     // Adding a delay of 500 milliseconds (adjust the delay as needed)
     if (item['expand']) {
       setTimeout(() => {
@@ -71,7 +73,7 @@ export class TaskManagerComponent {
         this.requestSubscription = this.applicationService.callApi(`${url}${pagination}`, 'get', data, headers, null).subscribe({
           next: (res) => {
             this.saveLoader = false;
-            item['children'] = res.data;
+            item['children'] = res.data.map((item: any) => ({ "expand": false, ...item }));
           },
           error: (error: any) => {
             console.error(error);
@@ -136,7 +138,10 @@ export class TaskManagerComponent {
     }
   }
   addSectionFunc() {
+    debugger
     this.addSection = true;
+    this.applyDefaultValue();
+    this.dataSharedService.updateModel.next(this.formlyModel)
     this.makeModel('');
   }
   close() {
@@ -173,5 +178,41 @@ export class TaskManagerComponent {
         }
       }
     }
+  }
+  applyDefaultValue() {
+    const filteredNodes = this.filterInputElements(this.taskManagerData.children);
+    const newMode = filteredNodes.reduce((acc, node) => {
+      const formlyConfig = node.formly?.[0]?.fieldGroup?.[0]?.defaultValue;
+      let formlyKey = node?.formly?.[0]?.fieldGroup?.[0]?.key;
+      acc[formlyKey] = formlyConfig;
+      return acc;
+    }, {});
+
+    this.formlyModel = newMode;
+  }
+  filterInputElements(data: ElementData[]): any[] {
+    const inputElements: ElementData[] = [];
+    const visited = new Set(); // To keep track of visited objects
+
+    function traverse(obj: any): void {
+      if (visited.has(obj)) return; // If the object is visited, return to prevent infinite loop
+      visited.add(obj); // Mark the current object as visited
+
+      if (Array.isArray(obj)) {
+        obj.forEach((item) => {
+          traverse(item);
+        });
+      } else if (typeof obj === 'object' && obj !== null) {
+        if (obj.formlyType === 'input') {
+          inputElements.push(obj);
+        }
+        Object.values(obj).forEach((value) => {
+          traverse(value);
+        });
+      }
+    }
+
+    traverse(data);
+    return inputElements;
   }
 }
