@@ -169,6 +169,9 @@ export class TaskManagerComponent {
   }
   close() {
     this.visible = false;
+    if(this.afterDrawerDataGet){
+      this.recallApi();
+    }
   }
   tdFunc(head: any, item: any) {
     if (head?.drawer) {
@@ -280,6 +283,7 @@ export class TaskManagerComponent {
           if (findApi) {
             this.recallApiWithId(`${findApi.callApi}`, this.drawerData.id);
           }
+          this.afterDrawerDataGet =  true;
           this.addSubtask = false;
         },
         error: (err) => {
@@ -297,6 +301,7 @@ export class TaskManagerComponent {
   updateTask() {
     let updatedData: any = JSON.parse(JSON.stringify(this.drawerData));
     delete updatedData.data;
+    this.afterDrawerDataGet = true;
     this.saveInlineEdit(updatedData)
     // const checkPermission = this.dataSharedService.getUserPolicyMenuList.find(a => a.screenId === this.dataSharedService.currentMenuLink);
     // if (!checkPermission?.create && this.dataSharedService?.currentMenuLink !== '/ourbuilder') {
@@ -444,12 +449,13 @@ export class TaskManagerComponent {
       }
       this.saveLoader = true;
       let url = `knex-query/getexecute-rules/${_id}`;
-      if (this.mappingId) {
-        url = `knex-query/getexecute-rules/${_id}/${this.mappingId}`
-      }
+      // if (this.mappingId) {
+      //   url = `knex-query/getexecute-rules/${_id}/${this.mappingId}`
+      // }
       this.requestSubscription = this.applicationService.callApi(`${url}${pagination}`, 'get', data, headers).subscribe({
         next: (res) => {
           this.saveLoader = false;
+          this.afterDrawerDataGet = false;
           if (res) {
             if (res.data.length > 0) {
               this.getFromQueryOnlyTable(res);
@@ -459,6 +465,7 @@ export class TaskManagerComponent {
         error: (error: any) => {
           console.error(error);
           this.saveLoader = false;
+          this.afterDrawerDataGet = false;
           this.toastr.error("An error occurred", { nzDuration: 3000 });
         }
       })
