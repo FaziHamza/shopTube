@@ -351,11 +351,17 @@
                 </div>
                 <div class="flex flex-row items-center gap-x-10">
                     <p>Projects </p>
-                    <div class="!bg-[#f9f8f8] hover:!bg-[#f9f8f8] !rounded-lg">
-                        <span class="p-[2px] rounded bg-blue-500"></span>
-                        <span class="text-sm decoration hover:underline">Projects</span>
-                        <span>Types</span>
-                        <span><i class="fa-thin fa-circle-xmark"></i></span>
+                    <div
+                        class="flex flex-row items-center !bg-[#f9f8f8] hover:!bg-[#f9f8f8] !rounded-xl cursor-pointer gap-x-1 p-[1px] px-[6px]">
+                        <span class="!h-3 !w-6 rounded bg-blue-500"></span>
+                        <p
+                            class="text-sm decoration hover:underline">Projects</p>
+                        <nz-select [nzShowArrow]="false" nzBorderless
+                            nzPlaceHolder="Type">
+                            <nz-option nzValue="jack"
+                                nzLabel="Jack"></nz-option>
+                        </nz-select>
+                        <p><i class="fa-thin fa-circle-xmark"></i></p>
                     </div>
                 </div>
             </div>
