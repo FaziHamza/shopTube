@@ -1610,6 +1610,12 @@ export const htmlTabsData = [
                 label: "Task manager",
                 isLeaf: true
               },
+              {
+                parameter: "taskManagerComment",
+                icon: "uil uil-file-alt",
+                label: "Task manager Comment",
+                isLeaf: true
+              },
             ]
           },
         ]

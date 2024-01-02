@@ -152,6 +152,11 @@ export class AddControlService {
       isNextChild: true, btngroupformat: "text-left",
     }
   }
+  getTaskManagerCommentControl() {
+    return {
+      isNextChild: true,
+    }
+  }
   getHeader1(newNode?: any, moduleId?: any) {
     return {
       children: [

@@ -1710,6 +1710,9 @@ export class BuilderComponent implements OnInit {
         case 'footer':
           newNode = { ...newNode, ...this.addControlService.getFooterControl() };
           break;
+        case 'taskManagerComment':
+          newNode = { ...newNode, ...this.addControlService.getTaskManagerCommentControl() };
+          break;
         case 'header_1':
           newNode = {
             ...newNode,
