@@ -25,8 +25,11 @@
                 <ng-container *ngIf="item.expand">
                     <tr *ngFor="let child of item.children">
                         <ng-container *ngFor="let head  of  taskManagerData['tableHeaders']">
+                            <td *ngIf="head.key == 'expand' && (head?.show || head?.show == undefined)"
+                                [nzExpand]="child.expand" (click)="expand(item , head)">
+                            </td>
                             <td *ngIf="head.key != 'expand' && (head?.show || head?.show == undefined)">
-                                {{item[head.key]}}</td>
+                                {{child[head.key]}}</td>
                         </ng-container>
                     </tr>
                     <ng-container *ngIf="item.addTask" class="!w-full">
