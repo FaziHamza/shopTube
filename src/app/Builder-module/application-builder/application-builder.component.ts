@@ -193,246 +193,246 @@ export class ApplicationBuilderComponent implements OnInit {
 
     });
   }
-  defaultApplicationBuilder(isSubmit?: any, key?: any, value?: any, model?: any) {
-    if (isSubmit && key == "applicationId") {
-      const screen = {
-        "ScreenBuilder": {
-          name: value.name + "_default",
-          navigation: value.name + "_default",
-          departmentId: value.departmentId,
-          applicationId: value._id
-        }
-      };
-      const header = {
-        "ScreenBuilder": {
-          name: value.name + "_header",
-          navigation: value.name + "_header",
-          departmentId: value.departmentId,
-          applicationId: value._id,
-          organizationId: model?.organizationId
-        }
-      };
+  // defaultApplicationBuilder(isSubmit?: any, key?: any, value?: any, model?: any) {
+  //   if (isSubmit && key == "applicationId") {
+  //     const screen = {
+  //       "ScreenBuilder": {
+  //         name: value.name + "_default",
+  //         navigation: value.name + "_default",
+  //         departmentId: value.departmentId,
+  //         applicationId: value._id
+  //       }
+  //     };
+  //     const header = {
+  //       "ScreenBuilder": {
+  //         name: value.name + "_header",
+  //         navigation: value.name + "_header",
+  //         departmentId: value.departmentId,
+  //         applicationId: value._id,
+  //         organizationId: model?.organizationId
+  //       }
+  //     };
 
-      const footer = {
-        "ScreenBuilder": {
-          name: value.name + "_footer",
-          navigation: value.name + "_footer",
-          departmentId: value.departmentId,
-          applicationId: value._id,
-          organizationId: model?.organizationId
-        }
-      };
-      const requests = [
-        this.applicationService.addNestCommonAPI("cp", screen),
-        this.applicationService.addNestCommonAPI("cp", header),
-        this.applicationService.addNestCommonAPI("cp", footer)
-      ];
-      this.loading = true;
-      forkJoin(requests).subscribe((responses: any) => {
+  //     const footer = {
+  //       "ScreenBuilder": {
+  //         name: value.name + "_footer",
+  //         navigation: value.name + "_footer",
+  //         departmentId: value.departmentId,
+  //         applicationId: value._id,
+  //         organizationId: model?.organizationId
+  //       }
+  //     };
+  //     const requests = [
+  //       this.applicationService.addNestCommonAPI("cp", screen),
+  //       this.applicationService.addNestCommonAPI("cp", header),
+  //       this.applicationService.addNestCommonAPI("cp", footer)
+  //     ];
+  //     this.loading = true;
+  //     forkJoin(requests).subscribe((responses: any) => {
 
-        if (responses[0].isSuccess && responses[1].isSuccess && responses[2].isSuccess) {
-          this.getBuilderScreen(responses[0], responses[1], responses[2], value)
-        } else {
-          this.toastr.error("Some error occurred", { nzDuration: 2000 });
-        }
-        this.loading = false;
-      },
-        (error) => {
-          this.toastr.error("Some exception occurred", { nzDuration: 2000 });
-          this.loading = false;
-        });
-    }
-  }
+  //       if (responses[0].isSuccess && responses[1].isSuccess && responses[2].isSuccess) {
+  //         this.getBuilderScreen(responses[0], responses[1], responses[2], value)
+  //       } else {
+  //         this.toastr.error("Some error occurred", { nzDuration: 2000 });
+  //       }
+  //       this.loading = false;
+  //     },
+  //       (error) => {
+  //         this.toastr.error("Some exception occurred", { nzDuration: 2000 });
+  //         this.loading = false;
+  //       });
+  //   }
+  // }
 
-  getBuilderScreen(screen: any, header: any, footer: any, value: any) {
-    const requests = [
-      this.applicationService.getNestCommonAPIById('cp/Builder', "64a81f1164d44e484c177a78"),
-      this.applicationService.getNestCommonAPIById('cp/Builder', "64a939a6a2c44ea9c78ac137"),
-      this.applicationService.getNestCommonAPIById('cp/Builder', "64a939b8a2c44ea9c78ac13c"),
-      // this.applicationService.getNestCommonAPIById('cp/Menu', "64a3c6cfa5d51b158d31cc00"),
-    ];
-    this.loading = true;
-    forkJoin(requests).subscribe((responses: any) => {
-      if (responses[0].isSuccess && responses[1].isSuccess && responses[2].isSuccess) {
-        const objects = [screen, header, footer];
-        for (let i = 0; i < 3; i++) {
-          responses[i].data[0].navigation = objects[i].data.navigation;
-          responses[i].data[0].screenName = objects[i].data.name;
-          responses[i].data[0].screenBuilderId = objects[i].data._id;
-        }
-        this.saveBuilderScreen(responses[0], responses[1], responses[2], responses[3], value);
-      } else {
-        this.toastr.error("Some error occurred", { nzDuration: 2000 });
-      }
-    },
-      (error) => {
-        this.toastr.error("Some exception occurred", { nzDuration: 2000 });
-        this.loading = false;
-      });
-  }
+  // getBuilderScreen(screen: any, header: any, footer: any, value: any) {
+  //   const requests = [
+  //     this.applicationService.getNestCommonAPIById('cp/Builder', "64a81f1164d44e484c177a78"),
+  //     this.applicationService.getNestCommonAPIById('cp/Builder', "64a939a6a2c44ea9c78ac137"),
+  //     this.applicationService.getNestCommonAPIById('cp/Builder', "64a939b8a2c44ea9c78ac13c"),
+  //     // this.applicationService.getNestCommonAPIById('cp/Menu', "64a3c6cfa5d51b158d31cc00"),
+  //   ];
+  //   this.loading = true;
+  //   forkJoin(requests).subscribe((responses: any) => {
+  //     if (responses[0].isSuccess && responses[1].isSuccess && responses[2].isSuccess) {
+  //       const objects = [screen, header, footer];
+  //       for (let i = 0; i < 3; i++) {
+  //         responses[i].data[0].navigation = objects[i].data.navigation;
+  //         responses[i].data[0].screenName = objects[i].data.name;
+  //         responses[i].data[0].screenBuilderId = objects[i].data._id;
+  //       }
+  //       this.saveBuilderScreen(responses[0], responses[1], responses[2], responses[3], value);
+  //     } else {
+  //       this.toastr.error("Some error occurred", { nzDuration: 2000 });
+  //     }
+  //   },
+  //     (error) => {
+  //       this.toastr.error("Some exception occurred", { nzDuration: 2000 });
+  //       this.loading = false;
+  //     });
+  // }
 
-  getScreensForClone(value?: any, model?: any) {
-    this.requestSubscription = this.applicationService.getNestCommonAPIById('cp/ScreenBuilder', this.myForm.value.defaultApplication).subscribe({
-      next: (res: any) => {
-        if (res.isSuccess) {
-          if (res.data.length > 0) {
-            const requests = res.data.map((element: any) => {
-              if (element.name.includes('_header')) {
-                element.name = value.name + '_header'
-                element.navigation = value.name + '_header'
-              } else if (element.name.includes('_footer')) {
-                element.name = value.name + '_footer'
-                element.navigation = value.name + '_footer'
-              } else if (element.name.includes('_default')) {
-                element.name = value.name + '_default'
-                element.navigation = value.name + '_default'
-              }
-              const screen = {
-                "ScreenBuilder": {
-                  applicationId: value._id,
-                  departmentId: value.departmentId,
-                  name: element.name,
-                  navigation: element.navigation,
-                  organizationId: model?.organizationId
-                }
-              };
-
-
-              return this.applicationService.addNestCommonAPI('cp', screen).pipe(
-                catchError(error => of(error)) // Handle error and continue the forkJoin
-              );
-            });
-
-            forkJoin(requests).subscribe({
-              next: (allResults: any) => {
-                if (allResults.every((result: any) => result.isSuccess === true)) {
-                  // this.loading = false;
-                  this.getBuilderScreensForClone(value, model);
-                  this.toastr.success("Save Successfully", { nzDuration: 3000 });
-                } else {
-                  this.toastr.error("Error Occurred", { nzDuration: 3000 });
-                }
-              },
-              error: (err) => {
-                console.error(err);
-                this.toastr.error("Actions: An error occurred", { nzDuration: 3000 });
-              }
-            });
-          }
-
-        }
-        else
-          this.toastr.error(res.message, { nzDuration: 3000 }); // Show an error message to the user
-      },
-      error: (err) => {
-        console.error(err); // Log the error to the console
-        this.toastr.error("An error occurred", { nzDuration: 3000 }); // Show an error message to the user
-      }
-    });
-  }
-  getBuilderScreensForClone(value?: any, model?: any) {
-    this.requestSubscription = this.applicationService.getNestCommonAPIById('cp/ScreenBuilder', this.myForm.value.defaultApplication).subscribe({
-      next: (res: any) => {
-        if (res.isSuccess) {
-          if (res.data.length > 0) {
-            const requests = res.data.map((element: any) => {
-              if (element.screenName.includes('_header')) {
-                element.screenName = value.name + '_header'
-                element.navigation = value.name + '_header'
-              } else if (element.name.includes('_footer')) {
-                element.screenName = value.name + '_footer'
-                element.navigation = value.name + '_footer'
-              } else if (element.name.includes('_default')) {
-                element.screenName = value.name + '_default'
-                element.navigation = value.name + '_default'
-              }
-              const screen = {
-                "Builder": {
-                  "screenData": JSON.parse(element.screenData),
-                  "screenName": element.screenName,
-                  "navigation": element.navigation,
-                  // "screenBuilderId": this._id,
-                  "applicationId": value._id,
-                }
-              };
+  // getScreensForClone(value?: any, model?: any) {
+  //   this.requestSubscription = this.applicationService.getNestCommonAPIById('cp/ScreenBuilder', this.myForm.value.defaultApplication).subscribe({
+  //     next: (res: any) => {
+  //       if (res.isSuccess) {
+  //         if (res.data.length > 0) {
+  //           const requests = res.data.map((element: any) => {
+  //             if (element.name.includes('_header')) {
+  //               element.name = value.name + '_header'
+  //               element.navigation = value.name + '_header'
+  //             } else if (element.name.includes('_footer')) {
+  //               element.name = value.name + '_footer'
+  //               element.navigation = value.name + '_footer'
+  //             } else if (element.name.includes('_default')) {
+  //               element.name = value.name + '_default'
+  //               element.navigation = value.name + '_default'
+  //             }
+  //             const screen = {
+  //               "ScreenBuilder": {
+  //                 applicationId: value._id,
+  //                 departmentId: value.departmentId,
+  //                 name: element.name,
+  //                 navigation: element.navigation,
+  //                 organizationId: model?.organizationId
+  //               }
+  //             };
 
 
-              return this.applicationService.addNestCommonAPI('cp', screen).pipe(
-                catchError(error => of(error)) // Handle error and continue the forkJoin
-              );
-            });
+  //             return this.applicationService.addNestCommonAPI('cp', screen).pipe(
+  //               catchError(error => of(error)) // Handle error and continue the forkJoin
+  //             );
+  //           });
 
-            forkJoin(requests).subscribe({
-              next: (allResults: any) => {
-                if (allResults.every((result: any) => result.isSuccess === true)) {
-                  this.loading = false;
-                  this.toastr.success("Save Successfully", { nzDuration: 3000 });
-                } else {
-                  this.toastr.error("Error Occurred", { nzDuration: 3000 });
-                }
-              },
-              error: (err) => {
-                console.error(err);
-                this.toastr.error("Actions: An error occurred", { nzDuration: 3000 });
-              }
-            });
-          }
+  //           forkJoin(requests).subscribe({
+  //             next: (allResults: any) => {
+  //               if (allResults.every((result: any) => result.isSuccess === true)) {
+  //                 // this.loading = false;
+  //                 this.getBuilderScreensForClone(value, model);
+  //                 this.toastr.success("Save Successfully", { nzDuration: 3000 });
+  //               } else {
+  //                 this.toastr.error("Error Occurred", { nzDuration: 3000 });
+  //               }
+  //             },
+  //             error: (err) => {
+  //               console.error(err);
+  //               this.toastr.error("Actions: An error occurred", { nzDuration: 3000 });
+  //             }
+  //           });
+  //         }
 
-        }
-        else
-          this.toastr.error(res.message, { nzDuration: 3000 }); // Show an error message to the user
-      },
-      error: (err) => {
-        console.error(err); // Log the error to the console
-        this.toastr.error("An error occurred", { nzDuration: 3000 }); // Show an error message to the user
-      }
-    });
-  }
+  //       }
+  //       else
+  //         this.toastr.error(res.message, { nzDuration: 3000 }); // Show an error message to the user
+  //     },
+  //     error: (err) => {
+  //       console.error(err); // Log the error to the console
+  //       this.toastr.error("An error occurred", { nzDuration: 3000 }); // Show an error message to the user
+  //     }
+  //   });
+  // }
+  // getBuilderScreensForClone(value?: any, model?: any) {
+  //   this.requestSubscription = this.applicationService.getNestCommonAPIById('cp/ScreenBuilder', this.myForm.value.defaultApplication).subscribe({
+  //     next: (res: any) => {
+  //       if (res.isSuccess) {
+  //         if (res.data.length > 0) {
+  //           const requests = res.data.map((element: any) => {
+  //             if (element.screenName.includes('_header')) {
+  //               element.screenName = value.name + '_header'
+  //               element.navigation = value.name + '_header'
+  //             } else if (element.name.includes('_footer')) {
+  //               element.screenName = value.name + '_footer'
+  //               element.navigation = value.name + '_footer'
+  //             } else if (element.name.includes('_default')) {
+  //               element.screenName = value.name + '_default'
+  //               element.navigation = value.name + '_default'
+  //             }
+  //             const screen = {
+  //               "Builder": {
+  //                 "screenData": JSON.parse(element.screenData),
+  //                 "screenName": element.screenName,
+  //                 "navigation": element.navigation,
+  //                 // "screenBuilderId": this._id,
+  //                 "applicationId": value._id,
+  //               }
+  //             };
 
-  saveBuilderScreen(screen: any, header: any, footer: any, menu: any, value: any) {
-    const screenModel: any = {
-      "Builder": screen.data[0]
-    }
-    const headerModel = {
-      "Builder": header.data[0]
-    }
-    const footerModel = {
-      "Builder": footer.data[0]
-    }
-    delete screenModel.Builder.__v;
-    delete screenModel.Builder._id;
-    delete headerModel.Builder.__v;
-    delete headerModel.Builder._id;
-    delete footerModel.Builder.__v;
-    delete footerModel.Builder._id;
-    screenModel.Builder['applicationId'] = value._id;
-    headerModel.Builder['applicationId'] = value._id;
-    footerModel.Builder['applicationId'] = value._id;
-    const menuModel = {
-      "Menu": menu.data[0]
-    }
-    delete menuModel.Menu.__v;
-    delete menuModel.Menu._id;
-    menuModel.Menu.applicationId = value._id
-    menuModel.Menu.name = value._id
-    const requests = [
-      this.applicationService.addNestCommonAPI('cp', screenModel),
-      this.applicationService.addNestCommonAPI('cp', headerModel),
-      this.applicationService.addNestCommonAPI('cp', footerModel),
-      this.applicationService.addNestCommonAPI('cp', menuModel),
-    ];
-    forkJoin(requests).subscribe((responses: any) => {
-      if (responses[0].isSuccess && responses[1].isSuccess && responses[2].isSuccess) {
-        this.toastr.success("Default things Added", { nzDuration: 2000 });
-      } else {
-        this.toastr.error("Some error occurred", { nzDuration: 2000 });
-      }
-    },
-      (error) => {
-        this.toastr.error("Some exception occurred", { nzDuration: 2000 });
-        this.loading = false;
-      });
-  }
+
+  //             return this.applicationService.addNestCommonAPI('cp', screen).pipe(
+  //               catchError(error => of(error)) // Handle error and continue the forkJoin
+  //             );
+  //           });
+
+  //           forkJoin(requests).subscribe({
+  //             next: (allResults: any) => {
+  //               if (allResults.every((result: any) => result.isSuccess === true)) {
+  //                 this.loading = false;
+  //                 this.toastr.success("Save Successfully", { nzDuration: 3000 });
+  //               } else {
+  //                 this.toastr.error("Error Occurred", { nzDuration: 3000 });
+  //               }
+  //             },
+  //             error: (err) => {
+  //               console.error(err);
+  //               this.toastr.error("Actions: An error occurred", { nzDuration: 3000 });
+  //             }
+  //           });
+  //         }
+
+  //       }
+  //       else
+  //         this.toastr.error(res.message, { nzDuration: 3000 }); // Show an error message to the user
+  //     },
+  //     error: (err) => {
+  //       console.error(err); // Log the error to the console
+  //       this.toastr.error("An error occurred", { nzDuration: 3000 }); // Show an error message to the user
+  //     }
+  //   });
+  // }
+
+  // saveBuilderScreen(screen: any, header: any, footer: any, menu: any, value: any) {
+  //   const screenModel: any = {
+  //     "Builder": screen.data[0]
+  //   }
+  //   const headerModel = {
+  //     "Builder": header.data[0]
+  //   }
+  //   const footerModel = {
+  //     "Builder": footer.data[0]
+  //   }
+  //   delete screenModel.Builder.__v;
+  //   delete screenModel.Builder._id;
+  //   delete headerModel.Builder.__v;
+  //   delete headerModel.Builder._id;
+  //   delete footerModel.Builder.__v;
+  //   delete footerModel.Builder._id;
+  //   screenModel.Builder['applicationId'] = value._id;
+  //   headerModel.Builder['applicationId'] = value._id;
+  //   footerModel.Builder['applicationId'] = value._id;
+  //   const menuModel = {
+  //     "Menu": menu.data[0]
+  //   }
+  //   delete menuModel.Menu.__v;
+  //   delete menuModel.Menu._id;
+  //   menuModel.Menu.applicationId = value._id
+  //   menuModel.Menu.name = value._id
+  //   const requests = [
+  //     this.applicationService.addNestCommonAPI('cp', screenModel),
+  //     this.applicationService.addNestCommonAPI('cp', headerModel),
+  //     this.applicationService.addNestCommonAPI('cp', footerModel),
+  //     this.applicationService.addNestCommonAPI('cp', menuModel),
+  //   ];
+  //   forkJoin(requests).subscribe((responses: any) => {
+  //     if (responses[0].isSuccess && responses[1].isSuccess && responses[2].isSuccess) {
+  //       this.toastr.success("Default things Added", { nzDuration: 2000 });
+  //     } else {
+  //       this.toastr.error("Some error occurred", { nzDuration: 2000 });
+  //     }
+  //   },
+  //     (error) => {
+  //       this.toastr.error("Some exception occurred", { nzDuration: 2000 });
+  //       this.loading = false;
+  //     });
+  // }
   openModal(type: any, eidt?: boolean) {
     if (this.isSubmit) {
       for (let prop in this.model) {

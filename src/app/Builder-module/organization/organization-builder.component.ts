@@ -202,6 +202,7 @@ export class organizationBuilderComponent implements OnInit {
       sortDirections: ['ascend', 'descend', null],
     },
   ];
+  organizationId:any;
   constructor(
     public builderService: BuilderService,
     private applicationService: ApplicationService,
@@ -215,6 +216,8 @@ export class organizationBuilderComponent implements OnInit {
       { label: 'Formly' },
       { label: 'Pages', active: true },
     ];
+    this.organizationId = JSON.parse(localStorage.getItem('organizationId')!);
+
     this.organizationBuilder();
     this.LoadOrganizationFields();
     this.loadSearchArray();
@@ -311,6 +314,7 @@ export class organizationBuilderComponent implements OnInit {
     //   return;
     // }
     else {
+      this.form.value['userId'] = JSON.parse(localStorage.getItem('user')!).userId;
       const organizationModel = {
         Organization: this.form.value,
       };
@@ -369,6 +373,7 @@ export class organizationBuilderComponent implements OnInit {
       const objOrganization = this.listOfData.find(
         (x: any) => x._id == this.form.value.organizationId
       );
+      this.form.value['userId'] = JSON.parse(localStorage.getItem('user')!).userId;
       this.form.value.organizationName = objOrganization.name;
       const action$ = this.isSubmit
         ? this.applicationService.addNestCommonAPI('cp', modelData)
@@ -618,6 +623,25 @@ export class organizationBuilderComponent implements OnInit {
               placeholder: 'Email...',
               required: true,
             },
+          },
+        ],
+      },
+      {
+        fieldGroup: [
+          {
+            key: 'password',
+            type: 'input',
+            wrappers: ["formly-vertical-theme-wrapper"],
+            defaultValue: '',
+            props: {
+              type: 'password',
+              label: 'Password',
+              placeholder: 'password...',
+              required: true,
+              additionalProperties: {
+                suffixicon: 'eye-invisible',
+              }
+            }
           },
         ],
       },
