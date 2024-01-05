@@ -6062,7 +6062,7 @@ export class formFeildData {
       fieldGroup: [
         {
           className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
-          key: 'textClass',
+          key: 'innerClass',
           type: 'input',
           wrappers: ["formly-vertical-theme-wrapper"],
           props: {
@@ -8391,6 +8391,16 @@ export class formFeildData {
           },
         },
         {
+          key: 'nodes',
+          type: 'input',
+          wrappers: ["formly-vertical-theme-wrapper"],
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          props: {
+            type: 'number',
+            label: 'Number of slides'
+          },
+        },
+        {
           key: 'autoPlay',
           type: 'checkbox',
           wrappers: ["formly-vertical-theme-wrapper"],
@@ -8418,13 +8428,12 @@ export class formFeildData {
           },
         },
         {
-          key: 'nodes',
-          type: 'input',
+          key: 'borderLess',
+          type: 'checkbox',
           wrappers: ["formly-vertical-theme-wrapper"],
           className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
           props: {
-            type: 'number',
-            label: 'Number of slides'
+            label: 'Border Less'
           },
         },
         // {
@@ -12709,6 +12718,60 @@ export class formFeildData {
                       label: 'Right',
                       value: 'right'
                     }
+                  ],
+                  additionalProperties: {
+                    allowClear: true,
+                    serveSearch: false,
+                    showArrow: true,
+                    showSearch: true,
+                  },
+                },
+              },
+              {
+                key: 'iconType',
+                type: 'select',
+                className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+                wrappers: ["formly-vertical-theme-wrapper"],
+                props: {
+                  label: 'Position',
+                  options: [
+                  ],
+                  additionalProperties: {
+                    allowClear: true,
+                    serveSearch: false,
+                    showArrow: true,
+                    showSearch: true,
+                  },
+                },
+              },
+              {
+                key: 'iconType_list',
+                type: 'select',
+                className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+                wrappers: ["formly-vertical-theme-wrapper"],
+                props: {
+                  label: 'Icon type',
+                  options: [
+                    {
+                      label: 'Icon outlined',
+                      value: 'outline'
+                    },
+                    {
+                      label: 'Icon filled',
+                      value: 'fill'
+                    },
+                    {
+                      label: 'Icon twotone',
+                      value: 'twotone'
+                    },
+                    {
+                      label: 'Font Awsome',
+                      value: 'font_awsome'
+                    },
+                    {
+                      label: 'Material',
+                      value: 'material'
+                    },
                   ],
                   additionalProperties: {
                     allowClear: true,

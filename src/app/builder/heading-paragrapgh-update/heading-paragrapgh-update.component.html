@@ -64,10 +64,7 @@
             <td><input nz-input type="text" class="form-control" [(ngModel)]="data.text"></td>
             <td><input nz-input type="text" class="form-control" [(ngModel)]="data.fontweight"></td>
             <td><input nz-input type="text" class="form-control" [(ngModel)]="data.textAlign"></td>
-            <td><input
-                    [nzTooltipTitle]="data.type == 'paragraph' ? 'This is not work on paragraph so this filed is disabled' : ''"
-                    nz-tooltip nz-input type="text" class="form-control" [(ngModel)]="data.headingClass"
-                    [disabled]="data.type == 'paragraph' ? true : false"></td>
+            <td><input nz-input type="text" class="form-control" [(ngModel)]="data.headingClass"></td>
             <td>
                 <div class="flex justify-center items-center">
                     <label nz-checkbox [(ngModel)]="data.hideExpression"></label>

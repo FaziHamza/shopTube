@@ -445,7 +445,7 @@ export class BuilderComponent implements OnInit {
       this.requestSubscription = checkBuilderAndProcess.subscribe({
         next: (res: any) => {
           if (res.isSuccess) {
-            this.isScreenSaved = true;
+            this.isScreenSaved = false;
             this.toastr.success(res.message, { nzDuration: 3000 });
             this.showActionRule = true;
             if (this.builderScreenData?.length > 0) {

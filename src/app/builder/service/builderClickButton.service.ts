@@ -49,6 +49,28 @@ export class BuilderClickButtonService {
               value: 'right'
             }
           ],
+          iconType_list: [
+            {
+              label: 'Icon outlined',
+              value: 'outline'
+            },
+            {
+              label: 'Icon filled',
+              value: 'fill'
+            },
+            {
+              label: 'Icon twotone',
+              value: 'twotone'
+            },
+            {
+              label: 'Font Awsome',
+              value: 'font_awsome'
+            },
+            {
+              label: 'Material',
+              value: 'material'
+            },
+          ],
           // apiName: obj.apiName ? obj.apiName : '',
         };
       })

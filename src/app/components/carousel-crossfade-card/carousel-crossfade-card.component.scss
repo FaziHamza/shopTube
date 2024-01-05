@@ -1,7 +1,7 @@
 :host ::ng-deep [nz-carousel-content] {
     text-align: center !important;
-    height: 160px !important;
-    line-height: 160px !important;
+    height: 100% !important;
+    line-height: 100% !important;
     background: white !important;
     color: black !important;
     overflow: hidden !important;
@@ -9,11 +9,10 @@
 
 :host ::ng-deep .sliderNew {
     text-align: center !important;
-    height: 160px !important;
-    line-height: 160px !important;
+    height: 100% !important;
+    line-height: 100% !important;
     background: #364d79 !important;
     color: #fff !important;
     overflow: hidden !important;
 }
-
 

@@ -45,7 +45,7 @@ export class HeadingParagrapghUpdateComponent {
           text: forms?.text,
           fontweight: forms?.fontweight,
           textAlign: forms?.textAlign,
-          headingClass: forms.type == 'heading' ? forms?.heading : '',
+          headingClass: forms.type == 'heading' ? (forms?.heading ? forms?.heading : forms?.innerClass) : (forms?.heading ? forms?.heading : forms?.textSize),
           // link: forms?.link,
         }
         this.tabelNodes[index].children.push(obj);
@@ -59,7 +59,7 @@ export class HeadingParagrapghUpdateComponent {
 
 
   save() {
-    
+
     this.tabelNodes.forEach((element, index) => {
       this.nodes[0].children[1].children[index].key = element.key;
       if (this.nodes[0].children[1].children[index].title != element.title) {
@@ -81,9 +81,7 @@ export class HeadingParagrapghUpdateComponent {
               a.text = check.text;
               a.fontweight = check.fontweight;
               a.textAlign = check.textAlign;
-              if (a.type == 'heading') {
-                a['heading'] = check.headingClass;
-              }
+              a['innerClass'] = check.headingClass;
               // a.link = check.link;
               break;
             }

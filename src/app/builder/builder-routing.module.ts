@@ -26,6 +26,7 @@ import { ApplicationThemeComponent } from '../Builder-module/application-theme/a
 import { CreateControlComponent } from '../Builder-module/create-control/create-control.component';
 import { SupportChatComponent } from '../admin/support-chat/support-chat.component';
 import { EmailComponent } from '../components/email/email.component';
+import { ApplicationGlobalClassesComponent } from '../Builder-module/application-global-classes/application-global-classes.component';
 
 const routes: Routes = [
   {
@@ -131,7 +132,15 @@ const routes: Routes = [
       {
         path: 'email',
         component: EmailComponent
-      }
+      },
+      {
+        path: 'global-Classes',
+        component: ApplicationGlobalClassesComponent
+      },
+      {
+        path: 'app-theme',
+        component: ApplicationThemeComponent
+      },
     ]
   },
   // {

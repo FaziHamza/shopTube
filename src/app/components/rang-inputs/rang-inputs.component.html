@@ -10,16 +10,13 @@
     [color]="preHighLight ? rangSlider?.iconColor : '#929092'"></st-icon>
   <div [ngClass]="{'pb-3' : rangSlider.format}" [ngStyle]="{
       'height': rangSlider.height && rangSlider.height != 0 ? rangSlider.height + 'px' : 'auto'}">
-    <nz-slider *ngIf="!rangSlider.format" [nzReverse]="rangSlider.reverse"
+    <nz-slider [(ngModel)]="sliderValue" *ngIf="!rangSlider.format" [nzReverse]="rangSlider.reverse"
       [nzVertical]="rangSlider.format"
-      [nzMin]="rangSlider.min" [formControl]="formControl" 
-      (ngModelChange)="onModelChange($event, field)"
+      [nzMin]="rangSlider.min" 
       [nzMax]="rangSlider.max"
       [nzDisabled]='rangSlider.disabled'></nz-slider>
-    <nz-slider *ngIf="rangSlider.format" nzVertical
+    <nz-slider [(ngModel)]="sliderValue" *ngIf="rangSlider.format" nzVertical
       [nzReverse]="rangSlider.reverse" [nzMin]="rangSlider.min"
-      [formControl]="formControl"  
-      (ngModelChange)="onModelChange($event, field)"
       [nzMax]="rangSlider.max"
       [nzDisabled]='rangSlider.disabled'></nz-slider>
   </div>

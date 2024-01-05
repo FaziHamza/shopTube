@@ -98,7 +98,7 @@ export class EditorJsWrapperComponent implements OnInit, OnDestroy, ControlValue
           config: {
             endpoints: {
               byFile: 'URL_TO_YOUR_IMAGE_UPLOADER', // Replace with your image uploader URL
-              byUrl: 'URL_TO_YOUR_IMAGE_UPLOADER' // Replace with your image uploader URL
+              byUrl: 'http://campaigns.expocitydubai.com.s3-website.me-south-1.amazonaws.com/tvshows/screencapture-apps-org-5600-pages-default-2023-12-18-16_09_59-45cdc228-00e4-4354-8b3e-4d17f60fc2ab.png' // Replace with your image uploader URL
             }
           }
         }
