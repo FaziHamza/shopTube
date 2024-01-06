@@ -99,37 +99,31 @@ export class EditorJsWrapperComponent implements OnInit, OnDestroy, ControlValue
           class: ImageTool,
           config: {
             uploader: {
-              async uploadByFile(file : any) {
+              async uploadByFile(file: any) {
+                debugger
                 // your own uploading logic here
+                // Assuming you have a formData object to send in the request
                 const formData = new FormData();
-                formData.append("file", file);
+                formData.append('image', file);
+                // Constructing dynamic query parameters
+                let user = JSON.parse(window.localStorage['user']);
+                const queryParams = new URLSearchParams();
+                queryParams.append('organizationId', JSON.parse(localStorage.getItem('organizationId')!));
+                queryParams.append('applicationId', JSON.parse(localStorage.getItem('applicationId')!));
+                queryParams.append('user', user.username);
+                queryParams.append('userId', user.userId);
+
+                // Adding query parameters to the URL
+                const apiUrl = `${environment.nestBaseUrl}email/upload?${queryParams.toString()}`;
                 const response = await axios.post(
-                  `${environment.nestBaseUrl}email/upload`,
-                  formData,
-                  {
-                    headers: {
-                      "Content-Type": "multipart/form-data",
-                    },
-                    withCredentials: false,
-                  }
+                  apiUrl,
+                  formData
                 );
 
                 if (response.data.success === 1) {
                   return response.data;
                 }
               },
-              // async uploadByUrl(url : any) {
-              //   const response = await axios.post(
-              //     `http://localhost:4001/api/uploadImage/createByUrl`,
-              //     {
-              //       url,
-              //     }
-              //   );
-
-              //   if (response.data.success === 1) {
-              //     return response.data;
-              //   }
-              // },
             },
             inlineToolbar: true,
           },
