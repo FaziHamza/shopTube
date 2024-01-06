@@ -44,6 +44,7 @@ import { faker } from '@faker-js/faker';
 import { HeadingParagrapghUpdateComponent } from './heading-paragrapgh-update/heading-paragrapgh-update.component';
 import { OtherBulkUpdateComponent } from './other-bulk-update/other-bulk-update.component';
 import { AnyCnameRecord } from 'dns';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'st-builder',
@@ -202,12 +203,12 @@ export class BuilderComponent implements OnInit {
   }
   async loadDepartmentData(): Promise<void> {
     try {
-      const res = await this.applicationService.getNestCommonAPI('cp/Department').toPromise();
+      const res = await this.applicationService.getNestNewCommonAPI(`cp/${environment.dbMode}meta.Department`).toPromise();
       if (res?.isSuccess) {
         this.departmentData = res.data?.map((data: any) => {
           return {
             label: data.name,
-            value: data._id
+            value: data.id
           };
         });
         let header = {
@@ -228,13 +229,13 @@ export class BuilderComponent implements OnInit {
       // Root node - Load application data
       try {
         this.selectApplicationName = node.value;
-        const res = await this.applicationService.getNestCommonAPIById('cp/ScreenBuilder', node.value).toPromise();
+        const res = await this.applicationService.getNestNewCommonAPIById(`cp/${environment.dbMode}meta.ScreenBuilder`, node.value).toPromise();
         if (res.isSuccess) {
           this.screens = res.data;
           const screens = res.data.map((screenData: any) => {
             return {
               label: screenData.name,
-              value: screenData._id,
+              value: screenData.id,
               isLeaf: true
             };
 
@@ -254,14 +255,14 @@ export class BuilderComponent implements OnInit {
     }
     else if (index === 0 && node.value != 'selectDepartment') {
       try {
-        const res = await this.applicationService.getNestCommonAPIById('cp/Application', node.value).toPromise();
+        const res = await this.applicationService.getNestNewCommonAPIById(`cp/${environment.dbMode}meta.Application`, node.value).toPromise();
         if (res.isSuccess) {
           this.selectApplicationName = "";
           this.applicationData = res.data;
           const applications = res.data.map((appData: any) => {
             return {
               label: appData.name,
-              value: appData._id,
+              value: appData.id,
               isLeaf: false
             };
           });
@@ -6902,7 +6903,7 @@ export class BuilderComponent implements OnInit {
   }
 
   makeDatainTemplateTab() {
-    this.requestSubscription = this.applicationService.getNestCommonAPI('cp/Template').subscribe({
+    this.requestSubscription = this.applicationService.getNestNewCommonAPI(`cp/${environment.dbMode}meta.Template`).subscribe({
       next: (res: any) => {
         if (res.isSuccess) {
           this.dbWebsiteBlockArray = res.data.filter((x: any) => x.templateType == 'websiteBlock');
@@ -7675,7 +7676,7 @@ export class BuilderComponent implements OnInit {
     }
   }
   getApplicationTheme() {
-    this.requestSubscription = this.applicationService.getNestCommonAPI('cp/applicationTheme').subscribe({
+    this.requestSubscription = this.applicationService.getNestNewCommonAPI(`cp/${environment.dbMode}meta.applicationTheme`).subscribe({
       next: (res: any) => {
         if (res.isSuccess) {
           if (res.data.length > 0) {
@@ -7772,7 +7773,7 @@ export class BuilderComponent implements OnInit {
     }
   }
   getAppliationGlobalClass() {
-    this.applicationService.getNestCommonAPI('cp/applicationGlobalClass').subscribe(((res: any) => {
+    this.applicationService.getNestNewCommonAPI(`cp/${environment.dbMode}meta.applicationGlobalClass`).subscribe(((res: any) => {
       if (res.isSuccess) {
         if (res.data.length > 0) {
           this.dataSharedService.applicationGlobalClass = res.data
