@@ -29,6 +29,11 @@ export class ApplicationService {
       `${this.envService.nestBaseUrl}${api}/${id}`
     );
   }
+  getNestNewCommonAPIById(api: string, id: string): Observable<any> {
+    return this.http.get<any>(
+      `${this.nestNewUrl}${api}/${id}`
+    );
+  }
   getNestBuilderAPIByScreen(api: string, id: string): Observable<any> {
     return this.http.get<any>(
       `${this.envService.nestBaseUrl}${api}/${id}`

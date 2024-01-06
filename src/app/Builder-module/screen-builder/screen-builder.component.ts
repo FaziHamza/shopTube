@@ -6,6 +6,7 @@ import { NzMessageService } from 'ng-zorro-antd/message';
 import { ApplicationService } from 'src/app/services/application.service';
 import { BuilderService } from 'src/app/services/builder.service';
 import { DataSharedService } from 'src/app/services/data-shared.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'st-screen-builder',
@@ -144,11 +145,11 @@ export class ScreenBuilderComponent implements OnInit {
     private cdr: ChangeDetectorRef
   ) {
     this.dataSharedService.change.subscribe(({ event, field }) => {
-      if (field.key === 'departmentId' && event) {
+      if (field.key === 'departmentid' && event) {
 
         this.getApplicationOptionList(event);
       }
-      if (field.key === 'organizationId' && event) {
+      if (field.key === 'organizationid' && event) {
 
         this.getDepartmentOptionList(event);
       }
@@ -179,7 +180,7 @@ export class ScreenBuilderComponent implements OnInit {
   }
   jsonScreenModuleList() {
     this.loading = true;
-    this.applicationService.getNestCommonAPI('cp/ScreenBuilder').subscribe({
+    this.applicationService.getNestNewCommonAPI(`cp/${environment.dbMode}meta.ScreenBuilder`).subscribe({
       next: (res: any) => {
         if (res.isSuccess && res?.data.length > 0) {
           this.toastr.success(`Screen : ${res.message}`, { nzDuration: 3000 });
@@ -206,7 +207,7 @@ export class ScreenBuilderComponent implements OnInit {
     });
   }
   getApplicationList() {
-    this.applicationService.getNestCommonAPI('cp/Application').subscribe(((res: any) => {
+    this.applicationService.getNestNewCommonAPI(`cp/${environment.dbMode}meta.Application`).subscribe(((res: any) => {
       if (res.isSuccess)
         this.ApplicationData = res.data;
       else
@@ -234,7 +235,7 @@ export class ScreenBuilderComponent implements OnInit {
   }
 
   getDepartment() {
-    this.applicationService.getNestCommonAPI('cp/Department').subscribe((res: any) => {
+    this.applicationService.getNestNewCommonAPI(`cp/${environment.dbMode}meta.Department`).subscribe((res: any) => {
       if (res.isSuccess) {
         console.log('getDepartment-Info');
         this.departmenData = res.data;
@@ -244,7 +245,7 @@ export class ScreenBuilderComponent implements OnInit {
   }
   getOrganization() {
     this.applicationService
-      .getNestCommonAPI('cp/Organization')
+      .getNestNewCommonAPI(`cp/${environment.dbMode}meta.Organization`)
       .subscribe((res: any) => {
         if (res.isSuccess) {
           console.log('getOrganization-Info');
@@ -298,7 +299,7 @@ export class ScreenBuilderComponent implements OnInit {
 
       const checkScreenAndProceed = this.isSubmit
         ? this.applicationService.addNestCommonAPI('cp', screenModel)
-        : this.applicationService.updateNestCommonAPI('cp/ScreenBuilder', this.model._id, screenModel);
+        : this.applicationService.updateNestCommonAPI('cp/ScreenBuilder', this.model.id, screenModel);
       checkScreenAndProceed.subscribe({
         next: (objTRes: any) => {
           if (objTRes.isSuccess) {
@@ -324,15 +325,15 @@ export class ScreenBuilderComponent implements OnInit {
 
   getDepartmentOptionList(id: string) {
 
-    this.applicationService.getNestCommonAPIById('cp/Department', id).subscribe((res: any) => {
+    this.applicationService.getNestNewCommonAPIById(`cp/${environment.dbMode}meta.Department`, id).subscribe((res: any) => {
       if (res.isSuccess) {
         const moduleListOptions = res.data.map((item: any) => ({
           label: item.name,
-          value: item._id
+          value: item.id
         }));
         const moduleFieldIndex = this.fields.findIndex((fieldGroup: any) => {
           const field = fieldGroup.fieldGroup[0];
-          return field.key === 'departmentId';
+          return field.key === 'departmentid';
         });
 
         if (moduleFieldIndex !== -1) {
@@ -345,11 +346,11 @@ export class ScreenBuilderComponent implements OnInit {
     });
   }
   getApplicationOptionList(id: string) {
-    this.applicationService.getNestCommonAPIById('cp/Application', id).subscribe((res: any) => {
+    this.applicationService.getNestNewCommonAPIById(`cp/${environment.dbMode}meta.Application`, id).subscribe((res: any) => {
       if (res.isSuccess) {
         const moduleListOptions = res.data.map((item: any) => ({
           label: item.name,
-          value: item._id
+          value: item.id
         }));
 
         // Find the index of the "Select Module" field in the 'this.fields' array
@@ -370,7 +371,7 @@ export class ScreenBuilderComponent implements OnInit {
   editItem(item: any) {
 
     this.model = JSON.parse(JSON.stringify(item));
-    this.getApplicationOptionList(this.model.departmentId);
+    this.getApplicationOptionList(this.model.departmentid);
     this.isSubmit = false;
   }
   deleteRow(data: any): void {
@@ -379,7 +380,7 @@ export class ScreenBuilderComponent implements OnInit {
       this.toastr.warning(`Not allowed to delete ${lastPart}`, { nzDuration: 2000 });
       return;
     }
-    let id = data._id;
+    let id = data.id;
     this.applicationService
       .deleteNestCommonAPI('cp/ScreenBuilder', id)
       .subscribe((res: any) => {
@@ -461,13 +462,13 @@ export class ScreenBuilderComponent implements OnInit {
   loadScreenListFields() {
     const options = this.organizationData.map((item: any) => ({
       label: item.name,
-      value: item._id,
+      value: item.id,
     }));
     this.fields = [
       {
         fieldGroup: [
           {
-            key: 'organizationId',
+            key: 'organizationid',
             type: 'select',
             wrappers: ['formly-vertical-theme-wrapper'],
             defaultValue: '',
@@ -481,7 +482,7 @@ export class ScreenBuilderComponent implements OnInit {
       {
         fieldGroup: [
           {
-            key: 'departmentId',
+            key: 'departmentid',
             type: 'select',
             wrappers: ['formly-vertical-theme-wrapper'],
             defaultValue: '',
