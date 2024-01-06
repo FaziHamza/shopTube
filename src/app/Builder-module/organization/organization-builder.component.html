@@ -37,10 +37,10 @@
                     <td>{{ data.email }}</td>
                     <td>{{ data.contact }}</td>
                     <td>{{ data.website }}</td>
-                    <td>{{ data.year_founded }}</td>
+                    <td>{{ data.yearfounded }}</td>
                     <td>
                         <p class="ellipsis">
-                            {{ data.mission_statement }}
+                            {{ data.missionstatement }}
                         </p>
                     </td>
                     <td>
@@ -57,13 +57,13 @@
 
                         <span class="text-[#fd3636] pl-2 hover:cursor-pointer" nzTooltipTitle="Delete" nz-tooltip
                             nz-popconfirm nzPopconfirmTitle="Sure to delete?"
-                            (nzOnConfirm)="deleteRow(data._id , 'Organization')"><i
+                            (nzOnConfirm)="deleteRow(data.id , 'Organization')"><i
                                 class="fa-regular fa-trash"></i></span>
                     </td>
                 </tr>
                 <tr [nzExpand]="data.expand">
                     <button nz-button nzType="primary" class="btn mb-4"
-                        (click)="openModal('department', true,data._id)"><span nz-icon nzType="plus"
+                        (click)="openModal('department', true,data.id)"><span nz-icon nzType="plus"
                             nzTheme="outline"></span>Add
                         Department</button>
                     <nz-table #innerTable nzBordered [nzData]="data?.children" nzSize="middle"
@@ -79,15 +79,15 @@
         <tbody>
             <tr *ngFor="let data of innerTable.data">
                 <td>{{ data.name }}</td>
-                <td>{{ data.companyName ? data.companyName :
-                    data.organizationName}}</td>
+                <td>{{ data.companyname ? data.companyname :
+                    data.organizationname}}</td>
                 <td>
                     <i class="fa-regular fa-pen-to-square !text-blue-600 hover:cursor-pointer" nzTooltipTitle="Edit"
                         nz-tooltip (click)="editItem(data , 'department')"></i>
 
                     <i class="fa-regular fa-trash !text-[#fd3636] pl-2 hover:cursor-pointer" nz-tooltip
                         nzTooltipTitle="delete" nz-popconfirm nzPopconfirmTitle="Sure to delete?"
-                        (nzOnConfirm)="deleteRow(data._id , 'department')"></i>
+                        (nzOnConfirm)="deleteRow(data.id , 'department')"></i>
 
                 </td>
             </tr>

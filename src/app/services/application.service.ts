@@ -10,12 +10,18 @@ import { EnvService } from '../shared/envoirment.service';
 export class ApplicationService {
   protected baseUrl = environment.serverApiUrl;
   protected nestUrl = environment.nestBaseUrl;
+  protected nestNewUrl = environment.nestNewBaseUrl;
   protected finalUrl = "";
   constructor(public http: HttpClient, public envService: EnvService) { }
 
   getNestCommonAPI(api: string): Observable<any> {
     return this.http.get<any>(
       api.includes('http') ? api : this.nestUrl + api
+    );
+  }
+  getNestNewCommonAPI(api: string): Observable<any> {
+    return this.http.get<any>(
+      api.includes('http') ? api : this.nestNewUrl + api
     );
   }
   getNestCommonAPIById(api: string, id: string): Observable<any> {
@@ -44,6 +50,11 @@ export class ApplicationService {
       api.includes('http') ? api : this.nestUrl + api, modal
     );
   }
+  addNestNewCommonAPI(api: string, modal: any): Observable<any> {
+    return this.http.post<any>(
+      api.includes('http') ? api : this.nestNewUrl + api, modal
+    );
+  }
   getBackendCommonAPI(api: string): Observable<any> {
     return this.http.get<any>(
       api.includes('http') ? api : this.nestUrl + api
@@ -54,9 +65,19 @@ export class ApplicationService {
       this.nestUrl + api + `/${id}`, modal
     );
   }
+  updateNestNewCommonAPI(api: string, id: any, modal: any): Observable<any> {
+    return this.http.put<any>(
+      this.nestNewUrl + api + `/${id}`, modal
+    );
+  }
   deleteNestCommonAPI(api: string, id: any): Observable<any[]> {
     return this.http.delete<any[]>(
       this.nestUrl + api + `/${id}`
+    );
+  }
+  deleteNestNewCommonAPI(api: string, id: any): Observable<any[]> {
+    return this.http.delete<any[]>(
+      this.nestNewUrl + api + `/${id}`
     );
   }
   deleteNestApi(api: string): Observable<any[]> {

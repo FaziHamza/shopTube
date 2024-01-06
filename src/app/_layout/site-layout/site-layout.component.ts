@@ -212,9 +212,9 @@ export class SiteLayoutComponent implements OnInit {
             this.dataSharedService.headerLogo = res.data.appication['image'];
             if (allowStoreId) {
               localStorage.setItem('applicationId', JSON.stringify(res.data?.appication?._id));
-              localStorage.setItem('organizationId', JSON.stringify(res.data?.department?.organizationId));
+              // localStorage.setItem('organizationId', JSON.stringify(res.data?.department?.organizationId));
             }
-            if(res.data['applicationGlobalClasses']){
+            if(res.data['applicationGlobalClasses'] && res.data['applicationGlobalClasses'].length  > 0){
               this.dataSharedService.applicationGlobalClass = res.data['applicationGlobalClasses'];
             }
             this.currentWebsiteLayout = res.data.appication['application_Type'] ? res.data.appication['application_Type'] : 'backend_application';

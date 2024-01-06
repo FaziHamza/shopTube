@@ -10,6 +10,7 @@ export const environment = {
   // nestBaseUrl:"https://spectrum.expocitydubai.com:9443/",
   nestBaseUrl:"http://localhost:4500/",
   nestImageUrl:"http://campaigns.expocitydubai.com.s3-website.me-south-1.amazonaws.com/",
+  dbMode:'dev_',
   firebaseConfig: {
     apiKey: '',
     authDomain: '',

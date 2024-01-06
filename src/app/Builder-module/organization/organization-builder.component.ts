@@ -8,6 +8,7 @@ import { Subscription } from 'rxjs';
 import { ApplicationService } from 'src/app/services/application.service';
 import { BuilderService } from 'src/app/services/builder.service';
 import { DataSharedService } from 'src/app/services/data-shared.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'st-organization-builder',
@@ -202,7 +203,7 @@ export class organizationBuilderComponent implements OnInit {
       sortDirections: ['ascend', 'descend', null],
     },
   ];
-  organizationId:any;
+  organizationId: any;
   constructor(
     public builderService: BuilderService,
     private applicationService: ApplicationService,
@@ -224,7 +225,7 @@ export class organizationBuilderComponent implements OnInit {
   }
   organizationBuilder() {
     this.loading = true;
-    this.applicationService.getNestCommonAPI('cp/Organization').subscribe({
+    this.applicationService.getNestNewCommonAPI(`cp/${environment.dbMode}meta.Organization`).subscribe({
       next: (res: any) => {
         if (res.isSuccess) {
           this.listOfDisplayData = res.data.map((obj: any) => {
@@ -254,10 +255,12 @@ export class organizationBuilderComponent implements OnInit {
   }
 
   openModal(type: any, selectedAllow?: boolean, organizationName?: any) {
-    if (this.isSubmit) {
-      this.model = {};
-    }
-    
+    // if (this.isSubmit) {
+      
+    // }
+    this.model = {};
+    this.fields = [];
+    this.form = new FormGroup({});
     if (type == 'department') {
       this.loadDepartmentFields();
       if (selectedAllow) {
@@ -298,9 +301,9 @@ export class organizationBuilderComponent implements OnInit {
       this.handleCancel();
       return;
     }
-    // let findName = this.listOfDisplayData.find(a => a.name.toLowerCase() == this.form.value.name.toLowerCase() && a._id != this.model?._id);
-    // let findEmail = this.listOfDisplayData.find(a => a.a?.email?.toLowerCase() == this.form.value.email.toLowerCase() && a._id != this.model?._id);
-    // let findContact = this.listOfDisplayData.find(a => a?.contact?.toLowerCase() == this.form.value.contact.toLowerCase() && a._id != this.model?._id);
+    // let findName = this.listOfDisplayData.find(a => a.name.toLowerCase() == this.form.value.name.toLowerCase() && a.id != this.model?.id);
+    // let findEmail = this.listOfDisplayData.find(a => a.a?.email?.toLowerCase() == this.form.value.email.toLowerCase() && a.id != this.model?.id);
+    // let findContact = this.listOfDisplayData.find(a => a?.contact?.toLowerCase() == this.form.value.contact.toLowerCase() && a.id != this.model?.id);
     // if (findName) {
     //   this.toastr.warning('Name already exists in the database.', { nzDuration: 2000 });
     //   return;
@@ -314,15 +317,16 @@ export class organizationBuilderComponent implements OnInit {
     //   return;
     // }
     else {
-      this.form.value['userId'] = JSON.parse(localStorage.getItem('user')!).userId;
+      // this.form.value['userId'] = JSON.parse(localStorage.getItem('user')!).userId;
+      const tableValue = `${environment.dbMode}meta.Organization`;
       const organizationModel = {
-        Organization: this.form.value,
+        [tableValue]: this.form.value,
       };
       const addOrUpdateOrganization$ = this.isSubmit
-        ? this.applicationService.addNestCommonAPI('cp', organizationModel)
-        : this.applicationService.updateNestCommonAPI(
-          'cp/Organization',
-          this.model._id,
+        ? this.applicationService.addNestNewCommonAPI('cp', organizationModel)
+        : this.applicationService.updateNestNewCommonAPI(
+          `cp/${environment.dbMode}meta.Organization`,
+          this.model.id,
           organizationModel
         );
       this.loading = true;
@@ -359,7 +363,7 @@ export class organizationBuilderComponent implements OnInit {
     let findData = this.listOfChildrenData.find(
       (a) =>
         a.name.toLowerCase() == this.form.value.name.toLowerCase() &&
-        a._id != this.model?._id
+        a.id != this.model?.id
     );
     if (findData) {
       this.toastr.warning('Department name already exists in the database.', {
@@ -367,19 +371,20 @@ export class organizationBuilderComponent implements OnInit {
       });
       return;
     } else {
+      const tableValue = `${environment.dbMode}meta.Department`;
       const modelData = {
-        Department: this.form.value,
+        [tableValue]: this.form.value,
       };
       const objOrganization = this.listOfData.find(
-        (x: any) => x._id == this.form.value.organizationId
+        (x: any) => x.id == this.form.value.organizationid
       );
-      this.form.value['userId'] = JSON.parse(localStorage.getItem('user')!).userId;
+      // this.form.value['userId'] = JSON.parse(localStorage.getItem('user')!).userId;
       this.form.value.organizationName = objOrganization.name;
       const action$ = this.isSubmit
-        ? this.applicationService.addNestCommonAPI('cp', modelData)
-        : this.applicationService.updateNestCommonAPI(
-          'cp/Department',
-          this.model._id,
+        ? this.applicationService.addNestNewCommonAPI('cp', modelData)
+        : this.applicationService.updateNestNewCommonAPI(
+          `cp/${environment.dbMode}meta.Department`,
+          this.model.id,
           modelData
         );
       this.loading = true;
@@ -418,23 +423,23 @@ export class organizationBuilderComponent implements OnInit {
   }
   editItem(item: any, type: any) {
     this.isSubmit = false;
-    this.model = JSON.parse(JSON.stringify(item));
     this.openModal(type);
+    this.model = JSON.parse(JSON.stringify(item));
   }
   deleteRow(id: any, type: any): void {
     try {
       this.loading = true
       const api$ =
         type == 'department'
-          ? this.applicationService.deleteNestCommonAPI('cp/Department', id)
-          : this.applicationService.deleteNestCommonAPI('cp/Organization', id);
+          ? this.applicationService.deleteNestNewCommonAPI(`cp/${environment.dbMode}meta.Department`, id)
+          : this.applicationService.deleteNestNewCommonAPI(`cp/${environment.dbMode}meta.Organization`, id);
 
       api$.subscribe((res: any) => {
         if (res.isSuccess) {
           this.loading = false
           this.handlePageChange(1);
           this.organizationBuilder();
-          this.getDepartment();
+          // this.getDepartment();
           this.toastr.success(res.message, { nzDuration: 2000 });
         } else {
           this.loading = false
@@ -507,8 +512,8 @@ export class organizationBuilderComponent implements OnInit {
   callChild(organization: any) {
     const departmentData = this.listOfChildrenData.filter(
       (item: any) =>
-        item.companyName == organization.name ||
-        item.organizationId == organization._id
+        item.companyname == organization.name ||
+        item.organizationid == organization.id
     );
     organization['children'] = departmentData;
   }
@@ -516,16 +521,14 @@ export class organizationBuilderComponent implements OnInit {
   getDepartment() {
     try {
       this.loading = true;
-      this.applicationService
-        .getNestCommonAPI('cp/Department')
-        .subscribe((res: any) => {
-          if (res.isSuccess) {
-            this.listOfChildrenData = res.data;
-          } else {
-            this.toastr.error(res.message, { nzDuration: 2000 });
-          }
-          this.loading = false;
-        });
+      this.applicationService.getNestNewCommonAPI(`cp/${environment.dbMode}meta.Department`).subscribe((res: any) => {
+        if (res.isSuccess) {
+          this.listOfChildrenData = res.data;
+        } else {
+          this.toastr.error(res.message, { nzDuration: 2000 });
+        }
+        this.loading = false;
+      });
     } catch (error) {
       this.loading = false;
       // Handle any errors that occur during execution
@@ -539,13 +542,13 @@ export class organizationBuilderComponent implements OnInit {
   loadDepartmentFields() {
     const options = this.listOfData.map((item: any) => ({
       label: item.name,
-      value: item._id,
+      value: item.id,
     }));
     this.fields = [
       {
         fieldGroup: [
           {
-            key: 'organizationId',
+            key: 'organizationid',
             type: 'select',
             wrappers: ['formly-vertical-theme-wrapper'],
             defaultValue: '',
@@ -626,25 +629,25 @@ export class organizationBuilderComponent implements OnInit {
           },
         ],
       },
-      {
-        fieldGroup: [
-          {
-            key: 'password',
-            type: 'input',
-            wrappers: ["formly-vertical-theme-wrapper"],
-            defaultValue: '',
-            props: {
-              type: 'password',
-              label: 'Password',
-              placeholder: 'password...',
-              required: true,
-              additionalProperties: {
-                suffixicon: 'eye-invisible',
-              }
-            }
-          },
-        ],
-      },
+      // {
+      //   fieldGroup: [
+      //     {
+      //       key: 'password',
+      //       type: 'input',
+      //       wrappers: ["formly-vertical-theme-wrapper"],
+      //       defaultValue: '',
+      //       props: {
+      //         type: 'password',
+      //         label: 'Password',
+      //         placeholder: 'password...',
+      //         required: true,
+      //         additionalProperties: {
+      //           suffixicon: 'eye-invisible',
+      //         }
+      //       }
+      //     },
+      //   ],
+      // },
       {
         fieldGroup: [
           {
@@ -677,7 +680,7 @@ export class organizationBuilderComponent implements OnInit {
       {
         fieldGroup: [
           {
-            key: 'year_founded',
+            key: 'yearfounded',
             type: 'input',
             wrappers: ['formly-vertical-theme-wrapper'],
             defaultValue: '',
@@ -691,7 +694,7 @@ export class organizationBuilderComponent implements OnInit {
       {
         fieldGroup: [
           {
-            key: 'mission_statement',
+            key: 'missionstatement',
             type: 'input',
             wrappers: ['formly-vertical-theme-wrapper'],
             defaultValue: '',

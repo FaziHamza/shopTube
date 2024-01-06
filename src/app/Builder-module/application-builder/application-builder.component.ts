@@ -69,8 +69,8 @@ export class ApplicationBuilderComponent implements OnInit {
       searchValue: '',
       sortOrder: null,
       sortFn: (a: any, b: any) => {
-        const dataA = a.companyName ? a.companyName : a.organizationName;
-        const dataB = b.companyName ? b.companyName : b.organizationName;
+        const dataA = a.companyname ? a.companyname : a.organizationname;
+        const dataB = b.companyname ? b.companyname : b.organizationname;
         if (dataA === undefined && dataB === undefined) {
           return 0;
         } else if (dataA === undefined) {
@@ -89,8 +89,8 @@ export class ApplicationBuilderComponent implements OnInit {
     //   searchValue: '',
     //   sortOrder: null,
     //   sortFn: (a: any, b: any) => {
-    //     const name1 = a.application_Type;
-    //     const name2 = b.application_Type;
+    //     const name1 = a.applicationtype;
+    //     const name2 = b.applicationtype;
     //     if (name1 === undefined && name2 === undefined) {
     //       return 0;
     //     } else if (name1 === undefined) {
@@ -115,7 +115,7 @@ export class ApplicationBuilderComponent implements OnInit {
     private applicationService: ApplicationService,
     public dataSharedService: DataSharedService, private toastr: NzMessageService, private router: Router,) {
     this.dataSharedService.change.subscribe(({ event, field }) => {
-      if (field.key === 'application_Type' && event) {
+      if (field.key === 'applicationtype' && event) {
         const moduleFieldIndex = this.fields.findIndex((fieldGroup: any) => {
           const field = fieldGroup.fieldGroup[0];
           return field.key === 'defaultApplication';
@@ -129,10 +129,10 @@ export class ApplicationBuilderComponent implements OnInit {
           //   { label: event == 'website' ? 'Layout 5' : 'Admin Panel 5', value: event == 'website' ? 'layout5' : 'Admin Panel 5' },
           // ];
           let optionArray = this.designStudio
-            .filter((app: any) => app.application_Type == event)
+            .filter((app: any) => app.applicationtype == event)
             .map((item: any) => ({
               label: item.name,
-              value: item._id,
+              value: item.id,
             }));
           this.fields[moduleFieldIndex].fieldGroup[0].props.options = event != 'mobile' ? optionArray : [];
         }
@@ -165,7 +165,7 @@ export class ApplicationBuilderComponent implements OnInit {
 
   getDepartment() {
     this.loading = true
-    this.requestSubscription = this.applicationService.getNestCommonAPI('cp/Department').subscribe({
+    this.requestSubscription = this.applicationService.getNestNewCommonAPI(`cp/${environment.dbMode}meta.Department`).subscribe({
       next: (res: any) => {
         if (res.isSuccess) {
           this.listOfDisplayData = res.data.map((obj: any) => {
@@ -190,26 +190,25 @@ export class ApplicationBuilderComponent implements OnInit {
         this.toastr.error("An error occurred", { nzDuration: 3000 });
         this.loading = false;
       }
-
     });
   }
   // defaultApplicationBuilder(isSubmit?: any, key?: any, value?: any, model?: any) {
-  //   if (isSubmit && key == "applicationId") {
+  //   if (isSubmit && key == "applicationid") {
   //     const screen = {
   //       "ScreenBuilder": {
   //         name: value.name + "_default",
   //         navigation: value.name + "_default",
-  //         departmentId: value.departmentId,
-  //         applicationId: value._id
+  //         departmentid: value.departmentid,
+  //         applicationid: value.id
   //       }
   //     };
   //     const header = {
   //       "ScreenBuilder": {
   //         name: value.name + "_header",
   //         navigation: value.name + "_header",
-  //         departmentId: value.departmentId,
-  //         applicationId: value._id,
-  //         organizationId: model?.organizationId
+  //         departmentid: value.departmentid,
+  //         applicationid: value.id,
+  //         organizationid: model?.organizationid
   //       }
   //     };
 
@@ -217,15 +216,15 @@ export class ApplicationBuilderComponent implements OnInit {
   //       "ScreenBuilder": {
   //         name: value.name + "_footer",
   //         navigation: value.name + "_footer",
-  //         departmentId: value.departmentId,
-  //         applicationId: value._id,
-  //         organizationId: model?.organizationId
+  //         departmentid: value.departmentid,
+  //         applicationid: value.id,
+  //         organizationid: model?.organizationid
   //       }
   //     };
   //     const requests = [
-  //       this.applicationService.addNestCommonAPI("cp", screen),
-  //       this.applicationService.addNestCommonAPI("cp", header),
-  //       this.applicationService.addNestCommonAPI("cp", footer)
+  //       this.applicationService.addNestNewCommonAPI("cp", screen),
+  //       this.applicationService.addNestNewCommonAPI("cp", header),
+  //       this.applicationService.addNestNewCommonAPI("cp", footer)
   //     ];
   //     this.loading = true;
   //     forkJoin(requests).subscribe((responses: any) => {
@@ -246,10 +245,10 @@ export class ApplicationBuilderComponent implements OnInit {
 
   // getBuilderScreen(screen: any, header: any, footer: any, value: any) {
   //   const requests = [
-  //     this.applicationService.getNestCommonAPIById('cp/Builder', "64a81f1164d44e484c177a78"),
-  //     this.applicationService.getNestCommonAPIById('cp/Builder', "64a939a6a2c44ea9c78ac137"),
-  //     this.applicationService.getNestCommonAPIById('cp/Builder', "64a939b8a2c44ea9c78ac13c"),
-  //     // this.applicationService.getNestCommonAPIById('cp/Menu', "64a3c6cfa5d51b158d31cc00"),
+  //     this.applicationService.getNestNewCommonAPIById('cp/Builder', "64a81f1164d44e484c177a78"),
+  //     this.applicationService.getNestNewCommonAPIById('cp/Builder', "64a939a6a2c44ea9c78ac137"),
+  //     this.applicationService.getNestNewCommonAPIById('cp/Builder', "64a939b8a2c44ea9c78ac13c"),
+  //     // this.applicationService.getNestNewCommonAPIById('cp/Menu', "64a3c6cfa5d51b158d31cc00"),
   //   ];
   //   this.loading = true;
   //   forkJoin(requests).subscribe((responses: any) => {
@@ -258,7 +257,7 @@ export class ApplicationBuilderComponent implements OnInit {
   //       for (let i = 0; i < 3; i++) {
   //         responses[i].data[0].navigation = objects[i].data.navigation;
   //         responses[i].data[0].screenName = objects[i].data.name;
-  //         responses[i].data[0].screenBuilderId = objects[i].data._id;
+  //         responses[i].data[0].screenBuilderId = objects[i].data.id;
   //       }
   //       this.saveBuilderScreen(responses[0], responses[1], responses[2], responses[3], value);
   //     } else {
@@ -272,7 +271,7 @@ export class ApplicationBuilderComponent implements OnInit {
   // }
 
   // getScreensForClone(value?: any, model?: any) {
-  //   this.requestSubscription = this.applicationService.getNestCommonAPIById('cp/ScreenBuilder', this.myForm.value.defaultApplication).subscribe({
+  //   this.requestSubscription = this.applicationService.getNestNewCommonAPIById('cp/ScreenBuilder', this.myForm.value.defaultApplication).subscribe({
   //     next: (res: any) => {
   //       if (res.isSuccess) {
   //         if (res.data.length > 0) {
@@ -289,16 +288,16 @@ export class ApplicationBuilderComponent implements OnInit {
   //             }
   //             const screen = {
   //               "ScreenBuilder": {
-  //                 applicationId: value._id,
-  //                 departmentId: value.departmentId,
+  //                 applicationid: value.id,
+  //                 departmentid: value.departmentid,
   //                 name: element.name,
   //                 navigation: element.navigation,
-  //                 organizationId: model?.organizationId
+  //                 organizationid: model?.organizationid
   //               }
   //             };
 
 
-  //             return this.applicationService.addNestCommonAPI('cp', screen).pipe(
+  //             return this.applicationService.addNestNewCommonAPI('cp', screen).pipe(
   //               catchError(error => of(error)) // Handle error and continue the forkJoin
   //             );
   //           });
@@ -331,7 +330,7 @@ export class ApplicationBuilderComponent implements OnInit {
   //   });
   // }
   // getBuilderScreensForClone(value?: any, model?: any) {
-  //   this.requestSubscription = this.applicationService.getNestCommonAPIById('cp/ScreenBuilder', this.myForm.value.defaultApplication).subscribe({
+  //   this.requestSubscription = this.applicationService.getNestNewCommonAPIById('cp/ScreenBuilder', this.myForm.value.defaultApplication).subscribe({
   //     next: (res: any) => {
   //       if (res.isSuccess) {
   //         if (res.data.length > 0) {
@@ -351,13 +350,13 @@ export class ApplicationBuilderComponent implements OnInit {
   //                 "screenData": JSON.parse(element.screenData),
   //                 "screenName": element.screenName,
   //                 "navigation": element.navigation,
-  //                 // "screenBuilderId": this._id,
-  //                 "applicationId": value._id,
+  //                 // "screenBuilderId": this.id,
+  //                 "applicationid": value.id,
   //               }
   //             };
 
 
-  //             return this.applicationService.addNestCommonAPI('cp', screen).pipe(
+  //             return this.applicationService.addNestNewCommonAPI('cp', screen).pipe(
   //               catchError(error => of(error)) // Handle error and continue the forkJoin
   //             );
   //           });
@@ -400,26 +399,26 @@ export class ApplicationBuilderComponent implements OnInit {
   //     "Builder": footer.data[0]
   //   }
   //   delete screenModel.Builder.__v;
-  //   delete screenModel.Builder._id;
+  //   delete screenModel.Builder.id;
   //   delete headerModel.Builder.__v;
-  //   delete headerModel.Builder._id;
+  //   delete headerModel.Builder.id;
   //   delete footerModel.Builder.__v;
-  //   delete footerModel.Builder._id;
-  //   screenModel.Builder['applicationId'] = value._id;
-  //   headerModel.Builder['applicationId'] = value._id;
-  //   footerModel.Builder['applicationId'] = value._id;
+  //   delete footerModel.Builder.id;
+  //   screenModel.Builder['applicationid'] = value.id;
+  //   headerModel.Builder['applicationid'] = value.id;
+  //   footerModel.Builder['applicationid'] = value.id;
   //   const menuModel = {
   //     "Menu": menu.data[0]
   //   }
   //   delete menuModel.Menu.__v;
-  //   delete menuModel.Menu._id;
-  //   menuModel.Menu.applicationId = value._id
-  //   menuModel.Menu.name = value._id
+  //   delete menuModel.Menu.id;
+  //   menuModel.Menu.applicationid = value.id
+  //   menuModel.Menu.name = value.id
   //   const requests = [
-  //     this.applicationService.addNestCommonAPI('cp', screenModel),
-  //     this.applicationService.addNestCommonAPI('cp', headerModel),
-  //     this.applicationService.addNestCommonAPI('cp', footerModel),
-  //     this.applicationService.addNestCommonAPI('cp', menuModel),
+  //     this.applicationService.addNestNewCommonAPI('cp', screenModel),
+  //     this.applicationService.addNestNewCommonAPI('cp', headerModel),
+  //     this.applicationService.addNestNewCommonAPI('cp', footerModel),
+  //     this.applicationService.addNestNewCommonAPI('cp', menuModel),
   //   ];
   //   forkJoin(requests).subscribe((responses: any) => {
   //     if (responses[0].isSuccess && responses[1].isSuccess && responses[2].isSuccess) {
@@ -442,12 +441,13 @@ export class ApplicationBuilderComponent implements OnInit {
       }
       this.model = {};
       this.myForm = new FormGroup({});
+      this.fields = [];
     }
     this.applicationSubmit = type == 'application' ? true : false;
     if (eidt == false || eidt == undefined) {
-      if(type == 'application'){
+      if (type == 'application') {
         this.loadApplicationFields();
-      }else{
+      } else {
         this.loadDepartmentFields();
       }
     }
@@ -497,14 +497,14 @@ export class ApplicationBuilderComponent implements OnInit {
   }
   handleCancel(): void {
     this.isVisible = false;
-    this.isSubmit =  true;
+    this.isSubmit = true;
   }
   getOrganizationData() {
-    this.applicationService.getNestCommonAPI('cp/Organization').subscribe(((res: any) => {
+    this.applicationService.getNestNewCommonAPI(`cp/${environment.dbMode}meta.Organization`).subscribe(((res: any) => {
       if (res.isSuccess) {
         this.companyBuilder = res.data.map((item: any) => ({
           label: item.name,
-          value: item._id
+          value: item.id
         }));
         this.loadDepartmentFields();
       } else
@@ -527,34 +527,37 @@ export class ApplicationBuilderComponent implements OnInit {
       return;
     }
     else {
-      const key = this.applicationSubmit ? 'applicationId' : 'departmentId';
+      const key = this.applicationSubmit ? 'applicationid' : 'departmentid';
       // this.myForm.value[key] = this.myForm.value.name.replace(/\s+/g, '-');
       if (!this.applicationSubmit) {
-        const data = this.companyBuilder.find((x: any) => x.value == this.myForm.value.organizationId);
-        this.myForm.value.organizationName = data.label;
+        const data = this.companyBuilder.find((x: any) => x.value == this.myForm.value.organizationid);
+        this.myForm.value.organizationname = data.label;
       } else {
-        const departmentData = this.listOfData.find((x: any) => x._id == this.myForm.value.departmentId)
-        this.myForm.value.departmentName = departmentData.name;
+        const departmentData = this.listOfData.find((x: any) => x.id == this.myForm.value.departmentid)
+        this.myForm.value.departmentname = departmentData.name;
       }
       let objDataModel: any;
       if (this.applicationSubmit) {
-        const objDepartmentName = this.departmentData.find((x: any) => x._id == this.myForm.value.departmentId);
-        this.myForm.value.departmentName = objDepartmentName.name;
+        const objDepartmentName = this.departmentData.find((x: any) => x.id == this.myForm.value.departmentid);
+        this.myForm.value.departmentname = objDepartmentName.name;
+        const tableValue = `${environment.dbMode}meta.Application`;
         objDataModel = {
-          "Application": this.myForm.value
+          [tableValue]: this.myForm.value
         }
       }
       else {
+        const tableValue = `${environment.dbMode}meta.Department`;
         objDataModel = {
-          "Department": this.myForm.value
+          [tableValue]: this.myForm.value
         }
       }
-      if (this.applicationSubmit && key == "applicationId" && this.isSubmit) {
+      if (this.applicationSubmit && key == "applicationid" && this.isSubmit) {
 
         this.handleCancel();
         this.loading = true;
         const defaultCheck = '/' + this.myForm.value.defaultApplication ?? "''";
-        this.applicationService.addNestCommonAPI(`applications/clone${defaultCheck}`, this.myForm.value).subscribe({
+        this.applicationService.addNestNewCommonAPI('cp', objDataModel).subscribe({
+        // this.applicationService.addNestNewCommonAPI(`applications/clone${defaultCheck}`, this.myForm.value).subscribe({
           next: (res: any) => {
             if (res.isSuccess) {
               this.getDepartment();
@@ -574,10 +577,10 @@ export class ApplicationBuilderComponent implements OnInit {
 
       const action$ = !this.applicationSubmit
         ? this.isSubmit
-          ? this.applicationService.addNestCommonAPI('cp', objDataModel)
-          : this.applicationService.updateNestCommonAPI('cp/Department', this.model._id, objDataModel)
+          ? this.applicationService.addNestNewCommonAPI('cp', objDataModel)
+          : this.applicationService.updateNestNewCommonAPI(`cp/${environment.dbMode}meta.Department`, this.model.id, objDataModel)
         : !this.isSubmit
-          ? this.applicationService.updateNestCommonAPI('cp/Application', this.model._id, objDataModel)
+          ? this.applicationService.updateNestNewCommonAPI(`cp/${environment.dbMode}meta.Application`, this.model.id, objDataModel)
           : '';
 
       if (action$) {
@@ -605,14 +608,14 @@ export class ApplicationBuilderComponent implements OnInit {
     } else {
       this.loadDepartmentFields();
     }
-    this.model = JSON.parse(JSON.stringify(item));
     this.isSubmit = false;
-    this.openModal(type , true)
+    this.openModal(type, true)
+    this.model = JSON.parse(JSON.stringify(item));
   }
 
 
   deleteRow(id: any, type: any): void {
-    const api$ = type == 'application' ? this.applicationService.deleteNestCommonAPI('cp/Application', id) : this.applicationService.deleteNestCommonAPI('cp/Department', id);
+    const api$ = type == 'application' ? this.applicationService.deleteNestNewCommonAPI(`cp/${environment.dbMode}meta.Application`, id) : this.applicationService.deleteNestNewCommonAPI(`cp/${environment.dbMode}meta.Department`, id);
     api$.subscribe(((res: any) => {
       if (res.isSuccess) {
         this.getDepartment();
@@ -630,8 +633,8 @@ export class ApplicationBuilderComponent implements OnInit {
       this.listOfDisplayData = this.listOfData.filter((item: any) =>
       (
         data.name == 'Department Name' ? item.name.toLowerCase().indexOf(inputValue) !== -1 : false ||
-          (data.name == 'Organization Name' ? ((item?.companyName ? item?.companyName : item.organizationName) ? item.companyName.toLowerCase().indexOf(inputValue) !== -1 : false) : false) ||
-          (data.name == 'Department Type' ? (item?.application_Type ? item.application_Type.toLowerCase().indexOf(inputValue) !== -1 : false) : false))
+          (data.name == 'Organization Name' ? ((item?.companyname ? item?.companyname : item.organizationname) ? item.companyname.toLowerCase().indexOf(inputValue) !== -1 : false) : false) ||
+          (data.name == 'Department Type' ? (item?.applicationtype ? item.applicationtype.toLowerCase().indexOf(inputValue) !== -1 : false) : false))
       );
       data.searchIcon = "close";
     }
@@ -659,11 +662,11 @@ export class ApplicationBuilderComponent implements OnInit {
     a.click();
   }
   callChild(department: any) {
-    const moduleData = this.listOfChildrenData.filter((item: any) => (item.applicationName == department.name) || (item.departmentName == department.name));
+    const moduleData = this.listOfChildrenData.filter((item: any) => (item.applicationname == department.name) || (item.departmentname == department.name));
     department['children'] = moduleData;
   }
   getApplication() {
-    this.requestSubscription = this.applicationService.getNestCommonAPI('cp/Application').subscribe({
+    this.requestSubscription = this.applicationService.getNestNewCommonAPI(`cp/${environment.dbMode}meta.Application`).subscribe({
       next: (res: any) => {
         if (res.isSuccess) {
           this.listOfChildrenData = res.data;
@@ -686,7 +689,7 @@ export class ApplicationBuilderComponent implements OnInit {
       {
         fieldGroup: [
           {
-            key: 'organizationId',
+            key: 'organizationid',
             type: 'select',
             wrappers: ["formly-vertical-theme-wrapper"],
             defaultValue: '',
@@ -724,12 +727,12 @@ export class ApplicationBuilderComponent implements OnInit {
   loadApplicationFields() {
     const options = this.listOfData.map((item: any) => ({
       label: item.name,
-      value: item._id
+      value: item.id
     }));
-    // let departments = this.listOfData.filter((org: any) => org.organizationId === "64abfde576ac2e992aa14d75");
+    // let departments = this.listOfData.filter((org: any) => org.organizationid === "64abfde576ac2e992aa14d75");
     // let data: any = [];
     // departments.forEach((element: any) => {
-    //   let applications = this.listOfChildrenData.filter((d: any) => d.departmentId === element._id);
+    //   let applications = this.listOfChildrenData.filter((d: any) => d.departmentid === element.id);
     //   if (applications.length > 0) {
     //     applications.forEach((app: any) => {
     //       data.push(app);
@@ -738,7 +741,7 @@ export class ApplicationBuilderComponent implements OnInit {
     // });
     // const cloneApplicationOptions = data.map((item: any) => ({
     //   label: item.name,
-    //   value: item._id
+    //   value: item.id
     // }));
     this.fields = [
       {
@@ -759,7 +762,7 @@ export class ApplicationBuilderComponent implements OnInit {
       {
         fieldGroup: [
           {
-            key: 'departmentId',
+            key: 'departmentid',
             type: 'select',
             wrappers: ["formly-vertical-theme-wrapper"],
             defaultValue: '',
@@ -820,25 +823,25 @@ export class ApplicationBuilderComponent implements OnInit {
           },
         ],
       },
-      {
-        fieldGroup: [
-          {
-            key: 'password',
-            type: 'input',
-            wrappers: ["formly-vertical-theme-wrapper"],
-            defaultValue: '',
-            props: {
-              type: 'password',
-              label: 'Password',
-              placeholder: 'password...',
-              required: true,
-              additionalProperties: {
-                suffixicon: 'eye-invisible',
-              }
-            }
-          },
-        ],
-      },
+      // {
+      //   fieldGroup: [
+      //     {
+      //       key: 'password',
+      //       type: 'input',
+      //       wrappers: ["formly-vertical-theme-wrapper"],
+      //       defaultValue: '',
+      //       props: {
+      //         type: 'password',
+      //         label: 'Password',
+      //         placeholder: 'password...',
+      //         required: true,
+      //         additionalProperties: {
+      //           suffixicon: 'eye-invisible',
+      //         }
+      //       }
+      //     },
+      //   ],
+      // },
       {
         fieldGroup: [
           {
@@ -859,7 +862,7 @@ export class ApplicationBuilderComponent implements OnInit {
       {
         fieldGroup: [
           {
-            key: 'application_Type',
+            key: 'applicationtype',
             type: 'select',
             wrappers: ["formly-vertical-theme-wrapper"],
             defaultValue: '',
@@ -905,7 +908,7 @@ export class ApplicationBuilderComponent implements OnInit {
       {
         fieldGroup: [
           {
-            key: 'domain',
+            key: 'domains',
             type: 'input',
             wrappers: ["formly-vertical-theme-wrapper"],
             defaultValue: '',
@@ -955,7 +958,7 @@ export class ApplicationBuilderComponent implements OnInit {
 
   }
   loadSearchArray() {
-    const properties = ['expand', 'name', 'companyName', 'application_Type', 'action'];
+    const properties = ['expand', 'name', 'companyname', 'applicationtype', 'action'];
     this.searchArray = properties.map(property => {
       return {
         name: property,
@@ -965,7 +968,7 @@ export class ApplicationBuilderComponent implements OnInit {
     });
   }
   callDesignStudio() {
-    this.applicationService.getNestCommonAPI('applications/cloneApplicationData').subscribe(((res: any) => {
+    this.applicationService.getNestNewCommonAPI('applications/cloneApplicationData').subscribe(((res: any) => {
       if (res.isSuccess) {
         this.designStudio = res.data;
       } else
