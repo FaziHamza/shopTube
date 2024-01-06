@@ -2,8 +2,8 @@ import { Component, OnInit, ViewChild, ElementRef, forwardRef, OnDestroy, Input 
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import EditorJS, { OutputData } from '@editorjs/editorjs';
 import Header from '@editorjs/header';
-
-import List  from '@editorjs/list';
+import axios from "axios";
+import List from '@editorjs/list';
 import Checklist from '@editorjs/checklist';
 import Quote from '@editorjs/quote';
 import Marker from '@editorjs/marker';
@@ -15,7 +15,8 @@ import Embed from '@editorjs/embed';
 import Table from '@editorjs/table';
 import Warning from '@editorjs/warning';
 import ImageTool from '@editorjs/image';
-
+import { environment } from 'src/environments/environment';
+import { DataSharedService } from 'src/app/services/data-shared.service';
 
 // Import other tools as needed
 
@@ -34,12 +35,13 @@ import ImageTool from '@editorjs/image';
 export class EditorJsWrapperComponent implements OnInit, OnDestroy, ControlValueAccessor {
   @ViewChild('editorContainer', { static: true }) editorContainer: ElementRef;
   @Input() minHeight: string = '300px';
-  @Input() data:any;
+  @Input() data: any;
   private editor: EditorJS;
   private onChange: (data: OutputData) => void;
   private onTouched: () => void;
+  serverPath = environment.nestBaseUrl
 
-  constructor() { }
+  constructor(public dataSharedService: DataSharedService) { }
 
   ngOnInit(): void {
 
@@ -96,12 +98,42 @@ export class EditorJsWrapperComponent implements OnInit, OnDestroy, ControlValue
         image: {
           class: ImageTool,
           config: {
-            endpoints: {
-              byFile: 'URL_TO_YOUR_IMAGE_UPLOADER', // Replace with your image uploader URL
-              byUrl: 'http://campaigns.expocitydubai.com.s3-website.me-south-1.amazonaws.com/tvshows/screencapture-apps-org-5600-pages-default-2023-12-18-16_09_59-45cdc228-00e4-4354-8b3e-4d17f60fc2ab.png' // Replace with your image uploader URL
-            }
-          }
-        }
+            uploader: {
+              async uploadByFile(file : any) {
+                // your own uploading logic here
+                const formData = new FormData();
+                formData.append("file", file);
+                const response = await axios.post(
+                  `${environment.nestBaseUrl}email/upload`,
+                  formData,
+                  {
+                    headers: {
+                      "Content-Type": "multipart/form-data",
+                    },
+                    withCredentials: false,
+                  }
+                );
+
+                if (response.data.success === 1) {
+                  return response.data;
+                }
+              },
+              // async uploadByUrl(url : any) {
+              //   const response = await axios.post(
+              //     `http://localhost:4001/api/uploadImage/createByUrl`,
+              //     {
+              //       url,
+              //     }
+              //   );
+
+              //   if (response.data.success === 1) {
+              //     return response.data;
+              //   }
+              // },
+            },
+            inlineToolbar: true,
+          },
+        },
       },
       onChange: async () => {
         if (this.onChange) {
