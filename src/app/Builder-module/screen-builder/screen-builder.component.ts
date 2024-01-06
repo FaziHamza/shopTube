@@ -59,10 +59,10 @@ export class ScreenBuilderComponent implements OnInit {
     //   sortFn: (a: any, b: any) => {
     //     const organizationNameA = a.orgnaizationName
     //       ? a.orgnaizationName
-    //       : a.departmentName;
+    //       : a.departmentname;
     //     const organizationNameB = b.orgnaizationName
     //       ? b.orgnaizationName
-    //       : b.departmentName;
+    //       : b.departmentname;
     //     if (
     //       organizationNameA === undefined &&
     //       organizationNameB === undefined
@@ -84,20 +84,20 @@ export class ScreenBuilderComponent implements OnInit {
       searchValue: '',
       sortOrder: null,
       sortFn: (a: any, b: any) => {
-        const applicationNameA = a.departmentName
-          ? a.departmentName
-          : a.applicationName;
-        const applicationNameB = b.departmentName
-          ? b.departmentName
-          : b.applicationName;
-        if (applicationNameA === undefined && applicationNameB === undefined) {
+        const applicationnameA = a.departmentname
+          ? a.departmentname
+          : a.applicationname;
+        const applicationnameB = b.departmentname
+          ? b.departmentname
+          : b.applicationname;
+        if (applicationnameA === undefined && applicationnameB === undefined) {
           return 0;
-        } else if (applicationNameA === undefined) {
+        } else if (applicationnameA === undefined) {
           return 1;
-        } else if (applicationNameB === undefined) {
+        } else if (applicationnameB === undefined) {
           return -1;
         } else {
-          return applicationNameA.localeCompare(applicationNameB);
+          return applicationnameA.localeCompare(applicationnameB);
         }
       },
       sortDirections: ['ascend', 'descend', null],
@@ -108,16 +108,16 @@ export class ScreenBuilderComponent implements OnInit {
       searchValue: '',
       sortOrder: null,
       sortFn: (a: any, b: any) => {
-        const moduleNameA = a.moduleName ? a.moduleName : a.applicationName;
-        const moduleNameB = b.moduleName ? b.moduleName : b.applicationName;
-        if (moduleNameA === undefined && moduleNameB === undefined) {
+        const modulenameA = a.modulename ? a.modulename : a.applicationname;
+        const modulenameB = b.modulename ? b.modulename : b.applicationname;
+        if (modulenameA === undefined && modulenameB === undefined) {
           return 0;
-        } else if (moduleNameA === undefined) {
+        } else if (modulenameA === undefined) {
           return 1;
-        } else if (moduleNameB === undefined) {
+        } else if (modulenameB === undefined) {
           return -1;
         } else {
-          return moduleNameA.localeCompare(moduleNameB);
+          return modulenameA.localeCompare(modulenameB);
         }
       },
       sortDirections: ['ascend', 'descend', null],
@@ -160,12 +160,12 @@ export class ScreenBuilderComponent implements OnInit {
     // this.form = new FormGroup({
     //   name: new FormControl('', Validators.required),
     //   screenId: new FormControl('', Validators.required),
-    //   applicationName: new FormControl('', Validators.required),
-    //   moduleName: new FormControl('', Validators.required),
+    //   applicationname: new FormControl('', Validators.required),
+    //   modulename: new FormControl('', Validators.required),
     // });
-    // const applicationNameControl = this.form.get('applicationName');
-    // if (applicationNameControl !== null) {
-    //   applicationNameControl.valueChanges.subscribe(value => {
+    // const applicationnameControl = this.form.get('applicationname');
+    // if (applicationnameControl !== null) {
+    //   applicationnameControl.valueChanges.subscribe(value => {
     //     this.getModulelist(value);
     //   });
     // }
@@ -255,8 +255,8 @@ export class ScreenBuilderComponent implements OnInit {
         else console.error(res.message, { nzDuration: 3000 });
       });
   }
-  // getModulelist(applicationName: any) {
-  //   this.builderService.getjsonModuleModuleListByapplicationName(applicationName).subscribe((res => {
+  // getModulelist(applicationname: any) {
+  //   this.builderService.getjsonModuleModuleListByapplicationname(applicationname).subscribe((res => {
   //     this.moduleList = res;
   //   }))
   // }
@@ -293,13 +293,14 @@ export class ScreenBuilderComponent implements OnInit {
       this.loading = false;
       return;
     } else {
+      const tableValue = `${environment.dbMode}meta.ScreenBuilder`;
       const screenModel = {
-        ScreenBuilder: this.form.value,
+        [tableValue]: this.form.value,
       };
 
       const checkScreenAndProceed = this.isSubmit
-        ? this.applicationService.addNestCommonAPI('cp', screenModel)
-        : this.applicationService.updateNestCommonAPI('cp/ScreenBuilder', this.model.id, screenModel);
+        ? this.applicationService.addNestNewCommonAPI('cp', screenModel)
+        : this.applicationService.updateNestNewCommonAPI(`cp/${environment.dbMode}meta.ScreenBuilder`, this.model.id, screenModel);
       checkScreenAndProceed.subscribe({
         next: (objTRes: any) => {
           if (objTRes.isSuccess) {
@@ -356,7 +357,7 @@ export class ScreenBuilderComponent implements OnInit {
         // Find the index of the "Select Module" field in the 'this.fields' array
         const moduleFieldIndex = this.fields.findIndex((fieldGroup: any) => {
           const field = fieldGroup.fieldGroup[0];
-          return field.key === 'applicationId';
+          return field.key === 'applicationid';
         });
 
         if (moduleFieldIndex !== -1) {
@@ -414,9 +415,9 @@ export class ScreenBuilderComponent implements OnInit {
         const { name } = data;
         const {
           navigation,
-          applicationName,
-          departmentName,
-          moduleName,
+          applicationname,
+          departmentname,
+          modulename,
           name: itemName,
         } = item;
 
@@ -425,7 +426,7 @@ export class ScreenBuilderComponent implements OnInit {
         }
 
         if (name === 'Department') {
-          const department = applicationName || departmentName;
+          const department = applicationname || departmentname;
           return (
             department && department.toLowerCase().indexOf(inputValue) !== -1
           );
@@ -436,7 +437,7 @@ export class ScreenBuilderComponent implements OnInit {
         }
 
         if (name === 'Application') {
-          const application = moduleName || applicationName;
+          const application = modulename || applicationname;
           return (
             application && application.toLowerCase().indexOf(inputValue) !== -1
           );
@@ -496,7 +497,7 @@ export class ScreenBuilderComponent implements OnInit {
       {
         fieldGroup: [
           {
-            key: 'applicationId',
+            key: 'applicationid',
             type: 'select',
             wrappers: ['formly-vertical-theme-wrapper'],
             defaultValue: '',

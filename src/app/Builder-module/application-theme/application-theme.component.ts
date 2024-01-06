@@ -7,6 +7,7 @@ import * as monaco from 'monaco-editor';
 import Ajv, { ErrorObject } from 'ajv';
 import { NzModalService } from 'ng-zorro-antd/modal';
 import { Guid } from 'src/app/models/guid';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'st-application-theme',
@@ -17,7 +18,7 @@ export class ApplicationThemeComponent {
   @Input() applicationList: any;
   selectedApplication: any;
   selectedTag: any;
-  themeName: string = '';
+  themename: string = '';
   editId = '';
   tagList: any[] = [
     "p", "input", 'button'
@@ -54,14 +55,14 @@ export class ApplicationThemeComponent {
     },
     {
       name: 'APPLICATION',
-      key: 'applicationName',
+      key: 'applicationname',
       searchValue: '',
       hideSearch: true,
       visible: false
     },
     {
       name: 'Theme Name',
-      key: 'applicationName',
+      key: 'applicationname',
       searchValue: '',
       hideSearch: false,
       visible: false
@@ -99,11 +100,11 @@ export class ApplicationThemeComponent {
     private zone: NgZone, private cdRef: ChangeDetectorRef, private modal: NzModalService,
   ) {
     this.form = this.fb.group({
-      applicationId: ['', Validators.required], // Application is required
+      applicationid: ['', Validators.required], // Application is required
       tag: ['', Validators.required], // Tag is required
       classes: ['', Validators.required], // Classes is required
       name: ['', Validators.required], // Name is required
-      themeName: ['', Validators.required], // themeName is required
+      themename: ['', Validators.required], // themename is required
     });
   }
   ngOnInit() {
@@ -128,42 +129,43 @@ export class ApplicationThemeComponent {
 
 
   save() {
-    
+
     if (this.form.valid) {
-      if (this.selectedTheme == this.form.value.themeName) {
+      if (this.selectedTheme == this.form.value.themename) {
         if (this.editId == '') {
           if (this.listOfData.some(a => a.tag == this.form.value.tag)) {
             this.toastr.warning('This control already exist against this theme', { nzDuration: 3000 });
             return;
           }
         } else {
-          if (this.listOfData.some(a => a.tag == this.form.value.tag && a._id != this.editId)) {
+          if (this.listOfData.some(a => a.tag == this.form.value.tag && a.id != this.editId)) {
             this.toastr.warning('This control already exist against this theme', { nzDuration: 3000 });
             return;
           }
         }
       }
       const formValue = this.form.value;
-      const app = this.applicationList.find((a: any) => a.value === formValue.applicationId);
+      const app = this.applicationList.find((a: any) => a.id === formValue.applicationid);
 
       // const classNamesArray = formValue.classes.split(/\s+/).filter(Boolean);
+      const tableValue = `${environment.dbMode}meta.applicationtheme`;
 
       const obj = {
-        applicationTheme: {
+        [tableValue]: {
           ...formValue,
-          name: `${formValue.name}_${Guid.newGuid()}`,
+          name: formValue.name,
           tag: formValue.tag,
-          applicationName: app?.label,
+          applicationname: app?.name,
           classes: formValue?.classes,
-          themeName: formValue?.themeName,
-          controlName: formValue?.name,
+          themename: formValue?.themename,
+          controlname: formValue?.name,
         }
       };
 
       this.loader = true;
       const checkPolicyAndProceed = this.editId == ''
-        ? this.applicationService.addNestCommonAPI('cp', obj)
-        : this.applicationService.updateNestCommonAPI('cp/applicationTheme', this.editId, obj);
+        ? this.applicationService.addNestNewCommonAPI('cp', obj)
+        : this.applicationService.updateNestNewCommonAPI(`cp/${environment.dbMode}meta.applicationtheme`, this.editId, obj);
       checkPolicyAndProceed.subscribe({
         next: (objTRes: any) => {
           this.loader = false;
@@ -189,7 +191,7 @@ export class ApplicationThemeComponent {
 
   getApplicationTheme() {
     this.loader = true;
-    this.applicationService.getNestCommonAPI('cp/applicationTheme').subscribe(((res: any) => {
+    this.applicationService.getNestNewCommonAPI(`cp/${environment.dbMode}meta.applicationTheme`).subscribe(((res: any) => {
       this.loader = false;
       if (res.isSuccess) {
         this.listOfData = res.data;
@@ -201,7 +203,7 @@ export class ApplicationThemeComponent {
   }
   getThemeList() {
     this.loader = true;
-    this.applicationService.getNestCommonAPI('applicationTheme/themeList').subscribe(((res: any) => {
+    this.applicationService.getNestNewCommonAPI(`cp/${environment.dbMode}meta.applicationTheme`).subscribe(((res: any) => {
       this.loader = false;
       if (res.isSuccess) {
         this.themeList = res?.data;
@@ -211,7 +213,7 @@ export class ApplicationThemeComponent {
   }
   delete(id: any) {
     this.loader = true;
-    this.applicationService.deleteNestCommonAPI('cp/applicationTheme', id).subscribe(((res: any) => {
+    this.applicationService.deleteNestNewCommonAPI(`cp/${environment.dbMode}meta.applicationtheme`, id).subscribe(((res: any) => {
       this.loader = false;
       if (res.isSuccess) {
         this.searchByTheme();
@@ -220,15 +222,15 @@ export class ApplicationThemeComponent {
     }));
   }
   edit(data: any) {
-    this.editId = data._id;
+    this.editId = data.id;
     this.form.patchValue({
-      applicationId: data?.applicationId,
-      name: data?.controlName,
+      applicationid: data?.applicationid,
+      name: data?.controlname,
       tag: data?.tag,
       classes: data?.classes,
-      themeName: data?.themeName,
+      themename: data?.themename,
     });
-    this.selectedTheme = data?.themeName;
+    this.selectedTheme = data?.themename;
   }
   onPageIndexChange(index: number): void {
     this.pageIndex = index;
@@ -289,38 +291,38 @@ export class ApplicationThemeComponent {
   }
 
   getApplicationList() {
-    // Retrieve data from localStorage
-    const storedData = window.localStorage.getItem('applicationId');
+    // // Retrieve data from localStorage
+    // const storedData = window.localStorage.getItem('applicationid')!;
 
-    // Check if storedData is not null before parsing
-    if (storedData !== null) {
-      const app = JSON.parse(storedData);
+    // // Check if storedData is not null before parsing
+    // if (storedData !== null) {
+    //   const appId = JSON.parse(storedData);
 
-      this.loader = true;
+    //   this.loader = true;
 
-      if (app) {
-        this.applicationService.getBackendCommonAPI(`application/${app}`).subscribe(((res: any) => {
-          this.loader = false;
-          if (res) {
-            this.applicationList = [{
-              label: res.name,
-              value: res._id
-            }];
-          } else {
-            this.toastr.warning(res.message, { nzDuration: 2000 });
-          }
-        }), (error) => {
-          this.loader = false;
-          console.error('Error fetching application data:', error);
-          // Handle error, show error message, etc.
-        });
-      }
-    }
-    else {
-      // Handle the case where the data is null (not available in localStorage)
-      console.error('Data not found in localStorage');
-      // Handle accordingly, show a message, set default value, etc.
-    }
+    //   if (appId) {
+    //     this.applicationService.getNestNewCommonAPIById(`cp/${environment.dbMode}meta.applicationtheme`, appId).subscribe(((res: any) => {
+    //       this.loader = false;
+    //       if (res) {
+    //         this.applicationList = [{
+    //           label: res.name,
+    //           value: res.id
+    //         }];
+    //       } else {
+    //         this.toastr.warning(res.message, { nzDuration: 2000 });
+    //       }
+    //     }), (error) => {
+    //       this.loader = false;
+    //       console.error('Error fetching application data:', error);
+    //       // Handle error, show error message, etc.
+    //     });
+    //   }
+    // }
+    // else {
+    //   // Handle the case where the data is null (not available in localStorage)
+    //   console.error('Data not found in localStorage');
+    //   // Handle accordingly, show a message, set default value, etc.
+    // }
   }
   initializeMonacoEditor(): void {
     if (!this.isEditorInitialized) {
@@ -552,10 +554,10 @@ export class ApplicationThemeComponent {
   searchByTheme() {
     this.loader = true;
     this.form.patchValue({
-      themeName: this.selectedTheme,
+      themename: this.selectedTheme,
     });
     if (this.selectedTheme) {
-      this.applicationService.getNestCommonAPI(`applicationTheme/allBythemeName${this.selectedTheme}`).subscribe(((res: any) => {
+      this.applicationService.getNestNewCommonAPIById(`cp/${environment.dbMode}meta.applicationtheme`, this.selectedTheme).subscribe(((res: any) => {
         this.loader = false;
         if (res.isSuccess) {
           this.listOfData = res.data;

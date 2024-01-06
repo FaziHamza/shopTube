@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { NzModalService } from 'ng-zorro-antd/modal';
 import { ApplicationService } from 'src/app/services/application.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'st-application-global-classes',
@@ -65,22 +66,22 @@ export class ApplicationGlobalClassesComponent {
       if (this.editId === '' && this.listOfData.some((a: any) => a.name == this.form.value.name)) {
         this.toastr.warning('Already exist this name exist', { nzDuration: 3000 });
         return;
-      } else if (this.listOfData.some((a: any) => a.name === this.form.value.name && a._id !== this.editId)) {
+      } else if (this.listOfData.some((a: any) => a.name === this.form.value.name && a.id !== this.editId)) {
         this.toastr.warning('Already exist this name exist', { nzDuration: 3000 });
         return;
       }
       const formValue = this.form.value;
-      const obj = {
-        applicationGlobalClass: {
+        const tableValue = `${environment.dbMode}meta.applicationGlobalClass`;
+        const obj = {
+        [tableValue]: {
           ...formValue,
-          'classes':this.form.value.class.trim(),
-          'applicationId': JSON.parse(localStorage.getItem('applicationId')!)
+          'applicationid': JSON.parse(localStorage.getItem('applicationId')!)
         }
       };
       this.loader = true;
       const checkPolicyAndProceed = this.editId == ''
-        ? this.applicationService.addNestCommonAPI('cp', obj)
-        : this.applicationService.updateNestCommonAPI('cp/applicationGlobalClass', this.editId, obj);
+        ? this.applicationService.addNestNewCommonAPI('cp', obj)
+        : this.applicationService.updateNestNewCommonAPI(`cp/${environment.dbMode}meta.applicationGlobalClass`, this.editId, obj);
       checkPolicyAndProceed.subscribe({
         next: (objTRes: any) => {
           this.loader = false;
@@ -104,7 +105,7 @@ export class ApplicationGlobalClassesComponent {
   }
   getcontrols() {
     this.loader = true;
-    this.applicationService.getNestCommonAPI('cp/applicationGlobalClass').subscribe(((res: any) => {
+    this.applicationService.getNestNewCommonAPI(`cp/${environment.dbMode}meta.applicationGlobalClass`).subscribe(((res: any) => {
       this.loader = false;
       if (res.isSuccess) {
         if (res.data.length > 0) {
@@ -164,7 +165,7 @@ export class ApplicationGlobalClassesComponent {
   delete(id: any) {
     this.loader = true;
     this.reset();
-    this.applicationService.deleteNestCommonAPI('cp/applicationGlobalClass', id).subscribe(((res: any) => {
+    this.applicationService.deleteNestNewCommonAPI(`cp/${environment.dbMode}meta.applicationGlobalClass`, id).subscribe(((res: any) => {
       this.loader = false;
       if (res.isSuccess) {
         this.getcontrols();
@@ -173,7 +174,7 @@ export class ApplicationGlobalClassesComponent {
     }));
   }
   edit(data: any) {
-    this.editId = data._id;
+    this.editId = data.id;
     this.form.patchValue({
       name: data?.name,
       class: data?.class,

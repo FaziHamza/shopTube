@@ -5,8 +5,8 @@
                 <label class="ml-1 font-bold">Select Theme</label>
                 <nz-select style="width: 100%;" nzShowSearch nzAllowClear [(ngModel)]="selectedTheme"
                     class="policy-cascader !h-10 !rounded-md pl-1" nzPlaceHolder="Select Theme..">
-                    <nz-option *ngFor="let item of themeList" [nzLabel]="item.label"
-                        [nzValue]="item?.value"></nz-option>
+                    <nz-option *ngFor="let item of themeList" [nzLabel]="item.themename"
+                        [nzValue]="item?.themename"></nz-option>
                 </nz-select>
             </div>
             <div class="w-1/2 flex mt-[21px] mb-4">
@@ -17,15 +17,15 @@
         <div class="flex flex-wrap" [formGroup]="form">
             <div class="w-1/5 pl-2">
                 <label class="ml-1 font-bold">Select Application</label>
-                <nz-select style="width: 100%;" nzShowSearch nzAllowClear formControlName="applicationId"
+                <nz-select style="width: 100%;" nzShowSearch nzAllowClear formControlName="applicationid"
                     class="policy-cascader !h-10 !rounded-md pl-1" nzPlaceHolder="Select Application..">
-                    <nz-option *ngFor="let item of applicationList" [nzLabel]="item.label"
-                        [nzValue]="item?.value"></nz-option>
+                    <nz-option *ngFor="let item of applicationList" [nzLabel]="item.name"
+                        [nzValue]="item?.id"></nz-option>
                 </nz-select>
             </div>
             <div class="w-1/5 pl-2 mb-4">
                 <label class="ml-1 font-bold">Theme Name</label>
-                <input formControlName="themeName" nz-input placeholder="Enter Theme Name Here..."
+                <input formControlName="themename" nz-input placeholder="Enter Theme Name Here..."
                     class="!border !rounded-md !p-2 !block !w-full" />
             </div>
             <div class="w-1/5 pl-2">
@@ -105,16 +105,16 @@
             <tbody>
                 <tr *ngFor="let item of editRowTable.data;let index = index" class="table-cursor">
                     <td>{{index + 1}}</td>
-                    <td>{{item?.applicationName}}</td>
-                    <td>{{item?.themeName}}</td>
-                    <td>{{item?.controlName}}</td>
+                    <td>{{item?.applicationname}}</td>
+                    <td>{{item?.themename}}</td>
+                    <td>{{item?.controlname}}</td>
                     <td>{{item?.tag}}</td>
                     <td>{{item?.classes}}</td>
                     <td>
                         <div class="flex">
                             <i class="fa-regular fa-arrow-up-from-bracket mr-2" (click)="preview(item)"></i>
                             <i class="fa-regular fa-edit !text-blue-500 mr-2" (click)="edit(item)"></i>
-                            <i class="fa-regular fa-trash-alt !text-red-500" (click)="showDeleteConfirm(item._id)"></i>
+                            <i class="fa-regular fa-trash-alt !text-red-500" (click)="showDeleteConfirm(item.id)"></i>
                         </div>
                     </td>
                 </tr>
