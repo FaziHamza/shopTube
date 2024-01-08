@@ -70,7 +70,7 @@ export class BuilderComponent implements OnInit {
   htmlTabsData: any = [];
   nodes: any = [];
   screens: any;
-  screenName: any;
+  screenname: any;
   navigation: any = '';
   id: any = "";
   screenPage: boolean = false;
@@ -197,7 +197,7 @@ export class BuilderComponent implements OnInit {
   onDepartmentChange(departmentId: any) {
     if (departmentId.length === 3) {
       if (departmentId[2] != 'selectScreen') {
-        this.getScreenData(departmentId[2])
+        this.getscreendata(departmentId[2])
       }
     }
   }
@@ -232,10 +232,10 @@ export class BuilderComponent implements OnInit {
         const res = await this.applicationService.getNestNewCommonAPIById(`cp/${environment.dbMode}meta.ScreenBuilder`, node.value).toPromise();
         if (res.isSuccess) {
           this.screens = res.data;
-          const screens = res.data.map((screenData: any) => {
+          const screens = res.data.map((screendata: any) => {
             return {
-              label: screenData.name,
-              value: screenData.id,
+              label: screendata.name,
+              value: screendata.id,
               isLeaf: true
             };
 
@@ -297,10 +297,10 @@ export class BuilderComponent implements OnInit {
   saveOfflineDB() {
     let data = this.jsonStringifyWithObject(this.nodes);
     let encryptData = this._encryptionService.encryptData(data);
-    this.dataService.saveData(this.screenName, this.selectApplicationName, "Builder", encryptData);
+    this.dataService.saveData(this.screenname, this.selectApplicationName, "Builder", encryptData);
   }
   getOfflineDb() {
-    let data = this.dataService.getNodes(this.selectApplicationName, this.screenName, "Builder");
+    let data = this.dataService.getNodes(this.selectApplicationName, this.screenname, "Builder");
     let decryptData = this._encryptionService.decryptData(data);
     this.nodes = this.jsonParseWithObject(
       this.jsonStringifyWithObject(decryptData)
@@ -315,12 +315,12 @@ export class BuilderComponent implements OnInit {
     }
     if (content === 'delete') {
       this.iconActive = 'delete';
-      const nodes = await this.dataService.deleteDb(this.selectApplicationName, this.screenName, "Builder");
+      const nodes = await this.dataService.deleteDb(this.selectApplicationName, this.screenname, "Builder");
       alert('this Screen Delete db successfully!');
       return;
 
     }
-    const nodes = await this.dataService.getNodes(this.selectApplicationName, this.screenName, "Builder");
+    const nodes = await this.dataService.getNodes(this.selectApplicationName, this.screenname, "Builder");
 
     if (this.oldIndex === undefined) {
       // this.oldIndex = 0;
@@ -352,7 +352,7 @@ export class BuilderComponent implements OnInit {
   }
 
   deleteOfflineDb() {
-    let data = this.dataService.deleteDb(this.selectApplicationName, this.screenName, "Builder");
+    let data = this.dataService.deleteDb(this.selectApplicationName, this.screenname, "Builder");
   }
   JsonEditorShow() {
     this.iconActive = 'jsonEdit';
@@ -425,23 +425,27 @@ export class BuilderComponent implements OnInit {
       });
       let newNode = JSON.parse(JSON.stringify(this.nodes))
       this.applyTheme(newNode[0], true)
-      const screenData = this.jsonParse(this.jsonStringifyWithObject(newNode));
+      const screendata = this.jsonParse(this.jsonStringifyWithObject(newNode));
+      const JsonData = {
+        json: screendata,
+      }
       const data: any = {
-        "screenData": JSON.stringify(screenData),
-        "screenName": this.screenName,
+        "screendata": JsonData,
+        "screenname": this.screenname,
         "navigation": this.navigation,
-        "screenBuilderId": this.id,
+        "screenbuilderid": this.id,
         // "pdf": this.pdf,
-        "applicationId": this.selectApplicationName,
+        "applicationid": this.selectApplicationName,
       };
       data.navigation = this.navigation;
+      const tableValue = `${environment.dbMode}meta.Builders`;
       const builderModel = {
-        "Builder": data
+        [tableValue]: data
       }
       // this.saveLoader =  false;
-      const checkBuilderAndProcess = this.builderScreenData?.length > 0 && this.builderScreenData?.[0]
-        ? this.applicationService.updateNestCommonAPI('cp/Builder', this.builderScreenData[0].id, builderModel)
-        : this.applicationService.addNestCommonAPI('cp', builderModel);
+      const checkBuilderAndProcess = this.builderscreendata?.length > 0 && this.builderscreendata?.[0]
+        ? this.applicationService.updateNestNewCommonAPI(`cp/${environment.dbMode}meta.Builders`, this.builderscreendata[0].id, builderModel)
+        : this.applicationService.addNestNewCommonAPI('cp', builderModel);
 
       this.requestSubscription = checkBuilderAndProcess.subscribe({
         next: (res: any) => {
@@ -449,7 +453,7 @@ export class BuilderComponent implements OnInit {
             this.isScreenSaved = true;
             this.toastr.success(res.message, { nzDuration: 3000 });
             this.showActionRule = true;
-            if (this.builderScreenData?.length > 0) {
+            if (this.builderscreendata?.length > 0) {
               this.applyTheme(this.nodes[0], false)
               this.applyTheme(this.nodes[0], false)
             } else {
@@ -477,8 +481,8 @@ export class BuilderComponent implements OnInit {
   }
   expandedKeys: any;
   previousScreenId: string = '';
-  builderScreenData: any;
-  getScreenData(data: any) {
+  builderscreendata: any;
+  getscreendata(data: any) {
     this.modalService.confirm({
       nzTitle: 'Are you sure you want to switch your screen?',
       nzClassName: 'custom-modal-class',
@@ -490,7 +494,7 @@ export class BuilderComponent implements OnInit {
           this.navigation = objScreen.navigation;
           this.id = objScreen.id;
           // this.pdf = objScreen.pdf ? objScreen.pdf : false;
-          this.screenName = objScreen.name;
+          this.screenname = objScreen.name;
           this.isSavedDb = false;
           this.getActions();
           // this.getBuilderScreen();
@@ -500,7 +504,7 @@ export class BuilderComponent implements OnInit {
               let commentList = res.data
               this.dataSharedService.screenCommentList = commentList;
 
-              this.getTaskManagementIssuesFunc(this.navigation, JSON.parse(localStorage.getItem('applicationId')!));
+              this.getTaskManagementIssuesFunc(this.navigation, JSON.parse(localStorage.getItem('applicationid')!));
             }
           })
           if (objScreen.name.includes('_header') && this.selectApplicationName) {
@@ -564,16 +568,16 @@ export class BuilderComponent implements OnInit {
         if (res.isSuccess) {
           // this.form = new FormGroup({});
           if (res.data.length > 0) {
-            localStorage.setItem('screenBuildId', res.data[0].screenBuilderId);
-            this.builderScreenData = [res.data[0]];
+            localStorage.setItem('screenBuildId', res.data[0].screenbuilderid);
+            this.builderscreendata = [res.data[0]];
             // this.navigation = '';
             this.showActionRule = true;
-            const objScreenData = JSON.parse(res.data[0].screenData);
+            const objscreendata = JSON.parse(res.data[0].screendata);
             this.isSavedDb = true;
             // this.moduleId = res[0].moduleId;
             // this.formlyModel = {};
 
-            let nodesData = this.jsonParseWithObject(this.jsonStringifyWithObject(objScreenData));
+            let nodesData = this.jsonParseWithObject(this.jsonStringifyWithObject(objscreendata));
             this.applyTheme(nodesData[0], false)
             if (this.actionRuleList.length > 0) {
               let getInputs = this.filterInputElements(nodesData);
@@ -678,12 +682,12 @@ export class BuilderComponent implements OnInit {
             this.requestSubscription = this.applicationService.getNestCommonAPI('applications/default').subscribe({
               next: (res: any) => {
                 if (res.isSuccess) {
-                  // this.builderScreenData = res.data;
+                  // this.builderscreendata = res.data;
                   if (res.data.length > 0) {
-                    const objScreenData = JSON.parse(res.data[0].screenData);
+                    const objscreendata = JSON.parse(res.data[0].screenData);
                     this.isSavedDb = true;
                     // this.formlyModel = [];
-                    this.nodes = this.jsonParseWithObject(this.jsonStringifyWithObject(objScreenData));
+                    this.nodes = this.jsonParseWithObject(this.jsonStringifyWithObject(objscreendata));
                     this.updateNodes();
                     this.applyDefaultValue();
                     this.saveLoader = false;
@@ -706,7 +710,7 @@ export class BuilderComponent implements OnInit {
           this.getUIRuleData(true);
           this.getBusinessRule();
           this.expandedKeys = this.nodes.map((node: any) => node.key);
-          this.uiRuleGetData(this.screenName);
+          this.uiRuleGetData(this.screenname);
           this.updateNodes();
           this.applyDefaultValue();
           // this.requestSubscription = this.applicationService.getNestCommonAPI('cp/applicationTheme').subscribe({
@@ -793,7 +797,7 @@ export class BuilderComponent implements OnInit {
       this.formlyModel = [];
       const newNode = [
         {
-          id: this.screenName + '_' + 'page_' + Guid.newGuid(),
+          id: this.screenname + '_' + 'page_' + Guid.newGuid(),
           key: 'page_' + Guid.newGuid(),
           treeExpandIcon: 'fa-regular fa-file-text',
           treeInExpandIcon: 'fa-regular fa-file-text',
@@ -865,11 +869,11 @@ export class BuilderComponent implements OnInit {
     //     }
     //   }) || '{}');
 
-    const selectedScreen = this.screens.filter((a: any) => a.name == this.screenName)
+    const selectedScreen = this.screens.filter((a: any) => a.name == this.screenname)
     var data =
     {
-      "screenName": this.screenName,
-      "screenData": currentData,
+      "screenname": this.screenname,
+      "screendata": currentData,
       "navigation": this.navigation
     };
 
@@ -888,7 +892,7 @@ export class BuilderComponent implements OnInit {
   ParentAdd: TreeNode;
   stepperChild: TreeNode;
   childAdd: TreeNode;
-  screenData: any;
+  screendata: any;
   businessRuleData: any;
   formlyModel: any;
   faker: boolean = false;
@@ -1063,11 +1067,11 @@ export class BuilderComponent implements OnInit {
               // "key": this.selectedNode.chartCardConfig?.at(0)?.buttonGroup == undefined ? this.selectedNode.chartCardConfig?.at(0)?.formly?.at(0)?.fieldGroup?.at(0)?.key : this.selectedNode.chartCardConfig?.at(0)?.buttonGroup?.at(0)?.btnConfig[0].key,
               // "key": this.selectedNode.key,
               // "title": this.selectedNode.title,
-              "screenName": this.screenName,
-              "screenBuilderId": this.id,
+              "screenname": this.screenname,
+              "screenbuilderid": this.id,
               "uiData": JSON.parse(getRes.data[0].uiData),
             }
-            this.screenData = jsonUIResult;
+            this.screendata = jsonUIResult;
           } else {
           }
         } else
@@ -1112,7 +1116,7 @@ export class BuilderComponent implements OnInit {
         nzContentParams: {
           nodes: this.nodes,
           types: this.formlyTypes,
-          screenName: this.screenName,
+          screenname: this.screenname,
         },
       });
 
@@ -1138,102 +1142,102 @@ export class BuilderComponent implements OnInit {
   getUIRule(model: any, currentValue: any) {
 
     try {
-      if (this.screenData != undefined) {
+      if (this.screendata != undefined) {
         var inputType =
           this.nodes[0].children[1].children[0].children[1].children;
-        for (let index = 0; index < this.screenData.uiData.length; index++) {
-          if (model.key == this.screenData.uiData[index].ifMenuName) {
+        for (let index = 0; index < this.screendata.uiData.length; index++) {
+          if (model.key == this.screendata.uiData[index].ifMenuName) {
             let query: any;
             let getModelValue =
-              this.formlyModel[this.screenData.uiData[index].ifMenuName] == ''
+              this.formlyModel[this.screendata.uiData[index].ifMenuName] == ''
                 ? false
-                : this.formlyModel[this.screenData.uiData[index].ifMenuName];
-            if (this.screenData.uiData[index].condationName == 'contains') {
+                : this.formlyModel[this.screendata.uiData[index].ifMenuName];
+            if (this.screendata.uiData[index].condationName == 'contains') {
               if (
-                this.formlyModel[this.screenData.uiData[index].ifMenuName] !=
+                this.formlyModel[this.screendata.uiData[index].ifMenuName] !=
                 undefined &&
                 this.formlyModel[
-                  this.screenData.uiData[index].ifMenuName
-                ].includes(this.screenData.uiData[index].targetValue)
+                  this.screendata.uiData[index].ifMenuName
+                ].includes(this.screendata.uiData[index].targetValue)
               ) {
                 query = '1 == 1';
                 query = this.evalConditionRule(
                   query,
-                  this.screenData.uiData[index].targetIfValue
+                  this.screendata.uiData[index].targetIfValue
                 );
               } else {
                 query = '1 == 2';
                 query = this.evalConditionRule(
                   query,
-                  this.screenData.uiData[index].targetIfValue
+                  this.screendata.uiData[index].targetIfValue
                 );
               }
-            } else if (this.screenData.uiData[index].condationName == 'null') {
+            } else if (this.screendata.uiData[index].condationName == 'null') {
               if (
                 typeof this.formlyModel[
-                this.screenData.uiData[index].ifMenuName
+                this.screendata.uiData[index].ifMenuName
                 ] != 'number'
               ) {
                 if (
-                  this.formlyModel[this.screenData.uiData[index].ifMenuName] ==
+                  this.formlyModel[this.screendata.uiData[index].ifMenuName] ==
                   '' ||
-                  this.formlyModel[this.screenData.uiData[index].ifMenuName] ==
+                  this.formlyModel[this.screendata.uiData[index].ifMenuName] ==
                   null
                 ) {
                   query = '1 == 1';
                   query = this.evalConditionRule(
                     query,
-                    this.screenData.uiData[index].targetIfValue
+                    this.screendata.uiData[index].targetIfValue
                   );
                 } else {
                   query = '1 == 2';
                   query = this.evalConditionRule(
                     query,
-                    this.screenData.uiData[index].targetIfValue
+                    this.screendata.uiData[index].targetIfValue
                   );
                 }
               } else {
                 query = '1 == 2';
                 query = this.evalConditionRule(
                   query,
-                  this.screenData.uiData[index].targetIfValue
+                  this.screendata.uiData[index].targetIfValue
                 );
               }
             } else {
               if (
-                this.screenData.uiData[index].ifMenuName.includes('number') ||
-                this.screenData.uiData[index].ifMenuName.includes('decimal')
+                this.screendata.uiData[index].ifMenuName.includes('number') ||
+                this.screendata.uiData[index].ifMenuName.includes('decimal')
               ) {
                 query =
                   Number(getModelValue) +
                   ' ' +
-                  this.screenData.uiData[index].condationName +
+                  this.screendata.uiData[index].condationName +
                   ' ' +
-                  this.screenData.uiData[index].targetValue;
+                  this.screendata.uiData[index].targetValue;
 
                 query = this.evalConditionRule(
                   query,
-                  this.screenData.uiData[index].targetIfValue
+                  this.screendata.uiData[index].targetIfValue
                 );
               } else {
                 query =
                   "'" +
                   getModelValue +
                   "' " +
-                  this.screenData.uiData[index].condationName +
+                  this.screendata.uiData[index].condationName +
                   " '" +
-                  this.screenData.uiData[index].targetValue +
+                  this.screendata.uiData[index].targetValue +
                   "'";
 
                 query = this.evalConditionRule(
                   query,
-                  this.screenData.uiData[index].targetIfValue
+                  this.screendata.uiData[index].targetIfValue
                 );
               }
             }
             if (eval(query)) {
               const check = this.makeUIJSONForSave(
-                this.screenData,
+                this.screendata,
                 index,
                 inputType,
                 true
@@ -1245,7 +1249,7 @@ export class BuilderComponent implements OnInit {
               // this.nodes = this.jsonParseWithObject(this.jsonStringifyWithObject(this.nodes));
             } else {
               const check = this.makeUIJSONForSave(
-                this.screenData,
+                this.screendata,
                 index,
                 inputType,
                 false
@@ -1321,7 +1325,7 @@ export class BuilderComponent implements OnInit {
   }
   getBusinessRule() {
     const selectedScreen = this.screens.filter(
-      (a: any) => a.name == this.screenName
+      (a: any) => a.name == this.screenname
     );
     if (selectedScreen.length > 0) {
       this.requestSubscription = this.applicationService.getNestCommonAPIById('cp/BusinessRule', this.id).subscribe({
@@ -1347,12 +1351,12 @@ export class BuilderComponent implements OnInit {
   }
   lastFormlyModelValue: string;
   makeUIJSONForSave(
-    screenData: any,
+    screendata: any,
     index: number,
     inputType: any,
     currentValue: boolean
   ) {
-    for (let k = 0; k < screenData.uiData[index].targetCondition.length; k++) {
+    for (let k = 0; k < screendata.uiData[index].targetCondition.length; k++) {
       for (let l = 0; l < inputType.length; l++) {
         if (
           inputType[l].type == 'button' ||
@@ -1360,34 +1364,34 @@ export class BuilderComponent implements OnInit {
           inputType[l].type == 'dropdownButton'
         ) {
           if (
-            this.screenData.uiData[index].targetCondition[k].targetName ==
+            this.screendata.uiData[index].targetCondition[k].targetName ==
             inputType[l].key &&
             currentValue
           ) {
             inputType[l] =
-              this.screenData.uiData[index].targetCondition[k].inputJsonData;
+              this.screendata.uiData[index].targetCondition[k].inputJsonData;
           } else if (
-            this.screenData.uiData[index].targetCondition[k].targetName ==
+            this.screendata.uiData[index].targetCondition[k].targetName ==
             inputType[l].key &&
             !currentValue
           )
             inputType[l] =
-              this.screenData.uiData[index].targetCondition[k].inputOldJsonData;
+              this.screendata.uiData[index].targetCondition[k].inputOldJsonData;
         } else if (inputType[l].type == 'buttonGroup') {
           if (
-            this.screenData.uiData[index].targetCondition[k].targetName ==
+            this.screendata.uiData[index].targetCondition[k].targetName ==
             inputType[l].key &&
             currentValue
           )
             inputType[l].children =
-              this.screenData.uiData[index].targetCondition[k].inputJsonData;
+              this.screendata.uiData[index].targetCondition[k].inputJsonData;
           else if (
-            this.screenData.uiData[index].targetCondition[k].targetName ==
+            this.screendata.uiData[index].targetCondition[k].targetName ==
             inputType[l].key &&
             !currentValue
           )
             inputType[l].children =
-              this.screenData.uiData[index].targetCondition[k].inputOldJsonData;
+              this.screendata.uiData[index].targetCondition[k].inputOldJsonData;
         } else if (
           inputType[l].type == 'input' ||
           inputType[l].type == 'inputGroup' ||
@@ -1410,25 +1414,25 @@ export class BuilderComponent implements OnInit {
           inputType[l].type == 'week'
         ) {
           if (
-            this.screenData.uiData[index].targetCondition[k].targetName ==
+            this.screendata.uiData[index].targetCondition[k].targetName ==
             inputType[l].formly[0].fieldGroup[0].key &&
             currentValue
           ) {
             inputType[l].formly[0].fieldGroup[0] =
-              this.screenData.uiData[index].targetCondition[k].inputJsonData;
+              this.screendata.uiData[index].targetCondition[k].inputJsonData;
             inputType[l].formly[0].fieldGroup[0].defaultValue =
-              this.screenData.uiData[index].targetCondition[
+              this.screendata.uiData[index].targetCondition[
                 k
               ].inputJsonData.defaultValue;
           } else if (
-            this.screenData.uiData[index].targetCondition[k].targetName ==
+            this.screendata.uiData[index].targetCondition[k].targetName ==
             inputType[l].formly[0].fieldGroup[0].key &&
             !currentValue
           ) {
             inputType[l].formly[0].fieldGroup[0] =
-              this.screenData.uiData[index].targetCondition[k].inputOldJsonData;
+              this.screendata.uiData[index].targetCondition[k].inputOldJsonData;
             inputType[l].formly[0].fieldGroup[0].defaultValue =
-              this.screenData.uiData[index].targetCondition[
+              this.screendata.uiData[index].targetCondition[
                 k
               ].inputOldJsonData.defaultValue;
           }
@@ -1476,54 +1480,54 @@ export class BuilderComponent implements OnInit {
           inputType[l].type == 'video'
         ) {
           if (
-            this.screenData.uiData[index].targetCondition[k].targetName ==
+            this.screendata.uiData[index].targetCondition[k].targetName ==
             inputType[l].key &&
             currentValue
           )
             inputType[l] =
-              this.screenData.uiData[index].targetCondition[k].inputJsonData;
+              this.screendata.uiData[index].targetCondition[k].inputJsonData;
           else if (
-            this.screenData.uiData[index].targetCondition[k].targetName ==
+            this.screendata.uiData[index].targetCondition[k].targetName ==
             inputType[l].key &&
             !currentValue
           )
             inputType[l] =
-              this.screenData.uiData[index].targetCondition[k].inputOldJsonData;
+              this.screendata.uiData[index].targetCondition[k].inputOldJsonData;
         } else if (inputType[l].type == 'mainDashonicTabs') {
           for (let m = 0; m < inputType[l].children.length; m++) {
             if (
-              this.screenData.uiData[index].targetCondition[k].targetName ==
+              this.screendata.uiData[index].targetCondition[k].targetName ==
               inputType[l].children[m].key &&
               currentValue
             )
               inputType[l].children[m] =
-                this.screenData.uiData[index].targetCondition[k].inputJsonData;
+                this.screendata.uiData[index].targetCondition[k].inputJsonData;
             else if (
-              this.screenData.uiData[index].targetCondition[k].targetName ==
+              this.screendata.uiData[index].targetCondition[k].targetName ==
               inputType[l].children[m].key &&
               !currentValue
             )
               inputType[l].children[m] =
-                this.screenData.uiData[index].targetCondition[
+                this.screendata.uiData[index].targetCondition[
                   k
                 ].inputOldJsonData;
           }
         } else if (inputType[l].type == 'stepperMain') {
           for (let m = 0; m < inputType[l].children.length; m++) {
             if (
-              this.screenData.uiData[index].targetCondition[k].targetName ==
+              this.screendata.uiData[index].targetCondition[k].targetName ==
               inputType[l].children[m].formly[0].fieldGroup[0].key &&
               currentValue
             )
               inputType[l].children[m] =
-                this.screenData.uiData[index].targetCondition[k].inputJsonData;
+                this.screendata.uiData[index].targetCondition[k].inputJsonData;
             else if (
-              this.screenData.uiData[index].targetCondition[k].targetName ==
+              this.screendata.uiData[index].targetCondition[k].targetName ==
               inputType[l].children[m].formly[0].fieldGroup[0].key &&
               !currentValue
             )
               inputType[l].children[m] =
-                this.screenData.uiData[index].targetCondition[
+                this.screendata.uiData[index].targetCondition[
                   k
                 ].inputOldJsonData;
           }
@@ -1532,19 +1536,19 @@ export class BuilderComponent implements OnInit {
           inputType[l].type == 'gridListEditDelete'
         ) {
           if (
-            this.screenData.uiData[index].targetCondition[k].targetName ==
+            this.screendata.uiData[index].targetCondition[k].targetName ==
             inputType[l].key &&
             currentValue
           )
             inputType[l] =
-              this.screenData.uiData[index].targetCondition[k].inputJsonData;
+              this.screendata.uiData[index].targetCondition[k].inputJsonData;
           else if (
-            this.screenData.uiData[index].targetCondition[k].targetName ==
+            this.screendata.uiData[index].targetCondition[k].targetName ==
             inputType[l].key &&
             !currentValue
           )
             inputType[l] =
-              this.screenData.uiData[index].targetCondition[k].inputOldJsonData;
+              this.screendata.uiData[index].targetCondition[k].inputOldJsonData;
         }
       }
     }
@@ -1668,7 +1672,7 @@ export class BuilderComponent implements OnInit {
     if (value == 'invoiceGrid') {
       newNode.type = 'gridList';
       newNode.id =
-        this.screenName + '_' + 'gridList'.toLowerCase() + '_' + Guid.newGuid();
+        this.screenname + '_' + 'gridList'.toLowerCase() + '_' + Guid.newGuid();
     }
     if (allow) {
       switch (value) {
@@ -1717,49 +1721,49 @@ export class BuilderComponent implements OnInit {
         case 'header_1':
           newNode = {
             ...newNode,
-            ...this.addControlService.getHeader1(newNode, this.screenName),
+            ...this.addControlService.getHeader1(newNode, this.screenname),
           };
           break;
         case 'header_2':
           newNode = {
             ...newNode,
-            ...this.addControlService.getHeader_2(newNode, this.screenName),
+            ...this.addControlService.getHeader_2(newNode, this.screenname),
           };
           break;
         case 'header_3':
           newNode = {
             ...newNode,
-            ...this.addControlService.getHeade_3(newNode, this.screenName),
+            ...this.addControlService.getHeade_3(newNode, this.screenname),
           };
           break;
         case 'header_4':
           newNode = {
             ...newNode,
-            ...this.addControlService.getHeader_4(newNode, this.screenName),
+            ...this.addControlService.getHeader_4(newNode, this.screenname),
           };
           break;
         case 'header_5':
           newNode = {
             ...newNode,
-            ...this.addControlService.getHeader_5(newNode, this.screenName),
+            ...this.addControlService.getHeader_5(newNode, this.screenname),
           };
           break;
         case 'header_6':
           newNode = {
             ...newNode,
-            ...this.addControlService.getHeader_6(newNode, this.screenName),
+            ...this.addControlService.getHeader_6(newNode, this.screenname),
           };
           break;
         case 'header_7':
           newNode = {
             ...newNode,
-            ...this.addControlService.getHeader_7(newNode, this.screenName),
+            ...this.addControlService.getHeader_7(newNode, this.screenname),
           };
           break;
         case 'pricing':
           newNode = {
             ...newNode,
-            ...this.addControlService.getwebistepricing(newNode, this.screenName),
+            ...this.addControlService.getwebistepricing(newNode, this.screenname),
           };
           break;
         case 'buttonGroup':
@@ -2738,7 +2742,7 @@ export class BuilderComponent implements OnInit {
     this.dataSharedService.nodes = this.nodes;
     this.dataSharedService.screenModule = this.screens;
     this.dataSharedService.selectedNode = this.selectedNode;
-    this.dataSharedService.screenName = this.screenName;
+    this.dataSharedService.screenName = this.screenname;
   }
   applySize() {
     if (!this.IslayerVisible && !this.IsjsonEditorVisible) {
@@ -3951,10 +3955,10 @@ export class BuilderComponent implements OnInit {
   remove(parent: any, node: any) {
     debugger
     //This condition is work if ui rule apply on component then user cannot delete the component.
-    if (this.screenData) {
-      if (this.screenData.uiData.length > 0) {
+    if (this.screendata) {
+      if (this.screendata.uiData.length > 0) {
         if (node?.origin?.key) {
-          for (const rule of this.screenData.uiData) {
+          for (const rule of this.screendata.uiData) {
             if ((node.origin && rule.ifMenuName === node.origin.key) || (node.parentNode && rule.ifMenuName === node.parentNode.key)) {
               this.toastr.warning('UI Rule is applied to this component, so please refrain from deleting it.', { nzDuration: 3000 }); // Show an error message to the user
               return;
@@ -4555,7 +4559,7 @@ export class BuilderComponent implements OnInit {
                   formlyData.type
                 );
                 // this.selectedNode['key'] = event.form.event.form.formlyTypes.configType.toLowerCase() + "_" + Guid.newGuid();
-                // this.selectedNode['id'] = this.screenName + "_" + event.form.event.form.formlyTypes.parameter.toLowerCase() + "_" + Guid.newGuid();
+                // this.selectedNode['id'] = this.screenname + "_" + event.form.event.form.formlyTypes.parameter.toLowerCase() + "_" + Guid.newGuid();
               }
             }
 
@@ -4774,11 +4778,11 @@ export class BuilderComponent implements OnInit {
 
         if (this.selectedNode) {
           const selectedScreen = this.screens.filter(
-            (a: any) => a.name == this.screenName
+            (a: any) => a.name == this.screenname
           );
           const jsonRuleValidation = {
-            "screenName": this.screenName,
-            "screenBuilderId": this.id,
+            "screenname": this.screenname,
+            "screenbuilderid": this.id,
             "id": this.selectedNode.id,
             "key": this.selectedNode?.formly?.[0]?.fieldGroup?.[0]?.key,
             "type": event.form.type,
@@ -4789,7 +4793,7 @@ export class BuilderComponent implements OnInit {
             "pattern": event.form.pattern,
             "required": event.form.required,
             "emailTypeAllow": event.form.emailTypeAllow,
-            "applicationId": this.selectApplicationName,
+            "applicationid": this.selectApplicationName,
           }
           var JOIData = JSON.parse(JSON.stringify(jsonRuleValidation) || '{}');
           const validationRuleModel = {
@@ -6191,7 +6195,7 @@ export class BuilderComponent implements OnInit {
       return;
     }
     let contents: any;
-    if (this.screenName) {
+    if (this.screenname) {
       if (
         event.target instanceof HTMLInputElement &&
         event.target.files.length > 0
@@ -6202,7 +6206,7 @@ export class BuilderComponent implements OnInit {
             contents = reader.result as string;
             var makeData = JSON.parse(contents);
             var currentData = JSON.parse(
-              JSON.stringify(makeData.screenData, function (key, value) {
+              JSON.stringify(makeData.screendata, function (key, value) {
                 if (typeof value == 'function') {
                   return value.toString();
                 } else {
@@ -6368,8 +6372,8 @@ export class BuilderComponent implements OnInit {
           description: '',
           status: 'Pending',
           isActive: true,
-          screenBuilderId: this.id,
-          // applicationId: JSON.parse(localStorage.getItem('applicationId')!),
+          screenbuilderid: this.id,
+          // applicationid: JSON.parse(localStorage.getItem('applicationid')!),
           // organizationId: JSON.parse(localStorage.getItem('organizationId')!),
         };
         return this.builderService
@@ -6438,7 +6442,7 @@ export class BuilderComponent implements OnInit {
                             tableid: item.tableid,
                             fieldName: fieldName,
                             status: item.status,
-                            screenBuilderId: this.id,
+                            screenbuilderid: this.id,
                           };
                           this.deleteCases.push(deleteCase);
                         }
@@ -6465,8 +6469,8 @@ export class BuilderComponent implements OnInit {
                         comment: '',
                         totalFields: '',
                         isActive: 'Pending',
-                        screenBuilderId: this.id,
-                        applicationId: JSON.parse(localStorage.getItem('applicationId')!),
+                        screenbuilderid: this.id,
+                        applicationid: JSON.parse(localStorage.getItem('applicationid')!),
                         organizationId: JSON.parse(localStorage.getItem('organizationId')!),
                       };
                       this.builderService
@@ -6482,8 +6486,8 @@ export class BuilderComponent implements OnInit {
                                   description: '',
                                   status: 'Pending',
                                   isActive: true,
-                                  screenBuilderId: this.id,
-                                  // applicationId: JSON.parse(localStorage.getItem('applicationId')!),
+                                  screenbuilderid: this.id,
+                                  // applicationid: JSON.parse(localStorage.getItem('applicationid')!),
                                   // organizationId: JSON.parse(localStorage.getItem('organizationId')!),
                                 };
                                 this.builderService
@@ -6533,7 +6537,7 @@ export class BuilderComponent implements OnInit {
     });
   }
   comentSubmit() {
-    this.requestSubscription = this.applicationService.addNestCommonAPI(`applications/${this.currentUser.applicationId}/clone`, "").subscribe({
+    this.requestSubscription = this.applicationService.addNestCommonAPI(`applications/${this.currentUser.applicationid}/clone`, "").subscribe({
       next: (res: any) => {
         if (res.isSuccess) {
           this.toastr.success(`Git : ${res.message}`, { nzDuration: 3000 });
@@ -7048,10 +7052,10 @@ export class BuilderComponent implements OnInit {
           //   pagination = '?page=' + 1 + '&pageSize=' + tableData?.end;
           // }
           if (url) {
-            const applicationId = localStorage.getItem('applicationId') || '';
+            const applicationid = localStorage.getItem('applicationid') || '';
             let savedGroupData: any = [];
-            if (applicationId) {
-              savedGroupData = await this.dataService.getNodes(JSON.parse(applicationId), this.screenName, "Table");
+            if (applicationid) {
+              savedGroupData = await this.dataService.getNodes(JSON.parse(applicationid), this.screenname, "Table");
             }
             this.saveLoader = true;
             this.employeeService.getSQLDatabaseTable(url).subscribe({
@@ -7345,9 +7349,9 @@ export class BuilderComponent implements OnInit {
       }
     }
   }
-  getTaskManagementIssuesFunc(screenId: string, applicationId: string) {
-    if (applicationId) {
-      this.requestSubscription = this.builderService.getUserAssignTask(screenId, applicationId).subscribe({
+  getTaskManagementIssuesFunc(screenId: string, applicationid: string) {
+    if (applicationid) {
+      this.requestSubscription = this.builderService.getUserAssignTask(screenId, applicationid).subscribe({
         next: (res: any) => {
           if (res.isSuccess) {
             if (res.data.length > 0) {
@@ -7370,7 +7374,7 @@ export class BuilderComponent implements OnInit {
           if (node.formly.length > 0) {
             if (node.formly[0].fieldGroup) {
               if (node.formly[0].fieldGroup[0]) {
-                node.formly[0].fieldGroup[0].props['screenName'] = this.screenName;
+                node.formly[0].fieldGroup[0].props['screenname'] = this.screenname;
                 node.formly[0].fieldGroup[0].props['id'] = node.id;
                 if (assign && assign?.status) {
                   node.formly[0].fieldGroup[0].props['status'] = assign.status;
@@ -7815,7 +7819,7 @@ export class BuilderComponent implements OnInit {
       nzContent: '',
       nzOnOk: () => {
         this.saveLoader = true;
-        this.applicationService.addNestCommonAPI(`applications/${this.id}/screenClone`, this.builderScreenData).subscribe({
+        this.applicationService.addNestCommonAPI(`applications/${this.id}/screenClone`, this.builderscreendata).subscribe({
           next: (res: any) => {
             this.saveLoader = false;
             this.toastr.success('clone Data Successfully', { nzDuration: 3000 });
