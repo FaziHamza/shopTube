@@ -28,6 +28,7 @@ import { UserMappingComponent } from "../admin/user-mapping/user-mapping.compone
 import { HeadingParagrapghUpdateComponent } from './heading-paragrapgh-update/heading-paragrapgh-update.component';
 import { OtherBulkUpdateComponent } from './other-bulk-update/other-bulk-update.component';
 import { DragDropModule } from "@angular/cdk/drag-drop";
+import { ResizableComponent } from './resizable/resizable.component';
 
 @NgModule({
   declarations: [
@@ -38,7 +39,8 @@ import { DragDropModule } from "@angular/cdk/drag-drop";
     ExecuteActionRuleComponent,
     MonacoEditorComponent,
     HeadingParagrapghUpdateComponent,
-    OtherBulkUpdateComponent
+    OtherBulkUpdateComponent,
+    ResizableComponent
 
   ],
   imports: [

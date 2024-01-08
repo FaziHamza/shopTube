@@ -36,6 +36,7 @@ export class LoginComponent implements OnInit {
     // grecaptcha.render('recaptcha', { sitekey: environment.recaptcha.siteKey });
     // init Form
     this.create();
+    this.getApplicationData();
     this.cdr.detectChanges();
   }
 
@@ -54,6 +55,7 @@ export class LoginComponent implements OnInit {
   showRecaptcha: boolean = false;
   isFormSubmit: boolean = false;
   form: FormGroup;
+  applications: any;
   // form
   create() {
     this.form = this.formBuilder.group({
@@ -69,7 +71,7 @@ export class LoginComponent implements OnInit {
   }
 
   submitForm(): void {
-    
+    debugger
     this.recaptchaResponse = grecaptcha.getResponse();
     if (!this.recaptchaResponse) {
       // this.toastr.warning('You are not human', { nzDuration: 3000 }); // Show an error message to the user
@@ -87,12 +89,13 @@ export class LoginComponent implements OnInit {
 
     // console.log('submit', this.form.value);
     this.form.value['username'] = this.form.value.email;
-    this.form.value['domain'] =window.location.host.split(':')[0],
-    this.form.value['responsekey'] = this.recaptchaResponse;
-
+    this.form.value['domain'] = window.location.host.split(':')[0],
+      this.form.value['responsekey'] = this.recaptchaResponse;
+    let obj = this.form.value;
+    obj['applicationId'] = this.applications?.application?._id || environment.applicationId;
     // Show Loader
     this.showLoader = true;
-    this.authService.loginUser (this.form.value).subscribe(
+    this.authService.loginUser(this.form.value).subscribe(
       (response: any) => {
         this.showLoader = false;
         if (response.isSuccess) {
@@ -146,5 +149,24 @@ export class LoginComponent implements OnInit {
     script.defer = true;
     document.body.appendChild(script);
   }
-  
+  getApplicationData() {
+    this.showLoader = true;
+    const hostUrl = window.location.host.split(':')[0];
+    this.authService.getNestCommonAPI('auth/domain/' + hostUrl).subscribe({
+      next: (res: any) => {
+        if (res.isSuccess) {
+          this.applications = res.data;
+        }
+        else {
+          this.toastr.error(res.message, { nzDuration: 3000 }); // Show an error message to the user
+        }
+        this.showLoader = false
+      },
+      error: (err) => {
+        this.showLoader = false;
+        this.toastr.error('some error exception', { nzDuration: 2000 });
+      },
+    });
+  }
+
 }

@@ -49,6 +49,28 @@ export class BuilderClickButtonService {
               value: 'right'
             }
           ],
+          iconType_list: [
+            {
+              label: 'Icon outlined',
+              value: 'outline'
+            },
+            {
+              label: 'Icon filled',
+              value: 'fill'
+            },
+            {
+              label: 'Icon twotone',
+              value: 'twotone'
+            },
+            {
+              label: 'Font Awsome',
+              value: 'font_awsome'
+            },
+            {
+              label: 'Material',
+              value: 'material'
+            },
+          ],
           // apiName: obj.apiName ? obj.apiName : '',
         };
       })
@@ -207,6 +229,8 @@ export class BuilderClickButtonService {
       browserButtonColor: node.formly[0].fieldGroup[0].props['additionalProperties']['browserButtonColor'],
       hoverBrowseButtonColor: node.formly[0].fieldGroup[0].props['additionalProperties']['hoverBrowseButtonColor'],
       applicationThemeClasses: node.formly[0].fieldGroup[0].props['additionalProperties']['applicationThemeClasses'],
+      wrapperLabelClass: node.formly[0].fieldGroup[0].props['additionalProperties']['wrapperLabelClass'],
+      wrapperInputClass: node.formly[0].fieldGroup[0].props['additionalProperties']['wrapperInputClass'],
       disabled: node.formly[0].fieldGroup[0].props?.disabled,
       readonly: node.formly[0].fieldGroup[0].props?.readonly,
       // hideExpression: node.formly[0].fieldGroup[0].props?.hideExpression,

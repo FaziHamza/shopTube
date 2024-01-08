@@ -10,15 +10,16 @@
   [style.border-color]="(borderColor || buttonData.borderColor) + ' !important'" (click)="handleButtonClick(buttonData)"
   (mouseover)="handleButtonMouseOver(buttonData)" (mouseout)="handleButtonMouseOut(buttonData)">
   <span>
-    <st-icon [iconClass]="buttonData?.iconClass + ' ' + buttonData?.appGlobalInnerIconClass" *ngIf="buttonData.btnIcon" [icon]="buttonData.btnIcon" [color]="buttonData.iconColor"
-      [hoverIconColor]="buttonData?.hoverIconColor || ''" [size]="buttonData.iconSize"
-      [type]="buttonData.iconType"></st-icon>
+    <st-icon [iconClass]="buttonData?.iconClass + ' ' + buttonData?.appGlobalInnerIconClass" *ngIf="buttonData.btnIcon"
+      [icon]="buttonData.btnIcon" [color]="buttonData.iconColor" [hoverIconColor]="buttonData?.hoverIconColor || ''"
+      [size]="buttonData.iconSize" [type]="buttonData.iconType"></st-icon>
     <span [class]="buttonData.btnLabelPaddingClass" *ngIf="buttonData.title">
       {{ (buttonData?.title) ? (title || buttonData?.title | translate) : ''
       }}
 
     </span>
-    <st-icon [iconClass]="buttonData?.iconClass + ' ' + buttonData?.appGlobalInnerIconClass" *ngIf="buttonData.rightbtnIcon" [icon]="buttonData.rightbtnIcon" [color]="buttonData.iconColor"
+    <st-icon [iconClass]="buttonData?.iconClass + ' ' + buttonData?.appGlobalInnerIconClass"
+      *ngIf="buttonData.rightbtnIcon" [icon]="buttonData.rightbtnIcon" [color]="buttonData.iconColor"
       [size]="buttonData.iconSize" [hoverIconColor]="buttonData?.hoverIconColor || ''"
       [type]="buttonData.iconType"></st-icon>
   </span>
@@ -37,14 +38,16 @@
     (click)="pagesRoute(buttonData)" (mouseover)="handleButtonMouseOver(buttonData)"
     (mouseout)="handleButtonMouseOut(buttonData)">
     <span [style]="borderColor || buttonData.borderColor ? 'padding-left: 10px; padding-right: 10px;' : ''">
-      <st-icon [iconClass]="buttonData?.iconClass + ' ' + buttonData?.appGlobalInnerIconClass" *ngIf="buttonData.btnIcon" [icon]="buttonData.btnIcon" [color]="buttonData.iconColor"
+      <st-icon [iconClass]="buttonData?.iconClass + ' ' + buttonData?.appGlobalInnerIconClass"
+        *ngIf="buttonData.btnIcon" [icon]="buttonData.btnIcon" [color]="buttonData.iconColor"
         [hoverIconColor]="buttonData?.hoverIconColor || ''" [size]="buttonData.iconSize"
         [type]="buttonData.iconType"></st-icon>
       <span [class]="buttonData.btnLabelPaddingClass" *ngIf="buttonData.title">
         {{ (buttonData?.title) ? (title || buttonData?.title | translate) : ''
         }}
       </span>
-      <st-icon [iconClass]="buttonData?.iconClass + ' ' + buttonData?.appGlobalInnerIconClass" *ngIf="buttonData.rightbtnIcon" [icon]="buttonData.rightbtnIcon" [color]="buttonData.iconColor"
+      <st-icon [iconClass]="buttonData?.iconClass + ' ' + buttonData?.appGlobalInnerIconClass"
+        *ngIf="buttonData.rightbtnIcon" [icon]="buttonData.rightbtnIcon" [color]="buttonData.iconColor"
         [size]="buttonData.iconSize" [hoverIconColor]="buttonData?.hoverIconColor || ''"
         [type]="buttonData.iconType"></st-icon>
     </span>
@@ -64,15 +67,16 @@
   [style.border-color]="(borderColor || buttonData.borderColor) + ' !important'"
   (mouseover)="handleButtonMouseOver(buttonData)" (mouseout)="handleButtonMouseOut(buttonData)">
   <span>
-    <st-icon [iconClass]="buttonData?.iconClass + ' ' + buttonData?.appGlobalInnerIconClass" *ngIf="buttonData.btnIcon" [icon]="buttonData.btnIcon"
-      [color]="buttonData.iconColor" [hoverIconColor]="buttonData?.hoverIconColor || ''" [size]="buttonData.iconSize"
-      [type]="buttonData.iconType"></st-icon>
+    <st-icon [iconClass]="buttonData?.iconClass + ' ' + buttonData?.appGlobalInnerIconClass" *ngIf="buttonData.btnIcon"
+      [icon]="buttonData.btnIcon" [color]="buttonData.iconColor" [hoverIconColor]="buttonData?.hoverIconColor || ''"
+      [size]="buttonData.iconSize" [type]="buttonData.iconType"></st-icon>
     <span [class]="buttonData.btnLabelPaddingClass" *ngIf="buttonData.title">
       {{ (buttonData?.title) ? (title || buttonData?.title | translate) : ''
       }}
     </span>
-    <span >
-      <st-icon [iconClass]="buttonData?.iconClass + ' ' + buttonData?.appGlobalInnerIconClass" *ngIf="buttonData.rightbtnIcon" [icon]="buttonData.rightbtnIcon" [color]="buttonData.iconColor"
+    <span>
+      <st-icon [iconClass]="buttonData?.iconClass + ' ' + buttonData?.appGlobalInnerIconClass"
+        *ngIf="buttonData.rightbtnIcon" [icon]="buttonData.rightbtnIcon" [color]="buttonData.iconColor"
         [size]="buttonData.iconSize" [hoverIconColor]="buttonData?.hoverIconColor || ''"
         [type]="buttonData.iconType"></st-icon>
     </span>
@@ -134,22 +138,26 @@
     [nzWidth]="buttonData?.redirect == 'drawer' ? '60%' : (buttonData?.redirect == 'largeDrawer' ? '70%' : '80%') "
     [nzVisible]="isVisible" (nzOnClose)="handleClose()">
     <ng-container *nzDrawerContent>
-      <nz-spin [nzSpinning]="loader">
-        <st-pages [mappingId]="mappingId" [mappingId]="tableRowId" [isDrawer]="true" [data]="nodes"
-          [navigation]="screenId" [form]="form" [formlyModel]="formlyModel" *ngIf="nodes.length > 0"></st-pages>
-      </nz-spin>
+      <div *ngIf="!buttonData?.href.includes('.com')">
+        <nz-spin [nzSpinning]="loader">
+          <st-pages [mappingId]="mappingId" [mappingId]="tableRowId" [isDrawer]="true" [data]="nodes"
+            [navigation]="screenId" [form]="form" [formlyModel]="formlyModel" *ngIf="nodes.length > 0"></st-pages>
+        </nz-spin>
+      </div>
     </ng-container>
   </nz-drawer>
 </div>
 <ng-template #extra>
   <!-- Buttons with Font Awesome icons -->
-  <button *ngIf="buttonData?.showHideButton == 'showPreviousButton' || buttonData?.showHideButton == undefined || buttonData?.showHideButton == 'showBoth'" nz-button
-    nzType="primary" class="btn mb-4" (click)="getNextOrPreviousObjectById('previous')">
+  <button
+    *ngIf="buttonData?.showHideButton == 'showPreviousButton' || buttonData?.showHideButton == undefined || buttonData?.showHideButton == 'showBoth'"
+    nz-button nzType="primary" class="btn mb-4" (click)="getNextOrPreviousObjectById('previous')">
     <i class="fas fa-arrow-left mr-2"></i> Previous
   </button>
 
-  <button *ngIf="buttonData?.showHideButton == 'showNextButton' || buttonData?.showHideButton == undefined || buttonData?.showHideButton == 'showBoth'" nz-button
-    nzType="primary" class="btn mb-4 ml-2 mr-2" (click)="getNextOrPreviousObjectById('next')">
+  <button
+    *ngIf="buttonData?.showHideButton == 'showNextButton' || buttonData?.showHideButton == undefined || buttonData?.showHideButton == 'showBoth'"
+    nz-button nzType="primary" class="btn mb-4 ml-2 mr-2" (click)="getNextOrPreviousObjectById('next')">
     Next <i class="fas fa-arrow-right ml-1"></i>
   </button>
   <i class="fas fa-times text-lg text-red-500 cursor-pointer" (click)="handleClose()"></i>

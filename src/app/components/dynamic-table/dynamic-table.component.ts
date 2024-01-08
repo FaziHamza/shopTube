@@ -168,7 +168,7 @@ export class DynamicTableComponent implements OnInit {
       if (this.data?.tableHeaders) {
         if (this.data?.tableHeaders.length > 0) {
           for (const api of this.data.tableHeaders) {
-            if(api.key !="expand")
+            if (api.key != "expand")
               await this.handleRowClickApi(api);
           }
         }
@@ -1071,6 +1071,7 @@ export class DynamicTableComponent implements OnInit {
   }
 
   loadTableData() {
+    debugger
     this.getResizingAndColumnSortng();
     if (this.tableData.length > 0) {
       if (this.tableData[0].__v || this.tableData[0]._id) {
@@ -1107,6 +1108,13 @@ export class DynamicTableComponent implements OnInit {
       //   this.tableHeaders = this.tableHeaders.filter((head: any) => head.name !== 'expand');
       // }
     }
+    if(this.tableHeaders.length > 0){
+      if (this.tableHeaders.some((header: any) => ['srNo', 'dataType', 'isAllowGrouping'].includes(header.key)) && this.data) {
+        this.data['startFreezingNumber'] = 3;
+      }
+    }
+  
+
     if (!this.data) {
       const newNode = {
         nzFooter: "",

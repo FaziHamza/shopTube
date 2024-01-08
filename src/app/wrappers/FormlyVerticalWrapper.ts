@@ -18,7 +18,7 @@ import { DataSharedService } from '../services/data-shared.service';
         <span nz-icon [nzType]="to['additionalProperties']['tooltipIcon'] ?  to['additionalProperties']['tooltipIcon'] : 'question-circle'" [class]="to['additionalProperties']['toolTipClass']" nzTheme="outline"></span>
       </span>
       </span>
-      <label class="label-style relative" [attr.for]="id" class="col-form-label {{to['additionalProperties']?.labelPosition}} pl-1" *ngIf="to.label" [style.background-color]="to['labelBackgroundColor']" [style.color]="to['labelColor']">
+      <label [attr.for]="id" [class]="to['additionalProperties']?.wrapperLabelClass ? to['additionalProperties']?.wrapperLabelClass + ' ' + to['additionalProperties']?.labelPosition : 'label-style relative col-form-label ' + to['additionalProperties']?.labelPosition + ' pl-1'" *ngIf="to.label" [style.background-color]="to['labelBackgroundColor']" [style.color]="to['labelColor']">
         <span>
           <span class="mr-1 mb-1">
             <st-icon *ngIf="to['additionalProperties']?.titleIcon" [type]="to['additionalProperties']?.iconType || 'outline'" [icon]="to['additionalProperties']?.titleIcon" [hoverIconColor]="to['additionalProperties']?.hoverIconColor || ''" [size]="to['additionalProperties']?.iconSize" [color]="to['additionalProperties']?.iconColor"></st-icon>
@@ -35,7 +35,7 @@ import { DataSharedService } from '../services/data-shared.service';
         </span>
       </label>
     </div>
-    <div class="mt-1 pl-2">
+    <div [class]="to['additionalProperties']?.wrapperInputClass ? to['additionalProperties']?.wrapperInputClass : 'mt-1 pl-2'">
       <ng-template #fieldComponent></ng-template>
     </div>
     <div *ngIf="hasError" class="text-red-500 text-sm block pl-2">

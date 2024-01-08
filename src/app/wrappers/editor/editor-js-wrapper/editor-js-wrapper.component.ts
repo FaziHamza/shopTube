@@ -2,8 +2,8 @@ import { Component, OnInit, ViewChild, ElementRef, forwardRef, OnDestroy, Input 
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import EditorJS, { OutputData } from '@editorjs/editorjs';
 import Header from '@editorjs/header';
-
-import List  from '@editorjs/list';
+import axios from "axios";
+import List from '@editorjs/list';
 import Checklist from '@editorjs/checklist';
 import Quote from '@editorjs/quote';
 import Marker from '@editorjs/marker';
@@ -15,7 +15,8 @@ import Embed from '@editorjs/embed';
 import Table from '@editorjs/table';
 import Warning from '@editorjs/warning';
 import ImageTool from '@editorjs/image';
-
+import { environment } from 'src/environments/environment';
+import { DataSharedService } from 'src/app/services/data-shared.service';
 
 // Import other tools as needed
 
@@ -34,12 +35,13 @@ import ImageTool from '@editorjs/image';
 export class EditorJsWrapperComponent implements OnInit, OnDestroy, ControlValueAccessor {
   @ViewChild('editorContainer', { static: true }) editorContainer: ElementRef;
   @Input() minHeight: string = '300px';
-  @Input() data:any;
+  @Input() data: any;
   private editor: EditorJS;
   private onChange: (data: OutputData) => void;
   private onTouched: () => void;
+  serverPath = environment.nestBaseUrl
 
-  constructor() { }
+  constructor(public dataSharedService: DataSharedService) { }
 
   ngOnInit(): void {
 
@@ -96,12 +98,36 @@ export class EditorJsWrapperComponent implements OnInit, OnDestroy, ControlValue
         image: {
           class: ImageTool,
           config: {
-            endpoints: {
-              byFile: 'URL_TO_YOUR_IMAGE_UPLOADER', // Replace with your image uploader URL
-              byUrl: 'URL_TO_YOUR_IMAGE_UPLOADER' // Replace with your image uploader URL
-            }
-          }
-        }
+            uploader: {
+              async uploadByFile(file: any) {
+                debugger
+                // your own uploading logic here
+                // Assuming you have a formData object to send in the request
+                const formData = new FormData();
+                formData.append('image', file);
+                // Constructing dynamic query parameters
+                let user = JSON.parse(window.localStorage['user']);
+                const queryParams = new URLSearchParams();
+                queryParams.append('organizationId', JSON.parse(localStorage.getItem('organizationId')!));
+                queryParams.append('applicationId', JSON.parse(localStorage.getItem('applicationId')!));
+                queryParams.append('user', user.username);
+                queryParams.append('userId', user.userId);
+
+                // Adding query parameters to the URL
+                const apiUrl = `${environment.nestBaseUrl}email/upload?${queryParams.toString()}`;
+                const response = await axios.post(
+                  apiUrl,
+                  formData
+                );
+
+                if (response.data.success === 1) {
+                  return response.data;
+                }
+              },
+            },
+            inlineToolbar: true,
+          },
+        },
       },
       onChange: async () => {
         if (this.onChange) {

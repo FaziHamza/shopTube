@@ -181,9 +181,9 @@ export class ButtonsComponent implements OnInit {
           this.requestSubscription = this.activatedRoute.params.subscribe((params: Params) => {
             if (params["id"]) {
               window.open('/pages/' + data.href + '/' + params["id"]);
-            }else if(data.href.includes('https://www')){
+            } else if (data.href.includes('https://www')) {
               window.open(data.href);
-            }  
+            }
             else {
               window.open('/pages/' + data.href);
             }
@@ -194,8 +194,8 @@ export class ButtonsComponent implements OnInit {
       case '':
         if (this.tableRowId) {
           this.router.navigate(['/pages/' + data.href + '/' + this.tableRowId]);
-        } 
-        else if(data.href.includes('https://www')){
+        }
+        else if (data.href.includes('https://www')) {
           window.location.href = data.href;
         }
         else {
@@ -203,9 +203,9 @@ export class ButtonsComponent implements OnInit {
             if (params["id"]) {
               this.router.navigate(['/pages/' + data.href + '/' + params["id"]])
             }
-            else if(data.href.includes('https://www')){
+            else if (data.href.includes('https://www')) {
               this.router.navigate([data.href]);
-            } 
+            }
             else {
               this.router.navigate(['/pages/' + data.href]);
             }

@@ -1,4 +1,5 @@
-<nz-carousel [nzEffect]="'fade'" [nzDotPosition]="carouselslides.dotPosition" [nzAutoPlay]="carouselslides.autoPlay" class="carousle"
+<nz-carousel [style]="carouselslides.borderLess ?  '' : 'border: 1px solid lightgray; padding-top: 5px !important;border-radius: 8px;' " [nzEffect]="'fade'"
+    [nzDotPosition]="carouselslides.dotPosition" [nzAutoPlay]="carouselslides.autoPlay" class="carousle"
     [nzAutoPlaySpeed]="carouselslides.autolPlaySpeed" [nzDots]="carouselslides.showDots"
     [nzEnableSwipe]="carouselslides.enableSwipe">
     <div nz-carousel-content *ngFor="let item of carouselslides.children">

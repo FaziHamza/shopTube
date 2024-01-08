@@ -445,7 +445,7 @@ export class BuilderComponent implements OnInit {
       this.requestSubscription = checkBuilderAndProcess.subscribe({
         next: (res: any) => {
           if (res.isSuccess) {
-            this.isScreenSaved = true;
+            this.isScreenSaved = false;
             this.toastr.success(res.message, { nzDuration: 3000 });
             this.showActionRule = true;
             if (this.builderScreenData?.length > 0) {
@@ -478,6 +478,7 @@ export class BuilderComponent implements OnInit {
   previousScreenId: string = '';
   builderScreenData: any;
   getScreenData(data: any) {
+    debugger
     this.modalService.confirm({
       nzTitle: 'Are you sure you want to switch your screen?',
       nzClassName: 'custom-modal-class',
@@ -562,6 +563,7 @@ export class BuilderComponent implements OnInit {
       next: (res: any) => {
         if (res.isSuccess) {
           // this.form = new FormGroup({});
+          this.builderScreenData = [];
           if (res.data.length > 0) {
             localStorage.setItem('screenBuildId', res.data[0].screenBuilderId);
             this.builderScreenData = [res.data[0]];
@@ -674,10 +676,12 @@ export class BuilderComponent implements OnInit {
           else {
             // this.navigation = 0;
             // this.clearChildNode();
+            this.builderScreenData = [];
             this.requestSubscription = this.applicationService.getNestCommonAPI('applications/default').subscribe({
               next: (res: any) => {
                 if (res.isSuccess) {
                   // this.builderScreenData = res.data;
+                  
                   if (res.data.length > 0) {
                     const objScreenData = JSON.parse(res.data[0].screenData);
                     this.isSavedDb = true;
@@ -736,6 +740,7 @@ export class BuilderComponent implements OnInit {
         console.error(err); // Log the error to the console
         this.toastr.error("An error occurred", { nzDuration: 3000 }); // Show an error message to the user
         this.saveLoader = false;
+        this.builderScreenData = [];
       }
     });
   }
@@ -1860,7 +1865,7 @@ export class BuilderComponent implements OnInit {
           newNode = { ...newNode, ...this.addControlService.getTaskManagerControl() };
           break;
         case 'repeatableControll':
-          let formlyObj = {
+          let formlyObj : any = {
             isNextChild: true,
             type: data?.configType,
             formlyType: 'input',
@@ -1972,6 +1977,21 @@ export class BuilderComponent implements OnInit {
               },
             ],
           };
+          if (formlyObj) {
+            if (formlyObj.formly[0].fieldGroup[0].wrappers == 'formly-vertical-theme-wrapper') {
+              formlyObj.formly[0].fieldGroup[0].props['additionalProperties']['wrapperLabelClass'] = 'w-1/3 py-2 col-form-label relative column-form-label'
+              formlyObj.formly[0].fieldGroup[0].props['additionalProperties']['wrapperInputClass'] = 'w-2/3 column-form-input form-control-style v-body-border'
+            }
+            if (formlyObj.formly[0].fieldGroup[0].wrappers == 'form-field-horizontal') {
+              formlyObj.formly[0].fieldGroup[0].props['additionalProperties']['wrapperLabelClass'] = ''
+              formlyObj.fieldGroup[0].props['additionalProperties']['wrapperInputClass'] = '';
+            }
+            if (formlyObj.formly[0].fieldGroup[0].wrappers == 'formly-vertical-wrapper') {
+              formlyObj.formly[0].fieldGroup[0].props['additionalProperties']['wrapperLabelClass'] = 'label-style relative col-form-label pl-1'
+              formlyObj.formly[0].fieldGroup[0].props['additionalProperties']['wrapperInputClass'] = 'mt-1 pl-2'
+            }
+
+          }
           newNode = { ...newNode, ...formlyObj };
           break;
         case 'simpleCardWithHeaderBodyFooter':
@@ -4709,6 +4729,8 @@ export class BuilderComponent implements OnInit {
             props['additionalProperties']['hoverBrowseButtonColor'] = event.form?.hoverBrowseButtonColor;
             props['additionalProperties']['expandTrigger'] = event.form?.expandTrigger;
             props['additionalProperties']['applicationThemeClasses'] = event.form?.applicationThemeClasses;
+            props['additionalProperties']['wrapperLabelClass'] = event.form?.wrapperLabelClass;
+            props['additionalProperties']['wrapperInputClass'] = event.form?.wrapperInputClass;
             if (event.form?.browserButtonColor) {
               document.documentElement.style.setProperty('--browseButtonColor', event.form?.browserButtonColor || '#2563EB');
             }
@@ -6071,10 +6093,22 @@ export class BuilderComponent implements OnInit {
           fieldGroup[0].className = formValues.sectionClassName;
         }
         if (formValues.wrappers) {
+          if (fieldGroup[0].props['additionalProperties']['wrapper'] != formValues.wrappers) {
+            if (formValues.wrappers == 'formly-vertical-theme-wrapper') {
+              fieldGroup[0].props['additionalProperties']['wrapperLabelClass'] = 'w-1/3 py-2 col-form-label relative column-form-label'
+              fieldGroup[0].props['additionalProperties']['wrapperInputClass'] = 'w-2/3 column-form-input form-control-style v-body-border'
+            }
+            if (formValues.wrappers == 'form-field-horizontal') {
+              fieldGroup[0].props['additionalProperties']['wrapperLabelClass'] = ''
+              fieldGroup[0].props['additionalProperties']['wrapperInputClass'] = '';
+            }
+            if (formValues.wrappers == 'formly-vertical-wrapper') {
+              fieldGroup[0].props['additionalProperties']['wrapperLabelClass'] = 'label-style relative col-form-label pl-1'
+              fieldGroup[0].props['additionalProperties']['wrapperInputClass'] = 'mt-1 pl-2'
+            }
+          }
           fieldGroup[0].wrappers = [formValues.wrappers];
-          fieldGroup[0].props['additionalProperties']['wrapper'] = [
-            formValues.wrappers,
-          ][0];
+          fieldGroup[0].props['additionalProperties']['wrapper'] = [formValues.wrappers][0];
           if (formValues.wrappers == 'floating_filled' || formValues.wrappers == 'floating_outlined' || formValues.wrappers == 'floating_standard') {
             fieldGroup[0].props['additionalProperties']['size'] = 'default';
             fieldGroup[0].props['additionalProperties']['addonRight'] = '';

@@ -15,6 +15,7 @@ import { PolicyMappingComponent } from './admin/policy-mapping/policy-mapping.co
 import { UserMappingComponent } from './admin/user-mapping/user-mapping.component';
 import { ApplicationThemeComponent } from './Builder-module/application-theme/application-theme.component';
 import { NgxGraphNodeComponent } from './builder/ngx-graph-node/ngx-graph-node.component';
+import { ApplicationGlobalClassesComponent } from './Builder-module/application-global-classes/application-global-classes.component';
 
 const routes: Routes = [
   {

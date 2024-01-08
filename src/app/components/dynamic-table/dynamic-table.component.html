@@ -397,7 +397,7 @@
                   </div>
                   <!-- icon cell -->
                   <div *ngIf="header?.dataType =='icon'">
-                    <st-icon *ngIf="header?.icon" [type]="'outline'" [icon]="header?.icon" [size]="15"
+                    <st-icon *ngIf="header?.icon" [type]="header?.iconType ? header?.iconType : 'outline'" [icon]="header?.icon" [size]="15"
                       [hoverIconColor]="''" [color]="item[header.key]== item?.colorDataType && editId !== item.id ?
                       item?.columnTextColor : ''"></st-icon>
                   </div>
