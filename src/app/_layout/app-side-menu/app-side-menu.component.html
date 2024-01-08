@@ -103,7 +103,7 @@
                 </li>
                 <ng-template #subMenu>
                   <li [hidden]="sub.hideExpression"
-                    [ngStyle]="{ 'background': isActiveShow == sub.id ? (selectedTheme['activeBackgroundColor'] + ' !important' ? selectedTheme['activeBackgroundColor'] + ' !important' : '' ) : '' }"
+                    [style.background]="isActiveShow == sub.id ? selectedTheme['activeBackgroundColor'] : ''"
                     nz-menu-item (contextmenu)="handleContextMenu($event,sub)"
                     (click)="loadTabsAndButtons($event, sub,true,true)" (mouseenter)="hoverActiveShow = sub.id"
                     (mouseleave)="hoverActiveShow = null">
