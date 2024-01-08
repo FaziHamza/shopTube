@@ -563,6 +563,7 @@ export class BuilderComponent implements OnInit {
       next: (res: any) => {
         if (res.isSuccess) {
           // this.form = new FormGroup({});
+          this.builderScreenData = [];
           if (res.data.length > 0) {
             localStorage.setItem('screenBuildId', res.data[0].screenBuilderId);
             this.builderScreenData = [res.data[0]];
@@ -739,6 +740,7 @@ export class BuilderComponent implements OnInit {
         console.error(err); // Log the error to the console
         this.toastr.error("An error occurred", { nzDuration: 3000 }); // Show an error message to the user
         this.saveLoader = false;
+        this.builderScreenData = [];
       }
     });
   }

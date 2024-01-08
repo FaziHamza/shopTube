@@ -282,66 +282,66 @@ export class SectionsComponent implements OnInit {
               const successMessage = (model.postType === 'post') ? 'Save Successfully' : 'Update Successfully';
               this.toastr.success(successMessage, { nzDuration: 3000 });
 
-              // if (data.saveRouteLink && this.dataSharedService.currentMenuLink !== '/ourbuilder' && model.postType === 'post') {
-              //   let tableName: any = '';
-              //   if (res?.[0]) {
-              //     tableName = res[0].tableName ? res[0].tableName.split('.')[1].split('_')[0] : '';
-              //   }
-              //   if (window.location.href.includes('addcustomclearanceFsy')) {
-              //     this.router.navigate(['/pages/' + data.saveRouteLink]).then(() => {
-              //       // Reload the entire application to re-render all components
-              //       this.location.replaceState('/pages/' + data.saveRouteLink);
-              //       window.location.reload();
-              //     });
-              //   } else {
-              //     this.router.navigate(['/pages/' + data.saveRouteLink]);
-              //   }
-              //   return;
+              if (data.saveRouteLink && this.dataSharedService.currentMenuLink !== '/ourbuilder' && model.postType === 'post') {
+                let tableName: any = '';
+                if (res?.[0]) {
+                  tableName = res[0].tableName ? res[0].tableName.split('.')[1].split('_')[0] : '';
+                }
+                if (window.location.href.includes('addcustomclearanceFsy')) {
+                  this.router.navigate(['/pages/' + data.saveRouteLink]).then(() => {
+                    // Reload the entire application to re-render all components
+                    this.location.replaceState('/pages/' + data.saveRouteLink);
+                    window.location.reload();
+                  });
+                } else {
+                  this.router.navigate(['/pages/' + data.saveRouteLink]);
+                }
+                return;
+              }
+
+              if (model.postType === 'post') {
+
+                let tableName: any = '';
+                if (res[0]) {
+                  tableName = res[0].tableName ? res[0].tableName.split('.')[1].split('_')[0] : '';
+                }
+                if (tableName) {
+                  this.recursiveUpdate(this.formlyModel, tableName, res);
+                }
+                if (window.location.href.includes('spectrum.com')) {
+                  this.dataSharedService.spectrumControlNull.next(true);
+                }
+              }
+              // else {
+              //   this.dataSharedService.gridDataLoad = true;
               // }
 
-              // if (model.postType === 'post') {
-
-              //   let tableName: any = '';
-              //   if (res[0]) {
-              //     tableName = res[0].tableName ? res[0].tableName.split('.')[1].split('_')[0] : '';
-              //   }
-              //   if (tableName) {
-              //     this.recursiveUpdate(this.formlyModel, tableName, res);
-              //   }
-              //   if (window.location.href.includes('spectrum.com')) {
-              //     this.dataSharedService.spectrumControlNull.next(true);
-              //   }
-              // }
-              // // else {
-              // //   this.dataSharedService.gridDataLoad = true;
-              // // }
-
-              // this.dataSharedService.gridDataLoad = true;
-              // this.dataSharedService.isSaveData = true;
-              // let findCommentsDiv = this.findObjectByKey(this.sections, 'section_comments_drawer');
-              // if (findCommentsDiv && this.mappingId) {
-              //   let mapApi = findCommentsDiv['mapApi'].includes(`/${this.mappingId}`) ? findCommentsDiv['mapApi'] : `${findCommentsDiv['mapApi']}/${this.mappingId}`;
-              //   let obj: any = {
-              //     control: findCommentsDiv,
-              //     mapApi: mapApi,
-              //     mappingId:this.mappingId
-              //   }
-              //   this.dataSharedService.commentsRecall.next(obj)
-              // }
-              // if (!this.isDrawer) {
-              //   // this.dataSharedService.drawerClose.next(true);
-              //   // this.dataSharedService.drawerVisible = false;
-              //   this.setInternalValuesEmpty(this.dataModel);
-              //   this.setInternalValuesEmpty(this.formlyModel);
-              //   this.form.patchValue(this.formlyModel);
-              //   // this.dataSharedService.formlyShowError.next(false)
-              //   this.dataSharedService.formlyShowError.next(false)
-              // }
-              // this.dataSharedService.callDataIntaskManager.next(true);
-              // this.getFromQuery(data);
-              // if (window.location.href.includes('taskmanager.com')) {
-              //   this.dataSharedService.taskmanagerDrawer.next(true);
-              // }
+              this.dataSharedService.gridDataLoad = true;
+              this.dataSharedService.isSaveData = true;
+              let findCommentsDiv = this.findObjectByKey(this.sections, 'section_comments_drawer');
+              if (findCommentsDiv && this.mappingId) {
+                let mapApi = findCommentsDiv['mapApi'].includes(`/${this.mappingId}`) ? findCommentsDiv['mapApi'] : `${findCommentsDiv['mapApi']}/${this.mappingId}`;
+                let obj: any = {
+                  control: findCommentsDiv,
+                  mapApi: mapApi,
+                  mappingId:this.mappingId
+                }
+                this.dataSharedService.commentsRecall.next(obj)
+              }
+              if (!this.isDrawer) {
+                // this.dataSharedService.drawerClose.next(true);
+                // this.dataSharedService.drawerVisible = false;
+                this.setInternalValuesEmpty(this.dataModel);
+                this.setInternalValuesEmpty(this.formlyModel);
+                this.form.patchValue(this.formlyModel);
+                // this.dataSharedService.formlyShowError.next(false)
+                this.dataSharedService.formlyShowError.next(false)
+              }
+              this.dataSharedService.callDataIntaskManager.next(true);
+              this.getFromQuery(data);
+              if (window.location.href.includes('taskmanager.com')) {
+                this.dataSharedService.taskmanagerDrawer.next(true);
+              }
             } catch (innerErr) {
               this.toastr.error("An error occurred : " + innerErr, { nzDuration: 3000 });
               console.error(innerErr);
