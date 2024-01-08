@@ -20,7 +20,7 @@ export class GenericFieldComponent implements OnInit {
   @Input() type: string;
   @Input() modal: string;
   @Input() screenId: any;
-  @Input() screenName: any;
+  @Input() screenname: any;
   @Input() componentType: any;
   @Output() valueChange = new EventEmitter();
   @Output() notify: EventEmitter<any> = new EventEmitter<any>();

@@ -7,6 +7,7 @@ import { BuilderService } from 'src/app/services/builder.service';
 import * as jsonpatch from 'fast-json-patch';
 import { Operation } from 'fast-json-patch';
 import { diff, Config, DiffPatcher, formatters, Delta } from "jsondiffpatch";
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'st-uirule',
@@ -17,8 +18,8 @@ export class UIRuleComponent implements OnInit {
   @Output() ruleNotify: EventEmitter<any> = new EventEmitter<any>();
   @Input() screens: any;
   @Input() screenId: string;
-  @Input() screenName: string;
-  @Input() applicationId: string;
+  @Input() screenname: string;
+  @Input() applicationid: string;
   @Input() selectedNode: any;
   @Input() nodes: any;
   @Input() responseData: any;
@@ -405,9 +406,9 @@ export class UIRuleComponent implements OnInit {
     const jsonUIResult = {
       "key": this.selectedNode.key,
       "title": this.selectedNode.title,
-      "screenName": this.screenName,
-      "applicationId": this.applicationId,
-      "screenBuilderId": this.screenId,
+      "screenname": this.screenname,
+      "applicationid": this.applicationid,
+      "screenbuilderid": this.screenId,
       "uiData": parseData,
       "patchOperations": ""
     }
@@ -415,7 +416,6 @@ export class UIRuleComponent implements OnInit {
   }
 
   saveUIRule() {
-    debugger
     if (this.isScreenSaved)
       this.toastr.error("Please save screen before add or update  ui rule", { nzDuration: 3000 }); // Show an error message to the user
     else {
@@ -434,9 +434,9 @@ export class UIRuleComponent implements OnInit {
       const newData = {
         // "key": this.selectedNode.chartCardConfig?.at(0)?.buttonGroup == undefined ? this.selectedNode.chartCardConfig?.at(0)?.formly?.at(0)?.fieldGroup?.at(0)?.key : this.selectedNode.chartCardConfig?.at(0)?.buttonGroup?.at(0)?.btnConfig[0].key,
         "title": this.selectedNode.title,
-        "screenName": this.screenName,
-        "applicationId": this.applicationId,
-        "screenBuilderId": this.screenId,
+        "screenname": this.screenname,
+        "applicationid": this.applicationid,
+        "screenbuilderid": this.screenId,
         "uiData": data,
         "patchOperations": ""
       }
@@ -462,23 +462,30 @@ export class UIRuleComponent implements OnInit {
 
         }
       });
+      const updatepatchOperations = {
+        json: patchOperations
+      }
+      const ruleData = {
+        json: this.uiRuleForm.value.uiRules
+      }
       const jsonUIResult = {
         // "key": this.selectedNode.chartCardConfig?.at(0)?.buttonGroup == undefined ? this.selectedNode.chartCardConfig?.at(0)?.formly?.at(0)?.fieldGroup?.at(0)?.key : this.selectedNode.chartCardConfig?.at(0)?.buttonGroup?.at(0)?.btnConfig[0].key,
         "key": this.selectedNode.key,
         "title": this.selectedNode.title,
-        "screenName": this.screenName,
-        "applicationId": this.applicationId,
-        "screenBuilderId": this.screenId,
-        "uiData": JSON.stringify(this.uiRuleForm.value.uiRules),
-        "patchOperations": patchOperations
+        "screenname": this.screenname,
+        "applicationid": this.applicationid,
+        "screenbuilderid": this.screenId,
+        "uiData": JSON.stringify(ruleData),
+        "patchOperations": JSON.stringify(updatepatchOperations)
       }
+      const tableValue = `${environment.dbMode}meta.UiRule`;
       const uiModel = {
-        "UiRule": jsonUIResult
+        [tableValue]: jsonUIResult
       }
       if (jsonUIResult != null) {
         const checkAndProcess = this.uiRuleId == ''
-          ? this.applicationService.addNestCommonAPI('cp', uiModel)
-          : this.applicationService.updateNestCommonAPI('cp/UiRule', this.uiRuleId, uiModel);
+          ? this.applicationService.addNestNewCommonAPI('cp', uiModel)
+          : this.applicationService.updateNestNewCommonAPI(`cp/${environment.dbMode}meta.UiRule`, this.uiRuleId, uiModel);
         checkAndProcess.subscribe({
           next: (res: any) => {
             this.saveLoader = false;
@@ -578,13 +585,13 @@ export class UIRuleComponent implements OnInit {
     this.targetList = sectionData;
     // this.changeIf();
 
-    this.applicationService.getNestCommonAPIById('cp/UiRule', this.screenId).subscribe((getRes: any) => {
+    this.applicationService.getNestNewCommonAPIById(`cp/${environment.dbMode}meta.UiRule`, this.screenId).subscribe((getRes: any) => {
       this.saveLoader = false;
       if (getRes.isSuccess) {
         if (getRes.data.length > 0) {
-          this.uiRuleId = getRes.data[0]._id;
+          this.uiRuleId = getRes.data[0].id;
           this.responseData = JSON.parse(JSON.stringify(getRes.data));
-          let parseData = JSON.parse(getRes.data[0].uiData);
+          let parseData = getRes.data[0].uidata.json;
           let newData = JSON.parse(JSON.stringify(this.nodes))
           parseData.forEach((rule: any) => {
             if (rule.targetCondition.length > 0) {
@@ -595,9 +602,9 @@ export class UIRuleComponent implements OnInit {
             }
           });
           let originalData = JSON.parse(JSON.stringify({ uiData: parseData }));
-          let objUiData = getRes.data[0].patchOperations ? jsonpatch.applyPatch(originalData, getRes.data[0].patchOperations).newDocument : parseData;
+          let objUiData = getRes.data[0].patchoperations?.json ? jsonpatch.applyPatch(originalData, getRes.data[0].patchoperations?.json).newDocument : parseData;
           objUiData = objUiData.uiData ? objUiData.uiData : objUiData;
-          this.responseData[0].uiData = objUiData;
+          this.responseData[0].uidata = objUiData;
 
           objUiData.forEach((rule: any) => {
             if (rule.targetCondition.length > 0) {
@@ -730,7 +737,7 @@ export class UIRuleComponent implements OnInit {
 
   deleteUiRule() {
     if (this.uiRuleId != '')
-      this.applicationService.deleteNestCommonAPI('cp/UiRule', this.uiRuleId).subscribe({
+      this.applicationService.deleteNestNewCommonAPI(`cp/${environment.dbMode}meta.UiRule`, this.uiRuleId).subscribe({
         next: (res: any) => {
           if (res.isSuccess) {
             this.uiRuleId = '';

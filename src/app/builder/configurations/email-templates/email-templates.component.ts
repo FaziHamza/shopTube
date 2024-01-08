@@ -14,7 +14,7 @@ export class EmailTemplatesComponent {
   imagePath = environment.nestImageUrl;
   loader: boolean = false;
   emailTemplateId: any = '';
-  @Input() screenName: any;
+  @Input() screenname: any;
   @Input() screenId: any;
   constructor(private fb: FormBuilder, private applicationService: ApplicationService, private toastr: NzMessageService) {
     this.emailForm = this.fb.group({
@@ -82,7 +82,7 @@ export class EmailTemplatesComponent {
     let saveData: any[] = [];
     this.emailForm.value.fields.forEach((element: any) => {
       const emailData: any = {
-        "screenName": this.screenName,
+        "screenname": this.screenname,
         "applicationId": JSON.parse(localStorage.getItem('applicationId')!),
         "screenBuilderId": this.screenId,
         "emailTemplate": element?.emailTemplate,
@@ -142,7 +142,7 @@ export class EmailTemplatesComponent {
             emailTemplate: [data.emailTemplate],
             screenBuilderId: [data.screenBuilderId],
             applicationId: [data.applicationId],
-            screenName: [data.screenName],
+            screenname: [data.screenname],
             image: [''],
             imagePath: [''],
             templateType: [data?.templateType ? data?.templateType : '']

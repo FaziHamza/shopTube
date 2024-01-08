@@ -14,10 +14,10 @@ import { ElementData } from 'src/app/models/element';
 export class BusinessRuleComponent implements OnInit {
   @Output() businessRuleNotify: EventEmitter<any> = new EventEmitter<any>();
   @Input() screens: any;
-  @Input() screenName: any;
+  @Input() screenname: any;
   @Input() screenId: any;
   @Input() selectedNode: any;
-  @Input() applicationId: any;
+  @Input() applicationid: any;
   @Input() nodes: any;
   @Input() formlyModel: any;
   constructor(private formBuilder: FormBuilder, private applicationService: ApplicationService,
@@ -46,7 +46,7 @@ export class BusinessRuleComponent implements OnInit {
     this.businessRuleIfList = [];
     this.UIRule = false;
     this.dynmaicRule = true;
-    const mainModuleId = this.screens.filter((a: any) => a.name == this.screenName)
+    const mainModuleId = this.screens.filter((a: any) => a.name == this.screenname)
     this.businessForm = this.formBuilder.group({
       buisnessRule: this.formBuilder.array([]),
     });
@@ -279,11 +279,11 @@ export class BusinessRuleComponent implements OnInit {
     console.log(this.businessRuleObj);
 
 
-    const mainModuleId = this.screens.filter((a: any) => a.name == this.screenName)
+    const mainModuleId = this.screens.filter((a: any) => a.name == this.screenname)
     const businessRuleValid = {
-      "screenName": this.screenName,
-      "screenBuilderId": this.screenId,
-      "applicationId": this.applicationId,
+      "screenname": this.screenname,
+      "screenbuilderid": this.screenId,
+      "applicationid": this.applicationid,
       "businessRule": JSON.stringify(this.businessRuleObj),
       "businessRuleData": JSON.stringify(this.businessForm.value.buisnessRule)
     }

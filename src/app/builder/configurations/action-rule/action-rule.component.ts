@@ -33,11 +33,11 @@ export class ActionRuleComponent implements OnInit {
       this.requestSubscription.unsubscribe();
   }
   @Input() screens: any;
-  @Input() screenName: any;
+  @Input() screenname: any;
   @Input() selectedNode: any;
   @Input() formlyModel: any;
   @Input() nodes: any;
-  @Input() applicationId: string;
+  @Input() applicationid: string;
   @Input() screeenBuilderId: string;
   actionForm: FormGroup;
   genrateQuery: any;
@@ -268,7 +268,7 @@ export class ActionRuleComponent implements OnInit {
         apiUrl = this.backendApi + 'knex-query/executeQuery';
       }
       else if (this.actionForm.value.actionLink === 'get') {
-        apiUrl = this.backendApi + 'knex-query/' + this.screenName;
+        apiUrl = this.backendApi + 'knex-query/' + this.screenname;
       }
       else if (this.actionForm.value.actionLink === 'put') {
         apiUrl = this.backendApi + 'knex-query/executeQuery';
@@ -356,10 +356,10 @@ export class ActionRuleComponent implements OnInit {
   /*
   SaveAction() {
     
-     const mainModuleId = this.screens.filter((a: any) => a.name == this.screenName)
+     const mainModuleId = this.screens.filter((a: any) => a.name == this.screenname)
      const observables = this.actionForm.value.Actions.map((element: any) => {
        let data: any = {
-         "moduleName": this.screenName,
+         "moduleName": this.screenname,
          "moduleId": mainModuleId.length > 0 ? mainModuleId[0].screenId : "",
          "btnActionType": element.submissionType ? element.submissionType : "",
          "elementName": element.elementName,
@@ -406,7 +406,7 @@ export class ActionRuleComponent implements OnInit {
 
   SaveAction() {
 
-    const mainModuleId = this.screens.filter((a: any) => a.name == this.screenName);
+    const mainModuleId = this.screens.filter((a: any) => a.name == this.screenname);
     const checkQuery = this.actionForm.value.Actions.filter((a: any) => /SELECT\s+\*\s+FROM/i.test(a.query));
     if (checkQuery.length > 0) {
       this.toastr.error("In the query, do not use 'SELECT * FROM'. Please enter a proper query", { nzDuration: 3000 });
@@ -421,9 +421,9 @@ export class ActionRuleComponent implements OnInit {
     //     else
     //         queryType = element.referenceId;
     //     let actionData: any = {
-    //       "moduleName": this.screenName,
+    //       "moduleName": this.screenname,
     //       "moduleId": mainModuleId.length > 0 ? mainModuleId[0].navigation : "",
-    //       "screenBuilderId": mainModuleId.length > 0 ? mainModuleId[0]._id : "",
+    //       "screenbuilderid": mainModuleId.length > 0 ? mainModuleId[0]._id : "",
     //       "btnActionType": element.submissionType ? element.submissionType : "",
     //       "elementName": element.elementName,
     //       "elementNameTo": element.elementNameTo,
@@ -439,7 +439,7 @@ export class ActionRuleComponent implements OnInit {
     //       "referenceId": element.referenceId,
     //       "httpAddress": element.httpAddress ? element.httpAddress : "",
     //       "contentType": element.contentType ? element.contentType : "",
-    //       "applicationId": this.applicationId,
+    //       "applicationid": this.applicationid,
     //     }
 
 
@@ -482,9 +482,9 @@ export class ActionRuleComponent implements OnInit {
       else
         queryType = element.referenceId;
       let actionData: any = {
-        "moduleName": this.screenName,
+        "moduleName": this.screenname,
         "moduleId": mainModuleId.length > 0 ? mainModuleId[0].navigation : "",
-        "screenBuilderId": mainModuleId.length > 0 ? mainModuleId[0]._id : "",
+        "screenbuilderid": mainModuleId.length > 0 ? mainModuleId[0]._id : "",
         "btnActionType": element.submissionType ? element.submissionType : "",
         "elementName": element.elementName,
         "elementNameTo": element.elementNameTo,
@@ -500,7 +500,7 @@ export class ActionRuleComponent implements OnInit {
         "referenceId": element.referenceId,
         "httpAddress": element.httpAddress ? element.httpAddress : "",
         "contentType": element.contentType ? element.contentType : "",
-        "applicationId": this.applicationId,
+        "applicationid": this.applicationid,
       }
       if (element.id)
         actionData['_id'] = element.id
@@ -523,7 +523,7 @@ export class ActionRuleComponent implements OnInit {
 
 
   getActionData() {
-    const selectedScreen = this.screens.filter((a: any) => a.name == this.screenName)
+    const selectedScreen = this.screens.filter((a: any) => a.name == this.screenname)
     if (selectedScreen[0].navigation != null && selectedScreen[0].navigation != undefined) { // selectedScreen[0].navigation
       this.requestSubscription = this.applicationService.getNestCommonAPIById("cp/actionbyscreenname", selectedScreen[0]._id).subscribe({
         next: (res: any) => {
@@ -597,7 +597,7 @@ export class ActionRuleComponent implements OnInit {
       if (findClickApi) {
         if (findClickApi.length > 0) {
           let url = '';
-          const mainModuleId = this.screens.filter((a: any) => a.name == this.screenName)
+          const mainModuleId = this.screens.filter((a: any) => a.name == this.screenname)
           for (let index = 0; index < findClickApi.length; index++) {
             let element = findClickApi[index].actionType;
             if (element == 'query') {
@@ -633,7 +633,7 @@ export class ActionRuleComponent implements OnInit {
                   }
                   tableData.pageIndex = 1;
                   tableData.totalCount = res.count;
-                  tableData.serverApi = `knex-query/${this.screenName}`;
+                  tableData.serverApi = `knex-query/${this.screenname}`;
                   tableData.targetId = '';
                   tableData.displayData = tableData.tableData.length > tableData.end ? tableData.tableData.slice(0, tableData.end) : tableData.tableData;
                   // pagniation work end

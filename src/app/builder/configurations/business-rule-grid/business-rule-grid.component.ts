@@ -16,12 +16,12 @@ export class BusinessRuleGridComponent implements OnInit {
     this.requestSubscription.unsubscribe();
   }
   @Input() screens: any = [];
-  @Input() screenName: any;
+  @Input() screenname: any;
   @Input() screenId: any;
   @Input() GridType: any;
   @Input() selectedNode: any;
   @Input() nodes: any;
-  @Input() applicationId: string;
+  @Input() applicationid: string;
   isVisible = false;
   GridBusinessRuleData: any;
   constructor(private formBuilder: FormBuilder,
@@ -589,7 +589,7 @@ export class BusinessRuleGridComponent implements OnInit {
       { name: "<", key: "<" },
       { name: "Not Null", key: "NotNull" },
     ]
-    const selectedScreen = this.screens.filter((a: any) => a.name == this.screenName);
+    const selectedScreen = this.screens.filter((a: any) => a.name == this.screenname);
     if (selectedScreen.length > 0) {
       this.requestSubscription = this.applicationService.getNestCommonAPIById('cp/GridBusinessRule', this.screenId).subscribe({
         next: (getRes: any) => {
@@ -753,15 +753,15 @@ export class BusinessRuleGridComponent implements OnInit {
       this.GridBusinessRuleData.push(ruleExpression);
     });
 
-    const selectedScreen = this.screens.filter((a: any) => a.name == this.screenName);
+    const selectedScreen = this.screens.filter((a: any) => a.name == this.screenname);
     const gridRuleValid = {
-      "screenName": this.screenName,
-      "screenBuilderId": this.screenId,
+      "screenname": this.screenname,
+      "screenbuilderid": this.screenId,
       "businessRuleData": JSON.stringify(this.buisnessForm.value.buisnessRule),
       "businessRule": JSON.stringify(this.GridBusinessRuleData),
       "gridKey": this.selectedNode.key,
       "gridType": this.GridType ? this.GridType : 'Body',
-      "applicationId": this.applicationId,
+      "applicationid": this.applicationid,
     }
     // api response work
     const gridBusinessRuleModel = {

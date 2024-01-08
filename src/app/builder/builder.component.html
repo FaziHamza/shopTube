@@ -231,44 +231,44 @@
                 <div class=" general_faq ">
                   <div style="position:relative ;" class="overall-drawer">
                     <st-generic-field [modal]="formModalData" (notify)="notifyEmit($event)" [itemData]="fieldData"
-                      [type]="fieldData.type" [componentType]="'builder'" [screenId]="id" [screenName]="screenname"
+                      [type]="fieldData.type" [componentType]="'builder'" [screenId]="id" [screenname]="screenname"
                       *ngIf="fieldData">
                     </st-generic-field>
                   </div>
                 </div>
               </nz-tab>
               <nz-tab nzTitle="UI Rule" (nzClick)="showRulesFunc('uiRule')">
-                <st-uirule [applicationId]="selectApplicationName" [selectedNode]="selectedNode"
+                <st-uirule [applicationid]="selectApplicationName" [selectedNode]="selectedNode"
                   *ngIf="selectedNode && nodes.length  > 0 && showRules == 'uiRule'" [screenId]="id"
-                  [screenName]="screenname" [screens]="screens" [nodes]="nodes" [isScreenSaved]="this.isScreenSaved"
+                  [screenname]="screenname" [screens]="screens" [nodes]="nodes" [isScreenSaved]="this.isScreenSaved"
                   (ruleNotify)="getUIRuleData($event)" ></st-uirule>
-                <!-- [screenName]="screenname" [screenModule]="screenModule" [nodes]="nodes" (ruleNotify)="getUIRuleData($event)"></st-uirule> -->
+                <!-- [screenname]="screenname" [screenModule]="screenModule" [nodes]="nodes" (ruleNotify)="getUIRuleData($event)"></st-uirule> -->
               </nz-tab>
               <nz-tab nzTitle="Validation Rule" (nzClick)="showRulesFunc('validationRule')">
                 <st-generic-field [modal]="validationFieldData.modelData" (notify)="notifyEmit($event)"
-                  [itemData]="validationFieldData" [type]="validationFieldData.type" [screenId]="id"
-                  [screenName]="screenname" (deleteValidation)="deleteValidationRule($event)"
+                  [itemData]="validationFieldData" [type]="validationFieldData.ctype" [screenId]="id"
+                  [screenname]="screenname" (deleteValidation)="deleteValidationRule($event)"
                   *ngIf="validationFieldData &&  showRules == 'validationRule'">
                 </st-generic-field>
                 <!-- <st-validation-rule [configurationData]="validationFieldData"></st-validation-rule> -->
               </nz-tab>
               <nz-tab nzTitle="Buisness Rule" (nzClick)="showRulesFunc('businessRule')">
-                <st-business-rule [applicationId]="selectApplicationName" [selectedNode]="selectedNode"
-                  *ngIf="selectedNode && showRules == 'businessRule'" [screenName]="screenname" [screenId]="id"
+                <st-business-rule [applicationid]="selectApplicationName" [selectedNode]="selectedNode"
+                  *ngIf="selectedNode && showRules == 'businessRule'" [screenname]="screenname" [screenId]="id"
                   [screens]="screens" [nodes]="nodes" [formlyModel]="this.formlyModel"></st-business-rule>
               </nz-tab>
               <nz-tab nzTitle="Actions" (nzClick)="showRulesFunc('actionRule')">
                 <st-action-rule *ngIf="selectedNode && showActionRule && showRules == 'actionRule'"
-                  [selectedNode]="selectedNode" [screenName]="screenname" [formlyModel]="this.formlyModel"
-                  [applicationId]="selectApplicationName" [nodes]="nodes" [screens]="screens"
+                  [selectedNode]="selectedNode" [screenname]="screenname" [formlyModel]="this.formlyModel"
+                  [applicationid]="selectApplicationName" [nodes]="nodes" [screens]="screens"
                   [screeenBuilderId]="id"></st-action-rule>
                 <nz-alert *ngIf="!showActionRule" nzType="warning"
                   nzMessage="Please save screen and contact your DBA to approve fields" nzShowIcon></nz-alert>
               </nz-tab>
               <nz-tab nzTitle="Action Rules" (nzClick)="showRulesFunc('testActionRule')">
                 <st-execute-action-rule [selectedNode]="selectedNode"
-                  *ngIf="selectedNode && showRules == 'testActionRule'" [screenName]="screenname"
-                  [formlyModel]="this.formlyModel" [applicationId]="selectApplicationName" [nodes]="nodes"
+                  *ngIf="selectedNode && showRules == 'testActionRule'" [screenname]="screenname"
+                  [formlyModel]="this.formlyModel" [applicationid]="selectApplicationName" [nodes]="nodes"
                   [screens]="screens" [screeenBuilderId]="id"></st-execute-action-rule>
 
                 <!-- <nz-alert *ngIf="!showActionRule" nzType="warning" nzMessage="Please contact your DBA to approve fields"
@@ -276,11 +276,11 @@
               </nz-tab>
               <nz-tab nzTitle="Grid Rules" (nzClick)="showRulesFunc('gridBusinessRule')">
                 <st-business-rule-grid *ngIf="selectedNode && nodes.length  > 0 && showRules == 'gridBusinessRule'"
-                  [selectedNode]="selectedNode" [screenName]="screenname" [applicationId]="selectApplicationName"
+                  [selectedNode]="selectedNode" [screenname]="screenname" [applicationid]="selectApplicationName"
                   [screenId]="id" [screens]="screens" [nodes]="nodes"></st-business-rule-grid>
               </nz-tab>
               <nz-tab nzTitle="Email Templates" (nzClick)="showRulesFunc('emailTemplates')">
-                <st-email-templates *ngIf="showRules == 'emailTemplates'" [screenName]="screenname"
+                <st-email-templates *ngIf="showRules == 'emailTemplates'" [screenname]="screenname"
                   [screenId]="id"></st-email-templates>
               </nz-tab>
             </nz-tabset>

@@ -8,6 +8,7 @@ import { headerConfig } from "./headerConfig"
 
 export interface TreeNode {
   id?: string;
+  cid?: string;
   screenId?: string;
   type?: string;
   editor?: any;

@@ -6,6 +6,7 @@ export class GenaricFeild {
   commonData?: any
   mappingConfig?: FormlyFieldConfig[]
   type: string;
+  ctype: string;
   modelData: any;
   mappingNode: any;
 
@@ -14,6 +15,7 @@ export class GenaricFeild {
     this.formData = data.formData;
     this.title = data.title;
     this.type = data.type;
+    this.ctype = data.ctype;
     this.modelData = data.modelData;
     this.mappingConfig = data.mappingConfig;
     this.mappingNode = data.mappingNode;

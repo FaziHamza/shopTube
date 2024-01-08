@@ -14,11 +14,11 @@ import { NzMessageService } from 'ng-zorro-antd/message';
 })
 export class ExecuteActionRuleComponent implements OnInit, AfterViewInit {
   @Input() screens: any;
-  @Input() screenName: any;
+  @Input() screenname: any;
   @Input() selectedNode: any;
   @Input() formlyModel: any;
   @Input() nodes: any;
-  @Input() applicationId: string;
+  @Input() applicationid: string;
   @Input() screeenBuilderId: string;
   requestSubscription: Subscription;
   languageId = 'json';
@@ -66,7 +66,7 @@ export class ExecuteActionRuleComponent implements OnInit, AfterViewInit {
   operators = ['==', '!=', '>', '<', '>=', '<='];
 
   getActionRuleData() {
-    const selectedScreen = this.screens.filter((a: any) => a.name == this.screenName)
+    const selectedScreen = this.screens.filter((a: any) => a.name == this.screenname)
     if (selectedScreen[0].navigation != null && selectedScreen[0].navigation != undefined) { // selectedScreen[0].navigation
       this.requestSubscription = this.applicationService.getNestCommonAPIById("cp/ActionRule", selectedScreen[0]._id).subscribe({
         next: (res: any) => {
@@ -99,7 +99,7 @@ export class ExecuteActionRuleComponent implements OnInit, AfterViewInit {
   }
   actionsList: any[] = [];
   getActionData() {
-    const selectedScreen = this.screens.filter((a: any) => a.name == this.screenName)
+    const selectedScreen = this.screens.filter((a: any) => a.name == this.screenname)
     if (selectedScreen[0].navigation != null && selectedScreen[0].navigation != undefined) { // selectedScreen[0].navigation
       this.requestSubscription = this.applicationService.getNestCommonAPIById("cp/actionbyscreenname", selectedScreen[0]._id).subscribe({
         next: (res: any) => {
@@ -375,17 +375,17 @@ export class ExecuteActionRuleComponent implements OnInit, AfterViewInit {
   }
   saveMultiSelects() {
     let actionRuleList: any[] = [];
-    const mainModuleId = this.screens.filter((a: any) => a.name == this.screenName)
+    const mainModuleId = this.screens.filter((a: any) => a.name == this.screenname)
     const observables = this.multiSelectArray.value.map((element: any) => {
       let actionData: any = {
-        "screenBuilderId": mainModuleId.length > 0 ? mainModuleId[0]._id : "",
+        "screenbuilderid": mainModuleId.length > 0 ? mainModuleId[0]._id : "",
         "componentFrom": element.componentFrom,
         "targetId": element.targetId,
         "level": element.level,
         // "_id": element.id,
         "action": element.action,
         "rule": element.monacoEditorControl,
-        "applicationId": this.applicationId,
+        "applicationid": this.applicationid,
       }
       if (element.id)
         actionData['_id'] = element.id
@@ -408,19 +408,19 @@ export class ExecuteActionRuleComponent implements OnInit, AfterViewInit {
       }
 
     })
-    // const mainModuleId = this.screens.filter((a: any) => a.name == this.screenName)
+    // const mainModuleId = this.screens.filter((a: any) => a.name == this.screenname)
     // this.applicationService.deleteNestCommonAPI('cp/ActionRule/deleteActionRule', mainModuleId[0]._id).subscribe(res => {
     //   const observables = this.multiSelectArray.value.map((element: any) => {
 
     //     let actionData: any = {
-    //       "screenBuilderId": mainModuleId.length > 0 ? mainModuleId[0]._id : "",
+    //       "screenbuilderid": mainModuleId.length > 0 ? mainModuleId[0]._id : "",
     //       "componentFrom": element.componentFrom,
     //       "targetId": element.targetId,
     //       "level": element.level,
     //       "_id": element.id,
     //       "action": element.action,
     //       "rule": element.monacoEditorControl,
-    //       "applicationId": this.applicationId,
+    //       "applicationid": this.applicationid,
     //     }
 
     //     const actionModel = {

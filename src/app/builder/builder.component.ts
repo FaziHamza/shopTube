@@ -1047,7 +1047,8 @@ export class BuilderComponent implements OnInit {
   }
   validationRuleId: string = '';
   getJoiValidation(id: any) {
-    this.applicationService.getNestCommonAPIById('cp/ValidationRule', id).subscribe(((getRes: any) => {
+
+    this.applicationService.getNestNewCommonAPIById(`cp/${environment.dbMode}meta.ValidationRule`, id).subscribe(((getRes: any) => {
       if (getRes.isSuccess) {
         if (getRes.data.length > 0) {
           this.validationRuleId = getRes.data[0].id;
@@ -1059,7 +1060,7 @@ export class BuilderComponent implements OnInit {
     }));
   }
   getUIRuleData(data: any) {
-    this.requestSubscription = this.applicationService.getNestCommonAPIById('cp/UiRule', this.id).subscribe({
+    this.requestSubscription = this.applicationService.getNestNewCommonAPIById(`cp/${environment.dbMode}meta.UiRule`, this.id).subscribe({
       next: (getRes: any) => {
         if (getRes.isSuccess) {
           if (getRes.data.length > 0) {
@@ -1069,7 +1070,7 @@ export class BuilderComponent implements OnInit {
               // "title": this.selectedNode.title,
               "screenname": this.screenname,
               "screenbuilderid": this.id,
-              "uiData": JSON.parse(getRes.data[0].uiData),
+              "uiData": getRes.data[0].uidata,
             }
             this.screendata = jsonUIResult;
           } else {
@@ -1328,7 +1329,7 @@ export class BuilderComponent implements OnInit {
       (a: any) => a.name == this.screenname
     );
     if (selectedScreen.length > 0) {
-      this.requestSubscription = this.applicationService.getNestCommonAPIById('cp/BusinessRule', this.id).subscribe({
+      this.requestSubscription = this.applicationService.getNestNewCommonAPIById(`cp/${environment.dbMode}meta.BusinessRule`, this.id).subscribe({
         next: (getRes: any) => {
           if (getRes.isSuccess)
             if (getRes.data.length > 0) {
@@ -2776,7 +2777,7 @@ export class BuilderComponent implements OnInit {
     });
     if (this.joiValidationData.length > 0) {
       let getJoiRule = this.joiValidationData.find(
-        (a) => a.id == this.selectedNode.id
+        (a) => a.cid == this.selectedNode.id
       );
       if (getJoiRule) this.validationFieldData.modelData = getJoiRule;
     }
@@ -4783,27 +4784,27 @@ export class BuilderComponent implements OnInit {
           const jsonRuleValidation = {
             "screenname": this.screenname,
             "screenbuilderid": this.id,
-            "id": this.selectedNode.id,
-            "key": this.selectedNode?.formly?.[0]?.fieldGroup?.[0]?.key,
-            "type": event.form.type,
+            "cid": this.selectedNode.id,
+            "ckey": this.selectedNode?.formly?.[0]?.fieldGroup?.[0]?.key,
+            "ctype": event.form.type,
             "label": event.form.label,
             "reference": event.form.reference,
             "minlength": event.form.minlength,
             "maxlength": event.form.maxlength,
             "pattern": event.form.pattern,
             "required": event.form.required,
-            "emailTypeAllow": event.form.emailTypeAllow,
+            "emailtypeallow": event.form.emailTypeAllow,
             "applicationid": this.selectApplicationName,
           }
           var JOIData = JSON.parse(JSON.stringify(jsonRuleValidation) || '{}');
+          const tableValue = `${environment.dbMode}meta.ValidationRule`;
           const validationRuleModel = {
-            "ValidationRule": JOIData
+            [tableValue]: JOIData
           }
           // const checkAndProcess = this.validationRuleId == ''
           const checkAndProcess = !event.form.id
-            ? this.applicationService.addNestCommonAPI('cp', validationRuleModel)
-            : this.applicationService.updateNestCommonAPI('cp/ValidationRule', event.form.id, validationRuleModel);
-          // : this.applicationService.updateNestCommonAPI('cp/ValidationRule', this.validationRuleId, validationRuleModel);
+            ? this.applicationService.addNestNewCommonAPI('cp', validationRuleModel)
+            : this.applicationService.updateNestNewCommonAPI(`cp/${environment.dbMode}meta.ValidationRule`, event.form.id, validationRuleModel);
           checkAndProcess.subscribe({
             next: (res: any) => {
               if (res.isSuccess) {
@@ -7002,7 +7003,7 @@ export class BuilderComponent implements OnInit {
     }
   }
   deleteValidationRule(data: any) {
-    this.applicationService.deleteNestCommonAPI('cp/ValidationRule', data.modelData.id).subscribe({
+    this.applicationService.deleteNestNewCommonAPI(`cp/${environment.dbMode}meta.ValidationRule`, data.modelData.id).subscribe({
       next: (res: any) => {
         if (res.isSuccess) {
           this.validationRuleId = '';
