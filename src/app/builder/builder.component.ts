@@ -3059,7 +3059,7 @@ export class BuilderComponent implements OnInit {
           ...configObj,
           ...this.clickButtonService.getGridConfig(selectedNode),
         };
-        this.fieldData.commonData?.push({ title: 'Drid Fields', data: _formFieldData.gridFields }, { title: 'Table', data: _formFieldData.gridFields_Table },
+        this.fieldData.commonData?.push({ title: 'Grid Fields', data: _formFieldData.gridFields }, { title: 'Table', data: _formFieldData.gridFields_Table },
           { title: 'Table header', data: _formFieldData.gridFields_th }, { title: 'Table rows', data: _formFieldData.gridFields_td }, { title: 'Style Property', data: _formFieldData.gridFields_StyleProperty }, { title: 'Drawer', data: _formFieldData.gridFields_Drawer }
           , { title: 'Heading', data: _formFieldData.gridFields_Heading }, { title: 'Options', data: _formFieldData.gridFieldsOptions }
 
@@ -4952,6 +4952,11 @@ export class BuilderComponent implements OnInit {
           this.selectedNode['searchfieldClass'] = event.form?.searchfieldClass;
           this.selectedNode['actionButtonClass'] = event.form?.actionButtonClass;
           this.selectedNode['paginationColor'] = event.form?.paginationColor;
+          this.selectedNode['editIconColor'] = event.form?.editIconColor;
+          this.selectedNode['deleteIconColor'] = event.form?.deleteIconColor;
+          this.selectedNode['saveIconColor'] = event.form?.saveIconColor;
+          this.selectedNode['cancelIconColor'] = event.form?.cancelIconColor;
+          this.selectedNode['drawerButtonClass'] = event.form?.drawerButtonClass;
           if (event.form?.paginationColor) {
             document.documentElement.style.setProperty('--paginationColor', event.form?.paginationColor);
           }
