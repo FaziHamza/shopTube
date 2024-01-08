@@ -598,4 +598,9 @@ export interface TreeNode {
   innerClass?: string,
   appGlobalInnerIconClass?: string,
   isNewNode?: boolean;
+  editIconColor?: any;
+  deleteIconColor?: any;
+  saveIconColor?: any;
+  cancelIconColor?: any;
+  drawerButtonClass?: any;
 }

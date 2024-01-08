@@ -927,6 +927,11 @@ export class AddControlService {
       dataRow: 'group w-full bg-white hover:bg-white',
       editCell: '!text-center group-hover:!bg-white',
       deleteCell: '!text-center !bg-white group-hover:!bg-white',
+      deleteIconColor:'#F04E4E',
+      cancelIconColor:'#F04E4E',
+      editIconColor:'#3B82F6',
+      saveIconColor:'#3B82F6',
+      drawerButtonClass:'btn',
       tableHeaders: [
         // {
         //   name: 'Id',

@@ -2348,35 +2348,35 @@ export class formFeildData {
     {
       fieldGroupClassName: "flex flex-wrap",
       fieldGroup: [
-        {
-          key: 'format',
-          type: 'select',
-          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
-          wrappers: ["formly-vertical-theme-wrapper"],
-          props: {
-            label: 'Format',
-            options: [
-              {
-                label: "MM-yyyy-dd",
-                value: "MM-yyyy-dd"
-              },
-              {
-                label: "yyyy-MM-dd",
-                value: "yyyy-MM-dd"
-              },
-              {
-                label: "dd-MM-yyyy",
-                value: "dd-MM-yyyy"
-              },
-            ],
-            additionalProperties: {
-              allowClear: true,
-              serveSearch: false,
-              showArrow: true,
-              showSearch: true,
-            },
-          },
-        },
+        // {
+        //   key: 'format',
+        //   type: 'select',
+        //   className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+        //   wrappers: ["formly-vertical-theme-wrapper"],
+        //   props: {
+        //     label: 'Format',
+        //     options: [
+        //       {
+        //         label: "MM-yyyy-dd",
+        //         value: "MM-yyyy-dd"
+        //       },
+        //       {
+        //         label: "yyyy-MM-dd",
+        //         value: "yyyy-MM-dd"
+        //       },
+        //       {
+        //         label: "dd-MM-yyyy",
+        //         value: "dd-MM-yyyy"
+        //       },
+        //     ],
+        //     additionalProperties: {
+        //       allowClear: true,
+        //       serveSearch: false,
+        //       showArrow: true,
+        //       showSearch: true,
+        //     },
+        //   },
+        // },
         {
           key: 'disabledCalenderProperties',
           type: 'select',
@@ -11591,6 +11591,46 @@ export class formFeildData {
           }
         },
         {
+          key: 'editIconColor',
+          type: 'input',
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          wrappers: ["formly-vertical-theme-wrapper"],
+          props: {
+            type:'color',
+            label: 'Edit Icon Color'
+          }
+        },
+        {
+          key: 'deleteIconColor',
+          type: 'input',
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          wrappers: ["formly-vertical-theme-wrapper"],
+          props: {
+            type:'color',
+            label: 'Delete Icon Color'
+          }
+        },
+        {
+          key: 'saveIconColor',
+          type: 'input',
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          wrappers: ["formly-vertical-theme-wrapper"],
+          props: {
+            type:'color',
+            label: 'Save Icon Color'
+          }
+        },
+        {
+          key: 'cancelIconColor',
+          type: 'input',
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          wrappers: ["formly-vertical-theme-wrapper"],
+          props: {
+            type:'color',
+            label: 'Cancel Icon Color'
+          }
+        },
+        {
           key: 'serverSidePagination',
           type: 'checkbox',
           wrappers: ["formly-vertical-theme-wrapper"],
@@ -11816,6 +11856,15 @@ export class formFeildData {
           wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             label: 'Drawer Button Label'
+          }
+        },
+        {
+          key: 'drawerButtonClass',
+          type: 'input',
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          wrappers: ["formly-vertical-theme-wrapper"],
+          props: {
+            label: 'Drawer Button Class'
           }
         },
         {
