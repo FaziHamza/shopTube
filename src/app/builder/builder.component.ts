@@ -425,12 +425,12 @@ export class BuilderComponent implements OnInit {
       });
       let newNode = JSON.parse(JSON.stringify(this.nodes))
       this.applyTheme(newNode[0], true)
-      const screendata = this.jsonParse(this.jsonStringifyWithObject(newNode));
+      const screendata = this.jsonParseWithObject(this.jsonStringifyWithObject(newNode));
       const JsonData = {
         json: screendata,
       }
       const data: any = {
-        "screendata": JsonData,
+        "screendata": this.jsonStringifyWithObject(JsonData),
         "screenname": this.screenname,
         "navigation": this.navigation,
         "screenbuilderid": this.id,
@@ -563,7 +563,7 @@ export class BuilderComponent implements OnInit {
   }
   getBuilderScreen() {
     this.nodes = [];
-    this.requestSubscription = this.applicationService.getNestCommonAPIById('cp/Builder', this.id).subscribe({
+    this.requestSubscription = this.applicationService.getNestNewCommonAPIById(`cp/${environment.dbMode}meta.Builders`, this.id).subscribe({
       next: (res: any) => {
         if (res.isSuccess) {
           // this.form = new FormGroup({});
@@ -572,15 +572,15 @@ export class BuilderComponent implements OnInit {
             this.builderscreendata = [res.data[0]];
             // this.navigation = '';
             this.showActionRule = true;
-            const objscreendata = JSON.parse(res.data[0].screendata);
+            const objscreendata = res.data[0].screendata.json;
             this.isSavedDb = true;
             // this.moduleId = res[0].moduleId;
             // this.formlyModel = {};
 
-            let nodesData = this.jsonParseWithObject(this.jsonStringifyWithObject(objscreendata));
-            this.applyTheme(nodesData[0], false)
-            if (this.actionRuleList.length > 0) {
-              let getInputs = this.filterInputElements(nodesData);
+            // let nodesData = this.jsonParseWithObject(this.jsonStringifyWithObject(objscreendata));
+            this.applyTheme(objscreendata[0], false)
+            if (this.actionRuleList && this.actionRuleList.length > 0) {
+              let getInputs = this.filterInputElements(objscreendata);
               if (getInputs && getInputs.length > 0) {
                 getInputs.forEach((node) => {
                   const formlyConfig = node.formly?.[0]?.fieldGroup?.[0]?.key;
@@ -621,7 +621,7 @@ export class BuilderComponent implements OnInit {
               let checkFirst: any = {};
               for (let index = 0; index < this.actionRuleList.length; index++) {
                 const element = this.actionRuleList[index];
-                let findObj = this.findObjectByKey(nodesData[0], element.componentFrom);
+                let findObj = this.findObjectByKey(objscreendata[0], element.componentFrom);
                 if (findObj) {
                   if (findObj?.key == element.componentFrom) {
                     if (!checkFirst[findObj?.key]) {
@@ -647,10 +647,10 @@ export class BuilderComponent implements OnInit {
                   // }
                 }
               }
-              this.nodes = nodesData;
+              this.nodes = objscreendata;
             }
             else
-              this.nodes = nodesData;
+              this.nodes = objscreendata;
 
 
             // if (!this.nodes[0].isLeaf) {
