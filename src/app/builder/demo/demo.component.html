@@ -168,7 +168,7 @@
 
     </div>
 
-    <nz-table #basicTable [nzData]="listOfData" class="mt-4 px-4">
+    <!-- <nz-table #basicTable [nzData]="listOfData" class="mt-4 px-4">
         <thead>
             <tr class="!w-full !bg-white flex">
                 <th class="flex justify-between text-xs font-normal">
@@ -250,7 +250,34 @@
                 </td>
             </tr>
         </tbody>
-    </nz-table>
+    </nz-table> -->
+    <nz-table #editRowTable nzBordered [nzData]="listOfData">
+        <thead>
+          <tr>
+            <th nzWidth="30%">Task Name</th>
+            <th>Assignee<th>
+            <th>Due Date</th>
+
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let data of editRowTable.data" class="editable-row">
+            <td>
+              <div class="editable-cell" [hidden]="editId === data.id" (click)="startEdit(data.id)">
+                {{ data.name }}
+              </div>
+              <input [hidden]="editId !== data.id" type="text" nz-input [(ngModel)]="data.name" (blur)="stopEdit()" />
+            </td>
+            <td>{{ data.age }}</td>
+            <td>{{ data.address }}</td>
+            <!-- <td>
+              <a nz-popconfirm nzPopconfirmTitle="Sure to delete?" (nzOnConfirm)="deleteRow(data.id)">Delete</a>
+            </td> -->
+          </tr>
+        </tbody>
+      </nz-table>
+
+
 </div>
 
 <nz-dropdown-menu #menu3="nzDropdownMenu">

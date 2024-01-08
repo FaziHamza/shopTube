@@ -24,7 +24,7 @@ import { Subscription } from 'rxjs';
         <span nz-icon [nzType]="to['additionalProperties']['tooltipIcon'] ?  to['additionalProperties']['tooltipIcon'] : 'question-circle'" [class]="to['additionalProperties']['toolTipClass']" nzTheme="outline"></span>
       </span>
     </label>
-    <div [nzTooltipTitle]="hasError && to['additionalProperties']?.requiredMessage ? to['additionalProperties']?.requiredMessage : ''" nz-tooltip class="w-2/3 column-form-input form-control-style v-body-border" style="padding: 0px">
+    <div [nzTooltipTitle]="hasError && to['additionalProperties']?.requiredMessage ? to['additionalProperties']?.requiredMessage : ''" nz-tooltip class="w-2/3 column-form-input form-control-style v-body-border side-input" style="padding: 0px">
       <ng-template #fieldComponent></ng-template>
     </div>
     <!-- <div *ngIf="hasError && to.label && to['additionalProperties']?.requiredMessage" class="w-1/3 {{to['additionalProperties']?.labelPosition}}"></div>

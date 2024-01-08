@@ -19,7 +19,7 @@ import { environment } from 'src/environments/environment';
    [nzPrefix]="(to['additionalProperties']?.addonLeft || to['additionalProperties']?.prefixicon) ? prefixTemplateUser : undefined"
    [nzSize]="to['additionalProperties']?.size"
    [nzStatus]="to['additionalProperties']?.status">
-   <input  [accept]=" to['additionalProperties']?.filetype == 'excel' ?' application/vnd.ms-excel, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' :to['additionalProperties']?.filetype || '.jpg'"  [style.border-radius]="to['additionalProperties']?.borderRadius"
+   <input class="fileup"  [accept]=" to['additionalProperties']?.filetype == 'excel' ?' application/vnd.ms-excel, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' :to['additionalProperties']?.filetype || '.jpg'"  [style.border-radius]="to['additionalProperties']?.borderRadius"
    [ngClass]=" showError && !to['additionalProperties']?.suffixicon && !to['additionalProperties']?.prefixicon
    && !to['additionalProperties']?.addonLeft && !to['additionalProperties']?.addonRight ? 'input-border' : ''"
    *ngIf=" to.type !='textarea'"

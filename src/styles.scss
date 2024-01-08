@@ -177,11 +177,121 @@ object {
 //   padding: 7px 7px 0px 7px !important;
 // }
 
+// .theme-body input:not(:last-child) {
+//   border-left: 0 !important;
+//   border-bottom: 0 !important;
+// }
+
+// .theme-body input:last-child {
+//   border-bottom: 1px solid #c7c7c7 !important;
+// }
+
+.theme-body.small-size {
+  .column-form-input input {
+    height: auto !important;
+    max-height: 35px !important;
+    min-height: 35px !important;
+  }
+
+  .side-input st-input-wrapper {
+    height: auto;
+    min-height: 35px !important;
+    max-height: 35px;
+
+    .ant-input-group .ant-input {
+      min-height: 35px !important;
+      max-height: 35px !important;
+      height: auto;
+    }
+  }
+
+  .col-form-label {
+    height: 35px;
+    min-height: 35px !important;
+    max-height: 35px !important;
+  }
+
+  formly-vertical-theme-wrapper .fileup {
+    border-radius: 0px !important;
+    padding-top: 5px !important;
+    padding-left: 5px !important;
+  }
+}
+
+.theme-body.large-size {
+  .column-form-input input {
+    height: auto !important;
+    max-height: 60px !important;
+    min-height: 60px !important;
+  }
+
+  .side-input st-input-wrapper {
+    height: auto;
+    min-height: 60px !important;
+    max-height: 60px;
+
+    .ant-input-group .ant-input {
+      min-height: 60px !important;
+      max-height: 60px !important;
+      height: auto;
+    }
+  }
+
+  .col-form-label {
+    height: 60px;
+    min-height: 60px !important;
+    max-height: 60px !important;
+  }
+
+  formly-vertical-theme-wrapper .fileup {
+    border-radius: 0px !important;
+    padding-top: 5px !important;
+    padding-left: 5px !important;
+  }
+}
+
 .theme-body {
   padding-top: 0px !important;
   // box-shadow: rgba(0, 0, 0, 0.15) 2.4px 2.4px 3.2px;
 
+  formly-vertical-theme-wrapper {
+    .fileup {
+      border-radius: 0px !important;
+      padding-top: 10px !important;
+      padding-left: 10px !important;
+    }
+  }
 
+  
+
+
+
+  .side-input {
+    st-input-wrapper {
+      height: 100% !important;
+      display: inline-block;
+      width: 100% !important;
+      min-height: 52px;
+
+      div {
+        height: 100% !important;
+        width: 100% !important;
+
+        input {
+          height: 100% !important;
+          width: 100% !important;
+        }
+      }
+    }
+
+    .col-form-label {
+      max-height: 46px !important;
+    }
+
+
+
+
+  }
 
   .errorClass .ant-input {
     border: 1px solid red !important;
@@ -455,6 +565,7 @@ object {
     background: white;
     display: inline-block !important;
     height: 100% !important;
+    max-height: 46px !important;
   }
 
   .col-form-label {
@@ -466,6 +577,7 @@ object {
     font-size: 12px;
     font-weight: bold;
     height: auto !important;
+    max-height: 46px !important;
 
     span:nth-child(2) {
       text-overflow: ellipsis !important;
