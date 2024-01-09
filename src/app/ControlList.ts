@@ -1522,6 +1522,13 @@ export const htmlTabsData = [
               {
                 parameter: "input",
                 icon: "uil uil-images",
+                label: "Signature Pad",
+                type: 'signaturePad',
+                configType: 'signaturePad', fieldType: 'signaturePad',
+              },
+              {
+                parameter: "input",
+                icon: "uil uil-images",
                 label: "Custome Clearence",
                 type: 'customeClearence',
                 configType: 'input', fieldType: 'input',

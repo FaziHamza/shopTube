@@ -231,6 +231,8 @@ export class BuilderClickButtonService {
       applicationThemeClasses: node.formly[0].fieldGroup[0].props['additionalProperties']['applicationThemeClasses'],
       wrapperLabelClass: node.formly[0].fieldGroup[0].props['additionalProperties']['wrapperLabelClass'],
       wrapperInputClass: node.formly[0].fieldGroup[0].props['additionalProperties']['wrapperInputClass'],
+      hideSaveButton: node.formly[0].fieldGroup[0].props['additionalProperties']['hideSaveButton'],
+      hideClearButton: node.formly[0].fieldGroup[0].props['additionalProperties']['hideClearButton'],
       disabled: node.formly[0].fieldGroup[0].props?.disabled,
       readonly: node.formly[0].fieldGroup[0].props?.readonly,
       // hideExpression: node.formly[0].fieldGroup[0].props?.hideExpression,

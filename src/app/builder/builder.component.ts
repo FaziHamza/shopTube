@@ -838,6 +838,7 @@ export class BuilderComponent implements OnInit {
     } else {
       alert('Please Select Screen');
     }
+    this.applyDefaultValue();
   }
   textJsonObj = {
     parameter: 'input',
@@ -3277,6 +3278,7 @@ export class BuilderComponent implements OnInit {
       case 'multiFileUploader':
       case 'audioVideoRecorder':
       case 'image':
+      case 'signaturePad':
         configObj = {
           ...configObj,
           ...this.clickButtonService.getFormlyConfig(selectedNode),
@@ -3328,6 +3330,9 @@ export class BuilderComponent implements OnInit {
 
         this.fieldData.commonData?.push(obj);
         switch (type) {
+          case 'signaturePad':
+            this.fieldData.commonData?.push({ title: 'Signature Pad Fields', data: _formFieldData.signaturePad });
+            break;
           case 'search':
             this.fieldData.commonData?.push({ title: 'Select Fields', data: _formFieldData.selectFields });
             break;
@@ -4542,6 +4547,7 @@ export class BuilderComponent implements OnInit {
       case 'audioVideoRecorder':
       case 'image':
       case 'cascader':
+      case 'signaturePad':
         if (this.selectedNode) {
           needToUpdate = false;
 
@@ -4738,6 +4744,8 @@ export class BuilderComponent implements OnInit {
             props['additionalProperties']['applicationThemeClasses'] = event.form?.applicationThemeClasses;
             props['additionalProperties']['wrapperLabelClass'] = event.form?.wrapperLabelClass;
             props['additionalProperties']['wrapperInputClass'] = event.form?.wrapperInputClass;
+            props['additionalProperties']['hideClearButton'] = event.form?.hideClearButton;
+            props['additionalProperties']['hideSaveButton'] = event.form?.hideSaveButton;
             if (event.form?.browserButtonColor) {
               document.documentElement.style.setProperty('--browseButtonColor', event.form?.browserButtonColor || '#2563EB');
             }

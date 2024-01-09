@@ -11606,7 +11606,7 @@ export class formFeildData {
           className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
           wrappers: ["formly-vertical-theme-wrapper"],
           props: {
-            type:'color',
+            type: 'color',
             label: 'Edit Icon Color'
           }
         },
@@ -11616,7 +11616,7 @@ export class formFeildData {
           className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
           wrappers: ["formly-vertical-theme-wrapper"],
           props: {
-            type:'color',
+            type: 'color',
             label: 'Delete Icon Color'
           }
         },
@@ -11626,7 +11626,7 @@ export class formFeildData {
           className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
           wrappers: ["formly-vertical-theme-wrapper"],
           props: {
-            type:'color',
+            type: 'color',
             label: 'Save Icon Color'
           }
         },
@@ -11636,7 +11636,7 @@ export class formFeildData {
           className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
           wrappers: ["formly-vertical-theme-wrapper"],
           props: {
-            type:'color',
+            type: 'color',
             label: 'Cancel Icon Color'
           }
         },
@@ -13116,6 +13116,31 @@ export class formFeildData {
                 }
               }
             ]
+          }
+        }
+      ]
+    }
+  ]
+  signaturePad: FormlyFieldConfig[] = [
+    {
+      fieldGroupClassName: "flex flex-wrap",
+      fieldGroup: [
+        {
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          key: 'hideSaveButton',
+          type: 'checkbox',
+          wrappers: ["formly-vertical-theme-wrapper"],
+          props: {
+            label: 'Show Save Button'
+          }
+        },
+        {
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          key: 'hideClearButton',
+          type: 'checkbox',
+          wrappers: ["formly-vertical-theme-wrapper"],
+          props: {
+            label: 'Hide Color buttons'
           }
         }
       ]

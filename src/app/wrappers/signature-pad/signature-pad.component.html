@@ -1,0 +1,13 @@
+<div class="mb-2">
+    <div>
+        <input type="text" (ngModelChange)="changeModal()" [formControl]="formControl" [formlyAttributes]="field"
+            style="display: none;">
+    </div>
+    <canvas #canvas class="h-[80%] w-[100%]"></canvas>
+    <div class="flex flex-wrap">
+        <button *ngIf="to['additionalProperties']?.hideSaveButton != true" nz-button class="btn mr-2"
+            (click)="save()">Save</button>
+        <button *ngIf="to['additionalProperties']?.hideClearButton != true" nz-button class="btn"
+            (click)="clear()">Clear</button>
+    </div>
+</div>

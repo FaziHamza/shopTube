@@ -131,23 +131,13 @@
                                     nzTheme="outline"></span>Add
                                 Sub Task...</div>
                             <button nz-button nzType="primary" class="btn mb-4 mt-4" (click)="save()">Save</button>
-                            <!-- <textarea id="message" rows="4"
-                                class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"></textarea> -->
-                            <!-- <button nz-button nzType="primary" class="btn mb-4 mt-4"
-                                (click)="saveComments()">Comments</button> -->
                             <div *ngIf="taskManagerData.children.length > 0">
                                 <div *ngFor="let child of taskManagerData.children">
                                     <div *ngIf="child.type == 'taskManagerComment'">
                                         <div *ngIf="child.children.length > 0">
-                                            <div *ngFor="let controlChild of child.children">
-                                                <div
-                                                    class="{{!controlChild.hideExpression  ? controlChild.className + ' ' + controlChild?.appGlobalClass : ''}} relative ">
-                                                    <st-mains [mappingId]="mappingId" [isDrawer]="false"
-                                                        [item]="controlChild" [formlyModel]="formlyModel"
-                                                        [screenName]="screenName" [screenId]="screenId" [form]="form"
-                                                        *ngIf="controlChild"></st-mains>
-                                                </div>
-                                            </div>
+                                            <st-main [mappingId]="mappingId" [mainData]="child"
+                                                [formlyModel]="formlyModel" [screenName]="screenName"
+                                                [screenId]="screenId" [form]="form"></st-main>
                                         </div>
                                     </div>
                                 </div>
