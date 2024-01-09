@@ -5,6 +5,7 @@ import { Subscription } from 'rxjs';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { ApplicationService } from 'src/app/services/application.service';
 import { ElementData } from 'src/app/models/element';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'st-business-rule',
@@ -67,12 +68,12 @@ export class BusinessRuleComponent implements OnInit {
       { name: "<", key: "<" },
     ]
     if (mainModuleId.length > 0) {
-      this.requestSubscription = this.applicationService.getNestCommonAPIById('cp/BusinessRule', this.screenId).subscribe({
+      this.requestSubscription = this.applicationService.getNestNewCommonAPIById(`cp/${environment.dbMode}meta.BusinessRule`, this.screenId).subscribe({
         next: (getRes: any) => {
           if (getRes.isSuccess) {
             if (getRes.data.length > 0) {
-              this.businessRuleId = getRes.data[0]._id;
-              const objRuleData = JSON.parse(getRes.data[0].businessRuleData);
+              this.businessRuleId = getRes.data[0].id;
+              const objRuleData = getRes.data[0].businessruledata?.json;
               this.businessForm = this.formBuilder.group({
                 buisnessRule: this.formBuilder.array(
                   objRuleData.map((getBusinessRuleRes: any) =>
@@ -251,16 +252,16 @@ export class BusinessRuleComponent implements OnInit {
 
 
   saveBussinessRule() {
-    
+
     this.businessRuleObj = [];
     this.businessForm.value.buisnessRule.forEach((rule: any) => {
       let ifConditions: any = [];
 
       rule.ifRuleMain.forEach((ifRule: any) => {
-        let ifCondition = `${ifRule.ifCondition} ${ifRule.oprator} '${this.checkValueIntegerOrNot(ifRule.getValue)}'`;
+        let ifCondition = `${ifRule.ifCondition} ${ifRule.oprator} ${this.checkValueIntegerOrNot(ifRule.getValue)}`;
 
         if (ifRule.conditional && ifRule.conditional.length > 0) {
-          let conditionalConditions = ifRule.conditional.map((cond: any) => `${cond.condType === 'OR' ? '||' : cond.condType === 'AND' ? '&&' : ''} ${cond.condifCodition} ${cond.condOperator} '${this.checkValueIntegerOrNot(cond.condValue)}'`);
+          let conditionalConditions = ifRule.conditional.map((cond: any) => `${cond.condType === 'OR' ? '||' : cond.condType === 'AND' ? '&&' : ''} ${cond.condifCodition} ${cond.condOperator} ${this.checkValueIntegerOrNot(cond.condValue)}`);
           ifCondition = `(${ifCondition} ${conditionalConditions.join(' ')}) ${ifRule.condType === 'AND' ? ' && ' : ifRule.condType === 'OR' ? ' || ' : ''} `;
         }
 
@@ -269,7 +270,7 @@ export class BusinessRuleComponent implements OnInit {
 
       let ifConditionExpression = ifConditions.join('').trim();
 
-      let thenConditions = rule.thenCondition.map((thenRule: any) => `${thenRule.thenTarget} ${thenRule.thenOpratorForTarget} '${thenRule.thenResultValue}'`);
+      let thenConditions = rule.thenCondition.map((thenRule: any) => `${thenRule.thenTarget} ${thenRule.thenOpratorForTarget}  ${this.checkValueIntegerOrNot(thenRule.thenResultValue)} `);
       let thenConditionExpression = thenConditions.join(' , ');
 
       let ruleExpression = { if: ifConditionExpression, then: thenConditionExpression };
@@ -277,24 +278,29 @@ export class BusinessRuleComponent implements OnInit {
     });
 
     console.log(this.businessRuleObj);
-
-
+    const businessRuleObj = {
+      json: this.businessRuleObj
+    }
+    const buisnessRule = {
+      json: this.businessForm.value.buisnessRule
+    }
     const mainModuleId = this.screens.filter((a: any) => a.name == this.screenname)
     const businessRuleValid = {
       "screenname": this.screenname,
       "screenbuilderid": this.screenId,
       "applicationid": this.applicationid,
-      "businessRule": JSON.stringify(this.businessRuleObj),
-      "businessRuleData": JSON.stringify(this.businessForm.value.buisnessRule)
+      "businessrule": JSON.stringify(businessRuleObj),
+      "businessruledata": JSON.stringify(buisnessRule)
     }
+    const tableValue = `${environment.dbMode}meta.BusinessRule`;
     const businessRuleValidModel = {
-      "BusinessRule": businessRuleValid
+      [tableValue]: businessRuleValid
     }
-    if (businessRuleValidModel.BusinessRule != null) {
+    if (businessRuleValid != null) {
       if (mainModuleId[0].navigation != null) {
         const checkAndProcess = this.businessRuleId == ''
-          ? this.applicationService.addNestCommonAPI('cp', businessRuleValidModel)
-          : this.applicationService.updateNestCommonAPI('cp/BusinessRule', this.businessRuleId, businessRuleValidModel);
+          ? this.applicationService.addNestNewCommonAPI('cp', businessRuleValidModel)
+          : this.applicationService.updateNestNewCommonAPI(`cp/${environment.dbMode}meta.BusinessRule`, this.businessRuleId, businessRuleValidModel);
         this.requestSubscription = checkAndProcess.subscribe({
           next: (res: any) => {
             if (res.isSuccess) {
@@ -352,7 +358,7 @@ export class BusinessRuleComponent implements OnInit {
     }
   }
   checkValueIntegerOrNot(value: any) {
-    return /^[0-9]+$/.test(value) ? parseInt(value) : "'" + value + "'"
+    return /^[0-9]+$/.test(value) ? parseInt(value) : "''" + value + "''"
   }
   applyCondition(value: any) {
     return /^[0-9]+$/.test(value) ? '' : '"'
@@ -360,7 +366,7 @@ export class BusinessRuleComponent implements OnInit {
 
   deleteBuisnessRule() {
     if (this.businessRuleId != '')
-      this.applicationService.deleteNestCommonAPI('cp/BusinessRule', this.businessRuleId).subscribe({
+      this.applicationService.deleteNestNewCommonAPI(`cp/${environment.dbMode}meta.BusinessRule`, this.businessRuleId).subscribe({
         next: (res: any) => {
           if (res.isSuccess) {
             this.businessRuleId = '';

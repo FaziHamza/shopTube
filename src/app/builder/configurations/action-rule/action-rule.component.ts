@@ -191,9 +191,9 @@ export class ActionRuleComponent implements OnInit {
             if (item) {
               const keyvalue = key.replace(`${element.name}.`, '');
               fields.push(keyvalue.toLocaleLowerCase());
-              if (keyvalue.includes('_id')) {
+              if (keyvalue.includes('id')) {
                 let s = (keyvalue).toLowerCase()
-                s = s.replace('_id', '');
+                s = s.replace('id', '');
                 s = (`${s}.${keyvalue}`);
                 values.push(`$${s.toLocaleLowerCase()}`);
               } else {
@@ -237,9 +237,9 @@ export class ActionRuleComponent implements OnInit {
                 // Include ${lastTable}.id in the selectFields array
                 tableId = `${lastTable}.id`;
               } else {
-                tableId = joining == lastTable ? `${joining}.id` : `${lastTable}.${lastTable}_id`;
+                tableId = joining == lastTable ? `${joining}.id` : `${lastTable}.${lastTable}id`;
               }
-              joining += `${lastTable != joining ? lastTable : ''} INNER JOIN ${element.toLocaleLowerCase()} ON ${tableId} = ${element.toLocaleLowerCase()}.${lastTable.toLocaleLowerCase()}_id `
+              joining += `${lastTable != joining ? lastTable : ''} INNER JOIN ${element.toLocaleLowerCase()} ON ${tableId} = ${element.toLocaleLowerCase()}.${lastTable.toLocaleLowerCase()}id `
             }
             lastTable = element.toLocaleLowerCase();
           });
@@ -314,7 +314,7 @@ export class ActionRuleComponent implements OnInit {
 
     // Parse foreign keys from queries
     queries.forEach((query: any) => {
-      const matches = [...query.query.matchAll(/(\w+)_Id/g)];
+      const matches = [...query.query.matchAll(/(\w+)id/g)];
       query.foreignKeys = matches.map(match => match[1]);
     });
 
@@ -413,7 +413,7 @@ export class ActionRuleComponent implements OnInit {
       return;
     }
 
-    // this.applicationService.deleteNestCommonAPI('cp/Action/DeleteAction', mainModuleId[0]._id).subscribe(res => {
+    // this.applicationService.deleteNestCommonAPI('cp/Action/DeleteAction', mainModuleId[0].id).subscribe(res => {
     //   const observables = this.actionForm.value.Actions.map((element: any) => {
     //     let queryType = '';
     //     if(!element.referenceId.includes(element.referenceId + '_'))
@@ -423,7 +423,7 @@ export class ActionRuleComponent implements OnInit {
     //     let actionData: any = {
     //       "moduleName": this.screenname,
     //       "moduleId": mainModuleId.length > 0 ? mainModuleId[0].navigation : "",
-    //       "screenbuilderid": mainModuleId.length > 0 ? mainModuleId[0]._id : "",
+    //       "screenbuilderid": mainModuleId.length > 0 ? mainModuleId[0].id : "",
     //       "btnActionType": element.submissionType ? element.submissionType : "",
     //       "elementName": element.elementName,
     //       "elementNameTo": element.elementNameTo,
@@ -484,7 +484,7 @@ export class ActionRuleComponent implements OnInit {
       let actionData: any = {
         "moduleName": this.screenname,
         "moduleId": mainModuleId.length > 0 ? mainModuleId[0].navigation : "",
-        "screenbuilderid": mainModuleId.length > 0 ? mainModuleId[0]._id : "",
+        "screenbuilderid": mainModuleId.length > 0 ? mainModuleId[0].id : "",
         "btnActionType": element.submissionType ? element.submissionType : "",
         "elementName": element.elementName,
         "elementNameTo": element.elementNameTo,
@@ -503,10 +503,10 @@ export class ActionRuleComponent implements OnInit {
         "applicationid": this.applicationid,
       }
       if (element.id)
-        actionData['_id'] = element.id
+        actionData['id'] = element.id
       actionListData.push(actionData)
     });
-    this.applicationService.addNestCommonAPI('cp/Action/DeleteAction/' + mainModuleId[0]._id, actionListData).subscribe({
+    this.applicationService.addNestNewCommonAPI(`cp/deleteAction/${environment.dbMode}meta.Actions/` + mainModuleId[0].id, actionListData).subscribe({
       next: (allResults: any) => {
         if (allResults) {
           this.getActionData();
@@ -525,7 +525,7 @@ export class ActionRuleComponent implements OnInit {
   getActionData() {
     const selectedScreen = this.screens.filter((a: any) => a.name == this.screenname)
     if (selectedScreen[0].navigation != null && selectedScreen[0].navigation != undefined) { // selectedScreen[0].navigation
-      this.requestSubscription = this.applicationService.getNestCommonAPIById("cp/actionbyscreenname", selectedScreen[0]._id).subscribe({
+      this.requestSubscription = this.applicationService.getNestNewCommonAPIById(`cp/${environment.dbMode}meta.Actions`, selectedScreen[0].id).subscribe({
         next: (res: any) => {
           if (res.isSuccess) {
             // this.toastr.success(`Action : Success => ${JSON.stringify(res.data)}`)
@@ -544,7 +544,7 @@ export class ActionRuleComponent implements OnInit {
                 submissionType: [getRes[0].btnActionType],
                 Actions: this.formBuilder.array(getRes.map((getQueryActionRes: any) =>
                   this.formBuilder.group({
-                    id: [getQueryActionRes._id],
+                    id: [getQueryActionRes.id],
                     submit: [getQueryActionRes.submit],
                     type: [getQueryActionRes.type],
                     sqlType: [getQueryActionRes.sqlType],
@@ -601,10 +601,10 @@ export class ActionRuleComponent implements OnInit {
           for (let index = 0; index < findClickApi.length; index++) {
             let element = findClickApi[index].actionType;
             if (element == 'query') {
-              url = `knex-query/getAction/${findClickApi[index]._id}`;
+              url = `knex-query/getAction/${findClickApi[index].id}`;
               break;
             } else {
-              url = `knex-query/getAction/${findClickApi[index]._id}`;
+              url = `knex-query/getAction/${findClickApi[index].id}`;
             }
           }
 

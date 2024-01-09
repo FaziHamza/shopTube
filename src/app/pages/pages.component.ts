@@ -61,6 +61,7 @@ export class PagesComponent implements OnInit, OnDestroy {
 
     // this.ngOnDestroy();
     const changeSubscription = this.dataSharedService.change.subscribe(({ event, field }) => {
+      debugger
       if (this.navigation) {
         if (field && event)
           if (this.formlyModel && Object.keys(this.formlyModel).length > 0) {
