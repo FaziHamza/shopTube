@@ -7,6 +7,9 @@ import { FormGroup } from '@angular/forms';
   styleUrls: ['./accordion-button.component.scss']
 })
 export class AccordionButtonComponent implements OnInit {
+  current =  {
+    // '--background': 'green',
+  }
   @Input() accordionData: any;
   @Input() formlyModel: any;
   @Input() form: any;
@@ -15,6 +18,7 @@ export class AccordionButtonComponent implements OnInit {
   expandIconPosition: any = "left";
   expand: any = false;
   accordingListData: any[] = [];
+  selectColor:'red !important';
   @Output() accordingEmit :EventEmitter<any> = new EventEmitter();
   constructor() {
     this.processData = this.processData.bind(this);

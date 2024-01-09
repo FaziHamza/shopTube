@@ -445,9 +445,9 @@ export class ApplicationBuilderComponent implements OnInit {
     }
     this.applicationSubmit = type == 'application' ? true : false;
     if (eidt == false || eidt == undefined) {
-      if(type == 'application'){
+      if (type == 'application') {
         this.loadApplicationFields();
-      }else{
+      } else {
         this.loadDepartmentFields();
       }
     }
@@ -497,7 +497,7 @@ export class ApplicationBuilderComponent implements OnInit {
   }
   handleCancel(): void {
     this.isVisible = false;
-    this.isSubmit =  true;
+    this.isSubmit = true;
   }
   getOrganizationData() {
     this.applicationService.getNestCommonAPI('cp/Organization').subscribe(((res: any) => {
@@ -607,7 +607,7 @@ export class ApplicationBuilderComponent implements OnInit {
     }
     this.model = JSON.parse(JSON.stringify(item));
     this.isSubmit = false;
-    this.openModal(type , true)
+    this.openModal(type, true)
   }
 
 
@@ -659,8 +659,30 @@ export class ApplicationBuilderComponent implements OnInit {
     a.click();
   }
   callChild(department: any) {
-    const moduleData = this.listOfChildrenData.filter((item: any) => (item.applicationName == department.name) || (item.departmentName == department.name));
-    department['children'] = moduleData;
+    debugger
+    if (department.expand) {
+      this.loading = true;
+      this.requestSubscription = this.applicationService.getNestCommonAPIById('cp/Application', department._id).subscribe({
+        next: (res: any) => {
+          this.loading = false;
+          if (res.isSuccess) {
+            department['children'] = res.data;
+          }
+          else {
+            department['children'] = [];
+            this.toastr.error(res.message, { nzDuration: 3000 }); // Show an error message to the user
+          }
+        },
+        error: (err) => {
+          department['children'] = [];
+          console.error(err); // Log the error to the console
+          this.toastr.error("An error occurred", { nzDuration: 3000 }); // Show an error message to the user
+          this.loading = false;
+        }
+      });
+    }
+    // const moduleData = this.listOfChildrenData.filter((item: any) => (item.applicationName == department.name) || (item.departmentName == department.name));
+    // department['children'] = moduleData;
   }
   getApplication() {
     this.requestSubscription = this.applicationService.getNestCommonAPI('cp/Application').subscribe({

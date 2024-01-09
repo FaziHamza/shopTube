@@ -681,7 +681,7 @@ export class BuilderComponent implements OnInit {
               next: (res: any) => {
                 if (res.isSuccess) {
                   // this.builderScreenData = res.data;
-                  
+
                   if (res.data.length > 0) {
                     const objScreenData = JSON.parse(res.data[0].screenData);
                     this.isSavedDb = true;
@@ -1865,7 +1865,7 @@ export class BuilderComponent implements OnInit {
           newNode = { ...newNode, ...this.addControlService.getTaskManagerControl() };
           break;
         case 'repeatableControll':
-          let formlyObj : any = {
+          let formlyObj: any = {
             isNextChild: true,
             type: data?.configType,
             formlyType: 'input',
@@ -4496,6 +4496,13 @@ export class BuilderComponent implements OnInit {
         break;
       case 'accordionButton':
         this.selectedNode.nzExpandedIcon = event.form?.icon;
+        if (event.form?.headerColor) {
+          if (this.selectedNode.style) {
+            this.selectedNode.style['--background'] = event.form?.headerColor;
+          } else {
+            this.selectedNode.style = { '--background': event.form.headerColor, };
+          }
+        }
         break;
       case 'segmented':
       case 'tag':
