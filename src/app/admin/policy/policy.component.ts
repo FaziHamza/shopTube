@@ -6,6 +6,7 @@ import { NzMessageService } from 'ng-zorro-antd/message';
 import { ApplicationService } from 'src/app/services/application.service';
 import { BuilderService } from 'src/app/services/builder.service';
 import { DataSharedService } from 'src/app/services/data-shared.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'st-policy',
@@ -39,7 +40,7 @@ export class PolicyComponent implements OnInit {
     {
       name: 'Policy Id',
       sortOrder: null,
-      sortFn: (a: any, b: any) => a._id.localeCompare(b._id),
+      sortFn: (a: any, b: any) => a.id.localeCompare(b.id),
       sortDirections: ['ascend', 'descend', null],
     },
     {
@@ -82,7 +83,7 @@ export class PolicyComponent implements OnInit {
   }
   jsonPolicyModuleList() {
     this.loading = true;
-    this.applicationService.getNestCommonAPI('cp/Policy').subscribe({
+    this.applicationService.getNestNewCommonAPI(`cp/${environment.dbMode}meta.Policy`).subscribe({
       next: (res: any) => {
         if (res.isSuccess) {
           this.loading = false;
@@ -156,17 +157,18 @@ export class PolicyComponent implements OnInit {
       let obj = {
         applicationId: JSON.parse(localStorage.getItem('applicationId')!),
         name: this.form.value.name,
-        menuThemeId: this.form.value.menuThemeId,
-        applicationTheme: this.form.value.applicationTheme
+        menuThemeId: this.form.value.menuthemeid,
+        applicationTheme: this.form.value.applicationtheme
       };
+      const tableValue = `${environment.dbMode}meta.Policy`;
 
       const PolicyModel = {
-        Policy: obj,
+        [tableValue]: obj,
       };
 
       const checkPolicyAndProceed = this.isSubmit
-        ? this.applicationService.addNestCommonAPI('cp', PolicyModel)
-        : this.applicationService.updateNestCommonAPI('cp/Policy', this.model._id, PolicyModel);
+        ? this.applicationService.addNestNewCommonAPI('cp', PolicyModel)
+        : this.applicationService.updateNestNewCommonAPI(`cp/${environment.dbMode}meta.Policy`, this.model.id, PolicyModel);
       checkPolicyAndProceed.subscribe({
         next: (objTRes: any) => {
           if (objTRes.isSuccess) {
@@ -197,7 +199,7 @@ export class PolicyComponent implements OnInit {
   }
   deleteRow(id: any): void {
     this.applicationService
-      .deleteNestCommonAPI('cp/Policy', id)
+      .deleteNestCommonAPI(`cp/${environment.dbMode}meta.Policy`, id)
       .subscribe((res: any) => {
         if (res.isSuccess) {
           this.jsonPolicyModuleList();
@@ -257,7 +259,7 @@ export class PolicyComponent implements OnInit {
       {
         fieldGroup: [
           {
-            key: 'menuThemeId',
+            key: 'menuthemeid',
             type: 'select',
             wrappers: ["formly-vertical-theme-wrapper"],
             defaultValue: '',
@@ -277,7 +279,7 @@ export class PolicyComponent implements OnInit {
       {
         fieldGroup: [
           {
-            key: 'applicationTheme',
+            key: 'applicationtheme',
             type: 'select',
             wrappers: ["formly-vertical-theme-wrapper"],
             defaultValue: '',
@@ -307,12 +309,12 @@ export class PolicyComponent implements OnInit {
   }
 
   getTheme() {
-    this.applicationService.getNestCommonAPI("cp/MenuTheme").subscribe({
+    this.applicationService.getNestNewCommonAPI(`cp/${environment.dbMode}meta.MenuTheme`).subscribe({
       next: (res) => {
         if (res.isSuccess) {
           this.themeList = res.data.map((item: any) => ({
             label: item.name,
-            value: item._id
+            value: item.id
           }));
           this.loadPolicyListFields();
         } else
@@ -323,10 +325,13 @@ export class PolicyComponent implements OnInit {
     });
   }
   getApplicationTheme() {
-    this.applicationService.getNestCommonAPI('applicationTheme/themeList').subscribe({
+    this.applicationService.getNestNewCommonAPI(`cp/${environment.dbMode}meta.applicationTheme`).subscribe({
       next: (res) => {
         if (res.isSuccess) {
-          this.applicationThemeList = res.data;
+          this.applicationThemeList = res.data.map((item: any) => ({
+            label: item.name,
+            value: item.id
+          }));
           this.loadPolicyListFields();
         } else
           this.toastr.error(res.message, { nzDuration: 3000 });

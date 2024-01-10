@@ -15,6 +15,7 @@ import { MenuBulkUpdateComponent } from './menu-bulk-update/menu-bulk-update.com
 import { Router } from '@angular/router';
 import { DataSharedService } from '../services/data-shared.service';
 import { NzCascaderOption } from 'ng-zorro-antd/cascader';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'st-menu-builder',
@@ -179,15 +180,15 @@ export class MenuBuilderComponent implements OnInit {
 
   getMenus(id: string) {
     this.getTheme(id);
-    this.applicationService.getNestCommonAPIById('cp/CacheMenu', this.currentUser.userId).subscribe(((res: any) => {
+    this.applicationService.getNestNewCommonAPIById(`cp/${environment.dbMode}meta.CacheMenu`, this.currentUser.userId).subscribe(((res: any) => {
       if (res.isSuccess) {
         if (res.data.length > 0) {
-          let getApplication = this.applications.find((a: any) => a._id == id);
+          let getApplication = this.applications.find((a: any) => a.id == id);
           if (getApplication) {
             this.domainName = getApplication.domain ? getApplication.domain : undefined;
             this.selectApplicationType = getApplication['application_Type'] ? getApplication['application_Type'] : '';
           }
-          this.applicationId = res.data[0]._id
+          this.applicationId = res.data[0].id
           this.nodes = JSON.parse(res.data[0].menuData);
           this.selectedTheme = JSON.parse(res.data[0].selectedTheme);
           this.controlUndefinedValues();
@@ -204,16 +205,16 @@ export class MenuBuilderComponent implements OnInit {
     }));
   }
   getlocalMenu(id: any) {
-    this.applicationService.getNestCommonAPIById('cp/PolicyMapping', id).subscribe(((res: any) => {
+    this.applicationService.getNestNewCommonAPIById(`cp/${environment.dbMode}meta.PolicyMapping`, id).subscribe(((res: any) => {
       if (res.isSuccess) {
         if (res.data.length > 0) {
-          this.applicationId = res.data[0]._id
+          this.applicationId = res.data[0].id
           this.nodes = JSON.parse(res.data[0].menuData);
           this.selectedTheme = JSON.parse(res.data[0].selectedTheme);
           this.controlUndefinedValues();
           this.makeMenuData();
           this.clickBack();
-          let getApplication = this.applications.find((a: any) => a._id == id);
+          let getApplication = this.applications.find((a: any) => a.id == id);
           if (getApplication) {
             this.domainName = getApplication.domain ? getApplication.domain : undefined;
             let domain = getApplication.domain ? getApplication.domain : '';
@@ -746,7 +747,7 @@ export class MenuBuilderComponent implements OnInit {
   }
   themeList: any[] = [];
   getTheme(value: any) {
-    this.applicationService.getNestCommonAPIById("cp/MenuTheme", value).subscribe(res => {
+    this.applicationService.getNestNewCommonAPIById(`cp/${environment.dbMode}meta.MenuTheme`, value).subscribe(res => {
       if (res.isSuccess) {
         this.themeList = res.data || [];
       }
@@ -763,7 +764,7 @@ export class MenuBuilderComponent implements OnInit {
     temporaryData.allMenuItems = []
     temporaryData.menuChildArrayTwoColumn = []
     temporaryData.newMenuArray = []
-    let appData = this.applications.find((a: any) => a._id == this.selectedAppId)
+    let appData = this.applications.find((a: any) => a.id == this.selectedAppId)
     var data: any =
     {
       "name": appData.name,
@@ -772,12 +773,13 @@ export class MenuBuilderComponent implements OnInit {
       // "applicationId": mainApplicationId.length > 0 ? mainApplicationId[0].id : "",
       "selectedTheme": JSON.stringify(temporaryData)
     };
+    const tableValue = `${environment.dbMode}meta.Menu`;
     const menuModel = {
-      "Menu": data
+      [tableValue]: data
     }
     // data.selectedTheme.allMenuItems = [];
     if (this.applicationId == '') {
-      this.requestSubscription = this.applicationService.addNestCommonAPI('cp', menuModel).subscribe({
+      this.requestSubscription = this.applicationService.addNestNewCommonAPI('cp', menuModel).subscribe({
         next: (objMenu: any) => {
           if (objMenu.isSuccess)
             this.toastr.success(objMenu.message, { nzDuration: 3000 });
@@ -793,7 +795,7 @@ export class MenuBuilderComponent implements OnInit {
         }
       });
     } else {
-      this.requestSubscription = this.applicationService.updateNestCommonAPI('cp/Menu', this.applicationId, menuModel).subscribe({
+      this.requestSubscription = this.applicationService.updateNestNewCommonAPI(`cp/${environment.dbMode}meta.Menu`, this.applicationId, menuModel).subscribe({
         next: (objMenu: any) => {
           if (objMenu.isSuccess)
             this.toastr.success(objMenu.message, { nzDuration: 3000 });
@@ -1498,7 +1500,7 @@ export class MenuBuilderComponent implements OnInit {
   }
 
   getDepartments() {
-    this.requestSubscription = this.applicationService.getNestCommonAPI('cp/Department').subscribe({
+    this.requestSubscription = this.applicationService.getNestNewCommonAPI(`cp/${environment.dbMode}meta.Department`).subscribe({
       next: (res: any) => {
         if (res.isSuccess) {
           if (res.data.length > 0) {
@@ -1506,7 +1508,7 @@ export class MenuBuilderComponent implements OnInit {
             this.departmentData = res.data?.map((data: any) => {
               return {
                 label: data.name,
-                value: data._id
+                value: data.id
               };
             });
             let header = {
@@ -1847,13 +1849,13 @@ export class MenuBuilderComponent implements OnInit {
   async loadData(node: NzCascaderOption, index: number): Promise<void> {
     if (index === 0 && node.value != 'selectDepartment') {
       try {
-        const res = await this.applicationService.getNestCommonAPIById('cp/Application', node.value).toPromise();
+        const res = await this.applicationService.getNestNewCommonAPIById(`cp/${environment.dbMode}meta.Application`, node.value).toPromise();
         if (res.isSuccess) {
           this.applications = res.data;
           const applications = res.data.map((appData: any) => {
             return {
               label: appData.name,
-              value: appData._id,
+              value: appData.id,
               isLeaf: true
             };
           });

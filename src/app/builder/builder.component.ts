@@ -679,10 +679,10 @@ export class BuilderComponent implements OnInit {
           else {
             // this.navigation = 0;
             // this.clearChildNode();
+            this.builderscreendata = [];
             this.requestSubscription = this.applicationService.getNestCommonAPI('applications/default').subscribe({
               next: (res: any) => {
                 if (res.isSuccess) {
-                  // this.builderscreendata = res.data;
                   if (res.data.length > 0) {
                     const objscreendata = JSON.parse(res.data[0].screenData);
                     this.isSavedDb = true;
@@ -6206,8 +6206,9 @@ export class BuilderComponent implements OnInit {
           try {
             contents = reader.result as string;
             var makeData = JSON.parse(contents);
+            const getScreenData  = makeData.screendata ? makeData.screendata : makeData.screenData;
             var currentData = JSON.parse(
-              JSON.stringify(makeData.screendata, function (key, value) {
+              JSON.stringify(getScreenData, function (key, value) {
                 if (typeof value == 'function') {
                   return value.toString();
                 } else {
@@ -7025,7 +7026,7 @@ export class BuilderComponent implements OnInit {
       alert("Please Select Screen")
     } else {
       let application = this.applicationData.find((app: any) => app.id == this.selectApplicationName)
-      const url = `http://${application.domain}:5600/pages/${this.navigation}`;
+      const url = `http://${application.domains}:5600/pages/${this.navigation}`;
       window.open(url);
 
     }

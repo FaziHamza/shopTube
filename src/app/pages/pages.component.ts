@@ -17,6 +17,7 @@ import { jsPDF } from "jspdf"; // Trying to import as in the documentation
 import { json } from 'stream/consumers';
 import { AnyComponent } from '@fullcalendar/core/preact';
 import * as jsonpatch from 'fast-json-patch';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'st-pages',
@@ -381,12 +382,12 @@ export class PagesComponent implements OnInit, OnDestroy {
   getBuilderScreen(params: any) {
     this.saveLoader = true;
 
-    this.applicationService.getNestCommonAPIById('cp/Builder', params["schema"]).subscribe({
+    this.applicationService.getNestNewCommonAPIById(`cp/${environment.dbMode}meta.Builders`, params["schema"]).subscribe({
       next: (res: any) => {
         if (res.isSuccess && res.data.length > 0) {
           this.saveLoader = false;
-          localStorage.setItem('screenBuildId', res.data[0].screenBuilderId);
-          this.handleCacheRuleRequest(res.data[0].screenBuilderId, res);
+          localStorage.setItem('screenBuildId', res.data[0].screenbuilderid);
+          this.handleCacheRuleRequest(res.data[0].screenbuilderid, res);
         } else {
           this.toastr.error(res.message, { nzDuration: 3000 });
           this.saveLoader = false;
@@ -400,7 +401,7 @@ export class PagesComponent implements OnInit, OnDestroy {
   }
   handleCacheRuleRequest(screenBuilderId: any, res: any) {
     this.saveLoader = true;
-    this.applicationService.getNestCommonAPIById("cp/CacheRule", screenBuilderId).subscribe({
+    this.applicationService.getNestNewCommonAPIById(`cp/${environment.dbMode}meta.CacheRule`, screenBuilderId).subscribe({
       next: (rule: any) => {
         this.saveLoader = false;
         this.getCacheRule(rule);
@@ -416,11 +417,11 @@ export class PagesComponent implements OnInit, OnDestroy {
   editData: any;
   actionsBindWithPage(res: any, res1: any) {
 
-    this.screenId = res.data[0].screenBuilderId;
-    this.screenName = res.data[0].screenName;
+    this.screenId = res.data[0].screenbuilderid;
+    this.screenName = res.data[0].screenname;
     this.navigation = res.data[0].navigation;
 
-    let data = res.data[0].screenData;
+    let data = res.data[0].screendata?.json;
 
     if (typeof data === 'string') {
       // It's a JSON string, parse it
@@ -1515,35 +1516,35 @@ export class PagesComponent implements OnInit, OnDestroy {
   getCacheRule(getRes: any) {
 
     getRes.data.forEach((res: any) => {
-      if (res.name == 'BusinessRule') {
+      if (res.name?.toLowerCase() == `${environment.dbMode}meta.businessrule`) {
         if (res.data) {
           this.businessRuleData = [];
-          if (res.data.businessRule)
-            this.businessRuleData = JSON.parse(res.data.businessRule)
+          if (res.data.businessrule)
+            this.businessRuleData = res.data.businessrule?.json
         }
       }
-      else if (res.name == 'GridBusinessRule') {
+      else if (res.name?.toLowerCase() == `${environment.dbMode}meta.businessrule`) {
         if (res.data) {
           this.gridRulesData = res;
         }
       }
-      else if (res.name == 'ValidationRule') {
+      else if (res.name?.toLowerCase() == `${environment.dbMode}meta.validationrule`) {
         if (res.data) {
           this.joiValidationData.push(res.data);
         }
       }
-      else if (res.name == 'ActionRule') {
+      else if (res.name?.toLowerCase() == `${environment.dbMode}meta.actionrule`) {
         this.actionRuleList.push(res.data);
       }
-      else if (res.name == 'UiRule') {
+      else if (res.name?.toLowerCase() == `${environment.dbMode}meta.uirule`) {
         if (res.data) {
           const jsonUIResult = {
             "key": res.data.key,
             "title": res.data.title,
-            "screenName": res.data.screenName,
-            "screenId": res.data.screenBuilderId,
-            "uiData": JSON.parse(res.data.uiData),
-            "patchOperations": res.data.patchOperations
+            "screenName": res.data.screenname,
+            "screenId": res.data.screenBbuilderid,
+            "uiData": res.data.uidata?.json,
+            "patchOperations": res.data.patchoperations
           }
           this.screenData = jsonUIResult;
 
@@ -2880,7 +2881,7 @@ export class PagesComponent implements OnInit, OnDestroy {
     let user = JSON.parse(window.localStorage['user']);
     if (user.policy?.policyTheme) {
       this.saveLoader = true;
-      this.applicationService.getNestCommonAPI(`applicationTheme/allBythemeName${user.policy?.policyTheme}`).subscribe(((res: any) => {
+      this.applicationService.getNestNewCommonAPI(`cp/${environment.dbMode}meta.applicationtheme/${user.policy?.policyTheme}`).subscribe(((res: any) => {
         this.saveLoader = false;
         if (res.isSuccess) {
           this.applicationThemeData = res?.data;

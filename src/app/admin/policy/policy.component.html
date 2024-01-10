@@ -26,7 +26,7 @@
         </thead>
         <tbody>
             <tr *ngFor="let data of filterTable.data; index as i">
-                <td>{{ data._id }}</td>
+                <td>{{ data.id }}</td>
                 <td>{{ data.name }}</td>
                 <td>
                     <i class="fa-regular fa-pen-to-square !text-blue-600 hover:cursor-pointer" nzTooltipTitle="Edit"
@@ -34,7 +34,7 @@
 
                     <i class="fa-regular fa-trash !text-[#fd3636] pl-2 hover:cursor-pointer" nzTooltipTitle="Delete"
                         nz-tooltip nz-popconfirm nzPopconfirmTitle="Sure to delete?"
-                        (nzOnConfirm)="deleteRow(data._id)"></i>
+                        (nzOnConfirm)="deleteRow(data.id)"></i>
                 </td>
             </tr>
         </tbody>

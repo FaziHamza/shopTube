@@ -8,6 +8,7 @@ import { environment } from 'src/environments/environment';
 import { AuthService } from '../services/auth.service';
 import { Router } from '@angular/router';
 import { NzDrawerRef } from 'ng-zorro-antd/drawer';
+// import { AppApi } from 'src/app/constants/app-api-constants';
 
 @Component({
   selector: 'st-register',
@@ -31,8 +32,8 @@ export class RegisterComponent implements OnInit {
   saveLoader: boolean = false;
   constructor(private authService: AuthService, private router: Router,
     private toastr: NzMessageService, private formBuilder: FormBuilder, @Optional() drawerRef: NzDrawerRef<any>) {
-      this.drawerRef = drawerRef;
-     }
+    this.drawerRef = drawerRef;
+  }
 
   ngOnInit(): void {
     this.loadScript();
@@ -71,10 +72,10 @@ export class RegisterComponent implements OnInit {
   getApplicationData() {
     this.loader = true;
     const hostUrl = window.location.host.split(':')[0];
-    this.authService.getNestCommonAPI('auth/domain/'+hostUrl).subscribe({
+    this.authService.getNestNewCommonAPI(`auth/getAppDetails/${environment.dbMode}meta/${hostUrl}`).subscribe({
       next: (res: any) => {
         if (res.isSuccess) {
-          this.applications = res.data;
+          this.applications = res.data?.[0];
         }
         else {
           this.toastr.error(res.message, { nzDuration: 3000 }); // Show an error message to the user
@@ -87,7 +88,7 @@ export class RegisterComponent implements OnInit {
       },
     });
   }
-  
+
   // ngAfterViewInit() {
   //   // Render reCAPTCHA using the reCAPTCHA site key
   //   grecaptcha.render('recaptcha', {
@@ -113,11 +114,11 @@ export class RegisterComponent implements OnInit {
     //   return;
     // }
     this.recaptchaResponse = grecaptcha.getResponse();
-      if (!this.recaptchaResponse) {
-        // this.toastr.warning('You are not human', { nzDuration: 3000 }); // Show an error message to the user
-        this.showRecaptcha = true;
-        return;
-      }
+    if (!this.recaptchaResponse) {
+      // this.toastr.warning('You are not human', { nzDuration: 3000 }); // Show an error message to the user
+      this.showRecaptcha = true;
+      return;
+    }
 
     this.loader = true;
     let obj = {
@@ -128,8 +129,8 @@ export class RegisterComponent implements OnInit {
       "companyName": this.form.value.companyname,
       "password": this.form.value.password,
       "accreditationNumber": this.form.value.accreditationNumber,
-      "organizationId": this.applications?.department?.organizationId || environment.organizationId,
-      "applicationId":  this.applications?.application?._id || environment.applicationId,
+      "organizationId": this.applications?.organizationid,
+      "applicationId": this.applications?.id,
       "status": 'Pending',
       "domain": window.location.host.split(':')[0],
       "contactnumber": this.form.value.contactnumber,
@@ -151,7 +152,7 @@ export class RegisterComponent implements OnInit {
             this.create();
             if (this.userAddDrawer) {
               this.drawerRef.close(true);
-            }else{
+            } else {
               this.router.navigateByUrl('/login')
             }
           } else {

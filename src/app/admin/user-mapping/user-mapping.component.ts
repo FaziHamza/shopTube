@@ -4,6 +4,7 @@ import { ApplicationService } from 'src/app/services/application.service';
 import { BuilderService } from 'src/app/services/builder.service';
 import { DataSharedService } from 'src/app/services/data-shared.service';
 import { forkJoin } from 'rxjs';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'st-user-mapping',
@@ -67,8 +68,8 @@ export class UserMappingComponent {
     this.loader = true;
 
     forkJoin([
-      this.applicationService.getNestCommonAPI('cp/Policy'),
-      this.applicationService.getNestCommonAPI('cp/user'),
+      this.applicationService.getNestNewCommonAPI(`cp/${environment.dbMode}meta.Policy`),
+      this.applicationService.getNestNewCommonAPI(`cp/${environment.dbMode}meta.users`),
     ]).subscribe({
       next: ([policyRes, userRes]) => {
         this.loader = false;
@@ -89,24 +90,15 @@ export class UserMappingComponent {
   }
 
   loadUserData() {
-    
+
     this.loader = true;
-    this.applicationService.getNestCommonAPI('cp/UserMapping').subscribe({
+    this.applicationService.getNestNewCommonAPI(`cp/${environment.dbMode}meta.UserMapping`).subscribe({
       next: (res: any) => {
         this.loader = false;
         if (res.isSuccess) {
           if (res?.data.length > 0) {
             res.data = [...res.data].reverse();
-            const transformedData = res.data.map((item: any) => ({
-              _id: item._id,
-              policyId: item?.policyId?._id,
-              policyName: item?.policyId?.name,
-              userId: item?.userId?._id,
-              userName: item?.userId?.username,
-              applicationId: item.applicationId,
-              defaultPolicy: item?.defaultPolicy ? item?.defaultPolicy : false,
-            }));
-            this.listOfData = transformedData;
+            this.listOfData = res.data;
             this.handlePageChange(1);
           }
         }
@@ -119,7 +111,7 @@ export class UserMappingComponent {
   }
 
   onSubmit() {
-    
+
     if (!this.policyName || !this.userName) {
       if (!this.policyName) {
         this.toastr.warning('Please Select Policy Name', { nzDuration: 2000 });
@@ -142,7 +134,7 @@ export class UserMappingComponent {
         }
       }
       else {
-        const findAlreadypolicyAssign = this.listOfData.find(a => a.userId == this.userName && a.policyId == this.policyName && a._id != this.editId);
+        const findAlreadypolicyAssign = this.listOfData.find(a => a.userId == this.userName && a.policyId == this.policyName && a.id != this.editId);
         if (findAlreadypolicyAssign) {
           this.toastr.warning('This user already assign this policy please select another.', { nzDuration: 2000 });
           this.loading = false;
@@ -157,15 +149,16 @@ export class UserMappingComponent {
       }
 
       // if (this.defaultPolicy == true) {
-      //   let defaultPolicyUsers: any[] = this.listOfData.filter(a => a.userId == this.userName && a.defaultPolicy == true && a._id != this.policyName);
+      //   let defaultPolicyUsers: any[] = this.listOfData.filter(a => a.userId == this.userName && a.defaultPolicy == true && a.id != this.policyName);
       //   if (defaultPolicyUsers.length > 0) {
       //     this.toastr.warning('Already assign default.', { nzDuration: 2000 });
       //     this.loading = false;
       //     return;
       //   }
       // }
+      const tableValue = `${environment.dbMode}meta.UserMapping`;
       let obj = {
-        UserMapping: {
+        [tableValue]: {
           policyId: this.policyName,
           userId: this.userName,
           defaultPolicy: this.defaultPolicy,
@@ -174,8 +167,8 @@ export class UserMappingComponent {
       }
       this.loader = true;
       const checkPolicyAndProceed = this.isSubmit
-        ? this.applicationService.addNestCommonAPI('cp', obj)
-        : this.applicationService.updateNestCommonAPI('cp/UserMapping', this.editId, obj);
+        ? this.applicationService.addNestNewCommonAPI('cp', obj)
+        : this.applicationService.updateNestNewCommonAPI(`cp/${environment.dbMode}meta.UserMapping`, this.editId, obj);
       checkPolicyAndProceed.subscribe({
         next: (objTRes: any) => {
           this.loader = false;
@@ -201,15 +194,15 @@ export class UserMappingComponent {
   }
   editId: any
   editItem(item: any) {
-    this.editId = item._id;
-    this.policyName = item.policyId;
-    this.userName = item.userId;
-    this.defaultPolicy = item.defaultPolicy;
+    this.editId = item.id;
+    this.policyName = item.policyid;
+    this.userName = item.userid;
+    this.defaultPolicy = item.defaultpolicy;
     this.isSubmit = false;
   }
   deleteRow(id: any): void {
     this.loader = true;
-    this.applicationService.deleteNestCommonAPI('cp/UserMapping', id).subscribe({
+    this.applicationService.deleteNestNewCommonAPI(`cp/${environment.dbMode}meta.UserMapping`, id).subscribe({
       next: (res: any) => {
         this.loading = false;
         if (res.isSuccess) {

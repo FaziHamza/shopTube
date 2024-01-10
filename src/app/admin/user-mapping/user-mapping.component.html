@@ -5,7 +5,7 @@
                 <label style="width: 30%;" class="mt-2 font-bold">User name</label>
                 <nz-select style="width: 70%;" nzShowSearch nzAllowClear class="temp-modal-select"
                     [(ngModel)]="userName">
-                    <nz-option [nzValue]="item._id" placeholder="Select Block Type..." [nzLabel]="item.username"
+                    <nz-option [nzValue]="item.id" placeholder="Select Block Type..." [nzLabel]="item.username"
                         *ngFor="let item of userList"></nz-option>
                 </nz-select>
             </div>
@@ -13,7 +13,7 @@
                 <label style="width: 30%;" class="mt-2 font-bold">User Policy</label>
                 <nz-select style="width: 70%;" nzShowSearch nzAllowClear class="temp-modal-select"
                     [(ngModel)]="policyName">
-                    <nz-option [nzValue]="item._id" placeholder="Select Block Type..." [nzLabel]="item.name"
+                    <nz-option [nzValue]="item.id" placeholder="Select Block Type..." [nzLabel]="item.name"
                         *ngFor="let item of policyList"></nz-option>
                 </nz-select>
             </div>
@@ -65,16 +65,16 @@
             <tbody>
                 <tr *ngFor="let data of filterTable.data; index as i">
                     <!-- <td>{{ i+1 }}</td> -->
-                    <td>{{ data.userName }}</td>
-                    <td>{{ data.policyName }}</td>
-                    <td><label nz-checkbox [(ngModel)]="data.defaultPolicy" [nzDisabled]="true"></label></td>
+                    <td>{{ data.username }}</td>
+                    <td>{{ data.policyname }}</td>
+                    <td><label nz-checkbox [(ngModel)]="data.defaultpolicy" [nzDisabled]="true"></label></td>
                     <td>
                         <i class="fa-regular fa-pen-to-square !text-blue-600 hover:cursor-pointer" nzTooltipTitle="Edit"
                             nz-tooltip (click)="[editItem(data)]"></i>
 
                         <i class="fa-regular fa-trash !text-[#fd3636] pl-2 hover:cursor-pointer" nzTooltipTitle="Delete"
                             nz-tooltip nz-popconfirm nzPopconfirmTitle="Sure to delete?"
-                            (nzOnConfirm)="deleteRow(data._id)"></i>
+                            (nzOnConfirm)="deleteRow(data.id)"></i>
                     </td>
                 </tr>
             </tbody>

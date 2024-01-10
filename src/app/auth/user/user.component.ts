@@ -4,6 +4,8 @@ import { ApplicationService } from 'src/app/services/application.service';
 import { NzModalService } from 'ng-zorro-antd/modal';
 import { NzDrawerService } from 'ng-zorro-antd/drawer';
 import { RegisterComponent } from '../register/register.component';
+import { environment } from 'src/environments/environment';
+
 
 @Component({
   selector: 'st-user',
@@ -39,7 +41,7 @@ export class UserComponent {
     },
     {
       name: 'Accreditation Number',
-      key: 'accreditationNumber',
+      key: 'accreditationnumber',
       visible: false,
       searchValue: '',
     },
@@ -54,7 +56,7 @@ export class UserComponent {
   ];
   getUsers() {
     this.loading = true;
-    this.applicationService.getNestCommonAPI('cp/user').subscribe({
+    this.applicationService.getNestNewCommonAPI(`cp/${environment.dbMode}meta.users`).subscribe({
       next: (res: any) => {
         if (res.isSuccess) {
           this.listOfData = res.data;
@@ -74,7 +76,7 @@ export class UserComponent {
   }
 
   editFunc(data: any) {
-    this.edit = data._id;
+    this.edit = data.id;
     this.updateModel = JSON.parse(JSON.stringify(data));
   }
   cancelEdit(data: any) {
@@ -87,7 +89,11 @@ export class UserComponent {
   saveEdit(data: any) {
     this.edit = null;
     this.loading = true;
-    this.applicationService.updateNestCommonAPI('cp/auth/updateUser', data._id, data).subscribe({
+    const tableValue = `${environment.dbMode}meta.users`;
+    const obj = {
+      [tableValue]: data
+    }
+    this.applicationService.updateNestNewCommonAPI(`cp/${environment.dbMode}meta.users`, data.id, obj).subscribe({
       next: (res: any) => {
         if (res.isSuccess) {
           // this.listOfData = res.data;
@@ -106,7 +112,7 @@ export class UserComponent {
   }
   delete(data: any) {
     this.loading = true;
-    this.applicationService.deleteNestCommonAPI('auth', data._id).subscribe({
+    this.applicationService.deleteNestCommonAPI(`cp/${environment.dbMode}meta.users`, data.id).subscribe({
       next: (res: any) => {
         this.loading = false;
         if (res.isSuccess) {
@@ -176,7 +182,7 @@ export class UserComponent {
       checkSearchExist.forEach(element => {
         this.searchValue(element.searchValue, element)
       });
-    }else{
+    } else {
       this.searchData = [];
     }
     this.handlePageChange(event ? event : this.pageIndex);
