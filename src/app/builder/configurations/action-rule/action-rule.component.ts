@@ -537,28 +537,28 @@ export class ActionRuleComponent implements OnInit {
               // console.warn(`Get Result Length : ${res.data.length}`)
               this.screenActions = getRes;
               this.actionForm = this.formBuilder.group({
-                elementName: [getRes[0].elementName],
-                elementNameTo: [getRes[0]?.elementNameTo],
-                actionType: [getRes[0].actionType],
-                actionLink: [getRes[0].actionLink],
-                submissionType: [getRes[0].btnActionType],
+                elementName: [getRes[0].elementname],
+                elementNameTo: [getRes[0]?.elementnameto],
+                actionType: [getRes[0].actiontype],
+                actionLink: [getRes[0].actionlink],
+                submissionType: [getRes[0].btnactiontype],
                 Actions: this.formBuilder.array(getRes.map((getQueryActionRes: any) =>
                   this.formBuilder.group({
                     id: [getQueryActionRes.id],
                     submit: [getQueryActionRes.submit],
                     type: [getQueryActionRes.type],
-                    sqlType: [getQueryActionRes.sqlType],
-                    actionType: [getQueryActionRes.actionType],
-                    elementName: [getQueryActionRes.elementName],
-                    elementNameTo: [getQueryActionRes?.elementNameTo],
-                    actionLink: [getQueryActionRes.actionLink],
-                    submissionType: [getQueryActionRes.btnActionType],
+                    sqlType: [getQueryActionRes.sqltype],
+                    actionType: [getQueryActionRes.actiontype],
+                    elementName: [getQueryActionRes.elementname],
+                    elementNameTo: [getQueryActionRes?.elementnameto],
+                    actionLink: [getQueryActionRes.actionlink],
+                    submissionType: [getQueryActionRes.btnactiontype],
                     email: [getQueryActionRes.email],
-                    confirmEmail: [getQueryActionRes.confirmEmail],
-                    referenceId: [getQueryActionRes.referenceId],
+                    confirmEmail: [getQueryActionRes.confirmemail],
+                    referenceId: [getQueryActionRes.referenceid],
                     query: [getQueryActionRes.quries],
-                    httpAddress: [getQueryActionRes.httpAddress],
-                    contentType: [getQueryActionRes.contentType]
+                    httpAddress: [getQueryActionRes.httpaddress],
+                    contentType: [getQueryActionRes.contenttype]
                   })
                 )),
               })

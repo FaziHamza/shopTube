@@ -5,6 +5,7 @@ import * as monaco from 'monaco-editor';
 import { ApplicationService } from 'src/app/services/application.service';
 import { Subscription, catchError, forkJoin, of } from 'rxjs';
 import { NzMessageService } from 'ng-zorro-antd/message';
+import { environment } from 'src/environments/environment';
 
 
 @Component({
@@ -53,7 +54,7 @@ export class ExecuteActionRuleComponent implements OnInit, AfterViewInit {
     });
   }
   ngOnInit() {
-    
+
     this.getActionData();
     this.extractNodes(this.nodes, this.nodeList);
     // this.getActionRule();
@@ -68,7 +69,7 @@ export class ExecuteActionRuleComponent implements OnInit, AfterViewInit {
   getActionRuleData() {
     const selectedScreen = this.screens.filter((a: any) => a.name == this.screenname)
     if (selectedScreen[0].navigation != null && selectedScreen[0].navigation != undefined) { // selectedScreen[0].navigation
-      this.requestSubscription = this.applicationService.getNestCommonAPIById("cp/ActionRule", selectedScreen[0]._id).subscribe({
+      this.requestSubscription = this.applicationService.getNestNewCommonAPIById(`cp/${environment.dbMode}meta.ActionRule`, selectedScreen[0].id).subscribe({
         next: (res: any) => {
           if (res.data && res.data.length > 0) {
             this.multiSelectForm = this.fb.group({
@@ -76,9 +77,9 @@ export class ExecuteActionRuleComponent implements OnInit, AfterViewInit {
             });
             res.data.forEach((element: any) => {
               let newItem = this.fb.group({
-                componentFrom: element.componentFrom, // Initialize this with your select value
-                id: element._id, // Initialize this with your select value
-                targetId: element.targetId, // Initialize this with your select value
+                componentFrom: element.componentfrom, // Initialize this with your select value
+                id: element.id, // Initialize this with your select value
+                targetId: element.targetid, // Initialize this with your select value
                 level: element.level, // Initialize this with your select value
                 action: element.action, // Initialize this with your select value
                 monacoEditorControl: [element.rule], // Initialize this with your Monaco editor value
@@ -101,7 +102,7 @@ export class ExecuteActionRuleComponent implements OnInit, AfterViewInit {
   getActionData() {
     const selectedScreen = this.screens.filter((a: any) => a.name == this.screenname)
     if (selectedScreen[0].navigation != null && selectedScreen[0].navigation != undefined) { // selectedScreen[0].navigation
-      this.requestSubscription = this.applicationService.getNestCommonAPIById("cp/actionbyscreenname", selectedScreen[0]._id).subscribe({
+      this.requestSubscription = this.applicationService.getNestNewCommonAPIById(`cp/${environment.dbMode}meta.Actions`, selectedScreen[0].id).subscribe({
         next: (res: any) => {
           if (res.data && res.data.length > 0) {
             this.actionsList = res.data;
@@ -302,6 +303,7 @@ export class ExecuteActionRuleComponent implements OnInit, AfterViewInit {
     this.multiSelectArray.push(newItem);
   }
   addAllActions() {
+    debugger
     const buttonData = this.findObjectByTypeBase(this.nodes[0], "button");
     const tableData = this.findObjectByTypeBase(this.nodes[0], "gridList");
 
@@ -316,7 +318,7 @@ export class ExecuteActionRuleComponent implements OnInit, AfterViewInit {
       // { actionLink: 'delete', type: 'api' },
     ];
     actions.forEach((action: any) => {
-      const getAction = this.actionsList.find(a => a.actionLink === action.actionLink && a.actionType === action.type);
+      const getAction = this.actionsList.find(a => a.actionlink === action.actionLink && a.actiontype === action.type);
       const existingAction = this.multiSelectArray.value?.find((a: any) =>
         a.action === action.actionLink
       );
@@ -325,7 +327,7 @@ export class ExecuteActionRuleComponent implements OnInit, AfterViewInit {
           const obj = [
             {
               "if": {
-                "actionRule": getAction.quryType,
+                "actionRule": getAction.qurytype,
                 "key": "0",
                 "compare": "==",
                 "value": "0"
@@ -378,23 +380,23 @@ export class ExecuteActionRuleComponent implements OnInit, AfterViewInit {
     const mainModuleId = this.screens.filter((a: any) => a.name == this.screenname)
     const observables = this.multiSelectArray.value.map((element: any) => {
       let actionData: any = {
-        "screenbuilderid": mainModuleId.length > 0 ? mainModuleId[0]._id : "",
+        "screenbuilderid": mainModuleId.length > 0 ? mainModuleId[0].id : "",
         "componentFrom": element.componentFrom,
         "targetId": element.targetId,
         "level": element.level,
-        // "_id": element.id,
+        // "id": element.id,
         "action": element.action,
         "rule": element.monacoEditorControl,
         "applicationid": this.applicationid,
       }
-      if (element.id)
-        actionData['_id'] = element.id
+      if (element.id)   
+        actionData['id'] = element.id
       actionRuleList.push(actionData);
     });
-    this.applicationService.addNestCommonAPI('cp/ActionRule/deleteActionRule/'+mainModuleId[0]._id, actionRuleList).subscribe({
+    this.applicationService.addNestNewCommonAPI(`cp/ActionRule/${environment.dbMode}meta.ActionRule/` + mainModuleId[0].id, actionRuleList).subscribe({
       next: (allResults: any) => {
         if (allResults) {  //results.every((result: any) => !(result instanceof Error))
-          
+
           this.getActionData();
           this.toastr.success("Action Rules Save Successfully", { nzDuration: 3000 });
           // }
@@ -409,15 +411,15 @@ export class ExecuteActionRuleComponent implements OnInit, AfterViewInit {
 
     })
     // const mainModuleId = this.screens.filter((a: any) => a.name == this.screenname)
-    // this.applicationService.deleteNestCommonAPI('cp/ActionRule/deleteActionRule', mainModuleId[0]._id).subscribe(res => {
+    // this.applicationService.deleteNestCommonAPI('cp/ActionRule/deleteActionRule', mainModuleId[0].id).subscribe(res => {
     //   const observables = this.multiSelectArray.value.map((element: any) => {
 
     //     let actionData: any = {
-    //       "screenbuilderid": mainModuleId.length > 0 ? mainModuleId[0]._id : "",
+    //       "screenbuilderid": mainModuleId.length > 0 ? mainModuleId[0].id : "",
     //       "componentFrom": element.componentFrom,
     //       "targetId": element.targetId,
     //       "level": element.level,
-    //       "_id": element.id,
+    //       "id": element.id,
     //       "action": element.action,
     //       "rule": element.monacoEditorControl,
     //       "applicationid": this.applicationid,
