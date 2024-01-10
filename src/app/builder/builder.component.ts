@@ -1944,6 +1944,9 @@ export class BuilderComponent implements OnInit {
                         multiFileUploadTypes: 'dragNDrop',
                         innerInputClass: '',
                         dataClassification: '',
+                        showAddButton: true,
+                        SignatureAddButtonClass: '!rounded !bg-amber-300 !text-white hover:!bg-amber-500 hover:text-white !border !border-transparent !hover:border-transparent font-md text-lg mr-2',
+                        SignatureButtonClass: '!rounded !bg-red-500 !text-white hover:!bg-red-600 hover:text-white !border !border-transparent !hover:border-transparent font-md text-lg',
                       },
                       apiUrl: '',
                       rows: 1,
@@ -2435,6 +2438,9 @@ export class BuilderComponent implements OnInit {
                           multiFileUploadTypes: 'dragNDrop',
                           innerInputClass: '',
                           dataClassification: '',
+                          showAddButton: true,
+                          signatureAddButtonClass: '!rounded !bg-amber-300 !text-white hover:!bg-amber-500 hover:text-white !border !border-transparent !hover:border-transparent font-md text-lg mr-2',
+                          signatureClearButtonClass: '!rounded !bg-red-500 !text-white hover:!bg-red-600 hover:text-white !border !border-transparent !hover:border-transparent font-md text-lg',
                         },
                         apiUrl: '',
                         rows: 1,
@@ -4744,8 +4750,10 @@ export class BuilderComponent implements OnInit {
             props['additionalProperties']['applicationThemeClasses'] = event.form?.applicationThemeClasses;
             props['additionalProperties']['wrapperLabelClass'] = event.form?.wrapperLabelClass;
             props['additionalProperties']['wrapperInputClass'] = event.form?.wrapperInputClass;
-            props['additionalProperties']['hideClearButton'] = event.form?.hideClearButton;
-            props['additionalProperties']['hideSaveButton'] = event.form?.hideSaveButton;
+            props['additionalProperties']['showAddButton'] = event.form?.showAddButton;
+            props['additionalProperties']['signatureClearButtonClass'] = event.form?.signatureClearButtonClass;
+            props['additionalProperties']['signatureAddButtonClass'] = event.form?.signatureAddButtonClass;
+            props['additionalProperties']['height'] = event.form?.height;
             if (event.form?.browserButtonColor) {
               document.documentElement.style.setProperty('--browseButtonColor', event.form?.browserButtonColor || '#2563EB');
             }

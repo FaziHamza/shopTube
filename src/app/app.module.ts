@@ -59,6 +59,7 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
 import { ApplicationGlobalClassesComponent } from './Builder-module/application-global-classes/application-global-classes.component';
 import { TaskManagerComponent } from './components/task-manager/task-manager.component';
 import { SignaturePadModule } from 'angular2-signaturepad';
+import { SignatureModalComponent } from './components/signature-modal/signature-modal.component';
 
 const antDesignIcons = AllIcons as {
   [key: string]: IconDefinition;
@@ -84,6 +85,7 @@ const icons: IconDefinition[] = Object.keys(antDesignIcons).map(key => antDesign
     PolicyMappingTableComponent,
     NgxGraphNodeComponent,
     ApplicationGlobalClassesComponent,
+    SignatureModalComponent,
         // MultiFileUploadWrapperComponent,
   ],
   imports: [

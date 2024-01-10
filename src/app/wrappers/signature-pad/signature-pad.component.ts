@@ -1,9 +1,12 @@
-import { Component, ElementRef, VERSION, ViewChild, OnInit } from "@angular/core";
+import { Component, ElementRef, VERSION, ViewChild, OnInit, ViewContainerRef } from "@angular/core";
 import SignaturePad from "signature_pad";
 import { ApplicationService } from "src/app/services/application.service";
 import { DataSharedService } from "src/app/services/data-shared.service";
 import { FieldType, FieldTypeConfig } from '@ngx-formly/core';
 import { Console } from "console";
+import { NzModalService } from "ng-zorro-antd/modal";
+import { DemoComponent } from "src/app/builder/demo/demo.component";
+import { SignatureModalComponent } from "src/app/components/signature-modal/signature-modal.component";
 
 @Component({
   selector: 'st-signature-pad',
@@ -11,36 +14,67 @@ import { Console } from "console";
   styleUrls: ['./signature-pad.component.scss']
 })
 export class SignaturePadComponent extends FieldType<FieldTypeConfig> {
-  constructor(private sharedService: DataSharedService, private applicationService: ApplicationService) {
+  constructor(private sharedService: DataSharedService, private applicationService: ApplicationService,
+    private modalService: NzModalService, private viewContainerRef: ViewContainerRef) {
     super();
   }
-
+  isVisible: boolean = false;
   @ViewChild("canvas", { static: true }) canvas: ElementRef;
   sig: SignaturePad;
-
+  signatureData: any;
+  label: any = 'Add';
   ngOnInit() {
     this.sig = new SignaturePad(this.canvas.nativeElement);
-    if(this.field.formControl.value){
-      this.sig.fromDataURL(this.field.formControl.value)
+    if (this.field.formControl.value) {
+      this.sig.fromDataURL(this.field.formControl.value);
+      this.signatureData = this.field.formControl.value;
     }
 
   }
 
-  clear() {
-    this.sig.clear();
-  }
+  // clear() {
+  //   this.sig.clear();
+  // }
 
-  save() {
-    debugger
-    if (this.sig.isEmpty()) {
-      // If the signature is empty, show an alert and don't proceed
-      alert("Signature is required.");
-      return;
-    }
-    let signValue = this.sig.toDataURL();
-    this.sharedService.onChange(signValue, this.field);
-  }
+  // save() {
+  //   debugger
+  //   if (this.sig.isEmpty()) {
+  //     // If the signature is empty, show an alert and don't proceed
+  //     alert("Signature is required.");
+  //     return;
+  //   }
+  //   let signValue = this.sig.toDataURL();
+  //   this.sharedService.onChange(signValue, this.field);
+  //   this.sig.fromDataURL(signValue)
+  // }
   changeModal() {
     console.log(this.field.formControl.value)
+  }
+  add() {
+    this.isVisible = true;
+    const modal = this.modalService.create<SignatureModalComponent>({
+      nzTitle: this.signatureData ? `${this.label} Signature` : `${this.label} Signature`,
+      nzContent: SignatureModalComponent,
+      nzViewContainerRef: this.viewContainerRef,
+      nzComponentParams: {
+        data: {
+          'signatureData' : this.signatureData,
+          'addButtonClass' : this.to['additionalProperties']?.signatureAddButtonClass,
+          'clearButtonClass' : this.to['additionalProperties']?.signatureClearButtonClass,
+        },
+      },
+      nzFooter: []
+    });
+    modal.afterClose.subscribe((res: any) => {
+      if (res) {
+        debugger
+        let url = res.url;
+        this.sig.clear();
+        this.sig.fromDataURL(url);
+        this.signatureData = url;
+        this.label = res.add;
+        this.sharedService.onChange(url, this.field);
+      }
+    });
   }
 }
