@@ -287,23 +287,22 @@ export class PagesComponent implements OnInit, OnDestroy {
 
     if (this.data.length == 0) {
       const subscription = this.activatedRoute.params.subscribe((params: Params) => {
-        this.initiliaze(params);
-
-        // if (params["schema"]) {
-        //   // this.initiliaze(params);
-        //   this.saveLoader = true;
-        //   this.dataSharedService.currentMenuLink = "/pages/" + params["schema"];
-        //   localStorage.setItem('screenId', this.dataSharedService.currentMenuLink);
-        //   this.clearValues();
-        //   this.applicationService.getNestCommonAPI('cp/auth/pageAuth/' + params["schema"]).subscribe(res => {
-        //     if (res?.data) {
-        //       this.initiliaze(params);
-        //     } else {
-        //       this.saveLoader = false;
-        //       this.router.navigateByUrl('permission-denied');
-        //     }
-        //   });
-        // }
+        // this.initiliaze(params);
+        if (params["schema"]) {
+          // this.initiliaze(params);
+          this.saveLoader = true;
+          this.dataSharedService.currentMenuLink = "/pages/" + params["schema"];
+          localStorage.setItem('screenId', this.dataSharedService.currentMenuLink);
+          this.clearValues();
+          this.applicationService.getNestCommonAPI('cp/auth/pageAuth/' + params["schema"]).subscribe(res => {
+            if (res?.data) {
+              this.initiliaze(params);
+            } else {
+              this.saveLoader = false;
+              this.router.navigateByUrl('permission-denied');
+            }
+          });
+        }
       });
       this.subscriptions.add(subscription);
     } else {

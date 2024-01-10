@@ -1,7 +1,10 @@
+<!-- <div>
+    <canvas #canvas width="400" height="200"></canvas>
+    <div (click)="add()">aad</div>
+</div> -->
 <div class="signature" [class]="'w-[100%] h-[' + (to['additionalProperties']?.height|| '100') + '%]'">
     <div>
-        <input type="text" (ngModelChange)="changeModal()" [formControl]="formControl" [formlyAttributes]="field"
-            style="display: none;">
+        <input type="text" [formControl]="formControl" [formlyAttributes]="field" style="display: none;">
     </div>
     <div class="flex flex-wrap justify-normal items-center canvas-div">
         <div class="w-[calc(100%-80px)] h-full">

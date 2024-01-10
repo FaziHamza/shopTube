@@ -1,17 +1,20 @@
-<canvas #canvas height="300px" width="470px" class="!border !border-gray-500 rounded-md"></canvas>
-<div class="flex flex-wrap">
-    <!-- Add Button -->
-    <div>
-        <button nz-button [class]="data.addButtonClass" (click)="add()">
-            <i class="fa-regular fa-plus mr-1"></i> Add
-        </button>
-    </div>
+<div>
+    <canvas #canvas height="150px" width="280px" class="!border !border-gray-500 rounded-md"></canvas>
+    <!-- <canvas *ngIf="preview"  #previewCanvas width="400" height="200" style="border: 1px solid #000 ;"></canvas> -->
+    <div class="flex flex-wrap">
+        <!-- Add Button -->
+        <div>
+            <button nz-button [class]="data.addButtonClass" (click)="saveSignature()">
+                <i class="fa-regular fa-plus mr-1"></i> Add
+            </button>
+        </div>
 
-    <!-- Clear Button -->
-    <div>
-        <button nz-button [class]="data.clearButtonClass" (click)="clear()">
-            <i class="fa-regular fa-times mr-1"></i> Clear
-        </button>
-    </div>
+        <!-- Clear Button -->
+        <div>
+            <button nz-button [class]="data.clearButtonClass" (click)="clearSignature()">
+                <i class="fa-regular fa-times mr-1"></i> Clear
+            </button>
+        </div>
 
+    </div>
 </div>
