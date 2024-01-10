@@ -92,7 +92,7 @@ export class GenericFieldComponent implements OnInit {
 
   }
   onSubmit() {
-
+debugger
     // event.stopPropagation();
     // this.valueChange.emit(this.model + ' from child.');
     // const newProduct = { productName: "New", quantity: 666 };

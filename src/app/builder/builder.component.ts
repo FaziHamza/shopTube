@@ -4039,7 +4039,7 @@ export class BuilderComponent implements OnInit {
   // }
   notifyEmit(event: actionTypeFeild): void {
     let needToUpdate = true;
-    if (event.form.className) {
+    if (event?.form?.className) {
       if (event.form.className.includes('$')) {
         this.selectedNode['appGlobalClass'] = this.changeWithGlobalClass(event.form.className);
       } else {
@@ -4048,7 +4048,7 @@ export class BuilderComponent implements OnInit {
     } else {
       this.selectedNode['appGlobalClass'] = ''
     }
-    if (event.form?.innerClass || event.form?.iconClass) {
+    if (event?.form?.innerClass || event?.form?.iconClass) {
       if (event.form?.innerClass) {
         if (event.form?.innerClass.includes('$')) {
           this.selectedNode['appGlobalInnerClass'] = this.changeWithGlobalClass(event.form?.innerClass);
@@ -4785,8 +4785,8 @@ export class BuilderComponent implements OnInit {
             "screenname": this.screenname,
             "screenbuilderid": this.id,
             "cid": this.selectedNode.id,
-            "ckey": this.selectedNode?.formly?.[0]?.fieldGroup?.[0]?.key,
-            "ctype": event.form.type,
+            "key": this.selectedNode?.formly?.[0]?.fieldGroup?.[0]?.key,
+            "type": event.form.type,
             "label": event.form.label,
             "reference": event.form.reference,
             "minlength": event.form.minlength,

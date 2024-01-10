@@ -13192,7 +13192,7 @@ export class formFeildData {
       fieldGroup: [
         {
           className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
-          key: '_id',
+          key: 'id',
           type: 'input',
           wrappers: ["formly-vertical-theme-wrapper"],
           props: {

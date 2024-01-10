@@ -246,7 +246,7 @@
               </nz-tab>
               <nz-tab nzTitle="Validation Rule" (nzClick)="showRulesFunc('validationRule')">
                 <st-generic-field [modal]="validationFieldData.modelData" (notify)="notifyEmit($event)"
-                  [itemData]="validationFieldData" [type]="validationFieldData.ctype" [screenId]="id"
+                  [itemData]="validationFieldData" [type]="validationFieldData.type" [screenId]="id"
                   [screenname]="screenname" (deleteValidation)="deleteValidationRule($event)"
                   *ngIf="validationFieldData &&  showRules == 'validationRule'">
                 </st-generic-field>
