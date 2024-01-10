@@ -61,8 +61,8 @@
                         </tr>
                     </tbody>
                 </nz-table>
-                <nz-drawer [nzClosable]="false" [nzWidth]="'60%'" [nzVisible]="visible" nzPlacement="right"
-                    nzTitle="Add task" (nzOnClose)="close()">
+                <nz-drawer [nzExtra]="extra" [nzClosable]="false" [nzWidth]="'60%'" [nzVisible]="visible"
+                    nzPlacement="right" nzTitle="Add task" (nzOnClose)="close()">
                     <ng-container *nzDrawerContent>
                         <nz-spin [nzSpinning]="drawerLoader" [nzSize]="'large'" class="builder-design">
                             <input [(ngModel)]="drawerData.task" type="text" id="first_name"
@@ -107,7 +107,8 @@
                                         <div>
                                             <span class="mr-2" nz-icon nzType="windows" nzTheme="outline"></span>
                                             <span class="mr-2" nz-icon nzType="user" nzTheme="outline"></span>
-                                            <span class="mr-2" nz-icon nzType="comment" nzTheme="outline"></span>
+                                            <span (click)="tdFunc(null , sub , true)" class="mr-2" nz-icon
+                                                nzType="comment" nzTheme="outline"></span>
                                             <span *ngIf="subTaskEditId !== sub.id" (click)="edit(sub)" class="mr-2"
                                                 nz-icon nzType="edit" nzTheme="outline"></span>
                                             <span (click)="cancelEdit(sub)" *ngIf="subTaskEditId===sub.id" class="mr-2"
@@ -133,6 +134,21 @@
                                     nzTheme="outline"></span>Add
                                 Sub Task...</div>
                             <button nz-button nzType="primary" class="btn mb-4 mt-4" (click)="save()">Save</button>
+                            <div *ngIf="comments.length > 0">
+                                <div *ngFor="let comm of comments" class="!border !border-gray-300 rounded-sm p-2 mb-2">
+                                    <div class="flex flex-wrap">
+                                        <p class="w-1/2">
+                                            {{comm.createdby}}
+                                        </p>
+                                        <p class="w-1/2">
+                                            {{comm.currentdate}}
+                                        </p>
+                                        <p class="w-full">
+                                            {{comm.comment}}
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
                             <div *ngIf="taskManagerData.children.length > 0">
                                 <div *ngFor="let child of taskManagerData.children">
                                     <div *ngIf="child.type == 'taskManagerComment'">
@@ -141,6 +157,8 @@
                                                 [formlyModel]="formlyModel" [screenName]="screenName"
                                                 [screenId]="screenId" [form]="form"></st-main>
                                         </div>
+                                        <button nz-button nzType="primary" class="btn mb-4 mt-4"
+                                            (click)="saveComments()">Comment</button>
                                     </div>
                                 </div>
                             </div>
@@ -160,3 +178,6 @@
         </div>
     </nz-collapse-panel>
 </nz-collapse>
+<ng-template #extra>
+    <i class="fas fa-times text-lg text-red-500 cursor-pointer" (click)="close()"></i>
+</ng-template>
