@@ -9247,3 +9247,26 @@ ul.jsondiffpatch-textdiff {
     transition: all .3s cubic-bezier(.645, .045, .355, 1);
   }
 }
+
+.signature.small-size{
+  .canvas-div{
+    height: 35px !important;
+    min-height: 35px !important;
+    max-height: 35px !important;
+  } 
+}
+.signature{
+  // max-height: 46px !important;
+  .canvas-div{
+    height: 46px !important;
+    min-height: 46px !important;
+    max-height: 46px !important;
+  }
+}
+.signature.large-size{
+  .canvas-div{
+    height: 55px !important;
+    min-height: 55px !important;
+    max-height: 55px !important;
+  }
+}
