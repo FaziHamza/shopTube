@@ -59,7 +59,7 @@ export class AddControlService {
   getChatControl() {
     return {
       isNextChild: false,
-      chatData:[]
+      chatData: []
     }
   }
   getPageBodyControl() {
@@ -82,7 +82,7 @@ export class AddControlService {
   getTaskManagerControl() {
     return {
       isNextChild: true,
-      tableHeaders:[]
+      tableHeaders: []
     }
   }
   getSectionControl() {
@@ -297,7 +297,7 @@ export class AddControlService {
       innerClass: '!rounded !bg-blue-500 !text-white hover:!bg-blue-600 hover:text-white !border !border-transparent !hover:border-transparent font-md text-lg',
       path: '',
       showHideButton: 'hideBoth',
-      hideHeader:false,
+      hideHeader: false,
     }
   }
   getDropdownButtonControl() {
@@ -927,11 +927,11 @@ export class AddControlService {
       dataRow: 'group w-full bg-white hover:bg-white',
       editCell: '!text-center group-hover:!bg-white',
       deleteCell: '!text-center !bg-white group-hover:!bg-white',
-      deleteIconColor:'#F04E4E',
-      cancelIconColor:'#F04E4E',
-      editIconColor:'#3B82F6',
-      saveIconColor:'#3B82F6',
-      drawerButtonClass:'btn',
+      deleteIconColor: '#F04E4E',
+      cancelIconColor: '#F04E4E',
+      editIconColor: '#3B82F6',
+      saveIconColor: '#3B82F6',
+      drawerButtonClass: 'btn',
       tableHeaders: [
         // {
         //   name: 'Id',
@@ -1317,9 +1317,10 @@ export class AddControlService {
       hoverIconColor: '',
       nzShowArrow: true,
       extra: '',
-      style:{
+      style: {
         '--background': '#fafafa',
-      }
+      },
+      active: false,
     }
   }
   contactListControl() {
@@ -1505,7 +1506,7 @@ export class AddControlService {
       modalContent: "Content",
       modalTitle: "The is modal title",
       cancalButtontext: 'Cancel',
-      btnClass:"!rounded !bg-blue-500 !text-white hover:!bg-blue-600 hover:text-white !border !border-transparent !hover:border-transparent !font-normal !text-base",
+      btnClass: "!rounded !bg-blue-500 !text-white hover:!bg-blue-600 hover:text-white !border !border-transparent !hover:border-transparent !font-normal !text-base",
       centered: false,
       isNextChild: true,
       okBtnLoading: false,

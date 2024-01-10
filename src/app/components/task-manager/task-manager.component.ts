@@ -41,7 +41,9 @@ export class TaskManagerComponent {
     "parentid": '',
   }
   subTaskEditId: any = '';
-  afterDrawerDataGet : boolean = false;
+  afterDrawerDataGet: boolean = false;
+  comments: any = [];
+  parentId: any;
   private subscriptions: Subscription = new Subscription();
   private destroy$: Subject<void> = new Subject<void>();
   constructor(public _dataSharedService: DataSharedService, private builderService: BuilderService,
@@ -169,14 +171,16 @@ export class TaskManagerComponent {
   }
   close() {
     this.visible = false;
-    if(this.afterDrawerDataGet){
+    if (this.afterDrawerDataGet) {
       this.recallApi();
     }
   }
-  tdFunc(head: any, item: any) {
-    if (head?.drawer) {
+  tdFunc(head: any, item: any, child?: any) {
+    if (head?.drawer || child) {
       this.mappingId = item?.id;
-      this.visible = true;
+      if(child == undefined){
+        this.visible = true;
+      }
       // this.drawerData['id'] = item?.id;
       // this.drawerData['task'] = item?.task;
       this.drawerData = item;
@@ -190,6 +194,13 @@ export class TaskManagerComponent {
       if (head.callApi) {
         this.recallApiWithId(head.callApi, item.id);
       }
+      if (child) {
+        let drawerHead = this.taskManagerData.find((header: any) => header?.drawer && header.callApi);
+        if (drawerHead) {
+          this.recallApiWithId(drawerHead.callApi, item.id);
+        }
+      }
+      this.getComments();
     }
   }
   applyDefaultValue() {
@@ -283,7 +294,7 @@ export class TaskManagerComponent {
           if (findApi) {
             this.recallApiWithId(`${findApi.callApi}`, this.drawerData.id);
           }
-          this.afterDrawerDataGet =  true;
+          this.afterDrawerDataGet = true;
           this.addSubtask = false;
         },
         error: (err) => {
@@ -496,7 +507,105 @@ export class TaskManagerComponent {
       })
     }
   }
-  saveComments(){
-    
+
+  saveComments() {
+    debugger
+    let taskManagerComment = this.taskManagerData.children.find((child: any) => child.type == 'taskManagerComment');
+    if (taskManagerComment) {
+      const checkPermission = this.dataSharedService.getUserPolicyMenuList.find(a => a.screenId === this.dataSharedService.currentMenuLink);
+      if (!checkPermission?.create && this.dataSharedService?.currentMenuLink !== '/ourbuilder') {
+        this.toastr.warning("You do not have permission", { nzDuration: 3000 });
+        return;
+      }
+      const postEvent = taskManagerComment.appConfigurableEvent.find((item: any) => item.rule.includes('post_'));
+      if (!postEvent) {
+        this.toastr.error("No action exist", { nzDuration: 3000 });
+        return;
+      }
+      const oneModelData = this.convertModel(this.formlyModel);
+      if (Object.keys(oneModelData).length === 0) return;
+
+      for (const key in oneModelData) {
+        if (oneModelData[key] === undefined || oneModelData[key] === null) {
+          oneModelData[key] = '';
+        }
+      }
+      const model: any = {
+        screenId: this.screenId,
+        postType: 'post',
+        modalData: oneModelData
+      };
+      this.drawerLoader = true;
+      if (postEvent._id) {
+        this.applicationServices.addNestCommonAPI('knex-query/execute-rules/' + postEvent._id, model).subscribe({
+          next: (res) => {
+            this.drawerLoader = false;
+            if (res[0]?.error) {
+              this.toastr.error(res[0]?.error, { nzDuration: 3000 });
+              return;
+            }
+            this.toastr.success('Save Successfully', { nzDuration: 3000 });
+            this.getComments();
+          },
+          error: (err) => {
+            // Handle the error
+            this.toastr.error("An error occurred", { nzDuration: 3000 });
+            console.error(err);
+            this.saveLoader = false; // Ensure to set the loader to false in case of error
+          },
+        });
+      }
+    }
+  }
+  getComments() {
+    let taskManagerComment = this.taskManagerData.children.find((child: any) => child.type == 'taskManagerComment');
+    const checkPermission = this.dataSharedService.getUserPolicyMenuList.find(a => a.screenId === this.dataSharedService.currentMenuLink);
+    if (!checkPermission?.create && this.dataSharedService?.currentMenuLink !== '/ourbuilder') {
+      this.toastr.warning("You do not have permission", { nzDuration: 3000 });
+      return;
+    }
+    if (taskManagerComment.eventActionconfig) {
+      if (taskManagerComment.eventActionconfig._id) {
+        this.drawerLoader = true;
+        this.applicationServices.callApi('knex-query/getexecute-rules/' + taskManagerComment.eventActionconfig._id, 'get', '', '', this.mappingId).subscribe({
+          next: (res) => {
+            this.drawerLoader = false;
+            if (res.isSuccess) {
+              this.comments = res.data;
+              this.toastr.success('Get Successfully', { nzDuration: 3000 });
+            } else {
+              this.toastr.success('Error occures in save', { nzDuration: 3000 });
+            }
+          },
+          error: (err) => {
+            // Handle the error
+            this.toastr.error("An error occurred", { nzDuration: 3000 });
+            console.error(err);
+            this.saveLoader = false; // Ensure to set the loader to false in case of error
+          },
+        });
+      }
+    }
+
+  }
+  convertModel(model: any, parentKey = "") {
+    const convertedModel: any = {};
+    for (const key in model) {
+      if (model.hasOwnProperty(key)) {
+        const value = model[key];
+        const newKey = parentKey ? `${parentKey}.${key}` : key;
+
+        if (Array.isArray(value)) {
+          convertedModel[newKey] = value;
+        }
+        else if (typeof value === 'object' && value !== null) {
+          Object.assign(convertedModel, this.convertModel(value, newKey));
+        }
+        else {
+          convertedModel[newKey] = value;
+        }
+      }
+    }
+    return convertedModel;
   }
 }
