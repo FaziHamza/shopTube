@@ -7,12 +7,12 @@
         <input type="text" [formControl]="formControl" [formlyAttributes]="field" style="display: none;">
     </div>
     <div class="flex flex-wrap justify-normal items-center canvas-div">
-        <div class="w-[calc(100%-80px)] h-full">
+        <div class="w-[calc(100%-110px)] h-full">
             <canvas #canvas class="!h-full !w-full" style="pointer-events: none;"></canvas>
         </div>
-        <div class="w-[80px] h-full flex justify-center items-center">
-            <button *ngIf="to['additionalProperties']?.showAddButton !== false" nz-button
-                [class]="to['additionalProperties']?.signatureAddButtonClass" (click)="add()">
+        <div class="w-[110px] h-full flex justify-center items-center">
+            <button  *ngIf="to['additionalProperties']?.showAddButton !== false" nz-button
+                [class]="to['additionalProperties']?.signatureAddButtonClass" (click)="add()" style="margin-right: 0px !important;">
                 <i class="fa-regular fa-plus mr-1"></i> {{label}}
             </button>
         </div>
