@@ -49,13 +49,15 @@
                             </ng-container>
                         </ng-container>
                         <tr *ngIf="addSection" class="!w-full">
-                            <st-main [mappingId]="mappingId" class="!w-100" [screenName]="screenName"
+                            <st-main [mappingId]="mappingId" class="!w-full" [screenName]="screenName"
                                 [mainData]="taskManagerData" [formlyModel]="formlyModel" [form]="form"
                                 [screenId]="screenId"></st-main>
                         </tr>
                         <tr *ngIf="!addSection" (click)="addSectionFunc()">
-                            <span nz-icon nzType="plus" nzTheme="outline"></span>Add
-                            Section...
+                            <div class="w-full h-10 flex justify-center text-white items-center my-2 rounded-md  bg-blue-600 hover:bg-blue-500" >
+                                <span nz-icon nzType="plus" nzTheme="outline" class="!flex !items-center !justify-center w-7 h-7 " ></span>Add
+                                Section...
+                            </div>
                         </tr>
                     </tbody>
                 </nz-table>
