@@ -1,13 +1,14 @@
-<div class="mb-2" [class]="'w-[100%] h-[' + (to['additionalProperties']?.height|| '100') + '%]'">
+<div class="signature" [class]="'w-[100%] h-[' + (to['additionalProperties']?.height|| '100') + '%]'">
     <div>
         <input type="text" (ngModelChange)="changeModal()" [formControl]="formControl" [formlyAttributes]="field"
             style="display: none;">
     </div>
-    <div class="flex flex-wrap">
-        <div class="w-4/5">
-            <canvas #canvas style="pointer-events: none;"></canvas>
+    <div class="flex flex-wrap justify-normal items-center canvas-div">
+        <div class="w-[calc(100%-80px)] h-full">
+            <canvas #canvas class="!h-full !w-full" style="pointer-events: none;"></canvas>
         </div>
-        <div class="w-1/5"><button *ngIf="to['additionalProperties']?.showAddButton !== false" nz-button
+        <div class="w-[80px] h-full flex justify-center items-center">
+            <button *ngIf="to['additionalProperties']?.showAddButton !== false" nz-button
                 [class]="to['additionalProperties']?.signatureAddButtonClass" (click)="add()">
                 <i class="fa-regular fa-plus mr-1"></i> {{label}}
             </button>
