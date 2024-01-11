@@ -77,10 +77,9 @@
                 <st-main *ngIf="addSection" [mappingId]="mappingId" class="!w-full" [screenName]="screenName"
                     [mainData]="taskManagerData" [formlyModel]="formlyModel" [form]="form"
                     [screenId]="screenId"></st-main>
-                <div *ngIf="!addSection" (click)="addSectionFunc()" class="btn">
-                    <span nz-icon nzType="plus" nzTheme="outline"></span>Add
-                    Section...
-                </div>
+                <button nz-button nzType="primary" class="btn mb-4" (click)="addSectionFunc()"><span nz-icon
+                        nzType="plus" nzTheme="outline"></span>Add
+                    Section</button>
                 <nz-drawer [nzExtra]="extra" [nzClosable]="false" [nzWidth]="'60%'" [nzVisible]="visible"
                     nzPlacement="right" nzTitle="Add task" (nzOnClose)="close()">
                     <ng-container *nzDrawerContent>

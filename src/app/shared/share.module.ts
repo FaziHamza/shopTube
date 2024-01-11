@@ -59,6 +59,7 @@ import { SupportChatComponent } from '../admin/support-chat/support-chat.compone
 import { PdfComponent } from '../components/pdf/pdf.component';
 import { EmailComponent } from '../components/email/email.component';
 import { TaskManagerComponent } from '../components/task-manager/task-manager.component';
+import { ResizableModule } from '../components/resizable/resizable.module';
 // import { CommonService } from './common.service';
 // import { WebsiteModules } from '../Website/website.module';
 
@@ -79,6 +80,7 @@ import { TaskManagerComponent } from '../components/task-manager/task-manager.co
       GoogleChartsModule,
       GoogleMapsModule,
       ContextMenuModule,
+      ResizableModule,
       TranslateModule.forRoot({
         loader: {
           provide: TranslateLoader,
@@ -186,7 +188,7 @@ import { TaskManagerComponent } from '../components/task-manager/task-manager.co
     VoiceRecorderComponent,
     DownloadbuttonComponent,QrCodeComponent,ApplicationThemeComponent,CreateControlComponent,
     SupportChatComponent,ContactListComponent,
-    PdfComponent,EmailComponent,TaskManagerComponent
+    PdfComponent,EmailComponent,TaskManagerComponent,ResizableModule
     //
     // ErrorComponent
   ],
