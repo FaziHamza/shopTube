@@ -30,6 +30,10 @@ export class SignaturePadComponent extends FieldType<FieldTypeConfig> {
     this.ctx = this.canvas.nativeElement.getContext('2d');
     // this.previewCtx = this.previewCanvas.nativeElement.getContext('2d');
     this.setupSignaturePad();
+    if (this.field.formControl.value) {
+      this.loadImage(this.field.formControl.value);
+      this.signatureData = this.field.formControl.value;
+    }
     // this.reassignSignature();
   }
 
