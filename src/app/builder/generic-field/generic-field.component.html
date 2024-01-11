@@ -1,6 +1,6 @@
 <nz-spin [nzSpinning]="saveLoader" [nzSize]="'large'" class="!relative">
   <form [formGroup]="actionform" class="dynamic-table-form">
-    <div class="drawer-height">
+    <div class="drawer-height generic-fileds">
       <ng-container *ngIf="itemData.commonData">
         <ng-container *ngIf="itemData.commonData.length > 0">
           <nz-collapse *ngFor="let config of itemData.commonData" nzActive="active">

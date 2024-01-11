@@ -13116,15 +13116,24 @@ export class formFeildData {
                   },
                 },
               },
+              // {
+              //   className: "ml-2",
+              //   key: 'columnClickApi',
+              //   type: 'input',
+              //   wrappers: ["formly-vertical-theme-wrapper"],
+              //   props: {
+              //     label: 'Is Column Click'
+              //   }
+              // },
               {
                 className: "ml-2",
-                key: 'columnClickApi',
-                type: 'input',
+                key: 'sorting',
+                type: 'checkbox',
                 wrappers: ["formly-vertical-theme-wrapper"],
                 props: {
-                  label: 'Is Column Click'
+                  label: 'Sorting'
                 }
-              }
+              },
             ]
           }
         }

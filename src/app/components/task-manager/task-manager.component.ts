@@ -176,9 +176,10 @@ export class TaskManagerComponent {
     }
   }
   tdFunc(head: any, item: any, child?: any) {
+    debugger
     if (head?.drawer || child) {
       this.mappingId = item?.id;
-      if(child == undefined){
+      if (child == undefined) {
         this.visible = true;
       }
       // this.drawerData['id'] = item?.id;
@@ -607,5 +608,47 @@ export class TaskManagerComponent {
       }
     }
     return convertedModel;
+  }
+  sortedArray: any[] = [];
+  sortingData(headerData: any, sortingOrder: any) {
+    // Check if the column header is already in the sortedArray
+    const header = headerData.key
+    const index = this.sortedArray.findIndex(item => item.key === header);
+    headerData['isFilterdSortedColumn'] = true;
+    if (index !== -1) {
+      // Column is already in the sortedArray, toggle the sort order
+      this.sortedArray[index].order = sortingOrder;
+    }
+    else {
+      // Column is not in the sortedArray, add it with 'asc' order
+      this.sortedArray.push({ key: header, order: 'asc' });
+    }
+
+    // Sort the dataArray based on the keys and order in sortedArray
+    let data = this.listOfDisplayData;
+    data.sort((a: any, b: any) => {
+      for (const sortItem of this.sortedArray) {
+        const order = sortItem.order;
+        const key = sortItem.key;
+        const result = this.customSort(a, b, key, order);
+        if (result !== 0) {
+          return result;
+        }
+      }
+      return 0;
+    });
+    this.listOfDisplayData = [...data];
+  }
+  customSort(a: any, b: any, key: string, order: "asc" | "desc"): number {
+    const valueA = a[key];
+    const valueB = b[key];
+
+    if (valueA < valueB) {
+      return order === "asc" ? -1 : 1; // Ascending or Descending
+    }
+    if (valueA > valueB) {
+      return order === "asc" ? 1 : -1; // Ascending or Descending
+    }
+    return 0;
   }
 }

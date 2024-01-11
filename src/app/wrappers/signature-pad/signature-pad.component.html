@@ -21,7 +21,9 @@
     </div>
 </div> -->
 
-<div [class]="'signature' + (to['additionalProperties']?.wrapper=='formly-vertical-theme-wrapper' ? (to['additionalProperties']?.size == 'small' ? ' small-size' : (to['additionalProperties']?.size == 'large' ? 'large-size' : '')) : '')"
+<div [class.signature]="true"
+    [class.small-size]="to['additionalProperties']?.wrapper === 'formly-vertical-theme-wrapper' && to['additionalProperties']?.size === 'small'"
+    [class.large-size]="to['additionalProperties']?.wrapper === 'formly-vertical-theme-wrapper' && to['additionalProperties']?.size === 'large'"
     [class]="'w-[100%] h-[' + (to['additionalProperties']?.height|| '100') + '%]'">
     <div>
         <input type="text" [formControl]="formControl" [formlyAttributes]="field" style="display: none;">

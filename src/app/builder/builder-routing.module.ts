@@ -140,7 +140,7 @@ const routes: Routes = [
       {
         path: 'app-theme',
         component: ApplicationThemeComponent
-      },
+      }
     ]
   },
   // {

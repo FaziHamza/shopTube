@@ -9,58 +9,78 @@
                         <tr>
                             <ng-container *ngFor="let column of taskManagerData['tableHeaders']">
                                 <th *ngIf="column?.show || column?.show == undefined">{{column.name}}
+                                    <nz-filter-trigger *ngIf="column?.sorting" [(nzVisible)]="column['visible']"
+                                        [nzDropdownMenu]="filterMenu">
+                                        <a>
+                                            <i [class]="'fa-regular fa-filter mx-1'"></i>
+                                        </a>
+                                    </nz-filter-trigger>
+                                    <nz-dropdown-menu #filterMenu="nzDropdownMenu">
+                                        <ul nz-menu nzSelectable class="!rounded-md !text-sm !font-medium dyname">
+                                            <div *ngIf="column?.sorting">
+                                                <p (click)="sortingData(column , 'asc')"
+                                                    class="p-1.5 !px-5 hover:bg-gray-100 tracking-[0.2px] leading-5">
+                                                    <i class="fa-regular fa-arrow-down-a-z mr-1"></i>
+                                                    Sort A to Z
+                                                </p>
+                                                <p class="p-1.5 !px-5 hover:bg-gray-100 tracking-[0.2px] leading-5"
+                                                    (click)="sortingData(column , 'desc')">
+                                                    <i class="fa-solid fa-arrow-up-z-a mr-1"></i>
+                                                    Sort Z to A
+                                                </p>
+                                                <hr class="mt-2 mx-5">
+                                            </div>
+                                        </ul>
+                                    </nz-dropdown-menu>
                                 </th>
                             </ng-container>
                         </tr>
                     </thead>
                     <tbody>
-                        <ng-container *ngFor="let item of editRowTable.data;let index = index" class="table-cursor">
+                        <ng-container *ngFor="let item of editRowTable.data; let index = index" class="table-cursor">
                             <tr>
-                                <ng-container *ngFor="let head  of  taskManagerData['tableHeaders']">
+                                <ng-container *ngFor="let head of taskManagerData['tableHeaders']">
                                     <td *ngIf="head.key == 'expand' && (head?.show || head?.show == undefined)"
-                                        [nzExpand]="item.expand" (click)="expand(item , head)">
+                                        [nzExpand]="item.expand" (click)="expand(item, head)">
                                     </td>
-                                    <td (click)="tdFunc(head , item)"
+                                    <td (click)="tdFunc(head, item)"
                                         *ngIf="head.key != 'expand' && (head?.show || head?.show == undefined)">
                                         {{item[head.key]}}
                                     </td>
                                 </ng-container>
                             </tr>
                             <ng-container *ngIf="item.expand">
+                                <span *ngIf="item.children.length > 0">Child Tasks</span>
                                 <tr *ngFor="let child of item.children">
-                                    <ng-container *ngFor="let head  of  taskManagerData['tableHeaders']">
+                                    <ng-container *ngFor="let head of taskManagerData['tableHeaders']">
                                         <td *ngIf="head.key == 'expand' && (head?.show || head?.show == undefined)"
-                                            [nzExpand]="child.expand" (click)="expand(child , head)">
+                                            [nzExpand]="child.expand" (click)="expand(child, head)">
                                         </td>
-                                        <td (click)="tdFunc(head , child)"
+                                        <td (click)="tdFunc(head, child)"
                                             *ngIf="head.key != 'expand' && (head?.show || head?.show == undefined)">
-                                            {{child[head.key]}}</td>
+                                            {{child[head.key]}}
+                                        </td>
                                     </ng-container>
                                 </tr>
-                                <ng-container *ngIf="item.addTask" class="!w-full">
+                                <div *ngIf="item.addTask">
                                     <st-main [mappingId]="mappingId" [screenName]="screenName"
                                         [mainData]="taskManagerData" [formlyModel]="formlyModel" [form]="form"
                                         [screenId]="screenId"></st-main>
-                                </ng-container>
+                                </div>
                                 <div (click)="showAddTask(item)">
-                                    <span nz-icon nzType="plus" nzTheme="outline"></span>Add
-                                    task...
+                                    <span nz-icon nzType="plus" nzTheme="outline"></span>Add task...
                                 </div>
                             </ng-container>
                         </ng-container>
-                        <tr *ngIf="addSection" class="!w-full">
-                            <st-main [mappingId]="mappingId" class="!w-full" [screenName]="screenName"
-                                [mainData]="taskManagerData" [formlyModel]="formlyModel" [form]="form"
-                                [screenId]="screenId"></st-main>
-                        </tr>
-                        <tr *ngIf="!addSection" (click)="addSectionFunc()">
-                            <div class="w-full h-10 flex justify-center text-white items-center my-2 rounded-md  bg-blue-600 hover:bg-blue-500" >
-                                <span nz-icon nzType="plus" nzTheme="outline" class="!flex !items-center !justify-center w-7 h-7 " ></span>Add
-                                Section...
-                            </div>
-                        </tr>
                     </tbody>
                 </nz-table>
+                <st-main *ngIf="addSection" [mappingId]="mappingId" class="!w-full" [screenName]="screenName"
+                    [mainData]="taskManagerData" [formlyModel]="formlyModel" [form]="form"
+                    [screenId]="screenId"></st-main>
+                <div *ngIf="!addSection" (click)="addSectionFunc()" class="btn">
+                    <span nz-icon nzType="plus" nzTheme="outline"></span>Add
+                    Section...
+                </div>
                 <nz-drawer [nzExtra]="extra" [nzClosable]="false" [nzWidth]="'60%'" [nzVisible]="visible"
                     nzPlacement="right" nzTitle="Add task" (nzOnClose)="close()">
                     <ng-container *nzDrawerContent>

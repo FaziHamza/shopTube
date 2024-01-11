@@ -3031,7 +3031,7 @@ export class BuilderComponent implements OnInit {
           ...configObj,
           ...this.clickButtonService.getGridConfig(selectedNode),
         };
-        this.fieldData.commonData?.push({ title: 'Tree Select Fields', data: _formFieldData.taskManagerFileds });
+        this.fieldData.commonData?.push({ title: 'Task Manager Options', data: _formFieldData.taskManagerFileds });
         break;
       case 'headerLogo':
         this.fieldData.commonData?.push({ title: 'Header Logo Fields', data: _formFieldData.headerLogoFields });

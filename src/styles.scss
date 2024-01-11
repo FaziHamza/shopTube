@@ -363,13 +363,13 @@ textarea {
   padding-top: 0px !important;
   // box-shadow: rgba(0, 0, 0, 0.15) 2.4px 2.4px 3.2px;
 
-  formly-vertical-theme-wrapper {
-    .fileup {
-      border-radius: 0px !important;
-      padding-top: 10px !important;
-      padding-left: 10px !important;
-    }
-  }
+  // formly-vertical-theme-wrapper {
+  //   .fileup {
+  //     border-radius: 0px !important;
+  //     padding-top: 10px !important;
+  //     padding-left: 10px !important;
+  //   }
+  // }
 
 
 
@@ -383,8 +383,8 @@ textarea {
       min-height: 52px;
 
       div {
-        height: 100% !important;
-        width: 100% !important;
+        // height: 100% !important;
+        // width: 100% !important;
 
         input {
           height: 100% !important;
@@ -396,11 +396,33 @@ textarea {
     .col-form-label {
       max-height: 46px !important;
     }
-
-
-
-
   }
+
+  // .generic-fileds{
+  //   .side-input {
+  //     st-input-wrapper {
+  //       height: 100% !important;
+  //       display: inline-block;
+  //       width: 100% !important;
+  //       min-height: 52px;
+
+  //       div {
+  //         height: 0px !important;
+  //         width: 0px !important;
+
+  //         input {
+  //           height: 100% !important;
+  //           width: 100% !important;
+  //         }
+  //       }
+  //     }
+
+  //     .col-form-label {
+  //       max-height: 46px !important;
+  //     }
+  //   }
+
+  // }
 
   .errorClass .ant-input {
     border: 1px solid red !important;
@@ -670,6 +692,15 @@ textarea {
   //   padding-top: 10px;
   //   padding-bottom: 22px;
   // }
+  .textarea-vertical-theme {
+    .column-form-input {
+      background: white;
+      display: inline-block !important;
+      height: 100% !important;
+      max-height: 90px !important;
+    }
+  }
+
   .column-form-input {
     background: white;
     display: inline-block !important;

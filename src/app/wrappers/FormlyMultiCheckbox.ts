@@ -29,9 +29,9 @@ export class FormlyFieldMultiCheckbox extends FieldType<FieldTypeConfig> {
   }
 
   log(event: any, model: any) {
-
-    this.formControl.patchValue(event);
-    this.sharedService.onChange(event, this.field);
+    let value = event.join(', ');
+    // this.formControl.patchValue(event);
+    this.sharedService.onChange(value, this.field);
     console.log(event, model);
   }
 
