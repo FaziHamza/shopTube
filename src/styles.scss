@@ -697,7 +697,25 @@ textarea {
       background: white;
       display: inline-block !important;
       height: 100% !important;
-      max-height: 90px !important;
+      max-height: 100% !important;
+    }
+    .col-form-label {
+      padding: 13px !important;
+      min-height: 46px !important;
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+      font-size: 12px;
+      font-weight: bold;
+      height: auto !important;
+      max-height: 100% !important;
+  
+      span:nth-child(2) {
+        text-overflow: ellipsis !important;
+        overflow: hidden !important;
+        width: 100% !important;
+        white-space: nowrap !important;
+      }
     }
   }
 
@@ -9182,4 +9200,9 @@ ul.jsondiffpatch-textdiff {
       max-height: 55px !important;
     }
   }
+}
+.ant-table tfoot>tr>td, .ant-table tfoot>tr>th, .ant-table-tbody>tr>td {
+  position: relative;
+  padding: 10px !important;
+  overflow-wrap: break-word;
 }

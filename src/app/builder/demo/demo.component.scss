@@ -1,11 +1,17 @@
-.editable-cell {
-    position: relative;
-    padding: 5px 12px;
-    cursor: pointer;
-  }
+table {
+  position: relative;
+  width: 100%;
+  border-radius: 100%;
+  background: rgba(0, 0, 0, 0.1);
+}
 
-  .editable-row:hover .editable-cell {
-    border: 1px solid #d9d9d9;
-    border-radius: 4px;
-    padding: 4px 11px;
-  }
+th,
+td {
+  text-align: left;
+  padding: 12px;
+  box-sizing: border-box;
+}
+
+tr:nth-child(odd) {
+  background: rgba(0, 0, 0, 0.05);
+}

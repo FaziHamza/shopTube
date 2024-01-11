@@ -60,6 +60,7 @@ import { ApplicationGlobalClassesComponent } from './Builder-module/application-
 import { TaskManagerComponent } from './components/task-manager/task-manager.component';
 import { SignaturePadModule } from 'angular2-signaturepad';
 import { SignatureModalComponent } from './components/signature-modal/signature-modal.component';
+import { ResizableModule } from './components/resizable/resizable.module';
 
 const antDesignIcons = AllIcons as {
   [key: string]: IconDefinition;
@@ -85,7 +86,7 @@ const icons: IconDefinition[] = Object.keys(antDesignIcons).map(key => antDesign
     PolicyMappingTableComponent,
     NgxGraphNodeComponent,
     ApplicationGlobalClassesComponent,
-    SignatureModalComponent
+    SignatureModalComponent,
         // MultiFileUploadWrapperComponent,
   ],
   imports: [
@@ -114,6 +115,7 @@ const icons: IconDefinition[] = Object.keys(antDesignIcons).map(key => antDesign
     NgxGraphModule,
     ContextMenuModule,
     DragDropModule,
+    ResizableModule,
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,
