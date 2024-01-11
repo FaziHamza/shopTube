@@ -5,6 +5,7 @@ import { NzModalService } from 'ng-zorro-antd/modal';
 import { ApplicationService } from 'src/app/services/application.service';
 import { BuilderService } from 'src/app/services/builder.service';
 import { DataSharedService } from 'src/app/services/data-shared.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'st-policy-mapping',
@@ -35,7 +36,7 @@ export class PolicyMappingComponent implements OnInit {
   applications: any;
   applicationName: any;
   selectedAppId: any = "";
-  applicationId: string = '';
+  applicationid: string = '';
   selectDepartmentName: any = [];
   departmentData: any = [];
   departments: any[] = [];
@@ -59,36 +60,35 @@ export class PolicyMappingComponent implements OnInit {
       name: 'Create',
       searchValue: '',
       inVisible: true,
-      dataField: 'create'
+      dataField: 'creates'
     },
     {
       name: 'Read',
       searchValue: '',
       inVisible: true,
-      dataField: 'read'
+      dataField: 'reades'
     },
     {
       name: 'Update',
       searchValue: '',
       inVisible: true,
-      dataField: 'update'
+      dataField: 'updates'
     },
     {
       name: 'Delete',
       searchValue: '',
       inVisible: true,
-      dataField: 'delete'
+      dataField: 'deletes'
     },
     {
       name: 'Hide',
       searchValue: '',
       inVisible: true,
-      dataField: 'hideExpression'
+      dataField: 'hideexpression'
     },
   ];
 
   constructor(
-    public builderService: BuilderService,
     private applicationService: ApplicationService,
     public dataSharedService: DataSharedService,
     private toastr: NzMessageService,
@@ -108,7 +108,7 @@ export class PolicyMappingComponent implements OnInit {
   policyName = '';
   policyList: any = [];
   jsonPolicyModuleList() {
-    this.applicationService.getNestCommonAPI('cp/Policy').subscribe({
+    this.applicationService.getNestNewCommonAPI(`cp/${environment.dbMode}meta.Policy`).subscribe({
       next: (res: any) => {
         if (res.isSuccess) {
           if (res?.data.length > 0) {
@@ -140,13 +140,13 @@ export class PolicyMappingComponent implements OnInit {
       const filteredData = this.findObjectsWithPermissions(this.menuList);
       const newData = filteredData.map(item => ({
         ...item,
-        policyId: this.policyName,
-        applicationId: this.applicationId,
+        policyid: this.policyName,
+        applicationid: this.applicationid,
       }));
       this.loading = true;
       const checkPolicyAndProceed = this.isSubmit
-        ? this.applicationService.addNestCommonAPI('policy-mapping', newData)
-        : this.applicationService.updateNestCommonAPI('policy-mapping', this.model._id, newData);
+        ? this.applicationService.addNestNewCommonAPI(`cp/PolicyMapping/${environment.dbMode}meta.policymapping`, newData)
+        : this.applicationService.updateNestNewCommonAPI(`cp/PolicyMapping/${environment.dbMode}meta.policymapping`, this.model.id, newData);
       checkPolicyAndProceed.subscribe({
         next: (objTRes: any) => {
           this.loading = false;
@@ -171,22 +171,22 @@ export class PolicyMappingComponent implements OnInit {
   findObjectsWithPermissions(data: any[]): any[] {
     const result: any[] = [];
     for (const item of data) {
-      if (item.create || item.update || item.read || item.delete) {
-        const checkMenu = item?.children?.find((a: any) => a.sqlType == "sql");
+      if (item.creates || item.updates || item.reades || item.deletes) {
+        const checkMenu = item?.children?.json?.find((a: any) => a.sqlType == "sql");
         if (checkMenu) {
-          const updatedMenu = item?.children?.filter((a: any) => a.isAllow == true);
-          item.children = updatedMenu;
+          const updatedMenu = item?.children?.json?.filter((a: any) => a.isAllow == true);
+          item.children.json = updatedMenu;
           result.push(item);
         } else {
           const updatedMenu = JSON.parse(JSON.stringify(item));
-          updatedMenu.children = [];
+          updatedMenu.children.json = [];
           result.push(updatedMenu);
         }
 
       }
 
-      if (item.children && item.children.length > 0) {
-        const childResults = this.findObjectsWithPermissions(item.children);
+      if (item.children && item.children?.json?.length > 0) {
+        const childResults = this.findObjectsWithPermissions(item.children?.json);
         result.push(...childResults);
       }
     }
@@ -235,13 +235,13 @@ export class PolicyMappingComponent implements OnInit {
   async loadData(node: NzCascaderOption, index: number): Promise<void> {
     if (index === 0 && node.value != 'selectDepartment') {
       try {
-        const res = await this.applicationService.getNestCommonAPIById('cp/Application', node.value).toPromise();
+        const res = await this.applicationService.getNestNewCommonAPIById(`cp/${environment.dbMode}meta.Application`, node.value).toPromise();
         if (res.isSuccess) {
           this.applications = res.data;
           const applications = res.data.map((appData: any) => {
             return {
               label: appData.name,
-              value: appData._id,
+              value: appData.id,
               isLeaf: true
             };
           });
@@ -261,7 +261,7 @@ export class PolicyMappingComponent implements OnInit {
     }
   }
   getDepartments() {
-    this.applicationService.getNestCommonAPI('cp/Department').subscribe({
+    this.applicationService.getNestNewCommonAPI(`cp/${environment.dbMode}meta.Department`).subscribe({
       next: (res: any) => {
         if (res.isSuccess) {
           if (res.data.length > 0) {
@@ -269,7 +269,7 @@ export class PolicyMappingComponent implements OnInit {
             this.departmentData = res.data?.map((data: any) => {
               return {
                 label: data.name,
-                value: data._id
+                value: data.id
               };
             });
             let header = {
@@ -295,16 +295,16 @@ export class PolicyMappingComponent implements OnInit {
 
 
   getMenus(id: any) {
-    this.applicationService.getNestCommonAPIById('cp/Menu', id).subscribe(((res: any) => {
+    this.applicationService.getNestNewCommonAPIById(`cp/${environment.dbMode}meta.Menu`, id).subscribe(((res: any) => {
       if (res.isSuccess) {
         if (res.data.length > 0) {
-          this.applicationId = res.data[0].applicationId
-          const menuList = JSON.parse(res.data[0].menuData);
+          this.applicationid = res.data[0].applicationid
+          const menuList = res.data[0].menudata?.json;
           const booleanObject = {
-            create: false,
-            read: false,
-            update: false,
-            delete: false,
+            creates: false,
+            reades: false,
+            updates: false,
+            deletes: false,
           };
 
           const newData = this.applyBooleanToArray(menuList, booleanObject);
@@ -318,7 +318,7 @@ export class PolicyMappingComponent implements OnInit {
     }));
   }
   getActions(id: any) {
-    this.applicationService.getNestCommonAPIById('cp/action/getDataByAppId/Action', id).subscribe(((res: any) => {
+    this.applicationService.getNestNewCommonAPIById(`cp/${environment.dbMode}meta.Actions`, id).subscribe(((res: any) => {
 
       if (res.isSuccess) {
         if (res.data.length > 0) {
@@ -354,8 +354,8 @@ export class PolicyMappingComponent implements OnInit {
     const newData = {
       ...data,
       ...booleanObject,
-      screenId: data.link,
-      menuId: data.id,
+      screenid: data.link,
+      menuid: data.id,
       expand: false,
     };
 
@@ -376,7 +376,7 @@ export class PolicyMappingComponent implements OnInit {
 
     this.loading = true;
 
-    this.applicationService.getNestCommonAPIById('policy-mapping/policy', this.policyName)
+    this.applicationService.getNestNewCommonAPIById(`cp/${environment.dbMode}meta.policymapping`, this.policyName)
       .subscribe(
         (res: any) => {
           this.loading = false;
@@ -401,23 +401,22 @@ export class PolicyMappingComponent implements OnInit {
     this.actionList.forEach(element => {
       for (let index = 0; index < this.menuList.length; index++) {
         const menu = this.menuList[index];
-        if (menu.screenId === `/pages/${element.moduleId}`) {
-          if (!menu.children) {
-            menu.children = [];
+        if (menu.screenid === `/pages/${element.moduleid}`) {
+          if (!menu.children?.json) {
+            menu.children.json = [];
             // Push obj1 object to children array
-            menu.children.push(element);
+            menu.children?.json.push(element);
             break;
           } else {
-            const checkIsAlreadyExist = menu.children.find((a: any) => a._id == element._id);
+            const checkIsAlreadyExist = menu.children?.json.find((a: any) => a.id == element.id);
             if (!checkIsAlreadyExist) {
-              menu.children.push(element);
+              menu.children?.json.push(element);
             }
             break;
           }
         }
       }
     });
-    console.log(this.menuList);
 
     // this.handlePageChange(1);
 
@@ -425,16 +424,24 @@ export class PolicyMappingComponent implements OnInit {
   // Define a function to merge policy data into menu data recursively
   mergePolicyIntoMenu(menuData: any[], policyData: any[]) {
     return menuData.map(menuItem => {
-      const matchingPolicyItem = policyData.find(policyItem => policyItem.menuId === menuItem.menuId);
+      const matchingPolicyItem = policyData.find(policyItem => policyItem.menuid === menuItem.menuid);
+
+      const menuItemsLowerCaseKeys: any = Object.fromEntries(
+        Object.entries(menuItem).map(([key, value]) => [key.toLowerCase(), value])
+      );
 
       if (matchingPolicyItem) {
-        matchingPolicyItem.screenId = menuItem.link;
+        matchingPolicyItem.screenid = menuItemsLowerCaseKeys['link'];
         // Merge policy data into the menu item
-        const mergedItem = { ...menuItem, ...matchingPolicyItem };
+        const matchingPolicyItemLowerCaseKeys = Object.fromEntries(
+          Object.entries(matchingPolicyItem).map(([key, value]) => [key.toLowerCase(), value])
+        );
 
+        // Merge the objects with lowercase keys
+        const mergedItem = { ...menuItemsLowerCaseKeys, ...matchingPolicyItemLowerCaseKeys };
         // Check if the menu item has children and merge recursively
-        if (menuItem.children && menuItem.children.length > 0) {
-          mergedItem.children = this.mergePolicyIntoMenu(menuItem.children, policyData);
+        if (menuItemsLowerCaseKeys.children && menuItemsLowerCaseKeys.children.length > 0) {
+          mergedItem.children = this.mergePolicyIntoMenu(menuItemsLowerCaseKeys.children, policyData);
         } else {
 
         }
@@ -442,7 +449,7 @@ export class PolicyMappingComponent implements OnInit {
         return mergedItem;
       }
 
-      return menuItem; // No policy data found, return menu item as is
+      return menuItemsLowerCaseKeys; // No policy data found, return menu item as is
     });
   }
 
@@ -466,7 +473,7 @@ export class PolicyMappingComponent implements OnInit {
       nzOnOk: () => {
         new Promise((resolve, reject) => {
           setTimeout(Math.random() > 0.5 ? resolve : reject, 100);
-          this.applicationService.deleteNestApi(`policy-mapping/${this.policyName}/${this.applicationId}`).subscribe(
+          this.applicationService.deleteNestNewCommonAPI(`cp/${environment.dbMode}meta.policymapping`, this.policyName).subscribe(
             {
               next: (objTRes: any) => {
                 if (objTRes.isSuccess) {
@@ -485,7 +492,7 @@ export class PolicyMappingComponent implements OnInit {
           .catch(() => false)
       },
       nzOnCancel: () => {
-        // this.navigation = this.previousScreenId ? this.previousScreenId : this.navigation;
+        // this.navigation = this.previousscreenid ? this.previousscreenid : this.navigation;
         console.log('User clicked Cancel');
       }
     });
@@ -495,10 +502,10 @@ export class PolicyMappingComponent implements OnInit {
     if (this.menuOfDisplayData.length > 0) {
       const updatedDat = this.menuOfDisplayData.map((item) => ({
         ...item,
-        create: true,
-        update: true,
-        read: true,
-        delete: true,
+        creates: true,
+        updates: true,
+        reades: true,
+        deletes: true,
         children: this.updateChildren(item.children),
       }));
       this.menuOfDisplayData = updatedDat;
@@ -508,10 +515,10 @@ export class PolicyMappingComponent implements OnInit {
       // Update child values
       const updatedData = this.menuList.map((parentItem) => ({
         ...parentItem,
-        create: true,
-        update: true,
-        read: true,
-        delete: true,
+        creates: true,
+        updates: true,
+        reades: true,
+        deletes: true,
         children: this.updateChildren(parentItem.children),
       }));
       this.menuList = updatedData;
@@ -533,10 +540,10 @@ export class PolicyMappingComponent implements OnInit {
       } else {
         return {
           ...childItem,
-          create: true,
-          update: true,
-          read: true,
-          delete: true,
+          creates: true,
+          updates: true,
+          reades: true,
+          deletes: true,
           children: this.updateChildren(childItem.children),
         };
       }

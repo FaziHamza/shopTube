@@ -32,7 +32,7 @@
             </tr>
             <tr [nzExpand]="row.expand">
                 <ng-container
-                    *ngTemplateOutlet="recursiveTemplate; context: { $implicit: row.children }"></ng-container>
+                    *ngTemplateOutlet="recursiveTemplate; context: { $implicit: row.children?.json }"></ng-container>
             </tr>
         </ng-container>
     </tbody>

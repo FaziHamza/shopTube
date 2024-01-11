@@ -180,37 +180,38 @@ export class MenuBuilderComponent implements OnInit {
 
   getMenus(id: string) {
     this.getTheme(id);
-    this.applicationService.getNestNewCommonAPIById(`cp/${environment.dbMode}meta.CacheMenu`, this.currentUser.userId).subscribe(((res: any) => {
-      if (res.isSuccess) {
-        if (res.data.length > 0) {
-          let getApplication = this.applications.find((a: any) => a.id == id);
-          if (getApplication) {
-            this.domainName = getApplication.domain ? getApplication.domain : undefined;
-            this.selectApplicationType = getApplication['application_Type'] ? getApplication['application_Type'] : '';
-          }
-          this.applicationId = res.data[0].id
-          this.nodes = JSON.parse(res.data[0].menuData);
-          this.selectedTheme = JSON.parse(res.data[0].selectedTheme);
-          this.controlUndefinedValues();
-          this.selectedTheme.allMenuItems = this.nodes;
-          this.makeMenuData();
-        }
-        else {
-          this.getlocalMenu(id);
-        }
-      } else {
-        this.toastr.error(res.message, { nzDuration: 3000 });
-        this.getlocalMenu(id);
-      }
-    }));
+    this.getlocalMenu(id);
+    // this.applicationService.getNestNewCommonAPIById(`cp/${environment.dbMode}meta.CacheMenu`, this.currentUser.userId).subscribe(((res: any) => {
+    //   if (res.isSuccess) {
+    //     if (res.data.length > 0) {
+    //       let getApplication = this.applications.find((a: any) => a.id == id);
+    //       if (getApplication) {
+    //         this.domainName = getApplication.domain ? getApplication.domain : undefined;
+    //         this.selectApplicationType = getApplication['application_Type'] ? getApplication['application_Type'] : '';
+    //       }
+    //       this.applicationId = res.data[0].id
+    //       this.nodes = JSON.parse(res.data[0].menuData);
+    //       this.selectedTheme = JSON.parse(res.data[0].selectedTheme);
+    //       this.controlUndefinedValues();
+    //       this.selectedTheme.allMenuItems = this.nodes;
+    //       this.makeMenuData();
+    //     }
+    //     else {
+    //       this.getlocalMenu(id);
+    //     }
+    //   } else {
+    //     this.toastr.error(res.message, { nzDuration: 3000 });
+    //     this.getlocalMenu(id);
+    //   }
+    // }));
   }
   getlocalMenu(id: any) {
     this.applicationService.getNestNewCommonAPIById(`cp/${environment.dbMode}meta.PolicyMapping`, id).subscribe(((res: any) => {
       if (res.isSuccess) {
         if (res.data.length > 0) {
           this.applicationId = res.data[0].id
-          this.nodes = JSON.parse(res.data[0].menuData);
-          this.selectedTheme = JSON.parse(res.data[0].selectedTheme);
+          this.nodes = res.data[0].menudata?.json;
+          this.selectedTheme = res.data[0].selectedtheme?.json;
           this.controlUndefinedValues();
           this.makeMenuData();
           this.clickBack();
@@ -764,12 +765,15 @@ export class MenuBuilderComponent implements OnInit {
     temporaryData.allMenuItems = []
     temporaryData.menuChildArrayTwoColumn = []
     temporaryData.newMenuArray = []
-    let appData = this.applications.find((a: any) => a.id == this.selectedAppId)
+    let appData = this.applications.find((a: any) => a.id == this.selectedAppId);
+    const currentDataJson = {
+      json : currentData
+    }
     var data: any =
     {
       "name": appData.name,
       "applicationId": this.selectedAppId,
-      "menuData": JSON.stringify(currentData),
+      "menuData": JSON.stringify(currentDataJson),
       // "applicationId": mainApplicationId.length > 0 ? mainApplicationId[0].id : "",
       "selectedTheme": JSON.stringify(temporaryData)
     };

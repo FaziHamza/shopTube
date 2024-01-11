@@ -11,10 +11,10 @@ export class PolicyMappingTableComponent {
   @Input() pageSize: any;
   @Input() listOfColumns: any;
   @Input() startIndex: any;
-  @Input() data: any[] = [];
+  @Input() data: any;
 
   ngOnInit(): void {
-    const checkMenu = this.data?.find((a: any) => a.sqlType == "sql");
+    const checkMenu = this.data?.json?.find((a: any) => a.sqlType == "sql");
     if(checkMenu){
       this.listOfColumns = this.actionColumns;
     }
