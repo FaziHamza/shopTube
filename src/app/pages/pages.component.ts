@@ -2146,7 +2146,8 @@ export class PagesComponent implements OnInit, OnDestroy {
         replaceData[value.defaultValue] = replaceData[value.defaultValue] ? replaceData[value.defaultValue].split(',').map((name: any) => name.trim()) : [];
         this.makeModel(node, replaceData[value.defaultValue])
         return node;
-      } else {
+      } 
+      else {
         this.makeModel(node, replaceData[value.defaultValue])
       }
     }
@@ -2166,6 +2167,9 @@ export class PagesComponent implements OnInit, OnDestroy {
         node.options = replaceData[value.defaultValue];
         return node;
       }
+    }
+    else if(node.type == "pieChart"){
+      node[key] = JSON.parse(replaceData[value.defaultValue]); 
     }
     else {
       if (key) {

@@ -6811,7 +6811,11 @@ export class BuilderComponent implements OnInit {
         node.options = replaceData[value.defaultValue];
         return node;
       }
-    } else {
+    } 
+    else if(node.type == "pieChart"){
+      node[key] = JSON.parse(replaceData[value.defaultValue]); 
+    }
+    else {
       if (key) {
         node[key] = replaceData[value.defaultValue];
       }
