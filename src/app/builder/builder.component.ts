@@ -3502,10 +3502,19 @@ export class BuilderComponent implements OnInit {
         this.fieldData.commonData?.push({ title: 'Bar Chart Fields', data: _formFieldData.barChartFields });
         break;
       case 'pieChart':
-        configObj = {
-          ...configObj,
-          ...this.clickButtonService.getPieChartConfig(selectedNode),
-        };
+      //   configObj = {
+      //     ...configObj,
+      //     ...this.clickButtonService.getPieChartConfig(selectedNode),
+      //   };
+      //   is3D: node?.options.is3D,
+      // pieHole: node?.options.pieHole,
+      // pieStartAngle: node?.options.pieStartAngle,
+      // // slices: node?.options.slices,
+      // sliceVisibilityThreshold: node?.options.sliceVisibilityThreshold,
+        configObj['is3D'] = selectedNode?.options.is3D;
+        configObj['pieHole'] = selectedNode?.options.pieHole;
+        configObj['pieStartAngle'] = selectedNode?.options.pieStartAngle;
+        configObj['sliceVisibilityThreshold'] = selectedNode?.options.sliceVisibilityThreshold;
         this.fieldData.commonData?.push({ title: 'Pie Chart Fields', data: _formFieldData.pieChartFields });
         break;
       case 'bubbleChart':
