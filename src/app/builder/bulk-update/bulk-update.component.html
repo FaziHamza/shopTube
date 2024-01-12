@@ -41,7 +41,7 @@
           </div>
         </div>
 
-        <nz-table #innerTable [nzData]="data.children" nzSize="middle" nzShowSizeChanger >
+        <nz-table #innerTable [nzData]="data.children" nzSize="middle" nzShowSizeChanger>
           <thead>
             <tr>
               <th>Id</th>
@@ -52,6 +52,7 @@
               <th>ClassName</th>
               <th>Classification</th>
               <th>Hide</th>
+              <th>Readonly</th>
             </tr>
           </thead>
   <tbody>
@@ -68,6 +69,11 @@
       <td>
         <div class="flex justify-center items-center">
           <label nz-checkbox [(ngModel)]="data.hideExpression"></label>
+        </div>
+      </td>
+      <td>
+        <div class="flex justify-center items-center">
+          <label nz-checkbox [(ngModel)]="data.readonly"></label>
         </div>
       </td>
     </tr>

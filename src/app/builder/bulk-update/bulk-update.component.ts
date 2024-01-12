@@ -43,6 +43,7 @@ export class BulkUpdateComponent implements OnInit {
           formlyType: 'input',
           defaultValue: forms?.formly[0]?.fieldGroup[0]?.defaultValue,
           placeholder: forms?.formly[0]?.fieldGroup[0]?.props?.placeholder,
+          readonly: forms?.formly[0]?.fieldGroup[0]?.props?.readonly,
           className: forms?.className,
           // type: this.types,
           dataClassification: forms?.formly[0]?.fieldGroup[0]?.props?.additionalProperties['dataClassification'],
@@ -88,6 +89,7 @@ export class BulkUpdateComponent implements OnInit {
                 input.formly[0].fieldGroup[0].defaultValue = check.defaultValue;
                 input.formly[0].fieldGroup[0].props.placeholder = check.placeholder;
                 input.formly[0].fieldGroup[0].props.className = check.className;
+                input.formly[0].fieldGroup[0].props.readonly = check.readonly;
                 input.formly[0].fieldGroup[0].props.additionalProperties['dataClassification'] = check.dataClassification;
                 // this.formlyModel[input.formly[0].fieldGroup[0].key] = check.defaultValue;
                 break;

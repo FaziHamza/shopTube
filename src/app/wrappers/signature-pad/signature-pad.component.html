@@ -28,9 +28,9 @@
     <div>
         <input type="text" [formControl]="formControl" [formlyAttributes]="field" style="display: none;">
     </div>
-    <div class="flex flex-wrap justify-normal items-center canvas-div">
-        <div class="w-[calc(100%-110px)] h-full">
-            <canvas #canvas class="!h-full !w-full" style="pointer-events: none;"></canvas>
+    <div class="flex flex-wrap justify-normal items-center canvas-div ">
+        <div class="w-[calc(100%-110px)] ">
+            <canvas #canvas height="40" width="250px" style="pointer-events: none; margin: 2px"></canvas>
         </div>
         <div class="w-[110px] h-full flex justify-center items-center">
             <button *ngIf="to['additionalProperties']?.showAddButton !== false" nz-button

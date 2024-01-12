@@ -93,7 +93,7 @@ export class SignaturePadComponent extends FieldType<FieldTypeConfig> {
       nzTitle: 'Signature',
       nzContent: SignatureModalComponent,
       nzViewContainerRef: this.viewContainerRef,
-      nzWidth:'331px',
+      nzWidth:'300px',
       // nzHeight:'30%',
       nzComponentParams: {
         data: {
