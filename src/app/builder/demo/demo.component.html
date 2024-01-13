@@ -1,96 +1,39 @@
-<!-- <h1>Knights of the Round Table</h1>
-<table>
-	<thead>
-		<tr>
-			<th resizable>Member</th>
-			<th resizable>Nickname</th>
-			<th>Fate</th>
-		</tr>
-	</thead>
-	<tbody>
-		<tr *ngFor="let row of rows">
-			<td *ngFor="let cell of row">{{cell}}</td>
-		</tr>
-	</tbody>
-</table> -->
-
-<nz-table #basicTable [nzData]="dataSet">
+<nz-table #basicTable [nzData]="listOfData">
   <thead>
     <tr>
-      <th resizable>Name</th>
-      <th resizable>Age</th>
-      <th resizable>Address</th>
-      <th resizable>Address</th>
-      <th resizable>Address</th>
-      <th resizable>Address</th>
-      <th resizable>Address</th>
-      <th resizable>Address</th>
-      <th resizable>Address</th>
-      <th resizable>Address</th>
-      <th resizable>Address</th>
-      <th resizable>Address</th>
-      <th resizable>Address</th>
-      <th resizable>Address</th>
-      <th resizable>Address</th>
-      <th resizable>Address</th>
-      <th resizable>Address</th>
-      <th resizable>Address</th>
-      <th resizable>Address</th>
-      <th resizable>Address</th>
-      <th resizable>Address</th>
-      <th resizable>Address</th>
-      <th resizable>Address</th>
-      <th resizable>Address</th>
-      <th resizable>Address</th>
-      <th resizable>Address</th>
-      <th resizable>Address</th>
-      <th resizable>Address</th>
-      <th resizable>Address</th>
-      <th resizable>Address</th>
-      <th resizable>Address</th>
-      <th resizable>Address</th>
-      <th resizable>Address</th>
-      <th resizable>Address</th>
-      <th resizable>Address</th>
+      <ng-container *ngFor="let col of cols">
+        <th
+          *ngIf="col.width"
+          nz-resizable
+          nzBounds="window"
+          nzPreview
+          [nzWidth]="col.width"
+          [nzMaxWidth]="256"
+          [nzMinWidth]="60"
+          (nzResizeEnd)="onResize($event, col.title)"
+        >
+          {{ col.title }}
+          <nz-resize-handle nzDirection="right">
+            <div class="resize-trigger"></div>
+          </nz-resize-handle>
+        </th>
+        <th *ngIf="!col.width">
+          {{ col.title }}
+        </th>
+      </ng-container>
     </tr>
   </thead>
   <tbody>
     <tr *ngFor="let data of basicTable.data">
-      <td>{{data.name}}</td>
-      <td>{{data.name1}}</td>
-      <td>{{data.name2}}</td>
-      <td>{{data.name3}}</td>
-      <td>{{data.name4}}</td>
-      <td>{{data.name5}}</td>
-      <td>{{data.name6}}</td>
-      <td>{{data.name7}}</td>
-      <td>{{data.name8}}</td>
-      <td>{{data.name9}}</td>
-      <td>{{data.name10}}</td>
-      <td>{{data.name11}}</td>
-      <td>{{data.age}}</td>
-      <td>aaaa</td>
-      <td>aaaa</td>
-      <td>aaaa</td>
-      <td>aaaa</td>
-      <td>aaaa</td>
-      <td>aaaa</td>
-      <td>aaaa</td>
-      <td>aaaa</td>
-      <td>aaaa</td>
-      <td>aaaa</td>
-      <td>aaaa</td>
-      <td>aaaa</td>
-      <td>aaaa</td>
-      <td>aaaa</td>
-      <td>aaaa</td>
-      <td>aaaa</td>
-      <td>aaaa</td>
-      <td>aaaa</td>
-      <td>aaaa</td>
-      <td>aaaa</td>
-      <td>aaaa</td>
-      <td>aaaa</td>
+      <td>{{ data.name }}</td>
+      <td>{{ data.age }}</td>
+      <td>{{ data.address }}</td>
+      <td>{{ data.Address1 }}</td>
+      <td>{{ data.Address2 }}</td>
+      <td>{{ data.Address3 }}</td>
+      <td>{{ data.Address4 }}</td>
+      <td>{{ data.Address5 }}</td>
+      <td>{{ data.Address6 }}</td>
     </tr>
   </tbody>
 </nz-table>

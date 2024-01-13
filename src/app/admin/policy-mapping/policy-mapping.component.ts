@@ -46,44 +46,51 @@ export class PolicyMappingComponent implements OnInit {
       name: 'Expand',
       key: 'expand',
       inVisible: true,
-      dataField: 'expand'
+      dataField: 'expand',
+      isColumnHide: false
     },
     {
       name: 'Menu Name',
       key: 'title',
       searchValue: '',
       inVisible: false,
-      dataField: 'title'
+      dataField: 'title',
+      isColumnHide: false
     },
     {
       name: 'Create',
       searchValue: '',
       inVisible: true,
-      dataField: 'create'
+      dataField: 'create',
+      isColumnHide: false
     },
     {
       name: 'Read',
       searchValue: '',
       inVisible: true,
-      dataField: 'read'
+      dataField: 'read',
+      isColumnHide: false
     },
     {
       name: 'Update',
       searchValue: '',
       inVisible: true,
-      dataField: 'update'
+      dataField: 'update',
+      isColumnHide: false
     },
     {
       name: 'Delete',
       searchValue: '',
       inVisible: true,
-      dataField: 'delete'
+      dataField: 'delete',
+      isColumnHide: false
     },
     {
       name: 'Hide',
       searchValue: '',
       inVisible: true,
-      dataField: 'hideExpression'
+      dataField: 'hideExpression',
+      isColumnHide: false
     },
   ];
 
@@ -123,6 +130,7 @@ export class PolicyMappingComponent implements OnInit {
   }
 
   onSubmit() {
+    debugger
     if (!this.policyName) {
       this.toastr.warning(
         'Please Select Policy Name',
@@ -137,6 +145,7 @@ export class PolicyMappingComponent implements OnInit {
         );
         return;
       }
+      this.mergeChildren(this.menuList);
       const filteredData = this.findObjectsWithPermissions(this.menuList);
       const newData = filteredData.map(item => ({
         ...item,
@@ -172,7 +181,7 @@ export class PolicyMappingComponent implements OnInit {
     const result: any[] = [];
     for (const item of data) {
       if (item.create || item.update || item.read || item.delete) {
-        const checkMenu = item?.children?.find((a: any) => a.sqlType == "sql");
+        const checkMenu = item?.actionChildrenchildren?.find((a: any) => a.sqlType == "sql");
         if (checkMenu) {
           const updatedMenu = item?.children?.filter((a: any) => a.isAllow == true);
           item.children = updatedMenu;
@@ -369,6 +378,8 @@ export class PolicyMappingComponent implements OnInit {
     return newData;
   }
   getPolicyMenu() {
+    debugger
+
     if (!this.policyName) {
       this.toastr.error("Please select a policy name", { nzDuration: 3000 });
       return;
@@ -402,15 +413,15 @@ export class PolicyMappingComponent implements OnInit {
       for (let index = 0; index < this.menuList.length; index++) {
         const menu = this.menuList[index];
         if (menu.screenId === `/pages/${element.moduleId}`) {
-          if (!menu.children) {
-            menu.children = [];
+          if (!menu.actionChildren) {
+            menu.actionChildren = [];
             // Push obj1 object to children array
-            menu.children.push(element);
+            menu.actionChildren.push(element);
             break;
           } else {
             const checkIsAlreadyExist = menu.children.find((a: any) => a._id == element._id);
             if (!checkIsAlreadyExist) {
-              menu.children.push(element);
+              menu.actionChildren.push(element);
             }
             break;
           }
@@ -500,6 +511,7 @@ export class PolicyMappingComponent implements OnInit {
         read: true,
         delete: true,
         children: this.updateChildren(item.children),
+        actionChildren: this.updateChildren(item.actionChildren),
       }));
       this.menuOfDisplayData = updatedDat;
     }
@@ -513,6 +525,7 @@ export class PolicyMappingComponent implements OnInit {
         read: true,
         delete: true,
         children: this.updateChildren(parentItem.children),
+        actionChildren: this.updateChildren(parentItem.actionChildren),
       }));
       this.menuList = updatedData;
     }
@@ -528,17 +541,35 @@ export class PolicyMappingComponent implements OnInit {
       if (childItem?.actionType) {
         return {
           ...childItem,
-          children: this.updateChildren(childItem.children),
+          isAllow: true
+          // children: this.updateChildren(childItem.children),
+          // actionChildren: this.updateChildren(childItem.actionChildren),
         };
-      } else {
+      } 
+      else {
         return {
           ...childItem,
           create: true,
           update: true,
           read: true,
           delete: true,
-          children: this.updateChildren(childItem.children),
+          actionChildren: this.updateChildren(childItem.actionChildren),
         };
+      }
+    });
+  }
+  mergeChildren(items: any[]) {
+    items.forEach(item => {
+      if (item.children && item.actionChildren) {
+        // Merge the two arrays into a new children array
+        item.children = [...item.children, ...item.actionChildren];
+        // Remove the actionChildren property
+        delete item.actionChildren;
+      }
+
+      // Recursively call mergeChildren for nested structures
+      if (item.children && item.children.length > 0) {
+        this.mergeChildren(item.children);
       }
     });
   }

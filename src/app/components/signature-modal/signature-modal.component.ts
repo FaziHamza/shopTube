@@ -47,7 +47,7 @@ export class SignatureModalComponent implements OnInit {
     const signatureDataURL = this.canvas.nativeElement.toDataURL();
     console.log(signatureDataURL);
     // this.modalRef.destroy(signatureDataURL);
-    let label = this.canvas.nativeElement._isEmpty ? 'Add' : 'Update'
+    let label = this.signaturePad._isEmpty ? 'Add' : 'Update'
     // this.canvas.nativeElement.fromDataURL(signatureDataURL);
     let obj = {
       'url': signatureDataURL,

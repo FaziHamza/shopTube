@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { NzResizeEvent } from 'ng-zorro-antd/resizable';
 
 @Component({
   selector: 'st-demo',
@@ -9,77 +10,146 @@ export class DemoComponent implements OnInit {
   ngOnInit() {
 
   }
-  dataSet  = [
+  cols = [
     {
-      'name':'aa',
-      'name1':'aa',
-      'name2':'aa',
-      'name3':'aa',
-      'name4':'aa',
-      'name5':'aa',
-      'name6':'aa',
-      'name7':'aa',
-      'name8':'aa',
-      'name9':'aa',
-      'name10':'aa',
-      'name11':'aa',
-      'age':'aa',
-      'address':'aa',
+      title: 'Name',
+      width: '180px'
     },
     {
-      'name':'aa',
-      'name1':'aa',
-      'name2':'aa',
-      'name3':'aa',
-      'name4':'aa',
-      'name5':'aa',
-      'name6':'aa',
-      'name7':'aa',
-      'name8':'aa',
-      'name9':'aa',
-      'name10':'aa',
-      'name11':'aa',
-      'age':'aa',
-      'address':'aa',
+      title: 'Age',
+      width: '180px'
     },
     {
-      'name':'aa',
-      'name1':'aa',
-      'name2':'aa',
-      'name3':'aa',
-      'name4':'aa',
-      'name5':'aa',
-      'name6':'aa',
-      'name7':'aa',
-      'name8':'aa',
-      'name9':'aa',
-      'name10':'aa',
-      'name11':'aa',
-      'age':'aa',
-      'address':'aa',
+      title: 'Address',
+      width: '200px'
     },
     {
-      'name': 'aa',
-      'name1': 'aa',
-      'name2': 'aa',
-      'name3': 'aa',
-      'name4': 'aa',
-      'name5': 'aa',
-      'name6': 'aa',
-      'name7': 'aa',
-      'name8': 'aa',
-      'name9': 'aa',
-      'name10': 'aa',
-      'name11': 'aa',
-      'age': 'aa',
-      'address': 'aa',
+      title: 'Address1',
+      width: '200px'
     },
-  ]
-  readonly rows = [
-    ["King Arthur", "-", "Arrested"],
-    ["Sir Bedevere", "The Wise", "Arrested"],
-    ["Sir Lancelot", "The Brave", "Arrested"],
-    ["Sir Galahad", "The Chaste", "Killed"],
-    ["Sir Robin", "The Not-Quite-So-Brave-As-Sir-Lancelot", "Killed"],
+    {
+      title: 'Address2',
+      width: '200px'
+    },
+    {
+      title: 'Address3',
+      width: '200px'
+    },
+    {
+      title: 'Address4',
+      width: '200px'
+    },
+    {
+      title: 'Address5',
+      width: '200px'
+    },
+    {
+      title: 'Address6',
+      width: '200px'
+    }
+   
   ];
+
+  listOfData = [
+    {
+      key: '1',
+      name: 'John Brown',
+      age: 32,
+      address: 'New York No. 1 Lake Park',
+      Address1: 'New York No. 1 Lake Park',
+      Address2: 'New York No. 1 Lake Park',
+      Address3: 'New York No. 1 Lake Park',
+      Address4: 'New York No. 1 Lake Park',
+      Address5: 'New York No. 1 Lake Park',
+      Address6: 'New York No. 1 Lake Park'
+    },
+    {
+      key: '1',
+      name: 'John Brown',
+      age: 32,
+      address: 'New York No. 1 Lake Park',
+      Address1: 'New York No. 1 Lake Park',
+      Address2: 'New York No. 1 Lake Park',
+      Address3: 'New York No. 1 Lake Park',
+      Address4: 'New York No. 1 Lake Park',
+      Address5: 'New York No. 1 Lake Park',
+      Address6: 'New York No. 1 Lake Park'
+    },
+    {
+      key: '1',
+      name: 'John Brown',
+      age: 32,
+      address: 'New York No. 1 Lake Park',
+      Address1: 'New York No. 1 Lake Park',
+      Address2: 'New York No. 1 Lake Park',
+      Address3: 'New York No. 1 Lake Park',
+      Address4: 'New York No. 1 Lake Park',
+      Address5: 'New York No. 1 Lake Park',
+      Address6: 'New York No. 1 Lake Park'
+    },
+    {
+      key: '1',
+      name: 'John Brown',
+      age: 32,
+      address: 'New York No. 1 Lake Park',
+      Address1: 'New York No. 1 Lake Park',
+      Address2: 'New York No. 1 Lake Park',
+      Address3: 'New York No. 1 Lake Park',
+      Address4: 'New York No. 1 Lake Park',
+      Address5: 'New York No. 1 Lake Park',
+      Address6: 'New York No. 1 Lake Park'
+    },
+    {
+      key: '1',
+      name: 'John Brown',
+      age: 32,
+      address: 'New York No. 1 Lake Park',
+      Address1: 'New York No. 1 Lake Park',
+      Address2: 'New York No. 1 Lake Park',
+      Address3: 'New York No. 1 Lake Park',
+      Address4: 'New York No. 1 Lake Park',
+      Address5: 'New York No. 1 Lake Park',
+      Address6: 'New York No. 1 Lake Park'
+    },
+    {
+      key: '1',
+      name: 'John Brown',
+      age: 32,
+      address: 'New York No. 1 Lake Park',
+      Address1: 'New York No. 1 Lake Park',
+      Address2: 'New York No. 1 Lake Park',
+      Address3: 'New York No. 1 Lake Park',
+      Address4: 'New York No. 1 Lake Park',
+      Address5: 'New York No. 1 Lake Park',
+      Address6: 'New York No. 1 Lake Park'
+    },
+    {
+      key: '1',
+      name: 'John Brown',
+      age: 32,
+      address: 'New York No. 1 Lake Park',
+      Address1: 'New York No. 1 Lake Park',
+      Address2: 'New York No. 1 Lake Park',
+      Address3: 'New York No. 1 Lake Park',
+      Address4: 'New York No. 1 Lake Park',
+      Address5: 'New York No. 1 Lake Park',
+      Address6: 'New York No. 1 Lake Park'
+    },
+    {
+      key: '1',
+      name: 'John Brown',
+      age: 32,
+      address: 'New York No. 1 Lake Park',
+      Address1: 'New York No. 1 Lake Park',
+      Address2: 'New York No. 1 Lake Park',
+      Address3: 'New York No. 1 Lake Park',
+      Address4: 'New York No. 1 Lake Park',
+      Address5: 'New York No. 1 Lake Park',
+      Address6: 'New York No. 1 Lake Park'
+    },
+   
+  ];
+  onResize({ width }: NzResizeEvent, col: string): void {
+    this.cols = this.cols.map(e => (e.title === col ? { ...e, width: `${width}px` } : e));
+  }
 }
