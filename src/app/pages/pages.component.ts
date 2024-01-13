@@ -1384,7 +1384,7 @@ export class PagesComponent implements OnInit, OnDestroy {
       }
 
       this.getSetVariableRule(model, currentValue);
-      this.cdr.detectChanges();
+      // this.cdr.detectChanges();
 
     }
   }
@@ -2146,7 +2146,12 @@ export class PagesComponent implements OnInit, OnDestroy {
         replaceData[value.defaultValue] = replaceData[value.defaultValue] ? replaceData[value.defaultValue].split(',').map((name: any) => name.trim()) : [];
         this.makeModel(node, replaceData[value.defaultValue])
         return node;
-      } 
+      }  
+      else if(node.type == "checkbox"){
+        replaceData[value.defaultValue] = replaceData[value.defaultValue] ? replaceData[value.defaultValue].split(',') : [];
+        this.makeModel(node, replaceData[value.defaultValue])
+        return node;
+      }
       else {
         this.makeModel(node, replaceData[value.defaultValue])
       }

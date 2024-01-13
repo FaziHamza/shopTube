@@ -1108,12 +1108,12 @@ export class DynamicTableComponent implements OnInit {
       //   this.tableHeaders = this.tableHeaders.filter((head: any) => head.name !== 'expand');
       // }
     }
-    if(this.tableHeaders.length > 0){
+    if (this.tableHeaders.length > 0) {
       if (this.tableHeaders.some((header: any) => ['srNo', 'dataType', 'isAllowGrouping'].includes(header.key)) && this.data) {
         this.data['startFreezingNumber'] = 3;
       }
     }
-  
+
 
     if (!this.data) {
       const newNode = {
@@ -1369,7 +1369,7 @@ export class DynamicTableComponent implements OnInit {
       else {
         let url = 'knex-query/getexecute-rules/' + this.data.eventActionconfig._id;
         if (this.childDataObj) {
-          let findExpandKeyHead = this.tableHeaders.find((head: any) => head.key == 'expand');
+          let findExpandKeyHead = (this.data.tableHeaders || this.tableHeaders).find((head: any) => head.key == 'expand');
           if (findExpandKeyHead) {
             url = findExpandKeyHead.callApi + '/' + this.childDataObj.id;
           }
@@ -2940,14 +2940,16 @@ export class DynamicTableComponent implements OnInit {
     }
   }
   callExpandAPi(item: any, event: any) {
+    debugger
     if (item?.editabeRowAddNewRow) {
       item.expand = false;
       this.toastr.warning("Please save before expand", { nzDuration: 3000 });
       return;
     }
-    let findExpandKeyHead = this.tableHeaders.find((head: any) => head.key == 'expand');
+    let findExpandKeyHead = (this.data.tableHeaders || this.tableHeaders).find((head: any) => head.key == 'expand');
     if (findExpandKeyHead && event) {
       if (findExpandKeyHead.callApi) {
+        let modifiedUrl = findExpandKeyHead.callApi.includes(',') ? (this.childDataObj ? findExpandKeyHead.callApi.split(',')[this.childDataObj['expandIndex']] : findExpandKeyHead.callApi.split(',')[0]) : findExpandKeyHead.callApi
         let pagination = '';
         let { _id, actionLink, data, headers, parentId, page, pageSize } = this.data.eventActionconfig;
         if (page && pageSize) {
@@ -2957,7 +2959,7 @@ export class DynamicTableComponent implements OnInit {
         let itemIdString: string | undefined = item?.id;
         parentId = itemIdString ? parseInt(itemIdString, 10) : 0;
         if (parentId) {
-          let url = findExpandKeyHead.callApi + '/' + parentId;
+          let url = modifiedUrl + '/' + parentId;
           this.requestSubscription = this.applicationService.callApi(`${url}${pagination}`, 'get', data, headers, null).subscribe({
             next: (res) => {
               this.saveLoader = false;
@@ -2966,20 +2968,31 @@ export class DynamicTableComponent implements OnInit {
                 'expand': false,
                 ...row
               }));
-              item['children'] = responseData;
               if (responseData.length == 0 && window.location.host.includes('taskmanager.com')) {
                 rowData['parentid'] = rowData.id;
               }
               if (res.count || res.count == 0) {
+                let modifiedHeaders: any[] = [];
+                let modifedData: any = '';
+                if (responseData.length > 0) {
+                  const firstObjectKeys = Object.keys(responseData[0]);
+                  if (responseData.length > 0) {
+                    modifiedHeaders = firstObjectKeys.map(key => ({ key: key, name: key }));
+                    modifedData = JSON.parse(JSON.stringify(this.data));
+                    modifedData['tableKey'] = modifiedHeaders;
+                  }
+                }
                 item['childDataObj'] = {
                   count: res.count,
                   callExpandAPi: true,
                   id: item?.id,
-                  data: JSON.parse(JSON.stringify(this.data)),
-                  header: this.tableHeaders,
-                  rowObj: responseData.length > 0 ? '' : rowData
+                  data: modifedData ? modifedData : JSON.parse(JSON.stringify(this.data)),
+                  header: modifiedHeaders.length > 0 ? modifiedHeaders : this.tableHeaders,
+                  rowObj: responseData.length > 0 ? '' : rowData,
+                  expandIndex: this.childDataObj ? this.childDataObj['expandIndex'] + 1 : 0
                 };
               }
+              item['children'] = responseData;
             },
             error: (error: any) => {
               console.error(error);

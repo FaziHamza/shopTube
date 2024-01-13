@@ -5,13 +5,14 @@ import { DataSharedService } from 'src/app/services/data-shared.service';
 @Component({
   selector: 'st-formly-field-ng-search',
   template: `
+  {{this.field.formControl.value | json}}
   <div [ngClass]="to['additionalProperties']?.wrapper && to['additionalProperties']?.wrapper == 'floating_filled' || to['additionalProperties']?.wrapper == 'floating_outlined' || to['additionalProperties']?.wrapper == 'floating_standard' ? 'relative z-0' : 'checkBox'">
-  <nz-checkbox-wrapper class='flex flex-wrap' [ngClass]="to['additionalProperties']?.wrapper && to['additionalProperties']?.wrapper == 'floating_filled' || to['additionalProperties']?.wrapper == 'floating_outlined' || to['additionalProperties']?.wrapper == 'floating_standard' ? to['additionalProperties']?.floatFieldClass: ''"  *ngIf="list.length" (nzOnChange)="log($event , field)">
-  <label *ngFor="let item of list; let i=index" [class]="item?.width" nz-checkbox   [nzDisabled]='to.disabled'  [nzValue]="item.value"
+  <nz-checkbox-wrapper   class='flex flex-wrap' [ngClass]="to['additionalProperties']?.wrapper && to['additionalProperties']?.wrapper == 'floating_filled' || to['additionalProperties']?.wrapper == 'floating_outlined' || to['additionalProperties']?.wrapper == 'floating_standard' ? to['additionalProperties']?.floatFieldClass: ''"  *ngIf="list.length" (nzOnChange)="log($event , field)">
+  <label  [formlyAttributes]="field" [formControl]="formControl"  *ngFor="let item of list; let i=index" [class]="item?.width" nz-checkbox   [nzDisabled]='to.disabled'  [nzValue]="item.value"
         >{{item.label}}</label>
   </nz-checkbox-wrapper>
-  <label [ngClass]="to['additionalProperties']?.floatLabelClass" *ngIf='list.length == 0' [formControl]="formControl" [nzDisabled]='to.disabled'  nz-checkbox  ></label>
-  <label *ngIf="to['additionalProperties']?.wrapper == 'floating_outlined' || to['additionalProperties']?.wrapper == 'floating_standard' || to['additionalProperties']?.wrapper == 'floating_filled'"
+  <label [ngClass]="to['additionalProperties']?.floatLabelClass" *ngIf='list.length == 0' [formlyAttributes]="field" [formControl]="formControl" [nzDisabled]='to.disabled'  nz-checkbox  ></label>
+  <label [formlyAttributes]="field" [formControl]="formControl"  *ngIf="to['additionalProperties']?.wrapper == 'floating_outlined' || to['additionalProperties']?.wrapper == 'floating_standard' || to['additionalProperties']?.wrapper == 'floating_filled'"
   [ngClass]=" to['additionalProperties']?.floatLabelClass">
   {{to.label}}
   </label>
@@ -29,8 +30,7 @@ export class FormlyFieldMultiCheckbox extends FieldType<FieldTypeConfig> {
   }
 
   log(event: any, model: any) {
-    let value = event.join(', ');
-    // this.formControl.patchValue(event);
+    let value = event.join(',');
     this.sharedService.onChange(value, this.field);
     console.log(event, model);
   }
