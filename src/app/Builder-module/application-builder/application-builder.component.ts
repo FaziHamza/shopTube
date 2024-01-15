@@ -553,7 +553,7 @@ export class ApplicationBuilderComponent implements OnInit {
       }
       if (this.applicationSubmit && key == "applicationid" && this.isSubmit) {
 
-        // this.handleCancel();
+        this.handleCancel();
         this.loading = true;
         const defaultCheck = '/' + this.myForm.value.defaultApplication ?? "''";
         this.applicationService.addNestNewCommonAPI('cp', objDataModel).subscribe({
