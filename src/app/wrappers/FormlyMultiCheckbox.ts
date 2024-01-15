@@ -5,7 +5,6 @@ import { DataSharedService } from 'src/app/services/data-shared.service';
 @Component({
   selector: 'st-formly-field-ng-search',
   template: `
-  {{this.field.formControl.value | json}}
   <div [ngClass]="to['additionalProperties']?.wrapper && to['additionalProperties']?.wrapper == 'floating_filled' || to['additionalProperties']?.wrapper == 'floating_outlined' || to['additionalProperties']?.wrapper == 'floating_standard' ? 'relative z-0' : 'checkBox'">
   <nz-checkbox-wrapper   class='flex flex-wrap' [ngClass]="to['additionalProperties']?.wrapper && to['additionalProperties']?.wrapper == 'floating_filled' || to['additionalProperties']?.wrapper == 'floating_outlined' || to['additionalProperties']?.wrapper == 'floating_standard' ? to['additionalProperties']?.floatFieldClass: ''"  *ngIf="list.length" (nzOnChange)="log($event , field)">
   <label  [formlyAttributes]="field" [formControl]="formControl"  *ngFor="let item of list; let i=index" [class]="item?.width" nz-checkbox   [nzDisabled]='to.disabled'  [nzValue]="item.value"
