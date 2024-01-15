@@ -33,7 +33,7 @@ export class BuilderLayoutComponent implements OnInit {
   constructor(private toastr: NzMessageService, private employeeService: EmployeeService, private applicationService: ApplicationService, private router: Router, private dataSharedService: DataSharedService) { }
 
   ngOnInit(): void {
-    this.getUsers();
+    // this.getUsers();
     this.menus = JSON.parse(this.menuStringify.menuData);
     this.selectedTheme = JSON.parse(this.menuStringify.menuData);
 
@@ -46,18 +46,18 @@ export class BuilderLayoutComponent implements OnInit {
     window.localStorage.clear();
     this.router.navigate(['/login'])
   }
-  getUsers() {
-    this.requestSubscription = this.applicationService.getNestCommonAPI('cp/user').subscribe({
-      next: (res: any) => {
-        if (res.data.length > 0) {
-          this.dataSharedService.usersData = res.data;
-        }
-      },
-      error: (err) => {
-        console.error(err); // Log the error to the console
-        this.toastr.error(`UserComment : An error occurred`, { nzDuration: 3000 });
-      }
-    });
-  }
+  // getUsers() {
+  //   this.requestSubscription = this.applicationService.getNestCommonAPI('cp/user').subscribe({
+  //     next: (res: any) => {
+  //       if (res.data.length > 0) {
+  //         this.dataSharedService.usersData = res.data;
+  //       }
+  //     },
+  //     error: (err) => {
+  //       console.error(err); // Log the error to the console
+  //       this.toastr.error(`UserComment : An error occurred`, { nzDuration: 3000 });
+  //     }
+  //   });
+  // }
 
 }

@@ -206,19 +206,19 @@ export class MenuBuilderComponent implements OnInit {
     // }));
   }
   getlocalMenu(id: any) {
-    this.applicationService.getNestNewCommonAPIById(`cp/${environment.dbMode}meta.PolicyMapping`, id).subscribe(((res: any) => {
+    this.applicationService.getNestNewCommonAPIById(`cp/getmenu/${environment.dbMode}meta.PolicyMapping`, id).subscribe(((res: any) => {
       if (res.isSuccess) {
-        if (res.data.length > 0) {
-          this.applicationId = res.data[0].id
-          this.nodes = res.data[0].menudata?.json;
-          this.selectedTheme = res.data[0].selectedtheme?.json;
+        if (res.data) {
+          this.applicationId = res.data.id
+          this.nodes = res.data.menudata;
+          this.selectedTheme = res.data.selectedtheme;
           this.controlUndefinedValues();
           this.makeMenuData();
           this.clickBack();
           let getApplication = this.applications.find((a: any) => a.id == id);
           if (getApplication) {
-            this.domainName = getApplication.domain ? getApplication.domain : undefined;
-            let domain = getApplication.domain ? getApplication.domain : '';
+            this.domainName = getApplication.domains ? getApplication.domains : undefined;
+            let domain = getApplication.domains ? getApplication.domains : '';
             this.dataSharedService.localhostHeaderFooter.next(domain);
             this.selectApplicationType = getApplication['application_Type'] ? getApplication['application_Type'] : '';
           }

@@ -553,7 +553,7 @@ export class ApplicationBuilderComponent implements OnInit {
       }
       if (this.applicationSubmit && key == "applicationid" && this.isSubmit) {
 
-        this.handleCancel();
+        // this.handleCancel();
         this.loading = true;
         const defaultCheck = '/' + this.myForm.value.defaultApplication ?? "''";
         this.applicationService.addNestNewCommonAPI('cp', objDataModel).subscribe({
@@ -823,25 +823,25 @@ export class ApplicationBuilderComponent implements OnInit {
           },
         ],
       },
-      // {
-      //   fieldGroup: [
-      //     {
-      //       key: 'password',
-      //       type: 'input',
-      //       wrappers: ["formly-vertical-theme-wrapper"],
-      //       defaultValue: '',
-      //       props: {
-      //         type: 'password',
-      //         label: 'Password',
-      //         placeholder: 'password...',
-      //         required: true,
-      //         additionalProperties: {
-      //           suffixicon: 'eye-invisible',
-      //         }
-      //       }
-      //     },
-      //   ],
-      // },
+      {
+        fieldGroup: [
+          {
+            key: 'password',
+            type: 'input',
+            wrappers: ["formly-vertical-theme-wrapper"],
+            defaultValue: '',
+            props: {
+              type: 'password',
+              label: 'Password',
+              placeholder: 'password...',
+              required: true,
+              additionalProperties: {
+                suffixicon: 'eye-invisible',
+              }
+            }
+          },
+        ],
+      },
       {
         fieldGroup: [
           {
@@ -968,7 +968,7 @@ export class ApplicationBuilderComponent implements OnInit {
     });
   }
   callDesignStudio() {
-    this.applicationService.getNestNewCommonAPI('applications/cloneApplicationData').subscribe(((res: any) => {
+    this.applicationService.getNestNewCommonAPI(`cp/applications/cloneApplicationData/${environment.dbMode}meta.app`).subscribe(((res: any) => {
       if (res.isSuccess) {
         this.designStudio = res.data;
       } else

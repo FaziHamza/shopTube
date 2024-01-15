@@ -9,6 +9,7 @@ import { DataSharedService } from 'src/app/services/data-shared.service';
 import { ApplicationService } from 'src/app/services/application.service';
 import { Subject, Subscription } from 'rxjs';
 import { Location } from '@angular/common';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'st-buttons',
@@ -290,7 +291,7 @@ export class ButtonsComponent implements OnInit {
   jsonPolicyModuleList() {
 
     let user = JSON.parse(window.localStorage['user']);
-    this.applicationService.getNestCommonAPI(`cp/policy/getPolicyByUserId/${user.policy.userId}`).subscribe({
+    this.applicationService.getNestNewCommonAPI(`cp/${environment.dbMode}meta.getpolicy/${user.policy.userId}`).subscribe({
       next: (res: any) => {
 
         if (res.isSuccess) {
