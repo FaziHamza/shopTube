@@ -2441,33 +2441,59 @@ export class PagesComponent implements OnInit, OnDestroy {
                       ).subscribe(res => {
                         if (res) {
                           if (res.data.length > 0) {
-                            let data = res.data;
-                            let propertyNames = Object.keys(data[0]);
-                            let result = data.map((item: any) => {
-                              let newObj: any = {};
-                              let propertiesToGet: string[];
-                              if ('id' in item && 'name' in item) {
-                                propertiesToGet = ['id', 'name'];
-                              } else {
-                                propertiesToGet = Object.keys(item).slice(0, 2);
+                            let checkType = filteredNodes.find((formly: any) => formly.key == getActions?.targetId);
+                            if (checkType && checkType?.type != 'repeatSection') {
+                              if (res.data.length > 0) {
+                                let newModel = this.formlyModel;
+                                for (const key in res.data[0]) {
+                                  newModel[key] = res.data[0][key];
+                                  if (key.includes('.')) {
+                                    if(newModel[key.split('.')[0]]){
+                                      newModel[key.split('.')[0]][key.split('.')[1]] = res.data[0][key];
+                                    }else{
+                                      newModel[key.split('.')[0]] = {};
+                                    }
+                                  }
+                                }
+                                this.formlyModel = newModel;
+                                // this.form.patchValue(this.formlyModel);
                               }
-                              propertiesToGet.forEach((prop) => {
-                                newObj[prop] = item[prop];
+                            }
+                             
+                            else {
+                              let data = res.data;
+                              let propertyNames = Object.keys(data[0]);
+                              let result = data.map((item: any) => {
+                                let newObj: any = {};
+                                let propertiesToGet: string[];
+                                if ('id' in item && 'name' in item) {
+                                  propertiesToGet = ['id', 'name'];
+                                } else {
+                                  propertiesToGet = Object.keys(item).slice(0, 2);
+                                }
+                                propertiesToGet.forEach((prop) => {
+                                  newObj[prop] = item[prop];
+                                });
+                                return newObj;
                               });
-                              return newObj;
-                            });
 
-                            let finalObj = result.map((item: any) => {
-                              return {
-                                label: item.name || item[propertyNames[1]],
-                                value: item.id || item[propertyNames[0]],
-                              };
-                            });
-                            for (let j = 0; j < filteredNodes.length; j++) {
-                              const ele = filteredNodes[j];
-                              if (ele.formly[0].fieldGroup[0].key == getActions?.targetId) {
-                                ele.formly[0].fieldGroup[0].props.options = finalObj;
+                              let finalObj = result.map((item: any) => {
+                                return {
+                                  label: item.name || item[propertyNames[1]],
+                                  value: item.id || item[propertyNames[0]],
+                                };
+                              });
+                              for (let j = 0; j < filteredNodes.length; j++) {
+                                const ele = filteredNodes[j];
+                                if (ele.formly[0].fieldGroup[0].key == getActions?.targetId) {
+                                  ele.formly[0].fieldGroup[0].props.options = finalObj;
+                                }
                               }
+                              const key = getActions.targetId;
+                              this.formlyModel[key] = '';
+                              this.formlyModel[key.split('.')[0]][key.split('.')[1]] = '';
+                              this.form.patchValue({ key: parseInt(this.formlyModel[key]) });
+                              this.formValueAssign(this.editData);
                             }
                           }
                           else {
@@ -2477,14 +2503,14 @@ export class PagesComponent implements OnInit, OnDestroy {
                                 ele.formly[0].fieldGroup[0].props.options = [];
                               }
                             }
+                            const key = getActions.targetId;
+                            this.formlyModel[key] = '';
+                            this.formlyModel[key.split('.')[0]][key.split('.')[1]] = '';
+                            this.form.patchValue({ key: parseInt(this.formlyModel[key]) });
+                            this.formValueAssign(this.editData);
                           }
-
                           this.updateNodes();
-                          const key = getActions.targetId;
-                          this.formlyModel[key] = '';
-                          this.formlyModel[key.split('.')[0]][key.split('.')[1]] = '';
-                          this.form.patchValue({ key: parseInt(this.formlyModel[key]) });
-                          // this.formValueAssign(this.editData);
+             
                         }
                       })
                   }
