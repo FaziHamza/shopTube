@@ -295,11 +295,22 @@ export class PagesComponent implements OnInit, OnDestroy {
           localStorage.setItem('screenId', this.dataSharedService.currentMenuLink);
           this.clearValues();
           this.applicationService.getNestCommonAPI('cp/auth/pageAuth/' + params["schema"]).subscribe(res => {
-            if (res?.data) {
+            if (res?.data == true) {
               this.initiliaze(params);
             } else {
               this.saveLoader = false;
-              this.router.navigateByUrl('permission-denied');
+              // this.screenId = res.data[0].screenBuilderId;
+              // this.screenName = res.data[0].screenName;
+              // this.navigation = res.data[0].navigation;
+
+              // this.resData = this.jsonParseWithObject(res.data[0].screenData);
+              // this.initiliaze('');
+              // this.router.navigateByUrl('permission-denied');
+              res.data[0].screenData = this.applicationService.jsonParseWithObject(res.data[0].screenData);
+              let nodes: any = [];
+              nodes.push(res);
+              this.data = nodes;
+              this.initiliaze('');
             }
           });
         }
@@ -2146,8 +2157,8 @@ export class PagesComponent implements OnInit, OnDestroy {
         replaceData[value.defaultValue] = replaceData[value.defaultValue] ? replaceData[value.defaultValue].split(',').map((name: any) => name.trim()) : [];
         this.makeModel(node, replaceData[value.defaultValue])
         return node;
-      }  
-      else if(node.type == "checkbox"){
+      }
+      else if (node.type == "checkbox") {
         replaceData[value.defaultValue] = replaceData[value.defaultValue] ? replaceData[value.defaultValue].split(',') : [];
         this.makeModel(node, replaceData[value.defaultValue])
         return node;
@@ -2173,8 +2184,8 @@ export class PagesComponent implements OnInit, OnDestroy {
         return node;
       }
     }
-    else if(node.type == "pieChart"){
-      node[key] = JSON.parse(replaceData[value.defaultValue]); 
+    else if (node.type == "pieChart") {
+      node[key] = JSON.parse(replaceData[value.defaultValue]);
     }
     else {
       if (key) {

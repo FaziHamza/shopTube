@@ -131,45 +131,43 @@ export class ButtonsComponent implements OnInit {
         this.loader = true;
         this.isVisible = true;
         // this.dataSharedService.drawerVisible = true;
-        this.requestSubscription = this.applicationService.getNestCommonAPIById('cp/Builder', data.href).subscribe({
-          next: (res: any) => {
-            try {
-              if (res.isSuccess) {
-                if (res.data.length > 0) {
-
-                  // if (this.dataSharedService.drawerIdList) {
-                  //   // for (const key in this.dataSharedService.drawerIdList) {
-                  //   //   this.dataSharedService.drawerIdList[key] = false;
-                  //   // }
-                  //   // this.dataSharedService.drawerIdList[this.tableRowId] = true;
-                  //   this.dataSharedService.drawerIdList[this.tableRowId] = true;
-                  // } else {
-                  //   this.dataSharedService.drawerIdList = {};
-                  //   this.dataSharedService.drawerIdList[this.tableRowId] = true;
-                  // }
-                  this.screenId = res.data[0].screenBuilderId;
-                  const data = JSON.parse(res.data[0].screenData);
-                  this.responseData = data;
-                  res.data[0].screenData = this.applicationService.jsonParseWithObject(this.applicationService.jsonStringifyWithObject(this.responseData));
-                  this.nodes = [];
-                  this.nodes.push(res);
-
+        this.applicationService.getNestCommonAPI('cp/auth/pageAuth/' + data.href).subscribe(res => {
+          if (res?.data == true) {
+            this.requestSubscription = this.applicationService.getNestCommonAPIById('cp/Builder', data.href).subscribe({
+              next: (res: any) => {
+                try {
+                  if (res.isSuccess) {
+                    if (res.data.length > 0) {
+                      this.screenId = res.data[0].screenBuilderId;
+                      const data = JSON.parse(res.data[0].screenData);
+                      this.responseData = data;
+                      res.data[0].screenData = this.applicationService.jsonParseWithObject(this.applicationService.jsonStringifyWithObject(this.responseData));
+                      this.nodes = [];
+                      this.nodes.push(res);
+                    }
+                    this.loader = false;
+                  } else {
+                    this.toastr.error(res.message, { nzDuration: 3000 });
+                    this.loader = false;
+                  }
+                } catch (err) {
+                  this.loader = false;
+                  this.toastr.warning('An error occurred: ' + err, { nzDuration: 3000 });
+                  console.error(err); // Log the error to the console
                 }
+              },
+              error: (err) => {
                 this.loader = false;
-              } else {
-                this.toastr.error(res.message, { nzDuration: 3000 });
-                this.loader = false;
+                this.toastr.warning('Required Href ' + err, { nzDuration: 3000 });
+                console.error(err); // Log the error to the console
               }
-            } catch (err) {
-              this.loader = false;
-              this.toastr.warning('An error occurred: ' + err, { nzDuration: 3000 });
-              console.error(err); // Log the error to the console
-            }
-          },
-          error: (err) => {
+            });
+          } 
+          else {
             this.loader = false;
-            this.toastr.warning('Required Href ' + err, { nzDuration: 3000 });
-            console.error(err); // Log the error to the console
+            this.screenId = res.data[0].screenBuilderId;
+            res.data[0].screenData = this.applicationService.jsonParseWithObject(res.data[0].screenData)
+            this.nodes.push(res)
           }
         });
         break;
