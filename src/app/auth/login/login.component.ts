@@ -92,7 +92,7 @@ export class LoginComponent implements OnInit {
     this.form.value['domain'] = window.location.host.split(':')[0],
       this.form.value['responsekey'] = this.recaptchaResponse;
     let obj = this.form.value;
-    obj['applicationId'] = this.applications?.application?._id || environment.applicationId;
+    obj['applicationId'] = this.applications?.application?.id ;
     // Show Loader
     this.showLoader = true;
     this.authService.loginUser(this.form.value).subscribe(
@@ -152,7 +152,7 @@ export class LoginComponent implements OnInit {
   getApplicationData() {
     this.showLoader = true;
     const hostUrl = window.location.host.split(':')[0];
-    this.authService.getNestCommonAPI('auth/domain/' + hostUrl).subscribe({
+    this.authService.getNestCommonAPI(`auth/domain/${environment.dbMode}meta.user/${hostUrl}`).subscribe({
       next: (res: any) => {
         if (res.isSuccess) {
           this.applications = res.data;

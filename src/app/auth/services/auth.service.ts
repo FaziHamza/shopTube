@@ -59,7 +59,7 @@ export class AuthService {
 
   //   Login:
   public loginUser(model: any) {
-    let url = environment.nestBaseUrl + "auth/login";
+    let url = environment.nestNewBaseUrl + `auth/login/${environment.dbMode}meta.login`;
     return this.http.post(url, model)
   }
 
@@ -79,7 +79,7 @@ export class AuthService {
   }
   getNestCommonAPI(api: string): Observable<any> {
     return this.http.get<any>(
-      api.includes('http') ? api : environment.nestBaseUrl + api
+      api.includes('http') ? api : environment.nestNewBaseUrl + api
     );
   }
   getNestNewCommonAPI(api: string): Observable<any> {

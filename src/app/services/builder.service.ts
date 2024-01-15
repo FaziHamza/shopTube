@@ -12,6 +12,7 @@ import { TreeNode } from '../models/treeNode';
 export class BuilderService {
   protected baseUrl = environment.serverApiUrl;
   protected nestUrl = environment.nestBaseUrl;
+  protected nestNewUrl = environment.nestNewBaseUrl;
   protected finalUrl = "";
   constructor(public http: HttpClient) { }
 
@@ -359,16 +360,16 @@ export class BuilderService {
       this.baseUrl + "jsonModule?applicationName=" + applicationName
     );
   }
-  getApplicationByDomainName(domain: any): Observable<any> {
+  getApplicationByNewDomainName(domain: any): Observable<any> {
     return this.http.get<any>(
-      this.nestUrl + "cp/domain/Application/" + domain
+      this.nestNewUrl + `cp/domain/${environment.dbMode}meta.application/${domain}`
     );
   }
-  getApplicationByHeaderName(domain: any): Observable<any> {
-    return this.http.get<any>(
-      this.nestUrl + "cp/header/Application/" + domain
-    );
-  }
+  // getApplicationByHeaderName(domain: any): Observable<any> {
+  //   return this.http.get<any>(
+  //     this.nestUrl + "cp/header/Application/" + domain
+  //   );
+  // }
   getUserAssignTask(screenId: any, applicationId: any): Observable<any> {
     return this.http.get<any>(
       this.nestUrl + "cp/userAssignTask/UserAssignTask/" + screenId + '/' + applicationId

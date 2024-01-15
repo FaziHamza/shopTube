@@ -117,8 +117,10 @@ export class SiteLayoutComponent implements OnInit {
     }
     //http://spectrum.com/
 
-    this.fullCurrentUrl = window.location.host.includes('spectrum') ? '172.23.0.8' : window.location.host.split(':')[0];
-    this.currentUrl = window.location.host.includes('spectrum') ? '172.23.0.8' : window.location.host.split(':')[0];
+    this.fullCurrentUrl = window.location.host.split(':')[0];
+    this.currentUrl = window.location.host.split(':')[0];
+    // this.fullCurrentUrl = window.location.host.includes('spectrum') ? '172.23.0.8' : window.location.host.split(':')[0];
+    // this.currentUrl = window.location.host.includes('spectrum') ? '172.23.0.8' : window.location.host.split(':')[0];
     this.getMenuByDomainName(this.currentUrl, true);
 
     // if (!this.currentUrl.includes('localhost')) {
@@ -198,12 +200,12 @@ export class SiteLayoutComponent implements OnInit {
   getMenuByDomainName(domainName: any, allowStoreId: boolean) {
     try {
       this.loader = true;
-      this.requestSubscription = this.builderService.getApplicationByDomainName(domainName).subscribe({
+      this.requestSubscription = this.builderService.getApplicationByNewDomainName(domainName).subscribe({
         next: (res) => {
           if (res.isSuccess) {
             this.domainData = res.data;
             if (res.data.appication) {
-              this.currentWebsiteLayout = res.data.appication.application_Type ? res.data.appication.application_Type : 'backend_application';
+              this.currentWebsiteLayout = res.data.appication.applicationtype ? res.data.appication.applicationtype : 'backend_application';
             }
             document.documentElement.style.setProperty('--primaryColor', res.data.appication?.primaryColor);
             document.documentElement.style.setProperty('--secondaryColor', res.data.appication?.secondaryColor);
@@ -217,18 +219,18 @@ export class SiteLayoutComponent implements OnInit {
             if(res.data['applicationGlobalClasses'] && res.data['applicationGlobalClasses'].length  > 0){
               this.dataSharedService.applicationGlobalClass = res.data['applicationGlobalClasses'];
             }
-            this.currentWebsiteLayout = res.data.appication['application_Type'] ? res.data.appication['application_Type'] : 'backend_application';
-            this.currentHeader = res.data['header'] ? this.jsonParseWithObject(res.data['header']['screenData']) : '';
-            this.currentFooter = res.data['footer'] ? this.jsonParseWithObject(res.data['footer']['screenData']) : '';
+            this.currentWebsiteLayout = res.data.appication['applicationtype'] ? res.data.appication['applicationtype'] : 'backend_application';
+            this.currentHeader = res.data['header'] ? res.data['header']['screendata']?.json :'';
+            this.currentFooter = res.data['footer'] ? res.data['footer']['screendata']?.json : '';
             if (res.data['menu']) {
-              if (this.selectedTheme && res.data['menu']?.selectedTheme) {
-                const theme = JSON.parse(res.data['menu'].selectedTheme);
+              if (this.selectedTheme && res.data['menu']?.selectedtheme) {
+                const theme =res.data['menu'].selectedtheme;
                 this.selectedTheme['isCollapsed'] = theme['isCollapsed'];
               }
               if (!window.location.href.includes('/menu-builder')) {
                 this.isShowContextMenu = true;
-                let getMenu = res.data['menu'] ? this.jsonParseWithObject(res.data['menu']['menuData']) : '';
-                let selectedTheme = res.data['menu'] ? this.jsonParseWithObject(res.data['menu'].selectedTheme) : {};
+                let getMenu = res.data['menu'] ? res.data['menu']['menudata']?.json : '';
+                let selectedTheme = res.data['menu'] ? res.data['menu'].selectedtheme : {};
                 if (getMenu) {
                   this.selectedTheme = selectedTheme;
                   this.selectedTheme.allMenuItems = getMenu;
@@ -272,7 +274,7 @@ export class SiteLayoutComponent implements OnInit {
 
     try {
       this.loader = true;
-      this.requestSubscription = this.builderService.getApplicationByHeaderName(domainName).subscribe({
+      this.requestSubscription = this.builderService.getApplicationByNewDomainName(domainName).subscribe({
         next: (res) => {
           if (res.isSuccess) {
             this.currentHeader = res.data['header'] ? this.jsonParseWithObject(res.data['header']['screenData']) : '';
