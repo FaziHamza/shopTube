@@ -1,6 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { NzMessageService } from 'ng-zorro-antd/message';
+import { Subject, Subscription } from 'rxjs';
 
 @Component({
   selector: 'st-layout-tabs-dropdown',
@@ -15,10 +16,10 @@ export class LayoutTabsDropdownComponent implements OnInit {
   isActiveShow: any;
   isActiveShowChild: any;
   hoverActiveShow: any;
-  constructor(private router: Router, private toastr: NzMessageService) { }
+  constructor(private router: Router, private toastr: NzMessageService, private activatedRoute: ActivatedRoute) { }
 
   ngOnInit(): void {
-
+    debugger
     this.tempData = JSON.parse(JSON.stringify(this.layoutTabsDropdownData));
     // window.onresize = () => {
     //   this.controlMenu();
@@ -27,15 +28,22 @@ export class LayoutTabsDropdownComponent implements OnInit {
       this.layoutTabsDropdownData['aboveSevenTab'] = this.layoutTabsDropdownData.children.slice(6);
       this.layoutTabsDropdownData.children = this.layoutTabsDropdownData.children.slice(0, 6);
     }
-    if(this.layoutTabsDropdownData.children.length > 0){
-      this.screenLoad(this.layoutTabsDropdownData.children[0] , true);
+    if (window.location.href.includes('/pages')) {
+      const urlSegments = window.location.href.split('/');
+      let findMenu = this.layoutTabsDropdownData.children.find((menu: any) => menu.link == `/pages/${urlSegments[urlSegments.length - 1].trim()}`);
+      if (findMenu && this.layoutTabsDropdownData.children.length > 0) {
+        this.screenLoad(findMenu, true);
+      }
+      else if (this.layoutTabsDropdownData.children.length > 0) {
+        this.screenLoad(this.layoutTabsDropdownData.children[0], true);
+      }
     }
   }
   screenLoad(data: any, allow: boolean) {
     const idToUpdate = allow ? 'isActiveShow' : 'isActiveShowChild';
     this[idToUpdate] = data.id;
 
-    if (data.link) {
+    if (data.link && !window.location.href.includes('/menu-builder')) {
       const routerLink = data.link.includes('/pages/') ? data.link : '/pages/' + data.link;
       this.router.navigate([routerLink]);
     }
@@ -63,4 +71,5 @@ export class LayoutTabsDropdownComponent implements OnInit {
   //     // this.moreMenu = [];
   //   }
   // }
+
 }

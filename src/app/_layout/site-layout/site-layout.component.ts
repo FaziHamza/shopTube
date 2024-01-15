@@ -173,7 +173,7 @@ export class SiteLayoutComponent implements OnInit {
       const footerElement = this.el.nativeElement.querySelector('#FOOTER');
       this.footerHeight = footerElement.clientHeight;
     }
-         
+
     if (this.el.nativeElement.querySelector('#Content')) {
       const contentElement = this.el.nativeElement.querySelector('#Content');
       this.dataSharedService.contentHeight = contentElement.clientHeight;
@@ -215,7 +215,7 @@ export class SiteLayoutComponent implements OnInit {
               localStorage.setItem('applicationId', JSON.stringify(res.data?.appication?._id));
               localStorage.setItem('organizationId', JSON.stringify(res.data?.department?.organizationId));
             }
-            if(res.data['applicationGlobalClasses']){
+            if (res.data['applicationGlobalClasses']) {
               this.dataSharedService.applicationGlobalClass = res.data['applicationGlobalClasses'];
             }
             this.currentWebsiteLayout = res.data.appication['application_Type'] ? res.data.appication['application_Type'] : 'backend_application';
@@ -247,6 +247,16 @@ export class SiteLayoutComponent implements OnInit {
               }
             }
             this.hideHeaderFooterMenu = window.location.href.includes('/pdf') ? true : false;
+            // Example usage:
+
+            if (window.location.href.includes('/pages')) {
+              const urlSegments = window.location.href.split('/');
+              const parentMenu = this.findParentMenu(this.selectedTheme.allMenuItems, `/pages/${urlSegments[urlSegments.length - 1].trim()}`);
+              if (parentMenu && parentMenu.type == "mainTab") {
+                this.tabs.push(parentMenu);
+              }
+            }
+
             if (!window.location.href.includes('/pages') && res.data?.default?.navigation && !window.location.href.includes('/menu-builder')) {
               this.router.navigate(['/pages/' + res.data?.default?.navigation
               ]);
@@ -317,6 +327,7 @@ export class SiteLayoutComponent implements OnInit {
     );
   }
   loadTabsAndButtons(data: any) {
+    debugger
     this.tabs = [];
     // this.dropdown = [];
     this.modules = [];
@@ -591,10 +602,45 @@ export class SiteLayoutComponent implements OnInit {
       }
     })
   }
-  ngOnDestroy() {
-    if (this.requestSubscription) {
-      this.requestSubscription.unsubscribe();
+  findParentMenu(menus: any[], link: string): any {
+    for (const menu of menus) {
+      if (menu.link === link) {
+        return null; // No parent for the root menu
+      }
+
+      if (menu.children && menu.children.length > 0) {
+        const childWithLink = menu.children.find((child: any) => child.link === link);
+
+        if (childWithLink) {
+          return menu;
+        }
+
+        const parent = this.findParentMenu(menu.children, link);
+
+        if (parent !== null) {
+          return parent;
+        }
+      }
+    }
+
+    return null;
+  }
+  ngOnDestroy(): void {
+    try {
+      if (this.requestSubscription) {
+        this.requestSubscription.unsubscribe();
+      }
+
+      if (this.subscriptions) {
+        this.subscriptions.unsubscribe();
+      }
+
+      this.destroy$.next();
+      this.destroy$.complete();
+    } catch (error) {
+      console.error('Error in ngOnDestroy:', error);
     }
   }
+
 }
 

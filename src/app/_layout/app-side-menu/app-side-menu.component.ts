@@ -157,6 +157,7 @@ export class AppSideMenuComponent implements OnInit {
     }
   }
   loadTabsAndButtons(event: MouseEvent, data: any, pushInTwoColumn?: any, allowHideInMblView?: any, twoColumnSecondColumn?: any) {
+    debugger
     if (this.mobileView && allowHideInMblView) {
       this.selectedTheme.isCollapsed = true;
     }
@@ -175,7 +176,8 @@ export class AppSideMenuComponent implements OnInit {
       if (data.link && !checkTabs && !window.location.href.includes('/menu-builder')) {
         if (data.link.includes('#')) {
           this.dataSharedService.moveLink.next(data.link)
-        }else{
+        }
+        else{
           this.dataSharedService.currentMenuLink = data.link;
           localStorage.setItem('screenId',this.dataSharedService.currentMenuLink);
           this.router.navigate([data.link]);
