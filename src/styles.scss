@@ -189,7 +189,17 @@ textarea {
 
 
 .theme-body.small-size {
+  .textarea-vertical-theme .col-form-label{
+    height: 35px !important;
+    max-height: 35px !important;
+    min-height: 35px !important;
+  }
 
+  .textarea-vertical-theme{
+    height: 35px !important;
+  }
+
+  height: 35px;
   .checkBox,
   st-multi-select,
   .column-form-input,
@@ -207,7 +217,7 @@ textarea {
   formly-vertical-theme-wrapper .fileup {
     max-height: 35px !important;
     min-height: 35px !important;
-    height: auto !important;
+    height: 35px !important;
   }
 
   .checkBox .ant-checkbox-group .ant-checkbox-wrapper {
@@ -269,6 +279,10 @@ textarea {
 }
 
 .theme-body.large-size {
+  height: 60px !important;
+  .textarea-vertical-theme{
+    height: 100% !important;
+  }
 
   .checkBox,
   st-multi-select,
@@ -360,7 +374,11 @@ textarea {
 
 
 .theme-body {
+  // height: 46px !important;
   padding-top: 0px !important;
+  .textarea-vertical-theme{
+    height: 46px !important;
+  }
   // box-shadow: rgba(0, 0, 0, 0.15) 2.4px 2.4px 3.2px;
 
   // formly-vertical-theme-wrapper {
@@ -371,16 +389,13 @@ textarea {
   //   }
   // }
 
-
-
-
-
   .side-input {
     st-input-wrapper {
-      height: 100% !important;
+      height: 46px !important;
       display: inline-block;
       width: 100% !important;
-      min-height: 52px;
+      min-height: 46px;
+      max-height: 46px;
 
       div {
         // height: 100% !important;
@@ -539,6 +554,7 @@ textarea {
   .ant-input-group textarea.ant-input {
     height: auto !important;
     min-height: 46px !important;
+    max-height: 46px !important;
     padding: 12px 11px !important;
   }
 
@@ -654,6 +670,9 @@ textarea {
 
   .ant-select-show-search {
     height: 46px !important;
+    div{
+    width: 100% !important;
+    }
 
     .ng-value-container {
       .ng-placeholder {
@@ -708,7 +727,7 @@ textarea {
       font-size: 12px;
       font-weight: bold;
       height: auto !important;
-      max-height: 100% !important;
+      max-height: 46px !important;
   
       span:nth-child(2) {
         text-overflow: ellipsis !important;
