@@ -538,7 +538,7 @@ export class PagesComponent implements OnInit, OnDestroy {
     if (this.tableRowID) {
       if (this.pageRuleList.length > 0) {
         const observables = this.pageRuleList.map((element: any) => {
-          return this.applicationService.callApi('knex-query/getexecute-rules/' + element._id, 'get', '', '', this.tableRowID).pipe(
+          return this.applicationService.callApi('knex-query/getexecute-rules/' + element.id, 'get', '', '', this.tableRowID).pipe(
             catchError((error: any) => of(error)) // Handle error and continue the forkJoin
           );
         });
@@ -667,7 +667,7 @@ export class PagesComponent implements OnInit, OnDestroy {
           }
           // this.dataSharedService.sectionSubmit.next(false);
           findClickApi = data.appConfigurableEvent.filter((item: any) => item.rule.includes('post_'));
-          if (findClickApi?.[0]?._id) {
+          if (findClickApi?.[0]?.id) {
             this.dataSharedService.imageUrl = '';
             this.requestSubscription = this.activatedRoute.params.subscribe((params: Params) => {
               if (params["id"]) {
@@ -679,7 +679,7 @@ export class PagesComponent implements OnInit, OnDestroy {
               }
             });
             this.saveLoader = true;
-            this.requestSubscription = this.applicationService.addNestCommonAPI('knex-query/execute-rules/' + findClickApi[0]?._id, empData).subscribe({
+            this.requestSubscription = this.applicationService.addNestCommonAPI('knex-query/execute-rules/' + findClickApi[0]?.id, empData).subscribe({
               next: (res) => {
                 this.saveLoader = false;
                 if (res) {
@@ -753,7 +753,7 @@ export class PagesComponent implements OnInit, OnDestroy {
             // console.log(result);
             this.saveLoader = true;
             // this.dataSharedService.sectionSubmit.next(false);
-            this.requestSubscription = this.applicationService.addNestCommonAPI('knex-query/execute-rules/' + findClickApi[0]._id, result).subscribe({
+            this.requestSubscription = this.applicationService.addNestCommonAPI('knex-query/execute-rules/' + findClickApi[0].id, result).subscribe({
               next: (res) => {
                 if (res.isSuccess) {
                   this.saveLoader = false;
@@ -788,14 +788,14 @@ export class PagesComponent implements OnInit, OnDestroy {
 
       if (findClickApi) {
         if (findClickApi.length > 0) {
-          let url = `knex-query/getexecute-rules/${findClickApi._id}`;
+          let url = `knex-query/getexecute-rules/${findClickApi.id}`;
           // for (let index = 0; index < findClickApi.length; index++) {
           //   let element = findClickApi[index].actionType;
           //   if (element == 'query') {
-          //     url = `knex-query/getAction/${findClickApi[index]._id}`;
+          //     url = `knex-query/getAction/${findClickApi[index].id}`;
           //     break;
           //   } else {
-          //     url = `knex-query/getAction/${findClickApi[index]._id}`;
+          //     url = `knex-query/getAction/${findClickApi[index].id}`;
           //   }
           // }
           if (url) {
@@ -1530,11 +1530,11 @@ export class PagesComponent implements OnInit, OnDestroy {
       }
       else if (res.name?.toLowerCase() == `${environment.dbMode}meta.validationrule`) {
         if (res.data) {
-          this.joiValidationData.push(res.data);
+          this.joiValidationData.push(res.data?.json);
         }
       }
       else if (res.name?.toLowerCase() == `${environment.dbMode}meta.actionrule`) {
-        this.actionRuleList.push(res.data);
+        this.actionRuleList.push(res.data?.json);
       }
       else if (res.name?.toLowerCase() == `${environment.dbMode}meta.uirule`) {
         if (res.data) {
@@ -2324,7 +2324,7 @@ export class PagesComponent implements OnInit, OnDestroy {
       else {
         let findObj = this.findObjectById(this.resData[0], data?.id.toLowerCase());
         if (findObj && tableData) {
-          this.requestSubscription = this.applicationService.callApi('knex-query/getexecute-rules/' + findClickApi._id, 'get', '', '', targetId ? targetId : '').subscribe(response => {
+          this.requestSubscription = this.applicationService.callApi('knex-query/getexecute-rules/' + findClickApi.id, 'get', '', '', targetId ? targetId : '').subscribe(response => {
             if (tableData && response?.data.length > 0) {
               let saveForm = JSON.parse(JSON.stringify(response.data[0]));
               const firstObjectKeys = Object.keys(saveForm);
@@ -2342,7 +2342,7 @@ export class PagesComponent implements OnInit, OnDestroy {
               }
               tableData.pageIndex = 1;
               tableData.totalCount = response.count;
-              tableData.serverApi = 'knex-query/getexecute-rules/' + findClickApi._id, 'get', '', '', targetId ? targetId : '';
+              tableData.serverApi = 'knex-query/getexecute-rules/' + findClickApi.id, 'get', '', '', targetId ? targetId : '';
               tableData.targetId = '';
               tableData.displayData = tableData.tableData.length > tableData.end ? tableData.tableData.slice(0, tableData.end) : tableData.tableData;
               // pagniation work end
@@ -2412,7 +2412,7 @@ export class PagesComponent implements OnInit, OnDestroy {
                   // if (getActions.actions?.[0]?.url.endsWith('/'))
                   //   url = getActions.actions?.[0]?.url.endsWith('/')
                   // else url = getActions.actions?.[0]?.url + '/'
-                  if (getActions._id) {
+                  if (getActions.id) {
                     for (let j = 0; j < filteredNodes.length; j++) {
                       const ele = filteredNodes[j];
                       if (ele.formly[0].fieldGroup[0].key == getActions?.targetId) {
@@ -2420,7 +2420,7 @@ export class PagesComponent implements OnInit, OnDestroy {
                       }
                     }
                     let parentId =
-                      this.requestSubscription = this.applicationService.callApi('knex-query/getexecute-rules/' + getActions._id, 'get', '', '', targetId
+                      this.requestSubscription = this.applicationService.callApi('knex-query/getexecute-rules/' + getActions.id, 'get', '', '', targetId
                       ).subscribe(res => {
                         if (res) {
                           if (res.data.length > 0) {

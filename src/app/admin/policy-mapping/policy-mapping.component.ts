@@ -172,16 +172,23 @@ export class PolicyMappingComponent implements OnInit {
     const result: any[] = [];
     for (const item of data) {
       if (item.creates || item.updates || item.reades || item.deletes) {
-        const checkMenu = item?.children?.json?.find((a: any) => a.sqlType == "sql");
-        if (checkMenu) {
-          const updatedMenu = item?.children?.json?.filter((a: any) => a.isAllow == true);
-          item.children.json = updatedMenu;
-          result.push(item);
+        if (typeof item?.children?.json != 'object') {
+          const checkMenu = item?.children?.json?.find((a: any) => a.sqlType == "sql");
+          if (checkMenu) {
+            const updatedMenu = item?.children?.json?.filter((a: any) => a.isAllow == true);
+            item.children.json = updatedMenu;
+            result.push(item);
+          } else {
+            const updatedMenu = JSON.parse(JSON.stringify(item));
+            updatedMenu.children.json = [];
+            result.push(updatedMenu);
+          }
         } else {
           const updatedMenu = JSON.parse(JSON.stringify(item));
           updatedMenu.children.json = [];
           result.push(updatedMenu);
         }
+
 
       }
 
@@ -318,7 +325,7 @@ export class PolicyMappingComponent implements OnInit {
     }));
   }
   getActions(id: any) {
-    this.applicationService.getNestNewCommonAPIById(`cp/${environment.dbMode}meta.Actions`, id).subscribe(((res: any) => {
+    this.applicationService.getNestNewCommonAPIById(`cp/${environment.dbMode}meta.Actionss`, id).subscribe(((res: any) => {
 
       if (res.isSuccess) {
         if (res.data.length > 0) {
@@ -408,11 +415,15 @@ export class PolicyMappingComponent implements OnInit {
             menu.children?.json.push(element);
             break;
           } else {
-            const checkIsAlreadyExist = menu.children?.json.find((a: any) => a.id == element.id);
-            if (!checkIsAlreadyExist) {
-              menu.children?.json.push(element);
+            if(typeof menu.children?.json != 'object'){
+              const checkIsAlreadyExist = menu.children?.json.find((a: any) => a.id == element.id);
+              if (!checkIsAlreadyExist) {
+                menu.children?.json.push(element);
+              }
+              break;
+            }else{
+              menu.children.json = []
             }
-            break;
           }
         }
       }

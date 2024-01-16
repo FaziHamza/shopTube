@@ -261,7 +261,7 @@ export class SectionsComponent implements OnInit {
       };
       this.dataSharedService.buttonData = '';
 
-      this.applicationServices.addNestCommonAPI('knex-query/execute-rules/' + event._id, model).subscribe({
+      this.applicationServices.addNestNewCommonAPI('knex-query/execute-rules/' + event.id, model).subscribe({
         next: (res) => {
           if (res) {
             try {
@@ -493,7 +493,7 @@ export class SectionsComponent implements OnInit {
   async getFromQuery(data: any) {
     let findClickApi = data?.appConfigurableEvent?.find((item: any) => item.rule.includes('get'))
     if (findClickApi) {
-      let url = `knex-query/getexecute-rules/${findClickApi._id}`;
+      let url = `knex-query/getexecute-rules/${findClickApi.id}`;
       url = this.mappingId ? `${url}/${this.mappingId}` : url;
       let tableData = this.findObjectByKey(this.sections, findClickApi.targetId);
       if (tableData) {
@@ -512,7 +512,7 @@ export class SectionsComponent implements OnInit {
 
                 if (window.location.href.includes('marketplace.com')) {
                   res.data = res.data.map((item: any) => ({
-                    id: item._id, // Rename _id to id
+                    id: item.id, // Rename id to id
                     name: item.name,
                     categoryId: item.categoryId,
                     categoryName: item.categoryDetails?.[0]?.name, // Access the name property from categoryDetails
@@ -895,9 +895,9 @@ export class SectionsComponent implements OnInit {
   //                 this.saveLoader = false;
   //                 if (apiUrl.includes('/userComment')) {
 
-  //                   const requiredData = res.data.map(({ __v, _id, ...rest }: any) => ({
+  //                   const requiredData = res.data.map(({ __v, id, ...rest }: any) => ({
   //                     expand: false,
-  //                     id: _id,
+  //                     id: id,
   //                     ...rest,
   //                   }));
   //                   res.data = JSON.parse(JSON.stringify(requiredData));
