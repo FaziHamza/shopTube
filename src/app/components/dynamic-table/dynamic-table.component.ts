@@ -2861,7 +2861,6 @@ export class DynamicTableComponent implements OnInit {
   }
 
   resizingLocalStorage() {
-
     let storeData = this.tableHeaders.map((item: any) => {
       let obj = {
         key: item.key,
@@ -3082,14 +3081,14 @@ export class DynamicTableComponent implements OnInit {
       const e = this.tableHeaders[i];
       if (e.key === col) {
         this.tableHeaders[i] = { ...e, width: `${width}px` };
-        console.log(this.tableHeaders[i]);
+        // console.log(this.tableHeaders[i]);
       }
     }
-
-    this.zone.run(() => {
-      this.tableHeaders = [...this.tableHeaders];
-      this.cdr.detectChanges();
-    });
+    this.resizingLocalStorage();
+    // this.zone.run(() => {
+    //   this.tableHeaders = [...this.tableHeaders];
+    //   this.cdr.detectChanges();
+    // });
   }
 
 }

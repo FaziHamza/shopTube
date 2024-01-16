@@ -6706,10 +6706,10 @@ tr:hover {
 }
 
 .dynamic-table {
-  col.ng-star-inserted:nth-child(2) {
-    width: auto !important;
-    min-width: auto !important;
-  }
+  // col.ng-star-inserted:nth-child(2) {
+  //   width: auto !important;
+  //   min-width: auto !important;
+  // }
 
   /* Styling for header cells */
   thead tr th {

@@ -44,6 +44,7 @@ export class UIRuleComponent implements OnInit {
   invoice1: any;
   invoice2: any;
   ngOnInit(): void {
+    debugger
     if (this.isScreenSaved)
       this.toastr.warning("Please save screen before add or update ui rule", { nzDuration: 3000 });
     const obj = {
@@ -53,7 +54,23 @@ export class UIRuleComponent implements OnInit {
     }
     const data = JSON.parse(JSON.stringify(this.nodes));
     this.nodes = data;
+    // let getData: any = localStorage;
+    // let user: any = JSON.parse(localStorage.getItem('user')!)
+    // console.log(getData);
+    let createData = [{ 'title': 'App application Id', 'key': 'app_applicationId', type: 'string' },
+    { 'title': 'App Organization Id', 'key': 'app_organizationId', type: 'string' },
+    { 'title': 'App ScreenBuilder Id', 'key': 'app_screenBuildId', type: 'string' },
+    { 'title': 'App ScreenId', 'key': 'app_screenId', type: 'string' },
+    { 'title': 'User User Name', 'key': 'app_user.username', type: 'string' },
+    { 'title': 'User User Id', 'key': 'app_user.userId', type: 'string' },
+    { 'title': 'User Policy policyName', 'key': 'app_user.policy.policyName', type: 'string' },
+    ];
+
+    createData.forEach((element: any) => {
+      this.nodes[0].children[1].children.push(element);
+    });
     this.nodes[0].children[1].children.push(obj);
+
     this.uiRule();
     this.invoice1 = { "title": "Select One" };
     this.invoice2 = { "title": "Select two" };
@@ -715,11 +732,13 @@ export class UIRuleComponent implements OnInit {
         if ((data.key ? data.key : data.formly[0]?.fieldGroup[0]?.key) === key) {
           return data;
         }
-        if (data.children.length > 0) {
-          for (let child of data.children) {
-            let result: any = this.findElementNode(child, key);
-            if (result !== null) {
-              return result;
+        if (data?.children) {
+          if (data.children.length > 0) {
+            for (let child of data.children) {
+              let result: any = this.findElementNode(child, key);
+              if (result !== null) {
+                return result;
+              }
             }
           }
         }

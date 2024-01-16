@@ -128,17 +128,15 @@
       <!-- header -->
       <thead *ngIf="tableHeaders.length > 0" class="desktop-toggle">
         <tr class="desktop-toggle " *ngIf="data?.showColumnHeader == undefined ? true : data?.showColumnHeader">
-          <!-- <th [class]="data.tableHeaderClass" (mousedown)="onResizeStart($event, deleteditWidth[2])"
-            style="text-align:center !important"
+          <th [class]="data.tableHeaderClass" style="text-align:center !important"
             [nzWidth]="deleteditWidth[2]?.width ? deleteditWidth[2].width + 'px' : 'auto'" [class]="data?.thClass"
             [nzLeft]="data?.startFreezingNumber >= 1" *ngIf="data.showCheckbox" [(nzChecked)]="allChecked"
-            [nzIndeterminate]="indeterminate" (nzCheckedChange)="checkAll($event)"></th> -->
+            [nzIndeterminate]="indeterminate" (nzCheckedChange)="checkAll($event)"></th>
           <ng-container *ngFor="let header of tableHeaders ; let i = index">
             <!-- !border-r-4 !border-gray-200 -->
 
-            <th nz-resizable nzBounds="window" nzPreview [nzLeft]="allowFreeze(header , i)"
-              (nzResizeEnd)="onResize($event, header.key)" [class]="data.tableHeaderClass" [nzWidth]="header.width"
-              [nzMinWidth]="60"
+            <th [nzLeft]="allowFreeze(header , i)" nz-resizable nzBounds="window" nzPreview [nzWidth]="header.width"
+              [nzMinWidth]="60" (nzResizeEnd)="onResize($event, header.key)" [class]="data.tableHeaderClass" nz-resizable
               *ngIf="header.key !== 'defaultValue' && (header?.show == true || header?.show === undefined || header?.show === '' || header?.show == 'Yes')">
               <!-- (click)="header?.columnClickApi ? onClickColumn(header.columnClickApi,header): ''" -->
               <div [class]="data?.thClass"
@@ -241,11 +239,34 @@
               </div>
               <!-- {{ header['title'] ? header['title'] : header['name'] | translate }} -->
               <nz-resize-handle nzDirection="right">
-                <div class="resize-trigger"></div>
+                <div class="right-wrap">
+                  <span class="right" nz-icon nzType="more" nzTheme="outline"></span>
+                </div>
               </nz-resize-handle>
             </th>
           </ng-container>
-          
+          <th [class]="data.tableHeaderClass"
+            [nzWidth]="deleteditWidth[0]?.width ? deleteditWidth[0].width + 'px' : 'auto'"
+            *ngIf="isAllowEdit(tableHeaders)"
+            [nzRight]="data?.endFreezingNumber >= 2">
+            <div [class]="data?.thClass" class="!text-gray-500 relative !uppercase !text-center"
+              class="w-auto flex justify-center items-center"
+              [style.transform]="data?.rotationDegree &&  'rotate(' + data?.rotationDegree + 'deg)'"
+              [style.height]="data?.rotationDegree && '100px'">
+              Edit
+            </div>
+          </th>
+          <th [class]="data.tableHeaderClass"
+            [nzWidth]="deleteditWidth[1]?.width ? deleteditWidth[1].width + 'px' : 'auto'"
+             [nzRight]="data?.endFreezingNumber >= 1"
+            *ngIf="tableHeaders.length > 0 && (data?.isDeleteAllow || data?.isDeleteAllow == undefined)">
+            <div [class]="data?.thClass" class="!text-gray-500 relative !uppercase !text-center"
+              class="w-auto flex justify-center items-center"
+              [style.transform]="data?.rotationDegree && 'rotate(' + data?.rotationDegree + 'deg)'"
+              [style.height]="data?.rotationDegree && '100px'">
+              Delete
+            </div>
+          </th>
         </tr>
       </thead>
 
@@ -426,7 +447,26 @@
                   </button>
                 </td>
               </ng-container>
-              
+              <!-- edit and cancel td -->
+              <td [nzRight]="data?.endFreezingNumber >= 2" *ngIf="isAllowEdit(tableHeaders)" [class]="data?.editCell">
+                <i (click)="startEdit(item)" *ngIf="editId !== item.id" [style.color]="data?.editIconColor"
+                  [class]="'fa-regular !text-sm fa-pencil text-blue-500 ' + (item?.editabeRowAddNewRow == true ?  '!cursor-no-drop' :'')"></i>
+                <div class="flex justify-center items-center" *ngIf="editId == item.id">
+                  <i [style.color]="data?.saveIconColor" (click)="saveEdit(item)"
+                    class="fa-regular !text-sm fa-save text-blue-500 mr-2.5"></i>
+                  <!-- <i  class="fa-regular !text-sm fa-times text-red-500 "></i> -->
+                  <i [style.color]="data?.cancelIconColor" (click)="cancelEdit(item)"
+                    class="fa-solid fa-circle-xmark !text-sm text-red-500"></i>
+                </div>
+              </td>
+              <!-- delete td -->
+              <td [nzRight]="data?.endFreezingNumber >= 1"
+                *ngIf="data?.isDeleteAllow || data?.isDeleteAllow == undefined " [class]="data?.deleteCell">
+                <a (click)="showDeleteConfirm(item)">
+                  <i [style.color]="data?.deleteIconColor"
+                    [class]="'fa-regular fa-trash !text-sm text-red-500 ' + (item?.editabeRowAddNewRow == true ?  '!cursor-no-drop' :'')"></i>
+                </a>
+              </td>
             </tr>
             <!-- child table -->
             <tr *ngIf="item.expand != undefined" [nzExpand]="item.expand">

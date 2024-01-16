@@ -1344,14 +1344,21 @@ export class PagesComponent implements OnInit, OnDestroy {
                   query = this.evalConditionRule(query, screenData.uiData[index].targetIfValue);
                 }
 
-              } else {
+              }
+              else {
                 if (screenData.uiData[index].ifMenuName.includes('number') || screenData.uiData[index].ifMenuName.includes('decimal')) {
                   query = Number(getModelValue) + " " + screenData.uiData[index].condationName + " " + screenData.uiData[index].targetValue;
 
                   query = this.evalConditionRule(query, screenData.uiData[index].targetIfValue);
                 } else {
-                  const checkValue = policy ? this.user?.policy?.policyId : getModelValue
-                  query = "'" + checkValue + "' " + screenData.uiData[index].condationName + " '" + screenData.uiData[index].targetValue + "'";
+                  if (policy && policy != 'policy') {
+                    query = "'" + currentValue + "' " + screenData.uiData[index].condationName + " '" + policy + "'";
+                  }
+                  else {
+                    const checkValue = policy ? this.user?.policy?.policyId : getModelValue
+                    query = "'" + checkValue + "' " + screenData.uiData[index].condationName + " '" + screenData.uiData[index].targetValue + "'";
+                    query = this.evalConditionRule(query, screenData.uiData[index].targetIfValue, policy);
+                  }
 
                   query = this.evalConditionRule(query, screenData.uiData[index].targetIfValue, policy);
                 }
@@ -1967,6 +1974,33 @@ export class PagesComponent implements OnInit, OnDestroy {
             if (res) {
               if (res?.data) {
                 if (res?.data.length > 0) {
+                  //This is used on ui rule on load with value
+                  const checkLoadtype = this.screenData?.uiData?.filter((a: any) => a.actionType == 'load');
+                  if (checkLoadtype?.length > 0) {
+                    checkLoadtype.forEach((uiRule: any) => {
+                      if (uiRule.targetValue.includes('$')) {
+                        const field = {
+                          title: uiRule.ifMenuName,
+                          key: uiRule.ifMenuName,
+                          type: 'string'
+                        }
+
+                        let key = uiRule.targetValue.replace('$', '')
+                        if (res?.data[0][key] && uiRule.ifMenuName && uiRule.ifMenuName.includes('app_')) {
+                          let getData: any = localStorage;
+                          let modifedData = JSON.parse(JSON.stringify(getData))
+                          modifedData['applicationId'] = JSON.parse(localStorage.getItem('applicationId')!);
+                          modifedData['organizationId'] = JSON.parse(localStorage.getItem('organizationId')!);
+                          modifedData['user'] = this.user;
+                          let value = modifedData[uiRule.ifMenuName.split('_')[1]];
+                          if(uiRule.ifMenuName.includes('app_user')){
+                            value = modifedData['user'][uiRule.ifMenuName.split('.')[1]]
+                          }
+                          this.checkConditionUIRule(field, value, res?.data[0][key]);
+                        }
+                      }
+                    });
+                  }
                   if (selectedNode.type == 'chat') {
                     selectedNode.chatData = res.data;
                     this.zone.run(() => {
@@ -2448,9 +2482,9 @@ export class PagesComponent implements OnInit, OnDestroy {
                                 for (const key in res.data[0]) {
                                   newModel[key] = res.data[0][key];
                                   if (key.includes('.')) {
-                                    if(newModel[key.split('.')[0]]){
+                                    if (newModel[key.split('.')[0]]) {
                                       newModel[key.split('.')[0]][key.split('.')[1]] = res.data[0][key];
-                                    }else{
+                                    } else {
                                       newModel[key.split('.')[0]] = {};
                                     }
                                   }
@@ -2459,7 +2493,7 @@ export class PagesComponent implements OnInit, OnDestroy {
                                 // this.form.patchValue(this.formlyModel);
                               }
                             }
-                             
+
                             else {
                               let data = res.data;
                               let propertyNames = Object.keys(data[0]);
@@ -2510,7 +2544,7 @@ export class PagesComponent implements OnInit, OnDestroy {
                             this.formValueAssign(this.editData);
                           }
                           this.updateNodes();
-             
+
                         }
                       })
                   }
