@@ -36,7 +36,7 @@
                     </a>
                   </nz-list-item-action>
                 </ul>
-                {{ item.tableName }}
+                {{ item.tablename }}
               </li>
             </div>
 
@@ -69,7 +69,7 @@
                     </a>
                   </nz-list-item-action>
                 </ul>
-                {{ itemPending.tableName }}
+                {{ itemPending.tablename }}
 
               </li>
             </div>
@@ -127,7 +127,7 @@
             <tr *ngFor="let data of editRowTable.data; index as i">
               <ng-container> <!--*ngIf="!editCache[data.id]?.edit; else editTemplate"-->
                 <td>{{ i+1 }}</td>
-                <td><input type="text" nz-input [(ngModel)]="data.fieldName" [ngModelOptions]="{ standalone: true }" />
+                <td><input type="text" nz-input [(ngModel)]="data.fieldname" [ngModelOptions]="{ standalone: true }" />
                 </td>
                 <!--editCache[data.id].data.fieldName-->
                 <td>
