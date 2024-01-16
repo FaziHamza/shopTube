@@ -189,17 +189,18 @@ textarea {
 
 
 .theme-body.small-size {
-  .textarea-vertical-theme .col-form-label{
+  .textarea-vertical-theme .col-form-label {
     height: 35px !important;
     max-height: 35px !important;
     min-height: 35px !important;
   }
 
-  .textarea-vertical-theme{
+  .textarea-vertical-theme {
     height: 35px !important;
   }
 
   height: 35px;
+
   .checkBox,
   st-multi-select,
   .column-form-input,
@@ -280,7 +281,8 @@ textarea {
 
 .theme-body.large-size {
   height: 60px !important;
-  .textarea-vertical-theme{
+
+  .textarea-vertical-theme {
     height: 100% !important;
   }
 
@@ -376,9 +378,11 @@ textarea {
 .theme-body {
   // height: 46px !important;
   padding-top: 0px !important;
-  .textarea-vertical-theme{
+
+  .textarea-vertical-theme {
     height: 46px !important;
   }
+
   // box-shadow: rgba(0, 0, 0, 0.15) 2.4px 2.4px 3.2px;
 
   // formly-vertical-theme-wrapper {
@@ -670,8 +674,9 @@ textarea {
 
   .ant-select-show-search {
     height: 46px !important;
-    div{
-    width: 100% !important;
+
+    div {
+      width: 100% !important;
     }
 
     .ng-value-container {
@@ -718,6 +723,7 @@ textarea {
       height: 100% !important;
       max-height: 100% !important;
     }
+
     .col-form-label {
       padding: 13px !important;
       min-height: 46px !important;
@@ -728,7 +734,7 @@ textarea {
       font-weight: bold;
       height: auto !important;
       max-height: 46px !important;
-  
+
       span:nth-child(2) {
         text-overflow: ellipsis !important;
         overflow: hidden !important;
@@ -9220,8 +9226,31 @@ ul.jsondiffpatch-textdiff {
     }
   }
 }
-.ant-table tfoot>tr>td, .ant-table tfoot>tr>th, .ant-table-tbody>tr>td {
+
+.ant-table tfoot>tr>td,
+.ant-table tfoot>tr>th,
+.ant-table-tbody>tr>td {
   position: relative;
   padding: 10px !important;
   overflow-wrap: break-word;
+}
+
+.select-read-only {
+  .ant-select-disabled.ant-select:not(.ant-select-customize-input) .ant-select-selector {
+    color: rgba(0, 0, 0, .25);
+    background: #fff !important;
+    cursor: not-allowed;
+  }
+}
+
+.date-read-only {
+  .ant-picker.ant-picker-disabled {
+    background: #fff !important;
+    border-color: #d9d9d9;
+    cursor: not-allowed;
+  }
+}
+
+.ant-layout-sider-light {
+  border-right: 1px solid #f0f0f0 !important;
 }

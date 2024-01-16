@@ -3,12 +3,10 @@
     <tr>
       <ng-container *ngFor="let col of cols">
         <th
-          *ngIf="col.width"
           nz-resizable
           nzBounds="window"
           nzPreview
           [nzWidth]="col.width"
-          [nzMaxWidth]="256"
           [nzMinWidth]="60"
           (nzResizeEnd)="onResize($event, col.title)"
         >

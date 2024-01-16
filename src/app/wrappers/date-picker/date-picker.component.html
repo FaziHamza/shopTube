@@ -1,9 +1,12 @@
-<div [class]="to['additionalProperties']?.wrapper=='floating_standard' ? 'relative z-0' : ''">
+<div [class.date-read-only]="to.readonly ? true : false"
+  [class]="to['additionalProperties']?.wrapper=='floating_standard' ? 'relative z-0' : ''">
   <nz-input-group [style.border]="to['additionalProperties']?.border? '0px': ''"
     [nzSuffix]="(to['additionalProperties']?.addonRight   || to['additionalProperties']?.suffixicon) ? suffixTemplateInfo : undefined"
     [nzPrefix]="(to['additionalProperties']?.addonLeft || to['additionalProperties']?.prefixicon) ? prefixTemplateUser : undefined"
     [nzStatus]="to['additionalProperties']?.status">
-    <nz-date-picker [nzDisabledDate]="disabledDate" [class]="to['additionalProperties']?.innerInputClass + ' ' + to['additionalProperties']?.applicationThemeClasses + ' ' + to['additionalProperties']?.appGlobalInnerClass"
+    <nz-date-picker [nzInputReadOnly]="true" [nzDisabledDate]="disabledDate"
+      [nzDisabled]="(to.disabled || to.readonly) ? true : false"
+      [class]="to['additionalProperties']?.innerInputClass + ' ' + to['additionalProperties']?.applicationThemeClasses + ' ' + to['additionalProperties']?.appGlobalInnerClass"
       style="width:100%" (ngModelChange)="onModelChange($event, field)" [ngClass]="to['additionalProperties']?.wrapper=='floating_filled' || to['additionalProperties']?.wrapper=='floating_standard'
     || to['additionalProperties']?.wrapper=='floating_outlined' ? to['additionalProperties']?.floatFieldClass : ''"
       [style.border-radius]="to['additionalProperties']?.borderRadius" [nzFormat]="'dd-MM-yyyy'"
