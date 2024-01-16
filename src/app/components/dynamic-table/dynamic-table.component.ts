@@ -1,7 +1,7 @@
 import { DatePipe } from '@angular/common';
 import { HttpClient, HttpEvent, HttpEventType } from '@angular/common/http';
 import {
-  ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output, HostListener
+  ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output, HostListener, NgZone
 } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 import { Router } from '@angular/router';
@@ -95,20 +95,20 @@ export class DynamicTableComponent implements OnInit {
   borderRadius = '8px';
   private subscriptions: Subscription = new Subscription();
   private destroy$: Subject<void> = new Subject<void>();
-  @HostListener('window:resize', ['$event'])
-  onResize(event: NzResizeEvent, header: any): void {
-    if (event.width) {
-      header.width = event.width;
-      header = JSON.parse(JSON.stringify(header));
-      this.cdr.detach();
-      this.cdr.detectChanges();
-      setTimeout(() => {
-        this.resizingLocalStorage();
-      }, 100);
-    }
-    // Update the nzScroll configuration based on screen size
-    // this.updateScrollConfig();
-  }
+  // @HostListener('window:resize', ['$event'])
+  // onResize(event: NzResizeEvent, header: any): void {
+  //   if (event.width) {
+  //     header.width = event.width;
+  //     header = JSON.parse(JSON.stringify(header));
+  //     this.cdr.detach();
+  //     this.cdr.detectChanges();
+  //     setTimeout(() => {
+  //       this.resizingLocalStorage();
+  //     }, 100);
+  //   }
+  //   // Update the nzScroll configuration based on screen size
+  //   // this.updateScrollConfig();
+  // }
   constructor(public _dataSharedService: DataSharedService, private builderService: BuilderService,
     private applicationService: ApplicationService,
     private dataService: DataService,
@@ -116,7 +116,8 @@ export class DynamicTableComponent implements OnInit {
     public dataSharedService: DataSharedService,
     private applicationServices: ApplicationService,
     private sanitizer: DomSanitizer, private router: Router, private http: HttpClient,
-    private modal: NzModalService
+    private modal: NzModalService,
+    private zone: NgZone
   ) {
     this.processData = this.processData.bind(this);
     const prevNextRecord = this.dataSharedService.prevNextRecord.subscribe((res: any) => {
@@ -2821,27 +2822,27 @@ export class DynamicTableComponent implements OnInit {
 
     console.log(event)
   }
-  onResizeStart(event: MouseEvent, column: any): void {
-    const startX = event.clientX;
-    const initialWidth = parseInt(column.width) || 100;
-    const minimumWidth = 50;  // Minimum width for a column
+  // onResizeStart(event: MouseEvent, column: any): void {
+  //   const startX = event.clientX;
+  //   const initialWidth = parseInt(column.width) || 100;
+  //   const minimumWidth = 50;  // Minimum width for a column
 
-    const onMouseMove = (e: MouseEvent) => {
-      const width = Math.max(initialWidth + e.clientX - startX, minimumWidth);
-      if (width > minimumWidth) {
-        column.width = width;
-        this.resizingLocalStorage();
-      }
-    };
+  //   const onMouseMove = (e: MouseEvent) => {
+  //     const width = Math.max(initialWidth + e.clientX - startX, minimumWidth);
+  //     if (width > minimumWidth) {
+  //       column.width = width;
+  //       this.resizingLocalStorage();
+  //     }
+  //   };
 
-    const onMouseUp = () => {
-      window.removeEventListener('mousemove', onMouseMove);
-      window.removeEventListener('mouseup', onMouseUp);
-    };
+  //   const onMouseUp = () => {
+  //     window.removeEventListener('mousemove', onMouseMove);
+  //     window.removeEventListener('mouseup', onMouseUp);
+  //   };
 
-    window.addEventListener('mousemove', onMouseMove);
-    window.addEventListener('mouseup', onMouseUp);
-  }
+  //   window.addEventListener('mousemove', onMouseMove);
+  //   window.addEventListener('mouseup', onMouseUp);
+  // }
   updateRotationDegree(degree: number) {
     this.rotationDegree = degree;
   }
@@ -3075,5 +3076,21 @@ export class DynamicTableComponent implements OnInit {
       console.error('Error in ngOnDestroy:', error);
     }
   }
+
+  onResize({ width }: NzResizeEvent, col: string): void {
+    for (let i = 0; i < this.tableHeaders.length; i++) {
+      const e = this.tableHeaders[i];
+      if (e.key === col) {
+        this.tableHeaders[i] = { ...e, width: `${width}px` };
+        console.log(this.tableHeaders[i]);
+      }
+    }
+
+    this.zone.run(() => {
+      this.tableHeaders = [...this.tableHeaders];
+      this.cdr.detectChanges();
+    });
+  }
+
 }
 
