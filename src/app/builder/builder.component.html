@@ -281,7 +281,7 @@
               </nz-tab>
               <nz-tab nzTitle="Email Templates" (nzClick)="showRulesFunc('emailTemplates')">
                 <st-email-templates *ngIf="showRules == 'emailTemplates'" [screenName]="screenName"
-                  [screenId]="_id"></st-email-templates>
+                  [screenId]="_id" [nodes]="nodes"></st-email-templates>
               </nz-tab>
             </nz-tabset>
           </div>

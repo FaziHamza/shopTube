@@ -47,7 +47,9 @@ export class ActionRuleComponent implements OnInit {
   requestSubscription: Subscription;
   screenActions: any[];
   showActionRuleForm: boolean = true;
+  emailNameOptions: any = [];
   nodeList: { title: string, key: string }[] = [];
+  emailToOptions: any[] = [];
   constructor(private formBuilder: FormBuilder, private builderService: BuilderService,
     private employeeService: EmployeeService,
     public dataSharedService: DataSharedService, private toastr: NzMessageService,
@@ -55,9 +57,11 @@ export class ActionRuleComponent implements OnInit {
 
   ngOnInit(): void {
     // this.getPendingTableFileds();
+    // this.getEmailTemplates();
     this.actionFormLoad();
     this.getActionData();
     this.extractNodes(this.nodes, this.nodeList);
+    this.extractEmailNodes(this.nodes);
   }
   extractNodes(nodes: any, nodeList: { title: string, key: string }[]) {
     for (const node of nodes) {
@@ -72,6 +76,22 @@ export class ActionRuleComponent implements OnInit {
       }
     }
   }
+  extractEmailNodes(nodes: any[]) {
+    for (const node of nodes) {
+      if (node.type === 'emailInput') {
+        let label = node.title || node.key; // Using node.title if available, otherwise using node.key
+        let obj = {
+          'label': label,
+          'value': node.key,
+        };
+        this.emailToOptions.push(obj);
+      }
+      if (node.children && node.children.length > 0) {
+        this.extractEmailNodes(node.children);
+      }
+    }
+  }
+
 
   actionFormLoad() {
     this.actionForm = this.formBuilder.group({
@@ -295,11 +315,13 @@ export class ActionRuleComponent implements OnInit {
         elementNameTo: [this.actionForm.value.elementNameTo],
         actionType: [this.actionForm.value.actionType],
         submissionType: [this.actionForm.value.submissionType],
-        email: [this.actionForm.value.actionType === "email" ? dataForQuery : ""],
+        email: [''],
         confirmEmail: [this.actionForm.value.actionType === "confirmEmail " ? dataForQuery : ""],
         referenceId: [''],
         httpAddress: [apiUrl],
         contentType: [''],
+        emailTo: [],
+        emailType: [''],
         query: [this.actionForm.value.actionType === "query" ? this.reorderQueries(dataForQuery) : ""]
       })
     );
@@ -496,6 +518,8 @@ export class ActionRuleComponent implements OnInit {
         "type": element.type,
         "sqlType": element.sqlType,
         "email": element.email,
+        "emailTo": element?.emailTo ? element?.emailTo : [],
+        "emailType": element?.emailType,
         "confirmEmail": element.confirmEmail,
         "referenceId": element.referenceId,
         "httpAddress": element.httpAddress ? element.httpAddress : "",
@@ -558,7 +582,9 @@ export class ActionRuleComponent implements OnInit {
                     referenceId: [getQueryActionRes.referenceId],
                     query: [getQueryActionRes.quries],
                     httpAddress: [getQueryActionRes.httpAddress],
-                    contentType: [getQueryActionRes.contentType]
+                    contentType: [getQueryActionRes.contentType],
+                    emailTo: getQueryActionRes?.emailTo ? [getQueryActionRes?.emailTo] : [],
+                    emailType: [getQueryActionRes?.emailType],
                   })
                 )),
               })
@@ -664,6 +690,21 @@ export class ActionRuleComponent implements OnInit {
       }
     }
   }
+
+  // getEmailTemplates() {
+  //   debugger
+  //   this.applicationService.getNestCommonAPIById('cp/emailTemplates', this.screeenBuilderId).subscribe((getRes: any) => {
+  //     if (getRes.isSuccess) {
+  //       if (getRes.data.length > 0) {
+  //         this.emailNameOptions = getRes.data.map((res: any) => ({
+  //           label: res.name,
+  //           value: res._id,
+  //         }));
+  //       }
+  //     } else
+  //       this.toastr.error(getRes.message, { nzDuration: 3000 });
+  //   });
+  // }
 
   // getPendingTableFileds() {
   //   this.requestSubscription = this.builderService.getPendingTableFields('knex-crud/getPending/table_schema/' + this.screeenBuilderId).subscribe({
