@@ -148,7 +148,7 @@ export class ApplicationThemeComponent {
       const app = this.applicationList.find((a: any) => a.id === formValue.applicationid);
 
       // const classNamesArray = formValue.classes.split(/\s+/).filter(Boolean);
-      const tableValue = `${environment.dbMode}meta.applicationtheme`;
+      const tableValue = `applicationtheme`;
 
       const obj = {
         [tableValue]: {
@@ -165,7 +165,7 @@ export class ApplicationThemeComponent {
       this.loader = true;
       const checkPolicyAndProceed = this.editId == ''
         ? this.applicationService.addNestNewCommonAPI('cp', obj)
-        : this.applicationService.updateNestNewCommonAPI(`cp/${environment.dbMode}meta.applicationtheme`, this.editId, obj);
+        : this.applicationService.updateNestNewCommonAPI(`cp/applicationtheme`, this.editId, obj);
       checkPolicyAndProceed.subscribe({
         next: (objTRes: any) => {
           this.loader = false;
@@ -191,7 +191,7 @@ export class ApplicationThemeComponent {
 
   getApplicationTheme() {
     this.loader = true;
-    this.applicationService.getNestNewCommonAPI(`cp/${environment.dbMode}meta.applicationTheme`).subscribe(((res: any) => {
+    this.applicationService.getNestNewCommonAPI(`cp/applicationTheme`).subscribe(((res: any) => {
       this.loader = false;
       if (res.isSuccess) {
         this.listOfData = res.data;
@@ -203,7 +203,7 @@ export class ApplicationThemeComponent {
   }
   getThemeList() {
     this.loader = true;
-    this.applicationService.getNestNewCommonAPI(`cp/${environment.dbMode}meta.applicationTheme`).subscribe(((res: any) => {
+    this.applicationService.getNestNewCommonAPI(`cp/applicationTheme`).subscribe(((res: any) => {
       this.loader = false;
       if (res.isSuccess) {
         this.themeList = res?.data;
@@ -213,7 +213,7 @@ export class ApplicationThemeComponent {
   }
   delete(id: any) {
     this.loader = true;
-    this.applicationService.deleteNestNewCommonAPI(`cp/${environment.dbMode}meta.applicationtheme`, id).subscribe(((res: any) => {
+    this.applicationService.deleteNestNewCommonAPI(`cp/applicationtheme`, id).subscribe(((res: any) => {
       this.loader = false;
       if (res.isSuccess) {
         this.searchByTheme();
@@ -301,7 +301,7 @@ export class ApplicationThemeComponent {
     //   this.loader = true;
 
     //   if (appId) {
-    //     this.applicationService.getNestNewCommonAPIById(`cp/${environment.dbMode}meta.applicationtheme`, appId).subscribe(((res: any) => {
+    //     this.applicationService.getNestNewCommonAPIById(`cp/applicationtheme`, appId).subscribe(((res: any) => {
     //       this.loader = false;
     //       if (res) {
     //         this.applicationList = [{
@@ -557,7 +557,7 @@ export class ApplicationThemeComponent {
       themename: this.selectedTheme,
     });
     if (this.selectedTheme) {
-      this.applicationService.getNestNewCommonAPIById(`cp/${environment.dbMode}meta.applicationtheme`, this.selectedTheme).subscribe(((res: any) => {
+      this.applicationService.getNestNewCommonAPIById(`cp/applicationtheme`, this.selectedTheme).subscribe(((res: any) => {
         this.loader = false;
         if (res.isSuccess) {
           this.listOfData = res.data;

@@ -108,7 +108,7 @@ export class PolicyMappingComponent implements OnInit {
   policyName = '';
   policyList: any = [];
   jsonPolicyModuleList() {
-    this.applicationService.getNestNewCommonAPI(`cp/${environment.dbMode}meta.Policy`).subscribe({
+    this.applicationService.getNestNewCommonAPI(`cp/Policy`).subscribe({
       next: (res: any) => {
         if (res.isSuccess) {
           if (res?.data.length > 0) {
@@ -145,8 +145,8 @@ export class PolicyMappingComponent implements OnInit {
       }));
       this.loading = true;
       const checkPolicyAndProceed = this.isSubmit
-        ? this.applicationService.addNestNewCommonAPI(`cp/PolicyMapping/${environment.dbMode}meta.policymapping`, newData)
-        : this.applicationService.updateNestNewCommonAPI(`cp/PolicyMapping/${environment.dbMode}meta.policymapping`, this.model.id, newData);
+        ? this.applicationService.addNestNewCommonAPI(`cp/PolicyMapping/policymapping`, newData)
+        : this.applicationService.updateNestNewCommonAPI(`cp/PolicyMapping/policymapping`, this.model.id, newData);
       checkPolicyAndProceed.subscribe({
         next: (objTRes: any) => {
           this.loading = false;
@@ -242,7 +242,7 @@ export class PolicyMappingComponent implements OnInit {
   async loadData(node: NzCascaderOption, index: number): Promise<void> {
     if (index === 0 && node.value != 'selectDepartment') {
       try {
-        const res = await this.applicationService.getNestNewCommonAPIById(`cp/${environment.dbMode}meta.Application`, node.value).toPromise();
+        const res = await this.applicationService.getNestNewCommonAPIById(`cp/Application`, node.value).toPromise();
         if (res.isSuccess) {
           this.applications = res.data;
           const applications = res.data.map((appData: any) => {
@@ -268,7 +268,7 @@ export class PolicyMappingComponent implements OnInit {
     }
   }
   getDepartments() {
-    this.applicationService.getNestNewCommonAPI(`cp/${environment.dbMode}meta.Department`).subscribe({
+    this.applicationService.getNestNewCommonAPI(`cp/Department`).subscribe({
       next: (res: any) => {
         if (res.isSuccess) {
           if (res.data.length > 0) {
@@ -302,7 +302,7 @@ export class PolicyMappingComponent implements OnInit {
 
 
   getMenus(id: any) {
-    this.applicationService.getNestNewCommonAPIById(`cp/${environment.dbMode}meta.Menu`, id).subscribe(((res: any) => {
+    this.applicationService.getNestNewCommonAPIById(`cp/Menu`, id).subscribe(((res: any) => {
       if (res.isSuccess) {
         if (res.data.length > 0) {
           this.applicationid = res.data[0].applicationid
@@ -325,7 +325,7 @@ export class PolicyMappingComponent implements OnInit {
     }));
   }
   getActions(id: any) {
-    this.applicationService.getNestNewCommonAPIById(`cp/${environment.dbMode}meta.Actionss`, id).subscribe(((res: any) => {
+    this.applicationService.getNestNewCommonAPIById(`cp/Actionss`, id).subscribe(((res: any) => {
 
       if (res.isSuccess) {
         if (res.data.length > 0) {
@@ -383,7 +383,7 @@ export class PolicyMappingComponent implements OnInit {
 
     this.loading = true;
 
-    this.applicationService.getNestNewCommonAPIById(`cp/${environment.dbMode}meta.policymapping`, this.policyName)
+    this.applicationService.getNestNewCommonAPIById(`cp/policymapping`, this.policyName)
       .subscribe(
         (res: any) => {
           this.loading = false;
@@ -443,6 +443,7 @@ export class PolicyMappingComponent implements OnInit {
 
       if (matchingPolicyItem) {
         matchingPolicyItem.screenid = menuItemsLowerCaseKeys['link'];
+        matchingPolicyItem.hideexpression = menuItemsLowerCaseKeys['hideexpression'] ? true : false;
         // Merge policy data into the menu item
         const matchingPolicyItemLowerCaseKeys = Object.fromEntries(
           Object.entries(matchingPolicyItem).map(([key, value]) => [key.toLowerCase(), value])
@@ -484,7 +485,7 @@ export class PolicyMappingComponent implements OnInit {
       nzOnOk: () => {
         new Promise((resolve, reject) => {
           setTimeout(Math.random() > 0.5 ? resolve : reject, 100);
-          this.applicationService.deleteNestNewCommonAPI(`cp/${environment.dbMode}meta.policymapping`, this.policyName).subscribe(
+          this.applicationService.deleteNestNewCommonAPI(`cp/policymapping`, this.policyName).subscribe(
             {
               next: (objTRes: any) => {
                 if (objTRes.isSuccess) {

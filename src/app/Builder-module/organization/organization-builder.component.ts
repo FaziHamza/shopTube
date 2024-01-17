@@ -225,7 +225,7 @@ export class organizationBuilderComponent implements OnInit {
   }
   organizationBuilder() {
     this.loading = true;
-    this.applicationService.getNestNewCommonAPI(`cp/${environment.dbMode}meta.Organization`).subscribe({
+    this.applicationService.getNestNewCommonAPI(`cp/Organization`).subscribe({
       next: (res: any) => {
         if (res.isSuccess) {
           this.listOfDisplayData = res.data.map((obj: any) => {
@@ -318,14 +318,14 @@ export class organizationBuilderComponent implements OnInit {
     // }
     else {
       // this.form.value['userId'] = JSON.parse(localStorage.getItem('user')!).userId;
-      const tableValue = `${environment.dbMode}meta.Organization`;
+      const tableValue = `Organization`;
       const organizationModel = {
         [tableValue]: this.form.value,
       };
       const addOrUpdateOrganization$ = this.isSubmit
         ? this.applicationService.addNestNewCommonAPI('cp', organizationModel)
         : this.applicationService.updateNestNewCommonAPI(
-          `cp/${environment.dbMode}meta.Organization`,
+          `cp/Organization`,
           this.model.id,
           organizationModel
         );
@@ -371,7 +371,7 @@ export class organizationBuilderComponent implements OnInit {
       });
       return;
     } else {
-      const tableValue = `${environment.dbMode}meta.Department`;
+      const tableValue = `Department`;
       const modelData = {
         [tableValue]: this.form.value,
       };
@@ -383,7 +383,7 @@ export class organizationBuilderComponent implements OnInit {
       const action$ = this.isSubmit
         ? this.applicationService.addNestNewCommonAPI('cp', modelData)
         : this.applicationService.updateNestNewCommonAPI(
-          `cp/${environment.dbMode}meta.Department`,
+          `cp/Department`,
           this.model.id,
           modelData
         );
@@ -431,8 +431,8 @@ export class organizationBuilderComponent implements OnInit {
       this.loading = true
       const api$ =
         type == 'department'
-          ? this.applicationService.deleteNestNewCommonAPI(`cp/${environment.dbMode}meta.Department`, id)
-          : this.applicationService.deleteNestNewCommonAPI(`cp/${environment.dbMode}meta.Organization`, id);
+          ? this.applicationService.deleteNestNewCommonAPI(`cp/Department`, id)
+          : this.applicationService.deleteNestNewCommonAPI(`cp/Organization`, id);
 
       api$.subscribe((res: any) => {
         if (res.isSuccess) {
@@ -521,7 +521,7 @@ export class organizationBuilderComponent implements OnInit {
   getDepartment() {
     try {
       this.loading = true;
-      this.applicationService.getNestNewCommonAPI(`cp/${environment.dbMode}meta.Department`).subscribe((res: any) => {
+      this.applicationService.getNestNewCommonAPI(`cp/Department`).subscribe((res: any) => {
         if (res.isSuccess) {
           this.listOfChildrenData = res.data;
         } else {

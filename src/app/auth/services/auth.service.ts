@@ -59,7 +59,7 @@ export class AuthService {
 
   //   Login:
   public loginUser(model: any) {
-    let url = environment.nestNewBaseUrl + `auth/login/${environment.dbMode}meta.login`;
+    let url = environment.nestNewBaseUrl + `auth/login/login`;
     return this.http.post(url, model)
   }
 

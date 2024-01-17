@@ -68,7 +68,7 @@ export class BusinessRuleComponent implements OnInit {
       { name: "<", key: "<" },
     ]
     if (mainModuleId.length > 0) {
-      this.requestSubscription = this.applicationService.getNestNewCommonAPIById(`cp/${environment.dbMode}meta.BusinessRule`, this.screenId).subscribe({
+      this.requestSubscription = this.applicationService.getNestNewCommonAPIById(`cp/BusinessRule`, this.screenId).subscribe({
         next: (getRes: any) => {
           if (getRes.isSuccess) {
             if (getRes.data.length > 0) {
@@ -292,7 +292,7 @@ export class BusinessRuleComponent implements OnInit {
       "businessrule": JSON.stringify(businessRuleObj),
       "businessruledata": JSON.stringify(buisnessRule)
     }
-    const tableValue = `${environment.dbMode}meta.BusinessRule`;
+    const tableValue = `BusinessRule`;
     const businessRuleValidModel = {
       [tableValue]: businessRuleValid
     }
@@ -300,7 +300,7 @@ export class BusinessRuleComponent implements OnInit {
       if (mainModuleId[0].navigation != null) {
         const checkAndProcess = this.businessRuleId == ''
           ? this.applicationService.addNestNewCommonAPI('cp', businessRuleValidModel)
-          : this.applicationService.updateNestNewCommonAPI(`cp/${environment.dbMode}meta.BusinessRule`, this.businessRuleId, businessRuleValidModel);
+          : this.applicationService.updateNestNewCommonAPI(`cp/BusinessRule`, this.businessRuleId, businessRuleValidModel);
         this.requestSubscription = checkAndProcess.subscribe({
           next: (res: any) => {
             if (res.isSuccess) {
@@ -366,7 +366,7 @@ export class BusinessRuleComponent implements OnInit {
 
   deleteBuisnessRule() {
     if (this.businessRuleId != '')
-      this.applicationService.deleteNestNewCommonAPI(`cp/${environment.dbMode}meta.BusinessRule`, this.businessRuleId).subscribe({
+      this.applicationService.deleteNestNewCommonAPI(`cp/BusinessRule`, this.businessRuleId).subscribe({
         next: (res: any) => {
           if (res.isSuccess) {
             this.businessRuleId = '';

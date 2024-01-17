@@ -478,14 +478,14 @@ export class UIRuleComponent implements OnInit {
         "uiData": JSON.stringify(ruleData),
         "patchOperations": JSON.stringify(updatepatchOperations)
       }
-      const tableValue = `${environment.dbMode}meta.UiRule`;
+      const tableValue = `UiRule`;
       const uiModel = {
         [tableValue]: jsonUIResult
       }
       if (jsonUIResult != null) {
         const checkAndProcess = this.uiRuleId == ''
           ? this.applicationService.addNestNewCommonAPI('cp', uiModel)
-          : this.applicationService.updateNestNewCommonAPI(`cp/${environment.dbMode}meta.UiRule`, this.uiRuleId, uiModel);
+          : this.applicationService.updateNestNewCommonAPI(`cp/UiRule`, this.uiRuleId, uiModel);
         checkAndProcess.subscribe({
           next: (res: any) => {
             this.saveLoader = false;
@@ -585,7 +585,7 @@ export class UIRuleComponent implements OnInit {
     this.targetList = sectionData;
     // this.changeIf();
 
-    this.applicationService.getNestNewCommonAPIById(`cp/${environment.dbMode}meta.UiRule`, this.screenId).subscribe((getRes: any) => {
+    this.applicationService.getNestNewCommonAPIById(`cp/UiRule`, this.screenId).subscribe((getRes: any) => {
       this.saveLoader = false;
       if (getRes.isSuccess) {
         if (getRes.data.length > 0) {
@@ -737,7 +737,7 @@ export class UIRuleComponent implements OnInit {
 
   deleteUiRule() {
     if (this.uiRuleId != '')
-      this.applicationService.deleteNestNewCommonAPI(`cp/${environment.dbMode}meta.UiRule`, this.uiRuleId).subscribe({
+      this.applicationService.deleteNestNewCommonAPI(`cp/UiRule`, this.uiRuleId).subscribe({
         next: (res: any) => {
           if (res.isSuccess) {
             this.uiRuleId = '';

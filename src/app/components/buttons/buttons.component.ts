@@ -291,7 +291,7 @@ export class ButtonsComponent implements OnInit {
   jsonPolicyModuleList() {
 
     let user = JSON.parse(window.localStorage['user']);
-    this.applicationService.getNestNewCommonAPI(`cp/${environment.dbMode}meta.getpolicy/${user.policy.userId}`).subscribe({
+    this.applicationService.getNestNewCommonAPI(`cp/getpolicy/${user.policy.userId}`).subscribe({
       next: (res: any) => {
 
         if (res.isSuccess) {

@@ -264,7 +264,7 @@ export class PagesComponent implements OnInit, OnDestroy {
       next: (res) => {
         if (res) {
           for (let index = 0; index < res.length; index++) {
-            const element = res[index].actions?.[0]?.componentFrom;
+            const element = res[index].actions?.[0]?.componentfrom;
             let findObj = this.findObjectByKey(this.resData[0], element);
             if (findObj) {
               if (findObj?.formlyType === 'input') {
@@ -382,7 +382,7 @@ export class PagesComponent implements OnInit, OnDestroy {
   getBuilderScreen(params: any) {
     this.saveLoader = true;
 
-    this.applicationService.getNestNewCommonAPIById(`cp/${environment.dbMode}meta.Builders`, params["schema"]).subscribe({
+    this.applicationService.getNestNewCommonAPIById(`cp/Builders`, params["schema"]).subscribe({
       next: (res: any) => {
         if (res.isSuccess && res.data.length > 0) {
           this.saveLoader = false;
@@ -401,7 +401,7 @@ export class PagesComponent implements OnInit, OnDestroy {
   }
   handleCacheRuleRequest(screenBuilderId: any, res: any) {
     this.saveLoader = true;
-    this.applicationService.getNestNewCommonAPIById(`cp/${environment.dbMode}meta.CacheRule`, screenBuilderId).subscribe({
+    this.applicationService.getNestNewCommonAPIById(`cp/CacheRule`, screenBuilderId).subscribe({
       next: (rule: any) => {
         this.saveLoader = false;
         this.getCacheRule(rule);
@@ -469,7 +469,7 @@ export class PagesComponent implements OnInit, OnDestroy {
           const formlyConfig = node.formly?.[0]?.fieldGroup?.[0]?.key;
           for (let index = 0; index < this.actionRuleList.length; index++) {
             const element = this.actionRuleList[index];
-            if (formlyConfig == element.componentFrom) {
+            if (formlyConfig == element.componentfrom) {
               const eventActionConfig = node?.formly?.[0]?.fieldGroup?.[0]?.props;
               if (eventActionConfig) {
                 if (index == 0) {
@@ -496,9 +496,9 @@ export class PagesComponent implements OnInit, OnDestroy {
       let checkFirst: any = {};
       for (let index = 0; index < this.actionRuleList.length; index++) {
         const element = this.actionRuleList[index];
-        let findObj = this.findObjectByKey(nodesData1[0], element.componentFrom);
+        let findObj = this.findObjectByKey(nodesData1[0], element.componentfrom);
         if (findObj) {
-          if (findObj?.key == element.componentFrom) {
+          if (findObj?.key == element.componentfrom) {
             if (!checkFirst[findObj?.key]) {
               findObj['appConfigurableEvent'] = [];
               findObj['eventActionconfig'] = {};
@@ -534,7 +534,7 @@ export class PagesComponent implements OnInit, OnDestroy {
 
 
 
-    this.pageRuleList = this.actionRuleList.filter(a => a.componentFrom === this.resData?.[0]?.key && a.action == 'load');
+    this.pageRuleList = this.actionRuleList.filter(a => a.componentfrom === this.resData?.[0]?.key && a.action == 'load');
     if (this.tableRowID) {
       if (this.pageRuleList.length > 0) {
         const observables = this.pageRuleList.map((element: any) => {
@@ -1516,35 +1516,35 @@ export class PagesComponent implements OnInit, OnDestroy {
   getCacheRule(getRes: any) {
 
     getRes.data.forEach((res: any) => {
-      if (res.name?.toLowerCase() == `${environment.dbMode}meta.businessrule`) {
+      if (res.name?.toLowerCase().includes(`businessrule`)) {
         if (res.data) {
           this.businessRuleData = [];
           if (res.data.businessrule)
             this.businessRuleData = res.data.businessrule?.json
         }
       }
-      else if (res.name?.toLowerCase() == `${environment.dbMode}meta.businessrule`) {
+      else if (res.name?.toLowerCase().includes(`businessrule`)) {
         if (res.data) {
           this.gridRulesData = res;
         }
       }
-      else if (res.name?.toLowerCase() == `${environment.dbMode}meta.validationrule`) {
+      else if (res.name?.toLowerCase().includes(`validationrule`)) {
         if (res.data) {
-          this.joiValidationData.push(res.data?.json);
+          this.joiValidationData.push(res.data);
         }
       }
-      else if (res.name?.toLowerCase() == `${environment.dbMode}meta.actionrule`) {
-        this.actionRuleList.push(res.data?.json);
+      else if (res.name?.toLowerCase().includes(`actionrule`)) {
+        this.actionRuleList.push(res.data);
       }
-      else if (res.name?.toLowerCase() == `${environment.dbMode}meta.uirule`) {
+      else if (res.name?.toLowerCase().includes(`uirule`)) {
         if (res.data) {
           const jsonUIResult = {
             "key": res.data.key,
             "title": res.data.title,
             "screenName": res.data.screenname,
-            "screenId": res.data.screenBbuilderid,
+            "screenId": res.data.screenbuilderid,
             "uiData": res.data.uidata?.json,
-            "patchOperations": res.data.patchoperations
+            "patchOperations": res.data.patchoperations?.json
           }
           this.screenData = jsonUIResult;
 
@@ -2881,7 +2881,7 @@ export class PagesComponent implements OnInit, OnDestroy {
     let user = JSON.parse(window.localStorage['user']);
     if (user.policy?.policyTheme) {
       this.saveLoader = true;
-      this.applicationService.getNestNewCommonAPI(`cp/${environment.dbMode}meta.applicationtheme/${user.policy?.policyTheme}`).subscribe(((res: any) => {
+      this.applicationService.getNestNewCommonAPI(`cp/applicationtheme/${user.policy?.policyTheme}`).subscribe(((res: any) => {
         this.saveLoader = false;
         if (res.isSuccess) {
           this.applicationThemeData = res?.data;

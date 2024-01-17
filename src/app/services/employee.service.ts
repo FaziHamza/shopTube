@@ -13,6 +13,7 @@ import { ApiResponse } from 'src/common/interfaces/api-response';
 export class EmployeeService {
   protected baseUrl = environment.serverApiUrl;
   protected nestUrl = environment.nestBaseUrl;
+  protected nestNewUrl = environment.nestNewBaseUrl;
   protected finalUrl = "";
   constructor(public http: HttpClient) { }
 
@@ -107,7 +108,7 @@ export class EmployeeService {
   }
   getSQLDatabaseTable(api: string): Observable<ApiResponse> {
     return this.http.get<ApiResponse>(
-      api.includes('http') ? api : this.nestUrl + api
+      api.includes('http') ? api : this.nestNewUrl + api
     );
   }
   getSQLDatabaseTableCRUD(api: string): Observable<any> {

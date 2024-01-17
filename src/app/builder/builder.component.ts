@@ -203,7 +203,7 @@ export class BuilderComponent implements OnInit {
   }
   async loadDepartmentData(): Promise<void> {
     try {
-      const res = await this.applicationService.getNestNewCommonAPI(`cp/${environment.dbMode}meta.Department`).toPromise();
+      const res = await this.applicationService.getNestNewCommonAPI(`cp/Department`).toPromise();
       if (res?.isSuccess) {
         this.departmentData = res.data?.map((data: any) => {
           return {
@@ -229,7 +229,7 @@ export class BuilderComponent implements OnInit {
       // Root node - Load application data
       try {
         this.selectApplicationName = node.value;
-        const res = await this.applicationService.getNestNewCommonAPIById(`cp/${environment.dbMode}meta.ScreenBuilder`, node.value).toPromise();
+        const res = await this.applicationService.getNestNewCommonAPIById(`cp/ScreenBuilder`, node.value).toPromise();
         if (res.isSuccess) {
           this.screens = res.data;
           const screens = res.data.map((screendata: any) => {
@@ -255,7 +255,7 @@ export class BuilderComponent implements OnInit {
     }
     else if (index === 0 && node.value != 'selectDepartment') {
       try {
-        const res = await this.applicationService.getNestNewCommonAPIById(`cp/${environment.dbMode}meta.Application`, node.value).toPromise();
+        const res = await this.applicationService.getNestNewCommonAPIById(`cp/Application`, node.value).toPromise();
         if (res.isSuccess) {
           this.selectApplicationName = "";
           this.applicationData = res.data;
@@ -425,12 +425,12 @@ export class BuilderComponent implements OnInit {
       });
       let newNode = JSON.parse(JSON.stringify(this.nodes))
       this.applyTheme(newNode[0], true)
-      const screendata = this.jsonParseWithObject(this.jsonStringifyWithObject(newNode));
+      const screendata = this.jsonStringifyWithObject(newNode);
       const JsonData = {
-        json: screendata,
+        json: newNode,
       }
       const data: any = {
-        "screendata": this.jsonStringifyWithObject(JsonData),
+        "screendata": JSON.stringify(JsonData),
         "screenname": this.screenname,
         "navigation": this.navigation,
         "screenbuilderid": this.id,
@@ -438,13 +438,13 @@ export class BuilderComponent implements OnInit {
         "applicationid": this.selectApplicationName,
       };
       data.navigation = this.navigation;
-      const tableValue = `${environment.dbMode}meta.Builders`;
+      const tableValue = `Builders`;
       const builderModel = {
         [tableValue]: data
       }
       // this.saveLoader =  false;
       const checkBuilderAndProcess = this.builderscreendata?.length > 0 && this.builderscreendata?.[0]
-        ? this.applicationService.updateNestNewCommonAPI(`cp/${environment.dbMode}meta.Builders`, this.builderscreendata[0].id, builderModel)
+        ? this.applicationService.updateNestNewCommonAPI(`cp/Builders`, this.builderscreendata[0].id, builderModel)
         : this.applicationService.addNestNewCommonAPI('cp', builderModel);
 
       this.requestSubscription = checkBuilderAndProcess.subscribe({
@@ -548,7 +548,7 @@ export class BuilderComponent implements OnInit {
   actionRuleList: any[] = [];
   getActions() {
     this.saveLoader = true;
-    this.requestSubscription = this.applicationService.getNestCommonAPIById("cp/ActionRule", this.id).subscribe({
+    this.requestSubscription = this.applicationService.getNestNewCommonAPIById(`cp/ActionRule`, this.id).subscribe({
       next: (res: any) => {
         this.actionRuleList = res?.data;
         this.getBuilderScreen();
@@ -563,7 +563,7 @@ export class BuilderComponent implements OnInit {
   }
   getBuilderScreen() {
     this.nodes = [];
-    this.requestSubscription = this.applicationService.getNestNewCommonAPIById(`cp/${environment.dbMode}meta.Builders`, this.id).subscribe({
+    this.requestSubscription = this.applicationService.getNestNewCommonAPIById(`cp/Builders`, this.id).subscribe({
       next: (res: any) => {
         if (res.isSuccess) {
           // this.form = new FormGroup({});
@@ -572,12 +572,12 @@ export class BuilderComponent implements OnInit {
             this.builderscreendata = [res.data[0]];
             // this.navigation = '';
             this.showActionRule = true;
-            const objscreendata = res.data[0].screendata.json;
+            // const objscreendata = res.data[0].screendata.json;
             this.isSavedDb = true;
             // this.moduleId = res[0].moduleId;
             // this.formlyModel = {};
 
-            // let nodesData = this.jsonParseWithObject(this.jsonStringifyWithObject(objscreendata));
+            const objscreendata= this.jsonParseWithObject(this.jsonStringifyWithObject(res.data[0].screendata.json));
             this.applyTheme(objscreendata[0], false)
             if (this.actionRuleList && this.actionRuleList.length > 0) {
               let getInputs = this.filterInputElements(objscreendata);
@@ -586,7 +586,7 @@ export class BuilderComponent implements OnInit {
                   const formlyConfig = node.formly?.[0]?.fieldGroup?.[0]?.key;
                   for (let index = 0; index < this.actionRuleList.length; index++) {
                     const element = this.actionRuleList[index];
-                    if (formlyConfig == element.componentFrom) {
+                    if (formlyConfig == element.componentfrom) {
                       const eventActionConfig = node?.formly?.[0]?.fieldGroup?.[0]?.props;
                       if (eventActionConfig) {
                         if (index == 0) {
@@ -621,9 +621,9 @@ export class BuilderComponent implements OnInit {
               let checkFirst: any = {};
               for (let index = 0; index < this.actionRuleList.length; index++) {
                 const element = this.actionRuleList[index];
-                let findObj = this.findObjectByKey(objscreendata[0], element.componentFrom);
+                let findObj = this.findObjectByKey(objscreendata[0], element.componentfrom);
                 if (findObj) {
-                  if (findObj?.key == element.componentFrom) {
+                  if (findObj?.key == element.componentfrom) {
                     if (!checkFirst[findObj?.key]) {
                       findObj['appConfigurableEvent'] = [];
                       findObj['eventActionconfig'] = {};
@@ -680,14 +680,14 @@ export class BuilderComponent implements OnInit {
             // this.navigation = 0;
             // this.clearChildNode();
             this.builderscreendata = [];
-            this.requestSubscription = this.applicationService.getNestCommonAPI('applications/default').subscribe({
+            this.requestSubscription = this.applicationService.getNestNewCommonAPI('cp/applications/sampleScreen/1').subscribe({
               next: (res: any) => {
                 if (res.isSuccess) {
                   if (res.data.length > 0) {
-                    const objscreendata = JSON.parse(res.data[0].screenData);
+                    const objscreendata = JSON.parse(res.data[0].data.screendata);
                     this.isSavedDb = true;
                     // this.formlyModel = [];
-                    this.nodes = this.jsonParseWithObject(this.jsonStringifyWithObject(objscreendata));
+                    this.nodes = this.jsonParseWithObject(this.jsonStringifyWithObject(objscreendata?.json));
                     this.updateNodes();
                     this.applyDefaultValue();
                     this.saveLoader = false;
@@ -1048,7 +1048,7 @@ export class BuilderComponent implements OnInit {
   validationRuleId: string = '';
   getJoiValidation(id: any) {
 
-    this.applicationService.getNestNewCommonAPIById(`cp/${environment.dbMode}meta.ValidationRule`, id).subscribe(((getRes: any) => {
+    this.applicationService.getNestNewCommonAPIById(`cp/ValidationRule`, id).subscribe(((getRes: any) => {
       if (getRes.isSuccess) {
         if (getRes.data.length > 0) {
           this.validationRuleId = getRes.data[0].id;
@@ -1060,7 +1060,7 @@ export class BuilderComponent implements OnInit {
     }));
   }
   getUIRuleData(data: any) {
-    this.requestSubscription = this.applicationService.getNestNewCommonAPIById(`cp/${environment.dbMode}meta.UiRule`, this.id).subscribe({
+    this.requestSubscription = this.applicationService.getNestNewCommonAPIById(`cp/UiRule`, this.id).subscribe({
       next: (getRes: any) => {
         if (getRes.isSuccess) {
           if (getRes.data.length > 0) {
@@ -1329,7 +1329,7 @@ export class BuilderComponent implements OnInit {
       (a: any) => a.name == this.screenname
     );
     if (selectedScreen.length > 0) {
-      this.requestSubscription = this.applicationService.getNestNewCommonAPIById(`cp/${environment.dbMode}meta.BusinessRule`, this.id).subscribe({
+      this.requestSubscription = this.applicationService.getNestNewCommonAPIById(`cp/BusinessRule`, this.id).subscribe({
         next: (getRes: any) => {
           if (getRes.isSuccess)
             if (getRes.data.length > 0) {
@@ -2718,7 +2718,7 @@ export class BuilderComponent implements OnInit {
       }
       this.selectedNode['tableHeader'] = [];
       this.selectedNode['tableKey'] = [];
-      this.selectedNode['checkData'] = [];
+      this.selectedNode['checkDatas'] = [];
 
     }
 
@@ -4199,18 +4199,18 @@ export class BuilderComponent implements OnInit {
             //   filteredCascader['size']= this.selectedNode.size;
             // }
           }
-          // this.selectedNode['checkData'] =
-          //   this.selectedNode.checkData == undefined
+          // this.selectedNode['checkDatas'] =
+          //   this.selectedNode.checkDatas == undefined
           //     ? ''
-          //     : this.selectedNode.checkData;
+          //     : this.selectedNode.checkDatas;
           // let check = this.arrayEqual(
-          //   this.selectedNode.checkData,
+          //   this.selectedNode.checkDatas,
           //   event.tableDta == undefined
           //     ? event.tableDta
           //     : this.selectedNode.tableBody
           // );
-          if (this.selectedNode?.checkData) {
-            this.selectedNode.checkData = [];
+          if (this.selectedNode?.checkDatas) {
+            this.selectedNode.checkDatas = [];
           }
           if (event.tableDta && event.tableDta?.length > 0) {
             const item = this.selectedNode.dbData[0];
@@ -4322,7 +4322,7 @@ export class BuilderComponent implements OnInit {
           this.selectedNode.tableBody = event.tableDta ? event.tableDta : this.selectedNode.tableBody;
           this.selectedNode.mapApi = event.form.mapApi;
           // if (event.tableDta) {
-          //   this.selectedNode.checkData = JSON.parse(
+          //   this.selectedNode.checkDatas = JSON.parse(
           //     JSON.stringify(event.tableDta)
           //   );
           // }
@@ -4797,14 +4797,14 @@ export class BuilderComponent implements OnInit {
             "applicationid": this.selectApplicationName,
           }
           var JOIData = JSON.parse(JSON.stringify(jsonRuleValidation) || '{}');
-          const tableValue = `${environment.dbMode}meta.ValidationRule`;
+          const tableValue = `ValidationRule`;
           const validationRuleModel = {
             [tableValue]: JOIData
           }
           // const checkAndProcess = this.validationRuleId == ''
           const checkAndProcess = !event.form.id
             ? this.applicationService.addNestNewCommonAPI('cp', validationRuleModel)
-            : this.applicationService.updateNestNewCommonAPI(`cp/${environment.dbMode}meta.ValidationRule`, event.form.id, validationRuleModel);
+            : this.applicationService.updateNestNewCommonAPI(`cp/ValidationRule`, event.form.id, validationRuleModel);
           checkAndProcess.subscribe({
             next: (res: any) => {
               if (res.isSuccess) {
@@ -6909,7 +6909,7 @@ export class BuilderComponent implements OnInit {
   }
 
   makeDatainTemplateTab() {
-    // this.requestSubscription = this.applicationService.getNestNewCommonAPI(`cp/${environment.dbMode}meta.Template`).subscribe({
+    // this.requestSubscription = this.applicationService.getNestNewCommonAPI(`cp/Template`).subscribe({
     //   next: (res: any) => {
     //     if (res.isSuccess) {
     //       this.dbWebsiteBlockArray = res.data.filter((x: any) => x.templateType == 'websiteBlock');
@@ -7004,7 +7004,7 @@ export class BuilderComponent implements OnInit {
     }
   }
   deleteValidationRule(data: any) {
-    this.applicationService.deleteNestNewCommonAPI(`cp/${environment.dbMode}meta.ValidationRule`, data.modelData.id).subscribe({
+    this.applicationService.deleteNestNewCommonAPI(`cp/ValidationRule`, data.modelData.id).subscribe({
       next: (res: any) => {
         if (res.isSuccess) {
           this.validationRuleId = '';
@@ -7682,7 +7682,7 @@ export class BuilderComponent implements OnInit {
     }
   }
   getApplicationTheme() {
-    this.requestSubscription = this.applicationService.getNestNewCommonAPI(`cp/${environment.dbMode}meta.applicationTheme`).subscribe({
+    this.requestSubscription = this.applicationService.getNestNewCommonAPI(`cp/applicationTheme`).subscribe({
       next: (res: any) => {
         if (res.isSuccess) {
           if (res.data.length > 0) {
@@ -7779,7 +7779,7 @@ export class BuilderComponent implements OnInit {
     }
   }
   getAppliationGlobalClass() {
-    this.applicationService.getNestNewCommonAPI(`cp/${environment.dbMode}meta.applicationGlobalClass`).subscribe(((res: any) => {
+    this.applicationService.getNestNewCommonAPI(`cp/applicationGlobalClass`).subscribe(((res: any) => {
       if (res.isSuccess) {
         if (res.data.length > 0) {
           this.dataSharedService.applicationGlobalClass = res.data

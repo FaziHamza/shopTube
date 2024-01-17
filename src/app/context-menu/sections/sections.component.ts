@@ -495,7 +495,7 @@ export class SectionsComponent implements OnInit {
     if (findClickApi) {
       let url = `knex-query/getexecute-rules/${findClickApi.id}`;
       url = this.mappingId ? `${url}/${this.mappingId}` : url;
-      let tableData = this.findObjectByKey(this.sections, findClickApi.targetId);
+      let tableData = this.findObjectByKey(this.sections, findClickApi.targetid);
       if (tableData) {
         let pagination: any = '';
         if (tableData.serverSidePagination) {
@@ -1584,12 +1584,12 @@ export class SectionsComponent implements OnInit {
               modelObj[jsonScreenRes[0].key] = jsonScreenRes[0].key.includes('.') ? this.formlyModel[jsonScreenRes[0].key.split('.')[0]][jsonScreenRes[0].key.split('.')[1]] : this.formlyModel[jsonScreenRes[0].key];
 
               // this.ruleObj = {
-              //   [jsonScreenRes[0].key]: Joi.string().email({ minDomainSegments: jsonScreenRes[0].emailTypeAllow.length, tlds: { allow: jsonScreenRes[0].emailTypeAllow } }),
+              //   [jsonScreenRes[0].key]: Joi.string().email({ minDomainSegments: jsonScreenRes[0].emailtypeallow.length, tlds: { allow: jsonScreenRes[0].emailtypeallow } }),
               // }
-              const emailTypeAllow = Array.isArray(jsonScreenRes[0].emailTypeAllow) ? jsonScreenRes[0].emailTypeAllow : [];
-              const minDomainSegments = Math.max(0, Number.isInteger(jsonScreenRes[0].emailTypeAllow.length) ? jsonScreenRes[0].emailTypeAllow.length : 0);
+              const emailtypeallow = Array.isArray(jsonScreenRes[0].emailtypeallow) ? jsonScreenRes[0].emailtypeallow : [];
+              const minDomainSegments = Math.max(0, Number.isInteger(jsonScreenRes[0].emailtypeallow.length) ? jsonScreenRes[0].emailtypeallow.length : 0);
               const schema = {
-                [jsonScreenRes[0].key]: Joi.string().email({ minDomainSegments, tlds: { allow: emailTypeAllow } }),
+                [jsonScreenRes[0].key]: Joi.string().email({ minDomainSegments, tlds: { allow: emailtypeallow } }),
               };
               this.ruleObj = schema;
             }

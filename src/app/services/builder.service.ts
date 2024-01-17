@@ -362,7 +362,7 @@ export class BuilderService {
   }
   getApplicationByNewDomainName(domain: any): Observable<any> {
     return this.http.get<any>(
-      this.nestNewUrl + `cp/domain/${environment.dbMode}meta.application/${domain}`
+      this.nestNewUrl + `cp/domain/application/${domain}`
     );
   }
   // getApplicationByHeaderName(domain: any): Observable<any> {

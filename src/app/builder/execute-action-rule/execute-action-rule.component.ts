@@ -69,7 +69,7 @@ export class ExecuteActionRuleComponent implements OnInit, AfterViewInit {
   getActionRuleData() {
     const selectedScreen = this.screens.filter((a: any) => a.name == this.screenname)
     if (selectedScreen[0].navigation != null && selectedScreen[0].navigation != undefined) { // selectedScreen[0].navigation
-      this.requestSubscription = this.applicationService.getNestNewCommonAPIById(`cp/${environment.dbMode}meta.ActionRule`, selectedScreen[0].id).subscribe({
+      this.requestSubscription = this.applicationService.getNestNewCommonAPIById(`cp/ActionRule`, selectedScreen[0].id).subscribe({
         next: (res: any) => {
           if (res.data && res.data.length > 0) {
             this.multiSelectForm = this.fb.group({
@@ -102,7 +102,7 @@ export class ExecuteActionRuleComponent implements OnInit, AfterViewInit {
   getActionData() {
     const selectedScreen = this.screens.filter((a: any) => a.name == this.screenname)
     if (selectedScreen[0].navigation != null && selectedScreen[0].navigation != undefined) { // selectedScreen[0].navigation
-      this.requestSubscription = this.applicationService.getNestNewCommonAPIById(`cp/${environment.dbMode}meta.Actions`, selectedScreen[0].id).subscribe({
+      this.requestSubscription = this.applicationService.getNestNewCommonAPIById(`cp/Actions`, selectedScreen[0].id).subscribe({
         next: (res: any) => {
           if (res.data && res.data.length > 0) {
             this.actionsList = res.data;
@@ -303,7 +303,6 @@ export class ExecuteActionRuleComponent implements OnInit, AfterViewInit {
     this.multiSelectArray.push(newItem);
   }
   addAllActions() {
-    debugger
     const buttonData = this.findObjectByTypeBase(this.nodes[0], "button");
     const tableData = this.findObjectByTypeBase(this.nodes[0], "gridList");
 
@@ -389,11 +388,17 @@ export class ExecuteActionRuleComponent implements OnInit, AfterViewInit {
         "rule": element.monacoEditorControl,
         "applicationid": this.applicationid,
       }
-      if (element.id)   
+      if (element.id)
         actionData['id'] = element.id
       actionRuleList.push(actionData);
     });
-    this.applicationService.addNestNewCommonAPI(`cp/ActionRule/${environment.dbMode}meta.ActionRule/` + mainModuleId[0].id, actionRuleList).subscribe({
+    // const Json = { json: JSON.stringify(actionRuleList) }
+    // const obj = {
+    //   screenbuilderid: mainModuleId.length > 0 ? mainModuleId[0].id : "",
+    //   applicationid: this.applicationid,
+    //   data: JSON.stringify(Json)
+    // }
+    this.applicationService.addNestNewCommonAPI(`cp/ActionRule/ActionRule/` + mainModuleId[0].id, actionRuleList).subscribe({
       next: (allResults: any) => {
         if (allResults) {  //results.every((result: any) => !(result instanceof Error))
 

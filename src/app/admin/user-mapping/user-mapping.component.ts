@@ -68,8 +68,8 @@ export class UserMappingComponent {
     this.loader = true;
 
     forkJoin([
-      this.applicationService.getNestNewCommonAPI(`cp/${environment.dbMode}meta.Policy`),
-      this.applicationService.getNestNewCommonAPI(`cp/${environment.dbMode}meta.users`),
+      this.applicationService.getNestNewCommonAPI(`cp/Policy`),
+      this.applicationService.getNestNewCommonAPI(`cp/users`),
     ]).subscribe({
       next: ([policyRes, userRes]) => {
         this.loader = false;
@@ -92,7 +92,7 @@ export class UserMappingComponent {
   loadUserData() {
 
     this.loader = true;
-    this.applicationService.getNestNewCommonAPI(`cp/${environment.dbMode}meta.UserMapping`).subscribe({
+    this.applicationService.getNestNewCommonAPI(`cp/UserMapping`).subscribe({
       next: (res: any) => {
         this.loader = false;
         if (res.isSuccess) {
@@ -156,7 +156,7 @@ export class UserMappingComponent {
       //     return;
       //   }
       // }
-      const tableValue = `${environment.dbMode}meta.UserMapping`;
+      const tableValue = `UserMapping`;
       let obj = {
         [tableValue]: {
           policyId: this.policyName,
@@ -168,7 +168,7 @@ export class UserMappingComponent {
       this.loader = true;
       const checkPolicyAndProceed = this.isSubmit
         ? this.applicationService.addNestNewCommonAPI('cp', obj)
-        : this.applicationService.updateNestNewCommonAPI(`cp/${environment.dbMode}meta.UserMapping`, this.editId, obj);
+        : this.applicationService.updateNestNewCommonAPI(`cp/UserMapping`, this.editId, obj);
       checkPolicyAndProceed.subscribe({
         next: (objTRes: any) => {
           this.loader = false;
@@ -202,7 +202,7 @@ export class UserMappingComponent {
   }
   deleteRow(id: any): void {
     this.loader = true;
-    this.applicationService.deleteNestNewCommonAPI(`cp/${environment.dbMode}meta.UserMapping`, id).subscribe({
+    this.applicationService.deleteNestNewCommonAPI(`cp/UserMapping`, id).subscribe({
       next: (res: any) => {
         this.loading = false;
         if (res.isSuccess) {

@@ -56,7 +56,7 @@ export class UserComponent {
   ];
   getUsers() {
     this.loading = true;
-    this.applicationService.getNestNewCommonAPI(`cp/${environment.dbMode}meta.users`).subscribe({
+    this.applicationService.getNestNewCommonAPI(`cp/users`).subscribe({
       next: (res: any) => {
         if (res.isSuccess) {
           this.listOfData = res.data;
@@ -89,11 +89,11 @@ export class UserComponent {
   saveEdit(data: any) {
     this.edit = null;
     this.loading = true;
-    const tableValue = `${environment.dbMode}meta.users`;
+    const tableValue = `users`;
     const obj = {
       [tableValue]: data
     }
-    this.applicationService.updateNestNewCommonAPI(`cp/${environment.dbMode}meta.users`, data.id, obj).subscribe({
+    this.applicationService.updateNestNewCommonAPI(`cp/users`, data.id, obj).subscribe({
       next: (res: any) => {
         if (res.isSuccess) {
           // this.listOfData = res.data;
@@ -112,7 +112,7 @@ export class UserComponent {
   }
   delete(data: any) {
     this.loading = true;
-    this.applicationService.deleteNestCommonAPI(`cp/${environment.dbMode}meta.users`, data.id).subscribe({
+    this.applicationService.deleteNestNewCommonAPI(`cp/users`, data.id).subscribe({
       next: (res: any) => {
         this.loading = false;
         if (res.isSuccess) {

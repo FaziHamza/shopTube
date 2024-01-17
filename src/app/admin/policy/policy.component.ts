@@ -83,7 +83,7 @@ export class PolicyComponent implements OnInit {
   }
   jsonPolicyModuleList() {
     this.loading = true;
-    this.applicationService.getNestNewCommonAPI(`cp/${environment.dbMode}meta.Policy`).subscribe({
+    this.applicationService.getNestNewCommonAPI(`cp/Policy`).subscribe({
       next: (res: any) => {
         if (res.isSuccess) {
           this.loading = false;
@@ -160,7 +160,7 @@ export class PolicyComponent implements OnInit {
         menuThemeId: this.form.value.menuthemeid,
         applicationTheme: this.form.value.applicationtheme
       };
-      const tableValue = `${environment.dbMode}meta.Policy`;
+      const tableValue = `Policy`;
 
       const PolicyModel = {
         [tableValue]: obj,
@@ -168,7 +168,7 @@ export class PolicyComponent implements OnInit {
 
       const checkPolicyAndProceed = this.isSubmit
         ? this.applicationService.addNestNewCommonAPI('cp', PolicyModel)
-        : this.applicationService.updateNestNewCommonAPI(`cp/${environment.dbMode}meta.Policy`, this.model.id, PolicyModel);
+        : this.applicationService.updateNestNewCommonAPI(`cp/Policy`, this.model.id, PolicyModel);
       checkPolicyAndProceed.subscribe({
         next: (objTRes: any) => {
           if (objTRes.isSuccess) {
@@ -199,7 +199,7 @@ export class PolicyComponent implements OnInit {
   }
   deleteRow(id: any): void {
     this.applicationService
-      .deleteNestCommonAPI(`cp/${environment.dbMode}meta.Policy`, id)
+      .deleteNestNewCommonAPI(`cp/Policy`, id)
       .subscribe((res: any) => {
         if (res.isSuccess) {
           this.jsonPolicyModuleList();
@@ -309,7 +309,7 @@ export class PolicyComponent implements OnInit {
   }
 
   getTheme() {
-    this.applicationService.getNestNewCommonAPI(`cp/${environment.dbMode}meta.MenuTheme`).subscribe({
+    this.applicationService.getNestNewCommonAPI(`cp/MenuTheme`).subscribe({
       next: (res) => {
         if (res.isSuccess) {
           this.themeList = res.data.map((item: any) => ({
@@ -325,7 +325,7 @@ export class PolicyComponent implements OnInit {
     });
   }
   getApplicationTheme() {
-    this.applicationService.getNestNewCommonAPI(`cp/${environment.dbMode}meta.applicationTheme`).subscribe({
+    this.applicationService.getNestNewCommonAPI(`cp/applicationTheme`).subscribe({
       next: (res) => {
         if (res.isSuccess) {
           this.applicationThemeList = res.data.map((item: any) => ({

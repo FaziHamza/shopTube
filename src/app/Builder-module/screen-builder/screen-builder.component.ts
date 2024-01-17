@@ -180,7 +180,7 @@ export class ScreenBuilderComponent implements OnInit {
   }
   jsonScreenModuleList() {
     this.loading = true;
-    this.applicationService.getNestNewCommonAPI(`cp/${environment.dbMode}meta.ScreenBuilder`).subscribe({
+    this.applicationService.getNestNewCommonAPI(`cp/ScreenBuilder`).subscribe({
       next: (res: any) => {
         if (res.isSuccess && res?.data.length > 0) {
           this.toastr.success(`Screen : ${res.message}`, { nzDuration: 3000 });
@@ -207,7 +207,7 @@ export class ScreenBuilderComponent implements OnInit {
     });
   }
   getApplicationList() {
-    this.applicationService.getNestNewCommonAPI(`cp/${environment.dbMode}meta.Application`).subscribe(((res: any) => {
+    this.applicationService.getNestNewCommonAPI(`cp/Application`).subscribe(((res: any) => {
       if (res.isSuccess)
         this.ApplicationData = res.data;
       else
@@ -235,7 +235,7 @@ export class ScreenBuilderComponent implements OnInit {
   }
 
   getDepartment() {
-    this.applicationService.getNestNewCommonAPI(`cp/${environment.dbMode}meta.Department`).subscribe((res: any) => {
+    this.applicationService.getNestNewCommonAPI(`cp/Department`).subscribe((res: any) => {
       if (res.isSuccess) {
         console.log('getDepartment-Info');
         this.departmenData = res.data;
@@ -245,7 +245,7 @@ export class ScreenBuilderComponent implements OnInit {
   }
   getOrganization() {
     this.applicationService
-      .getNestNewCommonAPI(`cp/${environment.dbMode}meta.Organization`)
+      .getNestNewCommonAPI(`cp/Organization`)
       .subscribe((res: any) => {
         if (res.isSuccess) {
           console.log('getOrganization-Info');
@@ -293,14 +293,14 @@ export class ScreenBuilderComponent implements OnInit {
       this.loading = false;
       return;
     } else {
-      const tableValue = `${environment.dbMode}meta.ScreenBuilder`;
+      const tableValue = `ScreenBuilder`;
       const screenModel = {
         [tableValue]: this.form.value,
       };
 
       const checkScreenAndProceed = this.isSubmit
         ? this.applicationService.addNestNewCommonAPI('cp', screenModel)
-        : this.applicationService.updateNestNewCommonAPI(`cp/${environment.dbMode}meta.ScreenBuilder`, this.model.id, screenModel);
+        : this.applicationService.updateNestNewCommonAPI(`cp/ScreenBuilder`, this.model.id, screenModel);
       checkScreenAndProceed.subscribe({
         next: (objTRes: any) => {
           if (objTRes.isSuccess) {
@@ -326,7 +326,7 @@ export class ScreenBuilderComponent implements OnInit {
 
   getDepartmentOptionList(id: string) {
 
-    this.applicationService.getNestNewCommonAPIById(`cp/${environment.dbMode}meta.Department`, id).subscribe((res: any) => {
+    this.applicationService.getNestNewCommonAPIById(`cp/Department`, id).subscribe((res: any) => {
       if (res.isSuccess) {
         const moduleListOptions = res.data.map((item: any) => ({
           label: item.name,
@@ -347,7 +347,7 @@ export class ScreenBuilderComponent implements OnInit {
     });
   }
   getApplicationOptionList(id: string) {
-    this.applicationService.getNestNewCommonAPIById(`cp/${environment.dbMode}meta.Application`, id).subscribe((res: any) => {
+    this.applicationService.getNestNewCommonAPIById(`cp/Application`, id).subscribe((res: any) => {
       if (res.isSuccess) {
         const moduleListOptions = res.data.map((item: any) => ({
           label: item.name,
@@ -383,7 +383,7 @@ export class ScreenBuilderComponent implements OnInit {
     }
     let id = data.id;
     this.applicationService
-      .deleteNestCommonAPI('cp/ScreenBuilder', id)
+      .deleteNestNewCommonAPI('cp/ScreenBuilder', id)
       .subscribe((res: any) => {
         if (res.isSuccess) {
           this.jsonScreenModuleList();

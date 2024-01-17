@@ -71,7 +71,7 @@ export class ApplicationGlobalClassesComponent {
         return;
       }
       const formValue = this.form.value;
-        const tableValue = `${environment.dbMode}meta.applicationGlobalClass`;
+        const tableValue = `applicationGlobalClass`;
         const obj = {
         [tableValue]: {
           ...formValue,
@@ -81,7 +81,7 @@ export class ApplicationGlobalClassesComponent {
       this.loader = true;
       const checkPolicyAndProceed = this.editId == ''
         ? this.applicationService.addNestNewCommonAPI('cp', obj)
-        : this.applicationService.updateNestNewCommonAPI(`cp/${environment.dbMode}meta.applicationGlobalClass`, this.editId, obj);
+        : this.applicationService.updateNestNewCommonAPI(`cp/applicationGlobalClass`, this.editId, obj);
       checkPolicyAndProceed.subscribe({
         next: (objTRes: any) => {
           this.loader = false;
@@ -105,7 +105,7 @@ export class ApplicationGlobalClassesComponent {
   }
   getcontrols() {
     this.loader = true;
-    this.applicationService.getNestNewCommonAPI(`cp/${environment.dbMode}meta.applicationGlobalClass`).subscribe(((res: any) => {
+    this.applicationService.getNestNewCommonAPI(`cp/applicationGlobalClass`).subscribe(((res: any) => {
       this.loader = false;
       if (res.isSuccess) {
         if (res.data.length > 0) {
@@ -165,7 +165,7 @@ export class ApplicationGlobalClassesComponent {
   delete(id: any) {
     this.loader = true;
     this.reset();
-    this.applicationService.deleteNestNewCommonAPI(`cp/${environment.dbMode}meta.applicationGlobalClass`, id).subscribe(((res: any) => {
+    this.applicationService.deleteNestNewCommonAPI(`cp/applicationGlobalClass`, id).subscribe(((res: any) => {
       this.loader = false;
       if (res.isSuccess) {
         this.getcontrols();

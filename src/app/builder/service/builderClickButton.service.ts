@@ -469,7 +469,7 @@ export class BuilderClickButtonService {
       mapApi: node['mapApi'],
       tableHeader: node['tableHeader'],
       tableBody: node['tableBody'],
-      checkData: node['checkData'],
+      checkDatas: node['checkDatas'],
       dbData: node['dbData'],
       tableData: node['tableData'],
       borderRadius: node['borderRadius'],

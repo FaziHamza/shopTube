@@ -57,9 +57,9 @@ export class ConfigurableSelectDirective implements OnInit, OnDestroy {
   }
 
   private loadOptions(): void {
-    
+    debugger
     if (this.loadAction && Object.keys(this.loadAction).length !== 0) {
-      if(this.loadAction?._id){
+      if(this.loadAction?.id){
         this.executeAction(this.loadAction)
         .subscribe(
           response => {
@@ -102,12 +102,13 @@ export class ConfigurableSelectDirective implements OnInit, OnDestroy {
   }
 
   private executeAction(action: Action): Observable<any> {
-    const { _id, actionLink, data, headers, parentId, page, pageSize } = action;
+    debugger
+    const { id, actionLink, data, headers, parentId, page, pageSize } = action;
     let pagination = ''
     if (page && pageSize){
       pagination = `?page=${localStorage.getItem('tablePageNo') || 1}&pageSize=${localStorage.getItem('tablePageSize') || 10}` 
     }
-    return this.applicationService.callApi(`knex-query/getexecute-rules/${_id}${pagination}`, 'get', data, headers, parentId)
+    return this.applicationService.callApi(`knex-query/getexecute-rules/${id}${pagination}`, 'get', data, headers, parentId)
       .pipe(takeUntil(this.unsubscribe$));
   }
 
@@ -121,7 +122,7 @@ type Action = {
   actionLink: string;
   data?: any;
   headers?: any;
-  _id?: any;
+  id?: any;
   page?: any;
   pageSize?: any;
   parentId?: any;

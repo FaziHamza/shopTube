@@ -319,7 +319,7 @@ export class DynamicTableComponent implements OnInit {
     // let getRes: any = {
     //   data: [
     //     {
-    //       "_id": {
+    //       "id": {
     //         "$oid": "649bce85e4823f1628e266c1"
     //       },
     //       "businessRule": [
@@ -344,7 +344,7 @@ export class DynamicTableComponent implements OnInit {
     // this.applyBusinessRule(getRes, this.data);
     // this.loadTableData();
     if (this.screenId && this.gridRuleData.length == 0) {
-      this.requestSubscription = this.applicationService.getNestCommonAPIById('cp/GridBusinessRule', this.screenId).subscribe(((getRes: any) => {
+      this.requestSubscription = this.applicationService.getNestNewCommonAPIById('cp/GridBusinessRule', this.screenId).subscribe(((getRes: any) => {
         if (getRes.isSuccess) {
           if (getRes.data.length > 0) {
             this.gridRuleData = getRes.data || [];
@@ -362,10 +362,10 @@ export class DynamicTableComponent implements OnInit {
     }
   }
   applyBusinessRule(ruleData: any, data: any) {
-    let gridFilter = ruleData.filter((a: any) => a.gridType == 'Body');
+    let gridFilter = ruleData.filter((a: any) => a.gridtype == 'Body');
     for (let m = 0; m < gridFilter.length; m++) {
-      if (gridFilter[m].gridKey == data.key && this.tableData) {
-        const objRuleData = JSON.parse(gridFilter[m].businessRuleData);
+      if (gridFilter[m].gridkey == data.key && this.tableData) {
+        const objRuleData = gridFilter[m].businessruledata?.json;
         for (let index = 0; index < objRuleData.length; index++) {
           if (this.tableData.length > 0) {
             // const elementv1 = objRuleData[index].ifRuleMain;
@@ -944,7 +944,7 @@ export class DynamicTableComponent implements OnInit {
       }
       const newRow = JSON.parse(JSON.stringify(this.tableData[0]));
       newRow["id"] = this.tableData[id].id + 1;
-      delete newRow?._id;
+      delete newRow?.id;
       delete newRow?.__v;
       newRow['editabeRowAddNewRow'] = true;
       this.tableData.unshift(newRow);
@@ -972,10 +972,10 @@ export class DynamicTableComponent implements OnInit {
       if (this.data?.appConfigurableEvent && this.data?.appConfigurableEvent?.length > 0) {
         // Find the 'delete' event in appConfigurableEvent
         const findClickApi = this.data.appConfigurableEvent.filter((item: any) => item.rule.includes('delete'));
-        const id = findClickApi?.[0]?.rule.includes('EnumList') ? data?._id : data?.id;
+        const id = findClickApi?.[0]?.rule.includes('EnumList') ? data?.id : data?.id;
 
         if (findClickApi.length > 0) {
-          const url = findClickApi[0].actionType === 'api' ? findClickApi[0].rule : `knex-query/executeDelete-rules/${findClickApi[0]._id}`;
+          const url = findClickApi[0].actionType === 'api' ? findClickApi[0].rule : `knex-query/executeDelete-rules/${findClickApi[0].id}`;
 
           if (url) {
             this.saveLoader = true;
@@ -1073,10 +1073,10 @@ export class DynamicTableComponent implements OnInit {
   loadTableData() {
     this.getResizingAndColumnSortng();
     if (this.tableData.length > 0) {
-      if (this.tableData[0].__v || this.tableData[0]._id) {
-        const requiredData = this.tableData.map(({ __v, _id, ...rest }: any) => ({
+      if (this.tableData[0].__v || this.tableData[0].id) {
+        const requiredData = this.tableData.map(({ __v, id, ...rest }: any) => ({
           expand: false,
-          id: _id,
+          id: id,
           ...rest,
         }));
         this.tableData = JSON.parse(JSON.stringify(requiredData));
@@ -1218,7 +1218,7 @@ export class DynamicTableComponent implements OnInit {
                 modalData: findInlineSave
               };
               this.saveLoader = true;
-              this.applicationServices.addNestCommonAPI('knex-query/execute-rules/' + findAction._id, model).subscribe({
+              this.applicationServices.addNestCommonAPI('knex-query/execute-rules/' + findAction.id, model).subscribe({
                 next: (res) => {
                   if (res) {
                     this.saveLoader = false;
@@ -1332,7 +1332,7 @@ export class DynamicTableComponent implements OnInit {
       this.saveLoader = true;
       if (this.data?.targetId) {
 
-        this.requestSubscription = this.applicationService.getNestCommonAPIById(`knex-query/getexecute-rules/${this.data.eventActionconfig._id}` + pagination, this.data?.targetId).subscribe({
+        this.requestSubscription = this.applicationService.getNestCommonAPIById(`knex-query/getexecute-rules/${this.data.eventActionconfig.id}` + pagination, this.data?.targetId).subscribe({
           next: (response) => {
             this.saveLoader = false;
             if (response.isSuccess) {
@@ -1359,7 +1359,7 @@ export class DynamicTableComponent implements OnInit {
         })
       }
       else {
-        let url = 'knex-query/getexecute-rules/' + this.data.eventActionconfig._id;
+        let url = 'knex-query/getexecute-rules/' + this.data.eventActionconfig.id;
         if (this.childDataObj) {
           let findExpandKeyHead = this.tableHeaders.find((head: any) => head.key == 'expand');
           if (findExpandKeyHead) {
@@ -1629,9 +1629,9 @@ export class DynamicTableComponent implements OnInit {
               this.issueReport['showAllComments'] = false;
               if (res.isSuccess && res.data.length > 0) {
                 const filteredIssues = res.data.filter((rep: any) => rep.componentId === data.componentId);
-                const requiredData = filteredIssues.map(({ __v, _id, ...rest }: any) => ({
+                const requiredData = filteredIssues.map(({ __v, id, ...rest }: any) => ({
                   expand: false,
-                  id: _id,
+                  id: id,
                   // expandable: true,
                   ...rest,
                 }));
@@ -1718,19 +1718,19 @@ export class DynamicTableComponent implements OnInit {
         else {
           console.log("Data");
           console.log("Data");
-          const requiredData = data.children.map(({ __v, _id, ...rest }: any) => {
+          const requiredData = data.children.map(({ __v, id, ...rest }: any) => {
             if (rest.children) {
               const childData = rest.children;
               delete rest.children;
               return {
-                id: _id,
+                id: id,
                 ...rest,
                 children: childData.length > 0 ? childData : undefined,
               };
             } else {
               // If the 'children' property doesn't exist, return the object without it
               return {
-                id: _id,
+                id: id,
                 ...rest,
               };
             }
@@ -2026,7 +2026,7 @@ export class DynamicTableComponent implements OnInit {
           .childTable && Object.keys(this.data.eventActionconfig).length > 0) {
           if (window.location.href.includes('marketplace.com')) {
             res.data = res.data.map((item: any) => ({
-              id: item._id, // Rename _id to id
+              id: item.id, // Rename id to id
               name: item.name,
               categoryId: item.categoryId,
               categoryName: item.categoryDetails?.[0]?.name, // Access the name property from categoryDetails
@@ -2048,7 +2048,7 @@ export class DynamicTableComponent implements OnInit {
         this.data.masteTotalCount = res.count;
         if (tableData.eventActionconfig) {
           if (tableData.eventActionconfig.actionType == 'query') {
-            tableData.serverApi = `knex-query/getAction/${tableData.eventActionconfig._id}`;
+            tableData.serverApi = `knex-query/getAction/${tableData.eventActionconfig.id}`;
           } else if (tableData.eventActionconfig.actionType == 'api') {
             tableData.serverApi = tableData.eventActionconfig.rule;
           }
@@ -2176,7 +2176,7 @@ export class DynamicTableComponent implements OnInit {
             modalData: newDataModel
           };
 
-          let url = findClickApi[0]?._id ? `knex-query/executeDelete-rules/${findClickApi[0]?._id}` : '';
+          let url = findClickApi[0]?.id ? `knex-query/executeDelete-rules/${findClickApi[0]?.id}` : '';
           if (url) {
             this.saveLoader = true;
             this.requestSubscription = this.applicationServices.addNestCommonAPI(url, model).subscribe({
@@ -2366,7 +2366,7 @@ export class DynamicTableComponent implements OnInit {
         const formData: FormData = new FormData();
         formData.append('file', file);
         this.requestSubscription = this.http
-          .post(this.serverPath + 'knex-query/savecsv/' + findClickApi?._id, formData, {
+          .post(this.serverPath + 'knex-query/savecsv/' + findClickApi?.id, formData, {
             reportProgress: true, // Enable progress reporting
             observe: 'events', // Observe Http events
           })
@@ -2385,7 +2385,7 @@ export class DynamicTableComponent implements OnInit {
                 this.fileUpload = ''; // This clears the file input
                 if (event.body.isSuccess) {
                   if (this.data.appConfigurableEvent) {
-                    let url = 'knex-query/getexecute-rules/' + this.data.eventActionconfig._id;
+                    let url = 'knex-query/getexecute-rules/' + this.data.eventActionconfig.id;
                     this.saveLoader = true;
                     this.requestSubscription = this.applicationService.callApi(url, 'get', '', '', '').subscribe({
                       next: (res) => {
@@ -2907,16 +2907,16 @@ export class DynamicTableComponent implements OnInit {
 
 
   recallApi() {
-    const { _id, actionLink, data, headers, parentId, page, pageSize } = this.data.eventActionconfig;
-    if (_id) {
+    const { id, actionLink, data, headers, parentId, page, pageSize } = this.data.eventActionconfig;
+    if (id) {
       let pagination = ''
       if (page && pageSize) {
         pagination = `?page=${localStorage.getItem('tablePageNo') || 1}&pageSize=${localStorage.getItem('tablePageSize') || 10}`
       }
       this.saveLoader = true;
-      let url = `knex-query/getexecute-rules/${_id}`;
+      let url = `knex-query/getexecute-rules/${id}`;
       if (this.mappingId) {
-        url = `knex-query/getexecute-rules/${_id}/${this.mappingId}`
+        url = `knex-query/getexecute-rules/${id}/${this.mappingId}`
       }
       this.requestSubscription = this.applicationService.callApi(`${url}${pagination}`, 'get', data, headers).subscribe({
         next: (res) => {
@@ -2941,7 +2941,7 @@ export class DynamicTableComponent implements OnInit {
     if (findExpandKeyHead && event) {
       if (findExpandKeyHead.callApi) {
         let pagination = '';
-        let { _id, actionLink, data, headers, parentId, page, pageSize } = this.data.eventActionconfig;
+        let { id, actionLink, data, headers, parentId, page, pageSize } = this.data.eventActionconfig;
         if (page && pageSize) {
           pagination = `?page=${localStorage.getItem('tablePageNo') || 1}&pageSize=${localStorage.getItem('tablePageSize') || 10}`
         }

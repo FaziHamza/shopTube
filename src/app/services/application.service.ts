@@ -91,7 +91,7 @@ export class ApplicationService {
     );
   }
   callApi(url: string, method: string, data?: any, headers?: any, parentId?: any): Observable<any> {
-    let apiUrl = url.includes('http') ? url : this.nestUrl + url;
+    let apiUrl = url.includes('http') ? url : this.nestNewUrl + url;
 
     if (method === 'get' && parentId) {
       // Assuming apiUrl already has a base URL

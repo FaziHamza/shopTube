@@ -152,7 +152,7 @@ export class LoginComponent implements OnInit {
   getApplicationData() {
     this.showLoader = true;
     const hostUrl = window.location.host.split(':')[0];
-    this.authService.getNestCommonAPI(`auth/domain/${environment.dbMode}meta.user/${hostUrl}`).subscribe({
+    this.authService.getNestCommonAPI(`auth/domain/user/${hostUrl}`).subscribe({
       next: (res: any) => {
         if (res.isSuccess) {
           this.applications = res.data;

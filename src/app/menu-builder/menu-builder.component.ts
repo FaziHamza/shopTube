@@ -181,7 +181,7 @@ export class MenuBuilderComponent implements OnInit {
   getMenus(id: string) {
     this.getTheme(id);
     this.getlocalMenu(id);
-    // this.applicationService.getNestNewCommonAPIById(`cp/${environment.dbMode}meta.CacheMenu`, this.currentUser.userId).subscribe(((res: any) => {
+    // this.applicationService.getNestNewCommonAPIById(`cp/CacheMenu`, this.currentUser.userId).subscribe(((res: any) => {
     //   if (res.isSuccess) {
     //     if (res.data.length > 0) {
     //       let getApplication = this.applications.find((a: any) => a.id == id);
@@ -206,7 +206,7 @@ export class MenuBuilderComponent implements OnInit {
     // }));
   }
   getlocalMenu(id: any) {
-    this.applicationService.getNestNewCommonAPIById(`cp/getmenu/${environment.dbMode}meta.PolicyMapping`, id).subscribe(((res: any) => {
+    this.applicationService.getNestNewCommonAPIById(`cp/getmenu/PolicyMapping`, id).subscribe(((res: any) => {
       if (res.isSuccess) {
         if (res.data) {
           this.applicationId = res.data.id
@@ -748,7 +748,7 @@ export class MenuBuilderComponent implements OnInit {
   }
   themeList: any[] = [];
   getTheme(value: any) {
-    this.applicationService.getNestNewCommonAPIById(`cp/${environment.dbMode}meta.MenuTheme`, value).subscribe(res => {
+    this.applicationService.getNestNewCommonAPIById(`cp/MenuTheme`, value).subscribe(res => {
       if (res.isSuccess) {
         this.themeList = res.data || [];
       }
@@ -777,7 +777,7 @@ export class MenuBuilderComponent implements OnInit {
       // "applicationId": mainApplicationId.length > 0 ? mainApplicationId[0].id : "",
       "selectedTheme": JSON.stringify(temporaryData)
     };
-    const tableValue = `${environment.dbMode}meta.Menu`;
+    const tableValue = `Menu`;
     const menuModel = {
       [tableValue]: data
     }
@@ -799,7 +799,7 @@ export class MenuBuilderComponent implements OnInit {
         }
       });
     } else {
-      this.requestSubscription = this.applicationService.updateNestNewCommonAPI(`cp/${environment.dbMode}meta.Menu`, this.applicationId, menuModel).subscribe({
+      this.requestSubscription = this.applicationService.updateNestNewCommonAPI(`cp/Menu`, this.applicationId, menuModel).subscribe({
         next: (objMenu: any) => {
           if (objMenu.isSuccess)
             this.toastr.success(objMenu.message, { nzDuration: 3000 });
@@ -1504,7 +1504,7 @@ export class MenuBuilderComponent implements OnInit {
   }
 
   getDepartments() {
-    this.requestSubscription = this.applicationService.getNestNewCommonAPI(`cp/${environment.dbMode}meta.Department`).subscribe({
+    this.requestSubscription = this.applicationService.getNestNewCommonAPI(`cp/Department`).subscribe({
       next: (res: any) => {
         if (res.isSuccess) {
           if (res.data.length > 0) {
@@ -1853,7 +1853,7 @@ export class MenuBuilderComponent implements OnInit {
   async loadData(node: NzCascaderOption, index: number): Promise<void> {
     if (index === 0 && node.value != 'selectDepartment') {
       try {
-        const res = await this.applicationService.getNestNewCommonAPIById(`cp/${environment.dbMode}meta.Application`, node.value).toPromise();
+        const res = await this.applicationService.getNestNewCommonAPIById(`cp/Application`, node.value).toPromise();
         if (res.isSuccess) {
           this.applications = res.data;
           const applications = res.data.map((appData: any) => {

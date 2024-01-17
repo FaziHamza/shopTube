@@ -506,7 +506,7 @@ export class ActionRuleComponent implements OnInit {
         actionData['id'] = element.id
       actionListData.push(actionData)
     });
-    this.applicationService.addNestNewCommonAPI(`cp/deleteAction/${environment.dbMode}meta.Actions/` + mainModuleId[0].id, actionListData).subscribe({
+    this.applicationService.addNestNewCommonAPI(`cp/deleteAction/Actions/` + mainModuleId[0].id, actionListData).subscribe({
       next: (allResults: any) => {
         if (allResults) {
           this.getActionData();
@@ -525,7 +525,7 @@ export class ActionRuleComponent implements OnInit {
   getActionData() {
     const selectedScreen = this.screens.filter((a: any) => a.name == this.screenname)
     if (selectedScreen[0].navigation != null && selectedScreen[0].navigation != undefined) { // selectedScreen[0].navigation
-      this.requestSubscription = this.applicationService.getNestNewCommonAPIById(`cp/${environment.dbMode}meta.Actions`, selectedScreen[0].id).subscribe({
+      this.requestSubscription = this.applicationService.getNestNewCommonAPIById(`cp/Actions`, selectedScreen[0].id).subscribe({
         next: (res: any) => {
           if (res.isSuccess) {
             // this.toastr.success(`Action : Success => ${JSON.stringify(res.data)}`)

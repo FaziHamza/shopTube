@@ -591,16 +591,16 @@ export class BusinessRuleGridComponent implements OnInit {
     ]
     const selectedScreen = this.screens.filter((a: any) => a.name == this.screenname);
     if (selectedScreen.length > 0) {
-      this.requestSubscription = this.applicationService.getNestCommonAPIById('cp/GridBusinessRule', this.screenId).subscribe({
+      this.requestSubscription = this.applicationService.getNestNewCommonAPIById('cp/GridBusinessRule', this.screenId).subscribe({
         next: (getRes: any) => {
           if (getRes.isSuccess) {
             let type = this.GridType ? this.GridType : 'Body';
-            let gridData = getRes.data.filter((a: any) => a.gridType == type);
+            let gridData = getRes.data.filter((a: any) => a.gridtype == type);
             if (gridData.length > 0) {
               for (let k = 0; k < gridData.length; k++) {
-                if (gridData[k].gridKey == this.selectedNode.key) {
-                  this.gridRuleId = gridData[k]._id;
-                  const objRuleData = JSON.parse(gridData[k].businessRuleData);
+                if (gridData[k].gridkey == this.selectedNode.key) {
+                  this.gridRuleId = gridData[k].id;
+                  const objRuleData = gridData[k].businessruledata?.json;
                   this.buisnessForm = this.formBuilder.group({
                     buisnessRule: this.formBuilder.array(objRuleData.map((getBusinessRuleRes: any) =>
                       this.formBuilder.group({
@@ -734,10 +734,10 @@ export class BusinessRuleGridComponent implements OnInit {
       let ifConditions: any = [];
 
       rule.ifRuleMain.forEach((ifRule: any) => {
-        let ifCondition = `${ifRule.ifCondition} ${ifRule.oprator} '${this.checkValueIntegerOrNot(ifRule.getValue)}'`;
+        let ifCondition = `${ifRule.ifCondition} ${ifRule.oprator} ${this.checkValueIntegerOrNot(ifRule.getValue)}`;
 
         if (ifRule.conditional && ifRule.conditional.length > 0) {
-          let conditionalConditions = ifRule.conditional.map((cond: any) => `${cond.condType === 'OR' ? '||' : cond.condType === 'AND' ? '&&' : ''} ${cond.condifCodition} ${cond.condOperator} '${this.checkValueIntegerOrNot(cond.condValue)}'`);
+          let conditionalConditions = ifRule.conditional.map((cond: any) => `${cond.condType === 'OR' ? '||' : cond.condType === 'AND' ? '&&' : ''} ${cond.condifCodition} ${cond.condOperator} ${this.checkValueIntegerOrNot(cond.condValue)}`);
           ifCondition = `(${ifCondition} ${conditionalConditions.join(' ')}) ${ifRule.condType === 'AND' ? ' && ' : ifRule.condType === 'OR' ? ' || ' : ''} `;
         }
 
@@ -752,13 +752,14 @@ export class BusinessRuleGridComponent implements OnInit {
       let ruleExpression = { if: ifConditionExpression, then: thenConditionExpression };
       this.GridBusinessRuleData.push(ruleExpression);
     });
-
+    const obj = {json:this.GridBusinessRuleData};
+    const obj1 =  {json:this.buisnessForm.value.buisnessRule}
     const selectedScreen = this.screens.filter((a: any) => a.name == this.screenname);
     const gridRuleValid = {
       "screenname": this.screenname,
       "screenbuilderid": this.screenId,
-      "businessRuleData": JSON.stringify(this.buisnessForm.value.buisnessRule),
-      "businessRule": JSON.stringify(this.GridBusinessRuleData),
+      "businessRuleData":JSON.stringify(obj1),
+      "businessRule": JSON.stringify(obj),
       "gridKey": this.selectedNode.key,
       "gridType": this.GridType ? this.GridType : 'Body',
       "applicationid": this.applicationid,
@@ -771,8 +772,8 @@ export class BusinessRuleGridComponent implements OnInit {
     if (gridBusinessRuleModel.GridBusinessRule != null) {
       if (selectedScreen[0].navigation != null) {
         const checkAndProcess = this.gridRuleId == ''
-          ? this.applicationService.addNestCommonAPI('cp', gridBusinessRuleModel)
-          : this.applicationService.updateNestCommonAPI('cp/GridBusinessRule', this.gridRuleId, gridBusinessRuleModel);
+          ? this.applicationService.addNestNewCommonAPI('cp', gridBusinessRuleModel)
+          : this.applicationService.updateNestNewCommonAPI('cp/GridBusinessRule', this.gridRuleId, gridBusinessRuleModel);
         this.requestSubscription = checkAndProcess.subscribe({
           next: (res: any) => {
             if (res.isSuccess) {
@@ -932,6 +933,6 @@ export class BusinessRuleGridComponent implements OnInit {
   }
 
   checkValueIntegerOrNot(value: any) {
-    return /^[0-9]+$/.test(value) ? parseInt(value) : "'" + value + "'"
+    return /^[0-9]+$/.test(value) ? parseInt(value) : "''" + value + "''"
   }
 }
