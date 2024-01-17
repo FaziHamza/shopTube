@@ -231,13 +231,13 @@ export class CreateDatabaseComponent implements OnInit {
     this.searchFilteredApprovedValue = '';
     this.searchFilteredPendingValue = '';
     this.saveLoader = true;
-    this.applicationService.getNestNewCommonAPI(`cp/${environment.dbMode}meta.tables`).subscribe({
+    this.applicationService.getNestNewCommonAPI(`cp/tables`).subscribe({
       // this.employeeService.getSQLDatabaseTableCRUD('knex-crud/tables').subscribe({
       next: (objTRes) => {
         this.saveLoader = false;
         if (objTRes.isSuccess) {
           this.saveLoader = true;
-          this.applicationService.getNestNewCommonAPI(`cp/${environment.dbMode}meta.tableschema`).subscribe({
+          this.applicationService.getNestNewCommonAPI(`cp/tableschema`).subscribe({
             next: (objFRes) => {
               this.saveLoader = false;
               if (objFRes.isSuccess) {
@@ -390,7 +390,7 @@ export class CreateDatabaseComponent implements OnInit {
         "isactive": true
       };
       this.saveLoader = true;
-      const tableValue = `${environment.dbMode}meta.tables`;
+      const tableValue = `tables`;
       const tableModel = {
         [tableValue]: objTableNames
       }
@@ -408,7 +408,7 @@ export class CreateDatabaseComponent implements OnInit {
                 "status": element.status,
                 "isactive": true
               };
-              const tableFieldsValue = `${environment.dbMode}meta.tableschema`;
+              const tableFieldsValue = `tableschema`;
               const tableFieldsModel = {
                 [tableFieldsValue]: objFields
               }
@@ -511,7 +511,7 @@ export class CreateDatabaseComponent implements OnInit {
         "status": this.myForm.value.isactive,
         "isactive": true
       };
-      const tableValue = `${environment.dbMode}meta.tables`;
+      const tableValue = `tables`;
       const tableModel = {
         [tableValue]: objTableNames
       }
@@ -526,7 +526,7 @@ export class CreateDatabaseComponent implements OnInit {
         return
       }
       this.saveLoader = true;
-      this.applicationService.updateNestNewCommonAPI(`cp/${environment.dbMode}meta.tables`, this.tableId, tableModel).subscribe({
+      this.applicationService.updateNestNewCommonAPI(`cp/tables`, this.tableId, tableModel).subscribe({
         next: (res) => {
           this.saveLoader = false;
           this.toastr.success("Table fields updated successfully", { nzDuration: 3000 });
@@ -540,7 +540,7 @@ export class CreateDatabaseComponent implements OnInit {
               "isactive": true
             }
 
-            const tableFieldsValue = `${environment.dbMode}meta.tableschema`;
+            const tableFieldsValue = `tableschema`;
             const tableFieldsModel = {
               [tableFieldsValue]: objFields
             }
@@ -551,7 +551,7 @@ export class CreateDatabaseComponent implements OnInit {
                 catchError(error => of(error)) // Handle error and continue the forkJoin
               );
             } else {
-              return this.applicationService.updateNestNewCommonAPI(`cp/${environment.dbMode}meta.tableschema`, element.id, tableFieldsModel).pipe(
+              return this.applicationService.updateNestNewCommonAPI(`cp/tableschema`, element.id, tableFieldsModel).pipe(
                 catchError(error => of(error)) // Handle error and continue the forkJoin
               );
             }
@@ -669,9 +669,9 @@ export class CreateDatabaseComponent implements OnInit {
     this.listOfData = [];
   }
   search(type: string, searchValue: string): void {
-    if (type === 'approved') {
+    if (type.toLowerCase() === 'approved') {
       this.filteredApproved = this.filterData(this.searchFilterdApproved, searchValue);
-    } else if (type === 'pending') {
+    } else if (type.toLowerCase() === 'pending') {
       this.filteredPending = this.filterData(this.searchFilterdPending, searchValue);
     }
   }

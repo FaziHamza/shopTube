@@ -6342,7 +6342,7 @@ export class BuilderComponent implements OnInit {
     if (this.deleteCases.length > 0) {
       const deleteObservables = this.deleteCases.map((element) => {
         return this.builderService
-          .deleteSQLDatabaseTable('knex-crud/table_schema/', element.id)
+          .deleteSQLDatabaseTable('knex-crud/tableschema/', element.id)
           .pipe(
             catchError((error) => of(error)) // Handle error and continue the forkJoin
           );
@@ -6375,11 +6375,11 @@ export class BuilderComponent implements OnInit {
           status: 'Pending',
           isActive: true,
           screenbuilderid: this.id,
-          // applicationid: JSON.parse(localStorage.getItem('applicationid')!),
-          // organizationId: JSON.parse(localStorage.getItem('organizationId')!),
+          applicationid: JSON.parse(localStorage.getItem('applicationid')!),
+          organizationId: JSON.parse(localStorage.getItem('organizationId')!),
         };
         return this.builderService
-          .saveSQLDatabaseTable('knex-crud/table_schema', objFields)
+          .saveSQLDatabaseTable('knex-crud/tableschema', objFields)
           .pipe(
             catchError((error) => of(error)) // Handle error and continue the forkJoin
           );
@@ -6421,14 +6421,14 @@ export class BuilderComponent implements OnInit {
       next: (objTRes) => {
         if (objTRes) {
           this.builderService
-            .getSQLDatabaseTable('knex-crud/table_schema')
+            .getSQLDatabaseTable('knex-crud/tableschema')
             .subscribe({
               next: (objFRes) => {
                 if (objFRes) {
                   for (let i = 0; i < mainArray.length; i++) {
                     const element = mainArray[i];
                     const tableElement = objTRes.filter(
-                      (x: any) => x.tableName == element.name
+                      (x: any) => x.tablename == element.name
                     );
 
                     //For Delete Field Case
@@ -6437,7 +6437,7 @@ export class BuilderComponent implements OnInit {
                         (x: any) => x.tableid == tableElement[0]?.id
                       );
                       for (const item of tableFields) {
-                        const fieldName = item.fieldName;
+                        const fieldName = item.fieldname;
                         if (!mainArray[i].children.includes(fieldName)) {
                           const deleteCase = {
                             id: item.id,
@@ -6469,8 +6469,9 @@ export class BuilderComponent implements OnInit {
                       const objTableNames = {
                         tableName: element.name,
                         comment: '',
-                        totalFields: '',
-                        isActive: 'Pending',
+                        totalFields: 0,
+                        isActive: true,
+                        status: 'Pending',
                         screenbuilderid: this.id,
                         applicationid: JSON.parse(localStorage.getItem('applicationid')!),
                         organizationId: JSON.parse(localStorage.getItem('organizationId')!),
@@ -6494,7 +6495,7 @@ export class BuilderComponent implements OnInit {
                                 };
                                 this.builderService
                                   .saveSQLDatabaseTable(
-                                    'knex-crud/table_schema',
+                                    'knex-crud/tableschema',
                                     objFields
                                   )
                                   .subscribe({

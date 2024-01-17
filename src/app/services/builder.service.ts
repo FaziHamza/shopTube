@@ -436,7 +436,7 @@ export class BuilderService {
   }
   saveSQLDatabaseTable(api: string, obj: any): Observable<any> {
     return this.http.post<any>(
-      this.nestUrl + api, obj
+      this.nestNewUrl + api, obj
     );
   }
   updateSQLDatabaseTable(api: string, obj: any): Observable<any> {
@@ -451,7 +451,7 @@ export class BuilderService {
   }
   getSQLDatabaseTable(api: string): Observable<any> {
     return this.http.get<any>(
-      this.nestUrl + api
+      this.nestNewUrl + api
     );
   }
   getPendingTableFields(api: string): Observable<any> {
