@@ -16,6 +16,7 @@ import { UserMappingComponent } from './admin/user-mapping/user-mapping.componen
 import { ApplicationThemeComponent } from './Builder-module/application-theme/application-theme.component';
 import { NgxGraphNodeComponent } from './builder/ngx-graph-node/ngx-graph-node.component';
 import { ApplicationGlobalClassesComponent } from './Builder-module/application-global-classes/application-global-classes.component';
+import { EmailTemplatesComponent } from './builder/configurations/email-templates/email-templates.component';
 
 const routes: Routes = [
   {
@@ -45,6 +46,10 @@ const routes: Routes = [
       {
         path: 'policy-mapping',
         component: PolicyMappingComponent
+      },
+      {
+        path: 'email-template',
+        component: EmailTemplatesComponent
       },
       {
         path: 'user-mapping',

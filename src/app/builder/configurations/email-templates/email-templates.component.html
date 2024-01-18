@@ -1,50 +1,32 @@
 <nz-spin [nzSpinning]="loader" [nzSize]="'large'">
+    <p class="font-bold text-lg">Email Templates</p>
     <form [formGroup]="emailForm">
         <div class="drawer-height !p-4">
             <div formArrayName="fields">
                 <div style="border: 1px solid rgb(197 187 187); border-radius: 5px; padding: 1%; position: relative;"
                     *ngFor="let field of emailFields.controls; let i = index" [formGroupName]="i" class="mb-4">
-                    <div class="flex flex-wrap items-center  mb-2">
-                        <div class="w-1/5">
-                            <input formControlName="name" class="!border !rounded !p-2 !block !w-full" nz-input
-                                placeholder="Enter template name..." nzSize="default" />
-                        </div>
-                        <div class="w-1/5">
-                            <i *ngIf="emailFields.at(i).get('imagePath')?.value" class="ml-2 fas fa-eye text-blue-500"
-                                (click)="imagePreview(emailFields.at(i).get('imagePath')?.value)"></i>
+                    <div class="flex items-center mb-2">
+                        <input formControlName="name" class="!border !rounded !p-2 !block !w-full" nz-input
+                            placeholder="Enter template name..." nzSize="default" />
+                        <i *ngIf="emailFields.at(i).get('imagePath')?.value" class="ml-2 fas fa-eye text-blue-500"
+                            (click)="imagePreview(emailFields.at(i).get('imagePath')?.value)"></i>
 
-                            <input nzTooltipTitle="By upload file you get path use this path in templates" nz-tooltip
-                                (change)="onFileSelected($event, i)" accept="image/*" class="ml-4" type="file"
-                                formControlName="image" class="!border !rounded !p-2 !block !w-full !ml-2" nz-input
-                                nzSize="default" />
-                            <i *ngIf="emailFields.at(i).get('imagePath')?.value"
-                                class="ml-2 fas fa-trash-alt text-red-500" (click)="removeImage(i)"></i>
-                        </div>
-                        <div class="w-1/5">
-                            <nz-select class="email-select !h-10 !rounded-md pl-1 !ml-4" nzShowSearch nzAllowClear
-                                nzPlaceHolder="Select a person" formControlName="templateType">
-                                <nz-option nzLabel="PDF" nzValue="pdf"></nz-option>
-                                <nz-option nzLabel="TEXT" nzValue="text"></nz-option>
-                            </nz-select>
-                        </div>
-                        <div class="w-1/5">
-                            <div style="padding: 0px">
-                                <nz-select style="width:100%" [nzMaxTagCount]="3" nzMode="multiple" nzShowSearch
-                                    nzAllowClear formControlName="emailTo">
-                                    <nz-option *ngFor="let type of emailToOptions" [nzLabel]="type.label"
-                                        [nzValue]="type.value"></nz-option>
-                                </nz-select>
-                                <ng-template #tagPlaceHolder let-selectedList>and {{ selectedList.length }} more
-                                    selected</ng-template>
-                            </div>
-                        </div>
-                        <div class="w-1/5">
-                            <button type="button" (click)="removeField(i)"
-                                class="!ml-4 !px-2 !py-1 !bg-red-500 !text-white rounded"><i
-                                    class="fas fa-trash-alt"></i></button>
-                        </div>
+                        <input nzTooltipTitle="By upload file you get path use this path in templates" nz-tooltip
+                            (change)="onFileSelected($event, i)" accept="image/*" class="ml-4" type="file"
+                            formControlName="image" class="!border !rounded !p-2 !block !w-full !ml-2" nz-input
+                            nzSize="default" />
+                        <i *ngIf="emailFields.at(i).get('imagePath')?.value" class="ml-2 fas fa-trash-alt text-red-500"
+                            (click)="removeImage(i)"></i>
+                        <nz-select class="email-select !h-10 !rounded-md pl-1 !ml-4" nzShowSearch nzAllowClear
+                            nzPlaceHolder="Select a person" formControlName="templateType">
+                            <nz-option nzLabel="PDF" nzValue="pdf"></nz-option>
+                            <nz-option nzLabel="TEXT" nzValue="text"></nz-option>
+                        </nz-select>
                         <input [hidden]="true" formControlName="imagePath" class="!border !rounded !p-2 !block !w-full"
                             nz-input placeholder="Enter template name..." nzSize="default" />
+                        <button type="button" (click)="removeField(i)"
+                            class="!ml-4 !px-2 !py-1 !bg-red-500 !text-white rounded"><i
+                                class="fas fa-trash-alt"></i></button>
                     </div>
                     <textarea formControlName="emailTemplate" row="8" nz-input
                         class="!border !rounded !p-2 !w-full !max-h-60 !min-h-[100px]" placeholder="Paste code here..."

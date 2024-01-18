@@ -27,6 +27,7 @@ import { CreateControlComponent } from '../Builder-module/create-control/create-
 import { SupportChatComponent } from '../admin/support-chat/support-chat.component';
 import { EmailComponent } from '../components/email/email.component';
 import { ApplicationGlobalClassesComponent } from '../Builder-module/application-global-classes/application-global-classes.component';
+import { EmailTemplatesComponent } from './configurations/email-templates/email-templates.component';
 
 const routes: Routes = [
   {
@@ -108,6 +109,10 @@ const routes: Routes = [
       {
         path: 'user-mapping',
         component: UserMappingComponent
+      },
+      {
+        path: 'email-template',
+        component: EmailTemplatesComponent
       },
       {
         path: 'user',

@@ -57,7 +57,7 @@ export class ActionRuleComponent implements OnInit {
 
   ngOnInit(): void {
     // this.getPendingTableFileds();
-    // this.getEmailTemplates();
+    this.getEmailTemplates();
     this.actionFormLoad();
     this.getActionData();
     this.extractNodes(this.nodes, this.nodeList);
@@ -322,6 +322,10 @@ export class ActionRuleComponent implements OnInit {
         contentType: [''],
         emailTo: [],
         emailType: [''],
+        email_bulk_individual: [''],
+        emailTemplate: [''],
+        emailFrom: [''],
+        email_sending_type: [''],
         query: [this.actionForm.value.actionType === "query" ? this.reorderQueries(dataForQuery) : ""]
       })
     );
@@ -520,6 +524,10 @@ export class ActionRuleComponent implements OnInit {
         "email": element.email,
         "emailTo": element?.emailTo ? element?.emailTo : [],
         "emailType": element?.emailType,
+        "email_bulk_individual": element?.email_bulk_individual,
+        "emailFrom": element?.emailFrom,
+        "email_sending_type": element?.email_sending_type,
+        "emailTemplate": element?.emailTemplate,
         "confirmEmail": element.confirmEmail,
         "referenceId": element.referenceId,
         "httpAddress": element.httpAddress ? element.httpAddress : "",
@@ -585,6 +593,10 @@ export class ActionRuleComponent implements OnInit {
                     contentType: [getQueryActionRes.contentType],
                     emailTo: getQueryActionRes?.emailTo ? [getQueryActionRes?.emailTo] : [],
                     emailType: [getQueryActionRes?.emailType],
+                    email_bulk_individual: [getQueryActionRes?.email_bulk_individual],
+                    emailTemplate: [getQueryActionRes?.emailTemplate],
+                    email_sending_type: [getQueryActionRes?.email_sending_type],
+                    emailFrom: [getQueryActionRes?.emailFrom ],
                   })
                 )),
               })
@@ -691,20 +703,20 @@ export class ActionRuleComponent implements OnInit {
     }
   }
 
-  // getEmailTemplates() {
-  //   debugger
-  //   this.applicationService.getNestCommonAPIById('cp/emailTemplates', this.screeenBuilderId).subscribe((getRes: any) => {
-  //     if (getRes.isSuccess) {
-  //       if (getRes.data.length > 0) {
-  //         this.emailNameOptions = getRes.data.map((res: any) => ({
-  //           label: res.name,
-  //           value: res._id,
-  //         }));
-  //       }
-  //     } else
-  //       this.toastr.error(getRes.message, { nzDuration: 3000 });
-  //   });
-  // }
+  getEmailTemplates() {
+    debugger
+    this.applicationService.getNestCommonAPI('cp/emailTemplates').subscribe((getRes: any) => {
+      if (getRes.isSuccess) {
+        if (getRes.data.length > 0) {
+          this.emailNameOptions = getRes.data.map((res: any) => ({
+            label: res.name,
+            value: res._id,
+          }));
+        }
+      } else
+        this.toastr.error(getRes.message, { nzDuration: 3000 });
+    });
+  }
 
   // getPendingTableFileds() {
   //   this.requestSubscription = this.builderService.getPendingTableFields('knex-crud/getPending/table_schema/' + this.screeenBuilderId).subscribe({
