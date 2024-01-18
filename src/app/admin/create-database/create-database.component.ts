@@ -17,6 +17,7 @@ import { environment } from 'src/environments/environment';
 })
 export class CreateDatabaseComponent implements OnInit {
   saveLoader: boolean = false;
+  tableName: string;
   editCache: { [key: number]: { edit: boolean; data: any } } = {};
   listOfData: any[] = [];
   requestSubscription: Subscription;
@@ -178,11 +179,14 @@ export class CreateDatabaseComponent implements OnInit {
     });
   }
   deletedIds: any[] = [];
+  deletedCloumns: any[] = [];
   deleteRow(data: any): void {
     const idx = this.listOfData.indexOf(data);
     this.listOfData.splice(idx as number, 1);
     // this.updateData();
     this.deletedIds.push({ id: data.id })
+    if (data.tableid || data.tableid == 0)
+      this.deletedCloumns.push({ id: data.id, fieldname: data.fieldname })
     this.listOfData = [...this.listOfData];
     this.updateEditCache();
   }
@@ -567,7 +571,7 @@ export class CreateDatabaseComponent implements OnInit {
                   this.getDatabaseTablev1();
                   this.deletedIds = [];
                 } else {
-                  this.deleteRowData();
+                  // this.deleteRowData();
                 }
               } else {
                 this.toastr.error("Fields not inserted", { nzDuration: 3000 });
@@ -588,33 +592,83 @@ export class CreateDatabaseComponent implements OnInit {
       });
     };
   }
+
   deleteRowData() {
-    if (this.deletedIds.length > 0) {
-      const observables = this.deletedIds.map(element => {
-        return this.employeeService.deleteSQLDatabaseTable('knex-crud/table_schema/', element.id).pipe(
-          catchError(error => of(error)) // Handle error and continue the forkJoin
-        );
-      });
-      forkJoin(observables).subscribe({
-        next: (results) => {
-          if (results.every(result => !(result instanceof Error))) {
-            // this.toastr.success("Save and Update Table Fields Successfully", { nzDuration: 3000 });
+    if (this.deletedCloumns.length > 0) {
+      this.myForm.value.tablename
+      const objColumns = {
+        "tablename": this.tableName,
+        "columns": this.deletedCloumns
+      }
+
+      this.saveLoader = true;
+      this.applicationService.addNestNewCommonAPI(`cp/dropColumn`, objColumns).subscribe({
+        next: (res) => {
+          if (res.success) {
+            this.saveLoader = false;
             this.toastr.success("Table field deleted successfully ", { nzDuration: 3000 });
             this.cancelEditTable();
             this.getDatabaseTablev1();
-            this.deletedIds = [];
           } else {
-            this.toastr.error("Fields not inserted", { nzDuration: 3000 });
+            this.saveLoader = false;
+            console.error(res.message);
+            this.toastr.error("An error occurred", { nzDuration: 3000 });
           }
         },
         error: (err) => {
+          this.saveLoader = false;
           console.error(err);
-          this.toastr.error("Fields not inserted", { nzDuration: 3000 });
+          this.toastr.error("An error occurred", { nzDuration: 3000 });
+        }
+      });
+      // const observables = this.deletedIds.map(element => {
+      //   return this.employeeService.deleteSQLDatabaseTable('knex-crud/table_schema/', element.id).pipe(
+      //     catchError(error => of(error)) // Handle error and continue the forkJoin
+      //   );
+      // });
+      // forkJoin(observables).subscribe({
+      //   next: (results) => {
+      //     if (results.every(result => !(result instanceof Error))) {
+      //       // this.toastr.success("Save and Update Table Fields Successfully", { nzDuration: 3000 });
+      //       this.toastr.success("Table field deleted successfully ", { nzDuration: 3000 });
+      //       this.cancelEditTable();
+      //       this.getDatabaseTablev1();
+      //       this.deletedIds = [];
+      //     } else {
+      //       this.toastr.error("Fields not inserted", { nzDuration: 3000 });
+      //     }
+      //   },
+      //   error: (err) => {
+      //     console.error(err);
+      //     this.toastr.error("Fields not inserted", { nzDuration: 3000 });
+      //   }
+      // });
+    }
+  }
+  dropTable(item: any) {
+    if (item) {
+      this.saveLoader = true;
+      this.applicationService.deleteNestNewCommonAPI(`cp/dropTable`, item.name).subscribe({
+        next: (res) => {
+          // if (res.success) {
+          this.saveLoader = false;
+          this.toastr.success("Table deleted successfully ", { nzDuration: 3000 });
+          this.cancelEditTable();
+          this.getDatabaseTablev1();
+          // } else {
+          //   this.saveLoader = false;
+          //   console.error(res.message);
+          //   this.toastr.error("An error occurred", { nzDuration: 3000 });
+          // }
+        },
+        error: (err) => {
+          this.saveLoader = false;
+          console.error(err);
+          this.toastr.error("An error occurred", { nzDuration: 3000 });
         }
       });
     }
   }
-
   // not used
   submitForm() {
     if (this.myForm.valid) {
@@ -631,6 +685,7 @@ export class CreateDatabaseComponent implements OnInit {
       })
     }
   }
+
   updateForm() {
     if (this.myForm.valid) {
       this.myForm.value['schema'] = this.listOfData;
@@ -641,6 +696,7 @@ export class CreateDatabaseComponent implements OnInit {
       // })
     }
   }
+
   getDatabaseTable() {
     this.requestSubscription = this.employeeService.getDatabaseTable().subscribe({
       next: (res) => {
@@ -656,16 +712,20 @@ export class CreateDatabaseComponent implements OnInit {
   }
 
   editTableData(item: any) {
-
     this.tableId = item.id
+    this.tableName = item.tablename.toLowerCase();
     this.model = item;
     this.listOfData = item.schema;
+    this.deletedIds = [];
+    this.deletedCloumns = [];
     this.updateEditCache();
   }
   cancelEditTable() {
     this.tableId = 0
     this.model = {};
+    this.tableName = "";
     this.deletedIds = [];
+    this.deletedCloumns = [];
     this.listOfData = [];
   }
   search(type: string, searchValue: string): void {
