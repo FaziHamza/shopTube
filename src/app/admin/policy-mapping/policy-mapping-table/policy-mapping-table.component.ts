@@ -11,22 +11,22 @@ export class PolicyMappingTableComponent {
   @Input() pageSize: any;
   @Input() listOfColumns: any;
   @Input() startIndex: any;
-  @Input() data: any;
+  @Input() data: any[] = [];
 
   ngOnInit(): void {
-    const checkMenu = this.data?.json?.find((a: any) => a.sqlType == "sql");
-    if(checkMenu){
-      this.listOfColumns = this.actionColumns;
-    }
+    // const checkMenu = this.data?.find((a: any) => a.sqlType == "sql");
+    // if(checkMenu){
+    //   this.listOfColumns = this.actionColumns;
+    // }
   }
 
   actionColumns = [
-    { name: 'Expand', dataField: 'expand' , inVisible : true},
+    { name: 'Expand', dataField: 'expand', inVisible: false ,  isColumnHide:true},
     {
-      name: 'Action Name', dataField: 'quryType' , inVisible : true
+      name: 'Action Name', dataField: 'quryType', inVisible: true , isColumnHide:false
     },
     {
-      name: 'Is Allow', dataField: 'isAllow' , inVisible : true
+      name: 'Is Allow', dataField: 'isAllow', inVisible: true , isColumnHide:false
     }
   ];
   search(event: any, column: any): void {

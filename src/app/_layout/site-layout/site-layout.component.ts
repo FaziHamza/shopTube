@@ -205,7 +205,7 @@ export class SiteLayoutComponent implements OnInit {
           if (res.isSuccess) {
             this.domainData = res.data;
             if (res.data.appication) {
-              this.currentWebsiteLayout = res.data.appication.applicationtype ? res.data.appication.applicationtype : 'backend_application';
+              this.currentWebsiteLayout = res.data.appication.application_Type ? res.data.appication.application_Type : 'backend_application';
             }
             document.documentElement.style.setProperty('--primaryColor', res.data.appication?.primaryColor);
             document.documentElement.style.setProperty('--secondaryColor', res.data.appication?.secondaryColor);
@@ -213,24 +213,24 @@ export class SiteLayoutComponent implements OnInit {
             this.logo = res.data.appication['image'];
             this.dataSharedService.headerLogo = res.data.appication['image'];
             if (allowStoreId) {
-              // localStorage.setItem('applicationId', JSON.stringify(res.data?.appication?._id));
-              // localStorage.setItem('organizationId', JSON.stringify(res.data?.department?.organizationId));
+              localStorage.setItem('applicationId', JSON.stringify(res.data?.appication?._id));
+              localStorage.setItem('organizationId', JSON.stringify(res.data?.department?.organizationId));
             }
-            if(res.data['applicationGlobalClasses'] && res.data['applicationGlobalClasses'].length  > 0){
+            if (res.data['applicationGlobalClasses']) {
               this.dataSharedService.applicationGlobalClass = res.data['applicationGlobalClasses'];
             }
-            this.currentWebsiteLayout = res.data.appication['applicationtype'] ? res.data.appication['applicationtype'] : 'backend_application';
-            this.currentHeader = res.data['header'] ? res.data['header']['screendata']?.json :'';
-            this.currentFooter = res.data['footer'] ? res.data['footer']['screendata']?.json : '';
+            this.currentWebsiteLayout = res.data.appication['application_Type'] ? res.data.appication['application_Type'] : 'backend_application';
+            this.currentHeader = res.data['header'] ? this.jsonParseWithObject(res.data['header']['screenData']) : '';
+            this.currentFooter = res.data['footer'] ? this.jsonParseWithObject(res.data['footer']['screenData']) : '';
             if (res.data['menu']) {
-              if (this.selectedTheme && res.data['menu']?.selectedtheme) {
-                const theme =res.data['menu'].selectedtheme;
+              if (this.selectedTheme && res.data['menu']?.selectedTheme) {
+                const theme = JSON.parse(res.data['menu'].selectedTheme);
                 this.selectedTheme['isCollapsed'] = theme['isCollapsed'];
               }
               if (!window.location.href.includes('/menu-builder')) {
                 this.isShowContextMenu = true;
-                let getMenu = res.data['menu'] ? res.data['menu']['menudata']?.json : '';
-                let selectedTheme = res.data['menu'] ? res.data['menu'].selectedtheme : {};
+                let getMenu = res.data['menu'] ? this.jsonParseWithObject(res.data['menu']['menuData']) : '';
+                let selectedTheme = res.data['menu'] ? this.jsonParseWithObject(res.data['menu'].selectedTheme) : {};
                 if (getMenu) {
                   this.selectedTheme = selectedTheme;
                   this.selectedTheme.allMenuItems = getMenu;
@@ -248,6 +248,16 @@ export class SiteLayoutComponent implements OnInit {
               }
             }
             this.hideHeaderFooterMenu = window.location.href.includes('/pdf') ? true : false;
+            // Example usage:
+
+            if (window.location.href.includes('/pages')) {
+              const urlSegments = window.location.href.split('/');
+              const parentMenu = this.findParentMenu(this.selectedTheme.allMenuItems, `/pages/${urlSegments[urlSegments.length - 1].trim()}`);
+              if (parentMenu && parentMenu.type == "mainTab") {
+                this.tabs.push(parentMenu);
+              }
+            }
+
             if (!window.location.href.includes('/pages') && res.data?.default?.navigation && !window.location.href.includes('/menu-builder')) {
               this.router.navigate(['/pages/' + res.data?.default?.navigation
               ]);
@@ -596,6 +606,29 @@ export class SiteLayoutComponent implements OnInit {
     if (this.requestSubscription) {
       this.requestSubscription.unsubscribe();
     }
+  }
+  findParentMenu(menus: any[], link: string): any {
+    for (const menu of menus) {
+      if (menu.link === link) {
+        return null; // No parent for the root menu
+      }
+
+      if (menu.children && menu.children.length > 0) {
+        const childWithLink = menu.children.find((child: any) => child.link === link);
+
+        if (childWithLink) {
+          return menu;
+        }
+
+        const parent = this.findParentMenu(menu.children, link);
+
+        if (parent !== null) {
+          return parent;
+        }
+      }
+    }
+
+    return null;
   }
 }
 

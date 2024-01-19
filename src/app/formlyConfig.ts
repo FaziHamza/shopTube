@@ -82,6 +82,7 @@ export const formlyCustomeConfig: ConfigOption = {
     { name: 'rangedatetime', component: FormlyFieldRangeDate },
     { name: 'timepicker', component: FormlyFieldTimePicker },
     { name: 'input', component: InputWrapperComponent },
+    { name: 'emailInput', component: InputWrapperComponent },
     // { name: 'date', component: DatepickerComponent },
     // { name: 'color', component: ColorPickerComponent },
     // { name: 'switch', component: SwitchComponent },

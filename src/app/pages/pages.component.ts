@@ -289,23 +289,22 @@ export class PagesComponent implements OnInit, OnDestroy {
 
     if (this.data.length == 0) {
       const subscription = this.activatedRoute.params.subscribe((params: Params) => {
-        this.initiliaze(params);
-
-        // if (params["schema"]) {
-        //   // this.initiliaze(params);
-        //   this.saveLoader = true;
-        //   this.dataSharedService.currentMenuLink = "/pages/" + params["schema"];
-        //   localStorage.setItem('screenId', this.dataSharedService.currentMenuLink);
-        //   this.clearValues();
-        //   this.applicationService.getNestCommonAPI('cp/auth/pageAuth/' + params["schema"]).subscribe(res => {
-        //     if (res?.data) {
-        //       this.initiliaze(params);
-        //     } else {
-        //       this.saveLoader = false;
-        //       this.router.navigateByUrl('permission-denied');
-        //     }
-        //   });
-        // }
+        // this.initiliaze(params);
+        if (params["schema"]) {
+          // this.initiliaze(params);
+          this.saveLoader = true;
+          this.dataSharedService.currentMenuLink = "/pages/" + params["schema"];
+          localStorage.setItem('screenId', this.dataSharedService.currentMenuLink);
+          this.clearValues();
+          this.applicationService.getNestNewCommonAPI('cp/auth/pageAuth/' + params["schema"]).subscribe(res => {
+            if (res?.data) {
+              this.initiliaze(params);
+            } else {
+              this.saveLoader = false;
+              this.router.navigateByUrl('permission-denied');
+            }
+          });
+        }
       });
       this.subscriptions.add(subscription);
     } else {
@@ -1336,14 +1335,21 @@ export class PagesComponent implements OnInit, OnDestroy {
                   query = this.evalConditionRule(query, screenData.uiData[index].targetIfValue);
                 }
 
-              } else {
+              }
+              else {
                 if (screenData.uiData[index].ifMenuName.includes('number') || screenData.uiData[index].ifMenuName.includes('decimal')) {
                   query = Number(getModelValue) + " " + screenData.uiData[index].condationName + " " + screenData.uiData[index].targetValue;
 
                   query = this.evalConditionRule(query, screenData.uiData[index].targetIfValue);
                 } else {
-                  const checkValue = policy ? this.user?.policy?.policyId : getModelValue
-                  query = "'" + checkValue + "' " + screenData.uiData[index].condationName + " '" + screenData.uiData[index].targetValue + "'";
+                  if (policy && policy != 'policy') {
+                    query = "'" + currentValue + "' " + screenData.uiData[index].condationName + " '" + policy + "'";
+                  }
+                  else {
+                    const checkValue = policy ? this.user?.policy?.policyId : getModelValue
+                    query = "'" + checkValue + "' " + screenData.uiData[index].condationName + " '" + screenData.uiData[index].targetValue + "'";
+                    query = this.evalConditionRule(query, screenData.uiData[index].targetIfValue, policy);
+                  }
 
                   query = this.evalConditionRule(query, screenData.uiData[index].targetIfValue, policy);
                 }
@@ -1959,6 +1965,32 @@ export class PagesComponent implements OnInit, OnDestroy {
             if (res) {
               if (res?.data) {
                 if (res?.data.length > 0) {
+                  const checkLoadtype = this.screenData?.uiData?.filter((a: any) => a.actionType == 'load');
+                  if (checkLoadtype?.length > 0) {
+                    checkLoadtype.forEach((uiRule: any) => {
+                      if (uiRule.targetValue.includes('$')) {
+                        const field = {
+                          title: uiRule.ifMenuName,
+                          key: uiRule.ifMenuName,
+                          type: 'string'
+                        }
+
+                        let key = uiRule.targetValue.replace('$', '')
+                        if (res?.data[0][key] && uiRule.ifMenuName && uiRule.ifMenuName.includes('app_')) {
+                          let getData: any = localStorage;
+                          let modifedData = JSON.parse(JSON.stringify(getData))
+                          modifedData['applicationId'] = JSON.parse(localStorage.getItem('applicationId')!);
+                          modifedData['organizationId'] = JSON.parse(localStorage.getItem('organizationId')!);
+                          modifedData['user'] = this.user;
+                          let value = modifedData[uiRule.ifMenuName.split('_')[1]];
+                          if (uiRule.ifMenuName.includes('app_user')) {
+                            value = modifedData['user'][uiRule.ifMenuName.split('.')[1]]
+                          }
+                          this.checkConditionUIRule(field, value, res?.data[0][key]);
+                        }
+                      }
+                    });
+                  }
                   if (selectedNode.type == 'chat') {
                     selectedNode.chatData = res.data;
                     this.zone.run(() => {
@@ -2149,7 +2181,13 @@ export class PagesComponent implements OnInit, OnDestroy {
         replaceData[value.defaultValue] = replaceData[value.defaultValue] ? replaceData[value.defaultValue].split(',').map((name: any) => name.trim()) : [];
         this.makeModel(node, replaceData[value.defaultValue])
         return node;
-      } else {
+      } 
+      else if(node.type == "checkbox"){
+        replaceData[value.defaultValue] = replaceData[value.defaultValue] ? replaceData[value.defaultValue].split(',') : [];
+        this.makeModel(node, replaceData[value.defaultValue])
+        return node;
+      }
+      else {
         this.makeModel(node, replaceData[value.defaultValue])
       }
     }
@@ -2412,7 +2450,7 @@ export class PagesComponent implements OnInit, OnDestroy {
                   // if (getActions.actions?.[0]?.url.endsWith('/'))
                   //   url = getActions.actions?.[0]?.url.endsWith('/')
                   // else url = getActions.actions?.[0]?.url + '/'
-                  if (getActions.id) {
+                  if (getActions._id) {
                     for (let j = 0; j < filteredNodes.length; j++) {
                       const ele = filteredNodes[j];
                       if (ele.formly[0].fieldGroup[0].key == getActions?.targetId) {
@@ -2420,37 +2458,63 @@ export class PagesComponent implements OnInit, OnDestroy {
                       }
                     }
                     let parentId =
-                      this.requestSubscription = this.applicationService.callApi('knex-query/getexecute-rules/' + getActions.id, 'get', '', '', targetId
+                      this.requestSubscription = this.applicationService.callApi('knex-query/getexecute-rules/' + getActions._id, 'get', '', '', targetId
                       ).subscribe(res => {
                         if (res) {
                           if (res.data.length > 0) {
-                            let data = res.data;
-                            let propertyNames = Object.keys(data[0]);
-                            let result = data.map((item: any) => {
-                              let newObj: any = {};
-                              let propertiesToGet: string[];
-                              if ('id' in item && 'name' in item) {
-                                propertiesToGet = ['id', 'name'];
-                              } else {
-                                propertiesToGet = Object.keys(item).slice(0, 2);
+                            let checkType = filteredNodes.find((formly: any) => formly.key == getActions?.targetId);
+                            if (checkType && checkType?.type != 'repeatSection') {
+                              if (res.data.length > 0) {
+                                let newModel = this.formlyModel;
+                                for (const key in res.data[0]) {
+                                  newModel[key] = res.data[0][key];
+                                  if (key.includes('.')) {
+                                    if (newModel[key.split('.')[0]]) {
+                                      newModel[key.split('.')[0]][key.split('.')[1]] = res.data[0][key];
+                                    } else {
+                                      newModel[key.split('.')[0]] = {};
+                                    }
+                                  }
+                                }
+                                this.formlyModel = newModel;
+                                // this.form.patchValue(this.formlyModel);
                               }
-                              propertiesToGet.forEach((prop) => {
-                                newObj[prop] = item[prop];
-                              });
-                              return newObj;
-                            });
+                            }
 
-                            let finalObj = result.map((item: any) => {
-                              return {
-                                label: item.name || item[propertyNames[1]],
-                                value: item.id || item[propertyNames[0]],
-                              };
-                            });
-                            for (let j = 0; j < filteredNodes.length; j++) {
-                              const ele = filteredNodes[j];
-                              if (ele.formly[0].fieldGroup[0].key == getActions?.targetId) {
-                                ele.formly[0].fieldGroup[0].props.options = finalObj;
+                            else {
+                              let data = res.data;
+                              let propertyNames = Object.keys(data[0]);
+                              let result = data.map((item: any) => {
+                                let newObj: any = {};
+                                let propertiesToGet: string[];
+                                if ('id' in item && 'name' in item) {
+                                  propertiesToGet = ['id', 'name'];
+                                } else {
+                                  propertiesToGet = Object.keys(item).slice(0, 2);
+                                }
+                                propertiesToGet.forEach((prop) => {
+                                  newObj[prop] = item[prop];
+                                });
+                                return newObj;
+                              });
+
+                              let finalObj = result.map((item: any) => {
+                                return {
+                                  label: item.name || item[propertyNames[1]],
+                                  value: item.id || item[propertyNames[0]],
+                                };
+                              });
+                              for (let j = 0; j < filteredNodes.length; j++) {
+                                const ele = filteredNodes[j];
+                                if (ele.formly[0].fieldGroup[0].key == getActions?.targetId) {
+                                  ele.formly[0].fieldGroup[0].props.options = finalObj;
+                                }
                               }
+                              const key = getActions.targetId;
+                              this.formlyModel[key] = '';
+                              this.formlyModel[key.split('.')[0]][key.split('.')[1]] = '';
+                              this.form.patchValue({ key: parseInt(this.formlyModel[key]) });
+                              this.formValueAssign(this.editData);
                             }
                           }
                           else {
@@ -2460,14 +2524,14 @@ export class PagesComponent implements OnInit, OnDestroy {
                                 ele.formly[0].fieldGroup[0].props.options = [];
                               }
                             }
+                            const key = getActions.targetId;
+                            this.formlyModel[key] = '';
+                            this.formlyModel[key.split('.')[0]][key.split('.')[1]] = '';
+                            this.form.patchValue({ key: parseInt(this.formlyModel[key]) });
+                            this.formValueAssign(this.editData);
                           }
-
                           this.updateNodes();
-                          const key = getActions.targetId;
-                          this.formlyModel[key] = '';
-                          this.formlyModel[key.split('.')[0]][key.split('.')[1]] = '';
-                          this.form.patchValue({ key: parseInt(this.formlyModel[key]) });
-                          // this.formValueAssign(this.editData);
+
                         }
                       })
                   }

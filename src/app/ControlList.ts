@@ -233,6 +233,13 @@ export const htmlTabsData = [
                 // maskString: "",
                 // maskLabel: ""
               },
+              {
+                parameter: "input",
+                icon: "uil uil-file-alt",
+                label: "Input Email",
+                type: 'emailInput',
+                configType: 'emailInput', fieldType: 'emailInput',
+              },
               // {
               //   parameter: "input",
               //   icon: "uil uil-fast-mail",

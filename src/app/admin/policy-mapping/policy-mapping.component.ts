@@ -47,44 +47,51 @@ export class PolicyMappingComponent implements OnInit {
       name: 'Expand',
       key: 'expand',
       inVisible: true,
-      dataField: 'expand'
+      dataField: 'expand',
+      isColumnHide: false
     },
     {
       name: 'Menu Name',
       key: 'title',
       searchValue: '',
       inVisible: false,
-      dataField: 'title'
+      dataField: 'title',
+      isColumnHide: false
     },
     {
       name: 'Create',
       searchValue: '',
       inVisible: true,
-      dataField: 'creates'
+      dataField: 'create',
+      isColumnHide: false
     },
     {
       name: 'Read',
       searchValue: '',
       inVisible: true,
-      dataField: 'reades'
+      dataField: 'read',
+      isColumnHide: false
     },
     {
       name: 'Update',
       searchValue: '',
       inVisible: true,
-      dataField: 'updates'
+      dataField: 'update',
+      isColumnHide: false
     },
     {
       name: 'Delete',
       searchValue: '',
       inVisible: true,
-      dataField: 'deletes'
+      dataField: 'delete',
+      isColumnHide: false
     },
     {
       name: 'Hide',
       searchValue: '',
       inVisible: true,
-      dataField: 'hideexpression'
+      dataField: 'hideExpression',
+      isColumnHide: false
     },
   ];
 
@@ -137,6 +144,7 @@ export class PolicyMappingComponent implements OnInit {
         );
         return;
       }
+      this.mergeChildren(this.menuList);
       const filteredData = this.findObjectsWithPermissions(this.menuList);
       const newData = filteredData.map(item => ({
         ...item,
@@ -173,7 +181,7 @@ export class PolicyMappingComponent implements OnInit {
     for (const item of data) {
       if (item.creates || item.updates || item.reades || item.deletes) {
         if (typeof item?.children?.json != 'object') {
-          const checkMenu = item?.children?.json?.find((a: any) => a.sqlType == "sql");
+          const checkMenu = item?.actionChildrenchildren?.find((a: any) => a.sqlType == "sql");
           if (checkMenu) {
             const updatedMenu = item?.children?.json?.filter((a: any) => a.isAllow == true);
             item.children.json = updatedMenu;
@@ -408,26 +416,23 @@ export class PolicyMappingComponent implements OnInit {
     this.actionList.forEach(element => {
       for (let index = 0; index < this.menuList.length; index++) {
         const menu = this.menuList[index];
-        if (menu.screenid === `/pages/${element.moduleid}`) {
-          if (!menu.children?.json) {
-            menu.children.json = [];
+        if (menu.screenId === `/pages/${element.moduleId}`) {
+          if (!menu.actionChildren) {
+            menu.actionChildren = [];
             // Push obj1 object to children array
-            menu.children?.json.push(element);
+            menu.actionChildren.push(element);
             break;
           } else {
-            if(typeof menu.children?.json != 'object'){
-              const checkIsAlreadyExist = menu.children?.json.find((a: any) => a.id == element.id);
-              if (!checkIsAlreadyExist) {
-                menu.children?.json.push(element);
-              }
-              break;
-            }else{
-              menu.children.json = []
+            const checkIsAlreadyExist = menu.children.find((a: any) => a._id == element._id);
+            if (!checkIsAlreadyExist) {
+              menu.actionChildren.push(element);
             }
+            break;
           }
         }
       }
     });
+    console.log(this.menuList);
 
     // this.handlePageChange(1);
 
@@ -514,11 +519,12 @@ export class PolicyMappingComponent implements OnInit {
     if (this.menuOfDisplayData.length > 0) {
       const updatedDat = this.menuOfDisplayData.map((item) => ({
         ...item,
-        creates: true,
-        updates: true,
-        reades: true,
-        deletes: true,
+        create: true,
+        update: true,
+        read: true,
+        delete: true,
         children: this.updateChildren(item.children),
+        actionChildren: this.updateChildren(item.actionChildren),
       }));
       this.menuOfDisplayData = updatedDat;
     }
@@ -527,11 +533,12 @@ export class PolicyMappingComponent implements OnInit {
       // Update child values
       const updatedData = this.menuList.map((parentItem) => ({
         ...parentItem,
-        creates: true,
-        updates: true,
-        reades: true,
-        deletes: true,
+        create: true,
+        update: true,
+        read: true,
+        delete: true,
         children: this.updateChildren(parentItem.children),
+        actionChildren: this.updateChildren(parentItem.actionChildren),
       }));
       this.menuList = updatedData;
     }
@@ -558,6 +565,21 @@ export class PolicyMappingComponent implements OnInit {
           deletes: true,
           children: this.updateChildren(childItem.children),
         };
+      }
+    });
+  }
+  mergeChildren(items: any[]) {
+    items.forEach(item => {
+      if (item.children && item.actionChildren) {
+        // Merge the two arrays into a new children array
+        item.children = [...item.children, ...item.actionChildren];
+        // Remove the actionChildren property
+        delete item.actionChildren;
+      }
+
+      // Recursively call mergeChildren for nested structures
+      if (item.children && item.children.length > 0) {
+        this.mergeChildren(item.children);
       }
     });
   }

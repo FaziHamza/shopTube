@@ -15,6 +15,8 @@ import { PolicyMappingComponent } from './admin/policy-mapping/policy-mapping.co
 import { UserMappingComponent } from './admin/user-mapping/user-mapping.component';
 import { ApplicationThemeComponent } from './Builder-module/application-theme/application-theme.component';
 import { NgxGraphNodeComponent } from './builder/ngx-graph-node/ngx-graph-node.component';
+import { EmailTemplatesComponent } from './builder/configurations/email-templates/email-templates.component';
+
 
 const routes: Routes = [
   {
@@ -56,6 +58,10 @@ const routes: Routes = [
       {
         path: 'permission-denied',
         component: PermissionDeniedComponent
+      },
+      {
+        path: 'email-template',
+        component: EmailTemplatesComponent
       },
       { path: '**', redirectTo: 'not-found' }
     ]
