@@ -430,7 +430,7 @@ export class BuilderComponent implements OnInit {
         json: newNode,
       }
       const data: any = {
-        "screendata": JSON.stringify(JsonData),
+        "screendata": newNode,
         "screenname": this.screenname,
         "navigation": this.navigation,
         "screenbuilderid": this.id,
@@ -577,7 +577,7 @@ export class BuilderComponent implements OnInit {
             // this.moduleId = res[0].moduleId;
             // this.formlyModel = {};
 
-            const objscreendata= this.jsonParseWithObject(this.jsonStringifyWithObject(res.data[0].screendata.json));
+            const objscreendata= this.jsonParseWithObject(this.jsonStringifyWithObject(res.data[0].screendata));
             this.applyTheme(objscreendata[0], false)
             if (this.actionRuleList && this.actionRuleList.length > 0) {
               let getInputs = this.filterInputElements(objscreendata);

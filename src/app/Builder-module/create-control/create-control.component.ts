@@ -70,8 +70,8 @@ export class CreateControlComponent {
       };
       this.loader = true;
       const checkPolicyAndProceed = this.editId == ''
-        ? this.applicationService.addNestCommonAPI('cp', obj)
-        : this.applicationService.updateNestCommonAPI('cp/controls', this.editId, obj);
+        ? this.applicationService.addNestNewCommonAPI('cp', obj)
+        : this.applicationService.updateNestNewCommonAPI('cp/controls', this.editId, obj);
       checkPolicyAndProceed.subscribe({
         next: (objTRes: any) => {
           this.loader = false;
@@ -95,7 +95,7 @@ export class CreateControlComponent {
   }
   getcontrols() {
     this.loader = true;
-    this.applicationService.getNestCommonAPI('cp/controls').subscribe(((res: any) => {
+    this.applicationService.getNestNewCommonAPI('cp/controls').subscribe(((res: any) => {
       this.loader = false;
       if (res.isSuccess) {
         this.listOfData = res.data;
@@ -152,7 +152,7 @@ export class CreateControlComponent {
   }
   delete(id: any) {
     this.loader = true;
-    this.applicationService.deleteNestCommonAPI('cp/controls', id).subscribe(((res: any) => {
+    this.applicationService.deleteNestNewCommonAPI('cp/controls', id).subscribe(((res: any) => {
       this.loader = false;
       if (res.isSuccess) {
         this.getcontrols();
