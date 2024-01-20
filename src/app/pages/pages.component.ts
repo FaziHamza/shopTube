@@ -297,11 +297,23 @@ export class PagesComponent implements OnInit, OnDestroy {
           localStorage.setItem('screenId', this.dataSharedService.currentMenuLink);
           this.clearValues();
           this.applicationService.getNestNewCommonAPI('cp/auth/pageAuth/' + params["schema"]).subscribe(res => {
-            if (res?.data) {
+            if (res?.data == true) {
               this.initiliaze(params);
             } else {
               this.saveLoader = false;
-              this.router.navigateByUrl('permission-denied');
+              this.initiliaze(params);
+              // this.screenId = res.data[0].screenBuilderId;
+              // this.screenName = res.data[0].screenName;
+              // this.navigation = res.data[0].navigation;
+
+              // this.resData = this.jsonParseWithObject(res.data[0].screenData);
+              // this.initiliaze('');
+              // this.router.navigateByUrl('permission-denied');
+              res.data[0].screenData = this.applicationService.jsonParseWithObject(res.data[0].screenData);
+              let nodes: any = [];
+              nodes.push(res);
+              this.data = nodes;
+              this.initiliaze('');
             }
           });
         }

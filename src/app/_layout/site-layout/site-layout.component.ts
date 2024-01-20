@@ -229,8 +229,8 @@ export class SiteLayoutComponent implements OnInit {
               }
               if (!window.location.href.includes('/menu-builder')) {
                 this.isShowContextMenu = true;
-                let getMenu = res.data['menu'] ? this.jsonParseWithObject(res.data['menu']['menuData']) : '';
-                let selectedTheme = res.data['menu'] ? this.jsonParseWithObject(res.data['menu'].selectedTheme) : {};
+                let getMenu = res.data['menu'] ? res.data['menu']['menudata']?.json : '';
+                let selectedTheme = res.data['menu'] ? res.data['menu'].selectedtheme : {};
                 if (getMenu) {
                   this.selectedTheme = selectedTheme;
                   this.selectedTheme.allMenuItems = getMenu;
