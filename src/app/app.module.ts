@@ -58,6 +58,8 @@ import { ContextMenuModule } from '@perfectmemory/ngx-contextmenu';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { ApplicationGlobalClassesComponent } from './Builder-module/application-global-classes/application-global-classes.component';
 import { TaskManagerComponent } from './components/task-manager/task-manager.component';
+import { EmailTemplatesComponent } from './builder/configurations/email-templates/email-templates.component';
+
 
 const antDesignIcons = AllIcons as {
   [key: string]: IconDefinition;
@@ -83,6 +85,7 @@ const icons: IconDefinition[] = Object.keys(antDesignIcons).map(key => antDesign
     PolicyMappingTableComponent,
     NgxGraphNodeComponent,
     ApplicationGlobalClassesComponent,
+    EmailTemplatesComponent,
         // MultiFileUploadWrapperComponent,
   ],
   imports: [

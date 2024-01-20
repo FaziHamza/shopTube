@@ -31,6 +31,7 @@ import { AudioVideoRecorderComponent } from "./wrappers/audio-video-recorder/aud
 import { RepeatableControllComponent } from "./wrappers/repeatable-controll/repeatable-controll.component";
 import { ColorPickerComponent } from "./wrappers/color-picker/color-picker.component";
 import { CascaderWrapperComponent } from "./wrappers/cascader-wrapper/cascader-wrapper.component";
+import { SignaturePadComponent } from "./wrappers/signature-pad/signature-pad.component";
 // import { FormlyHorizontalWrapper } from "./wrappers/FormlyHorizontalWrapper";
 
 export const fieldComponents = [
@@ -45,6 +46,7 @@ export const fieldComponents = [
   FormlyFieldTimePicker,
   formlyRepeatSectionComponent,
   InputWrapperComponent,
+  SignaturePadComponent,
   MultiFileUploadWrapperComponent,
   // DatepickerComponent,
   // SwitchComponent,
@@ -82,6 +84,8 @@ export const formlyCustomeConfig: ConfigOption = {
     { name: 'rangedatetime', component: FormlyFieldRangeDate },
     { name: 'timepicker', component: FormlyFieldTimePicker },
     { name: 'input', component: InputWrapperComponent },
+    { name: 'emailInput', component: InputWrapperComponent },
+    { name: 'signaturePad', component: SignaturePadComponent },
     // { name: 'date', component: DatepickerComponent },
     // { name: 'color', component: ColorPickerComponent },
     // { name: 'switch', component: SwitchComponent },

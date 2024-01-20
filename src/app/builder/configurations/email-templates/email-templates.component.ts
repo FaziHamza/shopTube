@@ -14,8 +14,8 @@ export class EmailTemplatesComponent {
   imagePath = environment.nestImageUrl;
   loader: boolean = false;
   emailTemplateId: any = '';
-  @Input() screenname: any;
-  @Input() screenId: any;
+  // @Input() screenname: any;
+  // @Input() screenId: any;
   constructor(private fb: FormBuilder, private applicationService: ApplicationService, private toastr: NzMessageService) {
     this.emailForm = this.fb.group({
       fields: this.fb.array([
@@ -29,11 +29,11 @@ export class EmailTemplatesComponent {
   createField(): FormGroup {
     return this.fb.group({
       name: ['', Validators.required],
-      emailTemplate: ['', Validators.required],
+      emailtemplate: ['', Validators.required],
       image: [''],
       imagePath: [''],
-      _id: [''],
-      templateType: ['', Validators.required]
+      id: [''],
+      templatetype: ['', Validators.required],
     });
   }
 
@@ -82,22 +82,20 @@ export class EmailTemplatesComponent {
     let saveData: any[] = [];
     this.emailForm.value.fields.forEach((element: any) => {
       const emailData: any = {
-        "screenname": this.screenname,
-        "applicationId": JSON.parse(localStorage.getItem('applicationId')!),
-        "screenBuilderId": this.screenId,
-        "emailTemplate": element?.emailTemplate,
+        "applicationid": JSON.parse(localStorage.getItem('applicationId')!),
+        "emailtemplate": element?.emailtemplate,
         "name": element?.name,
-        "templateType": element?.templateType,
+        "templatetype": element?.templatetype,
       }
-      if (element._id) {
-        emailData['_id'] = element._id;
+      if (element.id) {
+        emailData['id'] = element.id;
       }
       saveData.push(emailData)
     });
 
 
     this.loader = true;
-    this.applicationService.addNestCommonAPI('cp/deleteEmailTemplate/' + this.screenId, saveData).subscribe({
+    this.applicationService.addNestNewCommonAPI('cp/emailtemplates/emailtemplates', saveData).subscribe({
       next: (allResults: any) => {
         this.loader = false;
         if (allResults) {
@@ -130,22 +128,21 @@ export class EmailTemplatesComponent {
   }
 
   getEmailTemplates() {
-    
+
     this.loader = true;
-    this.applicationService.getNestCommonAPIById('cp/emailTemplates', this.screenId).subscribe((getRes: any) => {
+    this.applicationService.getNestNewCommonAPI('cp/emailtemplates').subscribe((getRes: any) => {
       this.loader = false;
       if (getRes.isSuccess) {
         getRes.data.forEach((data: any) => {
           this.emailFields.push(this.fb.group({
-            _id: [data._id],
+            id: [data.id],
             name: [data.name],
-            emailTemplate: [data.emailTemplate],
+            emailtemplate: [data.emailtemplate],
             screenBuilderId: [data.screenBuilderId],
-            applicationId: [data.applicationId],
-            screenname: [data.screenname],
+            applicationid: [data.applicationid],
             image: [''],
             imagePath: [''],
-            templateType: [data?.templateType ? data?.templateType : '']
+            templatetype: [data?.templatetype ? data?.templatetype : '']
           }));
         });
       } else

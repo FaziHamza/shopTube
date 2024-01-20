@@ -26,6 +26,8 @@ import { ApplicationThemeComponent } from '../Builder-module/application-theme/a
 import { CreateControlComponent } from '../Builder-module/create-control/create-control.component';
 import { SupportChatComponent } from '../admin/support-chat/support-chat.component';
 import { EmailComponent } from '../components/email/email.component';
+import { EmailTemplatesComponent } from './configurations/email-templates/email-templates.component';
+
 
 const routes: Routes = [
   {
@@ -131,7 +133,11 @@ const routes: Routes = [
       {
         path: 'email',
         component: EmailComponent
-      }
+      },
+      {
+        path: 'email-template',
+        component: EmailTemplatesComponent
+      },
     ]
   },
   // {

@@ -124,7 +124,7 @@ export class ApplicationService {
     }
   }
   uploadS3File(formData: FormData): Observable<any> {
-    const url = this.nestUrl + "s3-file-manager";
+    const url = this.nestNewUrl + "s3-file-manager";
     const headers = new HttpHeaders(); // You may need to set appropriate headers if required
 
     return this.http.post(url, formData, { headers });

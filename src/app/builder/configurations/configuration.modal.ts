@@ -5900,6 +5900,16 @@ export class formFeildData {
           }
         },
         {
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          key: 'headerColor',
+          type: 'input',
+          wrappers: ["formly-vertical-theme-wrapper"],
+          props: {
+            type: 'color',
+            label: 'header Color',
+          }
+        },
+        {
           key: 'nzBordered',
           type: 'checkbox',
           wrappers: ["formly-vertical-theme-wrapper"],
@@ -5936,6 +5946,16 @@ export class formFeildData {
           className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
           props: {
             label: 'Show arrow'
+          },
+          defaultValue: false
+        },
+        {
+          key: 'active',
+          type: 'checkbox',
+          wrappers: ["formly-vertical-theme-wrapper"],
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          props: {
+            label: 'Active'
           },
           defaultValue: false
         },

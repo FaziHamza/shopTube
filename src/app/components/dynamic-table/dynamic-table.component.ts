@@ -1,7 +1,7 @@
 import { DatePipe } from '@angular/common';
 import { HttpClient, HttpEvent, HttpEventType } from '@angular/common/http';
 import {
-  ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output, HostListener
+  ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output, HostListener, NgZone
 } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 import { Router } from '@angular/router';
@@ -95,20 +95,20 @@ export class DynamicTableComponent implements OnInit {
   borderRadius = '8px';
   private subscriptions: Subscription = new Subscription();
   private destroy$: Subject<void> = new Subject<void>();
-  @HostListener('window:resize', ['$event'])
-  onResize(event: NzResizeEvent, header: any): void {
-    if (event.width) {
-      header.width = event.width;
-      header = JSON.parse(JSON.stringify(header));
-      this.cdr.detach();
-      this.cdr.detectChanges();
-      setTimeout(() => {
-        this.resizingLocalStorage();
-      }, 100);
-    }
-    // Update the nzScroll configuration based on screen size
-    // this.updateScrollConfig();
-  }
+  // @HostListener('window:resize', ['$event'])
+  // onResize(event: NzResizeEvent, header: any): void {
+  //   if (event.width) {
+  //     header.width = event.width;
+  //     header = JSON.parse(JSON.stringify(header));
+  //     this.cdr.detach();
+  //     this.cdr.detectChanges();
+  //     setTimeout(() => {
+  //       this.resizingLocalStorage();
+  //     }, 100);
+  //   }
+  //   // Update the nzScroll configuration based on screen size
+  //   // this.updateScrollConfig();
+  // }
   constructor(public _dataSharedService: DataSharedService, private builderService: BuilderService,
     private applicationService: ApplicationService,
     private dataService: DataService,
@@ -116,7 +116,8 @@ export class DynamicTableComponent implements OnInit {
     public dataSharedService: DataSharedService,
     private applicationServices: ApplicationService,
     private sanitizer: DomSanitizer, private router: Router, private http: HttpClient,
-    private modal: NzModalService
+    private modal: NzModalService,
+    private zone: NgZone
   ) {
     this.processData = this.processData.bind(this);
     const prevNextRecord = this.dataSharedService.prevNextRecord.subscribe((res: any) => {
@@ -168,7 +169,7 @@ export class DynamicTableComponent implements OnInit {
       if (this.data?.tableHeaders) {
         if (this.data?.tableHeaders.length > 0) {
           for (const api of this.data.tableHeaders) {
-            if(api.key !="expand")
+            if (api.key != "expand")
               await this.handleRowClickApi(api);
           }
         }
@@ -944,7 +945,7 @@ export class DynamicTableComponent implements OnInit {
       }
       const newRow = JSON.parse(JSON.stringify(this.tableData[0]));
       newRow["id"] = this.tableData[id].id + 1;
-      delete newRow?.id;
+     delete newRow?.id;
       delete newRow?.__v;
       newRow['editabeRowAddNewRow'] = true;
       this.tableData.unshift(newRow);
@@ -1071,6 +1072,7 @@ export class DynamicTableComponent implements OnInit {
   }
 
   loadTableData() {
+    debugger
     this.getResizingAndColumnSortng();
     if (this.tableData.length > 0) {
       if (this.tableData[0].__v || this.tableData[0].id) {
@@ -1107,6 +1109,13 @@ export class DynamicTableComponent implements OnInit {
       //   this.tableHeaders = this.tableHeaders.filter((head: any) => head.name !== 'expand');
       // }
     }
+    if (this.tableHeaders.length > 0) {
+      if (this.tableHeaders.some((header: any) => ['srNo', 'dataType', 'isAllowGrouping'].includes(header.key)) && this.data) {
+        this.data['startFreezingNumber'] = 3;
+      }
+    }
+
+
     if (!this.data) {
       const newNode = {
         nzFooter: "",
@@ -1359,9 +1368,9 @@ export class DynamicTableComponent implements OnInit {
         })
       }
       else {
-        let url = 'knex-query/getexecute-rules/' + this.data.eventActionconfig.id;
+let url = 'knex-query/getexecute-rules/' + this.data.eventActionconfig.id;
         if (this.childDataObj) {
-          let findExpandKeyHead = this.tableHeaders.find((head: any) => head.key == 'expand');
+          let findExpandKeyHead = (this.data.tableHeaders || this.tableHeaders).find((head: any) => head.key == 'expand');
           if (findExpandKeyHead) {
             url = findExpandKeyHead.callApi + '/' + this.childDataObj.id;
           }
@@ -1629,9 +1638,9 @@ export class DynamicTableComponent implements OnInit {
               this.issueReport['showAllComments'] = false;
               if (res.isSuccess && res.data.length > 0) {
                 const filteredIssues = res.data.filter((rep: any) => rep.componentId === data.componentId);
-                const requiredData = filteredIssues.map(({ __v, id, ...rest }: any) => ({
+                const requiredData = filteredIssues.map(({ __v, _id, ...rest }: any) => ({
                   expand: false,
-                  id: id,
+                  id: _id,
                   // expandable: true,
                   ...rest,
                 }));
@@ -2176,7 +2185,7 @@ export class DynamicTableComponent implements OnInit {
             modalData: newDataModel
           };
 
-          let url = findClickApi[0]?.id ? `knex-query/executeDelete-rules/${findClickApi[0]?.id}` : '';
+         let url = findClickApi[0]?.id ? `knex-query/executeDelete-rules/${findClickApi[0]?.id}` : '';
           if (url) {
             this.saveLoader = true;
             this.requestSubscription = this.applicationServices.addNestCommonAPI(url, model).subscribe({
@@ -2813,27 +2822,27 @@ export class DynamicTableComponent implements OnInit {
 
     console.log(event)
   }
-  onResizeStart(event: MouseEvent, column: any): void {
-    const startX = event.clientX;
-    const initialWidth = parseInt(column.width) || 100;
-    const minimumWidth = 50;  // Minimum width for a column
+  // onResizeStart(event: MouseEvent, column: any): void {
+  //   const startX = event.clientX;
+  //   const initialWidth = parseInt(column.width) || 100;
+  //   const minimumWidth = 50;  // Minimum width for a column
 
-    const onMouseMove = (e: MouseEvent) => {
-      const width = Math.max(initialWidth + e.clientX - startX, minimumWidth);
-      if (width > minimumWidth) {
-        column.width = width;
-        this.resizingLocalStorage();
-      }
-    };
+  //   const onMouseMove = (e: MouseEvent) => {
+  //     const width = Math.max(initialWidth + e.clientX - startX, minimumWidth);
+  //     if (width > minimumWidth) {
+  //       column.width = width;
+  //       this.resizingLocalStorage();
+  //     }
+  //   };
 
-    const onMouseUp = () => {
-      window.removeEventListener('mousemove', onMouseMove);
-      window.removeEventListener('mouseup', onMouseUp);
-    };
+  //   const onMouseUp = () => {
+  //     window.removeEventListener('mousemove', onMouseMove);
+  //     window.removeEventListener('mouseup', onMouseUp);
+  //   };
 
-    window.addEventListener('mousemove', onMouseMove);
-    window.addEventListener('mouseup', onMouseUp);
-  }
+  //   window.addEventListener('mousemove', onMouseMove);
+  //   window.addEventListener('mouseup', onMouseUp);
+  // }
   updateRotationDegree(degree: number) {
     this.rotationDegree = degree;
   }
@@ -2852,7 +2861,6 @@ export class DynamicTableComponent implements OnInit {
   }
 
   resizingLocalStorage() {
-
     let storeData = this.tableHeaders.map((item: any) => {
       let obj = {
         key: item.key,
@@ -2932,14 +2940,16 @@ export class DynamicTableComponent implements OnInit {
     }
   }
   callExpandAPi(item: any, event: any) {
+    debugger
     if (item?.editabeRowAddNewRow) {
       item.expand = false;
       this.toastr.warning("Please save before expand", { nzDuration: 3000 });
       return;
     }
-    let findExpandKeyHead = this.tableHeaders.find((head: any) => head.key == 'expand');
+    let findExpandKeyHead = (this.data.tableHeaders || this.tableHeaders).find((head: any) => head.key == 'expand');
     if (findExpandKeyHead && event) {
       if (findExpandKeyHead.callApi) {
+        let modifiedUrl = findExpandKeyHead.callApi.includes(',') ? (this.childDataObj ? findExpandKeyHead.callApi.split(',')[this.childDataObj['expandIndex']] : findExpandKeyHead.callApi.split(',')[0]) : findExpandKeyHead.callApi
         let pagination = '';
         let { id, actionLink, data, headers, parentId, page, pageSize } = this.data.eventActionconfig;
         if (page && pageSize) {
@@ -2949,7 +2959,7 @@ export class DynamicTableComponent implements OnInit {
         let itemIdString: string | undefined = item?.id;
         parentId = itemIdString ? parseInt(itemIdString, 10) : 0;
         if (parentId) {
-          let url = findExpandKeyHead.callApi + '/' + parentId;
+          let url = modifiedUrl + '/' + parentId;
           this.requestSubscription = this.applicationService.callApi(`${url}${pagination}`, 'get', data, headers, null).subscribe({
             next: (res) => {
               this.saveLoader = false;
@@ -2958,20 +2968,31 @@ export class DynamicTableComponent implements OnInit {
                 'expand': false,
                 ...row
               }));
-              item['children'] = responseData;
               if (responseData.length == 0 && window.location.host.includes('taskmanager.com')) {
                 rowData['parentid'] = rowData.id;
               }
               if (res.count || res.count == 0) {
+                let modifiedHeaders: any[] = [];
+                let modifedData: any = '';
+                if (responseData.length > 0) {
+                  const firstObjectKeys = Object.keys(responseData[0]);
+                  if (responseData.length > 0) {
+                    modifiedHeaders = firstObjectKeys.map(key => ({ key: key, name: key }));
+                    modifedData = JSON.parse(JSON.stringify(this.data));
+                    modifedData['tableKey'] = modifiedHeaders;
+                  }
+                }
                 item['childDataObj'] = {
                   count: res.count,
                   callExpandAPi: true,
                   id: item?.id,
-                  data: JSON.parse(JSON.stringify(this.data)),
-                  header: this.tableHeaders,
-                  rowObj: responseData.length > 0 ? '' : rowData
+                  data: modifedData ? modifedData : JSON.parse(JSON.stringify(this.data)),
+                  header: modifiedHeaders.length > 0 ? modifiedHeaders : this.tableHeaders,
+                  rowObj: responseData.length > 0 ? '' : rowData,
+                  expandIndex: this.childDataObj ? this.childDataObj['expandIndex'] + 1 : 0
                 };
               }
+              item['children'] = responseData;
             },
             error: (error: any) => {
               console.error(error);
@@ -3054,5 +3075,21 @@ export class DynamicTableComponent implements OnInit {
       console.error('Error in ngOnDestroy:', error);
     }
   }
+
+  onResize({ width }: NzResizeEvent, col: string): void {
+    for (let i = 0; i < this.tableHeaders.length; i++) {
+      const e = this.tableHeaders[i];
+      if (e.key === col) {
+        this.tableHeaders[i] = { ...e, width: `${width}px` };
+        // console.log(this.tableHeaders[i]);
+      }
+    }
+    this.resizingLocalStorage();
+    // this.zone.run(() => {
+    //   this.tableHeaders = [...this.tableHeaders];
+    //   this.cdr.detectChanges();
+    // });
+  }
+
 }
 

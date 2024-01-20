@@ -1,8 +1,8 @@
-<nz-collapse (click)="accordionCollapse()" [nzAccordion]="true" *ngIf="accordingListData.length == 0"
-  [processData]="processData" [appConfigurableSelect]="accordionData['appConfigurableEvent']"
-  [loadAction]="accordionData['eventActionconfig']" [nzBordered]='accordionData.nzBordered'
-  [nzGhost]='accordionData.nzGhost' [nzExpandIconPosition]="'right'">
-  <nz-collapse-panel [nzDisabled]='accordionData.nzDisabled' [nzHeader]="titleTemp" [nzActive]='false'
+<nz-collapse  [style]="accordionData?.style ? accordionData?.style : {}" [style.color]="'red !important'" (click)="accordionCollapse()" [nzAccordion]="true"
+  *ngIf="accordingListData.length == 0" [processData]="processData"
+  [appConfigurableSelect]="accordionData['appConfigurableEvent']" [loadAction]="accordionData['eventActionconfig']"
+  [nzBordered]='accordionData.nzBordered' [nzGhost]='accordionData.nzGhost' [nzExpandIconPosition]="'right'">
+  <nz-collapse-panel [nzActive]="accordionData.active || false" [nzDisabled]='accordionData.nzDisabled' [nzHeader]="titleTemp" [nzActive]='false'
     [nzExtra]="tooltip" [nzShowArrow]='false' [nzExtra]="extraTpl">
     <st-main [mainData]="accordionData" [formlyModel]="formlyModel" [form]="form" [screenName]="screenName"></st-main>
   </nz-collapse-panel>

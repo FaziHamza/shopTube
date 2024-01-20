@@ -54,6 +54,18 @@ export class UIRuleComponent implements OnInit {
     }
     const data = JSON.parse(JSON.stringify(this.nodes));
     this.nodes = data;
+    let createData = [{ 'title': 'App application Id', 'key': 'app_applicationId', type: 'string' },
+    { 'title': 'App Organization Id', 'key': 'app_organizationId', type: 'string' },
+    { 'title': 'App ScreenBuilder Id', 'key': 'app_screenBuildId', type: 'string' },
+    { 'title': 'App ScreenId', 'key': 'app_screenId', type: 'string' },
+    { 'title': 'User User Name', 'key': 'app_user.username', type: 'string' },
+    { 'title': 'User User Id', 'key': 'app_user.userId', type: 'string' },
+    { 'title': 'User Policy policyName', 'key': 'app_user.policy.policyName', type: 'string' },
+    ];
+
+    createData.forEach((element: any) => {
+      this.nodes[0].children[1].children.push(element);
+    });
     this.nodes[0].children[1].children.push(obj);
     this.uiRule();
     this.invoice1 = { "title": "Select One" };

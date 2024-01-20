@@ -27,7 +27,6 @@ import { ReleaseManagementComponent } from '../admin/release-management/release-
 import { TaskManagementListComponent } from '../Builder-module/task-management-list/task-management-list.component';
 import { BacklogComponent } from '../Builder-module/backlog/backlog.component';
 import { TestActionRuleComponent } from '../builder/configurations/test-action-rule/test-action-rule.component';
-import { EmailTemplatesComponent } from '../builder/configurations/email-templates/email-templates.component';
 
 @NgModule({
   imports:
@@ -61,7 +60,6 @@ import { EmailTemplatesComponent } from '../builder/configurations/email-templat
     TaskManagementListComponent,
     TestActionRuleComponent,
     BacklogComponent,
-    EmailTemplatesComponent
 
   ],
   exports: [
@@ -79,7 +77,6 @@ import { EmailTemplatesComponent } from '../builder/configurations/email-templat
     UserTaskManagementComponent,
     TaskManagementListComponent,
     BacklogComponent,
-    EmailTemplatesComponent
 
   ],
   providers: [

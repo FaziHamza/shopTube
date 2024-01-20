@@ -553,15 +553,15 @@ export class ApplicationBuilderComponent implements OnInit {
       }
       if (this.applicationSubmit && key == "applicationid" && this.isSubmit) {
 
-        this.handleCancel();
+        // this.handleCancel();
         this.loading = true;
         const defaultCheck = '/' + this.myForm.value.defaultApplication ?? "''";
         this.applicationService.addNestNewCommonAPI('cp', objDataModel).subscribe({
         // this.applicationService.addNestNewCommonAPI(`applications/clone${defaultCheck}`, this.myForm.value).subscribe({
           next: (res: any) => {
             if (res.isSuccess) {
-              this.getDepartment();
-              this.getApplication();
+              // this.getDepartment();
+              // this.getApplication();
               this.toastr.success(res.message, { nzDuration: 2000 });
               this.isSubmit = true;
               this.loading = false;

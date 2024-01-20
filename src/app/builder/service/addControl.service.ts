@@ -1169,6 +1169,9 @@ export class AddControlService {
       hoverIconColor: '',
       nzShowArrow: true,
       extra: '',
+      style:{
+        '--background': '#fafafa',
+      }
     }
   }
   contactListControl() {

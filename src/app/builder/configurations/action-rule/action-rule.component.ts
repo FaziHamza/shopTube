@@ -48,6 +48,8 @@ export class ActionRuleComponent implements OnInit {
   screenActions: any[];
   showActionRuleForm: boolean = true;
   nodeList: { title: string, key: string }[] = [];
+  emailToOptions: any[] = [];
+  emailNameOptions: any = [];
   constructor(private formBuilder: FormBuilder, private builderService: BuilderService,
     private employeeService: EmployeeService,
     public dataSharedService: DataSharedService, private toastr: NzMessageService,
@@ -56,8 +58,10 @@ export class ActionRuleComponent implements OnInit {
   ngOnInit(): void {
     // this.getPendingTableFileds();
     this.actionFormLoad();
+    this.getEmailTemplates();
     this.getActionData();
     this.extractNodes(this.nodes, this.nodeList);
+    this.extractEmailNodes(this.nodes);
   }
   extractNodes(nodes: any, nodeList: { title: string, key: string }[]) {
     for (const node of nodes) {
@@ -69,6 +73,21 @@ export class ActionRuleComponent implements OnInit {
       }
       if (children && children.length > 0) {
         this.extractNodes(children, nodeList);
+      }
+    }
+  }
+  extractEmailNodes(nodes: any[]) {
+    for (const node of nodes) {
+      if (node.type === 'emailInput') {
+        let label = node.title || node.key; // Using node.title if available, otherwise using node.key
+        let obj = {
+          'label': label,
+          'value': node.key,
+        };
+        this.emailToOptions.push(obj);
+      }
+      if (node.children && node.children.length > 0) {
+        this.extractEmailNodes(node.children);
       }
     }
   }
@@ -300,6 +319,12 @@ export class ActionRuleComponent implements OnInit {
         referenceId: [''],
         httpAddress: [apiUrl],
         contentType: [''],
+        emailto: [],
+        emailtype: [''],
+        emailbulkindividual: [''],
+        emailtemplate: [''],
+        emailfrom: [''],
+        emailsendingtype: [''],
         query: [this.actionForm.value.actionType === "query" ? this.reorderQueries(dataForQuery) : ""]
       })
     );
@@ -496,6 +521,12 @@ export class ActionRuleComponent implements OnInit {
         "type": element.type,
         "sqlType": element.sqlType,
         "email": element.email,
+        "emailto": element?.emailto ? JSON.stringify(element?.emailto) : '',
+        "emailtype": element?.emailtype,
+        "emailbulkindividual": element?.emailbulkindividual,
+        "emailfrom": element?.emailfrom,
+        "emailsendingtype": element?.emailsendingtype,
+        "emailtemplate": element?.emailtemplate,
         "confirmEmail": element.confirmEmail,
         "referenceId": element.referenceId,
         "httpAddress": element.httpAddress ? element.httpAddress : "",
@@ -558,10 +589,17 @@ export class ActionRuleComponent implements OnInit {
                     referenceId: [getQueryActionRes.referenceid],
                     query: [getQueryActionRes.quries],
                     httpAddress: [getQueryActionRes.httpaddress],
-                    contentType: [getQueryActionRes.contenttype]
+                    contentType: [getQueryActionRes.contenttype],
+                    emailto: getQueryActionRes?.emailto ? [JSON.parse(getQueryActionRes?.emailto)] : [],
+                    emailtype: [getQueryActionRes?.emailtype],
+                    emailbulkindividual: [getQueryActionRes?.emailbulkindividual],
+                    emailtemplate: [getQueryActionRes?.emailtemplate],
+                    emailsendingtype: [getQueryActionRes?.emailsendingtype],
+                    emailfrom: [getQueryActionRes?.emailfrom],
                   })
                 )),
               })
+              console.log(this.actionForm.value)
             }
           }
         },
@@ -679,4 +717,17 @@ export class ActionRuleComponent implements OnInit {
   //     }
   //   })
   // }
+  getEmailTemplates() {
+    this.applicationService.getNestNewCommonAPI('cp/emailtemplates').subscribe((getRes: any) => {
+      if (getRes.isSuccess) {
+        if (getRes.data.length > 0) {
+          this.emailNameOptions = getRes.data.map((res: any) => ({
+            label: res.name,
+            value: res.id,
+          }));
+        }
+      } else
+        this.toastr.error(getRes.message, { nzDuration: 3000 });
+    });
+  }
 }

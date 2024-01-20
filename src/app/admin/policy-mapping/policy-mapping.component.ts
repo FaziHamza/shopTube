@@ -15,8 +15,8 @@ import { environment } from 'src/environments/environment';
 export class PolicyMappingComponent implements OnInit {
 
   paginatedData: any[] = [];
-  model: any;
-  isSubmit: boolean = true;
+  modelId: any;
+  isSubmit: boolean = false;
   breadCrumbItems!: Array<{}>;
   menuOfDisplayData: any[] = [];
   loading = false;
@@ -30,7 +30,7 @@ export class PolicyMappingComponent implements OnInit {
 
   //detail
   menuList: any[] = [];
-  policyMenuList: any[] = [];
+  policyMenuList: any;
   applicationMenuList: any[] = [];
   currentUser: any;
   applications: any;
@@ -47,46 +47,54 @@ export class PolicyMappingComponent implements OnInit {
       name: 'Expand',
       key: 'expand',
       inVisible: true,
-      dataField: 'expand'
+      dataField: 'expand',
+      isColumnHide: false
     },
     {
       name: 'Menu Name',
       key: 'title',
       searchValue: '',
       inVisible: false,
-      dataField: 'title'
+      dataField: 'title',
+      isColumnHide: false
     },
     {
       name: 'Create',
       searchValue: '',
       inVisible: true,
-      dataField: 'creates'
+      dataField: 'creates',
+      isColumnHide: false
     },
     {
       name: 'Read',
       searchValue: '',
       inVisible: true,
-      dataField: 'reades'
+      dataField: 'reades',
+      isColumnHide: false
     },
     {
       name: 'Update',
       searchValue: '',
       inVisible: true,
-      dataField: 'updates'
+      dataField: 'updates',
+      isColumnHide: false
     },
     {
       name: 'Delete',
       searchValue: '',
       inVisible: true,
-      dataField: 'deletes'
+      dataField: 'deletes',
+      isColumnHide: false
     },
     {
       name: 'Hide',
       searchValue: '',
       inVisible: true,
-      dataField: 'hideexpression'
+      dataField: 'hideExpression',
+      isColumnHide: false
     },
   ];
+  flattenedArray: any[] = [];
 
   constructor(
     private applicationService: ApplicationService,
@@ -137,7 +145,9 @@ export class PolicyMappingComponent implements OnInit {
         );
         return;
       }
+      this.mergeChildren(this.menuList);
       const filteredData = this.findObjectsWithPermissions(this.menuList);
+    
       const jsont = { json: filteredData }
       const jsonData = {
         data: JSON.stringify(jsont),
@@ -149,10 +159,13 @@ export class PolicyMappingComponent implements OnInit {
         policyid: this.policyName,
         applicationid: this.applicationid,
       }));
+      let updateObj = {
+        'policymapping': jsonData
+      }
       this.loading = true;
       const checkPolicyAndProceed = this.isSubmit
-        ? this.applicationService.addNestNewCommonAPI(`cp/PolicyMapping/policymapping`, jsonData)
-        : this.applicationService.updateNestNewCommonAPI(`cp/PolicyMapping/policymapping`, this.model.id, jsonData);
+        ? this.applicationService.addNestNewCommonAPI(`cp`, updateObj)
+        : this.applicationService.updateNestNewCommonAPI(`cp/policymapping`, this.modelId, updateObj);
       checkPolicyAndProceed.subscribe({
         next: (objTRes: any) => {
           this.loading = false;
@@ -189,7 +202,8 @@ export class PolicyMappingComponent implements OnInit {
             updatedMenu.children.json = [];
             result.push(updatedMenu);
           }
-        } else {
+        }
+        else {
           const updatedMenu = JSON.parse(JSON.stringify(item));
           updatedMenu.children.json = [];
           result.push(updatedMenu);
@@ -393,7 +407,13 @@ export class PolicyMappingComponent implements OnInit {
       .subscribe(
         (res: any) => {
           this.loading = false;
-          this.policyMenuList = res.data || [];
+          this.policyMenuList = res.data.length > 0 ? res.data[0].data.json || [] : [];
+          this.modelId = res.data.length > 0 ? res.data[0].id : '';
+          this.isSubmit = res.data.length > 0 ? false : true;
+          if (this.policyMenuList) {
+            this.flattenArray();
+          }
+          this.policyMenuList = this.flattenedArray;
           this.updatedMenuList();
         },
         (error) => {
@@ -407,6 +427,7 @@ export class PolicyMappingComponent implements OnInit {
   updatedMenuList() {
     let updatedData = this.applicationMenuList;
     // this.menuList = JSON.parse(JSON.stringify(updatedData));
+
     const updatedMenuData = this.mergePolicyIntoMenu(updatedData, this.policyMenuList);
     this.menuList = JSON.parse(JSON.stringify(updatedMenuData));
 
@@ -414,26 +435,23 @@ export class PolicyMappingComponent implements OnInit {
     this.actionList.forEach(element => {
       for (let index = 0; index < this.menuList.length; index++) {
         const menu = this.menuList[index];
-        if (menu.screenid === `/pages/${element.moduleid}`) {
-          if (!menu.children?.json) {
-            menu.children.json = [];
+        if (menu.screenId === `/pages/${element.moduleId}`) {
+          if (!menu.actionChildren) {
+            menu.actionChildren = [];
             // Push obj1 object to children array
-            menu.children?.json.push(element);
+            menu.actionChildren.push(element);
             break;
           } else {
-            if (typeof menu.children?.json != 'object') {
-              const checkIsAlreadyExist = menu.children?.json.find((a: any) => a.id == element.id);
-              if (!checkIsAlreadyExist) {
-                menu.children?.json.push(element);
-              }
-              break;
-            } else {
-              menu.children.json = []
+            const checkIsAlreadyExist = menu.children.find((a: any) => a._id == element._id);
+            if (!checkIsAlreadyExist) {
+              menu.actionChildren.push(element);
             }
+            break;
           }
         }
       }
     });
+    console.log(this.menuList);
 
     // this.handlePageChange(1);
 
@@ -525,6 +543,7 @@ export class PolicyMappingComponent implements OnInit {
         reades: true,
         deletes: true,
         children: this.updateChildren(item.children),
+        actionChildren: this.updateChildren(item.actionChildren),
       }));
       this.menuOfDisplayData = updatedDat;
     }
@@ -538,6 +557,7 @@ export class PolicyMappingComponent implements OnInit {
         reades: true,
         deletes: true,
         children: this.updateChildren(parentItem.children),
+        actionChildren: this.updateChildren(parentItem.actionChildren),
       }));
       this.menuList = updatedData;
     }
@@ -566,5 +586,32 @@ export class PolicyMappingComponent implements OnInit {
         };
       }
     });
+  }
+  mergeChildren(items: any[]) {
+    items.forEach(item => {
+      if (item.children && item.actionChildren) {
+        // Merge the two arrays into a new children array
+        item.children = [...item.children, ...item.actionChildren];
+        // Remove the actionChildren property
+        delete item.actionChildren;
+      }
+
+      // Recursively call mergeChildren for nested structures
+      if (item.children && item.children.length > 0) {
+        this.mergeChildren(item.children);
+      }
+    });
+  }
+  flattenArray(): void {
+    const stack = [...this.policyMenuList];
+
+    while (stack.length > 0) {
+      const item = stack.pop();
+      this.flattenedArray.push(item);
+
+      if (item.children && item.children.length > 0) {
+        stack.push(...item.children.reverse());
+      }
+    }
   }
 }

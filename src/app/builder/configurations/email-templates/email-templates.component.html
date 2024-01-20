@@ -17,7 +17,7 @@
                         <i *ngIf="emailFields.at(i).get('imagePath')?.value" class="ml-2 fas fa-trash-alt text-red-500"
                             (click)="removeImage(i)"></i>
                         <nz-select class="email-select !h-10 !rounded-md pl-1 !ml-4" nzShowSearch nzAllowClear
-                            nzPlaceHolder="Select a person" formControlName="templateType">
+                            nzPlaceHolder="Select a person" formControlName="templatetype">
                             <nz-option nzLabel="PDF" nzValue="pdf"></nz-option>
                             <nz-option nzLabel="TEXT" nzValue="text"></nz-option>
                         </nz-select>
@@ -27,7 +27,7 @@
                             class="!ml-4 !px-2 !py-1 !bg-red-500 !text-white rounded"><i
                                 class="fas fa-trash-alt"></i></button>
                     </div>
-                    <textarea formControlName="emailTemplate" row="8" nz-input
+                    <textarea formControlName="emailtemplate" row="8" nz-input
                         class="!border !rounded !p-2 !w-full !max-h-60 !min-h-[100px]" placeholder="Paste code here..."
                         nzAutosize></textarea>
                 </div>
