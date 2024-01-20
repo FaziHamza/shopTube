@@ -213,15 +213,15 @@ export class SiteLayoutComponent implements OnInit {
             this.logo = res.data.appication['image'];
             this.dataSharedService.headerLogo = res.data.appication['image'];
             if (allowStoreId) {
-              // localStorage.setItem('applicationId', JSON.stringify(res.data?.appication?._id));
+              // localStorage.setItem('applicationId', JSON.stringify(res.data?.appication?.id));
               // localStorage.setItem('organizationId', JSON.stringify(res.data?.department?.organizationId));
             }
             if(res.data['applicationGlobalClasses'] && res.data['applicationGlobalClasses'].length  > 0){
               this.dataSharedService.applicationGlobalClass = res.data['applicationGlobalClasses'];
             }
             this.currentWebsiteLayout = res.data.appication['applicationtype'] ? res.data.appication['applicationtype'] : 'backend_application';
-            this.currentHeader = res.data['header'] ? res.data['header']['screendata']?.json :'';
-            this.currentFooter = res.data['footer'] ? res.data['footer']['screendata']?.json : '';
+            this.currentHeader = res.data['header'] ? res.data['header']['screendata'] :'';
+            this.currentFooter = res.data['footer'] ? res.data['footer']['screendata'] : '';
             if (res.data['menu']) {
               if (this.selectedTheme && res.data['menu']?.selectedtheme) {
                 const theme =res.data['menu'].selectedtheme;
@@ -407,7 +407,7 @@ export class SiteLayoutComponent implements OnInit {
           if (res.data.length > 0) {
             const objMenu =
             {
-              "_id": res.data._id,
+              "id": res.data.id,
               "name": res.data.name,
               "selectedTheme": res.data?.selectedTheme ? JSON.parse(res.data?.selectedTheme) : {},
               "menuData": res.data?.menuData ? JSON.parse(res.data?.menuData) : {},
@@ -422,7 +422,7 @@ export class SiteLayoutComponent implements OnInit {
                   if (res.data.length > 0) {
                     const objMenu =
                     {
-                      "_id": res.data._id,
+                      "id": res.data.id,
                       "name": res.data.name,
                       "selectedTheme": res.data?.selectedTheme ? JSON.parse(res.data?.selectedTheme) : {},
                       "menuData": res.data?.menuData ? JSON.parse(res.data?.menuData) : {},
@@ -478,8 +478,8 @@ export class SiteLayoutComponent implements OnInit {
     });
     modal.afterClose.subscribe((res: any) => {
       if (res) {
-        res['id'] = res._id;
-        delete res._id;
+        res['id'] = res.id;
+        delete res.id;
         delete res.__v
           ;
         this.selectedTheme.allMenuItems.forEach((element: any) => {
@@ -575,11 +575,11 @@ export class SiteLayoutComponent implements OnInit {
     })
   }
   getUserPolicyMenu() {
-    this.requestSubscription = this.applicationService.getNestCommonAPI('cp/userpolicy/getUserPolicyMenu/1').subscribe({
+    this.requestSubscription = this.applicationService.getNestNewCommonAPI('cp/userpolicy/getUserPolicyMenu/1').subscribe({
       next: (res: any) => {
         if (res.isSuccess) {
           if (res.data.length > 0) {
-            this.dataSharedService.getUserPolicyMenuList = res.data;
+            this.dataSharedService.getUserPolicyMenuList = res.data[0]?.data?.json;
           }
         }
         else {

@@ -421,7 +421,7 @@ export class PagesComponent implements OnInit, OnDestroy {
     this.screenName = res.data[0].screenname;
     this.navigation = res.data[0].navigation;
 
-    let data = res.data[0].screendata?.json;
+    let data = res.data[0].screendata;
 
     if (typeof data === 'string') {
       // It's a JSON string, parse it

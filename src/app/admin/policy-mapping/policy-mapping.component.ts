@@ -138,6 +138,12 @@ export class PolicyMappingComponent implements OnInit {
         return;
       }
       const filteredData = this.findObjectsWithPermissions(this.menuList);
+      const jsont = { json: filteredData }
+      const jsonData = {
+        data: JSON.stringify(jsont),
+        policyid: this.policyName,
+        applicationid: this.applicationid,
+      }
       const newData = filteredData.map(item => ({
         ...item,
         policyid: this.policyName,
@@ -145,8 +151,8 @@ export class PolicyMappingComponent implements OnInit {
       }));
       this.loading = true;
       const checkPolicyAndProceed = this.isSubmit
-        ? this.applicationService.addNestNewCommonAPI(`cp/PolicyMapping/policymapping`, newData)
-        : this.applicationService.updateNestNewCommonAPI(`cp/PolicyMapping/policymapping`, this.model.id, newData);
+        ? this.applicationService.addNestNewCommonAPI(`cp/PolicyMapping/policymapping`, jsonData)
+        : this.applicationService.updateNestNewCommonAPI(`cp/PolicyMapping/policymapping`, this.model.id, jsonData);
       checkPolicyAndProceed.subscribe({
         next: (objTRes: any) => {
           this.loading = false;
@@ -415,13 +421,13 @@ export class PolicyMappingComponent implements OnInit {
             menu.children?.json.push(element);
             break;
           } else {
-            if(typeof menu.children?.json != 'object'){
+            if (typeof menu.children?.json != 'object') {
               const checkIsAlreadyExist = menu.children?.json.find((a: any) => a.id == element.id);
               if (!checkIsAlreadyExist) {
                 menu.children?.json.push(element);
               }
               break;
-            }else{
+            } else {
               menu.children.json = []
             }
           }

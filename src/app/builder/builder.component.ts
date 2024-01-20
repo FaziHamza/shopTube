@@ -425,12 +425,13 @@ export class BuilderComponent implements OnInit {
       });
       let newNode = JSON.parse(JSON.stringify(this.nodes))
       this.applyTheme(newNode[0], true)
-      const screendata = this.jsonStringifyWithObject(newNode);
+      // const screendata = this.jsonStringifyWithObject(newNode);
+      const screendata = JSON.stringify(newNode);
       const JsonData = {
         json: newNode,
       }
       const data: any = {
-        "screendata": newNode,
+        "screendata": screendata,
         "screenname": this.screenname,
         "navigation": this.navigation,
         "screenbuilderid": this.id,
@@ -438,13 +439,13 @@ export class BuilderComponent implements OnInit {
         "applicationid": this.selectApplicationName,
       };
       data.navigation = this.navigation;
-      const tableValue = `Builders`;
+      const tableValue = `builders`;
       const builderModel = {
         [tableValue]: data
       }
       // this.saveLoader =  false;
       const checkBuilderAndProcess = this.builderscreendata?.length > 0 && this.builderscreendata?.[0]
-        ? this.applicationService.updateNestNewCommonAPI(`cp/Builders`, this.builderscreendata[0].id, builderModel)
+        ? this.applicationService.updateNestNewCommonAPI(`cp/builders`, this.builderscreendata[0].id, builderModel)
         : this.applicationService.addNestNewCommonAPI('cp', builderModel);
 
       this.requestSubscription = checkBuilderAndProcess.subscribe({
@@ -563,7 +564,7 @@ export class BuilderComponent implements OnInit {
   }
   getBuilderScreen() {
     this.nodes = [];
-    this.requestSubscription = this.applicationService.getNestNewCommonAPIById(`cp/Builders`, this.id).subscribe({
+    this.requestSubscription = this.applicationService.getNestNewCommonAPIById(`cp/builders`, this.id).subscribe({
       next: (res: any) => {
         if (res.isSuccess) {
           // this.form = new FormGroup({});
@@ -572,12 +573,12 @@ export class BuilderComponent implements OnInit {
             this.builderscreendata = [res.data[0]];
             // this.navigation = '';
             this.showActionRule = true;
-            // const objscreendata = res.data[0].screendata.json;
+            const objScreenData =res.data[0].screendata;
             this.isSavedDb = true;
             // this.moduleId = res[0].moduleId;
             // this.formlyModel = {};
 
-            const objscreendata= this.jsonParseWithObject(this.jsonStringifyWithObject(res.data[0].screendata));
+            let objscreendata = this.jsonParseWithObject(this.jsonStringifyWithObject(objScreenData));
             this.applyTheme(objscreendata[0], false)
             if (this.actionRuleList && this.actionRuleList.length > 0) {
               let getInputs = this.filterInputElements(objscreendata);
