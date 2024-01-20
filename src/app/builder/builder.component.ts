@@ -431,7 +431,7 @@ export class BuilderComponent implements OnInit {
         json: newNode,
       }
       const data: any = {
-        "screendata": screendata,
+        "screendata": newNode,
         "screenname": this.screenname,
         "navigation": this.navigation,
         "screenbuilderid": this.id,
@@ -439,13 +439,13 @@ export class BuilderComponent implements OnInit {
         "applicationid": this.selectApplicationName,
       };
       data.navigation = this.navigation;
-      const tableValue = `builders`;
+      const tableValue = `Builders`;
       const builderModel = {
         [tableValue]: data
       }
       // this.saveLoader =  false;
       const checkBuilderAndProcess = this.builderscreendata?.length > 0 && this.builderscreendata?.[0]
-        ? this.applicationService.updateNestNewCommonAPI(`cp/builders`, this.builderscreendata[0].id, builderModel)
+        ? this.applicationService.updateNestNewCommonAPI(`cp/Builders`, this.builderscreendata[0].id, builderModel)
         : this.applicationService.addNestNewCommonAPI('cp', builderModel);
 
       this.requestSubscription = checkBuilderAndProcess.subscribe({

@@ -309,7 +309,7 @@ export class PagesComponent implements OnInit, OnDestroy {
               // this.resData = this.jsonParseWithObject(res.data[0].screenData);
               // this.initiliaze('');
               // this.router.navigateByUrl('permission-denied');
-              res.data[0].screenData = this.applicationService.jsonParseWithObject(res.data[0].screenData);
+              res.data[0].screenData = res.data[0].screendata;
               let nodes: any = [];
               nodes.push(res);
               this.data = nodes;
