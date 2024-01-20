@@ -147,6 +147,7 @@ export class PolicyMappingComponent implements OnInit {
       }
       this.mergeChildren(this.menuList);
       const filteredData = this.findObjectsWithPermissions(this.menuList);
+    
       const jsont = { json: filteredData }
       const jsonData = {
         data: JSON.stringify(jsont),
