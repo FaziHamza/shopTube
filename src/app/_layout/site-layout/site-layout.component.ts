@@ -207,21 +207,21 @@ export class SiteLayoutComponent implements OnInit {
             if (res.data.appication) {
               this.currentWebsiteLayout = res.data.appication.application_Type ? res.data.appication.application_Type : 'backend_application';
             }
-            document.documentElement.style.setProperty('--primaryColor', res.data.appication?.primaryColor);
-            document.documentElement.style.setProperty('--secondaryColor', res.data.appication?.secondaryColor);
+            // document.documentElement.style.setProperty('--primaryColor', res.data.appication?.primaryColor);
+            // document.documentElement.style.setProperty('--secondaryColor', res.data.appication?.secondaryColor);
             this.dataSharedService.applicationDefaultScreen = res.data['default'] ? res.data['default'].navigation : '';
             this.logo = res.data.appication['image'];
             this.dataSharedService.headerLogo = res.data.appication['image'];
-            if (allowStoreId) {
-              localStorage.setItem('applicationId', JSON.stringify(res.data?.appication?._id));
-              localStorage.setItem('organizationId', JSON.stringify(res.data?.department?.organizationId));
-            }
+            // if (allowStoreId) {
+            //   localStorage.setItem('applicationId', JSON.stringify(res.data?.appication?._id));
+            //   localStorage.setItem('organizationId', JSON.stringify(res.data?.department?.organizationId));
+            // }
             if (res.data['applicationGlobalClasses']) {
               this.dataSharedService.applicationGlobalClass = res.data['applicationGlobalClasses'];
             }
-            this.currentWebsiteLayout = res.data.appication['application_Type'] ? res.data.appication['application_Type'] : 'backend_application';
-            this.currentHeader = res.data['header'] ? this.jsonParseWithObject(res.data['header']['screenData']) : '';
-            this.currentFooter = res.data['footer'] ? this.jsonParseWithObject(res.data['footer']['screenData']) : '';
+            this.currentWebsiteLayout = res.data.appication['applicationtype'] ? res.data.appication['applicationtype'] : 'backend_application';
+            this.currentHeader = res.data['header'] ? res.data['header']['screendata'] :'';
+            this.currentFooter = res.data['footer'] ? res.data['footer']['screendata'] : '';
             if (res.data['menu']) {
               if (this.selectedTheme && res.data['menu']?.selectedTheme) {
                 const theme = JSON.parse(res.data['menu'].selectedTheme);
@@ -229,8 +229,8 @@ export class SiteLayoutComponent implements OnInit {
               }
               if (!window.location.href.includes('/menu-builder')) {
                 this.isShowContextMenu = true;
-                let getMenu = res.data['menu'] ? this.jsonParseWithObject(res.data['menu']['menuData']) : '';
-                let selectedTheme = res.data['menu'] ? this.jsonParseWithObject(res.data['menu'].selectedTheme) : {};
+                let getMenu = res.data['menu'] ? res.data['menu']['menudata']?.json : '';
+                let selectedTheme = res.data['menu'] ? res.data['menu'].selectedtheme : {};
                 if (getMenu) {
                   this.selectedTheme = selectedTheme;
                   this.selectedTheme.allMenuItems = getMenu;
@@ -417,7 +417,7 @@ export class SiteLayoutComponent implements OnInit {
           if (res.data.length > 0) {
             const objMenu =
             {
-              "_id": res.data._id,
+              "id": res.data.id,
               "name": res.data.name,
               "selectedTheme": res.data?.selectedTheme ? JSON.parse(res.data?.selectedTheme) : {},
               "menuData": res.data?.menuData ? JSON.parse(res.data?.menuData) : {},
@@ -432,7 +432,7 @@ export class SiteLayoutComponent implements OnInit {
                   if (res.data.length > 0) {
                     const objMenu =
                     {
-                      "_id": res.data._id,
+                      "id": res.data.id,
                       "name": res.data.name,
                       "selectedTheme": res.data?.selectedTheme ? JSON.parse(res.data?.selectedTheme) : {},
                       "menuData": res.data?.menuData ? JSON.parse(res.data?.menuData) : {},
@@ -488,8 +488,8 @@ export class SiteLayoutComponent implements OnInit {
     });
     modal.afterClose.subscribe((res: any) => {
       if (res) {
-        res['id'] = res._id;
-        delete res._id;
+        res['id'] = res.id;
+        delete res.id;
         delete res.__v
           ;
         this.selectedTheme.allMenuItems.forEach((element: any) => {
@@ -585,11 +585,11 @@ export class SiteLayoutComponent implements OnInit {
     })
   }
   getUserPolicyMenu() {
-    this.requestSubscription = this.applicationService.getNestCommonAPI('cp/userpolicy/getUserPolicyMenu/1').subscribe({
+    this.requestSubscription = this.applicationService.getNestNewCommonAPI('cp/userpolicy/getUserPolicyMenu/1').subscribe({
       next: (res: any) => {
         if (res.isSuccess) {
           if (res.data.length > 0) {
-            this.dataSharedService.getUserPolicyMenuList = res.data;
+            this.dataSharedService.getUserPolicyMenuList = res.data[0]?.data?.json;
           }
         }
         else {

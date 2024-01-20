@@ -57,7 +57,6 @@ export class ConfigurableSelectDirective implements OnInit, OnDestroy {
   }
 
   private loadOptions(): void {
-    debugger
     if (this.loadAction && Object.keys(this.loadAction).length !== 0) {
       if(this.loadAction?.id){
         this.executeAction(this.loadAction)
@@ -102,7 +101,6 @@ export class ConfigurableSelectDirective implements OnInit, OnDestroy {
   }
 
   private executeAction(action: Action): Observable<any> {
-    debugger
     const { id, actionLink, data, headers, parentId, page, pageSize } = action;
     let pagination = ''
     if (page && pageSize){

@@ -210,7 +210,7 @@ export class MenuBuilderComponent implements OnInit {
       if (res.isSuccess) {
         if (res.data) {
           this.applicationId = res.data.id
-          this.nodes = res.data.menudata;
+          this.nodes = res.data.menudata.json;
           this.selectedTheme = res.data.selectedtheme;
           this.controlUndefinedValues();
           this.makeMenuData();

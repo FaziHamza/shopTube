@@ -66,7 +66,7 @@ export class MenuComponent implements OnInit {
 
   ngOnInit(): void {
     this.currentUser = JSON.parse(localStorage.getItem('user')!);
-    this.getApllicationAndModule();
+    // this.getApllicationAndModule();
     const currentLanguageString = this.storageService.getString("currentLanguage");
     let currentLanguage: any;
 
