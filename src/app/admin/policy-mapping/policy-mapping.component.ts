@@ -90,7 +90,7 @@ export class PolicyMappingComponent implements OnInit {
       name: 'Hide',
       searchValue: '',
       inVisible: true,
-      dataField: 'hideExpression',
+      dataField: 'hideexpression',
       isColumnHide: false
     },
   ];

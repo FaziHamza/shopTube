@@ -1970,7 +1970,7 @@ export class PagesComponent implements OnInit, OnDestroy {
     if (api && (selectedNode.componentMapping == undefined || selectedNode.componentMapping == '' || selectedNode.componentMapping == false)) {
       this.saveLoader = true;
       try {
-        this.requestSubscription = this.applicationService.getNestCommonAPI(api).subscribe({
+        this.requestSubscription = this.applicationService.getNestNewCommonAPI(api).subscribe({
           next: (res) => {
             // this.dataSharedService.queryId = '';
             this.saveLoader = false;
