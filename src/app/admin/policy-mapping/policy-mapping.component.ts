@@ -15,8 +15,8 @@ import { environment } from 'src/environments/environment';
 export class PolicyMappingComponent implements OnInit {
 
   paginatedData: any[] = [];
-  model: any;
-  isSubmit: boolean = true;
+  modelId: any;
+  isSubmit: boolean = false;
   breadCrumbItems!: Array<{}>;
   menuOfDisplayData: any[] = [];
   loading = false;
@@ -30,7 +30,7 @@ export class PolicyMappingComponent implements OnInit {
 
   //detail
   menuList: any[] = [];
-  policyMenuList: any[] = [];
+  policyMenuList: any;
   applicationMenuList: any[] = [];
   currentUser: any;
   applications: any;
@@ -62,28 +62,28 @@ export class PolicyMappingComponent implements OnInit {
       name: 'Create',
       searchValue: '',
       inVisible: true,
-      dataField: 'create',
+      dataField: 'creates',
       isColumnHide: false
     },
     {
       name: 'Read',
       searchValue: '',
       inVisible: true,
-      dataField: 'read',
+      dataField: 'reades',
       isColumnHide: false
     },
     {
       name: 'Update',
       searchValue: '',
       inVisible: true,
-      dataField: 'update',
+      dataField: 'updates',
       isColumnHide: false
     },
     {
       name: 'Delete',
       searchValue: '',
       inVisible: true,
-      dataField: 'delete',
+      dataField: 'deletes',
       isColumnHide: false
     },
     {
@@ -94,6 +94,7 @@ export class PolicyMappingComponent implements OnInit {
       isColumnHide: false
     },
   ];
+  flattenedArray: any[] = [];
 
   constructor(
     private applicationService: ApplicationService,
@@ -146,15 +147,24 @@ export class PolicyMappingComponent implements OnInit {
       }
       this.mergeChildren(this.menuList);
       const filteredData = this.findObjectsWithPermissions(this.menuList);
+      const jsont = { json: filteredData }
+      const jsonData = {
+        data: JSON.stringify(jsont),
+        policyid: this.policyName,
+        applicationid: this.applicationid,
+      }
       const newData = filteredData.map(item => ({
         ...item,
         policyid: this.policyName,
         applicationid: this.applicationid,
       }));
+      let updateObj = {
+        'policymapping': jsonData
+      }
       this.loading = true;
       const checkPolicyAndProceed = this.isSubmit
-        ? this.applicationService.addNestNewCommonAPI(`cp/PolicyMapping/policymapping`, newData)
-        : this.applicationService.updateNestNewCommonAPI(`cp/PolicyMapping/policymapping`, this.model.id, newData);
+        ? this.applicationService.addNestNewCommonAPI(`cp`, updateObj)
+        : this.applicationService.updateNestNewCommonAPI(`cp/policymapping`, this.modelId, updateObj);
       checkPolicyAndProceed.subscribe({
         next: (objTRes: any) => {
           this.loading = false;
@@ -181,7 +191,7 @@ export class PolicyMappingComponent implements OnInit {
     for (const item of data) {
       if (item.creates || item.updates || item.reades || item.deletes) {
         if (typeof item?.children?.json != 'object') {
-          const checkMenu = item?.actionChildrenchildren?.find((a: any) => a.sqlType == "sql");
+          const checkMenu = item?.children?.json?.find((a: any) => a.sqlType == "sql");
           if (checkMenu) {
             const updatedMenu = item?.children?.json?.filter((a: any) => a.isAllow == true);
             item.children.json = updatedMenu;
@@ -191,7 +201,8 @@ export class PolicyMappingComponent implements OnInit {
             updatedMenu.children.json = [];
             result.push(updatedMenu);
           }
-        } else {
+        }
+        else {
           const updatedMenu = JSON.parse(JSON.stringify(item));
           updatedMenu.children.json = [];
           result.push(updatedMenu);
@@ -395,7 +406,13 @@ export class PolicyMappingComponent implements OnInit {
       .subscribe(
         (res: any) => {
           this.loading = false;
-          this.policyMenuList = res.data || [];
+          this.policyMenuList = res.data.length > 0 ? res.data[0].data.json || [] : [];
+          this.modelId = res.data.length > 0 ? res.data[0].id : '';
+          this.isSubmit = res.data.length > 0 ? false : true;
+          if (this.policyMenuList) {
+            this.flattenArray();
+          }
+          this.policyMenuList = this.flattenedArray;
           this.updatedMenuList();
         },
         (error) => {
@@ -409,6 +426,7 @@ export class PolicyMappingComponent implements OnInit {
   updatedMenuList() {
     let updatedData = this.applicationMenuList;
     // this.menuList = JSON.parse(JSON.stringify(updatedData));
+
     const updatedMenuData = this.mergePolicyIntoMenu(updatedData, this.policyMenuList);
     this.menuList = JSON.parse(JSON.stringify(updatedMenuData));
 
@@ -519,10 +537,10 @@ export class PolicyMappingComponent implements OnInit {
     if (this.menuOfDisplayData.length > 0) {
       const updatedDat = this.menuOfDisplayData.map((item) => ({
         ...item,
-        create: true,
-        update: true,
-        read: true,
-        delete: true,
+        creates: true,
+        updates: true,
+        reades: true,
+        deletes: true,
         children: this.updateChildren(item.children),
         actionChildren: this.updateChildren(item.actionChildren),
       }));
@@ -533,10 +551,10 @@ export class PolicyMappingComponent implements OnInit {
       // Update child values
       const updatedData = this.menuList.map((parentItem) => ({
         ...parentItem,
-        create: true,
-        update: true,
-        read: true,
-        delete: true,
+        creates: true,
+        updates: true,
+        reades: true,
+        deletes: true,
         children: this.updateChildren(parentItem.children),
         actionChildren: this.updateChildren(parentItem.actionChildren),
       }));
@@ -582,5 +600,17 @@ export class PolicyMappingComponent implements OnInit {
         this.mergeChildren(item.children);
       }
     });
+  }
+  flattenArray(): void {
+    const stack = [...this.policyMenuList];
+
+    while (stack.length > 0) {
+      const item = stack.pop();
+      this.flattenedArray.push(item);
+
+      if (item.children && item.children.length > 0) {
+        stack.push(...item.children.reverse());
+      }
+    }
   }
 }

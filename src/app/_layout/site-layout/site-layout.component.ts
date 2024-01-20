@@ -207,15 +207,15 @@ export class SiteLayoutComponent implements OnInit {
             if (res.data.appication) {
               this.currentWebsiteLayout = res.data.appication.application_Type ? res.data.appication.application_Type : 'backend_application';
             }
-            document.documentElement.style.setProperty('--primaryColor', res.data.appication?.primaryColor);
-            document.documentElement.style.setProperty('--secondaryColor', res.data.appication?.secondaryColor);
+            // document.documentElement.style.setProperty('--primaryColor', res.data.appication?.primaryColor);
+            // document.documentElement.style.setProperty('--secondaryColor', res.data.appication?.secondaryColor);
             this.dataSharedService.applicationDefaultScreen = res.data['default'] ? res.data['default'].navigation : '';
             this.logo = res.data.appication['image'];
             this.dataSharedService.headerLogo = res.data.appication['image'];
-            if (allowStoreId) {
-              localStorage.setItem('applicationId', JSON.stringify(res.data?.appication?._id));
-              localStorage.setItem('organizationId', JSON.stringify(res.data?.department?.organizationId));
-            }
+            // if (allowStoreId) {
+            //   localStorage.setItem('applicationId', JSON.stringify(res.data?.appication?._id));
+            //   localStorage.setItem('organizationId', JSON.stringify(res.data?.department?.organizationId));
+            // }
             if (res.data['applicationGlobalClasses']) {
               this.dataSharedService.applicationGlobalClass = res.data['applicationGlobalClasses'];
             }
