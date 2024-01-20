@@ -147,7 +147,7 @@ export class PolicyMappingComponent implements OnInit {
       }
       this.mergeChildren(this.menuList);
       const filteredData = this.findObjectsWithPermissions(this.menuList);
-    
+
       const jsont = { json: filteredData }
       const jsonData = {
         data: JSON.stringify(jsont),
@@ -170,11 +170,22 @@ export class PolicyMappingComponent implements OnInit {
         next: (objTRes: any) => {
           this.loading = false;
           if (objTRes.isSuccess) {
-            this.getPolicyMenu();
-            this.toastr.success(objTRes.message, { nzDuration: 3000 });
-            if (!this.isSubmit) {
-              this.isSubmit = true;
+            // this.getPolicyMenu();
+            this.policyMenuList = [];
+            this.flattenedArray = [];
+            this.policyMenuList = objTRes.data.length > 0 ? objTRes.data[0].data.json || [] : [];
+            this.modelId = objTRes.data.length > 0 ? objTRes.data[0].id : '';
+            this.isSubmit = objTRes.data.length > 0 ? false : true;
+            if (this.policyMenuList.length > 0) {
+              let nonReferenceData = JSON.parse(JSON.stringify(this.policyMenuList));
+              let nonRelationalData: any = this.flattenArray(nonReferenceData);
+              this.policyMenuList = nonRelationalData
             }
+            this.updatedMenuList();
+            this.toastr.success(objTRes.message, { nzDuration: 3000 });
+            // if (!this.isSubmit) {
+            //   this.isSubmit = true;
+            // }
           } else {
             this.toastr.error(objTRes.message, { nzDuration: 3000 });
           }
@@ -414,7 +425,7 @@ export class PolicyMappingComponent implements OnInit {
           this.isSubmit = res.data.length > 0 ? false : true;
           if (this.policyMenuList.length > 0) {
             let nonReferenceData = JSON.parse(JSON.stringify(this.policyMenuList));
-            let nonRelationalData : any = this.flattenArray(nonReferenceData);
+            let nonRelationalData: any = this.flattenArray(nonReferenceData);
             this.policyMenuList = nonRelationalData
           }
           this.updatedMenuList();
