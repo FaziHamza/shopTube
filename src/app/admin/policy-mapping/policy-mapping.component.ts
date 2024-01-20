@@ -406,13 +406,16 @@ export class PolicyMappingComponent implements OnInit {
       .subscribe(
         (res: any) => {
           this.loading = false;
+          this.policyMenuList = [];
+          this.flattenedArray = [];
           this.policyMenuList = res.data.length > 0 ? res.data[0].data.json || [] : [];
           this.modelId = res.data.length > 0 ? res.data[0].id : '';
           this.isSubmit = res.data.length > 0 ? false : true;
-          if (this.policyMenuList) {
-            this.flattenArray();
+          if (this.policyMenuList.length > 0) {
+            let nonReferenceData = JSON.parse(JSON.stringify(this.policyMenuList));
+            let nonRelationalData : any = this.flattenArray(nonReferenceData);
+            this.policyMenuList = nonRelationalData
           }
-          this.policyMenuList = this.flattenedArray;
           this.updatedMenuList();
         },
         (error) => {
@@ -601,16 +604,19 @@ export class PolicyMappingComponent implements OnInit {
       }
     });
   }
-  flattenArray(): void {
-    const stack = [...this.policyMenuList];
+  private flattenArray(inputArray: any[]): any[] {
+    const flattenedArray = [];
+    const stack = [...inputArray];
 
     while (stack.length > 0) {
       const item = stack.pop();
-      this.flattenedArray.push(item);
+      flattenedArray.push(item);
 
       if (item.children && item.children.length > 0) {
         stack.push(...item.children.reverse());
       }
     }
+
+    return flattenedArray;
   }
 }
