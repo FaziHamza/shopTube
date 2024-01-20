@@ -3475,13 +3475,22 @@ export class BuilderComponent implements OnInit {
         };
         this.fieldData.commonData?.push({ title: 'Bar Chart Fields', data: _formFieldData.barChartFields });
         break;
-      case 'pieChart':
-        configObj = {
-          ...configObj,
-          ...this.clickButtonService.getPieChartConfig(selectedNode),
-        };
-        this.fieldData.commonData?.push({ title: 'Pie Chart Fields', data: _formFieldData.pieChartFields });
-        break;
+        case 'pieChart':
+          //   configObj = {
+          //     ...configObj,
+          //     ...this.clickButtonService.getPieChartConfig(selectedNode),
+          //   };
+          //   is3D: node?.options.is3D,
+          // pieHole: node?.options.pieHole,
+          // pieStartAngle: node?.options.pieStartAngle,
+          // // slices: node?.options.slices,
+          // sliceVisibilityThreshold: node?.options.sliceVisibilityThreshold,
+            configObj['is3D'] = selectedNode?.options.is3D;
+            configObj['pieHole'] = selectedNode?.options.pieHole;
+            configObj['pieStartAngle'] = selectedNode?.options.pieStartAngle;
+            configObj['sliceVisibilityThreshold'] = selectedNode?.options.sliceVisibilityThreshold;
+            this.fieldData.commonData?.push({ title: 'Pie Chart Fields', data: _formFieldData.pieChartFields });
+            break;
       case 'bubbleChart':
         configObj = {
           ...configObj,
@@ -4480,9 +4489,16 @@ export class BuilderComponent implements OnInit {
         // this.selectedNode['key'] = event.form?.key;
         // this.selectedNode['id'] = event.form?.id;
         break;
-      case 'accordionButton':
-        this.selectedNode.nzExpandedIcon = event.form?.icon;
-        break;
+        case 'accordionButton':
+          this.selectedNode.nzExpandedIcon = event.form?.icon;
+          if (event.form?.headerColor) {
+            if (this.selectedNode.style) {
+              this.selectedNode.style['--background'] = event.form?.headerColor;
+            } else {
+              this.selectedNode.style = { '--background': event.form.headerColor, };
+            }
+          }
+          break;
       case 'segmented':
       case 'tag':
         // if (event.tableDta) {
@@ -6756,7 +6772,11 @@ export class BuilderComponent implements OnInit {
         node.options = replaceData[value.defaultValue];
         return node;
       }
-    } else {
+    } 
+    else if(node.type == "pieChart"){
+      node[key] = JSON.parse(replaceData[value.defaultValue]); 
+    }
+    else {
       if (key) {
         node[key] = replaceData[value.defaultValue];
       }

@@ -2208,6 +2208,9 @@ export class PagesComponent implements OnInit, OnDestroy {
         return node;
       }
     }
+    else if (node.type == "pieChart") {
+      node[key] = JSON.parse(replaceData[value.defaultValue]);
+    }
     else {
       if (key) {
         node[key] = replaceData[value.defaultValue];
