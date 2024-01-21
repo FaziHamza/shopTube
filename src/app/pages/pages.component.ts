@@ -1554,6 +1554,7 @@ export class PagesComponent implements OnInit, OnDestroy {
       }
       else if (res.name?.toLowerCase().includes(`uirule`)) {
         if (res.data) {
+          res.data =  res.data.json;
           const jsonUIResult = {
             "key": res.data.key,
             "title": res.data.title,
@@ -1563,7 +1564,8 @@ export class PagesComponent implements OnInit, OnDestroy {
             "patchOperations": res.data.patchoperations?.json
           }
           this.screenData = jsonUIResult;
-
+        }else{
+          this.screenData = null;
         }
       }
     });
@@ -2348,7 +2350,7 @@ export class PagesComponent implements OnInit, OnDestroy {
     let tableData = this.findObjectByTypeBase(this.resData[0], "gridList");
     let findClickApi: any;
     if (data?.props?.appConfigurableEvent) {
-      findClickApi = data?.props?.appConfigurableEvent?.find((item: any) => item?.action == 'change' && item.targetId.includes('gridlist'));
+      findClickApi = data?.props?.appConfigurableEvent?.find((item: any) => item?.action == 'change' && item.targetid.includes('gridlist'));
     }
     if (tableData && findClickApi) {
       if (typeof targetId == "string") {
@@ -2463,34 +2465,34 @@ export class PagesComponent implements OnInit, OnDestroy {
                   // if (getActions.actions?.[0]?.url.endsWith('/'))
                   //   url = getActions.actions?.[0]?.url.endsWith('/')
                   // else url = getActions.actions?.[0]?.url + '/'
-                  if (getActions._id) {
+                  if (getActions.id) {
                     for (let j = 0; j < filteredNodes.length; j++) {
                       const ele = filteredNodes[j];
-                      if (ele.formly[0].fieldGroup[0].key == getActions?.targetId) {
+                      if (ele.formly[0].fieldGroup[0].key == getActions?.targetid) {
                         ele.formly[0].fieldGroup[0].props.options = [];
                       }
                     }
                     let parentId =
-                      this.requestSubscription = this.applicationService.callApi('knex-query/getexecute-rules/' + getActions._id, 'get', '', '', targetId
+                      this.requestSubscription = this.applicationService.callApi('knex-query/getexecute-rules/' + getActions.id, 'get', '', '', targetId
                       ).subscribe(res => {
                         if (res) {
                           if (res.data.length > 0) {
-                            let checkType = filteredNodes.find((formly: any) => formly.key == getActions?.targetId);
+                            let checkType = filteredNodes.find((formly: any) => formly.key == getActions?.targetid);
                             if (checkType && checkType?.type != 'repeatSection') {
                               if (res.data.length > 0) {
                                 let newModel = this.formlyModel;
                                 for (const key in res.data[0]) {
-                                  newModel[key] = res.data[0][key];
+                                  this.formlyModel[key] = res.data[0][key];
                                   if (key.includes('.')) {
-                                    if (newModel[key.split('.')[0]]) {
-                                      newModel[key.split('.')[0]][key.split('.')[1]] = res.data[0][key];
+                                    if (this.formlyModel[key.split('.')[0]]) {
+                                      this.formlyModel[key.split('.')[0]][key.split('.')[1]] = res.data[0][key];
                                     } else {
                                       newModel[key.split('.')[0]] = {};
                                     }
                                   }
                                 }
                                 this.formlyModel = newModel;
-                                // this.form.patchValue(this.formlyModel);
+                                this.form.patchValue(this.formlyModel);
                               }
                             }
 
@@ -2519,11 +2521,11 @@ export class PagesComponent implements OnInit, OnDestroy {
                               });
                               for (let j = 0; j < filteredNodes.length; j++) {
                                 const ele = filteredNodes[j];
-                                if (ele.formly[0].fieldGroup[0].key == getActions?.targetId) {
+                                if (ele.formly[0].fieldGroup[0].key == getActions?.targetid) {
                                   ele.formly[0].fieldGroup[0].props.options = finalObj;
                                 }
                               }
-                              const key = getActions.targetId;
+                              const key = getActions.targetid;
                               this.formlyModel[key] = '';
                               this.formlyModel[key.split('.')[0]][key.split('.')[1]] = '';
                               this.form.patchValue({ key: parseInt(this.formlyModel[key]) });
@@ -2533,11 +2535,11 @@ export class PagesComponent implements OnInit, OnDestroy {
                           else {
                             for (let j = 0; j < filteredNodes.length; j++) {
                               const ele = filteredNodes[j];
-                              if (ele.formly[0].fieldGroup[0].key == getActions?.targetId) {
+                              if (ele.formly[0].fieldGroup[0].key == getActions?.targetid) {
                                 ele.formly[0].fieldGroup[0].props.options = [];
                               }
                             }
-                            const key = getActions.targetId;
+                            const key = getActions.targetid;
                             this.formlyModel[key] = '';
                             this.formlyModel[key.split('.')[0]][key.split('.')[1]] = '';
                             this.form.patchValue({ key: parseInt(this.formlyModel[key]) });
