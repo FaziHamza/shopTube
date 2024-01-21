@@ -210,9 +210,9 @@ export class ActionRuleComponent implements OnInit {
             if (item) {
               const keyvalue = key.replace(`${element.name}.`, '');
               fields.push(keyvalue.toLocaleLowerCase());
-              if (keyvalue.includes('.id')) {
+              if (keyvalue.includes('_id')) {
                 let s = (keyvalue).toLowerCase()
-                s = s.replace('id', '');
+                s = s.replace('_id', '');
                 s = (`${s}.${keyvalue}`);
                 values.push(`$${s.toLocaleLowerCase()}`);
               } 
@@ -343,31 +343,23 @@ export class ActionRuleComponent implements OnInit {
 
     // Parse foreign keys from queries
     queries.forEach((query: any) => {
-      const matches = [...query.query.matchAll(/(\w+)id/g)];
+      const matches = [...query.query.matchAll(/(\w+)_Id/g)];
       query.foreignKeys = matches.map(match => match[1]);
     });
 
-    queries.forEach((element: any, index: number) => {
-      if (element.query === '' && element.foreignKeys.length === 0) {
-        // Remove the element at the current index
-        queries.splice(index, 1);
-        // Adjust index since the array has been modified
-        index--;
-      }
-    });
-
     let sortedQueries: any[] = [];
-    for (let i = 0; queries.length > i; i++) {
-      let currentQuery = queries[i];
-
-      if (currentQuery.foreignKeys.every((fk: any) => sortedQueries.find(sq => sq.query === fk))) {
-        sortedQueries.push(currentQuery);
-        queries.splice(i, 1);
-      } 
+    while (queries.length > 0) {
+      for (let i = 0; i < queries.length; i++) {
+        let currentQuery = queries[i];
+        if (currentQuery.foreignKeys.every((fk: any) => sortedQueries.find(sq => (sq.query) === fk))) {
+          sortedQueries.push(currentQuery);
+          queries.splice(i, 1);
+          break;
+        }
+      }
     }
-
     // If you want the output to be a single string of sorted queries:
-    return sortedQueries.length > 0 ? sortedQueries.map(query => query.query).join('; ') : (queries?.length > 0 ? queries[0]?.query+';' : '');
+    return sortedQueries.map(query => query.query).join('; ');
   }
 
   // Remove FormGroup
