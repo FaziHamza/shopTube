@@ -297,11 +297,11 @@ export class PagesComponent implements OnInit, OnDestroy {
           localStorage.setItem('screenId', this.dataSharedService.currentMenuLink);
           this.clearValues();
           this.applicationService.getNestNewCommonAPI('cp/auth/pageAuth/' + params["schema"]).subscribe(res => {
-            if (res?.data == true) {
+            if (res?.isSuccess) {
               this.initiliaze(params);
             } else {
               this.saveLoader = false;
-              this.initiliaze(params);
+              // this.initiliaze(params);
               // this.screenId = res.data[0].screenBuilderId;
               // this.screenName = res.data[0].screenName;
               // this.navigation = res.data[0].navigation;
@@ -309,11 +309,9 @@ export class PagesComponent implements OnInit, OnDestroy {
               // this.resData = this.jsonParseWithObject(res.data[0].screenData);
               // this.initiliaze('');
               // this.router.navigateByUrl('permission-denied');
-              res.data[0].screenData = res.data[0].screendata;
-              let nodes: any = [];
-              nodes.push(res);
-              this.data = nodes;
-              this.initiliaze('');
+              this.data = res.data?.data?.[0].screendata;
+              this.resData = this.data;
+              // this.initiliaze('');
             }
           });
         }
@@ -356,7 +354,7 @@ export class PagesComponent implements OnInit, OnDestroy {
     //
     else if (this.data.length > 0 && params["pdfPage"] == undefined) {
 
-      this.applicationService.getNestCommonAPIById("cp/CacheRule", this.data[0].data[0].screenBuilderId)
+      this.applicationService.getNestCommonAPIById("cp/CacheRule", this.data.screenbuilderid)
         .pipe(
           takeUntil(this.destroy$)
         ).subscribe({

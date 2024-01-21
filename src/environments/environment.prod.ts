@@ -8,7 +8,8 @@ export const environment = {
   serverApiUrl:"http://localhost:3000/",
   serverBaseUrl:"http://3.111.85.6:3000/",
   // nestBaseUrl:"https://spectrum.expocitydubai.com:9443/",
-  nestBaseUrl:"http://localhost:4500/",
+  nestBaseUrl:"http://localhost:4600/",
+  nestNewBaseUrl:"http://localhost:4600/",
   nestImageUrl:"http://campaigns.expocitydubai.com.s3-website.me-south-1.amazonaws.com/",
   dbMode:'dev_',
   firebaseConfig: {
