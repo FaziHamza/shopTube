@@ -3476,22 +3476,22 @@ export class BuilderComponent implements OnInit {
         };
         this.fieldData.commonData?.push({ title: 'Bar Chart Fields', data: _formFieldData.barChartFields });
         break;
-        case 'pieChart':
-          //   configObj = {
-          //     ...configObj,
-          //     ...this.clickButtonService.getPieChartConfig(selectedNode),
-          //   };
-          //   is3D: node?.options.is3D,
-          // pieHole: node?.options.pieHole,
-          // pieStartAngle: node?.options.pieStartAngle,
-          // // slices: node?.options.slices,
-          // sliceVisibilityThreshold: node?.options.sliceVisibilityThreshold,
-            configObj['is3D'] = selectedNode?.options.is3D;
-            configObj['pieHole'] = selectedNode?.options.pieHole;
-            configObj['pieStartAngle'] = selectedNode?.options.pieStartAngle;
-            configObj['sliceVisibilityThreshold'] = selectedNode?.options.sliceVisibilityThreshold;
-            this.fieldData.commonData?.push({ title: 'Pie Chart Fields', data: _formFieldData.pieChartFields });
-            break;
+      case 'pieChart':
+        //   configObj = {
+        //     ...configObj,
+        //     ...this.clickButtonService.getPieChartConfig(selectedNode),
+        //   };
+        //   is3D: node?.options.is3D,
+        // pieHole: node?.options.pieHole,
+        // pieStartAngle: node?.options.pieStartAngle,
+        // // slices: node?.options.slices,
+        // sliceVisibilityThreshold: node?.options.sliceVisibilityThreshold,
+        configObj['is3D'] = selectedNode?.options.is3D;
+        configObj['pieHole'] = selectedNode?.options.pieHole;
+        configObj['pieStartAngle'] = selectedNode?.options.pieStartAngle;
+        configObj['sliceVisibilityThreshold'] = selectedNode?.options.sliceVisibilityThreshold;
+        this.fieldData.commonData?.push({ title: 'Pie Chart Fields', data: _formFieldData.pieChartFields });
+        break;
       case 'bubbleChart':
         configObj = {
           ...configObj,
@@ -4490,16 +4490,16 @@ export class BuilderComponent implements OnInit {
         // this.selectedNode['key'] = event.form?.key;
         // this.selectedNode['id'] = event.form?.id;
         break;
-        case 'accordionButton':
-          this.selectedNode.nzExpandedIcon = event.form?.icon;
-          if (event.form?.headerColor) {
-            if (this.selectedNode.style) {
-              this.selectedNode.style['--background'] = event.form?.headerColor;
-            } else {
-              this.selectedNode.style = { '--background': event.form.headerColor, };
-            }
+      case 'accordionButton':
+        this.selectedNode.nzExpandedIcon = event.form?.icon;
+        if (event.form?.headerColor) {
+          if (this.selectedNode.style) {
+            this.selectedNode.style['--background'] = event.form?.headerColor;
+          } else {
+            this.selectedNode.style = { '--background': event.form.headerColor, };
           }
-          break;
+        }
+        break;
       case 'segmented':
       case 'tag':
         // if (event.tableDta) {
@@ -6223,7 +6223,7 @@ export class BuilderComponent implements OnInit {
           try {
             contents = reader.result as string;
             var makeData = JSON.parse(contents);
-            const getScreenData  = makeData.screendata ? makeData.screendata : makeData.screenData;
+            const getScreenData = makeData.screendata ? makeData.screendata : makeData.screenData;
             var currentData = JSON.parse(
               JSON.stringify(getScreenData, function (key, value) {
                 if (typeof value == 'function') {
@@ -6347,7 +6347,6 @@ export class BuilderComponent implements OnInit {
     }
   }
 
-
   handleCancel(): void {
     this.showModal = false;
   }
@@ -6381,43 +6380,7 @@ export class BuilderComponent implements OnInit {
       });
     }
   }
-  saveDBFields(tableid: any) {
-    if (this.newCases.length > 0) {
-      const observables = this.newCases.map((element) => {
-        const objFields = {
-          tableid: tableid,
-          fieldName: element,
-          type: 'VARCHAR',
-          description: '',
-          status: 'Pending',
-          isActive: true,
-          screenbuilderid: this.id,
-          applicationid: JSON.parse(localStorage.getItem('applicationid')!),
-          organizationId: JSON.parse(localStorage.getItem('organizationId')!),
-        };
-        return this.builderService
-          .saveSQLDatabaseTable('knex-crud/tableschema', objFields)
-          .pipe(
-            catchError((error) => of(error)) // Handle error and continue the forkJoin
-          );
-      });
-      forkJoin(observables).subscribe({
-        next: (results) => {
-          if (results.every((result) => !(result instanceof Error))) {
-            this.toastr.success('Save Fields Successfully', {
-              nzDuration: 3000,
-            });
-          } else {
-            this.toastr.error('Fields not inserted', { nzDuration: 3000 });
-          }
-        },
-        error: (err) => {
-          console.error(err);
-          this.toastr.error('Fields not inserted', { nzDuration: 3000 });
-        },
-      });
-    }
-  }
+ 
   saveInDB() {
     let mainArray: any[] = [];
     for (let i = 0; i < Object.keys(this.formlyModel).length; i++) {
@@ -6434,127 +6397,68 @@ export class BuilderComponent implements OnInit {
         }
       }
     }
-    this.builderService.getSQLDatabaseTable('knex-crud/tables').subscribe({
-      next: (objTRes) => {
-        if (objTRes) {
-          this.builderService
-            .getSQLDatabaseTable('knex-crud/tableschema')
-            .subscribe({
-              next: (objFRes) => {
-                if (objFRes) {
-                  for (let i = 0; i < mainArray.length; i++) {
-                    const element = mainArray[i];
-                    const tableElement = objTRes.filter(
-                      (x: any) => x.tablename == element.name
-                    );
-
-                    //For Delete Field Case
-                    if (tableElement.length > 0) {
-                      const tableFields = objFRes.filter(
-                        (x: any) => x.tableid == tableElement[0]?.id
-                      );
-                      for (const item of tableFields) {
-                        const fieldName = item.fieldname;
-                        if (!mainArray[i].children.includes(fieldName)) {
-                          const deleteCase = {
-                            id: item.id,
-                            tableid: item.tableid,
-                            fieldName: fieldName,
-                            status: item.status,
-                            screenbuilderid: this.id,
-                          };
-                          this.deleteCases.push(deleteCase);
-                        }
-                      }
-                      //For New Field Case
-                      for (const fieldName of mainArray[i].children) {
-                        let exists = false;
-                        for (const item of tableFields) {
-                          if (item.fieldName === fieldName) {
-                            exists = true;
-                            break;
-                          }
-                        }
-                        if (!exists) {
-                          if (fieldName != 'id') this.newCases.push(fieldName);
-                        }
-                      }
-                      this.saveDBFields(tableElement[0]?.id);
-                      this.deleteDBFields();
-                    }
-                    else {
-                      const objTableNames = {
-                        tableName: element.name,
-                        comment: '',
-                        totalFields: 0,
-                        isActive: true,
-                        status: 'Pending',
-                        screenbuilderid: this.id,
-                        applicationid: JSON.parse(localStorage.getItem('applicationid')!),
-                        organizationId: JSON.parse(localStorage.getItem('organizationId')!),
-                      };
-                      this.builderService
-                        .saveSQLDatabaseTable('knex-crud/tables', objTableNames)
-                        .subscribe({
-                          next: (res) => {
-                            mainArray[i].children.map((objFieldName: any) => {
-                              if (objFieldName != 'id') {
-                                const objFields = {
-                                  tableid: res.id,
-                                  fieldName: objFieldName,
-                                  type: 'VARCHAR',
-                                  description: '',
-                                  status: 'Pending',
-                                  isActive: true,
-                                  screenbuilderid: this.id,
-                                  // applicationid: JSON.parse(localStorage.getItem('applicationid')!),
-                                  // organizationId: JSON.parse(localStorage.getItem('organizationId')!),
-                                };
-                                this.builderService
-                                  .saveSQLDatabaseTable(
-                                    'knex-crud/tableschema',
-                                    objFields
-                                  )
-                                  .subscribe({
-                                    next: (res) => {
-                                      this.toastr.success(
-                                        'Save Table Fields Successfully',
-                                        { nzDuration: 3000 }
-                                      );
-                                    },
-                                    error: (err) => {
-                                      console.error(err);
-                                      this.toastr.error('An error occurred', {
-                                        nzDuration: 3000,
-                                      });
-                                    },
-                                  });
-                              }
-                            });
-                          },
-                          error: (err) => {
-                            console.error(err);
-                            this.toastr.error('An error occurred', {
-                              nzDuration: 3000,
-                            });
-                          },
-                        });
-                    }
-                  }
-                }
-              },
-              error: (err) => {
-                console.error(err);
-                this.toastr.error('An error occurred', { nzDuration: 3000 });
-              },
-            });
+    for (let i = 0; i < mainArray.length; i++) {
+      const objTable = mainArray[i];
+      const objTableNames = {
+        tableName: objTable.name,
+        comment: '',
+        totalFields: 0,
+        status: 'Pending',
+        isActive: true,
+        screenbuilderid: this.id
+      };
+      const objMakeTable: any = {
+        table: objTableNames,
+        tableFields: []
+      }
+      mainArray[i].children.map((objFieldName: any) => {
+        if (objFieldName != 'id') {
+          const objFields = {
+            tableid: 0,
+            fieldName: objFieldName,
+            type: 'VARCHAR',
+            description: null,
+            status: 'Pending',
+            isActive: true,
+            screenbuilderid: this.id
+          };
+          objMakeTable.tableFields.push(objFields);
         }
-      },
-      error: (err) => {
-        console.error(err);
-        this.toastr.error('An error occurred', { nzDuration: 3000 });
-      },
-    });
+      });
+      let dataArray = [
+        {
+          fieldname: 'fname',
+          id: '62747e06-a16a-40de-9646-7041db375d4e'
+        },
+        {
+          fieldname: 'address',
+          id: '62747e06-a16a-40de-9646-7041db335d4e'
+        },
+        {
+          fieldname: 'email',
+          id: '62747e06-a16a-40de-9646-7041db37554e'
+        }
+      ]
+      if (objMakeTable.tableFields.length > 0) {
+        this.applicationService.addNestNewCommonAPI('cp/insertNewTable', objMakeTable).subscribe({
+          next: (res) => {
+            if (res.isSuccess) {
+              this.saveLoader = false;
+              this.toastr.success("Save table successfully", { nzDuration: 3000 });
+            } else {
+              this.saveLoader = false;
+              console.error(res.message);
+              this.toastr.error(res.message, { nzDuration: 3000 });
+            }
+          },
+          error: (err) => {
+            this.saveLoader = false;
+            console.error(err);
+            this.toastr.error("An error occurred", { nzDuration: 3000 });
+          }
+        });
+      }
+    }
   }
   comentSubmit() {
     this.requestSubscription = this.applicationService.addNestCommonAPI(`applications/${this.currentUser.applicationid}/clone`, "").subscribe({
@@ -6773,9 +6677,9 @@ export class BuilderComponent implements OnInit {
         node.options = replaceData[value.defaultValue];
         return node;
       }
-    } 
-    else if(node.type == "pieChart"){
-      node[key] = JSON.parse(replaceData[value.defaultValue]); 
+    }
+    else if (node.type == "pieChart") {
+      node[key] = JSON.parse(replaceData[value.defaultValue]);
     }
     else {
       if (key) {
