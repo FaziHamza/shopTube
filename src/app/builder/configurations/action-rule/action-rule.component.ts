@@ -267,7 +267,7 @@ export class ActionRuleComponent implements OnInit {
       } else if (this.actionForm.value.actionLink == 'post') {
         const columnName = fields.filter(item => item !== 'id');
         const columnValues = values.filter(item => !item.includes('.id'));
-        dataForQuery += `insert into ${element.name.toLocaleLowerCase()} ( ${columnName.join(', ')} ) OUTPUT INSERTED.* VALUES ( ${columnValues.join(', ')});`;
+        dataForQuery += `insert into ${element.name.toLocaleLowerCase()} ( ${columnName.join(', ')} ) VALUES ( ${columnValues.join(', ')}) RETURNING *;`;
         // dataForQuery += `insert into ${element.name.toLocaleLowerCase()} ( ${columnName.join(', ')} ) VALUES ( ${columnValues.join(', ')}) RETURNING id;`;
       } else if (this.actionForm.value.actionLink == 'put') {
         const columnName = fields.filter(item => item !== 'id');
@@ -343,19 +343,27 @@ export class ActionRuleComponent implements OnInit {
       query.foreignKeys = matches.map(match => match[1]);
     });
 
-    let sortedQueries: any[] = [];
-    while (queries.length > 0) {
-      for (let i = 0; i < queries.length; i++) {
-        let currentQuery = queries[i];
-        if (currentQuery.foreignKeys.every((fk: any) => sortedQueries.find(sq => (sq.query) === fk))) {
-          sortedQueries.push(currentQuery);
-          queries.splice(i, 1);
-          break;
-        }
+    queries.forEach((element: any, index: number) => {
+      if (element.query === '' && element.foreignKeys.length === 0) {
+        // Remove the element at the current index
+        queries.splice(index, 1);
+        // Adjust index since the array has been modified
+        index--;
       }
+    });
+
+    let sortedQueries: any[] = [];
+    for (let i = 0; queries.length > i; i++) {
+      let currentQuery = queries[i];
+
+      if (currentQuery.foreignKeys.every((fk: any) => sortedQueries.find(sq => sq.query === fk))) {
+        sortedQueries.push(currentQuery);
+        queries.splice(i, 1);
+      } 
     }
+
     // If you want the output to be a single string of sorted queries:
-    return sortedQueries.map(query => query.query).join('; ');
+    return sortedQueries.length > 0 ? sortedQueries.map(query => query.query).join('; ') : queries[0].query+';';
   }
 
   // Remove FormGroup

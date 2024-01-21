@@ -90,7 +90,7 @@ export class PolicyMappingComponent implements OnInit {
       name: 'Hide',
       searchValue: '',
       inVisible: true,
-      dataField: 'hideexpression',
+      dataField: 'hideExpression',
       isColumnHide: false
     },
   ];
@@ -131,6 +131,7 @@ export class PolicyMappingComponent implements OnInit {
   }
 
   onSubmit() {
+    debugger
     if (!this.policyName) {
       this.toastr.warning(
         'Please Select Policy Name',
@@ -481,14 +482,20 @@ export class PolicyMappingComponent implements OnInit {
 
       if (matchingPolicyItem) {
         matchingPolicyItem.screenid = menuItemsLowerCaseKeys['link'];
-        matchingPolicyItem.hideexpression = menuItemsLowerCaseKeys['hideexpression'] ? true : false;
+
         // Merge policy data into the menu item
-        const matchingPolicyItemLowerCaseKeys = Object.fromEntries(
+        const matchingPolicyItemLowerCaseKeys : any = Object.fromEntries(
           Object.entries(matchingPolicyItem).map(([key, value]) => [key.toLowerCase(), value])
         );
-
+        if (matchingPolicyItemLowerCaseKeys.hideexpression) {
+          matchingPolicyItemLowerCaseKeys['hideExpression'] = matchingPolicyItemLowerCaseKeys.hideexpression;
+          delete matchingPolicyItemLowerCaseKeys.hideexpression;
+        }
+        menuItemsLowerCaseKeys['hideExpression'] =  matchingPolicyItemLowerCaseKeys['hideExpression'];
+        delete menuItemsLowerCaseKeys.hideexpression;
         // Merge the objects with lowercase keys
         const mergedItem = { ...menuItemsLowerCaseKeys, ...matchingPolicyItemLowerCaseKeys };
+        // matchingPolicyItem.hideExpression = (menuItemsLowerCaseKeys['hideExpression'] || menuItemsLowerCaseKeys['hideexpression']) ? true : false;
         // Check if the menu item has children and merge recursively
         if (menuItemsLowerCaseKeys.children && menuItemsLowerCaseKeys.children.length > 0) {
           mergedItem.children = this.mergePolicyIntoMenu(menuItemsLowerCaseKeys.children, policyData);
