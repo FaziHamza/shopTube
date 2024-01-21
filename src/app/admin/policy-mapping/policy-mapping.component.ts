@@ -393,8 +393,8 @@ export class PolicyMappingComponent implements OnInit {
     const newData = {
       ...data,
       ...booleanObject,
-      screenid: data.link,
-      menuid: data.id,
+      screenId: data.link,
+      menuId: data.id,
       expand: false,
     };
 
@@ -474,31 +474,16 @@ export class PolicyMappingComponent implements OnInit {
   // Define a function to merge policy data into menu data recursively
   mergePolicyIntoMenu(menuData: any[], policyData: any[]) {
     return menuData.map(menuItem => {
-      const matchingPolicyItem = policyData.find(policyItem => policyItem.menuid === menuItem.menuid);
-
-      const menuItemsLowerCaseKeys: any = Object.fromEntries(
-        Object.entries(menuItem).map(([key, value]) => [key.toLowerCase(), value])
-      );
+      const matchingPolicyItem = policyData.find(policyItem => policyItem.menuId === menuItem.menuId);
 
       if (matchingPolicyItem) {
-        matchingPolicyItem.screenid = menuItemsLowerCaseKeys['link'];
-
+        matchingPolicyItem.screenId = menuItem.link;
         // Merge policy data into the menu item
-        const matchingPolicyItemLowerCaseKeys : any = Object.fromEntries(
-          Object.entries(matchingPolicyItem).map(([key, value]) => [key.toLowerCase(), value])
-        );
-        if (matchingPolicyItemLowerCaseKeys.hideexpression) {
-          matchingPolicyItemLowerCaseKeys['hideExpression'] = matchingPolicyItemLowerCaseKeys.hideexpression;
-          delete matchingPolicyItemLowerCaseKeys.hideexpression;
-        }
-        menuItemsLowerCaseKeys['hideExpression'] =  matchingPolicyItemLowerCaseKeys['hideExpression'];
-        delete menuItemsLowerCaseKeys.hideexpression;
-        // Merge the objects with lowercase keys
-        const mergedItem = { ...menuItemsLowerCaseKeys, ...matchingPolicyItemLowerCaseKeys };
-        // matchingPolicyItem.hideExpression = (menuItemsLowerCaseKeys['hideExpression'] || menuItemsLowerCaseKeys['hideexpression']) ? true : false;
+        const mergedItem = { ...menuItem, ...matchingPolicyItem };
+
         // Check if the menu item has children and merge recursively
-        if (menuItemsLowerCaseKeys.children && menuItemsLowerCaseKeys.children.length > 0) {
-          mergedItem.children = this.mergePolicyIntoMenu(menuItemsLowerCaseKeys.children, policyData);
+        if (menuItem.children && menuItem.children.length > 0) {
+          mergedItem.children = this.mergePolicyIntoMenu(menuItem.children, policyData);
         } else {
 
         }
@@ -506,7 +491,7 @@ export class PolicyMappingComponent implements OnInit {
         return mergedItem;
       }
 
-      return menuItemsLowerCaseKeys; // No policy data found, return menu item as is
+      return menuItem; // No policy data found, return menu item as is
     });
   }
 
