@@ -354,7 +354,7 @@ export class PagesComponent implements OnInit, OnDestroy {
     //
     else if (this.data.length > 0 && params["pdfPage"] == undefined) {
 
-      this.applicationService.getNestCommonAPIById("cp/CacheRule", this.data.screenbuilderid)
+      this.applicationService.getNestCommonAPIById("cp/CacheRule", this.data[0].data[0].screenbuilderid)
         .pipe(
           takeUntil(this.destroy$)
         ).subscribe({

@@ -2717,9 +2717,9 @@ export class BuilderComponent implements OnInit {
           'SelectQBOField': []
         }));
       }
-      this.selectedNode['tableHeader'] = [];
-      this.selectedNode['tableKey'] = [];
-      this.selectedNode['checkDatas'] = [];
+      // this.selectedNode['tableHeader'] = [];
+      // this.selectedNode['tableKey'] = [];
+      // this.selectedNode['checkDatas'] = [];
 
     }
 
