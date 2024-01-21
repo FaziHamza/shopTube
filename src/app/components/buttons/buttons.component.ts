@@ -134,15 +134,15 @@ export class ButtonsComponent implements OnInit {
         // this.dataSharedService.drawerVisible = true;
         this.applicationService.getNestNewCommonAPI('cp/auth/pageAuth/' + data.href).subscribe(res => {
           if (res?.data == true) {
-            this.requestSubscription = this.applicationService.getNestNewCommonAPIById('cp/Builder', data.href).subscribe({
+            this.requestSubscription = this.applicationService.getNestNewCommonAPIById('cp/Builders', data.href).subscribe({
               next: (res: any) => {
                 try {
                   if (res.isSuccess) {
                     if (res.data.length > 0) {
-                      this.screenId = res.data[0].screenBuilderId;
-                      const data = JSON.parse(res.data[0].screenData);
-                      this.responseData = data;
-                      res.data[0].screenData = this.applicationService.jsonParseWithObject(this.applicationService.jsonStringifyWithObject(this.responseData));
+                      this.screenId = res.data[0].screenbuilderid;
+                      // const data = res.data[0].screendata;
+                      // this.responseData = data;
+                      // res.data[0].screendata = this.applicationService.jsonParseWithObject(this.applicationService.jsonStringifyWithObject(this.responseData));
                       this.nodes = [];
                       this.nodes.push(res);
                     }
@@ -166,8 +166,8 @@ export class ButtonsComponent implements OnInit {
           } 
           else {
             this.loader = false;
-            this.screenId = res.data[0].screenBuilderId;
-            res.data[0].screenData = this.applicationService.jsonParseWithObject(res.data[0].screenData)
+            this.screenId = res.data[0].screenbuilderid;
+            // res.data[0].screenData = this.applicationService.jsonParseWithObject(res.data[0].screenData)
             this.nodes.push(res)
           }
         });
