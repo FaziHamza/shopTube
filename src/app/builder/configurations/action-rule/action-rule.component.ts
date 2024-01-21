@@ -210,12 +210,13 @@ export class ActionRuleComponent implements OnInit {
             if (item) {
               const keyvalue = key.replace(`${element.name}.`, '');
               fields.push(keyvalue.toLocaleLowerCase());
-              if (keyvalue.includes('id')) {
+              if (keyvalue.includes('.id')) {
                 let s = (keyvalue).toLowerCase()
                 s = s.replace('id', '');
                 s = (`${s}.${keyvalue}`);
                 values.push(`$${s.toLocaleLowerCase()}`);
-              } else {
+              } 
+              else {
                 if (this.actionForm.value.actionLink == 'put') {
                   const valueMatched = key.split('.')[1];
                   values.push(`$${valueMatched ? valueMatched.toLocaleLowerCase() : key.toLocaleLowerCase()}`);
@@ -366,7 +367,7 @@ export class ActionRuleComponent implements OnInit {
     }
 
     // If you want the output to be a single string of sorted queries:
-    return sortedQueries.length > 0 ? sortedQueries.map(query => query.query).join('; ') : queries[0].query+';';
+    return sortedQueries.length > 0 ? sortedQueries.map(query => query.query).join('; ') : (queries?.length > 0 ? queries[0]?.query+';' : '');
   }
 
   // Remove FormGroup
