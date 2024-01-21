@@ -540,6 +540,7 @@ export class ApplicationBuilderComponent implements OnInit {
       if (this.applicationSubmit) {
         const objDepartmentName = this.departmentData.find((x: any) => x.id == this.myForm.value.departmentid);
         this.myForm.value.departmentname = objDepartmentName.name;
+        this.myForm.value['organizationid'] =objDepartmentName.organizationid;
         const tableValue = `Application`;
         objDataModel = {
           [tableValue]: this.myForm.value
