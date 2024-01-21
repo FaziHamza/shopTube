@@ -27,6 +27,7 @@ import { CreateControlComponent } from '../Builder-module/create-control/create-
 import { SupportChatComponent } from '../admin/support-chat/support-chat.component';
 import { EmailComponent } from '../components/email/email.component';
 import { EmailTemplatesComponent } from './configurations/email-templates/email-templates.component';
+import { ApplicationGlobalClassesComponent } from '../Builder-module/application-global-classes/application-global-classes.component';
 
 
 const routes: Routes = [
@@ -121,6 +122,10 @@ const routes: Routes = [
       {
         path: 'support-chat',
         component: SupportChatComponent
+      },
+      {
+        path: 'global-Classes',
+        component: ApplicationGlobalClassesComponent
       },
       {
         path: 'app-theme',
