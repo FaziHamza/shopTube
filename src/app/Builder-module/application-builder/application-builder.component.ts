@@ -561,8 +561,8 @@ export class ApplicationBuilderComponent implements OnInit {
         // this.applicationService.addNestNewCommonAPI(`applications/clone${defaultCheck}`, this.myForm.value).subscribe({
           next: (res: any) => {
             if (res.isSuccess) {
-              // this.getDepartment();
-              // this.getApplication();
+              this.getDepartment();
+              this.getApplication();
               this.toastr.success(res.message, { nzDuration: 2000 });
               this.isSubmit = true;
               this.loading = false;
