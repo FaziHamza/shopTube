@@ -3113,7 +3113,6 @@ export class DynamicTableComponent implements OnInit {
         localStorage.setItem(`${this.screenId}-deleteditWidth`, JSON.stringify(storeData));
       }
     }
-
   }
 
 }

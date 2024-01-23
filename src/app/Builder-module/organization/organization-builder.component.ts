@@ -24,6 +24,7 @@ export class organizationBuilderComponent implements OnInit {
   listOfDisplayData: any[] = [];
   listOfChildrenData: any[] = [];
   loading = false;
+  drawerLoader : boolean = false;
   pageSize = 10;
   searchIcon = 'search';
   searchValue = '';
@@ -329,11 +330,12 @@ export class organizationBuilderComponent implements OnInit {
           this.model.id,
           organizationModel
         );
-      this.loading = true;
+      this.drawerLoader = true;
+      return;
       addOrUpdateOrganization$.subscribe((res: any) => {
         try {
+          this.drawerLoader =  false;
           if (res.isSuccess) {
-            this.loading = false;
             this.organizationBuilder();
             this.isSubmit = true;
             this.resetForm();
@@ -341,10 +343,9 @@ export class organizationBuilderComponent implements OnInit {
             this.toastr.success(`Org. : ${res.message}`, { nzDuration: 2000 });
           } else {
             this.toastr.error(`Org. : ${res.message}`, { nzDuration: 2000 });
-            this.loading = false;
           }
         } catch (error) {
-          this.loading = false;
+          this.drawerLoader = false;
           // Handle any errors that occur during execution
           console.error("An error occurred:", error);
           // You can add additional error handling here, such as showing an error message to the user.
@@ -387,11 +388,11 @@ export class organizationBuilderComponent implements OnInit {
           this.model.id,
           modelData
         );
-      this.loading = true;
+      this.drawerLoader = true;
       action$.subscribe((res: any) => {
         try {
+          this.drawerLoader = false;
           if (res.isSuccess) {
-            this.loading = false;
             this.organizationBuilder();
             // this.getDepartment();
             this.resetForm();
@@ -399,12 +400,11 @@ export class organizationBuilderComponent implements OnInit {
             this.handleCancel();
             this.toastr.success(res.message, { nzDuration: 2000 });
           } else {
-            this.loading = true;
             this.toastr.error(res.message, { nzDuration: 2000 });
           }
         } catch (error) {
           // Handle any errors that occur during execution
-          this.loading = false;
+          this.drawerLoader = false;
           console.error("An error occurred:", error);
           // You can add additional error handling here, such as showing an error message to the user.
         }

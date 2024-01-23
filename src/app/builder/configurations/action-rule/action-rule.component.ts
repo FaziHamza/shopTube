@@ -47,6 +47,7 @@ export class ActionRuleComponent implements OnInit {
   requestSubscription: Subscription;
   screenActions: any[];
   showActionRuleForm: boolean = true;
+  saveLoader: boolean = false;
   nodeList: { title: string, key: string }[] = [];
   emailToOptions: any[] = [];
   emailNameOptions: any = [];
@@ -484,20 +485,22 @@ export class ActionRuleComponent implements OnInit {
 
       actionListData.push(actionData);
     });
-
+    this.saveLoader = true;
     this.applicationService.addNestNewCommonAPI(`cp/deleteAction/Actions/` + mainModuleId[0].id, actionListData).subscribe({
       next: (allResults: any) => {
         if (allResults) {
           // Save successful, now call getActionData
+          this.saveLoader = false;
           setTimeout(() => {
             // Your code to be executed after the delay
             // this.getActionData();
             console.log('Delayed code executed after 2000 milliseconds');
-          }, 700);
+          }, 1000);
           this.toastr.success("Actions Save Successfully", { nzDuration: 3000 });
         }
       },
       error: (err) => {
+        this.saveLoader = false;
         console.error(err);
         this.toastr.error("Actions: An error occurred", { nzDuration: 3000 });
       }
@@ -507,10 +510,13 @@ export class ActionRuleComponent implements OnInit {
 
 
   getActionData() {
+    debugger
     const selectedScreen = this.screens.filter((a: any) => a.name == this.screenname)
     if (selectedScreen[0].navigation != null && selectedScreen[0].navigation != undefined) { // selectedScreen[0].navigation
+      this.saveLoader = true;
       this.requestSubscription = this.applicationService.getNestNewCommonAPIById(`cp/Actions`, selectedScreen[0].id).subscribe({
         next: (res: any) => {
+          this.saveLoader = false;
           if (res.isSuccess) {
             // this.toastr.success(`Action : Success => ${JSON.stringify(res.data)}`)
           }
@@ -557,6 +563,7 @@ export class ActionRuleComponent implements OnInit {
           }
         },
         error: (err) => {
+          this.saveLoader = false;
           console.error(err);
           this.toastr.error("An error occurred", { nzDuration: 3000 });
         }
@@ -671,16 +678,17 @@ export class ActionRuleComponent implements OnInit {
   //   })
   // }
   getEmailTemplates() {
+    this.saveLoader = true;
     this.applicationService.getNestNewCommonAPI('cp/emailtemplates').subscribe((getRes: any) => {
       if (getRes.isSuccess) {
+        this.saveLoader = false;
         if (getRes.data.length > 0) {
           this.emailNameOptions = getRes.data.map((res: any) => ({
             label: res.name,
             value: res.id,
           }));
         }
-      } else
-        this.toastr.error(getRes.message, { nzDuration: 3000 });
+      } 
     });
   }
 }

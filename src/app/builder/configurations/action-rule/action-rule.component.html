@@ -1,4 +1,5 @@
-<div #monacoComponent></div>
+<nz-spin [nzSpinning]="saveLoader" [nzSize]="'large'" class="builder-design">
+  <div #monacoComponent></div>
 <div *ngIf="showActionRuleForm" class="general_faq">
   <form [formGroup]="actionForm">
     <div class="drawer-height">
@@ -332,3 +333,4 @@
 </div>
 <nz-alert *ngIf="!showActionRuleForm" nzType="warning" nzMessage="Please contact your DBA to approve fields"
   nzShowIcon></nz-alert>
+</nz-spin>

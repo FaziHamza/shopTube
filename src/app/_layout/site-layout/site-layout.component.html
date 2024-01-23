@@ -21,7 +21,7 @@
             class="!rounded-tr-[4px] !rounded-br-[4px] side-bar "
             *ngIf="currentWebsiteLayout != 'website' || fullCurrentUrl.includes('/menu-builder')" [class]="'menu-sidebar' + (selectedTheme.layout === 'twoColumn' && selectedTheme['menuChildArrayTwoColumn'].length == 0 ? ' two-column-sider' : '')+
             (selectedTheme.sideBarSize == 'smallIconView' && (selectedTheme.layout == 'vertical' || selectedTheme.layout == 'rtl') ? ' small-icon-view-menu' : '') + (selectedTheme.layout == 'rtl' ? ' mobile-side-menu-rtl' : '')
-            " nzTheme="light" nzCollapsible nzWidth="240px" nzBreakpoint="md"
+            " nzTheme="light" nzCollapsible nzWidth="240px" nzBreakpoint="md" 
             [(nzCollapsed)]="selectedTheme.isCollapsed" [nzTrigger]="null">
             <span [contextMenu]="oneContextMenu" *ngIf="isShowContextMenu ; else nonContextMenu">
               <context-menu #oneContextMenu>
@@ -59,10 +59,13 @@
           <div class="content" id='Content'>
             <router-outlet></router-outlet>
           </div>
-          <div id="FOOTER" [ngClass]="{
+          <div id="FOOTER" 
+          [ngClass]="{
+            'w-[calc(100%-68px)]': selectedTheme.isCollapsed,
+            'w-[calc(100%-248px)]': !selectedTheme.isCollapsed,
             'dynamic-footer': dataSharedService.showFooter && dataSharedService.fixedFooter && currentWebsiteLayout === 'backend_application',
             'dynamic-footer-website': dataSharedService.showFooter && dataSharedService.fixedFooter && currentWebsiteLayout === 'website'
-          }" *ngIf="currentFooter && !fullCurrentUrl.includes('/menu-builder') && !hideHeaderFooterMenu">
+         }"*ngIf="currentFooter && !fullCurrentUrl.includes('/menu-builder') && !hideHeaderFooterMenu">
             <st-pages [resData]="currentFooter" [screenName]="domainData?.footer?.navigation"
               [screenId]="domainData?.footer?.screenBuilderId"></st-pages>
           </div>
