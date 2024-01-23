@@ -20,7 +20,8 @@ export class SiteLayoutComponent implements OnInit {
   @Input() selectedTheme: any;
   headerHeight: number;
   footerHeight: number;
-
+  @ViewChild('footerContainer') footerContainer: ElementRef;
+  dynamic :number;
   currentHeader: any = undefined;
   logo: any;
   currentFooter: any = undefined;
@@ -85,6 +86,7 @@ export class SiteLayoutComponent implements OnInit {
       }
     })
   }
+
 
   ngOnInit(): void {
     this.dataSharedService.measureHeight = 0;
@@ -160,6 +162,12 @@ export class SiteLayoutComponent implements OnInit {
     setTimeout(() => {
       this.updateHeaderHeight();
     }, 15000)
+
+    const container = this.footerContainer.nativeElement;
+    // if (container.classList.contains('dynamic-footer') || container.classList.contains('dynamic-footer-website')) {
+    //   this.dynamic = true;
+    // }
+
   }
 
 
@@ -174,12 +182,15 @@ export class SiteLayoutComponent implements OnInit {
     if (this.el.nativeElement.querySelector('#FOOTER')) {
       const footerElement = this.el.nativeElement.querySelector('#FOOTER');
       this.footerHeight = footerElement.clientHeight;
+      console.log(this.footerHeight);
     }
          
     if (this.el.nativeElement.querySelector('#Content')) {
+      debugger
       const contentElement = this.el.nativeElement.querySelector('#Content');
       this.dataSharedService.contentHeight = contentElement.clientHeight;
-    }
+      contentElement.style.marginBottom = this.footerHeight + 'px';  
+      }
 
     this.dataSharedService.measureHeight = window.innerHeight - (this.headerHeight + this.footerHeight + 10);
 
