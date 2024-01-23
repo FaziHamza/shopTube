@@ -23,6 +23,7 @@ export class ExecuteActionRuleComponent implements OnInit, AfterViewInit {
   @Input() screeenBuilderId: string;
   requestSubscription: Subscription;
   languageId = 'json';
+  saveLoader: boolean = false;
   nodeList: { title: string, key: string }[] = [];
   levelList: any[] = [
     {
@@ -69,8 +70,10 @@ export class ExecuteActionRuleComponent implements OnInit, AfterViewInit {
   getActionRuleData() {
     const selectedScreen = this.screens.filter((a: any) => a.name == this.screenname)
     if (selectedScreen[0].navigation != null && selectedScreen[0].navigation != undefined) { // selectedScreen[0].navigation
+      this.saveLoader = true;
       this.requestSubscription = this.applicationService.getNestNewCommonAPIById(`cp/ActionRule`, selectedScreen[0].id).subscribe({
         next: (res: any) => {
+          this.saveLoader = false;
           if (res.data && res.data.length > 0) {
             this.multiSelectForm = this.fb.group({
               multiSelects: this.fb.array([]),
@@ -91,6 +94,7 @@ export class ExecuteActionRuleComponent implements OnInit, AfterViewInit {
           // this.getActionRule();
         },
         error: (err) => {
+          this.saveLoader = false;
           // this.getActionRule();
           console.error(err);
           this.toastr.error("An error occurred", { nzDuration: 3000 });
@@ -102,8 +106,10 @@ export class ExecuteActionRuleComponent implements OnInit, AfterViewInit {
   getActionData() {
     const selectedScreen = this.screens.filter((a: any) => a.name == this.screenname)
     if (selectedScreen[0].navigation != null && selectedScreen[0].navigation != undefined) { // selectedScreen[0].navigation
+      this.saveLoader = true;
       this.requestSubscription = this.applicationService.getNestNewCommonAPIById(`cp/Actions`, selectedScreen[0].id).subscribe({
         next: (res: any) => {
+          this.saveLoader = false;
           if (res.data && res.data.length > 0) {
             this.actionsList = res.data;
             const schema = res.data.map((x: any) => { return x.quryType });
@@ -119,6 +125,7 @@ export class ExecuteActionRuleComponent implements OnInit, AfterViewInit {
           this.getActionRuleData();
         },
         error: (err) => {
+          this.saveLoader = false;
           this.getActionRuleData();
           console.error(err);
           this.toastr.error("An error occurred", { nzDuration: 3000 });
@@ -398,18 +405,21 @@ export class ExecuteActionRuleComponent implements OnInit, AfterViewInit {
     //   applicationid: this.applicationid,
     //   data: JSON.stringify(Json)
     // }
+    this.saveLoader = true;
     this.applicationService.addNestNewCommonAPI(`cp/ActionRule/ActionRule/` + mainModuleId[0].id, actionRuleList).subscribe({
       next: (allResults: any) => {
+        this.saveLoader = false;
         if (allResults) {  //results.every((result: any) => !(result instanceof Error))
-
           this.getActionData();
           this.toastr.success("Action Rules Save Successfully", { nzDuration: 3000 });
           // }
         } else {
+
           this.toastr.error("Action Rules not saved", { nzDuration: 3000 });
         }
       },
       error: (err) => {
+        this.saveLoader = false;
         console.error(err);
         this.toastr.error("Action Rules: An error occured", { nzDuration: 3000 });
       }

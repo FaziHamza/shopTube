@@ -41,8 +41,7 @@
                             (click)="editItem(data , 'department')"><i class="fa-regular fa-pen-to-square"></i></span>
                         <span class="text-[#fd3636] pl-2 hover:cursor-pointer" nzTooltipTitle="Delete" nz-tooltip
                             nz-popconfirm nzPopconfirmTitle="Sure to delete?"
-                            (nzOnConfirm)="deleteRow(data.id , 'department')"><i
-                                class="fa-regular fa-trash"></i></span>
+                            (nzOnConfirm)="deleteRow(data.id , 'department')"><i class="fa-regular fa-trash"></i></span>
                     </td>
                 </tr>
                 <tr [nzExpand]="data.expand">
@@ -130,7 +129,9 @@
     </div>
 </nz-card>
 <ng-template #extraTemplate>
-    <button nz-button nzType="primary" class='actions-btn btn-no !border-none !bg-blue-600 hover:!bg-blue-500 my-2 !h-[35px]' nz-dropdown [nzDropdownMenu]="menu4">
+    <button nz-button nzType="primary"
+        class='actions-btn btn-no !border-none !bg-blue-600 hover:!bg-blue-500 my-2 !h-[35px]' nz-dropdown
+        [nzDropdownMenu]="menu4">
         Actions
         <span nz-icon nzType="down"></span>
     </button>
@@ -159,14 +160,16 @@
     [nzTitle]="applicationSubmit ? (isSubmit ? 'Add Application' : 'Update Application') :(isSubmit ? 'Add Department' : 'Update Department')"
     (nzOnClose)="handleCancel()">
     <ng-container *nzDrawerContent>
-        <form [formGroup]="myForm">
-            <div class="flex flex-wrap">
-                <div class="w-1/2 theme-body" *ngFor="let item of fields">
-                    <formly-form [model]="model" [fields]="item.fieldGroup" [options]="options"
-                        [form]="myForm"></formly-form>
+        <nz-spin [nzSpinning]="drawerLoader" [nzSize]="'large'" class="builder-design">
+            <form [formGroup]="myForm">
+                <div class="flex flex-wrap">
+                    <div class="w-1/2 theme-body" *ngFor="let item of fields">
+                        <formly-form [model]="model" [fields]="item.fieldGroup" [options]="options"
+                            [form]="myForm"></formly-form>
+                    </div>
                 </div>
-            </div>
-        </form>
+            </form>
+        </nz-spin>
     </ng-container>
 </nz-drawer>
 <ng-template #footerTpl>

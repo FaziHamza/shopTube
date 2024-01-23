@@ -134,7 +134,7 @@
             <li nz-menu-item>
                 <a (click)="openModal('department')" class="!text-black" *ngIf="this.organizationId">Add Department</a>
             </li>
-            </ul>
+        </ul>
     </nz-dropdown-menu>
 </ng-template>
 
@@ -143,18 +143,20 @@
     [nzTitle]="!isSubmit ? (departmentSubmit ?  'Update Department' : 'Update Organization') :  (departmentSubmit ?  'Add Department' : 'Add Organization')"
     (nzOnClose)="handleCancel()">
     <ng-container *nzDrawerContent>
-        <form [formGroup]="form">
-            <div class="flex flex-wrap">
-                <div class="w-1/2" *ngFor="let item of fields">
-                    <div class="theme-body">
-                        <div *ngIf="item">
-                            <formly-form [model]="model" [fields]="item.fieldGroup" [options]="options"
-                                [form]="form"></formly-form>
+        <nz-spin [nzSpinning]="drawerLoader" [nzSize]="'large'" class="builder-design">
+            <form [formGroup]="form">
+                <div class="flex flex-wrap">
+                    <div class="w-1/2" *ngFor="let item of fields">
+                        <div class="theme-body">
+                            <div *ngIf="item">
+                                <formly-form [model]="model" [fields]="item.fieldGroup" [options]="options"
+                                    [form]="form"></formly-form>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        </form>
+            </form>
+        </nz-spin>
     </ng-container>
 </nz-drawer>
 <ng-template #footerTpl>
