@@ -131,6 +131,14 @@ export class DynamicTableComponent implements OnInit {
       }
     });
     this.subscriptions.add(prevNextRecord);
+
+    const GridBusinessRule = this.dataSharedService.GridBusinessRule.subscribe((res: any) => {
+      if (res) {
+        this.processData(res);
+      }
+    });
+    this.subscriptions.add(GridBusinessRule);
+
   }
   userDetails: any;
   async ngOnInit(): Promise<void> {
@@ -362,7 +370,7 @@ export class DynamicTableComponent implements OnInit {
       this.applyBusinessRule(this.gridRuleData, this.data);
     }
   }
-  applyBusinessRule(ruleData: any, data: any) {
+  applyBusinessRule(ruleData: any, data: any,check?:any) {
     let gridFilter = ruleData.filter((a: any) => a.gridType == 'Body');
     for (let m = 0; m < gridFilter.length; m++) {
       if (gridFilter[m].gridKey == data.key && this.tableData) {
@@ -376,7 +384,7 @@ export class DynamicTableComponent implements OnInit {
               console.log("No obj Found!")
             }
             else {
-              for (let j = 0; j < this.displayData.length; j++) {
+              for (let j = 0; j < this.tableData.length; j++) {
                 //query
                 let query: any = '';
                 objRuleData[index].ifRuleMain.forEach((element: any, ruleIndex: number) => {
@@ -389,7 +397,7 @@ export class DynamicTableComponent implements OnInit {
                       }
                     }
                     else {
-                      let firstValue = this.displayData[j][element.ifCondition] ? this.displayData[j][element.ifCondition] : "0";
+                      let firstValue = this.tableData[j][element.ifCondition] ? this.tableData[j][element.ifCondition] : "0";
                       let appendString = element.conditional.length > 0 ? " ( " : ' ';
                       if (ruleIndex == 0) {
                         query = appendString + firstValue + element.oprator + element.getValue
@@ -399,7 +407,7 @@ export class DynamicTableComponent implements OnInit {
                     }
                     for (let k = 0; k < element.conditional.length; k++) {
                       const conditionElement = element.conditional[k];
-                      let check = this.displayData[j][conditionElement.condifCodition] ? this.displayData[j][conditionElement.condifCodition] : '0';
+                      let check = this.tableData[j][conditionElement.condifCodition] ? this.tableData[j][conditionElement.condifCodition] : '0';
                       query += ' ' + conditionElement.condType + ' ' + check + conditionElement.condOperator + conditionElement.condValue;
                       if (k + 1 == element.conditional.length)
                         query += " ) " + element.condType
@@ -409,12 +417,12 @@ export class DynamicTableComponent implements OnInit {
                     if (element.oprator == 'NotNull')
                       query = "1==1"
                     else {
-                      let firstValue = this.displayData[j][element.ifCondition] ? this.displayData[j][element.ifCondition] : "0";
+                      let firstValue = this.tableData[j][element.ifCondition] ? this.tableData[j][element.ifCondition] : "0";
                       query = firstValue + element.oprator + element.getValue
                     }
                     for (let k = 0; k < element.conditional.length; k++) {
                       const conditionElement = element.conditional[k];
-                      let check = this.displayData[j][conditionElement.condifCodition] ? this.displayData[j][conditionElement.condifCodition] : '0';
+                      let check = this.tableData[j][conditionElement.condifCodition] ? this.tableData[j][conditionElement.condifCodition] : '0';
                       query += ' ' + conditionElement.condType + ' ' + check + conditionElement.condOperator + conditionElement.condValue;
                     }
                   }
@@ -429,62 +437,62 @@ export class DynamicTableComponent implements OnInit {
                   for (let k = 0; k < elementv1.getRuleCondition.length; k++) {
                     const elementv2 = elementv1.getRuleCondition[k];
                     if (elementv1.getRuleCondition[k].referenceOperator != '') {
-                      if (this.displayData[j][elementv2.ifCondition])
-                        this.displayData[j][elementv1.target] = this.evaluateGridConditionOperator(`${this.displayData[j][elementv2.ifCondition]} ${elementv1.getRuleCondition[k].oprator} ${this.displayData[j][elementv2.target]}`);
+                      if (this.tableData[j][elementv2.ifCondition])
+                        this.tableData[j][elementv1.target] = this.evaluateGridConditionOperator(`${this.tableData[j][elementv2.ifCondition]} ${elementv1.getRuleCondition[k].oprator} ${this.tableData[j][elementv2.target]}`);
                       // if (elementv1.getRuleCondition[k].referenceColor)
-                      this.displayData[j]['color'] = elementv1.getRuleCondition[k].referenceColor;
-                      this.displayData[j]['textColor'] = elementv1.getRuleCondition[k].referenceTextColor;
+                      this.tableData[j]['color'] = elementv1.getRuleCondition[k].referenceColor;
+                      this.tableData[j]['textColor'] = elementv1.getRuleCondition[k].referenceTextColor;
                       // if (elementv1.getRuleCondition[k].referenceColumnColor) {
-                      this.displayData[j]['columnColor'] = elementv1.getRuleCondition[k].referenceColor;
-                      this.displayData[j]['columnTextColor'] = elementv1.getRuleCondition[k].referenceTextColor;
-                      this.displayData[j]['colorDataType'] = this.displayData[j][elementv1.target];
+                      this.tableData[j]['columnColor'] = elementv1.getRuleCondition[k].referenceColor;
+                      this.tableData[j]['columnTextColor'] = elementv1.getRuleCondition[k].referenceTextColor;
+                      this.tableData[j]['colorDataType'] = this.tableData[j][elementv1.target];
                       // }
                     }
                     else {
                       if (k > 0) {
-                        if (this.displayData[j][elementv2.ifCondition])
-                          this.displayData[j][elementv1.target] = this.evaluateGridConditionOperator(`${this.displayData[j][elementv1.target]} ${elementv1.getRuleCondition[k - 1].referenceOperator} ${this.displayData[j][elementv2.ifCondition]} ${elementv1.getRuleCondition[k].oprator} ${this.displayData[j][elementv2.target]}`);
+                        if (this.tableData[j][elementv2.ifCondition])
+                          this.tableData[j][elementv1.target] = this.evaluateGridConditionOperator(`${this.tableData[j][elementv1.target]} ${elementv1.getRuleCondition[k - 1].referenceOperator} ${this.tableData[j][elementv2.ifCondition]} ${elementv1.getRuleCondition[k].oprator} ${this.tableData[j][elementv2.target]}`);
                         // if (elementv1.getRuleCondition[k].referenceColor)
-                        this.displayData[j]['color'] = elementv1.getRuleCondition[k].referenceColor;
-                        this.displayData[j]['textColor'] = elementv1.getRuleCondition[k].referenceTextColor;
+                        this.tableData[j]['color'] = elementv1.getRuleCondition[k].referenceColor;
+                        this.tableData[j]['textColor'] = elementv1.getRuleCondition[k].referenceTextColor;
                         // if (elementv1.getRuleCondition[k].referenceColor) {
-                        this.displayData[j]['columnColor'] = elementv1.getRuleCondition[k].referenceColor;
-                        this.displayData[j]['columnTextColor'] = elementv1.getRuleCondition[k].referenceTextColor;
-                        this.displayData[j]['colorDataType'] = this.displayData[j][elementv1.target];
+                        this.tableData[j]['columnColor'] = elementv1.getRuleCondition[k].referenceColor;
+                        this.tableData[j]['columnTextColor'] = elementv1.getRuleCondition[k].referenceTextColor;
+                        this.tableData[j]['colorDataType'] = this.tableData[j][elementv1.target];
                         // }
                       }
                       else
                         // if (elementv1.getRuleCondition[k].referenceColor)
-                        this.displayData[j]['color'] = elementv1.getRuleCondition[k].referenceColor;
-                      this.displayData[j]['textColor'] = elementv1.getRuleCondition[k].referenceTextColor;
-                      this.displayData[j]['columnColor'] = elementv1.getRuleCondition[k].referenceColor;
-                      this.displayData[j]['columnTextColor'] = elementv1.getRuleCondition[k].referenceTextColor;
-                      this.displayData[j]['colorDataType'] = this.displayData[j][elementv1.target];
+                        this.tableData[j]['color'] = elementv1.getRuleCondition[k].referenceColor;
+                      this.tableData[j]['textColor'] = elementv1.getRuleCondition[k].referenceTextColor;
+                      this.tableData[j]['columnColor'] = elementv1.getRuleCondition[k].referenceColor;
+                      this.tableData[j]['columnTextColor'] = elementv1.getRuleCondition[k].referenceTextColor;
+                      this.tableData[j]['colorDataType'] = this.tableData[j][elementv1.target];
                       if (elementv1.getRuleCondition[k].referenceColumnColor) {
                         // data.tableHeaders.filter((check: any) => !check.hasOwnProperty('dataType'));
                         let head = data.tableHeaders.find((a: any) => a.name == elementv1.target)
                         if (head) {
-                          this.displayData[j]['colorDataType'] = this.displayData[j][elementv1.target];
+                          this.tableData[j]['colorDataType'] = this.tableData[j][elementv1.target];
                           head['dataType'] = 'objectType';
                           head['columnColor'] = elementv1.getRuleCondition[k].referenceColor;
                           head['columnTextColor'] = elementv1.getRuleCondition[k].referenceTextColor;
                         }
                       }
                       else {
-                        if (this.displayData[j][elementv2.ifCondition])
-                          this.displayData[j][elementv1.target] = this.evaluateGridConditionOperator(`${this.displayData[j][elementv2.ifCondition]} ${elementv1.getRuleCondition[k].oprator} ${this.displayData[j][elementv2.target]}`);
+                        if (this.tableData[j][elementv2.ifCondition])
+                          this.tableData[j][elementv1.target] = this.evaluateGridConditionOperator(`${this.tableData[j][elementv2.ifCondition]} ${elementv1.getRuleCondition[k].oprator} ${this.tableData[j][elementv2.target]}`);
 
                       }
                     }
                     if (elementv2.multiConditionList.length > 0) {
                       for (let l = 0; l < elementv2.multiConditionList.length; l++) {
                         const elementv3 = elementv2.multiConditionList[l];
-                        const value = this.displayData[j][elementv1.target];
-                        this.displayData[j][elementv1.target] = this.evaluateGridConditionOperator(`${value} ${elementv3.oprator} ${this.displayData[j][elementv3.target]}`);
+                        const value = this.tableData[j][elementv1.target];
+                        this.tableData[j][elementv1.target] = this.evaluateGridConditionOperator(`${value} ${elementv3.oprator} ${this.tableData[j][elementv3.target]}`);
                         // if (elementv1.getRuleCondition[k].referenceColumnColor) {
-                        this.displayData[j]['columnTextColor'] = elementv1.getRuleCondition[k].referenceTextColor;
-                        this.displayData[j]['columnColor'] = elementv1.getRuleCondition[k].referenceColor;
-                        this.displayData[j]['colorDataType'] = this.displayData[j][elementv1.target];
+                        this.tableData[j]['columnTextColor'] = elementv1.getRuleCondition[k].referenceTextColor;
+                        this.tableData[j]['columnColor'] = elementv1.getRuleCondition[k].referenceColor;
+                        this.tableData[j]['colorDataType'] = this.tableData[j][elementv1.target];
                         // }
                       }
                     }
@@ -493,16 +501,16 @@ export class DynamicTableComponent implements OnInit {
                     const elementv2 = elementv1.thenCondition[k];
                     for (let l = 0; l < elementv2.getRuleCondition.length; l++) {
                       const elementv3 = elementv2.getRuleCondition[l];
-                      this.displayData[j][elementv2.thenTarget] = this.evaluateGridConditionOperator(`${this.displayData[j][elementv3.ifCondition]} ${elementv3.oprator} ${this.displayData[j][elementv3.target]}`);
+                      this.tableData[j][elementv2.thenTarget] = this.evaluateGridConditionOperator(`${this.tableData[j][elementv3.ifCondition]} ${elementv3.oprator} ${this.tableData[j][elementv3.target]}`);
                       if (elementv3.multiConditionList.length > 0) {
                         for (let m = 0; m < elementv3.multiConditionList.length; m++) {
                           const elementv4 = elementv3.multiConditionList[m];
-                          const value = this.displayData[j][elementv2.thenTarget];
-                          this.displayData[j][elementv2.thenTarget] = this.evaluateGridConditionOperator(`${value} ${elementv4.oprator} ${this.displayData[j][elementv4.target]}`);
+                          const value = this.tableData[j][elementv2.thenTarget];
+                          this.tableData[j][elementv2.thenTarget] = this.evaluateGridConditionOperator(`${value} ${elementv4.oprator} ${this.tableData[j][elementv4.target]}`);
                           // if (elementv1.getRuleCondition[k].referenceColumnColor) {
-                          this.displayData[j]['columnColor'] = elementv1.getRuleCondition[k].referenceColor;
-                          this.displayData[j]['columnTextColor'] = elementv1.getRuleCondition[k].referenceTextColor;
-                          this.displayData[j]['colorDataType'] = this.displayData[j][elementv1.target];
+                          this.tableData[j]['columnColor'] = elementv1.getRuleCondition[k].referenceColor;
+                          this.tableData[j]['columnTextColor'] = elementv1.getRuleCondition[k].referenceTextColor;
+                          this.tableData[j]['colorDataType'] = this.tableData[j][elementv1.target];
                           // }
                         }
                       }
@@ -612,6 +620,20 @@ export class DynamicTableComponent implements OnInit {
         }
       }
     }
+    if(check){
+      // this.tableData = this.displayData;
+      
+      this.data.tableData =this.tableData;
+      this.data.displayData = this.data?.tableData.length > this.data?.end ? this.data?.tableData.slice(0, this.data?.end) : this.data?.tableData;
+      this.displayData=this.data.displayData;
+      // this.data.displayData = this.displayData
+      // this.displayData = [];   
+      // this.tableData = [];
+  
+    }
+
+    // this.tableData = JSON.parse(JSON.stringify(dimiData))  
+    console.log(this.tableData);
   }
   private isNumeric(value: any): boolean {
     return !isNaN(parseFloat(value)) && isFinite(value);

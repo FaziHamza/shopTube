@@ -508,147 +508,149 @@ export class SectionsComponent implements OnInit {
           next: async (res) => {
             this.saveLoader = false;
             if (tableData && res?.isSuccess) {
-              if (res.data.length > 0) {
+              this.dataSharedService.GridBusinessRule.next(res);
+              // if (res.data.length > 0) {
 
-                if (window.location.href.includes('marketplace.com')) {
-                  res.data = res.data.map((item: any) => ({
-                    id: item._id, // Rename _id to id
-                    name: item.name,
-                    categoryId: item.categoryId,
-                    categoryName: item.categoryDetails?.[0]?.name, // Access the name property from categoryDetails
-                    subcategoryId: item.subcategoryId,
-                    subcategoryName: item.subcategoryDetails?.[0]?.name, // Access the name property from subcategoryDetails
-                    thumbnailimage: item.thumbnailimage,
-                    // ...rest
-                  }));
-                }
+              //   if (window.location.href.includes('marketplace.com')) {
+              //     res.data = res.data.map((item: any) => ({
+              //       id: item._id, // Rename _id to id
+              //       name: item.name,
+              //       categoryId: item.categoryId,
+              //       categoryName: item.categoryDetails?.[0]?.name, // Access the name property from categoryDetails
+              //       subcategoryId: item.subcategoryId,
+              //       subcategoryName: item.subcategoryDetails?.[0]?.name, // Access the name property from subcategoryDetails
+              //       thumbnailimage: item.thumbnailimage,
+              //       // ...rest
+              //     }));
+              //   }
 
-                let saveForm = JSON.parse(JSON.stringify(res.data[0]));
-                const firstObjectKeys = Object.keys(saveForm);
-                let tableKey = firstObjectKeys.map(key => ({ name: key }));
-                let obj = firstObjectKeys.map(key => ({ name: key, key: key }));
-                tableData.tableData = [];
-                saveForm.id = tableData.tableData.length + 1;
-                res.data.forEach((element: any) => {
-                  element.id = (element?.id)?.toString();
-                  tableData.tableData?.push(element);
-                });
-                // pagniation work start
-                if (!tableData.end) {
-                  tableData.end = 10;
-                }
-                tableData.pageIndex = 1;
-                tableData.totalCount = res.count;
-                tableData['masteTotalCount'] = res.count;
-                tableData.serverApi = url;
-                tableData.targetId = '';
-                tableData.displayData = tableData.tableData.length > tableData.end ? tableData.tableData.slice(0, tableData.end) : tableData.tableData;
-                // pagniation work end
-                if (!tableData?.tableHeaders) {
-                  tableData.tableHeaders = obj;
-                  tableData['tableKey'] = tableKey
-                }
-                if (tableData?.tableHeaders.length == 0) {
-                  tableData.tableHeaders = obj;
-                  tableData['tableKey'] = tableKey
-                }
-                else {
-                  if (JSON.stringify(tableData['tableKey']) !== JSON.stringify(tableKey)) {
-                    const updatedData = tableKey.filter(updatedItem =>
-                      !tableData.tableHeaders.some((headerItem: any) => headerItem.key === updatedItem.name)
-                    );
-                    if (updatedData.length > 0) {
-                      updatedData.forEach(updatedItem => {
-                        tableData.tableHeaders.push({ id: tableData.tableHeaders.length + 1, key: updatedItem.name, name: updatedItem.name, });
-                      });
-                      tableData['tableKey'] = tableData.tableHeaders;
-                    }
-                  }
-                }
+              //   let saveForm = JSON.parse(JSON.stringify(res.data[0]));
+              //   const firstObjectKeys = Object.keys(saveForm);
+              //   let tableKey = firstObjectKeys.map(key => ({ name: key }));
+              //   let obj = firstObjectKeys.map(key => ({ name: key, key: key }));
+              //   tableData.tableData = [];
+              //   saveForm.id = tableData.tableData.length + 1;
+              //   res.data.forEach((element: any) => {
+              //     element.id = (element?.id)?.toString();
+              //     tableData.tableData?.push(element);
+              //   });
+              //   // pagniation work start
+              //   if (!tableData.end) {
+              //     tableData.end = 10;
+              //   }
+              //   tableData.pageIndex = 1;
+              //   tableData.totalCount = res.count;
+              //   tableData['masteTotalCount'] = res.count;
+              //   tableData.serverApi = url;
+              //   tableData.targetId = '';
+              //   tableData.displayData = tableData.tableData.length > tableData.end ? tableData.tableData.slice(0, tableData.end) : tableData.tableData;
+              //   // pagniation work end
+              //   if (!tableData?.tableHeaders) {
+              //     tableData.tableHeaders = obj;
+              //     tableData['tableKey'] = tableKey
+              //   }
+              //   if (tableData?.tableHeaders.length == 0) {
+              //     tableData.tableHeaders = obj;
+              //     tableData['tableKey'] = tableKey
+              //   }
+              //   else {
+              //     if (JSON.stringify(tableData['tableKey']) !== JSON.stringify(tableKey)) {
+              //       const updatedData = tableKey.filter(updatedItem =>
+              //         !tableData.tableHeaders.some((headerItem: any) => headerItem.key === updatedItem.name)
+              //       );
+              //       if (updatedData.length > 0) {
+              //         updatedData.forEach(updatedItem => {
+              //           tableData.tableHeaders.push({ id: tableData.tableHeaders.length + 1, key: updatedItem.name, name: updatedItem.name, });
+              //         });
+              //         tableData['tableKey'] = tableData.tableHeaders;
+              //       }
+              //     }
+              //   }
 
-                // Make DataType
-                let propertiesWithoutDataType = tableData.tableHeaders.filter((check: any) => !check.hasOwnProperty('dataType'));
-                if (propertiesWithoutDataType.length > 0) {
-                  let formlyInputs = this.filterInputElements(this.sections.children[1].children);
+              //   // Make DataType
+              //   let propertiesWithoutDataType = tableData.tableHeaders.filter((check: any) => !check.hasOwnProperty('dataType'));
+              //   if (propertiesWithoutDataType.length > 0) {
+              //     let formlyInputs = this.filterInputElements(this.sections.children[1].children);
 
-                  if (formlyInputs && formlyInputs.length > 0) {
-                    propertiesWithoutDataType.forEach((head: any) => {
-                      let input = formlyInputs.find(a => a.formly[0].fieldGroup[0].key.includes('.') ? a.formly[0].fieldGroup[0].key.split('.')[1] == head.key : a.formly[0].fieldGroup[0].key == head.key);
+              //     if (formlyInputs && formlyInputs.length > 0) {
+              //       propertiesWithoutDataType.forEach((head: any) => {
+              //         let input = formlyInputs.find(a => a.formly[0].fieldGroup[0].key.includes('.') ? a.formly[0].fieldGroup[0].key.split('.')[1] == head.key : a.formly[0].fieldGroup[0].key == head.key);
 
-                      if (input) {
-                        head['dataType'] = input.formly[0].fieldGroup[0].type;
-                        head['subDataType'] = input.formly[0].fieldGroup[0].props.type;
-                        head['title'] = input.title;
-                      }
-                    });
+              //         if (input) {
+              //           head['dataType'] = input.formly[0].fieldGroup[0].type;
+              //           head['subDataType'] = input.formly[0].fieldGroup[0].props.type;
+              //           head['title'] = input.title;
+              //         }
+              //       });
 
-                    tableData.tableHeaders = tableData.tableHeaders.concat(propertiesWithoutDataType.filter((item: any) => !tableData.tableHeaders.some((objItem: any) => objItem.key === item.key)));
-                    // tableData.tableHeaders = obj;
-                  }
-                }
-                let CheckKey = tableData.tableHeaders.find((head: any) => !head.key)
-                if (CheckKey) {
-                  for (let i = 0; i < tableData.tableHeaders.length; i++) {
-                    if (!tableData.tableHeaders[i].hasOwnProperty('key')) {
-                      tableData.tableHeaders[i].key = tableData.tableHeaders[i].name;
-                    }
-                  }
-                }
-                // let getData = savedGroupData[savedGroupData.length - 1];
-                let getData: any = '';
-                if (getData?.data) {
-                  if (getData.data.length > 0) {
-                    let groupingArray: any = [];
-                    let updateTableData: any = [];
-                    getData.data.forEach((elem: any) => {
-                      let findData = tableData.tableHeaders.find((item: any) => item.key == elem);
-                      if (findData) {
-                        updateTableData = this.groupedFunc(elem, 'add', findData, groupingArray, tableData.displayData, tableData.tableData, tableData.tableHeaders);
-                      }
-                    })
-                    tableData.tableData = updateTableData;
-                    tableData.displayData = tableData.tableData.length > tableData.end ? tableData.tableData.slice(0, tableData.end) : tableData.tableData;
-                    tableData.tableHeaders.unshift({
-                      name: 'expand',
-                      key: 'expand',
-                      title: 'Expand',
-                    });
-                    tableData.totalCount = tableData.tableData
-                  } else {
-                    // tableData.tableHeaders = tableData.tableHeaders.filter((head: any) => head.key != 'expand')
-                  }
+              //       tableData.tableHeaders = tableData.tableHeaders.concat(propertiesWithoutDataType.filter((item: any) => !tableData.tableHeaders.some((objItem: any) => objItem.key === item.key)));
+              //       // tableData.tableHeaders = obj;
+              //     }
+              //   }
+              //   let CheckKey = tableData.tableHeaders.find((head: any) => !head.key)
+              //   if (CheckKey) {
+              //     for (let i = 0; i < tableData.tableHeaders.length; i++) {
+              //       if (!tableData.tableHeaders[i].hasOwnProperty('key')) {
+              //         tableData.tableHeaders[i].key = tableData.tableHeaders[i].name;
+              //       }
+              //     }
+              //   }
+              //   // let getData = savedGroupData[savedGroupData.length - 1];
+              //   let getData: any = '';
+              //   if (getData?.data) {
+              //     if (getData.data.length > 0) {
+              //       let groupingArray: any = [];
+              //       let updateTableData: any = [];
+              //       getData.data.forEach((elem: any) => {
+              //         let findData = tableData.tableHeaders.find((item: any) => item.key == elem);
+              //         if (findData) {
+              //           updateTableData = this.groupedFunc(elem, 'add', findData, groupingArray, tableData.displayData, tableData.tableData, tableData.tableHeaders);
+              //         }
+              //       })
+              //       tableData.tableData = updateTableData;
+              //       tableData.displayData = tableData.tableData.length > tableData.end ? tableData.tableData.slice(0, tableData.end) : tableData.tableData;
+              //       tableData.tableHeaders.unshift({
+              //         name: 'expand',
+              //         key: 'expand',
+              //         title: 'Expand',
+              //       });
+              //       tableData.totalCount = tableData.tableData
+              //     } else {
+              //       // tableData.tableHeaders = tableData.tableHeaders.filter((head: any) => head.key != 'expand')
+              //     }
 
-                } else {
-                  // tableData.tableHeaders = tableData.tableHeaders.filter((head: any) => head.key != 'expand')
+              //   } else {
+              //     // tableData.tableHeaders = tableData.tableHeaders.filter((head: any) => head.key != 'expand')
 
-                }
-                tableData.pageIndex = 1;
-                if (tableData?.serverSidePagination) {
-                  const start = (tableData.pageIndex - 1) * 10;
-                  // const end = start + 10;
-                  // this.start = start == 0 ? 1 : ((tableData.pageIndex * 10) - 10) + 1;
-                  // this.end = this.displayData.length == tableData.end ? (tableData.pageIndex * tableData.end) : tableData.totalCount;
-                } else {
-                  const start = (tableData.pageIndex - 1) * 10;
-                  const end = start + 10;
-                  tableData.displayData = tableData.tableData.slice(start, end);
-                  tableData.totalCount = tableData.tableData.length;
-                }
+              //   }
+              //   tableData.pageIndex = 1;
+              //   if (tableData?.serverSidePagination) {
+              //     const start = (tableData.pageIndex - 1) * 10;
+              //     // const end = start + 10;
+              //     // this.start = start == 0 ? 1 : ((tableData.pageIndex * 10) - 10) + 1;
+              //     // this.end = this.displayData.length == tableData.end ? (tableData.pageIndex * tableData.end) : tableData.totalCount;
+              //   } else {
+              //     const start = (tableData.pageIndex - 1) * 10;
+              //     const end = start + 10;
+              //     tableData.displayData = tableData.tableData.slice(start, end);
+              //     tableData.totalCount = tableData.tableData.length;
+              //   }
 
-                //This is used when use expand icon from options of grid config to call api.
-                if (tableData.tableHeaders.some((header: any) => header.key === 'expand')) {
-                  tableData.tableData = tableData.tableData.map((row: any) => ({
-                    'expand': false,
-                    ...row
-                  }));
-                  tableData.displayData = tableData.displayData.map((row: any) => ({
-                    'expand': false,
-                    ...row
-                  }));
+              //   //This is used when use expand icon from options of grid config to call api.
+              //   if (tableData.tableHeaders.some((header: any) => header.key === 'expand')) {
+              //     tableData.tableData = tableData.tableData.map((row: any) => ({
+              //       'expand': false,
+              //       ...row
+              //     }));
+              //     tableData.displayData = tableData.displayData.map((row: any) => ({
+              //       'expand': false,
+              //       ...row
+              //     }));
         
-                }
-              }
+              //   }
+              // }
               // this.assignGridRules(tableData);
+            
             }
             this.saveLoader = false;
           }, error: (error: any) => {

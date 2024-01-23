@@ -1096,30 +1096,58 @@ export class PagesComponent implements OnInit, OnDestroy {
   }
   UiRuleCondition(condition: string): boolean {
     const operators: { [key: string]: (a: any, b: any) => boolean } = {
+      
       "==": (a: any, b: any) => a == b,
       "!=": (a: any, b: any) => a != b,
       ">=": (a: any, b: any) => a >= b,
       "<=": (a: any, b: any) => a <= b,
       "=": (a: any, b: any) => a === b,
-      ">": (a: any, b: any) => a > b,
-      "<": (a: any, b: any) => a < b,
+      ">": (a: any, b: any) => {
+        if (typeof a === 'string' && typeof b === 'string') {
+          return a.localeCompare(b) > 0;
+        }
+        return a > b;
+      },
+      "<": (a: any, b: any) => {
+        if (typeof a === 'string' && typeof b === 'string') {
+          return a.localeCompare(b) < 0;
+        }
+        return a < b;
+      },
       "null": (a: any, b: any) => a === null,
       "contains": (a: any, b: any) => a.includes(b),
     };
-
+  
     const logicalOperatorsRegex = /\s+(&&|||)\s+/;
     const conditionParts = condition.split(logicalOperatorsRegex);
-
+  
     const evaluateExpression = (expr: string): boolean => {
       const [leftOperand, operator, rightOperand] = expr.split(/(==|!=|>=|<=|=|>|<|null|contains)/).map(part => part.trim());
-
+  
       if (!operators[operator]) {
         throw new Error(`Unknown operator: ${operator}`);
       }
-
+  
+      // Handle string comparisons for > and <
+      if (operator === '>' || operator === '<') {
+        // Check if leftOperand is a string containing a numeric value
+        const convertedLeftOperand = Number(leftOperand.replace(/'/g, '')) || leftOperand;
+    
+        // Check if rightOperand is a string containing a numeric value
+        const convertedRightOperand = Number(rightOperand.replace(/'/g, '')) || rightOperand;
+    
+        if (typeof convertedLeftOperand === 'string' && typeof convertedRightOperand === 'string') {
+            return operator === '>' ? convertedLeftOperand.localeCompare(convertedRightOperand) > 0 : convertedLeftOperand.localeCompare(convertedRightOperand) < 0;
+        }
+        else{
+          return operators[operator](convertedLeftOperand, convertedRightOperand);
+        }
+    }
+    
+  
       return operators[operator](leftOperand, rightOperand);
     };
-
+  
     const evaluateCondition = (condition: string): boolean => {
       if (condition.includes("&&")) {
         const subConditions = condition.split(" && ");
@@ -1131,9 +1159,10 @@ export class PagesComponent implements OnInit, OnDestroy {
         return evaluateExpression(condition);
       }
     };
-
+  
     return evaluateCondition(condition);
   }
+  
   parseOperand(operand: string): any {
     const trimmedOperand = operand.trim();
     if (/^[-+]?(\d+(\.\d*)?|\.\d+)$/.test(trimmedOperand)) {
