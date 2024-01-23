@@ -107,24 +107,7 @@
                         </button>
                     </div>
                 </form>
-                <div>
-                      
-                    <div class="toolbar-spacer"></div>
-                  
-                    <button class="w-full sm:!w-[350px] bg-[#ffd300]  !rounded-md text-black font-bold py-2 mt-4 px-4 !h-[46px]" 
-                     (click)="login()">Microsoft Login</button>
-                    <!-- <button class="w-full sm:!w-[350px] bg-[#ffd300]  !rounded-md text-black font-bold py-2 mt-4 px-4 !h-[46px]" *ngIf="loginDisplay" (click)="logout()">Logout</button> -->
-                  <div class="container">
-                    <!--This is to avoid reload during acquireTokenSilent() because of hidden iframe -->
-                    <router-outlet *ngIf="!isIframe"></router-outlet>
-                  </div>
-                  
-                  <footer *ngIf="loginDisplay">
-                      <div class="footer-text">
-                        How did we do? <a href="https://forms.office.com/Pages/ResponsePage.aspx?id=v4j5cvGGr0GRqy180BHbR73pcsbpbxNJuZCMKN0lURpUOU5PNlM4MzRRV0lETkk2ODBPT0NBTEY5MCQlQCN0PWcu" target="_blank"> Share your experience with us!</a>
-                      </div>
-                  </footer>
-                 </div>
+
                 <nz-divider nzText="Or Sign Up with"
                     class="!text-xs not-italic font-normal leading-[19.2px]"></nz-divider>
 
