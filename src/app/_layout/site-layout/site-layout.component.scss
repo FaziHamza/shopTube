@@ -140,7 +140,7 @@ nz-footer {
 
 .dynamic-footer {
   position: fixed;
-  width: calc(100% - 60px);
+  // width: calc(100% - 60px);
   z-index: 1000;
   display: block;
   bottom: 0;
@@ -152,4 +152,7 @@ nz-footer {
   z-index: 1000;
   display: block;
   bottom: 0;
+}
+#Content{
+  margin-bottom: var(dynamic);
 }
