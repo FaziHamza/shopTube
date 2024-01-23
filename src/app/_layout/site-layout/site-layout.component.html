@@ -56,7 +56,7 @@
                 [theme]="selectedTheme['inPageMenu']"></st-layout-tabs-dropdown>
             </ng-container>
           </ng-container>
-          <div class="content" id='Content'>
+          <div class="content" id='Content' [style.margin-bottom]='constentMarging'>
             <router-outlet></router-outlet>
           </div>
           <div id="FOOTER" 

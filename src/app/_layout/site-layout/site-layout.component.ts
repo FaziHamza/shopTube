@@ -21,7 +21,7 @@ export class SiteLayoutComponent implements OnInit {
   headerHeight: number;
   footerHeight: number;
   @ViewChild('footerContainer') footerContainer: ElementRef;
-  dynamic :number;
+  dynamic: number;
   currentHeader: any = undefined;
   logo: any;
   currentFooter: any = undefined;
@@ -40,6 +40,7 @@ export class SiteLayoutComponent implements OnInit {
   domainData: any;
   isShowContextMenu = false;
   hideHeaderFooterMenu = false;
+  constentMarging:any = '0px';
   newSelectedTheme = {
     menuMode: 'inline',
     layout: 'vertical',
@@ -161,9 +162,9 @@ export class SiteLayoutComponent implements OnInit {
   ngAfterViewInit() {
     setTimeout(() => {
       this.updateHeaderHeight();
-    }, 15000)
+    }, 10000)
 
-    const container = this.footerContainer.nativeElement;
+    // const container = this.footerContainer.nativeElement;
     // if (container.classList.contains('dynamic-footer') || container.classList.contains('dynamic-footer-website')) {
     //   this.dynamic = true;
     // }
@@ -172,6 +173,7 @@ export class SiteLayoutComponent implements OnInit {
 
 
   updateHeaderHeight() {
+    debugger
     if (this.el.nativeElement.querySelector('#HEADER')) {
       const headerElement = this.el.nativeElement.querySelector('#HEADER');
       this.headerHeight = headerElement.clientHeight;
@@ -184,13 +186,19 @@ export class SiteLayoutComponent implements OnInit {
       this.footerHeight = footerElement.clientHeight;
       console.log(this.footerHeight);
     }
-         
+
     if (this.el.nativeElement.querySelector('#Content')) {
-      debugger
+      debugger;
       const contentElement = this.el.nativeElement.querySelector('#Content');
       this.dataSharedService.contentHeight = contentElement.clientHeight;
-      contentElement.style.marginBottom = this.footerHeight + 'px';  
-      }
+      this.constentMarging = this.footerHeight.toString() + 'px';
+      // Corrected assignment without spaces around the value and !important after the semicolon
+      // contentElement.style.marginBottom = this.footerHeight.toString() + 'px';
+
+      console.log(contentElement.style.marginBottom);
+    }
+
+
 
     this.dataSharedService.measureHeight = window.innerHeight - (this.headerHeight + this.footerHeight + 10);
 
@@ -231,7 +239,7 @@ export class SiteLayoutComponent implements OnInit {
               this.dataSharedService.applicationGlobalClass = res.data['applicationGlobalClasses'];
             }
             this.currentWebsiteLayout = res.data.appication['applicationtype'] ? res.data.appication['applicationtype'] : 'backend_application';
-            this.currentHeader = res.data['header'] ? res.data['header']['screendata'] :'';
+            this.currentHeader = res.data['header'] ? res.data['header']['screendata'] : '';
             this.currentFooter = res.data['footer'] ? res.data['footer']['screendata'] : '';
             if (res.data['menu']) {
               if (this.selectedTheme && res.data['menu']?.selectedTheme) {

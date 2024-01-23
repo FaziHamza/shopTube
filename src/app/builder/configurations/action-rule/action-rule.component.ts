@@ -51,6 +51,7 @@ export class ActionRuleComponent implements OnInit {
   nodeList: { title: string, key: string }[] = [];
   emailToOptions: any[] = [];
   emailNameOptions: any = [];
+  screenOptions: any = [];
   constructor(private formBuilder: FormBuilder, private builderService: BuilderService,
     private employeeService: EmployeeService,
     public dataSharedService: DataSharedService, private toastr: NzMessageService,
@@ -59,6 +60,7 @@ export class ActionRuleComponent implements OnInit {
   ngOnInit(): void {
     // this.getPendingTableFileds();
     this.actionFormLoad();
+    this.getScreens();
     this.getEmailTemplates();
     this.getActionData();
     this.extractNodes(this.nodes, this.nodeList);
@@ -79,7 +81,7 @@ export class ActionRuleComponent implements OnInit {
   }
   extractEmailNodes(nodes: any[]) {
     for (const node of nodes) {
-      if (node.type === 'emailInput') {
+      if (node.type === 'email') {
         let label = node.title || node.key; // Using node.title if available, otherwise using node.key
         let obj = {
           'label': label,
@@ -326,6 +328,7 @@ export class ActionRuleComponent implements OnInit {
         contentType: [''],
         emailto: [],
         emailtype: [''],
+        pagelink: [''],
         emailbulkindividual: [''],
         emailtemplate: [''],
         emailfrom: [''],
@@ -466,9 +469,10 @@ export class ActionRuleComponent implements OnInit {
         "submit": element.submit,
         "type": element.type,
         "sqlType": element.sqlType,
-        "email": element.email,
+        "email": (element?.emailsendingtype == 'query' ? element.email : ''),
         "emailto": element?.emailto ? JSON.stringify(element?.emailto) : '',
         "emailtype": element?.emailtype,
+        "pagelink": (element.emailtype == 'token' ? element?.pagelink : ''),
         "emailbulkindividual": element?.emailbulkindividual,
         "emailfrom": element?.emailfrom,
         "emailsendingtype": element?.emailsendingtype,
@@ -551,6 +555,7 @@ export class ActionRuleComponent implements OnInit {
                     contentType: [getQueryActionRes.contenttype],
                     emailto: getQueryActionRes?.emailto ? [JSON.parse(getQueryActionRes?.emailto)] : [],
                     emailtype: [getQueryActionRes?.emailtype],
+                    pagelink: [getQueryActionRes?.pagelink],
                     emailbulkindividual: [getQueryActionRes?.emailbulkindividual],
                     emailtemplate: [getQueryActionRes?.emailtemplate],
                     emailsendingtype: [getQueryActionRes?.emailsendingtype],
@@ -688,7 +693,26 @@ export class ActionRuleComponent implements OnInit {
             value: res.id,
           }));
         }
-      } 
+      }
+    });
+  }
+  getScreens() {
+    this.saveLoader = true;
+    this.applicationService.getNestNewCommonAPI(`cp/ScreenBuilder`).subscribe({
+      next: (res: any) => {
+        this.saveLoader = false;
+        if (res.isSuccess && res?.data.length > 0) {
+          this.toastr.success(`Screen : ${res.message}`, { nzDuration: 3000 });
+          this.screenOptions = res.data.map((res: any) => ({
+            label: res.name,
+            value: res.navigate,
+          }));
+        }
+      },
+      error: (err) => {
+        this.toastr.error(`Screen : An error occured`, { nzDuration: 3000 });
+        this.saveLoader = false;
+      },
     });
   }
 }

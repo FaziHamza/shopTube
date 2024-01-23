@@ -898,6 +898,7 @@ export class BuilderComponent implements OnInit {
   formlyModel: any;
   faker: boolean = false;
   makeFaker(check?: boolean) {
+    debugger
     this.iconActive = 'faker';
     let dataModelFaker: any = [];
     if (this.nodes.length > 0) {
@@ -1860,7 +1861,7 @@ export class BuilderComponent implements OnInit {
         case 'chat':
           newNode = { ...newNode, ...this.addControlService.getChatControl() };
           break;
-        case 'email':
+        case 'email_template':
           newNode = { ...newNode, ...this.addControlService.getEmailControl() };
           break;
         case 'taskManager':
@@ -3253,6 +3254,7 @@ export class BuilderComponent implements OnInit {
       case 'week':
       case 'color':
       case 'input':
+      case 'email':
       case 'inputGroup':
       case 'image':
       case 'textarea':
@@ -4522,6 +4524,7 @@ export class BuilderComponent implements OnInit {
       case 'checkbox':
       case 'decimal':
       case 'input':
+      case 'email':
       case 'inputGroup':
       case 'image':
       case 'telephone':
