@@ -573,7 +573,7 @@ export class BuilderComponent implements OnInit {
             this.builderscreendata = [res.data[0]];
             // this.navigation = '';
             this.showActionRule = true;
-            const objScreenData =res.data[0].screendata;
+            const objScreenData = res.data[0].screendata;
             this.isSavedDb = true;
             // this.moduleId = res[0].moduleId;
             // this.formlyModel = {};
@@ -2716,10 +2716,10 @@ export class BuilderComponent implements OnInit {
           ...mapping,
           'SelectQBOField': []
         }));
+        this.selectedNode['tableHeader'] = [];
+        this.selectedNode['tableKey'] = [];
+        this.selectedNode['checkDatas'] = [];
       }
-      // this.selectedNode['tableHeader'] = [];
-      // this.selectedNode['tableKey'] = [];
-      // this.selectedNode['checkDatas'] = [];
 
     }
 
@@ -3264,6 +3264,7 @@ export class BuilderComponent implements OnInit {
       case 'multiFileUploader':
       case 'audioVideoRecorder':
       case 'image':
+      case 'signaturePad':
         configObj = {
           ...configObj,
           ...this.clickButtonService.getFormlyConfig(selectedNode),
@@ -3315,6 +3316,9 @@ export class BuilderComponent implements OnInit {
 
         this.fieldData.commonData?.push(obj);
         switch (type) {
+          case 'signaturePad':
+            this.fieldData.commonData?.push({ title: 'Signature Pad Fields', data: _formFieldData.signaturePad });
+            break;
           case 'search':
             this.fieldData.commonData?.push({ title: 'Select Fields', data: _formFieldData.selectFields });
             break;
@@ -4538,6 +4542,7 @@ export class BuilderComponent implements OnInit {
       case 'audioVideoRecorder':
       case 'image':
       case 'cascader':
+      case 'signaturePad':
         if (this.selectedNode) {
           needToUpdate = false;
 
@@ -4577,7 +4582,7 @@ export class BuilderComponent implements OnInit {
                   formlyData.type
                 );
                 // this.selectedNode['key'] = event.form.event.form.formlyTypes.configType.toLowerCase() + "_" + Guid.newGuid();
-                // this.selectedNode['id'] = this.screenname + "_" + event.form.event.form.formlyTypes.parameter.toLowerCase() + "_" + Guid.newGuid();
+                // this.selectedNode['id'] = this.screenName + "_" + event.form.event.form.formlyTypes.parameter.toLowerCase() + "_" + Guid.newGuid();
               }
             }
 
@@ -4732,6 +4737,12 @@ export class BuilderComponent implements OnInit {
             props['additionalProperties']['hoverBrowseButtonColor'] = event.form?.hoverBrowseButtonColor;
             props['additionalProperties']['expandTrigger'] = event.form?.expandTrigger;
             props['additionalProperties']['applicationThemeClasses'] = event.form?.applicationThemeClasses;
+            props['additionalProperties']['wrapperLabelClass'] = event.form?.wrapperLabelClass;
+            props['additionalProperties']['wrapperInputClass'] = event.form?.wrapperInputClass;
+            props['additionalProperties']['showAddButton'] = event.form?.showAddButton;
+            props['additionalProperties']['signatureClearButtonClass'] = event.form?.signatureClearButtonClass;
+            props['additionalProperties']['signatureAddButtonClass'] = event.form?.signatureAddButtonClass;
+            props['additionalProperties']['height'] = event.form?.height;
             if (event.form?.browserButtonColor) {
               document.documentElement.style.setProperty('--browseButtonColor', event.form?.browserButtonColor || '#2563EB');
             }
@@ -6094,10 +6105,22 @@ export class BuilderComponent implements OnInit {
           fieldGroup[0].className = formValues.sectionClassName;
         }
         if (formValues.wrappers) {
+          if (fieldGroup[0].props['additionalProperties']['wrapper'] != formValues.wrappers) {
+            if (formValues.wrappers == 'formly-vertical-theme-wrapper') {
+              fieldGroup[0].props['additionalProperties']['wrapperLabelClass'] = 'w-1/3 py-2 col-form-label relative column-form-label'
+              fieldGroup[0].props['additionalProperties']['wrapperInputClass'] = 'w-2/3 column-form-input form-control-style v-body-border'
+            }
+            if (formValues.wrappers == 'form-field-horizontal') {
+              fieldGroup[0].props['additionalProperties']['wrapperLabelClass'] = ''
+              fieldGroup[0].props['additionalProperties']['wrapperInputClass'] = '';
+            }
+            if (formValues.wrappers == 'formly-vertical-wrapper') {
+              fieldGroup[0].props['additionalProperties']['wrapperLabelClass'] = 'label-style relative col-form-label pl-1'
+              fieldGroup[0].props['additionalProperties']['wrapperInputClass'] = 'mt-1 pl-2'
+            }
+          }
           fieldGroup[0].wrappers = [formValues.wrappers];
-          fieldGroup[0].props['additionalProperties']['wrapper'] = [
-            formValues.wrappers,
-          ][0];
+          fieldGroup[0].props['additionalProperties']['wrapper'] = [formValues.wrappers][0];
           if (formValues.wrappers == 'floating_filled' || formValues.wrappers == 'floating_outlined' || formValues.wrappers == 'floating_standard') {
             fieldGroup[0].props['additionalProperties']['size'] = 'default';
             fieldGroup[0].props['additionalProperties']['addonRight'] = '';
@@ -6380,7 +6403,7 @@ export class BuilderComponent implements OnInit {
       });
     }
   }
- 
+
   saveInDB() {
     let mainArray: any[] = [];
     for (let i = 0; i < Object.keys(this.formlyModel).length; i++) {

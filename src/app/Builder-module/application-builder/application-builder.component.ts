@@ -969,7 +969,7 @@ export class ApplicationBuilderComponent implements OnInit {
     });
   }
   callDesignStudio() {
-    this.applicationService.getNestNewCommonAPI(`cp/applications/cloneApplicationData/app`).subscribe(((res: any) => {
+    this.applicationService.getNestNewCommonAPI(`cp/applications/cloneApplicationData/department`).subscribe(((res: any) => {
       if (res.isSuccess) {
         this.designStudio = res.data;
       } else
