@@ -61,6 +61,7 @@ import { TaskManagerComponent } from './components/task-manager/task-manager.com
 import { SignaturePadModule } from 'angular2-signaturepad';
 import { SignatureModalComponent } from './components/signature-modal/signature-modal.component';
 import { ResizableModule } from './components/resizable/resizable.module';
+import { EmailTemplatesComponent } from './builder/configurations/email-templates/email-templates.component';
 
 const antDesignIcons = AllIcons as {
   [key: string]: IconDefinition;
@@ -83,6 +84,7 @@ const icons: IconDefinition[] = Object.keys(antDesignIcons).map(key => antDesign
     PolicyComponent,
     PolicyMappingComponent,
     UserMappingComponent,
+    EmailTemplatesComponent,
     PolicyMappingTableComponent,
     NgxGraphNodeComponent,
     ApplicationGlobalClassesComponent,

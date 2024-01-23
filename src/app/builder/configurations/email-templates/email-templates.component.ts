@@ -14,8 +14,10 @@ export class EmailTemplatesComponent {
   imagePath = environment.nestImageUrl;
   loader: boolean = false;
   emailTemplateId: any = '';
-  @Input() screenName: any;
-  @Input() screenId: any;
+  // @Input() screenName: any;
+  // @Input() nodes: any;
+  // @Input() screenId: any;
+  emailToOptions: any[] = [];
   constructor(private fb: FormBuilder, private applicationService: ApplicationService, private toastr: NzMessageService) {
     this.emailForm = this.fb.group({
       fields: this.fb.array([
@@ -25,7 +27,23 @@ export class EmailTemplatesComponent {
   }
   ngOnInit(): void {
     this.getEmailTemplates();
+    // this.extractEmailNodes(this.nodes);
   }
+  // extractEmailNodes(nodes: any[]) {
+  //   for (const node of nodes) {
+  //     if (node.type === 'emailInput') {
+  //       let label = node.title || node.key; // Using node.title if available, otherwise using node.key
+  //       let obj = {
+  //         'label': label,
+  //         'value': node.key,
+  //       };
+  //       this.emailToOptions.push(obj);
+  //     }
+  //     if (node.children && node.children.length > 0) {
+  //       this.extractEmailNodes(node.children);
+  //     }
+  //   }
+  // }
   createField(): FormGroup {
     return this.fb.group({
       name: ['', Validators.required],
@@ -33,7 +51,8 @@ export class EmailTemplatesComponent {
       image: [''],
       imagePath: [''],
       _id: [''],
-      templateType: ['', Validators.required]
+      templateType: ['', Validators.required],
+      emailTo: [],
     });
   }
 
@@ -82,12 +101,13 @@ export class EmailTemplatesComponent {
     let saveData: any[] = [];
     this.emailForm.value.fields.forEach((element: any) => {
       const emailData: any = {
-        "screenName": this.screenName,
+        // "screenName": this.screenName,
         "applicationId": JSON.parse(localStorage.getItem('applicationId')!),
-        "screenBuilderId": this.screenId,
+        // "screenBuilderId": this.screenId,
         "emailTemplate": element?.emailTemplate,
         "name": element?.name,
         "templateType": element?.templateType,
+        // "emailTo": element?.emailTo ? element?.emailTo : [],
       }
       if (element._id) {
         emailData['_id'] = element._id;
@@ -97,7 +117,7 @@ export class EmailTemplatesComponent {
 
 
     this.loader = true;
-    this.applicationService.addNestCommonAPI('cp/deleteEmailTemplate/' + this.screenId, saveData).subscribe({
+    this.applicationService.addNestCommonAPI('cp/deleteEmailTemplate/updateEmail', saveData).subscribe({
       next: (allResults: any) => {
         this.loader = false;
         if (allResults) {
@@ -130,9 +150,9 @@ export class EmailTemplatesComponent {
   }
 
   getEmailTemplates() {
-    
+
     this.loader = true;
-    this.applicationService.getNestCommonAPIById('cp/emailTemplates', this.screenId).subscribe((getRes: any) => {
+    this.applicationService.getNestCommonAPI('cp/emailTemplates').subscribe((getRes: any) => {
       this.loader = false;
       if (getRes.isSuccess) {
         getRes.data.forEach((data: any) => {
@@ -145,11 +165,13 @@ export class EmailTemplatesComponent {
             screenName: [data.screenName],
             image: [''],
             imagePath: [''],
-            templateType: [data?.templateType ? data?.templateType : '']
+            templateType: [data?.templateType ?? ''], // Use nullish coalescing operator
+            emailTo: data.emailTo ? [data.emailTo] : [],
           }));
         });
-      } else
+      } else {
         this.toastr.error(getRes.message, { nzDuration: 3000 });
+      }
     });
   }
 
