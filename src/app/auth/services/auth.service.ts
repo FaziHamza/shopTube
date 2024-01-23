@@ -73,6 +73,10 @@ export class AuthService {
     let url = environment.nestNewBaseUrl + "auth/signup";
     return this.http.post(url, model)
   }
+  public registerUserExternal(model: any) {
+    let url = environment.nestNewBaseUrl + "auth/signupExternal";
+    return this.http.post(url, model)
+  }
   public resetpassword(model: any) {
     let url = environment.nestNewBaseUrl + "forgot/resetpassword";
     return this.http.post(url, model)
