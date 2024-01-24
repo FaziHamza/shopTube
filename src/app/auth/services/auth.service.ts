@@ -1,5 +1,5 @@
 import { environment } from './../../../environments/environment';
-import { HttpBackend, HttpClient } from '@angular/common/http';
+import { HttpBackend, HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { BehaviorSubject, Observable, ReplaySubject } from 'rxjs';
@@ -8,6 +8,7 @@ import { BehaviorSubject, Observable, ReplaySubject } from 'rxjs';
 // import { AppResponse } from 'src/app/models/AppResponse';
 import { User } from 'src/app/models/employee';
 import { JwtService } from 'src/app/shared/jwt.service';
+import { SharedUserService } from 'src/app/shared/shared-user.service';
 
 @Injectable({
   providedIn: 'root'
@@ -17,17 +18,25 @@ export class AuthService {
   private isAuthenticatedSubject = new ReplaySubject<boolean>(1)
 
   constructor(private router: Router, private jwtService: JwtService, private http: HttpClient
-    , handler: HttpBackend) { this.http = new HttpClient(handler) }
+    , handler: HttpBackend, private sharedUserService: SharedUserService) { this.http = new HttpClient(handler) }
 
   // 1  Set Auth
   setAuth(user: any) {
     
     // saving JWT sent from Server, in LocalStorage
     this.jwtService.saveToken(user.access_token);
-    window.localStorage['user'] = JSON.stringify(user);
-    window.localStorage['authToken'] = JSON.stringify(user?.access_token);
-    window.localStorage['applicationId'] = JSON.stringify(user?.applicationId);
-    window.localStorage['organizationId'] = JSON.stringify(user?.organizationId);
+    if(user){
+      window.localStorage['user'] = JSON.stringify(user);
+    }
+    if(user?.access_token){
+      window.localStorage['authToken'] = JSON.stringify(user?.access_token);
+    }
+    if(user?.applicationId){
+      window.localStorage['applicationId'] = JSON.stringify(user?.applicationId);
+    }
+    if(user?.organizationId){
+      window.localStorage['organizationId'] = JSON.stringify(user?.organizationId);
+    }
 
 
     // set current user data into  Observable
@@ -65,7 +74,7 @@ export class AuthService {
 
   //   Login:
   public forgotUser(model: any) {
-    let url = environment.nestNewBaseUrl + "forgot";
+    let url = environment.nestNewBaseUrl + "auth/forgot";
     return this.http.post(url, model)
   }
 
@@ -78,7 +87,7 @@ export class AuthService {
     return this.http.post(url, model)
   }
   public resetpassword(model: any) {
-    let url = environment.nestNewBaseUrl + "forgot/resetpassword";
+    let url = environment.nestNewBaseUrl + "auth/resetpassword";
     return this.http.post(url, model)
   }
   getNestCommonAPI(api: string): Observable<any> {
@@ -96,12 +105,29 @@ export class AuthService {
       api.includes('http') ? api : environment.nestBaseUrl + api, modal
     );
   }
+  getUserInfo(token: any) :any{
+    let url = environment.nestNewBaseUrl + 'user/info';
+
+    // Assuming you have a function to retrieve the authorization token
+    const authToken = this.getAuthToken(token);
+
+    // Set the authorization token in the headers
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${authToken}`);
+
+    return this.http.get(url, { headers });
+  }
+
+  private getAuthToken(token: string): string {
+    // Implement the logic to retrieve the authorization token (e.g., from local storage)
+    // Replace the following line with your actual implementation
+    return token;
+  }
   // Register
   // public userRegister(model: LoginModel) {
-    
+
   //   // model["userName"] = model["email"];
   //   let url = environment.administration + ApiConstants.apiEndPoints.auth.register;
   //   return this.http.post(url, model);
   // }
-  
+
 }

@@ -3,6 +3,7 @@ import { ActivatedRoute, NavigationEnd, Params, Router } from '@angular/router';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { NzModalService } from 'ng-zorro-antd/modal';
 import { Subject, Subscription, filter, forkJoin } from 'rxjs';
+import { AuthService } from 'src/app/auth/services/auth.service';
 import { CommentModalComponent } from 'src/app/components';
 import { Guid } from 'src/app/models/guid';
 import { ApplicationService } from 'src/app/services/application.service';
@@ -40,7 +41,7 @@ export class SiteLayoutComponent implements OnInit {
   domainData: any;
   isShowContextMenu = false;
   hideHeaderFooterMenu = false;
-  constentMarging:any = '0px';
+  constentMarging: any = '0px';
   newSelectedTheme = {
     menuMode: 'inline',
     layout: 'vertical',
@@ -75,7 +76,7 @@ export class SiteLayoutComponent implements OnInit {
   private destroy$: Subject<void> = new Subject<void>();
   constructor(private applicationService: ApplicationService, private renderer: Renderer2, private el: ElementRef, public dataSharedService: DataSharedService, public builderService: BuilderService,
     private toastr: NzMessageService, private router: Router, private activatedRoute: ActivatedRoute, private cd: ChangeDetectorRef, private modalService: NzModalService,
-    private viewContainerRef: ViewContainerRef) {
+    private viewContainerRef: ViewContainerRef, private authService: AuthService) {
     this.requestSubscription = this.dataSharedService.localhostHeaderFooter.subscribe({
       next: (res) => {
         if (res) {
@@ -92,6 +93,7 @@ export class SiteLayoutComponent implements OnInit {
   ngOnInit(): void {
     this.dataSharedService.measureHeight = 0;
     // this.getTaskManagementIssuesFunc(JSON.parse(localStorage.getItem('applicationId')!));
+
     this.currentUser = JSON.parse(localStorage.getItem('user')!);
     this.requestSubscription = this.dataSharedService.collapseMenu.subscribe({
       next: (res) => {
@@ -109,6 +111,7 @@ export class SiteLayoutComponent implements OnInit {
         console.error(err);
       }
     })
+
     this.currentUrl = window.location.host;
     if (this.currentUrl.includes('localhost')) {
       this.currentWebsiteLayout = "backend_application";
@@ -122,9 +125,23 @@ export class SiteLayoutComponent implements OnInit {
 
     this.fullCurrentUrl = window.location.host.split(':')[0];
     this.currentUrl = window.location.host.split(':')[0];
+    if (window.location.search.includes('token=')) {
+      const getToken = window.location.search.split('token=')[1];
+      debugger
+      this.authService.getUserInfo(getToken).subscribe((response:any) => {
+        if (response) {
+          localStorage.setItem('isLoggedIn', 'true');
+          this.authService.setAuth(response.data);
+          this.getMenuByDomainName(this.currentUrl, true);
+          this.router.navigate([window.location.pathname]);
+        }
+      })
+    } else {
+      this.getMenuByDomainName(this.currentUrl, true);
+
+    }
     // this.fullCurrentUrl = window.location.host.includes('spectrum') ? '172.23.0.8' : window.location.host.split(':')[0];
     // this.currentUrl = window.location.host.includes('spectrum') ? '172.23.0.8' : window.location.host.split(':')[0];
-    this.getMenuByDomainName(this.currentUrl, true);
 
     // if (!this.currentUrl.includes('localhost')) {
     //   let check = this.currentUrl.includes(':');
@@ -217,6 +234,7 @@ export class SiteLayoutComponent implements OnInit {
 
 
   getMenuByDomainName(domainName: any, allowStoreId: boolean) {
+    debugger
     try {
       this.loader = true;
       this.requestSubscription = this.builderService.getApplicationByNewDomainName(domainName).subscribe({
