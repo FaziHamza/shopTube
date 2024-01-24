@@ -59,7 +59,21 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
 import { ApplicationGlobalClassesComponent } from './Builder-module/application-global-classes/application-global-classes.component';
 import { TaskManagerComponent } from './components/task-manager/task-manager.component';
 import { EmailTemplatesComponent } from './builder/configurations/email-templates/email-templates.component';
-
+import { IPublicClientApplication, PublicClientApplication, InteractionType } from '@azure/msal-browser';
+import { MsalGuard, MsalBroadcastService, MsalModule, MsalService, MSAL_GUARD_CONFIG, MSAL_INSTANCE, MsalGuardConfiguration, MsalRedirectComponent } from '@azure/msal-angular';
+import { msalConfig } from './auth-config';
+export function MSALInstanceFactory(): IPublicClientApplication {
+  return new PublicClientApplication(msalConfig);
+}
+/**
+ * Set your default interaction type for MSALGuard here. If you have any
+ * additional scopes you want the user to consent upon login, add them here as well.
+ */
+export function MSALGuardConfigFactory(): MsalGuardConfiguration {
+  return { 
+    interactionType: InteractionType.Redirect,
+  };
+}
 
 const antDesignIcons = AllIcons as {
   [key: string]: IconDefinition;
@@ -122,6 +136,7 @@ const icons: IconDefinition[] = Object.keys(antDesignIcons).map(key => antDesign
         deps: [HttpClient]
       }
     }),
+    MsalModule
     // NzIconModule.forRoot([ SettingOutline  ]),
   ],
   providers: [
@@ -151,7 +166,18 @@ const icons: IconDefinition[] = Object.keys(antDesignIcons).map(key => antDesign
         siteKey: environment.recaptcha.siteKey,
       } as RecaptchaSettings,
     },
+    {
+      provide: MSAL_INSTANCE,
+      useFactory: MSALInstanceFactory
+    },
+    {
+      provide: MSAL_GUARD_CONFIG,
+      useFactory: MSALGuardConfigFactory
+    },
+    MsalService,
+    MsalGuard,
+    MsalBroadcastService
   ],
-  bootstrap: [AppComponent],
+  bootstrap: [AppComponent,MsalRedirectComponent],
 })
 export class AppModule { }

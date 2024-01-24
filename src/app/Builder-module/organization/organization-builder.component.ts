@@ -331,7 +331,6 @@ export class organizationBuilderComponent implements OnInit {
           organizationModel
         );
       this.drawerLoader = true;
-      return;
       addOrUpdateOrganization$.subscribe((res: any) => {
         try {
           this.drawerLoader =  false;
