@@ -1,5 +1,5 @@
 import { environment } from './../../../environments/environment';
-import { HttpBackend, HttpClient } from '@angular/common/http';
+import { HttpBackend, HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { BehaviorSubject, Observable, ReplaySubject } from 'rxjs';
@@ -104,6 +104,23 @@ export class AuthService {
     return this.http.post<any>(
       api.includes('http') ? api : environment.nestBaseUrl + api, modal
     );
+  }
+  getUserInfo(token: any) :any{
+    let url = environment.nestNewBaseUrl + 'user/info';
+
+    // Assuming you have a function to retrieve the authorization token
+    const authToken = this.getAuthToken(token);
+
+    // Set the authorization token in the headers
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${authToken}`);
+
+    return this.http.get(url, { headers });
+  }
+
+  private getAuthToken(token: string): string {
+    // Implement the logic to retrieve the authorization token (e.g., from local storage)
+    // Replace the following line with your actual implementation
+    return token;
   }
   // Register
   // public userRegister(model: LoginModel) {
