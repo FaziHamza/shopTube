@@ -18,18 +18,25 @@ export class AuthService {
   private isAuthenticatedSubject = new ReplaySubject<boolean>(1)
 
   constructor(private router: Router, private jwtService: JwtService, private http: HttpClient
-    , handler: HttpBackend,private sharedUserService:SharedUserService) { this.http = new HttpClient(handler) }
+    , handler: HttpBackend, private sharedUserService: SharedUserService) { this.http = new HttpClient(handler) }
 
   // 1  Set Auth
   setAuth(user: any) {
     
     // saving JWT sent from Server, in LocalStorage
     this.jwtService.saveToken(user.access_token);
-    this.sharedUserService.setAppLication(user);
-    this.sharedUserService.getAppLication(user);
-    window.localStorage['user'] = JSON.stringify(user);
-    window.localStorage['authToken'] = JSON.stringify(user?.access_token);
-    window.localStorage['organizationId'] = JSON.stringify(user?.organizationId);
+    if(user){
+      window.localStorage['user'] = JSON.stringify(user);
+    }
+    if(user?.access_token){
+      window.localStorage['authToken'] = JSON.stringify(user?.access_token);
+    }
+    if(user?.applicationId){
+      window.localStorage['applicationId'] = JSON.stringify(user?.applicationId);
+    }
+    if(user?.organizationId){
+      window.localStorage['organizationId'] = JSON.stringify(user?.organizationId);
+    }
 
 
     // set current user data into  Observable
@@ -100,10 +107,10 @@ export class AuthService {
   }
   // Register
   // public userRegister(model: LoginModel) {
-    
+
   //   // model["userName"] = model["email"];
   //   let url = environment.administration + ApiConstants.apiEndPoints.auth.register;
   //   return this.http.post(url, model);
   // }
-  
+
 }

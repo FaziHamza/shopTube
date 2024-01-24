@@ -15,12 +15,12 @@ export class SharedUserService {
     }
     return this._user;
   }
-  setAppLication(user: any) {
-    var result = CryptoJS.AES.encrypt(user?.applicationId, this.encryptSecretKey).toString();
-    window.localStorage['applicationId'] = JSON.stringify(result);
+  encryptValue(property: any, value: any, stringify: any) {
+    var result = CryptoJS.AES.encrypt(value, this.encryptSecretKey).toString();
+    window.localStorage[property] = stringify ? JSON.stringify(result) : value;
   }
-  getAppLication(user: any) {
-    const getToken = JSON.parse(window.localStorage['applicationId']);
+  decryptValue(property: any , parse: any) {
+    const getToken = parse ? JSON.parse(window.localStorage[property]) : window.localStorage[property];
     var result = CryptoJS.AES.decrypt(getToken, this.encryptSecretKey).toString(CryptoJS.enc.Utf8);
     return result;
   }
