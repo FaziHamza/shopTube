@@ -8,6 +8,7 @@ import { BehaviorSubject, Observable, ReplaySubject } from 'rxjs';
 // import { AppResponse } from 'src/app/models/AppResponse';
 import { User } from 'src/app/models/employee';
 import { JwtService } from 'src/app/shared/jwt.service';
+import { SharedUserService } from 'src/app/shared/shared-user.service';
 
 @Injectable({
   providedIn: 'root'
@@ -17,16 +18,17 @@ export class AuthService {
   private isAuthenticatedSubject = new ReplaySubject<boolean>(1)
 
   constructor(private router: Router, private jwtService: JwtService, private http: HttpClient
-    , handler: HttpBackend) { this.http = new HttpClient(handler) }
+    , handler: HttpBackend,private sharedUserService:SharedUserService) { this.http = new HttpClient(handler) }
 
   // 1  Set Auth
   setAuth(user: any) {
     
     // saving JWT sent from Server, in LocalStorage
     this.jwtService.saveToken(user.access_token);
+    this.sharedUserService.setAppLication(user);
+    this.sharedUserService.getAppLication(user);
     window.localStorage['user'] = JSON.stringify(user);
     window.localStorage['authToken'] = JSON.stringify(user?.access_token);
-    window.localStorage['applicationId'] = JSON.stringify(user?.applicationId);
     window.localStorage['organizationId'] = JSON.stringify(user?.organizationId);
 
 

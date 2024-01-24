@@ -73,7 +73,7 @@ export class SiteLayoutComponent implements OnInit {
   private destroy$: Subject<void> = new Subject<void>();
   constructor(private applicationService: ApplicationService, private renderer: Renderer2, private el: ElementRef, public dataSharedService: DataSharedService, public builderService: BuilderService,
     private toastr: NzMessageService, private router: Router, private activatedRoute: ActivatedRoute, private cd: ChangeDetectorRef, private modalService: NzModalService,
-    private viewContainerRef: ViewContainerRef) {
+    private viewContainerRef: ViewContainerRef,) {
     this.requestSubscription = this.dataSharedService.localhostHeaderFooter.subscribe({
       next: (res) => {
         if (res) {
@@ -89,6 +89,7 @@ export class SiteLayoutComponent implements OnInit {
   ngOnInit(): void {
     this.dataSharedService.measureHeight = 0;
     // this.getTaskManagementIssuesFunc(JSON.parse(localStorage.getItem('applicationId')!));
+    
     this.currentUser = JSON.parse(localStorage.getItem('user')!);
     this.requestSubscription = this.dataSharedService.collapseMenu.subscribe({
       next: (res) => {
@@ -106,6 +107,7 @@ export class SiteLayoutComponent implements OnInit {
         console.error(err);
       }
     })
+   
     this.currentUrl = window.location.host;
     if (this.currentUrl.includes('localhost')) {
       this.currentWebsiteLayout = "backend_application";
@@ -119,9 +121,16 @@ export class SiteLayoutComponent implements OnInit {
 
     this.fullCurrentUrl = window.location.host.split(':')[0];
     this.currentUrl = window.location.host.split(':')[0];
+    const subscription = this.activatedRoute.params.subscribe((params: Params) => {
+      debugger
+      if (params["schema"]) {
+        
+      }
+      
+    })
+    this.getMenuByDomainName(this.currentUrl, true);
     // this.fullCurrentUrl = window.location.host.includes('spectrum') ? '172.23.0.8' : window.location.host.split(':')[0];
     // this.currentUrl = window.location.host.includes('spectrum') ? '172.23.0.8' : window.location.host.split(':')[0];
-    this.getMenuByDomainName(this.currentUrl, true);
 
     // if (!this.currentUrl.includes('localhost')) {
     //   let check = this.currentUrl.includes(':');
@@ -198,6 +207,7 @@ export class SiteLayoutComponent implements OnInit {
 
 
   getMenuByDomainName(domainName: any, allowStoreId: boolean) {
+    debugger
     try {
       this.loader = true;
       this.requestSubscription = this.builderService.getApplicationByNewDomainName(domainName).subscribe({
