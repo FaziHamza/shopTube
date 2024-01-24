@@ -25,10 +25,9 @@ export class AuthService {
     
     // saving JWT sent from Server, in LocalStorage
     this.jwtService.saveToken(user.access_token);
-    this.sharedUserService.setAppLication(user);
-    this.sharedUserService.getAppLication(user);
     window.localStorage['user'] = JSON.stringify(user);
     window.localStorage['authToken'] = JSON.stringify(user?.access_token);
+    window.localStorage['applicationId'] = JSON.stringify(user?.applicationId);
     window.localStorage['organizationId'] = JSON.stringify(user?.organizationId);
 
 
