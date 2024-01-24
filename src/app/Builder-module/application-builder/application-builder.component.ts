@@ -30,6 +30,7 @@ export class ApplicationBuilderComponent implements OnInit {
   listOfData: any = [];
   listOfDisplayData: any[] = [];
   loading = false;
+  drawerLoader : boolean = false;
   pageSize = 10;
   searchIcon = "search";
   searchValue = '';
@@ -555,22 +556,23 @@ export class ApplicationBuilderComponent implements OnInit {
       if (this.applicationSubmit && key == "applicationid" && this.isSubmit) {
 
         // this.handleCancel();
-        this.loading = true;
+        this.drawerLoader = true;
         const defaultCheck = '/' + this.myForm.value.defaultApplication ?? "''";
         this.applicationService.addNestNewCommonAPI('cp', objDataModel).subscribe({
         // this.applicationService.addNestNewCommonAPI(`applications/clone${defaultCheck}`, this.myForm.value).subscribe({
           next: (res: any) => {
+            this.drawerLoader = false;
             if (res.isSuccess) {
               this.getDepartment();
               this.getApplication();
               this.toastr.success(res.message, { nzDuration: 2000 });
               this.isSubmit = true;
-              this.loading = false;
             } else {
               this.toastr.error(`clone: ${res.message}`, { nzDuration: 3000 });
             }
           },
           error: (err) => {
+            this.drawerLoader = false;
             this.toastr.error(`clone saved, some unhandled exception`, { nzDuration: 3000 });
           }
         });
@@ -586,6 +588,7 @@ export class ApplicationBuilderComponent implements OnInit {
 
       if (action$) {
         action$.subscribe((res: any) => {
+          this.drawerLoader = false;
           if (res.isSuccess) {
             this.getDepartment();
             this.getApplication();
@@ -593,6 +596,7 @@ export class ApplicationBuilderComponent implements OnInit {
             this.toastr.success(res.message, { nzDuration: 2000 });
             this.isSubmit = true;
           } else {
+            this.drawerLoader = false;
             this.toastr.error(res.message, { nzDuration: 2000 });
           }
         });
@@ -969,7 +973,7 @@ export class ApplicationBuilderComponent implements OnInit {
     });
   }
   callDesignStudio() {
-    this.applicationService.getNestNewCommonAPI(`cp/applications/cloneApplicationData/app`).subscribe(((res: any) => {
+    this.applicationService.getNestNewCommonAPI(`cp/applications/cloneApplicationData/department`).subscribe(((res: any) => {
       if (res.isSuccess) {
         this.designStudio = res.data;
       } else

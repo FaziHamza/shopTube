@@ -88,6 +88,7 @@ export class ResetPasswordComponent implements OnInit {
       "token": this.token,
       "verificationCode": this.code,
       "password": this.form.value.password,
+      "domain":window.location.host.split(':')[0]
     }
     if (this.form.valid) {
       this.authService.resetpassword(obj).subscribe({

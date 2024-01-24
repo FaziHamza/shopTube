@@ -67,7 +67,7 @@ export class AuthService {
 
   //   Login:
   public forgotUser(model: any) {
-    let url = environment.nestNewBaseUrl + "forgot";
+    let url = environment.nestNewBaseUrl + "auth/forgot";
     return this.http.post(url, model)
   }
 
@@ -75,8 +75,12 @@ export class AuthService {
     let url = environment.nestNewBaseUrl + "auth/signup";
     return this.http.post(url, model)
   }
+  public registerUserExternal(model: any) {
+    let url = environment.nestNewBaseUrl + "auth/signupExternal";
+    return this.http.post(url, model)
+  }
   public resetpassword(model: any) {
-    let url = environment.nestNewBaseUrl + "forgot/resetpassword";
+    let url = environment.nestNewBaseUrl + "auth/resetpassword";
     return this.http.post(url, model)
   }
   getNestCommonAPI(api: string): Observable<any> {

@@ -128,16 +128,21 @@
       <!-- header -->
       <thead *ngIf="tableHeaders.length > 0" class="desktop-toggle">
         <tr class="desktop-toggle " *ngIf="data?.showColumnHeader == undefined ? true : data?.showColumnHeader">
-          <th [class]="data.tableHeaderClass" style="text-align:center !important"
-            [nzWidth]="deleteditWidth[2]?.width ? deleteditWidth[2].width + 'px' : 'auto'" [class]="data?.thClass"
-            [nzLeft]="data?.startFreezingNumber >= 1" *ngIf="data.showCheckbox" [(nzChecked)]="allChecked"
-            [nzIndeterminate]="indeterminate" (nzCheckedChange)="checkAll($event)"></th>
+          <th nz-resizable nzBounds="window" nzPreview [nzWidth]="deleteditWidth[2]?.width" [nzMinWidth]="60"
+            [class]="data.tableHeaderClass" (nzResizeEnd)="onResize($event, 'checkbox' , false)"
+            style="text-align:center !important" [class]="data?.thClass" [nzLeft]="data?.startFreezingNumber >= 1"
+            *ngIf="data.showCheckbox" [(nzChecked)]="allChecked" [nzIndeterminate]="indeterminate"
+            (nzCheckedChange)="checkAll($event)">
+            <nz-resize-handle nzDirection="right">
+              <div class="right-wrap">
+                <span class="right" nz-icon nzType="more" nzTheme="outline"></span>
+              </div>
+            </nz-resize-handle>
+          </th>
           <ng-container *ngFor="let header of tableHeaders ; let i = index">
             <!-- !border-r-4 !border-gray-200 -->
-
             <th [nzLeft]="allowFreeze(header , i)" nz-resizable nzBounds="window" nzPreview [nzWidth]="header.width"
-              [nzMinWidth]="60" (nzResizeEnd)="onResize($event, header.key)" [class]="data.tableHeaderClass"
-              nz-resizable
+              [nzMinWidth]="60" (nzResizeEnd)="onResize($event, header.key , true)" [class]="data.tableHeaderClass"
               *ngIf="header.key !== 'defaultValue' && (header?.show == true || header?.show === undefined || header?.show === '' || header?.show == 'Yes')">
               <!-- (click)="header?.columnClickApi ? onClickColumn(header.columnClickApi,header): ''" -->
               <div [class]="data?.thClass"
@@ -246,18 +251,23 @@
               </nz-resize-handle>
             </th>
           </ng-container>
-          <th [class]="data.tableHeaderClass"
-            [nzWidth]="deleteditWidth[0]?.width ? deleteditWidth[0].width + 'px' : 'auto'"
-            *ngIf="isAllowEdit(tableHeaders)" [nzRight]="data?.endFreezingNumber >= 2">
-            <div [class]="data?.thClass" class="!text-gray-500 relative !uppercase !text-center"
+          <th [nzRight]="data?.endFreezingNumber >= 2" nz-resizable nzBounds="window" nzPreview
+            [nzWidth]="deleteditWidth[0]?.width" [nzMinWidth]="60" (nzResizeEnd)="onResize($event, 'edit' , false)"
+            [class]="data.tableHeaderClass" *ngIf="isAllowEdit(tableHeaders)">
+            <ng-container [class]="data?.thClass" class="!text-gray-500 relative !uppercase !text-center"
               class="w-auto flex justify-center items-center"
               [style.transform]="data?.rotationDegree &&  'rotate(' + data?.rotationDegree + 'deg)'"
               [style.height]="data?.rotationDegree && '100px'">
               Edit
-            </div>
+            </ng-container>
+            <nz-resize-handle nzDirection="right">
+              <div class="right-wrap">
+                <span class="right" nz-icon nzType="more" nzTheme="outline"></span>
+              </div>
+            </nz-resize-handle>
           </th>
-          <th [class]="data.tableHeaderClass"
-            [nzWidth]="deleteditWidth[1]?.width ? deleteditWidth[1].width + 'px' : 'auto'"
+          <th nz-resizable nzBounds="window" nzPreview [nzWidth]="deleteditWidth[1]?.width" [nzMinWidth]="60"
+            (nzResizeEnd)="onResize($event, 'delete' , false)" [class]="data.tableHeaderClass"
             [nzRight]="data?.endFreezingNumber >= 1"
             *ngIf="tableHeaders.length > 0 && (data?.isDeleteAllow || data?.isDeleteAllow == undefined)">
             <div [class]="data?.thClass" class="!text-gray-500 relative !uppercase !text-center"
@@ -266,6 +276,11 @@
               [style.height]="data?.rotationDegree && '100px'">
               Delete
             </div>
+            <nz-resize-handle nzDirection="right">
+              <div class="right-wrap">
+                <span class="right" nz-icon nzType="more" nzTheme="outline"></span>
+              </div>
+            </nz-resize-handle>
           </th>
         </tr>
       </thead>

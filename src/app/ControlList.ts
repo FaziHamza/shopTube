@@ -236,9 +236,9 @@ export const htmlTabsData = [
               {
                 parameter: "input",
                 icon: "uil uil-file-alt",
-                label: "Input Email",
-                type: 'emailInput',
-                configType: 'emailInput', fieldType: 'emailInput',
+                label: "Email Input",
+                type: 'email',
+                configType: 'email', fieldType: 'email',
               },
               // {
               //   parameter: "input",
@@ -1606,9 +1606,9 @@ export const htmlTabsData = [
                 isLeaf: true
               },
               {
-                parameter: "email",
+                parameter: "email_template",
                 icon: "uil uil-file-alt",
-                label: "Email",
+                label: "Email Template",
                 isLeaf: true
               },
               {

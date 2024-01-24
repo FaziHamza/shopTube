@@ -87,7 +87,7 @@ export class DynamicTableComponent implements OnInit {
   // nzScrollConfig: { x: string } = { x: '1100px' };
   rotationDegree: number = -45;
   editData: any;
-  deleteditWidth: any = [{ label: 'Edit', Width: '' }, { label: 'Delete', Width: '' }, { label: 'Checkbox', Width: '' }
+  deleteditWidth: any = [{ label: 'Edit', width: '60px', key: 'edit' }, { label: 'Delete', width: '', key: 'delete' }, { label: 'Checkbox', width: '', key: 'checkbox' }
   ]
   borderColor = '#3b82f6';
   backgroundColor = 'red';
@@ -945,7 +945,7 @@ export class DynamicTableComponent implements OnInit {
       }
       const newRow = JSON.parse(JSON.stringify(this.tableData[0]));
       newRow["id"] = this.tableData[id].id + 1;
-     delete newRow?.id;
+      delete newRow?.id;
       delete newRow?.__v;
       newRow['editabeRowAddNewRow'] = true;
       this.tableData.unshift(newRow);
@@ -1368,7 +1368,7 @@ export class DynamicTableComponent implements OnInit {
         })
       }
       else {
-let url = 'knex-query/getexecute-rules/' + this.data.eventActionconfig.id;
+        let url = 'knex-query/getexecute-rules/' + this.data.eventActionconfig.id;
         if (this.childDataObj) {
           let findExpandKeyHead = (this.data.tableHeaders || this.tableHeaders).find((head: any) => head.key == 'expand');
           if (findExpandKeyHead) {
@@ -2185,7 +2185,7 @@ let url = 'knex-query/getexecute-rules/' + this.data.eventActionconfig.id;
             modalData: newDataModel
           };
 
-         let url = findClickApi[0]?.id ? `knex-query/executeDelete-rules/${findClickApi[0]?.id}` : '';
+          let url = findClickApi[0]?.id ? `knex-query/executeDelete-rules/${findClickApi[0]?.id}` : '';
           if (url) {
             this.saveLoader = true;
             this.requestSubscription = this.applicationServices.addNestCommonAPI(url, model).subscribe({
@@ -3034,6 +3034,16 @@ let url = 'knex-query/getexecute-rules/' + this.data.eventActionconfig.id;
           }
         });
       }
+      const deleteditWidthresizing = localStorage.getItem(`${this.screenId}-deleteditWidth`);
+      if (deleteditWidthresizing) {
+        const parseResizingData = JSON.parse(deleteditWidthresizing);
+        this.deleteditWidth.forEach((element1: any) => {
+          const matchingElement = parseResizingData.find((element: any) => element.key === element1.key);
+          if (matchingElement) {
+            element1.width = matchingElement.width;
+          }
+        });
+      }
       this.tableHeaders.forEach((head: any) => {
         head['isFilterdSortedColumn'] = false
       });
@@ -3076,19 +3086,33 @@ let url = 'knex-query/getexecute-rules/' + this.data.eventActionconfig.id;
     }
   }
 
-  onResize({ width }: NzResizeEvent, col: string): void {
-    for (let i = 0; i < this.tableHeaders.length; i++) {
-      const e = this.tableHeaders[i];
-      if (e.key === col) {
-        this.tableHeaders[i] = { ...e, width: `${width}px` };
-        // console.log(this.tableHeaders[i]);
+  onResize({ width }: NzResizeEvent, col: string, SimpleHeader?: any): void {
+    if (SimpleHeader) {
+      for (let i = 0; i < this.tableHeaders.length; i++) {
+        const e = this.tableHeaders[i];
+        if (e.key === col) {
+          this.tableHeaders[i] = { ...e, width: `${width}px` };
+        }
+      }
+      this.resizingLocalStorage();
+    } else {
+      for (let i = 0; i < this.deleteditWidth.length; i++) {
+        const e = this.deleteditWidth[i];
+        if (e.key === col) {
+          this.deleteditWidth[i] = { ...e, width: `${width}px` };
+        }
+      }
+      let storeData = this.deleteditWidth.map((item: any) => {
+        let obj = {
+          key: item.key,
+          width: item.width
+        };
+        return obj;
+      });
+      if (this.screenId) {
+        localStorage.setItem(`${this.screenId}-deleteditWidth`, JSON.stringify(storeData));
       }
     }
-    this.resizingLocalStorage();
-    // this.zone.run(() => {
-    //   this.tableHeaders = [...this.tableHeaders];
-    //   this.cdr.detectChanges();
-    // });
   }
 
 }

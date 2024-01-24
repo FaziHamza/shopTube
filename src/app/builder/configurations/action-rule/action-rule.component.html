@@ -1,77 +1,79 @@
-<div #monacoComponent></div>
-<div *ngIf="showActionRuleForm" class="general_faq">
-  <form [formGroup]="actionForm">
-    <div class="drawer-height">
-      <div class="grid lg:grid-cols-5 sm:grid-cols-2 gap-2">
-        <div>
-          <label class="text-xs font-bold">Submission Type:</label>
-          <nz-select class="form-select" formControlName="submissionType" aria-label="Default Select Example">
-            <nz-option nzValue="select" nzLabel="Select" selected></nz-option>
-            <nz-option nzValue="load" nzLabel="On Load"></nz-option>
-            <nz-option nzValue="click" nzLabel="On Click"></nz-option>
-            <nz-option nzValue="fileupload" nzLabel="File Upload"></nz-option>
-            <nz-option nzValue="change" nzLabel="Change"></nz-option>
-            <nz-option nzValue="dblclick" nzLabel="Double Click"></nz-option>
-            <nz-option nzValue="mouseover" nzLabel="Mouse Over"></nz-option>
-            <nz-option nzValue="mouseleave" nzLabel="Mouse Leave"></nz-option>
-            <nz-option nzValue="mouseenter" nzLabel="Mouse Enter"></nz-option>
-          </nz-select>
-        </div>
-        <div>
-          <label class="text-xs font-bold">Form Type:</label>
-          <nz-select class="form-select" formControlName="actionLink" aria-label="Default Select Example">
-            <nz-option nzValue="get" nzLabel="GET"></nz-option>
-            <nz-option nzValue="getJoin" nzLabel="GET Join"></nz-option>
-            <nz-option nzValue="post" nzLabel="POST"></nz-option>
-            <nz-option nzValue="fileupload" nzLabel="Upload"></nz-option>
-            <nz-option nzValue="put" nzLabel="PUT"></nz-option>
-            <nz-option nzValue="delete" nzLabel="DELETE"></nz-option>
-          </nz-select>
-        </div>
-        <div>
-          <label class="text-xs font-bold">Source Element:</label>
-          <nz-select class="form-select" nzShowSearch nzAllowClear formControlName="elementName"
-            aria-label="Default Select Example">
-            <nz-option [nzLabel]="item.title" [nzValue]="item.key" *ngFor="let item of nodeList"></nz-option>
-          </nz-select>
-        </div>
-        <div>
-          <label class="text-xs font-bold">Target Element:</label>
-          <nz-select class="form-select" nzShowSearch nzAllowClear formControlName="elementNameTo"
-            aria-label="Default Select Example">
-            <nz-option [nzLabel]="item.title" [nzValue]="item.key" *ngFor="let item of nodeList"></nz-option>
-          </nz-select>
-        </div>
-        <div>
-          <label class="text-xs font-bold">Communication Method:</label>
-          <nz-select class="form-select" formControlName="actionType" aria-label="Default Select Example">
-            <nz-option nzValue="select" nzLabel="Select" selected></nz-option>
-            <nz-option nzValue="email" nzLabel="Email"></nz-option>
-            <nz-option nzValue="query" nzLabel="Query"></nz-option>
-            <nz-option nzValue="api" nzLabel="Http"></nz-option>
-            <nz-option nzValue="confirmEmail" nzLabel="Confirm Email"></nz-option>
-          </nz-select>
-        </div>
-        <div>
-          <div class="basic-button-save">
-            <button nz-button nzType="primary" class="save-btn !h-[35px] " (click)="addActionFormGroup()">
-              <span nz-icon nzType="plus" nzTheme="outline"></span>
-              Add Action</button>
-            <button nz-button nzType="primary" class="save-btn ml-2 !h-[35px]" (click)="makeActionRules()">
-              <span nz-icon nzType="plus" nzTheme="outline"></span>
-              Add All Action</button>
+<nz-spin [nzSpinning]="saveLoader" [nzSize]="'large'" class="builder-design">
+  <div #monacoComponent></div>
+  <div *ngIf="showActionRuleForm" class="general_faq">
+    <form [formGroup]="actionForm">
+      <div class="drawer-height">
+        <div class="grid lg:grid-cols-5 sm:grid-cols-2 gap-2">
+          <div>
+            <label class="text-xs font-bold">Submission Type:</label>
+            <nz-select class="form-select" formControlName="submissionType" aria-label="Default Select Example">
+              <nz-option nzValue="select" nzLabel="Select" selected></nz-option>
+              <nz-option nzValue="load" nzLabel="On Load"></nz-option>
+              <nz-option nzValue="click" nzLabel="On Click"></nz-option>
+              <nz-option nzValue="fileupload" nzLabel="File Upload"></nz-option>
+              <nz-option nzValue="change" nzLabel="Change"></nz-option>
+              <nz-option nzValue="dblclick" nzLabel="Double Click"></nz-option>
+              <nz-option nzValue="mouseover" nzLabel="Mouse Over"></nz-option>
+              <nz-option nzValue="mouseleave" nzLabel="Mouse Leave"></nz-option>
+              <nz-option nzValue="mouseenter" nzLabel="Mouse Enter"></nz-option>
+            </nz-select>
+          </div>
+          <div>
+            <label class="text-xs font-bold">Form Type:</label>
+            <nz-select class="form-select" formControlName="actionLink" aria-label="Default Select Example">
+              <nz-option nzValue="get" nzLabel="GET"></nz-option>
+              <nz-option nzValue="getJoin" nzLabel="GET Join"></nz-option>
+              <nz-option nzValue="post" nzLabel="POST"></nz-option>
+              <nz-option nzValue="fileupload" nzLabel="Upload"></nz-option>
+              <nz-option nzValue="put" nzLabel="PUT"></nz-option>
+              <nz-option nzValue="delete" nzLabel="DELETE"></nz-option>
+            </nz-select>
+          </div>
+          <div>
+            <label class="text-xs font-bold">Source Element:</label>
+            <nz-select class="form-select" nzShowSearch nzAllowClear formControlName="elementName"
+              aria-label="Default Select Example">
+              <nz-option [nzLabel]="item.title" [nzValue]="item.key" *ngFor="let item of nodeList"></nz-option>
+            </nz-select>
+          </div>
+          <div>
+            <label class="text-xs font-bold">Target Element:</label>
+            <nz-select class="form-select" nzShowSearch nzAllowClear formControlName="elementNameTo"
+              aria-label="Default Select Example">
+              <nz-option [nzLabel]="item.title" [nzValue]="item.key" *ngFor="let item of nodeList"></nz-option>
+            </nz-select>
+          </div>
+          <div>
+            <label class="text-xs font-bold">Communication Method:</label>
+            <nz-select class="form-select" formControlName="actionType" aria-label="Default Select Example">
+              <nz-option nzValue="select" nzLabel="Select" selected></nz-option>
+              <nz-option nzValue="email" nzLabel="Email"></nz-option>
+              <nz-option nzValue="query" nzLabel="Query"></nz-option>
+              <nz-option nzValue="api" nzLabel="Http"></nz-option>
+              <nz-option nzValue="confirmEmail" nzLabel="Confirm Email"></nz-option>
+            </nz-select>
+          </div>
+          <div>
+            <div class="basic-button-save">
+              <button nz-button nzType="primary" class="save-btn !h-[35px] " (click)="addActionFormGroup()">
+                <span nz-icon nzType="plus" nzTheme="outline"></span>
+                Add Action</button>
+              <button nz-button nzType="primary" class="save-btn ml-2 !h-[35px]" (click)="makeActionRules()">
+                <span nz-icon nzType="plus" nzTheme="outline"></span>
+                Add All Action</button>
+            </div>
           </div>
         </div>
-      </div>
 
-      <div class="mb-3" formArrayName="Actions">
-        <ng-container *ngFor="let ActionForm of ActionsForms.controls; let i = index">
-          <div class="flex flex-wrap my-2" style="border: 1px solid rgb(197 187 187); border-radius: 5px;"
-            [formGroupName]="i">
-            <div class="w-full p-1">
-              <div *ngIf="ActionsForms.value[i].type == 'email' && ActionsForms.value[i].email_sending_type == 'query'">
+        <div class="mb-3" formArrayName="Actions">
+          <ng-container *ngFor="let ActionForm of ActionsForms.controls; let i = index">
+            <div class="flex flex-wrap my-2" style="border: 1px solid rgb(197 187 187); border-radius: 5px;"
+              [formGroupName]="i">
+              <div class="w-full p-1">
+                <div
+                  *ngIf="ActionsForms.value[i].type == 'email' && ActionsForms.value[i].emailsendingtype == 'query'">
 
-                <!-- <div class="flex items-center w-full" >
+                  <!-- <div class="flex items-center w-full" >
 
                 <div class="w-4/5 flex justify-normal items-center p-1" >
                   <nz-form-label [nzSm]="6" [nzXs]="24">Email</nz-form-label>
@@ -85,15 +87,15 @@
               </nz-radio-group>
               
                 </div> -->
-                <div class="!w-full">
-                  <textarea class="form-control" formControlName="email"
-                    class="!w-full rounded border border-gray-400 p-1 !mb-2" rows="5"></textarea>
-                </div>
-                <!-- <ngx-monaco-editor class="textEditorContainer" [options]="editorOptions" formControlName="email"
+                  <div class="!w-full">
+                    <textarea class="form-control" formControlName="email"
+                      class="!w-full rounded border border-gray-400 p-1 !mb-2" rows="5"></textarea>
+                  </div>
+                  <!-- <ngx-monaco-editor class="textEditorContainer" [options]="editorOptions" formControlName="email"
                 (init)="editorInit($event)"></ngx-monaco-editor> -->
-              </div>
-              <div *ngIf="ActionsForms.value[i].type == 'query'">
-                <!-- <div class="flex items-center w-full" >
+                </div>
+                <div *ngIf="ActionsForms.value[i].type == 'query'">
+                  <!-- <div class="flex items-center w-full" >
                 <div class="w-4/5 flex justify-normal items-center p-1" >
                   <nz-form-label class="!w-10" [nzSm]="6" [nzXs]="24">Query</nz-form-label>
                   <input nz-input type="text" formControlName="referenceId" class="form-control " style="width: calc(100% - 40px) !important;">
@@ -105,230 +107,244 @@
                 <label nz-radio-button nzValue="postgress">Postgress</label>
               </nz-radio-group>
             </div> -->
-                <div class="!w-full">
-                  <textarea class="form-control !w-full border border-gray-400 rounded p-1 !mb-2"
-                    formControlName="query" rows="5"></textarea>
-                </div>
-                <!-- <ngx-monaco-editor class="textEditorContainer" [options]="editorOptions" [id]="'query' + i"
+                  <div class="!w-full">
+                    <textarea class="form-control !w-full border border-gray-400 rounded p-1 !mb-2"
+                      formControlName="query" rows="5"></textarea>
+                  </div>
+                  <!-- <ngx-monaco-editor class="textEditorContainer" [options]="editorOptions" [id]="'query' + i"
                 formControlName="query" (init)="editorInit($event)"></ngx-monaco-editor> -->
-              </div>
-              <div>
-                <div class="w-full">
-                  <div class="flex flex-wrap">
-                    <div class="w-1/2 theme-body">
-                      <div class=" flex flex-wrap">
-                        <label class="w-1/3 py-2 col-form-label column-form-label">
-                          Type
-                        </label>
-                        <div class="w-2/3 column-form-input form-control-style v-body-border" style="padding: 0px">
-                          <nz-select nzShowSearch nzAllowClear formControlName="elementName" nzDisabled>
-                            <nz-option [nzLabel]="item.title" [nzValue]="item.key"
-                              *ngFor="let item of nodeList"></nz-option>
-                          </nz-select>
+                </div>
+                <div>
+                  <div class="w-full">
+                    <div class="flex flex-wrap">
+                      <div class="w-1/2 theme-body">
+                        <div class=" flex flex-wrap">
+                          <label class="w-1/3 py-2 col-form-label column-form-label">
+                            Type
+                          </label>
+                          <div class="w-2/3 column-form-input form-control-style v-body-border" style="padding: 0px">
+                            <nz-select nzShowSearch nzAllowClear formControlName="elementName" nzDisabled>
+                              <nz-option [nzLabel]="item.title" [nzValue]="item.key"
+                                *ngFor="let item of nodeList"></nz-option>
+                            </nz-select>
+                          </div>
                         </div>
                       </div>
-                    </div>
-                    <div class="w-1/2 theme-body">
-                      <div class=" flex flex-wrap">
-                        <label class="w-1/3 py-2 col-form-label column-form-label">
-                          Type From
-                        </label>
-                        <div class="w-2/3 column-form-input form-control-style v-body-border" style="padding: 0px">
-                          <nz-select nzShowSearch nzAllowClear formControlName="elementNameTo" nzDisabled>
-                            <nz-option [nzLabel]="item.title" [nzValue]="item.key"
-                              *ngFor="let item of nodeList"></nz-option>
-                          </nz-select>
+                      <div class="w-1/2 theme-body">
+                        <div class=" flex flex-wrap">
+                          <label class="w-1/3 py-2 col-form-label column-form-label">
+                            Type From
+                          </label>
+                          <div class="w-2/3 column-form-input form-control-style v-body-border" style="padding: 0px">
+                            <nz-select nzShowSearch nzAllowClear formControlName="elementNameTo" nzDisabled>
+                              <nz-option [nzLabel]="item.title" [nzValue]="item.key"
+                                *ngFor="let item of nodeList"></nz-option>
+                            </nz-select>
+                          </div>
                         </div>
                       </div>
-                    </div>
 
-                    <div class="w-1/2 theme-body">
-                      <div class=" flex flex-wrap">
-                        <label class="w-1/3 py-2 col-form-label column-form-label">
-                          Submit Type
-                        </label>
-                        <div class="w-2/3 column-form-input form-control-style v-body-border" style="padding: 0px">
-                          <nz-select class="form-select" formControlName="submissionType" nzDisabled>
-                            <nz-option nzValue="select" nzLabel="Select" selected></nz-option>
-                            <nz-option nzValue="load" nzLabel="On Load"></nz-option>
-                            <nz-option nzValue="fileupload" nzLabel="File Upload"></nz-option>
-                            <nz-option nzValue="click" nzLabel="On Click"></nz-option>
-                            <nz-option nzValue="change" nzLabel="Change"></nz-option>
-                            <nz-option nzValue="dblclick" nzLabel="Double Click"></nz-option>
-                            <nz-option nzValue="mouseover" nzLabel="Mouse Over"></nz-option>
-                            <nz-option nzValue="mouseleave" nzLabel="Mouse Leave"></nz-option>
-                            <nz-option nzValue="mouseenter" nzLabel="Mouse Enter"></nz-option>
-                          </nz-select>
+                      <div class="w-1/2 theme-body">
+                        <div class=" flex flex-wrap">
+                          <label class="w-1/3 py-2 col-form-label column-form-label">
+                            Submit Type
+                          </label>
+                          <div class="w-2/3 column-form-input form-control-style v-body-border" style="padding: 0px">
+                            <nz-select class="form-select" formControlName="submissionType" nzDisabled>
+                              <nz-option nzValue="select" nzLabel="Select" selected></nz-option>
+                              <nz-option nzValue="load" nzLabel="On Load"></nz-option>
+                              <nz-option nzValue="fileupload" nzLabel="File Upload"></nz-option>
+                              <nz-option nzValue="click" nzLabel="On Click"></nz-option>
+                              <nz-option nzValue="change" nzLabel="Change"></nz-option>
+                              <nz-option nzValue="dblclick" nzLabel="Double Click"></nz-option>
+                              <nz-option nzValue="mouseover" nzLabel="Mouse Over"></nz-option>
+                              <nz-option nzValue="mouseleave" nzLabel="Mouse Leave"></nz-option>
+                              <nz-option nzValue="mouseenter" nzLabel="Mouse Enter"></nz-option>
+                            </nz-select>
+                          </div>
                         </div>
                       </div>
-                    </div>
-                    <div class="w-1/2 theme-body">
-                      <div class=" flex flex-wrap">
-                        <label class="w-1/3 py-2 col-form-label column-form-label">
-                          Action Type
-                        </label>
-                        <div class="w-2/3 column-form-input form-control-style v-body-border" style="padding: 0px">
-                          <input nz-input type="text" placeholder="Enter value" id="actionLink{{i}}" [disabled]="true"
-                            formControlName="actionLink" readonly required
-                            class="form-control !bg-[#f5f5f5] !cursor-not-allowed" name="actionLink{{i}}" />
+                      <div class="w-1/2 theme-body">
+                        <div class=" flex flex-wrap">
+                          <label class="w-1/3 py-2 col-form-label column-form-label">
+                            Action Type
+                          </label>
+                          <div class="w-2/3 column-form-input form-control-style v-body-border" style="padding: 0px">
+                            <input nz-input type="text" placeholder="Enter value" id="actionLink{{i}}" [disabled]="true"
+                              formControlName="actionLink" readonly required
+                              class="form-control !bg-[#f5f5f5] !cursor-not-allowed" name="actionLink{{i}}" />
+                          </div>
                         </div>
                       </div>
-                    </div>
-                    <div class="w-1/2 theme-body" *ngIf="ActionsForms.value[i].type == 'api'">
-                      <div class=" flex flex-wrap">
-                        <label class="w-1/3 py-2 col-form-label column-form-label">
-                          Http Address
-                        </label>
-                        <div class="w-2/3 column-form-input form-control-style v-body-border" style="padding: 0px">
-                          <input nz-input type="text" placeholder="Enter value" id="httpAddress{{i}}"
-                            formControlName="httpAddress" required class="form-control" name="httpAddress{{i}}" />
+                      <div class="w-1/2 theme-body" *ngIf="ActionsForms.value[i].type == 'api'">
+                        <div class=" flex flex-wrap">
+                          <label class="w-1/3 py-2 col-form-label column-form-label">
+                            Http Address
+                          </label>
+                          <div class="w-2/3 column-form-input form-control-style v-body-border" style="padding: 0px">
+                            <input nz-input type="text" placeholder="Enter value" id="httpAddress{{i}}"
+                              formControlName="httpAddress" required class="form-control" name="httpAddress{{i}}" />
+                          </div>
                         </div>
                       </div>
-                    </div>
-                    <div class="w-1/2 theme-body" *ngIf="ActionsForms.value[i].type == 'email'">
-                      <div class=" flex flex-wrap">
-                        <label class="w-1/3 py-2 col-form-label column-form-label">
-                          Email Type
-                        </label>
-                        <div class="w-2/3 column-form-input form-control-style v-body-border" style="padding: 0px">
-                          <nz-select class="form-select" formControlName="emailtype">
-                            <nz-option nzValue="simple" nzLabel="Simple"></nz-option>
-                            <nz-option nzValue="token" nzLabel="Token"></nz-option>
-                            <nz-option nzValue="approval" nzLabel="Approval"></nz-option>
-                          </nz-select>
+                      <div class="w-1/2 theme-body" *ngIf="ActionsForms.value[i].type == 'email'">
+                        <div class=" flex flex-wrap">
+                          <label class="w-1/3 py-2 col-form-label column-form-label">
+                            Email Type
+                          </label>
+                          <div class="w-2/3 column-form-input form-control-style v-body-border" style="padding: 0px">
+                            <nz-select class="form-select" formControlName="emailtype">
+                              <nz-option nzValue="simple" nzLabel="Simple"></nz-option>
+                              <nz-option nzValue="token" nzLabel="Token"></nz-option>
+                              <nz-option nzValue="approval" nzLabel="Approval"></nz-option>
+                            </nz-select>
+                          </div>
                         </div>
                       </div>
-                    </div>
-                    <div class="w-1/2 theme-body" *ngIf="ActionsForms.value[i].type == 'email'">
-                      <div class=" flex flex-wrap">
-                        <label class="w-1/3 py-2 col-form-label column-form-label">
-                          Bulk / Individual
-                        </label>
-                        <div class="w-2/3 column-form-input form-control-style v-body-border" style="padding: 0px">
-                          <nz-select nzShowSearch nzAllowClear formControlName="emailbulkindividual">
-                            <nz-option nzLabel="Bulk" nzValue="bulk"></nz-option>
-                            <nz-option nzLabel="Individual" nzValue="individual"></nz-option>
-                          </nz-select>
+                      <div class="w-1/2 theme-body" *ngIf="ActionsForms.value[i].type == 'email' && ActionsForms.value[i].emailtype == 'token'">
+                        <div class=" flex flex-wrap">
+                          <label class="w-1/3 py-2 col-form-label column-form-label">
+                            Page Link
+                          </label>
+                          <div class="w-2/3 column-form-input form-control-style v-body-border" style="padding: 0px">
+                            <nz-select class="form-select" formControlName="pagelink">
+                              <nz-option *ngFor="let option of screenOptions" [nzValue]="option.value"
+                                [nzLabel]="option.label"></nz-option>
+                            </nz-select>
+                          </div>
                         </div>
                       </div>
-                    </div>
-                    <div class="w-1/2 theme-body" *ngIf="ActionsForms.value[i].type == 'email'">
-                      <div class=" flex flex-wrap">
-                        <label class="w-1/3 py-2 col-form-label column-form-label">
-                          Email To
-                        </label>
-                        <div class="w-2/3 column-form-input form-control-style v-body-border" style="padding: 0px">
-                          <nz-select style="width:100%" [nzMaxTagCount]="3" nzMode="multiple" nzShowSearch nzAllowClear
-                            formControlName="emailto">
-                            <nz-option *ngFor="let type of emailToOptions" [nzLabel]="type.label"
-                              [nzValue]="type.value"></nz-option>
-                          </nz-select>
-                          <ng-template #tagPlaceHolder let-selectedList>and {{ selectedList.length }} more
-                            selected</ng-template>
+                      <div class="w-1/2 theme-body" *ngIf="ActionsForms.value[i].type == 'email'">
+                        <div class=" flex flex-wrap">
+                          <label class="w-1/3 py-2 col-form-label column-form-label">
+                            Bulk / Individual
+                          </label>
+                          <div class="w-2/3 column-form-input form-control-style v-body-border" style="padding: 0px">
+                            <nz-select nzShowSearch nzAllowClear formControlName="emailbulkindividual">
+                              <nz-option nzLabel="Bulk" nzValue="bulk"></nz-option>
+                              <nz-option nzLabel="Individual" nzValue="individual"></nz-option>
+                            </nz-select>
+                          </div>
                         </div>
                       </div>
-                    </div>
-                    <div class="w-1/2 theme-body" *ngIf="ActionsForms.value[i].type == 'email'">
-                      <div class=" flex flex-wrap">
-                        <label class="w-1/3 py-2 col-form-label column-form-label">
-                          Email From
-                        </label>
-                        <div class="w-2/3 column-form-input form-control-style v-body-border" style="padding: 0px">
-                          <nz-select nzShowSearch nzAllowClear formControlName="emailfrom">
-                            <nz-option [nzLabel]="'arfanali.cloud@gmail.com'"
-                              [nzValue]="'arfanali.cloud@gmail.com'"></nz-option>
-                          </nz-select>
+                      <div class="w-1/2 theme-body" *ngIf="ActionsForms.value[i].type == 'email'">
+                        <div class=" flex flex-wrap">
+                          <label class="w-1/3 py-2 col-form-label column-form-label">
+                            Email To
+                          </label>
+                          <div class="w-2/3 column-form-input form-control-style v-body-border" style="padding: 0px">
+                            <nz-select style="width:100%" [nzMaxTagCount]="3" nzMode="multiple" nzShowSearch
+                              nzAllowClear formControlName="emailto">
+                              <nz-option *ngFor="let type of emailToOptions" [nzLabel]="type.label"
+                                [nzValue]="type.value"></nz-option>
+                            </nz-select>
+                            <ng-template #tagPlaceHolder let-selectedList>and {{ selectedList.length }} more
+                              selected</ng-template>
+                          </div>
                         </div>
                       </div>
-                    </div>
-                    <div class="w-1/2 theme-body" *ngIf="ActionsForms.value[i].type == 'email'">
-                      <div class=" flex flex-wrap">
-                        <label class="w-1/3 py-2 col-form-label column-form-label">
-                          Sending Type
-                        </label>
-                        <div class="w-2/3 column-form-input form-control-style v-body-border" style="padding: 0px">
-                          <nz-select nzShowSearch nzAllowClear formControlName="emailsendingtype">
-                            <nz-option [nzLabel]="'Post'" [nzValue]="'post'"></nz-option>
-                            <nz-option [nzLabel]="'Query'" [nzValue]="'query'"></nz-option>
-                          </nz-select>
+                      <div class="w-1/2 theme-body" *ngIf="ActionsForms.value[i].type == 'email'">
+                        <div class=" flex flex-wrap">
+                          <label class="w-1/3 py-2 col-form-label column-form-label">
+                            Email From
+                          </label>
+                          <div class="w-2/3 column-form-input form-control-style v-body-border" style="padding: 0px">
+                            <nz-select nzShowSearch nzAllowClear formControlName="emailfrom">
+                              <nz-option [nzLabel]="'arfanali.cloud@gmail.com'"
+                                [nzValue]="'arfanali.cloud@gmail.com'"></nz-option>
+                            </nz-select>
+                          </div>
                         </div>
                       </div>
-                    </div>
-                    <div class="w-1/2 theme-body" *ngIf="ActionsForms.value[i].type == 'email'">
-                      <div class=" flex flex-wrap">
-                        <label class="w-1/3 py-2 col-form-label column-form-label">
-                          Email Template
-                        </label>
-                        <div class="w-2/3 column-form-input form-control-style v-body-border" style="padding: 0px">
-                          <nz-select nzShowSearch nzAllowClear formControlName="emailtemplate">
-                            <nz-option *ngFor="let item of emailNameOptions" [nzLabel]="item.label"
-                              [nzValue]="item.value"></nz-option>
-                          </nz-select>
+                      <div class="w-1/2 theme-body" *ngIf="ActionsForms.value[i].type == 'email'">
+                        <div class=" flex flex-wrap">
+                          <label class="w-1/3 py-2 col-form-label column-form-label">
+                            Sending Type
+                          </label>
+                          <div class="w-2/3 column-form-input form-control-style v-body-border" style="padding: 0px">
+                            <nz-select nzShowSearch nzAllowClear formControlName="emailsendingtype">
+                              <nz-option [nzLabel]="'Post'" [nzValue]="'post'"></nz-option>
+                              <nz-option [nzLabel]="'Query'" [nzValue]="'query'"></nz-option>
+                            </nz-select>
+                          </div>
                         </div>
                       </div>
-                    </div>
-                    <div class="w-1/2 theme-body">
-                      <div class=" flex flex-wrap">
-                        <label class="w-1/3 py-2 col-form-label column-form-label">
-                          Action Name
-                        </label>
-                        <div class="w-2/3 column-form-input form-control-style v-body-border" style="padding: 0px">
-                          <input nz-input type="text" placeholder="Enter value" id="referenceId{{i}}"
-                            formControlName="referenceId" required class="form-control" name="referenceId{{i}}" />
+                      <div class="w-1/2 theme-body" *ngIf="ActionsForms.value[i].type == 'email'">
+                        <div class=" flex flex-wrap">
+                          <label class="w-1/3 py-2 col-form-label column-form-label">
+                            Email Template
+                          </label>
+                          <div class="w-2/3 column-form-input form-control-style v-body-border" style="padding: 0px">
+                            <nz-select nzShowSearch nzAllowClear formControlName="emailtemplate">
+                              <nz-option *ngFor="let item of emailNameOptions" [nzLabel]="item.label"
+                                [nzValue]="item.value"></nz-option>
+                            </nz-select>
+                          </div>
                         </div>
                       </div>
-                    </div>
-                    <div class="w-1/2 theme-body" *ngIf="ActionsForms.value[i].type == 'api'">
-                      <div class=" flex flex-wrap">
-                        <label class="w-1/3 py-2 col-form-label column-form-label">
-                          Content Type
-                        </label>
-                        <div class="w-2/3 column-form-input form-control-style v-body-border" style="padding: 0px">
-                          <nz-select nzShowSearch nzAllowClear formControlName="contentType">
-                            <nz-option nzLabel="Text" nzValue="application/text"></nz-option>
-                            <nz-option nzLabel="Json" nzValue="application/json"></nz-option>
-                            <nz-option nzLabel="Raw" nzValue="application/raw"></nz-option>
-                          </nz-select>
+                      <div class="w-1/2 theme-body">
+                        <div class=" flex flex-wrap">
+                          <label class="w-1/3 py-2 col-form-label column-form-label">
+                            Action Name
+                          </label>
+                          <div class="w-2/3 column-form-input form-control-style v-body-border" style="padding: 0px">
+                            <input nz-input type="text" placeholder="Enter value" id="referenceId{{i}}"
+                              formControlName="referenceId" required class="form-control" name="referenceId{{i}}" />
+                          </div>
+                        </div>
+                      </div>
+                      <div class="w-1/2 theme-body" *ngIf="ActionsForms.value[i].type == 'api'">
+                        <div class=" flex flex-wrap">
+                          <label class="w-1/3 py-2 col-form-label column-form-label">
+                            Content Type
+                          </label>
+                          <div class="w-2/3 column-form-input form-control-style v-body-border" style="padding: 0px">
+                            <nz-select nzShowSearch nzAllowClear formControlName="contentType">
+                              <nz-option nzLabel="Text" nzValue="application/text"></nz-option>
+                              <nz-option nzLabel="Json" nzValue="application/json"></nz-option>
+                              <nz-option nzLabel="Raw" nzValue="application/raw"></nz-option>
+                            </nz-select>
+                          </div>
                         </div>
                       </div>
                     </div>
                   </div>
                 </div>
-              </div>
-              <div *ngIf="ActionsForms.value[i].type == 'confirmEmail'">
-                <nz-form-label [nzSm]="6" [nzXs]="24">Confirm Email</nz-form-label>
-                <nz-radio-group class="ml-2" formControlName="sqlType" nzButtonStyle="solid"
-                  (ngModelChange)="changePostgress(ActionsForms.value[i].type, i)">
-                  <label nz-radio-button nzValue="sql">Sql</label>
-                  <label nz-radio-button nzValue="mySql">MySql</label>
-                  <label nz-radio-button nzValue="postgress">Postgress</label>
-                </nz-radio-group>
-                <input nz-input type="text" formControlName="referenceId" style="width: 18%;margin-bottom: 1%;">
-                <textarea class="form-control" formControlName="confirmEmail" cols="30" rows="5"></textarea>
-                <!-- <ngx-monaco-editor class="textEditorContainer" [options]="editorOptions" [id]="'confirmEmail' + i"
+                <div *ngIf="ActionsForms.value[i].type == 'confirmEmail'">
+                  <nz-form-label [nzSm]="6" [nzXs]="24">Confirm Email</nz-form-label>
+                  <nz-radio-group class="ml-2" formControlName="sqlType" nzButtonStyle="solid"
+                    (ngModelChange)="changePostgress(ActionsForms.value[i].type, i)">
+                    <label nz-radio-button nzValue="sql">Sql</label>
+                    <label nz-radio-button nzValue="mySql">MySql</label>
+                    <label nz-radio-button nzValue="postgress">Postgress</label>
+                  </nz-radio-group>
+                  <input nz-input type="text" formControlName="referenceId" style="width: 18%;margin-bottom: 1%;">
+                  <textarea class="form-control" formControlName="confirmEmail" cols="30" rows="5"></textarea>
+                  <!-- <ngx-monaco-editor class="textEditorContainer" [options]="editorOptions" [id]="'confirmEmail' + i"
                 formControlName="confirmEmail" (init)="editorInit($event)"></ngx-monaco-editor> -->
+                </div>
+              </div>
+              <div class="!w-full p-1 !flex !justify-end items-start business-rule-form">
+                <button nz-button nzType="primary" nzDanger (click)="removeActionFormGroup(i,ActionsForms.value[i])">
+                  <i class="fa-regular fa-trash text-[10px] "></i>
+                </button>
+                <button nz-button nzType="primary" class="ml-2"
+                  (click)="duplicateActionFormGroup(i,ActionsForms.value[i].type)">
+                  <i class="fa-regular fa-copy text-[10px] "></i> </button>
+
               </div>
             </div>
-            <div class="!w-full p-1 !flex !justify-end items-start business-rule-form">
-              <button nz-button nzType="primary" nzDanger (click)="removeActionFormGroup(i,ActionsForms.value[i])">
-                <i class="fa-regular fa-trash text-[10px] "></i>
-              </button>
-              <button nz-button nzType="primary" class="ml-2"
-                (click)="duplicateActionFormGroup(i,ActionsForms.value[i].type)">
-                <i class="fa-regular fa-copy text-[10px] "></i> </button>
-
-            </div>
-          </div>
-        </ng-container>
+          </ng-container>
+        </div>
       </div>
-    </div>
 
-    <div class="drawer-height-btn">
-      <button nz-button nzType="primary" (click)="SaveAction()" class="grid justify-self-end save_Action"><span nz-icon
-          nzType="save" nzTheme="outline"></span>
-        Save Action</button>
-    </div>
-  </form>
-</div>
-<nz-alert *ngIf="!showActionRuleForm" nzType="warning" nzMessage="Please contact your DBA to approve fields"
-  nzShowIcon></nz-alert>
+      <div class="drawer-height-btn">
+        <button nz-button nzType="primary" (click)="SaveAction()" class="grid justify-self-end save_Action"><span
+            nz-icon nzType="save" nzTheme="outline"></span>
+          Save Action</button>
+      </div>
+    </form>
+  </div>
+  <nz-alert *ngIf="!showActionRuleForm" nzType="warning" nzMessage="Please contact your DBA to approve fields"
+    nzShowIcon></nz-alert>
+</nz-spin>
