@@ -41,6 +41,7 @@ export class SiteLayoutComponent implements OnInit {
   domainData: any;
   isShowContextMenu = false;
   hideHeaderFooterMenu = false;
+  externalLogin: boolean = false
   constentMarging: any = '0px';
   newSelectedTheme = {
     menuMode: 'inline',
@@ -127,13 +128,14 @@ export class SiteLayoutComponent implements OnInit {
     this.currentUrl = window.location.host.split(':')[0];
     if (window.location.search.includes('token=')) {
       const getToken = window.location.search.split('token=')[1];
-      debugger
-      this.authService.getUserInfo(getToken).subscribe((response:any) => {
-        if (response) {
+      this.authService.getUserInfo(getToken).subscribe((response: any) => {
+        if (response.isSuccess) {
           localStorage.setItem('isLoggedIn', 'true');
           this.authService.setAuth(response.data);
           this.getMenuByDomainName(this.currentUrl, true);
           this.router.navigate([window.location.pathname]);
+        } else {
+          this.externalLogin = true;
         }
       })
     } else {
