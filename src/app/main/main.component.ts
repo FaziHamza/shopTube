@@ -71,7 +71,7 @@ export class MainComponent implements OnInit {
     this.commentForm = this.formBuilder.group({
       message: ['', Validators.required],
     });
-    this.applicationId = JSON.parse(localStorage.getItem('applicationId')!);
+    this.applicationId = this.dataSharedService.decryptedValue('applicationId');
     // if (window.location.href.includes('/pages'))
     //   this.isShowContextMenu = true;
   }

@@ -340,7 +340,7 @@ export class PagesComponent implements OnInit, OnDestroy {
         this.dataSharedService.currentMenuLink = '/pages/' + this.navigation;
         localStorage.setItem('screenId', this.dataSharedService.currentMenuLink);
         this.getBuilderScreen(params);
-        this.getTaskManagementIssuesFunc(params["schema"], JSON.parse(localStorage.getItem('applicationId')!));
+        this.getTaskManagementIssuesFunc(params["schema"], this.dataSharedService.decryptedValue('applicationId'));
 
         // this.requestSubscription = this.applicationService.getNestCommonAPI("cp/getuserCommentsByApp/UserComment/pages/" + params["schema"]).subscribe((res: any) => {
         //   if (res.isSuccess) {
@@ -1991,8 +1991,8 @@ export class PagesComponent implements OnInit, OnDestroy {
                         if (res?.data[0][key] && uiRule.ifMenuName && uiRule.ifMenuName.includes('app_')) {
                           let getData: any = localStorage;
                           let modifedData = JSON.parse(JSON.stringify(getData))
-                          modifedData['applicationId'] = JSON.parse(localStorage.getItem('applicationId')!);
-                          modifedData['organizationId'] = JSON.parse(localStorage.getItem('organizationId')!);
+                          modifedData['applicationId'] = this.dataSharedService.decryptedValue('applicationId');
+                          modifedData['organizationId'] = this.dataSharedService.decryptedValue('organizationId');
                           modifedData['user'] = this.user;
                           let value = modifedData[uiRule.ifMenuName.split('_')[1]];
                           if (uiRule.ifMenuName.includes('app_user')) {
@@ -2766,7 +2766,7 @@ export class PagesComponent implements OnInit, OnDestroy {
 
   applyDefaultValue() {
     const filteredNodes = this.filterInputElements(this.resData);
-    const user = JSON.parse(localStorage.getItem('user')!);
+    const user = JSON.parse(this.dataSharedService.decryptedValue('user'));
 
     const newMode = filteredNodes.reduce((acc, node) => {
       const formlyConfig = node.formly?.[0]?.fieldGroup?.[0]?.defaultValue;

@@ -179,7 +179,7 @@ export class BuilderComponent implements OnInit {
     this.getApplicationTheme();
     // this.getUsers();
     this.dataSharedService.currentMenuLink = '/ourbuilder';
-    this.currentUser = JSON.parse(localStorage.getItem('user')!);
+    this.currentUser = JSON.parse(this.dataSharedService.decryptedValue('user'));
     this.loadDepartmentData();
     document
       .getElementsByTagName('body')[0]
@@ -404,7 +404,7 @@ export class BuilderComponent implements OnInit {
   }
 
   saveJson() {
-
+    debugger
     if (this.screenPage) {
       // this.saveLoader = true;
       if (this.selectedNode) {
@@ -445,7 +445,7 @@ export class BuilderComponent implements OnInit {
       }
       // this.saveLoader =  false;
       const checkBuilderAndProcess = this.builderscreendata?.length > 0 && this.builderscreendata?.[0]
-        ? this.applicationService.updateNestNewCommonAPI(`cp/Builders`, this.builderscreendata[0].id, builderModel)
+        ? this.applicationService.updateNestNewCommonAPI(`cp/Builders`, this.builderscreendata[0].screenbuilderid, builderModel)
         : this.applicationService.addNestNewCommonAPI('cp', builderModel);
 
       this.requestSubscription = checkBuilderAndProcess.subscribe({
@@ -454,16 +454,7 @@ export class BuilderComponent implements OnInit {
             this.isScreenSaved = true;
             this.toastr.success(res.message, { nzDuration: 3000 });
             this.showActionRule = true;
-            if (this.builderscreendata?.length > 0) {
-              this.applyTheme(this.nodes[0], false)
-              this.applyTheme(this.nodes[0], false)
-            } else {
-              this.getBuilderScreen();
-            }
-            if (gridData) {
-              // this.getFromQuery(this.navigation, 'load');
-            } else {
-            }
+            this.screenAssignData(res);
             this.saveLoader = false;
           }
           else {
@@ -2719,7 +2710,7 @@ export class BuilderComponent implements OnInit {
         }));
         this.selectedNode['tableHeader'] = [];
         this.selectedNode['tableKey'] = [];
-        this.selectedNode['checkDatas'] = [];
+        this.selectedNode['checkData'] = [];
       }
 
     }
@@ -4215,18 +4206,18 @@ export class BuilderComponent implements OnInit {
             //   filteredCascader['size']= this.selectedNode.size;
             // }
           }
-          // this.selectedNode['checkDatas'] =
-          //   this.selectedNode.checkDatas == undefined
+          // this.selectedNode['checkData'] =
+          //   this.selectedNode.checkData == undefined
           //     ? ''
-          //     : this.selectedNode.checkDatas;
+          //     : this.selectedNode.checkData;
           // let check = this.arrayEqual(
-          //   this.selectedNode.checkDatas,
+          //   this.selectedNode.checkData,
           //   event.tableDta == undefined
           //     ? event.tableDta
           //     : this.selectedNode.tableBody
           // );
-          if (this.selectedNode?.checkDatas) {
-            this.selectedNode.checkDatas = [];
+          if (this.selectedNode?.checkData) {
+            this.selectedNode.checkData = [];
           }
           if (event.tableDta && event.tableDta?.length > 0) {
             const item = this.selectedNode.dbData[0];
@@ -4338,7 +4329,7 @@ export class BuilderComponent implements OnInit {
           this.selectedNode.tableBody = event.tableDta ? event.tableDta : this.selectedNode.tableBody;
           this.selectedNode.mapApi = event.form.mapApi;
           // if (event.tableDta) {
-          //   this.selectedNode.checkDatas = JSON.parse(
+          //   this.selectedNode.checkData = JSON.parse(
           //     JSON.stringify(event.tableDta)
           //   );
           // }
@@ -7006,7 +6997,7 @@ export class BuilderComponent implements OnInit {
           //   pagination = '?page=' + 1 + '&pageSize=' + tableData?.end;
           // }
           if (url) {
-            const applicationid = localStorage.getItem('applicationid') || '';
+            const applicationid = this.dataSharedService.decryptedValue('applicationId');
             let savedGroupData: any = [];
             if (applicationid) {
               savedGroupData = await this.dataService.getNodes(JSON.parse(applicationid), this.screenname, "Table");
@@ -7787,5 +7778,14 @@ export class BuilderComponent implements OnInit {
       }
     });
   }
-
+  screenAssignData(res: any) {
+    localStorage.setItem('screenBuildId', res.data[0].screenbuilderid);
+    this.builderscreendata = [res.data[0]];
+    this.showActionRule = true;
+    const objScreenData = res.data[0].screendata;
+    this.isSavedDb = true;
+    let objscreendata = this.jsonParseWithObject(this.jsonStringifyWithObject(objScreenData));
+    this.applyTheme(objscreendata[0], false)
+    this.nodes = objscreendata;
+  }
 }

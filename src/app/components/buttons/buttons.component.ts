@@ -63,7 +63,7 @@ export class ButtonsComponent implements OnInit {
       this.keyName = this.findKeyByOrderid(this.tableDisplayData, this.title);
     }
 
-    const userData = JSON.parse(localStorage.getItem('user')!);
+    const userData = JSON.parse(this.dataSharedService.decryptedValue('user'));
     if (this.buttonData?.dropdownProperties == 'policyTheme') {
       this.policyTheme = userData['policy']['policyTheme'];
       this.buttonData['title'] = userData['policy']['policyTheme'] ? userData['policy']['policyTheme'] : this.buttonData?.title;
@@ -288,7 +288,7 @@ export class ButtonsComponent implements OnInit {
   }
   jsonPolicyModuleList() {
 
-    let user = JSON.parse(window.localStorage['user']);
+    let user = JSON.parse(this.dataSharedService.decryptedValue('user'));
     this.applicationService.getNestNewCommonAPI(`cp/getpolicy/${user.policy.userid}`).subscribe({
       next: (res: any) => {
 
@@ -328,22 +328,23 @@ export class ButtonsComponent implements OnInit {
     this.policyTheme = policy?.policyId?.applicationTheme;
     user['policy']['policyTheme'] = policy?.policyId?.applicationTheme ? policy?.policyId?.applicationTheme : '';
     this.buttonData.title = policy?.policyId?.applicationTheme ? policy?.policyId?.applicationTheme : '';
-    window.localStorage.setItem('user', JSON.stringify(user));
+
+       this.dataSharedService.ecryptedValue('user' , JSON.stringify(user) , true);
     this.dataSharedService.applicationTheme.next(true);
   }
   changePolicy(policy: any) {
 
-    let user = JSON.parse(window.localStorage['user']);
+    let user = JSON.parse(this.dataSharedService.decryptedValue('user'));
     user['policy']['policyId'] = policy?.policyId?._id;
     user['policy']['policyName'] = policy?.policyId?.name;
     this.policyTheme = policy?.policyId?.applicationTheme;
-    window.localStorage.setItem('user', JSON.stringify(user));
+    this.dataSharedService.ecryptedValue('user' , JSON.stringify(user) , true);
     let obj = {
       UserMapping: {
         policyId: policy?.policyId?._id,
         userId: policy?.userId?._id,
         defaultPolicy: true,
-        applicationId: JSON.parse(localStorage.getItem('applicationId')!),
+        applicationId: this.dataSharedService.decryptedValue('applicationId'),
       }
     }
     this.dataSharedService.pagesLoader.next(true);

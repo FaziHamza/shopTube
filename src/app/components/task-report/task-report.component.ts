@@ -39,17 +39,16 @@ export class TaskReportComponent implements OnInit {
       return;
     }
 
-    const userData = JSON.parse(localStorage.getItem('user')!);
-    const organizationId = JSON.parse(localStorage.getItem('organizationId')!);
-    const applicationId = JSON.parse(localStorage.getItem('applicationId')!);
+    const userData = JSON.parse(this.dataSharedService.decryptedValue('user'));
+
 
     const commentObj = {
       screenid: this.screenName,
       datetime: new Date(),
       message: this.commentForm.value.message,
       status: '',
-      organizationid: JSON.parse(localStorage.getItem('organizationId')!),
-      applicationid: JSON.parse(localStorage.getItem('applicationId')!),
+      organizationid: this.dataSharedService.decryptedValue('organizationId'),
+      applicationid: this.dataSharedService.decryptedValue('applicationId'),
       componentid: data.id,
       createdby: userData.username,
       parentid: issue.id,
@@ -174,13 +173,13 @@ export class TaskReportComponent implements OnInit {
   }
   userAssigneeSave(data: any) {
     
-    const userData = JSON.parse(localStorage.getItem('user')!);
+    const userData = JSON.parse(this.dataSharedService.decryptedValue('user'));
     let obj = {
       screenId: this.screenName,
       // dueDate: data?.dueDate,
       status: data.status ? data.status : 'open',
-      organizationId: JSON.parse(localStorage.getItem('organizationId')!),
-      applicationId: JSON.parse(localStorage.getItem('applicationId')!),
+      organizationId: this.dataSharedService.decryptedValue('organizationId'),
+      applicationId: this.dataSharedService.decryptedValue('applicationId'),
       componentId: data?.id,
       createdBy: userData.username,
       assignTo: data?.assignTo,

@@ -1,10 +1,13 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
+import * as CryptoJS from 'crypto-js';
+
 
 @Injectable({
   providedIn: 'root'
 })
 export class DataSharedService {
+  encryptSecretKey = "@12356489231SFSJDFPOSFSDF5464954$%#%DZGDSDFDSF"; //adding secret key
   // activeTabIndex = 0;
   private languageChange: BehaviorSubject<string> = new BehaviorSubject<string>('');
   public change: Subject<{ event: any; field: any }> = new Subject();
@@ -171,5 +174,20 @@ export class DataSharedService {
     message: 'content',
     mentions: 'title',
     icon: 'title',
+  }
+  ecryptedValue(property: any, value: any, stringify: any) {
+    var result = CryptoJS.AES.encrypt(value, this.encryptSecretKey).toString();
+    window.localStorage[property] = stringify ? JSON.stringify(result) : result;
+  }
+
+  decryptedValue(property: any) {
+    let value: any = JSON.parse(window.localStorage[property]);
+    if (value) {
+      var result: any = CryptoJS.AES.decrypt(value, this.encryptSecretKey).toString(CryptoJS.enc.Utf8);
+      return result;
+    } else {
+      return '';
+    }
+
   }
 }

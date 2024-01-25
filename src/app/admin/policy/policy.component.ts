@@ -78,7 +78,7 @@ export class PolicyComponent implements OnInit {
     this.getApplicationTheme();
   }
   getMenuTheme() {
-    let id = JSON.parse(localStorage.getItem('user')!).userId;
+    let id = JSON.parse(this.dataSharedService.decryptedValue('user')).userId;
 
   }
   jsonPolicyModuleList() {
@@ -155,7 +155,7 @@ export class PolicyComponent implements OnInit {
       return;
     } else {
       let obj = {
-        applicationId: JSON.parse(localStorage.getItem('applicationId')!),
+        applicationId: this.dataSharedService.decryptedValue('applicationId'),
         name: this.form.value.name,
         menuThemeId: this.form.value.menuthemeid,
         applicationTheme: this.form.value.applicationtheme

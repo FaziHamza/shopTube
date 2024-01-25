@@ -95,7 +95,7 @@ export class SiteLayoutComponent implements OnInit {
     this.dataSharedService.measureHeight = 0;
     // this.getTaskManagementIssuesFunc(JSON.parse(localStorage.getItem('applicationId')!));
 
-    this.currentUser = JSON.parse(localStorage.getItem('user')!);
+    this.currentUser = JSON.parse(this.dataSharedService.decryptedValue('user'));
     this.requestSubscription = this.dataSharedService.collapseMenu.subscribe({
       next: (res) => {
         if (res) {
