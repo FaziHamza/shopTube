@@ -48,23 +48,24 @@ export class AuthInterceptor implements HttpInterceptor {
       this.router.navigate(['/login']);
       return throwError('Authentication token is missing');
     }
-    // let applicationId = JSON.parse(localStorage.getItem('applicationId')!);
-    // let organizationId = JSON.parse(localStorage.getItem('organizationId')!);
-    // let user: any = localStorage.getItem('username');
-    // let id: any = localStorage.getItem('userId');
-    // let screenId = localStorage.getItem('screenId')! || '';
-    // let screenBuildId = localStorage.getItem('screenBuildId')! || '';
-    // let policyId: any = localStorage.getItem('policyid')
+    debugger
+    let applicationId = JSON.parse(localStorage.getItem('applicationId')!);
+    let organizationId = JSON.parse(localStorage.getItem('organizationId')!);
+    let user = JSON.parse(localStorage.getItem('user')!).username;
+    let id = JSON.parse(localStorage.getItem('user')!).userId;
+    let screenId = localStorage.getItem('screenId')! || '';
+    let screenBuildId = localStorage.getItem('screenBuildId')! || '';
+    let policyId = JSON.parse(localStorage.getItem('user')!)?.policy?.policyid
     this.authReq = req.clone({
       setHeaders: {
         Authorization: `Bearer ${token}`,
-        // 'applicationId': applicationId,
-        // 'organizationId': organizationId,
-        // 'screenId': screenId,
-        // 'screenBuildId': screenBuildId,
-        // 'user': user,
-        // 'userId': id,
-        // "policyId": policyId
+        'applicationId': applicationId,
+        'organizationId': organizationId,
+        'screenId': screenId,
+        'screenBuildId': screenBuildId,
+        'user': user,
+        'userId': id,
+        "policyId": policyId
       },
     });
     return next
