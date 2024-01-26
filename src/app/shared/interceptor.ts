@@ -52,16 +52,16 @@ export class AuthInterceptor implements HttpInterceptor {
     // let organizationId = JSON.parse(localStorage.getItem('organizationId')!);
     // let user: any = localStorage.getItem('username');
     // let id: any = localStorage.getItem('userId');
-    // let screenId = localStorage.getItem('screenId')! || '';
-    // let screenBuildId = localStorage.getItem('screenBuildId')! || '';
+    let screenId = localStorage.getItem('screenId')! || '';
+    let screenBuildId = localStorage.getItem('screenBuildId')! || '';
     // let policyId: any = localStorage.getItem('policyid')
     this.authReq = req.clone({
       setHeaders: {
         Authorization: `Bearer ${token}`,
         // 'applicationId': applicationId,
         // 'organizationId': organizationId,
-        // 'screenId': screenId,
-        // 'screenBuildId': screenBuildId,
+        'screenId': screenId,
+        'screenBuildId': screenBuildId,
         // 'user': user,
         // 'userId': id,
         // "policyId": policyId

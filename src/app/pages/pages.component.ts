@@ -48,6 +48,7 @@ export class PagesComponent implements OnInit, OnDestroy {
   saveLoader: boolean = false;
   countRule: number = 0;
   themeValue: any = '';
+  externalLogin : any = false;
   @Input() isDrawer: boolean = false;
   @Input() mappingId: any;
   private subscriptions: Subscription = new Subscription();
@@ -175,6 +176,7 @@ export class PagesComponent implements OnInit, OnDestroy {
   }
   user: any;
   ngOnInit(): void {
+    this.externalLogin = localStorage.getItem('externalLogin') || false;
     this.initHighlightFalseSubscription();
     this.initPageSubmitSubscription();
     this.initEventChangeSubscription();
@@ -289,31 +291,25 @@ export class PagesComponent implements OnInit, OnDestroy {
 
     if (this.data.length == 0) {
       const subscription = this.activatedRoute.params.subscribe((params: Params) => {
-        // this.initiliaze(params);
         if (params["schema"]) {
-          // this.initiliaze(params);
           this.saveLoader = true;
           this.dataSharedService.currentMenuLink = "/pages/" + params["schema"];
           localStorage.setItem('screenId', this.dataSharedService.currentMenuLink);
           this.clearValues();
-          this.applicationService.getNestNewCommonAPI('cp/auth/pageAuth/' + params["schema"]).subscribe(res => {
-            if (res?.isSuccess) {
-              this.initiliaze(params);
-            } else {
-              this.saveLoader = false;
-              // this.initiliaze(params);
-              // this.screenId = res.data[0].screenBuilderId;
-              // this.screenName = res.data[0].screenName;
-              // this.navigation = res.data[0].navigation;
-
-              // this.resData = this.jsonParseWithObject(res.data[0].screenData);
-              // this.initiliaze('');
-              // this.router.navigateByUrl('permission-denied');
-              this.data = res.data?.data?.[0].screendata;
-              this.resData = this.data;
-              // this.initiliaze('');
-            }
-          });
+          if(!this.externalLogin){
+            this.applicationService.getNestNewCommonAPI('cp/auth/pageAuth/' + params["schema"]).subscribe(res => {
+              if (res?.isSuccess) {
+                this.initiliaze(params);
+              } else {
+                this.saveLoader = false;
+                this.data = res.data?.data?.[0].screendata;
+                this.resData = this.data;
+              }
+            });
+          }else{
+            this.initiliaze(params);
+          }
+   
         }
       });
       this.subscriptions.add(subscription);
@@ -2766,7 +2762,7 @@ export class PagesComponent implements OnInit, OnDestroy {
 
   applyDefaultValue() {
     const filteredNodes = this.filterInputElements(this.resData);
-    const user = JSON.parse(this.dataSharedService.decryptedValue('user'));
+    const user = this.dataSharedService.decryptedValue('user') ? JSON.parse(this.dataSharedService.decryptedValue('user')) : null;;
 
     const newMode = filteredNodes.reduce((acc, node) => {
       const formlyConfig = node.formly?.[0]?.fieldGroup?.[0]?.defaultValue;
@@ -2957,8 +2953,8 @@ export class PagesComponent implements OnInit, OnDestroy {
   }
   applicationThemeData: any[] = [];
   applyApplicationTheme(res1: any, notAllowRuleGet?: any) {
-    let user = JSON.parse(window.localStorage['user']);
-    if (user.policy?.policyTheme) {
+    let user = this.dataSharedService.decryptedValue('user') ? JSON.parse(this.dataSharedService.decryptedValue('user')) : null;;
+    if (user && user?.policy?.policyTheme) {
       this.saveLoader = true;
       this.applicationService.getNestNewCommonAPI(`cp/applicationtheme/${user.policy?.policyTheme}`).subscribe(((res: any) => {
         this.saveLoader = false;

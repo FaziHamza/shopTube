@@ -63,8 +63,8 @@ export class ButtonsComponent implements OnInit {
       this.keyName = this.findKeyByOrderid(this.tableDisplayData, this.title);
     }
 
-    const userData = JSON.parse(this.dataSharedService.decryptedValue('user'));
-    if (this.buttonData?.dropdownProperties == 'policyTheme') {
+    const userData = this.dataSharedService.decryptedValue('user') ? JSON.parse(this.dataSharedService.decryptedValue('user')) : null;
+    if (this.buttonData?.dropdownProperties == 'policyTheme' && userData) {
       this.policyTheme = userData['policy']['policyTheme'];
       this.buttonData['title'] = userData['policy']['policyTheme'] ? userData['policy']['policyTheme'] : this.buttonData?.title;
     }
@@ -78,7 +78,7 @@ export class ButtonsComponent implements OnInit {
     }
     this.hoverTextColor = this.buttonData?.textColor ? this.buttonData?.textColor : '';
     this.bgColor = this.buttonData?.color ? this.buttonData?.color : '';
-    if (this.buttonData.title === '$user' && window.location.href.includes('/pages')) {
+    if (this.buttonData.title === '$user' && window.location.href.includes('/pages') && userData) {
       this.policyId = userData['policy']['policyId'];
       this.buttonData.title = userData.policy.policyName ? userData.policy.policyName : this.buttonData.title;
     }
@@ -132,45 +132,22 @@ export class ButtonsComponent implements OnInit {
         this.loader = true;
         this.isVisible = true;
         // this.dataSharedService.drawerVisible = true;
-        this.applicationService.getNestNewCommonAPI('cp/auth/pageAuth/' + data.href).subscribe(res => {
-          if (res?.data == true) {
-            this.requestSubscription = this.applicationService.getNestNewCommonAPIById('cp/Builders', data.href).subscribe({
-              next: (res: any) => {
-                try {
-                  if (res.isSuccess) {
-                    if (res.data.length > 0) {
-                      this.screenId = res.data[0].screenbuilderid;
-                      // const data = res.data[0].screendata;
-                      // this.responseData = data;
-                      // res.data[0].screendata = this.applicationService.jsonParseWithObject(this.applicationService.jsonStringifyWithObject(this.responseData));
-                      this.nodes = [];
-                      this.nodes.push(res);
-                    }
-                    this.loader = false;
-                  } else {
-                    this.toastr.error(res.message, { nzDuration: 3000 });
-                    this.loader = false;
-                  }
-                } catch (err) {
-                  this.loader = false;
-                  this.toastr.warning('An error occurred: ' + err, { nzDuration: 3000 });
-                  console.error(err); // Log the error to the console
-                }
-              },
-              error: (err) => {
-                this.loader = false;
-                this.toastr.warning('Required Href ' + err, { nzDuration: 3000 });
-                console.error(err); // Log the error to the console
-              }
-            });
-          } 
-          else {
-            this.loader = false;
-            this.screenId = res.data[0].screenbuilderid;
-            // res.data[0].screenData = this.applicationService.jsonParseWithObject(res.data[0].screenData)
-            this.nodes.push(res)
-          }
-        });
+        let externalLogin = localStorage.getItem('externalLogin') || false;
+        if (!externalLogin) {
+          this.applicationService.getNestNewCommonAPI('cp/auth/pageAuth/' + data.href).subscribe(res => {
+            if (res?.data == true) {
+              this.getBuilderScreen(data);
+            }
+            else {
+              this.loader = false;
+              this.screenId = res.data[0].screenbuilderid;
+              this.nodes.push(res)
+            }
+          });
+        }else{
+          this.getBuilderScreen(data);
+        }
+        
         break;
       case '_blank':
         if (this.tableRowId) {
@@ -179,9 +156,9 @@ export class ButtonsComponent implements OnInit {
           this.requestSubscription = this.activatedRoute.params.subscribe((params: Params) => {
             if (params["id"]) {
               window.open('/pages/' + data.href + '/' + params["id"]);
-            }else if(data.href.includes('https://www')){
+            } else if (data.href.includes('https://www')) {
               window.open(data.href);
-            }  
+            }
             else {
               window.open('/pages/' + data.href);
             }
@@ -192,8 +169,8 @@ export class ButtonsComponent implements OnInit {
       case '':
         if (this.tableRowId) {
           this.router.navigate(['/pages/' + data.href + '/' + this.tableRowId]);
-        } 
-        else if(data.href.includes('https://www')){
+        }
+        else if (data.href.includes('https://www')) {
           window.location.href = data.href;
         }
         else {
@@ -201,9 +178,9 @@ export class ButtonsComponent implements OnInit {
             if (params["id"]) {
               this.router.navigate(['/pages/' + data.href + '/' + params["id"]])
             }
-            else if(data.href.includes('https://www')){
+            else if (data.href.includes('https://www')) {
               this.router.navigate([data.href]);
-            } 
+            }
             else {
               this.router.navigate(['/pages/' + data.href]);
             }
@@ -329,7 +306,7 @@ export class ButtonsComponent implements OnInit {
     user['policy']['policyTheme'] = policy?.policyId?.applicationTheme ? policy?.policyId?.applicationTheme : '';
     this.buttonData.title = policy?.policyId?.applicationTheme ? policy?.policyId?.applicationTheme : '';
 
-       this.dataSharedService.ecryptedValue('user' , JSON.stringify(user) , true);
+    this.dataSharedService.ecryptedValue('user', JSON.stringify(user), true);
     this.dataSharedService.applicationTheme.next(true);
   }
   changePolicy(policy: any) {
@@ -338,7 +315,7 @@ export class ButtonsComponent implements OnInit {
     user['policy']['policyId'] = policy?.policyId?._id;
     user['policy']['policyName'] = policy?.policyId?.name;
     this.policyTheme = policy?.policyId?.applicationTheme;
-    this.dataSharedService.ecryptedValue('user' , JSON.stringify(user) , true);
+    this.dataSharedService.ecryptedValue('user', JSON.stringify(user), true);
     let obj = {
       UserMapping: {
         policyId: policy?.policyId?._id,
@@ -430,5 +407,33 @@ export class ButtonsComponent implements OnInit {
       }
     }
     return null;
+  }
+  getBuilderScreen(data: any) {
+    this.requestSubscription = this.applicationService.getNestNewCommonAPIById('cp/Builders', data.href).subscribe({
+      next: (res: any) => {
+        try {
+          if (res.isSuccess) {
+            if (res.data.length > 0) {
+              this.screenId = res.data[0].screenbuilderid;
+              this.nodes = [];
+              this.nodes.push(res);
+            }
+            this.loader = false;
+          } else {
+            this.toastr.error(res.message, { nzDuration: 3000 });
+            this.loader = false;
+          }
+        } catch (err) {
+          this.loader = false;
+          this.toastr.warning('An error occurred: ' + err, { nzDuration: 3000 });
+          console.error(err); // Log the error to the console
+        }
+      },
+      error: (err) => {
+        this.loader = false;
+        this.toastr.warning('Required Href ' + err, { nzDuration: 3000 });
+        console.error(err); // Log the error to the console
+      }
+    });
   }
 }

@@ -181,8 +181,8 @@ export class DataSharedService {
   }
 
   decryptedValue(property: any) {
-    let value: any = JSON.parse(window.localStorage[property]);
-    if (value) {
+    if (window.localStorage[property]) {
+      let value: any = JSON.parse(window.localStorage[property]);
       var result: any = CryptoJS.AES.decrypt(value, this.encryptSecretKey).toString(CryptoJS.enc.Utf8);
       return result;
     } else {

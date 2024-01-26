@@ -35,6 +35,7 @@ export class AuthService {
     // set isAuthenticated to true
     this.isAuthenticatedSubject.next(true)
   }
+  
 
   // 2 getCurrent User
   getCurrentUser(): User {

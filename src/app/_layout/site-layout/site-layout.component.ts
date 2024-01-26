@@ -10,6 +10,7 @@ import { ApplicationService } from 'src/app/services/application.service';
 import { BuilderService } from 'src/app/services/builder.service';
 import { DataSharedService } from 'src/app/services/data-shared.service';
 import { EmployeeService } from 'src/app/services/employee.service';
+import { JwtService } from 'src/app/shared/jwt.service';
 
 @Component({
   selector: 'st-site-layout',
@@ -77,7 +78,7 @@ export class SiteLayoutComponent implements OnInit {
   private destroy$: Subject<void> = new Subject<void>();
   constructor(private applicationService: ApplicationService, private renderer: Renderer2, private el: ElementRef, public dataSharedService: DataSharedService, public builderService: BuilderService,
     private toastr: NzMessageService, private router: Router, private activatedRoute: ActivatedRoute, private cd: ChangeDetectorRef, private modalService: NzModalService,
-    private viewContainerRef: ViewContainerRef, private authService: AuthService) {
+    private viewContainerRef: ViewContainerRef, private authService: AuthService, private jwtService: JwtService) {
     this.requestSubscription = this.dataSharedService.localhostHeaderFooter.subscribe({
       next: (res) => {
         if (res) {
@@ -92,10 +93,11 @@ export class SiteLayoutComponent implements OnInit {
 
 
   ngOnInit(): void {
+    localStorage.setItem('externalUser', 'false');
     this.dataSharedService.measureHeight = 0;
     // this.getTaskManagementIssuesFunc(JSON.parse(localStorage.getItem('applicationId')!));
 
-    this.currentUser = JSON.parse(this.dataSharedService.decryptedValue('user'));
+    this.currentUser = this.dataSharedService.decryptedValue('user') ? JSON.parse(this.dataSharedService.decryptedValue('user')) : null;
     this.requestSubscription = this.dataSharedService.collapseMenu.subscribe({
       next: (res) => {
         if (res) {
@@ -127,15 +129,33 @@ export class SiteLayoutComponent implements OnInit {
     this.fullCurrentUrl = window.location.host.split(':')[0];
     this.currentUrl = window.location.host.split(':')[0];
     if (window.location.search.includes('token=')) {
+      debugger
       const getToken = window.location.search.split('token=')[1];
       this.authService.getUserInfo(getToken).subscribe((response: any) => {
         if (response.isSuccess) {
+          localStorage.setItem('externalLogin', 'false');
           localStorage.setItem('isLoggedIn', 'true');
           this.authService.setAuth(response.data);
           this.getMenuByDomainName(this.currentUrl, true);
           this.router.navigate([window.location.pathname]);
-        } else {
-          this.externalLogin = true;
+        }
+        else {
+          this.applicationService.getNestNewCommonAPI(`cp/applicationglobalclass`).subscribe({
+            next: (res: any) => {
+              this.dataSharedService.applicationGlobalClass = res.data;
+              this.loader = false;
+              this.jwtService.saveToken(getToken);
+              window.localStorage['authToken'] = JSON.stringify(getToken);
+              localStorage.setItem('isLoggedIn', 'true');
+              localStorage.setItem('externalLogin', 'true');
+              this.externalLogin = true;
+            },
+            error: (err) => {
+              this.toastr.error(`Screen : An error occured`, { nzDuration: 3000 });
+              this.loader = false;
+            },
+          });
+
         }
       })
     } else {
@@ -192,7 +212,6 @@ export class SiteLayoutComponent implements OnInit {
 
 
   updateHeaderHeight() {
-    debugger
     if (this.el.nativeElement.querySelector('#HEADER')) {
       const headerElement = this.el.nativeElement.querySelector('#HEADER');
       this.headerHeight = headerElement.clientHeight;
@@ -206,7 +225,7 @@ export class SiteLayoutComponent implements OnInit {
       console.log(this.footerHeight);
     }
 
-    if (this.el.nativeElement.querySelector('#Content')) {
+    if (this.el.nativeElement.querySelector('#Content') && this.footerHeight) {
       debugger;
       const contentElement = this.el.nativeElement.querySelector('#Content');
       this.dataSharedService.contentHeight = contentElement.clientHeight;
@@ -289,7 +308,7 @@ export class SiteLayoutComponent implements OnInit {
             this.hideHeaderFooterMenu = window.location.href.includes('/pdf') ? true : false;
             // Example usage:
 
-            if (window.location.href.includes('/pages')) {
+            if (window.location.href.includes('/pages') && this.selectedTheme) {
               const urlSegments = window.location.href.split('/');
               const parentMenu = this.findParentMenu(this.selectedTheme.allMenuItems, `/pages/${urlSegments[urlSegments.length - 1].trim()}`);
               if (parentMenu && parentMenu.type == "mainTab") {
