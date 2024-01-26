@@ -28,7 +28,7 @@ export class AuthService {
     this.jwtService.ecryptedValue('user' , JSON.stringify(user) , true);
     this.jwtService.ecryptedValue('applicationId' , user?.applicationId , true);
     this.jwtService.ecryptedValue('organizationId' , user?.organizationId , true);
-
+    window.localStorage['authToken'] = JSON.stringify(user?.access_token);
     // set current user data into  Observable
     this.currentUserSubject.next(user)
 
