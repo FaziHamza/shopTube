@@ -28,6 +28,7 @@ import { SupportChatComponent } from '../admin/support-chat/support-chat.compone
 import { EmailComponent } from '../components/email/email.component';
 import { EmailTemplatesComponent } from './configurations/email-templates/email-templates.component';
 import { ApplicationGlobalClassesComponent } from '../Builder-module/application-global-classes/application-global-classes.component';
+import { ExecuteQueryComponent } from '../admin/execute-query/execute-query.component';
 
 
 const routes: Routes = [
@@ -66,6 +67,10 @@ const routes: Routes = [
       {
         path: 'database',
         component: CreateDatabaseComponent
+      },
+      {
+        path: 'query',
+        component: ExecuteQueryComponent
       },
       {
         path: 'role',
