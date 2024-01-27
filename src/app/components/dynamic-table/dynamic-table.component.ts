@@ -150,7 +150,7 @@ export class DynamicTableComponent implements OnInit {
       document.documentElement.style.setProperty('--paginationColor', this.data?.paginationColor || '#2563EB');
 
     }
-    this.userDetails = JSON.parse(localStorage.getItem('user')!)
+    this.userDetails = JSON.parse(this.dataSharedService.decryptedValue('user'));
 
     this.updateRotationDegree(50); // Rotate to -60 degrees
 
@@ -1075,14 +1075,14 @@ export class DynamicTableComponent implements OnInit {
     debugger
     this.getResizingAndColumnSortng();
     if (this.tableData.length > 0) {
-      if (this.tableData[0].__v || this.tableData[0].id) {
-        const requiredData = this.tableData.map(({ __v, id, ...rest }: any) => ({
-          expand: false,
-          id: id,
-          ...rest,
-        }));
-        this.tableData = JSON.parse(JSON.stringify(requiredData));
-      }
+      // if (this.tableData[0].__v || this.tableData[0].id) {
+      //   const requiredData = this.tableData.map(({ __v, id, ...rest }: any) => ({
+      //     expand: false,
+      //     id: id,
+      //     ...rest,
+      //   }));
+      //   this.tableData = JSON.parse(JSON.stringify(requiredData));
+      // }
       let newId = 0;
       if (!this.tableData[0].id) {
         let newId = 0;
@@ -1475,8 +1475,8 @@ export class DynamicTableComponent implements OnInit {
           newData['parentid'] = newData.id;
           const userData = JSON.parse(localStorage.getItem('user')!);
           newData.id = '';
-          newData['organizationid'] = JSON.parse(localStorage.getItem('organizationId')!) || '';
-          newData['applicationid'] = JSON.parse(localStorage.getItem('applicationId')!) || '';
+          newData['organizationid'] = this.dataSharedService.decryptedValue('organizationId') || '';
+          newData['applicationid'] = this.dataSharedService.decryptedValue('applicationId') || '';
           newData['createdby'] = userData.username;
           // Get the current date and time
           const currentDate = new Date();
@@ -1904,7 +1904,7 @@ export class DynamicTableComponent implements OnInit {
         this.pageChange(1);
       }
       if (allowSaveInLocal) {
-        const applicationId = localStorage.getItem('applicationId') || '';
+        const applicationId = this.dataSharedService.decryptedValue('applicationId') || '';
         this.dataService.addData(this.screenName, JSON.parse(applicationId), "Table", this.groupingArray);
       }
       this.saveLoader = false;
@@ -2271,7 +2271,7 @@ export class DynamicTableComponent implements OnInit {
       try {
 
         this.saveLoader = true;
-        const applicationId = localStorage.getItem('applicationId') || '';
+        const applicationId = this.dataSharedService.decryptedValue('applicationId') || '';
         let savedGroupData: any = [];
         if (applicationId) {
           // savedGroupData = await this.dataService.getNodes(JSON.parse(applicationId), this.screenName, "Table");

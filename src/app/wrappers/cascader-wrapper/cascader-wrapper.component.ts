@@ -13,7 +13,7 @@ export class CascaderWrapperComponent extends FieldType<FieldTypeConfig> {
   nzOptions: any[] | null = null;
   values: any[] = [];
   selectedValues: any[] = [];
-  constructor(private applicationService: ApplicationService, private cdr: ChangeDetectorRef, private sharedService: DataSharedService) {
+  constructor(private applicationService: ApplicationService, private cdr: ChangeDetectorRef, private sharedService: DataSharedService , public dataSharedService: DataSharedService) {
     super();
     this.processData = this.processData.bind(this);
   }
@@ -69,7 +69,7 @@ export class CascaderWrapperComponent extends FieldType<FieldTypeConfig> {
           });
           return newObj;
         });
-        const applicationID = JSON.parse(localStorage.getItem('applicationId')!);
+        const applicationID = this.dataSharedService.decryptedValue('applicationId');
 
         let finalObj = result.map((item: any) => {
           return {

@@ -218,7 +218,7 @@ export class organizationBuilderComponent implements OnInit {
       { label: 'Formly' },
       { label: 'Pages', active: true },
     ];
-    this.organizationId = JSON.parse(localStorage.getItem('organizationId')!);
+    this.organizationId = this.dataSharedService.decryptedValue('organizationId');
 
     this.organizationBuilder();
     this.LoadOrganizationFields();

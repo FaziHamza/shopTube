@@ -539,7 +539,7 @@ export interface TreeNode {
   chartData?: any,
   chartOptions?: any,
   columnNames?: any
-  checkDatas?: any
+  checkData?: any
   rowClickApi?: any,
   rowClass?: any,
   headerCollapse?: any,

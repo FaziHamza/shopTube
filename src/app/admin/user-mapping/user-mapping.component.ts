@@ -162,7 +162,7 @@ export class UserMappingComponent {
           policyId: this.policyName,
           userId: this.userName,
           defaultPolicy: this.defaultPolicy,
-          applicationId: JSON.parse(localStorage.getItem('applicationId')!),
+          applicationId: this.dataSharedService.decryptedValue('applicationId'),
         }
       }
       this.loader = true;

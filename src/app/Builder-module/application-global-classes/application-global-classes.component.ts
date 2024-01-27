@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { NzModalService } from 'ng-zorro-antd/modal';
 import { ApplicationService } from 'src/app/services/application.service';
+import { DataSharedService } from 'src/app/services/data-shared.service';
 import { environment } from 'src/environments/environment';
 
 @Component({
@@ -50,7 +51,8 @@ export class ApplicationGlobalClassesComponent {
       visible: false
     },
   ];
-  constructor(private fb: FormBuilder, private applicationService: ApplicationService, private toastr: NzMessageService, private modal: NzModalService
+  constructor(private fb: FormBuilder, private applicationService: ApplicationService, private toastr: NzMessageService, private modal: NzModalService,
+    public dataSharedService: DataSharedService,
   ) {
     this.form = this.fb.group({
       name: ['', Validators.required], // Classes is required
@@ -75,7 +77,7 @@ export class ApplicationGlobalClassesComponent {
         const obj = {
         [tableValue]: {
           ...formValue,
-          'applicationid': JSON.parse(localStorage.getItem('applicationId')!)
+          'applicationid': this.dataSharedService.decryptedValue('applicationId')
         }
       };
       this.loader = true;

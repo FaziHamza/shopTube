@@ -2,6 +2,7 @@ import { Component, Input } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { ApplicationService } from 'src/app/services/application.service';
+import { DataSharedService } from 'src/app/services/data-shared.service';
 import { environment } from 'src/environments/environment';
 
 @Component({
@@ -16,7 +17,7 @@ export class EmailTemplatesComponent {
   emailTemplateId: any = '';
   // @Input() screenname: any;
   // @Input() screenId: any;
-  constructor(private fb: FormBuilder, private applicationService: ApplicationService, private toastr: NzMessageService) {
+  constructor(private fb: FormBuilder, private applicationService: ApplicationService, private toastr: NzMessageService, public dataSharedService: DataSharedService) {
     this.emailForm = this.fb.group({
       fields: this.fb.array([
         // this.createField()
@@ -82,13 +83,13 @@ export class EmailTemplatesComponent {
     let saveData: any[] = [];
     this.emailForm.value.fields.forEach((element: any) => {
       const emailData: any = {
-        "applicationid": JSON.parse(localStorage.getItem('applicationId')!),
+        "applicationid": this.dataSharedService.decryptedValue('applicationId'),
         "emailtemplate": element?.emailtemplate,
         "name": element?.name,
         "templatetype": element?.templatetype,
       }
       if (element.id) {
-        emailData['id'] = element.id;
+        emailData['id'] = element.id; 
       }
       saveData.push(emailData)
     });

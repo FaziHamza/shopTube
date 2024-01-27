@@ -697,6 +697,7 @@ export class ActionRuleComponent implements OnInit {
     });
   }
   getScreens() {
+
     this.saveLoader = true;
     this.applicationService.getNestNewCommonAPI(`cp/ScreenBuilder`).subscribe({
       next: (res: any) => {
@@ -705,7 +706,7 @@ export class ActionRuleComponent implements OnInit {
           this.toastr.success(`Screen : ${res.message}`, { nzDuration: 3000 });
           this.screenOptions = res.data.map((res: any) => ({
             label: res.name,
-            value: res.navigate,
+            value: `pages/${res.navigation}`,
           }));
         }
       },

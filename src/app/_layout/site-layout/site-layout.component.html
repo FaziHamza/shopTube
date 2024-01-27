@@ -1,6 +1,6 @@
 <nz-spin [nzSpinning]="loader" [nzSize]="'large'">
   <div *ngIf="loader" style="height: 100vh;"></div>
-  <div *ngIf="selectedTheme && !loader" class="user-builder-layout" [dir]="this.selectedTheme?.layout" [ngClass]="{
+  <div *ngIf="selectedTheme && !loader && !externalLogin" class="user-builder-layout" [dir]="this.selectedTheme?.layout" [ngClass]="{
     'boxed-menu': selectedTheme?.layoutWidth == 'boxed' &&  selectedTheme?.layout != 'horizental',
     'horizental-boxed': selectedTheme?.layoutWidth == 'boxed' &&  selectedTheme?.layout == 'horizental',
     'horizental-fluid': selectedTheme?.layoutWidth == 'fluid' &&  selectedTheme?.layout == 'horizental'
@@ -72,5 +72,8 @@
         </nz-content>
       </nz-layout>
     </nz-layout>
+  </div>
+  <div class="user-builder-layout" *ngIf="externalLogin">
+    <router-outlet></router-outlet>
   </div>
   <!-- [class]="dataSharedService.checkContentForFixFooter ? (dataSharedService.checkContentForFixFooter[0].fixedFooter ? 'dynamic-footer' : '') : 'dynamic-footer'" -->

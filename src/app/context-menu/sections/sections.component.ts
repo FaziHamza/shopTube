@@ -502,7 +502,7 @@ export class SectionsComponent implements OnInit {
           pagination = '?page=' + localStorage.getItem('tablePageNo') || 1 + '&pageSize=' + localStorage.getItem('tablePageSize') || 10;
         }
         this.saveLoader = true;
-        const applicationId = localStorage.getItem('applicationId') || '';
+        const applicationId = this.dataSharedService.decryptedValue('organizationId') || '';
         // let savedGroupData = await this.dataService.getNodes(JSON.parse(applicationId), this.screenName, "Table");
         this.requestSubscription = this.employeeService.getSQLDatabaseTable(url + pagination).subscribe({
           next: async (res) => {

@@ -46,7 +46,8 @@ export class AppSideMenuComponent implements OnInit {
     public builderService: BuilderService, public dataSharedService: DataSharedService, private renderer: Renderer2,
     private applicationService: ApplicationService, private cd: ChangeDetectorRef, private formBuilder: FormBuilder) { }
   ngOnInit(): void {
-    this.currentUser = JSON.parse(localStorage.getItem('user')!);
+    debugger
+    this.currentUser = JSON.parse(this.dataSharedService.decryptedValue('user'));
     this.loadModules();
     if (!window.location.href.includes('/menu-builder')) {
       window.onresize = () => {
@@ -175,9 +176,9 @@ export class AppSideMenuComponent implements OnInit {
       if (data.link && !checkTabs && !window.location.href.includes('/menu-builder')) {
         if (data.link.includes('#')) {
           this.dataSharedService.moveLink.next(data.link)
-        }else{
+        } else {
           this.dataSharedService.currentMenuLink = data.link;
-          localStorage.setItem('screenId',this.dataSharedService.currentMenuLink);
+          localStorage.setItem('screenId', this.dataSharedService.currentMenuLink);
           this.router.navigate([data.link]);
         }
       }
@@ -225,7 +226,7 @@ export class AppSideMenuComponent implements OnInit {
   }
 
   handleContextMenu(event: MouseEvent, item: any) {
-    
+
     // event.stopPropagation();
     // event.preventDefault(); 
     this.dataSharedService.rightClickMenuData = item;

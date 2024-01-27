@@ -86,10 +86,10 @@ export class DrawerComponent implements OnInit {
                                 newModel[key][key1] = this.drawerData.eventActionconfig.parentId;
                               }
                               else if (key1.includes('applicationid')) {
-                                newModel[key][key1] = JSON.parse(localStorage.getItem('applicationId')!) || '';
+                                newModel[key][key1] = this.dataSharedService.decryptedValue('applicationId') || '';
                               }
                               else if (key1.includes('organizationid')) {
-                                newModel[key][key1] = JSON.parse(localStorage.getItem('organizationId')!) || '';
+                                newModel[key][key1] = this.dataSharedService.decryptedValue('organizationId') || '';
                               }
                               else if (key1.includes('createdby')) {
                                 newModel[key][key1] = userData.username;
@@ -104,10 +104,10 @@ export class DrawerComponent implements OnInit {
                               newModel[key] = this.drawerData.eventActionconfig.parentId;
                             }
                             else if (key.includes('applicationid')) {
-                              newModel[key] = JSON.parse(localStorage.getItem('applicationId')!) || '';
+                              newModel[key] = this.dataSharedService.decryptedValue('applicationId') || '';
                             }
                             else if (key.includes('organizationid')) {
-                              newModel[key] = JSON.parse(localStorage.getItem('organizationId')!) || '';
+                              newModel[key] = this.dataSharedService.decryptedValue('organizationId') || '';
                             }
                             else if (key.includes('createdby')) {
                               newModel[key] = userData.username;
