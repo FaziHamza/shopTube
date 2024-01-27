@@ -62,6 +62,7 @@ import { EmailTemplatesComponent } from './builder/configurations/email-template
 import { IPublicClientApplication, PublicClientApplication, InteractionType } from '@azure/msal-browser';
 import { MsalGuard, MsalBroadcastService, MsalModule, MsalService, MSAL_GUARD_CONFIG, MSAL_INSTANCE, MsalGuardConfiguration, MsalRedirectComponent } from '@azure/msal-angular';
 import { msalConfig } from './auth-config';
+import { ExecuteQueryComponent } from './admin/execute-query/execute-query.component';
 export function MSALInstanceFactory(): IPublicClientApplication {
   return new PublicClientApplication(msalConfig);
 }
@@ -100,6 +101,7 @@ const icons: IconDefinition[] = Object.keys(antDesignIcons).map(key => antDesign
     NgxGraphNodeComponent,
     ApplicationGlobalClassesComponent,
     EmailTemplatesComponent,
+    ExecuteQueryComponent,
         // MultiFileUploadWrapperComponent,
   ],
   imports: [

@@ -1,0 +1,18 @@
+<form nz-form [formGroup]="validateForm" (ngSubmit)="submitQuery()">
+    <nz-form-item>
+        <nz-form-label [nzSpan]="5" nzRequired nzFor="query">Query</nz-form-label>
+        <nz-form-control [nzSpan]="12" nzErrorTip="Please input your query!">
+            <textarea nz-input placeholder="Enter query" formControlName="query"
+                [nzAutosize]="{ minRows: 2, maxRows: 6 }"></textarea>
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+        <nz-form-control [nzSpan]="12" [nzOffset]="5">
+            <button nz-button nzType="primary">Execute Query</button>
+        </nz-form-control>
+    </nz-form-item>
+</form>
+
+<json-editor [(ngModel)]="queryRes" [options]="editorOptions" style="max-height: 150px !important;"
+    [options]="makeOptions()">
+</json-editor>
