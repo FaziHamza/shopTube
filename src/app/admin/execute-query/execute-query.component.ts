@@ -17,7 +17,6 @@ export class ExecuteQueryComponent implements OnInit, AfterViewInit {
   saveLoader: boolean = false;
   queryRes: string;
 
-
   constructor(private applicationService: ApplicationService,
     private toastr: NzMessageService, private cdRef: ChangeDetectorRef, private zone: NgZone) {
     this.editorOptions = new JsonEditorOptions();
@@ -27,14 +26,23 @@ export class ExecuteQueryComponent implements OnInit, AfterViewInit {
     debugger
     const query = this.codeEditorRuleInstance.getValue();
     if (query == undefined || query == '') {
-      alert('Please add query');
+      this.toastr.warning('Please add query', { nzDuration: 3000 });
       return;
     }
-    if (query.toLocaleLowerCase().includes('drop') || query.toLocaleLowerCase().includes('delete')) {
-      alert('This is not allowed');
+    let validationArray = [
+      'drop',
+      'delete',
+      'truncate',
+      'alter'
+    ];
+
+    const foundKeyword = validationArray.find(keyword => query.toLowerCase().includes(keyword));
+
+    if (foundKeyword) {
+      this.toastr.warning(`${foundKeyword} query is not allowed`, { nzDuration: 3000 });
       return;
     }
-    console.log('submit', query);
+
     const tableValue = `executecustomquery`;
 
     const objQuery = {
@@ -44,13 +52,12 @@ export class ExecuteQueryComponent implements OnInit, AfterViewInit {
     const tableModel = {
       [tableValue]: objQuery
     }
-
+    this.saveLoader = true;
     this.applicationService.addNestNewCommonAPI(`cp`, tableModel).subscribe({
       next: (objRes) => {
         this.saveLoader = false;
         if (objRes.isSuccess) {
           this.toastr.success("Query execute successfull", { nzDuration: 3000 });
-          console.log(objRes.message);
           this.queryRes = objRes.data;
         } else {
           console.log(objRes.message);
@@ -291,7 +298,7 @@ export class ExecuteQueryComponent implements OnInit, AfterViewInit {
       this.codeEditorRuleInstance = monaco.editor.create(this._editorRuleContainer.nativeElement, {
         theme: 'myCustomTheme',
         language: this.languageId,
-        value: this.actionRule // Initial value
+        value: `select *from dev_meta.demo` // Initial value
       });
 
 
@@ -333,7 +340,6 @@ export class ExecuteQueryComponent implements OnInit, AfterViewInit {
       const editorInstance = this.codeEditorRuleInstance;
 
       editorInstance.onDidChangeModelContent(() => {
-        console.log(editorInstance.getValue());
 
         this.zone.run(() => {
           this.contentChange.emit(editorInstance.getValue());
@@ -365,10 +371,5 @@ export class ExecuteQueryComponent implements OnInit, AfterViewInit {
       // Adjust the editors' size to fit the container
       this.codeEditorRuleInstance.layout();
     }
-  }
-
-  seeData() {
-    const jsonData = this.codeEditorRuleInstance.getValue();
-    console.log(jsonData)
   }
 }
