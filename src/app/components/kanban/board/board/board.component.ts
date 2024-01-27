@@ -32,7 +32,7 @@ export class BoardComponent implements OnInit {
   }
 
   ngOnInit() {
-    if (this.kanbanData?.eventActionconfig) {
+    if (this.kanbanData?.eventActionconfig && Object.keys(this.kanbanData.eventActionconfig).length > 0) {
       this.loader = true
     } else {
       this.loader = false

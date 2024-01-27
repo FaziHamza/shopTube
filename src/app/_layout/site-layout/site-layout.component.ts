@@ -98,6 +98,12 @@ export class SiteLayoutComponent implements OnInit {
     // this.getTaskManagementIssuesFunc(JSON.parse(localStorage.getItem('applicationId')!));
 
     this.currentUser = this.dataSharedService.decryptedValue('user') ? JSON.parse(this.dataSharedService.decryptedValue('user')) : null;
+    if (this.currentUser == null) {
+      // window.localStorage['jwtToken'] = null;
+      window.localStorage['authToken'] = null;
+      localStorage.setItem('isLoggedIn', 'false');
+      localStorage.setItem('externalLogin', 'false');
+    }
     this.requestSubscription = this.dataSharedService.collapseMenu.subscribe({
       next: (res) => {
         if (res) {
@@ -140,15 +146,15 @@ export class SiteLayoutComponent implements OnInit {
           this.router.navigate([window.location.pathname]);
         }
         else {
+          this.jwtService.saveToken(getToken);
+          window.localStorage['authToken'] = JSON.stringify(getToken);
+          localStorage.setItem('isLoggedIn', 'true');
+          localStorage.setItem('externalLogin', 'true');
+          this.externalLogin = true;
           this.applicationService.getNestNewCommonAPI(`cp/applicationglobalclass`).subscribe({
             next: (res: any) => {
               this.dataSharedService.applicationGlobalClass = res.data;
               this.loader = false;
-              this.jwtService.saveToken(getToken);
-              window.localStorage['authToken'] = JSON.stringify(getToken);
-              localStorage.setItem('isLoggedIn', 'true');
-              localStorage.setItem('externalLogin', 'true');
-              this.externalLogin = true;
             },
             error: (err) => {
               this.toastr.error(`Screen : An error occured`, { nzDuration: 3000 });
