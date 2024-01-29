@@ -11,27 +11,30 @@ export class ParentCalendarComponent {
   @Input() screenName: any;
   dataGet = false
   loader = false;
+  showSimple: boolean = false
   constructor(private changeDetector: ChangeDetectorRef,
     private toastr: NzMessageService
   ) {
     this.processData = this.processData.bind(this);
   }
   ngOnInit() {
+    debugger
     this.dataGet = false;
-    if (this.item?.eventActionconfig) {
+    if (this.item?.eventActionconfig && Object.keys(this.item.eventActionconfig).length > 0) {
       this.item?.eventActionconfig
       this.loader = true;
     } else {
       this.loader = false;
+      this.showSimple = true;
     }
   }
   processData(data: any) {
-    
+
     try {
       this.dataGet = false;
       if (data?.data.length > 0) {
         this.item.options = [];
-        data?.data.forEach((element:any) => {
+        data?.data.forEach((element: any) => {
           let event = {
             "id": element.id, // Increment the index to start from 1
             "title": element.message,

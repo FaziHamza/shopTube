@@ -66,6 +66,10 @@ const routes: Routes = [
       { path: '**', redirectTo: 'not-found' }
     ]
   },
+  // {
+  //   path: 'permission-denied',
+  //   component: PermissionDeniedComponent
+  // },
   {
     path: 'builder',
     loadChildren: () => import("src/app/builder/builder.module").then((m) => m.BuilderModule),

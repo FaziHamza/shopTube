@@ -1,4 +1,4 @@
-<st-calendar *ngIf="item?.eventActionconfig == undefined && !dataGet" [calenderData]="item"></st-calendar>
+<st-calendar *ngIf="!dataGet && showSimple" [calenderData]="item"></st-calendar>
 <nz-spin [nzSpinning]="loader" [nzSize]="'large'">
     <div [processData]="processData" [appConfigurableSelect]="item['appConfigurableEvent']"
         [loadAction]="item['eventActionconfig']">

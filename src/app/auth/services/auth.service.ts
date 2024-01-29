@@ -25,9 +25,9 @@ export class AuthService {
     debugger
     // saving JWT sent from Server, in LocalStorage
     this.jwtService.saveToken(user.access_token);
-    this.jwtService.ecryptedValue('user' , JSON.stringify(user) , true);
-    this.jwtService.ecryptedValue('applicationId' , user?.applicationId , true);
-    this.jwtService.ecryptedValue('organizationId' , user?.organizationId , true);
+    this.jwtService.ecryptedValue('user', JSON.stringify(user), true);
+    this.jwtService.ecryptedValue('applicationId', user?.applicationId, true);
+    this.jwtService.ecryptedValue('organizationId', user?.organizationId, true);
     window.localStorage['authToken'] = JSON.stringify(user?.access_token);
     // set current user data into  Observable
     this.currentUserSubject.next(user)
@@ -35,7 +35,7 @@ export class AuthService {
     // set isAuthenticated to true
     this.isAuthenticatedSubject.next(true)
   }
-  
+
 
   // 2 getCurrent User
   getCurrentUser(): User {
@@ -96,7 +96,7 @@ export class AuthService {
       api.includes('http') ? api : environment.nestBaseUrl + api, modal
     );
   }
-  getUserInfo(token: any) :any{
+  getUserInfo(token: any, body: any): any {
     let url = environment.nestNewBaseUrl + 'user/info';
 
     // Assuming you have a function to retrieve the authorization token
@@ -105,7 +105,7 @@ export class AuthService {
     // Set the authorization token in the headers
     const headers = new HttpHeaders().set('Authorization', `Bearer ${authToken}`);
 
-    return this.http.get(url, { headers });
+    return this.http.post(url, body, { headers });
   }
 
   private getAuthToken(token: string): string {

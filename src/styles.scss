@@ -9254,7 +9254,31 @@ ul.jsondiffpatch-textdiff {
 .ant-layout-sider-light {
   border-right: 1px solid #f0f0f0 !important;
 }
+
 .ant-select-show-search.ant-select:not(.ant-select-customize-input) .ant-select-selector {
   cursor: text;
   width: 100% !important;
+}
+
+
+.querryDiv {
+  .margin-view-overlays {
+    height: calc(100vh - 80px) !important;
+  }
+
+  .margin {
+    height: calc(100vh - 80px) !important;
+  }
+
+  .overflow-guard {
+    height: calc(100vh - 80px) !important;
+  }
+
+  .monaco-editor {
+    height: calc(100vh - 80px) !important;
+  }
+
+  .editor-container {
+    height: calc(100vh - 80px) !important;
+  }
 }

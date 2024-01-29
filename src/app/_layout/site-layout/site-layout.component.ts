@@ -93,11 +93,17 @@ export class SiteLayoutComponent implements OnInit {
 
 
   ngOnInit(): void {
-    localStorage.setItem('externalUser', 'false');
+    localStorage.setItem('externalLogin', 'false');
     this.dataSharedService.measureHeight = 0;
     // this.getTaskManagementIssuesFunc(JSON.parse(localStorage.getItem('applicationId')!));
 
     this.currentUser = this.dataSharedService.decryptedValue('user') ? JSON.parse(this.dataSharedService.decryptedValue('user')) : null;
+    if (this.currentUser == null) {
+      // window.localStorage['jwtToken'] = null;
+      window.localStorage['authToken'] = null;
+      localStorage.setItem('isLoggedIn', 'false');
+      localStorage.setItem('externalLogin', 'false');
+    }
     this.requestSubscription = this.dataSharedService.collapseMenu.subscribe({
       next: (res) => {
         if (res) {
@@ -129,32 +135,40 @@ export class SiteLayoutComponent implements OnInit {
     this.fullCurrentUrl = window.location.host.split(':')[0];
     this.currentUrl = window.location.host.split(':')[0];
     if (window.location.search.includes('token=')) {
-      debugger
+      localStorage.clear();
       const getToken = window.location.search.split('token=')[1];
-      this.authService.getUserInfo(getToken).subscribe((response: any) => {
+      const body = { page: window.location.pathname }
+      localStorage.setItem('screenBuildId', window.location.pathname);
+      localStorage.setItem('screenId', window.location.pathname)
+      this.authService.getUserInfo(getToken, body).subscribe((response: any) => {
         if (response.isSuccess) {
-          localStorage.setItem('externalLogin', 'false');
-          localStorage.setItem('isLoggedIn', 'true');
+          // localStorage.setItem('isLoggedIn', 'true');
           this.authService.setAuth(response.data);
           this.getMenuByDomainName(this.currentUrl, true);
           this.router.navigate([window.location.pathname]);
         }
         else {
-          this.applicationService.getNestNewCommonAPI(`cp/applicationglobalclass`).subscribe({
-            next: (res: any) => {
-              this.dataSharedService.applicationGlobalClass = res.data;
-              this.loader = false;
-              this.jwtService.saveToken(getToken);
-              window.localStorage['authToken'] = JSON.stringify(getToken);
-              localStorage.setItem('isLoggedIn', 'true');
-              localStorage.setItem('externalLogin', 'true');
-              this.externalLogin = true;
-            },
-            error: (err) => {
-              this.toastr.error(`Screen : An error occured`, { nzDuration: 3000 });
-              this.loader = false;
-            },
-          });
+          debugger
+          if (response?.isPermission) {
+            this.router.navigate(['permission-denied']);
+          } else {
+            this.jwtService.saveToken(getToken);
+            window.localStorage['authToken'] = JSON.stringify(getToken);
+            localStorage.setItem('externalLogin', 'true');
+            this.externalLogin = true;
+            this.router.navigate([window.location.pathname]);
+            this.applicationService.getNestNewCommonAPI(`cp/applicationglobalclass`).subscribe({
+              next: (res: any) => {
+                this.dataSharedService.applicationGlobalClass = res.data;
+                this.loader = false;
+              },
+              error: (err) => {
+                this.toastr.error(`Screen : An error occured`, { nzDuration: 3000 });
+                this.loader = false;
+              },
+            });
+          }
+
 
         }
       })

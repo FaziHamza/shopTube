@@ -281,9 +281,15 @@ export class CreateDatabaseComponent implements OnInit {
                   return item.isactive === 'Approved';
                 });
                 this.searchFilterdApproved = this.filteredApproved
+
                 this.filteredPending = this.data.filter((item) => {
-                  return item.isactive === 'Pending' && item.schema.some((a: any) => a.status === 'Pending');
+                  return item.isactive === 'Pending';
                 });
+                if (this.filteredPending.length === 0) {
+                  this.filteredPending = this.data.filter((item) => {
+                    return item.isactive === 'Pending' && item.schema.some((a: any) => a.status === 'Pending');
+                  });
+                }
                 let statusFilterd = this.data.filter((item) => {
                   return item.isactive === 'Approved' && item.schema.some((a: any) => a.status === 'Pending');
                 });

@@ -1,0 +1,39 @@
+<nz-spin [nzSpinning]="saveLoader" [nzSize]="'large'" class="builder-design">
+    <div class="flex justify-normal items-start w-full h-[calc(100vh-80px)] querryDiv p-2">
+        <div id="mySidenav-right" class="sidenav-right h-[calc(100vh-80px)] w-1/2">
+            <div class="mySidenav-right h-full">
+                <div class="side-nav-body h-full">
+                    <div class="flex flex-wrap h-full">
+                        <div class="flex items-center justify-between w-full">
+                            <h1 class="text-xl font-semibold py-2 px-1">Query</h1>
+                            <button nz-button nzType="primary" (click)="submitQuery()"
+                                class="!w-fit !h-10 !rounded-md !border-none !my-2 !bg-blue-600 !hover:to-blue-500 !text-white">Execute
+                                Query</button>
+                        </div>
+                        <div class="w-full">
+                            <ul *ngIf="validationMessage.length">
+                                <li class="text-red-800 flex justify-start items-center mb-2"
+                                    *ngFor="let errorObj of validationMessage">
+                                    <p class="font-semibold capitalize text-base">
+                                        {{ errorObj.message }}
+                                    </p>
+                                    <button nz-button nzType="primary" class="btn ml-2" (click)="fixError(errorObj)">
+
+                                        <i class="fa-regular fa-sliders mr-2"></i>
+                                        Auto Fix</button>
+                                </li>
+                            </ul>
+                            <div class="editor-container rounded-md" #editorRuleContainer></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="h-[calc(100vh-80px)] w-1/2 pl-2">
+            <h1 class="text-xl font-semibold py-2 px-1">Result</h1>
+            <json-editor class="min-h-40 max-h-full" [(ngModel)]="queryRes" [options]="editorOptions"
+                style="max-height: 150px !important;" [options]="makeOptions()">
+            </json-editor>
+        </div>
+    </div>
+</nz-spin>
