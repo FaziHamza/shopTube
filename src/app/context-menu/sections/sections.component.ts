@@ -324,7 +324,7 @@ export class SectionsComponent implements OnInit {
                 let obj: any = {
                   control: findCommentsDiv,
                   mapApi: mapApi,
-                  mappingId:this.mappingId
+                  mappingId: this.mappingId
                 }
                 this.dataSharedService.commentsRecall.next(obj)
               }
@@ -410,7 +410,7 @@ export class SectionsComponent implements OnInit {
     }
     id = data?.dataTable ? empData.modalData[data?.dataTable + '.id'] : id;
     if (id === undefined) {
-      // if (!checkPermission?.create && this.dataSharedService.currentMenuLink !== '/ourbuilder') {
+      // if (!checkPermission?.creates && this.dataSharedService.currentMenuLink !== '/ourbuilder') {
       //   alert("You do not have permission");
       //   return;
       // }
@@ -426,7 +426,7 @@ export class SectionsComponent implements OnInit {
       this.handleAction(postEvent, empData, data);
 
     } else {
-      if (!checkPermission?.update && this.dataSharedService?.currentMenuLink !== '/ourbuilder') {
+      if (!checkPermission?.updates && this.dataSharedService?.currentMenuLink !== '/ourbuilder') {
         alert("You do not have permission");
         return;
       }
@@ -645,8 +645,11 @@ export class SectionsComponent implements OnInit {
                     'expand': false,
                     ...row
                   }));
-        
+
                 }
+                let reNewData = JSON.parse(JSON.stringify(tableData.displayData));
+                tableData.displayData = [];
+                tableData.displayData = JSON.parse(JSON.stringify(reNewData));
               }
               // this.assignGridRules(tableData);
             }

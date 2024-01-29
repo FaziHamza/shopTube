@@ -956,9 +956,10 @@ export class DynamicTableComponent implements OnInit {
     }
   };
   deleteRow(item: any): void {
+    debugger
     let data = JSON.parse(JSON.stringify(item));
     const checkPermission = this.dataSharedService.getUserPolicyMenuList.find(a => a.screenId == this.dataSharedService.currentMenuLink);
-    if (!checkPermission?.delete && this.dataSharedService.currentMenuLink != '/ourbuilder') {
+    if (!checkPermission?.deletes && this.dataSharedService.currentMenuLink != '/ourbuilder') {
       alert("You did not have permission");
       return;
     }
@@ -2159,7 +2160,7 @@ export class DynamicTableComponent implements OnInit {
     let newDataModel = JSON.parse(JSON.stringify(dataModel))
     let findClickApi = this.data?.appConfigurableEvent?.filter((item: any) => item.rule.includes('put'));
     const checkPermission = this.dataSharedService.getUserPolicyMenuList.find(a => a.screenId == this.dataSharedService.currentMenuLink);
-    if (!checkPermission?.update && this.dataSharedService.currentMenuLink != '/ourbuilder') {
+    if (!checkPermission?.updates && this.dataSharedService.currentMenuLink != '/ourbuilder') {
       alert("You did not have permission");
       return;
     }

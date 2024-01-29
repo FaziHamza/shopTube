@@ -246,7 +246,7 @@ export class TaskManagerComponent {
   save() {
     debugger
     const checkPermission = this.dataSharedService.getUserPolicyMenuList.find(a => a.screenId === this.dataSharedService.currentMenuLink);
-    if (!checkPermission?.create && this.dataSharedService?.currentMenuLink !== '/ourbuilder') {
+    if (!checkPermission?.creates && this.dataSharedService?.currentMenuLink !== '/ourbuilder') {
       this.toastr.warning("You do not have permission", { nzDuration: 3000 });
       return;
     }
@@ -374,7 +374,7 @@ export class TaskManagerComponent {
     let newDataModel = JSON.parse(JSON.stringify(dataModel))
     const putEvent = this.taskManagerData.appConfigurableEvent.find((item: any) => item.rule.includes('put_'));
     const checkPermission = this.dataSharedService.getUserPolicyMenuList.find(a => a.screenId == this.dataSharedService.currentMenuLink);
-    if (!checkPermission?.update && this.dataSharedService.currentMenuLink != '/ourbuilder') {
+    if (!checkPermission?.updates && this.dataSharedService.currentMenuLink != '/ourbuilder') {
       alert("You did not have permission");
       return;
     }
@@ -514,7 +514,7 @@ export class TaskManagerComponent {
     let taskManagerComment = this.taskManagerData.children.find((child: any) => child.type == 'taskManagerComment');
     if (taskManagerComment) {
       const checkPermission = this.dataSharedService.getUserPolicyMenuList.find(a => a.screenId === this.dataSharedService.currentMenuLink);
-      if (!checkPermission?.create && this.dataSharedService?.currentMenuLink !== '/ourbuilder') {
+      if (!checkPermission?.creates && this.dataSharedService?.currentMenuLink !== '/ourbuilder') {
         this.toastr.warning("You do not have permission", { nzDuration: 3000 });
         return;
       }
@@ -561,7 +561,7 @@ export class TaskManagerComponent {
   getComments() {
     let taskManagerComment = this.taskManagerData.children.find((child: any) => child.type == 'taskManagerComment');
     const checkPermission = this.dataSharedService.getUserPolicyMenuList.find(a => a.screenId === this.dataSharedService.currentMenuLink);
-    if (!checkPermission?.create && this.dataSharedService?.currentMenuLink !== '/ourbuilder') {
+    if (!checkPermission?.creates && this.dataSharedService?.currentMenuLink !== '/ourbuilder') {
       this.toastr.warning("You do not have permission", { nzDuration: 3000 });
       return;
     }

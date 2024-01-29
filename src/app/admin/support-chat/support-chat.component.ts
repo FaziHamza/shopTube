@@ -60,7 +60,7 @@ export class SupportChatComponent {
       return;
     }
     const checkPermission = this.dataSharedService.getUserPolicyMenuList.find(a => a.screenId === this.dataSharedService.currentMenuLink);
-    if (!checkPermission?.create && this.dataSharedService?.currentMenuLink !== '/ourbuilder') {
+    if (!checkPermission?.creates && this.dataSharedService?.currentMenuLink !== '/ourbuilder') {
       this.toastr.warning("You do not have permission", { nzDuration: 3000 });
       return;
     }
@@ -126,7 +126,7 @@ export class SupportChatComponent {
   }
   delete(data: any) {
     const checkPermission = this.dataSharedService.getUserPolicyMenuList.find(a => a.screenId == this.dataSharedService.currentMenuLink);
-    if (!checkPermission?.delete && this.dataSharedService.currentMenuLink != '/ourbuilder') {
+    if (!checkPermission?.deletes && this.dataSharedService.currentMenuLink != '/ourbuilder') {
       alert("You did not have permission");
       return;
     }
