@@ -89,7 +89,7 @@ export class BoardComponent implements OnInit {
   handleEventDrop(obj: any) {
     let findClickApi = this.kanbanData?.appConfigurableEvent?.find((item: any) => item.rule.includes('put'));
     const checkPermission = this.dataSharedService.getUserPolicyMenuList.find(a => a.screenId == this.dataSharedService.currentMenuLink);
-    if (!checkPermission?.update && this.dataSharedService.currentMenuLink != '/ourbuilder') {
+    if (!checkPermission?.updates && this.dataSharedService.currentMenuLink != '/ourbuilder') {
       alert("You did not have permission");
       return;
     }
@@ -559,7 +559,7 @@ export class BoardComponent implements OnInit {
   }
   delete(data: any) {
     const checkPermission = this.dataSharedService.getUserPolicyMenuList.find(a => a.screenId == this.dataSharedService.currentMenuLink);
-    if (!checkPermission?.delete && this.dataSharedService.currentMenuLink != '/ourbuilder') {
+    if (!checkPermission?.deletes && this.dataSharedService.currentMenuLink != '/ourbuilder') {
       alert("You did not have permission");
       return;
     }

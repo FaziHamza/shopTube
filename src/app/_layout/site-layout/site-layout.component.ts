@@ -150,6 +150,7 @@ export class SiteLayoutComponent implements OnInit {
         else {
           debugger
           if (response?.isPermission) {
+            this.externalLogin = true;
             this.router.navigate(['permission-denied']);
           } else {
             this.jwtService.saveToken(getToken);
@@ -657,6 +658,7 @@ export class SiteLayoutComponent implements OnInit {
     })
   }
   getUserPolicyMenu() {
+    debugger
     this.requestSubscription = this.applicationService.getNestNewCommonAPI('cp/userpolicy/getUserPolicyMenu/1').subscribe({
       next: (res: any) => {
         if (res.isSuccess) {

@@ -666,7 +666,7 @@ export class PagesComponent implements OnInit, OnDestroy {
           }
         }
         if (id == undefined) {
-          if (!checkPermission.create) {
+          if (!checkPermission.creates) {
             alert("You did not have permission");
             return;
           }
