@@ -1,12 +1,13 @@
 import { BuilderService } from './../../../services/builder.service';
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
-import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
+import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { Subscription, catchError, forkJoin, of } from 'rxjs';
 import { DataSharedService } from 'src/app/services/data-shared.service';
 import { EmployeeService } from 'src/app/services/employee.service';
 import { ApplicationService } from 'src/app/services/application.service';
 import { environment } from 'src/environments/environment';
+import { required } from 'joi';
 
 
 @Component({
@@ -323,7 +324,7 @@ export class ActionRuleComponent implements OnInit {
         submissionType: [this.actionForm.value.submissionType],
         email: [this.actionForm.value.actionType === "email" ? dataForQuery : ""],
         confirmEmail: [this.actionForm.value.actionType === "confirmEmail " ? dataForQuery : ""],
-        referenceId: [''],
+        referenceId: ['', Validators.required],
         httpAddress: [apiUrl],
         contentType: [''],
         emailto: [],
@@ -438,6 +439,10 @@ export class ActionRuleComponent implements OnInit {
 
 
   SaveAction() {
+    if(!this.ActionsForms.valid){
+      this.toastr.error("Action Name is required", { nzDuration: 3000 });
+      return
+    }
     const mainModuleId = this.screens.filter((a: any) => a.name == this.screenname);
     const checkQuery = this.actionForm.value.Actions.filter((a: any) => /SELECT\s+\*\s+FROM/i.test(a.query));
 
