@@ -43,6 +43,7 @@ export class AuthInterceptor implements HttpInterceptor {
     //     })
     // }
     let token = JSON.parse(localStorage.getItem('authToken')!);
+    debugger
     if (!token) {
       // Redirect to login if authToken is missing
       this.router.navigate(['/login']);
@@ -54,7 +55,7 @@ export class AuthInterceptor implements HttpInterceptor {
     let id = JSON.parse(localStorage.getItem('user')!).userId;
     let screenId = localStorage.getItem('screenId')! || '';
     let screenBuildId = localStorage.getItem('screenBuildId')! || '';
-    let policyId = JSON.parse(localStorage.getItem('user')!)?.policy?.policyId
+    let policyId = JSON.parse(localStorage.getItem('user')!)?.policy?.policyId || '';
     this.authReq = req.clone({
       setHeaders: {
         Authorization: `Bearer ${token}`,
