@@ -2460,34 +2460,73 @@ export class DynamicTableComponent implements OnInit {
       nzOnCancel: () => console.log('Cancel')
     });
   }
+ 
   open(): void {
     this.visible = true;
-    if (this.data?.drawerScreenLink) {
-      this.saveLoader = true;
-      if (this.checklink) {
-        if (this.checklink == this.data?.drawerScreenLink) {
-          this.saveLoader = false;
-          return
-        }
+    this.saveLoader = true;
+    this.applicationService.getNestNewCommonAPI('cp/auth/pageAuth/' + this.data?.drawerScreenLink).subscribe(res => {
+      if (res?.data == true) {
+        this.loadScreen(this.data?.drawerScreenLink);
+      } else {
+        this.saveLoader = false;
+        this.screenId = res.data[0].screenbuilderid;
+        this.nodes.push(res);
       }
-      this.checklink = this.data?.drawerScreenLink;
-      this.requestSubscription = this.applicationService.getNestCommonAPIById('cp/Builder', this.data?.drawerScreenLink).subscribe({
-        next: (res: any) => {
-          if (res.isSuccess) {
-            if (res.data.length > 0) {
-              this.screenId = res.data[0].screenBuilderId;
-              this.nodes.push(res);
-            }
-          }
-          this.saveLoader = false;
-        },
-        error: (err) => {
-          console.error(err); // Log the error to the console
-          this.saveLoader = false;
-        }
-      });
-    }
+    });
   }
+
+  loadScreen(drawerScreenLink: any): void {
+    if (this.checklink && this.checklink == drawerScreenLink) {
+      this.saveLoader = false;
+      return;
+    }
+
+    this.checklink = drawerScreenLink;
+
+    this.requestSubscription = this.applicationService.getNestNewCommonAPIById('cp/Builders', drawerScreenLink).subscribe({
+      next: (res: any) => {
+        if (res.isSuccess && res.data.length > 0) {
+          this.screenId = res.data[0].screenbuilderid;
+          this.nodes.push(res);
+        }
+        this.saveLoader = false;
+      },
+      error: (err) => {
+        console.error(err); 
+        this.saveLoader = false;
+      }
+    });
+  }
+
+  // open(drawerScreenLink: any): void {
+  //   this.visible = true;
+  //   if (this.data?.drawerScreenLink) {
+  //     this.saveLoader = true;
+  //     if (this.checklink) {
+  //       if (this.checklink == this.data?.drawerScreenLink) {
+  //         this.saveLoader = false;
+  //         return
+  //       }
+  //     }
+  //     this.checklink = this.data?.drawerScreenLink;
+  //     this.requestSubscription = this.applicationService.getNestNewCommonAPIById('cp/Builders', this.data?.drawerScreenLink).subscribe({
+  //       next: (res: any) => {
+  //         if (res.isSuccess) {
+  //           if (res.data.length > 0) {
+  //             debugger
+  //             this.screenId = res.data[0].screenbuilderid;
+  //             this.nodes.push(res);
+  //           }
+  //         }
+  //         this.saveLoader = false;
+  //       },
+  //       error: (err) => {
+  //         console.error(err); // Log the error to the console
+  //         this.saveLoader = false;
+  //       }
+  //     });
+  //   }
+  // }
 
   close(): void {
 
