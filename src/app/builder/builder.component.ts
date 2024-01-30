@@ -1936,6 +1936,7 @@ export class BuilderComponent implements OnInit {
                         selectType: 'multiple',
                         multiFileUploadTypes: 'dragNDrop',
                         innerInputClass: '',
+                        InputGroupClass: '',
                         dataClassification: '',
                       },
                       apiUrl: '',
@@ -2412,6 +2413,7 @@ export class BuilderComponent implements OnInit {
                           selectType: 'multiple',
                           multiFileUploadTypes: 'dragNDrop',
                           innerInputClass: '',
+                          InputGroupClass: '',
                           dataClassification: '',
                         },
                         apiUrl: '',
@@ -4718,6 +4720,16 @@ export class BuilderComponent implements OnInit {
             if (event.form?.innerInputClass) {
               if (event.form?.innerInputClass.includes('$')) {
                 props['additionalProperties']['appGlobalInnerClass'] = this.changeWithGlobalClass(event.form?.innerInputClass);
+              } else {
+                props['additionalProperties']['appGlobalInnerClass'] = ''
+              }
+            } else {
+              props['additionalProperties']['appGlobalInnerClass'] = ''
+            }
+            props['additionalProperties']['InputGroupClass'] = event.form?.InputGroupClass;
+            if (event.form?.InputGroupClass) {
+              if (event.form?.InputGroupClass.includes('$')) {
+                props['additionalProperties']['appGlobalInnerClass'] = this.changeWithGlobalClass(event.form?.InputGroupClass);
               } else {
                 props['additionalProperties']['appGlobalInnerClass'] = ''
               }
@@ -7708,6 +7720,15 @@ export class BuilderComponent implements OnInit {
             if (data.formly[0].fieldGroup[0].props['additionalProperties']?.innerInputClass) {
               if (data.formly[0].fieldGroup[0].props['additionalProperties']?.innerInputClass.includes('$')) {
                 data.formly[0].fieldGroup[0].props['additionalProperties']['appGlobalInnerClass'] = this.changeWithGlobalClass(data.formly[0].fieldGroup[0].props['additionalProperties']?.innerInputClass);
+              }
+            }
+          }
+        }
+        if (data?.formlyType) {
+          if (data?.formlyType == 'input') {
+            if (data.formly[0].fieldGroup[0].props['additionalProperties']?.InputGroupClass) {
+              if (data.formly[0].fieldGroup[0].props['additionalProperties']?.InputGroupClass.includes('$')) {
+                data.formly[0].fieldGroup[0].props['additionalProperties']['appGlobalInnerClass'] = this.changeWithGlobalClass(data.formly[0].fieldGroup[0].props['additionalProperties']?.InputGroupClass);
               }
             }
           }

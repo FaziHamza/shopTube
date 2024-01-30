@@ -13636,6 +13636,15 @@ export class formFeildData {
         },
         {
           className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          key: 'InputGroupClass',
+          type: 'input',
+          wrappers: ["formly-vertical-theme-wrapper"],
+          props: {
+            label: 'Input Group Class',
+          }
+        },
+        {
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
           key: 'innerInputClass',
           type: 'input',
           wrappers: ["formly-vertical-theme-wrapper"],
