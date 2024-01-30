@@ -1,7 +1,7 @@
 <div [class]="to['additionalProperties']?.wrapper=='floating_standard' ? 'relative z-0' : ''"
   *ngIf="to.type != 'number'">
   <nz-input-group [style.border]="to['additionalProperties']?.border? '0px': ''" [style.border-radius]="to['additionalProperties']?.borderRadius"
-    [class]="to['additionalProperties']?.innerInputClass + ' ' + to['additionalProperties']?.applicationThemeClasses + ' ' + to['additionalProperties']?.appGlobalInnerClass"
+    [class]="to['additionalProperties']?.InputGroupClass + ' ' + to['additionalProperties']?.applicationThemeClasses + ' ' + to['additionalProperties']?.appGlobalInnerClass"
     [ngClass]="showError ? 'input-border' : ''"
     [nzSuffix]="(to['additionalProperties']?.addonRight   || to['additionalProperties']?.suffixicon) ? suffixTemplateInfo : undefined"
     [nzPrefix]="(to['additionalProperties']?.addonLeft || to['additionalProperties']?.prefixicon) ? prefixTemplateUser : undefined"
