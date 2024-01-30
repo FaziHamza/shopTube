@@ -7,3 +7,6 @@ input[type=file]::file-selector-button:hover {
 }
 
 
+input , nz-select , nz-select-top-control{
+    height: 36px !important;
+}
