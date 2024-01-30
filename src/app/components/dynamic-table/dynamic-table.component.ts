@@ -956,7 +956,7 @@ export class DynamicTableComponent implements OnInit {
     }
   };
   deleteRow(item: any): void {
-    debugger
+    
     let data = JSON.parse(JSON.stringify(item));
     const checkPermission = this.dataSharedService.getUserPolicyMenuList.find(a => a.screenId == this.dataSharedService.currentMenuLink);
     if (!checkPermission?.deletes && this.dataSharedService.currentMenuLink != '/ourbuilder') {
@@ -1073,7 +1073,7 @@ export class DynamicTableComponent implements OnInit {
   }
 
   loadTableData() {
-    debugger
+    
     this.getResizingAndColumnSortng();
     if (this.tableData.length > 0) {
       // if (this.tableData[0].__v || this.tableData[0].id) {
@@ -1207,7 +1207,7 @@ export class DynamicTableComponent implements OnInit {
     return childKeys;
   }
   save() {
-    debugger
+    
     this.editId = '';
     if (this.configurationTable) {
       this._dataSharedService.setData(this.displayData);
@@ -2514,7 +2514,7 @@ export class DynamicTableComponent implements OnInit {
   //       next: (res: any) => {
   //         if (res.isSuccess) {
   //           if (res.data.length > 0) {
-  //             debugger
+  //             
   //             this.screenId = res.data[0].screenbuilderid;
   //             this.nodes.push(res);
   //           }
@@ -2980,7 +2980,7 @@ export class DynamicTableComponent implements OnInit {
     }
   }
   callExpandAPi(item: any, event: any) {
-    debugger
+    
     if (item?.editabeRowAddNewRow) {
       item.expand = false;
       this.toastr.warning("Please save before expand", { nzDuration: 3000 });

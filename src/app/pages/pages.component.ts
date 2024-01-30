@@ -1287,15 +1287,15 @@ export class PagesComponent implements OnInit, OnDestroy {
   updateNodes() {
     this.resData = [...this.resData];
   }
-  checkConditionUIRule(model: any, currentValue: any, policy?: string) {
+  checkConditionUIRule(model: any, currentValue: any, policy?: string, indexNumber?: any) {
 
-    this.getUIRule(model, currentValue, policy);
+    this.getUIRule(model, currentValue, policy ,indexNumber);
     this.updateNodes();
     // this.resData = this.jsonParseWithObject(this.jsonStringifyWithObject(this.resData));
     // this.cdr.detectChanges();
     // this.cdr.detach();
   }
-  getUIRule(model: any, currentValue: any, policy?: string) {
+  getUIRule(model: any, currentValue: any, policy?: string, indexNumber?: any) {
     try {
       if (this.navigation) {
         if (this.businessRuleData) {
@@ -1320,7 +1320,7 @@ export class PagesComponent implements OnInit, OnDestroy {
 
           let checkFirst = false;
           if (policy && policy != 'policy') {
-            this.uiRuleLogic(model, 0, screenData, policy, currentValue, inputType, updatedKeyData, checkFirst)
+            this.uiRuleLogic(model, indexNumber, screenData, policy, currentValue, inputType, updatedKeyData, checkFirst)
 
           } else {
             for (let index = 0; index < screenData?.uiData?.length; index++) {
@@ -1927,9 +1927,10 @@ export class PagesComponent implements OnInit, OnDestroy {
             if (res) {
               if (res?.data) {
                 if (res?.data.length > 0) {
-                  const checkLoadtype = this.screenData?.uiData?.filter((a: any) => a.actionType == 'load');
+                  const checkLoadtype = (this.screenData?.uiData || []).map((element: any, index: any) => ({ index, element })).filter((item: any) => item.element.actionType === 'load');
                   if (checkLoadtype?.length > 0) {
-                    checkLoadtype.forEach((uiRule: any) => {
+                    checkLoadtype.forEach((uiRuleData: any) => {
+                      let uiRule =uiRuleData.element;
                       if (uiRule.targetValue.includes('$')) {
                         const field = {
                           title: uiRule.ifMenuName,
@@ -1954,35 +1955,11 @@ export class PagesComponent implements OnInit, OnDestroy {
                             value = userName;
                           }
                           if (value == res?.data[0][key]) {
-                            this.checkConditionUIRule(field, value, res?.data[0][key]);
+                            this.checkConditionUIRule(field, value, res?.data[0][key], uiRuleData.index);
                           }
                         }
                       }
-                      // if (uiRule.targetValue.includes('$')) {
-                      //   const field = {
-                      //     title: uiRule.ifMenuName,
-                      //     key: uiRule.ifMenuName,
-                      //     type: 'string'
-                      //   }
 
-                      //   let key = uiRule.targetValue.replace('$', '')
-                      //   if (uiRule.ifMenuName) {
-                      //     let getData: any = localStorage;
-                      //     let modifedData = JSON.parse(JSON.stringify(getData))
-                      //     modifedData['applicationId'] = this.dataSharedService.decryptedValue('applicationId');
-                      //     modifedData['organizationId'] = this.dataSharedService.decryptedValue('organizationId');
-                      //     modifedData['user'] = this.dataSharedService.decryptedValue('user') ? JSON.parse(this.dataSharedService.decryptedValue('user')) : null;
-                      //     let externalLogin = this.dataSharedService.decryptedValue('externalLogin');
-                      //     let value = modifedData[uiRule.ifMenuName.split('_')[1]];
-                      //     if (uiRule.ifMenuName.includes('app_user') && modifedData['user']) {
-                      //       value = modifedData['user'][uiRule.ifMenuName.split('.')[1]]
-                      //     } else if (uiRule.ifMenuName == 'app_user.username' && externalLogin == 'true') {
-                      //       let userName = this.dataSharedService.decryptedValue('username');
-                      //       value = userName;
-                      //     }
-                      //     this.checkConditionUIRule(field, value, 'shakeel.cloud@gmail.com');
-                      //   }
-                      // }
                     });
                   }
                   if (selectedNode.type == 'chat') {

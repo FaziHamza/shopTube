@@ -131,7 +131,6 @@ export class SiteLayoutComponent implements OnInit {
       }
     }
     //http://spectrum.com/
-    debugger
     this.fullCurrentUrl = window.location.host.split(':')[0];
     this.currentUrl = window.location.host.split(':')[0];
     if (window.location.search.includes('token=')) {
@@ -143,6 +142,7 @@ export class SiteLayoutComponent implements OnInit {
       this.authService.getUserInfo(getToken, body).subscribe((response: any) => {
         if (response.isSuccess) {
           // localStorage.setItem('isLoggedIn', 'true');
+          localStorage.setItem('externalLogin', 'false');
           this.authService.setAuth(response.data);
           this.getMenuByDomainName(this.currentUrl, true);
           this.router.navigate([window.location.pathname]);

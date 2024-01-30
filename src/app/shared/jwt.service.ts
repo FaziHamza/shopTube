@@ -19,9 +19,16 @@ export class JwtService {
     window.localStorage.clear();
   }
   ecryptedValue(property: any, value: any, stringify: any) {
+    // Encrypt the value using CryptoJS AES encryption
     var result = CryptoJS.AES.encrypt(value, this.encryptSecretKey).toString();
-    window.localStorage[property] = stringify ? JSON.stringify(result) : result;
+
+    // Stringify the result if the stringify parameter is true
+    const encryptedResult = stringify ? JSON.stringify(result) : result;
+
+    // Store the encrypted value in the local storage under the specified property using setItem
+    window.localStorage.setItem(property, encryptedResult);
   }
+
 
   decryptedValue(property: any, value: any, parse: any) {
     var result = CryptoJS.AES.decrypt(value, this.encryptSecretKey).toString(CryptoJS.enc.Utf8);
