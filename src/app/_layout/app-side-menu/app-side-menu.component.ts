@@ -46,7 +46,7 @@ export class AppSideMenuComponent implements OnInit {
     public builderService: BuilderService, public dataSharedService: DataSharedService, private renderer: Renderer2,
     private applicationService: ApplicationService, private cd: ChangeDetectorRef, private formBuilder: FormBuilder) { }
   ngOnInit(): void {
-    debugger
+    
     this.currentUser = JSON.parse(this.dataSharedService.decryptedValue('user'));
     this.loadModules();
     if (!window.location.href.includes('/menu-builder')) {

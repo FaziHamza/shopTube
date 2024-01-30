@@ -182,6 +182,7 @@ export class LoginComponent implements OnInit {
               nzDuration: 2000,
             });
             localStorage.setItem('isLoggedIn', 'true');
+            localStorage.setItem('externalLogin', 'false');
             this.showLoader = false;
             this.authService.setAuth(response.data);
             this.router.navigate(['/home/allorder']);

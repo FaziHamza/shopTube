@@ -734,11 +734,13 @@ export class UIRuleComponent implements OnInit {
         if ((data.key ? data.key : data.formly[0]?.fieldGroup[0]?.key) === key) {
           return data;
         }
-        if (data.children.length > 0) {
-          for (let child of data.children) {
-            let result: any = this.findElementNode(child, key);
-            if (result !== null) {
-              return result;
+        if (data.children) {
+          if (data.children.length > 0) {
+            for (let child of data.children) {
+              let result: any = this.findElementNode(child, key);
+              if (result !== null) {
+                return result;
+              }
             }
           }
         }

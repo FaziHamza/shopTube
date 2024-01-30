@@ -70,8 +70,7 @@
             <div class="flex flex-wrap my-2" style="border: 1px solid rgb(197 187 187); border-radius: 5px;"
               [formGroupName]="i">
               <div class="w-full p-1">
-                <div
-                  *ngIf="ActionsForms.value[i].type == 'email' && ActionsForms.value[i].emailsendingtype == 'query'">
+                <div *ngIf="ActionsForms.value[i].type == 'email' && ActionsForms.value[i].emailsendingtype == 'query'">
 
                   <!-- <div class="flex items-center w-full" >
 
@@ -201,7 +200,8 @@
                           </div>
                         </div>
                       </div>
-                      <div class="w-1/2 theme-body" *ngIf="ActionsForms.value[i].type == 'email' && ActionsForms.value[i].emailtype == 'token'">
+                      <div class="w-1/2 theme-body"
+                        *ngIf="ActionsForms.value[i].type == 'email' && ActionsForms.value[i].emailtype == 'token'">
                         <div class=" flex flex-wrap">
                           <label class="w-1/3 py-2 col-form-label column-form-label">
                             Page Link
@@ -210,6 +210,20 @@
                             <nz-select class="form-select" formControlName="pagelink">
                               <nz-option *ngFor="let option of screenOptions" [nzValue]="option.value"
                                 [nzLabel]="option.label"></nz-option>
+                            </nz-select>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="w-1/2 theme-body"
+                        *ngIf="ActionsForms.value[i].type == 'email' && ActionsForms.value[i].emailtype == 'token'">
+                        <div class=" flex flex-wrap">
+                          <label class="w-1/3 py-2 col-form-label column-form-label">
+                            Page Type
+                          </label>
+                          <div class="w-2/3 column-form-input form-control-style v-body-border" style="padding: 0px">
+                            <nz-select class="form-select" formControlName="pagetype">
+                              <nz-option [nzValue]="'page'" [nzLabel]="'Page'"></nz-option>
+                              <nz-option [nzValue]="'detailPage'" [nzLabel]="'detailPage'"></nz-option>
                             </nz-select>
                           </div>
                         </div>

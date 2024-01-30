@@ -48,7 +48,7 @@ export class PagesComponent implements OnInit, OnDestroy {
   saveLoader: boolean = false;
   countRule: number = 0;
   themeValue: any = '';
-  externalLogin : any = false;
+  externalLogin: any = false;
   @Input() isDrawer: boolean = false;
   @Input() mappingId: any;
   private subscriptions: Subscription = new Subscription();
@@ -63,7 +63,7 @@ export class PagesComponent implements OnInit, OnDestroy {
 
     // this.ngOnDestroy();
     const changeSubscription = this.dataSharedService.change.subscribe(({ event, field }) => {
-      debugger
+
       if (this.navigation) {
         if (field && event)
           if (this.formlyModel && Object.keys(this.formlyModel).length > 0) {
@@ -176,7 +176,12 @@ export class PagesComponent implements OnInit, OnDestroy {
   }
   user: any;
   ngOnInit(): void {
+
     this.externalLogin = localStorage.getItem('externalLogin') || false;
+    let externalPageLink = this.dataSharedService.decryptedValue('externalLoginLink');
+    if (this.externalLogin == 'true' && window.location.pathname != `/${externalPageLink}`) {
+      return;
+    }
     this.initHighlightFalseSubscription();
     this.initPageSubmitSubscription();
     this.initEventChangeSubscription();
@@ -291,12 +296,15 @@ export class PagesComponent implements OnInit, OnDestroy {
 
     if (this.data.length == 0) {
       const subscription = this.activatedRoute.params.subscribe((params: Params) => {
+        if (params["id"]) {
+          this.mappingId = params["id"];
+        }
         if (params["schema"]) {
           this.saveLoader = true;
           this.dataSharedService.currentMenuLink = "/pages/" + params["schema"];
           localStorage.setItem('screenId', this.dataSharedService.currentMenuLink);
           this.clearValues();
-          if(!this.externalLogin){
+          if (!this.externalLogin) {
             this.applicationService.getNestNewCommonAPI('cp/auth/pageAuth/' + params["schema"]).subscribe(res => {
               if (res?.isSuccess) {
                 this.initiliaze(params);
@@ -306,10 +314,10 @@ export class PagesComponent implements OnInit, OnDestroy {
                 this.resData = this.data;
               }
             });
-          }else{
+          } else {
             this.initiliaze(params);
           }
-   
+
         }
       });
       this.subscriptions.add(subscription);
@@ -1311,69 +1319,15 @@ export class PagesComponent implements OnInit, OnDestroy {
           let updatedKeyData: any[] = [];
 
           let checkFirst = false;
-          for (let index = 0; index < screenData?.uiData?.length; index++) {
-            if (model.key == screenData.uiData[index].ifMenuName) {
-              checkFirst = true;
-              let query: any;
-              let getModelValue = this.formlyModel ? (this.formlyModel[screenData?.uiData?.[index]?.ifMenuName] == "" ? false : this.formlyModel[screenData?.uiData?.[index]?.ifMenuName]) : false;
-              if (screenData.uiData[index].condationName == 'contains') {
-                if (this.formlyModel[screenData.uiData[index].ifMenuName] != undefined &&
-                  this.formlyModel[screenData.uiData[index].ifMenuName].includes(screenData.uiData[index].targetValue)) {
-                  query = '1 == 1';
-                  query = this.evalConditionRule(query, screenData.uiData[index].targetIfValue);
-                }
-                else {
-                  query = '1 == 2';
-                  query = this.evalConditionRule(query, screenData.uiData[index].targetIfValue);
-                }
-              } else if (screenData.uiData[index].condationName == 'null') {
-                if (typeof (this.formlyModel[screenData.uiData[index].ifMenuName]) != "number") {
-                  if (this.formlyModel[screenData.uiData[index].ifMenuName] == '' || this.formlyModel[screenData.uiData[index].ifMenuName] == null) {
-                    query = '1 == 1';
-                    query = this.evalConditionRule(query, screenData.uiData[index].targetIfValue);
-                  }
-                  else {
-                    query = '1 == 2';
-                    query = this.evalConditionRule(query, screenData.uiData[index].targetIfValue);
-                  }
-                } else {
-                  query = '1 == 2';
-                  query = this.evalConditionRule(query, screenData.uiData[index].targetIfValue);
-                }
+          if (policy && policy != 'policy') {
+            this.uiRuleLogic(model, 0, screenData, policy, currentValue, inputType, updatedKeyData, checkFirst)
 
-              }
-              else {
-                if (screenData.uiData[index].ifMenuName.includes('number') || screenData.uiData[index].ifMenuName.includes('decimal')) {
-                  query = Number(getModelValue) + " " + screenData.uiData[index].condationName + " " + screenData.uiData[index].targetValue;
-
-                  query = this.evalConditionRule(query, screenData.uiData[index].targetIfValue);
-                } else {
-                  if (policy && policy != 'policy') {
-                    query = "'" + currentValue + "' " + screenData.uiData[index].condationName + " '" + policy + "'";
-                  }
-                  else {
-                    const checkValue = policy ? this.user?.policy?.policyId : getModelValue
-                    query = "'" + checkValue + "' " + screenData.uiData[index].condationName + " '" + screenData.uiData[index].targetValue + "'";
-                    query = this.evalConditionRule(query, screenData.uiData[index].targetIfValue, policy);
-                  }
-
-                  query = this.evalConditionRule(query, screenData.uiData[index].targetIfValue, policy);
-                }
-              }
-              if (this.UiRuleCondition(query)) {
-                const check = this.makeUIJSONForSave(screenData.uiData[index], inputType, updatedKeyData, true);
-                this.resData[0].children[1].children = check;
-                this.updateNodes();
-                this.updateFormlyModel();
-              }
-              else {
-                const check = this.makeUIJSONForSave(screenData.uiData[index], inputType, updatedKeyData, false);
-                this.resData[0].children[1].children = check;
-                this.updateNodes();
-                this.updateFormlyModel();
-              }
+          } else {
+            for (let index = 0; index < screenData?.uiData?.length; index++) {
+              this.uiRuleLogic(model, index, screenData, policy, currentValue, inputType, updatedKeyData, checkFirst)
             }
           }
+
           const filteredNodes = this.filterInputElements(this.resData);
           filteredNodes.forEach((node) => {
             const formlyConfig = node.formly?.[0]?.fieldGroup?.[0]?.defaultValue;
@@ -1550,17 +1504,17 @@ export class PagesComponent implements OnInit, OnDestroy {
       }
       else if (res.name?.toLowerCase().includes(`uirule`)) {
         if (res.data) {
-          res.data =  res.data.json;
+          // res.data = res.data.json;
           const jsonUIResult = {
-            "key": res.data.key,
-            "title": res.data.title,
-            "screenName": res.data.screenname,
-            "screenId": res.data.screenbuilderid,
-            "uiData": res.data.uidata?.json,
-            "patchOperations": res.data.patchoperations?.json
+            "key": res.data.json.key,
+            "title": res.data.json.title,
+            "screenName": res.data.json.screenname,
+            "screenId": res.data.json.screenbuilderid,
+            "uiData": res.data.json.uidata.json,
+            "patchOperations": res.data.json.patchoperations.json
           }
           this.screenData = jsonUIResult;
-        }else{
+        } else {
           this.screenData = null;
         }
       }
@@ -1942,7 +1896,7 @@ export class PagesComponent implements OnInit, OnDestroy {
                   }
                 }
               }
-              this.makeDynamicSections(mapApiUrl, data);
+              this.makeDynamicSections(`${mapApiUrl}`, data);
             }
           }
         } else if (data.type === 'listWithComponents' || data.type === 'mainTab' || data.type === 'mainStep') {
@@ -1989,14 +1943,46 @@ export class PagesComponent implements OnInit, OnDestroy {
                           let modifedData = JSON.parse(JSON.stringify(getData))
                           modifedData['applicationId'] = this.dataSharedService.decryptedValue('applicationId');
                           modifedData['organizationId'] = this.dataSharedService.decryptedValue('organizationId');
-                          modifedData['user'] = this.user;
+                          modifedData['user'] = this.dataSharedService.decryptedValue('user') ? JSON.parse(this.dataSharedService.decryptedValue('user')) : null;
+
+                          let externalLogin = localStorage.getItem('externalLogin') || false;;
                           let value = modifedData[uiRule.ifMenuName.split('_')[1]];
-                          if (uiRule.ifMenuName.includes('app_user')) {
+                          if (uiRule.ifMenuName.includes('app_user') && modifedData['user']) {
                             value = modifedData['user'][uiRule.ifMenuName.split('.')[1]]
+                          } else if (uiRule.ifMenuName == 'app_user.username' && externalLogin == 'true') {
+                            let userName = this.dataSharedService.decryptedValue('username');
+                            value = userName;
                           }
-                          this.checkConditionUIRule(field, value, res?.data[0][key]);
+                          if (value == res?.data[0][key]) {
+                            this.checkConditionUIRule(field, value, res?.data[0][key]);
+                          }
                         }
                       }
+                      // if (uiRule.targetValue.includes('$')) {
+                      //   const field = {
+                      //     title: uiRule.ifMenuName,
+                      //     key: uiRule.ifMenuName,
+                      //     type: 'string'
+                      //   }
+
+                      //   let key = uiRule.targetValue.replace('$', '')
+                      //   if (uiRule.ifMenuName) {
+                      //     let getData: any = localStorage;
+                      //     let modifedData = JSON.parse(JSON.stringify(getData))
+                      //     modifedData['applicationId'] = this.dataSharedService.decryptedValue('applicationId');
+                      //     modifedData['organizationId'] = this.dataSharedService.decryptedValue('organizationId');
+                      //     modifedData['user'] = this.dataSharedService.decryptedValue('user') ? JSON.parse(this.dataSharedService.decryptedValue('user')) : null;
+                      //     let externalLogin = this.dataSharedService.decryptedValue('externalLogin');
+                      //     let value = modifedData[uiRule.ifMenuName.split('_')[1]];
+                      //     if (uiRule.ifMenuName.includes('app_user') && modifedData['user']) {
+                      //       value = modifedData['user'][uiRule.ifMenuName.split('.')[1]]
+                      //     } else if (uiRule.ifMenuName == 'app_user.username' && externalLogin == 'true') {
+                      //       let userName = this.dataSharedService.decryptedValue('username');
+                      //       value = userName;
+                      //     }
+                      //     this.checkConditionUIRule(field, value, 'shakeel.cloud@gmail.com');
+                      //   }
+                      // }
                     });
                   }
                   if (selectedNode.type == 'chat') {
@@ -2189,8 +2175,8 @@ export class PagesComponent implements OnInit, OnDestroy {
         replaceData[value.defaultValue] = replaceData[value.defaultValue] ? replaceData[value.defaultValue].split(',').map((name: any) => name.trim()) : [];
         this.makeModel(node, replaceData[value.defaultValue])
         return node;
-      } 
-      else if(node.type == "checkbox"){
+      }
+      else if (node.type == "checkbox") {
         replaceData[value.defaultValue] = replaceData[value.defaultValue] ? replaceData[value.defaultValue].split(',') : [];
         this.makeModel(node, replaceData[value.defaultValue])
         return node;
@@ -3047,5 +3033,68 @@ export class PagesComponent implements OnInit, OnDestroy {
       });
     }
     return globalClass;
+  }
+  uiRuleLogic(model: any, index: any, screenData: any, policy: any, currentValue: any, inputType: any, updatedKeyData: any, checkFirst: any) {
+    if (model.key == screenData.uiData[index].ifMenuName) {
+      checkFirst = true;
+      let query: any;
+      let getModelValue = this.formlyModel ? (this.formlyModel[screenData?.uiData?.[index]?.ifMenuName] == "" ? false : this.formlyModel[screenData?.uiData?.[index]?.ifMenuName]) : false;
+      if (screenData.uiData[index].condationName == 'contains') {
+        if (this.formlyModel[screenData.uiData[index].ifMenuName] != undefined &&
+          this.formlyModel[screenData.uiData[index].ifMenuName].includes(screenData.uiData[index].targetValue)) {
+          query = '1 == 1';
+          query = this.evalConditionRule(query, screenData.uiData[index].targetIfValue);
+        }
+        else {
+          query = '1 == 2';
+          query = this.evalConditionRule(query, screenData.uiData[index].targetIfValue);
+        }
+      } else if (screenData.uiData[index].condationName == 'null') {
+        if (typeof (this.formlyModel[screenData.uiData[index].ifMenuName]) != "number") {
+          if (this.formlyModel[screenData.uiData[index].ifMenuName] == '' || this.formlyModel[screenData.uiData[index].ifMenuName] == null) {
+            query = '1 == 1';
+            query = this.evalConditionRule(query, screenData.uiData[index].targetIfValue);
+          }
+          else {
+            query = '1 == 2';
+            query = this.evalConditionRule(query, screenData.uiData[index].targetIfValue);
+          }
+        } else {
+          query = '1 == 2';
+          query = this.evalConditionRule(query, screenData.uiData[index].targetIfValue);
+        }
+
+      }
+      else {
+        if (screenData.uiData[index].ifMenuName.includes('number') || screenData.uiData[index].ifMenuName.includes('decimal')) {
+          query = Number(getModelValue) + " " + screenData.uiData[index].condationName + " " + screenData.uiData[index].targetValue;
+
+          query = this.evalConditionRule(query, screenData.uiData[index].targetIfValue);
+        } else {
+          if (policy && policy != 'policy') {
+            query = "'" + currentValue + "' " + screenData.uiData[index].condationName + " '" + policy + "'";
+          }
+          else {
+            const checkValue = policy ? this.user?.policy?.policyId : getModelValue
+            query = "'" + checkValue + "' " + screenData.uiData[index].condationName + " '" + screenData.uiData[index].targetValue + "'";
+            query = this.evalConditionRule(query, screenData.uiData[index].targetIfValue, policy);
+          }
+
+          query = this.evalConditionRule(query, screenData.uiData[index].targetIfValue, policy);
+        }
+      }
+      if (this.UiRuleCondition(query)) {
+        const check = this.makeUIJSONForSave(screenData.uiData[index], inputType, updatedKeyData, true);
+        this.resData[0].children[1].children = check;
+        this.updateNodes();
+        this.updateFormlyModel();
+      }
+      else {
+        const check = this.makeUIJSONForSave(screenData.uiData[index], inputType, updatedKeyData, false);
+        this.resData[0].children[1].children = check;
+        this.updateNodes();
+        this.updateFormlyModel();
+      }
+    }
   }
 }

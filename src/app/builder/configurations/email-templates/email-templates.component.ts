@@ -26,6 +26,7 @@ export class EmailTemplatesComponent {
   }
   ngOnInit(): void {
     this.getEmailTemplates();
+
   }
   createField(): FormGroup {
     return this.fb.group({
@@ -89,7 +90,7 @@ export class EmailTemplatesComponent {
         "templatetype": element?.templatetype,
       }
       if (element.id) {
-        emailData['id'] = element.id; 
+        emailData['id'] = element.id;
       }
       saveData.push(emailData)
     });
@@ -146,6 +147,25 @@ export class EmailTemplatesComponent {
             templatetype: [data?.templatetype ? data?.templatetype : '']
           }));
         });
+        let defaultTemplates = [
+          'register', 'approved', 'forgot',
+        ];
+
+        for (let i = 0; i < 3; i++) {
+          if (!getRes.data.some((temp: any) => temp.name.toLowerCase() === defaultTemplates[i])) {
+            const newFormGroup = this.fb.group({
+              name: [defaultTemplates[i], Validators.required],
+              emailtemplate: [defaultTemplates[i], Validators.required],
+              image: [''],
+              imagePath: [''],
+              id: [''],
+              templatetype: ['text', Validators.required],
+            });
+            this.emailFields.push(newFormGroup);
+          }
+        }
+
+
       } else
         this.toastr.error(getRes.message, { nzDuration: 3000 });
     });

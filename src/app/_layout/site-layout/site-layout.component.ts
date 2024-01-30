@@ -93,17 +93,17 @@ export class SiteLayoutComponent implements OnInit {
 
 
   ngOnInit(): void {
-    localStorage.setItem('externalLogin', 'false');
+    
+    // localStorage.setItem('externalLogin', 'false');
     this.dataSharedService.measureHeight = 0;
     // this.getTaskManagementIssuesFunc(JSON.parse(localStorage.getItem('applicationId')!));
 
     this.currentUser = this.dataSharedService.decryptedValue('user') ? JSON.parse(this.dataSharedService.decryptedValue('user')) : null;
-    if (this.currentUser == null) {
-      // window.localStorage['jwtToken'] = null;
-      window.localStorage['authToken'] = null;
-      localStorage.setItem('isLoggedIn', 'false');
-      localStorage.setItem('externalLogin', 'false');
-    }
+    let externalLogin = localStorage.getItem('externalLogin') || false;
+    // if (externalLogin == 'true') {
+    //   this.externalLogin = true;
+    //   this.router.navigate(['permission-denied']);
+    // }
     this.requestSubscription = this.dataSharedService.collapseMenu.subscribe({
       next: (res) => {
         if (res) {
@@ -131,7 +131,7 @@ export class SiteLayoutComponent implements OnInit {
       }
     }
     //http://spectrum.com/
-
+    debugger
     this.fullCurrentUrl = window.location.host.split(':')[0];
     this.currentUrl = window.location.host.split(':')[0];
     if (window.location.search.includes('token=')) {
@@ -148,16 +148,19 @@ export class SiteLayoutComponent implements OnInit {
           this.router.navigate([window.location.pathname]);
         }
         else {
-          debugger
           if (response?.isPermission) {
-            this.externalLogin = true;
             this.router.navigate(['permission-denied']);
-          } else {
+            this.externalLogin = true;
+          }
+          else {
             this.jwtService.saveToken(getToken);
             window.localStorage['authToken'] = JSON.stringify(getToken);
+            this.jwtService.ecryptedValue('externalLoginLink', response.data[0].pageLink, true);
+            this.jwtService.ecryptedValue('username', response.data[0].username, true);
             localStorage.setItem('externalLogin', 'true');
             this.externalLogin = true;
             this.router.navigate([window.location.pathname]);
+            window.localStorage['externalPageLink'] = JSON.stringify(getToken);
             this.applicationService.getNestNewCommonAPI(`cp/applicationglobalclass`).subscribe({
               next: (res: any) => {
                 this.dataSharedService.applicationGlobalClass = res.data;
@@ -173,9 +176,42 @@ export class SiteLayoutComponent implements OnInit {
 
         }
       })
-    } else {
-      this.getMenuByDomainName(this.currentUrl, true);
+    }
+    else {
+      if (externalLogin == 'false') {
+        this.getMenuByDomainName(this.currentUrl, true);
+        this.requestSubscription = this.dataSharedService.urlModule.subscribe(({ aplication, module }) => {
 
+          if (module) {
+            setTimeout(() => {
+              const filteredMenu = this.menuList.filter((item: any) => item.applicationId == module);
+              if (filteredMenu.length > 0) {
+                this.selectedTheme = filteredMenu[0].selectedTheme;
+                this.selectedTheme.allMenuItems = filteredMenu[0].menuData;
+                if (!filteredMenu[0].selectedTheme?.showMenu) {
+                  this.selectedTheme.showMenu = true;
+                }
+                this.makeMenuData();
+              } else {
+                this.selectedTheme.allMenuItems = [];
+              }
+            }, 100);
+
+          } else if (aplication == '' && module == '') {
+            // this.getApplications();
+          }
+          this.tabs = [];
+        });
+      }
+      else {
+        let externalPageLink = this.dataSharedService.decryptedValue('externalLoginLink');
+        if (window.location.pathname == `/${externalPageLink}`) {
+          this.router.navigate([window.location.pathname]);
+        } else {
+          this.router.navigate(['/permission-denied']);
+        }
+        this.externalLogin = true;
+      }
     }
     // this.fullCurrentUrl = window.location.host.includes('spectrum') ? '172.23.0.8' : window.location.host.split(':')[0];
     // this.currentUrl = window.location.host.includes('spectrum') ? '172.23.0.8' : window.location.host.split(':')[0];
@@ -189,28 +225,7 @@ export class SiteLayoutComponent implements OnInit {
     //     this.getMenuByDomainName(this.currentUrl, true);
     //   }
     // }
-    this.requestSubscription = this.dataSharedService.urlModule.subscribe(({ aplication, module }) => {
 
-      if (module) {
-        setTimeout(() => {
-          const filteredMenu = this.menuList.filter((item: any) => item.applicationId == module);
-          if (filteredMenu.length > 0) {
-            this.selectedTheme = filteredMenu[0].selectedTheme;
-            this.selectedTheme.allMenuItems = filteredMenu[0].menuData;
-            if (!filteredMenu[0].selectedTheme?.showMenu) {
-              this.selectedTheme.showMenu = true;
-            }
-            this.makeMenuData();
-          } else {
-            this.selectedTheme.allMenuItems = [];
-          }
-        }, 100);
-
-      } else if (aplication == '' && module == '') {
-        // this.getApplications();
-      }
-      this.tabs = [];
-    });
   }
 
   ngAfterViewInit() {
@@ -241,7 +256,7 @@ export class SiteLayoutComponent implements OnInit {
     }
 
     if (this.el.nativeElement.querySelector('#Content') && this.footerHeight) {
-      debugger;
+      ;
       const contentElement = this.el.nativeElement.querySelector('#Content');
       this.dataSharedService.contentHeight = contentElement.clientHeight;
       this.constentMarging = this.footerHeight.toString() + 'px';
@@ -270,7 +285,7 @@ export class SiteLayoutComponent implements OnInit {
 
 
   getMenuByDomainName(domainName: any, allowStoreId: boolean) {
-    debugger
+    
     try {
       this.loader = true;
       this.requestSubscription = this.builderService.getApplicationByNewDomainName(domainName).subscribe({
@@ -658,7 +673,7 @@ export class SiteLayoutComponent implements OnInit {
     })
   }
   getUserPolicyMenu() {
-    debugger
+    
     this.requestSubscription = this.applicationService.getNestNewCommonAPI('cp/userpolicy/getUserPolicyMenu/1').subscribe({
       next: (res: any) => {
         if (res.isSuccess) {
