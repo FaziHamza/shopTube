@@ -15,6 +15,9 @@ export class EmailTemplatesComponent {
   imagePath = environment.nestImageUrl;
   loader: boolean = false;
   emailTemplateId: any = '';
+  defaultTemplates = [
+    'registered', 'userApproved', 'resetPassword','passwordLink'
+  ];
   // @Input() screenname: any;
   // @Input() screenId: any;
   constructor(private fb: FormBuilder, private applicationService: ApplicationService, private toastr: NzMessageService, public dataSharedService: DataSharedService) {
@@ -31,6 +34,7 @@ export class EmailTemplatesComponent {
   createField(): FormGroup {
     return this.fb.group({
       name: ['', Validators.required],
+      subject: ['', Validators.required],
       emailtemplate: ['', Validators.required],
       image: [''],
       imagePath: [''],
@@ -87,6 +91,7 @@ export class EmailTemplatesComponent {
         "applicationid": this.dataSharedService.decryptedValue('applicationId'),
         "emailtemplate": element?.emailtemplate,
         "name": element?.name,
+        "subject": element?.subject,
         "templatetype": element?.templatetype,
       }
       if (element.id) {
@@ -130,7 +135,7 @@ export class EmailTemplatesComponent {
   }
 
   getEmailTemplates() {
-
+    debugger
     this.loader = true;
     this.applicationService.getNestNewCommonAPI('cp/emailtemplates').subscribe((getRes: any) => {
       this.loader = false;
@@ -139,6 +144,7 @@ export class EmailTemplatesComponent {
           this.emailFields.push(this.fb.group({
             id: [data.id],
             name: [data.name],
+            subject: [data.subject || ''],
             emailtemplate: [data.emailtemplate],
             screenBuilderId: [data.screenBuilderId],
             applicationid: [data.applicationid],
@@ -147,15 +153,14 @@ export class EmailTemplatesComponent {
             templatetype: [data?.templatetype ? data?.templatetype : '']
           }));
         });
-        let defaultTemplates = [
-          'register', 'approved', 'forgot',
-        ];
 
-        for (let i = 0; i < 3; i++) {
-          if (!getRes.data.some((temp: any) => temp.name.toLowerCase() === defaultTemplates[i])) {
+
+        for (let i = 0; i < 4; i++) {
+          if (!getRes.data.some((temp: any) => temp.name.toLowerCase() === this.defaultTemplates[i].toLocaleLowerCase())) {
             const newFormGroup = this.fb.group({
-              name: [defaultTemplates[i], Validators.required],
-              emailtemplate: [defaultTemplates[i], Validators.required],
+              name: [this.defaultTemplates[i], Validators.required],
+              subject: [this.defaultTemplates[i], Validators.required],
+              emailtemplate: [this.defaultTemplates[i], Validators.required],
               image: [''],
               imagePath: [''],
               id: [''],
