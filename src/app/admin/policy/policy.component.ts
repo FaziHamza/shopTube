@@ -1,3 +1,4 @@
+import { SocketService } from 'src/app/services/socket.service';
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -63,6 +64,7 @@ export class PolicyComponent implements OnInit {
     private applicationService: ApplicationService,
     public dataSharedService: DataSharedService,
     private toastr: NzMessageService,
+    private socketService: SocketService
   ) {
   }
   ngOnInit(): void {
@@ -83,27 +85,33 @@ export class PolicyComponent implements OnInit {
   }
   jsonPolicyModuleList() {
     this.loading = true;
-    this.applicationService.getNestNewCommonAPI(`cp/Policy`).subscribe({
+    const { jsonData, newGuid } = this.socketService.makeJsonData('Policy', 'GetModelType');
+    this.socketService.Request(jsonData);
+    this.socketService.OnResponseMessage().subscribe({
       next: (res: any) => {
-        if (res.isSuccess) {
-          this.loading = false;
-          this.toastr.success(`Policy : ${res.message}`, { nzDuration: 3000 });
-          if (res?.data.length > 0) {
-            this.listOfDisplayData = res.data;
-            this.listOfData = res.data;
-            this.jsonPolicyModule = res.data;
-            this.handlePageChange(1);
-            const nonEmptySearchArray = this.listOfColumns.filter(
-              (element: any) => element.searchValue
-            );
-            nonEmptySearchArray.forEach((element: any) => {
-              this.search(element.searchValue, element);
-            });
+        if (res.parseddata.requestId == newGuid && res.parseddata.isSuccess) {
+          res = res.parseddata.apidata;
+          if (res.isSuccess) {
+            this.loading = false;
+            this.toastr.success(`Policy : ${res.message}`, { nzDuration: 3000 });
+            if (res?.data.length > 0) {
+              this.listOfDisplayData = res.data;
+              this.listOfData = res.data;
+              this.jsonPolicyModule = res.data;
+              this.handlePageChange(1);
+              const nonEmptySearchArray = this.listOfColumns.filter(
+                (element: any) => element.searchValue
+              );
+              nonEmptySearchArray.forEach((element: any) => {
+                this.search(element.searchValue, element);
+              });
+            }
+          } else {
+            this.toastr.error(`Policy : ${res.message}`, { nzDuration: 3000 });
+            this.loading = false;
           }
-        } else {
-          this.toastr.error(`Policy : ${res.message}`, { nzDuration: 3000 });
-          this.loading = false;
         }
+
       },
       error: (err) => {
         this.toastr.error(`Policy : An error occured`, { nzDuration: 3000 });
@@ -165,25 +173,39 @@ export class PolicyComponent implements OnInit {
       const PolicyModel = {
         [tableValue]: obj,
       };
+      var ResponseGuid: any;
+      if (this.isSubmit) {
+        const { newGuid, metainfocreate } = this.socketService.metainfocreate();
+        ResponseGuid = newGuid;
+        const Add = { [`Policy`]: this.form.value, metaInfo: metainfocreate }
+        this.socketService.Request(Add);
+      }
+      else {
+        const { newUGuid, metainfoupdate } = this.socketService.metainfoupdate(this.model.id);
+        ResponseGuid = newUGuid;
+        const Update = { [`Policy`]: this.form.value, metaInfo: metainfoupdate };
+        this.socketService.Request(Update)
+      }
 
-      const checkPolicyAndProceed = this.isSubmit
-        ? this.applicationService.addNestNewCommonAPI('cp', PolicyModel)
-        : this.applicationService.updateNestNewCommonAPI(`cp/Policy`, this.model.id, PolicyModel);
-      checkPolicyAndProceed.subscribe({
-        next: (objTRes: any) => {
-          if (objTRes.isSuccess) {
+      this.socketService.OnResponseMessage().subscribe({
+        next: (res: any) => {
+          if (res.parseddata.requestId == ResponseGuid && res.parseddata.isSuccess) {
+            res = res.parseddata.apidata;
+            if (res.isSuccess) {
 
-            this.isVisible = false;
-            this.jsonPolicyModuleList();
-            const message = this.isSubmit ? 'Save' : 'Update';
-            this.toastr.success(objTRes.message, { nzDuration: 3000 });
-            if (!this.isSubmit) {
-              this.isSubmit = true;
+              this.isVisible = false;
+              this.jsonPolicyModuleList();
+              const message = this.isSubmit ? 'Save' : 'Update';
+              this.toastr.success(res.message, { nzDuration: 3000 });
+              if (!this.isSubmit) {
+                this.isSubmit = true;
+              }
+              this.handleCancel();
+            } else {
+              this.toastr.error(res.message, { nzDuration: 3000 });
             }
-            this.handleCancel();
-          } else {
-            this.toastr.error(objTRes.message, { nzDuration: 3000 });
           }
+        
         },
         error: (err) => {
           this.toastr.error(`${err.error.message}`, { nzDuration: 3000 });
