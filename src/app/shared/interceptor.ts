@@ -32,6 +32,7 @@ export class AuthInterceptor implements HttpInterceptor {
     req: HttpRequest<any>,
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
+    debugger
     // if (req.url.includes('login')) {
     //     this.authReq = req.clone({
     //         headers: req.headers.set('generaltoken', this.envService.GeneralToken)

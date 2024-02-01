@@ -13,6 +13,8 @@ import { environment } from 'src/environments/environment';
 import { NzModalService } from 'ng-zorro-antd/modal';
 import { ApplicationThemeComponent } from '../application-theme/application-theme.component';
 import { ApplicationGlobalClassesComponent } from '../application-global-classes/application-global-classes.component';
+import { SocketService } from 'src/app/services/socket.service';
+
 
 @Component({
   selector: 'st-application-builder',
@@ -30,7 +32,7 @@ export class ApplicationBuilderComponent implements OnInit {
   listOfData: any = [];
   listOfDisplayData: any[] = [];
   loading = false;
-  drawerLoader : boolean = false;
+  drawerLoader: boolean = false;
   pageSize = 10;
   searchIcon = "search";
   searchValue = '';
@@ -113,8 +115,7 @@ export class ApplicationBuilderComponent implements OnInit {
   ];
   constructor(public builderService: BuilderService,
     private modalService: NzModalService,
-    private applicationService: ApplicationService,
-    public dataSharedService: DataSharedService, private toastr: NzMessageService, private router: Router,) {
+    public dataSharedService: DataSharedService, private toastr: NzMessageService, private router: Router, private socketService: SocketService) {
     this.dataSharedService.change.subscribe(({ event, field }) => {
       if (field.key === 'applicationtype' && event) {
         const moduleFieldIndex = this.fields.findIndex((fieldGroup: any) => {
@@ -166,273 +167,40 @@ export class ApplicationBuilderComponent implements OnInit {
 
   getDepartment() {
     this.loading = true
-    this.requestSubscription = this.applicationService.getNestNewCommonAPI(`cp/Department`).subscribe({
+    const { jsonData, newGuid } = this.socketService.makeJsonData('Department', 'GetModelType');
+    this.socketService.Request(jsonData);
+    this.socketService.OnResponseMessage().subscribe({
       next: (res: any) => {
-        if (res.isSuccess) {
-          this.listOfDisplayData = res.data.map((obj: any) => {
-            obj.expand = false;
-            return obj;
-          });
-          this.listOfDisplayData = res.data;
-          this.listOfData = res.data;
-          this.departmentData = res.data;
-          this.handlePageChange(1);
-          const nonEmptySearchArray = this.listOfColumns.filter((element: any) => element.searchValue);
-          nonEmptySearchArray.forEach((element: any) => {
-            this.search(element.searchValue, element);
-          });
-        } else
-          this.toastr.error(res.message, { nzDuration: 3000 });
+        console.log(res)
+        if (res.parseddata.requestId == newGuid && res.parseddata.isSuccess) {
+          res = res.parseddata.apidata;
+          if (res.isSuccess) {
+            this.listOfDisplayData = res.data.map((obj: any) => {
+              obj.expand = false;
+              return obj;
+            });
+            this.listOfDisplayData = res.data;
+            this.listOfData = res.data;
+            this.departmentData = res.data;
+            this.handlePageChange(1);
+            const nonEmptySearchArray = this.listOfColumns.filter((element: any) => element.searchValue);
+            nonEmptySearchArray.forEach((element: any) => {
+              this.search(element.searchValue, element);
+            });
+            this.toastr.success(res.message, { nzDuration: 2000 });
+          } else
+            this.toastr.error(res.message, { nzDuration: 3000 });
 
-        this.loading = false;
+          this.loading = false;
+        }
       },
-      error: (err) => {
-        console.error(err);
-        this.toastr.error("An error occurred", { nzDuration: 3000 });
+      error: () => {
         this.loading = false;
-      }
+        this.toastr.error('some error exception', { nzDuration: 2000 });
+      },
     });
   }
-  // defaultApplicationBuilder(isSubmit?: any, key?: any, value?: any, model?: any) {
-  //   if (isSubmit && key == "applicationid") {
-  //     const screen = {
-  //       "ScreenBuilder": {
-  //         name: value.name + "_default",
-  //         navigation: value.name + "_default",
-  //         departmentid: value.departmentid,
-  //         applicationid: value.id
-  //       }
-  //     };
-  //     const header = {
-  //       "ScreenBuilder": {
-  //         name: value.name + "_header",
-  //         navigation: value.name + "_header",
-  //         departmentid: value.departmentid,
-  //         applicationid: value.id,
-  //         organizationid: model?.organizationid
-  //       }
-  //     };
 
-  //     const footer = {
-  //       "ScreenBuilder": {
-  //         name: value.name + "_footer",
-  //         navigation: value.name + "_footer",
-  //         departmentid: value.departmentid,
-  //         applicationid: value.id,
-  //         organizationid: model?.organizationid
-  //       }
-  //     };
-  //     const requests = [
-  //       this.applicationService.addNestNewCommonAPI("cp", screen),
-  //       this.applicationService.addNestNewCommonAPI("cp", header),
-  //       this.applicationService.addNestNewCommonAPI("cp", footer)
-  //     ];
-  //     this.loading = true;
-  //     forkJoin(requests).subscribe((responses: any) => {
-
-  //       if (responses[0].isSuccess && responses[1].isSuccess && responses[2].isSuccess) {
-  //         this.getBuilderScreen(responses[0], responses[1], responses[2], value)
-  //       } else {
-  //         this.toastr.error("Some error occurred", { nzDuration: 2000 });
-  //       }
-  //       this.loading = false;
-  //     },
-  //       (error) => {
-  //         this.toastr.error("Some exception occurred", { nzDuration: 2000 });
-  //         this.loading = false;
-  //       });
-  //   }
-  // }
-
-  // getBuilderScreen(screen: any, header: any, footer: any, value: any) {
-  //   const requests = [
-  //     this.applicationService.getNestNewCommonAPIById('cp/Builder', "64a81f1164d44e484c177a78"),
-  //     this.applicationService.getNestNewCommonAPIById('cp/Builder', "64a939a6a2c44ea9c78ac137"),
-  //     this.applicationService.getNestNewCommonAPIById('cp/Builder', "64a939b8a2c44ea9c78ac13c"),
-  //     // this.applicationService.getNestNewCommonAPIById('cp/Menu', "64a3c6cfa5d51b158d31cc00"),
-  //   ];
-  //   this.loading = true;
-  //   forkJoin(requests).subscribe((responses: any) => {
-  //     if (responses[0].isSuccess && responses[1].isSuccess && responses[2].isSuccess) {
-  //       const objects = [screen, header, footer];
-  //       for (let i = 0; i < 3; i++) {
-  //         responses[i].data[0].navigation = objects[i].data.navigation;
-  //         responses[i].data[0].screenName = objects[i].data.name;
-  //         responses[i].data[0].screenBuilderId = objects[i].data.id;
-  //       }
-  //       this.saveBuilderScreen(responses[0], responses[1], responses[2], responses[3], value);
-  //     } else {
-  //       this.toastr.error("Some error occurred", { nzDuration: 2000 });
-  //     }
-  //   },
-  //     (error) => {
-  //       this.toastr.error("Some exception occurred", { nzDuration: 2000 });
-  //       this.loading = false;
-  //     });
-  // }
-
-  // getScreensForClone(value?: any, model?: any) {
-  //   this.requestSubscription = this.applicationService.getNestNewCommonAPIById('cp/ScreenBuilder', this.myForm.value.defaultApplication).subscribe({
-  //     next: (res: any) => {
-  //       if (res.isSuccess) {
-  //         if (res.data.length > 0) {
-  //           const requests = res.data.map((element: any) => {
-  //             if (element.name.includes('_header')) {
-  //               element.name = value.name + '_header'
-  //               element.navigation = value.name + '_header'
-  //             } else if (element.name.includes('_footer')) {
-  //               element.name = value.name + '_footer'
-  //               element.navigation = value.name + '_footer'
-  //             } else if (element.name.includes('_default')) {
-  //               element.name = value.name + '_default'
-  //               element.navigation = value.name + '_default'
-  //             }
-  //             const screen = {
-  //               "ScreenBuilder": {
-  //                 applicationid: value.id,
-  //                 departmentid: value.departmentid,
-  //                 name: element.name,
-  //                 navigation: element.navigation,
-  //                 organizationid: model?.organizationid
-  //               }
-  //             };
-
-
-  //             return this.applicationService.addNestNewCommonAPI('cp', screen).pipe(
-  //               catchError(error => of(error)) // Handle error and continue the forkJoin
-  //             );
-  //           });
-
-  //           forkJoin(requests).subscribe({
-  //             next: (allResults: any) => {
-  //               if (allResults.every((result: any) => result.isSuccess === true)) {
-  //                 // this.loading = false;
-  //                 this.getBuilderScreensForClone(value, model);
-  //                 this.toastr.success("Save Successfully", { nzDuration: 3000 });
-  //               } else {
-  //                 this.toastr.error("Error Occurred", { nzDuration: 3000 });
-  //               }
-  //             },
-  //             error: (err) => {
-  //               console.error(err);
-  //               this.toastr.error("Actions: An error occurred", { nzDuration: 3000 });
-  //             }
-  //           });
-  //         }
-
-  //       }
-  //       else
-  //         this.toastr.error(res.message, { nzDuration: 3000 }); // Show an error message to the user
-  //     },
-  //     error: (err) => {
-  //       console.error(err); // Log the error to the console
-  //       this.toastr.error("An error occurred", { nzDuration: 3000 }); // Show an error message to the user
-  //     }
-  //   });
-  // }
-  // getBuilderScreensForClone(value?: any, model?: any) {
-  //   this.requestSubscription = this.applicationService.getNestNewCommonAPIById('cp/ScreenBuilder', this.myForm.value.defaultApplication).subscribe({
-  //     next: (res: any) => {
-  //       if (res.isSuccess) {
-  //         if (res.data.length > 0) {
-  //           const requests = res.data.map((element: any) => {
-  //             if (element.screenName.includes('_header')) {
-  //               element.screenName = value.name + '_header'
-  //               element.navigation = value.name + '_header'
-  //             } else if (element.name.includes('_footer')) {
-  //               element.screenName = value.name + '_footer'
-  //               element.navigation = value.name + '_footer'
-  //             } else if (element.name.includes('_default')) {
-  //               element.screenName = value.name + '_default'
-  //               element.navigation = value.name + '_default'
-  //             }
-  //             const screen = {
-  //               "Builder": {
-  //                 "screenData": JSON.parse(element.screenData),
-  //                 "screenName": element.screenName,
-  //                 "navigation": element.navigation,
-  //                 // "screenBuilderId": this.id,
-  //                 "applicationid": value.id,
-  //               }
-  //             };
-
-
-  //             return this.applicationService.addNestNewCommonAPI('cp', screen).pipe(
-  //               catchError(error => of(error)) // Handle error and continue the forkJoin
-  //             );
-  //           });
-
-  //           forkJoin(requests).subscribe({
-  //             next: (allResults: any) => {
-  //               if (allResults.every((result: any) => result.isSuccess === true)) {
-  //                 this.loading = false;
-  //                 this.toastr.success("Save Successfully", { nzDuration: 3000 });
-  //               } else {
-  //                 this.toastr.error("Error Occurred", { nzDuration: 3000 });
-  //               }
-  //             },
-  //             error: (err) => {
-  //               console.error(err);
-  //               this.toastr.error("Actions: An error occurred", { nzDuration: 3000 });
-  //             }
-  //           });
-  //         }
-
-  //       }
-  //       else
-  //         this.toastr.error(res.message, { nzDuration: 3000 }); // Show an error message to the user
-  //     },
-  //     error: (err) => {
-  //       console.error(err); // Log the error to the console
-  //       this.toastr.error("An error occurred", { nzDuration: 3000 }); // Show an error message to the user
-  //     }
-  //   });
-  // }
-
-  // saveBuilderScreen(screen: any, header: any, footer: any, menu: any, value: any) {
-  //   const screenModel: any = {
-  //     "Builder": screen.data[0]
-  //   }
-  //   const headerModel = {
-  //     "Builder": header.data[0]
-  //   }
-  //   const footerModel = {
-  //     "Builder": footer.data[0]
-  //   }
-  //   delete screenModel.Builder.__v;
-  //   delete screenModel.Builder.id;
-  //   delete headerModel.Builder.__v;
-  //   delete headerModel.Builder.id;
-  //   delete footerModel.Builder.__v;
-  //   delete footerModel.Builder.id;
-  //   screenModel.Builder['applicationid'] = value.id;
-  //   headerModel.Builder['applicationid'] = value.id;
-  //   footerModel.Builder['applicationid'] = value.id;
-  //   const menuModel = {
-  //     "Menu": menu.data[0]
-  //   }
-  //   delete menuModel.Menu.__v;
-  //   delete menuModel.Menu.id;
-  //   menuModel.Menu.applicationid = value.id
-  //   menuModel.Menu.name = value.id
-  //   const requests = [
-  //     this.applicationService.addNestNewCommonAPI('cp', screenModel),
-  //     this.applicationService.addNestNewCommonAPI('cp', headerModel),
-  //     this.applicationService.addNestNewCommonAPI('cp', footerModel),
-  //     this.applicationService.addNestNewCommonAPI('cp', menuModel),
-  //   ];
-  //   forkJoin(requests).subscribe((responses: any) => {
-  //     if (responses[0].isSuccess && responses[1].isSuccess && responses[2].isSuccess) {
-  //       this.toastr.success("Default things Added", { nzDuration: 2000 });
-  //     } else {
-  //       this.toastr.error("Some error occurred", { nzDuration: 2000 });
-  //     }
-  //   },
-  //     (error) => {
-  //       this.toastr.error("Some exception occurred", { nzDuration: 2000 });
-  //       this.loading = false;
-  //     });
-  // }
   openModal(type: any, eidt?: boolean) {
     if (this.isSubmit) {
       for (let prop in this.model) {
@@ -501,16 +269,28 @@ export class ApplicationBuilderComponent implements OnInit {
     this.isSubmit = true;
   }
   getOrganizationData() {
-    this.applicationService.getNestNewCommonAPI(`cp/Organization`).subscribe(((res: any) => {
-      if (res.isSuccess) {
-        this.companyBuilder = res.data.map((item: any) => ({
-          label: item.name,
-          value: item.id
-        }));
-        this.loadDepartmentFields();
-      } else
-        this.toastr.warning(res.message, { nzDuration: 2000 });
-    }));
+    const { jsonData, newGuid } = this.socketService.makeJsonData('Organization', 'GetModelType');
+    this.socketService.Request(jsonData);
+    this.socketService.OnResponseMessage().subscribe({
+      next: (res: any) => {
+        console.log(res)
+        if (res.parseddata.requestId == newGuid && res.parseddata.isSuccess) {
+          res = res.parseddata.apidata;
+          if (res.isSuccess) {
+            this.companyBuilder = res.data.map((item: any) => ({
+              label: item.name,
+              value: item.id
+            }));
+            this.loadDepartmentFields();
+          } else
+            this.toastr.warning(res.message, { nzDuration: 2000 });
+        }
+      },
+      error: () => {
+        this.loading = false;
+        this.toastr.error('some error exception', { nzDuration: 2000 });
+      },
+    });
   }
 
   onSubmit() {
@@ -541,7 +321,7 @@ export class ApplicationBuilderComponent implements OnInit {
       if (this.applicationSubmit) {
         const objDepartmentName = this.departmentData.find((x: any) => x.id == this.myForm.value.departmentid);
         this.myForm.value.departmentname = objDepartmentName.name;
-        this.myForm.value['organizationid'] =objDepartmentName.organizationid;
+        this.myForm.value['organizationid'] = objDepartmentName.organizationid;
         const tableValue = `Application`;
         objDataModel = {
           [tableValue]: this.myForm.value
@@ -558,49 +338,84 @@ export class ApplicationBuilderComponent implements OnInit {
         // this.handleCancel();
         this.drawerLoader = true;
         const defaultCheck = '/' + this.myForm.value.defaultApplication ?? "''";
-        this.applicationService.addNestNewCommonAPI('cp', objDataModel).subscribe({
-        // this.applicationService.addNestNewCommonAPI(`applications/clone${defaultCheck}`, this.myForm.value).subscribe({
-          next: (res: any) => {
+        var ResponseGuid: any;
+        const { newGuid, metainfocreate } = this.socketService.metainfocreate();
+        ResponseGuid = newGuid;
+        const Add = { [`Application`]: this.myForm.value, metaInfo: metainfocreate }
+        this.socketService.Request(Add);
+        this.socketService.OnResponseMessage().subscribe((res: any) => {
+          try {
+            console.log(res)
+            if (res.parseddata.requestId == ResponseGuid && res.parseddata.isSuccess) {
+              res = res.parseddata.apidata;
+              this.drawerLoader = false;
+              if (res.isSuccess) {
+                this.getDepartment();
+                this.getApplication();
+                this.toastr.success(res.message, { nzDuration: 2000 });
+                this.isSubmit = true;
+              } else {
+                this.toastr.error(`clone: ${res.message}`, { nzDuration: 3000 });
+              }
+            }
+          }
+          catch (error) {
+            this.drawerLoader = false;
+            this.toastr.error(`clone saved, some unhandled exception`, { nzDuration: 3000 });
+          }
+
+        });
+      }
+
+      if (!this.applicationSubmit) {
+        debugger;
+        if (this.isSubmit) {
+          const { newGuid, metainfocreate } = this.socketService.metainfocreate();
+          ResponseGuid = newGuid;
+          const Add = { [`Department`]: this.myForm.value, metaInfo: metainfocreate }
+          this.socketService.Request(Add);
+        } else {
+          const { newUGuid, metainfoupdate } = this.socketService.metainfoupdate(this.model.id);
+          ResponseGuid = newUGuid;
+          const Update = { [`Department`]: this.myForm.value, metaInfo: metainfoupdate };
+          this.socketService.Request(Update)
+        }
+      }
+      else {
+        if (!this.isSubmit) {
+          const { newUGuid, metainfoupdate } = this.socketService.metainfoupdate(this.model.id);
+          ResponseGuid = newUGuid;
+          const Update = { [`Application`]: this.myForm.value, metaInfo: metainfoupdate };
+          this.socketService.Request(Update)
+          //action$ = this.applicationService.updateNestNewCommonAPI('cp/Application', this.model.id, objDataModel);
+        }
+      }
+
+      this.socketService.OnResponseMessage().subscribe((res: any) => {
+        try {
+          console.log(res)
+          if (res.parseddata.requestId == ResponseGuid && res.parseddata.isSuccess) {
+            res = res.parseddata.apidata;
             this.drawerLoader = false;
             if (res.isSuccess) {
               this.getDepartment();
               this.getApplication();
+              this.handleCancel();
               this.toastr.success(res.message, { nzDuration: 2000 });
               this.isSubmit = true;
             } else {
-              this.toastr.error(`clone: ${res.message}`, { nzDuration: 3000 });
+              this.drawerLoader = false;
+              this.toastr.error(res.message, { nzDuration: 2000 });
             }
-          },
-          error: (err) => {
-            this.drawerLoader = false;
-            this.toastr.error(`clone saved, some unhandled exception`, { nzDuration: 3000 });
           }
-        });
-      }
-
-      const action$ = !this.applicationSubmit
-        ? this.isSubmit
-          ? this.applicationService.addNestNewCommonAPI('cp', objDataModel)
-          : this.applicationService.updateNestNewCommonAPI(`cp/Department`, this.model.id, objDataModel)
-        : !this.isSubmit
-          ? this.applicationService.updateNestNewCommonAPI(`cp/Application`, this.model.id, objDataModel)
-          : '';
-
-      if (action$) {
-        action$.subscribe((res: any) => {
+        }
+        catch (error) {
+          // Handle any errors that occur during execution
           this.drawerLoader = false;
-          if (res.isSuccess) {
-            this.getDepartment();
-            this.getApplication();
-            this.handleCancel();
-            this.toastr.success(res.message, { nzDuration: 2000 });
-            this.isSubmit = true;
-          } else {
-            this.drawerLoader = false;
-            this.toastr.error(res.message, { nzDuration: 2000 });
-          }
-        });
-      }
+          console.error("An error occurred:", error);
+          // You can add additional error handling here, such as showing an error message to the user.
+        }
+      });
     }
   }
   editItem(item: any, type: any) {
@@ -620,16 +435,38 @@ export class ApplicationBuilderComponent implements OnInit {
 
 
   deleteRow(id: any, type: any): void {
-    const api$ = type == 'application' ? this.applicationService.deleteNestNewCommonAPI(`cp/Application`, id) : this.applicationService.deleteNestNewCommonAPI(`cp/Department`, id);
-    api$.subscribe(((res: any) => {
-      if (res.isSuccess) {
-        this.getDepartment();
-        this.getApplication();
-        this.handlePageChange(1);
-        this.toastr.success(res.message, { nzDuration: 2000 });
-      } else
-        this.toastr.error(res.message, { nzDuration: 2000 });
-    }))
+    try {
+      this.loading = true;
+      var ResponseGuid: any;
+      if (type == 'application') {
+        const { jsonData, newGuid } = this.socketService.deleteModelType('Application', id);
+        ResponseGuid = newGuid;
+        this.socketService.Request(jsonData);
+      }
+      else {
+        const { jsonData, newGuid } = this.socketService.deleteModelType('Department', id);
+        ResponseGuid = newGuid;
+        this.socketService.Request(jsonData)
+      }
+      this.socketService.OnResponseMessage()
+        .subscribe((res: any) => {
+          if (res.parseddata.requestId == ResponseGuid && res.parseddata.isSuccess) {
+            res = res.parseddata.apidata;
+            if (res.isSuccess) {
+              this.getDepartment();
+              this.getApplication();
+              this.handlePageChange(1);
+              this.toastr.success(res.message, { nzDuration: 2000 });
+              this.loading = true;
+            } else
+              this.toastr.error(res.message, { nzDuration: 2000 });
+          }
+        });
+    } catch (error) {
+      // Handle any errors that occur during execution
+      console.error("An error occurred:", error);
+      // You can add additional error handling here, such as showing an error message to the user.
+    }
   };
 
   search(event?: any, data?: any): void {
@@ -671,21 +508,32 @@ export class ApplicationBuilderComponent implements OnInit {
     department['children'] = moduleData;
   }
   getApplication() {
-    this.requestSubscription = this.applicationService.getNestNewCommonAPI(`cp/Application`).subscribe({
-      next: (res: any) => {
-        if (res.isSuccess) {
-          this.listOfChildrenData = res.data;
-        }
-        else
-          this.toastr.error(res.message, { nzDuration: 3000 }); // Show an error message to the user
-        this.loading = false;
-      },
-      error: (err) => {
-        console.error(err); // Log the error to the console
-        this.toastr.error("An error occurred", { nzDuration: 3000 }); // Show an error message to the user
-        this.loading = false;
-      }
+    const newGuid = Guid.new16DigitGuid();
+    const metainfo = {
+      actiontag: 'GetModelType',
+      RequestId: newGuid
+    }
+    const jsonData = { modelType: 'Application', metaInfo: metainfo }; // Replace this with your actual JSON data
+    console.log("ApplicationJson", jsonData)
 
+    this.socketService.Request(jsonData);
+    this.socketService.OnResponseMessage().subscribe({
+      next: (res: any) => {
+        console.log(res)
+        if (res.parseddata.requestId == newGuid && res.parseddata.isSuccess) {
+          res = res.parseddata.apidata;
+          if (res.isSuccess) {
+            this.listOfChildrenData = res.data;
+          } else {
+            this.toastr.error(res.message, { nzDuration: 2000 });
+          }
+          this.loading = false;
+        }
+      },
+      error: () => {
+        this.loading = false;
+        this.toastr.error('some error exception', { nzDuration: 2000 });
+      },
     });
   }
 
@@ -973,12 +821,25 @@ export class ApplicationBuilderComponent implements OnInit {
     });
   }
   callDesignStudio() {
-    this.applicationService.getNestNewCommonAPI(`cp/applications/cloneApplicationData/department`).subscribe(((res: any) => {
-      if (res.isSuccess) {
-        this.designStudio = res.data;
-      } else
-        this.toastr.warning(res.message, { nzDuration: 2000 });
-    }));
+    const { jsonData, newGuid } = this.socketService.makeJsonData('GetCloneApplication', 'GetCloneApplication');
+    this.socketService.Request(jsonData);
+    this.socketService.OnResponseMessage().subscribe({
+      next: (res: any) => {
+        if (res.parseddata.requestId == newGuid && res.parseddata.isSuccess) {
+          res = res.parseddata.apidata;
+          if (res.isSuccess) {
+            this.designStudio = res.data;
+          }
+          else {
+            this.toastr.error(`call design studio apps:` + res.message, { nzDuration: 3000 });
+          }
+        }
+      },
+      error: (err) => {
+        console.error(err);
+        this.toastr.error(`call design studio apps:` + err, { nzDuration: 3000 });
+      }
+    })
   }
   handlePageChange(event: number): void {
     this.pageSize = !this.pageSize || this.pageSize < 1 ? 1 : this.pageSize

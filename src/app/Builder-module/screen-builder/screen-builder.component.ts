@@ -1,12 +1,11 @@
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { Component, OnInit } from '@angular/core';
+import { FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { FormlyFormOptions } from '@ngx-formly/core';
 import { NzMessageService } from 'ng-zorro-antd/message';
-import { ApplicationService } from 'src/app/services/application.service';
 import { BuilderService } from 'src/app/services/builder.service';
 import { DataSharedService } from 'src/app/services/data-shared.service';
-import { environment } from 'src/environments/environment';
+import { SocketService } from 'src/app/services/socket.service';
 
 @Component({
   selector: 'st-screen-builder',
@@ -128,23 +127,16 @@ export class ScreenBuilderComponent implements OnInit {
       sortFn: (a: any, b: any) => a.name.localeCompare(b.name),
       sortDirections: ['ascend', 'descend', null],
     },
-    // {
-    //   name: 'Pdf',
-    //   sortOrder: null,
-    //   sortFn: (a: any, b: any) => a.name.localeCompare(b.name),
-    //   sortDirections: ['ascend', 'descend', null],
-    // },
   ];
   constructor(
     public builderService: BuilderService,
-    private applicationService: ApplicationService,
     public dataSharedService: DataSharedService,
     private toastr: NzMessageService,
     private router: Router,
-    private fb: FormBuilder,
-    private cdr: ChangeDetectorRef
+    public socketService: SocketService,
   ) {
     this.dataSharedService.change.subscribe(({ event, field }) => {
+      debugger
       if (field.key === 'departmentid' && event) {
 
         this.getApplicationOptionList(event);
@@ -157,18 +149,6 @@ export class ScreenBuilderComponent implements OnInit {
   }
   ngOnInit(): void {
     this.totalItems = this.listOfDisplayData.length;
-    // this.form = new FormGroup({
-    //   name: new FormControl('', Validators.required),
-    //   screenId: new FormControl('', Validators.required),
-    //   applicationname: new FormControl('', Validators.required),
-    //   modulename: new FormControl('', Validators.required),
-    // });
-    // const applicationnameControl = this.form.get('applicationname');
-    // if (applicationnameControl !== null) {
-    //   applicationnameControl.valueChanges.subscribe(value => {
-    //     this.getModulelist(value);
-    //   });
-    // }
 
     this.breadCrumbItems = [
       { label: 'Formly' },
@@ -180,24 +160,29 @@ export class ScreenBuilderComponent implements OnInit {
   }
   jsonScreenModuleList() {
     this.loading = true;
-    this.applicationService.getNestNewCommonAPI(`cp/ScreenBuilder`).subscribe({
+    const { jsonData, newGuid } = this.socketService.makeJsonData('ScreenBuilder', 'GetModelType');
+    this.socketService.Request(jsonData);
+    this.socketService.OnResponseMessage().subscribe({
       next: (res: any) => {
-        if (res.isSuccess && res?.data.length > 0) {
-          this.toastr.success(`Screen : ${res.message}`, { nzDuration: 3000 });
-          this.listOfDisplayData = res.data;
-          this.listOfData = res.data;
-          this.loading = false;
-          this.jsonScreenModule = res.data;
-          this.handlePageChange(1);
-          const nonEmptySearchArray = this.listOfColumns.filter(
-            (element: any) => element.searchValue
-          );
-          nonEmptySearchArray.forEach((element: any) => {
-            this.search(element.searchValue, element);
-          });
-        } else {
-          this.toastr.error(`Screen : ${res.message}`, { nzDuration: 3000 });
-          this.loading = false;
+        if (res.parseddata.requestId == newGuid && res.parseddata.isSuccess) {
+          res = res.parseddata.apidata;
+          if (res.isSuccess && res?.data.length > 0) {
+            this.toastr.success(`Screen : ${res.message}`, { nzDuration: 3000 });
+            this.listOfDisplayData = res.data;
+            this.listOfData = res.data;
+            this.loading = false;
+            this.jsonScreenModule = res.data;
+            this.handlePageChange(1);
+            const nonEmptySearchArray = this.listOfColumns.filter(
+              (element: any) => element.searchValue
+            );
+            nonEmptySearchArray.forEach((element: any) => {
+              this.search(element.searchValue, element);
+            });
+          } else {
+            this.toastr.error(`Screen : ${res.message}`, { nzDuration: 3000 });
+            this.loading = false;
+          }
         }
       },
       error: (err) => {
@@ -207,11 +192,17 @@ export class ScreenBuilderComponent implements OnInit {
     });
   }
   getApplicationList() {
-    this.applicationService.getNestNewCommonAPI(`cp/Application`).subscribe(((res: any) => {
-      if (res.isSuccess)
-        this.ApplicationData = res.data;
-      else
-        this.toastr.success(res.message, { nzDuration: 3000 });
+    const { jsonData, newGuid } = this.socketService.makeJsonData('Application', 'GetModelType');
+    this.socketService.Request(jsonData);
+    this.socketService.OnResponseMessage().subscribe(((res: any) => {
+      if (res.parseddata.requestId == newGuid && res.parseddata.isSuccess) {
+        res = res.parseddata.apidata;
+        if (res.isSuccess)
+          this.ApplicationData = res.data;
+        else
+          this.toastr.success(res.message, { nzDuration: 3000 });
+      }
+
     }))
   }
   openModal() {
@@ -235,31 +226,35 @@ export class ScreenBuilderComponent implements OnInit {
   }
 
   getDepartment() {
-    this.applicationService.getNestNewCommonAPI(`cp/Department`).subscribe((res: any) => {
-      if (res.isSuccess) {
-        console.log('getDepartment-Info');
-        this.departmenData = res.data;
-      } else console.error(res.message, { nzDuration: 3000 });
+    const { jsonData, newGuid } = this.socketService.makeJsonData('Department', 'GetModelType');
+    this.socketService.Request(jsonData);
+    this.socketService.OnResponseMessage().subscribe((res: any) => {
+      if (res.parseddata.requestId == newGuid && res.parseddata.isSuccess) {
+        res = res.parseddata.apidata;
+        if (res.isSuccess) {
+          console.log('getDepartment-Info');
+          this.departmenData = res.data;
+        } else console.error(res.message, { nzDuration: 3000 });
+      }
       // this.loadScreenListFields();
     });
   }
   getOrganization() {
-    this.applicationService
-      .getNestNewCommonAPI(`cp/Organization`)
-      .subscribe((res: any) => {
+    const { jsonData, newGuid } = this.socketService.makeJsonData('Organization', 'GetModelType');
+    this.socketService.Request(jsonData);
+    this.socketService.OnResponseMessage().subscribe((res: any) => {
+      if (res.parseddata.requestId == newGuid && res.parseddata.isSuccess) {
+        res = res.parseddata.apidata;
         if (res.isSuccess) {
           console.log('getOrganization-Info');
           this.organizationData = res.data;
           this.loadScreenListFields();
         }
         else console.error(res.message, { nzDuration: 3000 });
-      });
+      }
+
+    });
   }
-  // getModulelist(applicationname: any) {
-  //   this.builderService.getjsonModuleModuleListByapplicationname(applicationname).subscribe((res => {
-  //     this.moduleList = res;
-  //   }))
-  // }
   onSubmit() {
 
     if (!this.form.valid) {
@@ -292,30 +287,40 @@ export class ScreenBuilderComponent implements OnInit {
       }
       this.loading = false;
       return;
-    } else {
-      const tableValue = `ScreenBuilder`;
-      const screenModel = {
-        [tableValue]: this.form.value,
-      };
-
-      const checkScreenAndProceed = this.isSubmit
-        ? this.applicationService.addNestNewCommonAPI('cp', screenModel)
-        : this.applicationService.updateNestNewCommonAPI(`cp/ScreenBuilder`, this.model.id, screenModel);
-      checkScreenAndProceed.subscribe({
-        next: (objTRes: any) => {
-          if (objTRes.isSuccess) {
-
-            this.isVisible = false;
-            this.jsonScreenModuleList();
-            const message = this.isSubmit ? 'Save' : 'Update';
-            this.toastr.success(objTRes.message, { nzDuration: 3000 });
-            if (!this.isSubmit) {
-              this.isSubmit = true;
+    }
+    else {
+      var ResponseGuid: any;
+      if (this.isSubmit) {
+        const { newGuid, metainfocreate } = this.socketService.metainfocreate();
+        ResponseGuid = newGuid;
+        const Add = { [`ScreenBuilder`]: this.form.value, metaInfo: metainfocreate }
+        this.socketService.Request(Add);
+      }
+      else {
+        const { newUGuid, metainfoupdate } = this.socketService.metainfoupdate(this.model.id);
+        ResponseGuid = newUGuid;
+        const Update = { [`ScreenBuilder`]: this.form.value, metaInfo: metainfoupdate };
+        this.socketService.Request(Update)
+      }
+      this.loading = true;
+      this.socketService.OnResponseMessage().subscribe({
+        next: (res: any) => {
+          if (res.parseddata.requestId == ResponseGuid && res.parseddata.isSuccess) {
+            res = res.parseddata.apidata;
+            if (res.isSuccess) {
+              this.isVisible = false;
+              this.jsonScreenModuleList();
+              const message = this.isSubmit ? 'Save' : 'Update';
+              this.toastr.success(res.message, { nzDuration: 3000 });
+              if (!this.isSubmit) {
+                this.isSubmit = true;
+              }
+              this.handleCancel();
+            } else {
+              this.toastr.error(res.message, { nzDuration: 3000 });
             }
-            this.handleCancel();
-          } else {
-            this.toastr.error(objTRes.message, { nzDuration: 3000 });
           }
+
         },
         error: (err) => {
           this.toastr.error(`${err.error.message}`, { nzDuration: 3000 });
@@ -325,47 +330,58 @@ export class ScreenBuilderComponent implements OnInit {
   }
 
   getDepartmentOptionList(id: string) {
+    const { jsonData, newGuid } = this.socketService.makeJsonDataById('Department', id, 'GetModelTypeById');
+    this.socketService.Request(jsonData);
+    this.socketService.OnResponseMessage().subscribe((res: any) => {
+      if (res.parseddata.requestId == newGuid && res.parseddata.isSuccess) {
+        res = res.parseddata.apidata
+        if (res.isSuccess) {
+          const moduleListOptions = res.data.map((item: any) => ({
+            label: item.name,
+            value: item.id
+          }));
+          const moduleFieldIndex = this.fields.findIndex((fieldGroup: any) => {
+            const field = fieldGroup.fieldGroup[0];
+            return field.key === 'departmentid';
+          });
 
-    this.applicationService.getNestNewCommonAPIById(`cp/Department`, id).subscribe((res: any) => {
-      if (res.isSuccess) {
-        const moduleListOptions = res.data.map((item: any) => ({
-          label: item.name,
-          value: item.id
-        }));
-        const moduleFieldIndex = this.fields.findIndex((fieldGroup: any) => {
-          const field = fieldGroup.fieldGroup[0];
-          return field.key === 'departmentid';
-        });
+          if (moduleFieldIndex !== -1) {
+            // Update the options of the "Select Module" field
+            this.fields[moduleFieldIndex].fieldGroup[0].props.options = moduleListOptions;
+          }
+        } else
+          this.toastr.error(res.message, { nzDuration: 3000 });
+      }
 
-        if (moduleFieldIndex !== -1) {
-          // Update the options of the "Select Module" field
-          this.fields[moduleFieldIndex].fieldGroup[0].props.options = moduleListOptions;
-        }
-      } else
-        this.toastr.error(res.message, { nzDuration: 3000 });
       // Find the index of the "Select Module" field in the 'this.fields' array
     });
   }
   getApplicationOptionList(id: string) {
-    this.applicationService.getNestNewCommonAPIById(`cp/Application`, id).subscribe((res: any) => {
-      if (res.isSuccess) {
-        const moduleListOptions = res.data.map((item: any) => ({
-          label: item.name,
-          value: item.id
-        }));
+    const { jsonData, newGuid } = this.socketService.makeJsonDataById('Application', id, 'GetModelTypeById');
+    this.socketService.Request(jsonData);
+    this.socketService.OnResponseMessage().subscribe((res: any) => {
+      if (res.parseddata.requestId == newGuid && res.parseddata.isSuccess) {
+        res = res.parseddata.apidata;
+        if (res.isSuccess) {
+          const moduleListOptions = res.data.map((item: any) => ({
+            label: item.name,
+            value: item.id
+          }));
 
-        // Find the index of the "Select Module" field in the 'this.fields' array
-        const moduleFieldIndex = this.fields.findIndex((fieldGroup: any) => {
-          const field = fieldGroup.fieldGroup[0];
-          return field.key === 'applicationid';
-        });
+          // Find the index of the "Select Module" field in the 'this.fields' array
+          const moduleFieldIndex = this.fields.findIndex((fieldGroup: any) => {
+            const field = fieldGroup.fieldGroup[0];
+            return field.key === 'applicationid';
+          });
 
-        if (moduleFieldIndex !== -1) {
-          // Update the options of the "Select Module" field
-          this.fields[moduleFieldIndex].fieldGroup[0].props.options = moduleListOptions;
-        }
-      } else
-        this.toastr.error(res.message, { nzDuration: 3000 });
+          if (moduleFieldIndex !== -1) {
+            // Update the options of the "Select Module" field
+            this.fields[moduleFieldIndex].fieldGroup[0].props.options = moduleListOptions;
+          }
+        } else
+          this.toastr.error(res.message, { nzDuration: 3000 });
+      }
+
     });
   }
 
@@ -381,16 +397,20 @@ export class ScreenBuilderComponent implements OnInit {
       this.toastr.warning(`Not allowed to delete ${lastPart}`, { nzDuration: 2000 });
       return;
     }
-    let id = data.id;
-    this.applicationService
-      .deleteNestNewCommonAPI('cp/ScreenBuilder', id)
-      .subscribe((res: any) => {
+    const { jsonData, newGuid } = this.socketService.deleteModelType('ScreenBuilder', data.id);
+
+    this.socketService.Request(jsonData);
+    this.socketService.OnResponseMessage().subscribe((res: any) => {
+      if (res.parseddata.requestId == newGuid && res.parseddata.isSuccess) {
+        res = res.parseddata.apidata;
         if (res.isSuccess) {
           this.jsonScreenModuleList();
           this.handlePageChange(1);
           this.toastr.success(`Screen: ${res.message}`, { nzDuration: 2000, });
         } else this.toastr.error(`Screen: ${res.message}`, { nzDuration: 2000, });
-      });
+      }
+
+    });
   }
   goToBuildPage(data: any) {
 
@@ -452,14 +472,6 @@ export class ScreenBuilderComponent implements OnInit {
       data.searchIcon = 'search';
     }
   }
-
-  // clearModel(data?: any, searchValue?: any) {
-  //   if (data.searchIcon == "close" && searchValue) {
-  //     data.searchValue = '';
-  //     this.listOfDisplayData = this.listOfData;
-  //     data.searchIcon = "search";
-  //   }
-  // }
   loadScreenListFields() {
     const options = this.organizationData.map((item: any) => ({
       label: item.name,
@@ -539,19 +551,6 @@ export class ScreenBuilderComponent implements OnInit {
           },
         ],
       },
-      // {
-      //   fieldGroup: [
-      //     {
-      //       key: 'pdf',
-      //       type: 'checkbox',
-      //       wrappers: ['formly-vertical-theme-wrapper'],
-      //       defaultValue: false,
-      //       props: {
-      //         label: 'Pdf',
-      //       },
-      //     },
-      //   ],
-      // },
     ];
   }
   handlePageChange(event: number): void {

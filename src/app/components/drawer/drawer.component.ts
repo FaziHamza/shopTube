@@ -2,9 +2,9 @@ import { Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { Subscription } from 'rxjs';
-import { TreeNode } from 'src/app/models/treeNode';
 import { ApplicationService } from 'src/app/services/application.service';
 import { DataSharedService } from 'src/app/services/data-shared.service';
+import { SocketService } from 'src/app/services/socket.service';
 
 @Component({
   selector: 'st-drawer',
@@ -28,15 +28,14 @@ export class DrawerComponent implements OnInit {
   res: any = {};
   showChild: boolean = true;
   shouldExecuteSubscription = true;
-  constructor(private applicationService: ApplicationService, public dataSharedService: DataSharedService, private toastr: NzMessageService,
-    private router: Router) {
+  constructor(public dataSharedService: DataSharedService, private toastr: NzMessageService,
+    private socketService: SocketService,
+    private router: Router,) {
     this.processData = this.processData.bind(this);
-
-
   }
 
   ngOnInit(): void {
-    
+
     if (this.drawerData?.eventActionconfig) {
       if (this.drawerData?.eventActionconfig['parentId']) {
         this.drawerData['visible'] = true;
@@ -59,87 +58,87 @@ export class DrawerComponent implements OnInit {
                 //   this.drawerData['visible'] = false;
                 // }
                 this.loader = true;
-                
-                this.applicationService.callApi(url, 'get', '', '', `'${this.drawerData.eventActionconfig.parentId}'`).subscribe({
-                  next: (res) => {
-                    this.res = res;
-                    this.loader = false;
-                    let newModel = this.formlyModel;
-                    const userData = JSON.parse(localStorage.getItem('user')!);
-                    // Get the current date and time
-                    const currentDate = new Date();
 
-                    const year = currentDate.getFullYear();
-                    const month = (currentDate.getMonth() + 1).toString().padStart(2, '0');
-                    const day = currentDate.getDate().toString().padStart(2, '0');
+                // this.applicationService.callApi(url, 'get', '', '', `'${this.drawerData.eventActionconfig.parentId}'`).subscribe({
+                //   next: (res) => {
+                //     this.res = res;
+                //     this.loader = false;
+                //     let newModel = this.formlyModel;
+                //     const userData = JSON.parse(localStorage.getItem('user')!);
+                //     // Get the current date and time
+                //     const currentDate = new Date();
 
-                    const formattedDate = `${year}-${month}-${day}`;
+                //     const year = currentDate.getFullYear();
+                //     const month = (currentDate.getMonth() + 1).toString().padStart(2, '0');
+                //     const day = currentDate.getDate().toString().padStart(2, '0');
+
+                //     const formattedDate = `${year}-${month}-${day}`;
 
 
-                    // Now, you can save 'formattedDate' in your SQL database
-                    if (newModel) {
-                      for (const key in newModel) {
-                        if (newModel.hasOwnProperty(key)) {
-                          if (typeof newModel[key] === 'object') {
-                            for (const key1 in newModel[key]) {
-                              if (key1.includes('parentid')) {
-                                newModel[key][key1] = this.drawerData.eventActionconfig.parentId;
-                              }
-                              else if (key1.includes('applicationid')) {
-                                newModel[key][key1] = this.dataSharedService.decryptedValue('applicationId') || '';
-                              }
-                              else if (key1.includes('organizationid')) {
-                                newModel[key][key1] = this.dataSharedService.decryptedValue('organizationId') || '';
-                              }
-                              else if (key1.includes('createdby')) {
-                                newModel[key][key1] = userData.username;
-                              }
-                              else if (key1.includes('datetime')) {
-                                newModel[key][key1] = formattedDate;
-                              }
-                            }
-                          }
-                          else {
-                            if (key.includes('parentid')) {
-                              newModel[key] = this.drawerData.eventActionconfig.parentId;
-                            }
-                            else if (key.includes('applicationid')) {
-                              newModel[key] = this.dataSharedService.decryptedValue('applicationId') || '';
-                            }
-                            else if (key.includes('organizationid')) {
-                              newModel[key] = this.dataSharedService.decryptedValue('organizationId') || '';
-                            }
-                            else if (key.includes('createdby')) {
-                              newModel[key] = userData.username;
-                            }
-                            else if (key.includes('datetime')) {
-                              newModel[key] = formattedDate;
-                            }
-                          }
-                        }
-                      }
-                    }
-                    // this.assignValues(res.data[0]);
-                    this.formlyModel = newModel;
-                    this.form.patchValue(this.formlyModel);
-                    this.filterDuplicateChildren(this.drawerData)
-                    // if (this.drawerData.children[0].type == 'div') {
-                    //   this.drawerData.children[0].hideExpression = false;
-                    //   const firstChild = this.drawerData.children[0].children[0];
-                    //   this.drawerData.children[0].children = [firstChild];
-                    // }
-                    // else {
-                    //   const firstChild = this.drawerData.children[0];
-                    //   this.drawerData.children[0] = [firstChild];
-                    // }
-                    this.checkDynamicSection(false);
-                  },
-                  error: (error: any) => {
-                    this.loader = false;
-                    console.error(error);
-                    this.toastr.error("An error occurred", { nzDuration: 3000 });
-                  }
-                })
+                //     // Now, you can save 'formattedDate' in your SQL database
+                //     if (newModel) {
+                //       for (const key in newModel) {
+                //         if (newModel.hasOwnProperty(key)) {
+                //           if (typeof newModel[key] === 'object') {
+                //             for (const key1 in newModel[key]) {
+                //               if (key1.includes('parentid')) {
+                //                 newModel[key][key1] = this.drawerData.eventActionconfig.parentId;
+                //               }
+                //               else if (key1.includes('applicationid')) {
+                //                 newModel[key][key1] = this.dataSharedService.decryptedValue('applicationId') || '';
+                //               }
+                //               else if (key1.includes('organizationid')) {
+                //                 newModel[key][key1] = this.dataSharedService.decryptedValue('organizationId') || '';
+                //               }
+                //               else if (key1.includes('createdby')) {
+                //                 newModel[key][key1] = userData.username;
+                //               }
+                //               else if (key1.includes('datetime')) {
+                //                 newModel[key][key1] = formattedDate;
+                //               }
+                //             }
+                //           }
+                //           else {
+                //             if (key.includes('parentid')) {
+                //               newModel[key] = this.drawerData.eventActionconfig.parentId;
+                //             }
+                //             else if (key.includes('applicationid')) {
+                //               newModel[key] = this.dataSharedService.decryptedValue('applicationId') || '';
+                //             }
+                //             else if (key.includes('organizationid')) {
+                //               newModel[key] = this.dataSharedService.decryptedValue('organizationId') || '';
+                //             }
+                //             else if (key.includes('createdby')) {
+                //               newModel[key] = userData.username;
+                //             }
+                //             else if (key.includes('datetime')) {
+                //               newModel[key] = formattedDate;
+                //             }
+                //           }
+                //         }
+                //       }
+                //     }
+                //     // this.assignValues(res.data[0]);
+                //     this.formlyModel = newModel;
+                //     this.form.patchValue(this.formlyModel);
+                //     this.filterDuplicateChildren(this.drawerData)
+                //     // if (this.drawerData.children[0].type == 'div') {
+                //     //   this.drawerData.children[0].hideExpression = false;
+                //     //   const firstChild = this.drawerData.children[0].children[0];
+                //     //   this.drawerData.children[0].children = [firstChild];
+                //     // }
+                //     // else {
+                //     //   const firstChild = this.drawerData.children[0];
+                //     //   this.drawerData.children[0] = [firstChild];
+                //     // }
+                //     this.checkDynamicSection(false);
+                //   },
+                //   error: (error: any) => {
+                //     this.loader = false;
+                //     console.error(error);
+                //     this.toastr.error("An error occurred", { nzDuration: 3000 });
+                //   }
+                // })
               }
             }
           }
@@ -172,19 +171,25 @@ export class DrawerComponent implements OnInit {
     }
   }
   open(event: MouseEvent,): void {
-    
+
     if (this.drawerData?.link) {
       event.stopPropagation();
       this.loader = true;
-      this.requestSubscription = this.applicationService.getNestCommonAPIById('cp/auth/pageAuth/', this.drawerData?.link).subscribe({
+      const { jsonData, newGuid } = this.socketService.makeJsonDataById('CheckUserScreen', this.drawerData?.link, 'CheckUserScreen');
+      this.socketService.Request(jsonData);
+      this.socketService.OnResponseMessage().subscribe({
         next: (res: any) => {
-          if (res.data.length > 0) {
-            this.screenId = res.data[0].screenBuilderId;
-            this.nodes.push(res);
-          } else {
-            this.router.navigateByUrl('permission-denied')
+          if (res.parseddata.requestId == newGuid && res.parseddata.isSuccess) {
+            res = res.parseddata.apidata;
+            if (res.data.length > 0) {
+              this.screenId = res.data[0].screenBuilderId;
+              this.nodes.push(res);
+            } else {
+              this.router.navigateByUrl('permission-denied')
+            }
+            this.loader = false;
           }
-          this.loader = false;
+
         },
         error: (err) => {
           console.error(err); // Log the error to the console
@@ -217,7 +222,7 @@ export class DrawerComponent implements OnInit {
     }) || '{}'
   }
   processData(data: any) {
-    
+
     if (window.location.href.includes('/pages')) {
       if (data) {
         if (data?.data?.length > 0) {

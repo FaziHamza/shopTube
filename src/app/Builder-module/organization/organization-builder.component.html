@@ -79,8 +79,8 @@
         <tbody>
             <tr *ngFor="let data of innerTable.data">
                 <td>{{ data.name }}</td>
-                <td>{{ data.companyname ? data.companyname :
-                    data.organizationname}}</td>
+                <td>{{ data.organizationname
+                    }}</td>
                 <td>
                     <i class="fa-regular fa-pen-to-square !text-blue-600 hover:cursor-pointer" nzTooltipTitle="Edit"
                         nz-tooltip (click)="editItem(data , 'department')"></i>

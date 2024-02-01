@@ -1,7 +1,5 @@
 import { ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { TreeNode } from 'src/app/models/treeNode';
 import { EmployeeService } from 'src/app/services/employee.service';
-// import { CommonchartService } from 'src/app/servics/commonchart.service';
 import { NzModalService } from 'ng-zorro-antd/modal';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { ActivatedRoute, Params, Router } from '@angular/router';
@@ -9,7 +7,9 @@ import { DataSharedService } from 'src/app/services/data-shared.service';
 import { ApplicationService } from 'src/app/services/application.service';
 import { Subject, Subscription } from 'rxjs';
 import { Location } from '@angular/common';
-import { environment } from 'src/environments/environment';
+import { SocketService } from 'src/app/services/socket.service';
+
+
 
 @Component({
   selector: 'st-buttons',
@@ -56,7 +56,9 @@ export class ButtonsComponent implements OnInit {
   private destroy$: Subject<void> = new Subject<void>();
   @Output() gridEmit: EventEmitter<any> = new EventEmitter<any>();
   constructor(private modalService: NzModalService, public employeeService: EmployeeService, private toastr: NzMessageService, private router: Router,
-    public dataSharedService: DataSharedService, private applicationService: ApplicationService, private activatedRoute: ActivatedRoute, private location: Location, private cdr: ChangeDetectorRef) { }
+    public dataSharedService: DataSharedService, private activatedRoute: ActivatedRoute, private location: Location, private cdr: ChangeDetectorRef,
+    private socketService: SocketService,
+  ) { }
 
   ngOnInit(): void {
     if (this.tableDisplayData) {
@@ -131,23 +133,27 @@ export class ButtonsComponent implements OnInit {
         }
         this.loader = true;
         this.isVisible = true;
-        // this.dataSharedService.drawerVisible = true;
         let externalLogin = localStorage.getItem('externalLogin') || false;
         if (!externalLogin) {
-          this.applicationService.getNestNewCommonAPI('cp/auth/pageAuth/' + data.href).subscribe(res => {
-            if (res?.data == true) {
-              this.getBuilderScreen(data);
-            }
-            else {
-              this.loader = false;
-              this.screenId = res.data[0].screenbuilderid;
-              this.nodes.push(res)
+          const { jsonData, newGuid } = this.socketService.makeJsonDataById('CheckUserScreen', data.href, 'CheckUserScreen');
+          this.socketService.Request(jsonData);
+          this.socketService.OnResponseMessage().subscribe(res => {
+            if (res.parseddata.requestId == newGuid && res.parseddata.isSuccess) {
+              res = res.parseddata.apidata;
+              if (res?.data == true) {
+                this.getBuilderScreen(data);
+              }
+              else {
+                this.loader = false;
+                this.screenId = res.data[0].screenbuilderid;
+                this.nodes.push(res)
+              }
             }
           });
-        }else{
+        } else {
           this.getBuilderScreen(data);
         }
-        
+
         break;
       case '_blank':
         if (this.tableRowId) {
@@ -266,21 +272,26 @@ export class ButtonsComponent implements OnInit {
   jsonPolicyModuleList() {
 
     let user = JSON.parse(this.dataSharedService.decryptedValue('user'));
-    this.applicationService.getNestNewCommonAPI(`cp/getpolicy/${user.policy.userid}`).subscribe({
+    const { jsonData, newGuid } = this.socketService.makeJsonDataById('getpolicy', user?.policy?.userid, 'GetModelTypeById');
+    this.socketService.Request(jsonData);
+    this.socketService.OnResponseMessage().subscribe({
       next: (res: any) => {
-
-        if (res.isSuccess) {
-          if (res?.data.length > 0) {
-            if (this.buttonData?.showPolicies) {
-              this.policyList = res.data.filter((a: any) => a?.policyId._id != user['policy']['policyId']);
-            } else {
-              this.policyList = res?.data;
+        if (res.parseddata.requestId == newGuid && res.parseddata.isSuccess) {
+          res = res.parseddata.apidata;
+          if (res.isSuccess) {
+            if (res?.data.length > 0) {
+              if (this.buttonData?.showPolicies) {
+                this.policyList = res.data.filter((a: any) => a?.policyId._id != user['policy']['policyId']);
+              } else {
+                this.policyList = res?.data;
+              }
             }
           }
         }
+
       },
       error: (err) => {
-        this.toastr.error(`Policy : An error occured`, { nzDuration: 3000 });
+        this.toastr.error(`Policy : ${err}`, { nzDuration: 3000 });
       },
     });
   }
@@ -325,23 +336,25 @@ export class ButtonsComponent implements OnInit {
       }
     }
     this.dataSharedService.pagesLoader.next(true);
-    this.applicationService.updateNestCommonAPI('cp/UserMapping', policy._id, obj).subscribe({
-      next: (objTRes: any) => {
+    const { newUGuid, metainfoupdate } = this.socketService.metainfoupdate(policy.id);
+    var ResponseGuid: any = newUGuid;
+    const Update = { [`UserMapping`]: obj, metaInfo: metainfoupdate };
+    this.socketService.Request(Update)
+    this.socketService.OnResponseMessage().subscribe((res: any) => {
+      if (res.parseddata.requestId == ResponseGuid && res.parseddata.isSuccess) {
+        res = res.parseddata.apidata;
         this.dataSharedService.pagesLoader.next(false);
-        if (objTRes.isSuccess) {
+
+        if (res.isSuccess) {
           this.router.navigate(['/']).then(() => {
             // Reload the entire application to re-render all components
             this.location.replaceState('/');
             window.location.reload();
           });
         } else {
-          this.toastr.error(objTRes.message, { nzDuration: 3000 });
+          this.toastr.error(res.message, { nzDuration: 3000 });
         }
-      },
-      error: (err) => {
-        this.dataSharedService.pagesLoader.next(false);
-        this.toastr.error(`${err.error.message}`, { nzDuration: 3000 });
-      },
+      }
     });
   }
   // private drawerClose(): void {
@@ -409,19 +422,24 @@ export class ButtonsComponent implements OnInit {
     return null;
   }
   getBuilderScreen(data: any) {
-    this.requestSubscription = this.applicationService.getNestNewCommonAPIById('cp/Builders', data.href).subscribe({
+    const { jsonData, newGuid } = this.socketService.makeJsonDataById('Builders', data.href, 'GetModelTypeById');
+    this.socketService.Request(jsonData);
+    this.socketService.OnResponseMessage().subscribe({
       next: (res: any) => {
         try {
-          if (res.isSuccess) {
-            if (res.data.length > 0) {
-              this.screenId = res.data[0].screenbuilderid;
-              this.nodes = [];
-              this.nodes.push(res);
+          if (res.parseddata.requestId == newGuid && res.parseddata.isSuccess) {
+            res = res.parseddata.apidata;
+            if (res.isSuccess) {
+              if (res.data.length > 0) {
+                this.screenId = res.data[0].screenbuilderid;
+                this.nodes = [];
+                this.nodes.push(res);
+              }
+              this.loader = false;
+            } else {
+              this.toastr.error(res.message, { nzDuration: 3000 });
+              this.loader = false;
             }
-            this.loader = false;
-          } else {
-            this.toastr.error(res.message, { nzDuration: 3000 });
-            this.loader = false;
           }
         } catch (err) {
           this.loader = false;

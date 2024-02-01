@@ -9,6 +9,7 @@ import { environment } from 'src/environments/environment';
 import { MSAL_GUARD_CONFIG, MsalGuardConfiguration, MsalService, MsalBroadcastService } from '@azure/msal-angular';
 import { EventMessage, AuthenticationResult, InteractionStatus, PopupRequest, InteractionType, RedirectRequest } from '@azure/msal-browser';
 import { Subject, filter, takeUntil } from 'rxjs';
+import { SocketService } from 'src/app/services/socket.service';
 
 @Component({
   selector: 'st-login',
@@ -42,30 +43,30 @@ export class LoginComponent implements OnInit {
   recaptchaResponse = '';
   ngOnInit(): void {
 
-    
+
     this.msalBroadcastService.msalSubject$
       .pipe(
         filter((msg: EventMessage) => msg.eventType.toString() === EventTypeMsal.LOGIN_SUCCESS),
         takeUntil(this._destroying$)
       )
       .subscribe((result: any) => {
-        var arr=result;
-        if(arr!=null && arr!=undefined){          
-        var oid=result.payload.idTokenClaims.oid
-        var name=result.payload.idTokenClaims.name
-        var preferred_username=result.payload.idTokenClaims.preferred_username
+        var arr = result;
+        if (arr != null && arr != undefined) {
+          var oid = result.payload.idTokenClaims.oid
+          var name = result.payload.idTokenClaims.name
+          var preferred_username = result.payload.idTokenClaims.preferred_username
         }
-        let obj = { 
-        'name':name,
-        'oid':oid,
-        'preferred_username':preferred_username
-    }
+        let obj = {
+          'name': name,
+          'oid': oid,
+          'preferred_username': preferred_username
+        }
 
 
-      this.authService.addNestCommonAPI('userAd/userAdSave', obj).subscribe({
+        this.authService.addNestCommonAPI('userAd/userAdSave', obj).subscribe({
           next: (res: any) => {
             if (res.isSuccess) {
-            
+
             } else {
               // this.toastr.error(clone: ${res.message}, { nzDuration: 3000 });
             }
@@ -78,7 +79,7 @@ export class LoginComponent implements OnInit {
         this.authService2.instance.setActiveAccount(payload.account);
       });
 
-      this.msalBroadcastService.inProgress$
+    this.msalBroadcastService.inProgress$
       .pipe(
         filter((status: InteractionStatus) => status === InteractionStatus.None)
       )
@@ -115,6 +116,7 @@ export class LoginComponent implements OnInit {
 
   showLoader: boolean = false;
   constructor(
+    private socketService: SocketService,
     private formBuilder: FormBuilder,
     public authService: AuthService,
     private route: ActivatedRoute,
@@ -168,38 +170,44 @@ export class LoginComponent implements OnInit {
     this.form.value['domain'] = window.location.host.split(':')[0],
       this.form.value['responsekey'] = this.recaptchaResponse;
     let obj = this.form.value;
-    obj['applicationId'] = this.applications?.application?.id ;
+    obj['applicationId'] = this.applications?.application?.id;
     // Show Loader
     this.showLoader = true;
-    this.authService.loginUser(this.form.value).subscribe(
-      (response: any) => {
-        this.showLoader = false;
-        if (response.isSuccess) {
-          if (response.data?.access_token) {
-            grecaptcha.reset(); // Reset reCAPTCHA
+    const tableValue = 'AuthLogin';
+    const { jsonData, newGuid } = this.socketService.authMetaInfo('AuthLogin', '', '');
+    const Update = { [tableValue]: this.form.value, metaInfo: jsonData };
+    this.socketService.AuthRequest(Update);
+    this.socketService.OnResponseMessage().subscribe(
+      (res: any) => {
+        if (res.parseddata.requestId == newGuid && res.parseddata.isSuccess) {
+          this.showLoader = false;
+          res = res.parseddata.apidata;
+          if (res.isSuccess) {
+            if (res.data?.access_token) {
+              grecaptcha.reset(); // Reset reCAPTCHA
 
-            this.commonService.showSuccess('Login Successfully!', {
-              nzDuration: 2000,
-            });
-            localStorage.setItem('isLoggedIn', 'true');
-            localStorage.setItem('externalLogin', 'false');
-            this.showLoader = false;
-            this.authService.setAuth(response.data);
-            this.router.navigate(['/home/allorder']);
-            this.router.navigate(['/']);
+              this.commonService.showSuccess('Login Successfully!', {
+                nzDuration: 2000,
+              });
+              localStorage.setItem('isLoggedIn', 'true');
+              localStorage.setItem('externalLogin', 'false');
+              this.showLoader = false;
+              this.authService.setAuth(res.data);
+              this.router.navigate(['/home/allorder']);
+              this.router.navigate(['/']);
+            } else {
+              this.commonService.showError('Something went wrong!');
+              grecaptcha.reset(); // Reset reCAPTCHA
+
+            }
           } else {
-            this.commonService.showError('Something went wrong!');
             grecaptcha.reset(); // Reset reCAPTCHA
 
+            this.commonService.showError(res.message, {
+              nzPauseOnHover: true,
+            });
           }
-        } else {
-          grecaptcha.reset(); // Reset reCAPTCHA
-
-          this.commonService.showError(response.message, {
-            nzPauseOnHover: true,
-          });
         }
-
       },
       (error) => {
         this.showLoader = false;
@@ -229,13 +237,20 @@ export class LoginComponent implements OnInit {
   getApplicationData() {
     this.showLoader = true;
     const hostUrl = window.location.host.split(':')[0];
-    this.authService.getNestCommonAPI(`auth/domain/user/${hostUrl}`).subscribe({
+
+    const { jsonData, newGuid } = this.socketService.authMetaInfo('AuthGetByDomain', '', hostUrl);
+    const GetDomain = { metaInfo: jsonData };
+    this.socketService.AuthRequest(GetDomain)
+    this.socketService.OnResponseMessage().subscribe({
       next: (res: any) => {
-        if (res.isSuccess) {
-          this.applications = res.data;
-        }
-        else {
-          this.toastr.error(res.message, { nzDuration: 3000 }); // Show an error message to the user
+        if (res.parseddata.requestId == newGuid && res.parseddata.isSuccess) {
+          res = res.parseddata.apidata;
+          if (res.isSuccess) {
+            this.applications = res.data;
+          }
+          else {
+            this.toastr.error(res.message, { nzDuration: 3000 }); // Show an error message to the user
+          }
         }
         this.showLoader = false
       },
@@ -250,16 +265,16 @@ export class LoginComponent implements OnInit {
   //=======
   getClaims(claims: any) {
     this.dataSource = [
-      {id: 1, claim: "Display Name", value: claims ? claims['name'] : null},
-      {id: 2, claim: "User Principal Name (UPN)", value: claims ? claims['preferred_username'] : null},
-      {id: 2, claim: "OID", value: claims ? claims['oid']: null}
+      { id: 1, claim: "Display Name", value: claims ? claims['name'] : null },
+      { id: 2, claim: "User Principal Name (UPN)", value: claims ? claims['preferred_username'] : null },
+      { id: 2, claim: "OID", value: claims ? claims['oid'] : null }
     ];
-    var email = this.dataSource.filter((person) => person.claim==='User Principal Name (UPN)');
-    var username = this.dataSource.filter((person) => person.claim==='Display Name');
-    var oid = this.dataSource.filter((person) => person.claim==='OID');
-    if(email[0]?.value!=null){
+    var email = this.dataSource.filter((person) => person.claim === 'User Principal Name (UPN)');
+    var username = this.dataSource.filter((person) => person.claim === 'Display Name');
+    var oid = this.dataSource.filter((person) => person.claim === 'OID');
+    if (email[0]?.value != null) {
       console.log("claimscall and submit")
-          this.registeruser(email[0].value,oid[0].value,username[0].value);
+      this.registeruser(email[0].value, oid[0].value, username[0].value);
     }
   }
 
@@ -282,22 +297,22 @@ export class LoginComponent implements OnInit {
   }
 
   login() {
-    
+
     if (this.msalGuardConfig.interactionType === InteractionType.Popup) {
-      if (this.msalGuardConfig.authRequest){
-        this.authService2.loginPopup({...this.msalGuardConfig.authRequest} as PopupRequest)
+      if (this.msalGuardConfig.authRequest) {
+        this.authService2.loginPopup({ ...this.msalGuardConfig.authRequest } as PopupRequest)
           .subscribe((response: AuthenticationResult) => {
             this.authService2.instance.setActiveAccount(response.account);
           });
-        } else {
-          this.authService2.loginPopup()
-            .subscribe((response: AuthenticationResult) => {
-              this.authService2.instance.setActiveAccount(response.account);
-            });
+      } else {
+        this.authService2.loginPopup()
+          .subscribe((response: AuthenticationResult) => {
+            this.authService2.instance.setActiveAccount(response.account);
+          });
       }
     } else {
-      if (this.msalGuardConfig.authRequest){
-        this.authService2.loginRedirect({...this.msalGuardConfig.authRequest} as RedirectRequest);
+      if (this.msalGuardConfig.authRequest) {
+        this.authService2.loginRedirect({ ...this.msalGuardConfig.authRequest } as RedirectRequest);
       } else {
         this.authService2.loginRedirect();
       }
@@ -309,7 +324,7 @@ export class LoginComponent implements OnInit {
   }
 
 
-  registeruser(email:any,Id:any,username:any): void {
+  registeruser(email: any, Id: any, username: any): void {
     // this.isFormSubmit = true;
     // if (this.form.invalid) {
     //   this.toastr.warning('Fill all fields', { nzDuration: 3000 }); // Show an error message to the user
@@ -337,7 +352,7 @@ export class LoginComponent implements OnInit {
       "id": Id,
       "accreditationNumber": "",
       "organizationId": this.applications?.department?.organizationId || environment.organizationId,
-      "applicationId":  this.applications?.application?._id || environment.applicationId,
+      "applicationId": this.applications?.application?._id || environment.applicationId,
       "status": 'Pending',
       "domain": window.location.host.split(':')[0],
       "contactnumber": "",
@@ -350,74 +365,74 @@ export class LoginComponent implements OnInit {
     //   return;
     // }
     // if (this.form.valid) {
-      // this.saveLoader = true;
-      this.authService.registerUserExternal(obj).subscribe({
-        next: (response: any) => {
-          // if (res.isSuccess && res?.data) {
-          //   this.toastr.warning("You cannot login, Approval is Pending")
-          //   this.toastr.success(res.message, { nzDuration: 2000 });
-          //   this.create();
-          //   // if (this.userAddDrawer) {
-          //   //   this.drawerRef.close(true);
-          //   // }else{
-          //   //   this.router.navigateByUrl('/login')
-          //   // }
-          // } else {
-          //   grecaptcha.reset();
-          //   this.toastr.error(res.message, { nzDuration: 2000 });
-          //   if(res.message==="Email already exists. Please use another and status is Approved"){
-          //     this.submitFormExternalLogin(email,Id);
-          //   }
-          // }
+    // this.saveLoader = true;
+    this.authService.registerUserExternal(obj).subscribe({
+      next: (response: any) => {
+        // if (res.isSuccess && res?.data) {
+        //   this.toastr.warning("You cannot login, Approval is Pending")
+        //   this.toastr.success(res.message, { nzDuration: 2000 });
+        //   this.create();
+        //   // if (this.userAddDrawer) {
+        //   //   this.drawerRef.close(true);
+        //   // }else{
+        //   //   this.router.navigateByUrl('/login')
+        //   // }
+        // } else {
+        //   grecaptcha.reset();
+        //   this.toastr.error(res.message, { nzDuration: 2000 });
+        //   if(res.message==="Email already exists. Please use another and status is Approved"){
+        //     this.submitFormExternalLogin(email,Id);
+        //   }
+        // }
 
-          console.log(response)
+        console.log(response)
 
-          if (response.isSuccess) {
-            if (response.data[0]?.status==="Approved") {
-              // grecaptcha.reset(); // Reset reCAPTCHA
-  
-              this.commonService.showSuccess('Login Successfully!', {
-                nzDuration: 2000,
-              });
-              localStorage.setItem('isLoggedIn', 'true');
-              this.showLoader = false;
-              this.authService.setAuth(response.data);
-              this.router.navigate(['/home/allorder']);
-              this.router.navigate(['/']);
-            } 
-            else {
-              if(response.data[0]?.status=="Pending"){
-                this.commonService.showError("Approval is Pending");  
-              }
-              else{
-                this.commonService.showError(response.data?.message);
-              }
-              // grecaptcha.reset(); // Reset reCAPTCHA
-  
-            }
-          } 
-          else {
+        if (response.isSuccess) {
+          if (response.data[0]?.status === "Approved") {
             // grecaptcha.reset(); // Reset reCAPTCHA
-  
-            this.commonService.showError(response.message, {
-              nzPauseOnHover: true,
+
+            this.commonService.showSuccess('Login Successfully!', {
+              nzDuration: 2000,
             });
+            localStorage.setItem('isLoggedIn', 'true');
+            this.showLoader = false;
+            this.authService.setAuth(response.data);
+            this.router.navigate(['/home/allorder']);
+            this.router.navigate(['/']);
           }
-          this.showLoader = false;
+          else {
+            if (response.data[0]?.status == "Pending") {
+              this.commonService.showError("Approval is Pending");
+            }
+            else {
+              this.commonService.showError(response.data?.message);
+            }
+            // grecaptcha.reset(); // Reset reCAPTCHA
 
-          // this.saveLoader = false;
-        },
-        error: (err) => {
-          this.showLoader = false;
+          }
+        }
+        else {
+          // grecaptcha.reset(); // Reset reCAPTCHA
 
-          grecaptcha.reset();
+          this.commonService.showError(response.message, {
+            nzPauseOnHover: true,
+          });
+        }
+        this.showLoader = false;
 
-          this.create();
-          // this.saveLoader = false;
-          this.toastr.error('some error exception', { nzDuration: 2000 });
-        },
-      });
-      // this.isFormSubmit = false;
+        // this.saveLoader = false;
+      },
+      error: (err) => {
+        this.showLoader = false;
+
+        grecaptcha.reset();
+
+        this.create();
+        // this.saveLoader = false;
+        this.toastr.error('some error exception', { nzDuration: 2000 });
+      },
+    });
+    // this.isFormSubmit = false;
     // }
 
   }

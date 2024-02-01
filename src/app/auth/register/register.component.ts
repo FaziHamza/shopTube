@@ -9,6 +9,8 @@ import { AuthService } from '../services/auth.service';
 import { Router } from '@angular/router';
 import { NzDrawerRef } from 'ng-zorro-antd/drawer';
 // import { AppApi } from 'src/app/constants/app-api-constants';
+import { SocketService } from 'src/app/services/socket.service';
+
 
 @Component({
   selector: 'st-register',
@@ -31,6 +33,7 @@ export class RegisterComponent implements OnInit {
   isFormSubmit: boolean = false;
   saveLoader: boolean = false;
   constructor(private authService: AuthService, private router: Router,
+    private socketService: SocketService,
     private toastr: NzMessageService, private formBuilder: FormBuilder, @Optional() drawerRef: NzDrawerRef<any>) {
     this.drawerRef = drawerRef;
   }
@@ -72,15 +75,20 @@ export class RegisterComponent implements OnInit {
   getApplicationData() {
     this.loader = true;
     const hostUrl = window.location.host.split(':')[0];
-    this.authService.getNestNewCommonAPI(`auth/getAppDetails/${environment.dbMode}meta/${hostUrl}`).subscribe({
+    const { jsonData, newGuid } = this.socketService.authMetaInfo('AuthGetAppDetais', '', hostUrl);
+    const GetDomain = { metaInfo: jsonData };
+    this.socketService.AuthRequest(GetDomain)
+    this.socketService.OnResponseMessage().subscribe({
       next: (res: any) => {
-        if (res.isSuccess) {
-          this.applications = res.data?.[0];
+        if (res.parseddata.requestId == newGuid && res.parseddata.isSuccess) {
+          if (res.isSuccess) {
+            this.applications = res.data?.[0];
+          }
+          else {
+            this.toastr.error(res.message, { nzDuration: 3000 }); // Show an error message to the user
+          }
+          this.loader = false
         }
-        else {
-          this.toastr.error(res.message, { nzDuration: 3000 }); // Show an error message to the user
-        }
-        this.loader = false
       },
       error: (err) => {
         this.loader = false;
@@ -145,8 +153,16 @@ export class RegisterComponent implements OnInit {
     }
     if (this.form.valid) {
       this.saveLoader = true;
-      this.authService.registerUser(obj).subscribe({
+      const tableValue = 'AuthRegister';
+      const { jsonData, newGuid } = this.socketService.authMetaInfo('AuthRegister', '', '');
+      const Update = { [tableValue]: obj, metaInfo: jsonData };
+      this.socketService.AuthRequest(Update);
+      this.socketService.OnResponseMessage().subscribe({
         next: (res: any) => {
+          if (res.parseddata.requestId == newGuid && res.parseddata.isSuccess) {
+            
+          }
+            res = res.parseddata.apidata;
           if (res.isSuccess && res?.data) {
             this.toastr.success(res.message, { nzDuration: 2000 });
             this.create();

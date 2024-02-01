@@ -18,6 +18,8 @@ import { json } from 'stream/consumers';
 import { AnyComponent } from '@fullcalendar/core/preact';
 import * as jsonpatch from 'fast-json-patch';
 import { environment } from 'src/environments/environment';
+import { SocketService } from '../services/socket.service';
+
 
 @Component({
   selector: 'st-pages',
@@ -55,6 +57,7 @@ export class PagesComponent implements OnInit, OnDestroy {
   private destroy$: Subject<void> = new Subject<void>();
   constructor(public employeeService: EmployeeService, private activatedRoute: ActivatedRoute,
     private clipboard: Clipboard, private applicationService: ApplicationService,
+    public socketService: SocketService,
     public builderService: BuilderService,
     private cdr: ChangeDetectorRef,
     private toastr: NzMessageService,
@@ -305,13 +308,18 @@ export class PagesComponent implements OnInit, OnDestroy {
           localStorage.setItem('screenId', this.dataSharedService.currentMenuLink);
           this.clearValues();
           if (!this.externalLogin) {
-            this.applicationService.getNestNewCommonAPI('cp/auth/pageAuth/' + params["schema"]).subscribe(res => {
-              if (res?.isSuccess) {
-                this.initiliaze(params);
-              } else {
-                this.saveLoader = false;
-                this.data = res.data?.data?.[0].screendata;
-                this.resData = this.data;
+            const { jsonData, newGuid } = this.socketService.makeJsonDataById('CheckUserScreen', params["schema"], 'CheckUserScreen');
+            this.socketService.Request(jsonData);
+            this.socketService.OnResponseMessage().subscribe(res => {
+              if (res.parseddata.requestId == newGuid && res.parseddata.isSuccess) {
+                res = res.parseddata.apidata;
+                if (res?.isSuccess) {
+                  this.initiliaze(params);
+                } else {
+                  this.saveLoader = false;
+                  this.data = res.data?.data?.[0].screendata;
+                  this.resData = this.data;
+                }
               }
             });
           } else {
@@ -358,25 +366,25 @@ export class PagesComponent implements OnInit, OnDestroy {
     //
     else if (this.data.length > 0 && params["pdfPage"] == undefined) {
 
-      this.applicationService.getNestCommonAPIById("cp/CacheRule", this.data[0].data[0].screenbuilderid)
-        .pipe(
-          takeUntil(this.destroy$)
-        ).subscribe({
-          next: (rule: any) => {
+      const { jsonData, newGuid } = this.socketService.makeJsonDataById('CacheRule', this.data[0].data[0].screenbuilderid, 'GetModelTypeById');
+      this.socketService.Request(jsonData);
+      this.socketService.OnResponseMessage().subscribe({
+        next: (res: any) => {
+          this.saveLoader = false;
+          if (res.parseddata.requestId == newGuid && res.parseddata.isSuccess) {
+            res = res.parseddata.apidata;
             this.saveLoader = false;
-            // if(rule.isSuccess)
-            this.getCacheRule(rule);
-            // this.actionsBindWithPage(this.data[0]);
-            this.applyApplicationTheme(this.data[0]);
-          },
-          error: (err) => {
-            this.saveLoader = false;
-            // this.actionsBindWithPage(this.data[0]);
-            this.applyApplicationTheme(this.data[0]);
-            console.error(err);
-            // this.toastr.error("An error occurred", { nzDuration: 3000 });
+            if (res.isSuccess) {
+              this.getCacheRule(res);
+              this.applyApplicationTheme(this.data[0]);
+            } else {
+              this.applyApplicationTheme(this.data[0]);
+            }
+
           }
-        });
+
+        }
+      });
 
 
       // this.requestSubscription = this.applicationService.getNestCommonAPIById("cp/ActionRule", this.data[0].data[0].screenBuilderId).subscribe({
@@ -395,15 +403,20 @@ export class PagesComponent implements OnInit, OnDestroy {
   getBuilderScreen(params: any) {
     this.saveLoader = true;
 
-    this.applicationService.getNestNewCommonAPIById(`cp/Builders`, params["schema"]).subscribe({
+    const { jsonData, newGuid } = this.socketService.makeJsonDataById('Builders', params["schema"], 'GetModelTypeById');
+    this.socketService.Request(jsonData);
+    this.socketService.OnResponseMessage().subscribe({
       next: (res: any) => {
-        if (res.isSuccess && res.data.length > 0) {
-          this.saveLoader = false;
-          localStorage.setItem('screenBuildId', res.data[0].screenbuilderid);
-          this.handleCacheRuleRequest(res.data[0].screenbuilderid, res);
-        } else {
-          this.toastr.error(res.message, { nzDuration: 3000 });
-          this.saveLoader = false;
+        if (res.parseddata.requestId == newGuid && res.parseddata.isSuccess) {
+          res = res.parseddata.apidata;
+          if (res.isSuccess && res.data.length > 0) {
+            this.saveLoader = false;
+            localStorage.setItem('screenBuildId', res.data[0].screenbuilderid);
+            this.handleCacheRuleRequest(res.data[0].screenbuilderid, res);
+          } else {
+            this.toastr.error(res.message, { nzDuration: 3000 });
+            this.saveLoader = false;
+          }
         }
       },
       error: (err) => {
@@ -414,16 +427,21 @@ export class PagesComponent implements OnInit, OnDestroy {
   }
   handleCacheRuleRequest(screenBuilderId: any, res: any) {
     this.saveLoader = true;
-    this.applicationService.getNestNewCommonAPIById(`cp/CacheRule`, screenBuilderId).subscribe({
+    const { jsonData, newGuid } = this.socketService.makeJsonDataById('CacheRule', screenBuilderId, 'GetModelTypeById');
+    this.socketService.Request(jsonData);
+    this.socketService.OnResponseMessage().subscribe({
       next: (rule: any) => {
-        this.saveLoader = false;
-        this.getCacheRule(rule);
-        this.applyApplicationTheme(res);
+        if (rule.parseddata.requestId == newGuid && rule.parseddata.isSuccess) {
+          rule = rule.parseddata.apidata;
+          this.saveLoader = false;
+          this.getCacheRule(rule);
+          this.applyApplicationTheme(res);
+        }
       },
       error: (err) => {
         this.saveLoader = false;
         console.error(err);
-        this.toastr.error("An error occurred", { nzDuration: 3000 });
+        // this.toastr.error("An error occurred", { nzDuration: 3000 });
       }
     });
   }
@@ -1289,7 +1307,7 @@ export class PagesComponent implements OnInit, OnDestroy {
   }
   checkConditionUIRule(model: any, currentValue: any, policy?: string, indexNumber?: any) {
 
-    this.getUIRule(model, currentValue, policy ,indexNumber);
+    this.getUIRule(model, currentValue, policy, indexNumber);
     this.updateNodes();
     // this.resData = this.jsonParseWithObject(this.jsonStringifyWithObject(this.resData));
     // this.cdr.detectChanges();
@@ -1920,157 +1938,173 @@ export class PagesComponent implements OnInit, OnDestroy {
     if (api && (selectedNode.componentMapping == undefined || selectedNode.componentMapping == '' || selectedNode.componentMapping == false)) {
       this.saveLoader = true;
       try {
-        this.requestSubscription = this.applicationService.getNestNewCommonAPI(api).subscribe({
+        let splitApi;
+        let parentId;
+        if (api.includes('getexecute-rules/'))
+          splitApi = api.split('getexecute-rules/')[1];
+        else splitApi = api;
+        if (splitApi.includes('/')) {
+          const getValue = splitApi.split('/');
+          splitApi = getValue[0]
+          parentId = getValue[1];
+        }
+
+        const { jsonData, RequestGuid } = this.socketService.metaInfoForGrid('GetPageExecuteRules', splitApi, parentId);
+        this.socketService.Request(jsonData);
+        this.socketService.OnResponseMessage().subscribe({
           next: (res) => {
             // this.dataSharedService.queryId = '';
-            this.saveLoader = false;
-            if (res) {
-              if (res?.data) {
-                if (res?.data.length > 0) {
-                  const checkLoadtype = (this.screenData?.uiData || []).map((element: any, index: any) => ({ index, element })).filter((item: any) => item.element.actionType === 'load');
-                  if (checkLoadtype?.length > 0) {
-                    checkLoadtype.forEach((uiRuleData: any) => {
-                      let uiRule =uiRuleData.element;
-                      if (uiRule.targetValue.includes('$')) {
-                        const field = {
-                          title: uiRule.ifMenuName,
-                          key: uiRule.ifMenuName,
-                          type: 'string'
+            if (res.parseddata.requestId == RequestGuid && res.parseddata.isSuccess) {
+              this.saveLoader = false;
+              if (res) {
+                if (res?.data) {
+                  if (res?.data.length > 0) {
+                    const checkLoadtype = (this.screenData?.uiData || []).map((element: any, index: any) => ({ index, element })).filter((item: any) => item.element.actionType === 'load');
+                    if (checkLoadtype?.length > 0) {
+                      checkLoadtype.forEach((uiRuleData: any) => {
+                        let uiRule = uiRuleData.element;
+                        if (uiRule.targetValue.includes('$')) {
+                          const field = {
+                            title: uiRule.ifMenuName,
+                            key: uiRule.ifMenuName,
+                            type: 'string'
+                          }
+
+                          let key = uiRule.targetValue.replace('$', '')
+                          if (res?.data[0][key] && uiRule.ifMenuName && uiRule.ifMenuName.includes('app_')) {
+                            let getData: any = localStorage;
+                            let modifedData = JSON.parse(JSON.stringify(getData))
+                            modifedData['applicationId'] = this.dataSharedService.decryptedValue('applicationId');
+                            modifedData['organizationId'] = this.dataSharedService.decryptedValue('organizationId');
+                            modifedData['user'] = this.dataSharedService.decryptedValue('user') ? JSON.parse(this.dataSharedService.decryptedValue('user')) : null;
+
+                            let externalLogin = localStorage.getItem('externalLogin') || false;;
+                            let value = modifedData[uiRule.ifMenuName.split('_')[1]];
+                            if (uiRule.ifMenuName.includes('app_user') && modifedData['user']) {
+                              value = modifedData['user'][uiRule.ifMenuName.split('.')[1]]
+                            } else if (uiRule.ifMenuName == 'app_user.username' && externalLogin == 'true') {
+                              let userName = this.dataSharedService.decryptedValue('username');
+                              value = userName;
+                            }
+                            if (value == res?.data[0][key]) {
+                              this.checkConditionUIRule(field, value, res?.data[0][key], uiRuleData.index);
+                            }
+                          }
                         }
 
-                        let key = uiRule.targetValue.replace('$', '')
-                        if (res?.data[0][key] && uiRule.ifMenuName && uiRule.ifMenuName.includes('app_')) {
-                          let getData: any = localStorage;
-                          let modifedData = JSON.parse(JSON.stringify(getData))
-                          modifedData['applicationId'] = this.dataSharedService.decryptedValue('applicationId');
-                          modifedData['organizationId'] = this.dataSharedService.decryptedValue('organizationId');
-                          modifedData['user'] = this.dataSharedService.decryptedValue('user') ? JSON.parse(this.dataSharedService.decryptedValue('user')) : null;
-
-                          let externalLogin = localStorage.getItem('externalLogin') || false;;
-                          let value = modifedData[uiRule.ifMenuName.split('_')[1]];
-                          if (uiRule.ifMenuName.includes('app_user') && modifedData['user']) {
-                            value = modifedData['user'][uiRule.ifMenuName.split('.')[1]]
-                          } else if (uiRule.ifMenuName == 'app_user.username' && externalLogin == 'true') {
-                            let userName = this.dataSharedService.decryptedValue('username');
-                            value = userName;
-                          }
-                          if (value == res?.data[0][key]) {
-                            this.checkConditionUIRule(field, value, res?.data[0][key], uiRuleData.index);
-                          }
-                        }
-                      }
-
-                    });
-                  }
-                  if (selectedNode.type == 'chat') {
-                    selectedNode.chatData = res.data;
-                    this.zone.run(() => {
-                      this.cdr.detectChanges();
-                    });
-                    this.updateNodes();
-                    return;
-                  }
-                  for (let index = 0; index < res.data.length; index++) {
-                    const item = res.data[index];
-                    let newNode: any = {};
-                    if (selectedNode.type == 'tabs' || selectedNode.type == 'step' || selectedNode.type == 'div' || selectedNode.type == 'listWithComponentsChild' || selectedNode.type == 'cardWithComponents' || selectedNode.type === 'timelineChild') {
-                      newNode = JSON.parse(JSON.stringify(selectedNode?.children));
-                    } else {
-                      newNode = JSON.parse(JSON.stringify(selectedNode?.children?.[1]?.children?.[0]));
+                      });
                     }
-                    if (selectedNode.type == 'tabs' || selectedNode.type == 'step' || selectedNode.type == 'div' || selectedNode.type === 'timelineChild' || selectedNode.type == 'listWithComponentsChild' || selectedNode.type == 'cardWithComponents') {
-                      if (selectedNode.tableBody) {
-                        selectedNode.tableBody.forEach((element: any) => {
-                          if (newNode.length) {
-                            newNode.forEach((j: any) => {
-                              const keyObj = this.findObjectByKey(j, element.fileHeader);
-                              if (keyObj && element.defaultValue) {
-                                const updatedObj = this.dataReplace(keyObj, item, element);
-                                j = this.replaceObjectByKey(j, keyObj.key, updatedObj);
-                                if (selectedNode.type == 'tabs' || selectedNode.type == 'step' || selectedNode.type == 'listWithComponentsChild') {
-                                  j['mapping'] = true;
-                                }
-                              }
-                            });
-                          }
-                        });
-                      }
-                    } else if (selectedNode.type != 'tabs' && selectedNode.type != 'step' && selectedNode.type != 'div' && selectedNode.type != 'listWithComponentsChild' && selectedNode.type != 'listWithComponentsChild' && selectedNode.type != 'cardWithComponents') {
-                      if (selectedNode.tableBody) {
-                        selectedNode.tableBody.forEach((element: any) => {
-                          const keyObj = this.findObjectByKey(newNode, element.fileHeader);
-                          if (keyObj && element.defaultValue) {
-                            const updatedObj = this.dataReplace(keyObj, item, element);
-                            newNode = this.replaceObjectByKey(newNode, keyObj.key, updatedObj);
-                          }
-                        });
-                      }
-                    }
-                    if (checkFirstTime) {
-                      if (selectedNode.type == 'tabs' || selectedNode.type == 'step' || selectedNode.type == 'div' || selectedNode.type == 'listWithComponentsChild' || selectedNode.type == 'cardWithComponents' || selectedNode.type == 'timelineChild') {
-                        selectedNode.children = newNode;
-                      } else if (selectedNode.children[1]) {
-                        selectedNode.children[1].children = [];
-                        selectedNode?.children[1]?.children?.push(newNode);
-                      }
+                    if (selectedNode.type == 'chat') {
+                      selectedNode.chatData = res.data;
                       this.zone.run(() => {
                         this.cdr.detectChanges();
                       });
-                      // this.cdr.detach();
-                      // this.cdr.detectChanges();
                       this.updateNodes();
-                      checkFirstTime = false
-                    } else {
-                      if (selectedNode.type == 'tabs' || selectedNode.type == 'step' || selectedNode.type == 'listWithComponentsChild') {
-                        if (newNode.length) {
-                          newNode.forEach((k: any) => {
-                            if (k.mapping) {
-                              tabsAndStepper.push(k);
+                      return;
+                    }
+                    for (let index = 0; index < res.data.length; index++) {
+                      const item = res.data[index];
+                      let newNode: any = {};
+                      if (selectedNode.type == 'tabs' || selectedNode.type == 'step' || selectedNode.type == 'div' || selectedNode.type == 'listWithComponentsChild' || selectedNode.type == 'cardWithComponents' || selectedNode.type === 'timelineChild') {
+                        newNode = JSON.parse(JSON.stringify(selectedNode?.children));
+                      } else {
+                        newNode = JSON.parse(JSON.stringify(selectedNode?.children?.[1]?.children?.[0]));
+                      }
+                      if (selectedNode.type == 'tabs' || selectedNode.type == 'step' || selectedNode.type == 'div' || selectedNode.type === 'timelineChild' || selectedNode.type == 'listWithComponentsChild' || selectedNode.type == 'cardWithComponents') {
+                        if (selectedNode.tableBody) {
+                          selectedNode.tableBody.forEach((element: any) => {
+                            if (newNode.length) {
+                              newNode.forEach((j: any) => {
+                                const keyObj = this.findObjectByKey(j, element.fileHeader);
+                                if (keyObj && element.defaultValue) {
+                                  const updatedObj = this.dataReplace(keyObj, item, element);
+                                  j = this.replaceObjectByKey(j, keyObj.key, updatedObj);
+                                  if (selectedNode.type == 'tabs' || selectedNode.type == 'step' || selectedNode.type == 'listWithComponentsChild') {
+                                    j['mapping'] = true;
+                                  }
+                                }
+                              });
                             }
                           });
                         }
-                        if (index == res.data.length - 1) {
-                          if (tabsAndStepper.length) {
-                            tabsAndStepper.forEach((j: any) => {
-                              selectedNode?.children?.push(j);
-                            });
-                          }
-                          let unMapped = selectedNode?.children.filter((child: any) => child.mapping == undefined);
-                          let mapped = selectedNode?.children.filter((child: any) => child.mapping);
-                          selectedNode.children = mapped;
-                          if (unMapped.length) {
-                            unMapped.forEach((element: any) => {
-                              selectedNode.children.push(element);
-                            });
-                          }
-                          selectedNode.children.forEach((k: any) => {
-                            delete k.mapping
+                      } else if (selectedNode.type != 'tabs' && selectedNode.type != 'step' && selectedNode.type != 'div' && selectedNode.type != 'listWithComponentsChild' && selectedNode.type != 'listWithComponentsChild' && selectedNode.type != 'cardWithComponents') {
+                        if (selectedNode.tableBody) {
+                          selectedNode.tableBody.forEach((element: any) => {
+                            const keyObj = this.findObjectByKey(newNode, element.fileHeader);
+                            if (keyObj && element.defaultValue) {
+                              const updatedObj = this.dataReplace(keyObj, item, element);
+                              newNode = this.replaceObjectByKey(newNode, keyObj.key, updatedObj);
+                            }
                           });
                         }
-                      } else if (selectedNode.type == 'div' || selectedNode.type == 'timelineChild' || selectedNode.type == 'cardWithComponents') {
-                        let newSelected = JSON.parse(JSON.stringify(selectedNode));
-                        newSelected.children = newNode;
-                        let data = JSON.parse(JSON.stringify(newSelected));
-                        tabsAndStepper.push(data);
-                        if (index == res.data.length - 1) {
-                          let checkPushOrNot = true
-                          if ((selectedNode.type == 'div' || selectedNode.type == 'cardWithComponents' || selectedNode.type == 'timelineChild') && checkPushOrNot) {
-                            if (tabsAndStepper) {
-                              this.pushObjectsById(this.resData, tabsAndStepper, selectedNode.id);
-                              checkPushOrNot = false;
+                      }
+                      if (checkFirstTime) {
+                        if (selectedNode.type == 'tabs' || selectedNode.type == 'step' || selectedNode.type == 'div' || selectedNode.type == 'listWithComponentsChild' || selectedNode.type == 'cardWithComponents' || selectedNode.type == 'timelineChild') {
+                          selectedNode.children = newNode;
+                        } else if (selectedNode.children[1]) {
+                          selectedNode.children[1].children = [];
+                          selectedNode?.children[1]?.children?.push(newNode);
+                        }
+                        this.zone.run(() => {
+                          this.cdr.detectChanges();
+                        });
+                        // this.cdr.detach();
+                        // this.cdr.detectChanges();
+                        this.updateNodes();
+                        checkFirstTime = false
+                      } else {
+                        if (selectedNode.type == 'tabs' || selectedNode.type == 'step' || selectedNode.type == 'listWithComponentsChild') {
+                          if (newNode.length) {
+                            newNode.forEach((k: any) => {
+                              if (k.mapping) {
+                                tabsAndStepper.push(k);
+                              }
+                            });
+                          }
+                          if (index == res.data.length - 1) {
+                            if (tabsAndStepper.length) {
+                              tabsAndStepper.forEach((j: any) => {
+                                selectedNode?.children?.push(j);
+                              });
+                            }
+                            let unMapped = selectedNode?.children.filter((child: any) => child.mapping == undefined);
+                            let mapped = selectedNode?.children.filter((child: any) => child.mapping);
+                            selectedNode.children = mapped;
+                            if (unMapped.length) {
+                              unMapped.forEach((element: any) => {
+                                selectedNode.children.push(element);
+                              });
+                            }
+                            selectedNode.children.forEach((k: any) => {
+                              delete k.mapping
+                            });
+                          }
+                        } else if (selectedNode.type == 'div' || selectedNode.type == 'timelineChild' || selectedNode.type == 'cardWithComponents') {
+                          let newSelected = JSON.parse(JSON.stringify(selectedNode));
+                          newSelected.children = newNode;
+                          let data = JSON.parse(JSON.stringify(newSelected));
+                          tabsAndStepper.push(data);
+                          if (index == res.data.length - 1) {
+                            let checkPushOrNot = true
+                            if ((selectedNode.type == 'div' || selectedNode.type == 'cardWithComponents' || selectedNode.type == 'timelineChild') && checkPushOrNot) {
+                              if (tabsAndStepper) {
+                                this.pushObjectsById(this.resData, tabsAndStepper, selectedNode.id);
+                                checkPushOrNot = false;
+                              }
                             }
                           }
+                        } else if (selectedNode.children[1]) {
+                          selectedNode?.children[1]?.children?.push(newNode);
                         }
-                      } else if (selectedNode.children[1]) {
-                        selectedNode?.children[1]?.children?.push(newNode);
                       }
                     }
+                    this.saveLoader = false;
+                    this.updateNodes();
                   }
-                  this.saveLoader = false;
-                  this.updateNodes();
                 }
               }
             }
+
           },
           error: (err) => {
             console.error(err);
@@ -2919,18 +2953,23 @@ export class PagesComponent implements OnInit, OnDestroy {
     let user = this.dataSharedService.decryptedValue('user') ? JSON.parse(this.dataSharedService.decryptedValue('user')) : null;;
     if (user && user?.policy?.policyTheme) {
       this.saveLoader = true;
-      this.applicationService.getNestNewCommonAPI(`cp/applicationtheme/${user.policy?.policyTheme}`).subscribe(((res: any) => {
-        this.saveLoader = false;
-        if (res.isSuccess) {
-          this.applicationThemeData = res?.data;
-          if (notAllowRuleGet) {
-            this.findObjectByTypeAndApplyApplictionTheme(res1, this.applicationThemeData)
+      const { jsonData, newGuid } = this.socketService.makeJsonDataById('applicationtheme', `${user.policy?.policyTheme}`, 'GetModelTypeById');
+      this.socketService.Request(jsonData);
+      this.socketService.OnResponseMessage().subscribe(((res: any) => {
+        if (res.parseddata.requestId == newGuid && res.parseddata.isSuccess) {
+          res = res.parseddata.apidata;
+          this.saveLoader = false;
+          if (res.isSuccess) {
+            this.applicationThemeData = res?.data;
+            if (notAllowRuleGet) {
+              this.findObjectByTypeAndApplyApplictionTheme(res1, this.applicationThemeData)
+            } else {
+              this.actionsBindWithPage(res1, this.applicationThemeData);
+            }
           } else {
             this.actionsBindWithPage(res1, this.applicationThemeData);
+            this.toastr.warning(res.message, { nzDuration: 2000 });
           }
-        } else {
-          this.actionsBindWithPage(res1, this.applicationThemeData);
-          this.toastr.warning(res.message, { nzDuration: 2000 });
         }
       }));
     } else {

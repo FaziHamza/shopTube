@@ -1,5 +1,4 @@
 import { Component, OnInit, Input, EventEmitter, Output, ChangeDetectorRef, Optional } from '@angular/core';
-import { FormGroup } from '@angular/forms';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { Subscription, catchError, elementAt, take } from 'rxjs';
 import { TreeNode } from 'src/app/models/treeNode';
@@ -10,8 +9,9 @@ import * as Joi from 'joi';
 import { DataService } from 'src/app/services/offlineDb.service';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { ElementData } from 'src/app/models/element';
-import { NzDrawerRef } from 'ng-zorro-antd/drawer';
 import { Location } from '@angular/common';
+import { SocketService } from 'src/app/services/socket.service';
+
 
 @Component({
   selector: 'st-sections',
@@ -40,7 +40,7 @@ export class SectionsComponent implements OnInit {
   ruleValidation: any = {};
   saveLoader: boolean = false;
   constructor(public dataSharedService: DataSharedService, private toastr: NzMessageService, private employeeService: EmployeeService,
-    private dataService: DataService,
+    private socketService: SocketService,
     private applicationServices: ApplicationService, private cd: ChangeDetectorRef, private activatedRoute: ActivatedRoute, private router: Router, private location: Location) {
     // this.drawerRef = drawerRef;
   }
@@ -261,94 +261,103 @@ export class SectionsComponent implements OnInit {
       };
       this.dataSharedService.buttonData = '';
 
-      this.applicationServices.addNestNewCommonAPI('knex-query/execute-rules/' + event.id, model).subscribe({
+      const { jsonData, RequestGuid } = this.socketService.metaInfoForGrid('PostPageExecuteRules', event.id);
+      const jsonData1 = {
+        postType: (event.rule.includes('post_')) ? 'post' : 'put',
+        modalData: empData.modalData, metaInfo: jsonData.metaInfo
+      };
+      this.socketService.Request(jsonData1);
+      this.socketService.OnResponseMessage().subscribe({
         next: (res) => {
-          if (res) {
-            try {
-              if (res[0]?.error) {
-                this.toastr.error(res[0]?.error, { nzDuration: 3000 });
-                return;
-              }
-              if (model.postType === 'put') {
-                if (!res?.isSuccess) {
-                  this.toastr.error(res.message, { nzDuration: 3000 });
+          if (res.parseddata.requestId == RequestGuid && res.parseddata.isSuccess) {
+            res = res.parseddata.apidata;
+            if (res) {
+              try {
+                if (res[0]?.error) {
+                  this.toastr.error(res[0]?.error, { nzDuration: 3000 });
                   return;
                 }
-              }
-              // if (!res?.isSuccess) {
-              //   this.toastr.error(res.message, { nzDuration: 3000 });
-              //   return;
-              // }
-              const successMessage = (model.postType === 'post') ? 'Save Successfully' : 'Update Successfully';
-              this.toastr.success(successMessage, { nzDuration: 3000 });
-
-              if (data.saveRouteLink && this.dataSharedService.currentMenuLink !== '/ourbuilder' && model.postType === 'post') {
-                let tableName: any = '';
-                if (res?.[0]) {
-                  tableName = res[0].tableName ? res[0].tableName.split('.')[1].split('_')[0] : '';
+                if (model.postType === 'put') {
+                  if (!res?.isSuccess) {
+                    this.toastr.error(res.message, { nzDuration: 3000 });
+                    return;
+                  }
                 }
-                if (window.location.href.includes('addcustomclearanceFsy')) {
-                  this.router.navigate(['/pages/' + data.saveRouteLink]).then(() => {
-                    // Reload the entire application to re-render all components
-                    this.location.replaceState('/pages/' + data.saveRouteLink);
-                    window.location.reload();
-                  });
-                } else {
-                  this.router.navigate(['/pages/' + data.saveRouteLink]);
+                // if (!res?.isSuccess) {
+                //   this.toastr.error(res.message, { nzDuration: 3000 });
+                //   return;
+                // }
+                const successMessage = (model.postType === 'post') ? 'Save Successfully' : 'Update Successfully';
+                this.toastr.success(successMessage, { nzDuration: 3000 });
+  
+                if (data.saveRouteLink && this.dataSharedService.currentMenuLink !== '/ourbuilder' && model.postType === 'post') {
+                  let tableName: any = '';
+                  if (res?.[0]) {
+                    tableName = res[0].tableName ? res[0].tableName.split('.')[1].split('_')[0] : '';
+                  }
+                  if (window.location.href.includes('addcustomclearanceFsy')) {
+                    this.router.navigate(['/pages/' + data.saveRouteLink]).then(() => {
+                      // Reload the entire application to re-render all components
+                      this.location.replaceState('/pages/' + data.saveRouteLink);
+                      window.location.reload();
+                    });
+                  } else {
+                    this.router.navigate(['/pages/' + data.saveRouteLink]);
+                  }
+                  return;
                 }
-                return;
-              }
-
-              if (model.postType === 'post') {
-
-                let tableName: any = '';
-                if (res[0]) {
-                  tableName = res[0].tableName ? res[0].tableName.split('.')[1].split('_')[0] : '';
+  
+                if (model.postType === 'post') {
+  
+                  let tableName: any = '';
+                  if (res[0]) {
+                    tableName = res[0].tableName ? res[0].tableName.split('.')[1].split('_')[0] : '';
+                  }
+                  if (tableName) {
+                    this.recursiveUpdate(this.formlyModel, tableName, res);
+                  }
+                  if (window.location.href.includes('spectrum.com')) {
+                    this.dataSharedService.spectrumControlNull.next(true);
+                  }
                 }
-                if (tableName) {
-                  this.recursiveUpdate(this.formlyModel, tableName, res);
+                // else {
+                //   this.dataSharedService.gridDataLoad = true;
+                // }
+  
+                this.dataSharedService.gridDataLoad = true;
+                this.dataSharedService.isSaveData = true;
+                let findCommentsDiv = this.findObjectByKey(this.sections, 'section_comments_drawer');
+                if (findCommentsDiv && this.mappingId) {
+                  let mapApi = findCommentsDiv['mapApi'].includes(`/${this.mappingId}`) ? findCommentsDiv['mapApi'] : `${findCommentsDiv['mapApi']}/${this.mappingId}`;
+                  let obj: any = {
+                    control: findCommentsDiv,
+                    mapApi: mapApi,
+                    mappingId: this.mappingId
+                  }
+                  this.dataSharedService.commentsRecall.next(obj)
                 }
-                if (window.location.href.includes('spectrum.com')) {
-                  this.dataSharedService.spectrumControlNull.next(true);
+                if (!this.isDrawer) {
+                  // this.dataSharedService.drawerClose.next(true);
+                  // this.dataSharedService.drawerVisible = false;
+                  this.setInternalValuesEmpty(this.dataModel);
+                  this.setInternalValuesEmpty(this.formlyModel);
+                  this.form.patchValue(this.formlyModel);
+                  // this.dataSharedService.formlyShowError.next(false)
+                  this.dataSharedService.formlyShowError.next(false)
                 }
-              }
-              // else {
-              //   this.dataSharedService.gridDataLoad = true;
-              // }
-
-              this.dataSharedService.gridDataLoad = true;
-              this.dataSharedService.isSaveData = true;
-              let findCommentsDiv = this.findObjectByKey(this.sections, 'section_comments_drawer');
-              if (findCommentsDiv && this.mappingId) {
-                let mapApi = findCommentsDiv['mapApi'].includes(`/${this.mappingId}`) ? findCommentsDiv['mapApi'] : `${findCommentsDiv['mapApi']}/${this.mappingId}`;
-                let obj: any = {
-                  control: findCommentsDiv,
-                  mapApi: mapApi,
-                  mappingId: this.mappingId
+                this.dataSharedService.callDataIntaskManager.next(true);
+                this.getFromQuery(data);
+                if (window.location.href.includes('taskmanager.com')) {
+                  this.dataSharedService.taskmanagerDrawer.next(true);
                 }
-                this.dataSharedService.commentsRecall.next(obj)
+              } catch (innerErr) {
+                this.toastr.error("An error occurred : " + innerErr, { nzDuration: 3000 });
+                console.error(innerErr);
               }
-              if (!this.isDrawer) {
-                // this.dataSharedService.drawerClose.next(true);
-                // this.dataSharedService.drawerVisible = false;
-                this.setInternalValuesEmpty(this.dataModel);
-                this.setInternalValuesEmpty(this.formlyModel);
-                this.form.patchValue(this.formlyModel);
-                // this.dataSharedService.formlyShowError.next(false)
-                this.dataSharedService.formlyShowError.next(false)
+              finally {
+                this.dataSharedService.pagesLoader.next(false);
+                this.saveLoader = false; // Always set the loader to false after processing the response
               }
-              this.dataSharedService.callDataIntaskManager.next(true);
-              this.getFromQuery(data);
-              if (window.location.href.includes('taskmanager.com')) {
-                this.dataSharedService.taskmanagerDrawer.next(true);
-              }
-            } catch (innerErr) {
-              this.toastr.error("An error occurred : " + innerErr, { nzDuration: 3000 });
-              console.error(innerErr);
-            }
-            finally {
-              this.dataSharedService.pagesLoader.next(false);
-              this.saveLoader = false; // Always set the loader to false after processing the response
             }
           }
         },
@@ -497,161 +506,166 @@ export class SectionsComponent implements OnInit {
       url = this.mappingId ? `${url}/${this.mappingId}` : url;
       let tableData = this.findObjectByKey(this.sections, findClickApi.targetid);
       if (tableData) {
-        let pagination: any = '';
+        let pagination: any = ''; let Rulepage = ''; let RulepageSize = '';
         if (tableData.serverSidePagination) {
           pagination = '?page=' + localStorage.getItem('tablePageNo') || 1 + '&pageSize=' + localStorage.getItem('tablePageSize') || 10;
+          Rulepage = `${localStorage.getItem('tablePageNo') || 1}`;
+          RulepageSize = `${localStorage.getItem('tablePageSize') || 10}`;
         }
         this.saveLoader = true;
-        const applicationId = this.dataSharedService.decryptedValue('organizationId') || '';
+        const applicationId = localStorage.getItem('applicationId') || '';
         // let savedGroupData = await this.dataService.getNodes(JSON.parse(applicationId), this.screenName, "Table");
-        this.requestSubscription = this.employeeService.getSQLDatabaseTable(url + pagination).subscribe({
+        const { jsonData, RequestGuid } = this.socketService.metaInfoForGrid('GetPageExecuteRules', findClickApi?.id, this.mappingId, Rulepage, RulepageSize, data);
+        this.socketService.Request(jsonData);
+        this.socketService.OnResponseMessage().subscribe({
+
           next: async (res) => {
             this.saveLoader = false;
-            if (tableData && res?.isSuccess) {
-              if (res.data.length > 0) {
+            if (res.parseddata.requestId == RequestGuid && res.parseddata.isSuccess) {
+              res = res.parseddata.apidata;
+              if (tableData && res?.isSuccess) {
+                if (res.data.length > 0) {
 
-                if (window.location.href.includes('marketplace.com')) {
-                  res.data = res.data.map((item: any) => ({
-                    id: item.id, // Rename id to id
-                    name: item.name,
-                    categoryId: item.categoryId,
-                    categoryName: item.categoryDetails?.[0]?.name, // Access the name property from categoryDetails
-                    subcategoryId: item.subcategoryId,
-                    subcategoryName: item.subcategoryDetails?.[0]?.name, // Access the name property from subcategoryDetails
-                    thumbnailimage: item.thumbnailimage,
-                    // ...rest
-                  }));
-                }
+                  if (window.location.href.includes('marketplace.com')) {
+                    res.data = res.data.map((item: any) => ({
+                      id: item.id, // Rename id to id
+                      name: item.name,
+                      categoryId: item.categoryId,
+                      categoryName: item.categoryDetails?.[0]?.name, // Access the name property from categoryDetails
+                      subcategoryId: item.subcategoryId,
+                      subcategoryName: item.subcategoryDetails?.[0]?.name, // Access the name property from subcategoryDetails
+                      thumbnailimage: item.thumbnailimage,
+                      // ...rest
+                    }));
+                  }
 
-                let saveForm = JSON.parse(JSON.stringify(res.data[0]));
-                const firstObjectKeys = Object.keys(saveForm);
-                let tableKey = firstObjectKeys.map(key => ({ name: key }));
-                let obj = firstObjectKeys.map(key => ({ name: key, key: key }));
-                tableData.tableData = [];
-                saveForm.id = tableData.tableData.length + 1;
-                res.data.forEach((element: any) => {
-                  element.id = (element?.id)?.toString();
-                  tableData.tableData?.push(element);
-                });
-                // pagniation work start
-                if (!tableData.end) {
-                  tableData.end = 10;
-                }
-                tableData.pageIndex = 1;
-                tableData.totalCount = res.count;
-                tableData['masteTotalCount'] = res.count;
-                tableData.serverApi = url;
-                tableData.targetId = '';
-                tableData.displayData = tableData.tableData.length > tableData.end ? tableData.tableData.slice(0, tableData.end) : tableData.tableData;
-                // pagniation work end
-                if (!tableData?.tableHeaders) {
-                  tableData.tableHeaders = obj;
-                  tableData['tableKey'] = tableKey
-                }
-                if (tableData?.tableHeaders.length == 0) {
-                  tableData.tableHeaders = obj;
-                  tableData['tableKey'] = tableKey
-                }
-                else {
-                  if (JSON.stringify(tableData['tableKey']) !== JSON.stringify(tableKey)) {
-                    const updatedData = tableKey.filter(updatedItem =>
-                      !tableData.tableHeaders.some((headerItem: any) => headerItem.key === updatedItem.name)
-                    );
-                    if (updatedData.length > 0) {
-                      updatedData.forEach(updatedItem => {
-                        tableData.tableHeaders.push({ id: tableData.tableHeaders.length + 1, key: updatedItem.name, name: updatedItem.name, });
+                  let saveForm = JSON.parse(JSON.stringify(res.data[0]));
+                  const firstObjectKeys = Object.keys(saveForm);
+                  let tableKey = firstObjectKeys.map(key => ({ name: key }));
+                  let obj = firstObjectKeys.map(key => ({ name: key, key: key }));
+                  tableData.tableData = [];
+                  saveForm.id = tableData.tableData.length + 1;
+                  res.data.forEach((element: any) => {
+                    element.id = (element?.id)?.toString();
+                    tableData.tableData?.push(element);
+                  });
+                  // pagniation work start
+                  if (!tableData.end) {
+                    tableData.end = 10;
+                  }
+                  tableData.pageIndex = 1;
+                  tableData.totalCount = res.count;
+                  tableData['masteTotalCount'] = res.count;
+                  tableData.serverApi = url;
+                  tableData.targetId = '';
+                  tableData.displayData = tableData.tableData.length > tableData.end ? tableData.tableData.slice(0, tableData.end) : tableData.tableData;
+                  // pagniation work end
+                  if (!tableData?.tableHeaders) {
+                    tableData.tableHeaders = obj;
+                    tableData['tableKey'] = tableKey
+                  }
+                  if (tableData?.tableHeaders.length == 0) {
+                    tableData.tableHeaders = obj;
+                    tableData['tableKey'] = tableKey
+                  }
+                  else {
+                    if (JSON.stringify(tableData['tableKey']) !== JSON.stringify(tableKey)) {
+                      const updatedData = tableKey.filter(updatedItem =>
+                        !tableData.tableHeaders.some((headerItem: any) => headerItem.key === updatedItem.name)
+                      );
+                      if (updatedData.length > 0) {
+                        updatedData.forEach(updatedItem => {
+                          tableData.tableHeaders.push({ id: tableData.tableHeaders.length + 1, key: updatedItem.name, name: updatedItem.name, });
+                        });
+                        tableData['tableKey'] = tableData.tableHeaders;
+                      }
+                    }
+                  }
+
+                  // Make DataType
+                  let propertiesWithoutDataType = tableData.tableHeaders.filter((check: any) => !check.hasOwnProperty('dataType'));
+                  if (propertiesWithoutDataType.length > 0) {
+                    let formlyInputs = this.filterInputElements(this.sections.children[1].children);
+
+                    if (formlyInputs && formlyInputs.length > 0) {
+                      propertiesWithoutDataType.forEach((head: any) => {
+                        let input = formlyInputs.find(a => a.formly[0].fieldGroup[0].key.includes('.') ? a.formly[0].fieldGroup[0].key.split('.')[1] == head.key : a.formly[0].fieldGroup[0].key == head.key);
+
+                        if (input) {
+                          head['dataType'] = input.formly[0].fieldGroup[0].type;
+                          head['subDataType'] = input.formly[0].fieldGroup[0].props.type;
+                          head['title'] = input.title;
+                        }
                       });
-                      tableData['tableKey'] = tableData.tableHeaders;
+
+                      tableData.tableHeaders = tableData.tableHeaders.concat(propertiesWithoutDataType.filter((item: any) => !tableData.tableHeaders.some((objItem: any) => objItem.key === item.key)));
+                      // tableData.tableHeaders = obj;
                     }
                   }
-                }
-
-                // Make DataType
-                let propertiesWithoutDataType = tableData.tableHeaders.filter((check: any) => !check.hasOwnProperty('dataType'));
-                if (propertiesWithoutDataType.length > 0) {
-                  let formlyInputs = this.filterInputElements(this.sections.children[1].children);
-
-                  if (formlyInputs && formlyInputs.length > 0) {
-                    propertiesWithoutDataType.forEach((head: any) => {
-                      let input = formlyInputs.find(a => a.formly[0].fieldGroup[0].key.includes('.') ? a.formly[0].fieldGroup[0].key.split('.')[1] == head.key : a.formly[0].fieldGroup[0].key == head.key);
-
-                      if (input) {
-                        head['dataType'] = input.formly[0].fieldGroup[0].type;
-                        head['subDataType'] = input.formly[0].fieldGroup[0].props.type;
-                        head['title'] = input.title;
+                  let CheckKey = tableData.tableHeaders.find((head: any) => !head.key)
+                  if (CheckKey) {
+                    for (let i = 0; i < tableData.tableHeaders.length; i++) {
+                      if (!tableData.tableHeaders[i].hasOwnProperty('key')) {
+                        tableData.tableHeaders[i].key = tableData.tableHeaders[i].name;
                       }
-                    });
-
-                    tableData.tableHeaders = tableData.tableHeaders.concat(propertiesWithoutDataType.filter((item: any) => !tableData.tableHeaders.some((objItem: any) => objItem.key === item.key)));
-                    // tableData.tableHeaders = obj;
-                  }
-                }
-                let CheckKey = tableData.tableHeaders.find((head: any) => !head.key)
-                if (CheckKey) {
-                  for (let i = 0; i < tableData.tableHeaders.length; i++) {
-                    if (!tableData.tableHeaders[i].hasOwnProperty('key')) {
-                      tableData.tableHeaders[i].key = tableData.tableHeaders[i].name;
                     }
                   }
-                }
-                // let getData = savedGroupData[savedGroupData.length - 1];
-                let getData: any = '';
-                if (getData?.data) {
-                  if (getData.data.length > 0) {
-                    let groupingArray: any = [];
-                    let updateTableData: any = [];
-                    getData.data.forEach((elem: any) => {
-                      let findData = tableData.tableHeaders.find((item: any) => item.key == elem);
-                      if (findData) {
-                        updateTableData = this.groupedFunc(elem, 'add', findData, groupingArray, tableData.displayData, tableData.tableData, tableData.tableHeaders);
-                      }
-                    })
-                    tableData.tableData = updateTableData;
-                    tableData.displayData = tableData.tableData.length > tableData.end ? tableData.tableData.slice(0, tableData.end) : tableData.tableData;
-                    tableData.tableHeaders.unshift({
-                      name: 'expand',
-                      key: 'expand',
-                      title: 'Expand',
-                    });
-                    tableData.totalCount = tableData.tableData
+                  // let getData = savedGroupData[savedGroupData.length - 1];
+                  let getData: any = '';
+                  if (getData?.data) {
+                    if (getData.data.length > 0) {
+                      let groupingArray: any = [];
+                      let updateTableData: any = [];
+                      getData.data.forEach((elem: any) => {
+                        let findData = tableData.tableHeaders.find((item: any) => item.key == elem);
+                        if (findData) {
+                          updateTableData = this.groupedFunc(elem, 'add', findData, groupingArray, tableData.displayData, tableData.tableData, tableData.tableHeaders);
+                        }
+                      })
+                      tableData.tableData = updateTableData;
+                      tableData.displayData = tableData.tableData.length > tableData.end ? tableData.tableData.slice(0, tableData.end) : tableData.tableData;
+                      tableData.tableHeaders.unshift({
+                        name: 'expand',
+                        key: 'expand',
+                        title: 'Expand',
+                      });
+                      tableData.totalCount = tableData.tableData
+                    } else {
+                      // tableData.tableHeaders = tableData.tableHeaders.filter((head: any) => head.key != 'expand')
+                    }
+
                   } else {
                     // tableData.tableHeaders = tableData.tableHeaders.filter((head: any) => head.key != 'expand')
+
+                  }
+                  tableData.pageIndex = 1;
+                  if (tableData?.serverSidePagination) {
+                    const start = (tableData.pageIndex - 1) * 10;
+                    // const end = start + 10;
+                    // this.start = start == 0 ? 1 : ((tableData.pageIndex * 10) - 10) + 1;
+                    // this.end = this.displayData.length == tableData.end ? (tableData.pageIndex * tableData.end) : tableData.totalCount;
+                  } else {
+                    const start = (tableData.pageIndex - 1) * 10;
+                    const end = start + 10;
+                    tableData.displayData = tableData.tableData.slice(start, end);
+                    tableData.totalCount = tableData.tableData.length;
                   }
 
-                } else {
-                  // tableData.tableHeaders = tableData.tableHeaders.filter((head: any) => head.key != 'expand')
+                  //This is used when use expand icon from options of grid config to call api.
+                  if (tableData.tableHeaders.some((header: any) => header.key === 'expand')) {
+                    tableData.tableData = tableData.tableData.map((row: any) => ({
+                      'expand': false,
+                      ...row
+                    }));
+                    tableData.displayData = tableData.displayData.map((row: any) => ({
+                      'expand': false,
+                      ...row
+                    }));
 
+                  }
                 }
-                tableData.pageIndex = 1;
-                if (tableData?.serverSidePagination) {
-                  const start = (tableData.pageIndex - 1) * 10;
-                  // const end = start + 10;
-                  // this.start = start == 0 ? 1 : ((tableData.pageIndex * 10) - 10) + 1;
-                  // this.end = this.displayData.length == tableData.end ? (tableData.pageIndex * tableData.end) : tableData.totalCount;
-                } else {
-                  const start = (tableData.pageIndex - 1) * 10;
-                  const end = start + 10;
-                  tableData.displayData = tableData.tableData.slice(start, end);
-                  tableData.totalCount = tableData.tableData.length;
-                }
-
-                //This is used when use expand icon from options of grid config to call api.
-                if (tableData.tableHeaders.some((header: any) => header.key === 'expand')) {
-                  tableData.tableData = tableData.tableData.map((row: any) => ({
-                    'expand': false,
-                    ...row
-                  }));
-                  tableData.displayData = tableData.displayData.map((row: any) => ({
-                    'expand': false,
-                    ...row
-                  }));
-
-                }
-                let reNewData = JSON.parse(JSON.stringify(tableData.displayData));
-                tableData.displayData = [];
-                tableData.displayData = JSON.parse(JSON.stringify(reNewData));
+                // this.assignGridRules(tableData);
               }
-              // this.assignGridRules(tableData);
             }
             this.saveLoader = false;
           }, error: (error: any) => {

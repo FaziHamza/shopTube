@@ -9,6 +9,8 @@ import { ApplicationService } from 'src/app/services/application.service';
 import { BuilderService } from 'src/app/services/builder.service';
 import { DataSharedService } from 'src/app/services/data-shared.service';
 import { environment } from 'src/environments/environment';
+import { SocketService } from 'src/app/services/socket.service';
+
 
 @Component({
   selector: 'st-organization-builder',
@@ -24,7 +26,7 @@ export class organizationBuilderComponent implements OnInit {
   listOfDisplayData: any[] = [];
   listOfChildrenData: any[] = [];
   loading = false;
-  drawerLoader : boolean = false;
+  drawerLoader: boolean = false;
   pageSize = 10;
   searchIcon = 'search';
   searchValue = '';
@@ -207,10 +209,11 @@ export class organizationBuilderComponent implements OnInit {
   organizationId: any;
   constructor(
     public builderService: BuilderService,
-    private applicationService: ApplicationService,
     public dataSharedService: DataSharedService,
     private toastr: NzMessageService,
-    private router: Router
+    private router: Router,
+    public socketService: SocketService,
+
   ) { }
 
   ngOnInit(): void {
@@ -226,29 +229,36 @@ export class organizationBuilderComponent implements OnInit {
   }
   organizationBuilder() {
     this.loading = true;
-    this.applicationService.getNestNewCommonAPI(`cp/Organization`).subscribe({
+    const { jsonData, newGuid } = this.socketService.makeJsonData('Organization', 'GetModelType');
+    this.socketService.Request(jsonData);
+    this.socketService.OnResponseMessage().subscribe({
       next: (res: any) => {
-        if (res.isSuccess) {
-          this.listOfDisplayData = res.data.map((obj: any) => {
-            obj.expand = false;
-            return obj;
-          });
-          this.listOfData = res.data;
-          this.organizationData = res.data;
-          this.getDepartment();
-          this.handlePageChange(1);
-          const nonEmptySearchArray = this.listOfColumns.filter(
-            (element: any) => element.searchValue
-          );
-          nonEmptySearchArray.forEach((element: any) => {
-            this.search(element.searchValue, element);
-          });
-        } else {
-          this.toastr.error(res.message, { nzDuration: 2000 });
+        console.log(res)
+        if (res.parseddata.requestId == newGuid && res.parseddata.isSuccess) {
+          res = res.parseddata.apidata;
+          if (res.isSuccess) {
+            this.listOfDisplayData = res.data.map((obj: any) => {
+              obj.expand = false;
+              return obj;
+            });
+            this.listOfData = res.data;
+            this.organizationData = res.data;
+            this.getDepartment();
+            this.handlePageChange(1);
+            const nonEmptySearchArray = this.listOfColumns.filter(
+              (element: any) => element.searchValue
+            );
+            nonEmptySearchArray.forEach((element: any) => {
+              this.search(element.searchValue, element);
+            });
+            this.toastr.success(`Org. : ${res.message}`, { nzDuration: 2000 });
+          } else {
+            this.toastr.error(`Org. : ${res.message}`, { nzDuration: 2000 });
+          }
         }
         this.loading = false;
       },
-      error: (err) => {
+      error: () => {
         this.loading = false;
         this.toastr.error('some error exception', { nzDuration: 2000 });
       },
@@ -257,7 +267,7 @@ export class organizationBuilderComponent implements OnInit {
 
   openModal(type: any, selectedAllow?: boolean, organizationName?: any) {
     // if (this.isSubmit) {
-      
+
     // }
     this.model = {};
     this.fields = [];
@@ -297,51 +307,42 @@ export class organizationBuilderComponent implements OnInit {
   }
 
   organizationSubmit() {
-    ;
     if (!this.form.valid) {
       this.handleCancel();
       return;
     }
-    // let findName = this.listOfDisplayData.find(a => a.name.toLowerCase() == this.form.value.name.toLowerCase() && a.id != this.model?.id);
-    // let findEmail = this.listOfDisplayData.find(a => a.a?.email?.toLowerCase() == this.form.value.email.toLowerCase() && a.id != this.model?.id);
-    // let findContact = this.listOfDisplayData.find(a => a?.contact?.toLowerCase() == this.form.value.contact.toLowerCase() && a.id != this.model?.id);
-    // if (findName) {
-    //   this.toastr.warning('Name already exists in the database.', { nzDuration: 2000 });
-    //   return;
-    // }
-    // if (findEmail) {
-    //   this.toastr.warning('Email already exists in the database.', { nzDuration: 2000 });
-    //   return;
-    // }
-    // if (findContact) {
-    //   this.toastr.warning('Contact already exists in the database.', { nzDuration: 2000 });
-    //   return;
-    // }
     else {
       // this.form.value['userId'] = JSON.parse(localStorage.getItem('user')!).userId;
-      const tableValue = `Organization`;
-      const organizationModel = {
-        [tableValue]: this.form.value,
-      };
-      const addOrUpdateOrganization$ = this.isSubmit
-        ? this.applicationService.addNestNewCommonAPI('cp', organizationModel)
-        : this.applicationService.updateNestNewCommonAPI(
-          `cp/Organization`,
-          this.model.id,
-          organizationModel
-        );
+      var ResponseGuid: any;
+      if (this.isSubmit) {
+        const { newGuid, metainfocreate } = this.socketService.metainfocreate();
+        ResponseGuid = newGuid;
+        const Add = { [`Organization`]: this.form.value, metaInfo: metainfocreate }
+        this.socketService.Request(Add);
+      }
+      else {
+        const { newUGuid, metainfoupdate } = this.socketService.metainfoupdate(this.model.id);
+        ResponseGuid = newUGuid;
+        const Update = { [`Organization`]: this.form.value, metaInfo: metainfoupdate };
+        this.socketService.Request(Update)
+      }
       this.drawerLoader = true;
-      addOrUpdateOrganization$.subscribe((res: any) => {
+      this.socketService.OnResponseMessage().subscribe((res: any) => {
         try {
-          this.drawerLoader =  false;
-          if (res.isSuccess) {
-            this.organizationBuilder();
-            this.isSubmit = true;
-            this.resetForm();
-            this.handleCancel();
-            this.toastr.success(`Org. : ${res.message}`, { nzDuration: 2000 });
-          } else {
-            this.toastr.error(`Org. : ${res.message}`, { nzDuration: 2000 });
+          if (res.parseddata.requestId == ResponseGuid && res.parseddata.isSuccess) {
+            this.drawerLoader = false;
+            res = res.parseddata.apidata;
+            if (res.isSuccess) {
+              this.loading = false;
+              this.organizationBuilder();
+              this.isSubmit = true;
+              this.resetForm();
+              this.handleCancel();
+              this.toastr.success(`Org. : ${res.message}`, { nzDuration: 2000 });
+            } else {
+              this.toastr.error(`Org. : ${res.message}`, { nzDuration: 2000 });
+              this.loading = false;
+            }
           }
         } catch (error) {
           this.drawerLoader = false;
@@ -354,7 +355,7 @@ export class organizationBuilderComponent implements OnInit {
   }
 
   departmentSave() {
-
+    debugger
     if (!this.form.valid) {
       this.handleCancel();
       return;
@@ -371,35 +372,40 @@ export class organizationBuilderComponent implements OnInit {
       });
       return;
     } else {
-      const tableValue = `Department`;
-      const modelData = {
-        [tableValue]: this.form.value,
-      };
+      var ResponseGuid: any;
       const objOrganization = this.listOfData.find(
         (x: any) => x.id == this.form.value.organizationid
       );
-      // this.form.value['userId'] = JSON.parse(localStorage.getItem('user')!).userId;
       this.form.value.organizationName = objOrganization.name;
-      const action$ = this.isSubmit
-        ? this.applicationService.addNestNewCommonAPI('cp', modelData)
-        : this.applicationService.updateNestNewCommonAPI(
-          `cp/Department`,
-          this.model.id,
-          modelData
-        );
+      if (this.isSubmit) {
+        const { newGuid, metainfocreate } = this.socketService.metainfocreate();
+        ResponseGuid = newGuid;
+        const Add = { [`Department`]: this.form.value, metaInfo: metainfocreate }
+        this.socketService.Request(Add);
+      }
+      else {
+        const { newUGuid, metainfoupdate } = this.socketService.metainfoupdate(this.model.id);
+        ResponseGuid = newUGuid;
+        const Update = { [`Department`]: this.form.value, metaInfo: metainfoupdate };
+        this.socketService.Request(Update)
+      }
       this.drawerLoader = true;
-      action$.subscribe((res: any) => {
+      this.socketService.OnResponseMessage().subscribe((res: any) => {
         try {
-          this.drawerLoader = false;
-          if (res.isSuccess) {
-            this.organizationBuilder();
-            // this.getDepartment();
-            this.resetForm();
-            this.isSubmit = true;
-            this.handleCancel();
-            this.toastr.success(res.message, { nzDuration: 2000 });
-          } else {
-            this.toastr.error(res.message, { nzDuration: 2000 });
+          if (res.parseddata.requestId == ResponseGuid && res.parseddata.isSuccess) {
+            this.drawerLoader = false;
+            res = res.parseddata.apidata;
+            this.drawerLoader = false;
+            if (res.isSuccess) {
+              this.organizationBuilder();
+              // this.getDepartment();
+              this.resetForm();
+              this.isSubmit = true;
+              this.handleCancel();
+              this.toastr.success(res.message, { nzDuration: 2000 });
+            } else {
+              this.toastr.error(res.message, { nzDuration: 2000 });
+            }
           }
         } catch (error) {
           // Handle any errors that occur during execution
@@ -427,24 +433,34 @@ export class organizationBuilderComponent implements OnInit {
   }
   deleteRow(id: any, type: any): void {
     try {
-      this.loading = true
-      const api$ =
-        type == 'department'
-          ? this.applicationService.deleteNestNewCommonAPI(`cp/Department`, id)
-          : this.applicationService.deleteNestNewCommonAPI(`cp/Organization`, id);
-
-      api$.subscribe((res: any) => {
-        if (res.isSuccess) {
-          this.loading = false
-          this.handlePageChange(1);
-          this.organizationBuilder();
-          // this.getDepartment();
-          this.toastr.success(res.message, { nzDuration: 2000 });
-        } else {
-          this.loading = false
-          this.toastr.error(res.message, { nzDuration: 2000 });
-        }
-      });
+      this.loading = true;
+      var ResponseGuid: any;
+      if (type == 'department') {
+        const { jsonData, newGuid } = this.socketService.deleteModelType('Department', id);
+        ResponseGuid = newGuid;
+        this.socketService.Request(jsonData);
+      }
+      else {
+        const { jsonData, newGuid } = this.socketService.deleteModelType('Organization', id);
+        ResponseGuid = newGuid;
+        this.socketService.Request(jsonData)
+      }
+      this.socketService.OnResponseMessage()
+        .subscribe((res: any) => {
+          if (res.parseddata.requestId == ResponseGuid && res.parseddata.isSuccess) {
+            res = res.parseddata.apidata;
+            if (res.isSuccess) {
+              this.loading = false
+              this.handlePageChange(1);
+              this.organizationBuilder();
+              // this.getDepartment();
+              this.toastr.success(res.message, { nzDuration: 2000 });
+            } else {
+              this.loading = false
+              this.toastr.error(res.message, { nzDuration: 2000 });
+            }
+          }
+        });
     } catch (error) {
       // Handle any errors that occur during execution
       console.error("An error occurred:", error);
@@ -518,22 +534,29 @@ export class organizationBuilderComponent implements OnInit {
   }
 
   getDepartment() {
-    try {
-      this.loading = true;
-      this.applicationService.getNestNewCommonAPI(`cp/Department`).subscribe((res: any) => {
-        if (res.isSuccess) {
-          this.listOfChildrenData = res.data;
-        } else {
-          this.toastr.error(res.message, { nzDuration: 2000 });
+    this.loading = true;
+    const { jsonData, newGuid } = this.socketService.makeJsonData('Department', 'GetModelType');
+    this.socketService.Request(jsonData);
+    this.socketService.OnResponseMessage().subscribe({
+      next: (res: any) => {
+        console.log(res)
+        if (res.parseddata.requestId == newGuid && res.parseddata.isSuccess) {
+          res = res.parseddata.apidata;
+          if (res.isSuccess) {
+            this.listOfChildrenData = res.data;
+            this.toastr.success(res.message, { nzDuration: 2000 });
+          } else {
+            this.toastr.error(res.message, { nzDuration: 2000 });
+          }
         }
         this.loading = false;
-      });
-    } catch (error) {
-      this.loading = false;
-      // Handle any errors that occur during execution
-      console.error("An error occurred:", error);
-      // You can add additional error handling here, such as showing an error message to the user.
-    }
+      },
+      error: () => {
+        this.loading = false;
+        this.toastr.error('some error exception', { nzDuration: 2000 });
+      },
+    });
+
   }
 
 

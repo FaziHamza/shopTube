@@ -19,6 +19,8 @@ import { environment } from 'src/environments/environment';
 import * as XLSX from 'xlsx';
 import { QrCodeComponent } from '../qr-code/qr-code.component';
 import { NzResizeEvent } from 'ng-zorro-antd/resizable';
+import { SocketService } from 'src/app/services/socket.service';
+
 @Component({
   selector: 'dynamic-table',
   templateUrl: './dynamic-table.component.html',
@@ -117,7 +119,9 @@ export class DynamicTableComponent implements OnInit {
     private applicationServices: ApplicationService,
     private sanitizer: DomSanitizer, private router: Router, private http: HttpClient,
     private modal: NzModalService,
-    private zone: NgZone
+    private zone: NgZone,
+    private socketService: SocketService,
+
   ) {
     this.processData = this.processData.bind(this);
     const prevNextRecord = this.dataSharedService.prevNextRecord.subscribe((res: any) => {
@@ -345,17 +349,23 @@ export class DynamicTableComponent implements OnInit {
     // this.applyBusinessRule(getRes, this.data);
     // this.loadTableData();
     if (this.screenId && this.gridRuleData.length == 0) {
-      this.requestSubscription = this.applicationService.getNestNewCommonAPIById('cp/GridBusinessRule', this.screenId).subscribe(((getRes: any) => {
-        if (getRes.isSuccess) {
-          if (getRes.data.length > 0) {
-            this.gridRuleData = getRes.data || [];
-            // this.formlyModel['input34d5985f']='1313'
-            this.applyBusinessRule(getRes.data, this.data);
-          }
-          // this.pageChange(1);
-          // this.loadTableData();
-        } else
-          this.toastr.error(getRes.message, { nzDuration: 3000 });
+      const { jsonData, newGuid } = this.socketService.makeJsonDataById('GridBusinessRule', this.screenId, 'GetModelTypeById');
+      this.socketService.Request(jsonData);
+      this.socketService.OnResponseMessage().subscribe(((res: any) => {
+        if (res.parseddata.requestId == newGuid && res.parseddata.isSuccess) {
+          res = res.parseddata.apidata
+          if (res.isSuccess) {
+            if (res.data.length > 0) {
+              this.gridRuleData = res.data || [];
+              // this.formlyModel['input34d5985f']='1313'
+              this.applyBusinessRule(res.data, this.data);
+            }
+            // this.pageChange(1);
+            // this.loadTableData();
+          } else
+            this.toastr.error(res.message, { nzDuration: 3000 });
+        }
+
       }));
     }
     else if (this.gridRuleData.length > 0) {
@@ -956,20 +966,14 @@ export class DynamicTableComponent implements OnInit {
     }
   };
   deleteRow(item: any): void {
-    
     let data = JSON.parse(JSON.stringify(item));
     const checkPermission = this.dataSharedService.getUserPolicyMenuList.find(a => a.screenId == this.dataSharedService.currentMenuLink);
-    if (!checkPermission?.deletes && this.dataSharedService.currentMenuLink != '/ourbuilder') {
+    if (!checkPermission?.delete && this.dataSharedService.currentMenuLink != '/ourbuilder') {
       alert("You did not have permission");
       return;
     }
     delete data.children;
     delete data.expand;
-    const model = {
-      screenId: this.screenName,
-      postType: 'delete',
-      modalData: data
-    };
     if (this.screenName != undefined) {
       if (this.data?.appConfigurableEvent && this.data?.appConfigurableEvent?.length > 0) {
         // Find the 'delete' event in appConfigurableEvent
@@ -981,23 +985,26 @@ export class DynamicTableComponent implements OnInit {
 
           if (url) {
             this.saveLoader = true;
-            const requestObservable = findClickApi[0].actionType === 'api' ?
-              this.employeeService.deleteCommonApi(url, id) :
-              this.employeeService.saveSQLDatabaseTable(url, model);
-
-            this.requestSubscription = requestObservable.subscribe({
+            let newGGuid: any;
+            const { jsonData, RequestGuid } = this.socketService.metaInfoForGrid('PostPageExecuteDelete', id);
+            this.socketService.Request(jsonData);
+            this.socketService.OnResponseMessage().subscribe({
               next: (res) => {
                 this.saveLoader = false;
-                if (res.isSuccess) {
-                  // Data successfully deleted
-                  // this.handleDataDeletion(data);
-                  // this.pageChange(this.pageSize);
-                  this.recallApi();
-                  this.toastr.success("Delete Successfully", { nzDuration: 3000 });
-                } else {
-                  // Data not updated
-                  this.toastr.warning(res.message || "Data is not updated", { nzDuration: 3000 });
+                if (res.parseddata.requestId == RequestGuid && res.parseddata.isSuccess) {
+                  res = res.parseddata.apidata;
+                  if (res.isSuccess) {
+                    // Data successfully deleted
+                    // this.handleDataDeletion(data);
+                    // this.pageChange(this.pageSize);
+                    this.recallApi();
+                    this.toastr.success("Delete Successfully", { nzDuration: 3000 });
+                  } else {
+                    // Data not updated
+                    this.toastr.warning(res.message || "Data is not updated", { nzDuration: 3000 });
+                  }
                 }
+
               },
               error: (err) => {
                 this.saveLoader = false;
@@ -1073,7 +1080,7 @@ export class DynamicTableComponent implements OnInit {
   }
 
   loadTableData() {
-    
+
     this.getResizingAndColumnSortng();
     if (this.tableData.length > 0) {
       // if (this.tableData[0].__v || this.tableData[0].id) {
@@ -1207,7 +1214,7 @@ export class DynamicTableComponent implements OnInit {
     return childKeys;
   }
   save() {
-    
+
     this.editId = '';
     if (this.configurationTable) {
       this._dataSharedService.setData(this.displayData);
@@ -2461,7 +2468,7 @@ export class DynamicTableComponent implements OnInit {
       nzOnCancel: () => console.log('Cancel')
     });
   }
- 
+
   open(): void {
     this.visible = true;
     this.saveLoader = true;
@@ -2493,7 +2500,7 @@ export class DynamicTableComponent implements OnInit {
         this.saveLoader = false;
       },
       error: (err) => {
-        console.error(err); 
+        console.error(err);
         this.saveLoader = false;
       }
     });
@@ -2980,7 +2987,7 @@ export class DynamicTableComponent implements OnInit {
     }
   }
   callExpandAPi(item: any, event: any) {
-    
+
     if (item?.editabeRowAddNewRow) {
       item.expand = false;
       this.toastr.warning("Please save before expand", { nzDuration: 3000 });

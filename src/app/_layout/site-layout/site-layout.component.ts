@@ -11,6 +11,8 @@ import { BuilderService } from 'src/app/services/builder.service';
 import { DataSharedService } from 'src/app/services/data-shared.service';
 import { EmployeeService } from 'src/app/services/employee.service';
 import { JwtService } from 'src/app/shared/jwt.service';
+import { SocketService } from 'src/app/services/socket.service';
+
 
 @Component({
   selector: 'st-site-layout',
@@ -78,7 +80,8 @@ export class SiteLayoutComponent implements OnInit {
   private destroy$: Subject<void> = new Subject<void>();
   constructor(private applicationService: ApplicationService, private renderer: Renderer2, private el: ElementRef, public dataSharedService: DataSharedService, public builderService: BuilderService,
     private toastr: NzMessageService, private router: Router, private activatedRoute: ActivatedRoute, private cd: ChangeDetectorRef, private modalService: NzModalService,
-    private viewContainerRef: ViewContainerRef, private authService: AuthService, private jwtService: JwtService) {
+    public socketService: SocketService,
+    private viewContainerRef: ViewContainerRef, private authService: AuthService, private jwtService: JwtService,) {
     this.requestSubscription = this.dataSharedService.localhostHeaderFooter.subscribe({
       next: (res) => {
         if (res) {
@@ -93,7 +96,7 @@ export class SiteLayoutComponent implements OnInit {
 
 
   ngOnInit(): void {
-    
+
     // localStorage.setItem('externalLogin', 'false');
     this.dataSharedService.measureHeight = 0;
     // this.getTaskManagementIssuesFunc(JSON.parse(localStorage.getItem('applicationId')!));
@@ -285,73 +288,78 @@ export class SiteLayoutComponent implements OnInit {
 
 
   getMenuByDomainName(domainName: any, allowStoreId: boolean) {
-    
+
     try {
       this.loader = true;
-      this.requestSubscription = this.builderService.getApplicationByNewDomainName(domainName).subscribe({
+      const { jsonData, newGuid } = this.socketService.makeJsonDataById('application', domainName, 'DomainModelTypeById');
+      this.socketService.Request(jsonData);
+      this.socketService.OnResponseMessage().subscribe({
         next: (res) => {
-          if (res.isSuccess) {
-            this.domainData = res.data;
-            if (res.data.appication) {
-              this.currentWebsiteLayout = res.data.appication.application_Type ? res.data.appication.application_Type : 'backend_application';
-            }
-            // document.documentElement.style.setProperty('--primaryColor', res.data.appication?.primaryColor);
-            // document.documentElement.style.setProperty('--secondaryColor', res.data.appication?.secondaryColor);
-            this.dataSharedService.applicationDefaultScreen = res.data['default'] ? res.data['default'].navigation : '';
-            this.logo = res.data.appication['image'];
-            this.dataSharedService.headerLogo = res.data.appication['image'];
-            // if (allowStoreId) {
-            //   localStorage.setItem('applicationId', JSON.stringify(res.data?.appication?._id));
-            //   localStorage.setItem('organizationId', JSON.stringify(res.data?.department?.organizationId));
-            // }
-            if (res.data['applicationGlobalClasses']) {
-              this.dataSharedService.applicationGlobalClass = res.data['applicationGlobalClasses'];
-            }
-            this.currentWebsiteLayout = res.data.appication['applicationtype'] ? res.data.appication['applicationtype'] : 'backend_application';
-            this.currentHeader = res.data['header'] ? res.data['header']['screendata'] : '';
-            this.currentFooter = res.data['footer'] ? res.data['footer']['screendata'] : '';
-            if (res.data['menu']) {
-              if (this.selectedTheme && res.data['menu']?.selectedTheme) {
-                const theme = JSON.parse(res.data['menu'].selectedTheme);
-                this.selectedTheme['isCollapsed'] = theme['isCollapsed'];
+          if (res.parseddata.requestId == newGuid && res.parseddata.isSuccess) {
+            res = res.parseddata.apidata;
+            if (res.isSuccess) {
+              this.domainData = res.data;
+              if (res.data.appication) {
+                this.currentWebsiteLayout = res.data.appication.application_Type ? res.data.appication.application_Type : 'backend_application';
               }
-              if (!window.location.href.includes('/menu-builder')) {
-                this.isShowContextMenu = true;
-                let getMenu = res.data['menu'] ? res.data['menu']['menudata']?.json : '';
-                let selectedTheme = res.data['menu'] ? res.data['menu'].selectedtheme : {};
-                if (getMenu) {
-                  this.selectedTheme = selectedTheme;
-                  this.selectedTheme.allMenuItems = getMenu;
-                  this.menuItems = getMenu;
-                  this.getComments();
-                  if (selectedTheme?.layout == 'horizental') {
-                    this.makeMenuData();
+              // document.documentElement.style.setProperty('--primaryColor', res.data.appication?.primaryColor);
+              // document.documentElement.style.setProperty('--secondaryColor', res.data.appication?.secondaryColor);
+              this.dataSharedService.applicationDefaultScreen = res.data['default'] ? res.data['default'].navigation : '';
+              this.logo = res.data.appication['image'];
+              this.dataSharedService.headerLogo = res.data.appication['image'];
+              // if (allowStoreId) {
+              //   localStorage.setItem('applicationId', JSON.stringify(res.data?.appication?._id));
+              //   localStorage.setItem('organizationId', JSON.stringify(res.data?.department?.organizationId));
+              // }
+              if (res.data['applicationGlobalClasses']) {
+                this.dataSharedService.applicationGlobalClass = res.data['applicationGlobalClasses'];
+              }
+              this.currentWebsiteLayout = res.data.appication['applicationtype'] ? res.data.appication['applicationtype'] : 'backend_application';
+              this.currentHeader = res.data['header'] ? res.data['header']['screendata'] : '';
+              this.currentFooter = res.data['footer'] ? res.data['footer']['screendata'] : '';
+              if (res.data['menu']) {
+                if (this.selectedTheme && res.data['menu']?.selectedTheme) {
+                  const theme = JSON.parse(res.data['menu'].selectedTheme);
+                  this.selectedTheme['isCollapsed'] = theme['isCollapsed'];
+                }
+                if (!window.location.href.includes('/menu-builder')) {
+                  this.isShowContextMenu = true;
+                  let getMenu = res.data['menu'] ? res.data['menu']['menudata']?.json : '';
+                  let selectedTheme = res.data['menu'] ? res.data['menu'].selectedtheme : {};
+                  if (getMenu) {
+                    this.selectedTheme = selectedTheme;
+                    this.selectedTheme.allMenuItems = getMenu;
+                    this.menuItems = getMenu;
+                    this.getComments();
+                    if (selectedTheme?.layout == 'horizental') {
+                      this.makeMenuData();
+                    }
+
                   }
-
-                }
-                if (this.currentWebsiteLayout == 'website') {
-                  this.dataSharedService.menus = this.selectedTheme;
-                  this.dataSharedService.menus.allMenuItems = getMenu;
+                  if (this.currentWebsiteLayout == 'website') {
+                    this.dataSharedService.menus = this.selectedTheme;
+                    this.dataSharedService.menus.allMenuItems = getMenu;
+                  }
                 }
               }
-            }
-            this.hideHeaderFooterMenu = window.location.href.includes('/pdf') ? true : false;
-            // Example usage:
+              this.hideHeaderFooterMenu = window.location.href.includes('/pdf') ? true : false;
+              // Example usage:
 
-            if (window.location.href.includes('/pages') && this.selectedTheme) {
-              const urlSegments = window.location.href.split('/');
-              const parentMenu = this.findParentMenu(this.selectedTheme.allMenuItems, `/pages/${urlSegments[urlSegments.length - 1].trim()}`);
-              if (parentMenu && parentMenu.type == "mainTab") {
-                this.tabs.push(parentMenu);
+              if (window.location.href.includes('/pages') && this.selectedTheme) {
+                const urlSegments = window.location.href.split('/');
+                const parentMenu = this.findParentMenu(this.selectedTheme.allMenuItems, `/pages/${urlSegments[urlSegments.length - 1].trim()}`);
+                if (parentMenu && parentMenu.type == "mainTab") {
+                  this.tabs.push(parentMenu);
+                }
               }
-            }
 
-            if (!window.location.href.includes('/pages') && res.data?.default?.navigation && !window.location.href.includes('/menu-builder')) {
-              this.router.navigate(['/pages/' + res.data?.default?.navigation
-              ]);
+              if (!window.location.href.includes('/pages') && res.data?.default?.navigation && !window.location.href.includes('/menu-builder')) {
+                this.router.navigate(['/pages/' + res.data?.default?.navigation
+                ]);
+              }
+              this.loader = false;
+              this.getUserPolicyMenu();
             }
-            this.loader = false;
-            this.getUserPolicyMenu();
           }
         },
         error: (err) => {
@@ -372,23 +380,28 @@ export class SiteLayoutComponent implements OnInit {
 
     try {
       this.loader = true;
-      this.requestSubscription = this.builderService.getApplicationByNewDomainName(domainName).subscribe({
+      const { jsonData, newGuid } = this.socketService.makeJsonDataById('application', domainName, 'DomainModelTypeById');
+      this.socketService.Request(jsonData);
+      this.socketService.OnResponseMessage().subscribe({
         next: (res) => {
-          if (res.isSuccess) {
-            this.currentHeader = res.data['header'] ? this.jsonParseWithObject(res.data['header']['screenData']) : '';
-            this.loader = false;
+          if (res.parseddata.requestId == newGuid && res.parseddata.isSuccess) {
+            res = res.parseddata.apidata
+            if (res.isSuccess) {
+              this.currentHeader = res.data['header'] ? this.jsonParseWithObject(res.data['header']['screenData']) : '';
+              this.loader = false;
+            }
           }
         },
         error: (err) => {
           console.error(err);
-          this.toastr.error("An error occurred", { nzDuration: 3000 });
+          // this.toastr.error("An error occurred", { nzDuration: 3000 });
           this.loader = false; // Set loader to false in case of an error to avoid infinite loading
         }
       });
     }
     catch (error) {
       console.error(error);
-      this.toastr.error("An error occurred", { nzDuration: 3000 });
+      // this.toastr.error("An error occurred", { nzDuration: 3000 });
       this.loader = false; // Set loader to false in case of an error to avoid infinite loading
     }
   }
@@ -461,35 +474,41 @@ export class SiteLayoutComponent implements OnInit {
     }
   }
   getApplications() {
-    this.requestSubscription = this.applicationService.getNestCommonAPI('cp/Department').subscribe({
+    const { jsonData, newGuid } = this.socketService.makeJsonData('Department', 'GetModelType');
+    this.socketService.Request(jsonData);
+    this.socketService.OnResponseMessage().subscribe({
       next: (res: any) => {
-        if (res.isSuccess) {
-          if (res.data.length > 0) {
-            let menus: any = [];
-            this.currentWebsiteLayout = "backend_application";
-            res.data.forEach((element: any) => {
-              let newID = element.applicationId ? element.applicationId : element.name.replace(/\s+/g, '-');
-              const newNode = {
-                id: newID,
-                key: newID,
-                title: element.name,
-                link: '',
-                icon: "appstore",
-                type: "input",
-                isTitle: false,
-                expanded: true,
-                color: "",
-                application: true,
-                children: [
-                ],
-              }
-              menus.push(newNode);
-            });
-            this.selectedTheme = this.newSelectedTheme;
-            this.selectedTheme['allMenuItems'] = menus;
-          }
-        } else
-          this.toastr.error(res.message, { nzDuration: 3000 });
+        if (res.parseddata.requestId == newGuid && res.parseddata.isSuccess) {
+          res = res.parseddata.apidata;
+          if (res.isSuccess) {
+            if (res.data.length > 0) {
+              let menus: any = [];
+              this.currentWebsiteLayout = "backend_application";
+              res.data.forEach((element: any) => {
+                let newID = element.applicationId ? element.applicationId : element.name.replace(/\s+/g, '-');
+                const newNode = {
+                  id: newID,
+                  key: newID,
+                  title: element.name,
+                  link: '',
+                  icon: "appstore",
+                  type: "input",
+                  isTitle: false,
+                  expanded: true,
+                  color: "",
+                  application: true,
+                  children: [
+                  ],
+                }
+                menus.push(newNode);
+              });
+              this.selectedTheme = this.newSelectedTheme;
+              this.selectedTheme['allMenuItems'] = menus;
+            }
+          } else
+            this.toastr.error(res.message, { nzDuration: 3000 });
+        }
+
       },
       error: (err) => {
         console.error(err);
@@ -612,15 +631,21 @@ export class SiteLayoutComponent implements OnInit {
     });
   }
   getComments() {
-    this.requestSubscription = this.applicationService.getNestCommonAPI("cp/getuserCommentsByApp/UserComment/menu").subscribe((res: any) => {
-      if (res.isSuccess) {
-        let commentList = res.data
-        this.dataSharedService.menuCommentList = commentList;
-        this.dataSharedService.menuCommentList.forEach(element => {
-          this.assignIssue(this.selectedTheme.allMenuItems, element);
-        });
+    const { jsonData, newGuid } = this.socketService.makeJsonData('UserComment', 'GetUserCommentsByApp', 'menu');
+    this.socketService.Request(jsonData);
+    this.socketService.OnResponseMessage().subscribe((res: any) => {
+      if (res.parseddata.requestId == newGuid && res.parseddata.isSuccess) {
+        res = res.parseddata.apidata;
+        if (res.isSuccess) {
+          let commentList = res.data
+          this.dataSharedService.menuCommentList = commentList;
+          this.dataSharedService.menuCommentList.forEach(element => {
+            this.assignIssue(this.selectedTheme.allMenuItems, element);
+          });
 
+        }
       }
+
     })
   }
   assignIssue(node: any, issue: any) {
@@ -655,34 +680,44 @@ export class SiteLayoutComponent implements OnInit {
     });
   }
   getTaskManagementIssuesFunc(applicationId: string) {
-    this.requestSubscription = this.builderService.getusermenuAssignTask(applicationId).subscribe({
+    const { jsonData, newGuid } = this.socketService.makeJsonDataById('UserAssignTask', applicationId, 'GetModelTypeById');
+    this.socketService.Request(jsonData);
+    this.socketService.OnResponseMessage().subscribe({
       next: (res: any) => {
-        if (res.isSuccess) {
-          if (res.data.length > 0) {
-            this.getTaskManagementIssues = res.data;
+        if (res.parseddata.requestId == newGuid && res.parseddata.isSuccess) {
+          res = res.parseddata.apidata;
+          if (res.isSuccess) {
+            if (res.data.length > 0) {
+              this.getTaskManagementIssues = res.data;
+            }
           }
-        }
-        else {
-          this.toastr.error(`userAssignTask:` + res.message, { nzDuration: 3000 });
+          else {
+            // this.toastr.error(`userAssignTask:` + res.message, { nzDuration: 3000 });
+          }
         }
       },
       error: (err) => {
         console.error(err);
-        this.toastr.error("An error occurred", { nzDuration: 3000 });
+        // this.toastr.error("An error occurred", { nzDuration: 3000 });
       }
     })
   }
   getUserPolicyMenu() {
-    
-    this.requestSubscription = this.applicationService.getNestNewCommonAPI('cp/userpolicy/getUserPolicyMenu/1').subscribe({
+
+    const { jsonData, newGuid } = this.socketService.makeJsonData('GetUserPolicyMenu', 'GetUserPolicyMenu');
+    this.socketService.Request(jsonData);
+    this.socketService.OnResponseMessage().subscribe({
       next: (res: any) => {
-        if (res.isSuccess) {
-          if (res.data.length > 0) {
-            this.dataSharedService.getUserPolicyMenuList = res.data[0]?.data?.json;
+        if (res.parseddata.requestId == newGuid && res.parseddata.isSuccess) {
+          res = res.parseddata.apidata;
+          if (res.isSuccess) {
+            if (res.data.length > 0) {
+              this.dataSharedService.getUserPolicyMenuList = res.data[0]?.data?.json;
+            }
           }
-        }
-        else {
-          this.toastr.error(`getUserPolicyMenu:` + res.message, { nzDuration: 3000 });
+          else {
+            this.toastr.error(`getUserPolicyMenu:` + res.message, { nzDuration: 3000 });
+          }
         }
       },
       error: (err) => {
