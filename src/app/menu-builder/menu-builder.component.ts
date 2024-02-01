@@ -16,6 +16,7 @@ import { Router } from '@angular/router';
 import { DataSharedService } from '../services/data-shared.service';
 import { NzCascaderOption } from 'ng-zorro-antd/cascader';
 import { environment } from 'src/environments/environment';
+import { SocketService } from '../services/socket.service';
 
 @Component({
   selector: 'st-menu-builder',
@@ -68,7 +69,7 @@ export class MenuBuilderComponent implements OnInit {
   selectedAppId: any = "";
   // actionType: any;
   constructor(private clickButtonService: BuilderClickButtonService,
-    private applicationService: ApplicationService,
+    private socketService: SocketService,
     private drawerService: NzDrawerService,
     public builderService: BuilderService, private toastr: NzMessageService,
     private router: Router,
@@ -206,35 +207,42 @@ export class MenuBuilderComponent implements OnInit {
     // }));
   }
   getlocalMenu(id: any) {
-    this.applicationService.getNestNewCommonAPIById(`cp/getmenu/PolicyMapping`, id).subscribe(((res: any) => {
-      if (res.isSuccess) {
-        if (res.data) {
-          this.applicationId = res.data.id
-          this.nodes = res.data.menudata.json;
-          this.selectedTheme = res.data.selectedtheme;
-          this.controlUndefinedValues();
-          this.makeMenuData();
-          this.clickBack();
-          let getApplication = this.applications.find((a: any) => a.id == id);
-          if (getApplication) {
-            this.domainName = getApplication.domains ? getApplication.domains : undefined;
-            let domain = getApplication.domains ? getApplication.domains : '';
-            this.dataSharedService.localhostHeaderFooter.next(domain);
-            this.selectApplicationType = getApplication['application_Type'] ? getApplication['application_Type'] : '';
-          }
-        } else {
-          this.toastr.warning('No menu againts this', { nzDuration: 3000 });
-        }
-        // else {
-        //   this.selectedTheme = JSON.parse(res.data[0].selectedTheme);
-        //   this.controlUndefinedValues();
-        //   this.clearChildNode();
-        //   this.applicationId = '';
-        //   this.clickBack();
-        // }
 
-      } else
-        this.toastr.error(res.message, { nzDuration: 3000 });
+    const { jsonData, newGuid } = this.socketService.makeJsonDataById('PolicyMappingCrud', id, 'PolicyMappingCrud');
+    this.socketService.Request(jsonData);
+    this.socketService.OnResponseMessage().subscribe(((res: any) => {
+      if (res.parseddata.requestId == newGuid && res.parseddata.isSuccess) {
+        res = res.parseddata.apidata;
+        if (res.isSuccess) {
+          if (res.data) {
+            this.applicationId = res.data.id
+            this.nodes = res.data.menudata.json;
+            this.selectedTheme = res.data.selectedtheme;
+            this.controlUndefinedValues();
+            this.makeMenuData();
+            this.clickBack();
+            let getApplication = this.applications.find((a: any) => a.id == id);
+            if (getApplication) {
+              this.domainName = getApplication.domains ? getApplication.domains : undefined;
+              let domain = getApplication.domains ? getApplication.domains : '';
+              this.dataSharedService.localhostHeaderFooter.next(domain);
+              this.selectApplicationType = getApplication['application_Type'] ? getApplication['application_Type'] : '';
+            }
+          } else {
+            this.toastr.warning('No menu againts this', { nzDuration: 3000 });
+          }
+          // else {
+          //   this.selectedTheme = JSON.parse(res.data[0].selectedTheme);
+          //   this.controlUndefinedValues();
+          //   this.clearChildNode();
+          //   this.applicationId = '';
+          //   this.clickBack();
+          // }
+
+        } else
+          this.toastr.error(res.message, { nzDuration: 3000 });
+      }
+
     }));
   }
   clickBack() {
@@ -748,10 +756,16 @@ export class MenuBuilderComponent implements OnInit {
   }
   themeList: any[] = [];
   getTheme(value: any) {
-    this.applicationService.getNestNewCommonAPIById(`cp/MenuTheme`, value).subscribe(res => {
-      if (res.isSuccess) {
-        this.themeList = res.data || [];
+    const { jsonData, newGuid } = this.socketService.makeJsonDataById('MenuTheme', value, 'GetModelTypeById');
+    this.socketService.Request(jsonData);
+    this.socketService.OnResponseMessage().subscribe(res => {
+      if (res.parseddata.requestId == newGuid && res.parseddata.isSuccess) {
+        res = res.parseddata.apidata;
+        if (res.isSuccess) {
+          this.themeList = res.data || [];
+        }
       }
+
     })
   }
   saveLoader: any = false;
@@ -767,7 +781,7 @@ export class MenuBuilderComponent implements OnInit {
     temporaryData.newMenuArray = []
     let appData = this.applications.find((a: any) => a.id == this.selectedAppId);
     const currentDataJson = {
-      json : currentData
+      json: currentData
     }
     var data: any =
     {
@@ -783,12 +797,19 @@ export class MenuBuilderComponent implements OnInit {
     }
     // data.selectedTheme.allMenuItems = [];
     if (this.applicationId == '') {
-      this.requestSubscription = this.applicationService.addNestNewCommonAPI('cp', menuModel).subscribe({
-        next: (objMenu: any) => {
-          if (objMenu.isSuccess)
-            this.toastr.success(objMenu.message, { nzDuration: 3000 });
-          else
-            this.toastr.error(objMenu.message, { nzDuration: 3000 });
+      const { newGuid, metainfocreate } = this.socketService.metainfocreate();
+      const Add = { [`UserMapping`]: data, metaInfo: metainfocreate }
+      this.socketService.Request(Add);
+
+      this.socketService.OnResponseMessage().subscribe({
+        next: (res: any) => {
+          if (res.parseddata.requestId == newGuid && res.parseddata.isSuccess) {
+            res = res.parseddata.apidata;
+            if (res.isSuccess)
+              this.toastr.success(res.message, { nzDuration: 3000 });
+            else
+              this.toastr.error(res.message, { nzDuration: 3000 });
+          }
 
           this.saveLoader = false;
         },
@@ -799,13 +820,18 @@ export class MenuBuilderComponent implements OnInit {
         }
       });
     } else {
-      this.requestSubscription = this.applicationService.updateNestNewCommonAPI(`cp/Menu`, this.applicationId, menuModel).subscribe({
-        next: (objMenu: any) => {
-          if (objMenu.isSuccess)
-            this.toastr.success(objMenu.message, { nzDuration: 3000 });
-          else
-            this.toastr.error(objMenu.message, { nzDuration: 3000 });
-
+      const { newUGuid, metainfoupdate } = this.socketService.metainfoupdate(this.applicationId);
+      const Update = { [`Menu`]: data, metaInfo: metainfoupdate };
+      this.socketService.Request(Update)
+      this.socketService.OnResponseMessage().subscribe({
+        next: (res: any) => {
+          if (res.parseddata.requestId == newUGuid && res.parseddata.isSuccess) {
+            res = res.parseddata.apidata;
+            if (res.isSuccess)
+              this.toastr.success(res.message, { nzDuration: 3000 });
+            else
+              this.toastr.error(res.message, { nzDuration: 3000 });
+          }
           this.saveLoader = false;
         },
         error: (err) => {
@@ -1504,25 +1530,30 @@ export class MenuBuilderComponent implements OnInit {
   }
 
   getDepartments() {
-    this.requestSubscription = this.applicationService.getNestNewCommonAPI(`cp/Department`).subscribe({
+    const { jsonData, newGuid } = this.socketService.makeJsonData('Department', 'GetModelType');
+    this.socketService.Request(jsonData);
+    this.socketService.OnResponseMessage().subscribe({
       next: (res: any) => {
-        if (res.isSuccess) {
-          if (res.data.length > 0) {
-            this.departments = res.data;
-            this.departmentData = res.data?.map((data: any) => {
-              return {
-                label: data.name,
-                value: data.id
-              };
-            });
-            let header = {
-              label: 'Select Department',
-              value: 'selectDepartment'
+        if (res.parseddata.requestId == newGuid && res.parseddata.isSuccess) {
+          res = res.parseddata.apidata;
+          if (res.isSuccess) {
+            if (res.data.length > 0) {
+              this.departments = res.data;
+              this.departmentData = res.data?.map((data: any) => {
+                return {
+                  label: data.name,
+                  value: data.id
+                };
+              });
+              let header = {
+                label: 'Select Department',
+                value: 'selectDepartment'
+              }
+              this.departmentData.unshift(header)
+            } else {
+              this.departments = [];
+              this.departmentData = [];
             }
-            this.departmentData.unshift(header)
-          } else {
-            this.departments = [];
-            this.departmentData = [];
           }
         }
         else
@@ -1853,24 +1884,29 @@ export class MenuBuilderComponent implements OnInit {
   async loadData(node: NzCascaderOption, index: number): Promise<void> {
     if (index === 0 && node.value != 'selectDepartment') {
       try {
-        const res = await this.applicationService.getNestNewCommonAPIById(`cp/Application`, node.value).toPromise();
-        if (res.isSuccess) {
-          this.applications = res.data;
-          const applications = res.data.map((appData: any) => {
-            return {
-              label: appData.name,
-              value: appData.id,
-              isLeaf: true
-            };
-          });
-          let header = {
-            label: 'Select Application',
-            value: 'selectApplication'
+        const { jsonData, newGuid } = this.socketService.makeJsonDataById('UserMapping', node.value, 'GetModelTypeById');
+        this.socketService.Request(jsonData);
+        let res = await this.socketService.OnResponseMessage().toPromise();
+        if (res.parseddata.requestId == newGuid && res.parseddata.isSuccess) {
+          res = res.parseddata.apidata;
+          if (res.isSuccess) {
+            this.applications = res.data;
+            const applications = res.data.map((appData: any) => {
+              return {
+                label: appData.name,
+                value: appData.id,
+                isLeaf: true
+              };
+            });
+            let header = {
+              label: 'Select Application',
+              value: 'selectApplication'
+            }
+            applications.unshift(header)
+            node.children = applications;
+          } else {
+            this.toastr.error(res.message, { nzDuration: 3000 });
           }
-          applications.unshift(header)
-          node.children = applications;
-        } else {
-          this.toastr.error(res.message, { nzDuration: 3000 });
         }
       } catch (err) {
         console.error('Error loading screen data:', err);

@@ -5,6 +5,7 @@ import { NzModalService } from 'ng-zorro-antd/modal';
 import { ApplicationService } from 'src/app/services/application.service';
 import { BuilderService } from 'src/app/services/builder.service';
 import { DataSharedService } from 'src/app/services/data-shared.service';
+import { SocketService } from 'src/app/services/socket.service';
 import { environment } from 'src/environments/environment';
 
 @Component({
@@ -97,7 +98,7 @@ export class PolicyMappingComponent implements OnInit {
   flattenedArray: any[] = [];
 
   constructor(
-    private applicationService: ApplicationService,
+    private socketService: SocketService,
     public dataSharedService: DataSharedService,
     private toastr: NzMessageService,
     private modalService: NzModalService,
@@ -116,11 +117,16 @@ export class PolicyMappingComponent implements OnInit {
   policyName = '';
   policyList: any = [];
   jsonPolicyModuleList() {
-    this.applicationService.getNestNewCommonAPI(`cp/Policy`).subscribe({
+    const { jsonData, newGuid } = this.socketService.makeJsonData('Policy', 'GetModelType');
+    this.socketService.Request(jsonData);
+    this.socketService.OnResponseMessage().subscribe({
       next: (res: any) => {
-        if (res.isSuccess) {
-          if (res?.data.length > 0) {
-            this.policyList = res.data;
+        if (res.parseddata.requestId == newGuid && res.parseddata.isSuccess) {
+          res = res.parseddata.apidata;
+          if (res.isSuccess) {
+            if (res?.data.length > 0) {
+              this.policyList = res.data;
+            }
           }
         }
       },
@@ -160,36 +166,47 @@ export class PolicyMappingComponent implements OnInit {
         policyid: this.policyName,
         applicationid: this.applicationid,
       }));
-      let updateObj = {
-        'policymapping': jsonData
+      var ResponseGuid: any;
+      if (this.isSubmit) {
+        const { newGuid, metainfocreate } = this.socketService.metainfocreate();
+        ResponseGuid = newGuid;
+        const Add = { [`policymapping`]: jsonData, metaInfo: metainfocreate }
+        this.socketService.Request(Add);
+      }
+      else {
+        const { newUGuid, metainfoupdate } = this.socketService.metainfoupdate(this.modelId);
+        ResponseGuid = newUGuid;
+        const Update = { [`policymapping`]: jsonData, metaInfo: metainfoupdate };
+        this.socketService.Request(Update)
       }
       this.loading = true;
-      const checkPolicyAndProceed = this.isSubmit
-        ? this.applicationService.addNestNewCommonAPI(`cp`, updateObj)
-        : this.applicationService.updateNestNewCommonAPI(`cp/policymapping`, this.modelId, updateObj);
-      checkPolicyAndProceed.subscribe({
-        next: (objTRes: any) => {
-          this.loading = false;
-          if (objTRes.isSuccess) {
-            // this.getPolicyMenu();
-            this.policyMenuList = [];
-            this.flattenedArray = [];
-            this.policyMenuList = objTRes.data.length > 0 ? objTRes.data[0].data.json || [] : [];
-            this.modelId = objTRes.data.length > 0 ? objTRes.data[0].id : '';
-            this.isSubmit = objTRes.data.length > 0 ? false : true;
-            if (this.policyMenuList.length > 0) {
-              let nonReferenceData = JSON.parse(JSON.stringify(this.policyMenuList));
-              let nonRelationalData: any = this.flattenArray(nonReferenceData);
-              this.policyMenuList = nonRelationalData
+      this.socketService.OnResponseMessage().subscribe({
+        next: (res: any) => {
+          if (res.parseddata.requestId == ResponseGuid && res.parseddata.isSuccess) {
+            res = res.parseddata.apidata;
+            this.loading = false;
+            if (res.isSuccess) {
+              // this.getPolicyMenu();
+              this.policyMenuList = [];
+              this.flattenedArray = [];
+              this.policyMenuList = res.data.length > 0 ? res.data[0].data.json || [] : [];
+              this.modelId = res.data.length > 0 ? res.data[0].id : '';
+              this.isSubmit = res.data.length > 0 ? false : true;
+              if (this.policyMenuList.length > 0) {
+                let nonReferenceData = JSON.parse(JSON.stringify(this.policyMenuList));
+                let nonRelationalData: any = this.flattenArray(nonReferenceData);
+                this.policyMenuList = nonRelationalData
+              }
+              this.updatedMenuList();
+              this.toastr.success(res.message, { nzDuration: 3000 });
+              // if (!this.isSubmit) {
+              //   this.isSubmit = true;
+              // }
+            } else {
+              this.toastr.error(res.message, { nzDuration: 3000 });
             }
-            this.updatedMenuList();
-            this.toastr.success(objTRes.message, { nzDuration: 3000 });
-            // if (!this.isSubmit) {
-            //   this.isSubmit = true;
-            // }
-          } else {
-            this.toastr.error(objTRes.message, { nzDuration: 3000 });
           }
+
         },
         error: (err) => {
           this.loading = false;
@@ -274,25 +291,31 @@ export class PolicyMappingComponent implements OnInit {
   async loadData(node: NzCascaderOption, index: number): Promise<void> {
     if (index === 0 && node.value != 'selectDepartment') {
       try {
-        const res = await this.applicationService.getNestNewCommonAPIById(`cp/Application`, node.value).toPromise();
-        if (res.isSuccess) {
-          this.applications = res.data;
-          const applications = res.data.map((appData: any) => {
-            return {
-              label: appData.name,
-              value: appData.id,
-              isLeaf: true
-            };
-          });
-          let header = {
-            label: 'Select Application',
-            value: 'selectApplication'
+        const { jsonData, newGuid } = this.socketService.makeJsonDataById('Application', node.value, 'GetModelTypeById');
+        this.socketService.Request(jsonData);
+        let res = await this.socketService.OnResponseMessage().toPromise();
+        if (res.parseddata.requestId == newGuid && res.parseddata.isSuccess) {
+          res = res.parseddata.apidata;
+          if (res.isSuccess) {
+            this.applications = res.data;
+            const applications = res.data.map((appData: any) => {
+              return {
+                label: appData.name,
+                value: appData.id,
+                isLeaf: true
+              };
+            });
+            let header = {
+              label: 'Select Application',
+              value: 'selectApplication'
+            }
+            applications.unshift(header)
+            node.children = applications;
+          } else {
+            this.toastr.error(res.message, { nzDuration: 3000 });
           }
-          applications.unshift(header)
-          node.children = applications;
-        } else {
-          this.toastr.error(res.message, { nzDuration: 3000 });
         }
+
       } catch (err) {
         console.error('Error loading screen data:', err);
         this.toastr.error('An error occurred while loading screen data', { nzDuration: 3000 });
@@ -300,30 +323,36 @@ export class PolicyMappingComponent implements OnInit {
     }
   }
   getDepartments() {
-    this.applicationService.getNestNewCommonAPI(`cp/Department`).subscribe({
+    const { jsonData, newGuid } = this.socketService.makeJsonData('Department', 'GetModelType');
+    this.socketService.Request(jsonData);
+    this.socketService.OnResponseMessage().subscribe({
       next: (res: any) => {
-        if (res.isSuccess) {
-          if (res.data.length > 0) {
-            this.departments = res.data;
-            this.departmentData = res.data?.map((data: any) => {
-              return {
-                label: data.name,
-                value: data.id
-              };
-            });
-            let header = {
-              label: 'Select Department',
-              value: 'selectDepartment'
+        if (res.parseddata.requestId == newGuid && res.parseddata.isSuccess) {
+          res = res.parseddata.apidata;
+          if (res.isSuccess) {
+            if (res.data.length > 0) {
+              this.departments = res.data;
+              this.departmentData = res.data?.map((data: any) => {
+                return {
+                  label: data.name,
+                  value: data.id
+                };
+              });
+              let header = {
+                label: 'Select Department',
+                value: 'selectDepartment'
+              }
+              this.departmentData.unshift(header)
             }
-            this.departmentData.unshift(header)
+            else {
+              this.departments = [];
+              this.departmentData = [];
+            }
           }
-          else {
-            this.departments = [];
-            this.departmentData = [];
-          }
+          else
+            this.toastr.error(res.message, { nzDuration: 3000 }); // Show an error message to the user
         }
-        else
-          this.toastr.error(res.message, { nzDuration: 3000 }); // Show an error message to the user
+
       },
       error: (err) => {
         console.error(err); // Log the error to the console
@@ -334,45 +363,55 @@ export class PolicyMappingComponent implements OnInit {
 
 
   getMenus(id: any) {
-    this.applicationService.getNestNewCommonAPIById(`cp/Menu`, id).subscribe(((res: any) => {
-      if (res.isSuccess) {
-        if (res.data.length > 0) {
-          this.applicationid = res.data[0].applicationid
-          const menuList = res.data[0].menudata?.json;
-          const booleanObject = {
-            creates: false,
-            reades: false,
-            updates: false,
-            deletes: false,
-          };
+    const { jsonData, newGuid } = this.socketService.makeJsonDataById('Menu', id, 'GetModelTypeById');
+    this.socketService.Request(jsonData);
+    this.socketService.OnResponseMessage().subscribe(((res: any) => {
+      if (res.parseddata.requestId == newGuid && res.parseddata.isSuccess) {
+        res = res.parseddata.apidata;
+        if (res.isSuccess) {
+          if (res.data.length > 0) {
+            this.applicationid = res.data[0].applicationid
+            const menuList = res.data[0].menudata?.json;
+            const booleanObject = {
+              creates: false,
+              reades: false,
+              updates: false,
+              deletes: false,
+            };
 
-          const newData = this.applyBooleanToArray(menuList, booleanObject);
-          console.log(newData);
-          this.applicationMenuList = newData;
-        } else {
-          this.toastr.warning('No menu againts this', { nzDuration: 3000 });
-        }
-      } else
-        this.toastr.error(res.message, { nzDuration: 3000 });
+            const newData = this.applyBooleanToArray(menuList, booleanObject);
+            console.log(newData);
+            this.applicationMenuList = newData;
+          } else {
+            this.toastr.warning('No menu againts this', { nzDuration: 3000 });
+          }
+        } else
+          this.toastr.error(res.message, { nzDuration: 3000 });
+      }
+
     }));
   }
   getActions(id: any) {
-    this.applicationService.getNestNewCommonAPIById(`cp/Actionss`, id).subscribe(((res: any) => {
-
-      if (res.isSuccess) {
-        if (res.data.length > 0) {
-          const actionList = res.data;
-          const booleanObject = {
-            isAllow: false,
-          };
-          const newData = this.applyActionBooleanToArray(actionList, booleanObject);
-          // console.log(newData);
-          this.actionList = newData;
-        } else {
-          this.toastr.warning('No menu againts this', { nzDuration: 3000 });
-        }
-      } else
-        this.toastr.error(res.message, { nzDuration: 3000 });
+    const { jsonData, newGuid } = this.socketService.makeJsonDataById('Actionss', id, 'GetModelTypeById');
+    this.socketService.Request(jsonData);
+    this.socketService.OnResponseMessage().subscribe(((res: any) => {
+      if (res.parseddata.requestId == newGuid && res.parseddata.isSuccess) {
+        res = res.parseddata.apidata;
+        if (res.isSuccess) {
+          if (res.data.length > 0) {
+            const actionList = res.data;
+            const booleanObject = {
+              isAllow: false,
+            };
+            const newData = this.applyActionBooleanToArray(actionList, booleanObject);
+            // console.log(newData);
+            this.actionList = newData;
+          } else {
+            this.toastr.warning('No menu againts this', { nzDuration: 3000 });
+          }
+        } else
+          this.toastr.error(res.message, { nzDuration: 3000 });
+      }
     }));
   }
   applyActionBooleanToArray(data: any[], booleanObject: any): any[] {
@@ -414,10 +453,12 @@ export class PolicyMappingComponent implements OnInit {
     }
 
     this.loading = true;
-
-    this.applicationService.getNestNewCommonAPIById(`cp/policymapping`, this.policyName)
-      .subscribe(
-        (res: any) => {
+    const { jsonData, newGuid } = this.socketService.makeJsonDataById('policymapping', this.policyName, 'GetModelTypeById');
+    this.socketService.Request(jsonData);
+    this.socketService.OnResponseMessage().subscribe(
+      (res: any) => {
+        if (res.parseddata.requestId == newGuid && res.parseddata.isSuccess) {
+          res = res.parseddata.apidata;
           this.loading = false;
           this.policyMenuList = [];
           this.flattenedArray = [];
@@ -430,14 +471,17 @@ export class PolicyMappingComponent implements OnInit {
             this.policyMenuList = nonRelationalData
           }
           this.updatedMenuList();
-        },
-        (error) => {
+        }
+        (error: any) => {
           // Handle HTTP errors or errors from the observable
           console.error("API error:", error);
           this.toastr.error("An error occurred while fetching data from the server", { nzDuration: 3000 });
           this.loading = false;
         }
-      );
+
+      }
+
+    );
   }
   updatedMenuList() {
     let updatedData = this.applicationMenuList;
@@ -515,15 +559,21 @@ export class PolicyMappingComponent implements OnInit {
       nzOnOk: () => {
         new Promise((resolve, reject) => {
           setTimeout(Math.random() > 0.5 ? resolve : reject, 100);
-          this.applicationService.deleteNestNewCommonAPI(`cp/policymapping`, this.policyName).subscribe(
+          const { jsonData, newGuid } = this.socketService.makeJsonDataById('policymapping', this.policyName, 'GetModelTypeById');
+          this.socketService.Request(jsonData);
+          this.socketService.OnResponseMessage().subscribe(
             {
-              next: (objTRes: any) => {
-                if (objTRes.isSuccess) {
-                  this.getPolicyMenu();
-                  this.toastr.success(objTRes.message, { nzDuration: 3000 });
-                } else {
-                  this.toastr.error(objTRes.message, { nzDuration: 3000 });
+              next: (res: any) => {
+                if (res.parseddata.requestId == newGuid && res.parseddata.isSuccess) {
+                  res = res.parseddata.apidata;
+                  if (res.isSuccess) {
+                    this.getPolicyMenu();
+                    this.toastr.success(res.message, { nzDuration: 3000 });
+                  } else {
+                    this.toastr.error(res.message, { nzDuration: 3000 });
+                  }
                 }
+
               },
               error: (err) => {
                 this.toastr.error(`${err.error.message}`, { nzDuration: 3000 });
