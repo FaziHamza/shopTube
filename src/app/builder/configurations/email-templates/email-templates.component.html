@@ -5,8 +5,11 @@
                 <div style="border: 1px solid rgb(197 187 187); border-radius: 5px; padding: 1%; position: relative;"
                     *ngFor="let field of emailFields.controls; let i = index" [formGroupName]="i" class="mb-4">
                     <div class="flex items-center mb-2">
-                        <input formControlName="name" class="!border !rounded !p-2 !block !w-full" nz-input
+                        <input nz-input nz-input
+                            [readonly]="defaultTemplates.includes(emailFields.at(i).get('name')?.value)"
+                            formControlName="name" class="!border !rounded !p-2 !block !w-full" nz-input
                             placeholder="Enter template name..." nzSize="default" />
+
                         <i *ngIf="emailFields.at(i).get('imagePath')?.value" class="ml-2 fas fa-eye text-blue-500"
                             (click)="imagePreview(emailFields.at(i).get('imagePath')?.value)"></i>
 
@@ -24,10 +27,14 @@
                         </nz-select>
                         <input [hidden]="true" formControlName="imagePath" class="!border !rounded !p-2 !block !w-full"
                             nz-input placeholder="Enter template name..." nzSize="default" />
-                        <button type="button" (click)="removeField(i)"
+                        <button
+                            [hidden]="defaultTemplates.includes(emailFields.at(i).get('name')?.value) ? true : false"
+                            type="button" (click)="removeField(i)"
                             class="!ml-4 !px-2 !py-1 !bg-red-500 !text-white rounded"><i
                                 class="fas fa-trash-alt"></i></button>
                     </div>
+                    <input nz-input nz-input formControlName="subject" class="!border !rounded !p-2 !block !w-full mb-2"
+                        nz-input placeholder="Enter Subject here..." nzSize="default" />
                     <textarea formControlName="emailtemplate" row="8" nz-input
                         class="!border !rounded !p-2 !w-full !max-h-60 !min-h-[100px]" placeholder="Paste code here..."
                         nzAutosize></textarea>
