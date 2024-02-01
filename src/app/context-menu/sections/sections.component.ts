@@ -513,7 +513,6 @@ export class SectionsComponent implements OnInit {
           RulepageSize = `${localStorage.getItem('tablePageSize') || 10}`;
         }
         this.saveLoader = true;
-        const applicationId = localStorage.getItem('applicationId') || '';
         // let savedGroupData = await this.dataService.getNodes(JSON.parse(applicationId), this.screenName, "Table");
         const { jsonData, RequestGuid } = this.socketService.metaInfoForGrid('GetPageExecuteRules', findClickApi?.id, this.mappingId, Rulepage, RulepageSize, data);
         this.socketService.Request(jsonData);

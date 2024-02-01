@@ -35,7 +35,6 @@ export class SocketService {
     this.socket = io(environment.websocketUrl, socketOptions)
   }
   setSocket() {
-    debugger
     // this.socket.disconnect();
     // const applicationId = this.getFromLocalStorage('applicationId');
     // const organizationId = this.getFromLocalStorage('organizationId');

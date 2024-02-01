@@ -1955,6 +1955,7 @@ export class PagesComponent implements OnInit, OnDestroy {
           next: (res) => {
             // this.dataSharedService.queryId = '';
             if (res.parseddata.requestId == RequestGuid && res.parseddata.isSuccess) {
+              res = res.parseddata.apidata;
               this.saveLoader = false;
               if (res) {
                 if (res?.data) {

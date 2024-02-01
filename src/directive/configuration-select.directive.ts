@@ -3,7 +3,7 @@ import { ApplicationService } from 'src/app/services/application.service';
 import { Observable, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { NzMessageService } from 'ng-zorro-antd/message';
-
+import { SocketService } from 'src/app/services/socket.service';
 @Directive({
   selector: '[appConfigurableSelect]'
 })
@@ -24,6 +24,7 @@ export class ConfigurableSelectDirective implements OnInit, OnDestroy {
     private el: ElementRef,
     private applicationService: ApplicationService,
     private toastr: NzMessageService,
+    private socketService: SocketService
   ) { }
 
   ngOnInit() {
@@ -58,56 +59,69 @@ export class ConfigurableSelectDirective implements OnInit, OnDestroy {
 
   private loadOptions(): void {
     if (this.loadAction && Object.keys(this.loadAction).length !== 0) {
-      if(this.loadAction?.id){
-        this.executeAction(this.loadAction)
-        .subscribe(
-          response => {
-            try {
-              if (response) {
-                if (!response?.isSuccess && response?.data?.length == 0) {
-                  this.toastr.error(response.message, { nzDuration: 3000 });
-                }
-                this.data = response;
-                // Process this.data
-                if (this.processData) {
-                  this.data = this.processData(this.data);
-                }
-                // this.viewContainer.clear();
+      if (this.loadAction?.id) {
+        const RequestGuid = this.executeAction(this.loadAction)
+        this.socketService.OnResponseMessage()
+          .subscribe(
+            response => {
+              try {
+                if (response.parseddata.requestId == RequestGuid && response.parseddata.isSuccess) {
+                  response = response.parseddata.apidata;
+                  if (response) {
+                    if (!response?.isSuccess && response?.data?.length == 0) {
+                      this.toastr.error(response.message, { nzDuration: 3000 });
+                    }
+                    this.data = response;
+                    // Process this.data
+                    if (this.processData) {
+                      this.data = this.processData(this.data);
+                    }
+                    // this.viewContainer.clear();
 
-                // this.viewContainer.createEmbeddedView(this.templateRef, { $implicit: this.data });
-              } else {
-                this.data = [];
-                if (this.processData) {
-                  this.data = this.processData(this.data);
+                    // this.viewContainer.createEmbeddedView(this.templateRef, { $implicit: this.data });
+                  } else {
+                    this.data = [];
+                    if (this.processData) {
+                      this.data = this.processData(this.data);
+                    }
+                  }
                 }
+
+              } catch (error) {
+                console.error("Error while processing response:", error);
+                // Handle the error appropriately (e.g., show error message, set default data, etc.)
               }
-            } catch (error) {
-              console.error("Error while processing response:", error);
-              // Handle the error appropriately (e.g., show error message, set default data, etc.)
+            },
+            error => {
+              console.error("API call failed:", error);
+              this.data = [];
+              if (this.processData) {
+                this.data = this.processData(this.data);
+              }
+              // Handle the API call error (e.g., show error message, set default data, etc.)
             }
-          },
-          error => {
-            console.error("API call failed:", error);
-            this.data = [];
-            if (this.processData) {
-              this.data = this.processData(this.data);
-            }
-            // Handle the API call error (e.g., show error message, set default data, etc.)
-          }
-        );
+          );
       }
-     
+
     }
   }
 
-  private executeAction(action: Action): Observable<any> {
+  private executeAction(action: Action): any {
     const { id, actionLink, data, headers, parentId, page, pageSize } = action;
-    let pagination = ''
-    if (page && pageSize){
-      pagination = `?page=${localStorage.getItem('tablePageNo') || 1}&pageSize=${localStorage.getItem('tablePageSize') || 10}` 
+    let pagination = ''; let Rulepage = ''; let RulepageSize = '';
+    if (page && pageSize) {
+      pagination = `?page=${localStorage.getItem('tablePageNo') || 1}&pageSize=${localStorage.getItem('tablePageSize') || 10}`
+      Rulepage = `${localStorage.getItem('tablePageNo') || 1}`;
+      RulepageSize = `${localStorage.getItem('tablePageSize') || 10}`;
     }
-    return this.applicationService.callApi(`knex-query/getexecute-rules/${id}${pagination}`, 'get', data, headers, parentId)
-      .pipe(takeUntil(this.unsubscribe$));
+
+    const { jsonData, RequestGuid } = this.socketService.metaInfoForGrid('GetPageExecuteRules',id, parentId, Rulepage, RulepageSize, data,  headers);
+    // return this.applicationService.callApi(`knex-query/getexecute-rules/${id}${pagination}`, 'get', data, headers, parentId)
+    //   .pipe(takeUntil(this.unsubscribe$));
+    //  const { jsonData, newGuid } = this.socketService.querymakeJsonData('GetPageExecuteRules','GetPageExecuteRules',dummyData);
+    console.log("Knex Query", jsonData)
+    this.socketService.Request(jsonData);
+    return RequestGuid;
   }
 
 }

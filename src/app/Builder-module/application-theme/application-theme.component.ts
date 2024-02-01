@@ -2,12 +2,13 @@ import { ChangeDetectorRef, Component, ElementRef, Input, NgZone, ViewChild } fr
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { htmlTabsData } from 'src/app/ControlList';
-import { ApplicationService } from 'src/app/services/application.service';
 import * as monaco from 'monaco-editor';
 import Ajv, { ErrorObject } from 'ajv';
 import { NzModalService } from 'ng-zorro-antd/modal';
+import { SocketService } from 'src/app/services/socket.service';
 import { Guid } from 'src/app/models/guid';
-import { environment } from 'src/environments/environment';
+import { ApplicationService } from 'src/app/services/application.service';
+
 
 @Component({
   selector: 'st-application-theme',
@@ -96,8 +97,10 @@ export class ApplicationThemeComponent {
       visible: false
     },
   ];
-  constructor(private fb: FormBuilder, private applicationService: ApplicationService, private toastr: NzMessageService,
-    private zone: NgZone, private cdRef: ChangeDetectorRef, private modal: NzModalService,
+  constructor(private fb: FormBuilder, private toastr: NzMessageService,
+    private zone: NgZone, private modal: NzModalService,
+    private socketService: SocketService,
+    private applicationService: ApplicationService
   ) {
     this.form = this.fb.group({
       applicationid: ['', Validators.required], // Application is required
@@ -129,8 +132,9 @@ export class ApplicationThemeComponent {
 
 
   save() {
-
     if (this.form.valid) {
+      var ResponseGuid: any;
+      const newGuid = Guid.new16DigitGuid();
       if (this.selectedTheme == this.form.value.themename) {
         if (this.editId == '') {
           if (this.listOfData.some(a => a.tag == this.form.value.tag)) {
@@ -148,34 +152,42 @@ export class ApplicationThemeComponent {
       const app = this.applicationList.find((a: any) => a.id === formValue.applicationid);
 
       // const classNamesArray = formValue.classes.split(/\s+/).filter(Boolean);
-      const tableValue = `applicationtheme`;
-
       const obj = {
-        [tableValue]: {
-          ...formValue,
-          name: formValue.name,
-          tag: formValue.tag,
-          applicationname: app?.name,
-          classes: formValue?.classes,
-          themename: formValue?.themename,
-          controlname: formValue?.name,
-        }
+        ...formValue,
+        name: formValue.name,
+        tag: formValue.tag,
+        applicationname: app?.name,
+        classes: formValue?.classes,
+        themename: formValue?.themename,
+        controlname: formValue?.name,
       };
 
+      if (this.editId == '') {
+        const { newGuid, metainfocreate } = this.socketService.metainfocreate();
+        ResponseGuid = newGuid;
+        const Add = { [`applicationtheme`]: obj, metaInfo: metainfocreate }
+        this.socketService.Request(Add);
+      } else {
+        const { newUGuid, metainfoupdate } = this.socketService.metainfoupdate(this.editId);
+        ResponseGuid = newUGuid;
+        const Update = { [`applicationtheme`]: obj, metaInfo: metainfoupdate };
+        this.socketService.Request(Update)
+      }
+
       this.loader = true;
-      const checkPolicyAndProceed = this.editId == ''
-        ? this.applicationService.addNestNewCommonAPI('cp', obj)
-        : this.applicationService.updateNestNewCommonAPI(`cp/applicationtheme`, this.editId, obj);
-      checkPolicyAndProceed.subscribe({
-        next: (objTRes: any) => {
-          this.loader = false;
-          if (objTRes.isSuccess) {
-            this.editId = '';
-            this.form.reset();
-            this.searchByTheme();
-            this.getThemeList();
-          } else {
-            this.toastr.error(objTRes.message, { nzDuration: 3000 });
+      this.socketService.OnResponseMessage().subscribe({
+        next: (res: any) => {
+          if (res.parseddata.requestId == newGuid && res.parseddata.isSuccess) {
+            res = res.parseddata.apidata;
+            this.loader = false;
+            if (res.isSuccess) {
+              this.editId = '';
+              this.form.reset();
+              this.searchByTheme();
+              this.getThemeList();
+            } else {
+              this.toastr.error(res.message, { nzDuration: 3000 });
+            }
           }
         },
         error: (err) => {
@@ -191,35 +203,65 @@ export class ApplicationThemeComponent {
 
   getApplicationTheme() {
     this.loader = true;
-    this.applicationService.getNestNewCommonAPI(`cp/applicationTheme`).subscribe(((res: any) => {
-      this.loader = false;
-      if (res.isSuccess) {
-        this.listOfData = res.data;
-        this.listOfDisplayData = res.data;
-        this.onPageIndexChange(1);
-      } else
-        this.toastr.warning(res.message, { nzDuration: 2000 });
-    }));
+    const { jsonData, newGuid } = this.socketService.makeJsonData('applicationTheme', 'GetModelType');
+    this.socketService.Request(jsonData);
+    this.socketService.OnResponseMessage().subscribe({
+      next: (res: any) => {
+        console.log(res)
+        if (res.parseddata.requestId == newGuid && res.parseddata.isSuccess) {
+          res = res.parseddata.apidata;
+          this.loader = false;
+          if (res.isSuccess) {
+            this.listOfData = res.data;
+            this.listOfDisplayData = res.data;
+            this.onPageIndexChange(1);
+          } else
+            this.toastr.warning(res.message, { nzDuration: 2000 });
+        }
+      },
+      error: () => {
+        this.loader = false;
+        this.toastr.error('some error exception', { nzDuration: 2000 });
+      },
+    });
   }
   getThemeList() {
-    this.loader = true;
-    this.applicationService.getNestNewCommonAPI(`cp/applicationTheme`).subscribe(((res: any) => {
-      this.loader = false;
-      if (res.isSuccess) {
-        this.themeList = res?.data;
-      } else
-        this.toastr.warning(res.message, { nzDuration: 2000 });
-    }));
+    const { jsonData, newGuid } = this.socketService.makeJsonData('applicationTheme', 'GetModelType');
+    this.socketService.Request(jsonData);
+    this.socketService.OnResponseMessage().subscribe({
+      next: (res: any) => {
+        console.log(res)
+        if (res.parseddata.requestId == newGuid && res.parseddata.isSuccess) {
+          res = res.parseddata.apidata;
+          if (res.isSuccess) {
+            this.themeList = res?.data;
+          } else
+            this.toastr.warning(res.message, { nzDuration: 2000 });
+        }
+      },
+      error: () => {
+        this.loader = false;
+        this.toastr.error('some error exception', { nzDuration: 2000 });
+      },
+    });
   }
   delete(id: any) {
     this.loader = true;
-    this.applicationService.deleteNestNewCommonAPI(`cp/applicationtheme`, id).subscribe(((res: any) => {
-      this.loader = false;
-      if (res.isSuccess) {
-        this.searchByTheme();
-      } else
-        this.toastr.warning(res.message, { nzDuration: 2000 });
-    }));
+    var ResponseGuid: any;
+    const { jsonData, newGuid } = this.socketService.deleteModelType('applicationtheme', id);
+    ResponseGuid = newGuid;
+    this.socketService.Request(jsonData);
+    this.socketService.OnResponseMessage()
+      .subscribe((res: any) => {
+        if (res.parseddata.requestId == ResponseGuid && res.parseddata.isSuccess) {
+          this.loader = false;
+          res = res.parseddata.apidata;
+          if (res.isSuccess) {
+            this.searchByTheme();
+          } else
+            this.toastr.error(res.message, { nzDuration: 2000 });
+        }
+      });
   }
   edit(data: any) {
     this.editId = data.id;
@@ -557,15 +599,25 @@ export class ApplicationThemeComponent {
       themename: this.selectedTheme,
     });
     if (this.selectedTheme) {
-      this.applicationService.getNestNewCommonAPIById(`cp/applicationtheme`, this.selectedTheme).subscribe(((res: any) => {
-        this.loader = false;
-        if (res.isSuccess) {
-          this.listOfData = res.data;
-          this.listOfDisplayData = res.data;
-          this.onPageIndexChange(1);
-        } else
-          this.toastr.warning(res.message, { nzDuration: 2000 });
-      }));
+      const { jsonData, newGuid } = this.socketService.makeJsonDataById('applicationtheme', this.selectedTheme, 'GetModelTypeById');
+      this.socketService.Request(jsonData);
+      this.socketService.OnResponseMessage().subscribe({
+        next: (res: any) => {
+          if (res.parseddata.requestId == newGuid && res.parseddata.isSuccess) {
+            this.loader = false;
+            if (res.isSuccess) {
+              this.listOfData = res.data;
+              this.listOfDisplayData = res.data;
+              this.onPageIndexChange(1);
+            } else
+              this.toastr.warning(res.message, { nzDuration: 2000 });
+          }
+        },
+        error: (err) => {
+          this.loader = false;
+          this.toastr.error("An error occurred", { nzDuration: 3000 });
+        }
+      });
     } else {
       this.loader = false;
       this.toastr.warning('Please select theme', { nzDuration: 2000 });
