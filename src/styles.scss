@@ -383,6 +383,11 @@ textarea {
     height: 46px !important;
   }
 
+  nz-select-top-control {
+    height: 46px !important;
+  }
+  
+
   // box-shadow: rgba(0, 0, 0, 0.15) 2.4px 2.4px 3.2px;
 
   // formly-vertical-theme-wrapper {
@@ -692,7 +697,7 @@ textarea {
 
   @media screen and (min-width: 1400px) {
     .ant-select .ant-select-selector {
-      height: 47px !important;
+      height: 46px !important;
     }
   }
 
