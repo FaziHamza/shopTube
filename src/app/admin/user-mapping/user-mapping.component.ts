@@ -1,10 +1,7 @@
 import { Component } from '@angular/core';
 import { NzMessageService } from 'ng-zorro-antd/message';
-import { ApplicationService } from 'src/app/services/application.service';
-import { BuilderService } from 'src/app/services/builder.service';
 import { DataSharedService } from 'src/app/services/data-shared.service';
-import { forkJoin } from 'rxjs';
-import { environment } from 'src/environments/environment';
+import { SocketService } from 'src/app/services/socket.service';
 
 @Component({
   selector: 'st-user-mapping',
@@ -52,10 +49,9 @@ export class UserMappingComponent {
     },
   ];
   constructor(
-    public builderService: BuilderService,
-    private applicationService: ApplicationService,
     public dataSharedService: DataSharedService,
     private toastr: NzMessageService,
+    private socketService: SocketService,
   ) {
   }
   ngOnInit(): void {
@@ -67,19 +63,38 @@ export class UserMappingComponent {
   jsonModuleList() {
     this.loader = true;
 
-    forkJoin([
-      this.applicationService.getNestNewCommonAPI(`cp/Policy`),
-      this.applicationService.getNestNewCommonAPI(`cp/users`),
-    ]).subscribe({
-      next: ([policyRes, userRes]) => {
-        this.loader = false;
+    const { jsonData, newGuid } = this.socketService.makeJsonData('Policy', 'GetModelType');
+    this.socketService.Request(jsonData);
+    this.socketService.OnResponseMessage().subscribe({
+      next: (res) => {
+        if (res.parseddata.requestId == newGuid && res.parseddata.isSuccess) {
+          res = res.parseddata.apidata;
+          this.loader = false;
 
-        if (policyRes.isSuccess) {
-          this.policyList = policyRes?.data;
+          if (res.isSuccess) {
+            this.policyList = res?.data;
+          }
         }
+      },
+      error: (err) => {
+        this.loader = false;
+        this.toastr.error('An error occurred', { nzDuration: 3000 });
+      },
+    });
+    this.getUserList();
+  }
+  getUserList() {
+    const { jsonData, newGuid } = this.socketService.makeJsonData('users', 'GetModelType');
+    this.socketService.Request(jsonData);
+    this.socketService.OnResponseMessage().subscribe({
+      next: (res) => {
+        if (res.parseddata.requestId == newGuid && res.parseddata.isSuccess) {
+          res = res.parseddata.apidata;
+          this.loader = false;
 
-        if (userRes.isSuccess) {
-          this.userList = userRes?.data;
+          if (res.isSuccess) {
+            this.userList = res?.data;
+          }
         }
       },
       error: (err) => {
@@ -88,18 +103,22 @@ export class UserMappingComponent {
       },
     });
   }
-
   loadUserData() {
 
     this.loader = true;
-    this.applicationService.getNestNewCommonAPI(`cp/UserMapping`).subscribe({
+    const { jsonData, newGuid } = this.socketService.makeJsonData('UserMapping', 'GetModelType');
+    this.socketService.Request(jsonData);
+    this.socketService.OnResponseMessage().subscribe({
       next: (res: any) => {
-        this.loader = false;
-        if (res.isSuccess) {
-          if (res?.data.length > 0) {
-            res.data = [...res.data].reverse();
-            this.listOfData = res.data;
-            this.handlePageChange(1);
+        if (res.parseddata.requestId == newGuid && res.parseddata.isSuccess) {
+          res = res.parseddata.apidata;
+          this.loader = false;
+          if (res.isSuccess) {
+            if (res?.data.length > 0) {
+              res.data = [...res.data].reverse();
+              this.listOfData = res.data;
+              this.handlePageChange(1);
+            }
           }
         }
       },
@@ -156,34 +175,45 @@ export class UserMappingComponent {
       //     return;
       //   }
       // }
-      const tableValue = `UserMapping`;
       let obj = {
-        [tableValue]: {
-          policyId: this.policyName,
-          userId: this.userName,
-          defaultPolicy: this.defaultPolicy,
-          applicationId: this.dataSharedService.decryptedValue('applicationId'),
-        }
+        policyId: this.policyName,
+        userId: this.userName,
+        defaultPolicy: this.defaultPolicy,
+        applicationId: this.dataSharedService.decryptedValue('applicationId'),
       }
-      this.loader = true;
-      const checkPolicyAndProceed = this.isSubmit
-        ? this.applicationService.addNestNewCommonAPI('cp', obj)
-        : this.applicationService.updateNestNewCommonAPI(`cp/UserMapping`, this.editId, obj);
-      checkPolicyAndProceed.subscribe({
-        next: (objTRes: any) => {
-          this.loader = false;
-          if (objTRes.isSuccess) {
-            this.loadUserData();
-            this.policyName = "";
-            this.userName = "";
-            this.defaultPolicy = false;
-            this.toastr.success(objTRes.message, { nzDuration: 3000 });
-            if (!this.isSubmit) {
-              this.isSubmit = true;
+      var ResponseGuid: any;
+      if (this.isSubmit) {
+        const { newGuid, metainfocreate } = this.socketService.metainfocreate();
+        ResponseGuid = newGuid;
+        const Add = { [`UserMapping`]: obj, metaInfo: metainfocreate }
+        this.socketService.Request(Add);
+      }
+      else {
+        const { newUGuid, metainfoupdate } = this.socketService.metainfoupdate(this.editId);
+        ResponseGuid = newUGuid;
+        const Update = { [`UserMapping`]: obj, metaInfo: metainfoupdate };
+        this.socketService.Request(Update)
+      }
+      this.loading = true;
+      this.socketService.OnResponseMessage().subscribe({
+        next: (res: any) => {
+          if (res.parseddata.requestId == ResponseGuid && res.parseddata.isSuccess) {
+            res = res.parseddata.apidata;
+            this.loader = false;
+            if (res.isSuccess) {
+              this.loadUserData();
+              this.policyName = "";
+              this.userName = "";
+              this.defaultPolicy = false;
+              this.toastr.success(res.message, { nzDuration: 3000 });
+              if (!this.isSubmit) {
+                this.isSubmit = true;
+              }
+            } else {
+              this.toastr.error(res.message, { nzDuration: 3000 });
             }
-          } else {
-            this.toastr.error(objTRes.message, { nzDuration: 3000 });
           }
+
         },
         error: (err) => {
           this.loader = false;
@@ -202,13 +232,18 @@ export class UserMappingComponent {
   }
   deleteRow(id: any): void {
     this.loader = true;
-    this.applicationService.deleteNestNewCommonAPI(`cp/UserMapping`, id).subscribe({
+    const { jsonData, newGuid } = this.socketService.deleteModelType('UserMapping', id);
+    this.socketService.Request(jsonData);
+    this.socketService.OnResponseMessage().subscribe({
       next: (res: any) => {
-        this.loading = false;
-        if (res.isSuccess) {
-          this.loadUserData();
-          this.toastr.success(`UserMapping: ${res.message}`, { nzDuration: 2000, });
-        } else this.toastr.error(`UserMapping: ${res.message}`, { nzDuration: 2000, });
+        if (res.parseddata.requestId == newGuid && res.parseddata.isSuccess) {
+          res = res.parseddata.apidata;
+          this.loading = false;
+          if (res.isSuccess) {
+            this.loadUserData();
+            this.toastr.success(`UserMapping: ${res.message}`, { nzDuration: 2000, });
+          } else this.toastr.error(`UserMapping: ${res.message}`, { nzDuration: 2000, });
+        }
       },
       error: (err) => {
         this.loading = false;

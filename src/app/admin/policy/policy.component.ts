@@ -192,7 +192,6 @@ export class PolicyComponent implements OnInit {
           if (res.parseddata.requestId == ResponseGuid && res.parseddata.isSuccess) {
             res = res.parseddata.apidata;
             if (res.isSuccess) {
-
               this.isVisible = false;
               this.jsonPolicyModuleList();
               const message = this.isSubmit ? 'Save' : 'Update';
@@ -205,7 +204,6 @@ export class PolicyComponent implements OnInit {
               this.toastr.error(res.message, { nzDuration: 3000 });
             }
           }
-        
         },
         error: (err) => {
           this.toastr.error(`${err.error.message}`, { nzDuration: 3000 });
@@ -220,15 +218,19 @@ export class PolicyComponent implements OnInit {
     this.isSubmit = false;
   }
   deleteRow(id: any): void {
-    this.applicationService
-      .deleteNestNewCommonAPI(`cp/Policy`, id)
-      .subscribe((res: any) => {
+    const { jsonData, newGuid } = this.socketService.deleteModelType('Policy', id);
+
+    this.socketService.Request(jsonData);
+    this.socketService.OnResponseMessage().subscribe((res: any) => {
+      if (res.parseddata.requestId == newGuid && res.parseddata.isSuccess) {
+        res = res.parseddata.apidata
         if (res.isSuccess) {
           this.jsonPolicyModuleList();
           this.handlePageChange(1);
           this.toastr.success(`Policy: ${res.message}`, { nzDuration: 2000, });
         } else this.toastr.error(`Policy: ${res.message}`, { nzDuration: 2000, });
-      });
+      }
+    });
   }
   downloadJson() {
     let obj = Object.assign({}, this.jsonPolicyModule);
@@ -331,32 +333,43 @@ export class PolicyComponent implements OnInit {
   }
 
   getTheme() {
-    this.applicationService.getNestNewCommonAPI(`cp/MenuTheme`).subscribe({
+    const { jsonData, newGuid } = this.socketService.makeJsonData('MenuTheme', 'GetModelType');
+    this.socketService.Request(jsonData);
+    this.socketService.OnResponseMessage().subscribe({
       next: (res) => {
-        if (res.isSuccess) {
-          this.themeList = res.data.map((item: any) => ({
-            label: item.name,
-            value: item.id
-          }));
-          this.loadPolicyListFields();
-        } else
-          this.toastr.error(res.message, { nzDuration: 3000 });
+        if (res.parseddata.requestId == newGuid && res.parseddata.isSuccess) {
+          res = res.parseddata.apidata;
+          if (res.isSuccess) {
+            this.themeList = res.data.map((item: any) => ({
+              label: item.name,
+              value: item.id
+            }));
+            this.loadPolicyListFields();
+          } else
+            this.toastr.error(res.message, { nzDuration: 3000 });
+        }
+
       }, error: (error) => {
         this.toastr.error(JSON.stringify(error), { nzDuration: 3000 });
       }
     });
   }
   getApplicationTheme() {
-    this.applicationService.getNestNewCommonAPI(`cp/applicationTheme`).subscribe({
+    const { jsonData, newGuid } = this.socketService.makeJsonData('applicationTheme', 'GetModelType');
+    this.socketService.Request(jsonData);
+    this.socketService.OnResponseMessage().subscribe({
       next: (res) => {
-        if (res.isSuccess) {
-          this.applicationThemeList = res.data.map((item: any) => ({
-            label: item.name,
-            value: item.id
-          }));
-          this.loadPolicyListFields();
-        } else
-          this.toastr.error(res.message, { nzDuration: 3000 });
+        if (res.parseddata.requestId == newGuid && res.parseddata.isSuccess) {
+          res = res.parseddata.apidata;
+          if (res.isSuccess) {
+            this.applicationThemeList = res.data.map((item: any) => ({
+              label: item.name,
+              value: item.id
+            }));
+            this.loadPolicyListFields();
+          } else
+            this.toastr.error(res.message, { nzDuration: 3000 });
+        }
       }, error: (error) => {
         this.toastr.error(JSON.stringify(error), { nzDuration: 3000 });
       }

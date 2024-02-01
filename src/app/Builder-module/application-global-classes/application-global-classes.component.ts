@@ -4,6 +4,7 @@ import { NzMessageService } from 'ng-zorro-antd/message';
 import { NzModalService } from 'ng-zorro-antd/modal';
 import { ApplicationService } from 'src/app/services/application.service';
 import { DataSharedService } from 'src/app/services/data-shared.service';
+import { SocketService } from 'src/app/services/socket.service';
 import { environment } from 'src/environments/environment';
 
 @Component({
@@ -51,7 +52,7 @@ export class ApplicationGlobalClassesComponent {
       visible: false
     },
   ];
-  constructor(private fb: FormBuilder, private applicationService: ApplicationService, private toastr: NzMessageService, private modal: NzModalService,
+  constructor(private fb: FormBuilder, private socketService: SocketService, private toastr: NzMessageService, private modal: NzModalService,
     public dataSharedService: DataSharedService,
   ) {
     this.form = this.fb.group({
@@ -73,27 +74,41 @@ export class ApplicationGlobalClassesComponent {
         return;
       }
       const formValue = this.form.value;
-        const tableValue = `applicationGlobalClass`;
-        const obj = {
+      const tableValue = `applicationGlobalClass`;
+      const obj = {
         [tableValue]: {
           ...formValue,
           'applicationid': this.dataSharedService.decryptedValue('applicationId')
         }
       };
+      var ResponseGuid: any;
+      if (this.editId == '') {
+        const { newGuid, metainfocreate } = this.socketService.metainfocreate();
+        ResponseGuid = newGuid;
+        const Add = { [`applicationGlobalClass`]: formValue, metaInfo: metainfocreate }
+        this.socketService.Request(Add);
+      }
+      else {
+        const { newUGuid, metainfoupdate } = this.socketService.metainfoupdate(this.editId);
+        ResponseGuid = newUGuid;
+        const Update = { [`applicationGlobalClass`]: formValue, metaInfo: metainfoupdate };
+        this.socketService.Request(Update)
+      }
       this.loader = true;
-      const checkPolicyAndProceed = this.editId == ''
-        ? this.applicationService.addNestNewCommonAPI('cp', obj)
-        : this.applicationService.updateNestNewCommonAPI(`cp/applicationGlobalClass`, this.editId, obj);
-      checkPolicyAndProceed.subscribe({
-        next: (objTRes: any) => {
-          this.loader = false;
-          if (objTRes.isSuccess) {
-            this.editId = '';
-            this.form.reset();
-            this.getcontrols();
-          } else {
-            this.toastr.error(objTRes.message, { nzDuration: 3000 });
+      this.socketService.OnResponseMessage().subscribe({
+        next: (res: any) => {
+          if (res.parseddata.requestId == ResponseGuid && res.parseddata.isSuccess) {
+            res = res.parseddata.apidata;
+            this.loader = false;
+            if (res.isSuccess) {
+              this.editId = '';
+              this.form.reset();
+              this.getcontrols();
+            } else {
+              this.toastr.error(res.message, { nzDuration: 3000 });
+            }
           }
+
         },
         error: (err) => {
           this.loader = false;
@@ -107,16 +122,21 @@ export class ApplicationGlobalClassesComponent {
   }
   getcontrols() {
     this.loader = true;
-    this.applicationService.getNestNewCommonAPI(`cp/applicationGlobalClass`).subscribe(((res: any) => {
-      this.loader = false;
-      if (res.isSuccess) {
-        if (res.data.length > 0) {
-          this.listOfData = res.data;
-          this.listOfDisplayData = res.data;
-          this.onPageIndexChange(1);
-        }
-      } else
-        this.toastr.warning(res.message, { nzDuration: 2000 });
+    const { jsonData, newGuid } = this.socketService.makeJsonData('applicationGlobalClass', 'GetModelType');
+    this.socketService.Request(jsonData);
+    this.socketService.OnResponseMessage().subscribe(((res: any) => {
+      if (res.parseddata.requestId == newGuid && res.parseddata.isSuccess) {
+        res = res.parseddata.apidata;
+        this.loader = false;
+        if (res.isSuccess) {
+          if (res.data.length > 0) {
+            this.listOfData = res.data;
+            this.listOfDisplayData = res.data;
+            this.onPageIndexChange(1);
+          }
+        } else
+          this.toastr.warning(res.message, { nzDuration: 2000 });
+      }
     }));
   }
   searchValue(event: any, column: any): void {
@@ -167,12 +187,17 @@ export class ApplicationGlobalClassesComponent {
   delete(id: any) {
     this.loader = true;
     this.reset();
-    this.applicationService.deleteNestNewCommonAPI(`cp/applicationGlobalClass`, id).subscribe(((res: any) => {
-      this.loader = false;
-      if (res.isSuccess) {
-        this.getcontrols();
-      } else
-        this.toastr.warning(res.message, { nzDuration: 2000 });
+    const { jsonData, newGuid } = this.socketService.deleteModelType('applicationGlobalClass', id);
+    this.socketService.Request(jsonData);
+    this.socketService.OnResponseMessage().subscribe(((res: any) => {
+      if (res.parseddata.requestId == newGuid && res.parseddata.isSuccess) {
+        res = res.parseddata.apidata;
+        this.loader = false;
+        if (res.isSuccess) {
+          this.getcontrols();
+        } else
+          this.toastr.warning(res.message, { nzDuration: 2000 });
+      }
     }));
   }
   edit(data: any) {

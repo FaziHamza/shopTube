@@ -5,6 +5,7 @@ import { NzModalService } from 'ng-zorro-antd/modal';
 import { NzDrawerService } from 'ng-zorro-antd/drawer';
 import { RegisterComponent } from '../register/register.component';
 import { environment } from 'src/environments/environment';
+import { SocketService } from 'src/app/services/socket.service';
 
 
 @Component({
@@ -19,6 +20,7 @@ export class UserComponent {
     private toastr: NzMessageService,
     private modal: NzModalService,
     private drawerService: NzDrawerService,
+    private socketService: SocketService
   ) { }
   ngOnInit(): void {
     this.getUsers()
@@ -56,17 +58,22 @@ export class UserComponent {
   ];
   getUsers() {
     this.loading = true;
-    this.applicationService.getNestNewCommonAPI(`cp/users`).subscribe({
+    const { jsonData, newGuid } = this.socketService.makeJsonData('users', 'GetModelType');
+    this.socketService.Request(jsonData);
+    this.socketService.OnResponseMessage().subscribe({
       next: (res: any) => {
-        if (res.isSuccess) {
-          this.listOfData = res.data;
-          this.listOfDisplayData = res.data;
-          this.handlePageChange(1);
+        if (res.parseddata.requestId == newGuid && res.parseddata.isSuccess) {
+          this.loading = false;
+          res = res.parseddata.apidata;
+          if (res.isSuccess) {
+            this.listOfData = res.data;
+            this.listOfDisplayData = res.data;
+            this.handlePageChange(1);
+          }
+          else {
+            this.toastr.error(res.message, { nzDuration: 2000 });
+          }
         }
-        else {
-          this.toastr.error(res.message, { nzDuration: 2000 });
-        }
-        this.loading = false;
       },
       error: (err) => {
         this.loading = false;
@@ -93,16 +100,23 @@ export class UserComponent {
     const obj = {
       [tableValue]: data
     }
-    this.applicationService.updateNestNewCommonAPI(`cp/users`, data.id, obj).subscribe({
+    const { newUGuid, metainfoupdate } = this.socketService.metainfoupdate(data.id);
+    const Update = { [`users`]: obj, metaInfo: metainfoupdate };
+    this.socketService.Request(Update);
+    this.socketService.OnResponseMessage().subscribe({
       next: (res: any) => {
-        if (res.isSuccess) {
-          // this.listOfData = res.data;
-          this.getUsers();
+        if (res.parseddata.requestId == newUGuid && res.parseddata.isSuccess) {
+          res = res.parseddata.apidata;
+          if (res.isSuccess) {
+            // this.listOfData = res.data;
+            this.getUsers();
+          }
+          else {
+            this.toastr.error(res.message, { nzDuration: 2000 });
+          }
+          this.loading = false;
         }
-        else {
-          this.toastr.error(res.message, { nzDuration: 2000 });
-        }
-        this.loading = false;
+
       },
       error: (err) => {
         this.loading = false;
@@ -112,15 +126,21 @@ export class UserComponent {
   }
   delete(data: any) {
     this.loading = true;
-    this.applicationService.deleteNestNewCommonAPI(`cp/users`, data.id).subscribe({
+    const { jsonData, newGuid } = this.socketService.deleteModelType('users', data.id);
+    this.socketService.Request(jsonData);
+    this.socketService.OnResponseMessage().subscribe({
       next: (res: any) => {
-        this.loading = false;
-        if (res.isSuccess) {
-          this.getUsers();
+        if (res.parseddata.requestId == newGuid && res.parseddata.isSuccess) {
+          res = res.parseddata.apidata
+          this.loading = false;
+          if (res.isSuccess) {
+            this.getUsers();
+          }
+          else {
+            this.toastr.error(res.message, { nzDuration: 2000 });
+          }
         }
-        else {
-          this.toastr.error(res.message, { nzDuration: 2000 });
-        }
+
       },
       error: (err) => {
         this.loading = false;

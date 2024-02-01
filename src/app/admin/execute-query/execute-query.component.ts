@@ -5,6 +5,7 @@ import * as monaco from 'monaco-editor';
 import Ajv, { ErrorObject } from 'ajv';
 import { Subscription } from 'rxjs';
 import { NzMessageService } from 'ng-zorro-antd/message';
+import { SocketService } from 'src/app/services/socket.service';
 
 @Component({
   selector: 'st-execute-query',
@@ -17,7 +18,7 @@ export class ExecuteQueryComponent implements OnInit, AfterViewInit {
   saveLoader: boolean = false;
   queryRes: string;
 
-  constructor(private applicationService: ApplicationService,
+  constructor(private socketService: SocketService,
     private toastr: NzMessageService, private cdRef: ChangeDetectorRef, private zone: NgZone) {
     this.editorOptions = new JsonEditorOptions();
   }
@@ -53,16 +54,24 @@ export class ExecuteQueryComponent implements OnInit, AfterViewInit {
       [tableValue]: objQuery
     }
     this.saveLoader = true;
-    this.applicationService.addNestNewCommonAPI(`cp`, tableModel).subscribe({
-      next: (objRes) => {
-        this.saveLoader = false;
-        if (objRes.isSuccess) {
-          this.toastr.success("Query execute successfull", { nzDuration: 3000 });
-          this.queryRes = objRes.data;
-        } else {
-          console.log(objRes.message);
-          this.toastr.error(objRes.message, { nzDuration: 3000 });
+    const { newGuid, metainfocreate } = this.socketService.metainfocreate();
+    const Add = { [`query`]: query, metaInfo: metainfocreate }
+    this.socketService.Request(Add);
+
+    this.socketService.OnResponseMessage().subscribe({
+      next: (res) => {
+        if (res.parseddata.requestId == newGuid && res.parseddata.isSuccess) {
+          res = res.parseddata.apidata;
+          this.saveLoader = false;
+          if (res.isSuccess) {
+            this.toastr.success("Query execute successfull", { nzDuration: 3000 });
+            this.queryRes = res.data;
+          } else {
+            console.log(res.message);
+            this.toastr.error(res.message, { nzDuration: 3000 });
+          }
         }
+
       },
       error: (err) => {
         this.saveLoader = false;
