@@ -84,6 +84,7 @@ export class UserMappingComponent {
     this.getUserList();
   }
   getUserList() {
+    this.loader = false;
     const { jsonData, newGuid } = this.socketService.makeJsonData('users', 'GetModelType');
     this.socketService.Request(jsonData);
     this.socketService.OnResponseMessage().subscribe({
@@ -104,18 +105,17 @@ export class UserMappingComponent {
     });
   }
   loadUserData() {
-
-    this.loader = true;
+    this.loading = true;
     const { jsonData, newGuid } = this.socketService.makeJsonData('UserMapping', 'GetModelType');
     this.socketService.Request(jsonData);
     this.socketService.OnResponseMessage().subscribe({
       next: (res: any) => {
         if (res.parseddata.requestId == newGuid && res.parseddata.isSuccess) {
           res = res.parseddata.apidata;
-          this.loader = false;
+          this.loading = false;
           if (res.isSuccess) {
             if (res?.data.length > 0) {
-              res.data = [...res.data].reverse();
+              // res.data = [...res.data].reverse();
               this.listOfData = res.data;
               this.handlePageChange(1);
             }
@@ -123,7 +123,7 @@ export class UserMappingComponent {
         }
       },
       error: (err) => {
-        this.loader = false;
+        this.loading = false;
         this.toastr.error(`Policy : An error occured`, { nzDuration: 3000 });
       },
     });
@@ -199,7 +199,7 @@ export class UserMappingComponent {
         next: (res: any) => {
           if (res.parseddata.requestId == ResponseGuid && res.parseddata.isSuccess) {
             res = res.parseddata.apidata;
-            this.loader = false;
+            this.loading = false;
             if (res.isSuccess) {
               this.loadUserData();
               this.policyName = "";
@@ -231,7 +231,7 @@ export class UserMappingComponent {
     this.isSubmit = false;
   }
   deleteRow(id: any): void {
-    this.loader = true;
+    this.loading = true;
     const { jsonData, newGuid } = this.socketService.deleteModelType('UserMapping', id);
     this.socketService.Request(jsonData);
     this.socketService.OnResponseMessage().subscribe({

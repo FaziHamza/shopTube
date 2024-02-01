@@ -168,22 +168,17 @@ export class PolicyComponent implements OnInit {
         menuThemeId: this.form.value.menuthemeid,
         applicationTheme: this.form.value.applicationtheme
       };
-      const tableValue = `Policy`;
-
-      const PolicyModel = {
-        [tableValue]: obj,
-      };
       var ResponseGuid: any;
       if (this.isSubmit) {
         const { newGuid, metainfocreate } = this.socketService.metainfocreate();
         ResponseGuid = newGuid;
-        const Add = { [`Policy`]: this.form.value, metaInfo: metainfocreate }
+        const Add = { [`Policy`]: obj, metaInfo: metainfocreate }
         this.socketService.Request(Add);
       }
       else {
         const { newUGuid, metainfoupdate } = this.socketService.metainfoupdate(this.model.id);
         ResponseGuid = newUGuid;
-        const Update = { [`Policy`]: this.form.value, metaInfo: metainfoupdate };
+        const Update = { [`Policy`]: obj, metaInfo: metainfoupdate };
         this.socketService.Request(Update)
       }
 

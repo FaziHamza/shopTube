@@ -2,12 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { NzCascaderOption } from 'ng-zorro-antd/cascader';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { NzModalService } from 'ng-zorro-antd/modal';
-import { ApplicationService } from 'src/app/services/application.service';
-import { BuilderService } from 'src/app/services/builder.service';
 import { DataSharedService } from 'src/app/services/data-shared.service';
 import { SocketService } from 'src/app/services/socket.service';
-import { environment } from 'src/environments/environment';
-
+import { from } from 'rxjs';
 @Component({
   selector: 'st-policy-mapping',
   templateUrl: './policy-mapping.component.html',
@@ -293,9 +290,12 @@ export class PolicyMappingComponent implements OnInit {
       try {
         const { jsonData, newGuid } = this.socketService.makeJsonDataById('Application', node.value, 'GetModelTypeById');
         this.socketService.Request(jsonData);
-        let res = await this.socketService.OnResponseMessage().toPromise();
-        if (res.parseddata.requestId == newGuid && res.parseddata.isSuccess) {
-          res = res.parseddata.apidata;
+      
+        const response = await from(this.socketService.OnResponseMessage())
+          .toPromise();
+      
+        if (response.parseddata.requestId == newGuid && response.parseddata.isSuccess) {
+          const res = response.parseddata.apidata;
           if (res.isSuccess) {
             this.applications = res.data;
             const applications = res.data.map((appData: any) => {
@@ -308,14 +308,13 @@ export class PolicyMappingComponent implements OnInit {
             let header = {
               label: 'Select Application',
               value: 'selectApplication'
-            }
-            applications.unshift(header)
+            };
+            applications.unshift(header);
             node.children = applications;
           } else {
             this.toastr.error(res.message, { nzDuration: 3000 });
           }
         }
-
       } catch (err) {
         console.error('Error loading screen data:', err);
         this.toastr.error('An error occurred while loading screen data', { nzDuration: 3000 });

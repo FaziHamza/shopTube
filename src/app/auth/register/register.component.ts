@@ -81,6 +81,7 @@ export class RegisterComponent implements OnInit {
     this.socketService.OnResponseMessage().subscribe({
       next: (res: any) => {
         if (res.parseddata.requestId == newGuid && res.parseddata.isSuccess) {
+          res = res.parseddata.apidata;
           if (res.isSuccess) {
             this.applications = res.data?.[0];
           }

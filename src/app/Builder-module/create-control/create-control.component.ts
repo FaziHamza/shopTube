@@ -63,23 +63,17 @@ export class CreateControlComponent {
         this.toastr.warning('Already exist this name exist', { nzDuration: 3000 });
         return;
       }
-      const formValue = this.form.value;
-      const obj = {
-        controls: {
-          ...formValue,
-        }
-      };
       var ResponseGuid: any;
       if (this.editId == '') {
         const { newGuid, metainfocreate } = this.socketService.metainfocreate();
         ResponseGuid = newGuid;
-        const Add = { [`controls`]: formValue, metaInfo: metainfocreate }
+        const Add = { [`controls`]: this.form.value, metaInfo: metainfocreate }
         this.socketService.Request(Add);
       }
       else {
         const { newUGuid, metainfoupdate } = this.socketService.metainfoupdate(this.editId);
         ResponseGuid = newUGuid;
-        const Update = { [`controls`]: formValue, metaInfo: metainfoupdate };
+        const Update = { [`controls`]: this.form.value, metaInfo: metainfoupdate };
         this.socketService.Request(Update)
       }
       this.loader = true;

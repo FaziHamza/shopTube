@@ -96,12 +96,8 @@ export class UserComponent {
   saveEdit(data: any) {
     this.edit = null;
     this.loading = true;
-    const tableValue = `users`;
-    const obj = {
-      [tableValue]: data
-    }
     const { newUGuid, metainfoupdate } = this.socketService.metainfoupdate(data.id);
-    const Update = { [`users`]: obj, metaInfo: metainfoupdate };
+    const Update = { [`users`]: data, metaInfo: metainfoupdate };
     this.socketService.Request(Update);
     this.socketService.OnResponseMessage().subscribe({
       next: (res: any) => {
