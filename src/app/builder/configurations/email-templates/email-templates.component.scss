@@ -1,12 +1,26 @@
+input[type=file] {
+    position: relative;
+}
+
 input[type=file]::file-selector-button {
     background: blue !important;
+    // position: absolute !important;
+    // top: 2px !important;
+    // bottom: 2px !important;
+    // // height: auto !important;
 }
 
 input[type=file]::file-selector-button:hover {
     background: rgb(49, 49, 255) !important;
 }
 
+input[type=file]::file-placeholder {
+    color: red !important;
+}
 
-input , nz-select , nz-select-top-control{
+
+input,
+nz-select,
+nz-select-top-control {
     height: 36px !important;
 }

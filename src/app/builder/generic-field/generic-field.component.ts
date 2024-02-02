@@ -147,7 +147,7 @@ debugger
         this.requestSubscription = this.applicationService.getNestCommonAPI(obj.mapApi).subscribe({
           next: (res) => {
             this.saveLoader = false;
-            if (res?.data.length > 0) {
+            if (res?.data!=undefined) {
               this.saveLoader = false;
               this.resData = res.data;
               this.itemData.mappingNode['dbData'] = res.data;
