@@ -2450,8 +2450,9 @@ export class PagesComponent implements OnInit, OnDestroy {
                                     }
                                   }
                                 }
-                                this.formlyModel = newModel;
-                                this.form.patchValue(this.formlyModel);
+                                this.formlyModel = {};
+                                this.formlyModel = JSON.parse(JSON.stringify(newModel));
+                                // this.form.patchValue(this.formlyModel);
                               }
                             }
 

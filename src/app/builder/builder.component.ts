@@ -7646,7 +7646,7 @@ export class BuilderComponent implements OnInit {
           }
         }
         else {
-          this.toastr.error(res.message, { nzDuration: 3000 }); // Show an error message to the user
+          // this.toastr.error(res.message, { nzDuration: 3000 }); // Show an error message to the user
           this.saveLoader = false;
         }
       },

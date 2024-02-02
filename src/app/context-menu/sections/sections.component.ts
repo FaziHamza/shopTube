@@ -287,13 +287,19 @@ export class SectionsComponent implements OnInit {
                 if (res?.[0]) {
                   tableName = res[0].tableName ? res[0].tableName.split('.')[1].split('_')[0] : '';
                 }
-                if (window.location.href.includes('addcustomclearanceFsy')) {
+                if (window.location.href.includes('addcustomclearanceFsy') || 'addpif') {
                   this.router.navigate(['/pages/' + data.saveRouteLink]).then(() => {
                     // Reload the entire application to re-render all components
                     this.location.replaceState('/pages/' + data.saveRouteLink);
                     window.location.reload();
                   });
                 } else {
+                  let tableData = this.findObjectByTypeBase(this.sections, "gridList");
+                  this.tempTableData = [];
+                  tableData.tableData = [];
+                  tableData.data = [];
+                  tableData.targetId = '';
+                  tableData.displayData = []
                   this.router.navigate(['/pages/' + data.saveRouteLink]);
                 }
                 return;
