@@ -1,13 +1,11 @@
-import { BuilderService } from './../../../services/builder.service';
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { Subscription, catchError, forkJoin, of } from 'rxjs';
 import { DataSharedService } from 'src/app/services/data-shared.service';
 import { EmployeeService } from 'src/app/services/employee.service';
-import { ApplicationService } from 'src/app/services/application.service';
 import { environment } from 'src/environments/environment';
-import { required } from 'joi';
+import { SocketService } from 'src/app/services/socket.service';
 
 
 @Component({
@@ -53,10 +51,12 @@ export class ActionRuleComponent implements OnInit {
   emailToOptions: any[] = [];
   emailNameOptions: any = [];
   screenOptions: any = [];
-  constructor(private formBuilder: FormBuilder, private builderService: BuilderService,
+  constructor(private formBuilder: FormBuilder,
     private employeeService: EmployeeService,
     public dataSharedService: DataSharedService, private toastr: NzMessageService,
-    private applicationService: ApplicationService) { }
+    public socketService: SocketService,
+
+  ) { }
 
   ngOnInit(): void {
     // this.getPendingTableFileds();
@@ -440,7 +440,7 @@ export class ActionRuleComponent implements OnInit {
 
 
   SaveAction() {
-    if(!this.ActionsForms.valid){
+    if (!this.ActionsForms.valid) {
       this.toastr.error("Action Name is required", { nzDuration: 3000 });
       return
     }
@@ -497,25 +497,34 @@ export class ActionRuleComponent implements OnInit {
       actionListData.push(actionData);
     });
     this.saveLoader = true;
-    this.applicationService.addNestNewCommonAPI(`cp/deleteAction/Actions/` + mainModuleId[0].id, actionListData).subscribe({
-      next: (allResults: any) => {
-        if (allResults) {
-          // Save successful, now call getActionData
+    const { newGuid, metainfocreate } = this.socketService.metainfoDynamic(`ManageActionCrud`,'Actions',mainModuleId[0].id);
+    var ResponseGuid: any= newGuid;
+    const Add = { [`dataobject`]: actionListData, metaInfo: metainfocreate }
+    this.socketService.Request(Add);
+    this.socketService.OnResponseMessage().subscribe({
+      next: (res: any) => {
+        if (res.parseddata.requestId == ResponseGuid && res.parseddata.isSuccess) {
+          res = res.parseddata.apidata;
           this.saveLoader = false;
-          setTimeout(() => {
-            // Your code to be executed after the delay
-            // this.getActionData();
-            console.log('Delayed code executed after 2000 milliseconds');
-          }, 1000);
-          this.toastr.success("Actions Save Successfully", { nzDuration: 3000 });
+          if (res.isSuccess) {
+            if (res.data.length > 0) {
+              setTimeout(() => {
+                // Your code to be executed after the delay
+                this.getActionData();
+              }, 1000);
+            }
+          }
+          else {
+            this.toastr.error(`Actions:` + res.message, { nzDuration: 3000 });
+          }
         }
       },
       error: (err) => {
         this.saveLoader = false;
         console.error(err);
-        this.toastr.error("Actions: An error occurred", { nzDuration: 3000 });
+        this.toastr.error(`Actions: ${err}`, { nzDuration: 3000 });
       }
-    });
+    })
   }
 
 
@@ -525,53 +534,53 @@ export class ActionRuleComponent implements OnInit {
     const selectedScreen = this.screens.filter((a: any) => a.name == this.screenname)
     if (selectedScreen[0].navigation != null && selectedScreen[0].navigation != undefined) { // selectedScreen[0].navigation
       this.saveLoader = true;
-      this.requestSubscription = this.applicationService.getNestNewCommonAPIById(`cp/Actions`, selectedScreen[0].id).subscribe({
+      const { jsonData, newGuid } = this.socketService.makeJsonDataById('Actions', selectedScreen[0].id, 'GetModelTypeById');
+      this.socketService.Request(jsonData);
+      this.socketService.OnResponseMessage().subscribe({
         next: (res: any) => {
-          this.saveLoader = false;
-          if (res.isSuccess) {
-            // this.toastr.success(`Action : Success => ${JSON.stringify(res.data)}`)
-          }
-          if (res.data && res.data.length > 0) {
-            // console.warn(`Length : ${res.data.length}`)
-            const getRes = res.data;
-            if (getRes.length > 0) {
-              // console.warn(`Get Result Length : ${res.data.length}`)
-              this.screenActions = getRes;
-              this.actionForm = this.formBuilder.group({
-                elementName: [getRes[0].elementname],
-                elementNameTo: [getRes[0]?.elementnameto],
-                actionType: [getRes[0].actiontype],
-                actionLink: [getRes[0].actionlink],
-                submissionType: [getRes[0].btnactiontype],
-                Actions: this.formBuilder.array(getRes.map((getQueryActionRes: any) =>
-                  this.formBuilder.group({
-                    id: [getQueryActionRes.id],
-                    submit: [getQueryActionRes.submit],
-                    type: [getQueryActionRes.type],
-                    sqlType: [getQueryActionRes.sqltype],
-                    actionType: [getQueryActionRes.actiontype],
-                    elementName: [getQueryActionRes.elementname],
-                    elementNameTo: [getQueryActionRes?.elementnameto],
-                    actionLink: [getQueryActionRes.actionlink],
-                    submissionType: [getQueryActionRes.btnactiontype],
-                    email: [getQueryActionRes.email],
-                    confirmEmail: [getQueryActionRes.confirmemail],
-                    referenceId: [getQueryActionRes.referenceid],
-                    query: [getQueryActionRes.quries],
-                    httpAddress: [getQueryActionRes.httpaddress],
-                    contentType: [getQueryActionRes.contenttype],
-                    emailto: getQueryActionRes?.emailto ? [JSON.parse(getQueryActionRes?.emailto)] : [],
-                    emailtype: [getQueryActionRes?.emailtype],
-                    pagelink: [getQueryActionRes?.pagelink],
-                    pagetype: [getQueryActionRes?.pagetype],
-                    emailbulkindividual: [getQueryActionRes?.emailbulkindividual],
-                    emailtemplate: [getQueryActionRes?.emailtemplate],
-                    emailsendingtype: [getQueryActionRes?.emailsendingtype],
-                    emailfrom: [getQueryActionRes?.emailfrom],
-                  })
-                )),
-              })
-              console.log(this.actionForm.value)
+          if (res.parseddata.requestId == newGuid && res.parseddata.isSuccess) {
+            res = res.parseddata.apidata;
+            this.saveLoader = false;
+            if (res.data && res.data.length > 0) {
+              const getRes = res.data;
+              if (getRes.length > 0) {
+                this.screenActions = getRes;
+                this.actionForm = this.formBuilder.group({
+                  elementName: [getRes[0].elementname],
+                  elementNameTo: [getRes[0]?.elementnameto],
+                  actionType: [getRes[0].actiontype],
+                  actionLink: [getRes[0].actionlink],
+                  submissionType: [getRes[0].btnactiontype],
+                  Actions: this.formBuilder.array(getRes.map((getQueryActionRes: any) =>
+                    this.formBuilder.group({
+                      id: [getQueryActionRes.id],
+                      submit: [getQueryActionRes.submit],
+                      type: [getQueryActionRes.type],
+                      sqlType: [getQueryActionRes.sqltype],
+                      actionType: [getQueryActionRes.actiontype],
+                      elementName: [getQueryActionRes.elementname],
+                      elementNameTo: [getQueryActionRes?.elementnameto],
+                      actionLink: [getQueryActionRes.actionlink],
+                      submissionType: [getQueryActionRes.btnactiontype],
+                      email: [getQueryActionRes.email],
+                      confirmEmail: [getQueryActionRes.confirmemail],
+                      referenceId: [getQueryActionRes.referenceid],
+                      query: [getQueryActionRes.quries],
+                      httpAddress: [getQueryActionRes.httpaddress],
+                      contentType: [getQueryActionRes.contenttype],
+                      emailto: getQueryActionRes?.emailto ? [JSON.parse(getQueryActionRes?.emailto)] : [],
+                      emailtype: [getQueryActionRes?.emailtype],
+                      pagelink: [getQueryActionRes?.pagelink],
+                      pagetype: [getQueryActionRes?.pagetype],
+                      emailbulkindividual: [getQueryActionRes?.emailbulkindividual],
+                      emailtemplate: [getQueryActionRes?.emailtemplate],
+                      emailsendingtype: [getQueryActionRes?.emailsendingtype],
+                      emailfrom: [getQueryActionRes?.emailfrom],
+                    })
+                  )),
+                })
+                console.log(this.actionForm.value)
+              }
             }
           }
         },
@@ -692,36 +701,50 @@ export class ActionRuleComponent implements OnInit {
   // }
   getEmailTemplates() {
     this.saveLoader = true;
-    this.applicationService.getNestNewCommonAPI('cp/emailtemplates').subscribe((getRes: any) => {
-      if (getRes.isSuccess) {
-        this.saveLoader = false;
-        if (getRes.data.length > 0) {
-          this.emailNameOptions = getRes.data.map((res: any) => ({
-            label: res.name,
-            value: res.id,
-          }));
+    const { jsonData, newGuid } = this.socketService.makeJsonData('emailtemplates', 'GetModelType');
+    this.socketService.Request(jsonData);
+    this.socketService.OnResponseMessage().subscribe({
+      next: (res: any) => {
+        if (res.parseddata.requestId == newGuid && res.parseddata.isSuccess) {
+          res = res.parseddata.apidata;
+          this.saveLoader = false;
+          if (res.isSuccess && res.data.length > 0) {
+            this.emailNameOptions = res.data.map((res: any) => ({
+              label: res.name,
+              value: res.id,
+            }));
+          } else {
+            this.toastr.error(res.message, { nzDuration: 3000 });
+          }
         }
+      },
+      error: (err) => {
+        console.error(err);
+        this.saveLoader = false;
       }
     });
   }
   getScreens() {
-
     this.saveLoader = true;
-    this.applicationService.getNestNewCommonAPI(`cp/ScreenBuilder`).subscribe({
+    const { jsonData, newGuid } = this.socketService.makeJsonData('ScreenBuilder', 'GetModelType');
+    this.socketService.Request(jsonData);
+    this.socketService.OnResponseMessage().subscribe({
       next: (res: any) => {
-        this.saveLoader = false;
-        if (res.isSuccess && res?.data.length > 0) {
-          this.toastr.success(`Screen : ${res.message}`, { nzDuration: 3000 });
-          this.screenOptions = res.data.map((res: any) => ({
-            label: res.name,
-            value: `pages/${res.navigation}`,
-          }));
+        if (res.parseddata.requestId == newGuid && res.parseddata.isSuccess) {
+          res = res.parseddata.apidata;
+          this.saveLoader = false;
+          if (res.isSuccess && res?.data.length > 0) {
+            this.screenOptions = res.data.map((res: any) => ({
+              label: res.name,
+              value: `pages/${res.navigation}`,
+            }));
+          }
         }
       },
       error: (err) => {
-        this.toastr.error(`Screen : An error occured`, { nzDuration: 3000 });
+        console.error(err);
         this.saveLoader = false;
-      },
+      }
     });
   }
 }

@@ -7,7 +7,8 @@ import { BuilderService } from 'src/app/services/builder.service';
 import * as jsonpatch from 'fast-json-patch';
 import { Operation } from 'fast-json-patch';
 import { diff, Config, DiffPatcher, formatters, Delta } from "jsondiffpatch";
-import { environment } from 'src/environments/environment';
+import { SocketService } from 'src/app/services/socket.service';
+
 
 @Component({
   selector: 'st-uirule',
@@ -29,8 +30,9 @@ export class UIRuleComponent implements OnInit {
   public editorOptions: JsonEditorOptions;
   makeOptions = () => new JsonEditorOptions();
   private jsondiffpatch = new DiffPatcher();
-  constructor(private formBuilder: FormBuilder, private builderService: BuilderService,
-    private applicationService: ApplicationService, private toastr: NzMessageService,) {
+  constructor(private formBuilder: FormBuilder,
+    public socketService: SocketService,
+    private toastr: NzMessageService,) {
     this.editorOptions = new JsonEditorOptions();
   }
   nodesData: any[] = [];
@@ -490,26 +492,36 @@ export class UIRuleComponent implements OnInit {
         "uiData": JSON.stringify(ruleData),
         "patchOperations": JSON.stringify(updatepatchOperations)
       }
-      const tableValue = `UiRule`;
-      const uiModel = {
-        [tableValue]: jsonUIResult
-      }
       if (jsonUIResult != null) {
-        const checkAndProcess = this.uiRuleId == ''
-          ? this.applicationService.addNestNewCommonAPI('cp', uiModel)
-          : this.applicationService.updateNestNewCommonAPI(`cp/UiRule`, this.uiRuleId, uiModel);
-        checkAndProcess.subscribe({
+        var ResponseGuid: any;
+        if (this.uiRuleId == '') {
+          const { newGuid, metainfocreate } = this.socketService.metainfocreate();
+          ResponseGuid = newGuid;
+          const Add = { [`UiRule`]: jsonUIResult, metaInfo: metainfocreate }
+          this.socketService.Request(Add);
+        } else {
+          const { newUGuid, metainfoupdate } = this.socketService.metainfoupdate(this.uiRuleId);
+          ResponseGuid = newUGuid;
+          const Update = { [`UiRule`]: jsonUIResult, metaInfo: metainfoupdate };
+          this.socketService.Request(Update)
+        }
+
+        this.socketService.OnResponseMessage().subscribe({
           next: (res: any) => {
-            this.saveLoader = false;
-            if (res.isSuccess) {
-              this.toastr.success(res.message, { nzDuration: 3000 }); // Show an error message to the user
-              this.uiRule();
-              this.ruleNotify.emit(true);
-              this.screenData = [];
-              this.screenData = jsonUIResult;
-              this.checkConditionUIRule({ key: 'text_f53ed35b', id: 'formly_86_input_text_f53ed35b_0' }, '');
-            } else
-              this.toastr.error(res.message, { nzDuration: 3000 }); // Show an error message to the user
+            if (res.parseddata.requestId == ResponseGuid && res.parseddata.isSuccess) {
+              res = res.parseddata.apidata;
+              this.saveLoader = false;
+              if (res.isSuccess) {
+                this.toastr.success(res.message, { nzDuration: 3000 }); // Show an error message to the user
+                this.uiRule();
+                this.ruleNotify.emit(true);
+                this.screenData = [];
+                this.screenData = jsonUIResult;
+                this.checkConditionUIRule({ key: 'text_f53ed35b', id: 'formly_86_input_text_f53ed35b_0' }, '');
+              } else
+                this.toastr.error(res.message, { nzDuration: 3000 }); // Show an error message to the user
+            }
+
           },
           error: (err) => {
             this.saveLoader = false;
@@ -596,101 +608,112 @@ export class UIRuleComponent implements OnInit {
     this.ifMenuName = this.ifMenuList;
     this.targetList = sectionData;
     // this.changeIf();
-
-    this.applicationService.getNestNewCommonAPIById(`cp/UiRule`, this.screenId).subscribe((getRes: any) => {
-      this.saveLoader = false;
-      if (getRes.isSuccess) {
-        if (getRes.data.length > 0) {
-          this.uiRuleId = getRes.data[0].id;
-          this.responseData = JSON.parse(JSON.stringify(getRes.data));
-          let parseData = getRes.data[0].uidata.json;
-          let newData = JSON.parse(JSON.stringify(this.nodes))
-          parseData.forEach((rule: any) => {
-            if (rule.targetCondition.length > 0) {
-              rule.targetCondition.forEach((ruleChild: any) => {
-                let findObj = this.findObjectByKey(newData[0], ruleChild.targetName);
-                ruleChild['inputJsonData'] = findObj ? findObj : {};
-              })
-            }
-          });
-          let originalData = JSON.parse(JSON.stringify({ uiData: parseData }));
-          let objUiData = getRes.data[0].patchoperations?.json ? jsonpatch.applyPatch(originalData, getRes.data[0].patchoperations?.json).newDocument : parseData;
-          objUiData = objUiData.uiData ? objUiData.uiData : objUiData;
-          this.responseData[0].uidata = objUiData;
-
-          objUiData.forEach((rule: any) => {
-            if (rule.targetCondition.length > 0) {
-              rule.targetCondition.forEach((ruleChild: any) => {
-                let findObj = this.findObjectByKey(newData[0], ruleChild.targetName);
-                if (findObj) {
-                  const diff: any = this.jsondiffpatch.diff(findObj, ruleChild['inputJsonData']);
-                  ruleChild['diff'] = diff;
+    const { jsonData, newGuid } = this.socketService.makeJsonDataById('UiRule', this.screenId, 'GetModelTypeById');
+    this.socketService.Request(jsonData);
+    this.socketService.OnResponseMessage().subscribe({
+      next: (getRes: any) => {
+        if (getRes.parseddata.requestId == newGuid && getRes.parseddata.isSuccess) {
+          getRes = getRes.parseddata.apidata;
+          this.saveLoader = false;
+          if (getRes.isSuccess) {
+            if (getRes.data.length > 0) {
+              this.uiRuleId = getRes.data[0].id;
+              this.responseData = JSON.parse(JSON.stringify(getRes.data));
+              let parseData = getRes.data[0].uidata.json;
+              let newData = JSON.parse(JSON.stringify(this.nodes))
+              parseData.forEach((rule: any) => {
+                if (rule.targetCondition.length > 0) {
+                  rule.targetCondition.forEach((ruleChild: any) => {
+                    let findObj = this.findObjectByKey(newData[0], ruleChild.targetName);
+                    ruleChild['inputJsonData'] = findObj ? findObj : {};
+                  })
                 }
-              })
-            }
-            else {
-              let findObj = this.findObjectByKey(newData[0], rule.targetName);
-              if (findObj) {
-                const diff: any = this.jsondiffpatch.diff(findObj, rule['inputJsonData']);
-                rule['diff'] = diff;
-              }
-            }
-          });
+              });
+              let originalData = JSON.parse(JSON.stringify({ uiData: parseData }));
+              let objUiData = getRes.data[0].patchoperations?.json ? jsonpatch.applyPatch(originalData, getRes.data[0].patchoperations?.json).newDocument : parseData;
+              objUiData = objUiData.uiData ? objUiData.uiData : objUiData;
+              this.responseData[0].uidata = objUiData;
 
-          this.uiRuleForm = this.formBuilder.group({
-            uiRules: this.formBuilder.array(
-              objUiData.map((getUIRes: any, uiIndex: number) =>
-                this.formBuilder.group({
-                  ifMenuName: [getUIRes.ifMenuName],
-                  condationList: [this.getConditionListOnLoad(getUIRes.ifMenuName)],
-                  condationName: [getUIRes.condationName],
-                  actionType: [getUIRes?.actionType],
-                  targetValue: [getUIRes.targetValue],
-                  conditonType: [getUIRes.conditonType],
-                  targetIfValue: this.formBuilder.array(getUIRes.targetIfValue.map((getIFRes: any, ifIndex: number) =>
+              objUiData.forEach((rule: any) => {
+                if (rule.targetCondition.length > 0) {
+                  rule.targetCondition.forEach((ruleChild: any) => {
+                    let findObj = this.findObjectByKey(newData[0], ruleChild.targetName);
+                    if (findObj) {
+                      const diff: any = this.jsondiffpatch.diff(findObj, ruleChild['inputJsonData']);
+                      ruleChild['diff'] = diff;
+                    }
+                  })
+                }
+                else {
+                  let findObj = this.findObjectByKey(newData[0], rule.targetName);
+                  if (findObj) {
+                    const diff: any = this.jsondiffpatch.diff(findObj, rule['inputJsonData']);
+                    rule['diff'] = diff;
+                  }
+                }
+              });
+
+              this.uiRuleForm = this.formBuilder.group({
+                uiRules: this.formBuilder.array(
+                  objUiData.map((getUIRes: any, uiIndex: number) =>
                     this.formBuilder.group({
-                      ifMenuName: [getIFRes.ifMenuName],
-                      condationList: [this.getConditionListOnLoad(getIFRes.ifMenuName)],
-                      condationName: [getIFRes.condationName],
-                      actionType: [getIFRes.actionType],
-                      targetValue: [getIFRes.targetValue],
-                      conditonType: [getIFRes.conditonType]
-                    }))),
-                  targetCondition: this.formBuilder.array(getUIRes.targetCondition.map((getTargetRes: any) =>
-                    this.formBuilder.group({
-                      targetValue: [getTargetRes.targetValue],
-                      targetName: [getTargetRes.targetName],
-                      formattingName: [getTargetRes.formattingName],
-                      inputJsonData: [getTargetRes.inputJsonData],
-                      inputOldJsonData: [getTargetRes.inputOldJsonData],
-                      diff: [getTargetRes?.diff],
-                      changeData: getTargetRes.changeData
+                      ifMenuName: [getUIRes.ifMenuName],
+                      condationList: [this.getConditionListOnLoad(getUIRes.ifMenuName)],
+                      condationName: [getUIRes.condationName],
+                      actionType: [getUIRes?.actionType],
+                      targetValue: [getUIRes.targetValue],
+                      conditonType: [getUIRes.conditonType],
+                      targetIfValue: this.formBuilder.array(getUIRes.targetIfValue.map((getIFRes: any, ifIndex: number) =>
+                        this.formBuilder.group({
+                          ifMenuName: [getIFRes.ifMenuName],
+                          condationList: [this.getConditionListOnLoad(getIFRes.ifMenuName)],
+                          condationName: [getIFRes.condationName],
+                          actionType: [getIFRes.actionType],
+                          targetValue: [getIFRes.targetValue],
+                          conditonType: [getIFRes.conditonType]
+                        }))),
+                      targetCondition: this.formBuilder.array(getUIRes.targetCondition.map((getTargetRes: any) =>
+                        this.formBuilder.group({
+                          targetValue: [getTargetRes.targetValue],
+                          targetName: [getTargetRes.targetName],
+                          formattingName: [getTargetRes.formattingName],
+                          inputJsonData: [getTargetRes.inputJsonData],
+                          inputOldJsonData: [getTargetRes.inputOldJsonData],
+                          diff: [getTargetRes?.diff],
+                          changeData: getTargetRes.changeData
+                        })
+                      )),
                     })
-                  )),
-                })
-              )
-            )
-          });
-          // setTimeout(() => {
-          //   objUiData.forEach((rule: any, uiIndex: number) => {
-          //     if (rule.targetCondition.length > 0) {
-          //       rule.targetCondition.forEach((ruleChild: any, index: number) => {
-          //         let findObj = this.findObjectByKey(newData[0], ruleChild.targetName);
-          //         if (findObj) {
-          //           const jsondiffpatch = require('jsondiffpatch');
-          //           const appDiv: any = document.getElementById(`app${uiIndex}diff${index}`);
-          //           const diff: any = jsondiffpatch.diff(findObj, ruleChild['inputJsonData']);
-          //           appDiv.innerHTML = jsondiffpatch.formatters.html.format(diff, this.invoice1);
-          //           jsondiffpatch.formatters.html.hideUnchanged();
-          //         }
-          //       })
-          //     }
-          //   });
-          // }, 200);
+                  )
+                )
+              });
+              // setTimeout(() => {
+              //   objUiData.forEach((rule: any, uiIndex: number) => {
+              //     if (rule.targetCondition.length > 0) {
+              //       rule.targetCondition.forEach((ruleChild: any, index: number) => {
+              //         let findObj = this.findObjectByKey(newData[0], ruleChild.targetName);
+              //         if (findObj) {
+              //           const jsondiffpatch = require('jsondiffpatch');
+              //           const appDiv: any = document.getElementById(`app${uiIndex}diff${index}`);
+              //           const diff: any = jsondiffpatch.diff(findObj, ruleChild['inputJsonData']);
+              //           appDiv.innerHTML = jsondiffpatch.formatters.html.format(diff, this.invoice1);
+              //           jsondiffpatch.formatters.html.hideUnchanged();
+              //         }
+              //       })
+              //     }
+              //   });
+              // }, 200);
 
+            }
+          } else
+            this.toastr.error(getRes.message, { nzDuration: 3000 });
         }
-      } else
-        this.toastr.error(getRes.message, { nzDuration: 3000 });
+      },
+      error: (err) => {
+        console.error(err);
+        this.saveLoader = false;
+      }
+
     });
   }
   getConditionListOnLoad(menuName: string) {
@@ -750,22 +773,28 @@ export class UIRuleComponent implements OnInit {
   }
 
   deleteUiRule() {
-    if (this.uiRuleId != '')
-      this.applicationService.deleteNestNewCommonAPI(`cp/UiRule`, this.uiRuleId).subscribe({
+    if (this.uiRuleId != '') {
+      const { jsonData, newGuid } = this.socketService.deleteModelType('UiRule', this.uiRuleId);
+      this.socketService.Request(jsonData);
+      this.socketService.OnResponseMessage().subscribe({
         next: (res: any) => {
-          if (res.isSuccess) {
-            this.uiRuleId = '';
-            this.uiRuleFormInitilize();
-            this.uiRule();
-            this.toastr.success(res.message, { nzDuration: 3000 }); // Show an error message to the user
+          if (res.parseddata.requestId == newGuid && res.parseddata.isSuccess) {
+            res = res.parseddata.apidata;
+            if (res.isSuccess) {
+              this.uiRuleId = '';
+              this.uiRuleFormInitilize();
+              this.uiRule();
+              this.toastr.success(res.message, { nzDuration: 3000 }); // Show an error message to the user
+            }
+            else
+              this.toastr.success(res.message, { nzDuration: 3000 }); // Show an error message to the user
           }
-          else
-            this.toastr.success(res.message, { nzDuration: 3000 }); // Show an error message to the user
         },
         error: (err) => {
           this.toastr.error("An error occurred", { nzDuration: 3000 }); // Show an error message to the user
         }
       });
+    }
     else
       this.uiRuleFormInitilize();
   }

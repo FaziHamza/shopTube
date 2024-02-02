@@ -636,7 +636,7 @@ export class BuilderComponent implements OnInit {
               this.isSavedDb = true;
               // this.moduleId = res[0].moduleId;
               // this.formlyModel = {};
-  
+
               let objscreendata = this.jsonParseWithObject(this.jsonStringifyWithObject(objScreenData));
               this.applyTheme(objscreendata[0], false)
               if (this.actionRuleList && this.actionRuleList.length > 0) {
@@ -677,7 +677,7 @@ export class BuilderComponent implements OnInit {
                     }
                   });
                 }
-  
+
                 let checkFirst: any = {};
                 for (let index = 0; index < this.actionRuleList.length; index++) {
                   const element = this.actionRuleList[index];
@@ -711,8 +711,8 @@ export class BuilderComponent implements OnInit {
               }
               else
                 this.nodes = objscreendata;
-  
-  
+
+
               // if (!this.nodes[0].isLeaf) {
               //   this.addOrRemoveisLeaf(this.nodes[0]);
               // }
@@ -721,7 +721,7 @@ export class BuilderComponent implements OnInit {
               this.saveLoader = false;
               // this.getFromQuery(res.data[0].navigation, 'get');
               // if (res[0].menuData[0].children[1]) {
-  
+
               //   // this.uiRuleGetData(res[0].moduleId);
               //   // this.uiGridRuleGetData(res[0].moduleId);
               // }
@@ -734,7 +734,7 @@ export class BuilderComponent implements OnInit {
               this.dataSharedService.screenCommentList.forEach(element => {
                 this.assignIssue(this.nodes[0], element);
               });
-  
+
             }
             else {
               // this.navigation = 0;
@@ -802,7 +802,7 @@ export class BuilderComponent implements OnInit {
             this.saveLoader = false;
           }
         }
-        
+
       },
       error: (err) => {
         console.error(err); // Log the error to the console
@@ -4928,24 +4928,25 @@ export class BuilderComponent implements OnInit {
           //   [tableValue]: JOIData
           // }
           // const checkAndProcess = this.validationRuleId == ''
-          const tableValue = `ValidationRule`;
+          // const tableValue = `ValidationRule`;
           var ResponseGuid: any;
           if (!event.form.id) {
             const { newGuid, metainfocreate } = this.socketService.metainfocreate();
             ResponseGuid = newGuid;
-            const Add = { [tableValue]: JOIData, metaInfo: metainfocreate }
+            const Add = { [`ValidationRule`]: JOIData, metaInfo: metainfocreate }
             this.socketService.Request(Add);
           }
           else {
             const { newUGuid, metainfoupdate } = this.socketService.metainfoupdate(event.form.id);
             ResponseGuid = newUGuid;
-            const Update = { [tableValue]: JOIData, metaInfo: metainfoupdate };
+            const Update = { [`ValidationRule`]: JOIData, metaInfo: metainfoupdate };
             this.socketService.Request(Update)
           }
 
           this.socketService.OnResponseMessage().subscribe({
             next: (res: any) => {
               if (res.parseddata.requestId == ResponseGuid && res.parseddata.isSuccess) {
+                res = res.parseddata.apidata;
                 if (res.isSuccess) {
                   this.getJoiValidation(this.id);
                   this.toastr.success(`Valiadation Rule : ${res.message}`, { nzDuration: 3000 });

@@ -13,9 +13,9 @@ export class SocketService {
   private socket: Socket;
   constructor() {
     const token = localStorage.getItem('authToken');
-    if (token){
+    if (token) {
       this.setSocket();
-    }else{
+    } else {
       this.authSocket();
     }
   }
@@ -123,6 +123,17 @@ export class SocketService {
     const metainfocreate = {
       actiontag: 'CreateModelType',
       RequestId: newGuid
+    }
+    return { newGuid, metainfocreate };
+
+  }
+  metainfoDynamic(tag: any,modelType?:string,screenbuilderid?:string) {
+    const newGuid = Guid.new16DigitGuid();
+    const metainfocreate = {
+      actiontag: tag,
+      RequestId: newGuid,
+      screenbuilderid:screenbuilderid,
+      modelType:modelType,
     }
     return { newGuid, metainfocreate };
 

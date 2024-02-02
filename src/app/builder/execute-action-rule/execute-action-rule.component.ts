@@ -5,7 +5,7 @@ import * as monaco from 'monaco-editor';
 import { ApplicationService } from 'src/app/services/application.service';
 import { Subscription, catchError, forkJoin, of } from 'rxjs';
 import { NzMessageService } from 'ng-zorro-antd/message';
-import { environment } from 'src/environments/environment';
+import { SocketService } from 'src/app/services/socket.service';
 
 
 @Component({
@@ -47,8 +47,9 @@ export class ExecuteActionRuleComponent implements OnInit, AfterViewInit {
       key: '4',
     },
   ]
-  constructor(private employeeService: EmployeeService, private cdRef: ChangeDetectorRef,
-    private applicationService: ApplicationService, private fb: FormBuilder,
+  constructor(
+    private fb: FormBuilder,
+    public socketService: SocketService,
     private toastr: NzMessageService,) {
     this.multiSelectForm = this.fb.group({
       multiSelects: this.fb.array([]),
@@ -71,27 +72,31 @@ export class ExecuteActionRuleComponent implements OnInit, AfterViewInit {
     const selectedScreen = this.screens.filter((a: any) => a.name == this.screenname)
     if (selectedScreen[0].navigation != null && selectedScreen[0].navigation != undefined) { // selectedScreen[0].navigation
       this.saveLoader = true;
-      this.requestSubscription = this.applicationService.getNestNewCommonAPIById(`cp/ActionRule`, selectedScreen[0].id).subscribe({
+      const { jsonData, newGuid } = this.socketService.makeJsonDataById('ActionRule', selectedScreen[0].id, 'GetModelTypeById');
+      this.socketService.Request(jsonData);
+      this.socketService.OnResponseMessage().subscribe({
         next: (res: any) => {
-          this.saveLoader = false;
-          if (res.data && res.data.length > 0) {
-            this.multiSelectForm = this.fb.group({
-              multiSelects: this.fb.array([]),
-            });
-            res.data.forEach((element: any) => {
-              let newItem = this.fb.group({
-                componentFrom: element.componentfrom, // Initialize this with your select value
-                id: element.id, // Initialize this with your select value
-                targetId: element.targetid, // Initialize this with your select value
-                level: element.level, // Initialize this with your select value
-                action: element.action, // Initialize this with your select value
-                monacoEditorControl: [element.rule], // Initialize this with your Monaco editor value
+          if (res.parseddata.requestId == newGuid && res.parseddata.isSuccess) {
+            res = res.parseddata.apidata;
+            this.saveLoader = false;
+            if (res.data && res.data.length > 0) {
+              this.multiSelectForm = this.fb.group({
+                multiSelects: this.fb.array([]),
               });
-              this.multiSelectArray.push(newItem);
-            });
+              res.data.forEach((element: any) => {
+                let newItem = this.fb.group({
+                  componentFrom: element.componentfrom, // Initialize this with your select value
+                  id: element.id, // Initialize this with your select value
+                  targetId: element.targetid, // Initialize this with your select value
+                  level: element.level, // Initialize this with your select value
+                  action: element.action, // Initialize this with your select value
+                  monacoEditorControl: [element.rule], // Initialize this with your Monaco editor value
+                });
+                this.multiSelectArray.push(newItem);
+              });
 
+            }
           }
-          // this.getActionRule();
         },
         error: (err) => {
           this.saveLoader = false;
@@ -107,22 +112,28 @@ export class ExecuteActionRuleComponent implements OnInit, AfterViewInit {
     const selectedScreen = this.screens.filter((a: any) => a.name == this.screenname)
     if (selectedScreen[0].navigation != null && selectedScreen[0].navigation != undefined) { // selectedScreen[0].navigation
       this.saveLoader = true;
-      this.requestSubscription = this.applicationService.getNestNewCommonAPIById(`cp/Actions`, selectedScreen[0].id).subscribe({
+      const { jsonData, newGuid } = this.socketService.makeJsonDataById('Actions', selectedScreen[0].id, 'GetModelTypeById');
+      this.socketService.Request(jsonData);
+      this.socketService.OnResponseMessage().subscribe({
         next: (res: any) => {
-          this.saveLoader = false;
-          if (res.data && res.data.length > 0) {
-            this.actionsList = res.data;
-            const schema = res.data.map((x: any) => { return x.quryType });
-            // Update the enum values in jsonSchema
-            this.jsonSchema.items.properties.if.properties.actionRule.enum = schema;
-            this.jsonSchema.items.properties.then.additionalProperties.properties.actionRule.enum = schema;
-            this.jsonSchema.items.properties.OR.items.properties.if.properties.actionRule.enum = schema;
-            this.jsonSchema.items.properties.OR.items.properties.then.additionalProperties.properties.actionRule.enum = schema;
-            this.jsonSchema.items.properties.AND.items.properties.if.properties.actionRule.enum = schema;
-            this.jsonSchema.items.properties.AND.items.properties.then.additionalProperties.properties.actionRule.enum = schema;
+          if (res.parseddata.requestId == newGuid && res.parseddata.isSuccess) {
+            res = res.parseddata.apidata;
+            this.saveLoader = false;
+            if (res.data && res.data.length > 0) {
+              this.actionsList = res.data;
+              const schema = res.data.map((x: any) => { return x.quryType });
+              // Update the enum values in jsonSchema
+              this.jsonSchema.items.properties.if.properties.actionRule.enum = schema;
+              this.jsonSchema.items.properties.then.additionalProperties.properties.actionRule.enum = schema;
+              this.jsonSchema.items.properties.OR.items.properties.if.properties.actionRule.enum = schema;
+              this.jsonSchema.items.properties.OR.items.properties.then.additionalProperties.properties.actionRule.enum = schema;
+              this.jsonSchema.items.properties.AND.items.properties.if.properties.actionRule.enum = schema;
+              this.jsonSchema.items.properties.AND.items.properties.then.additionalProperties.properties.actionRule.enum = schema;
 
+            }
+            this.getActionRuleData();
           }
-          this.getActionRuleData();
+
         },
         error: (err) => {
           this.saveLoader = false;
@@ -406,16 +417,22 @@ export class ExecuteActionRuleComponent implements OnInit, AfterViewInit {
     //   data: JSON.stringify(Json)
     // }
     this.saveLoader = true;
-    this.applicationService.addNestNewCommonAPI(`cp/ActionRule/ActionRule/` + mainModuleId[0].id, actionRuleList).subscribe({
+    const { newGuid, metainfocreate } = this.socketService.metainfoDynamic(`ActionRuleCrud`, 'actionrule', mainModuleId[0].id);
+    var ResponseGuid: any = newGuid;
+    const Add = { [`dataobject`]: actionRuleList, metaInfo: metainfocreate }
+    this.socketService.Request(Add);
+    this.socketService.OnResponseMessage().subscribe({
       next: (allResults: any) => {
-        this.saveLoader = false;
-        if (allResults) {  //results.every((result: any) => !(result instanceof Error))
-          this.getActionData();
-          this.toastr.success("Action Rules Save Successfully", { nzDuration: 3000 });
-          // }
-        } else {
-
-          this.toastr.error("Action Rules not saved", { nzDuration: 3000 });
+        if (allResults.parseddata.requestId == ResponseGuid && allResults.parseddata.isSuccess) {
+          allResults = allResults.parseddata.apidata;
+          this.saveLoader = false;
+          if (allResults) {  //results.every((result: any) => !(result instanceof Error))
+            this.getActionData();
+            this.toastr.success("Action Rules Save Successfully", { nzDuration: 3000 });
+            // }
+          } else {
+            this.toastr.error("Action Rules not saved", { nzDuration: 3000 });
+          }
         }
       },
       error: (err) => {
