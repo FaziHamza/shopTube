@@ -1,10 +1,7 @@
-import { BuilderService } from './../../../services/builder.service';
 import { ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
 import { NzMessageService } from 'ng-zorro-antd/message';
-import { NzModalService } from 'ng-zorro-antd/modal';
 import { Subscription } from 'rxjs';
-import { ApplicationService } from 'src/app/services/application.service';
 import { SocketService } from 'src/app/services/socket.service';
 
 @Component({
@@ -24,6 +21,7 @@ export class BusinessRuleGridComponent implements OnInit {
   @Input() nodes: any;
   @Input() applicationid: string;
   isVisible = false;
+  saveLoader = false;
   GridBusinessRuleData: any;
   constructor(private formBuilder: FormBuilder,
     public cd: ChangeDetectorRef,
@@ -592,12 +590,14 @@ export class BusinessRuleGridComponent implements OnInit {
     ]
     const selectedScreen = this.screens.filter((a: any) => a.name == this.screenname);
     if (selectedScreen.length > 0) {
+      this.saveLoader = true;
       const { jsonData, newGuid } = this.socketService.makeJsonDataById('GridBusinessRule', this.screenId, 'GetModelTypeById');
       this.socketService.Request(jsonData);
       this.socketService.OnResponseMessage().subscribe({
         next: (getRes: any) => {
           if (getRes.parseddata.requestId == newGuid && getRes.parseddata.isSuccess) {
             getRes = getRes.parseddata.apidata;
+            this.saveLoader = false;
             if (getRes.isSuccess) {
               let type = this.GridType ? this.GridType : 'Body';
               let gridData = getRes.data.filter((a: any) => a.gridtype == type);
@@ -688,6 +688,7 @@ export class BusinessRuleGridComponent implements OnInit {
           }
         },
         error: (err) => {
+          this.saveLoader = false;
           console.error(err);
           this.toastr.error("An error occurred", { nzDuration: 3000 });
         }
@@ -771,11 +772,8 @@ export class BusinessRuleGridComponent implements OnInit {
       "applicationid": this.applicationid,
     }
     // api response work
-    const gridBusinessRuleModel = {
-      "GridBusinessRule": gridRuleValid
-    }
 
-    if (gridBusinessRuleModel.GridBusinessRule != null) {
+    if (gridRuleValid != null) {
       if (selectedScreen[0].navigation != null) {
         var ResponseGuid: any;
         if (this.gridRuleId == '') {
@@ -789,16 +787,21 @@ export class BusinessRuleGridComponent implements OnInit {
           const Update = { [`GridBusinessRule`]: gridRuleValid, metaInfo: metainfoupdate };
           this.socketService.Request(Update)
         }
+
+        this.saveLoader = true;
         this.socketService.OnResponseMessage().subscribe({
           next: (res: any) => {
             if (res.parseddata.requestId == ResponseGuid && res.parseddata.isSuccess) {
+              this.saveLoader = false;
               res = res.parseddata.apidata;
               if (res.isSuccess) {
                 this.dynamicBuisnessRule();
                 this.toastr.success(`Grid Bussiness Rule: ${res.message}`, { nzDuration: 3000 });
               }
-              else
+              else {
+                this.saveLoader = false;
                 this.toastr.error(`Grid Bussiness Rule: ${res.message}`, { nzDuration: 3000 });
+              }
             }
           },
           error: (err) => {
@@ -924,9 +927,11 @@ export class BusinessRuleGridComponent implements OnInit {
     if (this.gridRuleId != '') {
       const { jsonData, newGuid } = this.socketService.deleteModelType('GridBusinessRule', this.gridRuleId);
       this.socketService.Request(jsonData);
+      this.saveLoader = true;
       this.socketService.OnResponseMessage().subscribe((res: any) => {
         if (res.parseddata.requestId == newGuid && res.parseddata.isSuccess) {
           res = res.parseddata.apidata;
+          this.saveLoader = false;
           if (res.isSuccess) {
             this.buisnessForm = this.formBuilder.group({
               buisnessRule: this.formBuilder.array([])
