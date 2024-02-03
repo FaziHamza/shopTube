@@ -233,7 +233,7 @@ export class BuilderComponent implements OnInit {
         this.selectApplicationName = node.value;
         const { jsonData, newGuid } = this.socketService.makeJsonDataById('ScreenBuilder', node.value, 'GetModelTypeById');
         this.socketService.Request(jsonData);
-        const response:any = await new Promise((resolve, reject) => {
+        const response: any = await new Promise((resolve, reject) => {
           const subscription = this.socketService.OnResponseMessage().subscribe(
             (data: any) => {
               subscription.unsubscribe();
@@ -246,7 +246,7 @@ export class BuilderComponent implements OnInit {
           );
         });
         if (response.parseddata.requestId == newGuid && response.parseddata.isSuccess) {
-         const res = response.parseddata.apidata;
+          const res = response.parseddata.apidata;
           this.screens = res.data;
           const screens = res.data.map((screendata: any) => {
             return {
@@ -274,7 +274,7 @@ export class BuilderComponent implements OnInit {
           this.selectApplicationName = node.value;
           const { jsonData, newGuid } = this.socketService.makeJsonDataById('Application', node.value, 'GetModelTypeById');
           this.socketService.Request(jsonData);
-          const response:any = await new Promise((resolve, reject) => {
+          const response: any = await new Promise((resolve, reject) => {
             const subscription = this.socketService.OnResponseMessage().subscribe(
               (data: any) => {
                 subscription.unsubscribe();
@@ -287,7 +287,7 @@ export class BuilderComponent implements OnInit {
             );
           });
           if (response.parseddata.requestId == newGuid && response.parseddata.isSuccess) {
-             const res = response.parseddata.apidata;
+            const res = response.parseddata.apidata;
             this.selectApplicationName = "";
             this.applicationData = res.data;
             const applications = res.data.map((appData: any) => {
@@ -481,7 +481,7 @@ export class BuilderComponent implements OnInit {
         this.socketService.Request(Add);
       }
       else {
-        const { newUGuid, metainfoupdate } = this.socketService.metainfoupdate(this.builderscreendata[0].id);
+        const { newUGuid, metainfoupdate } = this.socketService.metainfoupdate(this.builderscreendata[0].screenbuilderid);
         ResponseGuid = newUGuid;
         const Update = { [tableValue]: data, metaInfo: metainfoupdate };
         this.socketService.Request(Update)
@@ -628,6 +628,7 @@ export class BuilderComponent implements OnInit {
     })
   }
   getBuilderScreen() {
+    this.saveLoader = true;
     this.nodes = [];
     const { jsonData, newGuid } = this.socketService.makeJsonDataById('Builders', this.id, 'GetModelTypeById');
     this.socketService.Request(jsonData);
@@ -635,6 +636,7 @@ export class BuilderComponent implements OnInit {
       next: (res: any) => {
         if (res.parseddata.requestId == newGuid && res.parseddata.isSuccess) {
           res = res.parseddata.apidata;
+          this.saveLoader = false;
           if (res.isSuccess) {
             // this.form = new FormGroup({});
             if (res.data.length > 0) {
@@ -646,7 +648,7 @@ export class BuilderComponent implements OnInit {
               this.isSavedDb = true;
               // this.moduleId = res[0].moduleId;
               // this.formlyModel = {};
-  
+
               let objscreendata = this.jsonParseWithObject(this.jsonStringifyWithObject(objScreenData));
               this.applyTheme(objscreendata[0], false)
               if (this.actionRuleList && this.actionRuleList.length > 0) {
@@ -687,7 +689,7 @@ export class BuilderComponent implements OnInit {
                     }
                   });
                 }
-  
+
                 let checkFirst: any = {};
                 for (let index = 0; index < this.actionRuleList.length; index++) {
                   const element = this.actionRuleList[index];
@@ -721,8 +723,8 @@ export class BuilderComponent implements OnInit {
               }
               else
                 this.nodes = objscreendata;
-  
-  
+
+
               // if (!this.nodes[0].isLeaf) {
               //   this.addOrRemoveisLeaf(this.nodes[0]);
               // }
@@ -731,7 +733,7 @@ export class BuilderComponent implements OnInit {
               this.saveLoader = false;
               // this.getFromQuery(res.data[0].navigation, 'get');
               // if (res[0].menuData[0].children[1]) {
-  
+
               //   // this.uiRuleGetData(res[0].moduleId);
               //   // this.uiGridRuleGetData(res[0].moduleId);
               // }
@@ -744,7 +746,7 @@ export class BuilderComponent implements OnInit {
               this.dataSharedService.screenCommentList.forEach(element => {
                 this.assignIssue(this.nodes[0], element);
               });
-  
+
             }
             else {
               // this.navigation = 0;
@@ -812,7 +814,7 @@ export class BuilderComponent implements OnInit {
             this.saveLoader = false;
           }
         }
-        
+
       },
       error: (err) => {
         console.error(err); // Log the error to the console
@@ -6587,9 +6589,9 @@ export class BuilderComponent implements OnInit {
       if (objMakeTable.tableFields.length > 0) {
         const tableValue = `insertNewTable`;
         var ResponseGuid: any;
-        const { newGuid, metainfocreate } = this.socketService.metainfocreate();
+        const { newGuid, metainfocreate } = this.socketService.metainfoDynamic(`insertNewTable`, `insertNewTable`);
         ResponseGuid = newGuid;
-        const Add = { [tableValue]: objMakeTable, metaInfo: metainfocreate }
+        const Add = { objMakeTable, metaInfo: metainfocreate }
         this.socketService.Request(Add);
         this.socketService.OnResponseMessage().subscribe({
           next: (res: any) => {
