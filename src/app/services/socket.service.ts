@@ -86,7 +86,15 @@ export class SocketService {
     const formattedDate = date.toLocaleTimeString('en-US', { hour12: false, hour: '2-digit', minute: '2-digit', second: '2-digit', hourCycle: 'h23' });
     return `${type} ${data} ${formattedDate}:${date.getMilliseconds()}`;
   }
+  makeJsonImageData(tag: string,imagedata:string) {
+    const newGuid = Guid.new16DigitGuid();
+    const metainfo = {
+      actiontag: tag,
+      RequestId: newGuid
+    }
+    return { jsonData: { imagedata, metaInfo: metainfo }, newGuid }
 
+  }
   makeJsonData(modelType: string, tag: string, screenId?: any, type?: any) {
     const newGuid = Guid.new16DigitGuid();
     const metainfo = {
