@@ -424,7 +424,7 @@ export class CreateDatabaseComponent implements OnInit {
       var ResponseGuid: any;
       const { newGuid, metainfocreate } = this.socketService.metainfocreate();
       ResponseGuid = newGuid;
-      const Add = { [`tables`]: tableModel, metaInfo: metainfocreate }
+      const Add = {  [tableValue]: objTableNames, metaInfo: metainfocreate }
       this.socketService.Request(Add);
       this.socketService.OnResponseMessage().subscribe({
         next: (res) => {
@@ -575,11 +575,12 @@ export class CreateDatabaseComponent implements OnInit {
       }
       this.saveLoader = true;
       const { newUGuid, metainfoupdate } = this.socketService.metainfoupdate(this.tableId);
-      const Update = { tableModel, metaInfo: metainfoupdate };
+      const ResponseGuid = newUGuid;
+      const Update = { [`tables`]: objTableNames, metaInfo: metainfoupdate };
       this.socketService.Request(Update)
       this.socketService.OnResponseMessage().subscribe({
         next: (res) => {
-          if (res.parseddata.requestId == newUGuid && res.parseddata.isSuccess) {
+          if (res.parseddata.requestId == ResponseGuid && res.parseddata.isSuccess) {
             res = res.parseddata.apidata;
             if (res.isSuccess) {
               if (res.data.length > 0) {
@@ -604,12 +605,12 @@ export class CreateDatabaseComponent implements OnInit {
                     const { newGuid, metainfocreate } = this.socketService.metainfocreate();
                     ResponseGuid = newGuid;
                     tableFieldsModel[tableFieldsValue].tableid = this.tableId;
-                    const Add = { tableFieldsModel, metaInfo: metainfocreate }
+                    const Add = { [tableFieldsValue]: objFields, metaInfo: metainfocreate }
                     this.socketService.Request(Add);
                   } else {
                     const { newUGuid, metainfoupdate } = this.socketService.metainfoupdate(element.id);
                     ResponseGuid = newUGuid;
-                    const Update = { tableFieldsModel, metaInfo: metainfoupdate };
+                    const Update = { [tableFieldsValue]: objFields, metaInfo: metainfoupdate };
                     this.socketService.Request(Update);
                   }
                   return this.socketService.OnResponseMessage().pipe(

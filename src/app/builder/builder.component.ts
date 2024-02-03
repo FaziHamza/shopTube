@@ -474,17 +474,17 @@ export class BuilderComponent implements OnInit {
       const tableValue = `Builders`;
       // this.saveLoader =  false;
       var ResponseGuid: any;
-      if (this.builderscreendata?.[0]) {
-        const { newGuid, metainfocreate } = this.socketService.metainfocreate();
-        ResponseGuid = newGuid;
-        const Add = { [tableValue]: data, metaInfo: metainfocreate }
-        this.socketService.Request(Add);
-      }
-      else {
+      if (this.builderscreendata.length > 0) {
         const { newUGuid, metainfoupdate } = this.socketService.metainfoupdate(this.builderscreendata[0].screenbuilderid);
         ResponseGuid = newUGuid;
         const Update = { [tableValue]: data, metaInfo: metainfoupdate };
         this.socketService.Request(Update)
+      }
+      else {
+        const { newGuid, metainfocreate } = this.socketService.metainfocreate();
+        ResponseGuid = newGuid;
+        const Add = { [tableValue]: data, metaInfo: metainfocreate }
+        this.socketService.Request(Add);
       }
 
       this.socketService.OnResponseMessage().subscribe({
@@ -752,7 +752,7 @@ export class BuilderComponent implements OnInit {
               // this.navigation = 0;
               // this.clearChildNode();
               this.builderscreendata = [];
-              const { jsonData, newGuid } = this.socketService.makeJsonData('GetSampleScreen', 'GetSampleScreen');
+              const { jsonData, newGuid } = this.socketService.makeJsonData('Builders', 'GetSampleScreen');
               this.socketService.Request(jsonData);
               this.socketService.OnResponseMessage().subscribe({
                 next: (res: any) => {
