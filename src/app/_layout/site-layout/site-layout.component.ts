@@ -141,43 +141,49 @@ export class SiteLayoutComponent implements OnInit {
       const getToken = window.location.search.split('token=')[1];
       const body = { page: window.location.pathname }
       localStorage.setItem('screenBuildId', window.location.pathname);
-      localStorage.setItem('screenId', window.location.pathname)
-      this.authService.getUserInfo(getToken, body).subscribe((response: any) => {
-        if (response.isSuccess) {
-          // localStorage.setItem('isLoggedIn', 'true');
-          localStorage.setItem('externalLogin', 'false');
-          this.authService.setAuth(response.data);
-          this.getMenuByDomainName(this.currentUrl, true);
-          this.router.navigate([window.location.pathname]);
-        }
-        else {
-          if (response?.isPermission) {
-            this.router.navigate(['permission-denied']);
-            this.externalLogin = true;
+      localStorage.setItem('screenId', window.location.pathname);
+      this.socketService.setSocketExternal(getToken);
+      const { newGuid, metainfocreate } = this.socketService.makeJsonDataExternal('UserInfo');
+      const Add = {body , metaInfo: metainfocreate }
+      this.socketService.Request(Add);
+      this.socketService.OnResponseMessage().subscribe((response: any) => {
+        if (response.parseddata.requestId == newGuid && response.parseddata.isSuccess) {
+          response = response.parseddata.apidata;
+          if (response.isSuccess) {
+            // localStorage.setItem('isLoggedIn', 'true');
+            localStorage.setItem('externalLogin', 'false');
+            this.authService.setAuth(response.data);
+            this.getMenuByDomainName(this.currentUrl, true);
+            this.router.navigate([window.location.pathname]);
           }
           else {
-            this.jwtService.saveToken(getToken);
-            window.localStorage['authToken'] = JSON.stringify(getToken);
-            this.jwtService.ecryptedValue('externalLoginLink', response.data[0].pageLink, true);
-            this.jwtService.ecryptedValue('username', response.data[0].username, true);
-            localStorage.setItem('externalLogin', 'true');
-            this.externalLogin = true;
-            this.router.navigate([window.location.pathname]);
-            window.localStorage['externalPageLink'] = JSON.stringify(getToken);
-            this.applicationService.getNestNewCommonAPI(`cp/applicationglobalclass`).subscribe({
-              next: (res: any) => {
-                this.dataSharedService.applicationGlobalClass = res.data;
-                this.loader = false;
-              },
-              error: (err) => {
-                this.toastr.error(`Screen : An error occured`, { nzDuration: 3000 });
-                this.loader = false;
-              },
-            });
+            if (response?.isPermission) {
+              this.router.navigate(['permission-denied']);
+              this.externalLogin = true;
+            }
+            else {
+              this.jwtService.saveToken(getToken);
+              window.localStorage['authToken'] = JSON.stringify(getToken);
+              this.jwtService.ecryptedValue('externalLoginLink', response.data[0].pageLink, true);
+              this.jwtService.ecryptedValue('username', response.data[0].username, true);
+              localStorage.setItem('externalLogin', 'true');
+              this.externalLogin = true;
+              this.router.navigate([window.location.pathname]);
+              window.localStorage['externalPageLink'] = JSON.stringify(getToken);
+              this.applicationService.getNestNewCommonAPI(`cp/applicationglobalclass`).subscribe({
+                next: (res: any) => {
+                  this.dataSharedService.applicationGlobalClass = res.data;
+                  this.loader = false;
+                },
+                error: (err) => {
+                  // this.toastr.error(`Screen : An error occured`, { nzDuration: 3000 });
+                  this.loader = false;
+                },
+              });
+            }
           }
-
-
         }
+      
       })
     }
     else {
