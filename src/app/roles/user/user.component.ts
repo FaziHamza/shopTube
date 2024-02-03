@@ -3,7 +3,7 @@ import { NzMessageService } from 'ng-zorro-antd/message';
 import { ApplicationService } from 'src/app/services/application.service';
 import { NzModalService } from 'ng-zorro-antd/modal';
 import { NzDrawerService } from 'ng-zorro-antd/drawer';
-import { RegisterComponent } from '../register/register.component';
+import { RegisterComponent } from '../../auth/register/register.component';
 import { environment } from 'src/environments/environment';
 import { SocketService } from 'src/app/services/socket.service';
 
@@ -16,7 +16,6 @@ import { SocketService } from 'src/app/services/socket.service';
 export class UserComponent {
   visible = false;
   constructor(
-    private applicationService: ApplicationService,
     private toastr: NzMessageService,
     private modal: NzModalService,
     private drawerService: NzDrawerService,

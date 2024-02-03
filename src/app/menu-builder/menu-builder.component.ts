@@ -208,7 +208,7 @@ export class MenuBuilderComponent implements OnInit {
   }
   getlocalMenu(id: any) {
 
-    const { jsonData, newGuid } = this.socketService.makeJsonDataById('PolicyMappingCrud', id, 'PolicyMappingCrud');
+    const { jsonData, newGuid } = this.socketService.makeJsonDataById('PolicyMapping', id, 'GetBuildermenu');
     this.socketService.Request(jsonData);
     this.socketService.OnResponseMessage().subscribe(((res: any) => {
       if (res.parseddata.requestId == newGuid && res.parseddata.isSuccess) {
@@ -1556,8 +1556,8 @@ export class MenuBuilderComponent implements OnInit {
             }
           }
         }
-        else
-          this.toastr.error(res.message, { nzDuration: 3000 }); // Show an error message to the user
+        // else
+          // this.toastr.error(res.message, { nzDuration: 3000 }); // Show an error message to the user
       },
       error: (err) => {
         console.error(err); // Log the error to the console
@@ -1884,7 +1884,7 @@ export class MenuBuilderComponent implements OnInit {
   async loadData(node: NzCascaderOption, index: number): Promise<void> {
     if (index === 0 && node.value != 'selectDepartment') {
       try {
-        const { jsonData, newGuid } = this.socketService.makeJsonDataById('UserMapping', node.value, 'GetModelTypeById');
+        const { jsonData, newGuid } = this.socketService.makeJsonDataById('Application', node.value, 'GetModelTypeById');
         this.socketService.Request(jsonData);
         const response:any = await new Promise((resolve, reject) => {
           const subscription = this.socketService.OnResponseMessage().subscribe(
