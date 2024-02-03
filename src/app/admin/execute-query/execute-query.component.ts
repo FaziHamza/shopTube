@@ -55,7 +55,7 @@ export class ExecuteQueryComponent implements OnInit, AfterViewInit {
     }
     this.saveLoader = true;
     const { newGuid, metainfocreate } = this.socketService.metainfocreate();
-    const Add = { [`query`]: query, metaInfo: metainfocreate }
+    const Add = { [`executecustomquery`]: query, metaInfo: metainfocreate }
     this.socketService.Request(Add);
 
     this.socketService.OnResponseMessage().subscribe({
