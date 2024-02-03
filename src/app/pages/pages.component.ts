@@ -2466,9 +2466,11 @@ export class PagesComponent implements OnInit, OnDestroy {
                         ele.formly[0].fieldGroup[0].props.options = [];
                       }
                     }
-                    let parentId =
-                      this.requestSubscription = this.applicationService.callApi('knex-query/getexecute-rules/' + getActions.id, 'get', '', '', targetId
-                      ).subscribe(res => {
+                    const { jsonData, RequestGuid } = this.socketService.metaInfoForGrid('GetPageExecuteRules', getActions.id, targetId);
+                    this.socketService.Request(jsonData);
+                    this.socketService.OnResponseMessage().subscribe(res => {
+                      if (res.parseddata.requestId == RequestGuid && res.parseddata.isSuccess) {
+                        res = res.parseddata.apidata;
                         if (res) {
                           if (res.data.length > 0) {
                             let checkType = filteredNodes.find((formly: any) => formly.key == getActions?.targetid);
@@ -2542,7 +2544,9 @@ export class PagesComponent implements OnInit, OnDestroy {
                           this.updateNodes();
 
                         }
-                      })
+                      }
+
+                    })
                   }
                 }
               }

@@ -215,6 +215,7 @@ export class DynamicTableComponent implements OnInit {
           next: (res) => {
             // this.dataSharedService.queryId = '';
             if (res.parseddata.requestId == RequestGuid && res.parseddata.isSuccess) {
+              res = res.parseddata.apidata;
               this.saveLoader = false;
               if (res.isSuccess && res.data) {
                 api.filterArray = [];
@@ -1079,6 +1080,7 @@ export class DynamicTableComponent implements OnInit {
                 next: (res) => {
                   // this.dataSharedService.queryId = '';
                   if (res.parseddata.requestId == RequestGuid && res.parseddata.isSuccess) {
+                    res = res.parseddata.apidata;
                     this.saveLoader = false;
                     if (res.data?.length > 0) {
                       const propertyNames = Object.keys(res.data[0]);
@@ -2215,6 +2217,7 @@ export class DynamicTableComponent implements OnInit {
           this.socketService.OnResponseMessage().subscribe({
             next: (res) => {
               if (res.parseddata.requestId == RequestGuid && res.parseddata.isSuccess) {
+                res = res.parseddata.apidata;
                 if (res.isSuccess) {
                   this.gridInitilize();
                   this.toastr.success('Update Successfully', { nzDuration: 3000 });

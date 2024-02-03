@@ -3,7 +3,7 @@ import { MenuBuilderComponent } from '../menu-builder/menu-builder.component';
 import { ActionRuleComponent, BusinessRuleComponent, UIRuleComponent, ValidationRuleComponent } from '../builder/configurations';
 import { DemoComponent } from '../builder/demo/demo.component';
 import { NestedTableComponent } from '../builder/nested-table/nested-table.component';
-import { ApplicationBuilderComponent, LanguageComponent, ModuleListComponent, ScreenBuilderComponent, UserTaskManagementComponent, organizationBuilderComponent } from '../Builder-module';
+import { ApplicationBuilderComponent, BacklogComponent, LanguageComponent, ModuleListComponent, ScreenBuilderComponent, TaskManagementListComponent, UserTaskManagementComponent, organizationBuilderComponent } from '../Builder-module';
 import { BulkUpdateComponent } from '../builder/bulk-update/bulk-update.component';
 import { AddControlCommonPropertiesComponent } from '../builder/add-control-common-properties/add-control-common-properties.component';
 import { CreateDatabaseComponent } from '../admin/create-database/create-database.component';
@@ -20,13 +20,8 @@ import { GoogleChartsModule } from "angular-google-charts";
 import { ContextMenuModule } from "@perfectmemory/ngx-contextmenu";
 import { RouterModule } from '@angular/router';
 import { ShareModule } from './share.module';
-import { RoleManagementComponent } from '../admin/role-management/role-management.component';
-import { MenuRolePermissionComponent } from '../admin/menu-role-permission/menu-role-permission.component';
-import { TaskManagementComponent } from '../admin/task-management/task-management.component';
-import { ReleaseManagementComponent } from '../admin/release-management/release-management.component';
-import { TaskManagementListComponent } from '../Builder-module/task-management-list/task-management-list.component';
-import { BacklogComponent } from '../Builder-module/backlog/backlog.component';
-import { TestActionRuleComponent } from '../builder/configurations/test-action-rule/test-action-rule.component';
+import { MenuRolePermissionComponent, ReleaseManagementComponent, RoleManagementComponent, TaskManagementComponent } from '../admin';
+
 
 @NgModule({
   imports:
@@ -58,7 +53,6 @@ import { TestActionRuleComponent } from '../builder/configurations/test-action-r
     ReleaseManagementComponent,
     UserTaskManagementComponent,
     TaskManagementListComponent,
-    TestActionRuleComponent,
     BacklogComponent,
 
   ],
@@ -66,7 +60,7 @@ import { TestActionRuleComponent } from '../builder/configurations/test-action-r
     MenuBuilderComponent,
     ActionRuleComponent, BusinessRuleComponent, UIRuleComponent, ValidationRuleComponent, DemoComponent, NestedTableComponent,
     ScreenBuilderComponent, ModuleListComponent, ApplicationBuilderComponent, AddControlCommonPropertiesComponent, organizationBuilderComponent,
-    LanguageComponent,TestActionRuleComponent,
+    LanguageComponent,
     BulkUpdateComponent,
     CreateDatabaseComponent,
     RoleManagementComponent,

@@ -11,7 +11,7 @@ import { ErrorComponent } from 'src/common/error/error.component';
 import { EnvService } from '../shared/envoirment.service';
 import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
 import { ResetPasswordComponent } from './reset-password/reset-password.component';
-import { UserComponent } from './user/user.component';
+import { UserComponent } from '../roles/user/user.component';
 import { NgxMaskModule } from 'ngx-mask';
 
 const routes: Routes = [

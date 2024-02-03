@@ -1,8 +1,0 @@
-<button (click)="validateJSON()">Validate</button>
-<ul *ngIf="validationMessage.length">
-    <li *ngFor="let errorObj of validationMessage">{{ errorObj.message }}
-        <button (click)="fixError(errorObj)">Auto Fix</button>
-    </li>
-</ul>
-
-<div style="height: 60vh; width: 100vh;" #editorContainerv1></div>

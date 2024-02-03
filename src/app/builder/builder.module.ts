@@ -22,8 +22,8 @@ import { TemplatePopupComponent } from './template-popup/template-popup.componen
 import { MarketPlaceComponent } from './market-place/market-place.component';
 import { ExecuteActionRuleComponent } from './execute-action-rule/execute-action-rule.component';
 import { MonacoEditorComponent } from './execute-action-rule/monaco-editor/monaco-editor.component';
-import { PolicyComponent } from "../admin/policy/policy.component";
-import { PolicyMappingComponent } from "../admin/policy-mapping/policy-mapping.component";
+import { PolicyComponent } from "../roles/policy/policy.component";
+import { PolicyMappingComponent } from "../roles/policy-mapping/policy-mapping.component";
 import { UserMappingComponent } from "../admin/user-mapping/user-mapping.component";
 import { HeadingParagrapghUpdateComponent } from './heading-paragrapgh-update/heading-paragrapgh-update.component';
 import { OtherBulkUpdateComponent } from './other-bulk-update/other-bulk-update.component';

@@ -6,12 +6,11 @@ import { BarChartComponent, FileManagerComponent, googleMapComponent } from './c
 import { DemoComponent } from './builder/demo/demo.component';
 import { Screenv1Component } from './Builder-module/screenv1/screenv1.component';
 import { AuthGuard } from './auth/auth.Guard';
-import { PolicyComponent } from './admin/policy/policy.component';
+import { PolicyComponent } from './roles/policy/policy.component';
 import { NotFoundComponent } from './auth/not-found/not-found.component';
-import { AuthResolverService } from './resolver/auth-resolver.service';
 import { PermissionDeniedComponent } from './auth/permission-denied/permission-denied.component';
-import { UserComponent } from './auth/user/user.component';
-import { PolicyMappingComponent } from './admin/policy-mapping/policy-mapping.component';
+import { UserComponent } from './roles/user/user.component';
+import { PolicyMappingComponent } from './roles/policy-mapping/policy-mapping.component';
 import { UserMappingComponent } from './admin/user-mapping/user-mapping.component';
 import { ApplicationThemeComponent } from './Builder-module/application-theme/application-theme.component';
 import { NgxGraphNodeComponent } from './builder/ngx-graph-node/ngx-graph-node.component';

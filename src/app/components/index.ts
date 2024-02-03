@@ -85,5 +85,5 @@ export * from "./file-manager/file-manager.component"
 export * from "./google-map/google-map.component"
 export * from "./task-report/task-report.component"
 export * from "./contact-list/contact-list.component";
-
+export * from './email/email.component';
 // export * from "./Website/web-menu/web-menu.component"
