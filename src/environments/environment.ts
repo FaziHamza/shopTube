@@ -14,7 +14,7 @@ export const environment = {
   applicationId : '651fa8129ce5925c4c89ced7',
   socketBackUrl: 'http://localhost:3101',
   dbMode:'dev_',
-  websocketUrl:'http://localhost:8080',
+  websocketUrl:'http://192.168.194.232:8080',
   organizationId : '651fa6889ce5925c4c89cecb',
   firebaseConfig: {
     apiKey: '',
