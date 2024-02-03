@@ -1,12 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
-import { NzCascaderOption } from 'ng-zorro-antd/cascader';
 import { NzMessageService } from 'ng-zorro-antd/message';
-import { ApplicationService } from 'src/app/services/application.service';
-import { EmployeeService } from 'src/app/services/employee.service';
 import { environment } from 'src/environments/environment';
 import { AuthService } from '../services/auth.service';
 import { ActivatedRoute, Router } from '@angular/router';
+import { SocketService } from 'src/app/services/socket.service';
 
 @Component({
   selector: 'st-reset-password',
@@ -28,9 +26,9 @@ export class ResetPasswordComponent implements OnInit {
   token: any;
   code: any;
   email: any;
-  siteKey :any = environment.recaptcha.siteKey;
-  constructor(private authService: AuthService, private route: ActivatedRoute,private router:Router,
-    private toastr: NzMessageService, private formBuilder: FormBuilder,) {
+  siteKey: any = environment.recaptcha.siteKey;
+  constructor(private authService: AuthService, private route: ActivatedRoute, private router: Router,
+    private toastr: NzMessageService, private formBuilder: FormBuilder, private socketService: SocketService,) {
     this.route.queryParams.subscribe(params => {
       // Access the query parameters here
       const token = params['token'];
@@ -72,7 +70,7 @@ export class ResetPasswordComponent implements OnInit {
     grecaptcha.render('recaptcha', { sitekey: environment.recaptcha.siteKey });
   }
   submitForm(): void {
-    
+
     this.isFormSubmit = true;
     this.recaptchaResponse = grecaptcha.getResponse();
     if (!this.recaptchaResponse) {
@@ -88,19 +86,25 @@ export class ResetPasswordComponent implements OnInit {
       "token": this.token,
       "verificationCode": this.code,
       "password": this.form.value.password,
-      "domain":window.location.host.split(':')[0]
+      "domain": window.location.host.split(':')[0]
     }
     if (this.form.valid) {
-      this.authService.resetpassword(obj).subscribe({
+      const { jsonData, newGuid } = this.socketService.authMetaInfo('AuthResetPassword', '', '');
+      const Update = { ['resetpassword']: obj, metaInfo: jsonData };
+      this.socketService.AuthRequest(Update);
+      this.socketService.OnResponseMessage().subscribe({
         next: (res: any) => {
-          if (res.isSuccess) {
-            this.toastr.success(res.message, { nzDuration: 2000 });
-            this.create();
-            this.router.navigateByUrl('/login')
-          } else {
-            this.toastr.error(res.message, { nzDuration: 2000 });
+          if (res.parseddata.requestId == newGuid && res.parseddata.isSuccess) {
+            res = res.parseddata.apidata
+            this.loader = false;
+            if (res.isSuccess) {
+              this.toastr.success(res.message, { nzDuration: 2000 });
+              this.create();
+              this.router.navigateByUrl('/login')
+            } else {
+              this.toastr.error(res.message, { nzDuration: 2000 });
+            }
           }
-          this.loader = false;
         },
         error: (err) => {
           this.create();

@@ -1,14 +1,9 @@
 import { Component, Input, OnInit, Optional } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
-import { NzCascaderOption } from 'ng-zorro-antd/cascader';
 import { NzMessageService } from 'ng-zorro-antd/message';
-import { ApplicationService } from 'src/app/services/application.service';
-import { EmployeeService } from 'src/app/services/employee.service';
-import { environment } from 'src/environments/environment';
 import { AuthService } from '../services/auth.service';
 import { Router } from '@angular/router';
 import { NzDrawerRef } from 'ng-zorro-antd/drawer';
-// import { AppApi } from 'src/app/constants/app-api-constants';
 import { SocketService } from 'src/app/services/socket.service';
 
 
@@ -108,10 +103,6 @@ export class RegisterComponent implements OnInit {
   //     }
   //   });
   // }
-  ngOnDestroy() {
-    // Reset reCAPTCHA in the ngOnDestroy method to clean up when the component is destroyed
-    // grecaptcha.reset();
-  }
   submitForm(): void {
     this.isFormSubmit = true;
     // if (this.form.invalid) {
