@@ -3,6 +3,7 @@ import { FieldTypeConfig, FieldWrapper } from '@ngx-formly/core';
 import { DataSharedService } from '../services/data-shared.service';
 import { ApplicationService } from '../services/application.service';
 import { environment } from 'src/environments/environment';
+import { SocketService } from '../services/socket.service';
 
 @Component({
   selector: 'formly-field-image-upload',
@@ -74,7 +75,7 @@ export class FormlyFieldImageUploadComponent extends FieldWrapper<FieldTypeConfi
   imageUrl: any;
   imagePath = environment.nestImageUrl;
 
-  constructor(private sharedService: DataSharedService, private applicationService: ApplicationService) {
+  constructor(private sharedService: DataSharedService, private applicationService: ApplicationService,private readonly socketService:SocketService) {
     super();
   }
   ngOnInit(): void {
@@ -82,23 +83,43 @@ export class FormlyFieldImageUploadComponent extends FieldWrapper<FieldTypeConfi
     document.documentElement.style.setProperty('--hoverBrowseButtonColor', this.to['additionalProperties']?.hoverBrowseButtonColor || '#3b82f6');
 
   }
-  onFileSelected(event: any) {
+  async onFileSelected(event: any) {
     const file: File = event.target.files[0];
-    this.uploadFile(file);
-  }
+    const fileData:any = {
+      originalname: file.name,
+      mimetype: file.type,
+      buffer:await this.readFileAsArrayBuffer(file),
+      size: file.size,
+    };
 
-  uploadFile(file: File) {
+    this.uploadFile(fileData);
+  }
+  private async readFileAsArrayBuffer(file: File): Promise<ArrayBuffer> {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = (event) => {
+        if (event.target && event.target.result) {
+          resolve(event.target.result as ArrayBuffer);
+        } else {
+          reject(new Error('Error reading file as ArrayBuffer'));
+        }
+      };
+      reader.readAsArrayBuffer(file);
+    });
+  }
+  uploadFile(fileData: string) {
     
-    const formData = new FormData();
-    formData.append('image', file);
     // this is used on configuration when response come then user can save configuration
     this.sharedService.gericFieldLoader.next(true);
     this.sharedService.pagesLoader.next(true);  
-
-    this.applicationService.uploadS3File(formData).subscribe({
+    const { jsonData, newGuid } = this.socketService.makeJsonImageData('UploadFileS3', fileData);
+    this.socketService.Request(jsonData);
+    this.socketService.OnResponseMessage().subscribe({
       next: (res) => {
-        this.sharedService.gericFieldLoader.next(false);
-        this.sharedService.pagesLoader.next(false);
+        if (res.parseddata.requestId == newGuid && res.parseddata.isSuccess) {
+          res = res.parseddata.apidata;
+          this.sharedService.gericFieldLoader.next(false);
+          this.sharedService.pagesLoader.next(false);
         // this.isLoading = false;
         // this.toastr.success('File uploaded successfully', { nzDuration: 3000 });
         // if (this.to['additionalProperties']) {
@@ -117,6 +138,7 @@ export class FormlyFieldImageUploadComponent extends FieldWrapper<FieldTypeConfi
 
         // this.form.patchValue({ url:  })
         // this.model.url = this.imagePath + res.path;
+      }
       },
       error: (err) => {
         this.sharedService.gericFieldLoader.next(false);
