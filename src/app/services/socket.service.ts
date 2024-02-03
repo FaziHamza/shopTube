@@ -11,11 +11,11 @@ import { Router } from '@angular/router';
 // @Injectable()
 export class SocketService {
   private socket: Socket;
-  constructor(private router:Router) {
+  constructor(private router: Router) {
     const token = localStorage.getItem('authToken');
-    if (token){
+    if (token) {
       this.setSocket();
-    }else{
+    } else {
       this.authSocket();
     }
   }
@@ -35,7 +35,9 @@ export class SocketService {
     this.socket = io(environment.websocketUrl, socketOptions)
   }
   setSocket() {
-    // this.socket.disconnect();
+    if (this.socket) {
+      this.socket.disconnect();
+    }
     // const applicationId = this.getFromLocalStorage('applicationId');
     // const organizationId = this.getFromLocalStorage('organizationId');
     // const user = this.getFromLocalStorage('user')?.username;
@@ -51,6 +53,17 @@ export class SocketService {
         // userId: id,
         // user: user,
         // policyid: policyId,
+      },
+    };
+    this.socket = io(environment.websocketUrl, socketOptions)
+  }
+  setSocketExternal(token: any) {
+    if (this.socket) {
+      this.socket.disconnect();
+    }
+    const socketOptions = {
+      extraHeaders: {
+        Authorization: `Bearer ${token}`,
       },
     };
     this.socket = io(environment.websocketUrl, socketOptions)
@@ -73,9 +86,9 @@ export class SocketService {
     return new Observable((subscriber) => {
       this.socket.on('ResponseMessage', (message: any) => {
         console.log(this.getDate('Response', message))
-        if(message.status==='401'){
+        if (message.status === '401') {
           this.router.navigate(['/login'])
-        }else{
+        } else {
           subscriber.next(message);
         }
       });
@@ -104,16 +117,23 @@ export class SocketService {
       type: type
     }
     return { jsonData: { modelType: modelType, metaInfo: metainfo }, newGuid }
-
   }
-  makeJsonDatatable(modelType: string, tag: string,data:string) {
+  makeJsonDataExternal(tag: string,) {
+    const newGuid = Guid.new16DigitGuid();
+    const metainfocreate = {
+      actiontag: tag,
+      RequestId: newGuid
+    }
+    return { newGuid, metainfocreate };
+  }
+  makeJsonDatatable(modelType: string, tag: string, data: string) {
     const newGuid = Guid.new16DigitGuid();
 
     const metainfo = {
       actiontag: tag,
       RequestId: newGuid
     }
-    return { jsonData: { tabledata:data, modelType: modelType, metaInfo: metainfo }, newGuid }
+    return { jsonData: { tabledata: data, modelType: modelType, metaInfo: metainfo }, newGuid }
 
   }
   makeJsonDataById(modelType: string, id: any, tag: string, screenId?: any, type?: any) {
@@ -148,13 +168,14 @@ export class SocketService {
     }
     return { newGuid, metainfocreate };
   }
-  metainfoDynamic(tag: any,modelType?:string,screenbuilderid?:string) {
+
+  metainfoDynamic(tag: any, modelType?: string, screenbuilderid?: string) {
     const newGuid = Guid.new16DigitGuid();
     const metainfocreate = {
       actiontag: tag,
       RequestId: newGuid,
-      screenbuilderid:screenbuilderid,
-      modelType:modelType,
+      screenbuilderid: screenbuilderid,
+      modelType: modelType,
     }
     return { newGuid, metainfocreate };
   }

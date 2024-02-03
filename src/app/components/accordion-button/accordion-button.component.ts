@@ -7,10 +7,11 @@ import { FormGroup } from '@angular/forms';
   styleUrls: ['./accordion-button.component.scss']
 })
 export class AccordionButtonComponent implements OnInit {
-  current =  {
+  current = {
     // '--background': 'green',
   }
   @Input() accordionData: any;
+  @Input() mappingId: any;
   @Input() formlyModel: any;
   @Input() form: any;
   @Input() screenName: any;
@@ -18,8 +19,8 @@ export class AccordionButtonComponent implements OnInit {
   expandIconPosition: any = "left";
   expand: any = false;
   accordingListData: any[] = [];
-  selectColor:'red !important';
-  @Output() accordingEmit :EventEmitter<any> = new EventEmitter();
+  selectColor: 'red !important';
+  @Output() accordingEmit: EventEmitter<any> = new EventEmitter();
   constructor() {
     this.processData = this.processData.bind(this);
   }
@@ -40,8 +41,8 @@ export class AccordionButtonComponent implements OnInit {
   processData(data: any) {
     if (data?.data.length > 0) {
       let obj = {
-        data:data?.data,
-        screenData :this.accordionData
+        data: data?.data,
+        screenData: this.accordionData
       }
       this.accordingEmit.emit(obj);
       //  data.map(element => {
@@ -88,7 +89,7 @@ export class AccordionButtonComponent implements OnInit {
   getFromQuery(res: any, tableData: any) {
     if (tableData && res) {
       if (res.length > 0) {
-        const requiredData = res.map(({ __v, _id,  ...rest }: any) => ({
+        const requiredData = res.map(({ __v, _id, ...rest }: any) => ({
           id: _id,
           ...rest,
 

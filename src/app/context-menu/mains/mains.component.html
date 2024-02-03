@@ -126,11 +126,14 @@
         </div>
     </ng-template>
     <ng-template #sixteen>
-        <dynamic-table *ngIf="item.type =='gridList';else seventeen" [tableId]='item.tableId' [checkType]="false"
-            [tableData]='item.tableData' [excelReportData]='item.tableData' [tableHeaders]='item.tableHeaders'
-            [formlyModel]="formlyModel" [form]="form" [screenId]="screenId" [data]="item"
-            [displayData]="item.displayData" [screenName]="screenName" [mappingId]="mappingId"
-            [configurationTable]="item?.showEditInput ? item?.showEditInput : false"></dynamic-table>
+        <div *ngIf="item.type =='gridList';else seventeen">
+            <dynamic-table [tableId]='item.tableId' [checkType]="false" [tableData]='item.tableData'
+                [excelReportData]='item.tableData' [tableHeaders]='item.tableHeaders' [formlyModel]="formlyModel"
+                [form]="form" [screenId]="screenId" [data]="item" [displayData]="item.displayData"
+                [screenName]="screenName" [mappingId]="mappingId"
+                [configurationTable]="item?.showEditInput ? item?.showEditInput : false"></dynamic-table>
+        </div>
+
     </ng-template>
     <ng-template #seventeen>
         <st-table *ngIf="item.forCommomComponentCondition =='simpleGridList';else eighteen"></st-table>
@@ -213,8 +216,8 @@
         </st-stepper>
     </ng-template>
     <ng-template #thirtyTwo>
-        <st-accordion-button [accordionData]="item" (accordingEmit)="accordingList($event)" [form]="form"
-            [screenId]="screenId" [screenName]="screenName" [formlyModel]="formlyModel"
+        <st-accordion-button [mappingId]="mappingId" [accordionData]="item" (accordingEmit)="accordingList($event)"
+            [form]="form" [screenId]="screenId" [screenName]="screenName" [formlyModel]="formlyModel"
             *ngIf="item.type == 'accordionButton'; else thirtyThree"></st-accordion-button>
     </ng-template>
     <ng-template #thirtyThree>
