@@ -1289,7 +1289,7 @@ export class PagesComponent implements OnInit, OnDestroy {
   }
   checkConditionUIRule(model: any, currentValue: any, policy?: string, indexNumber?: any) {
 
-    this.getUIRule(model, currentValue, policy ,indexNumber);
+    this.getUIRule(model, currentValue, policy, indexNumber);
     this.updateNodes();
     // this.resData = this.jsonParseWithObject(this.jsonStringifyWithObject(this.resData));
     // this.cdr.detectChanges();
@@ -1930,7 +1930,7 @@ export class PagesComponent implements OnInit, OnDestroy {
                   const checkLoadtype = (this.screenData?.uiData || []).map((element: any, index: any) => ({ index, element })).filter((item: any) => item.element.actionType === 'load');
                   if (checkLoadtype?.length > 0) {
                     checkLoadtype.forEach((uiRuleData: any) => {
-                      let uiRule =uiRuleData.element;
+                      let uiRule = uiRuleData.element;
                       if (uiRule.targetValue.includes('$')) {
                         const field = {
                           title: uiRule.ifMenuName,
@@ -2731,27 +2731,29 @@ export class PagesComponent implements OnInit, OnDestroy {
     const newMode = filteredNodes.reduce((acc, node) => {
       const formlyConfig = node.formly?.[0]?.fieldGroup?.[0]?.defaultValue;
       let formlyKey = node?.formly?.[0]?.fieldGroup?.[0]?.key;
-      if (user?.policy?.policyId != '653bf415eb2bd0376051b702') {
-        if (formlyKey.includes('.') ? (formlyKey.split('.')[1] === 'organization' || formlyKey.split('.')[1] === 'orgnaization') : (formlyKey === 'organization' || formlyKey === 'orgnaization')) {
-          acc = this.setNewModeValue(acc, formlyKey, user.organizationName);
-        } else if (formlyKey.includes('.') ? formlyKey.split('.')[1] === 'fullname' : formlyKey === 'fullname') {
-          acc = this.setNewModeValue(acc, formlyKey, user.name);
-        }
-        else if (formlyKey.includes('.') ? formlyKey.split('.')[1] === 'email' : formlyKey === 'email') {
-          acc = this.setNewModeValue(acc, formlyKey, user.username);
-        }
-        else if (formlyKey.includes('.') ? formlyKey.split('.')[1] === 'phone' : formlyKey === 'phone') {
-          acc = this.setNewModeValue(acc, formlyKey, user?.contactnumber);
+      if (user) {
+        if (user?.policy?.policyId != '653bf415eb2bd0376051b702') {
+          if (formlyKey.includes('.') ? (formlyKey.split('.')[1] === 'organization' || formlyKey.split('.')[1] === 'orgnaization') : (formlyKey === 'organization' || formlyKey === 'orgnaization')) {
+            acc = this.setNewModeValue(acc, formlyKey, user.organizationName);
+          } else if (formlyKey.includes('.') ? formlyKey.split('.')[1] === 'fullname' : formlyKey === 'fullname') {
+            acc = this.setNewModeValue(acc, formlyKey, user.name);
+          }
+          else if (formlyKey.includes('.') ? formlyKey.split('.')[1] === 'email' : formlyKey === 'email') {
+            acc = this.setNewModeValue(acc, formlyKey, user.username);
+          }
+          else if (formlyKey.includes('.') ? formlyKey.split('.')[1] === 'phone' : formlyKey === 'phone') {
+            acc = this.setNewModeValue(acc, formlyKey, user?.contactnumber);
+          }
+          else {
+            acc[formlyKey] = formlyConfig;
+          }
         }
         else {
           acc[formlyKey] = formlyConfig;
         }
-      }
-      else {
+      } else {
         acc[formlyKey] = formlyConfig;
       }
-
-
       return acc;
     }, {});
 
