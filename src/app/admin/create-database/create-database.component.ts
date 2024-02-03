@@ -421,9 +421,11 @@ export class CreateDatabaseComponent implements OnInit {
       const tableModel = {
         [tableValue]: objTableNames
       }
+      var ResponseGuid: any;
       const { newGuid, metainfocreate } = this.socketService.metainfocreate();
-      const Model = { tableModel, metaInfo: metainfocreate }
-      this.socketService.Request(Model);
+      ResponseGuid = newGuid;
+      const Add = { [`tables`]: tableModel, metaInfo: metainfocreate }
+      this.socketService.Request(Add);
       this.socketService.OnResponseMessage().subscribe({
         next: (res) => {
           if (res.parseddata.requestId == newGuid && res.parseddata.isSuccess) {
@@ -447,21 +449,26 @@ export class CreateDatabaseComponent implements OnInit {
                 const ModelUpdate = { tableFieldsModel, metaInfo: metainfocreate }
                 this.socketService.Request(ModelUpdate);
                 this.socketService.OnResponseMessage()
-                return this.applicationService.addNestNewCommonAPI('cp', tableFieldsModel).pipe(
+                return this.socketService.OnResponseMessage().pipe(
                   catchError(error => of(error)
                   ) // Handle error and continue the forkJoin
-
                 );
               });
 
               forkJoin(observables).subscribe({
                 next: (results) => {
                   if (results.every(result => !(result instanceof Error))) {
-                    this.saveLoader = false;
-                    this.toastr.success("Save Table Fields Successfully", { nzDuration: 3000 });
-                    this.cancelEditTable();
-                    this.getDatabaseTablev1();
-                    this.deletedIds = [];
+                    // Check each result individually since forkJoin returns an array
+                    if (results.every(result => result.parseddata.requestId == newGuid && result.parseddata.isSuccess)) {
+                      this.saveLoader = false;
+                      this.toastr.success("Save Table Fields Successfully", { nzDuration: 3000 });
+                      this.cancelEditTable();
+                      this.getDatabaseTablev1();
+                      this.deletedIds = [];
+                    } else {
+                      this.saveLoader = false;
+                      this.toastr.error("Fields not inserted", { nzDuration: 3000 });
+                    }
                   } else {
                     this.saveLoader = false;
                     this.toastr.error("Fields not inserted", { nzDuration: 3000 });
@@ -578,6 +585,7 @@ export class CreateDatabaseComponent implements OnInit {
               if (res.data.length > 0) {
                 this.saveLoader = false;
                 this.toastr.success("Table fields updated successfully", { nzDuration: 3000 });
+                let ResponseGuid: any;
                 const observables = this.listOfData.map(element => {
                   const objFields = {
                     "tableid": element.update ? this.tableId : 0,
@@ -587,37 +595,61 @@ export class CreateDatabaseComponent implements OnInit {
                     "status": element.status,
                     "isactive": true
                   }
-
                   const tableFieldsValue = `tableschema`;
                   const tableFieldsModel = {
                     [tableFieldsValue]: objFields
                   }
-                  if (objFields.tableid == 0) {
-                    tableFieldsModel[tableFieldsValue].tableid = this.tableId;
 
-                    return this.applicationService.addNestNewCommonAPI('cp', tableFieldsModel).pipe(
-                      catchError(error => of(error)) // Handle error and continue the forkJoin
-                    );
+                  if (objFields.tableid == 0) {
+                    const { newGuid, metainfocreate } = this.socketService.metainfocreate();
+                    ResponseGuid = newGuid;
+                    tableFieldsModel[tableFieldsValue].tableid = this.tableId;
+                    const Add = { tableFieldsModel, metaInfo: metainfocreate }
+                    this.socketService.Request(Add);
                   } else {
-                    return this.applicationService.updateNestNewCommonAPI(`cp/tableschema`, element.id, tableFieldsModel).pipe(
-                      catchError(error => of(error)) // Handle error and continue the forkJoin
-                    );
+                    const { newUGuid, metainfoupdate } = this.socketService.metainfoupdate(element.id);
+                    ResponseGuid = newUGuid;
+                    const Update = { tableFieldsModel, metaInfo: metainfoupdate };
+                    this.socketService.Request(Update);
                   }
+                  return this.socketService.OnResponseMessage().pipe(
+                    catchError(error => of(error)
+                    ) // Handle error and continue the forkJoin
+                  );
+
+
+                  // if (objFields.tableid == 0) {
+
+                  //   return this.applicationService.addNestNewCommonAPI('cp', tableFieldsModel).pipe(
+                  //     catchError(error => of(error)) // Handle error and continue the forkJoin
+                  //   );
+                  // } else {
+                  //   return this.applicationService.updateNestNewCommonAPI(`cp/tableschema`, element.id, tableFieldsModel).pipe(
+                  //     catchError(error => of(error)) // Handle error and continue the forkJoin
+                  //   );
+                  // }
                 });
                 this.saveLoader = true;
+
                 forkJoin(observables).subscribe({
                   next: (results) => {
-                    this.saveLoader = false;
                     if (results.every(result => !(result instanceof Error))) {
-                      if (this.deletedIds.length == 0) {
-                        // this.toastr.success("Save and Update Table Fields Successfully", { nzDuration: 3000 });
-                        this.cancelEditTable();
-                        this.getDatabaseTablev1();
-                        this.deletedIds = [];
+                      // Check each result individually since forkJoin returns an array
+                      if (results.every(result => result.parseddata.requestId == ResponseGuid && result.parseddata.isSuccess)) {
+                        if (this.deletedIds.length == 0) {
+                          // this.toastr.success("Save and Update Table Fields Successfully", { nzDuration: 3000 });
+                          this.cancelEditTable();
+                          this.getDatabaseTablev1();
+                          this.deletedIds = [];
+                        } else {
+                          this.deleteRowData();
+                        }
                       } else {
-                        this.deleteRowData();
+                        this.saveLoader = false;
+                        this.toastr.error("Fields not inserted", { nzDuration: 3000 });
                       }
                     } else {
+                      this.saveLoader = false;
                       this.toastr.error("Fields not inserted", { nzDuration: 3000 });
                     }
                   },
@@ -627,6 +659,30 @@ export class CreateDatabaseComponent implements OnInit {
                     this.toastr.error("Fields not inserted", { nzDuration: 3000 });
                   }
                 });
+
+
+                // forkJoin(observables).subscribe({
+                //   next: (results) => {
+                //     this.saveLoader = false;
+                //     if (results.every(result => !(result instanceof Error))) {
+                //       if (this.deletedIds.length == 0) {
+                //         // this.toastr.success("Save and Update Table Fields Successfully", { nzDuration: 3000 });
+                //         this.cancelEditTable();
+                //         this.getDatabaseTablev1();
+                //         this.deletedIds = [];
+                //       } else {
+                //         this.deleteRowData();
+                //       }
+                //     } else {
+                //       this.toastr.error("Fields not inserted", { nzDuration: 3000 });
+                //     }
+                //   },
+                //   error: (err) => {
+                //     this.saveLoader = false;
+                //     console.error(err);
+                //     this.toastr.error("Fields not inserted", { nzDuration: 3000 });
+                //   }
+                // });
               }
             }
           }
