@@ -9,6 +9,7 @@ import * as CryptoJS from 'crypto-js';
 import { EncryptionService } from 'src/app/services/encryption.service';
 import { ApplicationService } from 'src/app/services/application.service';
 import { environment } from 'src/environments/environment';
+import { SocketService } from 'src/app/services/socket.service';
 
 @Component({
   selector: 'st-create-database',
@@ -119,7 +120,7 @@ export class CreateDatabaseComponent implements OnInit {
       ]
     },
   ];
-  constructor(private employeeService: EmployeeService, private toastr: NzMessageService,
+  constructor(private employeeService: EmployeeService, private toastr: NzMessageService, public socketService: SocketService,
     private applicationService: ApplicationService,
     private encryptionService: EncryptionService) { }
 
@@ -235,104 +236,115 @@ export class CreateDatabaseComponent implements OnInit {
     this.searchFilteredApprovedValue = '';
     this.searchFilteredPendingValue = '';
     this.saveLoader = true;
-    this.applicationService.getNestNewCommonAPI(`cp/tables`).subscribe({
+    const { jsonData, newGuid } = this.socketService.makeJsonData('tables', 'GetModelType');
+    this.socketService.Request(jsonData);
+    this.socketService.OnResponseMessage().subscribe({
       // this.employeeService.getSQLDatabaseTableCRUD('knex-crud/tables').subscribe({
       next: (objTRes) => {
         this.saveLoader = false;
-        if (objTRes.isSuccess) {
-          this.saveLoader = true;
-          this.applicationService.getNestNewCommonAPI(`cp/tableschema`).subscribe({
-            next: (objFRes) => {
-              this.saveLoader = false;
-              if (objFRes.isSuccess) {
-                this.tableFields = objFRes.data;
-                this.data = [];
-                if (objFRes.data.length > 0) {
-                  objFRes.data.forEach((element: any) => {
-                    element['update'] = true;
-                  });
-                }
-                if (objTRes.data.length > 0) {
-                  objTRes.data.forEach((element: any) => {
-                    element['schema'] = [];
-                    const objlistData = {
-                      id: element.id,
-                      tablename: element.tablename,
-                      comment: element.comment,
-                      totalfields: element.totalfields,
-                      isactive: element.status,
-                      schema: objFRes.data.filter(
-                        (x: any) => x.tableid == element.id
-                      ),
-                    };
-                    this.data.push(objlistData);
-                    // this.filteredApproved = this.data.filter(
-                    //   (item) => item.isactive === 'Approved'
-                    // );
+        if (objTRes.parseddata.requestId == newGuid && objTRes.parseddata.isSuccess) {
+          objTRes = objTRes.parseddata.apidata;
+          if (objTRes.isSuccess) {
+            this.saveLoader = true;
+            const { jsonData, newGuid } = this.socketService.makeJsonData('tableschema', 'GetModelType');
+            this.socketService.Request(jsonData);
+            this.socketService.OnResponseMessage().subscribe({
+              next: (objFRes) => {
+                if (objFRes.parseddata.requestId == newGuid && objFRes.parseddata.isSuccess) {
+                  objFRes = objFRes.parseddata.apidata;
+                  this.saveLoader = false;
+                  if (objFRes.isSuccess) {
+                    this.tableFields = objFRes.data;
+                    this.data = [];
+                    if (objFRes.data.length > 0) {
+                      objFRes.data.forEach((element: any) => {
+                        element['update'] = true;
+                      });
+                    }
+                    if (objTRes.data.length > 0) {
+                      objTRes.data.forEach((element: any) => {
+                        element['schema'] = [];
+                        const objlistData = {
+                          id: element.id,
+                          tablename: element.tablename,
+                          comment: element.comment,
+                          totalfields: element.totalfields,
+                          isactive: element.status,
+                          schema: objFRes.data.filter(
+                            (x: any) => x.tableid == element.id
+                          ),
+                        };
+                        this.data.push(objlistData);
+                        // this.filteredApproved = this.data.filter(
+                        //   (item) => item.isactive === 'Approved'
+                        // );
+                        // this.filteredPending = this.data.filter(
+                        //   (item) => item.isactive === 'Pending'
+                        // );
+
+                        // console.warn("filteredPending:", this.filteredPending);
+                        // console.warn("filteredApproved:", this.filteredApproved);
+                      });
+                    }
+                    this.filteredApproved = this.data.filter((item) => {
+                      return item.isactive === 'Approved';
+                    });
+                    this.searchFilterdApproved = this.filteredApproved
+
+                    this.filteredPending = this.data.filter((item) => {
+                      return item.isactive === 'Pending';
+                    });
+                    if (this.filteredPending.length === 0) {
+                      this.filteredPending = this.data.filter((item) => {
+                        return item.isactive === 'Pending' && item.schema.some((a: any) => a.status === 'Pending');
+                      });
+                    }
+                    let statusFilterd = this.data.filter((item) => {
+                      return item.isactive === 'Approved' && item.schema.some((a: any) => a.status === 'Pending');
+                    });
+
+                    statusFilterd.forEach(element => {
+                      this.filteredPending.push(element);
+                    });
+                    this.searchFilterdPending = this.filteredPending;
+                    // this.filteredPending = this.data.map((item) => {
+                    //   return {
+                    //     ...item,
+                    //     schema: item.schema.filter((a: any) => a.status === 'Pending')
+                    //   };
+                    // }).filter((item) => item.isActive === 'Pending' && item.schema.length > 0);
+                    // let abc = this.data.map((item) => {
+                    //   return {
+                    //     ...item,
+                    //     schema: item.schema.filter((a: any) => a.status === 'Pending')
+                    //   };
+                    // }).filter((item) => item.isactive === 'Approved' && item.schema.length > 0);
+                    // abc.forEach(element => {
+                    //   this.filteredPending.push(element);
+                    // });
                     // this.filteredPending = this.data.filter(
                     //   (item) => item.isactive === 'Pending'
                     // );
-
-                    // console.warn("filteredPending:", this.filteredPending);
-                    // console.warn("filteredApproved:", this.filteredApproved);
-                  });
+                  } else {
+                    this.saveLoader = false;
+                    console.log(objTRes.message);
+                    this.toastr.error(objTRes.message, { nzDuration: 3000 });
+                  }
                 }
-                this.filteredApproved = this.data.filter((item) => {
-                  return item.isactive === 'Approved';
-                });
-                this.searchFilterdApproved = this.filteredApproved
-
-                this.filteredPending = this.data.filter((item) => {
-                  return item.isactive === 'Pending';
-                });
-                if (this.filteredPending.length === 0) {
-                  this.filteredPending = this.data.filter((item) => {
-                    return item.isactive === 'Pending' && item.schema.some((a: any) => a.status === 'Pending');
-                  });
-                }
-                let statusFilterd = this.data.filter((item) => {
-                  return item.isactive === 'Approved' && item.schema.some((a: any) => a.status === 'Pending');
-                });
-
-                statusFilterd.forEach(element => {
-                  this.filteredPending.push(element);
-                });
-                this.searchFilterdPending = this.filteredPending;
-                // this.filteredPending = this.data.map((item) => {
-                //   return {
-                //     ...item,
-                //     schema: item.schema.filter((a: any) => a.status === 'Pending')
-                //   };
-                // }).filter((item) => item.isActive === 'Pending' && item.schema.length > 0);
-                // let abc = this.data.map((item) => {
-                //   return {
-                //     ...item,
-                //     schema: item.schema.filter((a: any) => a.status === 'Pending')
-                //   };
-                // }).filter((item) => item.isactive === 'Approved' && item.schema.length > 0);
-                // abc.forEach(element => {
-                //   this.filteredPending.push(element);
-                // });
-                // this.filteredPending = this.data.filter(
-                //   (item) => item.isactive === 'Pending'
-                // );
-              } else {
+              },
+              error: (err) => {
                 this.saveLoader = false;
-                console.log(objTRes.message);
-                this.toastr.error(objTRes.message, { nzDuration: 3000 });
+                console.error(err);
+                this.toastr.error("An error occurred", { nzDuration: 3000 });
               }
-            },
-            error: (err) => {
-              this.saveLoader = false;
-              console.error(err);
-              this.toastr.error("An error occurred", { nzDuration: 3000 });
-            }
-          });
-        } else {
-          this.saveLoader = false;
-          console.log(objTRes.message);
-          this.toastr.error(objTRes.message, { nzDuration: 3000 });
+            });
+          } else {
+            this.saveLoader = false;
+            console.log(objTRes.message);
+            this.toastr.error(objTRes.message, { nzDuration: 3000 });
+          }
         }
+
       },
       error: (err) => {
         this.saveLoader = false;
@@ -365,7 +377,7 @@ export class CreateDatabaseComponent implements OnInit {
         if (element.status == 'Approved')
           fields[element.fieldname] = element.type;
       });
-      const data = {
+      const data: any = {
         "tablename": this.myForm.value.tablename,
         "schema": fields
       };
@@ -373,15 +385,20 @@ export class CreateDatabaseComponent implements OnInit {
       this.saveLoader = true;
       if (this.myForm.value.isactive === "Approved") {
         // saving table if status is approved.
-        this.applicationService.addNestNewCommonAPI('cp/createTable', data).subscribe({
+        const { jsonData, newGuid } = this.socketService.makeJsonDatatable('tables', 'PostCreateTable', data);
+        this.socketService.Request(jsonData);
+        this.socketService.OnResponseMessage().subscribe({
           next: (res) => {
-            if (res.isSuccess) {
-              this.saveLoader = false;
-              this.toastr.success("Save Successfully", { nzDuration: 3000 });
-            } else {
-              this.saveLoader = false;
-              console.log(res.message);
-              this.toastr.error(res.message, { nzDuration: 3000 });
+            if (res.parseddata.requestId == newGuid && res.parseddata.isSuccess) {
+              res = res.parseddata.apidata;
+              if (res.isSuccess) {
+                this.saveLoader = false;
+                this.toastr.success("Save Successfully", { nzDuration: 3000 });
+              } else {
+                this.saveLoader = false;
+                console.log(res.message);
+                this.toastr.error(res.message, { nzDuration: 3000 });
+              }
             }
           },
           error: (err) => {
@@ -404,55 +421,65 @@ export class CreateDatabaseComponent implements OnInit {
       const tableModel = {
         [tableValue]: objTableNames
       }
-
-      this.applicationService.addNestNewCommonAPI('cp', tableModel).subscribe({
+      const { newGuid, metainfocreate } = this.socketService.metainfocreate();
+      const Model = { tableModel, metaInfo: metainfocreate }
+      this.socketService.Request(Model);
+      this.socketService.OnResponseMessage().subscribe({
         next: (res) => {
-          if (res.isSuccess) {
-            this.saveLoader = false;
-            const observables = this.listOfData.map(element => {
-              const objFields = {
-                "tableid": res.data[0]?.id,
-                "fieldname": element.fieldname,
-                "type": element.type,
-                "description": element.description,
-                "status": element.status,
-                "isactive": true
-              };
-              const tableFieldsValue = `tableschema`;
-              const tableFieldsModel = {
-                [tableFieldsValue]: objFields
-              }
-              return this.applicationService.addNestNewCommonAPI('cp', tableFieldsModel).pipe(
-                catchError(error => of(error)
-                ) // Handle error and continue the forkJoin
+          if (res.parseddata.requestId == newGuid && res.parseddata.isSuccess) {
+            res = res.parseddata.apidata;
+            if (res.isSuccess) {
+              this.saveLoader = false;
+              const observables = this.listOfData.map(element => {
+                const objFields = {
+                  "tableid": res.data[0]?.id,
+                  "fieldname": element.fieldname,
+                  "type": element.type,
+                  "description": element.description,
+                  "status": element.status,
+                  "isactive": true
+                };
+                const tableFieldsValue = `tableschema`;
+                const tableFieldsModel = {
+                  [tableFieldsValue]: objFields
+                }
+                const { newGuid, metainfocreate } = this.socketService.metainfocreate();
+                const ModelUpdate = { tableFieldsModel, metaInfo: metainfocreate }
+                this.socketService.Request(ModelUpdate);
+                this.socketService.OnResponseMessage()
+                return this.applicationService.addNestNewCommonAPI('cp', tableFieldsModel).pipe(
+                  catchError(error => of(error)
+                  ) // Handle error and continue the forkJoin
 
-              );
-            });
+                );
+              });
 
-            forkJoin(observables).subscribe({
-              next: (results) => {
-                if (results.every(result => !(result instanceof Error))) {
+              forkJoin(observables).subscribe({
+                next: (results) => {
+                  if (results.every(result => !(result instanceof Error))) {
+                    this.saveLoader = false;
+                    this.toastr.success("Save Table Fields Successfully", { nzDuration: 3000 });
+                    this.cancelEditTable();
+                    this.getDatabaseTablev1();
+                    this.deletedIds = [];
+                  } else {
+                    this.saveLoader = false;
+                    this.toastr.error("Fields not inserted", { nzDuration: 3000 });
+                  }
+                },
+                error: (err) => {
                   this.saveLoader = false;
-                  this.toastr.success("Save Table Fields Successfully", { nzDuration: 3000 });
-                  this.cancelEditTable();
-                  this.getDatabaseTablev1();
-                  this.deletedIds = [];
-                } else {
-                  this.saveLoader = false;
+                  console.error(err);
                   this.toastr.error("Fields not inserted", { nzDuration: 3000 });
                 }
-              },
-              error: (err) => {
-                this.saveLoader = false;
-                console.error(err);
-                this.toastr.error("Fields not inserted", { nzDuration: 3000 });
-              }
-            });
-          } else {
-            this.saveLoader = false;
-            console.log(res.message);
-            this.toastr.error(res.message, { nzDuration: 3000 });
+              });
+            } else {
+              this.saveLoader = false;
+              console.log(res.message);
+              this.toastr.error(res.message, { nzDuration: 3000 });
+            }
           }
+
         },
         error: (err) => {
           console.error(err);
@@ -486,22 +513,26 @@ export class CreateDatabaseComponent implements OnInit {
         if (element.status == 'Approved')
           fields[element.fieldname] = element.type;
       });
-      const data = {
+      const data: any = {
         "tablename": this.myForm.value.tablename.toLowerCase(),
         "schema": fields
       };
       if (this.myForm.value.isactive === "Approved") {
         this.saveLoader = true;
-
-        this.applicationService.addNestNewCommonAPI('cp/createTable', data).subscribe({
+        const { jsonData, newGuid } = this.socketService.makeJsonDatatable('tables', 'PostCreateTable', data);
+        this.socketService.Request(jsonData);
+        this.socketService.OnResponseMessage().subscribe({
           next: (res) => {
-            if (res.isSuccess) {
-              this.saveLoader = false;
-              this.toastr.success("Save Successfully", { nzDuration: 3000 });
-            } else {
-              this.saveLoader = false;
-              console.error(res.message);
-              this.toastr.error(res.message, { nzDuration: 3000 });
+            if (res.parseddata.requestId == newGuid && res.parseddata.isSuccess) {
+              res = res.parseddata.apidata;
+              if (res.isSuccess) {
+                this.saveLoader = false;
+                this.toastr.success("Save Successfully", { nzDuration: 3000 });
+              } else {
+                this.saveLoader = false;
+                console.error(res.message);
+                this.toastr.error(res.message, { nzDuration: 3000 });
+              }
             }
           },
           error: (err) => {
@@ -522,7 +553,7 @@ export class CreateDatabaseComponent implements OnInit {
         "isactive": true
       };
       const tableValue = `tables`;
-      const tableModel = {
+      const tableModel: any = {
         [tableValue]: objTableNames
       }
       const listdata = this.listOfData.filter((data) => {
@@ -536,61 +567,67 @@ export class CreateDatabaseComponent implements OnInit {
         return
       }
       this.saveLoader = true;
-      this.applicationService.updateNestNewCommonAPI(`cp/tables`, this.tableId, tableModel).subscribe({
+      const { newUGuid, metainfoupdate } = this.socketService.metainfoupdate(this.tableId);
+      const Update = { tableModel, metaInfo: metainfoupdate };
+      this.socketService.Request(Update)
+      this.socketService.OnResponseMessage().subscribe({
         next: (res) => {
-          if (res.isSuccess) {
-            if (res.data.length > 0) {
-              this.saveLoader = false;
-              this.toastr.success("Table fields updated successfully", { nzDuration: 3000 });
-              const observables = this.listOfData.map(element => {
-                const objFields = {
-                  "tableid": element.update ? this.tableId : 0,
-                  "fieldname": element.fieldname,
-                  "type": element.type,
-                  "description": element.description,
-                  "status": element.status,
-                  "isactive": true
-                }
+          if (res.parseddata.requestId == newUGuid && res.parseddata.isSuccess) {
+            res = res.parseddata.apidata;
+            if (res.isSuccess) {
+              if (res.data.length > 0) {
+                this.saveLoader = false;
+                this.toastr.success("Table fields updated successfully", { nzDuration: 3000 });
+                const observables = this.listOfData.map(element => {
+                  const objFields = {
+                    "tableid": element.update ? this.tableId : 0,
+                    "fieldname": element.fieldname,
+                    "type": element.type,
+                    "description": element.description,
+                    "status": element.status,
+                    "isactive": true
+                  }
 
-                const tableFieldsValue = `tableschema`;
-                const tableFieldsModel = {
-                  [tableFieldsValue]: objFields
-                }
-                if (objFields.tableid == 0) {
-                  tableFieldsModel[tableFieldsValue].tableid = this.tableId;
+                  const tableFieldsValue = `tableschema`;
+                  const tableFieldsModel = {
+                    [tableFieldsValue]: objFields
+                  }
+                  if (objFields.tableid == 0) {
+                    tableFieldsModel[tableFieldsValue].tableid = this.tableId;
 
-                  return this.applicationService.addNestNewCommonAPI('cp', tableFieldsModel).pipe(
-                    catchError(error => of(error)) // Handle error and continue the forkJoin
-                  );
-                } else {
-                  return this.applicationService.updateNestNewCommonAPI(`cp/tableschema`, element.id, tableFieldsModel).pipe(
-                    catchError(error => of(error)) // Handle error and continue the forkJoin
-                  );
-                }
-              });
-              this.saveLoader = true;
-              forkJoin(observables).subscribe({
-                next: (results) => {
-                  this.saveLoader = false;
-                  if (results.every(result => !(result instanceof Error))) {
-                    if (this.deletedIds.length == 0) {
-                      // this.toastr.success("Save and Update Table Fields Successfully", { nzDuration: 3000 });
-                      this.cancelEditTable();
-                      this.getDatabaseTablev1();
-                      this.deletedIds = [];
-                    } else {
-                      this.deleteRowData();
-                    }
+                    return this.applicationService.addNestNewCommonAPI('cp', tableFieldsModel).pipe(
+                      catchError(error => of(error)) // Handle error and continue the forkJoin
+                    );
                   } else {
+                    return this.applicationService.updateNestNewCommonAPI(`cp/tableschema`, element.id, tableFieldsModel).pipe(
+                      catchError(error => of(error)) // Handle error and continue the forkJoin
+                    );
+                  }
+                });
+                this.saveLoader = true;
+                forkJoin(observables).subscribe({
+                  next: (results) => {
+                    this.saveLoader = false;
+                    if (results.every(result => !(result instanceof Error))) {
+                      if (this.deletedIds.length == 0) {
+                        // this.toastr.success("Save and Update Table Fields Successfully", { nzDuration: 3000 });
+                        this.cancelEditTable();
+                        this.getDatabaseTablev1();
+                        this.deletedIds = [];
+                      } else {
+                        this.deleteRowData();
+                      }
+                    } else {
+                      this.toastr.error("Fields not inserted", { nzDuration: 3000 });
+                    }
+                  },
+                  error: (err) => {
+                    this.saveLoader = false;
+                    console.error(err);
                     this.toastr.error("Fields not inserted", { nzDuration: 3000 });
                   }
-                },
-                error: (err) => {
-                  this.saveLoader = false;
-                  console.error(err);
-                  this.toastr.error("Fields not inserted", { nzDuration: 3000 });
-                }
-              });
+                });
+              }
             }
           }
         },
@@ -606,23 +643,28 @@ export class CreateDatabaseComponent implements OnInit {
   deleteRowData() {
     if (this.deletedCloumns.length > 0) {
       this.myForm.value.tablename
-      const objColumns = {
+      const objColumns: any = {
         "tablename": this.tableName,
         "columns": this.deletedCloumns
       }
 
       this.saveLoader = true;
-      this.applicationService.addNestNewCommonAPI(`cp/dropColumn`, objColumns).subscribe({
+      const { jsonData, newGuid } = this.socketService.makeJsonDatatable('tables', 'DeleteDropColumn', objColumns);
+      this.socketService.Request(jsonData);
+      this.socketService.OnResponseMessage().subscribe({
         next: (res) => {
-          if (res.isSuccess) {
-            this.saveLoader = false;
-            this.toastr.success("Table field deleted successfully ", { nzDuration: 3000 });
-            this.cancelEditTable();
-            this.getDatabaseTablev1();
-          } else {
-            this.saveLoader = false;
-            console.error(res.message);
-            this.toastr.error(res.message, { nzDuration: 3000 });
+          if (res.parseddata.requestId == newGuid && res.parseddata.isSuccess) {
+            res = res.parseddata.apidata;
+            if (res.isSuccess) {
+              this.saveLoader = false;
+              this.toastr.success("Table field deleted successfully ", { nzDuration: 3000 });
+              this.cancelEditTable();
+              this.getDatabaseTablev1();
+            } else {
+              this.saveLoader = false;
+              console.error(res.message);
+              this.toastr.error(res.message, { nzDuration: 3000 });
+            }
           }
         },
         error: (err) => {
@@ -658,18 +700,24 @@ export class CreateDatabaseComponent implements OnInit {
   dropTable(item: any) {
     if (item) {
       this.saveLoader = true;
-      this.applicationService.deleteNestNewCommonAPI(`cp/dropTable`, item.name).subscribe({
+      const { jsonData, newGuid } = this.socketService.makeJsonDatatable('tables', 'DeleteDropColumn', item.name);
+      this.socketService.Request(jsonData);
+      this.socketService.OnResponseMessage().subscribe({
         next: (res) => {
-          // if (res.success) {
-          this.saveLoader = false;
-          this.toastr.success("Table deleted successfully ", { nzDuration: 3000 });
-          this.cancelEditTable();
-          this.getDatabaseTablev1();
-          // } else {
-          //   this.saveLoader = false;
-          //   console.error(res.message);
-          //   this.toastr.error("An error occurred", { nzDuration: 3000 });
-          // }
+          if (res.parseddata.requestId == newGuid && res.parseddata.isSuccess) {
+            res = res.parseddata.apidata;
+            if (res.success) {
+              this.saveLoader = false;
+              this.toastr.success("Table deleted successfully ", { nzDuration: 3000 });
+              this.cancelEditTable();
+              this.getDatabaseTablev1();
+            } else {
+              this.saveLoader = false;
+              console.error(res.message);
+              this.toastr.error("An error occurred", { nzDuration: 3000 });
+            }
+          }
+
         },
         error: (err) => {
           this.saveLoader = false;

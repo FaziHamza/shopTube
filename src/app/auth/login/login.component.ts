@@ -193,6 +193,7 @@ export class LoginComponent implements OnInit {
               localStorage.setItem('externalLogin', 'false');
               this.showLoader = false;
               this.authService.setAuth(res.data);
+              this.socketService.setSocket();
               this.router.navigate(['/home/allorder']);
               this.router.navigate(['/']);
             } else {

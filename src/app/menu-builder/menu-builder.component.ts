@@ -1886,9 +1886,21 @@ export class MenuBuilderComponent implements OnInit {
       try {
         const { jsonData, newGuid } = this.socketService.makeJsonDataById('UserMapping', node.value, 'GetModelTypeById');
         this.socketService.Request(jsonData);
-        let res = await this.socketService.OnResponseMessage().toPromise();
-        if (res.parseddata.requestId == newGuid && res.parseddata.isSuccess) {
-          res = res.parseddata.apidata;
+        const response:any = await new Promise((resolve, reject) => {
+          const subscription = this.socketService.OnResponseMessage().subscribe(
+            (data: any) => {
+              subscription.unsubscribe();
+              resolve(data);
+            },
+            (error: any) => {
+              subscription.unsubscribe();
+              reject(error);
+            }
+          );
+        });
+  
+        if (response.parseddata.requestId == newGuid && response.parseddata.isSuccess) {
+          const  res = response.parseddata.apidata;
           if (res.isSuccess) {
             this.applications = res.data;
             const applications = res.data.map((appData: any) => {
@@ -1914,6 +1926,7 @@ export class MenuBuilderComponent implements OnInit {
       }
     }
   }
+
   onDepartmentChange(departmentId: any) {
     if (departmentId.length === 2) {
       if (departmentId[1] != 'selectApplication') {

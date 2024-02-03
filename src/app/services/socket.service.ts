@@ -4,18 +4,18 @@ import { Observable } from 'rxjs';
 import { Socket, io } from 'socket.io-client';
 import { environment } from 'src/environments/environment';
 import { Guid } from '../models/guid';
-
+import { Router } from '@angular/router';
 @Injectable({
   providedIn: 'root'
 })
 // @Injectable()
 export class SocketService {
   private socket: Socket;
-  constructor() {
+  constructor(private router:Router) {
     const token = localStorage.getItem('authToken');
-    if (token) {
+    if (token){
       this.setSocket();
-    } else {
+    }else{
       this.authSocket();
     }
   }
@@ -73,7 +73,11 @@ export class SocketService {
     return new Observable((subscriber) => {
       this.socket.on('ResponseMessage', (message: any) => {
         console.log(this.getDate('Response', message))
-        subscriber.next(message);
+        if(message.status==='401'){
+          this.router.navigate(['/login'])
+        }else{
+          subscriber.next(message);
+        }
       });
     });
   }
@@ -92,6 +96,16 @@ export class SocketService {
       type: type
     }
     return { jsonData: { modelType: modelType, metaInfo: metainfo }, newGuid }
+
+  }
+  makeJsonDatatable(modelType: string, tag: string,data:string) {
+    const newGuid = Guid.new16DigitGuid();
+
+    const metainfo = {
+      actiontag: tag,
+      RequestId: newGuid
+    }
+    return { jsonData: { tabledata:data, modelType: modelType, metaInfo: metainfo }, newGuid }
 
   }
   makeJsonDataById(modelType: string, id: any, tag: string, screenId?: any, type?: any) {
@@ -125,7 +139,6 @@ export class SocketService {
       RequestId: newGuid
     }
     return { newGuid, metainfocreate };
-
   }
   metainfoDynamic(tag: any,modelType?:string,screenbuilderid?:string) {
     const newGuid = Guid.new16DigitGuid();
@@ -136,7 +149,6 @@ export class SocketService {
       modelType:modelType,
     }
     return { newGuid, metainfocreate };
-
   }
   metainfoupdate(id: any) {
     const newUGuid = Guid.new16DigitGuid();

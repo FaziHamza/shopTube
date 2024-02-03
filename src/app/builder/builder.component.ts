@@ -233,31 +233,36 @@ export class BuilderComponent implements OnInit {
         this.selectApplicationName = node.value;
         const { jsonData, newGuid } = this.socketService.makeJsonDataById('ScreenBuilder', node.value, 'GetModelTypeById');
         this.socketService.Request(jsonData);
-        this.socketService.OnResponseMessage().subscribe({
-          next: (res: any) => {
-            if (res.parseddata.requestId == newGuid && res.parseddata.isSuccess) {
-              res = res.parseddata.apidata;
-              this.screens = res.data;
-              const screens = res.data.map((screendata: any) => {
-                return {
-                  label: screendata.name,
-                  value: screendata.id,
-                  isLeaf: true
-                };
-
-              });
-              node.children = screens;
-              let header = {
-                label: 'Select Screen',
-                value: 'selectScreen'
-              }
-              screens.unshift(header)
+        const response:any = await new Promise((resolve, reject) => {
+          const subscription = this.socketService.OnResponseMessage().subscribe(
+            (data: any) => {
+              subscription.unsubscribe();
+              resolve(data);
+            },
+            (error: any) => {
+              subscription.unsubscribe();
+              reject(error);
             }
-          },
-          error: (err) => {
-            this.toastr.error(`${err.error.message}`, { nzDuration: 3000 });
-          },
+          );
         });
+        if (response.parseddata.requestId == newGuid && response.parseddata.isSuccess) {
+         const res = response.parseddata.apidata;
+          this.screens = res.data;
+          const screens = res.data.map((screendata: any) => {
+            return {
+              label: screendata.name,
+              value: screendata.id,
+              isLeaf: true
+            };
+
+          });
+          node.children = screens;
+          let header = {
+            label: 'Select Screen',
+            value: 'selectScreen'
+          }
+          screens.unshift(header)
+        }
       } catch (err) {
         this.toastr.error('An error occurred while loading application data', { nzDuration: 3000 });
       }
@@ -269,31 +274,36 @@ export class BuilderComponent implements OnInit {
           this.selectApplicationName = node.value;
           const { jsonData, newGuid } = this.socketService.makeJsonDataById('Application', node.value, 'GetModelTypeById');
           this.socketService.Request(jsonData);
-          this.socketService.OnResponseMessage().subscribe({
-            next: (res: any) => {
-              if (res.parseddata.requestId == newGuid && res.parseddata.isSuccess) {
-                res = res.parseddata.apidata;
-                this.selectApplicationName = "";
-                this.applicationData = res.data;
-                const applications = res.data.map((appData: any) => {
-                  return {
-                    label: appData.name,
-                    value: appData.id,
-                    isLeaf: false
-                  };
-                });
-                node.children = applications;
-                let header = {
-                  label: 'Select Application',
-                  value: 'selectApplication'
-                }
-                applications.unshift(header)
+          const response:any = await new Promise((resolve, reject) => {
+            const subscription = this.socketService.OnResponseMessage().subscribe(
+              (data: any) => {
+                subscription.unsubscribe();
+                resolve(data);
+              },
+              (error: any) => {
+                subscription.unsubscribe();
+                reject(error);
               }
-            },
-            error: (err) => {
-              this.toastr.error(`${err.error.message}`, { nzDuration: 3000 });
-            },
+            );
           });
+          if (response.parseddata.requestId == newGuid && response.parseddata.isSuccess) {
+             const res = response.parseddata.apidata;
+            this.selectApplicationName = "";
+            this.applicationData = res.data;
+            const applications = res.data.map((appData: any) => {
+              return {
+                label: appData.name,
+                value: appData.id,
+                isLeaf: false
+              };
+            });
+            node.children = applications;
+            let header = {
+              label: 'Select Application',
+              value: 'selectApplication'
+            }
+            applications.unshift(header)
+          }
         } catch (err) {
           this.toastr.error('An error occurred while loading application data', { nzDuration: 3000 });
         }
@@ -636,7 +646,7 @@ export class BuilderComponent implements OnInit {
               this.isSavedDb = true;
               // this.moduleId = res[0].moduleId;
               // this.formlyModel = {};
-
+  
               let objscreendata = this.jsonParseWithObject(this.jsonStringifyWithObject(objScreenData));
               this.applyTheme(objscreendata[0], false)
               if (this.actionRuleList && this.actionRuleList.length > 0) {
@@ -677,7 +687,7 @@ export class BuilderComponent implements OnInit {
                     }
                   });
                 }
-
+  
                 let checkFirst: any = {};
                 for (let index = 0; index < this.actionRuleList.length; index++) {
                   const element = this.actionRuleList[index];
@@ -711,8 +721,8 @@ export class BuilderComponent implements OnInit {
               }
               else
                 this.nodes = objscreendata;
-
-
+  
+  
               // if (!this.nodes[0].isLeaf) {
               //   this.addOrRemoveisLeaf(this.nodes[0]);
               // }
@@ -721,7 +731,7 @@ export class BuilderComponent implements OnInit {
               this.saveLoader = false;
               // this.getFromQuery(res.data[0].navigation, 'get');
               // if (res[0].menuData[0].children[1]) {
-
+  
               //   // this.uiRuleGetData(res[0].moduleId);
               //   // this.uiGridRuleGetData(res[0].moduleId);
               // }
@@ -734,7 +744,7 @@ export class BuilderComponent implements OnInit {
               this.dataSharedService.screenCommentList.forEach(element => {
                 this.assignIssue(this.nodes[0], element);
               });
-
+  
             }
             else {
               // this.navigation = 0;
@@ -802,7 +812,7 @@ export class BuilderComponent implements OnInit {
             this.saveLoader = false;
           }
         }
-
+        
       },
       error: (err) => {
         console.error(err); // Log the error to the console
@@ -4928,25 +4938,24 @@ export class BuilderComponent implements OnInit {
           //   [tableValue]: JOIData
           // }
           // const checkAndProcess = this.validationRuleId == ''
-          // const tableValue = `ValidationRule`;
+          const tableValue = `ValidationRule`;
           var ResponseGuid: any;
           if (!event.form.id) {
             const { newGuid, metainfocreate } = this.socketService.metainfocreate();
             ResponseGuid = newGuid;
-            const Add = { [`ValidationRule`]: JOIData, metaInfo: metainfocreate }
+            const Add = { [tableValue]: JOIData, metaInfo: metainfocreate }
             this.socketService.Request(Add);
           }
           else {
             const { newUGuid, metainfoupdate } = this.socketService.metainfoupdate(event.form.id);
             ResponseGuid = newUGuid;
-            const Update = { [`ValidationRule`]: JOIData, metaInfo: metainfoupdate };
+            const Update = { [tableValue]: JOIData, metaInfo: metainfoupdate };
             this.socketService.Request(Update)
           }
 
           this.socketService.OnResponseMessage().subscribe({
             next: (res: any) => {
               if (res.parseddata.requestId == ResponseGuid && res.parseddata.isSuccess) {
-                res = res.parseddata.apidata;
                 if (res.isSuccess) {
                   this.getJoiValidation(this.id);
                   this.toastr.success(`Valiadation Rule : ${res.message}`, { nzDuration: 3000 });

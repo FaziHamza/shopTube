@@ -286,28 +286,37 @@ export class PolicyMappingComponent implements OnInit {
     }
   }
   async loadData(node: NzCascaderOption, index: number): Promise<void> {
-    if (index === 0 && node.value != 'selectDepartment') {
+    if (index === 0 && node.value !== 'selectDepartment') {
       try {
         const { jsonData, newGuid } = this.socketService.makeJsonDataById('Application', node.value, 'GetModelTypeById');
         this.socketService.Request(jsonData);
-      
-        const response = await from(this.socketService.OnResponseMessage())
-          .toPromise();
-      
+  
+        const response:any = await new Promise((resolve, reject) => {
+          const subscription = this.socketService.OnResponseMessage().subscribe(
+            (data: any) => {
+              subscription.unsubscribe();
+              resolve(data);
+            },
+            (error: any) => {
+              subscription.unsubscribe();
+              reject(error);
+            }
+          );
+        });
+  
         if (response.parseddata.requestId == newGuid && response.parseddata.isSuccess) {
           const res = response.parseddata.apidata;
           if (res.isSuccess) {
             this.applications = res.data;
-            const applications = res.data.map((appData: any) => {
-              return {
-                label: appData.name,
-                value: appData.id,
-                isLeaf: true
-              };
-            });
+            const applications = res.data.map((appData: any) => ({
+              label: appData.name,
+              value: appData.id,
+              isLeaf: true,
+            }));
+  
             let header = {
               label: 'Select Application',
-              value: 'selectApplication'
+              value: 'selectApplication',
             };
             applications.unshift(header);
             node.children = applications;
@@ -321,6 +330,7 @@ export class PolicyMappingComponent implements OnInit {
       }
     }
   }
+  
   getDepartments() {
     const { jsonData, newGuid } = this.socketService.makeJsonData('Department', 'GetModelType');
     this.socketService.Request(jsonData);
