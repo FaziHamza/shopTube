@@ -289,26 +289,32 @@ export class SectionsComponent implements OnInit {
                 // }
                 const successMessage = (model.postType === 'post') ? 'Save Successfully' : 'Update Successfully';
                 this.toastr.success(successMessage, { nzDuration: 3000 });
-  
+
                 if (data.saveRouteLink && this.dataSharedService.currentMenuLink !== '/ourbuilder' && model.postType === 'post') {
                   let tableName: any = '';
                   if (res?.[0]) {
                     tableName = res[0].tableName ? res[0].tableName.split('.')[1].split('_')[0] : '';
                   }
-                  if (window.location.href.includes('addcustomclearanceFsy')) {
+                  if (window.location.href.includes('addcustomclearanceFsy') || 'addpif') {
                     this.router.navigate(['/pages/' + data.saveRouteLink]).then(() => {
                       // Reload the entire application to re-render all components
                       this.location.replaceState('/pages/' + data.saveRouteLink);
                       window.location.reload();
                     });
                   } else {
+                    let tableData = this.findObjectByTypeBase(this.sections, "gridList");
+                    this.tempTableData = [];
+                    tableData.tableData = [];
+                    tableData.data = [];
+                    tableData.targetId = '';
+                    tableData.displayData = []
                     this.router.navigate(['/pages/' + data.saveRouteLink]);
                   }
                   return;
                 }
-  
+
                 if (model.postType === 'post') {
-  
+
                   let tableName: any = '';
                   if (res[0]) {
                     tableName = res[0].tableName ? res[0].tableName.split('.')[1].split('_')[0] : '';
@@ -323,7 +329,7 @@ export class SectionsComponent implements OnInit {
                 // else {
                 //   this.dataSharedService.gridDataLoad = true;
                 // }
-  
+
                 this.dataSharedService.gridDataLoad = true;
                 this.dataSharedService.isSaveData = true;
                 let findCommentsDiv = this.findObjectByKey(this.sections, 'section_comments_drawer');
