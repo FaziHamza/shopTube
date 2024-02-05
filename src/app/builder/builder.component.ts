@@ -179,7 +179,7 @@ export class BuilderComponent implements OnInit {
     this.getApplicationTheme();
     // this.getUsers();
     this.dataSharedService.currentMenuLink = '/ourbuilder';
-    this.currentUser = JSON.parse(this.dataSharedService.decryptedValue('user'));
+    this.currentUser = this.dataSharedService.decryptedValue('user') ? JSON.parse(this.dataSharedService.decryptedValue('user')) : null;
     this.loadDepartmentData();
     document
       .getElementsByTagName('body')[0]

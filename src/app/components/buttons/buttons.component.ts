@@ -65,7 +65,7 @@ export class ButtonsComponent implements OnInit {
       this.keyName = this.findKeyByOrderid(this.tableDisplayData, this.title);
     }
 
-    const userData = this.dataSharedService.decryptedValue('user') ? JSON.parse(this.dataSharedService.decryptedValue('user')) : null;
+    const userData = this.dataSharedService.decryptedValue('user') ? this.dataSharedService.decryptedValue('user') ? JSON.parse(this.dataSharedService.decryptedValue('user')) : null : null;
     if (this.buttonData?.dropdownProperties == 'policyTheme' && userData) {
       this.policyTheme = userData['policy']['policyTheme'];
       this.buttonData['title'] = userData['policy']['policyTheme'] ? userData['policy']['policyTheme'] : this.buttonData?.title;
@@ -271,7 +271,7 @@ export class ButtonsComponent implements OnInit {
   }
   jsonPolicyModuleList() {
 
-    let user = JSON.parse(this.dataSharedService.decryptedValue('user'));
+    let user = this.dataSharedService.decryptedValue('user') ? JSON.parse(this.dataSharedService.decryptedValue('user')) : null;
     const { jsonData, newGuid } = this.socketService.makeJsonDataById('getpolicy', user?.policy?.userid, 'GetModelTypeById');
     this.socketService.Request(jsonData);
     this.socketService.OnResponseMessage().subscribe({
@@ -322,7 +322,7 @@ export class ButtonsComponent implements OnInit {
   }
   changePolicy(policy: any) {
 
-    let user = JSON.parse(this.dataSharedService.decryptedValue('user'));
+    let user = this.dataSharedService.decryptedValue('user') ? JSON.parse(this.dataSharedService.decryptedValue('user')) : null;
     user['policy']['policyId'] = policy?.policyId?._id;
     user['policy']['policyName'] = policy?.policyId?.name;
     this.policyTheme = policy?.policyId?.applicationTheme;

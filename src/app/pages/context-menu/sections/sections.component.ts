@@ -447,7 +447,7 @@ export class SectionsComponent implements OnInit {
       this.handleAction(postEvent, empData, data);
 
     } else {
-      if (!checkPermission?.updates && this.dataSharedService?.currentMenuLink !== '/ourbuilder') {
+      if (!checkPermission?.updates && this.dataSharedService?.currentMenuLink !== '/ourbuilder' && !(localStorage.getItem('externalLogin') || false)) {
         alert("You do not have permission");
         return;
       }

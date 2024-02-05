@@ -150,7 +150,7 @@ export class DynamicTableComponent implements OnInit {
       document.documentElement.style.setProperty('--paginationColor', this.data?.paginationColor || '#2563EB');
 
     }
-    this.userDetails = JSON.parse(this.dataSharedService.decryptedValue('user'));
+    this.userDetails = this.dataSharedService.decryptedValue('user') ? JSON.parse(this.dataSharedService.decryptedValue('user')) : null;
 
     this.updateRotationDegree(50); // Rotate to -60 degrees
 

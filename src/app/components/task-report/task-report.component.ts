@@ -39,7 +39,7 @@ export class TaskReportComponent implements OnInit {
       return;
     }
 
-    const userData = JSON.parse(this.dataSharedService.decryptedValue('user'));
+    const userData = this.dataSharedService.decryptedValue('user') ? JSON.parse(this.dataSharedService.decryptedValue('user')) : null;
 
 
     const commentObj = {
@@ -173,7 +173,7 @@ export class TaskReportComponent implements OnInit {
   }
   userAssigneeSave(data: any) {
     
-    const userData = JSON.parse(this.dataSharedService.decryptedValue('user'));
+    const userData = this.dataSharedService.decryptedValue('user') ? JSON.parse(this.dataSharedService.decryptedValue('user')) : null;
     let obj = {
       screenId: this.screenName,
       // dueDate: data?.dueDate,

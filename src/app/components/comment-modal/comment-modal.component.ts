@@ -64,7 +64,7 @@ export class CommentModalComponent implements OnInit {
       const now = new Date();
 
       // Format the date in ISO format
-      const userData = JSON.parse(this.dataSharedService.decryptedValue('user'));
+      const userData = this.dataSharedService.decryptedValue('user') ? JSON.parse(this.dataSharedService.decryptedValue('user')) : null;
       let commentObj = {
         // id:0,
         screenid: this.screenName,
