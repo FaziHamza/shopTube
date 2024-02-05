@@ -4579,6 +4579,13 @@ export class BuilderComponent implements OnInit {
         // }
         this.selectedNode.btnIcon = event.form?.icon;
         this.selectedNode['buttonClass'] = event.form?.buttonClass;
+        let nodesTable = this.findObjectByTypeBase(this.nodes, 'gridList');
+        this.selectedNode['detailTable'] = nodesTable.map((a: any) => {
+          return {
+            label: a.label,
+            value: a.id,
+          }
+        })
         // this.selectedNode['captureData'] = event.form?.captureData;
 
         break;

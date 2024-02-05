@@ -256,30 +256,13 @@ export class formFeildData {
           }
         },
         {
-          key: 'format',
+          key: 'detailSaveGrid',
           type: 'select',
           className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
           wrappers: ["formly-vertical-theme-wrapper"],
           props: {
-            label: 'Button Position',
-            options: [
-              {
-                label: 'Left',
-                value: 'text-left'
-              },
-              {
-                label: 'Right',
-                value: 'text-right'
-              },
-              {
-                label: 'Center',
-                value: 'text-center'
-              },
-              {
-                label: 'None',
-                value: ''
-              },
-            ],
+            label: 'Detail Save grid',
+            options: [],
             additionalProperties: {
               allowClear: true,
               serveSearch: false,
@@ -289,7 +272,6 @@ export class formFeildData {
           },
           // defaultValue: 'Vertical'
         },
-        // {
         //   key: 'iconPlacement',
         //   type: 'select',
         //   className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",

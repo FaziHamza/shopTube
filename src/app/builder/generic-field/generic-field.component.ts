@@ -7,6 +7,7 @@ import { Guid } from 'src/app/models/guid';
 import { ApplicationService } from 'src/app/services/application.service';
 import { BuilderService } from 'src/app/services/builder.service';
 import { DataSharedService } from 'src/app/services/data-shared.service';
+import { SocketService } from 'src/app/services/socket.service';
 
 @Component({
   selector: 'st-generic-field',
@@ -26,7 +27,7 @@ export class GenericFieldComponent implements OnInit {
   @Output() notify: EventEmitter<any> = new EventEmitter<any>();
   @Output() deleteValidation: EventEmitter<any> = new EventEmitter<any>();
   requestSubscription: Subscription;
-  showMappingTable : boolean = false;
+  showMappingTable: boolean = false;
   resData: any;
   saveLoader: boolean = false;
   publicList: object[] = [
@@ -37,6 +38,7 @@ export class GenericFieldComponent implements OnInit {
 
 
   constructor(private toastr: NzMessageService, private _dataSharedService: DataSharedService, public builderService: BuilderService,
+    public socketService: SocketService,
     private applicationService: ApplicationService,) { }
   ngOnInit(): void {
     this.requestSubscription = this._dataSharedService.gericFieldLoader.subscribe(res => {
@@ -92,7 +94,7 @@ export class GenericFieldComponent implements OnInit {
 
   }
   onSubmit() {
-debugger
+    debugger
     // event.stopPropagation();
     // this.valueChange.emit(this.model + ' from child.');
     // const newProduct = { productName: "New", quantity: 666 };
@@ -143,49 +145,64 @@ debugger
     let obj: { mapApi?: any } = this.actionform.value;
     if (obj.mapApi) {
       try {
+        let splitApi;
+        let parentId;
+        if (obj.mapApi.includes('getexecute-rules/'))
+          splitApi = obj.mapApi.split('getexecute-rules/')[1];
+        else splitApi = obj.mapApi;
+        if (splitApi.includes('/')) {
+          const getValue = splitApi.split('/');
+          splitApi = getValue[0]
+          parentId = getValue[1];
+        }
         this.saveLoader = true;
-        this.requestSubscription = this.applicationService.getNestCommonAPI(obj.mapApi).subscribe({
+        const { jsonData, RequestGuid } = this.socketService.metaInfoForGrid('GetPageExecuteRules', splitApi, parentId);
+        this.socketService.Request(jsonData);
+        this.socketService.OnResponseMessage().subscribe({
           next: (res) => {
-            this.saveLoader = false;
-            if (res?.data.length > 0) {
+            if (res.parseddata.requestId == RequestGuid && res.parseddata.isSuccess) {
+              res = res.parseddata.apidata;
               this.saveLoader = false;
-              this.resData = res.data;
-              this.itemData.mappingNode['dbData'] = res.data;
-              this.itemData.mappingNode.tableBody = [];
-              let firstObjectKeys = Object.keys(res.data[0]);
-              let key = firstObjectKeys.map(key => ({ key: key, value: key }));
-              this.optionsArray = [];
-              if (this.itemData.mappingNode.type == 'tabs' || this.itemData.mappingNode.type == 'step' || this.itemData.mappingNode.type == 'div' || this.itemData.mappingNode.type == 'listWithComponentsChild' || this.itemData.mappingNode.type == 'cardWithComponents' || this.itemData.mappingNode.type == 'timelineChild') {
-                this.itemData.mappingNode.children.forEach((element: any) => {
-                  this.createOptionsArray(element);
-                });
-              }
-              else {
-                this.createOptionsArray(this.itemData.mappingNode.children[1].children[0]);
-              }
-
-              this.itemData.mappingNode.tableBody = this.optionsArray.map((item: any, index: number) => ({
-                // id: index + 1,
-                fileHeader: item.key,
-                SelectQBOField: key,
-                defaultValue: '',
-                componentKey: this._dataSharedService.typeMap[item.type] ? this._dataSharedService.typeMap[item.type] : '',
-              }));
-              this.itemData.mappingNode.tableBody = this.itemData.mappingNode.tableBody.map((item: any) => {
-                let qboField = item.SelectQBOField.find((field: any) => field.key === item.fileHeader);
-
-                if (qboField) {
-                  // Assign defaultValue from QBO field value if there's a match
-                  return {
-                    ...item,
-                    defaultValue: qboField.value
-                  };
-                } else {
-                  return item;
+              if (res?.data.length > 0) {
+                this.saveLoader = false;
+                this.resData = res.data;
+                this.itemData.mappingNode['dbData'] = res.data;
+                this.itemData.mappingNode.tableBody = [];
+                let firstObjectKeys = Object.keys(res.data[0]);
+                let key = firstObjectKeys.map(key => ({ key: key, value: key }));
+                this.optionsArray = [];
+                if (this.itemData.mappingNode.type == 'tabs' || this.itemData.mappingNode.type == 'step' || this.itemData.mappingNode.type == 'div' || this.itemData.mappingNode.type == 'listWithComponentsChild' || this.itemData.mappingNode.type == 'cardWithComponents' || this.itemData.mappingNode.type == 'timelineChild') {
+                  this.itemData.mappingNode.children.forEach((element: any) => {
+                    this.createOptionsArray(element);
+                  });
                 }
-              });
-            } else {
-              this.toastr.warning("Did not get data", { nzDuration: 3000 }); // Show an error message to the user
+                else {
+                  this.createOptionsArray(this.itemData.mappingNode.children[1].children[0]);
+                }
+
+                this.itemData.mappingNode.tableBody = this.optionsArray.map((item: any, index: number) => ({
+                  // id: index + 1,
+                  fileHeader: item.key,
+                  SelectQBOField: key,
+                  defaultValue: '',
+                  componentKey: this._dataSharedService.typeMap[item.type] ? this._dataSharedService.typeMap[item.type] : '',
+                }));
+                this.itemData.mappingNode.tableBody = this.itemData.mappingNode.tableBody.map((item: any) => {
+                  let qboField = item.SelectQBOField.find((field: any) => field.key === item.fileHeader);
+
+                  if (qboField) {
+                    // Assign defaultValue from QBO field value if there's a match
+                    return {
+                      ...item,
+                      defaultValue: qboField.value
+                    };
+                  } else {
+                    return item;
+                  }
+                });
+              } else {
+                this.toastr.warning("Did not get data", { nzDuration: 3000 }); // Show an error message to the user
+              }
             }
           },
           error: (err) => {

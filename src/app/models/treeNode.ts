@@ -570,6 +570,7 @@ export interface TreeNode {
   isShowDrawerButton?: any,
   drawerScreenLink?: any,
   drawerPlacement?: any,
+  detailTable?: any,
   startFreezingNumber?: number,
   endFreezingNumber?: number,
   stickyHeaders?: boolean,
