@@ -4,7 +4,7 @@ import { FormlyFormOptions } from '@ngx-formly/core';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { Subscription } from 'rxjs';
 import { ApplicationService } from 'src/app/services/application.service';
-import { Release } from '../modals/release.model';
+import { Release } from '../models/release.model';
 
 @Component({
   selector: 'st-release-management',

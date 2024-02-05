@@ -1,21 +1,21 @@
-import { JoiService } from './../services/joi.service';
+import { JoiService } from '../../../services/joi.service';
 import { ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output, Type, ViewContainerRef } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { FormlyFormOptions } from '@ngx-formly/core';
 import * as Joi from 'joi';
 import { NzImageService } from 'ng-zorro-antd/image';
-import { BuilderService } from '../services/builder.service';
-import { TreeNode } from '../models/treeNode';
-import { ElementData } from '../models/element';
+import { BuilderService } from '../../../services/builder.service';
+import { TreeNode } from '../../../models/treeNode';
+import { ElementData } from '../../../models/element';
 import { Observable, Subscription, catchError, throwError } from 'rxjs';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { Router } from '@angular/router';
-import { DataSharedService } from '../services/data-shared.service';
+import { DataSharedService } from '../../../services/data-shared.service';
 import { Clipboard } from '@angular/cdk/clipboard';
 import { NzModalService } from 'ng-zorro-antd/modal';
-import { CommentModalComponent } from '../components';
-import { EmployeeService } from '../services/employee.service';
-import { ApplicationService } from '../services/application.service';
+import { CommentModalComponent } from '../../../components';
+import { EmployeeService } from '../../../services/employee.service';
+import { ApplicationService } from '../../../services/application.service';
 
 
 

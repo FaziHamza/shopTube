@@ -4,7 +4,7 @@ import { RouterModule, Routes } from "@angular/router";
 import { DemoComponent } from './demo/demo.component';
 import { MenuBuilderComponent } from '../menu-builder/menu-builder.component';
 import { ApplicationBuilderComponent, ApplicationGlobalClassesComponent, ApplicationThemeComponent, BacklogComponent, CreateControlComponent, LanguageComponent, ModuleListComponent, ScreenBuilderComponent, TaskManagementListComponent, UserTaskManagementComponent, organizationBuilderComponent } from '../Builder-module';
-import { CreateDatabaseComponent, ExecuteQueryComponent, MenuRolePermissionComponent, PolicyComponent, PolicyMappingComponent, ReleaseManagementComponent, RoleManagementComponent, SupportChatComponent, TaskManagementComponent, UserMappingComponent } from '../admin';
+import { CreateDatabaseComponent, ExecuteQueryComponent, MenuRolePermissionComponent, PolicyComponent, PolicyMappingComponent, ReleaseManagementComponent, SupportChatComponent, TaskManagementComponent, UserMappingComponent } from '../Builder-module/admin';
 import { FileManagerComponent } from '../components';
 import { EmailTemplatesComponent, ExecuteActionRuleComponent } from './configurations';
 import { BuilderLayoutComponent } from '../_layout';
@@ -51,10 +51,6 @@ const routes: Routes = [
       {
         path: 'query',
         component: ExecuteQueryComponent
-      },
-      {
-        path: 'role',
-        component: RoleManagementComponent
       },
       {
         path: 'permission',

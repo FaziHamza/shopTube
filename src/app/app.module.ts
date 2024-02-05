@@ -7,7 +7,6 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HTTP_INTERCEPTORS, HttpClient, HttpClientModule } from '@angular/common/http';
-import { HomePageComponent } from './home-page/home-page.component';
 import { fieldComponents, formlyCustomeConfig } from './formlyConfig';
 import { NgZorroAntdModule } from './zorro/ng-zorro-antd.module';
 import { NgxMaskModule } from 'ngx-mask';
@@ -26,7 +25,6 @@ import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { MapComponent } from './components/map/map.component';
 import { GoogleMapsService } from './services/google-maps.service';
-import { Screenv1Component } from './Builder-module/screenv1/screenv1.component';
 import { MenuBulkUpdateComponent } from './menu-builder/menu-bulk-update/menu-bulk-update.component';
 import { EnvService } from './shared/envoirment.service';
 import { RouteReuseStrategy, Router } from '@angular/router';
@@ -48,7 +46,7 @@ import { NotFoundComponent } from './auth/not-found/not-found.component';
 import { PermissionDeniedComponent } from './auth/permission-denied/permission-denied.component';
 import { PolicyComponent } from './roles/policy/policy.component';
 import { PolicyMappingComponent } from './roles/policy-mapping/policy-mapping.component';
-import { UserMappingComponent } from './admin/user-mapping/user-mapping.component';
+import { UserMappingComponent } from './roles/user-mapping/user-mapping.component';
 import { PolicyMappingTableComponent } from './roles/policy-mapping/policy-mapping-table/policy-mapping-table.component';
 import { CustomReuseStrategy } from './custom-reuse-strategy';
 import { BuilderModule } from './builder/builder.module';
@@ -61,8 +59,8 @@ import { TaskManagerComponent } from './components/task-manager/task-manager.com
 import { EmailTemplatesComponent } from './builder/configurations/email-templates/email-templates.component';
 import { IPublicClientApplication, PublicClientApplication, InteractionType } from '@azure/msal-browser';
 import { MsalGuard, MsalBroadcastService, MsalModule, MsalService, MSAL_GUARD_CONFIG, MSAL_INSTANCE, MsalGuardConfiguration, MsalRedirectComponent } from '@azure/msal-angular';
-import { msalConfig } from './auth-config';
-import { ExecuteQueryComponent } from './admin/execute-query/execute-query.component';
+import { msalConfig } from './auth/auth-config';
+import { ExecuteQueryComponent } from './Builder-module/admin/execute-query/execute-query.component';
 import { SocketService } from './services/socket.service';
 
 export function MSALInstanceFactory(): IPublicClientApplication {
@@ -87,12 +85,10 @@ const icons: IconDefinition[] = Object.keys(antDesignIcons).map(key => antDesign
 @NgModule({
   declarations: [
     AppComponent,
-    HomePageComponent,
     fieldComponents,
     FormlyFieldStepper,
     MapComponent,
     MenuBulkUpdateComponent,
-    Screenv1Component,
     TableRowComponent,
     NotFoundComponent,
     PermissionDeniedComponent,

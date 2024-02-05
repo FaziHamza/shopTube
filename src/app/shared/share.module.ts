@@ -10,7 +10,6 @@ import { NgxMaskModule } from 'ngx-mask';
 import { NgZorroAntdModule } from '../zorro/ng-zorro-antd.module';
 import { NgJsonEditorModule } from 'ang-jsoneditor';
 import { AngularSplitModule } from 'angular-split';
-import { MainComponent } from '../main/main.component';
 import { ContextMenuModule } from "@perfectmemory/ngx-contextmenu";
 import {
   AccordionButtonComponent, AffixComponent, AnchorComponent, AudioComponent, AvatarComponent, BackTopComponent, BadgeComponent,
@@ -34,11 +33,10 @@ import { FullCalendarModule } from '@fullcalendar/angular';
 import { BusinessRuleGridComponent } from '../builder/configurations/business-rule-grid/business-rule-grid.component';
 import { EditorJsWrapperComponent } from '../wrappers/editor/editor-js-wrapper/editor-js-wrapper.component';
 import { GoogleChartsModule } from 'angular-google-charts';
-import { MenuComponent } from '../menu/menu.component';
-import { SiteLayoutComponent,  LayoutTabsComponent,
-  AppSideMenuComponent,LayoutDrawerComponent,LayoutTabsDropdownComponent,
-  LayoutButtonComponent} from '../_layout';
-import {MainsComponent,PageComponent,SectionsComponent} from '../context-menu/index'
+import { MenuComponent } from '../_layout/menu/menu.component';
+import { SiteLayoutComponent,  
+  AppSideMenuComponent,LayoutTabsDropdownComponent} from '../_layout';
+import {MainComponent, MainsComponent,PageComponent,SectionsComponent} from '../pages/index'
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { HttpClient } from '@angular/common/http';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
@@ -55,7 +53,7 @@ import { DownloadbuttonComponent } from '../components/downloadbutton/downloadbu
 import { QrCodeComponent } from '../components/qr-code/qr-code.component';
 import { ApplicationThemeComponent } from '../Builder-module/application-theme/application-theme.component';
 import { CreateControlComponent } from '../Builder-module/create-control/create-control.component';
-import { SupportChatComponent } from '../admin/support-chat/support-chat.component';
+import { SupportChatComponent } from '../components/support-chat/support-chat.component';
 import { PdfComponent } from '../components/pdf/pdf.component';
 import { EmailComponent } from '../components/email/email.component';
 import { TaskManagerComponent } from '../components/task-manager/task-manager.component';
@@ -115,7 +113,7 @@ import { TaskManagerComponent } from '../components/task-manager/task-manager.co
     ListWithComponentsComponent,
     TreeMapComponent,
     CardWithComponentsComponent,
-    AppSideMenuComponent,LayoutTabsDropdownComponent,SiteLayoutComponent,LayoutTabsComponent,LayoutDrawerComponent,LayoutButtonComponent,
+    AppSideMenuComponent,LayoutTabsDropdownComponent,SiteLayoutComponent,
     MenuComponent,
     MainsComponent,PageComponent,SectionsComponent,
     CommentModalComponent,CommentListComponent,
@@ -127,8 +125,6 @@ import { TaskManagerComponent } from '../components/task-manager/task-manager.co
     DownloadbuttonComponent,QrCodeComponent,ApplicationThemeComponent,CreateControlComponent,
     SupportChatComponent,ContactListComponent,
     PdfComponent,EmailComponent,TaskManagerComponent
-    //
-    // ErrorComponent
   ],
   exports: [
     FormsModule,
@@ -173,7 +169,7 @@ import { TaskManagerComponent } from '../components/task-manager/task-manager.co
     ListWithComponentsComponent,
     TreeMapComponent,
     CardWithComponentsComponent,
-    AppSideMenuComponent,LayoutTabsDropdownComponent,SiteLayoutComponent,LayoutTabsComponent,LayoutDrawerComponent,LayoutButtonComponent,
+    AppSideMenuComponent,LayoutTabsDropdownComponent,SiteLayoutComponent,
     MenuComponent,
     MainsComponent,PageComponent,SectionsComponent,
     CommentModalComponent,CommentListComponent,

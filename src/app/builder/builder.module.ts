@@ -16,7 +16,7 @@ import { ContextMenuModule } from "@perfectmemory/ngx-contextmenu";
 import { TranslateLoader, TranslateModule } from "@ngx-translate/core";
 import { HttpClient } from "@angular/common/http";
 import { TranslateHttpLoader } from "@ngx-translate/http-loader";
-import { BuilderLayoutComponent } from "../_layout/builder-layout/builder-layout.component";
+import { BuilderLayoutComponent } from "./builder-layout/builder-layout.component";
 import { BuilderShareModule } from "../shared/builder-share.module";
 import { TemplatePopupComponent } from './template-popup/template-popup.component';
 import { MarketPlaceComponent } from './market-place/market-place.component';
@@ -24,7 +24,7 @@ import { ExecuteActionRuleComponent } from './execute-action-rule/execute-action
 import { MonacoEditorComponent } from './execute-action-rule/monaco-editor/monaco-editor.component';
 import { PolicyComponent } from "../roles/policy/policy.component";
 import { PolicyMappingComponent } from "../roles/policy-mapping/policy-mapping.component";
-import { UserMappingComponent } from "../admin/user-mapping/user-mapping.component";
+import { UserMappingComponent } from "../roles/user-mapping/user-mapping.component";
 import { HeadingParagrapghUpdateComponent } from './heading-paragrapgh-update/heading-paragrapgh-update.component';
 import { OtherBulkUpdateComponent } from './other-bulk-update/other-bulk-update.component';
 import { DragDropModule } from "@angular/cdk/drag-drop";

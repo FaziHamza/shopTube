@@ -4,14 +4,13 @@ import { PagesComponent } from './pages/pages.component';
 import { SiteLayoutComponent } from './_layout/site-layout/site-layout.component';
 import { BarChartComponent, FileManagerComponent, googleMapComponent } from './components';
 import { DemoComponent } from './builder/demo/demo.component';
-import { Screenv1Component } from './Builder-module/screenv1/screenv1.component';
 import { AuthGuard } from './auth/auth.Guard';
 import { PolicyComponent } from './roles/policy/policy.component';
 import { NotFoundComponent } from './auth/not-found/not-found.component';
 import { PermissionDeniedComponent } from './auth/permission-denied/permission-denied.component';
 import { UserComponent } from './roles/user/user.component';
 import { PolicyMappingComponent } from './roles/policy-mapping/policy-mapping.component';
-import { UserMappingComponent } from './admin/user-mapping/user-mapping.component';
+import { UserMappingComponent } from './roles/user-mapping/user-mapping.component';
 import { ApplicationThemeComponent } from './Builder-module/application-theme/application-theme.component';
 import { NgxGraphNodeComponent } from './builder/ngx-graph-node/ngx-graph-node.component';
 import { EmailTemplatesComponent } from './builder/configurations/email-templates/email-templates.component';
@@ -100,10 +99,6 @@ const routes: Routes = [
   {
     path: 'map',
     component: googleMapComponent // renamed to PascalCase
-  },
-  {
-    path: 'screenv1',
-    component: Screenv1Component
   },
   { path: 'not-found', component: NotFoundComponent },
   { path: '**', redirectTo: 'not-found' }

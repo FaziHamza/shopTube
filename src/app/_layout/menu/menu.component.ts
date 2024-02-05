@@ -1,10 +1,10 @@
-import { EmployeeService } from './../services/employee.service';
+import { EmployeeService } from '../../services/employee.service';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
-import { DataSharedService } from '../services/data-shared.service';
-import { StorageService } from '../services/storage.service';
+import { DataSharedService } from '../../services/data-shared.service';
+import { StorageService } from '../../services/storage.service';
 import { TranslateService } from '@ngx-translate/core';
-import { ApplicationService } from '../services/application.service';
+import { ApplicationService } from '../../services/application.service';
 import { Subscription } from 'rxjs';
 import { NzMessageService } from 'ng-zorro-antd/message';
 

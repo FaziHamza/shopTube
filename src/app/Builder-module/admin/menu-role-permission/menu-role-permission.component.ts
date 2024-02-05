@@ -4,7 +4,7 @@ import { FormlyFormOptions } from '@ngx-formly/core';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { Subscription } from 'rxjs';
 import { ApplicationService } from 'src/app/services/application.service';
-import { MenuRolePermission } from '../modals/menu-role-permission.modal';
+import { MenuRolePermission } from '../models/menu-role-permission.modal';
 
 @Component({
   selector: 'st-menu-role-permission',

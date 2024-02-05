@@ -6,7 +6,7 @@ import { NestedTableComponent } from '../builder/nested-table/nested-table.compo
 import { ApplicationBuilderComponent, BacklogComponent, LanguageComponent, ModuleListComponent, ScreenBuilderComponent, TaskManagementListComponent, UserTaskManagementComponent, organizationBuilderComponent } from '../Builder-module';
 import { BulkUpdateComponent } from '../builder/bulk-update/bulk-update.component';
 import { AddControlCommonPropertiesComponent } from '../builder/add-control-common-properties/add-control-common-properties.component';
-import { CreateDatabaseComponent } from '../admin/create-database/create-database.component';
+import { CreateDatabaseComponent } from '../Builder-module/admin/create-database/create-database.component';
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { AngularSplitModule } from "angular-split";
 import { NgJsonEditorModule } from "ang-jsoneditor";
@@ -20,7 +20,8 @@ import { GoogleChartsModule } from "angular-google-charts";
 import { ContextMenuModule } from "@perfectmemory/ngx-contextmenu";
 import { RouterModule } from '@angular/router';
 import { ShareModule } from './share.module';
-import { MenuRolePermissionComponent, ReleaseManagementComponent, RoleManagementComponent, TaskManagementComponent } from '../admin';
+import { MenuRolePermissionComponent, ReleaseManagementComponent, TaskManagementComponent } from '../Builder-module/admin';
+import { LayoutDrawerComponent } from '../menu-builder/layout-drawer/layout-drawer.component';
 
 
 @NgModule({
@@ -42,12 +43,12 @@ import { MenuRolePermissionComponent, ReleaseManagementComponent, RoleManagement
     ],
   declarations: [
     MenuBuilderComponent,
+    LayoutDrawerComponent,
     ActionRuleComponent, BusinessRuleComponent, UIRuleComponent, ValidationRuleComponent, DemoComponent, NestedTableComponent,
     ScreenBuilderComponent, ModuleListComponent, ApplicationBuilderComponent, AddControlCommonPropertiesComponent, organizationBuilderComponent,
     LanguageComponent,
     BulkUpdateComponent,
     CreateDatabaseComponent,
-    RoleManagementComponent,
     MenuRolePermissionComponent,
     TaskManagementComponent,
     ReleaseManagementComponent,
@@ -58,12 +59,12 @@ import { MenuRolePermissionComponent, ReleaseManagementComponent, RoleManagement
   ],
   exports: [
     MenuBuilderComponent,
+    LayoutDrawerComponent,
     ActionRuleComponent, BusinessRuleComponent, UIRuleComponent, ValidationRuleComponent, DemoComponent, NestedTableComponent,
     ScreenBuilderComponent, ModuleListComponent, ApplicationBuilderComponent, AddControlCommonPropertiesComponent, organizationBuilderComponent,
     LanguageComponent,
     BulkUpdateComponent,
     CreateDatabaseComponent,
-    RoleManagementComponent,
     MenuRolePermissionComponent,
     TaskManagementComponent,
     ReleaseManagementComponent,

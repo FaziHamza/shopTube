@@ -86,4 +86,5 @@ export * from "./google-map/google-map.component"
 export * from "./task-report/task-report.component"
 export * from "./contact-list/contact-list.component";
 export * from './email/email.component';
+export * from './support-chat/support-chat.component';
 // export * from "./Website/web-menu/web-menu.component"

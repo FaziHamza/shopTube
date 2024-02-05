@@ -2,10 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { FormlyFormOptions } from '@ngx-formly/core';
 import { Subscription } from 'rxjs';
-import { Task } from '../modals/task.model';
+import { Task } from '../models/task.model';
 import { ApplicationService } from 'src/app/services/application.service';
 import { NzMessageService } from 'ng-zorro-antd/message';
-import { Release } from '../modals/release.model';
+import { Release } from '../models/release.model';
 
 @Component({
   selector: 'st-task-management',
