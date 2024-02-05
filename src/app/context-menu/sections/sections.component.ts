@@ -419,10 +419,16 @@ export class SectionsComponent implements OnInit {
     let id = Object.keys(empData.modalData).find(
       key => empData.modalData.hasOwnProperty(key) && key.endsWith('.id') && empData.modalData[key]
     );
-    if (this.tempTableData.length > 0) {
-      const getDetailData = this.groupDataDetailTable(this.tempTableData);
-      empData.modalData[getDetailData.tableName] = getDetailData.data[getDetailData.tableName];
+    if (this.tempTableData) {
+      for (const key in this.tempTableData) {
+        if (this.tempTableData.hasOwnProperty(key)) {
+          const getDetailData = this.groupDataDetailTable(this.tempTableData[key]);
+        empData.modalData[key] = getDetailData.data[getDetailData.tableName];
+        }
+      }
+      
     }
+    console.log(empData.modalData)
     id = data?.dataTable ? empData.modalData[data?.dataTable + '.id'] : id;
     if (id === undefined) {
       // if (!checkPermission?.creates && this.dataSharedService.currentMenuLink !== '/ourbuilder') {
@@ -682,11 +688,11 @@ export class SectionsComponent implements OnInit {
       }
     }
   }
-  tempTableData: any[] = [];
+  tempTableData: any = {};
   addDetailGrid(data: any, btnConfig: any, clear?: any) {
     if (clear) {
-      let tableData = this.findObjectByTypeBase(this.sections, "gridList");
-      this.tempTableData = [];
+      let tableData = this.findObjectByKey(this.sections, btnConfig.detailSaveGrid);
+      this.tempTableData = {};
       tableData.tableData = [];
       tableData.data = [];
       tableData.targetId = '';
@@ -703,17 +709,20 @@ export class SectionsComponent implements OnInit {
       }, {});
 
       if (filteredObject) {
-        let tableData: any = this.findObjectByTypeBase(this.sections, "gridList");
+        let tableData = this.findObjectByKey(this.sections, btnConfig.detailSaveGrid);
         if (tableData) {
           if (filteredObject) {
-            this.tempTableData.push(filteredObject);
-            let saveForm = JSON.parse(JSON.stringify(this.tempTableData[0]));
+            if (this.tempTableData[btnConfig?.detailTableName] == undefined) {
+              this.tempTableData[btnConfig?.detailTableName] = []
+            }
+            this.tempTableData[btnConfig?.detailTableName].push(filteredObject);
+            let saveForm = JSON.parse(JSON.stringify(this.tempTableData[btnConfig?.detailTableName][0]));
             const firstObjectKeys = Object.keys(saveForm);
             // let tableKey = firstObjectKeys.map(key => ({ name: key }));
             let obj = firstObjectKeys.map(key => ({ name: key, key: key }));
             tableData.tableData = [];
             saveForm.id = tableData.tableData.length + 1;
-            this.tempTableData.forEach((element: any, index: any) => {
+            this.tempTableData[btnConfig?.detailTableName].forEach((element: any, index: any) => {
               const updatedElement = { id: (index + 1).toString(), ...element };
               tableData.tableData?.push(updatedElement);
             });

@@ -3464,6 +3464,24 @@ export class BuilderComponent implements OnInit {
         //   configObj.buttonClass = classObj
         // }
         configObj.icon = selectedNode.btnIcon;
+
+        const buttonFields = _formFieldData.buttonFields;
+
+        if (buttonFields[0]?.fieldGroup) {
+          const nodesTable = this.findArrayByType(this.nodes[0], 'gridList');
+
+          const modifiedOptions = nodesTable.map((a: any) => ({
+            label: a.title,
+            value: a.key,
+          }));
+
+          const targetObject: any = buttonFields[0].fieldGroup.find((item: any) => item.key === 'detailSaveGrid');
+
+          if (targetObject) {
+            targetObject.props.options = modifiedOptions;
+          }
+        }
+
         this.addIconCommonConfiguration(_formFieldData.buttonFields, true);
         this.fieldData.commonData?.push({ title: 'Button Fields', data: _formFieldData.buttonFields }, { title: 'Button Drawer Fields', data: _formFieldData.buttonDrawerFields });
         break;
@@ -4579,13 +4597,7 @@ export class BuilderComponent implements OnInit {
         // }
         this.selectedNode.btnIcon = event.form?.icon;
         this.selectedNode['buttonClass'] = event.form?.buttonClass;
-        let nodesTable = this.findObjectByTypeBase(this.nodes, 'gridList');
-        this.selectedNode['detailTable'] = nodesTable.map((a: any) => {
-          return {
-            label: a.label,
-            value: a.id,
-          }
-        })
+
         // this.selectedNode['captureData'] = event.form?.captureData;
 
         break;
@@ -7149,6 +7161,25 @@ export class BuilderComponent implements OnInit {
       }
     }
   }
+  findArrayByType(data: any, type: any): any[] {
+    let results: any[] = [];
+
+    if (data && data.type && type) {
+      if (data.type === type) {
+        results.push(data);
+      }
+
+      if (data.children.length > 0) {
+        for (let child of data.children) {
+          let childResults: any[] = this.findArrayByType(child, type);
+          results = results.concat(childResults);
+        }
+      }
+    }
+
+    return results;
+  }
+
   deleteValidationRule(data: any) {
     const { jsonData, newGuid } = this.socketService.deleteModelType('ValidationRule', data.modelData.id);
 
