@@ -73,6 +73,10 @@ const routes: Routes = [
     loadChildren: () => import("src/app/builder/builder.module").then((m) => m.BuilderModule),
   },
   {
+    path: 'menu-builder',
+    loadChildren: () => import("src/app/menu-builder/menu-builder.module").then((m) => m.MenuBuilderModule),
+  },
+  {
     path: 'admin',
     loadChildren: () => import("src/app/builder/builder.module").then((m) => m.BuilderModule),
   },

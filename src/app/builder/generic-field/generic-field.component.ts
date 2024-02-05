@@ -4,7 +4,6 @@ import { FormGroup } from '@angular/forms';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { Subscription } from 'rxjs';
 import { Guid } from 'src/app/models/guid';
-import { ApplicationService } from 'src/app/services/application.service';
 import { BuilderService } from 'src/app/services/builder.service';
 import { DataSharedService } from 'src/app/services/data-shared.service';
 import { SocketService } from 'src/app/services/socket.service';
@@ -27,7 +26,7 @@ export class GenericFieldComponent implements OnInit {
   @Output() notify: EventEmitter<any> = new EventEmitter<any>();
   @Output() deleteValidation: EventEmitter<any> = new EventEmitter<any>();
   requestSubscription: Subscription;
-  showMappingTable: boolean = false;
+  showMappingTable : boolean = false;
   resData: any;
   saveLoader: boolean = false;
   publicList: object[] = [
@@ -39,7 +38,7 @@ export class GenericFieldComponent implements OnInit {
 
   constructor(private toastr: NzMessageService, private _dataSharedService: DataSharedService, public builderService: BuilderService,
     public socketService: SocketService,
-    private applicationService: ApplicationService,) { }
+    ) { }
   ngOnInit(): void {
     this.requestSubscription = this._dataSharedService.gericFieldLoader.subscribe(res => {
       this.saveLoader = res;
@@ -94,7 +93,7 @@ export class GenericFieldComponent implements OnInit {
 
   }
   onSubmit() {
-    debugger
+debugger
     // event.stopPropagation();
     // this.valueChange.emit(this.model + ' from child.');
     // const newProduct = { productName: "New", quantity: 666 };
