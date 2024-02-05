@@ -1977,9 +1977,9 @@ export class PagesComponent implements OnInit, OnDestroy {
                             let modifedData = JSON.parse(JSON.stringify(getData))
                             modifedData['applicationId'] = this.dataSharedService.decryptedValue('applicationId');
                             modifedData['organizationId'] = this.dataSharedService.decryptedValue('organizationId');
-                            modifedData['user'] = this.dataSharedService.decryptedValue('user') ? JSON.parse(this.dataSharedService.decryptedValue('user')) : null;
+                            modifedData['user'] = this.dataSharedService.decryptedValue('user') ? this.dataSharedService.decryptedValue('user') ? JSON.parse(this.dataSharedService.decryptedValue('user')) : null : null;
 
-                            let externalLogin = localStorage.getItem('externalLogin') || false;;
+                            let externalLogin = localStorage.getItem('externalLogin') || false;
                             let value = modifedData[uiRule.ifMenuName.split('_')[1]];
                             if (uiRule.ifMenuName.includes('app_user') && modifedData['user']) {
                               value = modifedData['user'][uiRule.ifMenuName.split('.')[1]]
@@ -2765,7 +2765,7 @@ export class PagesComponent implements OnInit, OnDestroy {
 
   applyDefaultValue() {
     const filteredNodes = this.filterInputElements(this.resData);
-    const user = this.dataSharedService.decryptedValue('user') ? JSON.parse(this.dataSharedService.decryptedValue('user')) : null;;
+    const user = this.dataSharedService.decryptedValue('user') ? this.dataSharedService.decryptedValue('user') ? JSON.parse(this.dataSharedService.decryptedValue('user')) : null : null;;
 
     const newMode = filteredNodes.reduce((acc, node) => {
       const formlyConfig = node.formly?.[0]?.fieldGroup?.[0]?.defaultValue;
@@ -2958,7 +2958,7 @@ export class PagesComponent implements OnInit, OnDestroy {
   }
   applicationThemeData: any[] = [];
   applyApplicationTheme(res1: any, notAllowRuleGet?: any) {
-    let user = this.dataSharedService.decryptedValue('user') ? JSON.parse(this.dataSharedService.decryptedValue('user')) : null;;
+    let user = this.dataSharedService.decryptedValue('user') ? this.dataSharedService.decryptedValue('user') ? JSON.parse(this.dataSharedService.decryptedValue('user')) : null : null;;
     if (user && user?.policy?.policyTheme) {
       this.saveLoader = true;
       const { jsonData, newGuid } = this.socketService.makeJsonDataById('applicationtheme', `${user.policy?.policyTheme}`, 'GetModelTypeById');

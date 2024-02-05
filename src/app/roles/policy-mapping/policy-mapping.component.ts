@@ -109,7 +109,7 @@ export class PolicyMappingComponent implements OnInit {
     ];
     this.jsonPolicyModuleList();
     this.getDepartments();
-    this.currentUser = JSON.parse(this.dataSharedService.decryptedValue('user'));
+    this.currentUser = this.dataSharedService.decryptedValue('user') ? JSON.parse(this.dataSharedService.decryptedValue('user')) : null;
   }
   policyName = '';
   policyList: any = [];

@@ -5,11 +5,9 @@ import { NzModalService } from 'ng-zorro-antd/modal';
 import { Subject, Subscription, filter, forkJoin } from 'rxjs';
 import { AuthService } from 'src/app/auth/services/auth.service';
 import { CommentModalComponent } from 'src/app/components';
-import { Guid } from 'src/app/models/guid';
 import { ApplicationService } from 'src/app/services/application.service';
 import { BuilderService } from 'src/app/services/builder.service';
 import { DataSharedService } from 'src/app/services/data-shared.service';
-import { EmployeeService } from 'src/app/services/employee.service';
 import { JwtService } from 'src/app/shared/jwt.service';
 import { SocketService } from 'src/app/services/socket.service';
 
@@ -144,7 +142,7 @@ export class SiteLayoutComponent implements OnInit {
       localStorage.setItem('screenId', window.location.pathname);
       this.socketService.setSocketExternal(getToken);
       const { newGuid, metainfocreate } = this.socketService.makeJsonDataExternal('UserInfo');
-      const Add = {body , metaInfo: metainfocreate }
+      const Add = { body, metaInfo: metainfocreate }
       this.socketService.Request(Add);
       this.socketService.OnResponseMessage().subscribe((response: any) => {
         if (response.parseddata.requestId == newGuid && response.parseddata.isSuccess) {
@@ -170,10 +168,15 @@ export class SiteLayoutComponent implements OnInit {
               this.externalLogin = true;
               this.router.navigate([window.location.pathname]);
               window.localStorage['externalPageLink'] = JSON.stringify(getToken);
-              this.applicationService.getNestNewCommonAPI(`cp/applicationglobalclass`).subscribe({
+              const { jsonData, newGuid } = this.socketService.makeJsonData('applicationglobalclass', 'GetModelType');
+              this.socketService.Request(jsonData);
+              this.socketService.OnResponseMessage().subscribe({
                 next: (res: any) => {
-                  this.dataSharedService.applicationGlobalClass = res.data;
-                  this.loader = false;
+                  if (res.parseddata.requestId == newGuid && res.parseddata.isSuccess) {
+                    res = res.parseddata.apidata;
+                    this.dataSharedService.applicationGlobalClass = res.data;
+                    this.loader = false;
+                  }
                 },
                 error: (err) => {
                   // this.toastr.error(`Screen : An error occured`, { nzDuration: 3000 });
@@ -183,7 +186,7 @@ export class SiteLayoutComponent implements OnInit {
             }
           }
         }
-      
+
       })
     }
     else {

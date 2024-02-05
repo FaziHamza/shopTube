@@ -80,7 +80,7 @@ export class PolicyComponent implements OnInit {
     this.getApplicationTheme();
   }
   getMenuTheme() {
-    let id = JSON.parse(this.dataSharedService.decryptedValue('user')).userId;
+    let id = this.dataSharedService.decryptedValue('user') ? JSON.parse(this.dataSharedService.decryptedValue('user')).userId : null;
 
   }
   jsonPolicyModuleList() {

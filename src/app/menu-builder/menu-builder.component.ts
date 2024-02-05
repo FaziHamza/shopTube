@@ -158,7 +158,7 @@ export class MenuBuilderComponent implements OnInit {
     this.makeMenuData();
   }
   ngOnInit(): void {
-    this.currentUser = JSON.parse(this.dataSharedService.decryptedValue('user'));
+    this.currentUser = this.dataSharedService.decryptedValue('user') ? JSON.parse(this.dataSharedService.decryptedValue('user')) : null;
     this.getDepartments();
   }
   LayerShow() {

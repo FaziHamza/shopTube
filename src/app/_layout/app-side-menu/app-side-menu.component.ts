@@ -47,7 +47,7 @@ export class AppSideMenuComponent implements OnInit {
     private applicationService: ApplicationService, private cd: ChangeDetectorRef, private formBuilder: FormBuilder) { }
   ngOnInit(): void {
     
-    this.currentUser = JSON.parse(this.dataSharedService.decryptedValue('user'));
+    this.currentUser = this.dataSharedService.decryptedValue('user') ? JSON.parse(this.dataSharedService.decryptedValue('user')) : null;
     this.loadModules();
     if (!window.location.href.includes('/menu-builder')) {
       window.onresize = () => {
