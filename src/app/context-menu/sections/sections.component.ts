@@ -342,7 +342,7 @@ export class SectionsComponent implements OnInit {
                   }
                   this.dataSharedService.commentsRecall.next(obj)
                 }
-                if (!this.isDrawer) {
+                if (!this.isDrawer && model.postType != 'put') {
                   // this.dataSharedService.drawerClose.next(true);
                   // this.dataSharedService.drawerVisible = false;
                   this.setInternalValuesEmpty(this.dataModel);
@@ -417,7 +417,7 @@ export class SectionsComponent implements OnInit {
 
 
     let id = Object.keys(empData.modalData).find(
-      key => empData.modalData.hasOwnProperty(key) && key.endsWith('.id') && empData.modalData[key]
+      key => empData.modalData.hasOwnProperty(key) && (key.endsWith('.id')) && empData.modalData[key]
     );
     if (this.tempTableData) {
       for (const key in this.tempTableData) {
