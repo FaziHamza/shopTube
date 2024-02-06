@@ -4048,9 +4048,7 @@ export class BuilderComponent implements OnInit {
             this.toastr.warning('No control found', { nzDuration: 2000 });
           }
         }
-
-      } else
-        this.toastr.warning(apiRes.message, { nzDuration: 2000 });
+      }
     }));
   }
   // addChildControlsWithSubChild(parent: any, child: any) {
@@ -8085,7 +8083,7 @@ export class BuilderComponent implements OnInit {
       nzTitle: 'Are you sure you want to clone this screen?',
       nzContent: '',
       nzOnOk: () => {
-        // this.saveLoader = true;
+        this.saveLoader = true;
         const { newGuid, metainfocreate } = this.socketService.metainfoDynamic(`screenClone`,);
         const ResponseGuid = newGuid;
         const Add = { [`screenClone`]: this.builderscreendata, metaInfo: metainfocreate }
