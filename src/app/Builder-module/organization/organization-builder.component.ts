@@ -40,6 +40,8 @@ export class organizationBuilderComponent implements OnInit {
   startIndex = 1;
   endIndex: any = 10;
   pageIndex: any = 1;
+  username:any;
+
   listOfColumns: any = [
     {
       name: '',
@@ -215,13 +217,13 @@ export class organizationBuilderComponent implements OnInit {
     public socketService: SocketService,
 
   ) { }
-
   ngOnInit(): void {
     this.breadCrumbItems = [
       { label: 'Formly' },
       { label: 'Pages', active: true },
     ];
     this.organizationId = this.dataSharedService.decryptedValue('organizationId');
+    this.username = this.dataSharedService.decryptedValue('user') ? JSON.parse(this.dataSharedService.decryptedValue('user')) : null;
 
     this.organizationBuilder();
     this.LoadOrganizationFields();

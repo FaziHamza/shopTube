@@ -1,6 +1,4 @@
 import { NgModule } from "@angular/core";
-import { BuilderComponent } from "./builder.component";
-import { BuilderRoutingModule } from "./builder-routing.module";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { AngularSplitModule } from "angular-split";
 import { NgJsonEditorModule } from "ang-jsoneditor";
@@ -16,26 +14,12 @@ import { ContextMenuModule } from "@perfectmemory/ngx-contextmenu";
 import { TranslateLoader, TranslateModule } from "@ngx-translate/core";
 import { HttpClient } from "@angular/common/http";
 import { TranslateHttpLoader } from "@ngx-translate/http-loader";
-import { BuilderLayoutComponent } from "./builder-layout/builder-layout.component";
-import { BuilderShareModule } from "../shared/builder-share.module";
-import { TemplatePopupComponent } from './template-popup/template-popup.component';
-import { MarketPlaceComponent } from './market-place/market-place.component';
-import { ExecuteActionRuleComponent } from './execute-action-rule/execute-action-rule.component';
-import { MonacoEditorComponent } from './execute-action-rule/monaco-editor/monaco-editor.component';
-import { HeadingParagrapghUpdateComponent } from './heading-paragrapgh-update/heading-paragrapgh-update.component';
-import { OtherBulkUpdateComponent } from './other-bulk-update/other-bulk-update.component';
 import { DragDropModule } from "@angular/cdk/drag-drop";
+import { MenuBuilderRoutingModule } from "./menu-builder-routing.module";
 
 @NgModule({
   declarations: [
-    BuilderComponent,
-    BuilderLayoutComponent,
-    TemplatePopupComponent,
-    MarketPlaceComponent,
-    ExecuteActionRuleComponent,
-    MonacoEditorComponent,
-    HeadingParagrapghUpdateComponent,
-    OtherBulkUpdateComponent
+  
 
   ],
   imports: [
@@ -48,8 +32,8 @@ import { DragDropModule } from "@angular/cdk/drag-drop";
     FormlyNgZorroAntdModule,
     NgxMaskModule.forRoot(),
     FormlyModule.forRoot(formlyCustomeConfig),
-    BuilderRoutingModule,
-    BuilderShareModule,
+    MenuBuilderRoutingModule,
+    // BuilderShareModule,
     ShareModule,
     GoogleChartsModule,
     ContextMenuModule,
@@ -67,4 +51,4 @@ import { DragDropModule } from "@angular/cdk/drag-drop";
 })
 
 
-export class BuilderModule { }
+export class MenuBuilderModule { }
