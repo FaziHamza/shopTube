@@ -353,18 +353,17 @@ export class SiteLayoutComponent implements OnInit {
               }
               this.hideHeaderFooterMenu = window.location.href.includes('/pdf') ? true : false;
               // Example usage:
+              if (!window.location.href.includes('/pages') && res.data?.default?.navigation && !window.location.href.includes('/menu-builder')) {
+                this.router.navigate(['/pages/' + res.data?.default?.navigation]);
+              }
+              if (this.selectedTheme) {
 
-              if (window.location.href.includes('/pages') && this.selectedTheme) {
                 const urlSegments = window.location.href.split('/');
-                const parentMenu = this.findParentMenu(this.selectedTheme.allMenuItems, `/pages/${urlSegments[urlSegments.length - 1].trim()}`);
+                let url = !window.location.href.includes('/pages') ? `/pages/${res.data?.default?.navigation}` : `/pages/${urlSegments[urlSegments.length - 1].trim()}`;
+                const parentMenu = this.findParentMenu(this.selectedTheme.allMenuItems, url);
                 if (parentMenu && parentMenu.type == "mainTab") {
                   this.tabs.push(parentMenu);
                 }
-              }
-
-              if (!window.location.href.includes('/pages') && res.data?.default?.navigation && !window.location.href.includes('/menu-builder')) {
-                this.router.navigate(['/pages/' + res.data?.default?.navigation
-                ]);
               }
               this.loader = false;
               this.getUserPolicyMenu();
