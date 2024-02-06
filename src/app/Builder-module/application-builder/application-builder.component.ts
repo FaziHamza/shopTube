@@ -385,8 +385,9 @@ export class ApplicationBuilderComponent implements OnInit {
         if (!this.isSubmit) {
           const { newUGuid, metainfoupdate } = this.socketService.metainfoupdate(this.model.id);
           ResponseGuid = newUGuid;
+          delete this.myForm.value.password
           const Update = { [`Application`]: this.myForm.value, metaInfo: metainfoupdate };
-          this.socketService.Request(Update)
+          this.socketService.Request(Update);
           //action$ = this.applicationService.updateNestNewCommonAPI('cp/Application', this.model.id, objDataModel);
         }
       }

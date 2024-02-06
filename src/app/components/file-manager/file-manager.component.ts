@@ -1,6 +1,7 @@
 import { Component, Input, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { ApplicationService } from 'src/app/services/application.service';
+import { SocketService } from 'src/app/services/socket.service';
 import { environment } from 'src/environments/environment';
 
 @Component({
@@ -26,16 +27,21 @@ export class FileManagerComponent implements OnInit {
   pnOrderId = 0;
   totalRecordCount = 0;
   customerList = [];
-  constructor(private applicationService: ApplicationService, private toastr: NzMessageService,) { }
+  constructor(private applicationService: ApplicationService, private toastr: NzMessageService, private socketService: SocketService) { }
   breadcrumbFolder: any[] = [];
   ngOnInit(): void {
     this.createDefaultFolder();
   }
 
   createDefaultFolder() {
-    this.applicationService.getNestCommonAPI("s3-file-manager/createUserFolder").subscribe(res => {
-      if (res.isSuccess) {
-        this.loadFolder();
+    const { jsonData, newGuid } = this.socketService.makeJsonData('CreateUserFolder', 'CreateUserFolderS3');
+    this.socketService.Request(jsonData);
+    this.socketService.OnResponseMessage().subscribe(res => {
+      if (res.parseddata.requestId == newGuid && res.parseddata.isSuccess) {
+        res = res.parseddata.apidata;
+        if (res.isSuccess) {
+          this.loadFolder();
+        }
       }
     })
   }
@@ -52,14 +58,20 @@ export class FileManagerComponent implements OnInit {
     this.isActiveShow = false;
     this.selectedFolder = {};
     this.breadcrumbFolder = [];
-    this.applicationService.getBackendCommonAPI('s3-file-manager/getParentFolders').subscribe(res => {
-      if (res.isSuccess) {
-        this.folderList = res.data || []
-        console.log(res);
-      } else {
-        this.folderList = [];
+    const { jsonData, newGuid } = this.socketService.makeJsonData('GetParentFolder', 'GetParentFolderS3');
+    this.socketService.Request(jsonData);
+    this.socketService.OnResponseMessage().subscribe(res => {
+      if (res.parseddata.requestId == newGuid && res.parseddata.isSuccess) {
+        res = res.parseddata.apidata.data;
+        if (res.isSuccess) {
+          this.folderList = res.data || []
+          console.log(res);
+          console.log(res.data);
+        } else {
+          this.folderList = [];
+        }
+        this.filesList = [];
       }
-      this.filesList = [];
     })
   }
 
@@ -75,9 +87,15 @@ export class FileManagerComponent implements OnInit {
     this.isActiveShow = false;
     this.folderName = '';
     this.folderList = [];
-
-    this.applicationService.getNestCommonAPI('s3-file-manager/folderwithFiles/' + folder._id).subscribe(res => {
+    const folderwithfiles: any = {
+      id: folder._id
+    }
+    const { jsonData, newGuid } = this.socketService.makeJsonImageData('FolderWithFilesS3', folderwithfiles);
+    this.socketService.Request(jsonData);
+    this.socketService.OnResponseMessage().subscribe(res => {
       this.saveLoader = false;
+      if (res.parseddata.requestId == newGuid && res.parseddata.isSuccess) {
+        res = res.parseddata.apidata;
       if (res.isSuccess) {
         this.folderList = res?.data?.folderList;
         this.filesList = res?.data?.filesList;
@@ -90,6 +108,7 @@ export class FileManagerComponent implements OnInit {
         this.filesList = [];
         this.folderList = [];
       }
+    }
     })
   }
   gotoFolder(index: number) {
@@ -100,38 +119,59 @@ export class FileManagerComponent implements OnInit {
   }
   remove(item: any) {
     this.saveLoader = true;
-    this.applicationService.addNestCommonAPI('s3-file-manager/deleteFile', item).subscribe(res => {
+    const removedata: any = {
+      id: item
+    }
+    const { jsonData, newGuid } = this.socketService.makeJsonImageData('DeleteFileS3', removedata);
+    this.socketService.Request(jsonData);
+    this.socketService.OnResponseMessage().subscribe(res => {
       this.saveLoader = false;
-      if (res.isSuccess) {
-        this.toastr.success(res.message, { nzDuration: 3000 });
-        this.loadFolder();
+      if (res.parseddata.requestId == newGuid && res.parseddata.isSuccess) {
+        res = res.parseddata.apidata;
+        if (res.isSuccess) {
+          this.toastr.success(res.message, { nzDuration: 3000 });
+          this.loadFolder();
+        }
       }
     })
   }
   deleteFolder(item: any) {
     debugger
     this.saveLoader = true;
-    this.applicationService.addNestCommonAPI('s3-file-manager/deleteFolder', item).subscribe(res => {
+    const removedata: any = {
+      item: item
+    }
+    const { jsonData, newGuid } = this.socketService.makeJsonImageData('DeleteFolderS3', removedata);
+    this.socketService.Request(jsonData);
+    this.socketService.OnResponseMessage().subscribe(res => {
       this.saveLoader = false;
-      if (res.isSuccess) {
-        this.toastr.success(res.message, { nzDuration: 3000 });
-        this.loadFolder();
+      if (res.parseddata.requestId == newGuid && res.parseddata.isSuccess) {
+        res = res.parseddata.apidata;
+        if (res.isSuccess) {
+          this.toastr.success(res.message, { nzDuration: 3000 });
+          this.loadFolder();
+        }
       }
     })
   }
   addFolder() {
     const gets3Folder = this.breadcrumbFolder.map(a => a.folderName);
-    const model = {
+    const model: any = {
       folderName: this.folderName,
       parentId: this.selectedFolder?._id,
       s3folderName: gets3Folder.length > 0 ? gets3Folder.join('/') + '/' + this.folderName : this.folderName
     };
 
-    this.applicationService.addNestCommonAPI('s3-file-manager/createfolder', model).subscribe(res => {
-      if (res.isSuccess) {
-        this.folderName = '';
-        this.toastr.success(res.message, { nzDuration: 3000 });
-        this.loadFolder();
+    const { jsonData, newGuid } = this.socketService.makeJsonImageData('CreateFolderS3', model);
+    this.socketService.Request(jsonData);
+    this.socketService.OnResponseMessage().subscribe(res => {
+      if (res.parseddata.requestId == newGuid && res.parseddata.isSuccess) {
+        res = res.parseddata.apidata;
+        if (res.isSuccess) {
+          this.folderName = '';
+          this.toastr.success(res.message, { nzDuration: 3000 });
+          this.loadFolder();
+        }
       }
     })
   }
@@ -143,19 +183,42 @@ export class FileManagerComponent implements OnInit {
       this.fileInput.nativeElement.value = '';
     }
   }
-  uploadFile(file: File) {
+  private async readFileAsArrayBuffer(file: File): Promise<ArrayBuffer> {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = (event) => {
+        if (event.target && event.target.result) {
+          resolve(event.target.result as ArrayBuffer);
+        } else {
+          reject(new Error('Error reading file as ArrayBuffer'));
+        }
+      };
+      reader.readAsArrayBuffer(file);
+    });
+  }
+  async uploadFile(file: File) {
     this.saveLoader = true;
     const gets3Folder = this.breadcrumbFolder.map(a => a.folderName);
-    const formData = new FormData();
-    formData.append('image', file);
-    formData.append('parentId', this.selectedFolder?._id);
-    formData.append('path', gets3Folder.join('/'));
-    this.applicationService.uploadS3File(formData).subscribe({
+    const fileData: any = {
+      originalname: file.name,
+      mimetype: file.type,
+      buffer: await this.readFileAsArrayBuffer(file),
+      size: file.size,
+      parentId: this.selectedFolder?._id,
+      path: gets3Folder.join('/')
+    };
+
+    const { jsonData, newGuid } = this.socketService.makeJsonImageData('UploadFileS3', fileData);
+    this.socketService.Request(jsonData);
+    this.socketService.OnResponseMessage().subscribe({
       next: (res) => {
-        this.saveLoader = false;
-        this.loadFolder();
-        this.toastr.success(res.message, { nzDuration: 3000 });
-        console.log('File uploaded successfully:', res);
+        if (res.parseddata.requestId == newGuid && res.parseddata.isSuccess) {
+          res = res.parseddata.apidata;
+          this.saveLoader = false;
+          this.loadFolder();
+          this.toastr.success(res.message, { nzDuration: 3000 });
+          console.log('File uploaded successfully:', res);
+        }
       },
       error: (err) => {
         this.saveLoader = false;
@@ -280,8 +343,16 @@ export class FileManagerComponent implements OnInit {
     this.updateFileDetails['share'] = this.sharingEmail;
     this.updateFileDetails['tagging'] = this.tagsList;
     this.saveLoader = true;
-    this.applicationService.updateNestCommonAPI("s3-file-manager/updateFileInfo", this.updateFileDetails?._id, this.updateFileDetails).subscribe({
+    const updatefiledata:any= {
+      id:this.updateFileDetails?._id,
+      filedetails:this.updateFileDetails
+    }
+    const { jsonData, newGuid } = this.socketService.makeJsonImageData('UpdateFileInfoS3',updatefiledata );
+    this.socketService.Request(jsonData);
+    this.socketService.OnResponseMessage().subscribe({
       next: (res) => {
+        if (res.parseddata.requestId == newGuid && res.parseddata.isSuccess) {
+          res = res.parseddata.apidata;
         this.saveLoader = false;
         if (res.isSuccess) {
           this.sharingEmail = ''
@@ -293,6 +364,7 @@ export class FileManagerComponent implements OnInit {
         }
         this.updateFileDetails = {};
         console.log('File update successfully:', res);
+      }
       },
       error: (err) => {
         this.saveLoader = false;
@@ -305,9 +377,14 @@ export class FileManagerComponent implements OnInit {
   isActiveShow: boolean = false
   getRecordsBySharedEmail() {
     this.isActiveShow = true;
-    this.applicationService.getBackendCommonAPI("s3-file-manager/getRecordsBySharedEmail").subscribe(res => {
-      if (res.isSuccess) {
-        this.filesList = res.data
+    const { jsonData, newGuid } = this.socketService.makeJsonData('GetRecordsBySharedEmail', 'GetRecordsBySharedEmailS3');
+    this.socketService.Request(jsonData);
+    this.socketService.OnResponseMessage().subscribe(res => {
+      if (res.parseddata.requestId == newGuid && res.parseddata.isSuccess) {
+        res = res.parseddata.apidata;
+        if (res.isSuccess) {
+          this.filesList = res.data
+        }
       }
     })
   }

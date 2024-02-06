@@ -537,7 +537,6 @@ export class SiteLayoutComponent implements OnInit {
               "name": res.data.name,
               "selectedTheme": res.data?.selectedTheme ? JSON.parse(res.data?.selectedTheme) : {},
               "menuData": res.data?.menuData ? JSON.parse(res.data?.menuData) : {},
-              "__v": 0,
               "applicationId": "648b4d73dc2ca800d3684f7b"
             }
             this.menuList = objMenu;
@@ -552,7 +551,6 @@ export class SiteLayoutComponent implements OnInit {
                       "name": res.data.name,
                       "selectedTheme": res.data?.selectedTheme ? JSON.parse(res.data?.selectedTheme) : {},
                       "menuData": res.data?.menuData ? JSON.parse(res.data?.menuData) : {},
-                      "__v": 0,
                       "applicationId": "648b4d73dc2ca800d3684f7b"
                     }
                     this.menuList = objMenu;
