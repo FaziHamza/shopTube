@@ -69,6 +69,10 @@ const routes: Routes = [
   //   component: PermissionDeniedComponent
   // },
   {
+    path: 'auth',
+    loadChildren: () => import("src/app/auth/auth.module").then((m) => m.AuthModule),
+  },
+  {
     path: 'builder',
     loadChildren: () => import("src/app/builder/builder.module").then((m) => m.BuilderModule),
   },
