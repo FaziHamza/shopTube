@@ -492,7 +492,7 @@ export class BuilderComponent implements OnInit {
           if (res.parseddata.requestId == ResponseGuid && res.parseddata.isSuccess) {
             res = res.parseddata.apidata;
             if (res.isSuccess) {
-              this.isScreenSaved = true;
+              this.isScreenSaved = false;
               this.toastr.success(res.message, { nzDuration: 3000 });
               this.showActionRule = true;
               if (this.builderscreendata?.length > 0) {
@@ -1705,7 +1705,7 @@ export class BuilderComponent implements OnInit {
       const instance = modal.getContentComponent();
       modal.afterClose.subscribe((res) => {
         if (res) {
-          this.controls(value, data, obj, res, true);
+          this.controls(value, data, obj, res, false);
         }
       });
     }
@@ -2555,28 +2555,34 @@ export class BuilderComponent implements OnInit {
       }
       this.addNode(node, newNode);
       this.updateNodes();
-    } else {
-      // let controlType = value;
-      // let type = value;
-      // if (controlType == 'insertButton' || controlType == 'updateButton' || controlType == 'downloadButton' || controlType == 'deleteButton') {
-      //   controlType = 'button'
-      //   type = 'button'
-      // } else if (data?.parameter === 'input') {
-      //   controlType = 'input'
-      // }
-      // this.applicationService.getNestCommonAPI(`controls/${controlType}`).subscribe(((apiRes: any) => {
-      //   if (apiRes.isSuccess) {
-      //     if (apiRes.data) {
-      //       let response = this.jsonParseWithObject(apiRes.data.controlJson);
-      //       newNode = this.createControl(response, data, value, res, obj, type)
-      //       this.addNode(node, newNode);
-      //       this.updateNodes();
-      //     } else {
-      //       this.toastr.warning('No control found', { nzDuration: 2000 });
-      //     }
-      //   } else
-      //     this.toastr.warning(apiRes.message, { nzDuration: 2000 });
-      // }));
+    }
+    else {
+      let controlType = value;
+      let type = value;
+      if (controlType == 'insertButton' || controlType == 'updateButton' || controlType == 'downloadButton' || controlType == 'deleteButton') {
+        controlType = 'button'
+        type = 'button'
+      } else if (data?.parameter === 'input') {
+        controlType = 'input'
+      }
+      const { jsonData, newGuid } = this.socketService.makeJsonDataById('controls', controlType, 'controls');
+      this.socketService.Request(jsonData);
+      this.socketService.OnResponseMessage().subscribe(((apiRes: any) => {
+        if (apiRes.parseddata.requestId == newGuid && apiRes.parseddata.isSuccess) {
+          apiRes = apiRes.parseddata.apidata;
+          if (apiRes.isSuccess) {
+            if (apiRes.data) {
+              let response = this.jsonParseWithObject(apiRes.data[0].controljson);
+              newNode = this.createControl(response, data, value, res, obj, type)
+              this.addNode(node, newNode);
+              this.updateNodes();
+            } else {
+              this.toastr.warning('No control found', { nzDuration: 2000 });
+            }
+          } else
+            this.toastr.warning(apiRes.message, { nzDuration: 2000 });
+        }
+      }));
     }
     // this.applyApplicationThemeClass();
   }
@@ -3989,7 +3995,9 @@ export class BuilderComponent implements OnInit {
 
   addChildControls(parent?: any, child?: any) {
     let findControls = parent + ',' + child;
-    this.applicationService.getNestCommonAPI(`controls/multiplConrols/${findControls}`).subscribe(((apiRes: any) => {
+    const { jsonData, newGuid } = this.socketService.makeJsonDataById('multipleControls', findControls, 'multipleControls');
+    this.socketService.Request(jsonData);
+    this.socketService.OnResponseMessage().subscribe(((apiRes: any) => {
       if (apiRes.isSuccess) {
         if (apiRes.data) {
           let mainParent = this.getControls(apiRes.data, parent);
@@ -4008,54 +4016,58 @@ export class BuilderComponent implements OnInit {
         this.toastr.warning(apiRes.message, { nzDuration: 2000 });
     }));
   }
-  // addChildControlsWithSubChild(parent: any, child: any) {
-  //   let findControls = parent + ',' + child + ',' + 'input';
-  //   this.applicationService.getNestCommonAPI(`controls/multiplConrols/${findControls}`).subscribe(((apiRes: any) => {
-  //     if (apiRes.isSuccess) {
-  //       if (apiRes.data) {
-  //         this.showNotification = false;
-  //         let mainParent = this.getControls(apiRes.data, parent);
-  //         this.selectedNode = mainParent;
-  //         let createNode = this.getControls(apiRes.data, child);
-  //         this.selectedNode = createNode;
-  //         createNode = this.getControls(apiRes.data, 'input');
-  //         this.selectedNode = mainParent;
-  //         createNode = this.getControls(apiRes.data, child);
-  //         this.selectedNode = createNode;
-  //         createNode = this.getControls(apiRes.data, 'input');
-  //         this.selectedNode = mainParent;
-  //         createNode = this.getControls(apiRes.data, child);
-  //         this.selectedNode = createNode;
-  //         createNode = this.getControls(apiRes.data, 'input');
-  //         this.selectedNode = mainParent;
-  //         this.updateNodes();
-  //         this.addControl = false;
-  //         this.showNotification = true;
-  //         this.toastr.success('Control Added', { nzDuration: 3000 });
-  //       } else {
-  //         this.toastr.warning('No control found', { nzDuration: 2000 });
-  //       }
-  //     } else
-  //       this.toastr.warning(apiRes.message, { nzDuration: 2000 });
-  //   }));
-  // }
   addChildControlsWithSubChild(parent: any, child: any) {
-    this.addControlToJson(parent);
-    this.selectedNode = this.ParentAdd;
-    this.addControlToJson(child);
-    this.selectedNode = this.childAdd;
-    this.addControlToJson('text', this.textJsonObj);
-    this.selectedNode = this.ParentAdd;
-    this.addControlToJson(child);
-    this.selectedNode = this.childAdd;
-    this.addControlToJson('text', this.textJsonObj);
-    this.selectedNode = this.ParentAdd;
-    this.addControlToJson(child);
-    this.selectedNode = this.childAdd;
-    this.addControlToJson('text', this.textJsonObj);
-    this.selectedNode = this.selectForDropdown;
-    this.updateNodes();
+    let findControls = parent + ',' + child + ',' + 'input';
+    const { jsonData, newGuid } = this.socketService.makeJsonDataById('multipleControls', findControls, 'multipleControls');
+    this.socketService.Request(jsonData);
+    this.socketService.OnResponseMessage().subscribe(((apiRes: any) => {
+      if (apiRes.parseddata.requestId == newGuid && apiRes.parseddata.isSuccess) {
+        apiRes = apiRes.parseddata.apidata;
+        if (apiRes.isSuccess) {
+          if (apiRes.data) {
+            this.showNotification = false;
+            let mainParent = this.getControls(apiRes.data, parent);
+            this.selectedNode = mainParent;
+            let createNode = this.getControls(apiRes.data, child);
+            this.selectedNode = createNode;
+            createNode = this.getControls(apiRes.data, 'input');
+            this.selectedNode = mainParent;
+            createNode = this.getControls(apiRes.data, child);
+            this.selectedNode = createNode;
+            createNode = this.getControls(apiRes.data, 'input');
+            this.selectedNode = mainParent;
+            createNode = this.getControls(apiRes.data, child);
+            this.selectedNode = createNode;
+            createNode = this.getControls(apiRes.data, 'input');
+            this.selectedNode = mainParent;
+            this.updateNodes();
+            this.addControl = false;
+            this.showNotification = true;
+            this.toastr.success('Control Added', { nzDuration: 3000 });
+          } else {
+            this.toastr.warning('No control found', { nzDuration: 2000 });
+          }
+        }
+      }
+    }));
   }
+  // addChildControlsWithSubChild(parent: any, child: any) {
+  //   this.addControlToJson(parent);
+  //   this.selectedNode = this.ParentAdd;
+  //   this.addControlToJson(child);
+  //   this.selectedNode = this.childAdd;
+  //   this.addControlToJson('text', this.textJsonObj);
+  //   this.selectedNode = this.ParentAdd;
+  //   this.addControlToJson(child);
+  //   this.selectedNode = this.childAdd;
+  //   this.addControlToJson('text', this.textJsonObj);
+  //   this.selectedNode = this.ParentAdd;
+  //   this.addControlToJson(child);
+  //   this.selectedNode = this.childAdd;
+  //   this.addControlToJson('text', this.textJsonObj);
+  //   this.selectedNode = this.selectForDropdown;
+  //   this.updateNodes();
+  // }
   formDataFromApi(screenId: any) {
     this.requestSubscription = this.builderService
       .genericApis(screenId)
@@ -7868,7 +7880,7 @@ export class BuilderComponent implements OnInit {
   getControls(apiRes: any, controlName: any) {
     let findControl: any = '';
     findControl = apiRes.find((a: any) => a.name == controlName);
-    let response = this.jsonParseWithObject(findControl.controlJson);
+    let response = this.jsonParseWithObject(findControl.controljson);
     if (findControl) {
       let obj = {
         type: findControl?.name,
@@ -8072,10 +8084,18 @@ export class BuilderComponent implements OnInit {
       nzContent: '',
       nzOnOk: () => {
         this.saveLoader = true;
-        this.applicationService.addNestCommonAPI(`applications/${this.id}/screenClone`, this.builderscreendata).subscribe({
+        const { newGuid, metainfocreate } = this.socketService.metainfoDynamic(`screenClone`,);
+        const ResponseGuid = newGuid;
+        const Add = { [`screenClone`]: this.builderscreendata, metaInfo: metainfocreate }
+        this.socketService.Request(Add);
+        this.socketService.OnResponseMessage().subscribe({
           next: (res: any) => {
-            this.saveLoader = false;
-            this.toastr.success('clone Data Successfully', { nzDuration: 3000 });
+            if (res.parseddata.requestId == ResponseGuid && res.parseddata.isSuccess) {
+              res = res.parseddata.apidata;
+              this.saveLoader = false;
+              this.toastr.success('clone Data Successfully', { nzDuration: 3000 });
+            }
+
           },
           error: (err) => {
             this.saveLoader = false;

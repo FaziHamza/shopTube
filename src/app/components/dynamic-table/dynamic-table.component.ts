@@ -366,7 +366,6 @@ export class DynamicTableComponent implements OnInit {
     //       "screenBuilderId": {
     //         "$oid": "64901e0007e01828b29b0146"
     //       },
-    //       "__v": 0
     //     }
     //   ]
     // };
@@ -980,7 +979,6 @@ export class DynamicTableComponent implements OnInit {
       const newRow = JSON.parse(JSON.stringify(this.tableData[0]));
       newRow["id"] = this.tableData[id].id + 1;
       delete newRow?.id;
-      delete newRow?.__v;
       newRow['editabeRowAddNewRow'] = true;
       this.tableData.unshift(newRow);
       this.displayData = [...this.tableData];
