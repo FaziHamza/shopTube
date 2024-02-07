@@ -7,7 +7,7 @@ import { NgZorroAntdModule } from '../zorro/ng-zorro-antd.module';
 import { EnvService } from '../shared/envoirment.service';
 import { NgxMaskModule } from 'ngx-mask';
 import { AccountRoutingModule } from './account-routing.module';
-import { AccountContainerComponent, PolicyComponent, PolicyMappingComponent, PolicyMappingTableComponent, UserComponent, UserMappingComponent } from '.';
+import {  PolicyComponent, PolicyMappingComponent, PolicyMappingTableComponent, UserComponent, UserMappingComponent } from '.';
 import { FormlyModule } from '@ngx-formly/core';
 import { formlyCustomeConfig } from '../formlyConfig';
 import { RecaptchaModule } from 'ng-recaptcha';
@@ -15,7 +15,6 @@ import { RecaptchaModule } from 'ng-recaptcha';
 
 @NgModule({
   declarations: [
-    AccountContainerComponent,
     PolicyComponent,
     UserComponent,
     UserMappingComponent,

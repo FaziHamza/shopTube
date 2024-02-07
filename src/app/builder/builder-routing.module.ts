@@ -9,6 +9,7 @@ import { BarChartComponent, FileManagerComponent, googleMapComponent } from '../
 import { EmailTemplatesComponent, ExecuteActionRuleComponent } from './configurations';
 import { BuilderLayoutComponent } from './builder-layout/builder-layout.component';
 import { NgxGraphNodeComponent } from './ngx-graph-node/ngx-graph-node.component';
+import { PolicyComponent, PolicyMappingComponent, UserComponent, UserMappingComponent } from '../accounts';
 
 
 const routes: Routes = [
@@ -128,6 +129,22 @@ const routes: Routes = [
       {
         path: 'bar-chart',
         component: BarChartComponent
+      },
+      {
+        path: 'policy',
+        component: PolicyComponent
+      },
+      {
+        path: 'policy-mapping',
+        component: PolicyMappingComponent
+      },
+      {
+        path: 'user-mapping',
+        component: UserMappingComponent
+      },
+      {
+        path: 'user',
+        component: UserComponent
       },
       
     ]

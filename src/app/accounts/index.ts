@@ -1,4 +1,3 @@
-export * from './account-container/account-container.component'
 export * from './policy/policy.component'
 export * from './policy-mapping/policy-mapping.component'
 export * from './user/user.component'
