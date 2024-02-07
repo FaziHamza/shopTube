@@ -270,32 +270,7 @@ export class formFeildData {
               showSearch: true,
             },
           },
-          // defaultValue: 'Vertical'
         },
-        //   key: 'iconPlacement',
-        //   type: 'select',
-        //   className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
-        //   wrappers: ["formly-vertical-theme-wrapper"],
-        //   props: {
-        //     label: 'Icon Placement',
-        //     options: [
-        //       {
-        //         label: 'Left',
-        //         value: 'left'
-        //       },
-        //       {
-        //         label: 'Right',
-        //         value: 'right'
-        //       }
-        //     ],
-        //     additionalProperties: {
-        //       allowClear: true,
-        //       serveSearch: false,
-        //       showArrow: true,
-        //       showSearch: true,
-        //     },
-        //   },
-        // },
         {
           key: 'nztype',
           type: 'select',
@@ -328,7 +303,6 @@ export class formFeildData {
               showSearch: true,
             },
           },
-          // defaultValue: 'Vertical'
         },
         {
           key: 'nzSize',
@@ -358,7 +332,6 @@ export class formFeildData {
               showSearch: true,
             },
           },
-          // defaultValue: 'Vertical'
         },
         {
           key: 'nzShape',
@@ -388,7 +361,6 @@ export class formFeildData {
               showSearch: true,
             },
           },
-          // defaultValue: 'Vertical'
         },
         {
           key: 'btnLabelPaddingClass',
@@ -409,12 +381,13 @@ export class formFeildData {
           }
         },
         {
-          key: 'href',
-          type: 'input',
           className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          key: 'radius',
+          type: 'input',
           wrappers: ["formly-vertical-theme-wrapper"],
           props: {
-            label: 'Link'
+            type: 'number',
+            label: 'Radius',
           }
         },
         {
@@ -424,6 +397,80 @@ export class formFeildData {
           wrappers: ["formly-vertical-theme-wrapper"],
           props: {
             label: 'Save Api'
+          }
+        },
+       
+        {
+          key: 'captureData',
+          type: 'select',
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          wrappers: ["formly-vertical-theme-wrapper"],
+          props: {
+            label: 'Capture data',
+            options: [
+              {
+                label: 'Page Level',
+                value: 'pageLevel'
+              },
+              {
+                label: 'Section Level',
+                value: 'sectionLevel'
+              },
+            ],
+            additionalProperties: {
+              allowClear: true,
+              serveSearch: false,
+              showArrow: true,
+              showSearch: true,
+            },
+          },
+        },
+        {
+          key: 'badgeType',
+          type: 'select',
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          wrappers: ["formly-vertical-theme-wrapper"],
+          props: {
+            label: 'Badge Type',
+            options: [
+              {
+                label: 'None',
+                value: 'none'
+              },
+              {
+                label: 'Count',
+                value: 'count'
+              },
+              {
+                label: 'Dot',
+                value: 'dot'
+              },
+            ],
+            additionalProperties: {
+              allowClear: true,
+              serveSearch: false,
+              showArrow: true,
+              showSearch: true,
+            },
+          }
+        },
+        {
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          key: 'badgeCount',
+          type: 'input',
+          wrappers: ["formly-vertical-theme-wrapper"],
+          props: {
+            type: 'number',
+            label: 'Badge Count',
+          }
+        },
+        {
+          key: 'href',
+          type: 'input',
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          wrappers: ["formly-vertical-theme-wrapper"],
+          props: {
+            label: 'Link'
           }
         },
         {
@@ -480,70 +527,58 @@ export class formFeildData {
           },
         },
         {
-          key: 'badgeType',
+          key: 'saveRouteLink',
+          type: 'input',
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          wrappers: ["formly-vertical-theme-wrapper"],
+          props: {
+            label: 'Save Route Llink'
+          }
+        },
+        {
+          key: 'saveredirect',
           type: 'select',
           className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
           wrappers: ["formly-vertical-theme-wrapper"],
           props: {
-            label: 'Badge Type',
+            label: 'Save Redirect Type',
             options: [
               {
-                label: 'None',
-                value: 'none'
+                label: 'New Page',
+                value: '_blank'
               },
               {
-                label: 'Count',
-                value: 'count'
+                label: 'Current Page',
+                value: ''
               },
+              // {
+              //   label: 'Drawer',
+              //   value: 'drawer'
+              // },
+              // {
+              //   label: 'Large Drawer',
+              //   value: 'largeDrawer'
+              // },
+              // {
+              //   label: 'Extra Large Drawer',
+              //   value: 'extraLargeDrawer'
+              // },
+              // {
+              //   label: 'Small Modal',
+              //   value: '600px'
+              // },
+              // {
+              //   label: 'Medium Modal',
+              //   value: '800px'
+              // },
               {
-                label: 'Dot',
-                value: 'dot'
+                label: 'Modal',
+                value: 'modal'
               },
-            ],
-            additionalProperties: {
-              allowClear: true,
-              serveSearch: false,
-              showArrow: true,
-              showSearch: true,
-            },
-          }
-        },
-        {
-          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
-          key: 'badgeCount',
-          type: 'input',
-          wrappers: ["formly-vertical-theme-wrapper"],
-          props: {
-            type: 'number',
-            label: 'Badge Count',
-          }
-        },
-        {
-          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
-          key: 'radius',
-          type: 'input',
-          wrappers: ["formly-vertical-theme-wrapper"],
-          props: {
-            type: 'number',
-            label: 'Radius',
-          }
-        },
-        {
-          key: 'captureData',
-          type: 'select',
-          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
-          wrappers: ["formly-vertical-theme-wrapper"],
-          props: {
-            label: 'Capture data',
-            options: [
-              {
-                label: 'Page Level',
-                value: 'pageLevel'
-              },
-              {
-                label: 'Section Level',
-                value: 'sectionLevel'
-              },
+              // {
+              //   label: 'Extra Large Modal',
+              //   value: '1200px'
+              // },
             ],
             additionalProperties: {
               allowClear: true,
@@ -554,15 +589,6 @@ export class formFeildData {
           },
         },
         {
-          key: 'saveRouteLink',
-          type: 'input',
-          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
-          wrappers: ["formly-vertical-theme-wrapper"],
-          props: {
-            label: 'Save Route Llink'
-          }
-        },
-        {
           key: 'detailTableName',
           type: 'input',
           className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
@@ -571,17 +597,36 @@ export class formFeildData {
             label: 'Detail Table name'
           }
         },
+        // {
+        //   key: 'callMapApiAfterSave',
+        //   type: 'input',
+        //   className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+        //   wrappers: ["formly-vertical-theme-wrapper"],
+        //   props: {
+        //     label: 'Map APi',
+        //     additionalProperties: {
+        //       tooltip: "Give map api component id to mapping call after save",
+        //     }
+        //   }
+        // },
         {
-          key: 'callMapApiAfterSave',
-          type: 'input',
           className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          key: 'detailSave',
+          type: 'checkbox',
           wrappers: ["formly-vertical-theme-wrapper"],
           props: {
-            label: 'Map APi',
-            additionalProperties: {
-              tooltip: "Give map api component id to mapping call after save",
-            }
-          }
+            label: 'Detail Save',
+          },
+        },
+        {
+          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+          key: 'modalclosable',
+          type: 'checkbox',
+          wrappers: ["formly-vertical-theme-wrapper"],
+          props: {
+            label: 'Redirect Modal Closable',
+          },
+          defaultValue: false
         },
         {
           className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
@@ -593,26 +638,26 @@ export class formFeildData {
           },
           defaultValue: false
         },
-        {
-          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
-          key: 'nzGhost',
-          type: 'checkbox',
-          wrappers: ["formly-vertical-theme-wrapper"],
-          props: {
-            label: 'Ghost',
-          },
-          defaultValue: false
-        },
-        {
-          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
-          key: 'nzLoading',
-          type: 'checkbox',
-          wrappers: ["formly-vertical-theme-wrapper"],
-          props: {
-            label: 'Loading',
-          },
-          defaultValue: false
-        },
+        // {
+        //   className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+        //   key: 'nzGhost',
+        //   type: 'checkbox',
+        //   wrappers: ["formly-vertical-theme-wrapper"],
+        //   props: {
+        //     label: 'Ghost',
+        //   },
+        //   defaultValue: false
+        // },
+        // {
+        //   className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+        //   key: 'nzLoading',
+        //   type: 'checkbox',
+        //   wrappers: ["formly-vertical-theme-wrapper"],
+        //   props: {
+        //     label: 'Loading',
+        //   },
+        //   defaultValue: false
+        // },
         {
           className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
           key: 'nzBlock',
@@ -623,16 +668,16 @@ export class formFeildData {
           },
           defaultValue: false
         },
-        {
-          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
-          key: 'nzDanger',
-          type: 'checkbox',
-          wrappers: ["formly-vertical-theme-wrapper"],
-          props: {
-            label: 'Danger',
-          },
-          defaultValue: false
-        },
+        // {
+        //   className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+        //   key: 'nzDanger',
+        //   type: 'checkbox',
+        //   wrappers: ["formly-vertical-theme-wrapper"],
+        //   props: {
+        //     label: 'Danger',
+        //   },
+        //   defaultValue: false
+        // },
         {
           className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
           key: 'isSubmit',
@@ -642,161 +687,6 @@ export class formFeildData {
             label: 'Submit',
           },
         },
-        {
-          className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
-          key: 'detailSave',
-          type: 'checkbox',
-          wrappers: ["formly-vertical-theme-wrapper"],
-          props: {
-            label: 'Detail Save',
-          },
-        },
-        // {
-        //   className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
-        //   key: 'showLabel',
-        //   type: 'checkbox',
-        //   wrappers: ["formly-vertical-theme-wrapper"],
-        //   props: {
-        //     label: 'Show Label',
-        //   },
-        //   defaultValue: false
-        // },
-        // {
-        //   key: 'buttonClass',
-        //   type: 'multiselect',
-        //   className: "w-full",
-        //   wrappers: ["formly-vertical-theme-wrapper"],
-        //   props: {
-        //     multiple: true,
-        //     label: 'CSS ClassName',
-        //     options: [
-        //       {
-        //         label: 'w-1/2',
-        //         value: 'w-1/2'
-        //       },
-        //       {
-        //         label: 'w-1/3',
-        //         value: 'w-1/3'
-        //       },
-        //       {
-        //         label: 'w-2/3',
-        //         value: 'w-2/3'
-        //       },
-        //       {
-        //         label: 'w-1/4',
-        //         value: 'w-1/4'
-        //       },
-        //       {
-        //         label: 'w-3/4',
-        //         value: 'w-3/4'
-        //       },
-        //       {
-        //         label: 'w-full',
-        //         value: 'w-full'
-        //       },
-        //       {
-        //         label: 'w-auto',
-        //         value: 'w-auto'
-        //       },
-        //       {
-        //         label: 'w-screen',
-        //         value: 'w-screen'
-        //       },
-        //       {
-        //         label: 'sm:w-1/2',
-        //         value: 'sm:w-1/2'
-        //       },
-        //       {
-        //         label: 'md:w-1/3',
-        //         value: 'md:w-1/3'
-        //       },
-        //       {
-        //         label: 'lg:w-2/3',
-        //         value: 'lg:w-2/3'
-        //       },
-        //       {
-        //         label: 'xl:w-1/4',
-        //         value: 'xl:w-1/4'
-        //       },
-        //       {
-        //         label: 'text-gray-500',
-        //         value: 'text-gray-500'
-        //       },
-        //       {
-        //         label: 'text-red-600',
-        //         value: 'text-red-600'
-        //       },
-        //       {
-        //         label: 'text-blue-400',
-        //         value: 'text-blue-400'
-        //       },
-        //       {
-        //         label: 'text-green-500',
-        //         value: 'text-green-500'
-        //       },
-        //       {
-        //         label: 'text-yellow-300',
-        //         value: 'text-yellow-300'
-        //       },
-        //       {
-        //         label: 'bg-gray-200',
-        //         value: 'bg-gray-200'
-        //       },
-        //       {
-        //         label: 'bg-blue-500',
-        //         value: 'bg-blue-500'
-        //       },
-        //       {
-        //         label: 'bg-green-300',
-        //         value: 'bg-green-300'
-        //       },
-        //       {
-        //         label: 'bg-yellow-200',
-        //         value: 'bg-yellow-200'
-        //       },
-        //       {
-        //         label: 'p-4',
-        //         value: 'p-4'
-        //       },
-        //       {
-        //         label: 'pt-6',
-        //         value: 'pt-6'
-        //       },
-        //       {
-        //         label: 'ml-2',
-        //         value: 'ml-2'
-        //       },
-        //       {
-        //         label: 'mr-8',
-        //         value: 'mr-8'
-        //       },
-        //       {
-        //         label: 'my-3',
-        //         value: 'my-3'
-        //       },
-        //       {
-        //         label: 'flex',
-        //         value: 'flex'
-        //       },
-        //       {
-        //         label: 'justify-center',
-        //         value: 'justify-center'
-        //       },
-        //       {
-        //         label: 'items-center',
-        //         value: 'items-center'
-        //       }
-        //     ],
-        //     additionalProperties: {
-        //       allowClear: true,
-        //       serveSearch: true,
-        //       showArrow: true,
-        //       showSearch: true,
-        //       selectType:'tags',
-        //       maxCount:6,
-        //     },
-        //   },
-        // },
       ]
     },
   ];
