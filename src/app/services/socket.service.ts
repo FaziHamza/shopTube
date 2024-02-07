@@ -87,7 +87,7 @@ export class SocketService {
       this.socket.on('ResponseMessage', (message: any) => {
         console.log(this.getDate('Response', message))
         if (message.status === '401') {
-          this.router.navigate(['/login'])
+          this.router.navigate(['/auth/login'])
         } else {
           subscriber.next(message);
         }

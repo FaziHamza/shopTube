@@ -1,7 +1,7 @@
 import { ChangeDetectorRef, Component, ElementRef, Input, NgZone, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NzMessageService } from 'ng-zorro-antd/message';
-import { htmlTabsData } from 'src/app/ControlList';
+import { htmlTabsData } from 'src/app/builder/ControlList';
 import * as monaco from 'monaco-editor';
 import Ajv, { ErrorObject } from 'ajv';
 import { NzModalService } from 'ng-zorro-antd/modal';

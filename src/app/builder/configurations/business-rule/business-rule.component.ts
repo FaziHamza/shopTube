@@ -20,6 +20,7 @@ export class BusinessRuleComponent implements OnInit {
   @Input() applicationid: any;
   @Input() nodes: any;
   @Input() formlyModel: any;
+  saveLoader: boolean = false;
   constructor(private formBuilder: FormBuilder,
     public socketService: SocketService,
     private toastr: NzMessageService) { }
@@ -68,12 +69,14 @@ export class BusinessRuleComponent implements OnInit {
       { name: "<", key: "<" },
     ]
     if (mainModuleId.length > 0) {
+      this.saveLoader = true;
       const { jsonData, newGuid } = this.socketService.makeJsonDataById('BusinessRule', this.screenId, 'GetModelTypeById');
       this.socketService.Request(jsonData);
       this.socketService.OnResponseMessage().subscribe({
         next: (getRes: any) => {
           if (getRes.parseddata.requestId == newGuid && getRes.parseddata.isSuccess) {
             getRes = getRes.parseddata.apidata;
+            this.saveLoader = false;
             if (getRes.isSuccess) {
               if (getRes.data.length > 0) {
                 this.businessRuleId = getRes.data[0].id;
@@ -124,6 +127,7 @@ export class BusinessRuleComponent implements OnInit {
           }
         },
         error: (err) => {
+          this.saveLoader = false;
           console.error(err);
           this.toastr.error("An error occurred", { nzDuration: 3000 });
         }
@@ -315,16 +319,19 @@ export class BusinessRuleComponent implements OnInit {
           const Update = { [`BusinessRule`]: businessRuleValid, metaInfo: metainfoupdate };
           this.socketService.Request(Update)
         }
+        this.saveLoader = true;
         this.socketService.OnResponseMessage().subscribe({
           next: (res: any) => {
             if (res.parseddata.requestId == ResponseGuid && res.parseddata.isSuccess) {
               res = res.parseddata.apidata;
+              this.saveLoader = false;
               if (res.isSuccess) {
                 this.dynamicBuisnessRule();
                 this.toastr.success(`Buisness rule: ${res.message}`, { nzDuration: 3000 });
               }
               else
-                this.toastr.error(`Buisness rule: ${res.message}`, { nzDuration: 3000 });
+                this.saveLoader = false
+              // this.toastr.error(`Buisness rule: ${res.message}`, { nzDuration: 3000 });
             }
 
           },
@@ -384,12 +391,14 @@ export class BusinessRuleComponent implements OnInit {
 
   deleteBuisnessRule() {
     if (this.businessRuleId != '') {
+      this.saveLoader = true;
       const { jsonData, newGuid } = this.socketService.deleteModelType('BusinessRule', this.businessRuleId);
 
       this.socketService.Request(jsonData);
       this.socketService.OnResponseMessage().subscribe((res: any) => {
         if (res.parseddata.requestId == newGuid && res.parseddata.isSuccess) {
           res = res.parseddata.apidata;
+          this.saveLoader = false;
           if (res.isSuccess) {
             this.businessRuleId = '';
             this.businessForm = this.formBuilder.group({
@@ -398,7 +407,8 @@ export class BusinessRuleComponent implements OnInit {
             this.toastr.success(res.message, { nzDuration: 3000 });
           }
           else
-            this.toastr.success(res.message, { nzDuration: 3000 });
+            this.saveLoader = false;
+          this.toastr.success(res.message, { nzDuration: 3000 });
         }
       });
 

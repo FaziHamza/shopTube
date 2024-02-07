@@ -1,5 +1,6 @@
 const MonacoWebpackPlugin = require('monaco-editor-webpack-plugin');
 import * as webpack from 'webpack';
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
 export default (config: webpack.Configuration) => {
   config?.plugins?.push(
@@ -74,6 +75,11 @@ export default (config: webpack.Configuration) => {
           }
         }
       ]
+    }),
+    new BundleAnalyzerPlugin({
+      analyzerMode: 'static',
+      openAnalyzer: false,
+      reportFilename: 'bundle-report.html'
     })
   );
   // Remove the existing css loader rule

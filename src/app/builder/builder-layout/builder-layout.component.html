@@ -48,8 +48,7 @@
         <ul nz-menu nzMode="inline" [nzInlineCollapsed]="selectedTheme.isCollapsed">
           <ng-container *ngFor="let menu of menus">
             <li nz-menu-item [routerLink]="menu.link" routerLinkActive="active" nz-tooltip
-                nzTooltipPlacement="right" [nzTooltipTitle]="selectedTheme.isCollapsed ? menu.title : ''" 
-                *ngIf="(menu.title === 'Add Organization' && username === 'shakeel.cloud@gmail.com') || menu.title !== 'Add Organization'">
+                nzTooltipPlacement="right" [nzTooltipTitle]="selectedTheme.isCollapsed ? menu.title : ''" >
                 <i [class]="menu.icon"></i>
                 <span class="colapsed-menu-title">{{menu.title}}</span> 
             </li>

@@ -2,17 +2,16 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { LoginComponent } from './login/login.component';
 import { RouterModule, Routes } from '@angular/router';
-import { AuthRoutingModule } from './routing.module';
+import { AuthRoutingModule } from './auth-routing.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RegisterComponent } from './register/register.component';
 import { ShareModule } from '../shared/share.module';
 import { NgZorroAntdModule } from '../zorro/ng-zorro-antd.module';
 import { ErrorComponent } from 'src/common/error/error.component';
 import { EnvService } from '../shared/envoirment.service';
-import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
-import { ResetPasswordComponent } from './reset-password/reset-password.component';
-import { UserComponent } from '../roles/user/user.component';
 import { NgxMaskModule } from 'ngx-mask';
+import { AuthContainerComponent, ForgotPasswordComponent, ResetPasswordComponent } from '.';
+import { RecaptchaModule } from 'ng-recaptcha';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -25,7 +24,7 @@ const routes: Routes = [
     ErrorComponent,
     ForgotPasswordComponent,
     ResetPasswordComponent,
-    UserComponent,
+    AuthContainerComponent
   ],
   imports: [
     AuthRoutingModule,
@@ -35,6 +34,7 @@ const routes: Routes = [
     ShareModule,
     NgZorroAntdModule,
     NgxMaskModule.forRoot(),
+    RecaptchaModule,
   ],
   exports: [RouterModule],
   providers:[EnvService]

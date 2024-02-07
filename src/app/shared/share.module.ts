@@ -1,7 +1,6 @@
 import { PagesComponent } from './../pages/pages.component';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { GenericFieldComponent } from '../builder/generic-field/generic-field.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { formlyCustomeConfig } from '../formlyConfig';
 import { FormlyModule } from '@ngx-formly/core';
@@ -30,7 +29,6 @@ import {
 import { SanitizePipe } from '../pipe/sanitize.pipe';
 import { RouterModule } from '@angular/router';
 import { FullCalendarModule } from '@fullcalendar/angular';
-import { BusinessRuleGridComponent } from '../builder/configurations/business-rule-grid/business-rule-grid.component';
 import { EditorJsWrapperComponent } from '../wrappers/editor/editor-js-wrapper/editor-js-wrapper.component';
 import { GoogleChartsModule } from 'angular-google-charts';
 import { MenuComponent } from '../_layout/menu/menu.component';
@@ -57,6 +55,7 @@ import { SupportChatComponent } from '../components/support-chat/support-chat.co
 import { PdfComponent } from '../components/pdf/pdf.component';
 import { EmailComponent } from '../components/email/email.component';
 import { TaskManagerComponent } from '../components/task-manager/task-manager.component';
+import { BusinessRuleGridComponent } from '../builder/configurations';
 // import { CommonService } from './common.service';
 // import { WebsiteModules } from '../Website/website.module';
 
@@ -89,10 +88,8 @@ import { TaskManagerComponent } from '../components/task-manager/task-manager.co
       // WebsiteModules,
     ],
   declarations: [
-    GenericFieldComponent,
     PagesComponent,
     MainComponent,
-    BusinessRuleGridComponent,
     AccordionButtonComponent, AffixComponent, AnchorComponent, AudioComponent, AvatarComponent, BackTopComponent, BadgeComponent,
     BlockButtonsCardComponent, BreadCrumbComponent, BuilderToaterComponent, CarouselCrossfadeCardComponent, CascaderComponent, CommentComponent, DescriptionComponent,
     DividerComponent, DrawerComponent, DynamicTableComponent, DynamicTableRepeatSectionComponent, EmptyComponent, HeadingComponent,
@@ -122,16 +119,15 @@ import { TaskManagerComponent } from '../components/task-manager/task-manager.co
     ConfigurableDirective,
     ConfigurableSelectDirective,
     TaskReportComponent,VoiceRecorderComponent,
-    DownloadbuttonComponent,QrCodeComponent,ApplicationThemeComponent,CreateControlComponent,
+    DownloadbuttonComponent,QrCodeComponent,
     SupportChatComponent,ContactListComponent,
-    PdfComponent,EmailComponent,TaskManagerComponent
+    PdfComponent,EmailComponent,TaskManagerComponent,
+    BusinessRuleGridComponent,
   ],
   exports: [
     FormsModule,
-    GenericFieldComponent,
     PagesComponent,
     MainComponent,
-    BusinessRuleGridComponent,
     AccordionButtonComponent, AffixComponent, AnchorComponent, AudioComponent, AvatarComponent, BackTopComponent, BadgeComponent,
     BlockButtonsCardComponent, BreadCrumbComponent, BuilderToaterComponent, CarouselCrossfadeCardComponent, CascaderComponent, CommentComponent, DescriptionComponent,
     DividerComponent, DrawerComponent, DynamicTableComponent, DynamicTableRepeatSectionComponent, EmptyComponent, HeadingComponent,
@@ -180,9 +176,10 @@ import { TaskManagerComponent } from '../components/task-manager/task-manager.co
     TaskReportComponent,
     ParentCalendarComponent,
     VoiceRecorderComponent,
-    DownloadbuttonComponent,QrCodeComponent,ApplicationThemeComponent,CreateControlComponent,
+    DownloadbuttonComponent,QrCodeComponent,
     SupportChatComponent,ContactListComponent,
-    PdfComponent,EmailComponent,TaskManagerComponent
+    PdfComponent,EmailComponent,TaskManagerComponent,
+    BusinessRuleGridComponent,
     //
     // ErrorComponent
   ],

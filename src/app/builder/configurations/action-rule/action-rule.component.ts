@@ -531,10 +531,9 @@ export class ActionRuleComponent implements OnInit {
 
   getActionData() {
     debugger
-    const selectedScreen = this.screens.filter((a: any) => a.name == this.screenname)
-    if (selectedScreen[0].navigation != null && selectedScreen[0].navigation != undefined) { // selectedScreen[0].navigation
+    if (this.screeenBuilderId) { // selectedScreen[0].navigation
       this.saveLoader = true;
-      const { jsonData, newGuid } = this.socketService.makeJsonDataById('Actions', selectedScreen[0].id, 'GetModelTypeById');
+      const { jsonData, newGuid } = this.socketService.makeJsonDataById('Actions', this.screeenBuilderId, 'GetModelTypeById');
       this.socketService.Request(jsonData);
       this.socketService.OnResponseMessage().subscribe({
         next: (res: any) => {

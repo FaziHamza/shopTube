@@ -185,7 +185,7 @@ export class ButtonsComponent implements OnInit {
     localStorage.removeItem('isLoggedIn'); // Clear the logged-in flag
     localStorage.clear();
     window.localStorage.clear();
-    this.router.navigate(['/login']);
+    this.router.navigate(['/auth/login']);
   }
   jsonPolicyModuleList() {
 

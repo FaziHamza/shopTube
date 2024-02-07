@@ -17,7 +17,7 @@ export class BuilderLayoutComponent implements OnInit {
   selectedTheme: any = {};
   //menu path 
   //website templates -> landen templates
-  menuStringify = { 
+  menuStringify = {
     "_id": {
       "$oid": "649053c6ad28a951f554e688"
     },
@@ -27,7 +27,6 @@ export class BuilderLayoutComponent implements OnInit {
     "applicationId": {
       "$oid": "64a910940ab8ae224f887a9b"
     },
-    "__v": 0
   }
   requestSubscription: any;
   username: any;
@@ -37,17 +36,14 @@ export class BuilderLayoutComponent implements OnInit {
     // this.getUsers();
     this.menus = JSON.parse(this.menuStringify.menuData);
     this.selectedTheme = JSON.parse(this.menuStringify.menuData);
-
-    let a=JSON.parse(localStorage['user'])
-    this.username=a.username;
-
+    this.username = this.dataSharedService.decryptedValue('user') ? JSON.parse(this.dataSharedService.decryptedValue('user')) : null;
   }
 
 
   navigate() {
     localStorage.clear();
     window.localStorage.clear();
-    this.router.navigate(['/login'])
+    this.router.navigate(['/auth/login'])
   }
   // getUsers() {
   //   this.requestSubscription = this.applicationService.getNestCommonAPI('cp/user').subscribe({

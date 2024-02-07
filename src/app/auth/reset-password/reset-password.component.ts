@@ -100,7 +100,7 @@ export class ResetPasswordComponent implements OnInit {
             if (res.isSuccess) {
               this.toastr.success(res.message, { nzDuration: 2000 });
               this.create();
-              this.router.navigateByUrl('/login')
+              this.router.navigateByUrl('/auth/login')
             } else {
               this.toastr.error(res.message, { nzDuration: 2000 });
             }

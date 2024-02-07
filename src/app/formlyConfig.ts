@@ -10,7 +10,6 @@ import { FormlyFieldNgSearchComponent } from "./wrappers/formly-field-ng-search.
 import { FormlyFieldNgSelectComponent } from "./wrappers/formly-field-ng-select.component";
 import { FormlyFloatComponent } from "./wrappers/formly-float/formly-float.component";
 import { FormlyFieldRangeDate } from "./wrappers/FormlyFieldRangeDate";
-import { FormlyFieldStepper } from "./wrappers/FormlyFieldStepper";
 import { FormlyFieldTimePicker } from "./wrappers/FormlyFieldTimePicker";
 import { FormlyHorizontalWrapper } from "./wrappers/FormlyHorizontalWrapper";
 import { FormlyFieldMultiCheckbox } from "./wrappers/FormlyMultiCheckbox";
@@ -72,7 +71,6 @@ export const fieldComponents = [
 
 export const formlyCustomeConfig: ConfigOption = {
   types: [
-    { name: 'stepper', component: FormlyFieldStepper, wrappers: [] },
     //   { name: 'extended-input', extends: 'input' },
     // { name: 'repeatText', component: FormlyFieldInputRepeatSectionComponent },
     { name: 'repeatSection', component: formlyRepeatSectionComponent },
