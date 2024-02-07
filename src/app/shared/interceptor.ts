@@ -22,7 +22,7 @@ export class AuthInterceptor implements HttpInterceptor {
     if (err.status === 401 || err.status === 403) { // || err.status === 0
       this.clearStorage();
       // this.envService.showWarning();
-      this.router.navigateByUrl('/login');
+      this.router.navigateByUrl('/auth/login');
       return of(err.message);
     }
     return throwError(err);
@@ -46,7 +46,7 @@ export class AuthInterceptor implements HttpInterceptor {
     let token = JSON.parse(localStorage.getItem('authToken')!);
     if (!token) {
       // Redirect to login if authToken is missing
-      this.router.navigate(['/login']);
+      this.router.navigate(['/auth/login']);
       return throwError('Authentication token is missing');
     }
     // let applicationId = JSON.parse(localStorage.getItem('applicationId')!);

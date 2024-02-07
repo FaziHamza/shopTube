@@ -376,7 +376,7 @@ export class LoginComponent implements OnInit {
         //   // if (this.userAddDrawer) {
         //   //   this.drawerRef.close(true);
         //   // }else{
-        //   //   this.router.navigateByUrl('/login')
+        //   //   this.router.navigateByUrl('/auth/login')
         //   // }
         // } else {
         //   grecaptcha.reset();

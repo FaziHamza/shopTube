@@ -1,9 +1,9 @@
 import { NgModule } from '@angular/core';
 import { MenuBuilderComponent } from '../menu-builder/menu-builder.component';
-import { ActionRuleComponent, BusinessRuleComponent, UIRuleComponent, ValidationRuleComponent } from '../builder/configurations';
+import { ActionRuleComponent, BusinessRuleComponent, EmailTemplatesComponent, UIRuleComponent, ValidationRuleComponent } from '../builder/configurations';
 import { DemoComponent } from '../builder/demo/demo.component';
 import { NestedTableComponent } from '../builder/nested-table/nested-table.component';
-import { ApplicationBuilderComponent, BacklogComponent, LanguageComponent, ModuleListComponent, ScreenBuilderComponent, TaskManagementListComponent, UserTaskManagementComponent, organizationBuilderComponent } from '../Builder-module';
+import { ApplicationBuilderComponent, ApplicationGlobalClassesComponent, BacklogComponent, LanguageComponent, ModuleListComponent, ScreenBuilderComponent, TaskManagementListComponent, UserTaskManagementComponent, organizationBuilderComponent } from '../Builder-module';
 import { BulkUpdateComponent } from '../builder/bulk-update/bulk-update.component';
 import { AddControlCommonPropertiesComponent } from '../builder/add-control-common-properties/add-control-common-properties.component';
 import { CreateDatabaseComponent } from '../Builder-module/admin/create-database/create-database.component';
@@ -20,8 +20,10 @@ import { GoogleChartsModule } from "angular-google-charts";
 import { ContextMenuModule } from "@perfectmemory/ngx-contextmenu";
 import { RouterModule } from '@angular/router';
 import { ShareModule } from './share.module';
-import { MenuRolePermissionComponent, ReleaseManagementComponent, TaskManagementComponent } from '../Builder-module/admin';
+import { ExecuteQueryComponent, MenuRolePermissionComponent, ReleaseManagementComponent, TaskManagementComponent } from '../Builder-module/admin';
 import { LayoutDrawerComponent } from '../menu-builder/layout-drawer/layout-drawer.component';
+import { MenuBulkUpdateComponent } from '../menu-builder/menu-bulk-update/menu-bulk-update.component';
+import { TableRowComponent } from '../menu-builder/table-row/table-row.component';
 
 
 @NgModule({
@@ -55,6 +57,11 @@ import { LayoutDrawerComponent } from '../menu-builder/layout-drawer/layout-draw
     UserTaskManagementComponent,
     TaskManagementListComponent,
     BacklogComponent,
+    ApplicationGlobalClassesComponent,
+    MenuBulkUpdateComponent,
+    ExecuteQueryComponent,
+    TableRowComponent,
+    EmailTemplatesComponent,
 
   ],
   exports: [
@@ -70,8 +77,12 @@ import { LayoutDrawerComponent } from '../menu-builder/layout-drawer/layout-draw
     ReleaseManagementComponent,
     TaskManagementComponent,
     UserTaskManagementComponent,
+    MenuBulkUpdateComponent,
     TaskManagementListComponent,
-    BacklogComponent,
+    BacklogComponent,ApplicationGlobalClassesComponent,
+    ExecuteQueryComponent,
+    TableRowComponent,
+    EmailTemplatesComponent,
 
   ],
   providers: [

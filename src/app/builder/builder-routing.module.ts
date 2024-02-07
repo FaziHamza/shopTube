@@ -4,11 +4,10 @@ import { RouterModule, Routes } from "@angular/router";
 import { DemoComponent } from './demo/demo.component';
 import { MenuBuilderComponent } from '../menu-builder/menu-builder.component';
 import { ApplicationBuilderComponent, ApplicationGlobalClassesComponent, ApplicationThemeComponent, BacklogComponent, CreateControlComponent, LanguageComponent, ModuleListComponent, ScreenBuilderComponent, TaskManagementListComponent, UserTaskManagementComponent, organizationBuilderComponent } from '../Builder-module';
-import { CreateDatabaseComponent, ExecuteQueryComponent, MenuRolePermissionComponent, PolicyComponent, PolicyMappingComponent, ReleaseManagementComponent, SupportChatComponent, TaskManagementComponent, UserMappingComponent } from '../Builder-module/admin';
+import { CreateDatabaseComponent, ExecuteQueryComponent, MenuRolePermissionComponent,  ReleaseManagementComponent, SupportChatComponent, TaskManagementComponent } from '../Builder-module/admin';
 import { FileManagerComponent } from '../components';
 import { EmailTemplatesComponent, ExecuteActionRuleComponent } from './configurations';
 import { BuilderLayoutComponent } from '../_layout';
-import { UserComponent } from '../roles/user/user.component';
 
 
 const routes: Routes = [
@@ -81,22 +80,6 @@ const routes: Routes = [
         component: BacklogComponent
       },
       {
-        path: 'policy',
-        component: PolicyComponent
-      },
-      {
-        path: 'policy-mapping',
-        component: PolicyMappingComponent
-      },
-      {
-        path: 'user-mapping',
-        component: UserMappingComponent
-      },
-      {
-        path: 'user',
-        component: UserComponent
-      },
-      {
         path: 'file-manager',
         component: FileManagerComponent
       },
@@ -120,6 +103,7 @@ const routes: Routes = [
         path: 'email-template',
         component: EmailTemplatesComponent
       },
+      
     ]
   },
   // {

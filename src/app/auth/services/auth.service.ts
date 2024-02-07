@@ -53,13 +53,13 @@ export class AuthService {
     // Set Auth Status to false
     this.isAuthenticatedSubject.next(false);
     if (!(this.router.url === '/')) {
-      this.router.navigateByUrl('/login')
+      this.router.navigateByUrl('/auth/login')
     }
   }
 
   //   Login:
   public loginUser(model: any) {
-    let url = environment.nestNewBaseUrl + `auth/login/login`;
+    let url = environment.nestNewBaseUrl + `auth/login`;
     return this.http.post(url, model)
   }
 
