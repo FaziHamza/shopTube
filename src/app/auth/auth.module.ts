@@ -11,6 +11,7 @@ import { ErrorComponent } from 'src/common/error/error.component';
 import { EnvService } from '../shared/envoirment.service';
 import { NgxMaskModule } from 'ngx-mask';
 import { AuthContainerComponent, ForgotPasswordComponent, ResetPasswordComponent } from '.';
+import { RecaptchaModule } from 'ng-recaptcha';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -33,6 +34,7 @@ const routes: Routes = [
     ShareModule,
     NgZorroAntdModule,
     NgxMaskModule.forRoot(),
+    RecaptchaModule,
   ],
   exports: [RouterModule],
   providers:[EnvService]

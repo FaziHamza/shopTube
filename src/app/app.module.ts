@@ -14,8 +14,6 @@ import { NZ_ICONS } from 'ng-zorro-antd/icon';
 import { NZ_I18N, en_US } from 'ng-zorro-antd/i18n';
 import { IconDefinition } from '@ant-design/icons-angular';
 import * as AllIcons from '@ant-design/icons-angular/icons';
-import { AngularSplitModule } from 'angular-split';
-import { NgJsonEditorModule } from 'ang-jsoneditor';
 import { CommonModule } from '@angular/common';
 import { ShareModule } from './shared/share.module';
 import { FullCalendarModule } from '@fullcalendar/angular';
@@ -38,7 +36,6 @@ import { VideoRecordingService } from './services/video-recording.service';
 import { NotFoundComponent } from './auth/not-found/not-found.component';
 import { PermissionDeniedComponent } from './auth/permission-denied/permission-denied.component';
 import { CustomReuseStrategy } from './custom-reuse-strategy';
-import { BuilderModule } from './builder/builder.module';
 import { NgxGraphNodeComponent } from './builder/ngx-graph-node/ngx-graph-node.component';
 import { NgxGraphModule } from '@swimlane/ngx-graph';
 import { ContextMenuModule } from '@perfectmemory/ngx-contextmenu';
@@ -47,6 +44,7 @@ import { IPublicClientApplication, PublicClientApplication, InteractionType } fr
 import { MsalGuard, MsalBroadcastService, MsalModule, MsalService, MSAL_GUARD_CONFIG, MSAL_INSTANCE, MsalGuardConfiguration, MsalRedirectComponent } from '@azure/msal-angular';
 import { msalConfig } from './auth/auth-config';
 import { SocketService } from './services/socket.service';
+import { AccountModule } from './accounts/account.module';
 
 export function MSALInstanceFactory(): IPublicClientApplication {
   return new PublicClientApplication(msalConfig);
@@ -74,8 +72,7 @@ const icons: IconDefinition[] = Object.keys(antDesignIcons).map(key => antDesign
   imports: [
     FormsModule,
     CommonModule,
-    AngularSplitModule,
-    NgJsonEditorModule,
+    AccountModule,
     BrowserModule,
     NgZorroAntdModule,
     ReactiveFormsModule,
@@ -88,9 +85,6 @@ const icons: IconDefinition[] = Object.keys(antDesignIcons).map(key => antDesign
     AppRoutingModule,
     ShareModule,
     GoogleChartsModule,
-    RecaptchaFormsModule,
-    RecaptchaModule,
-    NgJsonEditorModule,
     NgxGraphModule,
     ContextMenuModule,
     DragDropModule,

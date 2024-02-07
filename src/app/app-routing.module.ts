@@ -41,17 +41,9 @@ const routes: Routes = [
       { path: '**', redirectTo: 'not-found' }
     ]
   },
-  // {
-  //   path: 'permission-denied',
-  //   component: PermissionDeniedComponent
-  // },
   {
     path: 'auth',
     loadChildren: () => import("src/app/auth/auth.module").then((m) => m.AuthModule),
-  },
-  {
-    path: 'account',
-    loadChildren: () => import("src/app/accounts/account.module").then((m) => m.AccountModule),
   },
   {
     path: 'builder',
@@ -60,10 +52,6 @@ const routes: Routes = [
   {
     path: 'menu-builder',
     loadChildren: () => import("src/app/menu-builder/menu-builder.module").then((m) => m.MenuBuilderModule),
-  },
-  {
-    path: 'admin',
-    loadChildren: () => import("src/app/builder/builder.module").then((m) => m.BuilderModule),
   },
   {
     path: 'bar-chart',

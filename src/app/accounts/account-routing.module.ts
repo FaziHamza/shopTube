@@ -1,12 +1,13 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AccountContainerComponent, PolicyComponent, PolicyMappingComponent, UserComponent, UserMappingComponent } from '.';
+import { SiteLayoutComponent } from '../_layout';
 
 
 const routes: Routes = [
   {
     path: '',
-    component: AccountContainerComponent,
+    component: SiteLayoutComponent,
     children: [
       {
         path: 'policy',

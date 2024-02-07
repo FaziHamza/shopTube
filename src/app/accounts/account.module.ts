@@ -10,6 +10,7 @@ import { AccountRoutingModule } from './account-routing.module';
 import { AccountContainerComponent, PolicyComponent, PolicyMappingComponent, PolicyMappingTableComponent, UserComponent, UserMappingComponent } from '.';
 import { FormlyModule } from '@ngx-formly/core';
 import { formlyCustomeConfig } from '../formlyConfig';
+import { RecaptchaModule } from 'ng-recaptcha';
 
 
 @NgModule({
@@ -30,6 +31,7 @@ import { formlyCustomeConfig } from '../formlyConfig';
     NgZorroAntdModule,
     FormlyModule.forRoot(formlyCustomeConfig),
     NgxMaskModule.forRoot(),
+    RecaptchaModule,
   ],
   exports: [RouterModule],
   providers: [EnvService]
