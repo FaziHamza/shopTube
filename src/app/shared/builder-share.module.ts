@@ -1,9 +1,9 @@
 import { NgModule } from '@angular/core';
 import { MenuBuilderComponent } from '../menu-builder/menu-builder.component';
-import { ActionRuleComponent, BusinessRuleComponent, EmailTemplatesComponent, UIRuleComponent, ValidationRuleComponent } from '../builder/configurations';
+import { ActionRuleComponent, BusinessRuleComponent, BusinessRuleGridComponent, EmailTemplatesComponent, UIRuleComponent, ValidationRuleComponent } from '../builder/configurations';
 import { DemoComponent } from '../builder/demo/demo.component';
 import { NestedTableComponent } from '../builder/nested-table/nested-table.component';
-import { ApplicationBuilderComponent, ApplicationGlobalClassesComponent, BacklogComponent, LanguageComponent, ModuleListComponent, ScreenBuilderComponent, TaskManagementListComponent, UserTaskManagementComponent, organizationBuilderComponent } from '../Builder-module';
+import { ApplicationBuilderComponent, ApplicationGlobalClassesComponent, ApplicationThemeComponent, BacklogComponent, CreateControlComponent, LanguageComponent, ModuleListComponent, ScreenBuilderComponent, TaskManagementListComponent, UserTaskManagementComponent, organizationBuilderComponent } from '../Builder-module';
 import { BulkUpdateComponent } from '../builder/bulk-update/bulk-update.component';
 import { AddControlCommonPropertiesComponent } from '../builder/add-control-common-properties/add-control-common-properties.component';
 import { CreateDatabaseComponent } from '../Builder-module/admin/create-database/create-database.component';
@@ -24,6 +24,7 @@ import { ExecuteQueryComponent, MenuRolePermissionComponent, ReleaseManagementCo
 import { LayoutDrawerComponent } from '../menu-builder/layout-drawer/layout-drawer.component';
 import { MenuBulkUpdateComponent } from '../menu-builder/menu-bulk-update/menu-bulk-update.component';
 import { TableRowComponent } from '../menu-builder/table-row/table-row.component';
+import { GenericFieldComponent } from '../builder/generic-field/generic-field.component';
 
 
 @NgModule({
@@ -62,7 +63,8 @@ import { TableRowComponent } from '../menu-builder/table-row/table-row.component
     ExecuteQueryComponent,
     TableRowComponent,
     EmailTemplatesComponent,
-
+    GenericFieldComponent,
+    ApplicationThemeComponent,CreateControlComponent,
   ],
   exports: [
     MenuBuilderComponent,
@@ -83,7 +85,8 @@ import { TableRowComponent } from '../menu-builder/table-row/table-row.component
     ExecuteQueryComponent,
     TableRowComponent,
     EmailTemplatesComponent,
-
+    GenericFieldComponent,
+    ApplicationThemeComponent,CreateControlComponent,
   ],
   providers: [
 

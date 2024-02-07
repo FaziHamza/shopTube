@@ -24,7 +24,6 @@ import { GoogleMapsService } from './services/google-maps.service';
 import { EnvService } from './shared/envoirment.service';
 import { RouteReuseStrategy, Router } from '@angular/router';
 import { AuthInterceptor } from './shared/interceptor';
-import { ApiService } from './shared/api.service';
 import { AuthGuard } from './auth/auth.Guard';
 import { CommonService } from '../common/common-services/common.service';
 import { DatePipe } from '@angular/common';
@@ -36,7 +35,6 @@ import { VideoRecordingService } from './services/video-recording.service';
 import { NotFoundComponent } from './auth/not-found/not-found.component';
 import { PermissionDeniedComponent } from './auth/permission-denied/permission-denied.component';
 import { CustomReuseStrategy } from './custom-reuse-strategy';
-import { NgxGraphNodeComponent } from './builder/ngx-graph-node/ngx-graph-node.component';
 import { NgxGraphModule } from '@swimlane/ngx-graph';
 import { ContextMenuModule } from '@perfectmemory/ngx-contextmenu';
 import { DragDropModule } from '@angular/cdk/drag-drop';
@@ -67,7 +65,6 @@ const icons: IconDefinition[] = Object.keys(antDesignIcons).map(key => antDesign
     fieldComponents,
     NotFoundComponent,
     PermissionDeniedComponent,
-    NgxGraphNodeComponent,
   ],
   imports: [
     FormsModule,
@@ -85,7 +82,6 @@ const icons: IconDefinition[] = Object.keys(antDesignIcons).map(key => antDesign
     AppRoutingModule,
     ShareModule,
     GoogleChartsModule,
-    NgxGraphModule,
     ContextMenuModule,
     DragDropModule,
     TranslateModule.forRoot({
@@ -106,7 +102,6 @@ const icons: IconDefinition[] = Object.keys(antDesignIcons).map(key => antDesign
     { provide: NZ_I18N, useValue: en_US },
     { provide: NZ_ICONS, useValue: icons },
     GoogleMapsService,
-    ApiService,
     EnvService,
     AuthGuard,
     DataService,

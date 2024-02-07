@@ -2,14 +2,8 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { PagesComponent } from './pages/pages.component';
 import { SiteLayoutComponent } from './_layout/site-layout/site-layout.component';
-import { BarChartComponent, FileManagerComponent, googleMapComponent } from './components';
-import { DemoComponent } from './builder/demo/demo.component';
-import { AuthGuard } from './auth/auth.Guard';
 import { NotFoundComponent } from './auth/not-found/not-found.component';
 import { PermissionDeniedComponent } from './auth/permission-denied/permission-denied.component';
-import { ApplicationThemeComponent } from './Builder-module/application-theme/application-theme.component';
-import { NgxGraphNodeComponent } from './builder/ngx-graph-node/ngx-graph-node.component';
-import { EmailTemplatesComponent } from './builder/configurations/email-templates/email-templates.component';
 
 const routes: Routes = [
   {
@@ -52,30 +46,6 @@ const routes: Routes = [
   {
     path: 'menu-builder',
     loadChildren: () => import("src/app/menu-builder/menu-builder.module").then((m) => m.MenuBuilderModule),
-  },
-  {
-    path: 'bar-chart',
-    component: BarChartComponent
-  },
-  {
-    path: 'demo',
-    component: DemoComponent
-  },
-  {
-    path: 'mindmap',
-    component: NgxGraphNodeComponent
-  },
-  {
-    path: 'file-manager',
-    component: FileManagerComponent
-  },
-  {
-    path: 'app-theme',
-    component: ApplicationThemeComponent
-  },
-  {
-    path: 'map',
-    component: googleMapComponent // renamed to PascalCase
   },
   { path: 'not-found', component: NotFoundComponent },
   { path: '**', redirectTo: 'not-found' }

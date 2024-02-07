@@ -5,9 +5,10 @@ import { DemoComponent } from './demo/demo.component';
 import { MenuBuilderComponent } from '../menu-builder/menu-builder.component';
 import { ApplicationBuilderComponent, ApplicationGlobalClassesComponent, ApplicationThemeComponent, BacklogComponent, CreateControlComponent, LanguageComponent, ModuleListComponent, ScreenBuilderComponent, TaskManagementListComponent, UserTaskManagementComponent, organizationBuilderComponent } from '../Builder-module';
 import { CreateDatabaseComponent, ExecuteQueryComponent, MenuRolePermissionComponent,  ReleaseManagementComponent, SupportChatComponent, TaskManagementComponent } from '../Builder-module/admin';
-import { FileManagerComponent } from '../components';
+import { BarChartComponent, FileManagerComponent, googleMapComponent } from '../components';
 import { EmailTemplatesComponent, ExecuteActionRuleComponent } from './configurations';
-import { BuilderLayoutComponent } from '../_layout';
+import { BuilderLayoutComponent } from './builder-layout/builder-layout.component';
+import { NgxGraphNodeComponent } from './ngx-graph-node/ngx-graph-node.component';
 
 
 const routes: Routes = [
@@ -102,6 +103,31 @@ const routes: Routes = [
       {
         path: 'email-template',
         component: EmailTemplatesComponent
+      },
+      
+      {
+        path: 'demo',
+        component: DemoComponent
+      },
+      {
+        path: 'mindmap',
+        component: NgxGraphNodeComponent
+      },
+      {
+        path: 'file-manager',
+        component: FileManagerComponent
+      },
+      {
+        path: 'app-theme',
+        component: ApplicationThemeComponent
+      },
+      {
+        path: 'map',
+        component: googleMapComponent // renamed to PascalCase
+      },
+      {
+        path: 'bar-chart',
+        component: BarChartComponent
       },
       
     ]

@@ -1,5 +1,4 @@
 import { Component, HostListener } from '@angular/core';
-import { InactivityService } from './services/inactivity.service';
 
 @Component({
   selector: 'st-root',
@@ -101,14 +100,5 @@ export class AppComponent {
     "version": "2.26.5"
   } ;
   constructor() {
-    // this.inactivityService.resetTimer();
   }
-
-  // @HostListener('window:mousemove')
-  // @HostListener('window:click')
-  // @HostListener('window:keypress')
-  // @HostListener('window:touchstart')
-  // handleUserActivity() {
-  //   // this.inactivityService.updateUserActivity();
-  // }
 }

@@ -3,9 +3,7 @@ import SignaturePad from "signature_pad";
 import { ApplicationService } from "src/app/services/application.service";
 import { DataSharedService } from "src/app/services/data-shared.service";
 import { FieldType, FieldTypeConfig } from '@ngx-formly/core';
-import { Console } from "console";
 import { NzModalService } from "ng-zorro-antd/modal";
-import { DemoComponent } from "src/app/builder/demo/demo.component";
 import { SignatureModalComponent } from "src/app/components/signature-modal/signature-modal.component";
 
 @Component({
