@@ -43,7 +43,7 @@ export class BuilderLayoutComponent implements OnInit {
   navigate() {
     localStorage.clear();
     window.localStorage.clear();
-    this.router.navigate(['/login'])
+    this.router.navigate(['/auth/login'])
   }
   // getUsers() {
   //   this.requestSubscription = this.applicationService.getNestCommonAPI('cp/user').subscribe({

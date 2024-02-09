@@ -14,29 +14,19 @@ import { NZ_ICONS } from 'ng-zorro-antd/icon';
 import { NZ_I18N, en_US } from 'ng-zorro-antd/i18n';
 import { IconDefinition } from '@ant-design/icons-angular';
 import * as AllIcons from '@ant-design/icons-angular/icons';
-import { FormlyFieldStepper } from './wrappers/FormlyFieldStepper';
-import { AngularSplitModule } from 'angular-split';
-import { NgJsonEditorModule } from 'ang-jsoneditor';
 import { CommonModule } from '@angular/common';
 import { ShareModule } from './shared/share.module';
 import { FullCalendarModule } from '@fullcalendar/angular';
 import { GoogleChartsModule } from 'angular-google-charts';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
-import { MapComponent } from './components/map/map.component';
 import { GoogleMapsService } from './services/google-maps.service';
-import { MenuBulkUpdateComponent } from './menu-builder/menu-bulk-update/menu-bulk-update.component';
 import { EnvService } from './shared/envoirment.service';
 import { RouteReuseStrategy, Router } from '@angular/router';
 import { AuthInterceptor } from './shared/interceptor';
-import { ApiService } from './shared/api.service';
-import { AuthModule } from './auth/auth.module';
-import { TableRowComponent } from './menu-builder/table-row/table-row.component';
 import { AuthGuard } from './auth/auth.Guard';
 import { CommonService } from '../common/common-services/common.service';
 import { DatePipe } from '@angular/common';
-// import { MultiFileUploadWrapperComponent } from './wrappers/multi-file-upload-wrapper/multi-file-upload-wrapper.component';
-// import { SocketIoConfig, SocketIoModule } from 'ngx-socket-io';
 import { RECAPTCHA_SETTINGS, RecaptchaFormsModule, RecaptchaModule, RecaptchaSettings } from 'ng-recaptcha';
 import { environment } from 'src/environments/environment';
 import { DataService } from './services/offlineDb.service';
@@ -44,32 +34,19 @@ import { AudioRecordingService } from './services/audio-recording.service';
 import { VideoRecordingService } from './services/video-recording.service';
 import { NotFoundComponent } from './auth/not-found/not-found.component';
 import { PermissionDeniedComponent } from './auth/permission-denied/permission-denied.component';
-import { PolicyComponent } from './roles/policy/policy.component';
-import { PolicyMappingComponent } from './roles/policy-mapping/policy-mapping.component';
-import { UserMappingComponent } from './roles/user-mapping/user-mapping.component';
-import { PolicyMappingTableComponent } from './roles/policy-mapping/policy-mapping-table/policy-mapping-table.component';
 import { CustomReuseStrategy } from './custom-reuse-strategy';
-import { BuilderModule } from './builder/builder.module';
-import { NgxGraphNodeComponent } from './builder/ngx-graph-node/ngx-graph-node.component';
 import { NgxGraphModule } from '@swimlane/ngx-graph';
 import { ContextMenuModule } from '@perfectmemory/ngx-contextmenu';
 import { DragDropModule } from '@angular/cdk/drag-drop';
-import { ApplicationGlobalClassesComponent } from './Builder-module/application-global-classes/application-global-classes.component';
-import { TaskManagerComponent } from './components/task-manager/task-manager.component';
-import { EmailTemplatesComponent } from './builder/configurations/email-templates/email-templates.component';
 import { IPublicClientApplication, PublicClientApplication, InteractionType } from '@azure/msal-browser';
 import { MsalGuard, MsalBroadcastService, MsalModule, MsalService, MSAL_GUARD_CONFIG, MSAL_INSTANCE, MsalGuardConfiguration, MsalRedirectComponent } from '@azure/msal-angular';
 import { msalConfig } from './auth/auth-config';
-import { ExecuteQueryComponent } from './Builder-module/admin/execute-query/execute-query.component';
 import { SocketService } from './services/socket.service';
+import { AccountModule } from './accounts/account.module';
 
 export function MSALInstanceFactory(): IPublicClientApplication {
   return new PublicClientApplication(msalConfig);
 }
-/**
- * Set your default interaction type for MSALGuard here. If you have any
- * additional scopes you want the user to consent upon login, add them here as well.
- */
 export function MSALGuardConfigFactory(): MsalGuardConfiguration {
   return { 
     interactionType: InteractionType.Redirect,
@@ -86,28 +63,13 @@ const icons: IconDefinition[] = Object.keys(antDesignIcons).map(key => antDesign
   declarations: [
     AppComponent,
     fieldComponents,
-    FormlyFieldStepper,
-    MapComponent,
-    MenuBulkUpdateComponent,
-    TableRowComponent,
     NotFoundComponent,
     PermissionDeniedComponent,
-    PolicyComponent,
-    PolicyMappingComponent,
-    UserMappingComponent,
-    PolicyMappingTableComponent,
-    NgxGraphNodeComponent,
-    ApplicationGlobalClassesComponent,
-    EmailTemplatesComponent,
-    ExecuteQueryComponent,
-        // MultiFileUploadWrapperComponent,
   ],
   imports: [
     FormsModule,
     CommonModule,
-    AuthModule,
-    AngularSplitModule,
-    NgJsonEditorModule,
+    AccountModule,
     BrowserModule,
     NgZorroAntdModule,
     ReactiveFormsModule,
@@ -120,11 +82,6 @@ const icons: IconDefinition[] = Object.keys(antDesignIcons).map(key => antDesign
     AppRoutingModule,
     ShareModule,
     GoogleChartsModule,
-    RecaptchaFormsModule,
-    RecaptchaModule,
-    NgJsonEditorModule,
-    BuilderModule,
-    NgxGraphModule,
     ContextMenuModule,
     DragDropModule,
     TranslateModule.forRoot({
@@ -145,7 +102,6 @@ const icons: IconDefinition[] = Object.keys(antDesignIcons).map(key => antDesign
     { provide: NZ_I18N, useValue: en_US },
     { provide: NZ_ICONS, useValue: icons },
     GoogleMapsService,
-    ApiService,
     EnvService,
     AuthGuard,
     DataService,

@@ -292,7 +292,7 @@ export class SectionsComponent implements OnInit {
                 const successMessage = (model.postType === 'post') ? 'Save Successfully' : 'Update Successfully';
                 this.toastr.success(successMessage, { nzDuration: 3000 });
 
-                if (data.saveRouteLink && this.dataSharedService.currentMenuLink !== '/ourbuilder' && model.postType === 'post') {
+                if (data.saveRouteLink && data.saveredirect == '_blank' && this.dataSharedService.currentMenuLink !== '/ourbuilder' && (model.postType === 'post' || model.postType === 'put')) {
                   let tableName: any = '';
                   if (res?.[0]) {
                     tableName = res[0].tableName ? res[0].tableName.split('.')[1].split('_')[0] : '';
@@ -313,6 +313,8 @@ export class SectionsComponent implements OnInit {
                     this.router.navigate(['/pages/' + data.saveRouteLink]);
                   }
                   return;
+                } else if (data.saveredirect == 'modal'){
+                  this.dataSharedService.saveredirect.next(data)
                 }
 
                 if (model.postType === 'post') {

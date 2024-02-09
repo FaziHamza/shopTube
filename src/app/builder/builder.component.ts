@@ -20,11 +20,10 @@ import {
   actionTypeFeild,
   formFeildData,
 } from './configurations/configuration.modal';
-import { htmlTabsData } from '../ControlList';
+import { htmlTabsData } from './ControlList';
 import { BuilderClickButtonService } from './service/builderClickButton.service';
 import { Subscription, catchError, forkJoin, of } from 'rxjs';
 import { INITIAL_EVENTS } from '../shared/event-utils/event-utils';
-import { ColorPickerService } from '../services/colorpicker.service';
 import { DataService } from '../services/offlineDb.service';
 import { EncryptionService } from '../services/encryption.service';
 import { NzModalRef, NzModalService } from 'ng-zorro-antd/modal';
@@ -128,7 +127,6 @@ export class BuilderComponent implements OnInit {
     private addControlService: AddControlService,
     private clickButtonService: BuilderClickButtonService,
     public dataSharedService: DataSharedService,
-    private colorPickerService: ColorPickerService,
     private el: ElementRef,
     private router: Router,
     private renderer: Renderer2,
@@ -6456,12 +6454,7 @@ export class BuilderComponent implements OnInit {
       });
     }
   }
-  setCustomColor(data: any) {
-    let color: string;
-    color = data.target.value;
-    this.colorPickerService.setCustomColor('custom-color', color);
-  }
-
+ 
   selectedDownloadJson() {
     if (!this.screenPage) {
       this.toastr.warning('Please Select Screen', { nzDuration: 3000 });

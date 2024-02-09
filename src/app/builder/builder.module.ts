@@ -25,6 +25,8 @@ import { MonacoEditorComponent } from './execute-action-rule/monaco-editor/monac
 import { HeadingParagrapghUpdateComponent } from './heading-paragrapgh-update/heading-paragrapgh-update.component';
 import { OtherBulkUpdateComponent } from './other-bulk-update/other-bulk-update.component';
 import { DragDropModule } from "@angular/cdk/drag-drop";
+import { NgxGraphNodeComponent } from "./ngx-graph-node/ngx-graph-node.component";
+import { NgxGraphModule } from "@swimlane/ngx-graph";
 
 @NgModule({
   declarations: [
@@ -35,7 +37,8 @@ import { DragDropModule } from "@angular/cdk/drag-drop";
     ExecuteActionRuleComponent,
     MonacoEditorComponent,
     HeadingParagrapghUpdateComponent,
-    OtherBulkUpdateComponent
+    OtherBulkUpdateComponent,
+    NgxGraphNodeComponent
 
   ],
   imports: [
@@ -43,6 +46,7 @@ import { DragDropModule } from "@angular/cdk/drag-drop";
     FormsModule,
     AngularSplitModule,
     NgJsonEditorModule,
+    NgxGraphModule,
     NgZorroAntdModule,
     ReactiveFormsModule,
     FormlyNgZorroAntdModule,

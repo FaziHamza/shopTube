@@ -43,6 +43,7 @@ export class DataSharedService {
   public repeatableControll: Subject<any> = new Subject();
   public updateModel: Subject<any> = new Subject();
   public callDataIntaskManager: Subject<any> = new Subject();
+  public saveredirect: Subject<any> = new Subject();
   // public menus: Subject<any> = new Subject();
   // public currentApplication: Subject<any> = new Subject();
   // public defaultPage: Subject<any> = new Subject();

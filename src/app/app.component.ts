@@ -1,3 +1,4 @@
+import { Component, HostListener } from '@angular/core';
 import { AfterViewInit, ChangeDetectorRef, Component, HostListener } from '@angular/core';
 import { InactivityService } from './services/inactivity.service';
 
@@ -100,6 +101,8 @@ export class AppComponent implements  AfterViewInit {
     ],
     "version": "2.26.5"
   } ;
+  constructor() {
+  }
   constructor(private cdRef: ChangeDetectorRef) {}
   // this.inactivityService.resetTimer();
   ngAfterViewInit() {
