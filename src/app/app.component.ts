@@ -1,13 +1,12 @@
+
 import { Component, HostListener } from '@angular/core';
-import { AfterViewInit, ChangeDetectorRef, Component, HostListener } from '@angular/core';
-import { InactivityService } from './services/inactivity.service';
 
 @Component({
   selector: 'st-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
-export class AppComponent implements  AfterViewInit {
+export class AppComponent  {
   title = 'ngZorro';
   editorData: any ={
     "time": 1680808292528,
@@ -103,16 +102,4 @@ export class AppComponent implements  AfterViewInit {
   } ;
   constructor() {
   }
-  constructor(private cdRef: ChangeDetectorRef) {}
-  // this.inactivityService.resetTimer();
-  ngAfterViewInit() {
-    this.cdRef.detectChanges();
-  }
-  // @HostListener('window:mousemove')
-  // @HostListener('window:click')
-  // @HostListener('window:keypress')
-  // @HostListener('window:touchstart')
-  // handleUserActivity() {
-  //   // this.inactivityService.updateUserActivity();
-  // }
 }
