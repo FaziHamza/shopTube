@@ -5,7 +5,6 @@ import { NzMessageService } from 'ng-zorro-antd/message';
 import { Subscription, catchError, forkJoin, of } from 'rxjs';
 import { EmployeeService } from 'src/app/services/employee.service';
 // Encrypt
-import * as CryptoJS from 'crypto-js';
 import { EncryptionService } from 'src/app/services/encryption.service';
 import { ApplicationService } from 'src/app/services/application.service';
 import { environment } from 'src/environments/environment';

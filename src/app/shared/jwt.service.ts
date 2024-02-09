@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import * as CryptoJS from 'crypto-js';
+import { AES,enc }from 'crypto-js';
 
 @Injectable({
   providedIn: 'root'
@@ -20,7 +20,7 @@ export class JwtService {
   }
   ecryptedValue(property: any, value: any, stringify: any) {
     // Encrypt the value using CryptoJS AES encryption
-    var result = CryptoJS.AES.encrypt(value, this.encryptSecretKey).toString();
+    var result = AES.encrypt(value, this.encryptSecretKey).toString();
 
     // Stringify the result if the stringify parameter is true
     const encryptedResult = stringify ? JSON.stringify(result) : result;
@@ -31,7 +31,7 @@ export class JwtService {
 
 
   decryptedValue(property: any, value: any, parse: any) {
-    var result = CryptoJS.AES.decrypt(value, this.encryptSecretKey).toString(CryptoJS.enc.Utf8);
+    var result = AES.decrypt(value, this.encryptSecretKey).toString(enc.Utf8);
 
   }
 

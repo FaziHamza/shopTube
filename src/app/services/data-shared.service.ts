@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
-import * as CryptoJS from 'crypto-js';
+import { AES,enc }from 'crypto-js';
 
 
 @Injectable({
@@ -176,14 +176,14 @@ export class DataSharedService {
     icon: 'title',
   }
   ecryptedValue(property: any, value: any, stringify: any) {
-    var result = CryptoJS.AES.encrypt(value, this.encryptSecretKey).toString();
+    var result = AES.encrypt(value, this.encryptSecretKey).toString();
     window.localStorage[property] = stringify ? JSON.stringify(result) : result;
   }
 
   decryptedValue(property: any) {
     if (window.localStorage[property]) {
       let value: any = JSON.parse(window.localStorage[property]);
-      var result: any = CryptoJS.AES.decrypt(value, this.encryptSecretKey).toString(CryptoJS.enc.Utf8);
+      var result: any = AES.decrypt(value, this.encryptSecretKey).toString(enc.Utf8);
       return result;
     } else {
       return '';

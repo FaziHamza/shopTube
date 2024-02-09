@@ -1,8 +1,7 @@
-import { Injectable, NgZone } from '@angular/core';
-import * as moment from 'moment';
+import { Injectable } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
-// import RecordRTC from 'recordrtc';
-import * as RecordRTC from 'recordrtc';
+import {StereoAudioRecorder} from 'recordrtc';
+import { format, differenceInSeconds } from 'date-fns';
 
 interface RecordedAudioOutput {
   blob: Blob;
@@ -12,15 +11,13 @@ interface RecordedAudioOutput {
 @Injectable()
 export class AudioRecordingService {
 
-
-  private stream  :any;
-  private recorder : any;
-  private interval :any;
-  private startTime :any;
+  private stream: any;
+  private recorder: any;
+  private interval: any;
+  private startTime: Date | null = null; // Use Date object directly
   private _recorded = new Subject<RecordedAudioOutput>();
   private _recordingTime = new Subject<string>();
   private _recordingFailed = new Subject<string>();
-
 
   getRecordedBlob(): Observable<RecordedAudioOutput> {
     return this._recorded.asObservable();
@@ -34,11 +31,8 @@ export class AudioRecordingService {
     return this._recordingFailed.asObservable();
   }
 
-
   startRecording() {
-  
     if (this.recorder) {
-      // It means recording is already started or it is already recording something
       return;
     }
 
@@ -50,7 +44,6 @@ export class AudioRecordingService {
       }).catch(error => {
         this._recordingFailed.next('');
       });
-
   }
 
   abortRecording() {
@@ -58,39 +51,32 @@ export class AudioRecordingService {
   }
 
   private record() {
-
-    this.recorder = new RecordRTC.StereoAudioRecorder(this.stream, {
+    this.recorder = new StereoAudioRecorder(this.stream, {
       type: 'audio',
       mimeType: 'audio/webm'
     });
 
     this.recorder.record();
-    this.startTime = moment();
-    this.interval = setInterval(
-      () => {
-        const currentTime = moment();
-        const diffTime = moment.duration(currentTime.diff(this.startTime));
-        const time = this.toString(diffTime.minutes()) + ':' + this.toString(diffTime.seconds());
+    this.startTime = new Date(); // Initialize startTime as a Date object
+    this.interval = setInterval(() => {
+      if (this.startTime) {
+        const currentTime = new Date();
+        const diffTime = differenceInSeconds(currentTime, this.startTime);
+        const minutes = Math.floor(diffTime / 60);
+        const seconds = diffTime % 60;
+        const time = this.toString(minutes) + ':' + this.toString(seconds);
         this._recordingTime.next(time);
-      },
-      500
-    );
+      }
+    }, 500);
   }
 
-  private toString(value:any) {
-    let val = value;
-    if (!value) {
-      val = '00';
-    }
-    if (value < 10) {
-      val = '0' + value;
-    }
-    return val;
+  private toString(value: number): string {
+    return value < 10 ? '0' + value : value.toString();
   }
 
   stopRecording() {
     if (this.recorder) {
-      this.recorder.stop((blob:any) => {
+      this.recorder.stop((blob: any) => {
         if (this.startTime) {
           const mp3Name = encodeURIComponent('audio_' + new Date().getTime() + '.mp3');
           this.stopMedia();
@@ -109,7 +95,7 @@ export class AudioRecordingService {
       clearInterval(this.interval);
       this.startTime = null;
       if (this.stream) {
-        this.stream.getAudioTracks().forEach((track:any) => track.stop());
+        this.stream.getAudioTracks().forEach((track: any) => track.stop());
         this.stream = null;
       }
     }

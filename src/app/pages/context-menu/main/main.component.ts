@@ -2,7 +2,6 @@ import { JoiService } from '../../../services/joi.service';
 import { ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output, Type, ViewContainerRef } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { FormlyFormOptions } from '@ngx-formly/core';
-import * as Joi from 'joi';
 import { NzImageService } from 'ng-zorro-antd/image';
 import { BuilderService } from '../../../services/builder.service';
 import { TreeNode } from '../../../models/treeNode';

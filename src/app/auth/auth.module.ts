@@ -14,9 +14,9 @@ import { ResetPasswordComponent } from './reset-password/reset-password.componen
 import { UserComponent } from '../roles/user/user.component';
 import { NgxMaskModule } from 'ngx-mask';
 
-const routes: Routes = [
-  { path: 'login', component: LoginComponent },
-];
+// const routes: Routes = [
+//   { path: 'login', component: LoginComponent },
+// ];
 
 @NgModule({
   declarations: [

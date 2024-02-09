@@ -14,7 +14,7 @@ import { DataSharedService } from 'src/app/services/data-shared.service';
 import { EmployeeService } from 'src/app/services/employee.service';
 import { DataService } from 'src/app/services/offlineDb.service';
 import { environment } from 'src/environments/environment';
-import * as XLSX from 'xlsx';
+import {WorkSheet ,utils,WorkBook,writeFile} from 'xlsx';
 import { QrCodeComponent } from '../qr-code/qr-code.component';
 import { NzResizeEvent } from 'ng-zorro-antd/resizable';
 import { SocketService } from 'src/app/services/socket.service';
@@ -2259,15 +2259,15 @@ export class DynamicTableComponent implements OnInit {
     });
 
     // Create a worksheet
-    const ws: XLSX.WorkSheet = XLSX.utils.aoa_to_sheet(dataToExport);
+    const ws: WorkSheet = utils.aoa_to_sheet(dataToExport);
 
     // Create a workbook
-    const wb: XLSX.WorkBook = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
+    const wb: WorkBook = utils.book_new();
+    utils.book_append_sheet(wb, ws, 'Sheet1');
 
     // Save the workbook as an Excel file
     const customFilename = this.data.title + '.xlsx';
-    XLSX.writeFile(wb, customFilename);
+    writeFile(wb, customFilename);
   }
 
   rowselected(i: number) {
