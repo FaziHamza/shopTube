@@ -56,6 +56,7 @@ import { PdfComponent } from '../components/pdf/pdf.component';
 import { EmailComponent } from '../components/email/email.component';
 import { TaskManagerComponent } from '../components/task-manager/task-manager.component';
 import { BusinessRuleGridComponent } from '../builder/configurations';
+import { PolicyComponent, PolicyMappingComponent, PolicyMappingTableComponent, UserComponent, UserMappingComponent } from '../accounts';
 // import { CommonService } from './common.service';
 // import { WebsiteModules } from '../Website/website.module';
 
@@ -123,6 +124,11 @@ import { BusinessRuleGridComponent } from '../builder/configurations';
     SupportChatComponent,ContactListComponent,
     PdfComponent,EmailComponent,TaskManagerComponent,
     BusinessRuleGridComponent,
+    PolicyComponent,
+    UserComponent,
+    UserMappingComponent,
+    PolicyMappingComponent,
+    PolicyMappingTableComponent
   ],
   exports: [
     FormsModule,
@@ -180,6 +186,11 @@ import { BusinessRuleGridComponent } from '../builder/configurations';
     SupportChatComponent,ContactListComponent,
     PdfComponent,EmailComponent,TaskManagerComponent,
     BusinessRuleGridComponent,
+    PolicyComponent,
+    UserComponent,
+    UserMappingComponent,
+    PolicyMappingComponent,
+    PolicyMappingTableComponent
     //
     // ErrorComponent
   ],

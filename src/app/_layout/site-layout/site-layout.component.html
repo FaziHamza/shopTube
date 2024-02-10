@@ -61,6 +61,7 @@
           </div>
           <div id="FOOTER" 
           [ngClass]="{
+            'w-full': currentWebsiteLayout === 'website',
             'w-[calc(100%-68px)]': selectedTheme.isCollapsed,
             'w-[calc(100%-248px)]': !selectedTheme.isCollapsed,
             'dynamic-footer': dataSharedService.showFooter && dataSharedService.fixedFooter && currentWebsiteLayout === 'backend_application',

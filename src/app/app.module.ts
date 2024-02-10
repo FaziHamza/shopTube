@@ -42,7 +42,6 @@ import { IPublicClientApplication, PublicClientApplication, InteractionType } fr
 import { MsalGuard, MsalBroadcastService, MsalModule, MsalService, MSAL_GUARD_CONFIG, MSAL_INSTANCE, MsalGuardConfiguration, MsalRedirectComponent } from '@azure/msal-angular';
 import { msalConfig } from './auth/auth-config';
 import { SocketService } from './services/socket.service';
-import { AccountModule } from './accounts/account.module';
 
 export function MSALInstanceFactory(): IPublicClientApplication {
   return new PublicClientApplication(msalConfig);
@@ -69,7 +68,6 @@ const icons: IconDefinition[] = Object.keys(antDesignIcons).map(key => antDesign
   imports: [
     FormsModule,
     CommonModule,
-    AccountModule,
     BrowserModule,
     NgZorroAntdModule,
     ReactiveFormsModule,
