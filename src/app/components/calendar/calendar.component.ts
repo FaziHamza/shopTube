@@ -4,12 +4,9 @@ import interactionPlugin from '@fullcalendar/interaction';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import listPlugin from '@fullcalendar/list';
-import { createEventId, INITIAL_EVENTS } from 'src/app/shared/event-utils/event-utils';
-import { EventDropArg } from '@fullcalendar/core';
-import { ApplicationService } from 'src/app/services/application.service';
+import { createEventId } from 'src/app/shared/event-utils/event-utils';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { DataSharedService } from 'src/app/services/data-shared.service';
-import { addDays, formatISO } from 'date-fns';
 
 
 @Component({
@@ -98,7 +95,7 @@ export class CalendarComponent {
 
   currentEvents: EventApi[] = [];
 
-  constructor(private changeDetector: ChangeDetectorRef, private applicationServices: ApplicationService, private toastr: NzMessageService,
+  constructor(private changeDetector: ChangeDetectorRef,  private toastr: NzMessageService,
     public dataSharedService: DataSharedService,) {
     this.handleEvents.bind(this)
 
@@ -203,19 +200,19 @@ export class CalendarComponent {
     console.log(model);
   
     // Making the API call
-    this.applicationServices.addNestCommonAPI(url, model).subscribe({
-      next: (res) => {
-        if (res) {
-          this.toastr.success('Update Successfully', { nzDuration: 3000 });
-        }
-        this.loader = false;
-      },
-      error: (err) => {
-        console.error(err);
-        this.toastr.error('An error occurred', { nzDuration: 3000 });
-        this.loader = false;
-      }
-    });
+    // this.applicationServices.addNestCommonAPI(url, model).subscribe({
+    //   next: (res) => {
+    //     if (res) {
+    //       this.toastr.success('Update Successfully', { nzDuration: 3000 });
+    //     }
+    //     this.loader = false;
+    //   },
+    //   error: (err) => {
+    //     console.error(err);
+    //     this.toastr.error('An error occurred', { nzDuration: 3000 });
+    //     this.loader = false;
+    //   }
+    // });
   }
   
 

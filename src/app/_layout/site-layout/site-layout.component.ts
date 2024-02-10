@@ -5,8 +5,6 @@ import { NzModalService } from 'ng-zorro-antd/modal';
 import { Subject, Subscription, filter, forkJoin } from 'rxjs';
 import { AuthService } from 'src/app/auth/services/auth.service';
 import { CommentModalComponent } from 'src/app/components';
-import { ApplicationService } from 'src/app/services/application.service';
-import { BuilderService } from 'src/app/services/builder.service';
 import { DataSharedService } from 'src/app/services/data-shared.service';
 import { JwtService } from 'src/app/shared/jwt.service';
 import { SocketService } from 'src/app/services/socket.service';
@@ -76,7 +74,7 @@ export class SiteLayoutComponent implements OnInit {
   }
   private subscriptions: Subscription = new Subscription();
   private destroy$: Subject<void> = new Subject<void>();
-  constructor(private applicationService: ApplicationService, private renderer: Renderer2, private el: ElementRef, public dataSharedService: DataSharedService, public builderService: BuilderService,
+  constructor( private renderer: Renderer2, private el: ElementRef, public dataSharedService: DataSharedService,
     private toastr: NzMessageService, private router: Router, private activatedRoute: ActivatedRoute, private cd: ChangeDetectorRef, private modalService: NzModalService,
     public socketService: SocketService,
     private viewContainerRef: ViewContainerRef, private authService: AuthService, private jwtService: JwtService,) {
@@ -128,7 +126,6 @@ export class SiteLayoutComponent implements OnInit {
       if (!window.location.href.includes('/menu-builder')) {
         this.selectedTheme = this.selectedTheme;
         this.getApplications();
-        this.getAllMenu();
       }
     }
     //http://spectrum.com/
@@ -339,7 +336,7 @@ export class SiteLayoutComponent implements OnInit {
                     this.selectedTheme = selectedTheme;
                     this.selectedTheme.allMenuItems = getMenu;
                     this.menuItems = getMenu;
-                    this.getComments();
+                    // this.getComments();
                     if (selectedTheme?.layout == 'horizental') {
                       this.makeMenuData();
                     }
@@ -525,67 +522,7 @@ export class SiteLayoutComponent implements OnInit {
 
     });
   }
-  getAllMenu() {
-    this.requestSubscription = this.applicationService.getNestCommonAPI('cp/CacheMenu').subscribe({
-      next: (res: any) => {
-        if (res.isSuccess) {
-          if (res.data.length > 0) {
-            const objMenu =
-            {
-              "id": res.data.id,
-              "name": res.data.name,
-              "selectedTheme": res.data?.selectedTheme ? JSON.parse(res.data?.selectedTheme) : {},
-              "menuData": res.data?.menuData ? JSON.parse(res.data?.menuData) : {},
-              "applicationId": "648b4d73dc2ca800d3684f7b"
-            }
-            this.menuList = objMenu;
-          } else {
-            this.requestSubscription = this.applicationService.getNestCommonAPI('cp/Menu').subscribe({
-              next: (res: any) => {
-                if (res.isSuccess) {
-                  if (res.data.length > 0) {
-                    const objMenu =
-                    {
-                      "id": res.data.id,
-                      "name": res.data.name,
-                      "selectedTheme": res.data?.selectedTheme ? JSON.parse(res.data?.selectedTheme) : {},
-                      "menuData": res.data?.menuData ? JSON.parse(res.data?.menuData) : {},
-                      "applicationId": "648b4d73dc2ca800d3684f7b"
-                    }
-                    this.menuList = objMenu;
-                  }
-                } else
-                  this.toastr.error(res.message, { nzDuration: 3000 });
-              },
-              error: (err) => {
-                console.error(err);
-                this.toastr.error("An error occurred", { nzDuration: 3000 });
-              }
-            });
-          }
-        } else {
-          this.toastr.error(res.message, { nzDuration: 3000 });
-        }
-      },
-      error: (err) => {
-        console.error(err);
-        this.toastr.error("An error occurred", { nzDuration: 3000 });
-      }
-    });
-  }
-  getUsers() {
-    this.requestSubscription = this.applicationService.getNestCommonAPI('cp/user').subscribe({
-      next: (res: any) => {
-        if (res.data.length > 0) {
-          this.dataSharedService.usersData = res.data;
-        }
-      },
-      error: (err) => {
-        console.error(err); // Log the error to the console
-        this.toastr.error(`UserComment : An error occurred`, { nzDuration: 3000 });
-      }
-    });
-  }
+
   issueReportFun() {
     const modal = this.modalService.create<CommentModalComponent>({
       nzTitle: 'Issue Report',
@@ -636,24 +573,24 @@ export class SiteLayoutComponent implements OnInit {
       }
     });
   }
-  getComments() {
-    const { jsonData, newGuid } = this.socketService.makeJsonData('UserComment', 'GetUserCommentsByApp', 'menu');
-    this.socketService.Request(jsonData);
-    this.socketService.OnResponseMessage().subscribe((res: any) => {
-      if (res.parseddata.requestId == newGuid && res.parseddata.isSuccess) {
-        res = res.parseddata.apidata;
-        if (res.isSuccess) {
-          let commentList = res.data
-          this.dataSharedService.menuCommentList = commentList;
-          this.dataSharedService.menuCommentList.forEach(element => {
-            this.assignIssue(this.selectedTheme.allMenuItems, element);
-          });
+  // getComments() {
+  //   const { jsonData, newGuid } = this.socketService.makeJsonData('UserComment', 'GetUserCommentsByApp', 'menu');
+  //   this.socketService.Request(jsonData);
+  //   this.socketService.OnResponseMessage().subscribe((res: any) => {
+  //     if (res.parseddata.requestId == newGuid && res.parseddata.isSuccess) {
+  //       res = res.parseddata.apidata;
+  //       if (res.isSuccess) {
+  //         let commentList = res.data
+  //         this.dataSharedService.menuCommentList = commentList;
+  //         this.dataSharedService.menuCommentList.forEach(element => {
+  //           this.assignIssue(this.selectedTheme.allMenuItems, element);
+  //         });
 
-        }
-      }
+  //       }
+  //     }
 
-    })
-  }
+  //   })
+  // }
   assignIssue(node: any, issue: any) {
     node.forEach((element: any) => {
       if (issue['componentId']) {

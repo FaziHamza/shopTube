@@ -1,12 +1,9 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { List, ListInterface } from '../../model/list/list.model';
-import { MovementIntf } from '../../model/card/movement';
-import { BoardModel } from '../../model/board/board.model';
 import { NzMessageService } from 'ng-zorro-antd/message';
-import { ApplicationService } from 'src/app/services/application.service';
 import { DataSharedService } from 'src/app/services/data-shared.service';
 import { Subscription } from 'rxjs';
-import { EmployeeService } from 'src/app/services/employee.service';
+import { SocketService } from 'src/app/services/socket.service';
 
 @Component({
   selector: 'st-board',
@@ -26,8 +23,7 @@ export class BoardComponent implements OnInit {
   loader: boolean = false;
   dropListIndex: any;
   requestSubscription: Subscription;
-  constructor(private toastr: NzMessageService, private applicationServices: ApplicationService, public dataSharedService: DataSharedService,
-    private employeeService: EmployeeService) {
+  constructor(private toastr: NzMessageService, public dataSharedService: DataSharedService, private socketService: SocketService) {
     this.processData = this.processData.bind(this);
   }
 
@@ -108,20 +104,20 @@ export class BoardComponent implements OnInit {
       modalData: obj
     };
     this.loader = true;
-    this.applicationServices.addNestCommonAPI(url, model).subscribe({
-      next: (res) => {
-        if (res) {
-          this.loader = false;
-          this.toastr.success('Update Successfully', { nzDuration: 3000 });
-        }
-        this.loader = false;
-      },
-      error: (err) => {
-        console.error(err);
-        this.toastr.error('An error occurred', { nzDuration: 3000 });
-        this.loader = false;
-      }
-    });
+    // this.applicationServices.addNestCommonAPI(url, model).subscribe({
+    //   next: (res) => {
+    //     if (res) {
+    //       this.loader = false;
+    //       this.toastr.success('Update Successfully', { nzDuration: 3000 });
+    //     }
+    //     this.loader = false;
+    //   },
+    //   error: (err) => {
+    //     console.error(err);
+    //     this.toastr.error('An error occurred', { nzDuration: 3000 });
+    //     this.loader = false;
+    //   }
+    // });
   }
   saveBoard() {
     // const boardModel = new BoardModel();
@@ -537,17 +533,23 @@ export class BoardComponent implements OnInit {
   }
   recallApi(event?: any) {
     this.dropListIndex = '';
-    const { _id, actionLink, data, headers, parentId, page, pageSize } = this.kanbanData.eventActionconfig;
-    if (_id) {
+    const { id, actionLink, data, headers, parentId, page, pageSize } = this.kanbanData.eventActionconfig;
+    if (id) {
       let pagination = ''
       if (page && pageSize) {
         pagination = `?page=${localStorage.getItem('tablePageNo') || 1}&pageSize=${localStorage.getItem('tablePageSize') || 10}`
       }
       this.loader = true;
-      this.requestSubscription = this.applicationServices.callApi(`knex-query/getexecute-rules/${_id}${pagination}`, 'get', data, headers, parentId).subscribe({
+      const { jsonData, RequestGuid } = this.socketService.metaInfoForGrid('GetPageExecuteRules', id, parentId, localStorage.getItem('tablePageNo') || 1, localStorage.getItem('tablePageSize') || 10, data, headers);
+      this.socketService.Request(jsonData);
+      this.socketService.OnResponseMessage().subscribe({
         next: (res) => {
-          this.processData(res);
-          this.loader = false;
+          if (res.parseddata.requestId == RequestGuid && res.parseddata.isSuccess) {
+            res = res.parseddata.apidata;
+
+            this.processData(res);
+            this.loader = false;
+          }
         },
         error: (error: any) => {
           console.error(error);
@@ -575,21 +577,30 @@ export class BoardComponent implements OnInit {
         this.loader = true;
         const url = `knex-query/executeDelete-rules/${findClickApi._id}`;
         if (url) {
-
-          this.employeeService.saveSQLDatabaseTable(url, model).subscribe({
+          const { jsonData, RequestGuid } = this.socketService.metaInfoForGrid('PostPageExecuteDelete', findClickApi.id);
+          const jsonData1 = {
+            postType: 'post',
+            modalData: model, metaInfo: jsonData.metaInfo
+          };
+          this.socketService.Request(jsonData1);
+          this.socketService.OnResponseMessage().subscribe({
             next: (res) => {
-              this.loader = false;
-              if (res.isSuccess) {
-                if (this.kanbanData.children[data.listIndex].children.length > 1) {
-                  this.kanbanData.children[data.listIndex].children.splice(data.index, 1);
-                } else {
-                  this.kanbanData.children.splice(data.listIndex, 1)
-                }
+              if (res.parseddata.requestId == RequestGuid && res.parseddata.isSuccess) {
+                res = res.parseddata.apidata;
+                this.loader = false;
+                if (res.isSuccess) {
+                  if (this.kanbanData.children[data.listIndex].children.length > 1) {
+                    this.kanbanData.children[data.listIndex].children.splice(data.index, 1);
+                  } else {
+                    this.kanbanData.children.splice(data.listIndex, 1)
+                  }
 
-                // Data successfully deleted
-                // this.recallApi();
-                this.toastr.success("Delete Successfully", { nzDuration: 3000 });
+                  // Data successfully deleted
+                  // this.recallApi();
+                  this.toastr.success("Delete Successfully", { nzDuration: 3000 });
+                }
               }
+
             },
             error: (err) => {
               this.loader = false;

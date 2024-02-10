@@ -3,8 +3,6 @@ import { FormGroup } from '@angular/forms';
 import { FormlyFormOptions } from '@ngx-formly/core';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { Subscription } from 'rxjs';
-import { ApplicationService } from 'src/app/services/application.service';
-import { MenuRolePermission } from '../models/menu-role-permission.modal';
 
 @Component({
   selector: 'st-menu-role-permission',
@@ -23,7 +21,7 @@ export class MenuRolePermissionComponent implements OnInit {
   roleList: any[] = [];
   userList: [] = [];
 
-  constructor(private applicationService: ApplicationService, private toastr: NzMessageService) { }
+  constructor(private toastr: NzMessageService) { }
 
   ngOnInit(): void {
     this.getApiData();
@@ -36,84 +34,84 @@ export class MenuRolePermissionComponent implements OnInit {
     this.getUsers();
   }
   getMenuRolepermission() {
-    this.requestSubscription = this.applicationService.getNestCommonAPI('MenuRolepermission').subscribe({
-      next: (getRes: any) => {
-        if (getRes.isSuccess) {
-          if (getRes.data.length > 0) {
-            this.menuRolePermissionList = getRes.data
-          }
-        }
-      },
-      error: (error: any) => {
-        console.error(error);
-        this.toastr.error("An error occurred", { nzDuration: 3000 });
-      }
-    });
+    // this.requestSubscription = this.applicationService.getNestCommonAPI('MenuRolepermission').subscribe({
+    //   next: (getRes: any) => {
+    //     if (getRes.isSuccess) {
+    //       if (getRes.data.length > 0) {
+    //         this.menuRolePermissionList = getRes.data
+    //       }
+    //     }
+    //   },
+    //   error: (error: any) => {
+    //     console.error(error);
+    //     this.toastr.error("An error occurred", { nzDuration: 3000 });
+    //   }
+    // });
   }
   getRoles() {
-    this.requestSubscription = this.applicationService.getNestCommonAPI('role').subscribe({
-      next: (getRes: any) => {
-        if (getRes.isSuccess) {
-          if (getRes.data.length > 0) {
-            this.roleList = getRes.data
-          }
-        }
-      },
-      error: (error: any) => {
-        console.error(error);
-        this.toastr.error("An error occurred", { nzDuration: 3000 });
-      }
-    });
+    // this.requestSubscription = this.applicationService.getNestCommonAPI('role').subscribe({
+    //   next: (getRes: any) => {
+    //     if (getRes.isSuccess) {
+    //       if (getRes.data.length > 0) {
+    //         this.roleList = getRes.data
+    //       }
+    //     }
+    //   },
+    //   error: (error: any) => {
+    //     console.error(error);
+    //     this.toastr.error("An error occurred", { nzDuration: 3000 });
+    //   }
+    // });
   }
   getMenus() {
-    this.requestSubscription = this.applicationService.getNestCommonAPI('cp/Menu').subscribe({
-      next: (getRes: any) => {
-        if (getRes.isSuccess) {
-          if (getRes.data.length > 0) {
-            this.menuList = getRes.data.map((menu: any) => {
-              return {
-                ...menu,
-                permissions: {} // Initialize the 'permissions' property as an empty object
-              };
-            });
-          }
-        }
-      },
-      error: (error: any) => {
-        console.error(error);
-        this.toastr.error("An error occurred", { nzDuration: 3000 });
-      }
-    });
+    // this.requestSubscription = this.applicationService.getNestCommonAPI('cp/Menu').subscribe({
+    //   next: (getRes: any) => {
+    //     if (getRes.isSuccess) {
+    //       if (getRes.data.length > 0) {
+    //         this.menuList = getRes.data.map((menu: any) => {
+    //           return {
+    //             ...menu,
+    //             permissions: {} // Initialize the 'permissions' property as an empty object
+    //           };
+    //         });
+    //       }
+    //     }
+    //   },
+    //   error: (error: any) => {
+    //     console.error(error);
+    //     this.toastr.error("An error occurred", { nzDuration: 3000 });
+    //   }
+    // });
   }
   getScreenBuilder() {
-    this.requestSubscription = this.applicationService.getNestCommonAPI('cp/ScreenBuilder').subscribe({
-      next: (getRes: any) => {
-        if (getRes.isSuccess) {
-          if (getRes.data.length > 0) {
-            this.screenBuilderList = getRes.data
-          }
-        }
-      },
-      error: (error: any) => {
-        console.error(error);
-        this.toastr.error("An error occurred", { nzDuration: 3000 });
-      }
-    });
+    // this.requestSubscription = this.applicationService.getNestCommonAPI('cp/ScreenBuilder').subscribe({
+    //   next: (getRes: any) => {
+    //     if (getRes.isSuccess) {
+    //       if (getRes.data.length > 0) {
+    //         this.screenBuilderList = getRes.data
+    //       }
+    //     }
+    //   },
+    //   error: (error: any) => {
+    //     console.error(error);
+    //     this.toastr.error("An error occurred", { nzDuration: 3000 });
+    //   }
+    // });
   }
   getUsers() {
-    this.requestSubscription = this.applicationService.getNestCommonAPI('auth/user').subscribe({
-      next: (getRes: any) => {
-        if (getRes.isSuccess) {
-          if (getRes.data.length > 0) {
-            this.userList = getRes.data
-          }
-        }
-      },
-      error: (error: any) => {
-        console.error(error);
-        this.toastr.error("An error occurred", { nzDuration: 3000 });
-      }
-    });
+    // this.requestSubscription = this.applicationService.getNestCommonAPI('auth/user').subscribe({
+    //   next: (getRes: any) => {
+    //     if (getRes.isSuccess) {
+    //       if (getRes.data.length > 0) {
+    //         this.userList = getRes.data
+    //       }
+    //     }
+    //   },
+    //   error: (error: any) => {
+    //     console.error(error);
+    //     this.toastr.error("An error occurred", { nzDuration: 3000 });
+    //   }
+    // });
   }
 
   submitRole(menu: any) {
@@ -125,18 +123,18 @@ export class MenuRolePermissionComponent implements OnInit {
       ...separatedPermissions,
       createdOn: this.formatDateTime()
     }
-    this.requestSubscription = this.applicationService.addNestCommonAPI('MenuRolepermission', objData).subscribe({
-      next: (res: any) => {
-        if (res.isSuccess) {
-          this.toastr.success(`Menu Role Permission: ${res.message}`, { nzDuration: 3000 });
-          this.getApiData();
-        }
-      },
-      error: (error: any) => {
-        console.error(error);
-        this.toastr.error("An error occurred", { nzDuration: 3000 });
-      }
-    });
+    // this.requestSubscription = this.applicationService.addNestCommonAPI('MenuRolepermission', objData).subscribe({
+    //   next: (res: any) => {
+    //     if (res.isSuccess) {
+    //       this.toastr.success(`Menu Role Permission: ${res.message}`, { nzDuration: 3000 });
+    //       this.getApiData();
+    //     }
+    //   },
+    //   error: (error: any) => {
+    //     console.error(error);
+    //     this.toastr.error("An error occurred", { nzDuration: 3000 });
+    //   }
+    // });
   }
   bulkUpdate() {
     

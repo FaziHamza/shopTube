@@ -57,57 +57,6 @@ export class AuthService {
     }
   }
 
-  //   Login:
-  public loginUser(model: any) {
-    let url = environment.nestNewBaseUrl + `auth/login`;
-    return this.http.post(url, model)
-  }
-
-  //   Login:
-  public forgotUser(model: any) {
-    let url = environment.nestNewBaseUrl + "auth/forgot";
-    return this.http.post(url, model)
-  }
-
-  public registerUser(model: any) {
-    let url = environment.nestNewBaseUrl + "auth/signup";
-    return this.http.post(url, model)
-  }
-  public registerUserExternal(model: any) {
-    let url = environment.nestNewBaseUrl + "auth/signupExternal";
-    return this.http.post(url, model)
-  }
-  public resetpassword(model: any) {
-    let url = environment.nestNewBaseUrl + "auth/resetpassword";
-    return this.http.post(url, model)
-  }
-  getNestCommonAPI(api: string): Observable<any> {
-    return this.http.get<any>(
-      api.includes('http') ? api : environment.nestNewBaseUrl + api
-    );
-  }
-  getNestNewCommonAPI(api: string): Observable<any> {
-    return this.http.get<any>(
-      api.includes('http') ? api : environment.nestNewBaseUrl + api
-    );
-  }
-  addNestCommonAPI(api: string, modal: any): Observable<any> {
-    return this.http.post<any>(
-      api.includes('http') ? api : environment.nestBaseUrl + api, modal
-    );
-  }
-  getUserInfo(token: any, body: any): any {
-    let url = environment.nestNewBaseUrl + 'user/info';
-
-    // Assuming you have a function to retrieve the authorization token
-    const authToken = this.getAuthToken(token);
-
-    // Set the authorization token in the headers
-    const headers = new HttpHeaders().set('Authorization', `Bearer ${authToken}`);
-
-    return this.http.post(url, body, { headers });
-  }
-
   private getAuthToken(token: string): string {
     // Implement the logic to retrieve the authorization token (e.g., from local storage)
     // Replace the following line with your actual implementation

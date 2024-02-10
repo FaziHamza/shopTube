@@ -3,13 +3,11 @@ import { Component, OnInit } from '@angular/core';
 import { actionTypeFeild, formFeildData } from '../builder/configurations/configuration.modal';
 import { BuilderClickButtonService } from '../builder/service/builderClickButton.service';
 import { TreeNode } from '../models/treeNode';
-import { BuilderService } from '../services/builder.service';
 import { NzFormatEmitEvent } from 'ng-zorro-antd/tree';
 import { JsonEditorOptions } from 'ang-jsoneditor';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { Guid } from '../models/guid';
 import { Subscription, forkJoin } from 'rxjs';
-import { ApplicationService } from '../services/application.service';
 import { NzDrawerService } from 'ng-zorro-antd/drawer';
 import { MenuBulkUpdateComponent } from './menu-bulk-update/menu-bulk-update.component';
 import { Router } from '@angular/router';
@@ -70,8 +68,7 @@ export class MenuBuilderComponent implements OnInit {
   // actionType: any;
   constructor(private clickButtonService: BuilderClickButtonService,
     private socketService: SocketService,
-    private drawerService: NzDrawerService,
-    public builderService: BuilderService, private toastr: NzMessageService,
+    private drawerService: NzDrawerService,private toastr: NzMessageService,
     private router: Router,
     public dataSharedService: DataSharedService) {
     this.editorOptions = new JsonEditorOptions()

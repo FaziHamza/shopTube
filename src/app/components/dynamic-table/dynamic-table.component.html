@@ -403,7 +403,7 @@
                   <!-- Audio play -->
                   <div *ngIf="header?.dataType =='audioVideoRecorder'" class="!h-fit">
                     <audio *ngIf="item[header.key]" class="!w-[224px] !h-[30px]" controls>
-                      <source [src]="item[header.key] ? serverPath + '/' + item[header.key] : ''" type="audio/mp3">
+                      <source [src]="item[header.key] ?  '/' + item[header.key] : ''" type="audio/mp3">
                     </audio>
                   </div>
                   <!-- icon cell -->

@@ -2,8 +2,6 @@ import { Component, Input } from '@angular/core';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { Subject, Subscription } from 'rxjs';
 import { ElementData } from 'src/app/models/element';
-import { ApplicationService } from 'src/app/services/application.service';
-import { BuilderService } from 'src/app/services/builder.service';
 import { DataSharedService } from 'src/app/services/data-shared.service';
 
 @Component({
@@ -46,10 +44,8 @@ export class TaskManagerComponent {
   parentId: any;
   private subscriptions: Subscription = new Subscription();
   private destroy$: Subject<void> = new Subject<void>();
-  constructor(public _dataSharedService: DataSharedService, private builderService: BuilderService,
-    private applicationService: ApplicationService, private toastr: NzMessageService,
+  constructor(public _dataSharedService: DataSharedService, private toastr: NzMessageService,
     public dataSharedService: DataSharedService,
-    private applicationServices: ApplicationService
   ) {
     this.processData = this.processData.bind(this);
     const recallData = this.dataSharedService.callDataIntaskManager.subscribe(res => {
@@ -95,17 +91,17 @@ export class TaskManagerComponent {
       parentId = itemIdString ? parseInt(itemIdString, 10) : 0;
       if (parentId) {
         let url = head.callApi + '/' + parentId;
-        this.requestSubscription = this.applicationService.callApi(`${url}${pagination}`, 'get', data, headers, null).subscribe({
-          next: (res) => {
-            this.saveLoader = false;
-            item['children'] = res.data.map((item: any) => ({ "expand": false, ...item }));
-          },
-          error: (error: any) => {
-            console.error(error);
-            this.saveLoader = false;
-            this.toastr.error("An error occurred", { nzDuration: 3000 });
-          }
-        })
+        // this.requestSubscription = this.applicationService.callApi(`${url}${pagination}`, 'get', data, headers, null).subscribe({
+        //   next: (res) => {
+        //     this.saveLoader = false;
+        //     item['children'] = res.data.map((item: any) => ({ "expand": false, ...item }));
+        //   },
+        //   error: (error: any) => {
+        //     console.error(error);
+        //     this.saveLoader = false;
+        //     this.toastr.error("An error occurred", { nzDuration: 3000 });
+        //   }
+        // })
       }
     }
   }
@@ -274,37 +270,37 @@ export class TaskManagerComponent {
         postType: 'post',
         modalData: saveData
       };
-      this.applicationServices.addNestCommonAPI('knex-query/execute-rules/' + actionID, model).subscribe({
-        next: (res) => {
-          this.drawerLoader = false;
-          if (res[0]?.error) {
-            this.toastr.error(res[0]?.error, { nzDuration: 3000 });
-            return;
-          }
-          this.toastr.success('Save Successfully', { nzDuration: 3000 });
-          // let newObj: any = {};
-          // for (let key in res[0]) {
-          //   let newKey = key.split('.')[1];
-          //   newObj[newKey] = res[0][key];
-          // }
-          // this.drawerData.data.push(newObj);
-          for (const key in this.subTask) {
-            this.subTask[key] = '';
-          }
-          let findApi = this.taskManagerData.tableHeaders.find((head: any) => head?.callApi && head?.drawer);
-          if (findApi) {
-            this.recallApiWithId(`${findApi.callApi}`, this.drawerData.id);
-          }
-          this.afterDrawerDataGet = true;
-          this.addSubtask = false;
-        },
-        error: (err) => {
-          // Handle the error
-          this.toastr.error("An error occurred", { nzDuration: 3000 });
-          console.error(err);
-          this.drawerLoader = false; // Ensure to set the loader to false in case of error
-        },
-      });
+      // this.applicationServices.addNestCommonAPI('knex-query/execute-rules/' + actionID, model).subscribe({
+      //   next: (res) => {
+      //     this.drawerLoader = false;
+      //     if (res[0]?.error) {
+      //       this.toastr.error(res[0]?.error, { nzDuration: 3000 });
+      //       return;
+      //     }
+      //     this.toastr.success('Save Successfully', { nzDuration: 3000 });
+      //     // let newObj: any = {};
+      //     // for (let key in res[0]) {
+      //     //   let newKey = key.split('.')[1];
+      //     //   newObj[newKey] = res[0][key];
+      //     // }
+      //     // this.drawerData.data.push(newObj);
+      //     for (const key in this.subTask) {
+      //       this.subTask[key] = '';
+      //     }
+      //     let findApi = this.taskManagerData.tableHeaders.find((head: any) => head?.callApi && head?.drawer);
+      //     if (findApi) {
+      //       this.recallApiWithId(`${findApi.callApi}`, this.drawerData.id);
+      //     }
+      //     this.afterDrawerDataGet = true;
+      //     this.addSubtask = false;
+      //   },
+      //   error: (err) => {
+      //     // Handle the error
+      //     this.toastr.error("An error occurred", { nzDuration: 3000 });
+      //     console.error(err);
+      //     this.drawerLoader = false; // Ensure to set the loader to false in case of error
+      //   },
+      // });
     }
   }
   formatDate(event: any) {
@@ -401,24 +397,24 @@ export class TaskManagerComponent {
           let url = putEvent?._id ? `knex-query/executeDelete-rules/${putEvent?._id}` : '';
           if (url) {
             this.drawerLoader = true;
-            this.requestSubscription = this.applicationServices.addNestCommonAPI(url, model).subscribe({
-              next: (res) => {
-                if (res.isSuccess) {
-                  this.toastr.success('Update Successfully', { nzDuration: 3000 });
-                  this.subTaskEditId = null;
-                  this.editData = null;
-                }
-                else {
-                  this.toastr.warning(res.message, { nzDuration: 3000 });
-                }
-                this.drawerLoader = false;
-              },
-              error: (err) => {
-                console.error(err);
-                this.toastr.error('An error occurred', { nzDuration: 3000 });
-                this.drawerLoader = false;
-              }
-            });
+            // this.requestSubscription = this.applicationServices.addNestCommonAPI(url, model).subscribe({
+            //   next: (res) => {
+            //     if (res.isSuccess) {
+            //       this.toastr.success('Update Successfully', { nzDuration: 3000 });
+            //       this.subTaskEditId = null;
+            //       this.editData = null;
+            //     }
+            //     else {
+            //       this.toastr.warning(res.message, { nzDuration: 3000 });
+            //     }
+            //     this.drawerLoader = false;
+            //   },
+            //   error: (err) => {
+            //     console.error(err);
+            //     this.toastr.error('An error occurred', { nzDuration: 3000 });
+            //     this.drawerLoader = false;
+            //   }
+            // });
           }
         }
       } else {
@@ -464,23 +460,23 @@ export class TaskManagerComponent {
       // if (this.mappingId) {
       //   url = `knex-query/getexecute-rules/${_id}/${this.mappingId}`
       // }
-      this.requestSubscription = this.applicationService.callApi(`${url}${pagination}`, 'get', data, headers).subscribe({
-        next: (res) => {
-          this.saveLoader = false;
-          this.afterDrawerDataGet = false;
-          if (res) {
-            if (res.data.length > 0) {
-              this.getFromQueryOnlyTable(res);
-            }
-          }
-        },
-        error: (error: any) => {
-          console.error(error);
-          this.saveLoader = false;
-          this.afterDrawerDataGet = false;
-          this.toastr.error("An error occurred", { nzDuration: 3000 });
-        }
-      })
+      // this.requestSubscription = this.applicationService.callApi(`${url}${pagination}`, 'get', data, headers).subscribe({
+      //   next: (res) => {
+      //     this.saveLoader = false;
+      //     this.afterDrawerDataGet = false;
+      //     if (res) {
+      //       if (res.data.length > 0) {
+      //         this.getFromQueryOnlyTable(res);
+      //       }
+      //     }
+      //   },
+      //   error: (error: any) => {
+      //     console.error(error);
+      //     this.saveLoader = false;
+      //     this.afterDrawerDataGet = false;
+      //     this.toastr.error("An error occurred", { nzDuration: 3000 });
+      //   }
+      // })
     }
   }
   recallApiWithId(api: any, id: any) {
@@ -492,21 +488,21 @@ export class TaskManagerComponent {
     this.drawerLoader = true;
     let itemIdString: string | undefined = id;
     parentId = itemIdString ? parseInt(itemIdString, 10) : 0;
-    if (parentId) {
-      let url = api + '/' + parentId;
-      this.requestSubscription = this.applicationService.callApi(`${url}${pagination}`, 'get', data, headers, null).subscribe({
-        next: (res) => {
-          this.drawerLoader = false;
-          this.drawerData = { ...this.drawerData, 'data': res.data };
-          // this.drawerData.data = res.data;
-        },
-        error: (error: any) => {
-          console.error(error);
-          this.drawerLoader = false;
-          this.toastr.error("An error occurred", { nzDuration: 3000 });
-        }
-      })
-    }
+    // if (parentId) {
+    //   let url = api + '/' + parentId;
+    //   this.requestSubscription = this.applicationService.callApi(`${url}${pagination}`, 'get', data, headers, null).subscribe({
+    //     next: (res) => {
+    //       this.drawerLoader = false;
+    //       this.drawerData = { ...this.drawerData, 'data': res.data };
+    //       // this.drawerData.data = res.data;
+    //     },
+    //     error: (error: any) => {
+    //       console.error(error);
+    //       this.drawerLoader = false;
+    //       this.toastr.error("An error occurred", { nzDuration: 3000 });
+    //     }
+    //   })
+    // }
   }
 
   saveComments() {
@@ -537,25 +533,25 @@ export class TaskManagerComponent {
         modalData: oneModelData
       };
       this.drawerLoader = true;
-      if (postEvent._id) {
-        this.applicationServices.addNestCommonAPI('knex-query/execute-rules/' + postEvent._id, model).subscribe({
-          next: (res) => {
-            this.drawerLoader = false;
-            if (res[0]?.error) {
-              this.toastr.error(res[0]?.error, { nzDuration: 3000 });
-              return;
-            }
-            this.toastr.success('Save Successfully', { nzDuration: 3000 });
-            this.getComments();
-          },
-          error: (err) => {
-            // Handle the error
-            this.toastr.error("An error occurred", { nzDuration: 3000 });
-            console.error(err);
-            this.saveLoader = false; // Ensure to set the loader to false in case of error
-          },
-        });
-      }
+      // if (postEvent._id) {
+      //   this.applicationServices.addNestCommonAPI('knex-query/execute-rules/' + postEvent._id, model).subscribe({
+      //     next: (res) => {
+      //       this.drawerLoader = false;
+      //       if (res[0]?.error) {
+      //         this.toastr.error(res[0]?.error, { nzDuration: 3000 });
+      //         return;
+      //       }
+      //       this.toastr.success('Save Successfully', { nzDuration: 3000 });
+      //       this.getComments();
+      //     },
+      //     error: (err) => {
+      //       // Handle the error
+      //       this.toastr.error("An error occurred", { nzDuration: 3000 });
+      //       console.error(err);
+      //       this.saveLoader = false; // Ensure to set the loader to false in case of error
+      //     },
+      //   });
+      // }
     }
   }
   getComments() {
@@ -566,26 +562,26 @@ export class TaskManagerComponent {
       return;
     }
     if (taskManagerComment.eventActionconfig) {
-      if (taskManagerComment.eventActionconfig._id) {
-        this.drawerLoader = true;
-        this.applicationServices.callApi('knex-query/getexecute-rules/' + taskManagerComment.eventActionconfig._id, 'get', '', '', this.mappingId).subscribe({
-          next: (res) => {
-            this.drawerLoader = false;
-            if (res.isSuccess) {
-              this.comments = res.data;
-              this.toastr.success('Get Successfully', { nzDuration: 3000 });
-            } else {
-              this.toastr.success('Error occures in save', { nzDuration: 3000 });
-            }
-          },
-          error: (err) => {
-            // Handle the error
-            this.toastr.error("An error occurred", { nzDuration: 3000 });
-            console.error(err);
-            this.saveLoader = false; // Ensure to set the loader to false in case of error
-          },
-        });
-      }
+      // if (taskManagerComment.eventActionconfig._id) {
+      //   this.drawerLoader = true;
+      //   this.applicationServices.callApi('knex-query/getexecute-rules/' + taskManagerComment.eventActionconfig._id, 'get', '', '', this.mappingId).subscribe({
+      //     next: (res) => {
+      //       this.drawerLoader = false;
+      //       if (res.isSuccess) {
+      //         this.comments = res.data;
+      //         this.toastr.success('Get Successfully', { nzDuration: 3000 });
+      //       } else {
+      //         this.toastr.success('Error occures in save', { nzDuration: 3000 });
+      //       }
+      //     },
+      //     error: (err) => {
+      //       // Handle the error
+      //       this.toastr.error("An error occurred", { nzDuration: 3000 });
+      //       console.error(err);
+      //       this.saveLoader = false; // Ensure to set the loader to false in case of error
+      //     },
+      //   });
+      // }
     }
 
   }

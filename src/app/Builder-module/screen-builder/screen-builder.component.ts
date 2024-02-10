@@ -3,7 +3,6 @@ import { FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { FormlyFormOptions } from '@ngx-formly/core';
 import { NzMessageService } from 'ng-zorro-antd/message';
-import { BuilderService } from 'src/app/services/builder.service';
 import { DataSharedService } from 'src/app/services/data-shared.service';
 import { SocketService } from 'src/app/services/socket.service';
 
@@ -129,7 +128,6 @@ export class ScreenBuilderComponent implements OnInit {
     },
   ];
   constructor(
-    public builderService: BuilderService,
     public dataSharedService: DataSharedService,
     private toastr: NzMessageService,
     private router: Router,

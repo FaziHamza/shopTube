@@ -5,7 +5,6 @@ import { NzMessageService } from 'ng-zorro-antd/message';
 import { NzModalService } from 'ng-zorro-antd/modal';
 import { Subject, Subscription } from 'rxjs';
 import { AuthService } from 'src/app/auth/services/auth.service';
-import { ApplicationService } from 'src/app/services/application.service';
 
 @Component({
   selector: 'st-pdf',
@@ -27,7 +26,7 @@ export class PdfComponent {
   private subscriptions: Subscription = new Subscription();
   private destroy$: Subject<void> = new Subject<void>();
   requestSubscription: Subscription;
-  constructor(private fb: FormBuilder, private applicationService: ApplicationService, private toastr: NzMessageService, private modal: NzModalService,
+  constructor(private fb: FormBuilder, private toastr: NzMessageService, private modal: NzModalService,
     private authService: AuthService, private activatedRoute: ActivatedRoute
   ) {
   }
@@ -45,26 +44,26 @@ export class PdfComponent {
   getBuilder(param: any) {
     this.saveLoader = true;
     let url = window.location.host.includes('spectrum') ? '172.23.0.8' : window.location.host.split(':')[0];
-    this.authService.getNestCommonAPI(`applications/navigation/${param}/${url}`).subscribe({
-      next: (res: any) => {
-        this.saveLoader = false;
-        if (res.isSuccess) {
-          this.saveLoader = false;
-          this.screenId = res.data[0].screenBuilderId;
-          this.screenName = res.data[0].screenName;
-          this.navigation = res.data[0].navigation;
-          this.nodes = [];
-          this.nodes = JSON.parse(res.data[0].screenData);
-          this.sendPDF();
-        } else {
-          this.toastr.error(res.message, { nzDuration: 2000 });
-        }
-      },
-      error: (err) => {
-        this.saveLoader = false;
-        this.toastr.error(`some error exception : ${err}`, { nzDuration: 2000 });
-      },
-    });
+    // this.authService.getNestCommonAPI(`applications/navigation/${param}/${url}`).subscribe({
+    //   next: (res: any) => {
+    //     this.saveLoader = false;
+    //     if (res.isSuccess) {
+    //       this.saveLoader = false;
+    //       this.screenId = res.data[0].screenBuilderId;
+    //       this.screenName = res.data[0].screenName;
+    //       this.navigation = res.data[0].navigation;
+    //       this.nodes = [];
+    //       this.nodes = JSON.parse(res.data[0].screenData);
+    //       this.sendPDF();
+    //     } else {
+    //       this.toastr.error(res.message, { nzDuration: 2000 });
+    //     }
+    //   },
+    //   error: (err) => {
+    //     this.saveLoader = false;
+    //     this.toastr.error(`some error exception : ${err}`, { nzDuration: 2000 });
+    //   },
+    // });
   }
   sendPDF() {
     let location = window.location.href;
@@ -74,14 +73,14 @@ export class PdfComponent {
 
     // Add a time delay of 5 seconds (5000 milliseconds) before sending the PDF
     setTimeout(() => {
-      this.authService.addNestCommonAPI(`email/emailPdf`, obj).subscribe(
-        (res: any) => {
-          this.toastr.success('Email send successfully', { nzDuration: 2000 });
-        },
-        (error) => {
-          console.error('Error sending email:', error);
-        }
-      );
+      // this.authService.addNestCommonAPI(`email/emailPdf`, obj).subscribe(
+      //   (res: any) => {
+      //     this.toastr.success('Email send successfully', { nzDuration: 2000 });
+      //   },
+      //   (error) => {
+      //     console.error('Error sending email:', error);
+      //   }
+      // );
     }, 5000); // Adjust the delay time as needed (in milliseconds)
   }
   ngOnDestroy(): void {

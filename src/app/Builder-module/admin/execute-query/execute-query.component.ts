@@ -1,5 +1,4 @@
 import { JsonEditorOptions } from 'ang-jsoneditor';
-import { ApplicationService } from 'src/app/services/application.service';
 import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, EventEmitter, Input, NgZone, OnInit, Output, ViewChild } from '@angular/core';
 import * as monaco from 'monaco-editor';
 import Ajv, { ErrorObject } from 'ajv';

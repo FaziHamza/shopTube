@@ -2,7 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { NzDrawerRef } from 'ng-zorro-antd/drawer';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { Subscription } from 'rxjs';
-import { ApplicationService } from 'src/app/services/application.service';
+import { SocketService } from 'src/app/services/socket.service';
 import { environment } from 'src/environments/environment';
 
 @Component({
@@ -19,7 +19,7 @@ export class MarketPlaceComponent implements OnInit {
   saveLoader: any = false;
   nodesData: any[] = [];
   requestSubscription: Subscription;
-  constructor(private applicationService: ApplicationService, private drawerRef: NzDrawerRef<any>,
+  constructor(private drawerRef: NzDrawerRef<any>, private socketService: SocketService,
     private toastr: NzMessageService) { }
 
   ngOnInit(): void {
@@ -27,41 +27,49 @@ export class MarketPlaceComponent implements OnInit {
     this.nodesData = JSON.parse(JSON.stringify(this.nodes));
   }
   groupDataByCategory() {
-    
-    this.saveLoader = true;
-    this.applicationService.getNestCommonAPI('market-place').subscribe(res => {
-      this.saveLoader = false;
-      if (res.isSuccess) {
 
-        const expectedData: any = [];
-        console.log(JSON.stringify(res.data))
-        res.data.forEach((data: any) => {
-          const categoryIndex = expectedData.findIndex((item: any) => item._id === data.categoryDetails[0]._id);
-          if (categoryIndex === -1) {
-            expectedData.push({
-              ...data.categoryDetails[0],
-              children: [{
-                ...data.subcategoryDetails[0],
-                children: [data],
-              }],
-            });
-          } else {
-            const subcategoryIndex = expectedData[categoryIndex].children.findIndex((item: any) => item._id === data.subcategoryDetails?.[0]?._id);
-            if (subcategoryIndex === -1) {
-              expectedData[categoryIndex].children.push({
-                ...data.subcategoryDetails[0],
-                children: [data],
+    this.saveLoader = true;
+    const { jsonData, newGuid } = this.socketService.makeJsonData('market-place', 'GetModelType');
+    this.socketService.Request(jsonData);
+    this.socketService.OnResponseMessage().subscribe(res => {
+      if (res.parseddata.requestId == newGuid && res.parseddata.isSuccess) {
+        res = res.parseddata.apidata
+
+        this.saveLoader = false;
+        if (res.isSuccess) {
+
+          const expectedData: any = [];
+          console.log(JSON.stringify(res.data))
+          res.data.forEach((data: any) => {
+            const categoryIndex = expectedData.findIndex((item: any) => item._id === data.categoryDetails[0]._id);
+            if (categoryIndex === -1) {
+              expectedData.push({
+                ...data.categoryDetails[0],
+                children: [{
+                  ...data.subcategoryDetails[0],
+                  children: [data],
+                }],
               });
             } else {
-              expectedData[categoryIndex].children[subcategoryIndex].children.push(data);
+              const subcategoryIndex = expectedData[categoryIndex].children.findIndex((item: any) => item._id === data.subcategoryDetails?.[0]?._id);
+              if (subcategoryIndex === -1) {
+                expectedData[categoryIndex].children.push({
+                  ...data.subcategoryDetails[0],
+                  children: [data],
+                });
+              } else {
+                expectedData[categoryIndex].children[subcategoryIndex].children.push(data);
+              }
             }
-          }
-        });
-        this.groupedData = expectedData;
-        this.marketPlaceList = expectedData;
-        // console.log(JSON.stringify(this.groupedData));
-        // this.groupedData = this.transformCategoryChildren(data);
+          });
+          this.groupedData = expectedData;
+          this.marketPlaceList = expectedData;
+          // console.log(JSON.stringify(this.groupedData));
+          // this.groupedData = this.transformCategoryChildren(data);
+        }
+
       }
+
     })
   }
   filterNestedData(data: any[], searchTerm: string): any[] {
@@ -83,10 +91,10 @@ export class MarketPlaceComponent implements OnInit {
     return filteredData;
   }
 
-  filterData(search:any){
-    this.groupedData = this.filterNestedData(JSON.parse(JSON.stringify(this.marketPlaceList)),search.target.value);
+  filterData(search: any) {
+    this.groupedData = this.filterNestedData(JSON.parse(JSON.stringify(this.marketPlaceList)), search.target.value);
   }
-  reset(){
+  reset() {
     this.groupedData = this.marketPlaceList;
   }
   // Example usage
@@ -124,25 +132,30 @@ export class MarketPlaceComponent implements OnInit {
   //   // }
   // }
   addNodes(data: any) {
-    
-    this.requestSubscription = this.applicationService.getNestCommonAPIById('market-place', data._id).subscribe({
+    const { jsonData, newGuid } = this.socketService.makeJsonDataById('market-place', data._id, 'GetModelTypeById');
+    this.socketService.Request(jsonData);
+    this.socketService.OnResponseMessage().subscribe({
       next: (res: any) => {
         if (res) {
-          if (res.data.length > 0) {
-            let templateData = JSON.parse(res.data);
-            if (templateData?.[0]) {
-              const checkPage = templateData.find((a: any) => a.type === 'page');
-              const checkSection = templateData.find((a: any) => a.type === 'sections');
-              if (checkPage) {
-                this.nodesData = templateData;
+          if (res.parseddata.requestId == newGuid && res.parseddata.isSuccess) {
+            res = res.parseddata.apidata
+            if (res.data.length > 0) {
+              let templateData = JSON.parse(res.data);
+              if (templateData?.[0]) {
+                const checkPage = templateData.find((a: any) => a.type === 'page');
+                const checkSection = templateData.find((a: any) => a.type === 'sections');
+                if (checkPage) {
+                  this.nodesData = templateData;
+                  this.toastr.success(data?.name + ' added successfully', { nzDuration: 3000 })
+                }
+              }
+              else {
+                this.nodesData[0].children[1].children.push(templateData);
                 this.toastr.success(data?.name + ' added successfully', { nzDuration: 3000 })
               }
             }
-            else {
-              this.nodesData[0].children[1].children.push(templateData);
-              this.toastr.success(data?.name + ' added successfully', { nzDuration: 3000 })
-            }
           }
+
         }
       }, error: (err: any) => {
         console.error(err); // Log the error to the console

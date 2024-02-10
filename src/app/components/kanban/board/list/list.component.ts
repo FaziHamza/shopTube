@@ -5,11 +5,8 @@ import { Card, CardInterface } from '../../model/card/card.model';
 import { DOCUMENT } from '@angular/common';
 import { DataSharedService } from 'src/app/services/data-shared.service';
 import { Subject, Subscription } from 'rxjs';
-import { ApplicationService } from 'src/app/services/application.service';
 import { NzMessageService } from 'ng-zorro-antd/message';
-import { debug } from 'console';
 import { NzModalService } from 'ng-zorro-antd/modal';
-import { EmployeeService } from 'src/app/services/employee.service';
 import {
   CdkDragDrop,
   moveItemInArray,
@@ -50,9 +47,8 @@ export class ListsComponent implements OnInit {
   dropCardIndex: any;
   private subscriptions: Subscription = new Subscription();
   private destroy$: Subject<void> = new Subject<void>();
-  constructor(private elementRef: ElementRef, @Inject(DOCUMENT) private document: Document,
-    private applicationService: ApplicationService, public dataSharedService: DataSharedService,
-    private toastr: NzMessageService, private modal: NzModalService, private employeeService: EmployeeService) {
+  constructor(private elementRef: ElementRef, @Inject(DOCUMENT) private document: Document, public dataSharedService: DataSharedService,
+    private toastr: NzMessageService, private modal: NzModalService, ) {
   }
 
   ngOnInit() {
@@ -137,36 +133,36 @@ export class ListsComponent implements OnInit {
         return;
       }
       this.loader = true
-      this.requestSubscription = this.applicationService.getNestCommonAPIById('cp/Builder', screenLink).subscribe({
-        next: (res: any) => {
-          try {
-            if (res.isSuccess) {
-              if (res.data.length > 0) {
-                this.screenId = res.data[0].screenBuilderId;
-                const data = JSON.parse(res.data[0].screenData);
-                this.responseData = data;
-                res.data[0].screenData = this.applicationService.jsonParseWithObject(this.applicationService.jsonStringifyWithObject(this.responseData));
-                this.nodes = [];
-                this.nodes.push(res);
+      // this.requestSubscription = this.applicationService.getNestCommonAPIById('cp/Builder', screenLink).subscribe({
+      //   next: (res: any) => {
+      //     try {
+      //       if (res.isSuccess) {
+      //         if (res.data.length > 0) {
+      //           this.screenId = res.data[0].screenBuilderId;
+      //           const data = JSON.parse(res.data[0].screenData);
+      //           this.responseData = data;
+      //           res.data[0].screenData = this.applicationService.jsonParseWithObject(this.applicationService.jsonStringifyWithObject(this.responseData));
+      //           this.nodes = [];
+      //           this.nodes.push(res);
 
-              }
-              this.loader = false;
-            } else {
-              this.toastr.error(res.message, { nzDuration: 3000 });
-              this.loader = false;
-            }
-          } catch (err) {
-            this.loader = false;
-            this.toastr.warning('An error occurred: ' + err, { nzDuration: 3000 });
-            console.error(err); // Log the error to the console
-          }
-        },
-        error: (err) => {
-          this.loader = false;
-          this.toastr.warning('Required Href ' + err, { nzDuration: 3000 });
-          console.error(err); // Log the error to the console
-        }
-      });
+      //         }
+      //         this.loader = false;
+      //       } else {
+      //         this.toastr.error(res.message, { nzDuration: 3000 });
+      //         this.loader = false;
+      //       }
+      //     } catch (err) {
+      //       this.loader = false;
+      //       this.toastr.warning('An error occurred: ' + err, { nzDuration: 3000 });
+      //       console.error(err); // Log the error to the console
+      //     }
+      //   },
+      //   error: (err) => {
+      //     this.loader = false;
+      //     this.toastr.warning('Required Href ' + err, { nzDuration: 3000 });
+      //     console.error(err); // Log the error to the console
+      //   }
+      // });
     } else {
       this.toastr.error("Screen Link is not found please provide screen link first", { nzDuration: 3000 });
     }

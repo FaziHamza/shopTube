@@ -5,10 +5,7 @@ import { FormlyFormOptions } from '@ngx-formly/core';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { Subscription, catchError, of } from 'rxjs';
 import { Guid } from 'src/app/models/guid';
-import { ApplicationService } from 'src/app/services/application.service';
-import { BuilderService } from 'src/app/services/builder.service';
 import { DataSharedService } from 'src/app/services/data-shared.service';
-import { forkJoin } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { NzModalService } from 'ng-zorro-antd/modal';
 import { ApplicationThemeComponent } from '../application-theme/application-theme.component';
@@ -113,7 +110,7 @@ export class ApplicationBuilderComponent implements OnInit {
       sortDirections: ['ascend', 'descend', null],
     },
   ];
-  constructor(public builderService: BuilderService,
+  constructor(
     private modalService: NzModalService,
     public dataSharedService: DataSharedService, private toastr: NzMessageService, private router: Router, private socketService: SocketService) {
     this.dataSharedService.change.subscribe(({ event, field }) => {

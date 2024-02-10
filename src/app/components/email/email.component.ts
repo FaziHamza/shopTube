@@ -3,9 +3,6 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { NzModalService } from 'ng-zorro-antd/modal';
 import { NzUploadFile } from 'ng-zorro-antd/upload';
-import { ApplicationService } from 'src/app/services/application.service';
-import { NzUploadChangeParam } from 'ng-zorro-antd/upload';
-
 
 @Component({
   selector: 'st-email',
@@ -21,8 +18,7 @@ export class EmailComponent {
   cc: any = [];
   bcc: any = [];
   @ViewChild('fileInputRef') fileInputRef: ElementRef | undefined;
-  constructor(private fb: FormBuilder, private applicationService: ApplicationService, private toastr: NzMessageService, private modal: NzModalService,
-    private msg: NzMessageService
+  constructor(private fb: FormBuilder,  private toastr: NzMessageService,
   ) {
     this.form = this.fb.group({
       to: ['', Validators.required], // Classes is required
@@ -70,21 +66,21 @@ export class EmailComponent {
       }
     }
     this.saveLoader = true;
-    this.applicationService.addNestCommonAPI('email/send-email', formData).subscribe({
-      next: (res: any) => {
-        if (res.isSuccess) {
-          this.toastr.success(res.message, { nzDuration: 2000 });
-        } else {
-          this.toastr.error(res.message, { nzDuration: 2000 });
-        }
-        // this.openEmail(false);
-        this.saveLoader = false;
-      },
-      error: (err) => {
-        this.saveLoader = false;
-        this.toastr.error(`some error exception : ${err}`, { nzDuration: 2000 });
-      },
-    });
+    // this.applicationService.addNestCommonAPI('email/send-email', formData).subscribe({
+    //   next: (res: any) => {
+    //     if (res.isSuccess) {
+    //       this.toastr.success(res.message, { nzDuration: 2000 });
+    //     } else {
+    //       this.toastr.error(res.message, { nzDuration: 2000 });
+    //     }
+    //     // this.openEmail(false);
+    //     this.saveLoader = false;
+    //   },
+    //   error: (err) => {
+    //     this.saveLoader = false;
+    //     this.toastr.error(`some error exception : ${err}`, { nzDuration: 2000 });
+    //   },
+    // });
   }
 
   onFileChange(event: any) {

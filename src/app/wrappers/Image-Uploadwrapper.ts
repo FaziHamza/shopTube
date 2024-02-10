@@ -1,7 +1,6 @@
 import { Component, ViewChild, ElementRef } from '@angular/core';
 import { FieldTypeConfig, FieldWrapper } from '@ngx-formly/core';
 import { DataSharedService } from '../services/data-shared.service';
-import { ApplicationService } from '../services/application.service';
 import { environment } from 'src/environments/environment';
 import { SocketService } from '../services/socket.service';
 
@@ -75,7 +74,7 @@ export class FormlyFieldImageUploadComponent extends FieldWrapper<FieldTypeConfi
   imageUrl: any;
   imagePath = environment.nestImageUrl;
 
-  constructor(private sharedService: DataSharedService, private applicationService: ApplicationService,private readonly socketService:SocketService) {
+  constructor(private sharedService: DataSharedService, private readonly socketService:SocketService) {
     super();
   }
   ngOnInit(): void {

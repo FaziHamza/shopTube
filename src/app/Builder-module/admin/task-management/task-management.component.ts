@@ -3,7 +3,6 @@ import { FormGroup } from '@angular/forms';
 import { FormlyFormOptions } from '@ngx-formly/core';
 import { Subscription } from 'rxjs';
 import { Task } from '../models/task.model';
-import { ApplicationService } from 'src/app/services/application.service';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { Release } from '../models/release.model';
 
@@ -23,7 +22,7 @@ export class TaskManagementComponent implements OnInit {
   fields: any = [];
   model: any = {};
 
-  constructor(private applicationService: ApplicationService, private toastr: NzMessageService) { }
+  constructor( private toastr: NzMessageService) { }
   getFields() {
     
     const userOptions = this.userList.map((item: any) => ({
@@ -149,65 +148,65 @@ export class TaskManagementComponent implements OnInit {
     this.model = {};
   }
   getTasks() {
-    this.requestSubscription = this.applicationService.getNestCommonAPI('cp/Task').subscribe({
-      next: (getRes: any) => {
-        if (getRes.isSuccess) {
-          if (getRes.data.length > 0) {
-            this.taskList = getRes.data
-          }
-        }
-      },
-      error: (error: any) => {
-        console.error(error);
-        this.toastr.error("An error occurred", { nzDuration: 3000 });
-      }
-    });
+    // this.requestSubscription = this.applicationService.getNestCommonAPI('cp/Task').subscribe({
+    //   next: (getRes: any) => {
+    //     if (getRes.isSuccess) {
+    //       if (getRes.data.length > 0) {
+    //         this.taskList = getRes.data
+    //       }
+    //     }
+    //   },
+    //   error: (error: any) => {
+    //     console.error(error);
+    //     this.toastr.error("An error occurred", { nzDuration: 3000 });
+    //   }
+    // });
   }
   getUsers() {
-    this.requestSubscription = this.applicationService.getNestCommonAPI('auth/users').subscribe({
-      next: (getRes: any) => {
-        if (getRes) {
-          this.userList = getRes
-          this.getFields();
-        }
-      },
-      error: (error: any) => {
-        console.error(error);
-        this.toastr.error("An error occurred", { nzDuration: 3000 });
-      }
-    });
+    // this.requestSubscription = this.applicationService.getNestCommonAPI('auth/users').subscribe({
+    //   next: (getRes: any) => {
+    //     if (getRes) {
+    //       this.userList = getRes
+    //       this.getFields();
+    //     }
+    //   },
+    //   error: (error: any) => {
+    //     console.error(error);
+    //     this.toastr.error("An error occurred", { nzDuration: 3000 });
+    //   }
+    // });
   }
   getRelease() {
-    this.requestSubscription = this.applicationService.getNestCommonAPI('cp/Release').subscribe({
-      next: (getRes: any) => {
-        if (getRes.isSuccess) {
-          if (getRes.data.length > 0) {
-            this.releaseList = getRes.data
-            this.getFields();
-          }
-        }
-      },
-      error: (error: any) => {
-        console.error(error);
-        this.toastr.error("An error occurred", { nzDuration: 3000 });
-      }
-    });
+    // this.requestSubscription = this.applicationService.getNestCommonAPI('cp/Release').subscribe({
+    //   next: (getRes: any) => {
+    //     if (getRes.isSuccess) {
+    //       if (getRes.data.length > 0) {
+    //         this.releaseList = getRes.data
+    //         this.getFields();
+    //       }
+    //     }
+    //   },
+    //   error: (error: any) => {
+    //     console.error(error);
+    //     this.toastr.error("An error occurred", { nzDuration: 3000 });
+    //   }
+    // });
   }
   getScreenBuilder() {
-    this.requestSubscription = this.applicationService.getNestCommonAPI('cp/ScreenBuilder').subscribe({
-      next: (getRes: any) => {
-        if (getRes.isSuccess) {
-          if (getRes.data.length > 0) {
-            this.screenList = getRes.data
-            this.getFields();
-          }
-        }
-      },
-      error: (error: any) => {
-        console.error(error);
-        this.toastr.error("An error occurred", { nzDuration: 3000 });
-      }
-    });
+    // this.requestSubscription = this.applicationService.getNestCommonAPI('cp/ScreenBuilder').subscribe({
+    //   next: (getRes: any) => {
+    //     if (getRes.isSuccess) {
+    //       if (getRes.data.length > 0) {
+    //         this.screenList = getRes.data
+    //         this.getFields();
+    //       }
+    //     }
+    //   },
+    //   error: (error: any) => {
+    //     console.error(error);
+    //     this.toastr.error("An error occurred", { nzDuration: 3000 });
+    //   }
+    // });
   }
   submitTask() {
     if (this.myForm.valid) {
@@ -220,42 +219,42 @@ export class TaskManagementComponent implements OnInit {
         Task: this.myForm.value,
       };
 
-      const addOrUpdateTask$ = this.model._id == undefined
-        ? this.applicationService.addNestCommonAPI('cp', taskModel)
-        : this.applicationService.updateNestCommonAPI(
-          'cp/Task',
-          this.model._id,
-          taskModel
-        );
+      // const addOrUpdateTask$ = this.model._id == undefined
+      //   ? this.applicationService.addNestCommonAPI('cp', taskModel)
+      //   : this.applicationService.updateNestCommonAPI(
+      //     'cp/Task',
+      //     this.model._id,
+      //     taskModel
+      //   );
 
-      this.requestSubscription = addOrUpdateTask$.subscribe({
-        next: (res: any) => {
-          if (res.isSuccess) {
-            this.clearForm();
-            this.toastr.success(`Task: ${res.message}`, { nzDuration: 3000 });
-            this.getTasks();
-          }
-        },
-        error: (error: any) => {
-          console.error(error);
-          this.toastr.error("An error occurred", { nzDuration: 3000 });
-        }
-      });
+      // this.requestSubscription = addOrUpdateTask$.subscribe({
+      //   next: (res: any) => {
+      //     if (res.isSuccess) {
+      //       this.clearForm();
+      //       this.toastr.success(`Task: ${res.message}`, { nzDuration: 3000 });
+      //       this.getTasks();
+      //     }
+      //   },
+      //   error: (error: any) => {
+      //     console.error(error);
+      //     this.toastr.error("An error occurred", { nzDuration: 3000 });
+      //   }
+      // });
     }
   }
 
   deleteTask(objTask: any) {
-    this.requestSubscription = this.applicationService.deleteNestCommonAPI('cp/Task', objTask._id).subscribe({
-      next: (res: any) => {
-        if (res.isSuccess) {
-          this.toastr.success(`Task: ${res.message}`, { nzDuration: 3000 });
-          this.getTasks();
-        }
-      },
-      error: (error: any) => {
-        console.error(error);
-        this.toastr.error("An error occurred", { nzDuration: 3000 });
-      }
-    });
+    // this.requestSubscription = this.applicationService.deleteNestCommonAPI('cp/Task', objTask._id).subscribe({
+    //   next: (res: any) => {
+    //     if (res.isSuccess) {
+    //       this.toastr.success(`Task: ${res.message}`, { nzDuration: 3000 });
+    //       this.getTasks();
+    //     }
+    //   },
+    //   error: (error: any) => {
+    //     console.error(error);
+    //     this.toastr.error("An error occurred", { nzDuration: 3000 });
+    //   }
+    // });
   }
 }
