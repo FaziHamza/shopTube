@@ -8,6 +8,7 @@ import { MSAL_GUARD_CONFIG, MsalGuardConfiguration, MsalService, MsalBroadcastSe
 import { EventMessage, AuthenticationResult, InteractionStatus, PopupRequest, InteractionType, RedirectRequest } from '@azure/msal-browser';
 import { Subject, filter, takeUntil } from 'rxjs';
 import { SocketService } from 'src/app/services/socket.service';
+import { DataSharedService } from 'src/app/services/data-shared.service';
 
 @Component({
   selector: 'st-login',
@@ -119,6 +120,7 @@ export class LoginComponent implements OnInit {
     public authService: AuthService,
     private route: ActivatedRoute,
     private router: Router,
+    private sharedService:DataSharedService,
     private commonService: CommonService,
     private cdr: ChangeDetectorRef,
     private toastr: NzMessageService,
@@ -165,7 +167,7 @@ export class LoginComponent implements OnInit {
 
     // console.log('submit', this.form.value);
     this.form.value['username'] = this.form.value.email;
-    this.form.value['domain'] = window.location.host.split(':')[0],
+    this.form.value['domain'] = this.sharedService.checkDomain(window.location.host),
       this.form.value['responsekey'] = this.recaptchaResponse;
     let obj = this.form.value;
     obj['applicationId'] = this.applications?.application?.id;
@@ -235,7 +237,7 @@ export class LoginComponent implements OnInit {
   }
   getApplicationData() {
     this.showLoader = true;
-    const hostUrl = window.location.host.split(':')[0];
+    const hostUrl = this.sharedService.checkDomain(window.location.host);
 
     const { jsonData, newGuid } = this.socketService.authMetaInfo('AuthGetByDomain', '', hostUrl);
     const GetDomain = { metaInfo: jsonData };
@@ -353,7 +355,7 @@ export class LoginComponent implements OnInit {
       "organizationId": this.applications?.department?.organizationId ,
       "applicationId": this.applications?.application?._id,
       "status": 'Pending',
-      "domain": window.location.host.split(':')[0],
+      "domain": this.sharedService.checkDomain(window.location.host),
       "contactnumber": "",
       "responsekey": "",
     }

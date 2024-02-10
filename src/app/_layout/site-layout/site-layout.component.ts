@@ -74,7 +74,7 @@ export class SiteLayoutComponent implements OnInit {
   }
   private subscriptions: Subscription = new Subscription();
   private destroy$: Subject<void> = new Subject<void>();
-  constructor( private renderer: Renderer2, private el: ElementRef, public dataSharedService: DataSharedService,
+  constructor(private renderer: Renderer2, private el: ElementRef, public dataSharedService: DataSharedService,
     private toastr: NzMessageService, private router: Router, private activatedRoute: ActivatedRoute, private cd: ChangeDetectorRef, private modalService: NzModalService,
     public socketService: SocketService,
     private viewContainerRef: ViewContainerRef, private authService: AuthService, private jwtService: JwtService,) {
@@ -129,8 +129,9 @@ export class SiteLayoutComponent implements OnInit {
       }
     }
     //http://spectrum.com/
-    this.fullCurrentUrl = window.location.host.split(':')[0];
-    this.currentUrl = window.location.host.split(':')[0];
+    this.fullCurrentUrl = this.dataSharedService.checkDomain(window.location.host);
+    this.currentUrl = this.dataSharedService.checkDomain(window.location.host);
+
     if (window.location.search.includes('token=')) {
       localStorage.clear();
       const getToken = window.location.search.split('token=')[1];
