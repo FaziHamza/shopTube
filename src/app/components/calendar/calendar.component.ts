@@ -9,7 +9,8 @@ import { EventDropArg } from '@fullcalendar/core';
 import { ApplicationService } from 'src/app/services/application.service';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { DataSharedService } from 'src/app/services/data-shared.service';
-import * as moment from 'moment';
+import { addDays, formatISO } from 'date-fns';
+
 
 @Component({
   selector: 'st-calendar',
@@ -151,36 +152,43 @@ export class CalendarComponent {
     const day = String(dateObject.getDate()).padStart(2, "0");
     return `${year}-${month}-${day}`;
   }
-  handleEventDrop(arg: EventDropArg) {
-    debugger
-    let findClickApi = this.calenderData?.appConfigurableEvent?.find((item: any) => item.rule.includes('put'));
+  handleEventDrop(arg:any) {
+    // Debugger statement
+    debugger;
+  
+    // Finding an API configuration based on a specific condition
+    let findClickApi = this.calenderData?.appConfigurableEvent?.find((item: { rule: string | string[]; }) => item.rule.includes('put'));
+  
+    // Check for permission to update
     const checkPermission = this.dataSharedService.getUserPolicyMenuList.find(a => a.screenId == this.dataSharedService.currentMenuLink);
     if (!checkPermission?.updates && this.dataSharedService.currentMenuLink != '/ourbuilder') {
       alert("You did not have permission");
       return;
     }
+  
+    // If no API configuration is found, exit the function
     if (!findClickApi) {
       return;
     }
-
+  
+    // Construct the URL for the API call
     const url = findClickApi._id ? `knex-query/executeDelete-rules/${findClickApi._id}` : '';
-
     if (!url) {
       return;
     }
-    const newStart: any = arg.event.start;
-    const date = new Date(newStart.toString());
-
-    // Parse the date using Moment.js
-    const currentDate = moment(date);
-
-    // Add 1 day
-    currentDate.add(1, 'days');
-
+  
+    // Manipulating the event's start date using native JavaScript
+    const newStart = new Date(arg.event.start.toString());
+  
+    // Add 1 day to the date
+    newStart.setDate(newStart.getDate() + 1);
+  
     // Format the date to ISO format 'YYYY-MM-DDTHH:mm:ss.SSSZ'
-    const newdateData = currentDate.toISOString();
-
-    console.log(newdateData)
+    const newdateData = newStart.toISOString();
+  
+    console.log(newdateData);
+  
+    // Constructing the model for the API request
     const model = {
       screenId: this.screenName,
       postType: 'put',
@@ -189,8 +197,12 @@ export class CalendarComponent {
         'datetime': `'${newdateData}'`,
       }
     };
+  
+    // Indicating that the loading process has started
     this.loader = true;
-    console.log(model)
+    console.log(model);
+  
+    // Making the API call
     this.applicationServices.addNestCommonAPI(url, model).subscribe({
       next: (res) => {
         if (res) {
@@ -205,6 +217,7 @@ export class CalendarComponent {
       }
     });
   }
+  
 
 
 }

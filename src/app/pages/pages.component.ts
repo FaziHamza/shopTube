@@ -16,9 +16,12 @@ import html2canvas from 'html2canvas';
 import { jsPDF } from "jspdf"; // Trying to import as in the documentation 
 import { json } from 'stream/consumers';
 import { AnyComponent } from '@fullcalendar/core/preact';
-import * as jsonpatch from 'fast-json-patch';
+import {applyPatch} from 'fast-json-patch';
 import { environment } from 'src/environments/environment';
 import { SocketService } from '../services/socket.service';
+import { cloneDeep } from 'lodash-es';
+
+import { addDays } from 'date-fns';
 
 
 @Component({
@@ -476,7 +479,7 @@ export class PagesComponent implements OnInit, OnDestroy {
         }
       });
       let originalData = JSON.parse(JSON.stringify({ uiData: parseData }));
-      let objUiData = this.screenData?.patchOperations ? jsonpatch.applyPatch(originalData, this.screenData?.patchOperations).newDocument : parseData;
+      let objUiData = this.screenData?.patchOperations ? applyPatch(originalData, this.screenData?.patchOperations).newDocument : parseData;
       objUiData = objUiData.uiData ? objUiData.uiData : objUiData;
       this.screenData.uiData = objUiData;
       const checkLoadtype = this.screenData?.uiData?.filter((a: any) => a.actionType == 'load');
@@ -1264,8 +1267,7 @@ export class PagesComponent implements OnInit, OnDestroy {
       if (this.screenData != undefined) {
         var inputType = this.resData[0].children[1].children;
         if (inputType) {
-          const _ = require('lodash');
-          let screenData = _.cloneDeep(this.screenData);
+          let screenData = cloneDeep(this.screenData);
           // inputType = sectionData;
           let updatedKeyData: any[] = [];
 

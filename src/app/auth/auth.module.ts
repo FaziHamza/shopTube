@@ -13,9 +13,9 @@ import { NgxMaskModule } from 'ngx-mask';
 import { AuthContainerComponent, ForgotPasswordComponent, ResetPasswordComponent } from '.';
 import { RecaptchaModule } from 'ng-recaptcha';
 
-const routes: Routes = [
-  { path: 'login', component: LoginComponent },
-];
+// const routes: Routes = [
+//   { path: 'login', component: LoginComponent },
+// ];
 
 @NgModule({
   declarations: [

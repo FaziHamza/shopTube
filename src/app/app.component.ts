@@ -1,3 +1,4 @@
+
 import { Component, HostListener } from '@angular/core';
 
 @Component({
@@ -5,7 +6,7 @@ import { Component, HostListener } from '@angular/core';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
-export class AppComponent {
+export class AppComponent  {
   title = 'ngZorro';
   editorData: any ={
     "time": 1680808292528,

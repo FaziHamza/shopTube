@@ -5,7 +5,9 @@ import { TreeNode } from 'src/app/models/treeNode';
 import { ApplicationService } from 'src/app/services/application.service';
 import { DataSharedService } from 'src/app/services/data-shared.service';
 import { EmployeeService } from 'src/app/services/employee.service';
-import * as Joi from 'joi';
+import {ref,string,date,any,number,object} from 'joi';
+
+
 import { DataService } from 'src/app/services/offlineDb.service';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { ElementData } from 'src/app/models/element';
@@ -290,7 +292,7 @@ export class SectionsComponent implements OnInit {
                 const successMessage = (model.postType === 'post') ? 'Save Successfully' : 'Update Successfully';
                 this.toastr.success(successMessage, { nzDuration: 3000 });
 
-                if (data.saveRouteLink && this.dataSharedService.currentMenuLink !== '/ourbuilder' && model.postType === 'post') {
+                if (data.saveRouteLink && data.saveredirect == '_blank' && this.dataSharedService.currentMenuLink !== '/ourbuilder' && (model.postType === 'post' || model.postType === 'put')) {
                   let tableName: any = '';
                   if (res?.[0]) {
                     tableName = res[0].tableName ? res[0].tableName.split('.')[1].split('_')[0] : '';
@@ -311,6 +313,8 @@ export class SectionsComponent implements OnInit {
                     this.router.navigate(['/pages/' + data.saveRouteLink]);
                   }
                   return;
+                } else if (data.saveredirect == 'modal'){
+                  this.dataSharedService.saveredirect.next(data)
                 }
 
                 if (model.postType === 'post') {
@@ -1544,26 +1548,26 @@ export class SectionsComponent implements OnInit {
               const minLimit: any = typeof minlength !== 'undefined' ? minlength : 0;
               const maxLimit: any = typeof maxlength !== 'undefined' ? maxlength : 0;
               // this.ruleObj = {
-              //   [jsonScreenRes[0].key]: Joi.string().min(parseInt(minLimit, 10)).max(parseInt(maxLimit, 10)),
+              //   [jsonScreenRes[0].key]: string().min(parseInt(minLimit, 10)).max(parseInt(maxLimit, 10)),
               // };
               modelObj[jsonScreenRes[0].key] = getKeyValue && typeof getKeyValue === 'string' ? getKeyValue.trim() : getKeyValue;
               if (!minLimit && !maxLimit) {
                 if (modelObj[jsonScreenRes[0].key] instanceof Date) {
                   this.ruleObj = {
-                    [jsonScreenRes[0].key]: Joi.date().iso().required()
+                    [jsonScreenRes[0].key]: date().iso().required()
                   };
                 } else if (typeof modelObj[jsonScreenRes[0].key] === 'string') {
                   this.ruleObj = {
-                    [jsonScreenRes[0].key]: Joi.string().required()
+                    [jsonScreenRes[0].key]: string().required()
                   };
                 } else {
                   this.ruleObj = {
-                    [jsonScreenRes[0].key]: Joi.any().required()
+                    [jsonScreenRes[0].key]: any().required()
                   };
                 }
               }
               else {
-                let schema = Joi.string();
+                let schema = string();
 
                 if (minlength !== undefined) {
                   schema = schema.min(parseInt(minlength, 10));
@@ -1581,7 +1585,7 @@ export class SectionsComponent implements OnInit {
               modelObj[jsonScreenRes[0].key] = getKeyValue;
               const { minlength, maxlength } = jsonScreenRes[0];
 
-              let schema = Joi.number().integer();
+              let schema = number().integer();
 
               if (minlength !== undefined) {
                 schema = schema.min(parseInt(minlength, 10));
@@ -1600,7 +1604,7 @@ export class SectionsComponent implements OnInit {
               modelObj[jsonScreenRes[0].key] = jsonScreenRes[0].key.includes('.') ? this.formlyModel[jsonScreenRes[0].key.split('.')[0]][jsonScreenRes[0].key.split('.')[1]] : this.formlyModel[jsonScreenRes[0].key];
 
               this.ruleObj = {
-                [jsonScreenRes[0].key]: Joi.string().pattern(new RegExp(jsonScreenRes[0].pattern)),
+                [jsonScreenRes[0].key]: string().pattern(new RegExp(jsonScreenRes[0].pattern)),
               }
             }
             else if (jsonScreenRes[0].type == "reference") {
@@ -1608,19 +1612,19 @@ export class SectionsComponent implements OnInit {
 
               modelObj[jsonScreenRes[0].reference] = this.formlyModel[jsonScreenRes[0].reference];
               this.ruleObj = {
-                [jsonScreenRes[0].key]: Joi.ref(typeof jsonScreenRes[0].reference !== 'undefined' ? jsonScreenRes[0].reference : ''),
+                [jsonScreenRes[0].key]: ref(typeof jsonScreenRes[0].reference !== 'undefined' ? jsonScreenRes[0].reference : ''),
               }
             }
             else if (jsonScreenRes[0].type == "email") {
               modelObj[jsonScreenRes[0].key] = jsonScreenRes[0].key.includes('.') ? this.formlyModel[jsonScreenRes[0].key.split('.')[0]][jsonScreenRes[0].key.split('.')[1]] : this.formlyModel[jsonScreenRes[0].key];
 
               // this.ruleObj = {
-              //   [jsonScreenRes[0].key]: Joi.string().email({ minDomainSegments: jsonScreenRes[0].emailtypeallow.length, tlds: { allow: jsonScreenRes[0].emailtypeallow } }),
+              //   [jsonScreenRes[0].key]: string().email({ minDomainSegments: jsonScreenRes[0].emailtypeallow.length, tlds: { allow: jsonScreenRes[0].emailtypeallow } }),
               // }
               const emailtypeallow = Array.isArray(jsonScreenRes[0].emailtypeallow) ? jsonScreenRes[0].emailtypeallow : [];
               const minDomainSegments = Math.max(0, Number.isInteger(jsonScreenRes[0].emailtypeallow.length) ? jsonScreenRes[0].emailtypeallow.length : 0);
               const schema = {
-                [jsonScreenRes[0].key]: Joi.string().email({ minDomainSegments, tlds: { allow: emailtypeallow } }),
+                [jsonScreenRes[0].key]: string().email({ minDomainSegments, tlds: { allow: emailtypeallow } }),
               };
               this.ruleObj = schema;
             }
@@ -1629,7 +1633,7 @@ export class SectionsComponent implements OnInit {
         }
 
       }
-      this.schemaValidation = Joi.object(Object.assign({}, this.ruleValidation));
+      this.schemaValidation = object(Object.assign({}, this.ruleValidation));
       this.validationChecker(modelObj);
 
     }

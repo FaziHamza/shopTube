@@ -4,7 +4,7 @@ import { JsonEditorOptions } from 'ang-jsoneditor';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { ApplicationService } from 'src/app/services/application.service';
 import { BuilderService } from 'src/app/services/builder.service';
-import * as jsonpatch from 'fast-json-patch';
+import {applyPatch} from 'fast-json-patch';
 import { Operation } from 'fast-json-patch';
 import { diff, Config, DiffPatcher, formatters, Delta } from "jsondiffpatch";
 import { SocketService } from 'src/app/services/socket.service';
@@ -630,7 +630,7 @@ export class UIRuleComponent implements OnInit {
                 }
               });
               let originalData = JSON.parse(JSON.stringify({ uiData: parseData }));
-              let objUiData = getRes.data[0].patchoperations?.json ? jsonpatch.applyPatch(originalData, getRes.data[0].patchoperations?.json).newDocument : parseData;
+              let objUiData = getRes.data[0].patchoperations?.json ? applyPatch(originalData, getRes.data[0].patchoperations?.json).newDocument : parseData;
               objUiData = objUiData.uiData ? objUiData.uiData : objUiData;
               this.responseData[0].uidata = objUiData;
 
@@ -847,7 +847,7 @@ export class UIRuleComponent implements OnInit {
     //   // No differences found, nothing to update
     //   return Promise.resolve();
     // }
-    const updatedUser = jsonpatch.applyPatch(originalUser, patchOperations).newDocument;
+    const updatedUser = applyPatch(originalUser, patchOperations).newDocument;
   }
   private removeDiffChanges(changes: any): any {
     // Check if the changes object is defined and has properties

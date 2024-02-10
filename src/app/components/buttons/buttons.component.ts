@@ -8,6 +8,7 @@ import { ApplicationService } from 'src/app/services/application.service';
 import { Subject, Subscription } from 'rxjs';
 import { Location } from '@angular/common';
 import { SocketService } from 'src/app/services/socket.service';
+import { resolve } from 'dns';
 
 
 
@@ -58,7 +59,16 @@ export class ButtonsComponent implements OnInit {
   constructor(private modalService: NzModalService, public employeeService: EmployeeService, private toastr: NzMessageService, private router: Router,
     public dataSharedService: DataSharedService, private activatedRoute: ActivatedRoute, private location: Location, private cdr: ChangeDetectorRef,
     private socketService: SocketService,
-  ) { }
+  ) {
+    const saveredirectsubscription = this.dataSharedService.saveredirect.subscribe(res => {
+      if (res) {
+        if (res.key == this.buttonData.key) {
+          this.redirect(res, res.saveredirect, true)
+        }
+      }
+    });
+    this.subscriptions.add(saveredirectsubscription);
+  }
 
   ngOnInit(): void {
     if (this.tableDisplayData) {
@@ -101,99 +111,7 @@ export class ButtonsComponent implements OnInit {
       return;
     }
 
-    switch (data.redirect) {
-      case 'modal':
-      case '1200px':
-      case '800px':
-      case '600px':
-      case 'drawer':
-      case 'largeDrawer':
-      case 'extraLargeDrawer':
-        this.drawerTiltle = '';
-        if (!data.href) {
-          this.toastr.warning('Required Href', {
-            nzDuration: 3000,
-          });
-          return
-        }
-        this.cdr.detectChanges();
-        this.nodes = [];
-        if (this.tableRowId) {
-          this.mappingId = this.tableRowId;
-          this.mappingId = this.mappingId;
-
-        }
-        this.dataSharedService.drawerIdList = {};
-        if (this.buttonData?.headerHeight !== undefined) {
-          document.documentElement.style.setProperty('--drawerHeaderHight', this.buttonData?.headerHeight + '%');
-          this.cdr.detectChanges();
-        } else {
-          document.documentElement.style.setProperty('--drawerHeaderHight', 'auto');
-
-        }
-        this.loader = true;
-        this.isVisible = true;
-        let externalLogin = localStorage.getItem('externalLogin') || false;
-        if (!externalLogin) {
-          const { jsonData, newGuid } = this.socketService.makeJsonDataById('CheckUserScreen', data.href, 'CheckUserScreen');
-          this.socketService.Request(jsonData);
-          this.socketService.OnResponseMessage().subscribe(res => {
-            if (res.parseddata.requestId == newGuid && res.parseddata.isSuccess) {
-              res = res.parseddata.apidata;
-              if (res?.data == true) {
-                this.getBuilderScreen(data);
-              }
-              else {
-                this.loader = false;
-                this.screenId = res.data[0].screenbuilderid;
-                this.nodes.push(res)
-              }
-            }
-          });
-        } else {
-          this.getBuilderScreen(data);
-        }
-
-        break;
-      case '_blank':
-        if (this.tableRowId) {
-          window.open('/pages/' + data.href + '/' + this.tableRowId);
-        } else {
-          this.requestSubscription = this.activatedRoute.params.subscribe((params: Params) => {
-            if (params["id"]) {
-              window.open('/pages/' + data.href + '/' + params["id"]);
-            } else if (data.href.includes('https://www')) {
-              window.open(data.href);
-            }
-            else {
-              window.open('/pages/' + data.href);
-            }
-          });
-        }
-
-        break;
-      case '':
-        if (this.tableRowId) {
-          this.router.navigate(['/pages/' + data.href + '/' + this.tableRowId]);
-        }
-        else if (data.href.includes('https://www')) {
-          window.location.href = data.href;
-        }
-        else {
-          this.requestSubscription = this.activatedRoute.params.subscribe((params: Params) => {
-            if (params["id"]) {
-              this.router.navigate(['/pages/' + data.href + '/' + params["id"]])
-            }
-            else if (data.href.includes('https://www')) {
-              this.router.navigate([data.href]);
-            }
-            else {
-              this.router.navigate(['/pages/' + data.href]);
-            }
-          });
-        }
-        break;
-    }
+    this.redirect(data, data.redirect, false)
   }
 
   handleOk(): void {
@@ -421,8 +339,8 @@ export class ButtonsComponent implements OnInit {
     }
     return null;
   }
-  getBuilderScreen(data: any) {
-    const { jsonData, newGuid } = this.socketService.makeJsonDataById('Builders', data.href, 'GetModelTypeById');
+  getBuilderScreen(data: any, save: boolean) {
+    const { jsonData, newGuid } = this.socketService.makeJsonDataById('Builders', save ? data.saveRouteLink : data.href, 'GetModelTypeById');
     this.socketService.Request(jsonData);
     this.socketService.OnResponseMessage().subscribe({
       next: (res: any) => {
@@ -453,5 +371,102 @@ export class ButtonsComponent implements OnInit {
         console.error(err); // Log the error to the console
       }
     });
+  }
+  redirect(data: any, redirect: any, save: boolean) {
+    switch (redirect) {
+      case 'modal':
+      case '1200px':
+      case '800px':
+      case '600px':
+      case 'drawer':
+      case 'largeDrawer':
+      case 'extraLargeDrawer':
+        this.drawerTiltle = '';
+        
+        if (!data.href && !save) {
+          this.toastr.warning('Required Href', {
+            nzDuration: 3000,
+          });
+          return
+        }
+        let link = save?data.saveRouteLink :data.href;
+        this.cdr.detectChanges();
+        this.nodes = [];
+        if (this.tableRowId) {
+          this.mappingId = this.tableRowId;
+          this.mappingId = this.mappingId;
+
+        }
+        this.dataSharedService.drawerIdList = {};
+        if (this.buttonData?.headerHeight !== undefined) {
+          document.documentElement.style.setProperty('--drawerHeaderHight', this.buttonData?.headerHeight + '%');
+          this.cdr.detectChanges();
+        } else {
+          document.documentElement.style.setProperty('--drawerHeaderHight', 'auto');
+
+        }
+        this.loader = true;
+        this.isVisible = true;
+        let externalLogin = localStorage.getItem('externalLogin') || false;
+        if (!externalLogin) {
+          const { jsonData, newGuid } = this.socketService.makeJsonDataById('CheckUserScreen', link, 'CheckUserScreen');
+          this.socketService.Request(jsonData);
+          this.socketService.OnResponseMessage().subscribe(res => {
+            if (res.parseddata.requestId == newGuid && res.parseddata.isSuccess) {
+              res = res.parseddata.apidata;
+              if (res?.data == true) {
+                this.getBuilderScreen(data, save);
+              }
+              else {
+                this.loader = false;
+                this.screenId = res.data[0].screenbuilderid;
+                this.nodes.push(res)
+              }
+            }
+          });
+        } else {
+          this.getBuilderScreen(data, save);
+        }
+
+        break;
+      case '_blank':
+        if (this.tableRowId) {
+          window.open('/pages/' + data.href + '/' + this.tableRowId);
+        } else {
+          this.requestSubscription = this.activatedRoute.params.subscribe((params: Params) => {
+            if (params["id"]) {
+              window.open('/pages/' + data.href + '/' + params["id"]);
+            } else if (data.href.includes('https://www')) {
+              window.open(data.href);
+            }
+            else {
+              window.open('/pages/' + data.href);
+            }
+          });
+        }
+
+        break;
+      case '':
+        if (this.tableRowId) {
+          this.router.navigate(['/pages/' + data.href + '/' + this.tableRowId]);
+        }
+        else if (data.href.includes('https://www')) {
+          window.location.href = data.href;
+        }
+        else {
+          this.requestSubscription = this.activatedRoute.params.subscribe((params: Params) => {
+            if (params["id"]) {
+              this.router.navigate(['/pages/' + data.href + '/' + params["id"]])
+            }
+            else if (data.href.includes('https://www')) {
+              this.router.navigate([data.href]);
+            }
+            else {
+              this.router.navigate(['/pages/' + data.href]);
+            }
+          });
+        }
+        break;
+    }
   }
 }
