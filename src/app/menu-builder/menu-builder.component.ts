@@ -788,14 +788,10 @@ export class MenuBuilderComponent implements OnInit {
       // "applicationId": mainApplicationId.length > 0 ? mainApplicationId[0].id : "",
       "selectedTheme": JSON.stringify(temporaryData)
     };
-    const tableValue = `Menu`;
-    const menuModel = {
-      [tableValue]: data
-    }
     // data.selectedTheme.allMenuItems = [];
     if (this.applicationId == '') {
       const { newGuid, metainfocreate } = this.socketService.metainfocreate();
-      const Add = { [`UserMapping`]: data, metaInfo: metainfocreate }
+      const Add = { [`Menu`]: data, metaInfo: metainfocreate }
       this.socketService.Request(Add);
 
       this.socketService.OnResponseMessage().subscribe({

@@ -179,7 +179,7 @@ export class PagesComponent implements OnInit, OnDestroy {
   user: any;
   ngOnInit(): void {
 
-    this.externalLogin = localStorage.getItem('externalLogin') || false;
+    this.externalLogin = localStorage.getItem('externalLogin') || 'false';
     let externalPageLink = this.dataSharedService.decryptedValue('externalLoginLink');
     if (this.externalLogin == 'true' && window.location.pathname != `/${externalPageLink}`) {
       return;
@@ -306,7 +306,7 @@ export class PagesComponent implements OnInit, OnDestroy {
           this.dataSharedService.currentMenuLink = "/pages/" + params["schema"];
           localStorage.setItem('screenId', this.dataSharedService.currentMenuLink);
           this.clearValues();
-          if (!this.externalLogin) {
+          if (this.externalLogin == 'false') {
             const { jsonData, newGuid } = this.socketService.makeJsonDataById('CheckUserScreen', params["schema"], 'CheckUserScreen');
             this.socketService.Request(jsonData);
             this.socketService.OnResponseMessage().subscribe(res => {
@@ -489,80 +489,13 @@ export class PagesComponent implements OnInit, OnDestroy {
       }
     }
     let nodesData1 = this.jsonParseWithObject(this.jsonStringifyWithObject(this.resData));
-
-    // this.resData = this.jsonParseWithObject(this.jsonStringifyWithObject(data));
     this.dataSharedService.checkContentForFixFooter = this.jsonParseWithObject(this.jsonStringifyWithObject(data));
     if (this.actionRuleList.length > 0) {
-      let getInputs = this.filterInputElements(nodesData1);
-      if (getInputs && getInputs.length > 0) {
-        getInputs.forEach((node) => {
-          const formlyConfig = node.formly?.[0]?.fieldGroup?.[0]?.key;
-          for (let index = 0; index < this.actionRuleList.length; index++) {
-            const element = this.actionRuleList[index];
-            if (formlyConfig == element.componentfrom) {
-              const eventActionConfig = node?.formly?.[0]?.fieldGroup?.[0]?.props;
-              if (eventActionConfig) {
-                if (index == 0) {
-                  eventActionConfig['appConfigurableEvent'] = [];
-                  eventActionConfig['eventActionconfig'] = {};
-                }
-                if (element.action == 'load') {
-                  eventActionConfig['eventActionconfig'] = {};
-                  eventActionConfig['eventActionconfig'] = element;
-                }
-                else {
-                  if (eventActionConfig['appConfigurableEvent']) {
-                    eventActionConfig['appConfigurableEvent'].push(element);
-                  } else {
-                    eventActionConfig['appConfigurableEvent'] = [];
-                    eventActionConfig['appConfigurableEvent'].push(element);
-                  }
-                }
-              }
-            }
-          }
-        });
-      }
-      let checkFirst: any = {};
-      for (let index = 0; index < this.actionRuleList.length; index++) {
-        const element = this.actionRuleList[index];
-        let findObj = this.findObjectByKey(nodesData1[0], element.componentfrom);
-        if (findObj) {
-          if (findObj?.key == element.componentfrom) {
-            if (!checkFirst[findObj?.key]) {
-              findObj['appConfigurableEvent'] = [];
-              findObj['eventActionconfig'] = {};
-              checkFirst[findObj?.key] = "done";
-            }
-            if (element.action == 'load') {
-              findObj.eventActionconfig = element;
-            } else {
-              if (findObj['appConfigurableEvent']) {
-                findObj['appConfigurableEvent'].push(element);
-              } else {
-                findObj['appConfigurableEvent'] = [];
-                findObj['appConfigurableEvent'].push(element);
-              }
-            }
-          }
-        }
-      }
-      // this.getIssues(res.data[0].navigation, res1);
+      nodesData1 = this.bindsActionRules(nodesData1);
       this.resData = nodesData1;
-      // if (res1)
-      //   this.findObjectByTypeAndApplyApplictionTheme(this.resData[0], res1);
     } else
       this.resData = nodesData1;
-    // this.getIssues(res.data[0].navigation, res1);
-    // if (res1)
-    //   this.findObjectByTypeAndApplyApplictionTheme(this.resData[0], res1);
-
-    // const screenData = JSON.parse(this.jsonStringifyWithObject(this.resData));
-
-    this.uiRuleGetData({ key: 'text_f53ed35b', id: 'formly_86_input_text_f53ed35b_0' });
-
-
-
+    // this.uiRuleGetData({ key: 'text_f53ed35b', id: 'formly_86_input_text_f53ed35b_0' });
 
     this.pageRuleList = this.actionRuleList.filter(a => a.componentfrom === this.resData?.[0]?.key && a.action == 'load');
     if (this.tableRowID) {
@@ -2004,6 +1937,9 @@ export class PagesComponent implements OnInit, OnDestroy {
                     this.updateNodes();
                   }
                 }
+
+                this.bindsActionRules(this.resData);
+                this.globalclass(this.resData)
               }
             }
 
@@ -2797,66 +2733,7 @@ export class PagesComponent implements OnInit, OnDestroy {
 
     return data;
   }
-  // captureAndGeneratePDF() {
-  //   // Add a time delay of 2 seconds (2000 milliseconds)
-  //   setTimeout(() => {
-  //     html2canvas(document.body).then((canvas) => {
-  //       // Create PDF
-  //       const pdf = new jsPDF({
-  //         orientation: 'p', // 'p' for portrait, 'l' for landscape
-  //         unit: 'mm', // use millimeters for units
-  //         format: 'a4', // standard paper size
-  //       });
 
-  //       // Convert canvas to image data URL
-  //       const imgData = canvas.toDataURL('image/png');
-
-  //       // Set scale factor for both width and height to fit the entire content within the PDF page
-  //       const scaleFactorWidth = pdf.internal.pageSize.getWidth() / canvas.width;
-  //       const scaleFactorHeight = pdf.internal.pageSize.getHeight() / canvas.height;
-  //       const scaleFactor = Math.min(scaleFactorWidth, scaleFactorHeight);
-
-  //       pdf.addImage(imgData, 'PNG', 0, 0, canvas.width * scaleFactor, canvas.height * scaleFactor);
-
-  //       // Download or display the PDF
-  //       pdf.save('screenshot.pdf');
-  //     });
-  //   }, 2000); // 2000 milliseconds (2 seconds) delay
-  // }
-  // captureAndGeneratePDF() {
-  //   // Add a time delay of 2 seconds (2000 milliseconds)
-  //   setTimeout(() => {
-  //     html2canvas(document.body).then((canvas) => {
-  //       // Convert canvas to image data URL
-  //       const imgData = canvas.toDataURL('image/png');
-  //       this.applicationService.getNestCommonAPI('email/emailPdf').subscribe(((res: any) => {
-  //         this.saveLoader = false;
-
-  //       }));
-  //     });
-  //   }, 2000); // 2000 milliseconds (2 seconds) delay
-  // }
-
-  private addClasses(tagName: string, classesToAdd: string[]): void {
-    // const elements = this.el.nativeElement.querySelectorAll(tagName);
-
-    // elements.forEach((element: HTMLElement) => {
-    //   const existingClasses = Array.from(element.classList);
-
-    //   classesToAdd.forEach(classToAdd => {
-    //     // Split the class name by the '-' character
-    //     const [prefix] = classToAdd.split('-');
-
-    //     // Check if the prefix already exists in the element's classes
-    //     const prefixExists = existingClasses.some(existingClass => existingClass.startsWith(prefix));
-
-    //     if (!prefixExists) {
-    //       // If the prefix doesn't exist, add the new class
-    //       this.renderer.addClass(element, classToAdd);
-    //     }
-    //   });
-    // });
-  }
   applicationThemeData: any[] = [];
   applyApplicationTheme(res1: any, notAllowRuleGet?: any) {
     let user = this.dataSharedService.decryptedValue('user') ? this.dataSharedService.decryptedValue('user') ? JSON.parse(this.dataSharedService.decryptedValue('user')) : null : null;;
@@ -2959,6 +2836,8 @@ export class PagesComponent implements OnInit, OnDestroy {
     }
     return globalClass;
   }
+
+  // <-----------This is used to bind Ui rules----------->
   uiRuleLogic(model: any, index: any, screenData: any, policy: any, currentValue: any, inputType: any, updatedKeyData: any, checkFirst: any) {
     if (model.key == screenData.uiData[index].ifMenuName) {
       checkFirst = true;
@@ -3019,6 +2898,95 @@ export class PagesComponent implements OnInit, OnDestroy {
         this.resData[0].children[1].children = check;
         this.updateNodes();
         this.updateFormlyModel();
+      }
+    }
+  }
+
+  // <-----------This is used to bind action rules----------->
+  bindsActionRules(nodesData1: any) {
+    let getInputs = this.filterInputElements(nodesData1);
+    if (getInputs && getInputs.length > 0) {
+      getInputs.forEach((node) => {
+        const formlyConfig = node.formly?.[0]?.fieldGroup?.[0]?.key;
+        for (let index = 0; index < this.actionRuleList.length; index++) {
+          const element = this.actionRuleList[index];
+          if (formlyConfig == element.componentfrom) {
+            const eventActionConfig = node?.formly?.[0]?.fieldGroup?.[0]?.props;
+            if (eventActionConfig) {
+              if (index == 0) {
+                eventActionConfig['appConfigurableEvent'] = [];
+                eventActionConfig['eventActionconfig'] = {};
+              }
+              if (element.action == 'load') {
+                eventActionConfig['eventActionconfig'] = {};
+                eventActionConfig['eventActionconfig'] = element;
+              }
+              else {
+                if (eventActionConfig['appConfigurableEvent']) {
+                  eventActionConfig['appConfigurableEvent'].push(element);
+                } else {
+                  eventActionConfig['appConfigurableEvent'] = [];
+                  eventActionConfig['appConfigurableEvent'].push(element);
+                }
+              }
+            }
+          }
+        }
+      });
+    }
+    let checkFirst: any = {};
+    for (let index = 0; index < this.actionRuleList.length; index++) {
+      const element = this.actionRuleList[index];
+      let findObj = this.findObjectByKey(nodesData1[0], element.componentfrom);
+      if (findObj) {
+        if (findObj?.key == element.componentfrom) {
+          if (!checkFirst[findObj?.key]) {
+            findObj['appConfigurableEvent'] = [];
+            findObj['eventActionconfig'] = {};
+            checkFirst[findObj?.key] = "done";
+          }
+          if (element.action == 'load') {
+            findObj.eventActionconfig = element;
+          } else {
+            if (findObj['appConfigurableEvent']) {
+              findObj['appConfigurableEvent'].push(element);
+            } else {
+              findObj['appConfigurableEvent'] = [];
+              findObj['appConfigurableEvent'].push(element);
+            }
+          }
+        }
+      }
+    }
+    return nodesData1;
+  }
+
+  // <-----------Apply global class----------->
+
+  globalclass(data: any) {
+    if (data) {
+      if (data.className) {
+        if (data.className.includes('$')) {
+          data['appGlobalClass'] = this.changeWithGlobalClass(data.className);
+        }
+      }
+      if (data?.innerClass) {
+        if (data?.innerClass.includes('$')) {
+          data['appGlobalInnerClass'] = this.changeWithGlobalClass(data?.innerClass);
+        }
+      }
+      if (data?.iconClass) {
+        if (data?.iconClass.includes('$')) {
+          data['appGlobalInnerIconClass'] = this.changeWithGlobalClass(data?.iconClass);
+        }
+      }
+      if (data.children && data.children.length > 0) {
+        for (let child of data.children) {
+          let result: any = this.globalclass(child);
+          if (result !== null) {
+            return result;
+          }
+        }
       }
     }
   }

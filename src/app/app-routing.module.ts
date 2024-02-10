@@ -4,6 +4,7 @@ import { PagesComponent } from './pages/pages.component';
 import { SiteLayoutComponent } from './_layout/site-layout/site-layout.component';
 import { NotFoundComponent } from './auth/not-found/not-found.component';
 import { PermissionDeniedComponent } from './auth/permission-denied/permission-denied.component';
+import { PolicyComponent, PolicyMappingComponent, UserComponent, UserMappingComponent } from './accounts';
 
 const routes: Routes = [
   {
@@ -31,6 +32,23 @@ const routes: Routes = [
         path: 'permission-denied',
         component: PermissionDeniedComponent
       },
+      {
+        path: 'policy',
+        component: PolicyComponent
+      },
+      {
+        path: 'policy-mapping',
+        component: PolicyMappingComponent
+      },
+      {
+        path: 'user-mapping',
+        component: UserMappingComponent
+      },
+      {
+        path: 'user',
+        component: UserComponent
+      },
+    
 
       { path: '**', redirectTo: 'not-found' }
     ]

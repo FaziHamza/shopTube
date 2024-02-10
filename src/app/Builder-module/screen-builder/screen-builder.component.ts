@@ -549,6 +549,20 @@ export class ScreenBuilderComponent implements OnInit {
           },
         ],
       },
+      {
+        fieldGroup: [
+          {
+            className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
+            key: 'noauth',
+            type: 'checkbox',
+            wrappers: ["formly-vertical-theme-wrapper"],
+            props: {
+              label: 'Auth Page',
+            },
+            defaultValue: false
+          }
+        ]
+      }
     ];
   }
   handlePageChange(event: number): void {

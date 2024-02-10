@@ -240,7 +240,7 @@ export class SiteLayoutComponent implements OnInit {
   ngAfterViewInit() {
     setTimeout(() => {
       this.updateHeaderHeight();
-    }, 10000)
+    }, 20000)
 
     // const container = this.footerContainer.nativeElement;
     // if (container.classList.contains('dynamic-footer') || container.classList.contains('dynamic-footer-website')) {
