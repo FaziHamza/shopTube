@@ -1659,7 +1659,7 @@ export class BuilderComponent implements OnInit {
       value == 'fileManager' ||
       value == 'header' ||
       value == 'email' ||
-      value == 'email'
+      value == 'email-template'
     )
       return 'w-full';
     else if (value == 'body') return 'px-6 pt-6 pb-10';
@@ -2563,7 +2563,7 @@ export class BuilderComponent implements OnInit {
         if (apiRes.parseddata.requestId == newGuid && apiRes.parseddata.isSuccess) {
           apiRes = apiRes.parseddata.apidata;
           if (apiRes.isSuccess) {
-            if (apiRes.data) {
+            if (apiRes.data?.length  > 0 && apiRes.data) {
               let response = this.jsonParseWithObject(apiRes.data[0].controljson);
               newNode = this.createControl(response, data, value, res, obj, type)
               this.addNode(node, newNode);

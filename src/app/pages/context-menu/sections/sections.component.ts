@@ -3,7 +3,7 @@ import { NzMessageService } from 'ng-zorro-antd/message';
 import { Subscription } from 'rxjs';
 import { TreeNode } from 'src/app/models/treeNode';
 import { DataSharedService } from 'src/app/services/data-shared.service';
-import {ref,string,date,any,number,object} from 'joi';
+import { ref, string, date, any, number, object } from 'joi';
 
 
 import { DataService } from 'src/app/services/offlineDb.service';
@@ -259,7 +259,9 @@ export class SectionsComponent implements OnInit {
                     this.router.navigate(['/pages/' + data.saveRouteLink]).then(() => {
                       // Reload the entire application to re-render all components
                       this.location.replaceState('/pages/' + data.saveRouteLink);
-                      window.location.reload();
+                      let externalLogin = localStorage.getItem('externalLogin') || false;
+                      if (!externalLogin)
+                        window.location.reload();
                     });
                   } else {
                     let tableData = this.findObjectByTypeBase(this.sections, "gridList");
@@ -271,7 +273,7 @@ export class SectionsComponent implements OnInit {
                     this.router.navigate(['/pages/' + data.saveRouteLink]);
                   }
                   return;
-                } else if (data.saveredirect == 'modal'){
+                } else if (data.saveredirect == 'modal') {
                   this.dataSharedService.saveredirect.next(data)
                 }
 
@@ -385,10 +387,10 @@ export class SectionsComponent implements OnInit {
       for (const key in this.tempTableData) {
         if (this.tempTableData.hasOwnProperty(key)) {
           const getDetailData = this.groupDataDetailTable(this.tempTableData[key]);
-        empData.modalData[key] = getDetailData.data[getDetailData.tableName];
+          empData.modalData[key] = getDetailData.data[getDetailData.tableName];
         }
       }
-      
+
     }
     console.log(empData.modalData)
     id = data?.dataTable ? empData.modalData[data?.dataTable + '.id'] : id;

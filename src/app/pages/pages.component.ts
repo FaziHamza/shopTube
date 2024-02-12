@@ -180,10 +180,10 @@ export class PagesComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
 
     this.externalLogin = localStorage.getItem('externalLogin') || 'false';
-    let externalPageLink = this.dataSharedService.decryptedValue('externalLoginLink');
-    if (this.externalLogin == 'true' && window.location.pathname != `/${externalPageLink}`) {
-      return;
-    }
+    // let externalPageLink = this.dataSharedService.decryptedValue('externalLoginLink');
+    // if (this.externalLogin == 'true' && window.location.pathname != `/${externalPageLink}`) {
+    //   return;
+    // }
     this.initHighlightFalseSubscription();
     this.initPageSubmitSubscription();
     this.initEventChangeSubscription();
@@ -312,6 +312,10 @@ export class PagesComponent implements OnInit, OnDestroy {
             this.socketService.OnResponseMessage().subscribe(res => {
               if (res.parseddata.requestId == newGuid && res.parseddata.isSuccess) {
                 res = res.parseddata.apidata;
+                let externalPageLink = this.dataSharedService.decryptedValue('externalLoginLink');
+                if (this.externalLogin == 'true' && window.location.pathname != `/${externalPageLink}` && !res?.isSuccess) {
+                  return;
+                }
                 if (res?.isSuccess) {
                   this.initiliaze(params);
                 } else {
