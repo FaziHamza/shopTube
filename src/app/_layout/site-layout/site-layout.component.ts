@@ -325,11 +325,11 @@ export class SiteLayoutComponent implements OnInit {
               this.currentHeader = res.data['header'] ? res.data['header']['screendata'] : '';
               this.currentFooter = res.data['footer'] ? res.data['footer']['screendata'] : '';
               if (res.data['menu']) {
-                if (res.data['menu']?.selectedtheme) {
-                  this.selectedTheme = res.data['menu'].selectedtheme;
-                  // const theme = res.data['menu'].selectedtheme;
-                  // this.selectedTheme['isCollapsed'] = !theme['isCollapsed'];
-                }
+                // if (res.data['menu']?.selectedtheme) {
+                //   this.selectedTheme = res.data['menu'].selectedtheme;
+                //   // const theme = res.data['menu'].selectedtheme;
+                //   // this.selectedTheme['isCollapsed'] = !theme['isCollapsed'];
+                // }
                 if (!window.location.href.includes('/menu-builder')) {
                   this.isShowContextMenu = true;
                   let getMenu = res.data['menu'] ? res.data['menu']['menudata']?.json : '';
