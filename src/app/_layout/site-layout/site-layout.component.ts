@@ -92,17 +92,11 @@ export class SiteLayoutComponent implements OnInit {
 
 
   ngOnInit(): void {
-
-    // localStorage.setItem('externalLogin', 'false');
     this.dataSharedService.measureHeight = 0;
     // this.getTaskManagementIssuesFunc(JSON.parse(localStorage.getItem('applicationId')!));
 
     this.currentUser = this.dataSharedService.decryptedValue('user') ? JSON.parse(this.dataSharedService.decryptedValue('user')) : null;
-    let externalLogin = localStorage.getItem('externalLogin') || false;
-    // if (externalLogin == 'true') {
-    //   this.externalLogin = true;
-    //   this.router.navigate(['permission-denied']);
-    // }
+    let externalLogin = this.dataSharedService.decryptedValue('externalLogin') ? JSON.parse(this.dataSharedService.decryptedValue('externalLogin')).login : false;
     this.requestSubscription = this.dataSharedService.collapseMenu.subscribe({
       next: (res) => {
         if (res) {
@@ -146,8 +140,8 @@ export class SiteLayoutComponent implements OnInit {
         if (response.parseddata.requestId == newGuid && response.parseddata.isSuccess) {
           response = response.parseddata.apidata;
           if (response.isSuccess) {
-            // localStorage.setItem('isLoggedIn', 'true');
-            localStorage.setItem('externalLogin', 'false');
+            let external: any = { login: false, submit: false, link: '', }
+            this.dataSharedService.ecryptedValue('externalLogin', JSON.stringify(external), true);
             this.authService.setAuth(response.data);
             this.getMenuByDomainName(this.currentUrl, true);
             this.router.navigate([window.location.pathname]);
@@ -160,27 +154,15 @@ export class SiteLayoutComponent implements OnInit {
             else {
               this.jwtService.saveToken(getToken);
               window.localStorage['authToken'] = JSON.stringify(getToken);
-              this.jwtService.ecryptedValue('externalLoginLink', response.data[0].pageLink, true);
-              this.jwtService.ecryptedValue('username', response.data[0].username, true);
-              localStorage.setItem('externalLogin', 'true');
+              let external: any = {
+                login: true, submit: false, link: response.data[0].pageLink,
+              }
+              this.globalTheme();
+              this.dataSharedService.ecryptedValue('externalLogin', JSON.stringify(external), true);
+              this.dataSharedService.ecryptedValue('username', response.data[0].username, true);
               this.externalLogin = true;
               this.router.navigate([window.location.pathname]);
-              window.localStorage['externalPageLink'] = JSON.stringify(getToken);
-              const { jsonData, newGuid } = this.socketService.makeJsonData('applicationglobalclass', 'GetModelType');
-              this.socketService.Request(jsonData);
-              this.socketService.OnResponseMessage().subscribe({
-                next: (res: any) => {
-                  if (res.parseddata.requestId == newGuid && res.parseddata.isSuccess) {
-                    res = res.parseddata.apidata;
-                    this.dataSharedService.applicationGlobalClass = res.data;
-                    this.loader = false;
-                  }
-                },
-                error: (err) => {
-                  // this.toastr.error(`Screen : An error occured`, { nzDuration: 3000 });
-                  this.loader = false;
-                },
-              });
+
             }
           }
         }
@@ -188,7 +170,7 @@ export class SiteLayoutComponent implements OnInit {
       })
     }
     else {
-      if (externalLogin == 'false') {
+      if (externalLogin == false) {
         this.getMenuByDomainName(this.currentUrl, true);
         this.requestSubscription = this.dataSharedService.urlModule.subscribe(({ aplication, module }) => {
 
@@ -214,8 +196,9 @@ export class SiteLayoutComponent implements OnInit {
         });
       }
       else {
-        let externalPageLink = this.dataSharedService.decryptedValue('externalLoginLink');
+        let externalPageLink = this.dataSharedService.decryptedValue('externalLogin') ? JSON.parse(this.dataSharedService.decryptedValue('externalLogin')).link : '';
         if (window.location.pathname == `/${externalPageLink}`) {
+          this.globalTheme();
           this.router.navigate([window.location.pathname]);
         } else {
           this.router.navigate(['/permission-denied']);
@@ -699,5 +682,22 @@ export class SiteLayoutComponent implements OnInit {
 
     return null;
   }
+  globalTheme() {
+    const { jsonData, newGuid } = this.socketService.makeJsonData('applicationglobalclass', 'GetModelType');
+    this.socketService.Request(jsonData);
+    this.socketService.OnResponseMessage().subscribe({
+      next: (res: any) => {
+        if (res.parseddata.requestId == newGuid && res.parseddata.isSuccess) {
+          res = res.parseddata.apidata;
+          this.dataSharedService.applicationGlobalClass = res.data;
+          this.loader = false;
+        }
+      },
+      error: (err) => {
+        this.loader = false;
+      },
+    });
+  }
+
 }
 

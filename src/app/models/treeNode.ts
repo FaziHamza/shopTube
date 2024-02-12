@@ -420,7 +420,7 @@ export interface TreeNode {
   nzShowPagination?: any;
   showColumnHeader?: any;
   pattern?: any;
-  emailTypeAllow?: any;
+  emailtypeallow?: any;
   shape?: any;
   reference?: string;
   minlength?: number;

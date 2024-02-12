@@ -13250,7 +13250,7 @@ export class formFeildData {
       fieldGroup: [
         {
           className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
-          key: '_id',
+          key: 'id',
           type: 'input',
           wrappers: ["formly-vertical-theme-wrapper"],
           props: {
@@ -13300,7 +13300,7 @@ export class formFeildData {
           template: '<div class="mt-3"></div>'
         },
         {
-          key: 'emailTypeAllow',
+          key: 'emailtypeallow',
           type: 'multiselect',
           className: "w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2",
           wrappers: ["formly-vertical-theme-wrapper"],
@@ -13322,7 +13322,8 @@ export class formFeildData {
               serveSearch: true,
               showArrow: true,
               showSearch: true,
-              selectType: 'tags'
+              selectType: 'tags',
+              maxMultipleCount:2,
             },
           },
           expressionProperties: {
@@ -13394,7 +13395,7 @@ export class formFeildData {
           }
         },
         // {
-        //   key: 'emailTypeAllow',
+        //   key: 'emailtypeallow',
         //   type: 'repeatSection',
         //   props: {
         //     canAdd: true,

@@ -405,8 +405,8 @@ export class ButtonsComponent implements OnInit {
         }
         this.loader = true;
         this.isVisible = true;
-        let externalLogin = localStorage.getItem('externalLogin') || false;
-        if (externalLogin == 'false') {
+        let externalLogin = this.dataSharedService.decryptedValue('externalLogin') ? JSON.parse(this.dataSharedService.decryptedValue('externalLogin')).login : false;
+        if (externalLogin == false) {
           const { jsonData, newGuid } = this.socketService.makeJsonDataById('CheckUserScreen', link, 'CheckUserScreen');
           this.socketService.Request(jsonData);
           this.socketService.OnResponseMessage().subscribe(res => {

@@ -2563,7 +2563,7 @@ export class BuilderComponent implements OnInit {
         if (apiRes.parseddata.requestId == newGuid && apiRes.parseddata.isSuccess) {
           apiRes = apiRes.parseddata.apidata;
           if (apiRes.isSuccess) {
-            if (apiRes.data?.length  > 0 && apiRes.data) {
+            if (apiRes.data?.length > 0 && apiRes.data) {
               let response = this.jsonParseWithObject(apiRes.data[0].controljson);
               newNode = this.createControl(response, data, value, res, obj, type)
               this.addNode(node, newNode);
@@ -2874,10 +2874,15 @@ export class BuilderComponent implements OnInit {
       commonData: [validationObj]
     });
     if (this.joiValidationData.length > 0) {
-      let getJoiRule = this.joiValidationData.find(
+      let getJoiRule: any = this.joiValidationData.find(
         (a) => a.cid == this.selectedNode.id
       );
-      if (getJoiRule) this.validationFieldData.modelData = getJoiRule;
+      if (typeof getJoiRule.emailtypeallow === 'string'){
+        getJoiRule.emailtypeallow = getJoiRule.emailtypeallow ? (getJoiRule.emailtypeallow.includes(',') ? getJoiRule.emailtypeallow.split(',') : [getJoiRule.emailtypeallow]) : []
+      }
+      if (getJoiRule) {
+        this.validationFieldData.modelData = getJoiRule;
+      }
     }
     let veriableOptions: any[] = [];
     if (this.nodes?.[0]?.options) {
@@ -4955,32 +4960,28 @@ export class BuilderComponent implements OnInit {
             "maxlength": event.form.maxlength,
             "pattern": event.form.pattern,
             "required": event.form.required,
-            "emailtypeallow": event.form.emailTypeAllow,
+            "emailtypeallow": event.form.emailtypeallow.join(','),
             "applicationid": this.selectApplicationName,
           }
           var JOIData = JSON.parse(JSON.stringify(jsonRuleValidation) || '{}');
-          // const validationRuleModel = {
-          //   [tableValue]: JOIData
-          // }
-          // const checkAndProcess = this.validationRuleId == ''
-          const tableValue = `ValidationRule`;
           var ResponseGuid: any;
-          if (!event.form.id) {
+          if (!this.validationRuleId) {
             const { newGuid, metainfocreate } = this.socketService.metainfocreate();
             ResponseGuid = newGuid;
-            const Add = { [tableValue]: JOIData, metaInfo: metainfocreate }
+            const Add = { [`ValidationRule`]: JOIData, metaInfo: metainfocreate }
             this.socketService.Request(Add);
           }
           else {
-            const { newUGuid, metainfoupdate } = this.socketService.metainfoupdate(event.form.id);
+            const { newUGuid, metainfoupdate } = this.socketService.metainfoupdate(this.validationRuleId);
             ResponseGuid = newUGuid;
-            const Update = { [tableValue]: JOIData, metaInfo: metainfoupdate };
+            const Update = { [`ValidationRule`]: JOIData, metaInfo: metainfoupdate };
             this.socketService.Request(Update)
           }
 
           this.socketService.OnResponseMessage().subscribe({
             next: (res: any) => {
               if (res.parseddata.requestId == ResponseGuid && res.parseddata.isSuccess) {
+                res = res.parseddata.apidata;
                 if (res.isSuccess) {
                   this.getJoiValidation(this.id);
                   this.toastr.success(`Valiadation Rule : ${res.message}`, { nzDuration: 3000 });
@@ -5205,7 +5206,7 @@ export class BuilderComponent implements OnInit {
         break;
       case 'fixedDiv':
         if (event.form.api) {
-          
+
         }
         break;
       case 'chart':
@@ -5305,7 +5306,7 @@ export class BuilderComponent implements OnInit {
           }
 
           if (event.form.kanbanTaskApi != undefined) {
-            
+
           }
           this.updateNodes();
         }
@@ -6374,7 +6375,7 @@ export class BuilderComponent implements OnInit {
       });
     }
   }
- 
+
   selectedDownloadJson() {
     if (!this.screenPage) {
       this.toastr.warning('Please Select Screen', { nzDuration: 3000 });
@@ -7097,23 +7098,6 @@ export class BuilderComponent implements OnInit {
       }
 
     });
-
-
-    // this.applicationService.deleteNestNewCommonAPI(`cp/ValidationRule`, data.modelData.id).subscribe({
-    //   next: (res: any) => {
-    //     if (res.isSuccess) {
-    //       this.validationRuleId = '';
-    //       this.validationFieldData.modelData = {};
-    //       this.getJoiValidation(this.id);
-    //       this.toastr.success(`Valiadation Rule : ${res.message}`, { nzDuration: 3000 });
-    //     }
-    //     else
-    //       this.toastr.success(`Valiadation Rule : ${res.message}`, { nzDuration: 3000 });
-    //   },
-    //   error: () => {
-    //     this.toastr.error('Delete data unhandler', { nzDuration: 3000 });
-    //   }
-    // })
   }
   checkPage() {
 
@@ -7126,7 +7110,7 @@ export class BuilderComponent implements OnInit {
 
     }
   }
-  
+
   //Fazi code
   nzEvent(event: NzFormatEmitEvent): void {
 

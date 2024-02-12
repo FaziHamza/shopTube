@@ -4,14 +4,11 @@ import { Subscription } from 'rxjs';
 import { TreeNode } from 'src/app/models/treeNode';
 import { DataSharedService } from 'src/app/services/data-shared.service';
 import { ref, string, date, any, number, object } from 'joi';
-
-
-import { DataService } from 'src/app/services/offlineDb.service';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { ElementData } from 'src/app/models/element';
 import { Location } from '@angular/common';
 import { SocketService } from 'src/app/services/socket.service';
-
+import * as Joi from 'joi';
 
 @Component({
   selector: 'st-sections',
@@ -47,28 +44,6 @@ export class SectionsComponent implements OnInit {
   ngOnInit(): void {
     this.clearValues();
     this.screenName;
-    // let btnData = this.findObjectByTypeBase(this.sections, "butto  n");
-    // if (btnData) {
-    //   this.getFromQuery(btnData);
-
-    // }
-    // else {
-    //   let gridListData = this.findObjectByTypeBase(this.sections, "gridList");
-    //   if (gridListData) {
-    //     // this.getFromQueryOnlyTable(gridListData);
-    //   }  
-    // }
-    // this.dataSharedService.sectionSubmit.pipe(
-    //   take(1),
-    //   catchError((error) => {
-
-    //     this.dataSharedService.sectionSubmit.next('Your custom error message');
-    //     return throwError(error); // Rethrow the error to be handled by the component
-    //   })
-    // ).subscribe((buttonData) => {
-    //   // Your subscription logic here
-    // });
-    // 
     this.requestSubscription = this.dataSharedService.sectionSubmit.subscribe({
       next: (res) => {
         if (res && this.dataSharedService.buttonData) {
@@ -126,19 +101,6 @@ export class SectionsComponent implements OnInit {
         console.error(err);
       }
     })
-    // this.requestSubscription = this.dataSharedService.taskmanager.subscribe({
-    //   next: (res) => {
-    //     ;
-    //     let gridListData = this.findObjectByTypeBase(this.sections, "gridList");
-    //     if (gridListData) {
-    //       this.getFromQuery(gridListData);
-    //     }
-    //   },
-    //   error: (err) => {
-    //     console.error(err);
-    //   }
-    // });
-
   }
   getValueFromNestedObject(key: string, obj: any): any {
     const keys = key.split('.');
@@ -247,6 +209,14 @@ export class SectionsComponent implements OnInit {
                 //   this.toastr.error(res.message, { nzDuration: 3000 });
                 //   return;
                 // }
+                let externalLogin = this.dataSharedService.decryptedValue('externalLogin') ? JSON.parse(this.dataSharedService.decryptedValue('externalLogin')) : null;
+                if (externalLogin) {
+                  if (externalLogin) {
+                    externalLogin['submit'] = true;
+                    this.dataSharedService.ecryptedValue('externalLogin', JSON.stringify(externalLogin), true);
+                  }
+                }
+
                 const successMessage = (model.postType === 'post') ? 'Save Successfully' : 'Update Successfully';
                 this.toastr.success(successMessage, { nzDuration: 3000 });
 
@@ -259,8 +229,7 @@ export class SectionsComponent implements OnInit {
                     this.router.navigate(['/pages/' + data.saveRouteLink]).then(() => {
                       // Reload the entire application to re-render all components
                       this.location.replaceState('/pages/' + data.saveRouteLink);
-                      let externalLogin = localStorage.getItem('externalLogin') || false;
-                      if (!externalLogin)
+                      if (!externalLogin && externalLogin != 'false')
                         window.location.reload();
                     });
                   } else {
@@ -859,126 +828,6 @@ export class SectionsComponent implements OnInit {
 
     return result;
   }
-  // async getFromQueryOnlyTable(tableData: any) {
-  //   
-  //   const findClickApi = tableData?.appConfigurableEvent?.filter((item: any) =>
-  //     item.actions.some((action: any) => action.method === 'get' && (action.actionType === 'api' || action.actionType === 'query'))
-  //   );
-
-  //   if (!findClickApi) { return };
-  //   if (findClickApi) {
-  //     if (findClickApi.length > 0) {
-  //       let apiUrl = '';
-  //       for (let index = 0; index < findClickApi.length; index++) {
-  //         let element = findClickApi[index].actions?.[0]?.actionType;
-  //         if (element == 'query') {
-  //           apiUrl = `knex-query/getAction/${findClickApi[index].actions?.[0]?.id}`;
-  //           break;
-  //         } else {
-  //           apiUrl = `knex-query/getAction/${findClickApi[index].actions?.[0]?.id}`
-  //         }
-  //       }
-  //       const pagination = tableData.serverSidePagination ? `?page=1&pageSize=${tableData?.end}` : '';
-  //       this.saveLoader = true;
-  //       if (apiUrl) {
-  //         const applicationId = localStorage.getItem('applicationId') || '';
-  //         let savedGroupData = await this.dataService.getNodes(JSON.parse(applicationId), this.screenName, "Table");
-  //         this.employeeService.getSQLDatabaseTable(apiUrl + pagination).subscribe({
-  //           next: (res) => {
-  //             if (res) {
-  //               if (tableData && res?.isSuccess && res?.data.length > 0) {
-  //                 this.saveLoader = false;
-  //                 if (apiUrl.includes('/userComment')) {
-
-  //                   const requiredData = res.data.map(({ __v, id, ...rest }: any) => ({
-  //                     expand: false,
-  //                     id: id,
-  //                     ...rest,
-  //                   }));
-  //                   res.data = JSON.parse(JSON.stringify(requiredData));
-  //                 }
-
-  //                 tableData.tableData = res.data.map((element: any) => ({ ...element, id: element.id?.toString() }));
-  //                 if (!tableData.end) {
-  //                   tableData.end = 10;
-  //                 }
-  //                 tableData.pageIndex = 1;
-  //                 tableData.totalCount = res.data.length;
-  //                 tableData.serverApi = apiUrl;
-  //                 tableData.targetId = '';
-  //                 tableData.displayData = tableData.tableData.length > tableData.end ? tableData.tableData.slice(0, tableData.end) : tableData.tableData;
-  //                 if (tableData.tableHeaders.length === 0) {
-  //                   tableData.tableHeaders = Object.keys(tableData.tableData[0] || {}).map(key => ({ name: key, key: key }));
-  //                   tableData['tableKey'] = tableData.tableHeaders;
-  //                 }
-  //                 else {
-  //                   const tableKey = Object.keys(tableData.tableData[0] || {}).map(key => ({ name: key }));
-  //                   if (JSON.stringify(tableData['tableKey']) !== JSON.stringify(tableKey)) {
-  //                     const updatedData = tableKey.filter(updatedItem =>
-  //                       !tableData.tableHeaders.some((headerItem: any) => headerItem.name === updatedItem.name)
-  //                     );
-  //                     if (updatedData.length > 0) {
-  //                       updatedData.forEach(updatedItem => {
-  //                         tableData.tableHeaders.push({ id: tableData.tableHeaders.length + 1, key: updatedItem.name, name: updatedItem.name, });
-  //                       });
-  //                       tableData['tableKey'] = tableData.tableHeaders;
-  //                     }
-  //                   }
-
-  //                 }
-  //                 let CheckKey = tableData.tableHeaders.find((head: any) => !head.key)
-  //                 if (CheckKey) {
-  //                   for (let i = 0; i < tableData.tableHeaders.length; i++) {
-  //                     if (!tableData.tableHeaders[i].hasOwnProperty('key')) {
-  //                       tableData.tableHeaders[i].key = tableData.tableHeaders[i].name;
-  //                     }
-  //                   }
-  //                 }
-  //                 if (savedGroupData.length > 0) {
-  //                   let getData = savedGroupData[savedGroupData.length - 1];
-  //                   if (getData.data.length > 0) {
-  //                     let groupingArray: any = [];
-  //                     let updateTableData: any = [];
-  //                     getData.data.forEach((elem: any) => {
-  //                       let findData = tableData.tableHeaders.find((item: any) => item.key == elem);
-  //                       if (findData) {
-  //                         updateTableData = this.groupedFunc(elem, 'add', findData, groupingArray, tableData.displayData, tableData.tableData, tableData.tableHeaders);
-  //                       }
-  //                     })
-  //                     tableData.tableData = updateTableData;
-  //                     tableData.displayData = tableData.tableData.length > tableData.end ? tableData.tableData.slice(0, tableData.end) : tableData.tableData;
-  //                     tableData.tableHeaders.unshift({
-  //                       name: 'expand',
-  //                       key: 'expand',
-  //                       title: 'Expand',
-  //                     });
-  //                     tableData.totalCount = tableData.tableData
-  //                   } else {
-  //                     tableData.tableHeaders = tableData.tableHeaders.filter((head: any) => head.key != 'expand')
-  //                   }
-  //                 }
-  //                 else {
-  //                   //if data is not stored in index db then remove expand column
-  //                   tableData.tableHeaders = tableData.tableHeaders.filter((head: any) => head.key != 'expand')
-  //                 }
-
-
-
-  //               }
-  //               this.saveLoader = false;
-  //             }
-  //             this.saveLoader = false;
-  //           },
-  //           error: (error: any) => {
-  //             console.error(error);
-  //             this.toastr.error("An error occurred", { nzDuration: 3000 });
-  //             this.saveLoader = false;
-  //           }
-  //         });
-  //       }
-  //     }
-  //   }
-  // }
 
   gridRulesData: any;
   assignGridRules(data: any) {
@@ -1474,60 +1323,48 @@ export class SectionsComponent implements OnInit {
     }
   };
   submit() {
-
-    // this.commonChartService.submit();
-    // this.cd.detectChanges();
-    // this.joiService.dataModel = this.dataModel;
-    // this.joiService.submit();
     this.dataModel = this.formlyModel;
-    // this.formlyModel = this.dataModel;
-    // this.joiValidation();
-    // if (this.validationCheckStatus.length === 0) {
-    //   this.dataModel;
-    //   console.log(this.dataModel);
-    //   this.dataModel
-    // }
-    // else {
-    //   alert(this.validationCheckStatus);
-    // }
   }
   joiValidation() {
-
     let modelObj: any = [];
     this.ruleValidation = {};
     let filterdFormly: any = this.filterInputElements(this.sections.children[1].children);
     let filteredInputNodes = filterdFormly.filter((item: any) => !item.hideExpression);
     if (this.joiValidationData.length > 0) {
+      let detailTableKeys: string[] = Object.keys(this.tempTableData);
       for (let j = 0; j < filteredInputNodes.length; j++) {
         if (filteredInputNodes[j].formlyType != undefined) {
           let jsonScreenRes: any = this.joiValidationData.filter(a => a.key == filteredInputNodes[j].formly[0].fieldGroup[0].key);
           if (jsonScreenRes.length > 0) {
+            if (detailTableKeys.includes(jsonScreenRes[0].key.split('.')[0])) {
+              return;
+            }
             const getKeyValue = jsonScreenRes[0].key.includes('.') ? this.formlyModel[jsonScreenRes[0].key.split('.')[0]][jsonScreenRes[0].key.split('.')[1]] : this.formlyModel[jsonScreenRes[0].key];
             if (jsonScreenRes[0].type === "text") {
               const { minlength, maxlength } = jsonScreenRes[0];
               const minLimit: any = typeof minlength !== 'undefined' ? minlength : 0;
               const maxLimit: any = typeof maxlength !== 'undefined' ? maxlength : 0;
               // this.ruleObj = {
-              //   [jsonScreenRes[0].key]: string().min(parseInt(minLimit, 10)).max(parseInt(maxLimit, 10)),
+              //   [jsonScreenRes[0].key]: Joi.string().min(parseInt(minLimit, 10)).max(parseInt(maxLimit, 10)),
               // };
               modelObj[jsonScreenRes[0].key] = getKeyValue && typeof getKeyValue === 'string' ? getKeyValue.trim() : getKeyValue;
               if (!minLimit && !maxLimit) {
                 if (modelObj[jsonScreenRes[0].key] instanceof Date) {
                   this.ruleObj = {
-                    [jsonScreenRes[0].key]: date().iso().required()
+                    [jsonScreenRes[0].key]: Joi.date().iso().required()
                   };
                 } else if (typeof modelObj[jsonScreenRes[0].key] === 'string') {
                   this.ruleObj = {
-                    [jsonScreenRes[0].key]: string().required()
+                    [jsonScreenRes[0].key]: Joi.string().required()
                   };
                 } else {
                   this.ruleObj = {
-                    [jsonScreenRes[0].key]: any().required()
+                    [jsonScreenRes[0].key]: Joi.any().required()
                   };
                 }
               }
               else {
-                let schema = string();
+                let schema = Joi.string();
 
                 if (minlength !== undefined) {
                   schema = schema.min(parseInt(minlength, 10));
@@ -1545,7 +1382,7 @@ export class SectionsComponent implements OnInit {
               modelObj[jsonScreenRes[0].key] = getKeyValue;
               const { minlength, maxlength } = jsonScreenRes[0];
 
-              let schema = number().integer();
+              let schema = Joi.number().integer();
 
               if (minlength !== undefined) {
                 schema = schema.min(parseInt(minlength, 10));
@@ -1564,7 +1401,7 @@ export class SectionsComponent implements OnInit {
               modelObj[jsonScreenRes[0].key] = jsonScreenRes[0].key.includes('.') ? this.formlyModel[jsonScreenRes[0].key.split('.')[0]][jsonScreenRes[0].key.split('.')[1]] : this.formlyModel[jsonScreenRes[0].key];
 
               this.ruleObj = {
-                [jsonScreenRes[0].key]: string().pattern(new RegExp(jsonScreenRes[0].pattern)),
+                [jsonScreenRes[0].key]: Joi.string().pattern(new RegExp(jsonScreenRes[0].pattern)),
               }
             }
             else if (jsonScreenRes[0].type == "reference") {
@@ -1572,19 +1409,18 @@ export class SectionsComponent implements OnInit {
 
               modelObj[jsonScreenRes[0].reference] = this.formlyModel[jsonScreenRes[0].reference];
               this.ruleObj = {
-                [jsonScreenRes[0].key]: ref(typeof jsonScreenRes[0].reference !== 'undefined' ? jsonScreenRes[0].reference : ''),
+                [jsonScreenRes[0].key]: Joi.ref(typeof jsonScreenRes[0].reference !== 'undefined' ? jsonScreenRes[0].reference : ''),
               }
             }
             else if (jsonScreenRes[0].type == "email") {
               modelObj[jsonScreenRes[0].key] = jsonScreenRes[0].key.includes('.') ? this.formlyModel[jsonScreenRes[0].key.split('.')[0]][jsonScreenRes[0].key.split('.')[1]] : this.formlyModel[jsonScreenRes[0].key];
-
-              // this.ruleObj = {
-              //   [jsonScreenRes[0].key]: string().email({ minDomainSegments: jsonScreenRes[0].emailtypeallow.length, tlds: { allow: jsonScreenRes[0].emailtypeallow } }),
-              // }
-              const emailtypeallow = Array.isArray(jsonScreenRes[0].emailtypeallow) ? jsonScreenRes[0].emailtypeallow : [];
-              const minDomainSegments = Math.max(0, Number.isInteger(jsonScreenRes[0].emailtypeallow.length) ? jsonScreenRes[0].emailtypeallow.length : 0);
+              let emailtypeallow = jsonScreenRes[0].emailtypeallow
+              if (typeof emailtypeallow === 'string') {
+                emailtypeallow = emailtypeallow ? (emailtypeallow.includes(',') ? emailtypeallow.split(',') : [emailtypeallow]) : []
+              }
+              const minDomainSegments = Math.max(0, Number.isInteger(emailtypeallow.length) ? emailtypeallow.length : 0);
               const schema = {
-                [jsonScreenRes[0].key]: string().email({ minDomainSegments, tlds: { allow: emailtypeallow } }),
+                [jsonScreenRes[0].key]: Joi.string().email({ minDomainSegments, tlds: { allow: emailtypeallow } }),
               };
               this.ruleObj = schema;
             }
@@ -1593,7 +1429,7 @@ export class SectionsComponent implements OnInit {
         }
 
       }
-      this.schemaValidation = object(Object.assign({}, this.ruleValidation));
+      this.schemaValidation = Joi.object(Object.assign({}, this.ruleValidation));
       this.validationChecker(modelObj);
 
     }

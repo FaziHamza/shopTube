@@ -25,7 +25,7 @@ export class GenericFieldComponent implements OnInit {
   @Output() notify: EventEmitter<any> = new EventEmitter<any>();
   @Output() deleteValidation: EventEmitter<any> = new EventEmitter<any>();
   requestSubscription: Subscription;
-  showMappingTable : boolean = false;
+  showMappingTable: boolean = false;
   resData: any;
   saveLoader: boolean = false;
   publicList: object[] = [
@@ -37,7 +37,7 @@ export class GenericFieldComponent implements OnInit {
 
   constructor(private toastr: NzMessageService, private _dataSharedService: DataSharedService,
     public socketService: SocketService,
-    ) { }
+  ) { }
   ngOnInit(): void {
     this.requestSubscription = this._dataSharedService.gericFieldLoader.subscribe(res => {
       this.saveLoader = res;
@@ -92,12 +92,7 @@ export class GenericFieldComponent implements OnInit {
 
   }
   onSubmit() {
-debugger
-    // event.stopPropagation();
-    // this.valueChange.emit(this.model + ' from child.');
-    // const newProduct = { productName: "New", quantity: 666 };
-    // this.publicList.push(newProduct);
-    // this.model["redirection"]="sss"
+    debugger
     var formData: any;
     if (this.type == "inputValidationRule") {
       formData = {
@@ -113,20 +108,17 @@ debugger
 
     if (this.actionform.valid) {
       var currentData = JSON.parse(JSON.stringify(formData) || '{}');
-      for (const key in currentData.form) {
-        if (Array.isArray(currentData.form[key])) {
-          currentData.form[key] = this._dataSharedService.getData();
+      if (this.type != "inputValidationRule") {
+        for (const key in currentData.form) {
+          if (Array.isArray(currentData.form[key])) {
+            currentData.form[key] = this._dataSharedService.getData();
+          }
+        }
+        if (this._dataSharedService.getData()) {
+          currentData["tableDta"] = this._dataSharedService.getData();
         }
       }
-      if (this._dataSharedService.getData()) {
-        currentData["tableDta"] = this._dataSharedService.getData();
-      }
-      // if (this.resData) {
-      //   currentData["dbData"] = this.resData;
-      // }
       this.notify.emit(currentData);
-      // this.check(currentData);
-
     }
     else {
       this.toastr.error('In key no space allow, only underscore allow and lowercase', { nzDuration: 3000 });

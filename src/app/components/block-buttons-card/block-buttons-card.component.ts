@@ -5,6 +5,7 @@ import { NzButtonSize } from 'ng-zorro-antd/button';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { Router } from '@angular/router';
 import { SocketService } from 'src/app/services/socket.service';
+import { DataSharedService } from 'src/app/services/data-shared.service';
 
 @Component({
   selector: 'st-block-buttons-card',
@@ -34,6 +35,7 @@ export class BlockButtonsCardComponent {
   borderColor: any;
   @Output() tableEmit: EventEmitter<any> = new EventEmitter<any>();
   constructor(private socketService: SocketService, private toastr: NzMessageService, private router: Router,
+    public dataSharedService: DataSharedService
   ) { }
   ngOnInit(): void {
     this.hoverTextColor = this.softIconList?.color;
@@ -41,16 +43,6 @@ export class BlockButtonsCardComponent {
     this.borderColor = this.softIconList?.textColor;
   }
 
-
-  getButtonType(type: any) {
-    console.log(type);
-    // if(type == 'insert')
-    //   this.insertData('insert');
-    // else if(type == 'update')
-    //   this.updateData('update')
-    // else if(type == 'delete')
-    //   this.deleteData('delete')
-  }
 
   isVisible = false;
 
@@ -60,8 +52,8 @@ export class BlockButtonsCardComponent {
     let url = window.location.origin;
     if (href) {
       if (routeType == 'modal') {
-        let externalLogin = localStorage.getItem('externalLogin') || false;
-        if (externalLogin == 'false') {
+        let externalLogin = this.dataSharedService.decryptedValue('externalLogin') ? JSON.parse(this.dataSharedService.decryptedValue('externalLogin')).login : false;
+        if (externalLogin == false) {
           const { jsonData, newGuid } = this.socketService.makeJsonDataById('CheckUserScreen', href, 'CheckUserScreen');
           this.socketService.Request(jsonData);
           this.socketService.OnResponseMessage().subscribe(((res: any) => {

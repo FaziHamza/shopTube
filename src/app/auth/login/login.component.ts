@@ -120,7 +120,7 @@ export class LoginComponent implements OnInit {
     public authService: AuthService,
     private route: ActivatedRoute,
     private router: Router,
-    private sharedService:DataSharedService,
+    private sharedService: DataSharedService,
     private commonService: CommonService,
     private cdr: ChangeDetectorRef,
     private toastr: NzMessageService,
@@ -190,7 +190,12 @@ export class LoginComponent implements OnInit {
                 nzDuration: 2000,
               });
               localStorage.setItem('isLoggedIn', 'true');
-              localStorage.setItem('externalLogin', 'false');
+              let external: any = {
+                login: false,
+                submit: false,
+                link: '',
+              }
+              this.sharedService.ecryptedValue('externalLogin', external, true);
               this.showLoader = false;
               this.authService.setAuth(res.data);
               this.socketService.setSocket();
@@ -352,7 +357,7 @@ export class LoginComponent implements OnInit {
       "password": "",
       "id": Id,
       "accreditationNumber": "",
-      "organizationId": this.applications?.department?.organizationId ,
+      "organizationId": this.applications?.department?.organizationId,
       "applicationId": this.applications?.application?._id,
       "status": 'Pending',
       "domain": this.sharedService.checkDomain(window.location.host),

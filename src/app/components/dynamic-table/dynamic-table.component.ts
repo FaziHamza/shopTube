@@ -2474,8 +2474,8 @@ export class DynamicTableComponent implements OnInit {
   open(): void {
     this.visible = true;
     this.saveLoader = true;
-    let externalLogin = localStorage.getItem('externalLogin') || false;
-    if (!externalLogin) {
+    let externalLogin = this.dataSharedService.decryptedValue('externalLogin') ? JSON.parse(this.dataSharedService.decryptedValue('externalLogin')).login : false;
+        if (externalLogin == false) {
       const { jsonData, newGuid } = this.socketService.makeJsonDataById('CheckUserScreen', this.data?.drawerScreenLink, 'CheckUserScreen');
       this.socketService.Request(jsonData);
       this.socketService.OnResponseMessage().subscribe({

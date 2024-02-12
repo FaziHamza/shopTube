@@ -12,13 +12,6 @@
           </nz-collapse>
         </ng-container>
       </ng-container>
-      <!-- <nz-collapse *ngIf="itemData.formData" class="mt-4 2nd">
-        <nz-collapse-panel [nzHeader]="itemData.title | uppercase" nzActive="false">
-          <div class="theme-body">
-            <formly-form [form]="actionform" [model]="modal" [fields]="itemData.formData"></formly-form>
-          </div>
-        </nz-collapse-panel>
-      </nz-collapse> -->
       <nz-collapse *ngIf="itemData.mappingConfig" nzActive="false" class="mt-4 3rd">
         <nz-collapse-panel [nzHeader]="'Data Mapping' | uppercase" nzActive="false">
           <div class="theme-body">
@@ -33,21 +26,13 @@
           </div>
         </nz-collapse-panel>
       </nz-collapse>
-      <!-- <dynamic-table *ngIf='this.itemData?.mappingNode && this.itemData?.mappingNode?.tableBody.length == 0'
-      [tableId]='tableId' [checkType]='true' [tableHeaders]="itemData.mappingNode.tableHeader"
-      [data]="itemData.mappingNode" [configurationTable]="true"
-      [displayData]="itemData.mappingNode.displayData"></dynamic-table> -->
       <div *ngIf='this.itemData?.mappingNode && this.itemData?.mappingNode?.tableBody?.length > 0'>
-        <dynamic-table [configurationTable]="true"
-        [tableId]='tableId'
-       [checkType]='true' [tableHeaders]="itemData.mappingNode.tableHeader"
-       [tableData]='itemData.mappingNode.tableBody' [displayData]="itemData.mappingNode.tableBody"
-       [data]="itemData.mappingNode"></dynamic-table>
+        <dynamic-table [configurationTable]="true" [tableId]='tableId' [checkType]='true'
+          [tableHeaders]="itemData.mappingNode.tableHeader" [tableData]='itemData.mappingNode.tableBody'
+          [displayData]="itemData.mappingNode.tableBody" [data]="itemData.mappingNode"></dynamic-table>
       </div>
-
       <br>
     </div>
-
     <div class="drawer-height-btn">
       <button nz-button nzType="primary" (click)="onSubmit()"> <i class="fa-light fa-floppy-disk mr-1.5"></i>
         Save</button>

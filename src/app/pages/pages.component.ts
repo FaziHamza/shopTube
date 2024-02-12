@@ -45,7 +45,7 @@ export class PagesComponent implements OnInit, OnDestroy {
   @Input() mappingId: any;
   private subscriptions: Subscription = new Subscription();
   private destroy$: Subject<void> = new Subject<void>();
-  constructor( private activatedRoute: ActivatedRoute,
+  constructor(private activatedRoute: ActivatedRoute,
     private clipboard: Clipboard,
     public socketService: SocketService,
     private cdr: ChangeDetectorRef,
@@ -168,12 +168,13 @@ export class PagesComponent implements OnInit, OnDestroy {
   }
   user: any;
   ngOnInit(): void {
-
-    this.externalLogin = localStorage.getItem('externalLogin') || 'false';
-    // let externalPageLink = this.dataSharedService.decryptedValue('externalLoginLink');
-    // if (this.externalLogin == 'true' && window.location.pathname != `/${externalPageLink}`) {
-    //   return;
-    // }
+    let externalPageLink = this.dataSharedService.decryptedValue('externalLogin') ? JSON.parse(this.dataSharedService.decryptedValue('externalLogin')).link : '';
+    this.externalLogin = this.dataSharedService.decryptedValue('externalLogin') ? JSON.parse(this.dataSharedService.decryptedValue('externalLogin')).login : false;
+    let externalSubmit = this.dataSharedService.decryptedValue('externalLogin') ? JSON.parse(this.dataSharedService.decryptedValue('externalLogin')).submit : false;
+    if (this.externalLogin && (window.location.pathname == `/${externalPageLink}`) && externalSubmit) {
+      this.router.navigate(['/permission-denied']);
+      return;
+    }
     this.initHighlightFalseSubscription();
     this.initPageSubmitSubscription();
     this.initEventChangeSubscription();
@@ -296,14 +297,14 @@ export class PagesComponent implements OnInit, OnDestroy {
           this.dataSharedService.currentMenuLink = "/pages/" + params["schema"];
           localStorage.setItem('screenId', this.dataSharedService.currentMenuLink);
           this.clearValues();
-          if (this.externalLogin == 'false') {
+          if (this.externalLogin == false) {
             const { jsonData, newGuid } = this.socketService.makeJsonDataById('CheckUserScreen', params["schema"], 'CheckUserScreen');
             this.socketService.Request(jsonData);
             this.socketService.OnResponseMessage().subscribe(res => {
               if (res.parseddata.requestId == newGuid && res.parseddata.isSuccess) {
                 res = res.parseddata.apidata;
                 let externalPageLink = this.dataSharedService.decryptedValue('externalLoginLink');
-                if (this.externalLogin == 'true' && window.location.pathname != `/${externalPageLink}` && !res?.isSuccess) {
+                if (this.externalLogin == true && window.location.pathname != `/${externalPageLink}` && !res?.isSuccess) {
                   return;
                 }
                 if (res?.isSuccess) {
@@ -636,7 +637,7 @@ export class PagesComponent implements OnInit, OnDestroy {
               }
             });
             this.saveLoader = true;
-            
+
           }
 
         }
@@ -672,7 +673,7 @@ export class PagesComponent implements OnInit, OnDestroy {
             // console.log(result);
             this.saveLoader = true;
             // this.dataSharedService.sectionSubmit.next(false);
-           
+
           }
         }
       }
@@ -705,7 +706,7 @@ export class PagesComponent implements OnInit, OnDestroy {
               //   pagination = '?page=' + 1 + '&pageSize=' + tableData?.end;
               // }
 
-              
+
             }
           }
         }
@@ -1807,11 +1808,11 @@ export class PagesComponent implements OnInit, OnDestroy {
                             modifedData['organizationId'] = this.dataSharedService.decryptedValue('organizationId');
                             modifedData['user'] = this.dataSharedService.decryptedValue('user') ? this.dataSharedService.decryptedValue('user') ? JSON.parse(this.dataSharedService.decryptedValue('user')) : null : null;
 
-                            let externalLogin = localStorage.getItem('externalLogin') || false;
+                            let externalLogin = this.externalLogin = this.dataSharedService.decryptedValue('externalLogin') ? JSON.parse(this.dataSharedService.decryptedValue('externalLogin')).login : false;
                             let value = modifedData[uiRule.ifMenuName.split('_')[1]];
                             if (uiRule.ifMenuName.includes('app_user') && modifedData['user']) {
                               value = modifedData['user'][uiRule.ifMenuName.split('.')[1]]
-                            } else if (uiRule.ifMenuName == 'app_user.username' && externalLogin == 'true') {
+                            } else if (uiRule.ifMenuName == 'app_user.username' && externalLogin == true) {
                               let userName = this.dataSharedService.decryptedValue('username');
                               value = userName;
                             }
@@ -2390,37 +2391,37 @@ export class PagesComponent implements OnInit, OnDestroy {
   }
   getEnumApi(data: any, targetId: any, findObj: any) {
     // if (!targetId)
-      // this.requestSubscription = this.applicationService.getNestCommonAPI(data.props.apiUrl).subscribe({
-      //   next: (res) => {
+    // this.requestSubscription = this.applicationService.getNestCommonAPI(data.props.apiUrl).subscribe({
+    //   next: (res) => {
 
-      //     if (res?.data?.length > 0) {
-      //       let propertyNames = Object.keys(res.data[0]);
-      //       let result = res.data.map((item: any) => {
-      //         let newObj: any = {};
-      //         let propertiesToGet: string[];
-      //         if ('id' in item && 'name' in item) {
-      //           propertiesToGet = ['id', 'name'];
-      //         } else {
-      //           propertiesToGet = Object.keys(item).slice(0, 2);
-      //         }
-      //         propertiesToGet.forEach((prop) => {
-      //           newObj[prop] = item[prop];
-      //         });
-      //         return newObj;
-      //       });
+    //     if (res?.data?.length > 0) {
+    //       let propertyNames = Object.keys(res.data[0]);
+    //       let result = res.data.map((item: any) => {
+    //         let newObj: any = {};
+    //         let propertiesToGet: string[];
+    //         if ('id' in item && 'name' in item) {
+    //           propertiesToGet = ['id', 'name'];
+    //         } else {
+    //           propertiesToGet = Object.keys(item).slice(0, 2);
+    //         }
+    //         propertiesToGet.forEach((prop) => {
+    //           newObj[prop] = item[prop];
+    //         });
+    //         return newObj;
+    //       });
 
-      //       let finalObj = result.map((item: any) => {
-      //         return {
-      //           label: item.name || item[propertyNames[1]],
-      //           value: item.id || item[propertyNames[0]],
-      //         };
-      //       });
-      //       findObj.formly.fieldGroup[0].props.options = finalObj;
-      //     }
-      //   },
-      //   error: (err) => {
-      //   },
-      // });
+    //       let finalObj = result.map((item: any) => {
+    //         return {
+    //           label: item.name || item[propertyNames[1]],
+    //           value: item.id || item[propertyNames[0]],
+    //         };
+    //       });
+    //       findObj.formly.fieldGroup[0].props.options = finalObj;
+    //     }
+    //   },
+    //   error: (err) => {
+    //   },
+    // });
 
   }
   saveDataGrid(res: any) {
