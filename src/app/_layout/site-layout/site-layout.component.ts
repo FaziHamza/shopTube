@@ -236,108 +236,66 @@ export class SiteLayoutComponent implements OnInit {
     //   }
     // }
 
+  }
+
+  ngAfterViewInit() {
+    setTimeout(() => {
+      this.updateHeaderHeight();
+    }, 20000)
+
+    // const container = this.footerContainer.nativeElement;
+    // if (container.classList.contains('dynamic-footer') || container.classList.contains('dynamic-footer-website')) {
+    //   this.dynamic = true;
+    // }
+
+  }
+
+
+  updateHeaderHeight() {
+    if (this.el.nativeElement.querySelector('#HEADER')) {
+      const headerElement = this.el.nativeElement.querySelector('#HEADER');
+      this.headerHeight = headerElement.clientHeight;
+      const layoutElement = this.el.nativeElement.querySelector('.content-container');
+      this.renderer.setStyle(layoutElement, 'height', `calc(100vh - ${this.headerHeight + 10}px)`);
+    }
+
+    if (this.el.nativeElement.querySelector('#FOOTER')) {
+      const footerElement = this.el.nativeElement.querySelector('#FOOTER');
+      this.footerHeight = footerElement.clientHeight;
+      console.log(this.footerHeight);
+    }
+
+    if (this.el.nativeElement.querySelector('#Content') && this.footerHeight) {
+      ;
+      const contentElement = this.el.nativeElement.querySelector('#Content');
+      this.dataSharedService.contentHeight = contentElement.clientHeight;
+      this.constentMarging = this.footerHeight.toString() + 'px';
+      // Corrected assignment without spaces around the value and !important after the semicolon
+      // contentElement.style.marginBottom = this.footerHeight.toString() + 'px';
+
+      console.log(contentElement.style.marginBottom);
+    }
+
+
+
+    this.dataSharedService.measureHeight = window.innerHeight - (this.headerHeight + this.footerHeight + 10);
+
+    // Extract the numeric values from the strings
+    console.log(this.dataSharedService.measureHeight);
     this.dataSharedService.showFooter = true;
-  }
-
-ngAfterViewInit() {
-  setTimeout(() => {
-    this.updateHeaderHeight();
-  }, 15000)
-
-  // const container = this.footerContainer.nativeElement;
-  // if (container.classList.contains('dynamic-footer') || container.classList.contains('dynamic-footer-website')) {
-  //   this.dynamic = true;
-  // }
-
-}
-
-
-updateHeaderHeight() {
-  if (this.el.nativeElement.querySelector('#HEADER')) {
-    const headerElement = this.el.nativeElement.querySelector('#HEADER');
-    this.headerHeight = headerElement.clientHeight;
-    const layoutElement = this.el.nativeElement.querySelector('.content-container');
-    this.renderer.setStyle(layoutElement, 'height', `calc(100vh - ${this.headerHeight + 10}px)`);
-  }
-
-  if (this.el.nativeElement.querySelector('#FOOTER')) {
-    const footerElement = this.el.nativeElement.querySelector('#FOOTER');
-    this.footerHeight = footerElement.clientHeight;
-    console.log(this.footerHeight);
-  }
-
-  if (this.el.nativeElement.querySelector('#Content') && this.footerHeight) {
-    ;
-    const contentElement = this.el.nativeElement.querySelector('#Content');
-    this.dataSharedService.contentHeight = contentElement.clientHeight;
-    this.constentMarging = this.footerHeight.toString() + 'px';
-    // Corrected assignment without spaces around the value and !important after the semicolon
-    // contentElement.style.marginBottom = this.footerHeight.toString() + 'px';
-
-    console.log(contentElement.style.marginBottom);
+    // if (this.dataSharedService.measureHeight < this.dataSharedService.contentHeight) {
+    //   this.dataSharedService.showFooter = false;
+    //   console.log(false);
+    // } else {
+    //   console.log(true);
+    //   this.dataSharedService.showFooter = true;
+    // }
   }
 
 
 
-  this.dataSharedService.measureHeight = window.innerHeight - (this.headerHeight + this.footerHeight + 10);
+  getMenuByDomainName(domainName: any, allowStoreId: boolean) {
 
-  // Extract the numeric values from the strings
-  console.log(this.dataSharedService.measureHeight);
-  // if (this.dataSharedService.measureHeight < this.dataSharedService.contentHeight) {
-  //   this.dataSharedService.showFooter = false;
-  //   console.log(false);
-  // } else {
-  //   console.log(true);
-  //   this.dataSharedService.showFooter = true;
-  // }
-}
-
-
-
-getMenuByDomainName(domainName: any, allowStoreId: boolean) {
-
-  try {
-    this.loader = true;
-    const { jsonData, newGuid } = this.socketService.makeJsonDataById('application', domainName, 'DomainModelTypeById');
-    this.socketService.Request(jsonData);
-    this.socketService.OnResponseMessage().subscribe({
-      next: (res) => {
-        if (res.parseddata.requestId == newGuid && res.parseddata.isSuccess) {
-          res = res.parseddata.apidata;
-          if (res.isSuccess) {
-            this.domainData = res.data;
-            if (res.data.appication) {
-              this.currentWebsiteLayout = res.data.appication.application_Type ? res.data.appication.application_Type : 'backend_application';
-            }
-            // document.documentElement.style.setProperty('--primaryColor', res.data.appication?.primaryColor);
-            // document.documentElement.style.setProperty('--secondaryColor', res.data.appication?.secondaryColor);
-            this.dataSharedService.applicationDefaultScreen = res.data['default'] ? res.data['default'].navigation : '';
-            this.logo = res.data.appication['image'];
-            this.dataSharedService.headerLogo = res.data.appication['image'];
-            // if (allowStoreId) {
-            //   localStorage.setItem('applicationId', JSON.stringify(res.data?.appication?._id));
-            //   localStorage.setItem('organizationId', JSON.stringify(res.data?.department?.organizationId));
-            // }
-            if (res.data['applicationGlobalClasses']) {
-              this.dataSharedService.applicationGlobalClass = res.data['applicationGlobalClasses'];
-            }
-            this.currentWebsiteLayout = res.data.appication['applicationtype'] ? res.data.appication['applicationtype'] : 'backend_application';
-            this.currentHeader = res.data['header'] ? res.data['header']['screendata'] : '';
-            this.currentFooter = res.data['footer'] ? res.data['footer']['screendata'] : '';
-            if (res.data['menu']) {
-              if (!window.location.href.includes('/menu-builder')) {
-                this.isShowContextMenu = true;
-                let getMenu = res.data['menu'] ? res.data['menu']['menudata']?.json : '';
-                let selectedTheme = res.data['menu'] ? res.data['menu'].selectedtheme : {};
-                if (getMenu) {
-                  selectedTheme.isCollapsed = true;
-                  this.selectedTheme = selectedTheme;
-                  this.selectedTheme.allMenuItems = getMenu;
-                  this.menuItems = getMenu;
-                  this.getComments();
-                  if (selectedTheme?.layout == 'horizental') {
-                    this.makeMenuData();
-                  }
     try {
       this.loader = true;
       const { jsonData, newGuid } = this.socketService.makeJsonDataById('application', domainName, 'DomainModelTypeById');
@@ -367,11 +325,11 @@ getMenuByDomainName(domainName: any, allowStoreId: boolean) {
               this.currentHeader = res.data['header'] ? res.data['header']['screendata'] : '';
               this.currentFooter = res.data['footer'] ? res.data['footer']['screendata'] : '';
               if (res.data['menu']) {
-                if (res.data['menu']?.selectedtheme) {
-                  this.selectedTheme = res.data['menu'].selectedtheme;
-                  // const theme = res.data['menu'].selectedtheme;
-                  // this.selectedTheme['isCollapsed'] = !theme['isCollapsed'];
-                }
+                // if (res.data['menu']?.selectedtheme) {
+                //   this.selectedTheme = res.data['menu'].selectedtheme;
+                //   // const theme = res.data['menu'].selectedtheme;
+                //   // this.selectedTheme['isCollapsed'] = !theme['isCollapsed'];
+                // }
                 if (!window.location.href.includes('/menu-builder')) {
                   this.isShowContextMenu = true;
                   let getMenu = res.data['menu'] ? res.data['menu']['menudata']?.json : '';
@@ -385,184 +343,184 @@ getMenuByDomainName(domainName: any, allowStoreId: boolean) {
                       this.makeMenuData();
                     }
 
-                }
-                if (this.currentWebsiteLayout == 'website') {
-                  this.dataSharedService.menus = this.selectedTheme;
-                  this.dataSharedService.menus.allMenuItems = getMenu;
+                  }
+                  if (this.currentWebsiteLayout == 'website') {
+                    this.dataSharedService.menus = this.selectedTheme;
+                    this.dataSharedService.menus.allMenuItems = getMenu;
+                  }
                 }
               }
-            }
-            this.hideHeaderFooterMenu = window.location.href.includes('/pdf') ? true : false;
-            // Example usage:
-            if (!window.location.href.includes('/pages') && res.data?.default?.navigation && !window.location.href.includes('/menu-builder')) {
-              this.router.navigate(['/pages/' + res.data?.default?.navigation]);
-            }
-            if (this.selectedTheme) {
+              this.hideHeaderFooterMenu = window.location.href.includes('/pdf') ? true : false;
+              // Example usage:
+              if (!window.location.href.includes('/pages') && res.data?.default?.navigation && !window.location.href.includes('/menu-builder')) {
+                this.router.navigate(['/pages/' + res.data?.default?.navigation]);
+              }
+              if (this.selectedTheme) {
 
-              const urlSegments = window.location.href.split('/');
-              let url = !window.location.href.includes('/pages') ? `/pages/${res.data?.default?.navigation}` : `/pages/${urlSegments[urlSegments.length - 1].trim()}`;
-              const parentMenu = this.findParentMenu(this.selectedTheme.allMenuItems, url);
-              if (parentMenu && parentMenu.type == "mainTab") {
-                this.tabs.push(parentMenu);
+                const urlSegments = window.location.href.split('/');
+                let url = !window.location.href.includes('/pages') ? `/pages/${res.data?.default?.navigation}` : `/pages/${urlSegments[urlSegments.length - 1].trim()}`;
+                const parentMenu = this.findParentMenu(this.selectedTheme.allMenuItems, url);
+                if (parentMenu && parentMenu.type == "mainTab") {
+                  this.tabs.push(parentMenu);
+                }
               }
+              this.loader = false;
+              this.getUserPolicyMenu();
             }
-            this.loader = false;
-            this.getUserPolicyMenu();
           }
+        },
+        error: (err) => {
+          // console.error(err);
+          // this.toastr.error("An error occurred", { nzDuration: 3000 });
+          this.loader = false; // Set loader to false in case of an error to avoid infinite loading
         }
-      },
-      error: (err) => {
-        // console.error(err);
-        // this.toastr.error("An error occurred", { nzDuration: 3000 });
-        this.loader = false; // Set loader to false in case of an error to avoid infinite loading
+      });
+    }
+    catch (error) {
+      // console.error(error);
+      // this.toastr.error("An error occurred", { nzDuration: 3000 });
+      this.loader = false; // Set loader to false in case of an error to avoid infinite loading
+    }
+  }
+
+  getMenuBHeaderName(domainName: any, allowStoreId: boolean) {
+
+    try {
+      this.loader = true;
+      const { jsonData, newGuid } = this.socketService.makeJsonDataById('application', domainName, 'DomainModelTypeById');
+      this.socketService.Request(jsonData);
+      this.socketService.OnResponseMessage().subscribe({
+        next: (res) => {
+          if (res.parseddata.requestId == newGuid && res.parseddata.isSuccess) {
+            res = res.parseddata.apidata
+            if (res.isSuccess) {
+              this.currentHeader = res.data['header'] ? this.jsonParseWithObject(res.data['header']['screenData']) : '';
+              this.loader = false;
+            }
+          }
+        },
+        error: (err) => {
+          console.error(err);
+          // this.toastr.error("An error occurred", { nzDuration: 3000 });
+          this.loader = false; // Set loader to false in case of an error to avoid infinite loading
+        }
+      });
+    }
+    catch (error) {
+      console.error(error);
+      // this.toastr.error("An error occurred", { nzDuration: 3000 });
+      this.loader = false; // Set loader to false in case of an error to avoid infinite loading
+    }
+  }
+
+  jsonParseWithObject(data: any) {
+    return JSON.parse(data, (key, value) => {
+      if (typeof value === 'string' && value.startsWith('(') && value.includes('(model)')) {
+        return eval(`(${value})`);
       }
+      return value;
     });
   }
-  catch (error) {
-    // console.error(error);
-    // this.toastr.error("An error occurred", { nzDuration: 3000 });
-    this.loader = false; // Set loader to false in case of an error to avoid infinite loading
+  jsonStringifyWithObject(data: any) {
+    return (
+      JSON.stringify(data, function (key, value) {
+        if (typeof value == 'function') {
+          let check = value.toString();
+          if (check.includes('model =>'))
+            return check.replace('model =>', '(model) =>');
+          else return check;
+        } else {
+          return value;
+        }
+      }) || '{}'
+    );
   }
-}
-
-getMenuBHeaderName(domainName: any, allowStoreId: boolean) {
-
-  try {
-    this.loader = true;
-    const { jsonData, newGuid } = this.socketService.makeJsonDataById('application', domainName, 'DomainModelTypeById');
+  loadTabsAndButtons(data: any) {
+    this.tabs = [];
+    // this.dropdown = [];
+    this.modules = [];
+    this.selectedTheme.menuChildArrayTwoColumn = [];
+    if (Array.isArray(data)) {
+      this.modules = JSON.parse(JSON.stringify(data));
+    }
+    else if (data.children.length > 0) {
+      this.tabs = data.children.filter((child: any) => child)
+      // data.isOpen = !data.isOpen;
+      // data.children.forEach((i: any) => {
+      //   if (this.selectedTheme.layout == 'twoColumn') {
+      //     this.selectedTheme.rowClass = 'w-10/12';
+      //     this.selectedTheme.menuColumn = 'w-2/12';
+      //     this.selectedTheme.menuChildArrayTwoColumn.push(i);
+      //   }
+      //   if (i.type == 'mainTab') {
+      //     this.tabs.push(i);
+      //   }
+      //   // else if (i.type == 'dropdown') {
+      //   //   this.dropdown.push(i);
+      //   // }
+      // });
+    }
+  }
+  makeMenuData() {
+    let arrayList = [...this.menuItems];
+    this.selectedTheme.newMenuArray = [];
+    if (this.menuItems.length > 7 && this.selectedTheme.layout === 'horizental') {
+      this.selectedTheme.newMenuArray = [{
+        label: "More",
+        icon: "down",
+        id: 'menu_428605c1',
+        key: 'menu_0f7d1e4e',
+        children: []
+      }];
+      const withoutTitle = this.menuItems.filter((item: any) => !item.isTitle);
+      this.selectedTheme.newMenuArray[0].children = withoutTitle.slice(7);
+      this.selectedTheme.allMenuItems = arrayList.filter((item) => !item.isTitle).slice(0, 7);
+    }
+    else if (this.selectedTheme.layout === 'horizental' && this.menuItems.length > 0) {
+      this.selectedTheme.allMenuItems = this.menuItems;
+    }
+  }
+  getApplications() {
+    const { jsonData, newGuid } = this.socketService.makeJsonData('Department', 'GetModelType');
     this.socketService.Request(jsonData);
     this.socketService.OnResponseMessage().subscribe({
-      next: (res) => {
+      next: (res: any) => {
         if (res.parseddata.requestId == newGuid && res.parseddata.isSuccess) {
-          res = res.parseddata.apidata
+          res = res.parseddata.apidata;
           if (res.isSuccess) {
-            this.currentHeader = res.data['header'] ? this.jsonParseWithObject(res.data['header']['screenData']) : '';
-            this.loader = false;
-          }
+            if (res.data.length > 0) {
+              let menus: any = [];
+              this.currentWebsiteLayout = "backend_application";
+              res.data.forEach((element: any) => {
+                let newID = element.applicationId ? element.applicationId : element.name.replace(/\s+/g, '-');
+                const newNode = {
+                  id: newID,
+                  key: newID,
+                  title: element.name,
+                  link: '',
+                  icon: "appstore",
+                  type: "input",
+                  isTitle: false,
+                  expanded: true,
+                  color: "",
+                  application: true,
+                  children: [
+                  ],
+                }
+                menus.push(newNode);
+              });
+              this.selectedTheme = this.newSelectedTheme;
+              this.selectedTheme['allMenuItems'] = menus;
+            }
+          } else
+            this.toastr.error(res.message, { nzDuration: 3000 });
         }
+
       },
       error: (err) => {
         console.error(err);
-        // this.toastr.error("An error occurred", { nzDuration: 3000 });
-        this.loader = false; // Set loader to false in case of an error to avoid infinite loading
+        this.toastr.error("An error occurred", { nzDuration: 3000 });
       }
-    });
-  }
-  catch (error) {
-    console.error(error);
-    // this.toastr.error("An error occurred", { nzDuration: 3000 });
-    this.loader = false; // Set loader to false in case of an error to avoid infinite loading
-  }
-}
-
-jsonParseWithObject(data: any) {
-  return JSON.parse(data, (key, value) => {
-    if (typeof value === 'string' && value.startsWith('(') && value.includes('(model)')) {
-      return eval(`(${value})`);
-    }
-    return value;
-  });
-}
-jsonStringifyWithObject(data: any) {
-  return (
-    JSON.stringify(data, function (key, value) {
-      if (typeof value == 'function') {
-        let check = value.toString();
-        if (check.includes('model =>'))
-          return check.replace('model =>', '(model) =>');
-        else return check;
-      } else {
-        return value;
-      }
-    }) || '{}'
-  );
-}
-loadTabsAndButtons(data: any) {
-  this.tabs = [];
-  // this.dropdown = [];
-  this.modules = [];
-  this.selectedTheme.menuChildArrayTwoColumn = [];
-  if (Array.isArray(data)) {
-    this.modules = JSON.parse(JSON.stringify(data));
-  }
-  else if (data.children.length > 0) {
-    this.tabs = data.children.filter((child: any) => child)
-    // data.isOpen = !data.isOpen;
-    // data.children.forEach((i: any) => {
-    //   if (this.selectedTheme.layout == 'twoColumn') {
-    //     this.selectedTheme.rowClass = 'w-10/12';
-    //     this.selectedTheme.menuColumn = 'w-2/12';
-    //     this.selectedTheme.menuChildArrayTwoColumn.push(i);
-    //   }
-    //   if (i.type == 'mainTab') {
-    //     this.tabs.push(i);
-    //   }
-    //   // else if (i.type == 'dropdown') {
-    //   //   this.dropdown.push(i);
-    //   // }
-    // });
-  }
-}
-makeMenuData() {
-  let arrayList = [...this.menuItems];
-  this.selectedTheme.newMenuArray = [];
-  if (this.menuItems.length > 7 && this.selectedTheme.layout === 'horizental') {
-    this.selectedTheme.newMenuArray = [{
-      label: "More",
-      icon: "down",
-      id: 'menu_428605c1',
-      key: 'menu_0f7d1e4e',
-      children: []
-    }];
-    const withoutTitle = this.menuItems.filter((item: any) => !item.isTitle);
-    this.selectedTheme.newMenuArray[0].children = withoutTitle.slice(7);
-    this.selectedTheme.allMenuItems = arrayList.filter((item) => !item.isTitle).slice(0, 7);
-  }
-  else if (this.selectedTheme.layout === 'horizental' && this.menuItems.length > 0) {
-    this.selectedTheme.allMenuItems = this.menuItems;
-  }
-}
-getApplications() {
-  const { jsonData, newGuid } = this.socketService.makeJsonData('Department', 'GetModelType');
-  this.socketService.Request(jsonData);
-  this.socketService.OnResponseMessage().subscribe({
-    next: (res: any) => {
-      if (res.parseddata.requestId == newGuid && res.parseddata.isSuccess) {
-        res = res.parseddata.apidata;
-        if (res.isSuccess) {
-          if (res.data.length > 0) {
-            let menus: any = [];
-            this.currentWebsiteLayout = "backend_application";
-            res.data.forEach((element: any) => {
-              let newID = element.applicationId ? element.applicationId : element.name.replace(/\s+/g, '-');
-              const newNode = {
-                id: newID,
-                key: newID,
-                title: element.name,
-                link: '',
-                icon: "appstore",
-                type: "input",
-                isTitle: false,
-                expanded: true,
-                color: "",
-                application: true,
-                children: [
-                ],
-              }
-              menus.push(newNode);
-            });
-            this.selectedTheme = this.newSelectedTheme;
-            this.selectedTheme['allMenuItems'] = menus;
-          }
-        } else
-          this.toastr.error(res.message, { nzDuration: 3000 });
-      }
-
-    },
-    error: (err) => {
-      console.error(err);
-      this.toastr.error("An error occurred", { nzDuration: 3000 });
-    }
 
     });
   }
@@ -597,19 +555,19 @@ getApplications() {
             this.cd.detectChanges();
           }
 
-      });
-      if (this.selectedTheme['menuChildArrayTwoColumn']) {
-        if (this.selectedTheme['menuChildArrayTwoColumn'].length > 0) {
-          this.selectedTheme['menuChildArrayTwoColumn'].forEach((element: any) => {
-            if (element.id == this.dataSharedService.rightClickMenuData.id) {
-              if (element['issueReport']) {
-                element['issueReport'].push(res);
-              } else {
-                element['issueReport'] = [];
-                element['issueReport'].push(res);
+        });
+        if (this.selectedTheme['menuChildArrayTwoColumn']) {
+          if (this.selectedTheme['menuChildArrayTwoColumn'].length > 0) {
+            this.selectedTheme['menuChildArrayTwoColumn'].forEach((element: any) => {
+              if (element.id == this.dataSharedService.rightClickMenuData.id) {
+                if (element['issueReport']) {
+                  element['issueReport'].push(res);
+                } else {
+                  element['issueReport'] = [];
+                  element['issueReport'].push(res);
+                }
+                this.cd.detectChanges();
               }
-              this.cd.detectChanges();
-            }
 
             });
           }
@@ -647,99 +605,99 @@ getApplications() {
             element['issueReport'] = [];
           }
 
-        element['issueReport'].push(issue);
+          element['issueReport'].push(issue);
 
-        if (!element['issueUser']) {
-          element['issueUser'] = [issue['createdBy']];
-        }
-        else {
-          if (!element['issueUser'].includes(issue['createdBy'])) {
-            // Check if the user is not already in the array, then add them
-            element['issueUser'].push(issue.createdBy);
+          if (!element['issueUser']) {
+            element['issueUser'] = [issue['createdBy']];
+          }
+          else {
+            if (!element['issueUser'].includes(issue['createdBy'])) {
+              // Check if the user is not already in the array, then add them
+              element['issueUser'].push(issue.createdBy);
+            }
           }
         }
-      }
 
-      if (element.children.length > 0) {
-        this.assignIssue(element.children, issue);
-      }
-    }
-  });
-}
-getTaskManagementIssuesFunc(applicationId: string) {
-  const { jsonData, newGuid } = this.socketService.makeJsonDataById('UserAssignTask', applicationId, 'GetModelTypeById');
-  this.socketService.Request(jsonData);
-  this.socketService.OnResponseMessage().subscribe({
-    next: (res: any) => {
-      if (res.parseddata.requestId == newGuid && res.parseddata.isSuccess) {
-        res = res.parseddata.apidata;
-        if (res.isSuccess) {
-          if (res.data.length > 0) {
-            this.getTaskManagementIssues = res.data;
-          }
-        }
-        else {
-          // this.toastr.error(`userAssignTask:` + res.message, { nzDuration: 3000 });
+        if (element.children.length > 0) {
+          this.assignIssue(element.children, issue);
         }
       }
-    },
-    error: (err) => {
-      console.error(err);
-      // this.toastr.error("An error occurred", { nzDuration: 3000 });
-    }
-  })
-}
-getUserPolicyMenu() {
-
-  const { jsonData, newGuid } = this.socketService.makeJsonData('GetUserPolicyMenu', 'GetUserPolicyMenu');
-  this.socketService.Request(jsonData);
-  this.socketService.OnResponseMessage().subscribe({
-    next: (res: any) => {
-      if (res.parseddata.requestId == newGuid && res.parseddata.isSuccess) {
-        res = res.parseddata.apidata;
-        if (res.isSuccess) {
-          if (res.data.length > 0) {
-            this.dataSharedService.getUserPolicyMenuList = res.data[0]?.data?.json;
-          }
-        }
-        else {
-          this.toastr.error(`getUserPolicyMenu:` + res.message, { nzDuration: 3000 });
-        }
-      }
-    },
-    error: (err) => {
-      console.error(err);
-      this.toastr.error("An error occurred", { nzDuration: 3000 });
-    }
-  })
-}
-ngOnDestroy() {
-  if (this.requestSubscription) {
-    this.requestSubscription.unsubscribe();
+    });
   }
-}
-findParentMenu(menus: any[], link: string): any {
-  for (const menu of menus) {
-    if (menu.link === link) {
-      return null; // No parent for the root menu
-    }
-
-    if (menu.children && menu.children.length > 0) {
-      const childWithLink = menu.children.find((child: any) => child.link === link);
-
-      if (childWithLink) {
-        return menu;
+  getTaskManagementIssuesFunc(applicationId: string) {
+    const { jsonData, newGuid } = this.socketService.makeJsonDataById('UserAssignTask', applicationId, 'GetModelTypeById');
+    this.socketService.Request(jsonData);
+    this.socketService.OnResponseMessage().subscribe({
+      next: (res: any) => {
+        if (res.parseddata.requestId == newGuid && res.parseddata.isSuccess) {
+          res = res.parseddata.apidata;
+          if (res.isSuccess) {
+            if (res.data.length > 0) {
+              this.getTaskManagementIssues = res.data;
+            }
+          }
+          else {
+            // this.toastr.error(`userAssignTask:` + res.message, { nzDuration: 3000 });
+          }
+        }
+      },
+      error: (err) => {
+        console.error(err);
+        // this.toastr.error("An error occurred", { nzDuration: 3000 });
       }
+    })
+  }
+  getUserPolicyMenu() {
 
-      const parent = this.findParentMenu(menu.children, link);
-
-      if (parent !== null) {
-        return parent;
+    const { jsonData, newGuid } = this.socketService.makeJsonData('GetUserPolicyMenu', 'GetUserPolicyMenu');
+    this.socketService.Request(jsonData);
+    this.socketService.OnResponseMessage().subscribe({
+      next: (res: any) => {
+        if (res.parseddata.requestId == newGuid && res.parseddata.isSuccess) {
+          res = res.parseddata.apidata;
+          if (res.isSuccess) {
+            if (res.data.length > 0) {
+              this.dataSharedService.getUserPolicyMenuList = res.data[0]?.data?.json;
+            }
+          }
+          else {
+            this.toastr.error(`getUserPolicyMenu:` + res.message, { nzDuration: 3000 });
+          }
+        }
+      },
+      error: (err) => {
+        console.error(err);
+        this.toastr.error("An error occurred", { nzDuration: 3000 });
       }
+    })
+  }
+  ngOnDestroy() {
+    if (this.requestSubscription) {
+      this.requestSubscription.unsubscribe();
     }
   }
+  findParentMenu(menus: any[], link: string): any {
+    for (const menu of menus) {
+      if (menu.link === link) {
+        return null; // No parent for the root menu
+      }
 
-  return null;
-}
+      if (menu.children && menu.children.length > 0) {
+        const childWithLink = menu.children.find((child: any) => child.link === link);
+
+        if (childWithLink) {
+          return menu;
+        }
+
+        const parent = this.findParentMenu(menu.children, link);
+
+        if (parent !== null) {
+          return parent;
+        }
+      }
+    }
+
+    return null;
+  }
 }
 
