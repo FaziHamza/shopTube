@@ -10,7 +10,7 @@
                                 aria-expanded="false" aria-controls="categories-collapse">
                                 <div class="inline-block ">
                                     <i class="fas fa-folder text-yellow-500 text-sm w-6 cursor-pointer"></i>
-                                    <span (click)="selectSubFolder(item)"> {{item.folderName}} </span>
+                                    <span (click)="selectSubFolder(item)"> {{item.foldername}} </span>
                                 </div>
                                 <i class="fas fa-trash text-red-600 text-sm cursor-pointer" (click)="deleteFolder(item)"
                                     *ngIf="data?.isAllowDeleteFolder"></i>
@@ -108,8 +108,8 @@
                                     <td>{{index + 1}}</td>
                                     <td><a href="javascript: void(0);" class="text-dark fw-medium"><i
                                                 [ngClass]="iconClass(item.type)" class="align-middle me-2"></i>
-                                            {{item.fileName}}</a></td>
-                                    <td>{{item.createdDate | date : 'dd-MM-yyyy hh:mm:ss'}}</td>
+                                            {{item.filename}}</a></td>
+                                    <td>{{item.createddate | date : 'dd-MM-yyyy hh:mm:ss'}}</td>
                                     <td>{{formatFileSize(item.size)}}</td>
                                     <td>
                                         <button *ngIf="!item.share" nz-button [nzType]="'primary'"

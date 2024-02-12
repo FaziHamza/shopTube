@@ -87,18 +87,21 @@ export class FileManagerComponent implements OnInit {
     this.folderName = '';
     this.folderList = [];
     const folderwithfiles: any = {
-      id: folder._id
+      id: folder.id
     }
     const { jsonData, newGuid } = this.socketService.makeJsonImageData('FolderWithFilesS3', folderwithfiles);
     this.socketService.Request(jsonData);
     this.socketService.OnResponseMessage().subscribe(res => {
+      debugger
       this.saveLoader = false;
       if (res.parseddata.requestId == newGuid && res.parseddata.isSuccess) {
+        debugger
         res = res.parseddata.apidata;
       if (res.isSuccess) {
-        this.folderList = res?.data?.folderList;
-        this.filesList = res?.data?.filesList;
-        this.collectionList = res?.data?.filesList;
+        debugger
+        this.folderList = res?.data?.folderList?.data || [] ;
+        this.filesList = res?.data?.filesList?.data|| [];
+        this.collectionList = res?.data?.filesList?.data|| [];
         this.totalRecordCount = res.totalRecordCount;
         this.filesList = this.collectionList.length > 6 ? this.collectionList.slice(0, 6) : this.collectionList;
         this.end = this.filesList.length > 6 ? 6 : this.filesList.length;
@@ -119,7 +122,7 @@ export class FileManagerComponent implements OnInit {
   remove(item: any) {
     this.saveLoader = true;
     const removedata: any = {
-      id: item
+      item: item
     }
     const { jsonData, newGuid } = this.socketService.makeJsonImageData('DeleteFileS3', removedata);
     this.socketService.Request(jsonData);
@@ -156,9 +159,9 @@ export class FileManagerComponent implements OnInit {
   addFolder() {
     const gets3Folder = this.breadcrumbFolder.map(a => a.folderName);
     const model: any = {
-      folderName: this.folderName,
+      foldername: this.folderName,
       parentId: this.selectedFolder?._id,
-      s3folderName: gets3Folder.length > 0 ? gets3Folder.join('/') + '/' + this.folderName : this.folderName
+      s3foldername: gets3Folder.length > 0 ? gets3Folder.join('/') + '/' + this.folderName : this.folderName
     };
 
     const { jsonData, newGuid } = this.socketService.makeJsonImageData('CreateFolderS3', model);
@@ -203,7 +206,7 @@ export class FileManagerComponent implements OnInit {
       mimetype: file.type,
       buffer: await this.readFileAsArrayBuffer(file),
       size: file.size,
-      parentId: this.selectedFolder?._id,
+      parentId: this.selectedFolder?.id,
       path: gets3Folder.join('/')
     };
 
@@ -295,7 +298,7 @@ export class FileManagerComponent implements OnInit {
     this.end = this.filesList.length != 6 ? this.collectionList.length : this.pageIndex * this.pageSize;
   }
   downloadFile(data: any) {
-    window.open(this.data?.apiUrl || environment.nestImageUrl + data?.storagePath, '_blank');
+    window.open(this.data?.apiUrl || environment.nestImageUrl + data?.storagepath, '_blank');
   }
 
   isVisible = false;
@@ -380,7 +383,7 @@ export class FileManagerComponent implements OnInit {
     this.socketService.Request(jsonData);
     this.socketService.OnResponseMessage().subscribe(res => {
       if (res.parseddata.requestId == newGuid && res.parseddata.isSuccess) {
-        res = res.parseddata.apidata;
+        res = res.parseddata.apidata.data;
         if (res.isSuccess) {
           this.filesList = res.data
         }
