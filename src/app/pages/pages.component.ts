@@ -5,24 +5,14 @@ import { EmployeeService } from '../services/employee.service';
 import { Subject, Subscription, catchError, forkJoin, of, takeUntil } from 'rxjs';
 import { ElementData } from '../models/element';
 import { TreeNode } from '../models/treeNode';
-import { Guid } from '../models/guid';
 import { DataSharedService } from '../services/data-shared.service';
-import { DividerComponent } from '../components';
 import { Clipboard } from '@angular/cdk/clipboard';
 import { ApplicationService } from '../services/application.service';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { FormGroup } from '@angular/forms';
-import html2canvas from 'html2canvas';
-import { jsPDF } from "jspdf"; // Trying to import as in the documentation 
-import { json } from 'stream/consumers';
-import { AnyComponent } from '@fullcalendar/core/preact';
-import {applyPatch} from 'fast-json-patch';
-import { environment } from 'src/environments/environment';
+import { applyPatch } from 'fast-json-patch';
 import { SocketService } from '../services/socket.service';
 import { cloneDeep } from 'lodash-es';
-
-import { addDays } from 'date-fns';
-
 
 @Component({
   selector: 'st-pages',
@@ -2040,7 +2030,7 @@ export class PagesComponent implements OnInit, OnDestroy {
                 }
 
                 this.bindsActionRules(this.resData);
-                this.globalclass(this.resData)
+                this.globalclass(this.resData[0]);
               }
             }
 
@@ -3065,30 +3055,25 @@ export class PagesComponent implements OnInit, OnDestroy {
   // <-----------Apply global class----------->
 
   globalclass(data: any) {
-    if (data) {
-      if (data.className) {
-        if (data.className.includes('$')) {
-          data['appGlobalClass'] = this.changeWithGlobalClass(data.className);
-        }
-      }
-      if (data?.innerClass) {
-        if (data?.innerClass.includes('$')) {
-          data['appGlobalInnerClass'] = this.changeWithGlobalClass(data?.innerClass);
-        }
-      }
-      if (data?.iconClass) {
-        if (data?.iconClass.includes('$')) {
-          data['appGlobalInnerIconClass'] = this.changeWithGlobalClass(data?.iconClass);
-        }
-      }
-      if (data.children && data.children.length > 0) {
-        for (let child of data.children) {
-          let result: any = this.globalclass(child);
-          if (result !== null) {
-            return result;
-          }
-        }
+    if (!data) return;
+
+    if (data.className && data.className.includes('$')) {
+      data['appGlobalClass'] = this.changeWithGlobalClass(data.className);
+    }
+
+    if (data?.innerClass && data?.innerClass.includes('$')) {
+      data['appGlobalInnerClass'] = this.changeWithGlobalClass(data?.innerClass);
+    }
+
+    if (data?.iconClass && data?.iconClass.includes('$')) {
+      data['appGlobalInnerIconClass'] = this.changeWithGlobalClass(data?.iconClass);
+    }
+
+    if (data.children && data.children.length > 0) {
+      for (let child of data.children) {
+        this.globalclass(child);
       }
     }
   }
+
 }
