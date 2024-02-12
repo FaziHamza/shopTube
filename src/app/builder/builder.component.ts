@@ -55,7 +55,7 @@ export class BuilderComponent implements OnInit {
   addControl = false;
   size: NzButtonSize = 'large';
   departmentData: any = [];
-  applicationData: any = [];
+  applicationData: any[] = [];
   selectDepartmentName: any = [];
   IslayerVisible: boolean = true;
   IsjsonEditorVisible: boolean = false;
@@ -87,6 +87,7 @@ export class BuilderComponent implements OnInit {
   previewJsonData: any = '';
   searchValue: any = '';
   selectApplicationName: any = '';
+  selectApplication: any = '';
   saveLoader: any = false;
   htmlBlockimagePreview: any = '';
   webBlock: boolean = false;
@@ -223,6 +224,7 @@ export class BuilderComponent implements OnInit {
       // Root node - Load application data
       try {
         this.selectApplicationName = node.value;
+        this.selectApplication = this.applicationData.find(a => a.id == node.value);
         const { jsonData, newGuid } = this.socketService.makeJsonDataById('ScreenBuilder', node.value, 'GetModelTypeById');
         this.socketService.Request(jsonData);
         const response: any = await new Promise((resolve, reject) => {
@@ -2563,7 +2565,7 @@ export class BuilderComponent implements OnInit {
         if (apiRes.parseddata.requestId == newGuid && apiRes.parseddata.isSuccess) {
           apiRes = apiRes.parseddata.apidata;
           if (apiRes.isSuccess) {
-            if (apiRes.data?.length  > 0 && apiRes.data) {
+            if (apiRes.data?.length > 0 && apiRes.data) {
               let response = this.jsonParseWithObject(apiRes.data[0].controljson);
               newNode = this.createControl(response, data, value, res, obj, type)
               this.addNode(node, newNode);
@@ -5205,7 +5207,7 @@ export class BuilderComponent implements OnInit {
         break;
       case 'fixedDiv':
         if (event.form.api) {
-          
+
         }
         break;
       case 'chart':
@@ -5305,7 +5307,7 @@ export class BuilderComponent implements OnInit {
           }
 
           if (event.form.kanbanTaskApi != undefined) {
-            
+
           }
           this.updateNodes();
         }
@@ -6374,7 +6376,7 @@ export class BuilderComponent implements OnInit {
       });
     }
   }
- 
+
   selectedDownloadJson() {
     if (!this.screenPage) {
       this.toastr.warning('Please Select Screen', { nzDuration: 3000 });
@@ -7126,7 +7128,7 @@ export class BuilderComponent implements OnInit {
 
     }
   }
-  
+
   //Fazi code
   nzEvent(event: NzFormatEmitEvent): void {
 

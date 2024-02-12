@@ -334,7 +334,7 @@ export class ApplicationBuilderComponent implements OnInit {
 
         // this.handleCancel();
         this.drawerLoader = true;
-        const defaultCheck = '/' + this.myForm.value.defaultApplication ?? "''";
+        this.myForm.value['dbschema'] = this.generateAlphabeticString(5);
         var ResponseGuid: any;
         const { newGuid, metainfocreate } = this.socketService.metainfocreate();
         ResponseGuid = newGuid;
@@ -415,6 +415,17 @@ export class ApplicationBuilderComponent implements OnInit {
         }
       });
     }
+  }
+  generateAlphabeticString(length: any) {
+    const alphabets = 'abcdefghijklmnopqrstuvwxyz';
+    let result = '';
+
+    for (let i = 0; i < length; i++) {
+      const randomIndex = Math.floor(Math.random() * alphabets.length);
+      result += alphabets.charAt(randomIndex);
+    }
+
+    return result;
   }
   editItem(item: any, type: any) {
     if (type == 'application') {
