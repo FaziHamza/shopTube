@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { NzModalService } from 'ng-zorro-antd/modal';
 import { NzUploadFile } from 'ng-zorro-antd/upload';
+import { SocketService } from 'src/app/services/socket.service';
 
 @Component({
   selector: 'st-email',
@@ -18,7 +19,7 @@ export class EmailComponent {
   cc: any = [];
   bcc: any = [];
   @ViewChild('fileInputRef') fileInputRef: ElementRef | undefined;
-  constructor(private fb: FormBuilder,  private toastr: NzMessageService,
+  constructor(private fb: FormBuilder, private toastr: NzMessageService, private socketService: SocketService
   ) {
     this.form = this.fb.group({
       to: ['', Validators.required], // Classes is required
@@ -42,10 +43,25 @@ export class EmailComponent {
     {
       label: 'alizaidi85240@gmail.com',
       value: 'alizaidi85240@gmail.com'
+    },
+    {
+      label: 'adilwaheed131192@gmail.com',
+      value: 'adilwaheed131192@gmail.com'
     }
   ]
-  sendEmail() {
+  async sendEmail() {
     debugger
+    const jsondata:any={
+      files:[],
+      emaildata: {
+        to: this.to,
+        cc: this.cc,
+        bcc: this.bcc,
+        subject:this.form.value.subject,
+        text:this.form.value.text,
+        html:this.form.value.html
+      }
+    }
     this.form.patchValue({
       'to': this.to,
       'cc': this.cc,
@@ -62,25 +78,40 @@ export class EmailComponent {
     // Append files to formData
     if (this.selectedFiles) {
       for (let i = 0; i < this.selectedFiles.length; i++) {
-        formData.append('files', this.selectedFiles[i]);
+        //formData.append('files', this.selectedFiles[i]);
+        const file = this.selectedFiles[i];
+        const fileData: any = {
+          originalname: file.name,
+          mimetype: file.type,
+          buffer: await this.socketService.readFileAsArrayBuffer(file),
+          size: file.size,
+          // Add any other properties you want to include in file data
+        };
+        jsondata.files.push(fileData);
       }
     }
     this.saveLoader = true;
-    // this.applicationService.addNestCommonAPI('email/send-email', formData).subscribe({
-    //   next: (res: any) => {
-    //     if (res.isSuccess) {
-    //       this.toastr.success(res.message, { nzDuration: 2000 });
-    //     } else {
-    //       this.toastr.error(res.message, { nzDuration: 2000 });
-    //     }
-    //     // this.openEmail(false);
-    //     this.saveLoader = false;
-    //   },
-    //   error: (err) => {
-    //     this.saveLoader = false;
-    //     this.toastr.error(`some error exception : ${err}`, { nzDuration: 2000 });
-    //   },
-    // });
+
+    const { newGuid, jsonData } = this.socketService.makeJsonDataGeneric('SendEmail','SendEmail',jsondata);
+    this.socketService.Request(jsonData);
+    this.socketService.OnResponseMessage().subscribe({
+      next: (res) => {
+        if (res.parseddata.requestId == newGuid && res.parseddata.isSuccess) {
+          res = res.parseddata.apidata;
+          if (res.isSuccess) {
+            this.toastr.success(res.message, { nzDuration: 2000 });
+          } else {
+            this.toastr.error(res.message, { nzDuration: 2000 });
+          }
+          this.openEmail(false);
+          this.saveLoader = false;
+        }
+      },
+      error: (err) => {
+        this.saveLoader = false;
+        this.toastr.error(`some error exception : ${err}`, { nzDuration: 2000 });
+      }
+    });
   }
 
   onFileChange(event: any) {

@@ -87,31 +87,18 @@ export class FormlyFieldImageUploadComponent extends FieldWrapper<FieldTypeConfi
     const fileData:any = {
       originalname: file.name,
       mimetype: file.type,
-      buffer:await this.readFileAsArrayBuffer(file),
+      buffer:await this.socketService.readFileAsArrayBuffer(file),
       size: file.size,
     };
 
     this.uploadFile(fileData);
-  }
-  private async readFileAsArrayBuffer(file: File): Promise<ArrayBuffer> {
-    return new Promise((resolve, reject) => {
-      const reader = new FileReader();
-      reader.onload = (event) => {
-        if (event.target && event.target.result) {
-          resolve(event.target.result as ArrayBuffer);
-        } else {
-          reject(new Error('Error reading file as ArrayBuffer'));
-        }
-      };
-      reader.readAsArrayBuffer(file);
-    });
   }
   uploadFile(fileData: string) {
     
     // this is used on configuration when response come then user can save configuration
     this.sharedService.gericFieldLoader.next(true);
     this.sharedService.pagesLoader.next(true);  
-    const { jsonData, newGuid } = this.socketService.makeJsonImageData('UploadFileS3', fileData);
+    const { jsonData, newGuid } = this.socketService.makeJsonfileData('UploadFileS3', fileData);
     this.socketService.Request(jsonData);
     this.socketService.OnResponseMessage().subscribe({
       next: (res) => {

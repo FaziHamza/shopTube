@@ -99,7 +99,7 @@ export class SocketService {
     const formattedDate = date.toLocaleTimeString('en-US', { hour12: false, hour: '2-digit', minute: '2-digit', second: '2-digit', hourCycle: 'h23' });
     return `${type} ${data} ${formattedDate}:${date.getMilliseconds()}`;
   }
-  makeJsonImageData(tag: string,imagedata:string) {
+  makeJsonfileData(tag: string,imagedata:string) {
     const newGuid = Guid.new16DigitGuid();
     const metainfo = {
       actiontag: tag,
@@ -108,6 +108,19 @@ export class SocketService {
     return { jsonData: { imagedata, metaInfo: metainfo }, newGuid }
 
   }
+  public async readFileAsArrayBuffer(file: File): Promise<ArrayBuffer> {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = (event) => {
+        if (event.target && event.target.result) {
+          resolve(event.target.result as ArrayBuffer);
+        } else {
+          reject(new Error('Error reading file as ArrayBuffer'));
+        }
+      };
+      reader.readAsArrayBuffer(file);
+    });
+  }
   makeJsonData(modelType: string, tag: string, screenId?: any, type?: any) {
     const newGuid = Guid.new16DigitGuid();
     const metainfo = {
@@ -115,6 +128,15 @@ export class SocketService {
       RequestId: newGuid,
       screenId: screenId,
       type: type
+    }
+    return { jsonData: { modelType: modelType, metaInfo: metainfo }, newGuid }
+  }
+  makeJsonDataGeneric(modelType: string, tag: string,Jsondata:any ) {
+    const newGuid = Guid.new16DigitGuid();
+    const metainfo = {
+      actiontag: tag,
+      RequestId: newGuid,
+      json:Jsondata
     }
     return { jsonData: { modelType: modelType, metaInfo: metainfo }, newGuid }
   }

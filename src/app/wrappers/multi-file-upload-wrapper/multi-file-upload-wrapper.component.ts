@@ -82,7 +82,7 @@ export class MultiFileUploadWrapperComponent extends FieldType<FieldTypeConfig> 
         // const obj  = {
         //   image : base64Data
         // }
-        const { jsonData, newGuid } = this.socketService.makeJsonImageData('UploadFileS3', base64Data);
+        const { jsonData, newGuid } = this.socketService.makeJsonfileData('UploadFileS3', base64Data);
         this.socketService.Request(jsonData);
         this.socketService.OnResponseMessage().subscribe(
           (res: any) => {

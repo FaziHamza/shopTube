@@ -89,7 +89,7 @@ export class FileManagerComponent implements OnInit {
     const folderwithfiles: any = {
       id: folder.id
     }
-    const { jsonData, newGuid } = this.socketService.makeJsonImageData('FolderWithFilesS3', folderwithfiles);
+    const { jsonData, newGuid } = this.socketService.makeJsonfileData('FolderWithFilesS3', folderwithfiles);
     this.socketService.Request(jsonData);
     this.socketService.OnResponseMessage().subscribe(res => {
       debugger
@@ -124,7 +124,7 @@ export class FileManagerComponent implements OnInit {
     const removedata: any = {
       item: item
     }
-    const { jsonData, newGuid } = this.socketService.makeJsonImageData('DeleteFileS3', removedata);
+    const { jsonData, newGuid } = this.socketService.makeJsonfileData('DeleteFileS3', removedata);
     this.socketService.Request(jsonData);
     this.socketService.OnResponseMessage().subscribe(res => {
       this.saveLoader = false;
@@ -143,7 +143,7 @@ export class FileManagerComponent implements OnInit {
     const removedata: any = {
       item: item
     }
-    const { jsonData, newGuid } = this.socketService.makeJsonImageData('DeleteFolderS3', removedata);
+    const { jsonData, newGuid } = this.socketService.makeJsonfileData('DeleteFolderS3', removedata);
     this.socketService.Request(jsonData);
     this.socketService.OnResponseMessage().subscribe(res => {
       this.saveLoader = false;
@@ -164,7 +164,7 @@ export class FileManagerComponent implements OnInit {
       s3foldername: gets3Folder.length > 0 ? gets3Folder.join('/') + '/' + this.folderName : this.folderName
     };
 
-    const { jsonData, newGuid } = this.socketService.makeJsonImageData('CreateFolderS3', model);
+    const { jsonData, newGuid } = this.socketService.makeJsonfileData('CreateFolderS3', model);
     this.socketService.Request(jsonData);
     this.socketService.OnResponseMessage().subscribe(res => {
       if (res.parseddata.requestId == newGuid && res.parseddata.isSuccess) {
@@ -185,32 +185,20 @@ export class FileManagerComponent implements OnInit {
       this.fileInput.nativeElement.value = '';
     }
   }
-  private async readFileAsArrayBuffer(file: File): Promise<ArrayBuffer> {
-    return new Promise((resolve, reject) => {
-      const reader = new FileReader();
-      reader.onload = (event) => {
-        if (event.target && event.target.result) {
-          resolve(event.target.result as ArrayBuffer);
-        } else {
-          reject(new Error('Error reading file as ArrayBuffer'));
-        }
-      };
-      reader.readAsArrayBuffer(file);
-    });
-  }
+
   async uploadFile(file: File) {
     this.saveLoader = true;
     const gets3Folder = this.breadcrumbFolder.map(a => a.folderName);
     const fileData: any = {
       originalname: file.name,
       mimetype: file.type,
-      buffer: await this.readFileAsArrayBuffer(file),
+      buffer:await this.socketService.readFileAsArrayBuffer(file),
       size: file.size,
       parentId: this.selectedFolder?.id,
       path: gets3Folder.join('/')
     };
 
-    const { jsonData, newGuid } = this.socketService.makeJsonImageData('UploadFileS3', fileData);
+    const { jsonData, newGuid } = this.socketService.makeJsonfileData('UploadFileS3', fileData);
     this.socketService.Request(jsonData);
     this.socketService.OnResponseMessage().subscribe({
       next: (res) => {
@@ -349,7 +337,7 @@ export class FileManagerComponent implements OnInit {
       id:this.updateFileDetails?._id,
       filedetails:this.updateFileDetails
     }
-    const { jsonData, newGuid } = this.socketService.makeJsonImageData('UpdateFileInfoS3',updatefiledata );
+    const { jsonData, newGuid } = this.socketService.makeJsonfileData('UpdateFileInfoS3',updatefiledata );
     this.socketService.Request(jsonData);
     this.socketService.OnResponseMessage().subscribe({
       next: (res) => {
