@@ -2,8 +2,6 @@ import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angu
 import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
 import { JsonEditorOptions } from 'ang-jsoneditor';
 import { NzMessageService } from 'ng-zorro-antd/message';
-import { ApplicationService } from 'src/app/services/application.service';
-import { BuilderService } from 'src/app/services/builder.service';
 import {applyPatch} from 'fast-json-patch';
 import { Operation } from 'fast-json-patch';
 import { diff, Config, DiffPatcher, formatters, Delta } from "jsondiffpatch";

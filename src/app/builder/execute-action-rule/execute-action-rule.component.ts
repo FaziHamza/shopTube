@@ -1,8 +1,6 @@
 import { AfterViewInit, ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
-import { EmployeeService } from 'src/app/services/employee.service';
 import * as monaco from 'monaco-editor';
-import { ApplicationService } from 'src/app/services/application.service';
 import { Subscription, catchError, forkJoin, of } from 'rxjs';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { SocketService } from 'src/app/services/socket.service';

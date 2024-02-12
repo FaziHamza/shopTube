@@ -5,8 +5,6 @@ import { error } from '@ant-design/icons-angular';
 import { FormlyFormOptions } from '@ngx-formly/core';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { Subscription } from 'rxjs';
-import { ApplicationService } from 'src/app/services/application.service';
-import { BuilderService } from 'src/app/services/builder.service';
 import { DataSharedService } from 'src/app/services/data-shared.service';
 import { environment } from 'src/environments/environment';
 import { SocketService } from 'src/app/services/socket.service';
@@ -210,7 +208,6 @@ export class organizationBuilderComponent implements OnInit {
   ];
   organizationId: any;
   constructor(
-    public builderService: BuilderService,
     public dataSharedService: DataSharedService,
     private toastr: NzMessageService,
     private router: Router,

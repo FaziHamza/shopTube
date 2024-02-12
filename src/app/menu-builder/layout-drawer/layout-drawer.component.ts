@@ -1,9 +1,8 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { NzButtonSize } from 'ng-zorro-antd/button';
 import { DataSharedService } from 'src/app/services/data-shared.service';
 import { NzMessageService } from 'ng-zorro-antd/message';
-import { ApplicationService } from 'src/app/services/application.service';
 import { NzModalService } from 'ng-zorro-antd/modal';
+import { SocketService } from 'src/app/services/socket.service';
 @Component({
   selector: 'st-layout-drawer',
   templateUrl: './layout-drawer.component.html',
@@ -20,7 +19,7 @@ export class LayoutDrawerComponent implements OnInit {
   listOfOption: any = [];
   visible = false;
 
-  constructor(public dataSharedService: DataSharedService, private toastr: NzMessageService, private applicationService: ApplicationService,
+  constructor(public dataSharedService: DataSharedService, private toastr: NzMessageService, private socketService: SocketService,
     private modalService: NzModalService,) { }
   themeName: string = ''
   ngOnInit(): void {
@@ -174,23 +173,28 @@ export class LayoutDrawerComponent implements OnInit {
       delete saveTheme?.newMenuArray;
       if (this.policyTheme) {
         const obj = {
-          "MenuTheme": {
-            theme: saveTheme,
-            name: this.themeName,
-            applicationId: this.selectedAppId
-          }
+          theme: saveTheme,
+          name: this.themeName,
+          applicationId: this.selectedAppId
         }
         this.saveLoader = true;
-        this.applicationService.updateNestCommonAPI("cp/MenuTheme", this.policyTheme, obj).subscribe({
+        const { newUGuid, metainfoupdate } = this.socketService.metainfoupdate(this.policyTheme);
+        const Update = { [`MenuTheme`]: obj, metaInfo: metainfoupdate };
+        this.socketService.Request(Update)
+        this.socketService.OnResponseMessage().subscribe({
           next: (res) => {
-            this.saveLoader = false;
-            if (res.isSuccess) {
-              this.policyTheme = '';
-              this.themeName = '';
-              this.getTheme(this.selectedAppId);
-              this.toastr.success(res.message, { nzDuration: 3000 });
-            } else
-              this.toastr.error(res.message, { nzDuration: 3000 });
+            if (res.parseddata.requestId == newUGuid && res.parseddata.isSuccess) {
+              res = res.parseddata.apidata;
+              this.saveLoader = false;
+              if (res.isSuccess) {
+                this.policyTheme = '';
+                this.themeName = '';
+                this.getTheme(this.selectedAppId);
+                this.toastr.success(res.message, { nzDuration: 3000 });
+              } else
+                this.toastr.error(res.message, { nzDuration: 3000 });
+            }
+
           }, error: (error) => {
             this.toastr.error(JSON.stringify(error), { nzDuration: 3000 });
             this.saveLoader = false;
@@ -199,23 +203,28 @@ export class LayoutDrawerComponent implements OnInit {
       }
       else {
         const obj = {
-          "MenuTheme": {
-            theme: saveTheme,
-            name: this.themeName,
-            applicationId: this.selectedAppId
-          }
+          theme: saveTheme,
+          name: this.themeName,
+          applicationId: this.selectedAppId
         }
         this.saveLoader = true;
-        this.applicationService.addNestCommonAPI("cp", obj).subscribe({
+        const { newGuid, metainfocreate } = this.socketService.metainfocreate();
+        const Add = { [`MenuTheme`]: obj, metaInfo: metainfocreate }
+        this.socketService.Request(Add);
+        this.socketService.OnResponseMessage().subscribe({
           next: (res) => {
-            this.saveLoader = false;
-            if (res.isSuccess) {
-              this.getTheme(this.selectedAppId);
-              this.policyTheme = '';
-              this.themeName = '';
-              this.toastr.success(res.message, { nzDuration: 3000 });
-            } else
-              this.toastr.error(res.message, { nzDuration: 3000 });
+            if (res.parseddata.requestId == newGuid && res.parseddata.isSuccess) {
+              res = res.parseddata.apidata;
+              this.saveLoader = false;
+              if (res.isSuccess) {
+                this.getTheme(this.selectedAppId);
+                this.policyTheme = '';
+                this.themeName = '';
+                this.toastr.success(res.message, { nzDuration: 3000 });
+              } else
+                this.toastr.error(res.message, { nzDuration: 3000 });
+            }
+
           },
           error: (error) => {
             this.saveLoader = false;
@@ -247,23 +256,28 @@ export class LayoutDrawerComponent implements OnInit {
     delete saveTheme?.newMenuArray;
     if (this.policyTheme) {
       const obj = {
-        "MenuTheme": {
-          theme: saveTheme,
-          name: this.themeName,
-          applicationId: this.selectedAppId
-        }
+        theme: saveTheme,
+        name: this.themeName,
+        applicationId: this.selectedAppId
       }
       this.saveLoader = true;
-      this.applicationService.addNestCommonAPI("cp", obj).subscribe({
+      const { newGuid, metainfocreate } = this.socketService.metainfocreate();
+      const Add = { [`MenuTheme`]: obj, metaInfo: metainfocreate }
+      this.socketService.Request(Add);
+      this.socketService.OnResponseMessage().subscribe({
         next: (res) => {
-          this.saveLoader = false;
-          if (res.isSuccess) {
-            this.policyTheme = '';
-            this.themeName = '';
-            this.getTheme(this.selectedAppId);
-            this.toastr.success(res.message, { nzDuration: 3000 });
-          } else
-            this.toastr.error(res.message, { nzDuration: 3000 });
+          if (res.parseddata.requestId == newGuid && res.parseddata.isSuccess) {
+            res = res.parseddata.apidata;
+            this.saveLoader = false;
+            if (res.isSuccess) {
+              this.policyTheme = '';
+              this.themeName = '';
+              this.getTheme(this.selectedAppId);
+              this.toastr.success(res.message, { nzDuration: 3000 });
+            } else
+              this.toastr.error(res.message, { nzDuration: 3000 });
+          }
+
         }, error: (error) => {
           this.toastr.error(JSON.stringify(error), { nzDuration: 3000 });
           this.saveLoader = false;
@@ -284,15 +298,21 @@ export class LayoutDrawerComponent implements OnInit {
   }
   setNewTheme(event: any) {
     if (event) {
-      this.applicationService.getNestCommonAPIById("cp/MenuTheme1", event).subscribe({
+      const { jsonData, newGuid } = this.socketService.makeJsonDataById('MenuTheme1', event, 'GetModelTypeById');
+      this.socketService.Request(jsonData);
+      this.socketService.OnResponseMessage().subscribe({
         next: (res) => {
-          if (res.isSuccess) {
-            this.selectedTheme = res.data[0].theme || [];
-            this.themeName = this.themeList.find(a => a._id == this.policyTheme)?.name
-            this.selectedThemeNotify.emit(this.selectedTheme);
-            this.disabledButtonsFunc();
-          } else
-            this.toastr.error(res.message, { nzDuration: 3000 });
+          if (res.parseddata.requestId == newGuid && res.parseddata.isSuccess) {
+            res = res.parseddata.apidata
+            if (res.isSuccess) {
+              this.selectedTheme = res.data[0].theme || [];
+              this.themeName = this.themeList.find(a => a._id == this.policyTheme)?.name
+              this.selectedThemeNotify.emit(this.selectedTheme);
+              this.disabledButtonsFunc();
+            } else
+              this.toastr.error(res.message, { nzDuration: 3000 });
+          }
+
         }, error: (error) => {
           this.toastr.error(JSON.stringify(error), { nzDuration: 3000 });
         }
@@ -305,14 +325,18 @@ export class LayoutDrawerComponent implements OnInit {
 
     // this.saveLoader = true;
     if (value) {
-      this.applicationService.getNestCommonAPIById("cp/MenuTheme", value).subscribe({
+      const { jsonData, newGuid } = this.socketService.makeJsonDataById('MenuTheme', value, 'GetModelTypeById');
+      this.socketService.Request(jsonData);
+      this.socketService.OnResponseMessage().subscribe({
         next: (res) => {
-          // this.saveLoader = false;
-          if (res.isSuccess) {
-            this.themeList = res.data || [];
-            this.disabledButtonsFunc();
-          } else
-            this.toastr.error(res.message, { nzDuration: 3000 });
+          if (res.parseddata.requestId == newGuid && res.parseddata.isSuccess) {
+            res = res.parseddata.apidata
+            if (res.isSuccess) {
+              this.themeList = res.data || [];
+              this.disabledButtonsFunc();
+            } else
+              this.toastr.error(res.message, { nzDuration: 3000 });
+          }
         }, error: (error) => {
           // this.saveLoader = false;
           this.toastr.error(JSON.stringify(error), { nzDuration: 3000 });
@@ -339,16 +363,25 @@ export class LayoutDrawerComponent implements OnInit {
   }
   deleteMenuTheme() {
     this.saveLoader = true;
-    this.applicationService.deleteNestCommonAPI("cp/MenuTheme", this.policyTheme).subscribe({
+    const { jsonData, newGuid } = this.socketService.deleteModelType('MenuTheme', this.policyTheme);
+
+    this.socketService.Request(jsonData);
+    this.socketService.OnResponseMessage().subscribe({
       next: (res: any) => {
-        this.saveLoader = false;
-        if (res.isSuccess) {
-          this.policyTheme = '';
-          this.themeName = '';
-          this.getTheme(this.selectedAppId);
-          this.toastr.success(res.message, { nzDuration: 3000 });
-        } else
-          this.toastr.error(res.message, { nzDuration: 3000 });
+        if (res.parseddata.requestId == newGuid && res.parseddata.isSuccess) {
+          res = res.parseddata.apidata;
+
+          this.saveLoader = false;
+          if (res.isSuccess) {
+            this.policyTheme = '';
+            this.themeName = '';
+            this.getTheme(this.selectedAppId);
+            this.toastr.success(res.message, { nzDuration: 3000 });
+          } else
+            this.toastr.error(res.message, { nzDuration: 3000 });
+
+        }
+
       }, error: (error) => {
         this.toastr.error(JSON.stringify(error), { nzDuration: 3000 });
         this.saveLoader = false;

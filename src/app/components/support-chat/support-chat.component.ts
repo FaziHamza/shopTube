@@ -2,9 +2,8 @@ import { ChangeDetectorRef, Component, Input } from '@angular/core';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { NzModalService } from 'ng-zorro-antd/modal';
 import { Subscription } from 'rxjs';
-import { ApplicationService } from 'src/app/services/application.service';
 import { DataSharedService } from 'src/app/services/data-shared.service';
-import { EmployeeService } from 'src/app/services/employee.service';
+import { SocketService } from 'src/app/services/socket.service';
 
 @Component({
   selector: 'st-support-chat',
@@ -23,13 +22,13 @@ export class SupportChatComponent {
   saveLoader: boolean = false;
   chatData: any[] = [];
   userName: any;
-  showIcon : boolean = false;
+  showIcon: boolean = false;
   requestSubscription: Subscription;
   editDeleteId: any;
   editId: any;
-  constructor(public dataSharedService: DataSharedService, private toastr: NzMessageService,
-    private applicationServices: ApplicationService, private employeeService: EmployeeService, private modal: NzModalService,
-    private cdr: ChangeDetectorRef, private applicationService: ApplicationService) {
+  constructor(public dataSharedService: DataSharedService, private toastr: NzMessageService, private modal: NzModalService,
+    private socketService: SocketService,
+    private cdr: ChangeDetectorRef,) {
     this.processData = this.processData.bind(this);
   }
 
@@ -88,25 +87,34 @@ export class SupportChatComponent {
     }
     this.saveLoader = true;
     if (actionID) {
-      this.applicationServices.addNestCommonAPI('knex-query/execute-rules/' + actionID, model).subscribe({
+      const { jsonData, RequestGuid } = this.socketService.metaInfoForGrid('PostPageExecuteRules', actionID);
+      const jsonData1 = {
+        postType: 'post',
+        modalData: model, metaInfo: jsonData.metaInfo
+      };
+      this.socketService.Request(jsonData1);
+      this.socketService.OnResponseMessage().subscribe({
         next: (res) => {
-          this.saveLoader = false;
-          if (res[0]?.error) {
-            this.toastr.error(res[0]?.error, { nzDuration: 3000 });
-            return;
+          if (res.parseddata.requestId == RequestGuid && res.parseddata.isSuccess) {
+            res = res.parseddata.apidata;
+            this.saveLoader = false;
+            if (res[0]?.error) {
+              this.toastr.error(res[0]?.error, { nzDuration: 3000 });
+              return;
+            }
+            this.resetValues();
+            const successMessage = (model.postType === 'post') ? 'Save Successfully' : 'Update Successfully';
+            this.toastr.success(successMessage, { nzDuration: 3000 });
+            if (this.data.mapApi) {
+              this.getChatsWithMapping();
+              return;
+            }
+            if (model.postType === 'put' && !res?.isSuccess) {
+              this.toastr.error(res.message, { nzDuration: 3000 });
+              return;
+            }
+            this.getChats();
           }
-          this.resetValues();
-          const successMessage = (model.postType === 'post') ? 'Save Successfully' : 'Update Successfully';
-          this.toastr.success(successMessage, { nzDuration: 3000 });
-          if (this.data.mapApi) {
-            this.getChatsWithMapping();
-            return;
-          }
-          if (model.postType === 'put' && !res?.isSuccess) {
-            this.toastr.error(res.message, { nzDuration: 3000 });
-            return;
-          }
-          this.getChats();
         },
         error: (err) => {
           // Handle the error
@@ -141,16 +149,26 @@ export class SupportChatComponent {
         this.toastr.warning("Action not found", { nzDuration: 3000 });
       }
       this.saveLoader = true;
-      this.requestSubscription = this.employeeService.saveSQLDatabaseTable(`knex-query/executeDelete-rules/${findClickApi._id}`, model).subscribe({
+      const { jsonData, RequestGuid } = this.socketService.metaInfoForGrid('PostPageExecuteDelete', findClickApi.id);
+      const jsonData1 = {
+        postType: 'post',
+        modalData: model, metaInfo: jsonData.metaInfo
+      };
+      this.socketService.Request(jsonData1);
+      this.socketService.OnResponseMessage().subscribe({
         next: (res) => {
-          this.saveLoader = false;
-          this.resetValues();
-          if (res.isSuccess) {
-            this.toastr.success("Delete Successfully", { nzDuration: 3000 });
-            this.data.chatData = this.data.chatData.filter((a: any) => a.id != data.id)
-          } else {
-            this.toastr.warning(res.message || "Data is not deleted", { nzDuration: 3000 });
+          if (res.parseddata.requestId == RequestGuid && res.parseddata.isSuccess) {
+            res = res.parseddata.apidata;
+            this.saveLoader = false;
+            this.resetValues();
+            if (res.isSuccess) {
+              this.toastr.success("Delete Successfully", { nzDuration: 3000 });
+              this.data.chatData = this.data.chatData.filter((a: any) => a.id != data.id)
+            } else {
+              this.toastr.warning(res.message || "Data is not deleted", { nzDuration: 3000 });
+            }
           }
+
         },
         error: (err) => {
           this.saveLoader = false;
@@ -185,12 +203,18 @@ export class SupportChatComponent {
     if (this.data.eventActionconfig) {
       if (this.data.eventActionconfig.action) {
         this.saveLoader = true;
-        this.applicationServices.callApi('knex-query/getexecute-rules/' + this.data.eventActionconfig._id, 'get', '', '', '').subscribe({
+        const { jsonData, RequestGuid } = this.socketService.metaInfoForGrid('GetPageExecuteRules', this.data.eventActionconfig.id);
+        this.socketService.Request(jsonData);
+        this.socketService.OnResponseMessage().subscribe({
           next: (res) => {
-            this.saveLoader = false; // Ensure to set the loader to false in case of error
-            if (res.isSuccess) {
-              this.data['chatData'] = res.data;
+            if (res.parseddata.requestId == RequestGuid && res.parseddata.isSuccess) {
+              res = res.parseddata.apidata;
+              this.saveLoader = false; // Ensure to set the loader to false in case of error
+              if (res.isSuccess) {
+                this.data['chatData'] = res.data;
+              }
             }
+
           },
           error: (err) => {
             // Handle the error
@@ -203,8 +227,8 @@ export class SupportChatComponent {
     }
   }
 
-  showicon(){
-    this.showIcon = true ;
+  showicon() {
+    this.showIcon = true;
     console.log(this.showIcon)
   }
   getChatsWithMapping() {
@@ -212,19 +236,19 @@ export class SupportChatComponent {
     if (api) {
       this.data['chatData'] = [];
       this.saveLoader = true;
-      this.requestSubscription = this.applicationService.getNestCommonAPI(api).subscribe({
-        next: (res) => {
-          this.saveLoader = false;
-          if (res && res.data && res.data.length > 0) {
-            this.data['chatData'] = res.data;
-          }
-        },
-        error: (err) => {
-          console.error(err);
-          this.saveLoader = false;
-          this.toastr.error("An error occurred in mapping", { nzDuration: 3000 });
-        }
-      });
+      // this.requestSubscription = this.applicationService.getNestCommonAPI(api).subscribe({
+      //   next: (res) => {
+      //     this.saveLoader = false;
+      //     if (res && res.data && res.data.length > 0) {
+      //       this.data['chatData'] = res.data;
+      //     }
+      //   },
+      //   error: (err) => {
+      //     console.error(err);
+      //     this.saveLoader = false;
+      //     this.toastr.error("An error occurred in mapping", { nzDuration: 3000 });
+      //   }
+      // });
     }
   }
 }

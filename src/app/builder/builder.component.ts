@@ -14,7 +14,6 @@ import { NzFormatEmitEvent } from 'ng-zorro-antd/tree';
 import { GenaricFeild } from '../models/genaricFeild.modal';
 import { Guid } from '../models/guid';
 import { TreeNode } from '../models/treeNode';
-import { BuilderService } from '../services/builder.service';
 import { DataSharedService } from '../services/data-shared.service';
 import {
   actionTypeFeild,
@@ -30,14 +29,12 @@ import { NzModalRef, NzModalService } from 'ng-zorro-antd/modal';
 import { AddControlService } from './service/addControl.service';
 import { Router } from '@angular/router';
 import { AddControlCommonPropertiesComponent } from './add-control-common-properties/add-control-common-properties.component';
-import { ApplicationService } from '../services/application.service';
 import { BulkUpdateComponent } from './bulk-update/bulk-update.component';
 import { NzDrawerService } from 'ng-zorro-antd/drawer';
 import { NzCascaderOption } from 'ng-zorro-antd/cascader';
 import { TemplatePopupComponent } from './template-popup/template-popup.component';
 import { MarketPlaceComponent } from './market-place/market-place.component';
 import { FormGroup } from '@angular/forms';
-import { EmployeeService } from '../services/employee.service';
 import { faker } from '@faker-js/faker';
 import { HeadingParagrapghUpdateComponent } from './heading-paragrapgh-update/heading-paragrapgh-update.component';
 import { OtherBulkUpdateComponent } from './other-bulk-update/other-bulk-update.component';
@@ -114,12 +111,9 @@ export class BuilderComponent implements OnInit {
   applicationThemeClasses: any[] = [];
   uiRuleData: any[] = [];
   constructor(
-    public builderService: BuilderService,
     private viewContainerRef: ViewContainerRef,
-    private applicationService: ApplicationService,
     private drawerService: NzDrawerService,
     private _encryptionService: EncryptionService,
-    private employeeService: EmployeeService,
     private toastr: NzMessageService,
     private dataService: DataService,
     private modalService: NzModalService,
@@ -4067,18 +4061,18 @@ export class BuilderComponent implements OnInit {
   //   this.updateNodes();
   // }
   formDataFromApi(screenId: any) {
-    this.requestSubscription = this.builderService
-      .genericApis(screenId)
-      .subscribe({
-        next: (res) => {
-          this.nodes[0].children[1].children.push(res[0]);
-          this.updateNodes();
-        },
-        error: (err) => {
-          console.error(err); // Log the error to the console
-          this.toastr.error('An error occurred', { nzDuration: 3000 }); // Show an error message to the user
-        },
-      });
+    // this.requestSubscription = this.builderService
+    //   .genericApis(screenId)
+    //   .subscribe({
+    //     next: (res) => {
+    //       this.nodes[0].children[1].children.push(res[0]);
+    //       this.updateNodes();
+    //     },
+    //     error: (err) => {
+    //       console.error(err); // Log the error to the console
+    //       this.toastr.error('An error occurred', { nzDuration: 3000 }); // Show an error message to the user
+    //     },
+    //   });
   }
   // dashonicTemplates(model: any) {
   //   this.requestSubscription = this.builderService
@@ -5178,20 +5172,6 @@ export class BuilderComponent implements OnInit {
           //     // event.form.options, event.form.options
           //   );
           // }
-          if (event.form.api) {
-            this.requestSubscription = this.builderService
-              .genericApis(event.form.api)
-              .subscribe({
-                next: (res) => {
-                  this.selectedNode.tableData = res.tableData;
-                  this.selectedNode.tableHeaders = res.tableHeaders;
-                },
-                error: (err) => {
-                  console.error(err); // Log the error to the console
-                  this.toastr.error('An error occurred', { nzDuration: 3000 }); // Show an error message to the user
-                },
-              });
-          }
           if (this.selectedNode.noResult) {
             if (this.selectedNode.tableData.length > 0) {
               this.selectedNode['tableNoResultArray'] =
@@ -5225,24 +5205,7 @@ export class BuilderComponent implements OnInit {
         break;
       case 'fixedDiv':
         if (event.form.api) {
-          this.requestSubscription = this.builderService
-            .genericApis(event.form.api)
-            .subscribe({
-              next: (res) => {
-                if (Array.isArray(res)) {
-                  res.forEach((item) => {
-                    this.selectedNode?.children?.push(item);
-                  });
-                } else {
-                  this.selectedNode?.children?.push(res);
-                }
-                this.updateNodes();
-              },
-              error: (err) => {
-                console.error(err); // Log the error to the console
-                this.toastr.error('An error occurred', { nzDuration: 3000 }); // Show an error message to the user
-              },
-            });
+          
         }
         break;
       case 'chart':
@@ -5271,30 +5234,7 @@ export class BuilderComponent implements OnInit {
             seriesList;
           this.selectedNode.link = event.form.link;
           if (event.form.link) {
-            this.requestSubscription = this.builderService
-              .salesDataApi()
-              .subscribe({
-                next: (res) => {
-                  if (this.selectedNode.section) {
-                    this.selectedNode.section[0].price = res[0]?.price;
-                    this.selectedNode.section[0].filterData[0].price =
-                      res[0]?.price;
-                    this.selectedNode.section[0].colors = res[0]?.colors;
-                    this.selectedNode.section[0].data = res[0]?.data;
-                    this.selectedNode.section[0].filtertype = res[0]?.filter;
-                    this.selectedNode.section[0].filterData[0].refundsChart.series[0].data =
-                      res[0]?.data;
-                    this.selectedNode.section[0].filterData[0].refundsChart.colors =
-                      res[0]?.colors;
-                  }
-                  this.updateNodes();
-                },
-                error: (err) => {
-                  console.error(err); // Log the error to the console
-                  this.toastr.error('An error occurred', { nzDuration: 3000 }); // Show an error message to the user
-                },
-              });
-            event.form.link = '';
+            // event.form.link = '';
           }
         }
         break;
@@ -5365,27 +5305,7 @@ export class BuilderComponent implements OnInit {
           }
 
           if (event.form.kanbanTaskApi != undefined) {
-            this.requestSubscription = this.builderService
-              .genericApis(event.form.kanbanTaskApi)
-              .subscribe({
-                next: (res) => {
-                  this.selectedNode = res;
-                  for (let index = 0; index < res.length; index++) {
-                    this.selectedNode.id = res[index].id;
-                    this.selectedNode.title = res[index].title;
-                    this.selectedNode.date = res[index].date;
-                    this.selectedNode.users = res[index].users;
-                    this.selectedNode.status = res[index].status;
-                    this.selectedNode.variant = res[index].variant;
-                    this.selectedNode.content = res[index].content;
-                  }
-                  this.updateNodes();
-                },
-                error: (err) => {
-                  console.error(err); // Log the error to the console
-                  this.toastr.error('An error occurred', { nzDuration: 3000 }); // Show an error message to the user
-                },
-              });
+            
           }
           this.updateNodes();
         }
@@ -6525,32 +6445,6 @@ export class BuilderComponent implements OnInit {
   saveCommit: boolean = false;
   newCases: string[] = [];
   deleteCases: any[] = [];
-  deleteDBFields() {
-    if (this.deleteCases.length > 0) {
-      const deleteObservables = this.deleteCases.map((element) => {
-        return this.builderService
-          .deleteSQLDatabaseTable('knex-crud/tableschema/', element.id)
-          .pipe(
-            catchError((error) => of(error)) // Handle error and continue the forkJoin
-          );
-      });
-      forkJoin(deleteObservables).subscribe({
-        next: (results) => {
-          if (results.every((result) => !(result instanceof Error))) {
-            this.toastr.success('Delete Fields Successfully', {
-              nzDuration: 3000,
-            });
-          } else {
-            this.toastr.error('Fields not inserted', { nzDuration: 3000 });
-          }
-        },
-        error: (err) => {
-          console.error(err);
-          this.toastr.error('Fields not inserted', { nzDuration: 3000 });
-        },
-      });
-    }
-  }
 
   saveInDB() {
     let mainArray: any[] = [];
@@ -6657,16 +6551,16 @@ export class BuilderComponent implements OnInit {
     }
   }
   comentSubmit() {
-    this.requestSubscription = this.applicationService.addNestCommonAPI(`applications/${this.currentUser.applicationid}/clone`, "").subscribe({
-      next: (res: any) => {
-        if (res.isSuccess) {
-          this.toastr.success(`Git : ${res.message}`, { nzDuration: 3000 });
-        } else this.toastr.error(`Git : ${res.message}`, { nzDuration: 3000 });
-      },
-      error: (err) => {
-        this.toastr.error("Git : An error occurred", { nzDuration: 3000 });
-      }
-    });
+    // this.requestSubscription = this.applicationService.addNestCommonAPI(`applications/${this.currentUser.applicationid}/clone`, "").subscribe({
+    //   next: (res: any) => {
+    //     if (res.isSuccess) {
+    //       this.toastr.success(`Git : ${res.message}`, { nzDuration: 3000 });
+    //     } else this.toastr.error(`Git : ${res.message}`, { nzDuration: 3000 });
+    //   },
+    //   error: (err) => {
+    //     this.toastr.error("Git : An error occurred", { nzDuration: 3000 });
+    //   }
+    // });
   }
   handleOk(): void {
     if (this.isTableSave)
@@ -6855,24 +6749,24 @@ export class BuilderComponent implements OnInit {
   }
   api(value?: any, data?: any) {
     if (value) {
-      this.requestSubscription = this.builderService
-        .genericApis(value)
-        .subscribe({
-          next: (res) => {
-            if (Array.isArray(res)) {
-              res.forEach((item) => {
-                data?.children?.push(item);
-              });
-            } else {
-              data?.children?.push(res);
-            }
-            this.updateNodes();
-          },
-          error: (err) => {
-            console.error(err); // Log the error to the console
-            this.toastr.error('An error occurred', { nzDuration: 3000 }); // Show an error message to the user
-          },
-        });
+      // this.requestSubscription = this.builderService
+      //   .genericApis(value)
+      //   .subscribe({
+      //     next: (res) => {
+      //       if (Array.isArray(res)) {
+      //         res.forEach((item) => {
+      //           data?.children?.push(item);
+      //         });
+      //       } else {
+      //         data?.children?.push(res);
+      //       }
+      //       this.updateNodes();
+      //     },
+      //     error: (err) => {
+      //       console.error(err); // Log the error to the console
+      //       this.toastr.error('An error occurred', { nzDuration: 3000 }); // Show an error message to the user
+      //     },
+      //   });
     }
     return data;
   }
@@ -7232,160 +7126,7 @@ export class BuilderComponent implements OnInit {
 
     }
   }
-  async getFromQuery(name: string, type?: any) {
-    try {
-      let tableData = this.findObjectByTypeBase(this.nodes[0], "gridList");
-      if (tableData) {
-        // this.saveLoader = true;
-        tableData['searchValue'] = '';
-        let findClickApi = tableData?.eventActionconfig;
-        if (findClickApi) {
-          // let pagination = '';
-          let url = `knex-query/getexecute-rules/${findClickApi.id}`;
-          // for (let index = 0; index < findClickApi.length; index++) {
-          //   let element = findClickApi[index].actionType;
-          //   if (element == 'query') {
-          //     url = `knex-query/getAction/${findClickApi[index].id}`;
-          //     break;
-          //   } else {
-          //     url = `knex-query/getAction/${findClickApi[index].id}`;
-          //   }
-          // }
-          // if (tableData.serverSidePagination) {
-          //   pagination = '?page=' + 1 + '&pageSize=' + tableData?.end;
-          // }
-          if (url) {
-            const applicationid = this.dataSharedService.decryptedValue('applicationId');
-            let savedGroupData: any = [];
-            if (applicationid) {
-              savedGroupData = await this.dataService.getNodes(JSON.parse(applicationid), this.screenname, "Table");
-            }
-            this.saveLoader = true;
-            this.employeeService.getSQLDatabaseTable(url).subscribe({
-              next: (res) => {
-                try {
-                  if (tableData && res?.isSuccess) {
-                    if (res.data.length > 0) {
-                      // this.saveLoader = false;
-                      let saveForm = JSON.parse(JSON.stringify(res.data[0]));
-                      const firstObjectKeys = Object.keys(saveForm);
-                      let tableKey = firstObjectKeys.map(key => ({ name: key }));
-                      let obj = firstObjectKeys.map(key => ({ name: key, key: key }));
-                      tableData.tableData = [];
-                      saveForm.id = tableData.tableData.length + 1;
-                      res.data.forEach((element: any) => {
-                        element.id = (element?.id)?.toString();
-                        tableData.tableData?.push(element);
-                      });
-                      // pagniation work start
-                      if (!tableData.end) {
-                        tableData.end = 10;
-                      }
-                      tableData.pageIndex = 1;
-                      tableData.totalCount = res.count;
-                      tableData.serverApi = url;
-                      tableData.targetId = '';
-                      tableData.displayData = tableData.tableData.length > tableData.end ? tableData.tableData.slice(0, tableData.end) : tableData.tableData;
-                      // pagniation work end
-                      if (tableData.tableHeaders.length == 0) {
-                        tableData.tableHeaders = obj;
-                        tableData['tableKey'] = tableKey;
-                      }
-                      else {
-                        if (JSON.stringify(tableData['tableKey']) !== JSON.stringify(tableKey)) {
-                          const updatedData = tableKey.filter(updatedItem =>
-                            !tableData.tableHeaders.some((headerItem: any) => headerItem.key === updatedItem.name)
-                          );
-                          if (updatedData.length > 0) {
-                            updatedData.forEach(updatedItem => {
-                              tableData.tableHeaders.push({ id: tableData.tableHeaders.length + 1, key: updatedItem.name, name: updatedItem.name });
-                            });
-                            tableData['tableKey'] = tableData.tableHeaders;
-                          }
-                        }
-                      }
-
-                      // Make DataType
-                      let propertiesWithoutDataType = tableData.tableHeaders.filter((check: any) => !check.hasOwnProperty('dataType'));
-                      if (propertiesWithoutDataType.length > 0) {
-                        let formlyInputs = this.filterInputElements(this.nodes[0].children[1].children);
-
-                        if (formlyInputs && formlyInputs.length > 0) {
-                          propertiesWithoutDataType.forEach((head: any) => {
-                            let input = formlyInputs.find(a => a.formly[0].fieldGroup[0].key.includes('.') ? a.formly[0].fieldGroup[0].key.split('.')[1] == head.key : a.formly[0].fieldGroup[0].key == head.key);
-
-                            if (input) {
-                              head['dataType'] = input.formly[0].fieldGroup[0].type;
-                              head['subDataType'] = input.formly[0].fieldGroup[0].props.type;
-                              head['title'] = input.title;
-                            }
-                          });
-
-                          tableData.tableHeaders = tableData.tableHeaders.concat(propertiesWithoutDataType.filter((item: any) => !tableData.tableHeaders.some((objItem: any) => objItem.key === item.key)));
-                        }
-                      }
-                      tableData['tableKey'] = tableData.tableHeaders;
-                      let getData = savedGroupData[savedGroupData.length - 1];
-                      if (getData?.data) {
-                        if (getData.data.length > 0) {
-                          let groupingArray: any = [];
-                          let updateTableData: any = [];
-                          getData.data.forEach((elem: any) => {
-                            let findData = tableData.tableHeaders.find((item: any) => item.key == elem);
-                            if (findData) {
-                              updateTableData = this.groupedFunc(elem, 'add', findData, groupingArray, tableData.displayData, tableData.tableData, tableData.tableHeaders);
-                            }
-                          });
-                          tableData.tableData = updateTableData;
-                          tableData.displayData = tableData.tableData.length > tableData.end ? tableData.tableData.slice(0, tableData.end) : tableData.tableData;
-                          tableData.tableHeaders.unshift({
-                            name: 'expand',
-                            key: 'expand',
-                            title: 'Expand',
-                          });
-                          tableData.totalCount = tableData.tableData;
-                        } else {
-                          tableData.tableHeaders = tableData.tableHeaders.filter((head: any) => head.key != 'expand');
-                        }
-
-                      } else {
-                        tableData.tableHeaders = tableData.tableHeaders.filter((head: any) => head.key != 'expand');
-                      }
-                      this.saveLoader = false;
-                    } else {
-                      this.saveLoader = false;
-                    }
-                    // this.assignGridRules(tableData);
-                    this.updateNodes();
-                    this.cdr.detectChanges();
-                  } else {
-                    this.saveLoader = false;
-                  }
-                } catch (error) {
-                  console.error(error);
-                  this.toastr.error("An error occurred", { nzDuration: 3000 });
-                  this.saveLoader = false;
-                }
-              },
-              error: (error: any) => {
-                console.error(error);
-                this.toastr.error("An error occurred", { nzDuration: 3000 });
-                this.saveLoader = false;
-              }
-            });
-          }
-        } else {
-          this.saveLoader = false;
-        }
-      }
-    } catch (error) {
-      console.error(error);
-      this.toastr.error("An error occurred", { nzDuration: 3000 });
-      this.saveLoader = false;
-    }
-  }
-
-
+  
   //Fazi code
   nzEvent(event: NzFormatEmitEvent): void {
 
@@ -7563,19 +7304,19 @@ export class BuilderComponent implements OnInit {
   }
   getTaskManagementIssuesFunc(screenId: string, applicationid: string) {
     if (applicationid) {
-      this.requestSubscription = this.builderService.getUserAssignTask(screenId, applicationid).subscribe({
-        next: (res: any) => {
-          if (res.isSuccess) {
-            if (res.data.length > 0) {
-              this.getTaskManagementIssues = res.data;
-            }
-          }
-        },
-        error: (err) => {
-          console.error(err);
-          this.toastr.error("An error occurred", { nzDuration: 3000 });
-        }
-      })
+      // this.requestSubscription = this.builderService.getUserAssignTask(screenId, applicationid).subscribe({
+      //   next: (res: any) => {
+      //     if (res.isSuccess) {
+      //       if (res.data.length > 0) {
+      //         this.getTaskManagementIssues = res.data;
+      //       }
+      //     }
+      //   },
+      //   error: (err) => {
+      //     console.error(err);
+      //     this.toastr.error("An error occurred", { nzDuration: 3000 });
+      //   }
+      // })
     }
   }
   assignIssue(node: any, issue: any) {

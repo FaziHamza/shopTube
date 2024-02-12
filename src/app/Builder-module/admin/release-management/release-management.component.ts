@@ -3,7 +3,6 @@ import { FormGroup } from '@angular/forms';
 import { FormlyFormOptions } from '@ngx-formly/core';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { Subscription } from 'rxjs';
-import { ApplicationService } from 'src/app/services/application.service';
 import { Release } from '../models/release.model';
 
 @Component({
@@ -18,7 +17,7 @@ export class ReleaseManagementComponent implements OnInit {
   releaseList: Release[] = [];
   model: any = {};
 
-  constructor(private applicationService: ApplicationService, private toastr: NzMessageService) { }
+  constructor(private toastr: NzMessageService) { }
 
   fields = [
     {
@@ -121,20 +120,20 @@ export class ReleaseManagementComponent implements OnInit {
     this.model = {};
   }
   getRelease() {
-    this.requestSubscription = this.applicationService.getNestCommonAPI('cp/Release').subscribe({
-      next: (getRes: any) => {
+    // this.requestSubscription = this.applicationService.getNestCommonAPI('cp/Release').subscribe({
+    //   next: (getRes: any) => {
         
-        if (getRes.isSuccess) {
-          if (getRes.data.length > 0) {
-            this.releaseList = getRes.data
-          }
-        }
-      },
-      error: (error: any) => {
-        console.error(error);
-        this.toastr.error("An error occurred", { nzDuration: 3000 });
-      }
-    });
+    //     if (getRes.isSuccess) {
+    //       if (getRes.data.length > 0) {
+    //         this.releaseList = getRes.data
+    //       }
+    //     }
+    //   },
+    //   error: (error: any) => {
+    //     console.error(error);
+    //     this.toastr.error("An error occurred", { nzDuration: 3000 });
+    //   }
+    // });
   }
 
   submitRelease() {
@@ -148,42 +147,42 @@ export class ReleaseManagementComponent implements OnInit {
       const releaseModel = {
         Release: this.myForm.value,
       };
-      const addOrUpdateRelease$ = this.model._id == undefined
-        ? this.applicationService.addNestCommonAPI('cp', releaseModel)
-        : this.applicationService.updateNestCommonAPI(
-          'cp/Release',
-          this.model._id,
-          releaseModel
-        );
+      // const addOrUpdateRelease$ = this.model._id == undefined
+      //   ? this.applicationService.addNestCommonAPI('cp', releaseModel)
+      //   : this.applicationService.updateNestCommonAPI(
+      //     'cp/Release',
+      //     this.model._id,
+      //     releaseModel
+      //   );
 
-      this.requestSubscription = addOrUpdateRelease$.subscribe({
-        next: (res: any) => {
-          if (res.isSuccess) {
-            this.clearForm();
-            this.toastr.success(`Task: ${res.message}`, { nzDuration: 3000 });
-            this.getRelease();
-          }
-        },
-        error: (error: any) => {
-          console.error(error);
-          this.toastr.error("An error occurred", { nzDuration: 3000 });
-        }
-      });
+      // this.requestSubscription = addOrUpdateRelease$.subscribe({
+      //   next: (res: any) => {
+      //     if (res.isSuccess) {
+      //       this.clearForm();
+      //       this.toastr.success(`Task: ${res.message}`, { nzDuration: 3000 });
+      //       this.getRelease();
+      //     }
+      //   },
+      //   error: (error: any) => {
+      //     console.error(error);
+      //     this.toastr.error("An error occurred", { nzDuration: 3000 });
+      //   }
+      // });
     }
   }
 
   deleteRelease(objRelease: any) {
-    this.requestSubscription = this.applicationService.deleteNestCommonAPI('cp/Release', objRelease._id).subscribe({
-      next: (res: any) => {
-        if (res.isSuccess) {
-          this.toastr.success(`Task: ${res.message}`, { nzDuration: 3000 });
-          this.getRelease();
-        }
-      },
-      error: (error: any) => {
-        console.error(error);
-        this.toastr.error("An error occurred", { nzDuration: 3000 });
-      }
-    });
+    // this.requestSubscription = this.applicationService.deleteNestCommonAPI('cp/Release', objRelease._id).subscribe({
+    //   next: (res: any) => {
+    //     if (res.isSuccess) {
+    //       this.toastr.success(`Task: ${res.message}`, { nzDuration: 3000 });
+    //       this.getRelease();
+    //     }
+    //   },
+    //   error: (error: any) => {
+    //     console.error(error);
+    //     this.toastr.error("An error occurred", { nzDuration: 3000 });
+    //   }
+    // });
   }
 }

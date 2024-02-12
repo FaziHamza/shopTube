@@ -5,6 +5,7 @@ import { NzMessageService } from 'ng-zorro-antd/message';
 import { NzUploadChangeParam, NzUploadFile } from 'ng-zorro-antd/upload';
 import { Observable, Observer } from 'rxjs';
 import { DataSharedService } from 'src/app/services/data-shared.service';
+import { SocketService } from 'src/app/services/socket.service';
 import { environment } from 'src/environments/environment';
 
 @Component({
@@ -17,8 +18,9 @@ export class MultiFileUploadWrapperComponent extends FieldType<FieldTypeConfig> 
   imageUrl: any;
   loading = false;
   avatarUrl?: string;
-  nestBaseUrl = environment.nestBaseUrl
-  constructor(private msg: NzMessageService, private sharedService: DataSharedService,public http: HttpClient) {
+  // nestBaseUrl = environment.nestBaseUrl
+  constructor(private msg: NzMessageService, private sharedService: DataSharedService, public http: HttpClient,
+    private readonly socketService: SocketService) {
     super();
   }
 
@@ -35,7 +37,7 @@ export class MultiFileUploadWrapperComponent extends FieldType<FieldTypeConfig> 
     //   this.msg.error(`${file.name} file upload failed.`);
     // }
   }
-  files:any[] = [];
+  files: any[] = [];
   handleFileRemove(file: any): boolean {
     console.log(`Removing file: ${file.name}`);
     // Add your logic to handle file removal, such as updating the fileList array
@@ -53,7 +55,7 @@ export class MultiFileUploadWrapperComponent extends FieldType<FieldTypeConfig> 
       console.error('File upload error', event.file, event.fileList);
     }
   }
-  fileList:any[]=[];
+  fileList: any[] = [];
   beforeUpload = (file: any, _fileList: any[]): Observable<boolean> =>
     new Observable((observer: Observer<boolean>) => {
       const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png';
@@ -76,18 +78,22 @@ export class MultiFileUploadWrapperComponent extends FieldType<FieldTypeConfig> 
         // `reader.result` contains the base64-encoded file data
         const base64Data = reader.result as string;
 
-        const customUploadUrl = environment.nestBaseUrl +'market-place/testing'; // Replace with your custom URL
-        const obj  = {
-          image : base64Data
-        }
-        this.http.post(customUploadUrl, obj).subscribe(
-          (response:any) => {
-            // Handle successful upload response
-            console.log('File uploaded successfully', response);
-            observer.next(isJpgOrPng && isLt2M);
-            observer.complete();
+        // const customUploadUrl = environment.nestBaseUrl +'market-place/testing'; // Replace with your custom URL
+        // const obj  = {
+        //   image : base64Data
+        // }
+        const { jsonData, newGuid } = this.socketService.makeJsonImageData('UploadFileS3', base64Data);
+        this.socketService.Request(jsonData);
+        this.socketService.OnResponseMessage().subscribe(
+          (res: any) => {
+            if (res.parseddata.requestId == newGuid && res.parseddata.isSuccess) {
+              res = res.parseddata.apidata;
+              console.log('File uploaded successfully', res);
+              observer.next(isJpgOrPng && isLt2M);
+              observer.complete();
+            }
           },
-          (error:any) => {
+          (error: any) => {
             // Handle upload error
             console.error('File upload error', error);
             observer.complete();

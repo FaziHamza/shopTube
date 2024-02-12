@@ -1,6 +1,5 @@
 import { Component, Input, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { NzMessageService } from 'ng-zorro-antd/message';
-import { ApplicationService } from 'src/app/services/application.service';
 import { SocketService } from 'src/app/services/socket.service';
 import { environment } from 'src/environments/environment';
 
@@ -27,7 +26,7 @@ export class FileManagerComponent implements OnInit {
   pnOrderId = 0;
   totalRecordCount = 0;
   customerList = [];
-  constructor(private applicationService: ApplicationService, private toastr: NzMessageService, private socketService: SocketService) { }
+  constructor(private toastr: NzMessageService, private socketService: SocketService) { }
   breadcrumbFolder: any[] = [];
   ngOnInit(): void {
     this.createDefaultFolder();

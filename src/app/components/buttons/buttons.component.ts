@@ -1,10 +1,8 @@
 import { ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { EmployeeService } from 'src/app/services/employee.service';
 import { NzModalService } from 'ng-zorro-antd/modal';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { DataSharedService } from 'src/app/services/data-shared.service';
-import { ApplicationService } from 'src/app/services/application.service';
 import { Subject, Subscription } from 'rxjs';
 import { Location } from '@angular/common';
 import { SocketService } from 'src/app/services/socket.service';
@@ -56,7 +54,7 @@ export class ButtonsComponent implements OnInit {
   private subscriptions: Subscription = new Subscription();
   private destroy$: Subject<void> = new Subject<void>();
   @Output() gridEmit: EventEmitter<any> = new EventEmitter<any>();
-  constructor(private modalService: NzModalService, public employeeService: EmployeeService, private toastr: NzMessageService, private router: Router,
+  constructor(private modalService: NzModalService,  private toastr: NzMessageService, private router: Router,
     public dataSharedService: DataSharedService, private activatedRoute: ActivatedRoute, private location: Location, private cdr: ChangeDetectorRef,
     private socketService: SocketService,
   ) {
@@ -408,7 +406,7 @@ export class ButtonsComponent implements OnInit {
         this.loader = true;
         this.isVisible = true;
         let externalLogin = localStorage.getItem('externalLogin') || false;
-        if (!externalLogin) {
+        if (externalLogin == 'false') {
           const { jsonData, newGuid } = this.socketService.makeJsonDataById('CheckUserScreen', link, 'CheckUserScreen');
           this.socketService.Request(jsonData);
           this.socketService.OnResponseMessage().subscribe(res => {

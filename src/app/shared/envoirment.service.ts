@@ -12,7 +12,7 @@ export class EnvService {
   // The values that are defined here are the default values that can be overridden by env.js
 
   // Dev URL
-  public nestBaseUrl = environment.nestBaseUrl;
+  // public nestBaseUrl = environment.nestBaseUrl;
   // public GeneralToken = 'eyJhbGciOiJI............';
 
   public loginMode = '';

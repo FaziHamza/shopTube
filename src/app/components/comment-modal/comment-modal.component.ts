@@ -3,9 +3,8 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { NzModalRef } from 'ng-zorro-antd/modal';
 import { Observable, Subscription } from 'rxjs';
-import { BuilderService } from 'src/app/services/builder.service';
 import { DataSharedService } from 'src/app/services/data-shared.service';
-import { ApplicationService } from 'src/app/services/application.service';
+
 @Component({
   selector: 'st-comment-modal',
   templateUrl: './comment-modal.component.html',
@@ -23,10 +22,8 @@ export class CommentModalComponent implements OnInit {
   voiceissue: any;
   constructor(
     private formBuilder: FormBuilder,
-    public builderService: BuilderService,
     private toastr: NzMessageService,
     public dataSharedService: DataSharedService,
-    private applicationService: ApplicationService,
   ) {
   }
 
@@ -85,40 +82,40 @@ export class CommentModalComponent implements OnInit {
       let requestObservable: Observable<any>;
       this.saveLoader = true;
 
-      if (!this.update) {
-        requestObservable = this.applicationService.addNestCommonAPI('knex-crud/task', commentObj);
-      } else {
-        userCommentModel.UserComment['componentid'] = this.update.componentId;
-        requestObservable = this.applicationService.updateNestCommonAPI(
-          'cp/UserComment',
-          this.update._id,
-          userCommentModel
-        );
-      }
+      // if (!this.update) {
+      //   requestObservable = this.applicationService.addNestCommonAPI('knex-crud/task', commentObj);
+      // } else {
+      //   userCommentModel.UserComment['componentid'] = this.update.componentId;
+      //   requestObservable = this.applicationService.updateNestCommonAPI(
+      //     'cp/UserComment',
+      //     this.update._id,
+      //     userCommentModel
+      //   );
+      // }
 
 
-      this.requestSubscription = requestObservable.subscribe({
-        next: (res: any) => {
+      // this.requestSubscription = requestObservable.subscribe({
+      //   next: (res: any) => {
 
-          this.saveLoader = false;
-          if (res.id) {
-            this.create();
-            this.#modal.destroy(commentObj);
-            this.toastr.success(`User Comment save succesfully`, { nzDuration: 3000 });
-            if (window.location.host.includes('taskmanager.com')) {
-              this.dataSharedService.taskmanager.next(true);
-            }
-          }
-          else {
-            this.toastr.error(`UserComment: ${res.message}`, { nzDuration: 3000 });
-          }
-        },
-        error: () => {
-          this.saveLoader = false;
+      //     this.saveLoader = false;
+      //     if (res.id) {
+      //       this.create();
+      //       this.#modal.destroy(commentObj);
+      //       this.toastr.success(`User Comment save succesfully`, { nzDuration: 3000 });
+      //       if (window.location.host.includes('taskmanager.com')) {
+      //         this.dataSharedService.taskmanager.next(true);
+      //       }
+      //     }
+      //     else {
+      //       this.toastr.error(`UserComment: ${res.message}`, { nzDuration: 3000 });
+      //     }
+      //   },
+      //   error: () => {
+      //     this.saveLoader = false;
 
-          this.toastr.error('UserComment: An error occurred', { nzDuration: 3000 });
-        }
-      });
+      //     this.toastr.error('UserComment: An error occurred', { nzDuration: 3000 });
+      //   }
+      // });
     } else {
       this.toastr.warning('Please fill this', { nzDuration: 3000 });
       return;
@@ -126,25 +123,25 @@ export class CommentModalComponent implements OnInit {
   }
 
   getCommentsData(): void {
-    this.requestSubscription = this.applicationService.getNestCommonAPI('cp/UserComment').subscribe({
-      next: (res: any) => {
-        if (res.isSuccess) {
-          this.toastr.success(`User Comment : ${res.message}`, { nzDuration: 3000 });
-          this.dataSharedService.screenCommentList = res.data;
-          this.#modal.destroy(this.newComment);
-          // error
-        } else {
-          this.toastr.error(`UserComment : ${res.message}`, { nzDuration: 3000 });
-          this.#modal.destroy();
-        }
+    // this.requestSubscription = this.applicationService.getNestCommonAPI('cp/UserComment').subscribe({
+    //   next: (res: any) => {
+    //     if (res.isSuccess) {
+    //       this.toastr.success(`User Comment : ${res.message}`, { nzDuration: 3000 });
+    //       this.dataSharedService.screenCommentList = res.data;
+    //       this.#modal.destroy(this.newComment);
+    //       // error
+    //     } else {
+    //       this.toastr.error(`UserComment : ${res.message}`, { nzDuration: 3000 });
+    //       this.#modal.destroy();
+    //     }
 
-      },
-      error: (err) => {
-        console.error(err); // Log the error to the console
-        this.toastr.error(`UserComment : An error occurred`, { nzDuration: 3000 });
-        this.#modal.destroy();
-      }
-    });
+    //   },
+    //   error: (err) => {
+    //     console.error(err); // Log the error to the console
+    //     this.toastr.error(`UserComment : An error occurred`, { nzDuration: 3000 });
+    //     this.#modal.destroy();
+    //   }
+    // });
   }
 
   ngOnDestroy(): void {

@@ -1,11 +1,8 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
-import { EmployeeService } from 'src/app/services/employee.service';
+import {  Router } from '@angular/router';
 import { AuthService } from '../services/auth.service';
 import { CommonService } from 'src/common/common-services/common.service';
-import { NzMessageService } from 'ng-zorro-antd/message';
-import { environment } from 'src/environments/environment';
 import { SocketService } from 'src/app/services/socket.service';
 
 @Component({

@@ -1,10 +1,7 @@
-import { EmployeeService } from '../../services/employee.service';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { DataSharedService } from '../../services/data-shared.service';
 import { StorageService } from '../../services/storage.service';
 import { TranslateService } from '@ngx-translate/core';
-import { ApplicationService } from '../../services/application.service';
 import { Subscription } from 'rxjs';
 import { NzMessageService } from 'ng-zorro-antd/message';
 
@@ -47,8 +44,7 @@ export class MenuComponent implements OnInit {
       flag: 'chinese.png'
     }
   ];
-  constructor(private toastr: NzMessageService, private notification: NzNotificationService,
-    private applicationService: ApplicationService,
+  constructor(private toastr: NzMessageService, 
     public dataSharedService: DataSharedService, private storageService: StorageService, private translate: TranslateService) {
     const currentLanguageString = this.storageService.getString("currentLanguage");
     let currentLanguage: any;
@@ -84,68 +80,6 @@ export class MenuComponent implements OnInit {
     //     // this.toastr.error("An error occurred", { nzDuration: 3000 });
     //   }
     // })
-  }
-  getApllicationAndModule() {
-    this.applicationService.getNestCommonAPI('cp/Department').subscribe(((res: any) => {
-      if (res.isSuccess)
-        this.departments = res.data;
-      else
-        this.toastr.error(res.message, { nzDuration: 2000 });
-    }));
-    this.applicationService.getNestCommonAPI('cp/Application').subscribe(((res: any) => {
-      if (res.isSuccess)
-        this.applications = res.data;
-      else
-        this.toastr.error(res.message, { nzDuration: 2000 });
-    }));
-  }
-  UpdateMenuLink(data: any) {
-    this.selectedApp = data.name;
-    this.applicationService.getNestCommonAPIById('cp/CacheMenu', this.currentUser.userId).subscribe({
-      next: (res: any) => {
-        if (res.isSuccess) {
-          if (res.data.length > 0) {
-            const resData = {
-              _id: res.data[0]._id,
-              name: res.data[0].name,
-              applicationId: res.data[0].id,
-              menuData: JSON.parse(res.data[0].menuData),
-              selectedTheme: JSON.parse(res.data[0].selectedTheme),
-            }
-            this.notify.emit(resData);
-          }
-          else {
-            this.applicationService.getNestCommonAPIById('cp/Menu', data._id).subscribe({
-              next: (res: any) => {
-                if (res.isSuccess) {
-                  if (res.data.length > 0) {
-                    const resData = {
-                      _id: res.data[0]._id,
-                      name: res.data[0].name,
-                      applicationId: res.data[0].id,
-                      menuData: JSON.parse(res.data[0].menuData),
-                      selectedTheme: JSON.parse(res.data[0].selectedTheme),
-                    }
-                    this.notify.emit(resData);
-                  }
-                  else {
-                    this.notification.create('error', 'Error', 'No menu against this module');
-                  }
-                } else
-                  this.toastr.error(res.message, { nzDuration: 3000 });
-              },
-              error: (err) => {
-                this.toastr.error("Error Unhandler", { nzDuration: 3000 });
-              }
-            });
-          }
-        } else
-          this.toastr.error(res.message, { nzDuration: 3000 });
-      },
-      error: (err) => {
-        this.toastr.error("Error Unhandler", { nzDuration: 3000 });
-      }
-    });
   }
   openComment() {
     this.isVisible = true;

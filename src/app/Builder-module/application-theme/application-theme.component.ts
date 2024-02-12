@@ -7,7 +7,6 @@ import Ajv, { ErrorObject } from 'ajv';
 import { NzModalService } from 'ng-zorro-antd/modal';
 import { SocketService } from 'src/app/services/socket.service';
 import { Guid } from 'src/app/models/guid';
-import { ApplicationService } from 'src/app/services/application.service';
 
 
 @Component({
@@ -100,7 +99,6 @@ export class ApplicationThemeComponent {
   constructor(private fb: FormBuilder, private toastr: NzMessageService,
     private zone: NgZone, private modal: NzModalService,
     private socketService: SocketService,
-    private applicationService: ApplicationService
   ) {
     this.form = this.fb.group({
       applicationid: ['', Validators.required], // Application is required
@@ -543,24 +541,24 @@ export class ApplicationThemeComponent {
     let controlType = item.tag;
     controlType = item.tag == 'insertButton' || item.tag == 'insertButton' || item.tag == 'updateButton' || item.tag == 'deleteButton' ? 'button' : controlType;
     this.loader = true;
-    this.applicationService.getNestCommonAPI(`controls/${controlType}`).subscribe(((apiRes: any) => {
-      this.loader = false;
-      if (apiRes.isSuccess) {
-        if (apiRes.data) {
-          let response = this.jsonParseWithObject(apiRes.data.controlJson);
-          if (controlType == 'input') {
-            response.formly[0].fieldGroup[0].props.additionalProperties['applicationThemeClasses'] = item.classes;
-          } else {
-            response['applicationThemeClasses'] = item.classes;
-          }
-          this.previewComponent = response;
-          this.visible = true;
-        } else {
-          this.toastr.warning('No control found', { nzDuration: 2000 });
-        }
-      } else
-        this.toastr.warning(apiRes.message, { nzDuration: 2000 });
-    }));
+    // this.applicationService.getNestCommonAPI(`controls/${controlType}`).subscribe(((apiRes: any) => {
+    //   this.loader = false;
+    //   if (apiRes.isSuccess) {
+    //     if (apiRes.data) {
+    //       let response = this.jsonParseWithObject(apiRes.data.controlJson);
+    //       if (controlType == 'input') {
+    //         response.formly[0].fieldGroup[0].props.additionalProperties['applicationThemeClasses'] = item.classes;
+    //       } else {
+    //         response['applicationThemeClasses'] = item.classes;
+    //       }
+    //       this.previewComponent = response;
+    //       this.visible = true;
+    //     } else {
+    //       this.toastr.warning('No control found', { nzDuration: 2000 });
+    //     }
+    //   } else
+    //     this.toastr.warning(apiRes.message, { nzDuration: 2000 });
+    // }));
   }
   searchValue(event: any, column: any): void {
     const inputValue = event?.target ? event.target.value?.toLowerCase() : event?.toLowerCase() ?? '';

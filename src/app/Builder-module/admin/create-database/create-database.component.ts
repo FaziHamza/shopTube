@@ -3,11 +3,7 @@ import { FormGroup } from '@angular/forms';
 import { FormlyFormOptions } from '@ngx-formly/core';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { Subscription, catchError, forkJoin, of } from 'rxjs';
-import { EmployeeService } from 'src/app/services/employee.service';
-// Encrypt
 import { EncryptionService } from 'src/app/services/encryption.service';
-import { ApplicationService } from 'src/app/services/application.service';
-import { environment } from 'src/environments/environment';
 import { SocketService } from 'src/app/services/socket.service';
 
 @Component({
@@ -119,8 +115,7 @@ export class CreateDatabaseComponent implements OnInit {
       ]
     },
   ];
-  constructor(private employeeService: EmployeeService, private toastr: NzMessageService, public socketService: SocketService,
-    private applicationService: ApplicationService,
+  constructor(private toastr: NzMessageService, public socketService: SocketService,
     private encryptionService: EncryptionService) { }
 
   //Encrypt work
@@ -784,21 +779,21 @@ export class CreateDatabaseComponent implements OnInit {
     }
   }
   // not used
-  submitForm() {
-    if (this.myForm.valid) {
-      this.myForm.value['schema'] = this.listOfData;
-      this.requestSubscription = this.employeeService.saveDatabaseTable(this.myForm.value).subscribe({
-        next: (res) => {
-          this.toastr.success("Save Successfully", { nzDuration: 3000 });
-          this.getDatabaseTable();
-        },
-        error: (err) => {
-          console.error(err);
-          this.toastr.error("An error occurred", { nzDuration: 3000 });
-        }
-      })
-    }
-  }
+  // submitForm() {
+  //   if (this.myForm.valid) {
+  //     this.myForm.value['schema'] = this.listOfData;
+  //     this.requestSubscription = this.employeeService.saveDatabaseTable(this.myForm.value).subscribe({
+  //       next: (res) => {
+  //         this.toastr.success("Save Successfully", { nzDuration: 3000 });
+  //         this.getDatabaseTable();
+  //       },
+  //       error: (err) => {
+  //         console.error(err);
+  //         this.toastr.error("An error occurred", { nzDuration: 3000 });
+  //       }
+  //     })
+  //   }
+  // }
 
   updateForm() {
     if (this.myForm.valid) {
@@ -811,19 +806,19 @@ export class CreateDatabaseComponent implements OnInit {
     }
   }
 
-  getDatabaseTable() {
-    this.requestSubscription = this.employeeService.getDatabaseTable().subscribe({
-      next: (res) => {
-        if (res) {
-          this.data = res;
-        }
-      },
-      error: (err) => {
-        console.error(err);
-        this.toastr.error("An error occurred", { nzDuration: 3000 });
-      }
-    })
-  }
+  // getDatabaseTable() {
+  //   this.requestSubscription = this.employeeService.getDatabaseTable().subscribe({
+  //     next: (res) => {
+  //       if (res) {
+  //         this.data = res;
+  //       }
+  //     },
+  //     error: (err) => {
+  //       console.error(err);
+  //       this.toastr.error("An error occurred", { nzDuration: 3000 });
+  //     }
+  //   })
+  // }
 
   editTableData(item: any) {
     this.tableId = item.id

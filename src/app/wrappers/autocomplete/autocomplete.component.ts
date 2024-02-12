@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FieldType, FieldTypeConfig } from '@ngx-formly/core';
 import { Subscription } from 'rxjs';
-import { ApplicationService } from 'src/app/services/application.service';
 import { DataSharedService } from 'src/app/services/data-shared.service';
 
 @Component({
@@ -13,7 +12,7 @@ export class AutocompleteComponent extends FieldType<FieldTypeConfig> {
   filteredOptions: any = [];
   inputValue?: any;
   requestSubscription: Subscription;
-  constructor(private sharedService: DataSharedService,private applicationService: ApplicationService) {
+  constructor(private sharedService: DataSharedService) {
     super();
   }
   get list(): any {

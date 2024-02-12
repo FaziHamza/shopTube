@@ -1,13 +1,9 @@
 import { SocketService } from 'src/app/services/socket.service';
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { Component, OnInit } from '@angular/core';
+import { FormGroup } from '@angular/forms';
 import { FormlyFormOptions } from '@ngx-formly/core';
 import { NzMessageService } from 'ng-zorro-antd/message';
-import { ApplicationService } from 'src/app/services/application.service';
-import { BuilderService } from 'src/app/services/builder.service';
 import { DataSharedService } from 'src/app/services/data-shared.service';
-import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'st-policy',
@@ -60,8 +56,6 @@ export class PolicyComponent implements OnInit {
     },
   ];
   constructor(
-    public builderService: BuilderService,
-    private applicationService: ApplicationService,
     public dataSharedService: DataSharedService,
     private toastr: NzMessageService,
     private socketService: SocketService

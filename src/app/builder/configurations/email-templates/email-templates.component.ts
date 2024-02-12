@@ -1,7 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NzMessageService } from 'ng-zorro-antd/message';
-import { ApplicationService } from 'src/app/services/application.service';
 import { DataSharedService } from 'src/app/services/data-shared.service';
 import { environment } from 'src/environments/environment';
 
@@ -20,7 +19,7 @@ export class EmailTemplatesComponent {
   ];
   // @Input() screenname: any;
   // @Input() screenId: any;
-  constructor(private fb: FormBuilder, private applicationService: ApplicationService, private toastr: NzMessageService, public dataSharedService: DataSharedService) {
+  constructor(private fb: FormBuilder, private toastr: NzMessageService, public dataSharedService: DataSharedService) {
     this.emailForm = this.fb.group({
       fields: this.fb.array([
         // this.createField()
@@ -64,18 +63,18 @@ export class EmailTemplatesComponent {
     const formData = new FormData();
     formData.append('image', file);
     this.loader = true;
-    this.applicationService.uploadS3File(formData).subscribe({
-      next: (res) => {
-        this.loader = false;
-        let imageValue = this.imagePath + res.path;
-        this.emailFields.at(index).get('imagePath')?.setValue(imageValue); // Assign image value to the form control
-        console.log('File uploaded successfully:', res);
-      },
-      error: (err) => {
-        this.loader = false;
-        console.error('Error uploading file:', err);
-      }
-    });
+    // this.applicationService.uploadS3File(formData).subscribe({
+    //   next: (res) => {
+    //     this.loader = false;
+    //     let imageValue = this.imagePath + res.path;
+    //     this.emailFields.at(index).get('imagePath')?.setValue(imageValue); // Assign image value to the form control
+    //     console.log('File uploaded successfully:', res);
+    //   },
+    //   error: (err) => {
+    //     this.loader = false;
+    //     console.error('Error uploading file:', err);
+    //   }
+    // });
   }
 
 
@@ -102,20 +101,20 @@ export class EmailTemplatesComponent {
 
 
     this.loader = true;
-    this.applicationService.addNestNewCommonAPI('cp/emailtemplates/emailtemplates', saveData).subscribe({
-      next: (allResults: any) => {
-        this.loader = false;
-        if (allResults) {
-          this.toastr.success("Save Successfully", { nzDuration: 3000 });
-          // this.getEmailTemplates();
-        }
-      },
-      error: (err) => {
-        this.loader = false;
-        console.error(err);
-        this.toastr.error(" An error occured", { nzDuration: 3000 });
-      }
-    })
+    // this.applicationService.addNestNewCommonAPI('cp/emailtemplates/emailtemplates', saveData).subscribe({
+    //   next: (allResults: any) => {
+    //     this.loader = false;
+    //     if (allResults) {
+    //       this.toastr.success("Save Successfully", { nzDuration: 3000 });
+    //       // this.getEmailTemplates();
+    //     }
+    //   },
+    //   error: (err) => {
+    //     this.loader = false;
+    //     console.error(err);
+    //     this.toastr.error(" An error occured", { nzDuration: 3000 });
+    //   }
+    // })
   }
 
   removeImage(index: number) {
@@ -137,43 +136,43 @@ export class EmailTemplatesComponent {
   getEmailTemplates() {
     debugger
     this.loader = true;
-    this.applicationService.getNestNewCommonAPI('cp/emailtemplates').subscribe((getRes: any) => {
-      this.loader = false;
-      if (getRes.isSuccess) {
-        getRes.data.forEach((data: any) => {
-          this.emailFields.push(this.fb.group({
-            id: [data.id],
-            name: [data.name],
-            subject: [data.subject || ''],
-            emailtemplate: [data.emailtemplate],
-            screenBuilderId: [data.screenBuilderId],
-            applicationid: [data.applicationid],
-            image: [''],
-            imagePath: [''],
-            templatetype: [data?.templatetype ? data?.templatetype : '']
-          }));
-        });
+    // this.applicationService.getNestNewCommonAPI('cp/emailtemplates').subscribe((getRes: any) => {
+    //   this.loader = false;
+    //   if (getRes.isSuccess) {
+    //     getRes.data.forEach((data: any) => {
+    //       this.emailFields.push(this.fb.group({
+    //         id: [data.id],
+    //         name: [data.name],
+    //         subject: [data.subject || ''],
+    //         emailtemplate: [data.emailtemplate],
+    //         screenBuilderId: [data.screenBuilderId],
+    //         applicationid: [data.applicationid],
+    //         image: [''],
+    //         imagePath: [''],
+    //         templatetype: [data?.templatetype ? data?.templatetype : '']
+    //       }));
+    //     });
 
 
-        for (let i = 0; i < 4; i++) {
-          if (!getRes.data.some((temp: any) => temp.name.toLowerCase() === this.defaultTemplates[i].toLocaleLowerCase())) {
-            const newFormGroup = this.fb.group({
-              name: [this.defaultTemplates[i], Validators.required],
-              subject: [this.defaultTemplates[i], Validators.required],
-              emailtemplate: [this.defaultTemplates[i], Validators.required],
-              image: [''],
-              imagePath: [''],
-              id: [''],
-              templatetype: ['text', Validators.required],
-            });
-            this.emailFields.push(newFormGroup);
-          }
-        }
+    //     for (let i = 0; i < 4; i++) {
+    //       if (!getRes.data.some((temp: any) => temp.name.toLowerCase() === this.defaultTemplates[i].toLocaleLowerCase())) {
+    //         const newFormGroup = this.fb.group({
+    //           name: [this.defaultTemplates[i], Validators.required],
+    //           subject: [this.defaultTemplates[i], Validators.required],
+    //           emailtemplate: [this.defaultTemplates[i], Validators.required],
+    //           image: [''],
+    //           imagePath: [''],
+    //           id: [''],
+    //           templatetype: ['text', Validators.required],
+    //         });
+    //         this.emailFields.push(newFormGroup);
+    //       }
+    //     }
 
 
-      } else
-        this.toastr.error(getRes.message, { nzDuration: 3000 });
-    });
+    //   } else
+    //     this.toastr.error(getRes.message, { nzDuration: 3000 });
+    // });
   }
 
 }

@@ -1,6 +1,5 @@
 import { Component, ElementRef, VERSION, ViewChild, OnInit, ViewContainerRef } from "@angular/core";
 import SignaturePad from "signature_pad";
-import { ApplicationService } from "src/app/services/application.service";
 import { DataSharedService } from "src/app/services/data-shared.service";
 import { FieldType, FieldTypeConfig } from '@ngx-formly/core';
 import { NzModalService } from "ng-zorro-antd/modal";
@@ -12,7 +11,7 @@ import { SignatureModalComponent } from "src/app/components/signature-modal/sign
   styleUrls: ['./signature-pad.component.scss']
 })
 export class SignaturePadComponent extends FieldType<FieldTypeConfig> {
-  constructor(private sharedService: DataSharedService, private applicationService: ApplicationService,
+  constructor(private sharedService: DataSharedService,
     private modalService: NzModalService, private viewContainerRef: ViewContainerRef) {
     super();
   }
