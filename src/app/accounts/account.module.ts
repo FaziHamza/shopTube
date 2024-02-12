@@ -15,11 +15,11 @@ import { RecaptchaModule } from 'ng-recaptcha';
 
 @NgModule({
   declarations: [
-    PolicyComponent,
-    UserComponent,
-    UserMappingComponent,
-    PolicyMappingComponent,
-    PolicyMappingTableComponent
+    // PolicyComponent,
+    // UserComponent,
+    // UserMappingComponent,
+    // PolicyMappingComponent,
+    // PolicyMappingTableComponent
   ],
   imports: [
     AccountRoutingModule,
