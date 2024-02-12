@@ -1,3 +1,4 @@
+<!-- {{selectedTheme?.isCollapsed | json}} -->
 <nz-spin [nzSpinning]="loader" [nzSize]="'large'">
   <div *ngIf="loader" style="height: 100vh;"></div>
   <div *ngIf="selectedTheme && !loader && !externalLogin" class="user-builder-layout" [dir]="this.selectedTheme?.layout"

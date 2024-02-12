@@ -4,7 +4,6 @@ import { FormGroup } from '@angular/forms';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { Subscription } from 'rxjs';
 import { Guid } from 'src/app/models/guid';
-import { BuilderService } from 'src/app/services/builder.service';
 import { DataSharedService } from 'src/app/services/data-shared.service';
 import { SocketService } from 'src/app/services/socket.service';
 
@@ -36,7 +35,7 @@ export class GenericFieldComponent implements OnInit {
   optionsArray: any[] = [];
 
 
-  constructor(private toastr: NzMessageService, private _dataSharedService: DataSharedService, public builderService: BuilderService,
+  constructor(private toastr: NzMessageService, private _dataSharedService: DataSharedService,
     public socketService: SocketService,
     ) { }
   ngOnInit(): void {

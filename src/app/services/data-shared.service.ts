@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
-import { AES,enc }from 'crypto-js';
+import { AES, enc } from 'crypto-js';
 
 
 @Injectable({
@@ -191,4 +191,17 @@ export class DataSharedService {
     }
 
   }
+
+  checkDomain(domain: string): string {
+    const sportspotgermanyDomain = 'sportspotgermany';
+    const localIP = '192.168.194.232';
+    const defaultDomain = 'governance.expocitydubai.com';
+  
+    if (domain.includes(sportspotgermanyDomain) || domain.includes(localIP)) {
+      return defaultDomain;
+    }
+    
+    return domain.split(':')[0];
+  }
+  
 }

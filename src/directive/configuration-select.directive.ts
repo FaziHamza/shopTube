@@ -1,5 +1,4 @@
 import { Directive, Input, TemplateRef, ViewContainerRef, OnInit, OnDestroy, Renderer2, ElementRef } from '@angular/core';
-import { ApplicationService } from 'src/app/services/application.service';
 import { Observable, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { NzMessageService } from 'ng-zorro-antd/message';
@@ -22,7 +21,6 @@ export class ConfigurableSelectDirective implements OnInit, OnDestroy {
     private viewContainer: ViewContainerRef,
     private renderer: Renderer2,
     private el: ElementRef,
-    private applicationService: ApplicationService,
     private toastr: NzMessageService,
     private socketService: SocketService
   ) { }

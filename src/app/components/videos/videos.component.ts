@@ -1,5 +1,4 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { EmployeeService } from 'src/app/services/employee.service';
 
 @Component({
   selector: 'st-videos',
@@ -9,7 +8,7 @@ import { EmployeeService } from 'src/app/services/employee.service';
 export class VideosComponent implements OnInit {
   @Input() videoData :any;
   videolist:any;
-  constructor(public employeeService:EmployeeService) { }
+  constructor() { }
   src: any;
   ngOnInit(): void {
     this.videoData;

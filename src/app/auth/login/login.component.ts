@@ -1,15 +1,14 @@
 import { ChangeDetectorRef, Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, EventType, Router } from '@angular/router';
-import { EmployeeService } from 'src/app/services/employee.service';
 import { AuthService } from '../services/auth.service';
 import { CommonService } from 'src/common/common-services/common.service';
 import { NzMessageService } from 'ng-zorro-antd/message';
-import { environment } from 'src/environments/environment';
 import { MSAL_GUARD_CONFIG, MsalGuardConfiguration, MsalService, MsalBroadcastService } from '@azure/msal-angular';
 import { EventMessage, AuthenticationResult, InteractionStatus, PopupRequest, InteractionType, RedirectRequest } from '@azure/msal-browser';
 import { Subject, filter, takeUntil } from 'rxjs';
 import { SocketService } from 'src/app/services/socket.service';
+import { DataSharedService } from 'src/app/services/data-shared.service';
 
 @Component({
   selector: 'st-login',
@@ -63,18 +62,18 @@ export class LoginComponent implements OnInit {
         }
 
 
-        this.authService.addNestCommonAPI('userAd/userAdSave', obj).subscribe({
-          next: (res: any) => {
-            if (res.isSuccess) {
+        // this.authService.addNestCommonAPI('userAd/userAdSave', obj).subscribe({
+        //   next: (res: any) => {
+        //     if (res.isSuccess) {
 
-            } else {
-              // this.toastr.error(clone: ${res.message}, { nzDuration: 3000 });
-            }
-          },
-          error: (err) => {
-            // this.toastr.error(clone saved, some unhandled exception, { nzDuration: 3000 });
-          }
-        });
+        //     } else {
+        //       // this.toastr.error(clone: ${res.message}, { nzDuration: 3000 });
+        //     }
+        //   },
+        //   error: (err) => {
+        //     // this.toastr.error(clone saved, some unhandled exception, { nzDuration: 3000 });
+        //   }
+        // });
         const payload = result.payload as AuthenticationResult;
         this.authService2.instance.setActiveAccount(payload.account);
       });
@@ -121,6 +120,7 @@ export class LoginComponent implements OnInit {
     public authService: AuthService,
     private route: ActivatedRoute,
     private router: Router,
+    private sharedService:DataSharedService,
     private commonService: CommonService,
     private cdr: ChangeDetectorRef,
     private toastr: NzMessageService,
@@ -167,7 +167,7 @@ export class LoginComponent implements OnInit {
 
     // console.log('submit', this.form.value);
     this.form.value['username'] = this.form.value.email;
-    this.form.value['domain'] = window.location.host.split(':')[0],
+    this.form.value['domain'] = this.sharedService.checkDomain(window.location.host),
       this.form.value['responsekey'] = this.recaptchaResponse;
     let obj = this.form.value;
     obj['applicationId'] = this.applications?.application?.id;
@@ -237,7 +237,7 @@ export class LoginComponent implements OnInit {
   }
   getApplicationData() {
     this.showLoader = true;
-    const hostUrl = window.location.host.split(':')[0];
+    const hostUrl = this.sharedService.checkDomain(window.location.host);
 
     const { jsonData, newGuid } = this.socketService.authMetaInfo('AuthGetByDomain', '', hostUrl);
     const GetDomain = { metaInfo: jsonData };
@@ -352,10 +352,10 @@ export class LoginComponent implements OnInit {
       "password": "",
       "id": Id,
       "accreditationNumber": "",
-      "organizationId": this.applications?.department?.organizationId || environment.organizationId,
-      "applicationId": this.applications?.application?._id || environment.applicationId,
+      "organizationId": this.applications?.department?.organizationId ,
+      "applicationId": this.applications?.application?._id,
       "status": 'Pending',
-      "domain": window.location.host.split(':')[0],
+      "domain": this.sharedService.checkDomain(window.location.host),
       "contactnumber": "",
       "responsekey": "",
     }
@@ -367,72 +367,72 @@ export class LoginComponent implements OnInit {
     // }
     // if (this.form.valid) {
     // this.saveLoader = true;
-    this.authService.registerUserExternal(obj).subscribe({
-      next: (response: any) => {
-        // if (res.isSuccess && res?.data) {
-        //   this.toastr.warning("You cannot login, Approval is Pending")
-        //   this.toastr.success(res.message, { nzDuration: 2000 });
-        //   this.create();
-        //   // if (this.userAddDrawer) {
-        //   //   this.drawerRef.close(true);
-        //   // }else{
-        //   //   this.router.navigateByUrl('/auth/login')
-        //   // }
-        // } else {
-        //   grecaptcha.reset();
-        //   this.toastr.error(res.message, { nzDuration: 2000 });
-        //   if(res.message==="Email already exists. Please use another and status is Approved"){
-        //     this.submitFormExternalLogin(email,Id);
-        //   }
-        // }
+    // this.authService.registerUserExternal(obj).subscribe({
+    //   next: (response: any) => {
+    //     // if (res.isSuccess && res?.data) {
+    //     //   this.toastr.warning("You cannot login, Approval is Pending")
+    //     //   this.toastr.success(res.message, { nzDuration: 2000 });
+    //     //   this.create();
+    //     //   // if (this.userAddDrawer) {
+    //     //   //   this.drawerRef.close(true);
+    //     //   // }else{
+    //     //   //   this.router.navigateByUrl('/auth/login')
+    //     //   // }
+    //     // } else {
+    //     //   grecaptcha.reset();
+    //     //   this.toastr.error(res.message, { nzDuration: 2000 });
+    //     //   if(res.message==="Email already exists. Please use another and status is Approved"){
+    //     //     this.submitFormExternalLogin(email,Id);
+    //     //   }
+    //     // }
 
-        console.log(response)
+    //     console.log(response)
 
-        if (response.isSuccess) {
-          if (response.data[0]?.status === "Approved") {
-            // grecaptcha.reset(); // Reset reCAPTCHA
+    //     if (response.isSuccess) {
+    //       if (response.data[0]?.status === "Approved") {
+    //         // grecaptcha.reset(); // Reset reCAPTCHA
 
-            this.commonService.showSuccess('Login Successfully!', {
-              nzDuration: 2000,
-            });
-            localStorage.setItem('isLoggedIn', 'true');
-            this.showLoader = false;
-            this.authService.setAuth(response.data);
-            this.router.navigate(['/home/allorder']);
-            this.router.navigate(['/']);
-          }
-          else {
-            if (response.data[0]?.status == "Pending") {
-              this.commonService.showError("Approval is Pending");
-            }
-            else {
-              this.commonService.showError(response.data?.message);
-            }
-            // grecaptcha.reset(); // Reset reCAPTCHA
+    //         this.commonService.showSuccess('Login Successfully!', {
+    //           nzDuration: 2000,
+    //         });
+    //         localStorage.setItem('isLoggedIn', 'true');
+    //         this.showLoader = false;
+    //         this.authService.setAuth(response.data);
+    //         this.router.navigate(['/home/allorder']);
+    //         this.router.navigate(['/']);
+    //       }
+    //       else {
+    //         if (response.data[0]?.status == "Pending") {
+    //           this.commonService.showError("Approval is Pending");
+    //         }
+    //         else {
+    //           this.commonService.showError(response.data?.message);
+    //         }
+    //         // grecaptcha.reset(); // Reset reCAPTCHA
 
-          }
-        }
-        else {
-          // grecaptcha.reset(); // Reset reCAPTCHA
+    //       }
+    //     }
+    //     else {
+    //       // grecaptcha.reset(); // Reset reCAPTCHA
 
-          this.commonService.showError(response.message, {
-            nzPauseOnHover: true,
-          });
-        }
-        this.showLoader = false;
+    //       this.commonService.showError(response.message, {
+    //         nzPauseOnHover: true,
+    //       });
+    //     }
+    //     this.showLoader = false;
 
-        // this.saveLoader = false;
-      },
-      error: (err) => {
-        this.showLoader = false;
+    //     // this.saveLoader = false;
+    //   },
+    //   error: (err) => {
+    //     this.showLoader = false;
 
-        grecaptcha.reset();
+    //     grecaptcha.reset();
 
-        this.create();
-        // this.saveLoader = false;
-        this.toastr.error('some error exception', { nzDuration: 2000 });
-      },
-    });
+    //     this.create();
+    //     // this.saveLoader = false;
+    //     this.toastr.error('some error exception', { nzDuration: 2000 });
+    //   },
+    // });
     // this.isFormSubmit = false;
     // }
 

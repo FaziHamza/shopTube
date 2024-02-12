@@ -2,7 +2,6 @@ import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { NzModalService } from 'ng-zorro-antd/modal';
-import { ApplicationService } from 'src/app/services/application.service';
 import { SocketService } from 'src/app/services/socket.service';
 
 @Component({

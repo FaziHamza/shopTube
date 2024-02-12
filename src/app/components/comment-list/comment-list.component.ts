@@ -6,7 +6,6 @@ import { CommentModalComponent } from '../comment-modal/comment-modal.component'
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { NzMessageService } from 'ng-zorro-antd/message';
-import { ApplicationService } from 'src/app/services/application.service';
 
 @Component({
   selector: 'st-comment-list',
@@ -20,8 +19,7 @@ export class CommentListComponent implements OnInit {
   @Input() screenName: any;
   requestSubscription: Subscription;
   constructor(public dataSharedService: DataSharedService, private router: Router,
-    private modalService: NzModalService, private viewContainerRef: ViewContainerRef, private toastr: NzMessageService,
-    private applicationService: ApplicationService, private formBuilder: FormBuilder) { }
+    private modalService: NzModalService, private viewContainerRef: ViewContainerRef, private toastr: NzMessageService, private formBuilder: FormBuilder) { }
 
   ngOnInit(): void {
     this.create();
@@ -73,36 +71,36 @@ export class CommentListComponent implements OnInit {
       const userCommentModel = {
         "UserComment": commentObj
       }
-      this.requestSubscription = this.applicationService.addNestCommonAPI('cp', userCommentModel).subscribe({
-        next: (res: any) => {
-          if (res.isSuccess) {
-            this.create();
-            this.toastr.success(`UserComment : ${res.message}`, { nzDuration: 3000 });
-            this.getCommentsData();
-          } else this.toastr.error(`UserComment : ${res.message}`, { nzDuration: 3000 });
-        },
-        error: (err) => {
-          this.toastr.error("UserComment : An error occurred", { nzDuration: 3000 });
-        }
-      });
+      // this.requestSubscription = this.applicationService.addNestCommonAPI('cp', userCommentModel).subscribe({
+      //   next: (res: any) => {
+      //     if (res.isSuccess) {
+      //       this.create();
+      //       this.toastr.success(`UserComment : ${res.message}`, { nzDuration: 3000 });
+      //       this.getCommentsData();
+      //     } else this.toastr.error(`UserComment : ${res.message}`, { nzDuration: 3000 });
+      //   },
+      //   error: (err) => {
+      //     this.toastr.error("UserComment : An error occurred", { nzDuration: 3000 });
+      //   }
+      // });
     }
   }
   getCommentsData(): void {
-    this.requestSubscription = this.applicationService.getNestCommonAPI('cp/UserComment').subscribe({
-      next: (res: any) => {
-        if (res.isSuccess) {
-          this.toastr.success(`User Comment : ${res.message}`, { nzDuration: 3000 });
-          this.dataSharedService.screenCommentList = res.data;
-          // error
-        } else {
-          this.toastr.error(`UserComment : ${res.message}`, { nzDuration: 3000 });
-        }
-      },
-      error: (err) => {
-        console.error(err); // Log the error to the console
-        this.toastr.error(`UserComment : An error occurred`, { nzDuration: 3000 });
-      }
-    });
+    // this.requestSubscription = this.applicationService.getNestCommonAPI('cp/UserComment').subscribe({
+    //   next: (res: any) => {
+    //     if (res.isSuccess) {
+    //       this.toastr.success(`User Comment : ${res.message}`, { nzDuration: 3000 });
+    //       this.dataSharedService.screenCommentList = res.data;
+    //       // error
+    //     } else {
+    //       this.toastr.error(`UserComment : ${res.message}`, { nzDuration: 3000 });
+    //     }
+    //   },
+    //   error: (err) => {
+    //     console.error(err); // Log the error to the console
+    //     this.toastr.error(`UserComment : An error occurred`, { nzDuration: 3000 });
+    //   }
+    // });
   }
 
   create() {

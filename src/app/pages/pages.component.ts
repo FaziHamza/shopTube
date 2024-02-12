@@ -1,13 +1,10 @@
 import { ChangeDetectorRef, Component, ElementRef, Input, NgZone, OnDestroy, OnInit, Renderer2 } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
-import { BuilderService } from '../services/builder.service';
-import { EmployeeService } from '../services/employee.service';
 import { Subject, Subscription, catchError, forkJoin, of, takeUntil } from 'rxjs';
 import { ElementData } from '../models/element';
 import { TreeNode } from '../models/treeNode';
 import { DataSharedService } from '../services/data-shared.service';
 import { Clipboard } from '@angular/cdk/clipboard';
-import { ApplicationService } from '../services/application.service';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { FormGroup } from '@angular/forms';
 import { applyPatch } from 'fast-json-patch';
@@ -48,10 +45,9 @@ export class PagesComponent implements OnInit, OnDestroy {
   @Input() mappingId: any;
   private subscriptions: Subscription = new Subscription();
   private destroy$: Subject<void> = new Subject<void>();
-  constructor(public employeeService: EmployeeService, private activatedRoute: ActivatedRoute,
-    private clipboard: Clipboard, private applicationService: ApplicationService,
+  constructor( private activatedRoute: ActivatedRoute,
+    private clipboard: Clipboard,
     public socketService: SocketService,
-    public builderService: BuilderService,
     private cdr: ChangeDetectorRef,
     private toastr: NzMessageService,
     private el: ElementRef,
@@ -174,10 +170,10 @@ export class PagesComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
 
     this.externalLogin = localStorage.getItem('externalLogin') || 'false';
-    let externalPageLink = this.dataSharedService.decryptedValue('externalLoginLink');
-    if (this.externalLogin == 'true' && window.location.pathname != `/${externalPageLink}`) {
-      return;
-    }
+    // let externalPageLink = this.dataSharedService.decryptedValue('externalLoginLink');
+    // if (this.externalLogin == 'true' && window.location.pathname != `/${externalPageLink}`) {
+    //   return;
+    // }
     this.initHighlightFalseSubscription();
     this.initPageSubmitSubscription();
     this.initEventChangeSubscription();
@@ -271,11 +267,11 @@ export class PagesComponent implements OnInit, OnDestroy {
             let findObj = this.findObjectByKey(this.resData[0], element);
             if (findObj) {
               if (findObj?.formlyType === 'input') {
-                this.applicationService.getBackendCommonAPI(res[index].actions?.[0]?.url).subscribe(res => {
-                  if (res) {
-                    //... the rest of your logic ...
-                  }
-                });
+                // this.applicationService.getBackendCommonAPI(res[index].actions?.[0]?.url).subscribe(res => {
+                //   if (res) {
+                //     //... the rest of your logic ...
+                //   }
+                // });
               }
             }
           }
@@ -306,6 +302,10 @@ export class PagesComponent implements OnInit, OnDestroy {
             this.socketService.OnResponseMessage().subscribe(res => {
               if (res.parseddata.requestId == newGuid && res.parseddata.isSuccess) {
                 res = res.parseddata.apidata;
+                let externalPageLink = this.dataSharedService.decryptedValue('externalLoginLink');
+                if (this.externalLogin == 'true' && window.location.pathname != `/${externalPageLink}` && !res?.isSuccess) {
+                  return;
+                }
                 if (res?.isSuccess) {
                   this.initiliaze(params);
                 } else {
@@ -494,29 +494,29 @@ export class PagesComponent implements OnInit, OnDestroy {
     this.pageRuleList = this.actionRuleList.filter(a => a.componentfrom === this.resData?.[0]?.key && a.action == 'load');
     if (this.tableRowID) {
       if (this.pageRuleList.length > 0) {
-        const observables = this.pageRuleList.map((element: any) => {
-          return this.applicationService.callApi('knex-query/getexecute-rules/' + element.id, 'get', '', '', this.tableRowID).pipe(
-            catchError((error: any) => of(error)) // Handle error and continue the forkJoin
-          );
-        });
-        this.saveLoader = true;
-        this.requestSubscription = forkJoin(observables).subscribe({
-          next: (results: any) => {
-            this.saveLoader = false;
-            results.forEach((res: any) => {
-              if (res.data.length > 0) {
-                this.editData = res.data;
-                this.formValueAssign(res.data);
-              }
-            });
+        // const observables = this.pageRuleList.map((element: any) => {
+        //   return this.applicationService.callApi('knex-query/getexecute-rules/' + element.id, 'get', '', '', this.tableRowID).pipe(
+        //     catchError((error: any) => of(error)) // Handle error and continue the forkJoin
+        //   );
+        // });
+        // this.saveLoader = true;
+        // this.requestSubscription = forkJoin(observables).subscribe({
+        //   next: (results: any) => {
+        //     this.saveLoader = false;
+        //     results.forEach((res: any) => {
+        //       if (res.data.length > 0) {
+        //         this.editData = res.data;
+        //         this.formValueAssign(res.data);
+        //       }
+        //     });
 
-          },
-          error: (err) => {
-            this.saveLoader = false;
-            console.error(err);
-            this.toastr.error("Actions not saved", { nzDuration: 3000 });
-          }
-        });
+        //   },
+        //   error: (err) => {
+        //     this.saveLoader = false;
+        //     console.error(err);
+        //     this.toastr.error("Actions not saved", { nzDuration: 3000 });
+        //   }
+        // });
 
       }
     }
@@ -636,45 +636,7 @@ export class PagesComponent implements OnInit, OnDestroy {
               }
             });
             this.saveLoader = true;
-            this.requestSubscription = this.applicationService.addNestCommonAPI('knex-query/execute-rules/' + findClickApi[0]?.id, empData).subscribe({
-              next: (res) => {
-                this.saveLoader = false;
-                if (res) {
-                  if (res[0]?.error)
-                    this.toastr.error(res[0]?.error, { nzDuration: 3000 });
-                  else {
-                    this.toastr.success("Save Successfully", { nzDuration: 3000 });
-                    if (data.saveRouteLink) {
-                      this.router.navigate(['/pages/' + data.saveRouteLink]);
-                      return;
-                    }
-                    let tableName: any = '';
-                    if (res[0]) {
-                      tableName = res[0].tableName ? res[0].tableName.split('.')[1].split('_')[0] : '';
-                    }
-                    this.setInternalValuesEmpty(this.dataModel);
-                    this.setInternalValuesEmpty(this.formlyModel);
-                    this.form.patchValue(this.formlyModel);
-                    // if (tableName) {
-                    //   this.recursiveUpdate(this.formlyModel, tableName, res)
-                    // }
-
-                    // this.getFromQuery(data);
-                    if (window.location.href.includes('taskmanager.com')) {
-                      this.dataSharedService.taskmanagerDrawer.next(true);
-                    }
-                    if (window.location.href.includes('spectrum.com')) {
-                      this.dataSharedService.spectrumControlNull.next(true);
-                    }
-                  }
-                }
-              },
-              error: (err) => {
-                console.error(err);
-                this.toastr.error("An error occurred", { nzDuration: 3000 });
-                this.saveLoader = false;
-              }
-            });
+            
           }
 
         }
@@ -710,26 +672,7 @@ export class PagesComponent implements OnInit, OnDestroy {
             // console.log(result);
             this.saveLoader = true;
             // this.dataSharedService.sectionSubmit.next(false);
-            this.requestSubscription = this.applicationService.addNestCommonAPI('knex-query/execute-rules/' + findClickApi[0].id, result).subscribe({
-              next: (res) => {
-                if (res.isSuccess) {
-                  this.saveLoader = false;
-                  this.toastr.success("Update Successfully", { nzDuration: 3000 });
-                  this.setInternalValuesEmpty(this.dataModel);
-                  this.setInternalValuesEmpty(this.formlyModel);
-                  this.form.patchValue(this.formlyModel);
-                } else {
-                  this.toastr.warning("Data is not updated", { nzDuration: 3000 });
-                }
-
-              },
-              error: (err) => {
-                this.saveLoader = false;
-                console.error(err);
-                this.toastr.error("An error occurred", { nzDuration: 3000 });
-                this.saveLoader = false;
-              }
-            });
+           
           }
         }
       }
@@ -762,47 +705,7 @@ export class PagesComponent implements OnInit, OnDestroy {
               //   pagination = '?page=' + 1 + '&pageSize=' + tableData?.end;
               // }
 
-              this.requestSubscription = this.employeeService.getSQLDatabaseTable(url).subscribe({
-                next: (res) => {
-                  if (tableData && res.isSuccess) {
-                    let saveForm = JSON.parse(JSON.stringify(res.data[0]));
-                    const firstObjectKeys = Object.keys(saveForm);
-                    let obj = firstObjectKeys.map(key => ({ name: key }));
-                    tableData.tableData = [];
-                    saveForm.id = tableData.tableData.length + 1
-                    res.data.forEach((element: any) => {
-                      element.id = (element?.id)?.toString();
-                      tableData.tableData?.push(element);
-                    });
-                    // pagniation work start
-                    if (!tableData.end) {
-                      tableData.end = 10;
-                    }
-                    tableData.pageIndex = 1;
-                    tableData.totalCount = res.count;
-                    tableData.serverApi = `knex-query/${this.navigation}`;
-                    tableData.targetId = '';
-                    tableData.displayData = tableData.tableData.length > tableData.end ? tableData.tableData.slice(0, tableData.end) : tableData.tableData;
-                    // pagniation work end
-                    if (JSON.stringify(tableData['tableKey']) != JSON.stringify(obj)) {
-                      const updatedData = tableData.tableHeaders.filter((updatedItem: any) => {
-                        const name = updatedItem.name;
-                        return !obj.some((headerItem: any) => headerItem.name === name);
-                      });
-                      if (updatedData.length > 0) {
-                        tableData.tableData = tableData.tableData.map((item: any) => {
-                          const newItem = { ...item };
-                          for (let i = 0; i < updatedData.length; i++) {
-                            newItem[updatedData[i].key] = "";
-                          }
-                          return newItem;
-                        });
-                      }
-                    }
-                    // this.assignGridRules(tableData);
-                  }
-                }
-              });
+              
             }
           }
         }
@@ -2299,72 +2202,72 @@ export class PagesComponent implements OnInit, OnDestroy {
       else {
         let findObj = this.findObjectById(this.resData[0], data?.id.toLowerCase());
         if (findObj && tableData) {
-          this.requestSubscription = this.applicationService.callApi('knex-query/getexecute-rules/' + findClickApi.id, 'get', '', '', targetId ? targetId : '').subscribe(response => {
-            if (tableData && response?.data.length > 0) {
-              let saveForm = JSON.parse(JSON.stringify(response.data[0]));
-              const firstObjectKeys = Object.keys(saveForm);
-              let tableKey = firstObjectKeys.map(key => ({ name: key }));
-              let obj = firstObjectKeys.map(key => ({ name: key, key: key }));
-              tableData.tableData = [];
-              saveForm.id = tableData.tableData.length + 1;
-              response.data.forEach((element: any) => {
-                element.id = (element?.id)?.toString();
-                tableData.tableData?.push(element);
-              });
-              // pagniation work start
-              if (!tableData.end) {
-                tableData.end = 10;
-              }
-              tableData.pageIndex = 1;
-              tableData.totalCount = response.count;
-              tableData.serverApi = 'knex-query/getexecute-rules/' + findClickApi.id, 'get', '', '', targetId ? targetId : '';
-              tableData.targetId = '';
-              tableData.displayData = tableData.tableData.length > tableData.end ? tableData.tableData.slice(0, tableData.end) : tableData.tableData;
-              // pagniation work end
-              if (!tableData?.tableHeaders) {
-                tableData.tableHeaders = obj;
-                tableData['tableKey'] = tableKey
-              }
-              if (tableData?.tableHeaders.length == 0) {
-                tableData.tableHeaders = obj;
-                tableData['tableKey'] = tableKey
-              }
-              else {
-                if (JSON.stringify(tableData['tableKey']) !== JSON.stringify(tableKey)) {
-                  const updatedData = tableKey.filter(updatedItem =>
-                    !tableData.tableHeaders.some((headerItem: any) => headerItem.key === updatedItem.name)
-                  );
-                  if (updatedData.length > 0) {
-                    updatedData.forEach(updatedItem => {
-                      tableData.tableHeaders.push({ id: tableData.tableHeaders.length + 1, key: updatedItem.name, name: updatedItem.name, });
-                    });
-                    tableData['tableKey'] = tableData.tableHeaders;
-                  }
-                }
-              }
-              this.getEnumApi(data, targetId, findObj);
-            }
-            else if (tableData && response?.data.length == 0) {
-              let obj = [{ name: 'id', }, { name: 'name', }]
-              tableData['tableKey'] = obj;
-              let headerData = [{
-                "id": 1,
-                "key": "id",
-                "name": "id",
-                "headerButton": "",
-                "footerButton": ""
-              },
-              {
-                "id": 2,
-                "key": "name",
-                "name": "name",
-                "headerButton": "",
-                "footerButton": ""
-              }];
-              tableData.tableHeaders = headerData;
-              tableData.tableData = [];
-            }
-          })
+          // this.requestSubscription = this.applicationService.callApi('knex-query/getexecute-rules/' + findClickApi.id, 'get', '', '', targetId ? targetId : '').subscribe(response => {
+          //   if (tableData && response?.data.length > 0) {
+          //     let saveForm = JSON.parse(JSON.stringify(response.data[0]));
+          //     const firstObjectKeys = Object.keys(saveForm);
+          //     let tableKey = firstObjectKeys.map(key => ({ name: key }));
+          //     let obj = firstObjectKeys.map(key => ({ name: key, key: key }));
+          //     tableData.tableData = [];
+          //     saveForm.id = tableData.tableData.length + 1;
+          //     response.data.forEach((element: any) => {
+          //       element.id = (element?.id)?.toString();
+          //       tableData.tableData?.push(element);
+          //     });
+          //     // pagniation work start
+          //     if (!tableData.end) {
+          //       tableData.end = 10;
+          //     }
+          //     tableData.pageIndex = 1;
+          //     tableData.totalCount = response.count;
+          //     tableData.serverApi = 'knex-query/getexecute-rules/' + findClickApi.id, 'get', '', '', targetId ? targetId : '';
+          //     tableData.targetId = '';
+          //     tableData.displayData = tableData.tableData.length > tableData.end ? tableData.tableData.slice(0, tableData.end) : tableData.tableData;
+          //     // pagniation work end
+          //     if (!tableData?.tableHeaders) {
+          //       tableData.tableHeaders = obj;
+          //       tableData['tableKey'] = tableKey
+          //     }
+          //     if (tableData?.tableHeaders.length == 0) {
+          //       tableData.tableHeaders = obj;
+          //       tableData['tableKey'] = tableKey
+          //     }
+          //     else {
+          //       if (JSON.stringify(tableData['tableKey']) !== JSON.stringify(tableKey)) {
+          //         const updatedData = tableKey.filter(updatedItem =>
+          //           !tableData.tableHeaders.some((headerItem: any) => headerItem.key === updatedItem.name)
+          //         );
+          //         if (updatedData.length > 0) {
+          //           updatedData.forEach(updatedItem => {
+          //             tableData.tableHeaders.push({ id: tableData.tableHeaders.length + 1, key: updatedItem.name, name: updatedItem.name, });
+          //           });
+          //           tableData['tableKey'] = tableData.tableHeaders;
+          //         }
+          //       }
+          //     }
+          //     this.getEnumApi(data, targetId, findObj);
+          //   }
+          //   else if (tableData && response?.data.length == 0) {
+          //     let obj = [{ name: 'id', }, { name: 'name', }]
+          //     tableData['tableKey'] = obj;
+          //     let headerData = [{
+          //       "id": 1,
+          //       "key": "id",
+          //       "name": "id",
+          //       "headerButton": "",
+          //       "footerButton": ""
+          //     },
+          //     {
+          //       "id": 2,
+          //       "key": "name",
+          //       "name": "name",
+          //       "headerButton": "",
+          //       "footerButton": ""
+          //     }];
+          //     tableData.tableHeaders = headerData;
+          //     tableData.tableData = [];
+          //   }
+          // })
         }
       }
     } else {
@@ -2486,38 +2389,38 @@ export class PagesComponent implements OnInit, OnDestroy {
     }
   }
   getEnumApi(data: any, targetId: any, findObj: any) {
-    if (!targetId)
-      this.requestSubscription = this.applicationService.getNestCommonAPI(data.props.apiUrl).subscribe({
-        next: (res) => {
+    // if (!targetId)
+      // this.requestSubscription = this.applicationService.getNestCommonAPI(data.props.apiUrl).subscribe({
+      //   next: (res) => {
 
-          if (res?.data?.length > 0) {
-            let propertyNames = Object.keys(res.data[0]);
-            let result = res.data.map((item: any) => {
-              let newObj: any = {};
-              let propertiesToGet: string[];
-              if ('id' in item && 'name' in item) {
-                propertiesToGet = ['id', 'name'];
-              } else {
-                propertiesToGet = Object.keys(item).slice(0, 2);
-              }
-              propertiesToGet.forEach((prop) => {
-                newObj[prop] = item[prop];
-              });
-              return newObj;
-            });
+      //     if (res?.data?.length > 0) {
+      //       let propertyNames = Object.keys(res.data[0]);
+      //       let result = res.data.map((item: any) => {
+      //         let newObj: any = {};
+      //         let propertiesToGet: string[];
+      //         if ('id' in item && 'name' in item) {
+      //           propertiesToGet = ['id', 'name'];
+      //         } else {
+      //           propertiesToGet = Object.keys(item).slice(0, 2);
+      //         }
+      //         propertiesToGet.forEach((prop) => {
+      //           newObj[prop] = item[prop];
+      //         });
+      //         return newObj;
+      //       });
 
-            let finalObj = result.map((item: any) => {
-              return {
-                label: item.name || item[propertyNames[1]],
-                value: item.id || item[propertyNames[0]],
-              };
-            });
-            findObj.formly.fieldGroup[0].props.options = finalObj;
-          }
-        },
-        error: (err) => {
-        },
-      });
+      //       let finalObj = result.map((item: any) => {
+      //         return {
+      //           label: item.name || item[propertyNames[1]],
+      //           value: item.id || item[propertyNames[0]],
+      //         };
+      //       });
+      //       findObj.formly.fieldGroup[0].props.options = finalObj;
+      //     }
+      //   },
+      //   error: (err) => {
+      //   },
+      // });
 
   }
   saveDataGrid(res: any) {
@@ -2541,10 +2444,10 @@ export class PagesComponent implements OnInit, OnDestroy {
             "gridData": res
           }
         }
-        this.requestSubscription = this.applicationService.addNestCommonAPI('cp', obj).subscribe(res => {
-          this.toastr.success("Success Added Record", { nzDuration: 3000 });
-          this.getEnumList(findElement, this.formlyModel[model[0]]);
-        })
+        // this.requestSubscription = this.applicationService.addNestCommonAPI('cp', obj).subscribe(res => {
+        //   this.toastr.success("Success Added Record", { nzDuration: 3000 });
+        //   this.getEnumList(findElement, this.formlyModel[model[0]]);
+        // })
       }
     }
 
@@ -2886,29 +2789,29 @@ export class PagesComponent implements OnInit, OnDestroy {
     }
   }
   getIssues(navigation: any, res1: any) {
-    this.applicationService.callApi('knex-query/getAction/65001460e9856e9578bcb63f', 'get', '', '', navigation).subscribe({
-      next: (response: any) => {
-        if (res1) {
-          if (res1.length > 0) {
-            this.findObjectByTypeAndApplyApplictionTheme(this.resData[0], res1);
-          }
-        }
-        if (response.data > 0) {
-          response.data.forEach((element: any) => {
-            this.assignIssue(this.resData[0], element);
-          });
-        }
-      },
-      error: (error: any) => {
-        if (res1) {
-          if (res1.length > 0) {
-            this.findObjectByTypeAndApplyApplictionTheme(this.resData[0], res1);
-          }
-        }
-        console.error(error);
-        this.toastr.error("An error occurred", { nzDuration: 3000 });
-      }
-    });
+    // this.applicationService.callApi('knex-query/getAction/65001460e9856e9578bcb63f', 'get', '', '', navigation).subscribe({
+    //   next: (response: any) => {
+    //     if (res1) {
+    //       if (res1.length > 0) {
+    //         this.findObjectByTypeAndApplyApplictionTheme(this.resData[0], res1);
+    //       }
+    //     }
+    //     if (response.data > 0) {
+    //       response.data.forEach((element: any) => {
+    //         this.assignIssue(this.resData[0], element);
+    //       });
+    //     }
+    //   },
+    //   error: (error: any) => {
+    //     if (res1) {
+    //       if (res1.length > 0) {
+    //         this.findObjectByTypeAndApplyApplictionTheme(this.resData[0], res1);
+    //       }
+    //     }
+    //     console.error(error);
+    //     this.toastr.error("An error occurred", { nzDuration: 3000 });
+    //   }
+    // });
   }
   changeWithGlobalClass(className: any) {
     let matches: any[] = className.match(/\$\S+/g);

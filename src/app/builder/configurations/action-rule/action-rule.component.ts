@@ -3,7 +3,6 @@ import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { Subscription, catchError, forkJoin, of } from 'rxjs';
 import { DataSharedService } from 'src/app/services/data-shared.service';
-import { EmployeeService } from 'src/app/services/employee.service';
 import { environment } from 'src/environments/environment';
 import { SocketService } from 'src/app/services/socket.service';
 
@@ -14,7 +13,6 @@ import { SocketService } from 'src/app/services/socket.service';
   styleUrls: ['./action-rule.component.scss']
 })
 export class ActionRuleComponent implements OnInit {
-  backendApi = environment.nestBaseUrl;
   userTheme: string = "vs-dark";
   userLanguage: string = "javascript";
   editorOptions: any = {
@@ -52,7 +50,6 @@ export class ActionRuleComponent implements OnInit {
   emailNameOptions: any = [];
   screenOptions: any = [];
   constructor(private formBuilder: FormBuilder,
-    private employeeService: EmployeeService,
     public dataSharedService: DataSharedService, private toastr: NzMessageService,
     public socketService: SocketService,
 
@@ -292,17 +289,17 @@ export class ActionRuleComponent implements OnInit {
     let apiUrl = '';
     if (this.actionForm.value.actionType === 'api') {
       if (this.actionForm.value.actionLink === 'delete') {
-        apiUrl = this.backendApi + 'knex-query/executeQuery';
+        apiUrl =  'knex-query/executeQuery';
       }
       else if (this.actionForm.value.actionLink === 'get') {
-        apiUrl = this.backendApi + 'knex-query/' + this.screenname;
+        apiUrl = 'knex-query/' + this.screenname;
       }
       else if (this.actionForm.value.actionLink === 'put') {
-        apiUrl = this.backendApi + 'knex-query/executeQuery';
+        apiUrl = 'knex-query/executeQuery';
       }
 
       else {
-        apiUrl = this.backendApi + 'knex-query';
+        apiUrl =  'knex-query';
       }
       // if (this.actionForm.value.elementName.includes('button')) {
 
@@ -632,33 +629,33 @@ export class ActionRuleComponent implements OnInit {
             if (tableData.serverSidePagination) {
               pagination = '?page=' + 1 + '&pageSize=' + tableData?.end;
             }
-            this.employeeService.getSQLDatabaseTable(url + pagination).subscribe({
-              next: (res) => {
-                if (tableData && res.isSuccess) {
-                  let saveForm = JSON.parse(JSON.stringify(res.data[0]));
-                  const firstObjectKeys = Object.keys(saveForm);
-                  let obj = firstObjectKeys.map(key => ({ name: key, key: key }));
-                  tableData.tableData = [];
-                  tableData['tableKey'] = obj;
-                  tableData.tableHeaders = tableData['tableKey'];
-                  saveForm.id = tableData.tableData.length + 1;
-                  res.data.forEach((element: any) => {
-                    element.id = (element.id).toString();
-                    tableData.tableData?.push(element);
-                  });
-                  // pagniation work start
-                  if (!tableData.end) {
-                    tableData.end = 10;
-                  }
-                  tableData.pageIndex = 1;
-                  tableData.totalCount = res.count;
-                  tableData.serverApi = `knex-query/${this.screenname}`;
-                  tableData.targetId = '';
-                  tableData.displayData = tableData.tableData.length > tableData.end ? tableData.tableData.slice(0, tableData.end) : tableData.tableData;
-                  // pagniation work end
-                }
-              }
-            });
+            // this.employeeService.getSQLDatabaseTable(url + pagination).subscribe({
+            //   next: (res) => {
+            //     if (tableData && res.isSuccess) {
+            //       let saveForm = JSON.parse(JSON.stringify(res.data[0]));
+            //       const firstObjectKeys = Object.keys(saveForm);
+            //       let obj = firstObjectKeys.map(key => ({ name: key, key: key }));
+            //       tableData.tableData = [];
+            //       tableData['tableKey'] = obj;
+            //       tableData.tableHeaders = tableData['tableKey'];
+            //       saveForm.id = tableData.tableData.length + 1;
+            //       res.data.forEach((element: any) => {
+            //         element.id = (element.id).toString();
+            //         tableData.tableData?.push(element);
+            //       });
+            //       // pagniation work start
+            //       if (!tableData.end) {
+            //         tableData.end = 10;
+            //       }
+            //       tableData.pageIndex = 1;
+            //       tableData.totalCount = res.count;
+            //       tableData.serverApi = `knex-query/${this.screenname}`;
+            //       tableData.targetId = '';
+            //       tableData.displayData = tableData.tableData.length > tableData.end ? tableData.tableData.slice(0, tableData.end) : tableData.tableData;
+            //       // pagniation work end
+            //     }
+            //   }
+            // });
           }
         }
       }

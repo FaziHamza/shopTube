@@ -1,19 +1,14 @@
 import { DatePipe } from '@angular/common';
 import { HttpClient, HttpEvent, HttpEventType } from '@angular/common/http';
 import {
-  ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output, HostListener, NgZone
+  ChangeDetectorRef, Component, Input, OnInit,  NgZone
 } from '@angular/core';
-import { DomSanitizer } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { NzModalService } from 'ng-zorro-antd/modal';
 import { Subject, Subscription, debounceTime, takeUntil } from 'rxjs';
-import { ApplicationService } from 'src/app/services/application.service';
-import { BuilderService } from 'src/app/services/builder.service';
 import { DataSharedService } from 'src/app/services/data-shared.service';
-import { EmployeeService } from 'src/app/services/employee.service';
 import { DataService } from 'src/app/services/offlineDb.service';
-import { environment } from 'src/environments/environment';
 import {WorkSheet ,utils,WorkBook,writeFile} from 'xlsx';
 import { QrCodeComponent } from '../qr-code/qr-code.component';
 import { NzResizeEvent } from 'ng-zorro-antd/resizable';
@@ -43,7 +38,6 @@ export class DynamicTableComponent implements OnInit {
   @Input() childTable: any = false;
   GridType: string = '';
   index: any;
-  serverPath = environment.nestBaseUrl
   screenNameaa: any;
   footerData: any[] = [];
   childKey: any;
@@ -109,13 +103,12 @@ export class DynamicTableComponent implements OnInit {
   //   // Update the nzScroll configuration based on screen size
   //   // this.updateScrollConfig();
   // }
-  constructor(public _dataSharedService: DataSharedService, private builderService: BuilderService,
+  constructor(public _dataSharedService: DataSharedService, 
     private dataService: DataService,
     private toastr: NzMessageService, private cdr: ChangeDetectorRef,
     public dataSharedService: DataSharedService,
     private router: Router, private http: HttpClient,
     private modal: NzModalService,
-    private zone: NgZone,
     private socketService: SocketService,
 
   ) {
@@ -310,36 +303,36 @@ export class DynamicTableComponent implements OnInit {
   }
   onClickRow(api: string, item: any) {
     if (api) {
-      this.requestSubscription = this.builderService.genericApis(api).subscribe({
-        next: (res: any) => {
-          this.requestSubscription = this.builderService.genericApisDeleteWithId(api, item.id).subscribe({
-            next: (res: any) => {
-              this.requestSubscription = this.builderService.genericApisPost(api, item).subscribe({
-                next: (res: any) => {
-                  res;
-                }
-              });
-            }
-          });
-        }
-      });
+      // this.requestSubscription = this.builderService.genericApis(api).subscribe({
+      //   next: (res: any) => {
+      //     this.requestSubscription = this.builderService.genericApisDeleteWithId(api, item.id).subscribe({
+      //       next: (res: any) => {
+      //         this.requestSubscription = this.builderService.genericApisPost(api, item).subscribe({
+      //           next: (res: any) => {
+      //             res;
+      //           }
+      //         });
+      //       }
+      //     });
+      //   }
+      // });
       console.log(JSON.stringify(item));
     }
   }
   onClickColumn(api: string, item: any) {
-    this.requestSubscription = this.builderService.genericApisWithId(api, item.key).subscribe({
-      next: (res: any) => {
-        this.requestSubscription = this.builderService.genericApisDeleteWithId(api, res[0].id).subscribe({
-          next: (res: any) => {
-            this.requestSubscription = this.builderService.genericApisPost(api, item).subscribe({
-              next: (res: any) => {
-                res;
-              }
-            });
-          }
-        });
-      }
-    });
+    // this.requestSubscription = this.builderService.genericApisWithId(api, item.key).subscribe({
+    //   next: (res: any) => {
+    //     this.requestSubscription = this.builderService.genericApisDeleteWithId(api, res[0].id).subscribe({
+    //       next: (res: any) => {
+    //         this.requestSubscription = this.builderService.genericApisPost(api, item).subscribe({
+    //           next: (res: any) => {
+    //             res;
+    //           }
+    //         });
+    //       }
+    //     });
+    //   }
+    // });
     console.log("Column Click " + name);
   }
   gridRuleData: any[] = [];
@@ -2401,41 +2394,41 @@ export class DynamicTableComponent implements OnInit {
 
         const formData: FormData = new FormData();
         formData.append('file', file);
-        this.requestSubscription = this.http
-          .post(this.serverPath + 'knex-query/savecsv/' + findClickApi?.id, formData, {
-            reportProgress: true, // Enable progress reporting
-            observe: 'events', // Observe Http events
-          })
-          .subscribe({
-            next: (event: HttpEvent<any>) => {
-              if (event.type === HttpEventType.UploadProgress) {
-                if (event.total !== undefined && event.total > 0) {
-                  // Ensure 'event.total' is defined and positive before using it
-                  this.progress = Math.round((100 * event.loaded) / event.total);
-                }
-              } else if (event.type === HttpEventType.Response) {
-                // Upload complete
-                this.progress = 100;
-                this.showProgressBar = false;
-                // this.toastr.success('Import successfully', { nzDuration: 3000 });
-                this.fileUpload = ''; // This clears the file input
-                if (event.body.isSuccess) {
-                  if (this.data.appConfigurableEvent) {
-                    this.saveLoader = true;
-                    this.recallApi();
-                  }
-                  this.toastr.success('Import successfully', { nzDuration: 3000 });
-                } else {
-                  this.toastr.error(event.body.error, { nzDuration: 2000 });
-                }
-              }
-            },
-            error: (err) => {
-              // Handle error
-              this.showProgressBar = false;
-              this.toastr.error('Some error occurred', { nzDuration: 2000 });
-            },
-          });
+        // this.requestSubscription = this.http
+        //   .post(this.serverPath + 'knex-query/savecsv/' + findClickApi?.id, formData, {
+        //     reportProgress: true, // Enable progress reporting
+        //     observe: 'events', // Observe Http events
+        //   })
+        //   .subscribe({
+        //     next: (event: HttpEvent<any>) => {
+        //       if (event.type === HttpEventType.UploadProgress) {
+        //         if (event.total !== undefined && event.total > 0) {
+        //           // Ensure 'event.total' is defined and positive before using it
+        //           this.progress = Math.round((100 * event.loaded) / event.total);
+        //         }
+        //       } else if (event.type === HttpEventType.Response) {
+        //         // Upload complete
+        //         this.progress = 100;
+        //         this.showProgressBar = false;
+        //         // this.toastr.success('Import successfully', { nzDuration: 3000 });
+        //         this.fileUpload = ''; // This clears the file input
+        //         if (event.body.isSuccess) {
+        //           if (this.data.appConfigurableEvent) {
+        //             this.saveLoader = true;
+        //             this.recallApi();
+        //           }
+        //           this.toastr.success('Import successfully', { nzDuration: 3000 });
+        //         } else {
+        //           this.toastr.error(event.body.error, { nzDuration: 2000 });
+        //         }
+        //       }
+        //     },
+        //     error: (err) => {
+        //       // Handle error
+        //       this.showProgressBar = false;
+        //       this.toastr.error('Some error occurred', { nzDuration: 2000 });
+        //     },
+        //   });
       }
     }
     // if (!this.data?.tableName) {

@@ -3,7 +3,6 @@ import { FieldType, FieldTypeConfig } from '@ngx-formly/core';
 import { DataSharedService } from 'src/app/services/data-shared.service';
 import { EventEmitter } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { ApplicationService } from 'src/app/services/application.service';
 
 @Component({
   selector: 'dynamic-select',

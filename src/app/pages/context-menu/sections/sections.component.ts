@@ -1,11 +1,9 @@
 import { Component, OnInit, Input, EventEmitter, Output, ChangeDetectorRef, Optional } from '@angular/core';
 import { NzMessageService } from 'ng-zorro-antd/message';
-import { Subscription, catchError, elementAt, take } from 'rxjs';
+import { Subscription } from 'rxjs';
 import { TreeNode } from 'src/app/models/treeNode';
-import { ApplicationService } from 'src/app/services/application.service';
 import { DataSharedService } from 'src/app/services/data-shared.service';
-import { EmployeeService } from 'src/app/services/employee.service';
-import {ref,string,date,any,number,object} from 'joi';
+import { ref, string, date, any, number, object } from 'joi';
 
 
 import { DataService } from 'src/app/services/offlineDb.service';
@@ -41,9 +39,8 @@ export class SectionsComponent implements OnInit {
   ruleObj: any = {};
   ruleValidation: any = {};
   saveLoader: boolean = false;
-  constructor(public dataSharedService: DataSharedService, private toastr: NzMessageService, private employeeService: EmployeeService,
-    private socketService: SocketService,
-    private applicationServices: ApplicationService, private cd: ChangeDetectorRef, private activatedRoute: ActivatedRoute, private router: Router, private location: Location) {
+  constructor(public dataSharedService: DataSharedService, private toastr: NzMessageService,
+    private socketService: SocketService, private cd: ChangeDetectorRef, private activatedRoute: ActivatedRoute, private router: Router, private location: Location) {
     // this.drawerRef = drawerRef;
   }
 
@@ -109,7 +106,16 @@ export class SectionsComponent implements OnInit {
               this.dataModel = this.convertModel(this.formlyModel);
               const allUndefined = Object.values(this.formlyModel).every((value) => value === undefined);
               if (!allUndefined) {
-                this.saveData(res?.buttonData)
+                if (res?.buttonData?.isSubmit) {
+                  this.joiValidation();
+                  if (this.joiValidationData.length > 0) {
+                    if (this.validationCheckStatus.length == 0) {
+                      this.saveData(res?.buttonData);
+                    }
+                  } else {
+                    this.saveData(res?.buttonData);
+                  }
+                }
               }
 
             }
@@ -194,54 +200,6 @@ export class SectionsComponent implements OnInit {
     return inputElements;
   }
   saveData(data: any) {
-
-    if (data.isSubmit) {
-      this.joiValidation();
-      if (this.joiValidationData.length > 0) {
-        if (this.validationCheckStatus.length == 0) {
-          this.saveData1(data);
-        }
-      } else {
-        this.saveData1(data);
-      }
-    }
-  }
-  saveButtonApi(api: string) {
-    let oneModelData = this.convertModel(this.dataModel);
-    const removePrefix = (data: Record<string, any>): Record<string, any> => {
-      const newData: Record<string, any> = {};
-      for (const key in data) {
-        const lastDotIndex = key.lastIndexOf('.');
-        const newKey = lastDotIndex !== -1 ? key.substring(lastDotIndex + 1) : key;
-        newData[newKey] = data[key];
-      }
-      return newData;
-    };
-
-    const result = removePrefix(oneModelData);
-    // Note we need to save JSON of Button for api in JSON.stringify
-    let apiJSON = JSON.parse(api);
-    let findClickApi = apiJSON.filter((item: any) => item.actions.some((action: any) => action.method === 'POST' && action.actionType == 'API'));
-    this.requestSubscription = this.applicationServices.addNestCommonAPI(findClickApi.length > 0 ? findClickApi[0].actions?.[0]?.url : 'knex-query', result).subscribe({
-      next: (res) => {
-        if (res[0]?.error)
-          this.toastr.error(res[0]?.error, { nzDuration: 3000 });
-        else {
-          this.toastr.success("Save Successfully", { nzDuration: 3000 });
-          // this.setInternalValuesEmpty(this.dataModel)
-          // this.employeeService.getSQLDatabaseTable(`knex-query?tables=${tables}&relationIds=id,${relationIds.toString()}`).subscribe({
-          this.getFromQuery(apiJSON);
-        }
-      },
-      error: (err) => {
-        console.error(err);
-        this.toastr.error("An error occurred", { nzDuration: 3000 });
-      }
-    });
-  }
-  saveData1(data: any) {
-
-
     if (data?.detailSave) {
       let oneModelData = this.convertModel(this.dataModel);
       this.addDetailGrid(oneModelData, data);
@@ -301,7 +259,9 @@ export class SectionsComponent implements OnInit {
                     this.router.navigate(['/pages/' + data.saveRouteLink]).then(() => {
                       // Reload the entire application to re-render all components
                       this.location.replaceState('/pages/' + data.saveRouteLink);
-                      window.location.reload();
+                      let externalLogin = localStorage.getItem('externalLogin') || false;
+                      if (!externalLogin)
+                        window.location.reload();
                     });
                   } else {
                     let tableData = this.findObjectByTypeBase(this.sections, "gridList");
@@ -313,7 +273,7 @@ export class SectionsComponent implements OnInit {
                     this.router.navigate(['/pages/' + data.saveRouteLink]);
                   }
                   return;
-                } else if (data.saveredirect == 'modal'){
+                } else if (data.saveredirect == 'modal') {
                   this.dataSharedService.saveredirect.next(data)
                 }
 
@@ -427,10 +387,10 @@ export class SectionsComponent implements OnInit {
       for (const key in this.tempTableData) {
         if (this.tempTableData.hasOwnProperty(key)) {
           const getDetailData = this.groupDataDetailTable(this.tempTableData[key]);
-        empData.modalData[key] = getDetailData.data[getDetailData.tableName];
+          empData.modalData[key] = getDetailData.data[getDetailData.tableName];
         }
       }
-      
+
     }
     console.log(empData.modalData)
     id = data?.dataTable ? empData.modalData[data?.dataTable + '.id'] : id;
@@ -1026,15 +986,15 @@ export class SectionsComponent implements OnInit {
       this.gridRules(this.gridRulesData, data);
     }
     else {
-      this.requestSubscription = this.applicationServices.getNestCommonAPIById('cp/GridBusinessRule', this.screenId).subscribe(((getRes: any) => {
-        if (getRes.isSuccess) {
-          if (getRes.data.length > 0) {
-            this.gridRulesData = getRes;
-            this.gridRules(getRes, data);
-          }
-        } else
-          this.toastr.error(getRes.message, { nzDuration: 3000 });
-      }));
+      // this.requestSubscription = this.applicationServices.getNestCommonAPIById('cp/GridBusinessRule', this.screenId).subscribe(((getRes: any) => {
+      //   if (getRes.isSuccess) {
+      //     if (getRes.data.length > 0) {
+      //       this.gridRulesData = getRes;
+      //       this.gridRules(getRes, data);
+      //     }
+      //   } else
+      //     this.toastr.error(getRes.message, { nzDuration: 3000 });
+      // }));
     }
   }
   gridRules(getRes: any, data: any) {

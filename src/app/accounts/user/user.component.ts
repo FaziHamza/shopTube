@@ -1,10 +1,8 @@
 import { Component } from '@angular/core';
 import { NzMessageService } from 'ng-zorro-antd/message';
-import { ApplicationService } from 'src/app/services/application.service';
 import { NzModalService } from 'ng-zorro-antd/modal';
 import { NzDrawerService } from 'ng-zorro-antd/drawer';
 import { RegisterComponent } from '../../auth/register/register.component';
-import { environment } from 'src/environments/environment';
 import { SocketService } from 'src/app/services/socket.service';
 
 

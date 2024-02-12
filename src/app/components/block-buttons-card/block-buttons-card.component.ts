@@ -1,11 +1,10 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { TreeNode } from 'src/app/models/treeNode';
-import { EmployeeService } from 'src/app/services/employee.service';
-// import { CommonchartService } from 'src/app/servics/commonchart.service';
 import { NzModalService } from 'ng-zorro-antd/modal';
 import { NzButtonSize } from 'ng-zorro-antd/button';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { Router } from '@angular/router';
+import { SocketService } from 'src/app/services/socket.service';
 
 @Component({
   selector: 'st-block-buttons-card',
@@ -34,7 +33,7 @@ export class BlockButtonsCardComponent {
   color: "hover:bg-[#000000]";
   borderColor: any;
   @Output() tableEmit: EventEmitter<any> = new EventEmitter<any>();
-  constructor(private modalService: NzModalService, public employeeService: EmployeeService, private toastr: NzMessageService, private router: Router,
+  constructor(private socketService: SocketService, private toastr: NzMessageService, private router: Router,
   ) { }
   ngOnInit(): void {
     this.hoverTextColor = this.softIconList?.color;
@@ -53,18 +52,6 @@ export class BlockButtonsCardComponent {
     //   this.deleteData('delete')
   }
 
-  // insertData(type:any){
-  //   this.commonChartService.submit(type);
-  //   alert("Insert Click");
-  // }
-  // updateData(type:any){
-  //   this.commonChartService.submit(type);
-  //   alert("Update Click");
-  // }
-  // deleteData(type:any){
-  //   this.commonChartService.submit(type);
-  //   alert("Delete Click");
-  // }
   isVisible = false;
 
 
@@ -73,12 +60,22 @@ export class BlockButtonsCardComponent {
     let url = window.location.origin;
     if (href) {
       if (routeType == 'modal') {
-        this.employeeService.jsonBuilderSetting(href).subscribe(((res: any) => {
-          if (res.length > 0) {
-            this.nodes = res[0].menuData;
-            this.isVisible = true;
-          }
-        }));
+        let externalLogin = localStorage.getItem('externalLogin') || false;
+        if (externalLogin == 'false') {
+          const { jsonData, newGuid } = this.socketService.makeJsonDataById('CheckUserScreen', href, 'CheckUserScreen');
+          this.socketService.Request(jsonData);
+          this.socketService.OnResponseMessage().subscribe(((res: any) => {
+            if (res.parseddata.requestId == newGuid && res.parseddata.isSuccess) {
+              res = res.parseddata.apidata;
+              if (res.length > 0) {
+                this.nodes = res[0].menuData;
+                this.isVisible = true;
+              }
+            }
+
+          }));
+        }
+
       } else if (routeType == '_blank') {
         let link = '/pages/' + href;
         window.open(link)
@@ -107,7 +104,7 @@ export class BlockButtonsCardComponent {
 
     bgColor = hoverColor;
   }
-  gridEmit(data:any){
+  gridEmit(data: any) {
     this.tableEmit.emit(data);
   }
 

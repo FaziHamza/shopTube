@@ -1,7 +1,6 @@
 import { Component, Input, Output } from '@angular/core';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { Subscription } from 'rxjs';
-import { ApplicationService } from 'src/app/services/application.service';
 import { environment } from 'src/environments/environment';
 
 @Component({
@@ -33,9 +32,8 @@ export class DownloadbuttonComponent {
   responseData: any;
   loader: boolean = false;
   requestSubscription: Subscription;
-  serverPath = environment.nestBaseUrl
 
-  constructor(private applicationService: ApplicationService, private toastr: NzMessageService,) {
+  constructor(private toastr: NzMessageService,) {
 
   }
   ngOnInit(): void {

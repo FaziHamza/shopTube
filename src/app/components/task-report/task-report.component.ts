@@ -2,7 +2,6 @@ import { ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output, View
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { Observable, Subscription } from 'rxjs';
-import { ApplicationService } from 'src/app/services/application.service';
 import { DataSharedService } from 'src/app/services/data-shared.service';
 
 @Component({
@@ -25,8 +24,7 @@ export class TaskReportComponent implements OnInit {
   commentEditObj: any = {};
   commentForm: FormGroup;
   requestSubscription: Subscription;
-  constructor(private cd: ChangeDetectorRef, private toastr: NzMessageService, public dataSharedService: DataSharedService,
-    private applicationService: ApplicationService, private formBuilder: FormBuilder) { }
+  constructor(private cd: ChangeDetectorRef, private toastr: NzMessageService, public dataSharedService: DataSharedService,private formBuilder: FormBuilder) { }
   ngOnInit(): void {
     this.commentForm = this.formBuilder.group({
       message: ['', Validators.required],
@@ -61,55 +59,55 @@ export class TaskReportComponent implements OnInit {
 
     let requestObservable: Observable<any>;
 
-    if (!this.commentEdit) {
-      requestObservable = this.applicationService.addNestCommonAPI('knex-crud/task', commentObj);
-    } else {
-      // userCommentModel.UserComment.componentId = this.commentEditObj.componentId;
-      requestObservable = this.applicationService.updateNestCommonAPI(
-        'cp/UserComment',
-        this.commentEditObj._id,
-        userCommentModel
-      );
-    }
+    // if (!this.commentEdit) {
+    //   requestObservable = this.applicationService.addNestCommonAPI('knex-crud/task', commentObj);
+    // } else {
+    //   // userCommentModel.UserComment.componentId = this.commentEditObj.componentId;
+    //   requestObservable = this.applicationService.updateNestCommonAPI(
+    //     'cp/UserComment',
+    //     this.commentEditObj._id,
+    //     userCommentModel
+    //   );
+    // }
 
-    this.requestSubscription = requestObservable.subscribe({
-      next: (res: any) => {
-        if (res.id) {
-          this.commentForm.patchValue({
-            message: '',
-          });
-          this.toastr.success(`UserComment: 'User task save succesfully'`, { nzDuration: 3000 });
+    // this.requestSubscription = requestObservable.subscribe({
+    //   next: (res: any) => {
+    //     if (res.id) {
+    //       this.commentForm.patchValue({
+    //         message: '',
+    //       });
+    //       this.toastr.success(`UserComment: 'User task save succesfully'`, { nzDuration: 3000 });
 
-          if (this.commentEdit) {
-            let Newdata: any = data.comment.map((comm: any) => {
-              if (comm._id === res.data._id) {
-                return res.data;
-              }
-              return comm;
-            });
-            data.comment = (JSON.parse(JSON.stringify(Newdata)))
-          }
-          else {
-            if (data['issueReport'][issueIndex]['children']) {
-              res.data['id'] = res.data._id;
-              data.issueReport[issueIndex].children.push(res.data);
-            } else {
-              data['issueReport'][issueIndex]['children'] = [];
-              res.data['id'] = res.data._id;
-              data['issueReport'][issueIndex]['children'].push(res.data);
-            }
+    //       if (this.commentEdit) {
+    //         let Newdata: any = data.comment.map((comm: any) => {
+    //           if (comm._id === res.data._id) {
+    //             return res.data;
+    //           }
+    //           return comm;
+    //         });
+    //         data.comment = (JSON.parse(JSON.stringify(Newdata)))
+    //       }
+    //       else {
+    //         if (data['issueReport'][issueIndex]['children']) {
+    //           res.data['id'] = res.data._id;
+    //           data.issueReport[issueIndex].children.push(res.data);
+    //         } else {
+    //           data['issueReport'][issueIndex]['children'] = [];
+    //           res.data['id'] = res.data._id;
+    //           data['issueReport'][issueIndex]['children'].push(res.data);
+    //         }
 
 
-          }
-          this.commentEdit = false;
-        } else {
-          this.toastr.error(`UserComment: ${res.message}`, { nzDuration: 3000 });
-        }
-      },
-      error: () => {
-        this.toastr.error('UserComment: An error occurred', { nzDuration: 3000 });
-      }
-    });
+    //       }
+    //       this.commentEdit = false;
+    //     } else {
+    //       this.toastr.error(`UserComment: ${res.message}`, { nzDuration: 3000 });
+    //     }
+    //   },
+    //   error: () => {
+    //     this.toastr.error('UserComment: An error occurred', { nzDuration: 3000 });
+    //   }
+    // });
   }
 
 
@@ -118,28 +116,28 @@ export class TaskReportComponent implements OnInit {
     
     data['showAllComments'] = true;
 
-    this.requestSubscription =  this.applicationService.callApi('knex-query/getAction/650064bbc5215fa775985f97', 'get', '', '', "'" + data.id + "'").subscribe({
-      next: (res: any) => {
-        if (res) {
-          if (res.data.length > 0) {
-            this.assignToresponse = res.data[0];
-            data['dueDate'] = res.data[0]['dueDate'];
-            data['assignTo'] = res.data[0]['assignTo'];
-            data['startDate'] = res.data[0]['startDate'];
-            data['endDate'] = res.data[0]['endDate'];
-            data['tags'] = res.data[0]['tags'];
-            data['status'] = res.data[0]['status'];
-            // this.toastr.success(`UserAssignTask : ${res.message}`, { nzDuration: 3000 });
-          } else {
-            data['dueDate'] = new Date();
-            data['dueDate'] = data['dueDate'].toISOString().split('T')[0];
-          }
-        }
-      }, error: (err: any) => {
-        console.error(err); // Log the error to the console
-        this.toastr.error(`UserAssignTask : An error occurred`, { nzDuration: 3000 });
-      }
-    })
+    // this.requestSubscription =  this.applicationService.callApi('knex-query/getAction/650064bbc5215fa775985f97', 'get', '', '', "'" + data.id + "'").subscribe({
+    //   next: (res: any) => {
+    //     if (res) {
+    //       if (res.data.length > 0) {
+    //         this.assignToresponse = res.data[0];
+    //         data['dueDate'] = res.data[0]['dueDate'];
+    //         data['assignTo'] = res.data[0]['assignTo'];
+    //         data['startDate'] = res.data[0]['startDate'];
+    //         data['endDate'] = res.data[0]['endDate'];
+    //         data['tags'] = res.data[0]['tags'];
+    //         data['status'] = res.data[0]['status'];
+    //         // this.toastr.success(`UserAssignTask : ${res.message}`, { nzDuration: 3000 });
+    //       } else {
+    //         data['dueDate'] = new Date();
+    //         data['dueDate'] = data['dueDate'].toISOString().split('T')[0];
+    //       }
+    //     }
+    //   }, error: (err: any) => {
+    //     console.error(err); // Log the error to the console
+    //     this.toastr.error(`UserAssignTask : An error occurred`, { nzDuration: 3000 });
+    //   }
+    // })
   }
   handleCancel(data: any) {
     data['showAllComments'] = false;
@@ -191,25 +189,25 @@ export class TaskReportComponent implements OnInit {
       "UserAssignTask": obj
     }
     let requestObservable: Observable<any>;
-    if (!this.assignToresponse) {
-      requestObservable = this.applicationService.addNestCommonAPI('cp', UserAssignTaskModel);
-    } else {
-      requestObservable = this.applicationService.updateNestCommonAPI('cp/UserAssignTask', this.assignToresponse._id, UserAssignTaskModel);
-    }
-    requestObservable.subscribe({
-      next: (res: any) => {
-        if (res) {
-          this.assignToresponse = res.data;
-          this.toastr.success(`UserAssignTask : ${res.message}`, { nzDuration: 3000 });
-          if (this.userTaskManagementData) {
-            this.notify.emit(res);
-          }
+    // if (!this.assignToresponse) {
+    //   requestObservable = this.applicationService.addNestCommonAPI('cp', UserAssignTaskModel);
+    // } else {
+    //   requestObservable = this.applicationService.updateNestCommonAPI('cp/UserAssignTask', this.assignToresponse._id, UserAssignTaskModel);
+    // }
+    // requestObservable.subscribe({
+    //   next: (res: any) => {
+    //     if (res) {
+    //       this.assignToresponse = res.data;
+    //       this.toastr.success(`UserAssignTask : ${res.message}`, { nzDuration: 3000 });
+    //       if (this.userTaskManagementData) {
+    //         this.notify.emit(res);
+    //       }
 
-        }
-      }, error: (err: any) => {
-        console.error(err); // Log the error to the console
-        this.toastr.error(`UserAssignTask : An error occurred`, { nzDuration: 3000 });
-      }
-    })
+    //     }
+    //   }, error: (err: any) => {
+    //     console.error(err); // Log the error to the console
+    //     this.toastr.error(`UserAssignTask : An error occurred`, { nzDuration: 3000 });
+    //   }
+    // })
   }
 }

@@ -1,13 +1,9 @@
-import { ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output, Renderer2 } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { NzMessageService } from 'ng-zorro-antd/message';
-import { Observable, Subscription } from 'rxjs';
-import { MenuItem } from 'src/app/models/menu';
-import { ApplicationService } from 'src/app/services/application.service';
-import { BuilderService } from 'src/app/services/builder.service';
+import { Subscription } from 'rxjs';
 import { DataSharedService } from 'src/app/services/data-shared.service';
-import { EmployeeService } from 'src/app/services/employee.service';
 
 @Component({
   selector: 'st-app-side-menu',
@@ -42,13 +38,11 @@ export class AppSideMenuComponent implements OnInit {
   showRply = '';
   commentEditObj: any = {};
   assignToresponse: any = '';
-  constructor(private employeeService: EmployeeService, private toastr: NzMessageService, private router: Router,
-    public builderService: BuilderService, public dataSharedService: DataSharedService, private renderer: Renderer2,
-    private applicationService: ApplicationService, private cd: ChangeDetectorRef, private formBuilder: FormBuilder) { }
+  constructor(private toastr: NzMessageService, private router: Router,
+    public dataSharedService: DataSharedService,private formBuilder: FormBuilder) { }
   ngOnInit(): void {
     
     this.currentUser = this.dataSharedService.decryptedValue('user') ? JSON.parse(this.dataSharedService.decryptedValue('user')) : null;
-    this.loadModules();
     if (!window.location.href.includes('/menu-builder')) {
       window.onresize = () => {
         this.changeHtlmenuAtMblView();
@@ -58,24 +52,7 @@ export class AppSideMenuComponent implements OnInit {
       message: ['', Validators.required],
     });
   }
-  loadModules(): void {
-    this.currentUrl = window.location.host;
-    if (this.currentUrl.includes('localhost'))
-      this.requestSubscription = this.applicationService.getNestCommonAPI('cp/Application').subscribe({
-        next: (res: any) => {
-          if (res.isSuccess)
-            this.moduleData = res.data;
-          else
-            this.toastr.error(res.message, { nzDuration: 3000 });
-        },
-        error: (err) => {
-          console.error(err);
-          this.toastr.error("An error occurred", { nzDuration: 3000 });
-        }
-      });
-  }
-
-
+  
   ngOnDestroy() {
     if (this.requestSubscription) {
       this.requestSubscription.unsubscribe();
@@ -93,48 +70,7 @@ export class AppSideMenuComponent implements OnInit {
       }
     }
   }
-  getMenu() {
-    this.requestSubscription = this.applicationService.getNestCommonAPIById('cp/CacheMenu', this.currentUser.userId).subscribe({
-      next: (res: any) => {
-        if (res.isSuccess)
-          if (res.data.length > 0) {
-            this.selectedTheme.allMenuItems = JSON.parse(res.data[0].menuData);
-            this.makeMenuData();
-            this.selectedTheme.allMenuItems.forEach((e: any) => {
-              e["menuIcon"] = "up"
-            });
-          }
-          else {
-            this.requestSubscription = this.applicationService.getNestCommonAPIById('cp/Menu', "649053c6ad28a951f554e688").subscribe({
-              next: (res: any) => {
-                if (res.isSuccess)
-                  if (res.data.length > 0) {
-                    this.selectedTheme.allMenuItems = JSON.parse(res.data[0].menuData);
-                    this.makeMenuData();
-                    this.selectedTheme.allMenuItems.forEach((e: any) => {
-                      e["menuIcon"] = "up"
-                    });
-                  }
-                  else
-                    this.menuItems = [];
-                else
-                  this.toastr.error(res.message, { nzDuration: 3000 });
-              },
-              error: (err) => {
-                console.error(err);
-                this.toastr.error("An error occurred", { nzDuration: 3000 });
-              }
-            });
-          }
-        else
-          this.toastr.error(res.message, { nzDuration: 3000 });
-      },
-      error: (err) => {
-        console.error(err);
-        this.toastr.error("An error occurred", { nzDuration: 3000 });
-      }
-    });
-  }
+ 
   makeMenuData() {
     let arrayList = [];
     this.menuItems = this.selectedTheme.allMenuItems;

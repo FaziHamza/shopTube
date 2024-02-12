@@ -1,8 +1,6 @@
 import { Component, Input, OnInit, } from '@angular/core';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { Subscription } from 'rxjs';
-import { EmployeeService } from 'src/app/services/employee.service';
-import { ApplicationService } from 'src/app/services/application.service';
 import { Router } from '@angular/router';
 import { DataSharedService } from 'src/app/services/data-shared.service';
 
@@ -30,7 +28,7 @@ export class BuilderLayoutComponent implements OnInit {
   }
   requestSubscription: any;
   username: any;
-  constructor(private toastr: NzMessageService, private employeeService: EmployeeService, private applicationService: ApplicationService, private router: Router, private dataSharedService: DataSharedService) { }
+  constructor(private toastr: NzMessageService, private router: Router, private dataSharedService: DataSharedService) { }
 
   ngOnInit(): void {
     // this.getUsers();

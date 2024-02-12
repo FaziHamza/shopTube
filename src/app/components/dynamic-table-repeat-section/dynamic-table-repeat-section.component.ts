@@ -1,7 +1,6 @@
 import {
   ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output
 } from '@angular/core';
-import { BuilderService } from 'src/app/services/builder.service';
 import { DataSharedService } from 'src/app/services/data-shared.service';
 
 @Component({
@@ -23,7 +22,7 @@ export class DynamicTableRepeatSectionComponent implements OnInit {
   indeterminate = false;
   scrollX: string | null = null;
   scrollY: string | null = null;
-  constructor(private _dataSharedService: DataSharedService, private builderService: BuilderService) { }
+  constructor(private _dataSharedService: DataSharedService,) { }
 
   ngOnInit(): void {
     this.loadTableData();

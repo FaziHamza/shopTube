@@ -1,4 +1,4 @@
-<nz-card nzTitle="Language" [nzExtra]="extraTemplate">
+<!-- <nz-card nzTitle="Language" [nzExtra]="extraTemplate">
     <div class="flex flex-wrap mb-2">
         <div class="w-1/12">
             <label class="mt-1">Type</label>
@@ -94,10 +94,6 @@
         <tbody>
             <tr *ngFor="let data of sortTable.data">
                 <ng-container *ngIf="!data.edit; else editTemplate">
-                    <!-- <td>{{ data.select_Type }}</td>
-                    <td>{{ data.company }}</td>
-                    <td>{{ data.application }}</td>
-                    <td>{{ data.screen_menu }}</td> -->
                     <td>{{ data.fieldKey }}</td>
                     <td>{{ data.english }}</td>
                     <td>{{ data.arabic }}</td>
@@ -116,10 +112,6 @@
                     </td>
                 </ng-container>
                 <ng-template #editTemplate>
-                    <!-- <td>{{ data.select_Type }}</td>
-                    <td>{{ data.company }}</td>
-                    <td>{{ data.application }}</td>
-                    <td>{{ data.screen_menu }}</td> -->
                     <td><input type="text" nz-input [(ngModel)]="data.fieldKey" /></td>
                     <td><input type="text" nz-input [(ngModel)]="data.english" /></td>
                     <td><input type="text" nz-input [(ngModel)]="data.arabic" /></td>
@@ -141,10 +133,7 @@
         </tbody>
     </nz-table>
     <div class="pagination">
-        <!-- <label class="label">Pagination</label>
-        <div class="input-container">
-            <nz-input-number [(ngModel)]="pageSize" [nzStep]="1"></nz-input-number>
-        </div> -->
+    
     </div>
 </nz-card>
 <ng-template #extraTemplate>
@@ -156,7 +145,6 @@
     </button>
 </ng-template>
 
-<!-- Drawer -->
 <nz-drawer nzWidth="80%" [nzClosable]="true" [nzVisible]="isVisible"
     [nzFooter]="footerTpl" nzPlacement="right"
     [nzTitle]="'Add Language'" (nzOnClose)="handleCancel()">
@@ -186,4 +174,4 @@
     <button nz-button *ngIf="!isSubmit" nzType="primary" (click)="submit()"
         [disabled]="!form.valid"><span nz-icon
             nzType="redo" nzTheme="outline"></span>Update</button>
-</ng-template>
+</ng-template> -->

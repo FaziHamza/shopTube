@@ -1,8 +1,6 @@
 import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, EventEmitter, Input, NgZone, OnInit, Output, ViewChild } from '@angular/core';
-import { EmployeeService } from 'src/app/services/employee.service';
 import * as monaco from 'monaco-editor';
 import Ajv, { ErrorObject } from 'ajv';
-import { ApplicationService } from 'src/app/services/application.service';
 import { Subscription } from 'rxjs';
 import { NzMessageService } from 'ng-zorro-antd/message';
 
@@ -24,9 +22,7 @@ export class MonacoEditorComponent implements OnInit, AfterViewInit {
   requestSubscription: Subscription;
   languageId = 'json';
   nodeList: { title: string, key: string }[] = [];
-  constructor(private employeeService: EmployeeService, private cdRef: ChangeDetectorRef,
-    private applicationService: ApplicationService,
-    private toastr: NzMessageService, private zone: NgZone) {
+  constructor(private cdRef: ChangeDetectorRef, private zone: NgZone) {
   }
   actionResult: any;
   ngOnInit() {
@@ -163,9 +159,9 @@ export class MonacoEditorComponent implements OnInit, AfterViewInit {
   }
   async check() {
     try {
-      await this.employeeService.saveSQLDatabaseTable('knex-query/execute-actions/' + this.screeenBuilderId, this.formlyModel?.tbl_user).subscribe(res => {
-        this.formlyModel = this.convertKeysToLower(res);
-      })
+      // await this.employeeService.saveSQLDatabaseTable('knex-query/execute-actions/' + this.screeenBuilderId, this.formlyModel?.tbl_user).subscribe(res => {
+      //   this.formlyModel = this.convertKeysToLower(res);
+      // })
       // const results = await this.processActionRulesV1(this.actionRule, this.actionModel);
     } catch (error) {
       console.error('Error while processing action rules:', error);
