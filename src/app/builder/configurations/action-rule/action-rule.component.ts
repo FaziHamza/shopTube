@@ -35,6 +35,7 @@ export class ActionRuleComponent implements OnInit {
   @Input() formlyModel: any;
   @Input() nodes: any;
   @Input() applicationid: string;
+  @Input() selectApplication: any;
   @Input() screeenBuilderId: string;
   actionForm: FormGroup;
   genrateQuery: any;
@@ -243,7 +244,7 @@ export class ActionRuleComponent implements OnInit {
       // } else
       if (this.actionForm.value.actionLink == 'get') {
         if (mainArray.length == i + 1) {
-          dataForQuery += `select ${joinFields.join(', ')} from ${element.name.toLocaleLowerCase()};`;
+          dataForQuery += `select ${joinFields.join(', ')} from ${this.selectApplication.dbschema}.${element.name.toLocaleLowerCase()};`;
         }
       } else if (this.actionForm.value.actionLink == 'getJoin') {
         let joining = "";
@@ -264,7 +265,7 @@ export class ActionRuleComponent implements OnInit {
             }
             lastTable = element.toLocaleLowerCase();
           });
-          dataForQuery += `select ${joinFields.join(', ')} from ${joining};`;
+          dataForQuery += `select ${joinFields.join(', ')} from ${this.selectApplication.dbschema}.${joining};`;
         }
       } else if (this.actionForm.value.actionLink == 'post') {
         const columnName = fields.filter(item => item !== 'id');
@@ -272,16 +273,16 @@ export class ActionRuleComponent implements OnInit {
         const columnValues = values.filter(item => !item.includes('.id'));
         let tableName = columnValues[0].split('.')[0];
         columnValues.push(`${tableName}.id`)
-        dataForQuery += `insert into ${element.name.toLocaleLowerCase()} ( ${columnName.join(', ')} ) VALUES ( ${columnValues.join(', ')}) RETURNING *;`;
+        dataForQuery += `insert into ${this.selectApplication.dbschema}.${element.name.toLocaleLowerCase()} ( ${columnName.join(', ')} ) VALUES ( ${columnValues.join(', ')}) RETURNING *;`;
         // dataForQuery += `insert into ${element.name.toLocaleLowerCase()} ( ${columnName.join(', ')} ) VALUES ( ${columnValues.join(', ')}) RETURNING id;`;
       } else if (this.actionForm.value.actionLink == 'put') {
         const columnName = fields.filter(item => item !== 'id');
         const columnValues = values.filter(item => !item.includes('$id'));
         let updateQuery = columnName.map((field, index) => `${field} = '${columnValues[index]}'`).join(', ');
-        dataForQuery += "UPDATE " + element.name.toLocaleLowerCase() + " SET " + updateQuery + " WHERE " + `id = $id; `;
+        dataForQuery += "UPDATE " + this.selectApplication.dbschema + '.' + element.name.toLocaleLowerCase() + " SET " + updateQuery + " WHERE " + `id = $id; `;
         // dataForQuery += "UPDATE " + element.name.toLocaleLowerCase() + " SET " + updateQuery + " WHERE " + `${element.name.toLocaleLowerCase()}.id = $${element.name.toLocaleLowerCase()}.id; `;
       } else if (this.actionForm.value.actionLink == 'delete') {
-        let deleteQuery = "DELETE FROM " + element.name.toLocaleLowerCase() + " WHERE " + `id` + " = " + `$id; `;
+        let deleteQuery = "DELETE FROM " + this.selectApplication.dbschema + '.' + element.name.toLocaleLowerCase() + " WHERE " + `id` + " = " + `$id; `;
         // let deleteQuery = "DELETE FROM " + element.name.toLocaleLowerCase() + " WHERE " + `${element.name.toLocaleLowerCase()}.id` + " = " + `$${element.name.toLocaleLowerCase()}.id; `;
         dataForQuery += deleteQuery;
       }
@@ -289,7 +290,7 @@ export class ActionRuleComponent implements OnInit {
     let apiUrl = '';
     if (this.actionForm.value.actionType === 'api') {
       if (this.actionForm.value.actionLink === 'delete') {
-        apiUrl =  'knex-query/executeQuery';
+        apiUrl = 'knex-query/executeQuery';
       }
       else if (this.actionForm.value.actionLink === 'get') {
         apiUrl = 'knex-query/' + this.screenname;
@@ -299,7 +300,7 @@ export class ActionRuleComponent implements OnInit {
       }
 
       else {
-        apiUrl =  'knex-query';
+        apiUrl = 'knex-query';
       }
       // if (this.actionForm.value.elementName.includes('button')) {
 
@@ -494,8 +495,8 @@ export class ActionRuleComponent implements OnInit {
       actionListData.push(actionData);
     });
     this.saveLoader = true;
-    const { newGuid, metainfocreate } = this.socketService.metainfoDynamic(`ManageActionCrud`,'Actions',mainModuleId[0].id);
-    var ResponseGuid: any= newGuid;
+    const { newGuid, metainfocreate } = this.socketService.metainfoDynamic(`ManageActionCrud`, 'Actions', mainModuleId[0].id);
+    var ResponseGuid: any = newGuid;
     const Add = { [`dataobject`]: actionListData, metaInfo: metainfocreate }
     this.socketService.Request(Add);
     this.socketService.OnResponseMessage().subscribe({

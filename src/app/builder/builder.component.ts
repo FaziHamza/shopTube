@@ -55,7 +55,7 @@ export class BuilderComponent implements OnInit {
   addControl = false;
   size: NzButtonSize = 'large';
   departmentData: any = [];
-  applicationData: any = [];
+  applicationData: any[] = [];
   selectDepartmentName: any = [];
   IslayerVisible: boolean = true;
   IsjsonEditorVisible: boolean = false;
@@ -87,6 +87,7 @@ export class BuilderComponent implements OnInit {
   previewJsonData: any = '';
   searchValue: any = '';
   selectApplicationName: any = '';
+  selectApplication: any = '';
   saveLoader: any = false;
   htmlBlockimagePreview: any = '';
   webBlock: boolean = false;
@@ -223,6 +224,7 @@ export class BuilderComponent implements OnInit {
       // Root node - Load application data
       try {
         this.selectApplicationName = node.value;
+        this.selectApplication = this.applicationData.find(a => a.id == node.value);
         const { jsonData, newGuid } = this.socketService.makeJsonDataById('ScreenBuilder', node.value, 'GetModelTypeById');
         this.socketService.Request(jsonData);
         const response: any = await new Promise((resolve, reject) => {

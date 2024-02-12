@@ -260,7 +260,7 @@
               <nz-tab nzTitle="Actions" (nzClick)="showRulesFunc('actionRule')">
                 <st-action-rule *ngIf="selectedNode && showActionRule && showRules == 'actionRule'"
                   [selectedNode]="selectedNode" [screenname]="screenname" [formlyModel]="this.formlyModel"
-                  [applicationid]="selectApplicationName" [nodes]="nodes" [screens]="screens"
+                  [applicationid]="selectApplicationName" [selectApplication]="selectApplication" [nodes]="nodes" [screens]="screens"
                   [screeenBuilderId]="id"></st-action-rule>
                 <nz-alert *ngIf="!showActionRule" nzType="warning"
                   nzMessage="Please save screen and contact your DBA to approve fields" nzShowIcon></nz-alert>
