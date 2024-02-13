@@ -212,9 +212,9 @@ export class ActionRuleComponent implements OnInit {
             if (item) {
               const keyvalue = key.replace(`${element.name}.`, '');
               fields.push(keyvalue.toLocaleLowerCase());
-              if (keyvalue.includes('_id')) {
+              if (keyvalue.includes('id')) {
                 let s = (keyvalue).toLowerCase()
-                s = s.replace('_id', '');
+                s = s.replace('id', '');
                 s = (`${s}.${keyvalue}`);
                 values.push(`$${s.toLocaleLowerCase()}`);
               }

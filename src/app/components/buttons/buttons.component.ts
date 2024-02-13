@@ -197,7 +197,7 @@ export class ButtonsComponent implements OnInit {
           if (res.isSuccess) {
             if (res?.data.length > 0) {
               if (this.buttonData?.showPolicies) {
-                this.policyList = res.data.filter((a: any) => a?.policyId._id != user['policy']['policyId']);
+                this.policyList = res.data.filter((a: any) => a?.policyid.id != user['policy']['policyid']);
               } else {
                 this.policyList = res?.data;
               }
