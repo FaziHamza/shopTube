@@ -195,7 +195,7 @@ export class LoginComponent implements OnInit {
                 submit: false,
                 link: '',
               }
-              this.sharedService.ecryptedValue('externalLogin', external, true);
+              this.sharedService.ecryptedValue('externalLogin', JSON.stringify(external), true);
               this.showLoader = false;
               this.authService.setAuth(res.data);
               this.socketService.setSocket();
