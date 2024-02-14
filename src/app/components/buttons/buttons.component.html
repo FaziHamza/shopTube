@@ -5,7 +5,7 @@
   [nzDanger]="buttonData.nzDanger"
   [nzGhost]="buttonData.nzGhost" [nzLoading]="buttonData.nzLoading"
   [nzShape]="buttonData.nzShape"
-  [class]="(!isActionExist ? '!cursor-auto ' : '!cursor-pointer ')+ buttonData.buttonClass + ' ' + buttonData.applicationThemeClasses + ' ' + buttonData?.innerClass + ' ' + buttonData?.appGlobalInnerClass"
+  [class]="(!isActionExist ? '!cursor-auto ' : '!cursor-pointer ')+ buttonData.buttonClass + ' ' + buttonData.applicationthemeClasses + ' ' + buttonData?.innerClass + ' ' + buttonData?.appGlobalInnerClass"
   [nzSize]="buttonData.nzSize" [nzType]="buttonData.nztype"
   [type]="buttonData.isSubmit ? 'submit' : 'button'"
   [style.border-radius.px]="buttonData.nzShape == 'default' ? buttonData.radius : ''"
@@ -50,7 +50,7 @@
     [style.background]="(bgColor || GridRuleColor ? GridRuleColor : buttonData.color) + ' !important'"
     [style.color]="(hoverTextColor || buttonData.textColor) + ' !important'"
     [style.border-color]="(borderColor || buttonData.borderColor) + ' !important'"
-    [class]="(!isActionExist ? '!cursor-auto ' : '!cursor-pointer ')+ buttonData.buttonClass + ' ' + buttonData.applicationThemeClasses + ' ' + buttonData?.innerClass + ' ' + buttonData?.appGlobalInnerClass"
+    [class]="(!isActionExist ? '!cursor-auto ' : '!cursor-pointer ')+ buttonData.buttonClass + ' ' + buttonData.applicationthemeClasses + ' ' + buttonData?.innerClass + ' ' + buttonData?.appGlobalInnerClass"
     (mouseover)="bgColor = buttonData?.hoverColor"
     (mouseout)="bgColor = buttonData?.color"
     (click)="pagesRoute(buttonData)"
@@ -86,7 +86,7 @@
   [nzType]="buttonData.nztype" [nzGhost]="buttonData.nzGhost"
   [nzSize]="buttonData.nzSize"
   [disabled]="buttonData.disabled" [nzLoading]="buttonData.nzLoading"
-  [class]="(!isActionExist ? '!cursor-auto ' : '!cursor-pointer ')+ buttonData.buttonClass + ' ' + buttonData.applicationThemeClasses + ' ' + buttonData?.innerClass + ' ' + buttonData?.appGlobalInnerClass"
+  [class]="(!isActionExist ? '!cursor-auto ' : '!cursor-pointer ')+ buttonData.buttonClass + ' ' + buttonData.applicationthemeClasses + ' ' + buttonData?.innerClass + ' ' + buttonData?.appGlobalInnerClass"
   [nzBlock]="buttonData.nzBlock" [nzTrigger]="buttonData.trigger"
   [nzPlacement]="buttonData.placement"
   [nzClickHide]="buttonData.clickHide" [nzVisible]="buttonData.visible"
@@ -141,21 +141,21 @@
     <ng-container *ngIf="policyList?.length > 0">
       <ng-container *ngFor="let policyItem of policyList">
         <li
-          *ngIf="policyId != policyItem?.policyId._id && buttonData?.showPolicies"
+          *ngIf="policyId != policyItem?.id && buttonData?.showPolicies"
           nz-menu-item
           [class]="buttonData?.optionSubClass"
           (click)="switchPolicy(policyItem)">
-          <a [class]="buttonData?.optionLabelClass">{{ policyItem?.policyId.name
+          <a [class]="buttonData?.optionLabelClass">{{ policyItem?.name
             }}</a>
         </li>
         <ng-container
-          *ngIf="buttonData?.dropdownProperties == 'policyTheme' && policyItem?.policyId?.applicationTheme ">
+          *ngIf="buttonData?.dropdownProperties == 'policyTheme' && policyItem?.applicationtheme ">
           <ng-container
-            *ngIf="policyTheme != policyItem?.policyId?.applicationTheme">
+            *ngIf="policyTheme != policyItem?.applicationtheme">
             <li nz-menu-item [class]="buttonData?.optionSubClass"
               (click)="switchPolicyTheme(policyItem)">
               <a [class]="buttonData?.optionLabelClass">{{
-                policyItem?.policyId?.applicationTheme }}</a>
+                policyItem?.applicationtheme }}</a>
             </li>
           </ng-container>
         </ng-container>
