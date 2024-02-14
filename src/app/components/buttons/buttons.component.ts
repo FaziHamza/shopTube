@@ -197,7 +197,7 @@ export class ButtonsComponent implements OnInit {
           if (res.isSuccess) {
             if (res?.data.length > 0) {
               if (this.buttonData?.showPolicies) {
-                this.policyList = res.data.filter((a: any) => a?.policyId._id != user['policy']['policyId']);
+                this.policyList = res.data.filter((a: any) => a?.policyId.id != user['policy']['policyId']);
               } else {
                 this.policyList = res?.data;
               }
@@ -239,14 +239,14 @@ export class ButtonsComponent implements OnInit {
   changePolicy(policy: any) {
 
     let user = this.dataSharedService.decryptedValue('user') ? JSON.parse(this.dataSharedService.decryptedValue('user')) : null;
-    user['policy']['policyId'] = policy?.policyId?._id;
+    user['policy']['policyId'] = policy?.policyId?.id;
     user['policy']['policyName'] = policy?.policyId?.name;
     this.policyTheme = policy?.policyId?.applicationTheme;
     this.dataSharedService.ecryptedValue('user', JSON.stringify(user), true);
     let obj = {
       UserMapping: {
-        policyId: policy?.policyId?._id,
-        userId: policy?.userId?._id,
+        policyId: policy?.policyId?.id,
+        userId: policy?.userId?.id,
         defaultPolicy: true,
         applicationId: this.dataSharedService.decryptedValue('applicationId'),
       }

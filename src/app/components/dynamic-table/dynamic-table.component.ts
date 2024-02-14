@@ -1,7 +1,7 @@
 import { DatePipe } from '@angular/common';
 import { HttpClient, HttpEvent, HttpEventType } from '@angular/common/http';
 import {
-  ChangeDetectorRef, Component, Input, OnInit,  NgZone
+  ChangeDetectorRef, Component, Input, OnInit, NgZone
 } from '@angular/core';
 import { Router } from '@angular/router';
 import { NzMessageService } from 'ng-zorro-antd/message';
@@ -9,7 +9,7 @@ import { NzModalService } from 'ng-zorro-antd/modal';
 import { Subject, Subscription, debounceTime, takeUntil } from 'rxjs';
 import { DataSharedService } from 'src/app/services/data-shared.service';
 import { DataService } from 'src/app/services/offlineDb.service';
-import {WorkSheet ,utils,WorkBook,writeFile} from 'xlsx';
+import { WorkSheet, utils, WorkBook, writeFile } from 'xlsx';
 import { QrCodeComponent } from '../qr-code/qr-code.component';
 import { NzResizeEvent } from 'ng-zorro-antd/resizable';
 import { SocketService } from 'src/app/services/socket.service';
@@ -78,7 +78,6 @@ export class DynamicTableComponent implements OnInit {
   filteringArrayData: any[] = [];
   localStorageGrouping: any[] = [];
   filteringHeadArray: any[] = [];
-  // nzScrollConfig: { x: string } = { x: '1100px' };
   rotationDegree: number = -45;
   editData: any;
   deleteditWidth: any = [{ label: 'Edit', width: '60px', key: 'edit' }, { label: 'Delete', width: '', key: 'delete' }, { label: 'Checkbox', width: '', key: 'checkbox' }
@@ -89,21 +88,7 @@ export class DynamicTableComponent implements OnInit {
   borderRadius = '8px';
   private subscriptions: Subscription = new Subscription();
   private destroy$: Subject<void> = new Subject<void>();
-  // @HostListener('window:resize', ['$event'])
-  // onResize(event: NzResizeEvent, header: any): void {
-  //   if (event.width) {
-  //     header.width = event.width;
-  //     header = JSON.parse(JSON.stringify(header));
-  //     this.cdr.detach();
-  //     this.cdr.detectChanges();
-  //     setTimeout(() => {
-  //       this.resizingLocalStorage();
-  //     }, 100);
-  //   }
-  //   // Update the nzScroll configuration based on screen size
-  //   // this.updateScrollConfig();
-  // }
-  constructor(public _dataSharedService: DataSharedService, 
+  constructor(public _dataSharedService: DataSharedService,
     private dataService: DataService,
     private toastr: NzMessageService, private cdr: ChangeDetectorRef,
     public dataSharedService: DataSharedService,
@@ -1040,20 +1025,17 @@ export class DynamicTableComponent implements OnInit {
   };
 
   async startEdit(data: any): Promise<void> {
-    if (data?.editabeRowAddNewRow == true) {
-      //This condition is used when we use add row then not update after add bfore saveing data
-      return;
-    }
+    if (data?.editabeRowAddNewRow == true) { return; }
     this.editId = data.id;
     let newData = JSON.parse(JSON.stringify(data))
     this.editData = newData;
     try {
       const filteredHeaders = this.tableHeaders.filter((item: any) => item.dataType === 'repeatSection' && item.callApi);
       if (filteredHeaders && filteredHeaders.length > 0) {
-        for (const header of filteredHeaders) {
+        filteredHeaders.forEach((header: any) => {
           if (!this.displayData.some(item => item.hasOwnProperty(header.key + '_list'))) {
             try {
-              this.dataSharedService.pagesLoader.next(true);
+              // this.dataSharedService.pagesLoader.next(true);
               let splitApi;
               let parentId;
               if (header?.callApi.includes('getexecute-rules/'))
@@ -1071,8 +1053,8 @@ export class DynamicTableComponent implements OnInit {
                 next: (res) => {
                   // this.dataSharedService.queryId = '';
                   if (res.parseddata.requestId == RequestGuid && res.parseddata.isSuccess) {
+                    this.dataSharedService.pagesLoader.next(false);
                     res = res.parseddata.apidata;
-                    this.saveLoader = false;
                     if (res.data?.length > 0) {
                       const propertyNames = Object.keys(res.data[0]);
                       const result = res.data.map((item: any) => {
@@ -1097,7 +1079,7 @@ export class DynamicTableComponent implements OnInit {
                 },
                 error: (err) => {
                   console.error(err);
-                  this.saveLoader = false;
+                  this.dataSharedService.pagesLoader.next(false);
                   this.toastr.error("An error occurred in mapping", { nzDuration: 3000 });
                 }
               })
@@ -1107,8 +1089,7 @@ export class DynamicTableComponent implements OnInit {
               this.toastr.error("An error occurred", { nzDuration: 3000 }); // Show an error message to the user
             }
           }
-        }
-      } else {
+        });
       }
     } catch (error) {
       console.error("An error occurred in try-catch:", error);
@@ -1121,18 +1102,8 @@ export class DynamicTableComponent implements OnInit {
   }
 
   loadTableData() {
-
     this.getResizingAndColumnSortng();
     if (this.tableData.length > 0) {
-      // if (this.tableData[0].__v || this.tableData[0].id) {
-      //   const requiredData = this.tableData.map(({ __v, id, ...rest }: any) => ({
-      //     expand: false,
-      //     id: id,
-      //     ...rest,
-      //   }));
-      //   this.tableData = JSON.parse(JSON.stringify(requiredData));
-      // }
-      let newId = 0;
       if (!this.tableData[0].id) {
         let newId = 0;
         this.tableData = this.tableData.map((j: any) => {
@@ -1267,7 +1238,7 @@ export class DynamicTableComponent implements OnInit {
       if (findInlineSave) {
         if (this.data.appConfigurableEvent)
           if (this.data.appConfigurableEvent.length > 0) {
-            let findAction = this.data.appConfigurableEvent.find((a: any) => a.componentFrom == this.data.key && a.rule.includes('post_') && a.action == 'click');
+            let findAction = this.data.appConfigurableEvent.find((a: any) => a.componentfrom == this.data.key && a.rule.includes('post_') && a.action == 'click');
             if (findAction) {
               delete findInlineSave.id;
               const model = {
@@ -1279,7 +1250,7 @@ export class DynamicTableComponent implements OnInit {
               const { jsonData, RequestGuid } = this.socketService.metaInfoForGrid('PostPageExecuteRules', findAction.id);
               const jsonData1 = {
                 postType: 'post',
-                modalData: findInlineSave , metaInfo: jsonData.metaInfo
+                modalData: findInlineSave, metaInfo: jsonData.metaInfo
               };
               this.socketService.Request(jsonData1);
 
@@ -1525,10 +1496,6 @@ export class DynamicTableComponent implements OnInit {
     this.start = start == 0 ? 1 : ((this.data.pageIndex * this.pageSize) - this.pageSize) + 1;
     this.end = this.displayData.length == this.data.end ? (this.data.pageIndex * this.data.end) : this.data.totalCount;
     // this.data.totalCount = this.tableData.length;
-  }
-  select(rowIndex: number, value: any) {
-    // this.tableData[rowIndex].defaultValue = value.type;
-    // Perform any additional updates to 'listOfData' if needed
   }
   checkTypeData(item: any, header: any) {
 
@@ -2191,7 +2158,8 @@ export class DynamicTableComponent implements OnInit {
             }
           }
 
-          delete newDataModel.children
+          delete newDataModel.children;
+          delete newDataModel.expand;
           const model = {
             screenId: this.screenName,
             postType: 'put',
@@ -2475,7 +2443,7 @@ export class DynamicTableComponent implements OnInit {
     this.visible = true;
     this.saveLoader = true;
     let externalLogin = this.dataSharedService.decryptedValue('externalLogin') ? JSON.parse(this.dataSharedService.decryptedValue('externalLogin')).login : false;
-        if (externalLogin == false) {
+    if (externalLogin == false) {
       const { jsonData, newGuid } = this.socketService.makeJsonDataById('CheckUserScreen', this.data?.drawerScreenLink, 'CheckUserScreen');
       this.socketService.Request(jsonData);
       this.socketService.OnResponseMessage().subscribe({
@@ -3020,7 +2988,6 @@ export class DynamicTableComponent implements OnInit {
     }
   }
   callExpandAPi(item: any, event: any) {
-
     if (item?.editabeRowAddNewRow) {
       item.expand = false;
       this.toastr.warning("Please save before expand", { nzDuration: 3000 });
@@ -3030,28 +2997,22 @@ export class DynamicTableComponent implements OnInit {
     if (findExpandKeyHead && event) {
       if (findExpandKeyHead.callApi) {
         let modifiedUrl = findExpandKeyHead.callApi.includes(',') ? (this.childDataObj ? findExpandKeyHead.callApi.split(',')[this.childDataObj['expandIndex']] : findExpandKeyHead.callApi.split(',')[0]) : findExpandKeyHead.callApi
-        let pagination: any = ''; let Rulepage = ''; let RulepageSize = '';
-        let { id, actionLink, data, headers, parentId, page, pageSize } = this.data.eventActionconfig;
-        if (page && pageSize) {
-          pagination = `?page=${localStorage.getItem('tablePageNo') || 1}&pageSize=${localStorage.getItem('tablePageSize') || 10}`
-          Rulepage = `${localStorage.getItem('tablePageNo') || 1}`;
-          RulepageSize = `${localStorage.getItem('tablePageSize') || 10}`;
-        }
+        let Rulepage = localStorage.getItem('tablePageNo') || 1;
+        let RulepageSize = localStorage.getItem('tablePageSize') || 10;
         this.saveLoader = true;
-        let itemIdString: string | undefined = item?.id;
-        parentId = itemIdString ? parseInt(itemIdString, 10) : 0;
-        if (parentId) {
+        if (item?.id) {
+          // this.dataSharedService.pagesLoader.next(true);
           let splitApi;
           let parentId;
+          modifiedUrl  = `${modifiedUrl}/${item?.id}`
           if (modifiedUrl.includes('getexecute-rules/'))
             splitApi = modifiedUrl.split('getexecute-rules/')[1];
           else splitApi = modifiedUrl;
           if (splitApi.includes('/')) {
             const getValue = splitApi.split('/');
             splitApi = getValue[0]
+            parentId = getValue[1];
           }
-
-          // let url = modifiedUrl + '/' + parentId;
           const { jsonData, RequestGuid } = this.socketService.metaInfoForGrid('GetPageExecuteRules', splitApi, parentId, Rulepage, RulepageSize);
           this.socketService.Request(jsonData);
           this.socketService.OnResponseMessage().subscribe({
@@ -3098,7 +3059,6 @@ export class DynamicTableComponent implements OnInit {
             }
           })
         }
-
       }
     }
   }

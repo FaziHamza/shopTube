@@ -1930,11 +1930,10 @@ export class PagesComponent implements OnInit, OnDestroy {
                     }
                     this.saveLoader = false;
                     this.updateNodes();
+                    this.bindsActionRules(this.resData);
+                    this.globalclass(this.resData[0]);
                   }
                 }
-
-                this.bindsActionRules(this.resData);
-                this.globalclass(this.resData[0]);
               }
             }
 
@@ -2028,6 +2027,7 @@ export class PagesComponent implements OnInit, OnDestroy {
       else {
         this.makeModel(node, replaceData[value.defaultValue])
       }
+
     }
     if (node.type == 'avatar') {
       if (Array.isArray(replaceData[value.defaultValue])) {
@@ -2673,41 +2673,55 @@ export class PagesComponent implements OnInit, OnDestroy {
   }
   makeModel(field: any, event: any) {
     let newModel = JSON.parse(JSON.stringify(this.formlyModel));
-    if (newModel) {
-      for (const key in newModel) {
-        if (newModel.hasOwnProperty(key)) {
-          if (typeof newModel[key] === 'object') {
-            for (const key1 in newModel[key]) {
-              if (field.key.includes('.')) {
-                if (key1 == field.key.split('.')[1]) {
-                  newModel[key][field.key.split('.')[1]] = event;
-                }
-              } else {
-                if (key1 == field.key) {
-                  newModel[key][field.key] = event;
-                }
-              }
-
-            }
-          }
-          else {
-            if (key == field.key) {
-              newModel[field.key] = event;
-            }
-          }
-        }
+    if(newModel){
+      this.formlyModel = {};
+      newModel[field.key] = event;
+      if (newModel[field.key.split('.')[0]]) {
+        newModel[field.key.split('.')[0]][field.key.split('.')[1]] = event;
+      } else {
+        newModel[field.key.split('.')[0]] = {};
+        newModel[field.key.split('.')[0]][field.key.split('.')[1]] = event;
       }
+      this.formlyModel = JSON.parse(JSON.stringify(newModel));
     }
-    this.formlyModel = newModel;
-    // if (field.key.includes('.')) {
-    //   if (this.form.value[field.key.split('.')[0]]) {
-    //     if (this.form.value[field.key.split('.')[0]][field.key.split('.')[1]]) {
-    //       this.form.value[field.key.split('.')[0]][field.key.split('.')[1]] = event;
+
+
+    // if (newModel) {
+    //   for (const key in newModel) {
+    //     if (newModel.hasOwnProperty(key)) {
+    //       if (typeof newModel[key] === 'object') {
+    //         for (const key1 in newModel[key]) {
+    //           if (field.key.includes('.')) {
+    //             if (key1 == field.key.split('.')[1]) {
+    //               newModel[key][field.key.split('.')[1]] = event;
+    //             }
+    //           } else {
+    //             if (key1 == field.key) {
+    //               newModel[key][field.key] = event;
+    //             }
+    //           }
+
+    //         }
+    //       }
+    //       else {
+    //         if (key == field.key) {
+    //           newModel[field.key] = event;
+    //         }
+    //       }
     //     }
     //   }
-    // } else {
-    //   this.form.patchValue(this.formlyModel);
     // }
+    // for (let key in newModel) {
+    //   if (newModel.hasOwnProperty(key)) {
+    //     if (typeof newModel[key] === 'object' && newModel[key] !== null) {
+    //       delete newModel[key];
+    //     } else if (typeof newModel[key] === 'object' && newModel[key] === null) {
+    //       continue;
+    //     }
+    //   }
+    // }
+    // this.formlyModel = JSON.parse(JSON.stringify(newModel)) ;
+    // console.log(this.formlyModel);
   }
   filterDuplicateChildren(data: any) {
     // Maintain a set of unique keys

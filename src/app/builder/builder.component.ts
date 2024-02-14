@@ -1133,8 +1133,6 @@ export class BuilderComponent implements OnInit {
             this.validationRuleId = res.data[0].id;
             this.joiValidationData = res.data;
           }
-          else
-            this.toastr.error(res.message, { nzDuration: 3000 }); // Show an error message to the user
         }
       },
       error: (err) => {
@@ -2879,7 +2877,7 @@ export class BuilderComponent implements OnInit {
       let getJoiRule: any = this.joiValidationData.find(
         (a) => a.cid == this.selectedNode.id
       );
-      if (typeof getJoiRule.emailtypeallow === 'string'){
+      if (typeof getJoiRule.emailtypeallow === 'string') {
         getJoiRule.emailtypeallow = getJoiRule.emailtypeallow ? (getJoiRule.emailtypeallow.includes(',') ? getJoiRule.emailtypeallow.split(',') : [getJoiRule.emailtypeallow]) : []
       }
       if (getJoiRule) {

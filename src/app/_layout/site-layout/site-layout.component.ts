@@ -640,7 +640,7 @@ export class SiteLayoutComponent implements OnInit {
           res = res.parseddata.apidata;
           if (res.isSuccess) {
             if (res.data.length > 0) {
-              this.dataSharedService.getUserPolicyMenuList = res.data[0]?.data?.json;
+              this.dataSharedService.getUserPolicyMenuList = res.data;
             }
           }
           else {

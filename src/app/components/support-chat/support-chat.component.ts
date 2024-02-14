@@ -232,23 +232,28 @@ export class SupportChatComponent {
     console.log(this.showIcon)
   }
   getChatsWithMapping() {
-    let api = this.formlyModel ? (this.formlyModel['ticketcomments.spectrumissueid'] ? `${this.data.mapApi}/${this.formlyModel['ticketcomments.spectrumissueid']}` : '') : '';
-    if (api) {
+    // let api = this.formlyModel ? (this.formlyModel['ticketcomments.spectrumissueid'] ? `${this.data.mapApi}/${this.formlyModel['ticketcomments.spectrumissueid']}` : '') : '';
+    if (this.data.mapApi && this.formlyModel['ticketcomments.spectrumissueid']) {
       this.data['chatData'] = [];
       this.saveLoader = true;
-      // this.requestSubscription = this.applicationService.getNestCommonAPI(api).subscribe({
-      //   next: (res) => {
-      //     this.saveLoader = false;
-      //     if (res && res.data && res.data.length > 0) {
-      //       this.data['chatData'] = res.data;
-      //     }
-      //   },
-      //   error: (err) => {
-      //     console.error(err);
-      //     this.saveLoader = false;
-      //     this.toastr.error("An error occurred in mapping", { nzDuration: 3000 });
-      //   }
-      // });
+      const { jsonData, RequestGuid } = this.socketService.metaInfoForGrid('GetPageExecuteRules', this.data.mapApi, this.formlyModel['ticketcomments.spectrumissueid']);
+      this.socketService.Request(jsonData);
+      this.socketService.OnResponseMessage().subscribe({
+        next: (res) => {
+          if (res.parseddata.requestId == RequestGuid && res.parseddata.isSuccess) {
+            res = res.parseddata.apidata;
+            this.saveLoader = false;
+            if (res && res.data && res.data.length > 0) {
+              this.data['chatData'] = res.data;
+            }
+          }
+        },
+        error: (err) => {
+          console.error(err);
+          this.saveLoader = false;
+          this.toastr.error("An error occurred in mapping", { nzDuration: 3000 });
+        }
+      });
     }
   }
 }
