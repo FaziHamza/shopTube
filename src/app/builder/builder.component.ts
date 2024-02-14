@@ -3928,6 +3928,9 @@ export class BuilderComponent implements OnInit {
       if (node.formly[0].key) {
         node.formly[0].key = node.formly[0].key.split('_')[0] + '_' + Guid.newGuid();
       }
+      else if (node.key) {
+        node.key = node.key.split('_')[0] + '_' + Guid.newGuid();
+      }
       else if (node.formly[0].fieldGroup[0].key) {
         node.formly[0].fieldGroup[0].key = node.formly[0].fieldGroup[0].key.split('_')[0] + '_' + Guid.newGuid();
       }

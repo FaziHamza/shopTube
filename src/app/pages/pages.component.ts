@@ -1929,11 +1929,12 @@ export class PagesComponent implements OnInit, OnDestroy {
                       }
                     }
                     this.saveLoader = false;
-                    this.updateNodes();
-                    this.bindsActionRules(this.resData);
-                    this.globalclass(this.resData[0]);
+
                   }
                 }
+                this.updateNodes();
+                this.bindsActionRules(this.resData);
+                this.globalclass(this.resData[0]);
               }
             }
 
@@ -2673,14 +2674,16 @@ export class PagesComponent implements OnInit, OnDestroy {
   }
   makeModel(field: any, event: any) {
     let newModel = JSON.parse(JSON.stringify(this.formlyModel));
-    if(newModel){
+    if (newModel) {
       this.formlyModel = {};
       newModel[field.key] = event;
-      if (newModel[field.key.split('.')[0]]) {
-        newModel[field.key.split('.')[0]][field.key.split('.')[1]] = event;
-      } else {
-        newModel[field.key.split('.')[0]] = {};
-        newModel[field.key.split('.')[0]][field.key.split('.')[1]] = event;
+      if (field.key.includes('.')) {
+        if (newModel[field.key.split('.')[0]]) {
+          newModel[field.key.split('.')[0]][field.key.split('.')[1]] = event;
+        } else {
+          newModel[field.key.split('.')[0]] = {};
+          newModel[field.key.split('.')[0]][field.key.split('.')[1]] = event;
+        }
       }
       this.formlyModel = JSON.parse(JSON.stringify(newModel));
     }

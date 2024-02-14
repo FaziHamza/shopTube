@@ -112,7 +112,7 @@ export class DynamicTableComponent implements OnInit {
   }
   userDetails: any;
   async ngOnInit(): Promise<void> {
-    if (this.mappingId && this.data.eventActionconfig) {
+    if (this.mappingId && this.data?.eventActionconfig && Object.keys(this.data.eventActionconfig).length > 0) {
       this.data.eventActionconfig['parentId'] = this.mappingId;
     }
     localStorage.removeItem('tablePageNo');

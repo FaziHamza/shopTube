@@ -211,11 +211,12 @@ export class SectionsComponent implements OnInit {
                 // }
                 let externalLogin = this.dataSharedService.decryptedValue('externalLogin') ? JSON.parse(this.dataSharedService.decryptedValue('externalLogin')) : null;
                 if (externalLogin) {
-                  if (externalLogin) {
+                  if (externalLogin?.login) {
                     externalLogin['submit'] = true;
                     this.dataSharedService.ecryptedValue('externalLogin', JSON.stringify(externalLogin), true);
                   }
                 }
+
 
                 const successMessage = (model.postType === 'post') ? 'Save Successfully' : 'Update Successfully';
                 this.toastr.success(successMessage, { nzDuration: 3000 });
@@ -229,7 +230,7 @@ export class SectionsComponent implements OnInit {
                     this.router.navigate(['/pages/' + data.saveRouteLink]).then(() => {
                       // Reload the entire application to re-render all components
                       this.location.replaceState('/pages/' + data.saveRouteLink);
-                      if (!externalLogin && externalLogin != 'false')
+                      if (!externalLogin?.login)
                         window.location.reload();
                     });
                   } else {
