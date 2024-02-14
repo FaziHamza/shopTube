@@ -566,6 +566,7 @@ export interface TreeNode {
   searchType?: string,
   kanlistArray?: any,
   drawerButtonLabel?: any,
+  drawerButtonClass?: any,
   drawerWidth?: any,
   isShowDrawerButton?: any,
   drawerScreenLink?: any,
