@@ -1717,6 +1717,7 @@ export class BuilderComponent implements OnInit {
 
     if (data?.parameter == 'input') {
       newNode = {
+        key: res?.key ? res.key : obj.key,
         id: formlyId,
         className: this.columnApply(value),
         expanded: true,
@@ -2877,10 +2878,10 @@ export class BuilderComponent implements OnInit {
       let getJoiRule: any = this.joiValidationData.find(
         (a) => a.cid == this.selectedNode.id
       );
-      if (typeof getJoiRule.emailtypeallow === 'string') {
-        getJoiRule.emailtypeallow = getJoiRule.emailtypeallow ? (getJoiRule.emailtypeallow.includes(',') ? getJoiRule.emailtypeallow.split(',') : [getJoiRule.emailtypeallow]) : []
-      }
       if (getJoiRule) {
+        if (typeof getJoiRule?.emailtypeallow === 'string') {
+          getJoiRule.emailtypeallow = getJoiRule.emailtypeallow ? (getJoiRule.emailtypeallow.includes(',') ? getJoiRule.emailtypeallow.split(',') : [getJoiRule.emailtypeallow]) : []
+        }
         this.validationFieldData.modelData = getJoiRule;
       }
     }
@@ -7537,6 +7538,7 @@ export class BuilderComponent implements OnInit {
     if (data?.parameter === 'input') {
       newNode = {
         ...response,
+        key: res?.key ? res.key : obj.key,
         id: formlyId,
         className: this.columnApply(value),
         expanded: true,
