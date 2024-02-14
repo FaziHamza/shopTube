@@ -5085,6 +5085,7 @@ export class BuilderComponent implements OnInit {
           this.selectedNode['routeUrl'] = event.form?.routeUrl;
           this.selectedNode['searchType'] = event.form?.searchType;
           this.selectedNode['drawerButtonLabel'] = event.form?.drawerButtonLabel;
+          this.selectedNode['drawerButtonClass'] = event.form?.drawerButtonClass;
           this.selectedNode['drawerWidth'] = event.form?.drawerWidth;
           this.selectedNode['isShowDrawerButton'] = event.form?.isShowDrawerButton;
           this.selectedNode['drawerScreenLink'] = event.form?.drawerScreenLink;
