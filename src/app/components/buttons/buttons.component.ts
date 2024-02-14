@@ -227,7 +227,6 @@ export class ButtonsComponent implements OnInit {
     });
   }
   changeTheme(policy: any) {
-
     let user = JSON.parse(window.localStorage['user']);
     this.policyTheme = policy?.policyId?.applicationTheme;
     user['policy']['policyTheme'] = policy?.policyId?.applicationTheme ? policy?.policyId?.applicationTheme : '';
