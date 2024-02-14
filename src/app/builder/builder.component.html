@@ -50,6 +50,11 @@
             Screen Clone'" nz-tooltip nz-button nzType="link" (click)="screenClone()">
           <i class="fa-regular fa-clone"></i>
         </button>
+        <button [ngClass]="iconActive == 'screenLock' ? 'active' : ''" [nzTooltipTitle]="'
+            Lock Screen'" nz-tooltip nz-button nzType="link" (click)="lockScreen(!isLockScreen)">
+          <i class="fa-regular fa-lock" [ngClass]="{ 'fa-lock': isLockScreen, 'fa-unlock': !isLockScreen }"
+          ></i>
+        </button>
       </div>
 
       <!-- <div class="screen-sizing">
@@ -238,10 +243,10 @@
                 </div>
               </nz-tab>
               <nz-tab nzTitle="UI Rule" (nzClick)="showRulesFunc('uiRule')">
-                <st-uirule [applicationid]="selectApplicationName" [selectedNode]="selectedNode"
+                <st-uirule [applicationid]="selectApplicationName" [selectedNode]="selectedNode" [currenScreenData]="builderscreendata"
                   *ngIf="selectedNode && nodes.length  > 0 && showRules == 'uiRule'" [screenId]="id"
                   [screenname]="screenname" [screens]="screens" [nodes]="nodes" [isScreenSaved]="this.isScreenSaved"
-                  (ruleNotify)="getUIRuleData($event)" ></st-uirule>
+                  (ruleNotify)="getUIRuleData($event)"></st-uirule>
                 <!-- [screenname]="screenname" [screenModule]="screenModule" [nodes]="nodes" (ruleNotify)="getUIRuleData($event)"></st-uirule> -->
               </nz-tab>
               <nz-tab nzTitle="Validation Rule" (nzClick)="showRulesFunc('validationRule')">
@@ -253,20 +258,20 @@
                 <!-- <st-validation-rule [configurationData]="validationFieldData"></st-validation-rule> -->
               </nz-tab>
               <nz-tab nzTitle="Buisness Rule" (nzClick)="showRulesFunc('businessRule')">
-                <st-business-rule [applicationid]="selectApplicationName" [selectedNode]="selectedNode"
+                <st-business-rule [applicationid]="selectApplicationName" [selectedNode]="selectedNode"  [currenScreenData]="builderscreendata"
                   *ngIf="selectedNode && showRules == 'businessRule'" [screenname]="screenname" [screenId]="id"
                   [screens]="screens" [nodes]="nodes" [formlyModel]="this.formlyModel"></st-business-rule>
               </nz-tab>
               <nz-tab nzTitle="Actions" (nzClick)="showRulesFunc('actionRule')">
-                <st-action-rule *ngIf="selectedNode && showActionRule && showRules == 'actionRule'"
+                <st-action-rule *ngIf="selectedNode && showActionRule && showRules == 'actionRule'"  [currenScreenData]="builderscreendata"
                   [selectedNode]="selectedNode" [screenname]="screenname" [formlyModel]="this.formlyModel"
-                  [applicationid]="selectApplicationName" [selectApplication]="selectApplication" [nodes]="nodes" [screens]="screens"
-                  [screeenBuilderId]="id"></st-action-rule>
+                  [applicationid]="selectApplicationName" [selectApplication]="selectApplication" [nodes]="nodes"
+                  [screens]="screens" [screeenBuilderId]="id"></st-action-rule>
                 <nz-alert *ngIf="!showActionRule" nzType="warning"
                   nzMessage="Please save screen and contact your DBA to approve fields" nzShowIcon></nz-alert>
               </nz-tab>
               <nz-tab nzTitle="Action Rules" (nzClick)="showRulesFunc('testActionRule')">
-                <st-execute-action-rule [selectedNode]="selectedNode"
+                <st-execute-action-rule [selectedNode]="selectedNode"  [currenScreenData]="builderscreendata"
                   *ngIf="selectedNode && showRules == 'testActionRule'" [screenname]="screenname"
                   [formlyModel]="this.formlyModel" [applicationid]="selectApplicationName" [nodes]="nodes"
                   [screens]="screens" [screeenBuilderId]="id"></st-execute-action-rule>
@@ -276,7 +281,7 @@
               </nz-tab>
               <nz-tab nzTitle="Grid Rules" (nzClick)="showRulesFunc('gridBusinessRule')">
                 <st-business-rule-grid *ngIf="selectedNode && nodes.length  > 0 && showRules == 'gridBusinessRule'"
-                  [selectedNode]="selectedNode" [screenname]="screenname" [applicationid]="selectApplicationName"
+                  [selectedNode]="selectedNode" [screenname]="screenname" [applicationid]="selectApplicationName"  [currenScreenData]="builderscreendata"
                   [screenId]="id" [screens]="screens" [nodes]="nodes"></st-business-rule-grid>
               </nz-tab>
               <!-- <nz-tab nzTitle="Email Templates" (nzClick)="showRulesFunc('emailTemplates')">

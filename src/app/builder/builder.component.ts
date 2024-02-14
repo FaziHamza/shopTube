@@ -51,9 +51,7 @@ export class BuilderComponent implements OnInit {
   showActionRule: any = true;
   public editorOptions: JsonEditorOptions = new JsonEditorOptions();
   isSavedDb = false;
-  makeOptions = () => new JsonEditorOptions();
   addControl = false;
-  size: NzButtonSize = 'large';
   departmentData: any = [];
   applicationData: any[] = [];
   selectDepartmentName: any = [];
@@ -106,11 +104,10 @@ export class BuilderComponent implements OnInit {
   currentUser: any;
   iconActive: string = '';
   form: any = new FormGroup({});
-  formlyLength: any = 0;
-  pdf: boolean = false;
   getTaskManagementIssues: any[] = [];
   applicationThemeClasses: any[] = [];
   uiRuleData: any[] = [];
+  isLockScreen: boolean = false;
   constructor(
     private viewContainerRef: ViewContainerRef,
     private drawerService: NzDrawerService,
@@ -334,6 +331,14 @@ export class BuilderComponent implements OnInit {
     // let data = this.jsonParse(this.jsonStringifyWithObject(data));
   }
   async applyOfflineDb(content: 'previous' | 'next' | 'delete') {
+    if (this.builderscreendata?.[0]?.islock && this.currentUser.userId != this.builderscreendata?.[0]?.userid) {
+      this.toastr.warning('screen locked by another user', { nzDuration: 3000 });
+      return;
+    }
+    if (this.builderscreendata?.[0]?.islock && this.currentUser.userId != this.builderscreendata?.[0]?.userid) {
+      this.toastr.warning('screen locked by another user', { nzDuration: 3000 });
+      return;
+    }
     if (content == 'previous') {
       this.iconActive = 'undo';
     } if (content == 'next') {
@@ -430,7 +435,6 @@ export class BuilderComponent implements OnInit {
   }
 
   saveJson() {
-
     if (this.screenPage) {
       // this.saveLoader = true;
       if (this.selectedNode) {
@@ -635,7 +639,10 @@ export class BuilderComponent implements OnInit {
             // this.form = new FormGroup({});
             if (res.data.length > 0) {
               localStorage.setItem('screenBuildId', res.data[0].screenbuilderid);
-              this.builderscreendata = [res.data[0]];
+              this.isLockScreen = res.data[0]?.islock == null ? false : true;
+              if (this.isLockScreen)
+                this.iconActive = 'screenLock';
+              this.builderscreendata = res.data;
               // this.navigation = '';
               this.showActionRule = true;
               const objScreenData = res.data[0].screendata;
@@ -861,6 +868,10 @@ export class BuilderComponent implements OnInit {
     this.form.patchValue(this.formlyModel);
   }
   clearChildNode() {
+    if (this.builderscreendata?.[0]?.islock && this.currentUser.userId != this.builderscreendata?.[0]?.userid) {
+      this.toastr.warning('screen locked by another user', { nzDuration: 3000 });
+      return;
+    }
     this.iconActive = 'clearChildNode';
     this.addControl = true;
     this.isSavedDb = false;
@@ -928,6 +939,10 @@ export class BuilderComponent implements OnInit {
       this.toastr.warning('Please Select Screen', { nzDuration: 3000 });
       return;
     }
+    if (this.builderscreendata?.[0]?.islock && this.currentUser.userId != this.builderscreendata?.[0]?.userid) {
+      this.toastr.warning('screen locked by another user', { nzDuration: 3000 });
+      return;
+    }
     if (this.selectedNode) {
       this.highlightSelect(this.selectedNode.id, false);
     }
@@ -970,7 +985,10 @@ export class BuilderComponent implements OnInit {
   formlyModel: any;
   faker: boolean = false;
   makeFaker(check?: boolean) {
-    debugger
+    if (this.builderscreendata?.[0]?.islock && this.currentUser.userId != this.builderscreendata?.[0]?.userid) {
+      this.toastr.warning('screen locked by another user', { nzDuration: 3000 });
+      return;
+    }
     this.iconActive = 'faker';
     let dataModelFaker: any = [];
     if (this.nodes.length > 0) {
@@ -1172,6 +1190,10 @@ export class BuilderComponent implements OnInit {
   performBulkUpdate(updateType: string) {
     if (!this.screenPage) {
       this.toastr.warning('Please Select Screen', { nzDuration: 3000 });
+      return;
+    }
+    if (this.builderscreendata?.[0]?.islock && this.currentUser.userId != this.builderscreendata?.[0]?.userid) {
+      this.toastr.warning('screen locked by another user', { nzDuration: 3000 });
       return;
     }
     if (this.nodes.length > 0) {
@@ -1668,6 +1690,10 @@ export class BuilderComponent implements OnInit {
     else return 'sm:w-1/2 md:w-1/2 lg:w-1/2 xl:w-1/2';
   }
   addControlToJson(value: string, data?: any, allow?: any) {
+    if (this.isLockScreen && this.currentUser.userId != this.builderscreendata?.[0]?.userid) {
+      this.toastr.warning('screen already lock', { nzDuration: 3000 });
+      return;
+    }
     let obj = {
       type: data?.parameter,
       title: value,
@@ -4180,6 +4206,10 @@ export class BuilderComponent implements OnInit {
   //   });
   // }
   notifyEmit(event: actionTypeFeild): void {
+    if (this.isLockScreen && this.currentUser.userId != this.builderscreendata?.[0]?.userid) {
+      this.toastr.warning('screen already lock', { nzDuration: 3000 });
+      return;
+    }
     let needToUpdate = true;
     if (event?.form?.className) {
       if (event.form.className.includes('$')) {
@@ -6311,6 +6341,10 @@ export class BuilderComponent implements OnInit {
       this.toastr.warning('Please Select Screen', { nzDuration: 3000 });
       return;
     }
+    if (this.builderscreendata?.[0]?.islock && this.currentUser.userId != this.builderscreendata?.[0]?.userid) {
+      this.toastr.warning('screen locked by another user', { nzDuration: 3000 });
+      return;
+    }
     let contents: any;
     if (this.screenname) {
       if (
@@ -6383,6 +6417,10 @@ export class BuilderComponent implements OnInit {
       this.toastr.warning('Please Select Screen', { nzDuration: 3000 });
       return;
     }
+    if (this.builderscreendata?.[0]?.islock && this.currentUser.userId != this.builderscreendata?.[0]?.userid) {
+      this.toastr.warning('screen locked by another user', { nzDuration: 3000 });
+      return;
+    }
     var currentData = this.jsonParse(
       this.jsonStringifyWithObject(this.selectedNode)
     );
@@ -6402,6 +6440,10 @@ export class BuilderComponent implements OnInit {
   selectedJsonUpload(event: any) {
     if (!this.screenPage) {
       this.toastr.warning('Please Select Screen', { nzDuration: 3000 });
+      return;
+    }
+    if (this.builderscreendata?.[0]?.islock && this.currentUser.userId != this.builderscreendata?.[0]?.userid) {
+      this.toastr.warning('screen locked by another user', { nzDuration: 3000 });
       return;
     }
     if (event.target instanceof HTMLInputElement && event.target.files.length > 0) {
@@ -6566,6 +6608,10 @@ export class BuilderComponent implements OnInit {
     // });
   }
   handleOk(): void {
+    if (this.isLockScreen && this.currentUser.userId != this.builderscreendata?.[0]?.userid) {
+      this.toastr.warning('screen already lock', { nzDuration: 3000 });
+      return;
+    }
     if (this.isTableSave)
       this.saveInDB();
     if (this.saveCommit)
@@ -7083,6 +7129,10 @@ export class BuilderComponent implements OnInit {
   }
 
   deleteValidationRule(data: any) {
+    if (this.builderscreendata?.[0]?.islock && this.currentUser.userId != this.builderscreendata?.[0]?.userid) {
+      this.toastr.warning('screen locked by another user', { nzDuration: 3000 });
+      return;
+    }
     const { jsonData, newGuid } = this.socketService.deleteModelType('ValidationRule', data.modelData.id);
 
     this.socketService.Request(jsonData);
@@ -7234,6 +7284,10 @@ export class BuilderComponent implements OnInit {
     });
   }
   openMarketPlace() {
+    if (this.builderscreendata?.[0]?.islock && this.currentUser.userId != this.builderscreendata?.[0]?.userid) {
+      this.toastr.warning('screen locked by another user', { nzDuration: 3000 });
+      return;
+    }
     this.iconActive = 'openMarketPlace';
     if (this.nodes.length > 0) {
       const drawerRef = this.drawerService.create<
@@ -7665,6 +7719,10 @@ export class BuilderComponent implements OnInit {
       this.toastr.warning('Please Select Screen', { nzDuration: 3000 });
       return;
     }
+    if (this.builderscreendata?.[0]?.islock && this.currentUser.userId != this.builderscreendata?.[0]?.userid) {
+      this.toastr.warning('screen locked by another user', { nzDuration: 3000 });
+      return;
+    }
     if (this.selectedNode?.dbData) {
       if (this.selectedNode?.dbData.length > 0) {
         let selectedNode: any = this.selectedNode;
@@ -7794,7 +7852,53 @@ export class BuilderComponent implements OnInit {
 
     return globalClass;
   }
+  lockScreen(lock: boolean) {
+    this.iconActive = 'screenLock';
+    if (!this.screenPage) {
+      this.toastr.warning('Please Select Screen', { nzDuration: 3000 });
+      return;
+    }
+    if (this.isLockScreen && this.currentUser.userId != this.builderscreendata?.[0]?.userid) {
+      this.toastr.warning('screen already lock', { nzDuration: 3000 });
+      return;
+    }
+    this.modalService.confirm({
+      nzTitle: 'Are you sure you want to lock this screen?',
+      nzContent: '',
+      nzOnOk: () => {
+        debugger
+        this.saveLoader = true;
+        const obj = {
+          screenbuilderid: this.builderscreendata?.[0]?.screenbuilderid,
+          builderid: this.builderscreendata?.[0]?.id,
+          islock: lock,
+        }
+        this.isLockScreen = lock;
+        const { newUGuid, metainfoupdate } = this.socketService.metainfoupdate(this.builderscreendata?.[0]?.id);
+        const Update = { [`lockScreen`]: obj, metaInfo: metainfoupdate };
+        this.socketService.Request(Update)
+        this.socketService.OnResponseMessage().subscribe({
+          next: (res: any) => {
+            if (res.parseddata.requestId == newUGuid && res.parseddata.isSuccess) {
+              this.saveLoader = false;
+              this.toastr.success('lock screen Successfully', { nzDuration: 3000 });
+            }
+
+          },
+          error: (err) => {
+            this.saveLoader = false;
+            console.log(err);
+            this.toastr.error(err, { nzDuration: 3000 });
+          }
+        });
+      }
+    });
+  }
   screenClone() {
+    if (this.builderscreendata?.[0]?.islock && this.currentUser.userId != this.builderscreendata?.[0]?.userid) {
+      this.toastr.warning('screen locked by another user', { nzDuration: 3000 });
+      return;
+    }
     this.iconActive = 'screenClone';
     if (!this.screenPage) {
       this.toastr.warning('Please Select Screen', { nzDuration: 3000 });
@@ -7806,12 +7910,11 @@ export class BuilderComponent implements OnInit {
       nzOnOk: () => {
         this.saveLoader = true;
         const { newGuid, metainfocreate } = this.socketService.metainfoDynamic(`screenClone`,);
-        const ResponseGuid = newGuid;
         const Add = { [`screenClone`]: this.builderscreendata, metaInfo: metainfocreate }
         this.socketService.Request(Add);
         this.socketService.OnResponseMessage().subscribe({
           next: (res: any) => {
-            if (res.parseddata.requestId == ResponseGuid && res.parseddata.isSuccess) {
+            if (res.parseddata.requestId == newGuid && res.parseddata.isSuccess) {
               res = res.parseddata.apidata;
               this.saveLoader = false;
               this.toastr.success('clone Data Successfully', { nzDuration: 3000 });

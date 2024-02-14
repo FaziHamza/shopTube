@@ -2,6 +2,7 @@ import { ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { Subscription } from 'rxjs';
+import { DataSharedService } from 'src/app/services/data-shared.service';
 import { SocketService } from 'src/app/services/socket.service';
 
 @Component({
@@ -20,20 +21,24 @@ export class BusinessRuleGridComponent implements OnInit {
   @Input() selectedNode: any;
   @Input() nodes: any;
   @Input() applicationid: string;
+  @Input() currenScreenData: any;
   isVisible = false;
   saveLoader = false;
   GridBusinessRuleData: any;
   constructor(private formBuilder: FormBuilder,
     public cd: ChangeDetectorRef,
     private toastr: NzMessageService,
+    public dataSharedService: DataSharedService,
     public socketService: SocketService,
   ) { }
   isModalVisible = false;
   isReadOnly: boolean = true;
   requestSubscription: Subscription;
   gridRuleId: string = '';
+  currentUser: any;
 
   ngOnInit(): void {
+    this.currentUser = this.dataSharedService.decryptedValue('user') ? JSON.parse(this.dataSharedService.decryptedValue('user')) : null;
 
     this.dynamicBuisnessRule();
     this.conditionForm = this.formBuilder.group({
@@ -735,7 +740,10 @@ export class BusinessRuleGridComponent implements OnInit {
     this.buisnessRuleSkills(mainIndex, ifIndex).at(conditionIndex).get("condType")?.setValue(conValue);
   }
   saveGridBusinessRule() {
-
+    if (this.currenScreenData?.[0]?.islock && this.currentUser.userId != this.currenScreenData?.[0]?.userid) {
+      this.toastr.warning('screen already lock', { nzDuration: 3000 });
+      return;
+    }
     this.GridBusinessRuleData = [];
     this.buisnessForm.value.buisnessRule.forEach((rule: any) => {
       let ifConditions: any = [];
@@ -924,6 +932,10 @@ export class BusinessRuleGridComponent implements OnInit {
   }
 
   deleteGridBuisnessRule() {
+    if (this.currenScreenData?.[0]?.islock && this.currentUser.userId != this.currenScreenData?.[0]?.userid) {
+      this.toastr.warning('screen locked by another user', { nzDuration: 3000 });
+      return;
+    }
     if (this.gridRuleId != '') {
       const { jsonData, newGuid } = this.socketService.deleteModelType('GridBusinessRule', this.gridRuleId);
       this.socketService.Request(jsonData);

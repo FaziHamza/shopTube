@@ -4,6 +4,7 @@ import * as monaco from 'monaco-editor';
 import { Subscription, catchError, forkJoin, of } from 'rxjs';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { SocketService } from 'src/app/services/socket.service';
+import { DataSharedService } from 'src/app/services/data-shared.service';
 
 
 @Component({
@@ -18,11 +19,13 @@ export class ExecuteActionRuleComponent implements OnInit, AfterViewInit {
   @Input() formlyModel: any;
   @Input() nodes: any;
   @Input() applicationid: string;
+  @Input() currenScreenData: any;
   @Input() screeenBuilderId: string;
   requestSubscription: Subscription;
   languageId = 'json';
   saveLoader: boolean = false;
   nodeList: { title: string, key: string }[] = [];
+  currentUser: any;
   levelList: any[] = [
     {
       title: 'level 1',
@@ -48,13 +51,14 @@ export class ExecuteActionRuleComponent implements OnInit, AfterViewInit {
   constructor(
     private fb: FormBuilder,
     public socketService: SocketService,
+    private dataSharedService: DataSharedService,
     private toastr: NzMessageService,) {
     this.multiSelectForm = this.fb.group({
       multiSelects: this.fb.array([]),
     });
   }
   ngOnInit() {
-
+    this.currentUser = this.dataSharedService.decryptedValue('user') ? JSON.parse(this.dataSharedService.decryptedValue('user')) : null;
     this.getActionData();
     this.extractNodes(this.nodes, this.nodeList);
     // this.getActionRule();
@@ -391,6 +395,10 @@ export class ExecuteActionRuleComponent implements OnInit, AfterViewInit {
     }
   }
   saveMultiSelects() {
+    if (this.currenScreenData?.[0]?.islock && this.currentUser.userId != this.currenScreenData?.[0]?.userid) {
+      this.toastr.warning('screen already lock', { nzDuration: 3000 });
+      return;
+    }
     let actionRuleList: any[] = [];
     const mainModuleId = this.screens.filter((a: any) => a.name == this.screenname)
     const observables = this.multiSelectArray.value.map((element: any) => {
