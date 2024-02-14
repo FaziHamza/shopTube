@@ -4,6 +4,7 @@ import { Subscription } from 'rxjs';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { ElementData } from 'src/app/models/element';
 import { SocketService } from 'src/app/services/socket.service';
+import { DataSharedService } from 'src/app/services/data-shared.service';
 
 
 @Component({
@@ -20,12 +21,16 @@ export class BusinessRuleComponent implements OnInit {
   @Input() applicationid: any;
   @Input() nodes: any;
   @Input() formlyModel: any;
+  @Input() currenScreenData: any;
+  currentUser: any;
   saveLoader: boolean = false;
   constructor(private formBuilder: FormBuilder,
     public socketService: SocketService,
+    private dataSharedService: DataSharedService,
     private toastr: NzMessageService) { }
 
   ngOnInit(): void {
+    this.currentUser = this.dataSharedService.decryptedValue('user') ? JSON.parse(this.dataSharedService.decryptedValue('user')) : null;
     this.dynamicBuisnessRule();
   }
   ngOnDestroy() {
@@ -261,7 +266,10 @@ export class BusinessRuleComponent implements OnInit {
 
 
   saveBussinessRule() {
-
+    if (this.currenScreenData?.[0]?.islock && this.currentUser.userId != this.currenScreenData?.[0]?.userid) {
+      this.toastr.warning('screen locked by another user', { nzDuration: 3000 });
+      return;
+    }
     this.businessRuleObj = [];
     this.businessForm.value.buisnessRule.forEach((rule: any) => {
       let ifConditions: any = [];
@@ -390,6 +398,10 @@ export class BusinessRuleComponent implements OnInit {
   }
 
   deleteBuisnessRule() {
+    if (this.currenScreenData?.[0]?.islock && this.currentUser.userId != this.currenScreenData?.[0]?.userid) {
+      this.toastr.warning('screen locked by another user', { nzDuration: 3000 });
+      return;
+    }
     if (this.businessRuleId != '') {
       this.saveLoader = true;
       const { jsonData, newGuid } = this.socketService.deleteModelType('BusinessRule', this.businessRuleId);

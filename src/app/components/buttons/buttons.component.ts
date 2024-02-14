@@ -197,7 +197,8 @@ export class ButtonsComponent implements OnInit {
           if (res.isSuccess) {
             if (res?.data.length > 0) {
               if (this.buttonData?.showPolicies) {
-                this.policyList = res.data.filter((a: any) => a?.policyid.id != user['policy']['policyid']);
+                // this.policyList = res.data.filter((a: any) => a?.policyid.id != user['policy']['policyid']);
+                this.policyList = res.data;
               } else {
                 this.policyList = res?.data;
               }
@@ -228,9 +229,9 @@ export class ButtonsComponent implements OnInit {
   }
   changeTheme(policy: any) {
     let user = JSON.parse(window.localStorage['user']);
-    this.policyTheme = policy?.policyId?.applicationTheme;
-    user['policy']['policyTheme'] = policy?.policyId?.applicationTheme ? policy?.policyId?.applicationTheme : '';
-    this.buttonData.title = policy?.policyId?.applicationTheme ? policy?.policyId?.applicationTheme : '';
+    this.policyTheme = policy?.applicationtheme;
+    user['policy']['policyTheme'] = policy?.applicationtheme ? policy?.applicationtheme : '';
+    this.buttonData.title = policy?.applicationtheme ? policy?.applicationtheme : '';
 
     this.dataSharedService.ecryptedValue('user', JSON.stringify(user), true);
     this.dataSharedService.applicationTheme.next(true);
@@ -238,14 +239,14 @@ export class ButtonsComponent implements OnInit {
   changePolicy(policy: any) {
 
     let user = this.dataSharedService.decryptedValue('user') ? JSON.parse(this.dataSharedService.decryptedValue('user')) : null;
-    user['policy']['policyId'] = policy?.policyId?.id;
-    user['policy']['policyName'] = policy?.policyId?.name;
-    this.policyTheme = policy?.policyId?.applicationTheme;
+    user['policy']['policyId'] = policy?.id;
+    user['policy']['policyName'] = policy?.name;
+    this.policyTheme = policy?.applicationtheme;
     this.dataSharedService.ecryptedValue('user', JSON.stringify(user), true);
     let obj = {
       UserMapping: {
-        policyId: policy?.policyId?.id,
-        userId: policy?.userId?.id,
+        policyId: policy?.id,
+        userId: user.policy?.userid,
         defaultPolicy: true,
         applicationId: this.dataSharedService.decryptedValue('applicationId'),
       }

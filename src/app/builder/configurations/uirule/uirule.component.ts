@@ -2,10 +2,11 @@ import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angu
 import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
 import { JsonEditorOptions } from 'ang-jsoneditor';
 import { NzMessageService } from 'ng-zorro-antd/message';
-import {applyPatch} from 'fast-json-patch';
+import { applyPatch } from 'fast-json-patch';
 import { Operation } from 'fast-json-patch';
 import { diff, Config, DiffPatcher, formatters, Delta } from "jsondiffpatch";
 import { SocketService } from 'src/app/services/socket.service';
+import { DataSharedService } from 'src/app/services/data-shared.service';
 
 
 @Component({
@@ -23,12 +24,15 @@ export class UIRuleComponent implements OnInit {
   @Input() nodes: any;
   @Input() responseData: any;
   @Input() isScreenSaved: boolean;
+  @Input() currenScreenData: any;
   originalData: any;
   saveLoader: any = false;
+  currentUser: any;
   public editorOptions: JsonEditorOptions;
   makeOptions = () => new JsonEditorOptions();
   private jsondiffpatch = new DiffPatcher();
   constructor(private formBuilder: FormBuilder,
+    public dataSharedService: DataSharedService,
     public socketService: SocketService,
     private toastr: NzMessageService,) {
     this.editorOptions = new JsonEditorOptions();
@@ -45,6 +49,7 @@ export class UIRuleComponent implements OnInit {
   invoice1: any;
   invoice2: any;
   ngOnInit(): void {
+    this.currentUser = this.dataSharedService.decryptedValue('user') ? JSON.parse(this.dataSharedService.decryptedValue('user')) : null;
     if (this.isScreenSaved)
       this.toastr.warning("Please save screen before add or update ui rule", { nzDuration: 3000 });
     const obj = {
@@ -428,6 +433,10 @@ export class UIRuleComponent implements OnInit {
   }
 
   saveUIRule() {
+    if (this.currenScreenData?.[0]?.islock && this.currentUser.userId != this.currenScreenData?.[0]?.userid) {
+      this.toastr.warning('screen already lock', { nzDuration: 3000 });
+      return;
+    }
     if (this.isScreenSaved)
       this.toastr.error("Please save screen before add or update  ui rule", { nzDuration: 3000 }); // Show an error message to the user
     else {
@@ -771,6 +780,10 @@ export class UIRuleComponent implements OnInit {
   }
 
   deleteUiRule() {
+    if (this.currenScreenData?.[0]?.islock && this.currentUser.userId != this.currenScreenData?.[0]?.userid) {
+      this.toastr.warning('screen locked by another user', { nzDuration: 3000 });
+      return;
+    }
     if (this.uiRuleId != '') {
       const { jsonData, newGuid } = this.socketService.deleteModelType('UiRule', this.uiRuleId);
       this.socketService.Request(jsonData);

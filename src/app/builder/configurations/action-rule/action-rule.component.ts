@@ -37,6 +37,7 @@ export class ActionRuleComponent implements OnInit {
   @Input() applicationid: string;
   @Input() selectApplication: any;
   @Input() screeenBuilderId: string;
+  @Input() currenScreenData: any;
   actionForm: FormGroup;
   genrateQuery: any;
   genrateValue: any;
@@ -50,6 +51,7 @@ export class ActionRuleComponent implements OnInit {
   emailToOptions: any[] = [];
   emailNameOptions: any = [];
   screenOptions: any = [];
+  currentUser: any;
   constructor(private formBuilder: FormBuilder,
     public dataSharedService: DataSharedService, private toastr: NzMessageService,
     public socketService: SocketService,
@@ -57,6 +59,7 @@ export class ActionRuleComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    this.currentUser = this.dataSharedService.decryptedValue('user') ? JSON.parse(this.dataSharedService.decryptedValue('user')) : null;
     // this.getPendingTableFileds();
     this.actionFormLoad();
     this.getScreens();
@@ -438,6 +441,10 @@ export class ActionRuleComponent implements OnInit {
 
 
   SaveAction() {
+    if (this.currenScreenData?.[0]?.islock && this.currentUser.userId != this.currenScreenData?.[0]?.userid) {
+      this.toastr.warning('screen already lock', { nzDuration: 3000 });
+      return;
+    }
     if (!this.ActionsForms.valid) {
       this.toastr.error("Action Name is required", { nzDuration: 3000 });
       return
