@@ -1133,8 +1133,6 @@ export class BuilderComponent implements OnInit {
             this.validationRuleId = res.data[0].id;
             this.joiValidationData = res.data;
           }
-          else
-            this.toastr.error(res.message, { nzDuration: 3000 }); // Show an error message to the user
         }
       },
       error: (err) => {
@@ -1719,6 +1717,7 @@ export class BuilderComponent implements OnInit {
 
     if (data?.parameter == 'input') {
       newNode = {
+        key: res?.key ? res.key : obj.key,
         id: formlyId,
         className: this.columnApply(value),
         expanded: true,
@@ -2879,10 +2878,10 @@ export class BuilderComponent implements OnInit {
       let getJoiRule: any = this.joiValidationData.find(
         (a) => a.cid == this.selectedNode.id
       );
-      if (typeof getJoiRule.emailtypeallow === 'string'){
-        getJoiRule.emailtypeallow = getJoiRule.emailtypeallow ? (getJoiRule.emailtypeallow.includes(',') ? getJoiRule.emailtypeallow.split(',') : [getJoiRule.emailtypeallow]) : []
-      }
       if (getJoiRule) {
+        if (typeof getJoiRule?.emailtypeallow === 'string') {
+          getJoiRule.emailtypeallow = getJoiRule.emailtypeallow ? (getJoiRule.emailtypeallow.includes(',') ? getJoiRule.emailtypeallow.split(',') : [getJoiRule.emailtypeallow]) : []
+        }
         this.validationFieldData.modelData = getJoiRule;
       }
     }
@@ -5087,6 +5086,7 @@ export class BuilderComponent implements OnInit {
           this.selectedNode['routeUrl'] = event.form?.routeUrl;
           this.selectedNode['searchType'] = event.form?.searchType;
           this.selectedNode['drawerButtonLabel'] = event.form?.drawerButtonLabel;
+          this.selectedNode['drawerButtonClass'] = event.form?.drawerButtonClass;
           this.selectedNode['drawerWidth'] = event.form?.drawerWidth;
           this.selectedNode['isShowDrawerButton'] = event.form?.isShowDrawerButton;
           this.selectedNode['drawerScreenLink'] = event.form?.drawerScreenLink;
@@ -7538,6 +7538,7 @@ export class BuilderComponent implements OnInit {
     if (data?.parameter === 'input') {
       newNode = {
         ...response,
+        key: res?.key ? res.key : obj.key,
         id: formlyId,
         className: this.columnApply(value),
         expanded: true,

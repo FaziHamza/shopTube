@@ -250,7 +250,7 @@ export class organizationBuilderComponent implements OnInit {
             nonEmptySearchArray.forEach((element: any) => {
               this.search(element.searchValue, element);
             });
-            this.toastr.success(`Org. : ${res.message}`, { nzDuration: 2000 });
+            // this.toastr.success(`Org. : ${res.message}`, { nzDuration: 2000 });
           } else {
             this.toastr.error(`Org. : ${res.message}`, { nzDuration: 2000 });
           }

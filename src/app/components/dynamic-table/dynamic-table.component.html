@@ -336,7 +336,7 @@
                     <!-- mspping case select  cell -->
                     <div *ngIf=" isMyDataArray(item[header.key]) ">
                       <nz-select nzAllowClear nzShowSearch style="width: 100px" nzPlaceHolder="Select Value"
-                        [(ngModel)]="item.defaultValue" (ngModelChange)="select(i, $event)">
+                        [(ngModel)]="item.defaultValue" >
                         <nz-option *ngFor="let option of item[header.key]"
                           [nzLabel]="option.type ? option.type : option.key"
                           [nzValue]="option.value ? option.value : option">
@@ -518,7 +518,7 @@
                     </td>
                     <td *ngIf="isMyDataArray(item[header.key]) ">
                       <nz-select nzAllowClear nzShowSearch style="width: 100px" nzPlaceHolder="Select Value"
-                        [(ngModel)]="item.defaultValue" (ngModelChange)="select(i, $event)">
+                        [(ngModel)]="item.defaultValue" >
                         <nz-option *ngFor="let option of item[header.key]"
                           [nzLabel]="option.type ? option.type : option.key"
                           [nzValue]="option.value ? option.value : option">
