@@ -475,7 +475,7 @@ export class ActionRuleComponent implements OnInit {
         "sqlType": element.sqlType || '',
         "email": (element?.emailsendingtype == 'query' ? element.email : ''),
         "emailto": element?.emailto ? JSON.stringify(element?.emailto) : '',
-        "emailtype": element?.emailtype,
+        "emailtype": element?.emailtype || '',
         "pagelink": (element.emailtype == 'token' ? element?.pagelink : ''),
         "pagetype": element.pagetype || '',
         "emailbulkindividual": element?.emailbulkindividual || '',
