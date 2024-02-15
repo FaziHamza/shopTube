@@ -196,12 +196,26 @@ export class DataSharedService {
     const sportspotgermanyDomain = 'sportspotgermany';
     const localIP = '192.168.194.232';
     const defaultDomain = 'governance.expocitydubai.com';
-  
+
     if (domain.includes(sportspotgermanyDomain) || domain.includes(localIP)) {
       return defaultDomain;
     }
-    
+
     return domain.split(':')[0];
   }
-  
+
+  makeParentId(api : any) {
+    let splitApi;
+    let parentId;
+    if (api.includes('getexecute-rules/'))
+      splitApi = api.split('getexecute-rules/')[1];
+    else splitApi = api;
+    if (splitApi.includes('/')) {
+      const getValue = splitApi.split('/');
+      splitApi = getValue[0]
+      parentId = getValue[1];
+    }
+    return {splitApi : splitApi , parentId : parentId}
+  }
+
 }

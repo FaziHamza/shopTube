@@ -34,17 +34,10 @@ export class SupportChatComponent {
 
 
   ngOnInit(): void {
-    console.log('supportchat')
     if (this.mappingId && this.data.eventActionconfig) {
       this.data.eventActionconfig['parentId'] = this.mappingId;
     }
-    // this.getChatsWithMapping();
-    // if (this.mappingId && this.data?.eventActionconfig) {
-    //   this.data.eventActionconfig['parentId'] = this.mappingId;
-    // }
-    const userData = JSON.parse(localStorage.getItem('user')!);
-    this.userName = userData.username;
-    // this.getChats();
+    this.userName = this.dataSharedService.decryptedValue('user') ? JSON.parse(this.dataSharedService.decryptedValue('user')).username : null;
   }
 
   processData(res: any) {
@@ -69,28 +62,24 @@ export class SupportChatComponent {
       this.toastr.error("No action exist", { nzDuration: 3000 });
       return;
     }
-    const model: any = {
-      screenId: this.screenId,
-      postType: this.editId ? 'put' : 'post',
-      modalData: {
-        "ticketcomments.comment": this.comment,
-        "ticketcomments.createdby": "",
-        "ticketcomments.spectrumissueid": this.formlyModel ? (this.formlyModel['ticketcomments.spectrumissueid'] ? this.formlyModel['ticketcomments.spectrumissueid'] : '') : '',
-        "ticketcomments.currentdate": "",
-        "ticketcomments.commenttable": "",
-        "ticketcomments.screenid": ""
-      }
-    };
-    let actionID = this.editId ? putEvent?._id : postEvent._id;
+    const modalData: any = {
+      "ticketcomments.comment": this.comment,
+      "ticketcomments.createdby": "",
+      "ticketcomments.spectrumissueid": this.formlyModel ? (this.formlyModel['ticketcomments.spectrumissueid'] ? this.formlyModel['ticketcomments.spectrumissueid'] : '') : '',
+      "ticketcomments.currentdate": "",
+      "ticketcomments.commenttable": "",
+      "ticketcomments.screenid": ""
+    }
+    let actionID = this.editId ? putEvent?.id : postEvent.id;
     if (this.editId) {
-      model['modalData']['ticketcomments.id'] = this.editId;
+      modalData['ticketcomments.id'] = this.editId;
     }
     this.saveLoader = true;
     if (actionID) {
       const { jsonData, RequestGuid } = this.socketService.metaInfoForGrid('PostPageExecuteRules', actionID);
       const jsonData1 = {
         postType: 'post',
-        modalData: model, metaInfo: jsonData.metaInfo
+        modalData: modalData, metaInfo: jsonData.metaInfo
       };
       this.socketService.Request(jsonData1);
       this.socketService.OnResponseMessage().subscribe({
@@ -103,13 +92,13 @@ export class SupportChatComponent {
               return;
             }
             this.resetValues();
-            const successMessage = (model.postType === 'post') ? 'Save Successfully' : 'Update Successfully';
+            const successMessage = (jsonData1.postType === 'post') ? 'Save Successfully' : 'Update Successfully';
             this.toastr.success(successMessage, { nzDuration: 3000 });
             if (this.data.mapApi) {
               this.getChatsWithMapping();
               return;
             }
-            if (model.postType === 'put' && !res?.isSuccess) {
+            if (jsonData1.postType === 'put' && !res?.isSuccess) {
               this.toastr.error(res.message, { nzDuration: 3000 });
               return;
             }
@@ -124,7 +113,6 @@ export class SupportChatComponent {
         },
       });
     }
-
   }
   close() {
     this.hideChat = false;
@@ -229,14 +217,13 @@ export class SupportChatComponent {
 
   showicon() {
     this.showIcon = true;
-    console.log(this.showIcon)
   }
   getChatsWithMapping() {
-    // let api = this.formlyModel ? (this.formlyModel['ticketcomments.spectrumissueid'] ? `${this.data.mapApi}/${this.formlyModel['ticketcomments.spectrumissueid']}` : '') : '';
     if (this.data.mapApi && this.formlyModel['ticketcomments.spectrumissueid']) {
       this.data['chatData'] = [];
       this.saveLoader = true;
-      const { jsonData, RequestGuid } = this.socketService.metaInfoForGrid('GetPageExecuteRules', this.data.mapApi, this.formlyModel['ticketcomments.spectrumissueid']);
+      const { splitApi, parentId } = this.dataSharedService.makeParentId(`${this.data.mapApi}/${this.formlyModel['ticketcomments.spectrumissueid']}`)
+      const { jsonData, RequestGuid } = this.socketService.metaInfoForGrid('GetPageExecuteRules', splitApi, parentId);
       this.socketService.Request(jsonData);
       this.socketService.OnResponseMessage().subscribe({
         next: (res) => {
