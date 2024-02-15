@@ -56,12 +56,6 @@ export class DynamicTableComponent implements OnInit {
   searchByGrid$ = new Subject<any>();
   drawerChild: any[] = [];
   nodes: any = [];
-  selectList = [
-    { key: "Faizan", value: "Faizan" },
-    { key: "Arfan", value: "Arfan" },
-    { key: "Zubair", value: "Zubair" },
-    { key: "Husnain", value: "Husnain" },
-  ];
   editingEntry: any = null;
   pageSize: any;
   start = 1;
@@ -80,8 +74,7 @@ export class DynamicTableComponent implements OnInit {
   filteringHeadArray: any[] = [];
   rotationDegree: number = -45;
   editData: any;
-  deleteditWidth: any = [{ label: 'Edit', width: '60px', key: 'edit' }, { label: 'Delete', width: '', key: 'delete' }, { label: 'Checkbox', width: '', key: 'checkbox' }
-  ]
+  deleteditWidth: any = [{ label: 'Edit', width: '60px', key: 'edit' }, { label: 'Delete', width: '', key: 'delete' }, { label: 'Checkbox', width: '', key: 'checkbox' }]
   borderColor = '#3b82f6';
   backgroundColor = 'red';
   boxShadow = '0px 7px 16px rgba(0, 0, 0, 0.14)';
@@ -137,7 +130,6 @@ export class DynamicTableComponent implements OnInit {
       // this.search(this.data?.searchType ? 'keyup' : 'keyup')
     }
     if (this.data?.eventActionconfig && !this.childTable && Object.keys(this.data.eventActionconfig).length > 0) {
-      // The object is not empty, do something here
       this.saveLoader = true;
     }
     this.loadTableData();
@@ -176,15 +168,13 @@ export class DynamicTableComponent implements OnInit {
     try {
 
       if (api?.callApi) {
-        let splitApi;
+        let splitApi = api?.callApi.includes('getexecute-rules/') ? api.callApi.split('getexecute-rules/')[1] : api?.callApi;
         let parentId;
-        if (api?.callApi.includes('getexecute-rules/'))
-          splitApi = api?.callApi.split('getexecute-rules/')[1];
-        else splitApi = api?.callApi;
-        if (splitApi.includes('/')) {
-          const getValue = splitApi.split('/');
-          splitApi = getValue[0]
-          parentId = getValue[1];
+
+        if (splitApi?.includes('/')) {
+          const [splitApiValue, parentIdValue] = splitApi.split('/');
+          splitApi = splitApiValue;
+          parentId = parentIdValue;
         }
 
         const { jsonData, RequestGuid } = this.socketService.metaInfoForGrid('GetPageExecuteRules', splitApi, parentId);
@@ -1336,73 +1326,58 @@ export class DynamicTableComponent implements OnInit {
   generateSqlQuery(input: any[]): string {
     return input
       .map(({ key, value }) => {
-        return `${key} IN (SELECT value FROM STRING_SPLIT('${value}', ','))`;
+        const valuesArray = value.split(',').map((val : any) => `'${val}'`).join(', ');
+        return `${key} IN (SELECT unnest(ARRAY[${valuesArray}]))`;
       })
       .join(' AND ');
   }
+
   onPageIndexChange(index: number): void {
-    if (this.tableHeaders.length == 0) {
+    if (this.tableHeaders.length === 0) {
       const firstObjectKeys = Object.keys(this.tableData[0]);
-      this.data['tableKey'] = firstObjectKeys.map(key => ({ name: key }));
-      this.data['tableKey'] = this.data['tableKey'].filter((header: any) => header.name !== 'color');
-      this.data['tableKey'] = this.data['tableKey'].filter((header: any) => header.name !== 'children');
+      this.data['tableKey'] = firstObjectKeys.map(key => ({ name: key })).filter(header => header.name !== 'color' && header.name !== 'children');
       this.tableHeaders = this.data['tableKey'];
       this.footerData = this.tableHeaders;
     }
-    // this.displayData = this.tableData;
-    if (this.data.serverSidePagination) {
 
-      let pagination = '?page=' + index + '&pageSize=' + this.data?.end;
-      let Rulepage = ''; let RulepageSize = '';
+    if (this.data.serverSidePagination) {
+      let pagination = `?page=${index}&pageSize=${this.data?.end}`;
+      let Rulepage: any = index;
+      let RulepageSize: any = this.data?.end;
+
       if (this.data['searchValue']) {
-        pagination = `${pagination}&search=${this.data['searchValue']}`;
+        pagination += `&search=${this.data['searchValue']}`;
       }
+      let filtersData = null;
       if (this.filteringHeadArray.length > 0) {
         const transformedOutput = this.filteringHeadArray.map(({ key, filterArray }) => ({
           key,
           value: filterArray.filter(({ filter }: any) => filter).map(({ value }: any) => value).join(',')
         }));
-        const filtersData = this.generateSqlQuery(transformedOutput);
-        pagination = `${pagination}&filters=${filtersData}`;
-        Rulepage = `${localStorage.getItem('tablePageNo') || 1}`;
-        RulepageSize = `${localStorage.getItem('tablePageSize') || 10}`;
+        filtersData = this.generateSqlQuery(transformedOutput);
+        pagination += `&filters=${filtersData}`;
+        Rulepage = localStorage.getItem('tablePageNo') || 1;
+        RulepageSize = localStorage.getItem('tablePageSize') || 10;
       }
+
       this.pageSize = this.data.end;
       this.saveLoader = true;
+
       if (this.data?.targetId) {
-        // let savedGroupData = await this.dataService.getNodes(JSON.parse(applicationId), this.screenName, "Table");
-        const { jsonData, RequestGuid } = this.socketService.metaInfoForGrid('GetPageExecuteRules', this.data.eventActionconfig.id, this.mappingId, Rulepage, RulepageSize, this.data?.targetId);
+        const { jsonData, RequestGuid } = this.socketService.metaInfoForGrid('GetPageExecuteRules', this.data.eventActionconfig.id, this.data?.targetId, Rulepage, RulepageSize);
         this.socketService.Request(jsonData);
         this.socketService.OnResponseMessage().subscribe({
           next: (response) => {
-            if (response.parseddata.requestId == RequestGuid && response.parseddata.isSuccess) {
+            if (response.parseddata.requestId === RequestGuid && response.parseddata.isSuccess) {
               response = response.parseddata.apidata;
-              this.saveLoader = false;
-              if (response.isSuccess) {
-                this.tableData = [];
-                this.displayData = [];
-                this.data.totalCount = response?.count
-                response.data?.forEach((element: any) => {
-                  element.id = (element?.id)?.toString();
-                  this.tableData?.push(element);
-                });
-                if (this.data.tableHeaders.some((header: any) => header.key === 'expand')) {
-                  this.tableData = this.tableData.map((row: any) => ({
-                    'expand': false,
-                    ...row
-                  }));
-                }
-                this.gridInitilize();
-                this.updateGridPagination();
-              }
+              this.handleSocketResponse(response);
             }
-          }, error: (error) => {
-            this.saveLoader = false;
-            this.toastr.error(JSON.stringify(error), { nzDuration: 3000 });
+          },
+          error: (error) => {
+            this.handleSocketError(error);
           }
-        })
-      }
-      else {
+        });
+      } else {
         let url = 'knex-query/getexecute-rules/' + this.data.eventActionconfig.id;
         if (this.childDataObj) {
           let findExpandKeyHead = (this.data.tableHeaders || this.tableHeaders).find((head: any) => head.key == 'expand');
@@ -1410,43 +1385,53 @@ export class DynamicTableComponent implements OnInit {
             url = findExpandKeyHead.callApi + '/' + this.childDataObj.id;
           }
         }
-        const { jsonData, RequestGuid } = this.socketService.metaInfoForGrid('GetPageExecuteRules', this.data.eventActionconfig.id, this.mappingId, Rulepage, RulepageSize, this.childDataObj.id);
+        let splitApi = url.includes('getexecute-rules/') ? url.split('getexecute-rules/')[1] : url;
+        let parentId;
+
+        if (splitApi.includes('/')) {
+          const [splitApiValue, parentIdValue] = splitApi.split('/');
+          splitApi = splitApiValue;
+          parentId = parentIdValue;
+        }
+
+        const { jsonData, RequestGuid } = this.socketService.metaInfoForGrid('GetPageExecuteRules', splitApi, parentId, Rulepage, RulepageSize, null, null, this.data['searchValue'], filtersData);
         this.socketService.Request(jsonData);
         this.socketService.OnResponseMessage().subscribe({
           next: (response) => {
-            if (response.parseddata.requestId == RequestGuid && response.parseddata.isSuccess) {
+            if (response.parseddata.requestId === RequestGuid && response.parseddata.isSuccess) {
               response = response.parseddata.apidata;
-              this.saveLoader = false;
-              if (response.isSuccess) {
-                this.tableData = [];
-                this.displayData = [];
-                this.data.totalCount = response?.count
-                response.data.forEach((element: any) => {
-                  element.id = (element?.id)?.toString();
-                  this.tableData?.push(element);
-                });
-                if (this.data.tableHeaders.some((header: any) => header.key === 'expand')) {
-                  this.tableData = this.tableData.map((row: any) => ({
-                    'expand': false,
-                    ...row
-                  }));
-                }
-                this.displayData = this.tableData;
-                this.updateGridPagination();
-                this.gridInitilize();
-              }
+              this.handleSocketResponse(response);
             }
-          }, error: (error) => {
-            this.saveLoader = false;
-            this.toastr.error(JSON.stringify(error), { nzDuration: 3000 });
+          },
+          error: (error) => {
+            this.handleSocketError(error);
           }
-        })
+        });
       }
-    }
-    else {
+    } else {
       this.pageChange(index);
     }
   }
+
+  private handleSocketResponse(response: any): void {
+    this.saveLoader = false;
+    if (response.isSuccess) {
+      this.tableData = response.data.map((element: any) => {
+        element.id = element.id?.toString();
+        return this.data.tableHeaders.some((header: any) => header.key === 'expand') ? { 'expand': false, ...element } : element;
+      });
+
+      this.displayData = this.tableData;
+      this.updateGridPagination();
+      this.gridInitilize();
+    }
+  }
+
+  private handleSocketError(error: any): void {
+    this.saveLoader = false;
+    this.toastr.error(JSON.stringify(error), { nzDuration: 3000 });
+  }
+
   pageChange(index: number) {
     this.data.pageIndex = index;
     if (!this.pageSize)
@@ -2282,9 +2267,6 @@ export class DynamicTableComponent implements OnInit {
               return itemValue && itemValue.includes(searchValue);
             })
           );
-
-
-
           this.groupingData = [];
         }
         else {
@@ -2503,36 +2485,6 @@ export class DynamicTableComponent implements OnInit {
     });
   }
 
-
-  // open(drawerScreenLink: any): void {
-  //   this.visible = true;
-  //   if (this.data?.drawerScreenLink) {
-  //     this.saveLoader = true;
-  //     if (this.checklink) {
-  //       if (this.checklink == this.data?.drawerScreenLink) {
-  //         this.saveLoader = false;
-  //         return
-  //       }
-  //     }
-  //     this.checklink = this.data?.drawerScreenLink;
-  //     this.requestSubscription = this.applicationService.getNestNewCommonAPIById('cp/Builders', this.data?.drawerScreenLink).subscribe({
-  //       next: (res: any) => {
-  //         if (res.isSuccess) {
-  //           if (res.data.length > 0) {
-  //             
-  //             this.screenId = res.data[0].screenbuilderid;
-  //             this.nodes.push(res);
-  //           }
-  //         }
-  //         this.saveLoader = false;
-  //       },
-  //       error: (err) => {
-  //         console.error(err); // Log the error to the console
-  //         this.saveLoader = false;
-  //       }
-  //     });
-  //   }
-  // }
 
   close(): void {
 
@@ -2768,16 +2720,6 @@ export class DynamicTableComponent implements OnInit {
     });
   }
 
-  // updateScrollConfig(): void {
-  //   // Adjust the nzScroll configuration based on your desired logic
-  //   const screenWidth = window.innerWidth;
-
-  //   if (screenWidth >= 1200) {
-  //     this.nzScrollConfig = { x: '1100px' };
-  //   } else {
-  //     this.nzScrollConfig = { x: '100%' }; // Adjust this value for smaller screens
-  //   }
-  // }
   allowFreeze(header: any, index: number): boolean {
     if (header) {
       if (this.data?.endFreezingNumber || this.data.startFreezingNumber) {
@@ -2867,27 +2809,6 @@ export class DynamicTableComponent implements OnInit {
 
     console.log(event)
   }
-  // onResizeStart(event: MouseEvent, column: any): void {
-  //   const startX = event.clientX;
-  //   const initialWidth = parseInt(column.width) || 100;
-  //   const minimumWidth = 50;  // Minimum width for a column
-
-  //   const onMouseMove = (e: MouseEvent) => {
-  //     const width = Math.max(initialWidth + e.clientX - startX, minimumWidth);
-  //     if (width > minimumWidth) {
-  //       column.width = width;
-  //       this.resizingLocalStorage();
-  //     }
-  //   };
-
-  //   const onMouseUp = () => {
-  //     window.removeEventListener('mousemove', onMouseMove);
-  //     window.removeEventListener('mouseup', onMouseUp);
-  //   };
-
-  //   window.addEventListener('mousemove', onMouseMove);
-  //   window.addEventListener('mouseup', onMouseUp);
-  // }
   updateRotationDegree(degree: number) {
     this.rotationDegree = degree;
   }
@@ -3004,7 +2925,7 @@ export class DynamicTableComponent implements OnInit {
           // this.dataSharedService.pagesLoader.next(true);
           let splitApi;
           let parentId;
-          modifiedUrl  = `${modifiedUrl}/${item?.id}`
+          modifiedUrl = `${modifiedUrl}/${item?.id}`
           if (modifiedUrl.includes('getexecute-rules/'))
             splitApi = modifiedUrl.split('getexecute-rules/')[1];
           else splitApi = modifiedUrl;

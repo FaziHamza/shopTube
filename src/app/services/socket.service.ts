@@ -99,7 +99,7 @@ export class SocketService {
     const formattedDate = date.toLocaleTimeString('en-US', { hour12: false, hour: '2-digit', minute: '2-digit', second: '2-digit', hourCycle: 'h23' });
     return `${type} ${data} ${formattedDate}:${date.getMilliseconds()}`;
   }
-  makeJsonfileData(tag: string,imagedata:string) {
+  makeJsonfileData(tag: string, imagedata: string) {
     const newGuid = Guid.new16DigitGuid();
     const metainfo = {
       actiontag: tag,
@@ -131,12 +131,12 @@ export class SocketService {
     }
     return { jsonData: { modelType: modelType, metaInfo: metainfo }, newGuid }
   }
-  makeJsonDataGeneric(modelType: string, tag: string,Jsondata:any ) {
+  makeJsonDataGeneric(modelType: string, tag: string, Jsondata: any) {
     const newGuid = Guid.new16DigitGuid();
     const metainfo = {
       actiontag: tag,
       RequestId: newGuid,
-      json:Jsondata
+      json: Jsondata
     }
     return { jsonData: { modelType: modelType, metaInfo: metainfo }, newGuid }
   }
@@ -220,7 +220,7 @@ export class SocketService {
     }
     return { newGuid, jsonData };
   }
-  metaInfoForGrid(tag: string, ruleId: any, mappingId?: any, Rulepage?: any, RulepageSize?: any, data?: any, header?: any) {
+  metaInfoForGrid(tag: string, ruleId: any, mappingId?: any, Rulepage?: any, RulepageSize?: any, data?: any, header?: any, search?: any, filters?:any) {
     const RequestGuid = this.guidValue();
     const metainfo = {
       actiontag: tag,
@@ -232,7 +232,9 @@ export class SocketService {
       parentId: mappingId,
       header: header,
       screenId: localStorage.getItem('screenId'),
-      screenBuildId: localStorage.getItem('screenBuildId')
+      screenBuildId: localStorage.getItem('screenBuildId'),
+      search: search,
+      filters: filters
     };
     return { jsonData: { metaInfo: metainfo }, RequestGuid }
   }

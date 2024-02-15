@@ -384,10 +384,7 @@
                     <div *ngIf="item[header.key]" [style.color]="item[header.key]== item?.colorDataType && editId !== item.id ?
                     item?.columnTextColor : ''" [class]="data?.tdClass"
                       [hidden]="editId === item.id && (configurationTable || header?.editMode == 'yes'|| header?.editMode == true)">
-
                       {{parseDateString(item[header.key]) | date:'dd-MM-yyyy'}}
-                      <!-- {{item[header.key] | date:'dd-MM-yyyy'}} -->
-                      <!-- {{item[header.key] | json}} -->
                     </div>
                     <div *ngIf="configurationTable || header?.editMode == 'yes'|| header?.editMode == true"
                       [hidden]="editId !== item.id">
